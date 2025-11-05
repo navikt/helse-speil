@@ -52,9 +52,10 @@ export const lagEndreDagerSchema = (lavesteSykdomsgrad: number) => {
     return z
         .object({
             dagtype: z.enum(OverstyrbarDagtype, {
-                error: (issue) => (issue.input == undefined ? 'Dagtype er påkrevd' : 'Ugylding dagtype'),
+                error: (issue) =>
+                    issue.input == undefined || issue.input === '' ? 'Dagtype er påkrevd' : 'Ugyldig dagtype',
             }),
-            grad: z.optional(
+            grad: z.nullable(
                 number()
                     .min(lavesteSykdomsgrad, `Kan ikke sette grad lavere enn ${lavesteSykdomsgrad} %`)
                     .max(100, 'Kan ikke sette grad høyere enn 100 %'),

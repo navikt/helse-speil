@@ -35,7 +35,7 @@ describe('leggTilDagerSkjema', () => {
                 'Grad er påkrevd for dagtype',
             );
         });
-        test('krev tom grad for dagtype som skal ha grad', () => {
+        test('krev tom grad for dagtype som ikke skal ha grad', () => {
             expect(validerLeggTilDagerSchema('2020-01-30', '2020-01-14', 'Ferie', 100).message).toBe(
                 'Dagtype uten gradering skal ikke ha grad',
             );
@@ -45,6 +45,26 @@ describe('leggTilDagerSkjema', () => {
     describe('lagEndreDagerSchema', () => {
         test('valider gyldig skjema', () => {
             expect(validerEndreDagerSchema(100).success).toBeTruthy();
+        });
+        test('dagtype er påkrevd', () => {
+            expect(validerEndreDagerSchema(100, '').message).toBe('Dagtype er påkrevd');
+            expect(validerEndreDagerSchema(100, null).message).toBe('Dagtype er påkrevd');
+        });
+        test('dagtype må være gyldig dagtype', () => {
+            expect(validerEndreDagerSchema(100, 'Ugyldig').message).toBe('Ugyldig dagtype');
+        });
+        test('grad kan ikke være over 100 prosent', () => {
+            expect(validerEndreDagerSchema(100, 'Syk', 110).message).toBe('Kan ikke sette grad høyere enn 100 %');
+        });
+        test('grad kan ikke være lavere enn laveste sykdomsgrad', () => {
+            expect(validerEndreDagerSchema(100, 'Syk', 99).message).toBe('Kan ikke sette grad lavere enn 100 %');
+            expect(validerEndreDagerSchema(50, 'Syk', 40).message).toBe('Kan ikke sette grad lavere enn 50 %');
+        });
+        test('krev grad for dagtype som skal ha grad', () => {
+            expect(validerEndreDagerSchema(100, 'Syk', null).message).toBe('Grad er påkrevd for dagtype');
+        });
+        test('krev tom grad for dagtype som ikke skal ha grad', () => {
+            expect(validerEndreDagerSchema(100, 'Ferie', 100).message).toBe('Dagtype uten gradering skal ikke ha grad');
         });
     });
 });
