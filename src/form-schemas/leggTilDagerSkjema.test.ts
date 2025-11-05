@@ -66,6 +66,13 @@ describe('leggTilDagerSkjema', () => {
         test('krev tom grad for dagtype som ikke skal ha grad', () => {
             expect(validerEndreDagerSchema(100, 'Ferie', 100).message).toBe('Dagtype uten gradering skal ikke ha grad');
         });
+        test('notat til beslutter er påkrevd', () => {
+            expect(validerEndreDagerSchema(100, 'Syk', 100, '').message).toBe('Notat til beslutter er påkrevd');
+            expect(validerEndreDagerSchema(100, 'Syk', 100, null).message).toBe('Notat til beslutter er påkrevd');
+        });
+        test('notat til beslutter kan max ha 2000 tegn', () => {
+            expect(validerEndreDagerSchema(100, 'Syk', 100, genererLangTekst(2001)).message).toBe('Notat er for langt');
+        });
     });
 });
 
@@ -86,13 +93,23 @@ function validerLeggTilDagerSchema(
     };
 }
 
-function validerEndreDagerSchema(lavesteSykdomsgrad: number, dagtype: unknown = 'Syk', grad: unknown = 100) {
+function validerEndreDagerSchema(
+    lavesteSykdomsgrad: number,
+    dagtype: unknown = 'Syk',
+    grad: unknown = 100,
+    notat: unknown = 'En begrunnelse',
+) {
     const result = lagEndreDagerSchema(lavesteSykdomsgrad).safeParse({
         dagtype: dagtype,
         grad: grad,
+        notat: notat,
     });
     return {
         message: result.error?.issues[0]?.message,
         success: result.success,
     };
+}
+
+function genererLangTekst(lengde: number) {
+    return 'a'.repeat(lengde);
 }

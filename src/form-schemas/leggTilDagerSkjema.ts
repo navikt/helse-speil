@@ -60,6 +60,15 @@ export const lagEndreDagerSchema = (lavesteSykdomsgrad: number) => {
                     .min(lavesteSykdomsgrad, `Kan ikke sette grad lavere enn ${lavesteSykdomsgrad} %`)
                     .max(100, 'Kan ikke sette grad høyere enn 100 %'),
             ),
+            notat: z
+                .string({
+                    error: (issue) =>
+                        issue.input == undefined || issue.input === ''
+                            ? 'Notat til beslutter er påkrevd'
+                            : 'Ugyldig notat til beslutter',
+                })
+                .min(1, 'Notat til beslutter er påkrevd')
+                .max(2000, 'Notat er for langt'),
         })
         .superRefine((data, ctx) => {
             if (kanVelgeGrad(data.dagtype) && data.grad == undefined) {
@@ -79,8 +88,4 @@ export const lagEndreDagerSchema = (lavesteSykdomsgrad: number) => {
                 });
             }
         });
-};
-
-export const lagOverstyrDagerSchema = () => {
-    return z.object({});
 };
