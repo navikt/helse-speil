@@ -1,25 +1,22 @@
 import React, { ReactElement } from 'react';
-import { Control, useController } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
 import { BodyShort, HelpText, Select, VStack } from '@navikt/ds-react';
 
-import { LeggTilDagerFormFields } from '@/form-schemas/leggTilDagerSkjema';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm.module.css';
 import {
-    OverstyrbarDagtype,
-    alleTypeendringer,
     overstyringsdagtyperArbeidstaker,
     overstyringsdagtyperSelvstendig,
     typeendringerAndreYtelser,
 } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 
 interface DagtypeSelecProps {
+    name: string;
     erSelvstendig: boolean;
-    control: Control<LeggTilDagerFormFields>;
 }
 
-export function DagtypeSelect({ erSelvstendig, control }: DagtypeSelecProps): ReactElement {
-    const { field, fieldState } = useController({ control: control, name: 'dag' });
+export function DagtypeSelect({ name, erSelvstendig }: DagtypeSelecProps): ReactElement {
+    const { field, fieldState } = useController({ name });
     const overstyringsdagtyper = erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker;
 
     return (
@@ -48,56 +45,6 @@ export function DagtypeSelect({ erSelvstendig, control }: DagtypeSelecProps): Re
         </>
     );
 }
-
-interface DagtypeSelectOldProps {
-    errorMessage?: string;
-    clearErrors: () => void;
-    setType: (type: OverstyrbarDagtype) => void;
-    erSelvstendig: boolean;
-}
-
-export const DagtypeSelectOld = ({
-    errorMessage,
-    clearErrors,
-    setType,
-    erSelvstendig,
-}: DagtypeSelectOldProps): ReactElement => {
-    const oppdaterDagtype = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        if (alleTypeendringer.map((dag) => dag.speilDagtype).includes(event.target.value as OverstyrbarDagtype)) {
-            clearErrors();
-            const type = event.target.value as OverstyrbarDagtype;
-            setType(type);
-        }
-    };
-    const overstyringsdagtyper = erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker;
-
-    return (
-        <>
-            <Select
-                className={styles.Dagtypevelger}
-                size="small"
-                label={<DagtypevelgerLabel erSelvstendig={erSelvstendig} />}
-                onChange={oppdaterDagtype}
-                error={errorMessage}
-                data-testid="dagtypevelger"
-            >
-                <>
-                    {overstyringsdagtyper.map((dag) => (
-                        <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                            {dag.visningstekst}
-                        </option>
-                    ))}
-                    <option disabled>-- Andre ytelser --</option>
-                    {typeendringerAndreYtelser.map((dag) => (
-                        <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                            {dag.visningstekst}
-                        </option>
-                    ))}
-                </>
-            </Select>
-        </>
-    );
-};
 
 function DagtypevelgerLabel({ erSelvstendig }: { erSelvstendig: boolean }) {
     return (
