@@ -45,10 +45,7 @@ export const LeggTilDagerForm = React.memo(
         const gradError = errors.grad?.message;
         const watchDag = form.watch('dag');
 
-        console.log(errors);
-
         const handleSubmit = (values: LeggTilDagerFormFields) => {
-            console.log('hei');
             const nyeDagerMap = new Map<string, Utbetalingstabelldag>();
 
             let endringFom = dayjs(values.fom, ISO_DATOFORMAT);
