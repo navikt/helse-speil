@@ -13,10 +13,9 @@ import {
 interface DagtypeSelecProps {
     name: string;
     erSelvstendig: boolean;
-    className?: string;
 }
 
-export function DagtypeSelect({ name, erSelvstendig, className }: DagtypeSelecProps): ReactElement {
+export function DagtypeSelect({ name, erSelvstendig }: DagtypeSelecProps): ReactElement {
     const { field, fieldState } = useController({ name });
     const overstyringsdagtyper = erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker;
 
@@ -27,7 +26,6 @@ export function DagtypeSelect({ name, erSelvstendig, className }: DagtypeSelecPr
                 label={<DagtypevelgerLabel erSelvstendig={erSelvstendig} />}
                 error={fieldState.error?.message}
                 data-testid="dagtypevelger"
-                className={className}
                 {...field}
             >
                 <>

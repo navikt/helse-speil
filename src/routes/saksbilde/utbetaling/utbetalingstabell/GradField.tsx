@@ -6,10 +6,9 @@ import { TextField } from '@navikt/ds-react';
 interface GradFieldProps {
     name: string;
     kanIkkeVelgeDagtype: boolean;
-    className?: string;
 }
 
-export function GradField({ name, kanIkkeVelgeDagtype, className }: GradFieldProps): ReactElement {
+export function GradField({ name, kanIkkeVelgeDagtype }: GradFieldProps): ReactElement {
     const { field, fieldState } = useController({ name });
     const [display, setDisplay] = React.useState<string>(field.value == null ? '' : field.value.toString());
 
@@ -32,7 +31,7 @@ export function GradField({ name, kanIkkeVelgeDagtype, className }: GradFieldPro
             htmlSize={8}
             disabled={kanIkkeVelgeDagtype}
             data-testid="gradvelger"
-            error={fieldState.error?.message != undefined}
+            error={fieldState.error?.message}
             value={display}
             onChange={(e) => setDisplay(e.target.value)}
             onBlur={() => {
@@ -48,7 +47,6 @@ export function GradField({ name, kanIkkeVelgeDagtype, className }: GradFieldPro
                     (e.target as HTMLInputElement).select();
                 }
             }}
-            className={className}
         />
     );
 }
