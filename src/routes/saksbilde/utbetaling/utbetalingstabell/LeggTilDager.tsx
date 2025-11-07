@@ -1,20 +1,19 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
-import { FormProvider, useController, useForm } from 'react-hook-form';
+import { FormProvider, useController, useForm, useFormContext } from 'react-hook-form';
 
-import { Button, DatePicker, HStack, useDatepicker } from '@navikt/ds-react';
+import { Button, DatePicker, HStack, TextField, useDatepicker } from '@navikt/ds-react';
 
 import { LeggTilDagerFormFields, LeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
-import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
 import { alleTypeendringer } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT, somIsoDato } from '@utils/date';
 
-import { DagtypeSelect } from './DagtypeSelect';
+import { DagtypeSelect } from './DagtypeSelectOld';
 
 interface LeggTilDagerProps {
     periodeFom: DateString;
@@ -36,8 +35,6 @@ export const LeggTilDagerForm = React.memo(
                 grad: 100,
             },
         });
-
-        const watchDag = form.watch('dag');
 
         const handleSubmit = (values: LeggTilDagerFormFields) => {
             const nyeDagerMap = new Map<string, Utbetalingstabelldag>();
@@ -70,9 +67,9 @@ export const LeggTilDagerForm = React.memo(
                             <DateField name={'fom'} label="Dato f.o.m." defaultMonth={periodeFomMinusEnDag.toDate()} />
                             <DateField name={'tom'} label="Dato t.o.m." disabled />
                         </HStack>
-                        <DagtypeSelect name="dag" erSelvstendig={erSelvstendig} />
+                        <DagtypeSelect erSelvstendig={erSelvstendig} control={form.control} />
                         <HStack marginBlock="1 0">
-                            <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} />
+                            <GradField />
                         </HStack>
 
                         <HStack marginBlock="8 0">
@@ -86,6 +83,54 @@ export const LeggTilDagerForm = React.memo(
         );
     },
 );
+
+function GradField(): ReactElement {
+    const form = useFormContext();
+    const watchDag = form.watch('dag');
+    const { field, fieldState } = useController({
+        control: form.control,
+        name: 'grad',
+    });
+
+    const [display, setDisplay] = React.useState(field.value == null ? '' : field.value);
+
+    if (!kanVelgeGrad(watchDag)) {
+        field.value = '';
+    }
+
+    const commit = () => {
+        const parsed = Number.parseInt(display);
+        field.onChange(isNaN(parsed) ? null : parsed);
+        return parsed;
+    };
+
+    return (
+        <TextField
+            size="small"
+            inputMode="numeric"
+            label="Grad"
+            htmlSize={8}
+            disabled={!kanVelgeGrad(watchDag)}
+            data-testid="gradvelger"
+            error={fieldState.error?.message}
+            value={display}
+            onChange={(e) => setDisplay(e.target.value)}
+            onBlur={() => {
+                const parsed = commit();
+                if (display !== '') {
+                    setDisplay(isNaN(parsed) ? display : parsed);
+                }
+                field.onBlur();
+            }}
+            onMouseDown={(e) => {
+                if (document.activeElement !== e.target) {
+                    e.preventDefault();
+                    (e.target as HTMLInputElement).select();
+                }
+            }}
+        />
+    );
+}
 
 interface DateFieldProps {
     name: string;
