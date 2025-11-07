@@ -5,7 +5,7 @@ import { BodyShort, Button, TextField } from '@navikt/ds-react';
 
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
-import { DagtypeSelect } from '../DagtypeSelect';
+import { DagtypeSelectOld } from '../DagtypeSelectOld';
 import { OverstyrbarDagtype, alleTypeendringer, getDagFromType } from './endringFormUtils';
 import { kanVelgeGrad } from './kanVelgeGrad';
 
@@ -76,7 +76,7 @@ export const EndringForm = ({ markerteDager, onSubmitEndring, erSelvstendig }: E
                 </BodyShort>
                 <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                     <div className={styles.Inputs}>
-                        <DagtypeSelect
+                        <DagtypeSelectOld
                             clearErrors={() => form.clearErrors('dagtype')}
                             errorMessage={form.formState.errors?.dagtype?.message?.toString()}
                             setType={(type: OverstyrbarDagtype) =>

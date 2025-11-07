@@ -20,6 +20,8 @@ export const somDato = (dato: string): Dayjs => dayjs(dato ?? null, ISO_DATOFORM
 export const somDate = (dato?: string): Date | undefined =>
     dayjs(dato, ISO_DATOFORMAT, true).isValid() ? dayjs(dato, ISO_DATOFORMAT).toDate() : undefined;
 
+export const somIsoDato = (dato?: Date | string): DateString => (dato ? dayjs(dato).format(ISO_DATOFORMAT) : '');
+
 export const somNorskDato = (dato: string | undefined): string | undefined =>
     dato ? dayjs(somDate(dato)).format(NORSK_DATOFORMAT) : undefined;
 
