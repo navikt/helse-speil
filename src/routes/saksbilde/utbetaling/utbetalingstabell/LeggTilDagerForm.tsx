@@ -16,14 +16,14 @@ import { ISO_DATOFORMAT, somIsoDato } from '@utils/date';
 
 import { DagtypeSelect } from './DagtypeSelect';
 
-interface LeggTilDagerProps {
+interface LeggTilDagerFormProps {
     periodeFom: DateString;
     onSubmitPølsestrekk: (nyeDager: Map<string, Utbetalingstabelldag>) => void;
     erSelvstendig: boolean;
 }
 
 export const LeggTilDagerForm = React.memo(
-    ({ periodeFom, onSubmitPølsestrekk, erSelvstendig }: LeggTilDagerProps): ReactElement => {
+    ({ periodeFom, onSubmitPølsestrekk, erSelvstendig }: LeggTilDagerFormProps): ReactElement => {
         const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
 
         const form = useForm<LeggTilDagerFormFields>({

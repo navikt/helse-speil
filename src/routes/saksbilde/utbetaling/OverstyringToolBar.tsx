@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { XMarkIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack, Heading, VStack } from '@navikt/ds-react';
 
-import { LeggTilDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTilDager';
+import { LeggTilDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTilDagerForm';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
