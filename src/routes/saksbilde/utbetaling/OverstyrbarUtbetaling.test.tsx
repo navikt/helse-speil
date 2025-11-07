@@ -65,7 +65,7 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByTestId('gradvelger')).toBeEnabled();
         await userEvent.clear(screen.getByTestId('gradvelger'));
         await userEvent.type(screen.getByTestId('gradvelger'), '80');
-        expect(screen.getByTestId('gradvelger')).toHaveValue(80);
+        expect(screen.getByTestId('gradvelger')).toHaveValue('80');
 
         await userEvent.click(screen.getByTestId('endre'));
 
