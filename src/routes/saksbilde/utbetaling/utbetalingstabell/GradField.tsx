@@ -25,8 +25,6 @@ export function GradField({ name, kanIkkeVelgeDagtype, className }: GradFieldPro
         setDisplay(field.value ?? '');
     }
 
-    console.log(field);
-
     return (
         <TextField
             size="small"
