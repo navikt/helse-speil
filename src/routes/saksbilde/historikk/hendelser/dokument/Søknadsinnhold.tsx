@@ -15,11 +15,11 @@ import styles from './Søknadsinnhold.module.css';
 
 type SøknadsinnholdProps = {
     dokumentId: string;
-    aktørId: string;
+    personPseudoId: string;
 };
 
-export const Søknadsinnhold = ({ dokumentId, aktørId }: SøknadsinnholdProps): ReactElement => {
-    const { data: response, isLoading, error } = useGetSoknad(aktørId, dokumentId);
+export const Søknadsinnhold = ({ dokumentId, personPseudoId }: SøknadsinnholdProps): ReactElement => {
+    const { data: response, isLoading, error } = useGetSoknad(personPseudoId, dokumentId);
     const data = response?.data;
 
     return (

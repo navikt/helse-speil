@@ -26,37 +26,37 @@ import type {
     UseQueryResult,
 } from '@tanstack/react-query';
 
-export const getSoknad = (aktoerId: string, dokumentId: string, signal?: AbortSignal) => {
+export const getSoknad = (pseudoId: string, dokumentId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiSoknad>({
-        url: `/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/soknad`,
+        url: `/api/spesialist/personer/${pseudoId}/dokumenter/${dokumentId}/soknad`,
         method: 'GET',
         signal,
     });
 };
 
-export const getGetSoknadQueryKey = (aktoerId?: string, dokumentId?: string) => {
-    return [`/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/soknad`] as const;
+export const getGetSoknadQueryKey = (pseudoId?: string, dokumentId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/dokumenter/${dokumentId}/soknad`] as const;
 };
 
 export const getGetSoknadQueryOptions = <
     TData = Awaited<ReturnType<typeof getSoknad>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
 ) => {
     const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetSoknadQueryKey(aktoerId, dokumentId);
+    const queryKey = queryOptions?.queryKey ?? getGetSoknadQueryKey(pseudoId, dokumentId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getSoknad>>> = ({ signal }) =>
-        getSoknad(aktoerId, dokumentId, signal);
+        getSoknad(pseudoId, dokumentId, signal);
 
     return {
         queryKey,
         queryFn,
-        enabled: !!(aktoerId && dokumentId),
+        enabled: !!(pseudoId && dokumentId),
         staleTime: Infinity,
         gcTime: 0,
         ...queryOptions,
@@ -72,7 +72,7 @@ export function useGetSoknad<
     TData = Awaited<ReturnType<typeof getSoknad>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> &
@@ -91,7 +91,7 @@ export function useGetSoknad<
     TData = Awaited<ReturnType<typeof getSoknad>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> &
@@ -110,7 +110,7 @@ export function useGetSoknad<
     TData = Awaited<ReturnType<typeof getSoknad>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -120,12 +120,12 @@ export function useGetSoknad<
     TData = Awaited<ReturnType<typeof getSoknad>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSoknad>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetSoknadQueryOptions(aktoerId, dokumentId, options);
+    const queryOptions = getGetSoknadQueryOptions(pseudoId, dokumentId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
@@ -136,37 +136,37 @@ export function useGetSoknad<
     return query;
 }
 
-export const getInntektsmelding = (aktoerId: string, dokumentId: string, signal?: AbortSignal) => {
+export const getInntektsmelding = (pseudoId: string, dokumentId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiDokumentInntektsmelding>({
-        url: `/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/inntektsmelding`,
+        url: `/api/spesialist/personer/${pseudoId}/dokumenter/${dokumentId}/inntektsmelding`,
         method: 'GET',
         signal,
     });
 };
 
-export const getGetInntektsmeldingQueryKey = (aktoerId?: string, dokumentId?: string) => {
-    return [`/api/spesialist/personer/${aktoerId}/dokumenter/${dokumentId}/inntektsmelding`] as const;
+export const getGetInntektsmeldingQueryKey = (pseudoId?: string, dokumentId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/dokumenter/${dokumentId}/inntektsmelding`] as const;
 };
 
 export const getGetInntektsmeldingQueryOptions = <
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> },
 ) => {
     const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetInntektsmeldingQueryKey(aktoerId, dokumentId);
+    const queryKey = queryOptions?.queryKey ?? getGetInntektsmeldingQueryKey(pseudoId, dokumentId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getInntektsmelding>>> = ({ signal }) =>
-        getInntektsmelding(aktoerId, dokumentId, signal);
+        getInntektsmelding(pseudoId, dokumentId, signal);
 
     return {
         queryKey,
         queryFn,
-        enabled: !!(aktoerId && dokumentId),
+        enabled: !!(pseudoId && dokumentId),
         staleTime: Infinity,
         gcTime: 0,
         ...queryOptions,
@@ -182,7 +182,7 @@ export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> &
@@ -201,7 +201,7 @@ export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> &
@@ -220,7 +220,7 @@ export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -230,12 +230,12 @@ export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     dokumentId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntektsmelding>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetInntektsmeldingQueryOptions(aktoerId, dokumentId, options);
+    const queryOptions = getGetInntektsmeldingQueryOptions(pseudoId, dokumentId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

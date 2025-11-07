@@ -9,13 +9,13 @@ import { somNorskDato } from '@utils/date';
 
 interface FjernTilkommenInntektModalProps {
     tilkommenInntekt: ApiTilkommenInntekt;
-    aktørId?: string;
+    personPseudoId?: string;
     onClose: () => void;
 }
 
 export const FjernTilkommenInntektModal = ({
     tilkommenInntekt,
-    aktørId,
+    personPseudoId,
     onClose,
 }: FjernTilkommenInntektModalProps): ReactElement => {
     const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
@@ -25,7 +25,7 @@ export const FjernTilkommenInntektModal = ({
 
     const { tilkommenInntektRefetch } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntekt.tilkommenInntektId,
-        aktørId,
+        personPseudoId,
     );
 
     const handleFjern = async () => {

@@ -14,7 +14,7 @@ import {
 
 export class TilkommenInntektMock {
     static inntektskilder: Map<string, ApiTilkommenInntektskilde[]> = new Map();
-    private static aktørIdToFødselsnummerMap: Map<string, string> = new Map();
+    private static pseudoIdtoFødselsnummerMap: Map<string, string> = new Map();
 
     static {
         const url = path.join(cwd(), 'src/spesialist-mock/data/tilkommenInntekt');
@@ -29,15 +29,15 @@ export class TilkommenInntektMock {
                 tilkommenInntektMockFil.fodselsnummer,
                 tilkommenInntektMockFil.data.tilkomneInntektskilder,
             );
-            TilkommenInntektMock.aktørIdToFødselsnummerMap.set(
-                tilkommenInntektMockFil.aktorId,
+            TilkommenInntektMock.pseudoIdtoFødselsnummerMap.set(
+                tilkommenInntektMockFil.personPseudoId,
                 tilkommenInntektMockFil.fodselsnummer,
             );
         });
     }
 
-    static tilkomneInntektskilder = (aktørId: string): ApiTilkommenInntektskilde[] => {
-        const fødselsnummer = TilkommenInntektMock.aktørIdToFødselsnummerMap.get(aktørId);
+    static tilkomneInntektskilder = (pseudoId: string): ApiTilkommenInntektskilde[] => {
+        const fødselsnummer = TilkommenInntektMock.pseudoIdtoFødselsnummerMap.get(pseudoId);
         if (fødselsnummer === undefined) {
             return [];
         }

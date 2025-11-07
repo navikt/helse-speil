@@ -513,6 +513,7 @@ fragment periode on Periode {
 
 fragment person on Person {
     fodselsnummer
+    personPseudoId
     dodsdato
     enhet {
         id

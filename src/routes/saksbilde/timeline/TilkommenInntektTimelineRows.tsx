@@ -10,15 +10,15 @@ import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 interface TilkommenInntektTimelineContainerProps {
     start: dayjs.Dayjs;
     end: dayjs.Dayjs;
-    aktørId: string;
+    personPseudoId: string;
 }
 
 export const TilkommenInntektTimelineRows = ({
     start,
     end,
-    aktørId,
+    personPseudoId,
 }: TilkommenInntektTimelineContainerProps): ReactElement => {
-    const { isFetching, data: response, error } = useHentTilkommenInntektQuery(aktørId);
+    const { isFetching, data: response, error } = useHentTilkommenInntektQuery(personPseudoId);
 
     if (isFetching) {
         return <TimelineRowSkeleton />;

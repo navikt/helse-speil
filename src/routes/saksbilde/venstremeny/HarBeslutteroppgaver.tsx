@@ -25,7 +25,7 @@ interface HarBeslutteroppgaverProps {
 export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): ReactElement | null => {
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
-    const { data: tilkommenInntektResponse } = useHentTilkommenInntektQuery(person.aktorId);
+    const { data: tilkommenInntektResponse } = useHentTilkommenInntektQuery(person.personPseudoId);
     const tilkommenInntektData = tilkommenInntektResponse?.data;
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const navigerTilPeriode = useNavigerTilPeriode();

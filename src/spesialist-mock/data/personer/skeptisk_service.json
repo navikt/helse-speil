@@ -2,6 +2,7 @@
     "data": {
         "person": {
             "fodselsnummer": "19886497256",
+            "personPseudoId": "62a99893-299d-41ef-9ef4-7f3454a1a9ab",
             "dodsdato": null,
             "enhet": {
                 "id": "0319",

@@ -23,7 +23,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
     const person = fetchPersonData?.person ?? null;
     const { isFetching: hentTilkommenInntektLoading, data: hentTilkommenInntektResponse } =
-        useHentTilkommenInntektQuery(person?.aktorId);
+        useHentTilkommenInntektQuery(person?.personPseudoId);
     const hentTilkommenInntektData = hentTilkommenInntektResponse?.data;
     const tilkommenInntektId = useTilkommenInntektIdFraUrl();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();

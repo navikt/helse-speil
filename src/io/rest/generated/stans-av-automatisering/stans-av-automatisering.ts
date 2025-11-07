@@ -12,7 +12,7 @@ import { useMutation } from '@tanstack/react-query';
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
 export const postOpphevStans = (apiOpphevStansRequest?: ApiOpphevStansRequest, signal?: AbortSignal) => {
-    return callCustomAxios<boolean>({
+    return callCustomAxios<void>({
         url: `/api/spesialist/opphevstans`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

@@ -20,12 +20,16 @@ import styles from './Inntektsmeldingsinnhold.module.css';
 
 type InntektsmeldinginnholdProps = {
     dokumentId: string;
-    aktørId: string;
+    personPseudoId: string;
     person: PersonFragment;
 };
 
-export const Inntektsmeldingsinnhold = ({ dokumentId, aktørId, person }: InntektsmeldinginnholdProps): ReactElement => {
-    const { data: response, isLoading, error } = useGetInntektsmelding(aktørId, dokumentId);
+export const Inntektsmeldingsinnhold = ({
+    dokumentId,
+    personPseudoId,
+    person,
+}: InntektsmeldinginnholdProps): ReactElement => {
+    const { data: response, isLoading, error } = useGetInntektsmelding(personPseudoId, dokumentId);
     const data = response?.data;
 
     const virksomhetsnummer = data?.virksomhetsnummer;

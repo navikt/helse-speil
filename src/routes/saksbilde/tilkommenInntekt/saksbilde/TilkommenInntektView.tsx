@@ -31,7 +31,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
 
     const { organisasjonsnummer, tilkommenInntekt } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntektId,
-        person?.aktorId,
+        person?.personPseudoId,
     );
 
     const [showFjernModal, setShowFjernModal] = useState(false);
@@ -143,7 +143,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
             {showFjernModal && (
                 <FjernTilkommenInntektModal
                     tilkommenInntekt={tilkommenInntekt}
-                    aktørId={person?.aktorId}
+                    personPseudoId={person?.personPseudoId}
                     onClose={() => setShowFjernModal(false)}
                 />
             )}

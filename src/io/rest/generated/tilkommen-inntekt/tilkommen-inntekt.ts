@@ -36,38 +36,38 @@ import type {
     UseQueryResult,
 } from '@tanstack/react-query';
 
-export const getTilkomneInntektskilderForPerson = (aktoerId: string, signal?: AbortSignal) => {
+export const getTilkomneInntektskilderForPerson = (pseudoId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiTilkommenInntektskilde[]>({
-        url: `/api/spesialist/personer/${aktoerId}/tilkomne-inntektskilder`,
+        url: `/api/spesialist/personer/${pseudoId}/tilkomne-inntektskilder`,
         method: 'GET',
         signal,
     });
 };
 
-export const getGetTilkomneInntektskilderForPersonQueryKey = (aktoerId?: string) => {
-    return [`/api/spesialist/personer/${aktoerId}/tilkomne-inntektskilder`] as const;
+export const getGetTilkomneInntektskilderForPersonQueryKey = (pseudoId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/tilkomne-inntektskilder`] as const;
 };
 
 export const getGetTilkomneInntektskilderForPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
     },
 ) => {
     const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetTilkomneInntektskilderForPersonQueryKey(aktoerId);
+    const queryKey = queryOptions?.queryKey ?? getGetTilkomneInntektskilderForPersonQueryKey(pseudoId);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>> = ({ signal }) =>
-        getTilkomneInntektskilderForPerson(aktoerId, signal);
+        getTilkomneInntektskilderForPerson(pseudoId, signal);
 
     return {
         queryKey,
         queryFn,
-        enabled: !!aktoerId,
+        enabled: !!pseudoId,
         staleTime: Infinity,
         gcTime: 0,
         ...queryOptions,
@@ -86,7 +86,7 @@ export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>> &
             Pick<
@@ -104,7 +104,7 @@ export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     options?: {
         query?: Partial<
             UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>
@@ -124,7 +124,7 @@ export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
     },
@@ -135,13 +135,13 @@ export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
     TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
 >(
-    aktoerId: string,
+    pseudoId: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
     },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetTilkomneInntektskilderForPersonQueryOptions(aktoerId, options);
+    const queryOptions = getGetTilkomneInntektskilderForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
@@ -232,7 +232,7 @@ export const postTilkommenInntektEndre = (
     apiEndreTilkommenInntektRequest?: ApiEndreTilkommenInntektRequest,
     signal?: AbortSignal,
 ) => {
-    return callCustomAxios<boolean>({
+    return callCustomAxios<void>({
         url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/endre`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -311,7 +311,7 @@ export const postTilkommenInntektFjern = (
     apiFjernTilkommenInntektRequest?: ApiFjernTilkommenInntektRequest,
     signal?: AbortSignal,
 ) => {
-    return callCustomAxios<boolean>({
+    return callCustomAxios<void>({
         url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/fjern`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -390,7 +390,7 @@ export const postTilkommenInntektGjenopprett = (
     apiGjenopprettTilkommenInntektRequest?: ApiGjenopprettTilkommenInntektRequest,
     signal?: AbortSignal,
 ) => {
-    return callCustomAxios<boolean>({
+    return callCustomAxios<void>({
         url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/gjenopprett`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

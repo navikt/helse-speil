@@ -968,6 +968,7 @@ export type Person = {
     enhet: Enhet;
     fodselsnummer: Scalars['String']['output'];
     infotrygdutbetalinger?: Maybe<Array<Infotrygdutbetaling>>;
+    personPseudoId: Scalars['UUID']['output'];
     personinfo: Personinfo;
     selvstendigNaering?: Maybe<SelvstendigNaering>;
     tildeling?: Maybe<Tildeling>;

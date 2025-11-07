@@ -26,7 +26,7 @@ export const GjenopprettTilkommenInntektView = ({
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
 
     const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
-        person?.aktorId,
+        person?.personPseudoId,
     );
     const tilkommenInntektData = tilkommenInntektResponse?.data;
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =

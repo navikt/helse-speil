@@ -18,12 +18,14 @@ export const ApiGetAktiveSaksbehandlereErrorCode = {} as const;
 
 export type ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeCode = null | ApiGetAktiveSaksbehandlereErrorCode;
+
 export interface ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeDetail;
-    code: ApiGetAktiveSaksbehandlereErrorCode;
+    code?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeCode;
 }
 
 export type ApiOppgaveSorteringsfelt = (typeof ApiOppgaveSorteringsfelt)[keyof typeof ApiOppgaveSorteringsfelt];
@@ -149,12 +151,14 @@ export const ApiGetOppgaverErrorCode = {} as const;
 
 export type ApiHttpProblemDetailsApiGetOppgaverErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiGetOppgaverErrorCodeCode = null | ApiGetOppgaverErrorCode;
+
 export interface ApiHttpProblemDetailsApiGetOppgaverErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeDetail;
-    code: ApiGetOppgaverErrorCode;
+    code?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeCode;
 }
 
 export interface ApiOpphevStansRequest {
@@ -172,12 +176,14 @@ export const ApiPostOpphevStansErrorCode = {
 
 export type ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode = null | ApiPostOpphevStansErrorCode;
+
 export interface ApiHttpProblemDetailsApiPostOpphevStansErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail;
-    code: ApiPostOpphevStansErrorCode;
+    code?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode;
 }
 
 export type ApiSoknadstype = (typeof ApiSoknadstype)[keyof typeof ApiSoknadstype];
@@ -325,18 +331,21 @@ export type ApiGetSoknadErrorCode = (typeof ApiGetSoknadErrorCode)[keyof typeof 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetSoknadErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
 } as const;
 
 export type ApiHttpProblemDetailsApiGetSoknadErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiGetSoknadErrorCodeCode = null | ApiGetSoknadErrorCode;
+
 export interface ApiHttpProblemDetailsApiGetSoknadErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiGetSoknadErrorCodeDetail;
-    code: ApiGetSoknadErrorCode;
+    code?: ApiHttpProblemDetailsApiGetSoknadErrorCodeCode;
 }
 
 export type ApiRefusjonBeloepPrMnd = null | number;
@@ -497,6 +506,7 @@ export type ApiGetInntektsmeldingErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetInntektsmeldingErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
     MANGLER_FØDSELSNUMMER_OG_AKTØRID: 'MANGLER_FØDSELSNUMMER_OG_AKTØRID',
@@ -504,12 +514,14 @@ export const ApiGetInntektsmeldingErrorCode = {
 
 export type ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeCode = null | ApiGetInntektsmeldingErrorCode;
+
 export interface ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeDetail;
-    code: ApiGetInntektsmeldingErrorCode;
+    code?: ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeCode;
 }
 
 export interface ApiTilkommenInntektskilde {
@@ -645,17 +657,21 @@ export type ApiGetTilkomneInntektskilderForPersonErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetTilkomneInntektskilderForPersonErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
 export type ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode =
+    null | ApiGetTilkomneInntektskilderForPersonErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail;
-    code: ApiGetTilkomneInntektskilderForPersonErrorCode;
+    code?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode;
 }
 
 export interface ApiTilkommenInntektInput {
@@ -685,12 +701,14 @@ export const ApiPostTilkomneInntekterErrorCode = {
 
 export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode = null | ApiPostTilkomneInntekterErrorCode;
+
 export interface ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail;
-    code: ApiPostTilkomneInntekterErrorCode;
+    code?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode;
 }
 
 export interface ApiEndreTilkommenInntektRequest {
@@ -709,12 +727,15 @@ export const ApiPostTilkommenInntektEndreErrorCode = {
 
 export type ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeCode =
+    null | ApiPostTilkommenInntektEndreErrorCode;
+
 export interface ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeDetail;
-    code: ApiPostTilkommenInntektEndreErrorCode;
+    code?: ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeCode;
 }
 
 export interface ApiFjernTilkommenInntektRequest {
@@ -732,12 +753,15 @@ export const ApiPostTilkommenInntektFjernErrorCode = {
 
 export type ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeCode =
+    null | ApiPostTilkommenInntektFjernErrorCode;
+
 export interface ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeDetail;
-    code: ApiPostTilkommenInntektFjernErrorCode;
+    code?: ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeCode;
 }
 
 export interface ApiGjenopprettTilkommenInntektRequest {
@@ -756,12 +780,15 @@ export const ApiPostTilkommenInntektGjenopprettErrorCode = {
 
 export type ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeCode =
+    null | ApiPostTilkommenInntektGjenopprettErrorCode;
+
 export interface ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeDetail;
-    code: ApiPostTilkommenInntektGjenopprettErrorCode;
+    code?: ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeCode;
 }
 
 export type ApiFattVedtakRequestBegrunnelse = null | string;
@@ -789,12 +816,14 @@ export const ApiPostFattVedtakErrorCode = {
 
 export type ApiHttpProblemDetailsApiPostFattVedtakErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiPostFattVedtakErrorCodeCode = null | ApiPostFattVedtakErrorCode;
+
 export interface ApiHttpProblemDetailsApiPostFattVedtakErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiPostFattVedtakErrorCodeDetail;
-    code: ApiPostFattVedtakErrorCode;
+    code?: ApiHttpProblemDetailsApiPostFattVedtakErrorCodeCode;
 }
 
 export interface ApiVedtaksperiodeAnnullerRequestÅrsak {
@@ -823,12 +852,51 @@ export const ApiPostVedtaksperiodeAnnullerErrorCode = {
 
 export type ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeDetail = null | string;
 
+export type ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode =
+    null | ApiPostVedtaksperiodeAnnullerErrorCode;
+
 export interface ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode {
     type: string;
     status: number;
     title: string;
     detail?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeDetail;
-    code: ApiPostVedtaksperiodeAnnullerErrorCode;
+    code?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode;
+}
+
+export interface ApiArbeidstidsvurderingRequestArbeidsgiver {
+    organisasjonsnummer: string;
+    berørtVedtaksperiodeId: string;
+}
+
+export interface ApiArbeidstidsvurderingRequest {
+    aktørId: string;
+    fødselsnummer: string;
+    perioderVurdertOk: ApiDatoPeriode[];
+    perioderVurdertIkkeOk: ApiDatoPeriode[];
+    begrunnelse: string;
+    arbeidsgivere: ApiArbeidstidsvurderingRequestArbeidsgiver[];
+    initierendeVedtaksperiodeId: string;
+}
+
+export type ApiArbeidstidsvurderingErrorCode =
+    (typeof ApiArbeidstidsvurderingErrorCode)[keyof typeof ApiArbeidstidsvurderingErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiArbeidstidsvurderingErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    MANGLER_VURDERTE_PERIODER: 'MANGLER_VURDERTE_PERIODER',
+} as const;
+
+export type ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeCode = null | ApiArbeidstidsvurderingErrorCode;
+
+export interface ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeCode;
 }
 
 export type GetOppgaverParams = {

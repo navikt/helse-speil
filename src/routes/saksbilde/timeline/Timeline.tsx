@@ -146,7 +146,7 @@ const TimelineWithContent = ({
                             />
                         );
                     })}
-                <TilkommenInntektTimelineRows start={start} end={end} aktørId={person.aktorId} />
+                <TilkommenInntektTimelineRows start={start} end={end} personPseudoId={person.personPseudoId} />
                 {infotrygdPeriods.length > 0 && (
                     <InfotrygdRow
                         start={start}

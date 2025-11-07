@@ -20,6 +20,7 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
     return {
         __typename: 'Person',
         aktorId: '1234567890',
+        personPseudoId: 'f4fa2a9d-c41f-4ec0-85ca-4550dcab0321',
         fodselsnummer: '12345678910',
         dodsdato: null,
         infotrygdutbetalinger: null,

@@ -24,7 +24,7 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const router = useRouter();
 
     const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
-        person?.aktorId,
+        person?.personPseudoId,
     );
     const tilkommenInntektData = tilkommenInntektResponse?.data;
     const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =

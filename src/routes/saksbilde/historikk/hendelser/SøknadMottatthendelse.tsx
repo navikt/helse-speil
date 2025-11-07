@@ -12,11 +12,15 @@ import { useAddOpenedDocument, useOpenedDocuments, useRemoveOpenedDocument } fro
 
 type SøknadMottatthendelseProps = {
     dokumentId: string;
-    aktørId: string;
+    personPseudoId: string;
     timestamp: DateString;
 };
 
-export const SøknadMottatthendelse = ({ timestamp, dokumentId, aktørId }: SøknadMottatthendelseProps): ReactElement => {
+export const SøknadMottatthendelse = ({
+    timestamp,
+    dokumentId,
+    personPseudoId,
+}: SøknadMottatthendelseProps): ReactElement => {
     const leggTilÅpnetDokument = useAddOpenedDocument();
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
@@ -29,7 +33,7 @@ export const SøknadMottatthendelse = ({ timestamp, dokumentId, aktørId }: Søk
         } else {
             leggTilÅpnetDokument({
                 dokumentId: dokumentId,
-                aktørId: aktørId,
+                aktørId: personPseudoId,
                 dokumenttype: 'Søknad',
                 timestamp: timestamp,
             });
@@ -56,7 +60,7 @@ export const SøknadMottatthendelse = ({ timestamp, dokumentId, aktørId }: Søk
             timestamp={timestamp}
             aktiv={false}
         >
-            <Søknadsinnhold dokumentId={dokumentId} aktørId={aktørId} />
+            <Søknadsinnhold dokumentId={dokumentId} personPseudoId={personPseudoId} />
         </Historikkhendelse>
     );
 };

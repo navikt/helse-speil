@@ -6,10 +6,10 @@ import {
 import { useGetTilkomneInntektskilderForPerson } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
 import { DateString } from '@typer/shared';
 
-export const useHentTilkommenInntektQuery = (aktørId?: string) =>
-    useGetTilkomneInntektskilderForPerson(aktørId!, {
+export const useHentTilkommenInntektQuery = (personPseudoId?: string) =>
+    useGetTilkomneInntektskilderForPerson(personPseudoId!, {
         query: {
-            enabled: !!aktørId,
+            enabled: !!personPseudoId,
         },
     });
 
@@ -25,8 +25,8 @@ export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: ApiTi
         })),
     );
 
-export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, aktørId?: string) => {
-    const { data: tilkommenInntektResponse, refetch } = useHentTilkommenInntektQuery(aktørId);
+export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, personPseudoId?: string) => {
+    const { data: tilkommenInntektResponse, refetch } = useHentTilkommenInntektQuery(personPseudoId);
     const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektResponse?.data
         ?.flatMap((tilkommenInntektskilde) =>
             tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({

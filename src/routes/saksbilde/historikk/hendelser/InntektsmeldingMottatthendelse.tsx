@@ -61,7 +61,7 @@ export const InntektsmeldingMottatthendelse = ({
             timestamp={timestamp}
             aktiv={false}
         >
-            <Inntektsmeldingsinnhold dokumentId={dokumentId} aktørId={person.aktorId} person={person} />
+            <Inntektsmeldingsinnhold dokumentId={dokumentId} personPseudoId={person.personPseudoId} person={person} />
         </Historikkhendelse>
     );
 };
