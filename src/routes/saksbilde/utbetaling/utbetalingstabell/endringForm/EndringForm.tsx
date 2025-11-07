@@ -20,7 +20,7 @@ interface EndringFormProps {
     erSelvstendig: boolean;
 }
 
-export const DagEndringForm = ({ markerteDager, onSubmitEndring, erSelvstendig }: EndringFormProps): ReactElement => {
+export const EndringForm = ({ markerteDager, onSubmitEndring, erSelvstendig }: EndringFormProps): ReactElement => {
     const minimumGrad = markerteDager
         .values()
         .reduce((previousValue, currentValue) => Math.max(previousValue, currentValue.grad ?? 0), 0);
