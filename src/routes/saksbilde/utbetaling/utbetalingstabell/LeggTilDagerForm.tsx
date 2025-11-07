@@ -2,9 +2,9 @@ import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 import { FormProvider, useController, useForm } from 'react-hook-form';
 
-import { Button, DatePicker, HStack, useDatepicker } from '@navikt/ds-react';
+import { Button, DatePicker, ErrorMessage, useDatepicker } from '@navikt/ds-react';
 
-import { LeggTilDagerFormFields, LeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
+import { LeggTilDagerFormFields, lagLeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
@@ -15,6 +15,8 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT, somIsoDato } from '@utils/date';
 
 import { DagtypeSelect } from './DagtypeSelect';
+
+import style from './LeggTilDagerForm.module.css';
 
 interface LeggTilDagerFormProps {
     periodeFom: DateString;
@@ -27,7 +29,7 @@ export const LeggTilDagerForm = React.memo(
         const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
 
         const form = useForm<LeggTilDagerFormFields>({
-            resolver: zodResolver(LeggTilDagerSchema),
+            resolver: zodResolver(lagLeggTilDagerSchema()),
             reValidateMode: 'onBlur',
             defaultValues: {
                 dag: 'Syk',
@@ -62,25 +64,41 @@ export const LeggTilDagerForm = React.memo(
             onSubmitPølsestrekk(nyeDagerMap);
         };
 
+        const errors = form.formState.errors;
+        const fomError = errors.fom?.message;
+        const gradError = errors.grad?.message;
+
         return (
             <FormProvider {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
-                    <HStack gap="2" marginInline="3 0" marginBlock="2 0" align="start">
-                        <HStack marginBlock="1 0" gap="2">
-                            <DateField name={'fom'} label="Dato f.o.m." defaultMonth={periodeFomMinusEnDag.toDate()} />
-                            <DateField name={'tom'} label="Dato t.o.m." disabled />
-                        </HStack>
-                        <DagtypeSelect name="dag" erSelvstendig={erSelvstendig} />
-                        <HStack marginBlock="1 0">
-                            <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} />
-                        </HStack>
-
-                        <HStack marginBlock="8 0">
-                            <Button size="small" type="submit" variant="secondary" data-testid="legg-til">
-                                Legg til
-                            </Button>
-                        </HStack>
-                    </HStack>
+                <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off" className={style.leggTilDagerForm}>
+                    <DateField
+                        name={'fom'}
+                        label="Dato f.o.m."
+                        defaultMonth={periodeFomMinusEnDag.toDate()}
+                        className={style.fomField}
+                    />
+                    <DateField name={'tom'} label="Dato t.o.m." disabled className={style.tomField} />
+                    <DagtypeSelect name="dag" erSelvstendig={erSelvstendig} className={style.dagField} />
+                    <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} className={style.gradField} />
+                    <Button
+                        size="small"
+                        type="submit"
+                        variant="secondary"
+                        data-testid="legg-til"
+                        className={style.button}
+                    >
+                        Legg til
+                    </Button>
+                    {fomError && (
+                        <ErrorMessage size="small" showIcon className={style.fomError}>
+                            {fomError}
+                        </ErrorMessage>
+                    )}
+                    {gradError && (
+                        <ErrorMessage size="small" showIcon className={style.gradError}>
+                            {gradError}
+                        </ErrorMessage>
+                    )}
                 </form>
             </FormProvider>
         );
@@ -92,9 +110,10 @@ interface DateFieldProps {
     label: string;
     defaultMonth?: Date;
     disabled?: boolean;
+    className?: string;
 }
 
-function DateField({ name, label, defaultMonth, disabled }: DateFieldProps): ReactElement {
+function DateField({ name, label, defaultMonth, disabled, className }: DateFieldProps): ReactElement {
     const { field, fieldState } = useController({ name });
 
     const { datepickerProps, inputProps } = useDatepicker({
@@ -119,6 +138,7 @@ function DateField({ name, label, defaultMonth, disabled }: DateFieldProps): Rea
                 onBlur={field.onBlur}
                 error={fieldState.error?.message != undefined}
                 disabled={disabled}
+                className={className}
             />
         </DatePicker>
     );
