@@ -18,12 +18,14 @@ export const lagDagEndringSchema = (minimumGrad: number) =>
                         code: 'custom',
                         message: 'Velg grad',
                         input: grad,
+                        path: ['grad'],
                     });
                 } else if (Number.isNaN(grad)) {
                     ctx.addIssue({
                         code: 'custom',
                         message: 'Grad må være et tall',
                         input: grad,
+                        path: ['grad'],
                     });
                 } else if (grad < minimumGrad) {
                     ctx.addIssue({
@@ -32,6 +34,7 @@ export const lagDagEndringSchema = (minimumGrad: number) =>
                         minimum: minimumGrad,
                         origin: 'number',
                         input: grad,
+                        path: ['grad'],
                     });
                 } else if (grad > 100) {
                     ctx.addIssue({
@@ -40,6 +43,7 @@ export const lagDagEndringSchema = (minimumGrad: number) =>
                         maximum: 100,
                         origin: 'number',
                         input: grad,
+                        path: ['grad'],
                     });
                 }
             }

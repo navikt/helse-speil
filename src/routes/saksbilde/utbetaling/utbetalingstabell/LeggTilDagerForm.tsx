@@ -79,7 +79,12 @@ export const LeggTilDagerForm = React.memo(
                     />
                     <DateField name={'tom'} label="Dato t.o.m." disabled className={style.tomField} />
                     <DagtypeSelect name="dag" erSelvstendig={erSelvstendig} className={style.dagField} />
-                    <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} className={style.gradField} />
+                    <GradField
+                        name="grad"
+                        kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)}
+                        className={style.gradField}
+                        hideErrorMessage
+                    />
                     <Button
                         size="small"
                         type="submit"

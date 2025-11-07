@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { BodyShort, Button } from '@navikt/ds-react';
+import { BodyShort, Box, Button, HStack } from '@navikt/ds-react';
 
 import { DagEndringFormFields, lagDagEndringSchema } from '@/form-schemas/dagEndringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -45,7 +45,7 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
     };
 
     return (
-        <>
+        <div>
             <div className={styles.EndringForm}>
                 <BodyShort weight="semibold">
                     Fyll inn hva{' '}
@@ -54,22 +54,26 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
                 </BodyShort>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
-                        <div className={styles.Inputs}>
+                        <HStack align="start" gap="4">
                             <DagtypeSelect name="dagtype" erSelvstendig={erSelvstendig} />
-                            <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} />
-                            <Button
-                                size="small"
-                                type="submit"
-                                variant="secondary"
-                                disabled={markerteDager.size === 0}
-                                data-testid="endre"
-                            >
-                                Endre ({markerteDager.size})
-                            </Button>
-                        </div>
+                            <Box marginBlock="1 0">
+                                <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} />
+                            </Box>
+                            <Box marginBlock="8 0">
+                                <Button
+                                    size="small"
+                                    type="submit"
+                                    variant="secondary"
+                                    disabled={markerteDager.size === 0}
+                                    data-testid="endre"
+                                >
+                                    Endre ({markerteDager.size})
+                                </Button>
+                            </Box>
+                        </HStack>
                     </form>
                 </FormProvider>
             </div>
-        </>
+        </div>
     );
 };
