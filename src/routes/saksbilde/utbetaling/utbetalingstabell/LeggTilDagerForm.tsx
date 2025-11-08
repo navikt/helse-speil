@@ -4,7 +4,7 @@ import { FormProvider, useController, useForm } from 'react-hook-form';
 
 import { Button, DatePicker, ErrorMessage, useDatepicker } from '@navikt/ds-react';
 
-import { LeggTilDagerFormFields, LeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
+import { LeggTilDagerFormFields, lagLeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
@@ -29,9 +29,8 @@ export const LeggTilDagerForm = React.memo(
         const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
 
         const form = useForm<LeggTilDagerFormFields>({
-            resolver: zodResolver(LeggTilDagerSchema),
+            resolver: zodResolver(lagLeggTilDagerSchema()),
             reValidateMode: 'onBlur',
-            shouldUnregister: false,
             defaultValues: {
                 dag: 'Syk',
                 fom: periodeFomMinusEnDag.format(ISO_DATOFORMAT),
@@ -40,15 +39,9 @@ export const LeggTilDagerForm = React.memo(
             },
         });
 
-        const errors = form.formState.errors;
-        const fomError = errors.fom?.message;
-        const gradError = errors.grad?.message;
         const watchDag = form.watch('dag');
 
-        console.log(errors);
-
         const handleSubmit = (values: LeggTilDagerFormFields) => {
-            console.log('hei');
             const nyeDagerMap = new Map<string, Utbetalingstabelldag>();
 
             let endringFom = dayjs(values.fom, ISO_DATOFORMAT);
@@ -70,6 +63,10 @@ export const LeggTilDagerForm = React.memo(
 
             onSubmitPølsestrekk(nyeDagerMap);
         };
+
+        const errors = form.formState.errors;
+        const fomError = errors.fom?.message;
+        const gradError = errors.grad?.message;
 
         return (
             <FormProvider {...form}>
