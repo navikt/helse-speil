@@ -1,19 +1,29 @@
 import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
-import { FormProvider, useController, useForm, useFormContext } from 'react-hook-form';
+import React, { ReactElement, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
-import { Button, DatePicker, HStack, TextField, useDatepicker } from '@navikt/ds-react';
+import { Button, DatePicker, TextField, useDatepicker } from '@navikt/ds-react';
 
-import { LeggTilDagerFormFields, LeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
-import { alleTypeendringer } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
+import {
+    OverstyrbarDagtype,
+    getDagFromType,
+} from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { ISO_DATOFORMAT, somIsoDato } from '@utils/date';
+import { ISO_DATOFORMAT } from '@utils/date';
 
-import { DagtypeSelect } from './DagtypeSelectOld';
+import { DagtypeSelect } from './DagtypeSelect';
+import { Speildag, Sykedag } from './utbetalingstabelldager';
+
+import styles from './LeggTilDager.module.css';
+
+type EndringType = {
+    dag: Speildag;
+    fom: DateString;
+    grad?: number;
+};
 
 interface LeggTilDagerProps {
     periodeFom: DateString;
@@ -25,146 +35,133 @@ export const LeggTilDagerForm = React.memo(
     ({ periodeFom, onSubmitPølsestrekk, erSelvstendig }: LeggTilDagerProps): ReactElement => {
         const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
 
-        const form = useForm<LeggTilDagerFormFields>({
-            resolver: zodResolver(LeggTilDagerSchema),
-            reValidateMode: 'onBlur',
-            defaultValues: {
-                dag: 'Syk',
-                fom: periodeFomMinusEnDag.format(ISO_DATOFORMAT),
-                tom: periodeFom,
-                grad: 100,
-            },
-        });
+        const defaultEndring = { dag: Sykedag, fom: periodeFomMinusEnDag.format(ISO_DATOFORMAT), grad: undefined };
+        const [endring, setEndring] = useState<EndringType>(defaultEndring);
 
-        const handleSubmit = (values: LeggTilDagerFormFields) => {
+        const form = useForm();
+
+        const handleSubmit = () => {
             const nyeDagerMap = new Map<string, Utbetalingstabelldag>();
 
-            let endringFom = dayjs(values.fom, ISO_DATOFORMAT);
+            let endringFom = dayjs(endring.fom, ISO_DATOFORMAT);
             while (endringFom.isBefore(dayjs(periodeFom, ISO_DATOFORMAT))) {
                 nyeDagerMap.set(endringFom.format(ISO_DATOFORMAT), {
                     dato: endringFom.format(ISO_DATOFORMAT),
                     kilde: { type: Kildetype.Saksbehandler } as Kilde,
-                    dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dag)!!,
+                    dag: endring.dag,
                     erAGP: false,
                     erVentetid: false,
                     erAvvist: false,
                     erForeldet: false,
                     erMaksdato: false,
-                    grad: values?.grad,
+                    grad: endring?.grad,
                     erNyDag: true,
                 });
                 endringFom = endringFom.add(1, 'day');
             }
 
+            const endringFomMinusEnDag = dayjs(endring.fom, ISO_DATOFORMAT).subtract(1, 'day').toDate();
+            fromSetSelected(endringFomMinusEnDag);
+            toSetSelected(endringFomMinusEnDag);
             onSubmitPølsestrekk(nyeDagerMap);
         };
 
-        return (
-            <FormProvider {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
-                    <HStack gap="2" marginInline="3 0" marginBlock="2 0" align="start">
-                        <HStack marginBlock="1 0" gap="2">
-                            <DateField name={'fom'} label="Dato f.o.m." defaultMonth={periodeFomMinusEnDag.toDate()} />
-                            <DateField name={'tom'} label="Dato t.o.m." disabled />
-                        </HStack>
-                        <DagtypeSelect erSelvstendig={erSelvstendig} control={form.control} />
-                        <HStack marginBlock="1 0">
-                            <GradField />
-                        </HStack>
+        const { onChange: onChangeGrad, ...gradvelgervalidation } = form.register('gradvelger', {
+            required: kanVelgeGrad(endring.dag?.speilDagtype) && 'Velg grad',
+            min: {
+                value: 0,
+                message: 'Grad må være over 0',
+            },
+            max: {
+                value: 100,
+                message: 'Grad må være 100 eller lavere',
+            },
+        });
 
-                        <HStack marginBlock="8 0">
-                            <Button size="small" type="submit" variant="secondary" data-testid="legg-til">
-                                Legg til
-                            </Button>
-                        </HStack>
-                    </HStack>
-                </form>
-            </FormProvider>
+        const oppdaterGrad = (event: React.ChangeEvent<HTMLInputElement>) => {
+            const grad = Number.parseInt(event.target.value);
+            setEndring({ ...endring, grad });
+            void onChangeGrad(event);
+        };
+
+        const {
+            datepickerProps: fromDatepickerProps,
+            inputProps: fromInputProps,
+            setSelected: fromSetSelected,
+        } = useDatepicker({
+            toDate: periodeFomMinusEnDag.toDate(),
+            defaultMonth: periodeFomMinusEnDag.toDate(),
+            defaultSelected: periodeFomMinusEnDag.toDate(),
+            onDateChange: (date: Date | undefined) => {
+                if (date) setEndring({ ...endring, fom: dayjs(date).format(ISO_DATOFORMAT) });
+            },
+        });
+
+        const {
+            datepickerProps: toDatepickerProps,
+            inputProps: toInputProps,
+            setSelected: toSetSelected,
+        } = useDatepicker({
+            defaultSelected: periodeFomMinusEnDag.toDate(),
+        });
+
+        return (
+            <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
+                <div className={styles.StrekkePølse}>
+                    <DatePicker {...fromDatepickerProps} dropdownCaption>
+                        <DatePicker.Input
+                            {...fromInputProps}
+                            label="Dato f.o.m"
+                            size="small"
+                            className={styles.dateinput}
+                        />
+                    </DatePicker>
+                    <DatePicker {...toDatepickerProps} dropdownCaption>
+                        <DatePicker.Input
+                            {...toInputProps}
+                            label="Dato t.o.m"
+                            size="small"
+                            className={styles.dateinput}
+                            disabled
+                        />
+                    </DatePicker>
+                    <DagtypeSelect
+                        clearErrors={() => form.clearErrors('dagtype')}
+                        errorMessage={form.formState.errors?.dagtype?.message?.toString()}
+                        setType={(type: OverstyrbarDagtype) =>
+                            setEndring({
+                                ...endring,
+                                dag: getDagFromType(type),
+                                grad: kanVelgeGrad(type) ? endring.grad : undefined,
+                            })
+                        }
+                        erSelvstendig={erSelvstendig}
+                    />
+                    <TextField
+                        className={styles.Gradvelger}
+                        size="small"
+                        type="number"
+                        label="Grad"
+                        onChange={oppdaterGrad}
+                        disabled={!kanVelgeGrad(endring.dag?.speilDagtype)}
+                        data-testid="gradvelger"
+                        value={typeof endring?.grad === 'number' ? `${endring?.grad}` : ''}
+                        error={
+                            form.formState.errors.gradvelger ? <>{form.formState.errors.gradvelger.message}</> : null
+                        }
+                        {...gradvelgervalidation}
+                    />
+                    <Button
+                        className={styles.Button}
+                        size="small"
+                        type="submit"
+                        variant="secondary"
+                        data-testid="legg-til"
+                    >
+                        Legg til
+                    </Button>
+                </div>
+            </form>
         );
     },
 );
-
-function GradField(): ReactElement {
-    const form = useFormContext();
-    const watchDag = form.watch('dag');
-    const { field, fieldState } = useController({
-        control: form.control,
-        name: 'grad',
-    });
-
-    const [display, setDisplay] = React.useState(field.value == null ? '' : field.value);
-
-    if (!kanVelgeGrad(watchDag)) {
-        field.value = '';
-    }
-
-    const commit = () => {
-        const parsed = Number.parseInt(display);
-        field.onChange(isNaN(parsed) ? null : parsed);
-        return parsed;
-    };
-
-    return (
-        <TextField
-            size="small"
-            inputMode="numeric"
-            label="Grad"
-            htmlSize={8}
-            disabled={!kanVelgeGrad(watchDag)}
-            data-testid="gradvelger"
-            error={fieldState.error?.message}
-            value={display}
-            onChange={(e) => setDisplay(e.target.value)}
-            onBlur={() => {
-                const parsed = commit();
-                if (display !== '') {
-                    setDisplay(isNaN(parsed) ? display : parsed);
-                }
-                field.onBlur();
-            }}
-            onMouseDown={(e) => {
-                if (document.activeElement !== e.target) {
-                    e.preventDefault();
-                    (e.target as HTMLInputElement).select();
-                }
-            }}
-        />
-    );
-}
-
-interface DateFieldProps {
-    name: string;
-    label: string;
-    defaultMonth?: Date;
-    disabled?: boolean;
-}
-
-function DateField({ name, label, defaultMonth, disabled }: DateFieldProps): ReactElement {
-    const { field, fieldState } = useController({ name });
-
-    const { datepickerProps, inputProps } = useDatepicker({
-        defaultSelected: field.value,
-        defaultMonth: defaultMonth ?? field.value,
-        onDateChange: (date) => {
-            if (!date) {
-                field.onChange(null);
-            } else {
-                field.onChange(somIsoDato(date));
-            }
-        },
-    });
-
-    return (
-        <DatePicker {...datepickerProps}>
-            <DatePicker.Input
-                {...inputProps}
-                id={name.replaceAll('.', '-')}
-                size="small"
-                label={label}
-                onBlur={field.onBlur}
-                error={fieldState.error?.message != undefined}
-                disabled={disabled}
-            />
-        </DatePicker>
-    );
-}
