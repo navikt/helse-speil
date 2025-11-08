@@ -19,7 +19,7 @@ import {
     Sykedag,
     SykedagNav,
 } from '../utbetalingstabelldager';
-import { EndreDagerForm } from './EndreDagerForm';
+import { DagEndringForm } from './DagEndringForm';
 import { alleTypeendringer } from './endringFormUtils';
 
 describe('Typeendringer', () => {
@@ -46,7 +46,7 @@ describe('Typeendringer', () => {
 
 describe('EndringForm', () => {
     it('disabler endringsknapp når ingen dager er markert', async () => {
-        render(<EndreDagerForm markerteDager={new Map()} onSubmitEndring={() => null} erSelvstendig={false} />);
+        render(<DagEndringForm markerteDager={new Map()} onSubmitEndring={() => null} erSelvstendig={false} />);
 
         await waitFor(() => {
             expect(screen.getByTestId('endre')).toBeDisabled();
@@ -54,7 +54,7 @@ describe('EndringForm', () => {
     });
     it('disabler grad når ferie velges', async () => {
         const markerteDager = new Map([['2020-01-01', { dag: Feriedag } as Utbetalingstabelldag]]);
-        render(<EndreDagerForm markerteDager={markerteDager} onSubmitEndring={() => null} erSelvstendig={false} />);
+        render(<DagEndringForm markerteDager={markerteDager} onSubmitEndring={() => null} erSelvstendig={false} />);
 
         await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]!);
 
@@ -65,7 +65,7 @@ describe('EndringForm', () => {
     });
     it('disabler grad når egenmeldingsdag velges', async () => {
         const markerteDager = new Map([['2020-01-01', { dag: Egenmeldingsdag } as Utbetalingstabelldag]]);
-        render(<EndreDagerForm markerteDager={markerteDager} onSubmitEndring={() => null} erSelvstendig={false} />);
+        render(<DagEndringForm markerteDager={markerteDager} onSubmitEndring={() => null} erSelvstendig={false} />);
 
         await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]!);
 
@@ -76,7 +76,7 @@ describe('EndringForm', () => {
     });
     it('disabler grad når egenmeldingsdag velges', async () => {
         const markerteDager = new Map([['2020-01-01', { dag: Feriedag } as Utbetalingstabelldag]]);
-        render(<EndreDagerForm markerteDager={markerteDager} onSubmitEndring={() => null} erSelvstendig={false} />);
+        render(<DagEndringForm markerteDager={markerteDager} onSubmitEndring={() => null} erSelvstendig={false} />);
 
         await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]!);
 
@@ -87,7 +87,7 @@ describe('EndringForm', () => {
     });
     it('disabler grad når egenmeldingsdag velges', async () => {
         const markerteDager = new Map([['2020-01-01', { dag: Arbeidsdag } as Utbetalingstabelldag]]);
-        render(<EndreDagerForm markerteDager={markerteDager} onSubmitEndring={() => null} erSelvstendig={false} />);
+        render(<DagEndringForm markerteDager={markerteDager} onSubmitEndring={() => null} erSelvstendig={false} />);
 
         await userEvent.selectOptions(screen.getByRole('combobox'), screen.getAllByRole('option')[2]!);
 
