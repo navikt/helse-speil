@@ -3,15 +3,12 @@
 import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
-import { usePostTilkommenInntektEndre } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
+import { usePatchTilkommenInntekt } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
-import {
-    TilkommenInntektMedOrganisasjonsnummer,
-    tilTilkomneInntekterMedOrganisasjonsnummer,
-    useHentTilkommenInntektQuery,
-} from '@state/tilkommenInntekt';
+import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { norskDatoTilIsoDato } from '@utils/date';
 
 export const EndreTilkommenInntektView = ({
@@ -29,16 +26,16 @@ export const EndreTilkommenInntektView = ({
         person?.personPseudoId,
     );
     const tilkommenInntektData = tilkommenInntektResponse?.data;
-    const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
+    const tilkomneInntekterMedOrganisasjonsnummer: ApiTilkommenInntekt[] | undefined =
         tilkommenInntektData !== undefined
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
             : undefined;
-    const tilkommenInntektMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer | undefined =
+    const tilkommenInntektMedOrganisasjonsnummer: ApiTilkommenInntekt | undefined =
         tilkomneInntekterMedOrganisasjonsnummer?.find(
             (inntektMedOrganisasjonsnummer) => inntektMedOrganisasjonsnummer.tilkommenInntektId === tilkommenInntektId,
         );
 
-    const { mutate: endreTilkommenInntekt } = usePostTilkommenInntektEndre();
+    const { mutate: patchTilkommenInntekt } = usePatchTilkommenInntekt();
 
     if (
         !person ||
@@ -51,18 +48,33 @@ export const EndreTilkommenInntektView = ({
     const submit = async (values: TilkommenInntektSchema) => {
         setIsSubmitting(true);
         setSubmitError(undefined);
-        endreTilkommenInntekt(
+        patchTilkommenInntekt(
             {
                 tilkommenInntektId: tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId,
                 data: {
-                    endretTil: {
-                        periode: {
-                            fom: norskDatoTilIsoDato(values.fom),
-                            tom: norskDatoTilIsoDato(values.tom),
+                    endringer: {
+                        organisasjonsnummer: {
+                            fra: tilkommenInntektMedOrganisasjonsnummer.organisasjonsnummer,
+                            til: values.organisasjonsnummer,
                         },
-                        organisasjonsnummer: values.organisasjonsnummer,
-                        periodebelop: values.periodebeløp.toString(),
-                        ekskluderteUkedager: values.ekskluderteUkedager,
+                        periode: {
+                            fra: {
+                                fom: tilkommenInntektMedOrganisasjonsnummer.periode.fom,
+                                tom: tilkommenInntektMedOrganisasjonsnummer.periode.tom,
+                            },
+                            til: {
+                                fom: norskDatoTilIsoDato(values.fom),
+                                tom: norskDatoTilIsoDato(values.tom),
+                            },
+                        },
+                        periodebeløp: {
+                            fra: tilkommenInntektMedOrganisasjonsnummer.periodebelop,
+                            til: values.periodebeløp.toString(),
+                        },
+                        ekskluderteUkedager: {
+                            fra: tilkommenInntektMedOrganisasjonsnummer.ekskluderteUkedager,
+                            til: values.ekskluderteUkedager,
+                        },
                     },
                     notatTilBeslutter: values.notat,
                 },

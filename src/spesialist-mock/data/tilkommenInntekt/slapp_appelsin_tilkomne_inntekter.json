@@ -8,6 +8,7 @@
                 "inntekter": [
                     {
                         "tilkommenInntektId": "dd4660ce-2103-11f0-a5e6-7b066f8127aa",
+                        "organisasjonsnummer": "901010102",
                         "periode": {
                             "fom": "2022-08-02",
                             "tom": "2022-08-13"
@@ -42,6 +43,7 @@
                 "inntekter": [
                     {
                         "tilkommenInntektId": "83cb5f0c-2416-11f0-9aec-a313ab9215cf",
+                        "organisasjonsnummer": "902020209",
                         "periode": {
                             "fom": "2022-08-16",
                             "tom": "2022-08-21"
@@ -151,6 +153,7 @@
                 "inntekter": [
                     {
                         "tilkommenInntektId": "dd4660ce-2103-11f0-a5e6-7b066f8127ab",
+                        "organisasjonsnummer": "903030305",
                         "periode": {
                             "fom": "2022-08-02",
                             "tom": "2022-08-13"

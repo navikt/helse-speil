@@ -1,5 +1,4 @@
 import {
-    ApiTilkommenInntekt,
     ApiTilkommenInntektEventEndringerListLocalDateEndring,
     ApiTilkommenInntektskilde,
 } from '@io/rest/generated/spesialist.schemas';
@@ -13,17 +12,8 @@ export const useHentTilkommenInntektQuery = (personPseudoId?: string) =>
         },
     });
 
-export type TilkommenInntektMedOrganisasjonsnummer = ApiTilkommenInntekt & {
-    organisasjonsnummer: string;
-};
-
 export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: ApiTilkommenInntektskilde[]) =>
-    inntektskilder.flatMap((inntektskilde) =>
-        inntektskilde.inntekter.map((tilkommenInntekt) => ({
-            organisasjonsnummer: inntektskilde.organisasjonsnummer,
-            ...tilkommenInntekt,
-        })),
-    );
+    inntektskilder.flatMap((inntektskilde) => inntektskilde.inntekter.map((tilkommenInntekt) => tilkommenInntekt));
 
 export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, personPseudoId?: string) => {
     const { data: tilkommenInntektResponse, refetch } = useHentTilkommenInntektQuery(personPseudoId);

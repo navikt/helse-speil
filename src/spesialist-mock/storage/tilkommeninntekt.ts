@@ -8,7 +8,7 @@ import {
     ApiTilkommenInntektEvent,
     ApiTilkommenInntektEventEndringer,
     ApiTilkommenInntektEventMetadata,
-    ApiTilkommenInntektInput,
+    ApiTilkommenInntektPatchApiTilkommenInntektEndringer,
     ApiTilkommenInntektskilde,
 } from '@/io/rest/generated/spesialist.schemas';
 
@@ -87,21 +87,27 @@ export class TilkommenInntektMock {
         inntekt: ApiTilkommenInntekt,
         inntektskilde: ApiTilkommenInntektskilde,
         inntektskilder: ApiTilkommenInntektskilde[],
-        endretTil: ApiTilkommenInntektInput,
+        endringer: ApiTilkommenInntektPatchApiTilkommenInntektEndringer,
     ) {
-        inntekt.periode.fom = endretTil.periode.fom;
-        inntekt.periode.tom = endretTil.periode.tom;
-        inntekt.periodebelop = endretTil.periodebelop;
-        inntekt.ekskluderteUkedager = endretTil.ekskluderteUkedager;
-        if (endretTil.organisasjonsnummer !== inntektskilde.organisasjonsnummer) {
+        if (endringer.organisasjonsnummer) {
             inntektskilde.inntekter.splice(inntektskilde.inntekter.indexOf(inntekt), 1);
             if (inntektskilde.inntekter.length === 0) {
                 inntektskilder.splice(inntektskilder.indexOf(inntektskilde), 1);
             }
             TilkommenInntektMock.finnEllerLeggTilInntektskilde(
-                endretTil.organisasjonsnummer,
+                endringer.organisasjonsnummer.til,
                 inntektskilder,
             ).inntekter.push(inntekt);
+        }
+        if (endringer.periode) {
+            inntekt.periode.fom = endringer.periode.til.fom;
+            inntekt.periode.tom = endringer.periode.til.tom;
+        }
+        if (endringer.periodebeløp) {
+            inntekt.periodebelop = endringer.periodebeløp.til;
+        }
+        if (endringer.ekskluderteUkedager) {
+            inntekt.ekskluderteUkedager = endringer.ekskluderteUkedager.til;
         }
     }
 
@@ -121,46 +127,44 @@ export class TilkommenInntektMock {
     }
 
     static tilEventEndringer(
-        tilkommenInntekt: ApiTilkommenInntekt,
-        organisasjonsnummer: string,
-        endretTil: ApiTilkommenInntektInput,
+        endringer: ApiTilkommenInntektPatchApiTilkommenInntektEndringer,
     ): ApiTilkommenInntektEventEndringer {
         return {
-            ekskluderteUkedager: !TilkommenInntektMock.erLikeSett(
-                tilkommenInntekt.ekskluderteUkedager,
-                endretTil.ekskluderteUkedager,
-            )
-                ? {
-                      fra: tilkommenInntekt.ekskluderteUkedager,
-                      til: endretTil.ekskluderteUkedager,
-                  }
-                : null,
-            organisasjonsnummer:
-                organisasjonsnummer !== endretTil.organisasjonsnummer
+            ekskluderteUkedager:
+                endringer.ekskluderteUkedager &&
+                !TilkommenInntektMock.erLikeSett(endringer.ekskluderteUkedager.fra, endringer.ekskluderteUkedager.til)
                     ? {
-                          fra: organisasjonsnummer,
-                          til: endretTil.organisasjonsnummer,
+                          fra: endringer.ekskluderteUkedager.fra,
+                          til: endringer.ekskluderteUkedager.til,
+                      }
+                    : null,
+            organisasjonsnummer:
+                endringer.organisasjonsnummer && endringer.organisasjonsnummer.fra !== endringer.organisasjonsnummer.til
+                    ? {
+                          fra: endringer.organisasjonsnummer.fra,
+                          til: endringer.organisasjonsnummer.til,
                       }
                     : null,
             periode:
-                tilkommenInntekt.periode.fom !== endretTil.periode.fom ||
-                tilkommenInntekt.periode.tom !== endretTil.periode.tom
+                endringer.periode &&
+                (endringer.periode.fra.fom !== endringer.periode.til.fom ||
+                    endringer.periode.fra.tom !== endringer.periode.til.tom)
                     ? {
                           fra: {
-                              fom: tilkommenInntekt.periode.fom,
-                              tom: tilkommenInntekt.periode.tom,
+                              fom: endringer.periode.fra.fom,
+                              tom: endringer.periode.fra.tom,
                           },
                           til: {
-                              fom: endretTil.periode.fom,
-                              tom: endretTil.periode.tom,
+                              fom: endringer.periode.til.fom,
+                              tom: endringer.periode.til.tom,
                           },
                       }
                     : null,
             periodebelop:
-                Number(tilkommenInntekt.periodebelop) !== Number(endretTil.periodebelop)
+                endringer.periodebeløp && Number(endringer.periodebeløp.fra) !== Number(endringer.periodebeløp.til)
                     ? {
-                          fra: tilkommenInntekt.periodebelop,
-                          til: endretTil.periodebelop,
+                          fra: endringer.periodebeløp.fra,
+                          til: endringer.periodebeløp.til,
                       }
                     : null,
         };

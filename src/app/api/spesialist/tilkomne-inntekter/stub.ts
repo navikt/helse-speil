@@ -21,6 +21,7 @@ export const stub = async (request: Request) => {
     const nyTilkommenInntektId = v4();
 
     const inntekt: ApiTilkommenInntekt = {
+        organisasjonsnummer: requestBody.verdier.organisasjonsnummer,
         ekskluderteUkedager: requestBody.verdier.ekskluderteUkedager,
         erDelAvAktivTotrinnsvurdering: true,
         events: [

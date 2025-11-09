@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { BodyLong, Button, Modal, Textarea, VStack } from '@navikt/ds-react';
 
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import { usePostTilkommenInntektFjern } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
+import { usePatchTilkommenInntekt } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 
@@ -21,7 +21,7 @@ export const FjernTilkommenInntektModal = ({
     const [fjerningBegrunnelse, setFjerningBegrunnelse] = useState<string>('');
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [error, setError] = useState<string | undefined>(undefined);
-    const { mutate: fjernTilkommenInntekt } = usePostTilkommenInntektFjern();
+    const { mutate: patchTilkommenInntekt } = usePatchTilkommenInntekt();
 
     const { tilkommenInntektRefetch } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntekt.tilkommenInntektId,
@@ -34,10 +34,16 @@ export const FjernTilkommenInntektModal = ({
         } else {
             setError(undefined);
             setIsSubmitting(true);
-            fjernTilkommenInntekt(
+            patchTilkommenInntekt(
                 {
                     tilkommenInntektId: tilkommenInntekt.tilkommenInntektId,
                     data: {
+                        endringer: {
+                            fjernet: {
+                                fra: false,
+                                til: true,
+                            },
+                        },
                         notatTilBeslutter: fjerningBegrunnelse,
                     },
                 },

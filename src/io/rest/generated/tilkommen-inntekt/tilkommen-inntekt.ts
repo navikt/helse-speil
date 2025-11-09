@@ -7,16 +7,12 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
-    ApiEndreTilkommenInntektRequest,
-    ApiFjernTilkommenInntektRequest,
-    ApiGjenopprettTilkommenInntektRequest,
     ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode,
-    ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCode,
-    ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCode,
-    ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCode,
+    ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode,
     ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode,
     ApiLeggTilTilkommenInntektRequest,
     ApiLeggTilTilkommenInntektResponse,
+    ApiTilkommenInntektPatch,
     ApiTilkommenInntektskilde,
 } from '../spesialist.schemas';
 
@@ -227,37 +223,35 @@ export const usePostTilkomneInntekter = <
 
     return useMutation(mutationOptions, queryClient);
 };
-export const postTilkommenInntektEndre = (
+export const patchTilkommenInntekt = (
     tilkommenInntektId: string,
-    apiEndreTilkommenInntektRequest?: ApiEndreTilkommenInntektRequest,
-    signal?: AbortSignal,
+    apiTilkommenInntektPatch?: ApiTilkommenInntektPatch,
 ) => {
     return callCustomAxios<void>({
-        url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/endre`,
-        method: 'POST',
+        url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}`,
+        method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: apiEndreTilkommenInntektRequest,
-        signal,
+        data: apiTilkommenInntektPatch,
     });
 };
 
-export const getPostTilkommenInntektEndreMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCode>,
+export const getPatchTilkommenInntektMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
+        Awaited<ReturnType<typeof patchTilkommenInntekt>>,
         TError,
-        { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest },
+        { tilkommenInntektId: string; data: ApiTilkommenInntektPatch },
         TContext
     >;
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
+    Awaited<ReturnType<typeof patchTilkommenInntekt>>,
     TError,
-    { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest },
+    { tilkommenInntektId: string; data: ApiTilkommenInntektPatch },
     TContext
 > => {
-    const mutationKey = ['postTilkommenInntektEndre'];
+    const mutationKey = ['patchTilkommenInntekt'];
     const { mutation: mutationOptions } = options
         ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
             ? options
@@ -265,202 +259,41 @@ export const getPostTilkommenInntektEndreMutationOptions = <
         : { mutation: { mutationKey } };
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
-        { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest }
+        Awaited<ReturnType<typeof patchTilkommenInntekt>>,
+        { tilkommenInntektId: string; data: ApiTilkommenInntektPatch }
     > = (props) => {
         const { tilkommenInntektId, data } = props ?? {};
 
-        return postTilkommenInntektEndre(tilkommenInntektId, data);
+        return patchTilkommenInntekt(tilkommenInntektId, data);
     };
 
     return { mutationFn, ...mutationOptions };
 };
 
-export type PostTilkommenInntektEndreMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postTilkommenInntektEndre>>
->;
-export type PostTilkommenInntektEndreMutationBody = ApiEndreTilkommenInntektRequest;
-export type PostTilkommenInntektEndreMutationError =
-    ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCode>;
+export type PatchTilkommenInntektMutationResult = NonNullable<Awaited<ReturnType<typeof patchTilkommenInntekt>>>;
+export type PatchTilkommenInntektMutationBody = ApiTilkommenInntektPatch;
+export type PatchTilkommenInntektMutationError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>;
 
-export const usePostTilkommenInntektEndre = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCode>,
+export const usePatchTilkommenInntekt = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
     TContext = unknown,
 >(
     options?: {
         mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
+            Awaited<ReturnType<typeof patchTilkommenInntekt>>,
             TError,
-            { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest },
+            { tilkommenInntektId: string; data: ApiTilkommenInntektPatch },
             TContext
         >;
     },
     queryClient?: QueryClient,
 ): UseMutationResult<
-    Awaited<ReturnType<typeof postTilkommenInntektEndre>>,
+    Awaited<ReturnType<typeof patchTilkommenInntekt>>,
     TError,
-    { tilkommenInntektId: string; data: ApiEndreTilkommenInntektRequest },
+    { tilkommenInntektId: string; data: ApiTilkommenInntektPatch },
     TContext
 > => {
-    const mutationOptions = getPostTilkommenInntektEndreMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
-export const postTilkommenInntektFjern = (
-    tilkommenInntektId: string,
-    apiFjernTilkommenInntektRequest?: ApiFjernTilkommenInntektRequest,
-    signal?: AbortSignal,
-) => {
-    return callCustomAxios<void>({
-        url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/fjern`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: apiFjernTilkommenInntektRequest,
-        signal,
-    });
-};
-
-export const getPostTilkommenInntektFjernMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCode>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
-        TError,
-        { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest },
-        TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
-    TError,
-    { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest },
-    TContext
-> => {
-    const mutationKey = ['postTilkommenInntektFjern'];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
-        { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest }
-    > = (props) => {
-        const { tilkommenInntektId, data } = props ?? {};
-
-        return postTilkommenInntektFjern(tilkommenInntektId, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostTilkommenInntektFjernMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postTilkommenInntektFjern>>
->;
-export type PostTilkommenInntektFjernMutationBody = ApiFjernTilkommenInntektRequest;
-export type PostTilkommenInntektFjernMutationError =
-    ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCode>;
-
-export const usePostTilkommenInntektFjern = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCode>,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
-            TError,
-            { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postTilkommenInntektFjern>>,
-    TError,
-    { tilkommenInntektId: string; data: ApiFjernTilkommenInntektRequest },
-    TContext
-> => {
-    const mutationOptions = getPostTilkommenInntektFjernMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
-export const postTilkommenInntektGjenopprett = (
-    tilkommenInntektId: string,
-    apiGjenopprettTilkommenInntektRequest?: ApiGjenopprettTilkommenInntektRequest,
-    signal?: AbortSignal,
-) => {
-    return callCustomAxios<void>({
-        url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}/gjenopprett`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: apiGjenopprettTilkommenInntektRequest,
-        signal,
-    });
-};
-
-export const getPostTilkommenInntektGjenopprettMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCode>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
-        TError,
-        { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest },
-        TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
-    TError,
-    { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest },
-    TContext
-> => {
-    const mutationKey = ['postTilkommenInntektGjenopprett'];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
-        { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest }
-    > = (props) => {
-        const { tilkommenInntektId, data } = props ?? {};
-
-        return postTilkommenInntektGjenopprett(tilkommenInntektId, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostTilkommenInntektGjenopprettMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>
->;
-export type PostTilkommenInntektGjenopprettMutationBody = ApiGjenopprettTilkommenInntektRequest;
-export type PostTilkommenInntektGjenopprettMutationError =
-    ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCode>;
-
-export const usePostTilkommenInntektGjenopprett = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCode>,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
-            TError,
-            { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postTilkommenInntektGjenopprett>>,
-    TError,
-    { tilkommenInntektId: string; data: ApiGjenopprettTilkommenInntektRequest },
-    TContext
-> => {
-    const mutationOptions = getPostTilkommenInntektGjenopprettMutationOptions(options);
+    const mutationOptions = getPatchTilkommenInntektMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

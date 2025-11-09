@@ -531,6 +531,7 @@ export interface ApiTilkommenInntektskilde {
 
 export interface ApiTilkommenInntekt {
     tilkommenInntektId: string;
+    organisasjonsnummer: string;
     periode: ApiDatoPeriode;
     periodebelop: string;
     ekskluderteUkedager: string[];
@@ -711,84 +712,75 @@ export interface ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode {
     code?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode;
 }
 
-export interface ApiEndreTilkommenInntektRequest {
-    endretTil: ApiTilkommenInntektInput;
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer = null | ApiPatchStringEndring;
+
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriode = null | ApiPatchDatoPeriodeEndring;
+
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriodebeløp = null | ApiPatchBigDecimalEndring;
+
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerEkskluderteUkedager =
+    null | ApiPatchListLocalDateEndring;
+
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerFjernet = null | ApiPatchBooleanEndring;
+
+export interface ApiTilkommenInntektPatchApiTilkommenInntektEndringer {
+    organisasjonsnummer?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer;
+    periode?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriode;
+    periodebeløp?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriodebeløp;
+    ekskluderteUkedager?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerEkskluderteUkedager;
+    fjernet?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerFjernet;
+}
+
+export interface ApiPatchStringEndring {
+    fra: string;
+    til: string;
+}
+
+export interface ApiPatchDatoPeriodeEndring {
+    fra: ApiDatoPeriode;
+    til: ApiDatoPeriode;
+}
+
+export interface ApiPatchBigDecimalEndring {
+    fra: string;
+    til: string;
+}
+
+export interface ApiPatchListLocalDateEndring {
+    fra: string[];
+    til: string[];
+}
+
+export interface ApiPatchBooleanEndring {
+    fra: boolean;
+    til: boolean;
+}
+
+export interface ApiTilkommenInntektPatch {
+    endringer: ApiTilkommenInntektPatchApiTilkommenInntektEndringer;
     notatTilBeslutter: string;
 }
 
-export type ApiPostTilkommenInntektEndreErrorCode =
-    (typeof ApiPostTilkommenInntektEndreErrorCode)[keyof typeof ApiPostTilkommenInntektEndreErrorCode];
+export type ApiPatchTilkommenInntektErrorCode =
+    (typeof ApiPatchTilkommenInntektErrorCode)[keyof typeof ApiPatchTilkommenInntektErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostTilkommenInntektEndreErrorCode = {
+export const ApiPatchTilkommenInntektErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
+    FEIL_UTGANGSPUNKT: 'FEIL_UTGANGSPUNKT',
 } as const;
 
-export type ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeCode =
-    null | ApiPostTilkommenInntektEndreErrorCode;
+export type ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeCode = null | ApiPatchTilkommenInntektErrorCode;
 
-export interface ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCode {
+export interface ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostTilkommenInntektEndreErrorCodeCode;
-}
-
-export interface ApiFjernTilkommenInntektRequest {
-    notatTilBeslutter: string;
-}
-
-export type ApiPostTilkommenInntektFjernErrorCode =
-    (typeof ApiPostTilkommenInntektFjernErrorCode)[keyof typeof ApiPostTilkommenInntektFjernErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostTilkommenInntektFjernErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeCode =
-    null | ApiPostTilkommenInntektFjernErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostTilkommenInntektFjernErrorCodeCode;
-}
-
-export interface ApiGjenopprettTilkommenInntektRequest {
-    endretTil: ApiTilkommenInntektInput;
-    notatTilBeslutter: string;
-}
-
-export type ApiPostTilkommenInntektGjenopprettErrorCode =
-    (typeof ApiPostTilkommenInntektGjenopprettErrorCode)[keyof typeof ApiPostTilkommenInntektGjenopprettErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostTilkommenInntektGjenopprettErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeCode =
-    null | ApiPostTilkommenInntektGjenopprettErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostTilkommenInntektGjenopprettErrorCodeCode;
+    detail?: ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeCode;
 }
 
 export type ApiFattVedtakRequestBegrunnelse = null | string;

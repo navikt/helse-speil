@@ -1,4 +1,5 @@
 import { PersonFragment } from '@io/graphql';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
 import {
     Inntektsforhold,
@@ -8,7 +9,6 @@ import {
     tilReferanse,
     useDagoverstyringer,
 } from '@state/inntektsforhold/inntektsforhold';
-import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { somDato, tilDatoer, tilUkedager } from '@utils/date';
@@ -43,7 +43,7 @@ export function utledSykefraværstilfelleperioder(person: PersonFragment): DateP
     );
 }
 
-export function tilPerioderPerOrganisasjonsnummer(tilkomneInntekter: TilkommenInntektMedOrganisasjonsnummer[]) {
+export function tilPerioderPerOrganisasjonsnummer(tilkomneInntekter: ApiTilkommenInntekt[]) {
     const map = new Map<string, DatePeriod[]>();
     tilkomneInntekter.forEach((tilkommenInntekt) => {
         const liste = map.get(tilkommenInntekt.organisasjonsnummer) ?? [];

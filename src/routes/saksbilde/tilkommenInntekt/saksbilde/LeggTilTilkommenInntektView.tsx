@@ -4,15 +4,12 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { usePostTilkomneInntekter } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
-import {
-    TilkommenInntektMedOrganisasjonsnummer,
-    tilTilkomneInntekterMedOrganisasjonsnummer,
-    useHentTilkommenInntektQuery,
-} from '@state/tilkommenInntekt';
+import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { norskDatoTilIsoDato } from '@utils/date';
 
 export const LeggTilTilkommenInntektView = (): ReactElement | null => {
@@ -27,7 +24,7 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
         person?.personPseudoId,
     );
     const tilkommenInntektData = tilkommenInntektResponse?.data;
-    const tilkomneInntekterMedOrganisasjonsnummer: TilkommenInntektMedOrganisasjonsnummer[] | undefined =
+    const tilkomneInntekterMedOrganisasjonsnummer: ApiTilkommenInntekt[] | undefined =
         tilkommenInntektData !== undefined
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
             : undefined;

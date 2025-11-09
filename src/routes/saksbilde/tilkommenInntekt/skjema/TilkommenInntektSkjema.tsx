@@ -9,6 +9,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PersonFragment } from '@io/graphql';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemaTabell';
 import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemafelter';
 import {
@@ -17,14 +18,13 @@ import {
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { TilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somNorskDato } from '@utils/date';
 import { isNumber } from '@utils/typeguards';
 
 interface TilkommenInntektProps {
     person: PersonFragment;
-    andreTilkomneInntekter: TilkommenInntektMedOrganisasjonsnummer[];
+    andreTilkomneInntekter: ApiTilkommenInntekt[];
     startOrganisasjonsnummer: string;
     startFom: DateString;
     startTom: DateString;
