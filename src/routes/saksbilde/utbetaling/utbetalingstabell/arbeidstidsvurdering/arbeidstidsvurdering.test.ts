@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 
-import { getOppkuttedePerioder } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
+import { getOppkuttedePerioder } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { ISO_DATOFORMAT } from '@utils/date';
 
-describe('minimumSykdomsgrad', () => {
+describe('arbeidstidsvurdering', () => {
     describe('getOppkuttedePerioder', () => {
         it('skal returnere en periode for to identisk overlappende perioder', () => {
             const aktivPeriode = enBeregnetPeriode();

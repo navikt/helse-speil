@@ -6,7 +6,7 @@ import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeMenu } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
-import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
+import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';

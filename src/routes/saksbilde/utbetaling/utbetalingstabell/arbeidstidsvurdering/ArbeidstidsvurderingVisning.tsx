@@ -4,19 +4,19 @@ import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, List, ReadMore, Table } from '@navikt/ds-react';
 
 import { MinimumSykdomsgradOverstyring } from '@io/graphql';
-import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/Delperiode';
-import { byTimestamp } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
+import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/Delperiode';
+import { byTimestamp } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
 import { DatePeriod } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
 
-import styles from './MinimumSykdomsgradVisning.module.scss';
+import styles from './ArbeidstidsvurderingVisning.module.scss';
 
 interface Props {
     oppkuttedePerioder: DatePeriod[] | null;
     minimumSykdomsgradsoverstyringer: MinimumSykdomsgradOverstyring[];
 }
 
-export const MinimumSykdomsgradVisning = ({ oppkuttedePerioder, minimumSykdomsgradsoverstyringer }: Props) => {
+export const ArbeidstidsvurderingVisning = ({ oppkuttedePerioder, minimumSykdomsgradsoverstyringer }: Props) => {
     const delperioder: {
         periode: DatePeriod;
         defaultValue?: 'Ja' | 'Nei';

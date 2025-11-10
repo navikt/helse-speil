@@ -15,41 +15,41 @@ import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea,
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { TimeoutModal } from '@components/TimeoutModal';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
-import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
+import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 
-import { useGetNotatTekst, usePostArbeidstidsvurderingMedToast, useReplaceNotat } from './minimumSykdomsgrad';
+import { useGetNotatTekst, usePostArbeidstidsvurderingMedToast, useReplaceNotat } from './arbeidstidsvurdering';
 
-import styles from './MinimumSykdomsgrad.module.scss';
+import styles from './Arbeidstidsvurdering.module.scss';
 
-interface MinimumSykdomsgradFormFields {
+interface ArbeidstidsvurderingFormFields {
     merEnn20periode: Record<string, 'Ja' | 'Nei'>;
     begrunnelse: string;
 }
 
-interface MinimumSykdomsgradFormProps {
+interface ArbeidstidsvurderingFormProps {
     person: PersonFragment;
     aktivPeriode: ActivePeriod;
     oppkuttedePerioder: DatePeriod[] | null;
     overlappendeArbeidsgivere: ArbeidsgiverFragment[];
     initierendeVedtaksperiodeId: string;
-    setOverstyrerMinimumSykdomsgrad: (overstyrer: boolean) => void;
+    setVurdererArbeidstid: (vurderer: boolean) => void;
 }
 
-export const MinimumSykdomsgradForm = ({
+export const ArbeidstidsvurderingForm = ({
     person,
     aktivPeriode,
     oppkuttedePerioder,
     overlappendeArbeidsgivere,
     initierendeVedtaksperiodeId,
-    setOverstyrerMinimumSykdomsgrad,
-}: MinimumSykdomsgradFormProps): ReactElement => {
+    setVurdererArbeidstid,
+}: ArbeidstidsvurderingFormProps): ReactElement => {
     const { isLoading, error, postArbeidstidsvurdering, timedOut, setTimedOut } = usePostArbeidstidsvurderingMedToast(
         person.personPseudoId,
-        () => setOverstyrerMinimumSykdomsgrad(false),
+        () => setVurdererArbeidstid(false),
     );
-    const form = useForm<MinimumSykdomsgradFormFields>();
+    const form = useForm<ArbeidstidsvurderingFormFields>();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
 
     const submitForm = () => {
@@ -100,7 +100,7 @@ export const MinimumSykdomsgradForm = ({
                     size="xsmall"
                     variant="tertiary"
                     icon={<XMarkIcon />}
-                    onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
+                    onClick={() => setVurdererArbeidstid(false)}
                 >
                     Avbryt
                 </Button>
@@ -128,7 +128,7 @@ export const MinimumSykdomsgradForm = ({
                             size="small"
                             variant="tertiary"
                             type="button"
-                            onClick={() => setOverstyrerMinimumSykdomsgrad(false)}
+                            onClick={() => setVurdererArbeidstid(false)}
                         >
                             Avbryt
                         </Button>
@@ -145,7 +145,7 @@ interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
 
-const formErrorsTilFeilliste = (errors: FieldErrors<MinimumSykdomsgradFormFields>): Skjemafeil[] =>
+const formErrorsTilFeilliste = (errors: FieldErrors<ArbeidstidsvurderingFormFields>): Skjemafeil[] =>
     Object.entries(errors)
         .map(([id, error]) => ({
             id: (error?.ref as RefMedId)?.id ?? id,

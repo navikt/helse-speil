@@ -39,7 +39,7 @@ export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onFe
 
     return {
         isLoading: loading || calculating,
-        error: error && 'Kunne ikke overstyre minimum sykdomsgrad. Prøv igjen senere.',
+        error: error && 'Kunne ikke vurdere arbeidstid. Prøv igjen senere.',
         timedOut,
         setTimedOut,
         postArbeidstidsvurdering: (arbeidstidsvurderingRequest?: ApiArbeidstidsvurderingRequest) => {

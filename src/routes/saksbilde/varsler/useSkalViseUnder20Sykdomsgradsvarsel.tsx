@@ -3,7 +3,7 @@ import {
     getOppkuttedePerioder,
     getOverlappendeArbeidsgivere,
     harPeriodeDagerMedUnder20ProsentTotalGrad,
-} from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
+} from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import {
     finnAlleInntektsforhold,
     finnOverstyringerForAktivInntektsforhold,

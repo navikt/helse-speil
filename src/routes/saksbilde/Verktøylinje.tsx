@@ -5,17 +5,17 @@ import { Box, Button, HStack } from '@navikt/ds-react';
 
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
+import { ArbeidstidsvurderingForm } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/ArbeidstidsvurderingForm';
+import { ArbeidstidsvurderingVisning } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/ArbeidstidsvurderingVisning';
 import {
     byPeriodeEier,
     byTimestamp,
-} from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
-import { MinimumSykdomsgradForm } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradForm';
-import { MinimumSykdomsgradVisning } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgradVisning';
+} from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
 import {
     getOppkuttedePerioder,
     getOverlappendeArbeidsgivere,
     harPeriodeDagerMedUnder20ProsentTotalGrad,
-} from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/minimumSykdomsgrad';
+} from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import {
     finnAlleInntektsforhold,
     finnOverstyringerForAktivInntektsforhold,
@@ -31,7 +31,7 @@ interface VerktøylinjeProps {
 }
 
 export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeId }: VerktøylinjeProps) => {
-    const [overstyrerMinimumSykdomsgrad, setOverstyrerMinimumSykdomsgrad] = useState(false);
+    const [vurdererArbeidstid, setVurdererArbeidstid] = useState(false);
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
     const oppkuttedePerioder =
         getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode)?.filter((it) =>
@@ -83,26 +83,26 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
             {harPeriodeTilBeslutter ||
             (harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder &&
                 !erAktivperiodeBestemmendeForMinstEnDelperiode) ? (
-                <MinimumSykdomsgradVisning
+                <ArbeidstidsvurderingVisning
                     oppkuttedePerioder={oppkuttedePerioder}
                     minimumSykdomsgradsoverstyringer={minimumSykdomsgradsoverstyringer}
                 />
             ) : (
                 <HStack align="center">
-                    {overstyrerMinimumSykdomsgrad ? (
-                        <MinimumSykdomsgradForm
+                    {vurdererArbeidstid ? (
+                        <ArbeidstidsvurderingForm
                             person={person}
                             aktivPeriode={aktivPeriode}
                             oppkuttedePerioder={oppkuttedePerioder}
                             overlappendeArbeidsgivere={overlappendeArbeidsgivere}
                             initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
-                            setOverstyrerMinimumSykdomsgrad={setOverstyrerMinimumSykdomsgrad}
+                            setVurdererArbeidstid={setVurdererArbeidstid}
                         />
                     ) : (
                         <Button
                             size="small"
                             variant="secondary"
-                            onClick={() => setOverstyrerMinimumSykdomsgrad(true)}
+                            onClick={() => setVurdererArbeidstid(true)}
                             icon={<BriefcaseClockIcon fontSize="1.5rem" />}
                         >
                             Vurder arbeidstid

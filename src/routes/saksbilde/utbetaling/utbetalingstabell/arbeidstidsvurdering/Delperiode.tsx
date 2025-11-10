@@ -3,7 +3,7 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 
 import { HStack, HelpText, Radio, RadioGroup, Table } from '@navikt/ds-react';
 
-import styles from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/MinimumSykdomsgrad.module.scss';
+import styles from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/Arbeidstidsvurdering.module.scss';
 import { DatePeriod } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
 

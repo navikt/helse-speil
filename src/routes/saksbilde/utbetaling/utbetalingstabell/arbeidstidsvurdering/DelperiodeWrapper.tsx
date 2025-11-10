@@ -3,7 +3,7 @@ import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { BeregnetPeriodeFragment, MinimumSykdomsgradOverstyring, PersonFragment } from '@io/graphql';
-import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/Delperiode';
+import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/Delperiode';
 import { finnOverstyringerForAktivInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
