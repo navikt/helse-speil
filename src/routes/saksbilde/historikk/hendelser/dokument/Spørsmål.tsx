@@ -91,7 +91,6 @@ const getSvarForVisning = (svar: ApiSvar[], svartype: ApiSvartype) => {
             return svar[0]?.verdi === 'JA' ? 'Ja' : 'Nei';
         case ApiSvartype.RADIO_GRUPPE_TIMER_PROSENT:
             return;
-        case ApiSvartype.AAR_MANED:
         case ApiSvartype.AAR_MAANED:
             return `${somNorskÅrMåned(svar[0]?.verdi)}`;
         default:
