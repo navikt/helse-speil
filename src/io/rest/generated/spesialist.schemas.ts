@@ -271,6 +271,7 @@ export const ApiSvartype = {
     KILOMETER: 'KILOMETER',
     GRUPPE_AV_UNDERSPORSMAL: 'GRUPPE_AV_UNDERSPORSMAL',
     AAR_MANED: 'AAR_MANED',
+    AAR_MAANED: 'AAR_MAANED',
     UKJENT: 'UKJENT',
 } as const;
 
