@@ -21,19 +21,21 @@ export const LeggTilDagerSchema = z
                 .max(100, 'Grad må være 100 eller lavere'),
         ),
     })
-    .superRefine((val, ctx) => {
-        if (!kanVelgeGrad(val.dag) && (Number.isNaN(val.grad) || val.grad == null)) {
+    .superRefine(({ fom, tom, dag, grad }, ctx) => {
+        if (!kanVelgeGrad(dag) && (Number.isNaN(grad) || grad == null)) {
             ctx.addIssue({
                 code: 'custom',
                 message: 'Velg grad',
-                input: val.grad,
+                input: grad,
+                path: ['grad'],
             });
         }
-        if (Math.abs(somDato(val.fom).diff(somDato(val.tom), 'days')) > 16) {
+        if (Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 16) {
             ctx.addIssue({
                 code: 'custom',
                 message: 'Kan ikke legge til dager tidligere enn 16 i forkant av sykmelding',
-                input: val.fom,
+                input: fom,
+                path: ['fom'],
             });
         }
     });

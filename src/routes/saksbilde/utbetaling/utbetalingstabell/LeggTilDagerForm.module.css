@@ -3,8 +3,8 @@
     grid-template-areas:
         'fomField tomField dagField gradField button'
         'fomError fomError fomError gradError gradError';
-    gap: 1rem;
-    align-items: start;
+    gap: var(--a-space-4) var(--a-space-8);
+    align-items: end;
 }
 
 .fomField {
