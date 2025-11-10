@@ -553,7 +553,6 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 export type Mutation = {
     __typename: 'Mutation';
     endrePaVent: Maybe<PaVent>;
-    fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar: Maybe<Kommentar>;
     feilregistrerKommentarV2: Maybe<Kommentar>;
     feilregistrerNotat: Maybe<Notat>;
@@ -584,11 +583,6 @@ export type MutationEndrePaVentArgs = {
     notatTekst?: InputMaybe<Scalars['String']['input']>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationFattVedtakArgs = {
-    begrunnelse?: InputMaybe<Scalars['String']['input']>;
-    oppgavereferanse: Scalars['String']['input'];
 };
 
 export type MutationFeilregistrerKommentarArgs = {
@@ -6770,13 +6764,6 @@ export type SettVarselStatusMutation = {
         } | null;
     } | null;
 };
-
-export type FattVedtakMutationVariables = Exact<{
-    oppgavereferanse: Scalars['String']['input'];
-    begrunnelse?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-export type FattVedtakMutation = { __typename: 'Mutation'; fattVedtak: boolean };
 
 export type TilInfoTrygdMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
@@ -14232,49 +14219,6 @@ export const SettVarselStatusDocument = {
         },
     ],
 } as unknown as DocumentNode<SettVarselStatusMutation, SettVarselStatusMutationVariables>;
-export const FattVedtakDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'FattVedtak' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'fattVedtak' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgavereferanse' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgavereferanse' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'begrunnelse' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'begrunnelse' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FattVedtakMutation, FattVedtakMutationVariables>;
 export const TilInfoTrygdDocument = {
     kind: 'Document',
     definitions: [

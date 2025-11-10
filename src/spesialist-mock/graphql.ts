@@ -265,14 +265,6 @@ const getResolvers = (): IResolvers => ({
             PaVentMock.fjernPåVent(oppgaveId);
             return true;
         },
-        fattVedtak: async () => {
-            return (
-                Math.random() < 0.95 ||
-                new GraphQLError(`Oppgaven er ikke åpen.`, {
-                    extensions: { code: 500 },
-                })
-            );
-        },
         sendTilInfotrygd: async () => {
             return (
                 Math.random() < 0.95 ||

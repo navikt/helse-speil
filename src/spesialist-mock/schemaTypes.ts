@@ -551,7 +551,6 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 export type Mutation = {
     __typename?: 'Mutation';
     endrePaVent?: Maybe<PaVent>;
-    fattVedtak: Scalars['Boolean']['output'];
     feilregistrerKommentar?: Maybe<Kommentar>;
     feilregistrerKommentarV2?: Maybe<Kommentar>;
     feilregistrerNotat?: Maybe<Notat>;
@@ -582,11 +581,6 @@ export type MutationEndrePaVentArgs = {
     notatTekst?: InputMaybe<Scalars['String']['input']>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationFattVedtakArgs = {
-    begrunnelse?: InputMaybe<Scalars['String']['input']>;
-    oppgavereferanse: Scalars['String']['input'];
 };
 
 export type MutationFeilregistrerKommentarArgs = {
