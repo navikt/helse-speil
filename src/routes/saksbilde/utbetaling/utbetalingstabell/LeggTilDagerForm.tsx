@@ -33,7 +33,7 @@ export const LeggTilDagerForm = React.memo(
             reValidateMode: 'onBlur',
             shouldUnregister: false,
             defaultValues: {
-                dag: 'Syk',
+                dagtype: 'Syk',
                 fom: periodeFomMinusEnDag.format(ISO_DATOFORMAT),
                 tom: periodeFom,
                 grad: 100,
@@ -43,7 +43,7 @@ export const LeggTilDagerForm = React.memo(
         const errors = form.formState.errors;
         const fomError = errors.fom?.message;
         const gradError = errors.grad?.message;
-        const watchDag = form.watch('dag');
+        const watchDag = form.watch('dagtype');
 
         const handleSubmit = (values: LeggTilDagerFormFields) => {
             const nyeDagerMap = new Map<string, Utbetalingstabelldag>();
@@ -53,7 +53,7 @@ export const LeggTilDagerForm = React.memo(
                 nyeDagerMap.set(endringFom.format(ISO_DATOFORMAT), {
                     dato: endringFom.format(ISO_DATOFORMAT),
                     kilde: { type: Kildetype.Saksbehandler } as Kilde,
-                    dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dag)!!,
+                    dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!!,
                     erAGP: false,
                     erVentetid: false,
                     erAvvist: false,
@@ -78,7 +78,7 @@ export const LeggTilDagerForm = React.memo(
                         className={style.fomField}
                     />
                     <DateField name={'tom'} label="Dato t.o.m." disabled className={style.tomField} />
-                    <DagtypeSelect name="dag" erSelvstendig={erSelvstendig} className={style.dagField} />
+                    <DagtypeSelect name="dagtype" erSelvstendig={erSelvstendig} className={style.dagField} />
                     <GradField
                         name="grad"
                         kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)}

@@ -8,13 +8,13 @@ export type LeggTilDagerFormFields = z.infer<typeof LeggTilDagerSchema>;
 
 export const LeggTilDagerSchema = z
     .object({
-        dag: z.enum(utbetalingstabelldagtypeValues),
+        dagtype: z.enum(utbetalingstabelldagtypeValues),
         fom: z.iso.date(),
         tom: z.iso.date(),
         grad: z.nullable(z.number()),
     })
-    .superRefine(({ fom, tom, dag, grad }, ctx) => {
-        if (kanVelgeGrad(dag)) {
+    .superRefine(({ fom, tom, dagtype, grad }, ctx) => {
+        if (kanVelgeGrad(dagtype)) {
             if (grad == null || (grad as unknown) === '') {
                 ctx.addIssue({
                     code: 'custom',
