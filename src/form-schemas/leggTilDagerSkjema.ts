@@ -11,24 +11,43 @@ export const LeggTilDagerSchema = z
         dag: z.enum(utbetalingstabelldagtypeValues),
         fom: z.iso.date(),
         tom: z.iso.date(),
-        grad: z.optional(
-            z
-                .number({
-                    error: (issue) =>
-                        issue.input == null || issue.input === '' ? 'Velg grad' : 'Grad må være et tall',
-                })
-                .min(0, 'Grad må være over 0')
-                .max(100, 'Grad må være 100 eller lavere'),
-        ),
+        grad: z.nullable(z.number()),
     })
     .superRefine(({ fom, tom, dag, grad }, ctx) => {
-        if (!kanVelgeGrad(dag) && (Number.isNaN(grad) || grad == null)) {
-            ctx.addIssue({
-                code: 'custom',
-                message: 'Velg grad',
-                input: grad,
-                path: ['grad'],
-            });
+        if (kanVelgeGrad(dag)) {
+            if (grad == null || (grad as unknown) === '') {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: 'Velg grad',
+                    input: grad,
+                    path: ['grad'],
+                });
+            } else if (Number.isNaN(grad)) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: 'Grad må være et tall',
+                    input: grad,
+                    path: ['grad'],
+                });
+            } else if (grad < 0) {
+                ctx.addIssue({
+                    code: 'too_small',
+                    message: `Grad må være minst 0`,
+                    minimum: 0,
+                    origin: 'number',
+                    input: grad,
+                    path: ['grad'],
+                });
+            } else if (grad > 100) {
+                ctx.addIssue({
+                    code: 'too_big',
+                    message: 'Grad må være 100 eller lavere',
+                    maximum: 100,
+                    origin: 'number',
+                    input: grad,
+                    path: ['grad'],
+                });
+            }
         }
         if (Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 16) {
             ctx.addIssue({
