@@ -123,6 +123,12 @@ const lesTestpersoner = (): Person[] => {
     });
 };
 
+export const finnAktørId = (pseudoId: string): string | undefined => {
+    const personer = lesTestpersoner();
+
+    return personer.find((it) => it.personPseudoId === pseudoId)?.aktorId;
+};
+
 export const fetchPersondata = (): Record<string, Person> => {
     const personer = lesTestpersoner();
 

@@ -3,35 +3,28 @@ import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useState } from 'react';
 import * as R from 'remeda';
 
-import { useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
-import {
-    ArbeidsgiverFragment,
-    ArbeidsgiverInput,
-    MinimumSykdomsgradInput,
-    MinimumSykdomsgradMutationDocument,
-    PeriodeFragment,
-    PersonFragment,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, PeriodeFragment, PersonFragment } from '@io/graphql';
+import { ApiArbeidstidsvurderingRequest } from '@io/rest/generated/spesialist.schemas';
+import { usePostArbeidstidsvurdering } from '@io/rest/generated/vurderinger/vurderinger';
 import { useCalculatingState } from '@state/calculating';
 import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { overlapper } from '@state/selectors/period';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import { MinimumSykdomsgradArbeidsgiver, OverstyrtMinimumSykdomsgradDTO } from '@typer/overstyring';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, erEtter, erFør, erIPeriode, minusEnDag, plussEnDag } from '@utils/date';
 import { isBeregnetPeriode, isNotNullOrUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
-export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => void) => {
+export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
 
-    const [overstyrMutation, { error, loading }] = useMutation(MinimumSykdomsgradMutationDocument);
+    const { mutate: overstyrMutation, error, isPending: loading } = usePostArbeidstidsvurdering();
     const fjernNotat = useFjernNotat();
 
     useHåndterOpptegnelser((opptegnelse) => {
@@ -49,32 +42,23 @@ export const usePostOverstyringMinimumSykdomsgrad = (onFerdigKalkulert: () => vo
         error: error && 'Kunne ikke overstyre minimum sykdomsgrad. Prøv igjen senere.',
         timedOut,
         setTimedOut,
-        postMinimumSykdomsgrad: (minimumSykdomsgrad?: OverstyrtMinimumSykdomsgradDTO) => {
-            if (minimumSykdomsgrad === undefined) return;
-            const overstyring: MinimumSykdomsgradInput = {
-                aktorId: minimumSykdomsgrad.aktørId,
-                arbeidsgivere: minimumSykdomsgrad.arbeidsgivere.map(
-                    (arbeidsgiver: MinimumSykdomsgradArbeidsgiver): ArbeidsgiverInput => ({
-                        organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                        berortVedtaksperiodeId: arbeidsgiver.berørtVedtaksperiodeId,
-                    }),
-                ),
-                perioderVurdertOk: minimumSykdomsgrad.perioderVurdertOk,
-                perioderVurdertIkkeOk: minimumSykdomsgrad.perioderVurdertIkkeOk,
-                fodselsnummer: minimumSykdomsgrad.fødselsnummer,
-                begrunnelse: minimumSykdomsgrad.begrunnelse,
-                initierendeVedtaksperiodeId: minimumSykdomsgrad.initierendeVedtaksperiodeId,
-            };
+        postArbeidstidsvurdering: (arbeidstidsvurderingRequest?: ApiArbeidstidsvurderingRequest) => {
+            if (arbeidstidsvurderingRequest === undefined) return;
 
-            void overstyrMutation({
-                variables: { minimumSykdomsgrad: overstyring },
-                onCompleted: () => {
-                    setCalculating(true);
-                    addToast(kalkulererToast({}));
-                    setPollingRate(1000);
-                    fjernNotat(minimumSykdomsgrad.initierendeVedtaksperiodeId);
+            void overstyrMutation(
+                {
+                    pseudoId: personPseudoId,
+                    data: arbeidstidsvurderingRequest,
                 },
-            });
+                {
+                    onSuccess: () => {
+                        setCalculating(true);
+                        addToast(kalkulererToast({}));
+                        setPollingRate(1000);
+                        fjernNotat(arbeidstidsvurderingRequest.initierendeVedtaksperiodeId);
+                    },
+                },
+            );
         },
     };
 };

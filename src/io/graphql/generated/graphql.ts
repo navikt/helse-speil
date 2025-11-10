@@ -1711,12 +1711,6 @@ export type OverstyrInntektOgRefusjonMutationMutation = {
     overstyrInntektOgRefusjon: boolean | null;
 };
 
-export type MinimumSykdomsgradMutationMutationVariables = Exact<{
-    minimumSykdomsgrad: MinimumSykdomsgradInput;
-}>;
-
-export type MinimumSykdomsgradMutationMutation = { __typename: 'Mutation'; minimumSykdomsgrad: boolean | null };
-
 export type SimuleringFragment = {
     __typename: 'Simulering';
     fagsystemId: string;
@@ -12010,42 +12004,6 @@ export const OverstyrInntektOgRefusjonMutationDocument = {
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyrInntektOgRefusjonMutationMutationVariables
 >;
-export const MinimumSykdomsgradMutationDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'MinimumSykdomsgradMutation' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'minimumSykdomsgrad' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'MinimumSykdomsgradInput' } },
-                    },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'minimumSykdomsgrad' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'minimumSykdomsgrad' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'minimumSykdomsgrad' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<MinimumSykdomsgradMutationMutation, MinimumSykdomsgradMutationMutationVariables>;
 export const FetchPersonDocument = {
     kind: 'Document',
     definitions: [

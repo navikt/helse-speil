@@ -17,10 +17,9 @@ import { TimeoutModal } from '@components/TimeoutModal';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/minimumSykdomsgrad/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
-import { MinimumSykdomsgradPeriode } from '@typer/overstyring';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 
-import { useGetNotatTekst, usePostOverstyringMinimumSykdomsgrad, useReplaceNotat } from './minimumSykdomsgrad';
+import { useGetNotatTekst, usePostArbeidstidsvurderingMedToast, useReplaceNotat } from './minimumSykdomsgrad';
 
 import styles from './MinimumSykdomsgrad.module.scss';
 
@@ -46,7 +45,8 @@ export const MinimumSykdomsgradForm = ({
     initierendeVedtaksperiodeId,
     setOverstyrerMinimumSykdomsgrad,
 }: MinimumSykdomsgradFormProps): ReactElement => {
-    const { isLoading, error, postMinimumSykdomsgrad, timedOut, setTimedOut } = usePostOverstyringMinimumSykdomsgrad(
+    const { isLoading, error, postArbeidstidsvurdering, timedOut, setTimedOut } = usePostArbeidstidsvurderingMedToast(
+        person.personPseudoId,
         () => setOverstyrerMinimumSykdomsgrad(false),
     );
     const form = useForm<MinimumSykdomsgradFormFields>();
@@ -55,8 +55,8 @@ export const MinimumSykdomsgradForm = ({
     const submitForm = () => {
         const skjemaverdier = form.getValues();
 
-        const perioderVurdertOk: MinimumSykdomsgradPeriode[] = [];
-        const perioderVurdertIkkeOk: MinimumSykdomsgradPeriode[] = [];
+        const perioderVurdertOk: DatePeriod[] = [];
+        const perioderVurdertIkkeOk: DatePeriod[] = [];
 
         Object.entries(skjemaverdier.merEnn20periode).map((key) => {
             const oppkuttetPeriode = oppkuttedePerioder?.find((periode) => periode.fom === key[0]);
@@ -69,11 +69,11 @@ export const MinimumSykdomsgradForm = ({
             }
         });
 
-        postMinimumSykdomsgrad({
+        postArbeidstidsvurdering({
             aktørId: person.aktorId,
             fødselsnummer: person.fodselsnummer,
-            perioderVurdertOk: perioderVurdertOk,
-            perioderVurdertIkkeOk: perioderVurdertIkkeOk,
+            perioderVurdertOk: perioderVurdertOk.map((period) => ({ fom: period.fom, tom: period.tom })),
+            perioderVurdertIkkeOk: perioderVurdertIkkeOk.map((period) => ({ fom: period.fom, tom: period.tom })),
             begrunnelse: skjemaverdier.begrunnelse,
             arbeidsgivere: overlappendeArbeidsgivere.map((arbeidsgiver) => {
                 const berørtVedtaksperiodeId = arbeidsgiver.generasjoner[0]?.perioder.find(
