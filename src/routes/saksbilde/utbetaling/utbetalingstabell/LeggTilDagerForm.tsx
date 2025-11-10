@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 import { FormProvider, useController, useForm } from 'react-hook-form';
 
-import { Button, DatePicker, ErrorMessage, useDatepicker } from '@navikt/ds-react';
+import { Button, DatePicker, ErrorMessage, HStack, Label, VStack, useDatepicker } from '@navikt/ds-react';
 
 import { LeggTilDagerFormFields, lagLeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -15,8 +15,6 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT, somIsoDato } from '@utils/date';
 
 import { DagtypeSelect } from './DagtypeSelect';
-
-import style from './LeggTilDagerForm.module.css';
 
 interface LeggTilDagerFormProps {
     periodeFom: DateString;
@@ -43,6 +41,7 @@ export const LeggTilDagerForm = React.memo(
         const errors = form.formState.errors;
         const fomError = errors.fom?.message;
         const gradError = errors.grad?.message;
+        const dagtypeError = errors.dagtype?.message;
         const watchDag = form.watch('dagtype');
 
         const handleSubmit = (values: LeggTilDagerFormFields) => {
@@ -70,40 +69,42 @@ export const LeggTilDagerForm = React.memo(
 
         return (
             <FormProvider {...form}>
-                <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off" className={style.leggTilDagerForm}>
-                    <DateField
-                        name={'fom'}
-                        label="Dato f.o.m."
-                        defaultMonth={periodeFomMinusEnDag.toDate()}
-                        className={style.fomField}
-                    />
-                    <DateField name={'tom'} label="Dato t.o.m." disabled className={style.tomField} />
-                    <DagtypeSelect name="dagtype" erSelvstendig={erSelvstendig} className={style.dagField} />
-                    <GradField
-                        name="grad"
-                        kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)}
-                        className={style.gradField}
-                        hideErrorMessage
-                    />
-                    <Button
-                        size="small"
-                        type="submit"
-                        variant="secondary"
-                        data-testid="legg-til"
-                        className={style.button}
-                    >
-                        Legg til
-                    </Button>
-                    {fomError && (
-                        <ErrorMessage size="small" showIcon className={style.fomError}>
-                            {fomError}
-                        </ErrorMessage>
-                    )}
-                    {gradError && (
-                        <ErrorMessage size="small" showIcon className={style.gradError}>
-                            {gradError}
-                        </ErrorMessage>
-                    )}
+                <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
+                    <HStack gap="2" align="end" paddingBlock="0 2">
+                        <DateField name={'fom'} label="Dato f.o.m." defaultMonth={periodeFomMinusEnDag.toDate()} />
+                        <DateField name={'tom'} label="Dato t.o.m." disabled />
+                        <DagtypeSelect name="dagtype" erSelvstendig={erSelvstendig} hideError />
+                        <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} hideError />
+                        <Button size="small" type="submit" variant="secondary" data-testid="legg-til">
+                            Legg til
+                        </Button>
+                    </HStack>
+                    <VStack>
+                        {fomError && (
+                            <HStack gap="2">
+                                <Label size="small">Dato f.o.m:</Label>
+                                <ErrorMessage size="small" showIcon>
+                                    {fomError}
+                                </ErrorMessage>
+                            </HStack>
+                        )}
+                        {dagtypeError && (
+                            <HStack gap="5">
+                                <Label size="small">Dagtype:</Label>
+                                <ErrorMessage size="small" showIcon>
+                                    {dagtypeError}
+                                </ErrorMessage>
+                            </HStack>
+                        )}
+                        {gradError && (
+                            <HStack gap="10">
+                                <Label size="small">Grad:</Label>
+                                <ErrorMessage size="small" showIcon>
+                                    {gradError}
+                                </ErrorMessage>
+                            </HStack>
+                        )}
+                    </VStack>
                 </form>
             </FormProvider>
         );
