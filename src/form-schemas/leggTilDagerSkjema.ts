@@ -58,7 +58,7 @@ export const lagLeggTilDagerSchema = (erSelvstendig: boolean) =>
                     path: ['dagtype'],
                 });
             }
-            if (!erSelvstendig && Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 16) {
+            if (erSelvstendig && Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 16) {
                 ctx.addIssue({
                     code: 'custom',
                     message: 'Du kan ikke legge inn dager mer enn 16 dager før sykmeldingen\n',
