@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from 'react';
 
-import { BodyShort, Box, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
@@ -31,26 +31,30 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
                 paddingBlock="4 4"
                 paddingInline="4"
             >
-                <VStack gap="space-20">
+                <VStack gap="4">
                     <HStack align="center" gap="2">
                         <Arbeidsgiverikon />
                         <BodyShort weight="semibold">Selvstendig næring</BodyShort>
                     </HStack>
-                    <VStack gap="space-12">
+                    <VStack gap="2">
                         <HStack align="center" gap="2">
-                            <BodyShort>Pensjonsgivende årsinntekt siste 3 år</BodyShort>
+                            <Heading size="xsmall">Pensjonsgivende inntekt siste 3 år</Heading>
                             <Kilde type="Skatteetaten">SE</Kilde>
                         </HStack>
                         <VStack>
                             {beregnetPeriode.pensjonsgivendeInntekter
                                 .toSorted((a, b) => b.inntektsar - a.inntektsar)
                                 .map((inntekt) => (
-                                    <HStack key={inntekt.inntektsar} gap="space-44">
+                                    <HStack key={inntekt.inntektsar} gap="4">
                                         <BodyShort weight="semibold">{inntekt.inntektsar}</BodyShort>
                                         <BodyShort>{somPenger(Number(inntekt.arligBelop))}</BodyShort>
                                     </HStack>
                                 ))}
                         </VStack>
+                        <HStack gap="6">
+                            <BodyShort weight="semibold">Beregnet årsinntekt</BodyShort>
+                            <BodyShort>{somPenger(Number(vilkårsgrunnlag.beregningsgrunnlag))}</BodyShort>
+                        </HStack>
                     </VStack>
                 </VStack>
             </Box>
