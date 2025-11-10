@@ -4,57 +4,58 @@ import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringFor
 import { utbetalingstabelldagtypeValues } from '@typer/utbetalingstabell';
 import { somDato } from '@utils/date';
 
-export type LeggTilDagerFormFields = z.infer<typeof LeggTilDagerSchema>;
+export type LeggTilDagerFormFields = z.infer<ReturnType<typeof lagLeggTilDagerSchema>>;
 
-export const LeggTilDagerSchema = z
-    .object({
-        dagtype: z.enum(utbetalingstabelldagtypeValues),
-        fom: z.iso.date(),
-        tom: z.iso.date(),
-        grad: z.nullable(z.number()),
-    })
-    .superRefine(({ fom, tom, dagtype, grad }, ctx) => {
-        if (kanVelgeGrad(dagtype)) {
-            if (grad == null || (grad as unknown) === '') {
+export const lagLeggTilDagerSchema = (erSelvstendig: boolean) =>
+    z
+        .object({
+            dagtype: z.enum(utbetalingstabelldagtypeValues),
+            fom: z.iso.date(),
+            tom: z.iso.date(),
+            grad: z.nullable(z.number()),
+        })
+        .superRefine(({ fom, tom, dagtype, grad }, ctx) => {
+            if (kanVelgeGrad(dagtype)) {
+                if (grad == null || (grad as unknown) === '') {
+                    ctx.addIssue({
+                        code: 'custom',
+                        message: 'Velg grad',
+                        input: grad,
+                        path: ['grad'],
+                    });
+                } else if (Number.isNaN(grad)) {
+                    ctx.addIssue({
+                        code: 'custom',
+                        message: 'Grad må være et tall',
+                        input: grad,
+                        path: ['grad'],
+                    });
+                } else if (grad < 0) {
+                    ctx.addIssue({
+                        code: 'too_small',
+                        message: `Grad må være minst 0`,
+                        minimum: 0,
+                        origin: 'number',
+                        input: grad,
+                        path: ['grad'],
+                    });
+                } else if (grad > 100) {
+                    ctx.addIssue({
+                        code: 'too_big',
+                        message: 'Grad må være 100 eller lavere',
+                        maximum: 100,
+                        origin: 'number',
+                        input: grad,
+                        path: ['grad'],
+                    });
+                }
+            }
+            if (erSelvstendig && Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 16) {
                 ctx.addIssue({
                     code: 'custom',
-                    message: 'Velg grad',
-                    input: grad,
-                    path: ['grad'],
-                });
-            } else if (Number.isNaN(grad)) {
-                ctx.addIssue({
-                    code: 'custom',
-                    message: 'Grad må være et tall',
-                    input: grad,
-                    path: ['grad'],
-                });
-            } else if (grad < 0) {
-                ctx.addIssue({
-                    code: 'too_small',
-                    message: `Grad må være minst 0`,
-                    minimum: 0,
-                    origin: 'number',
-                    input: grad,
-                    path: ['grad'],
-                });
-            } else if (grad > 100) {
-                ctx.addIssue({
-                    code: 'too_big',
-                    message: 'Grad må være 100 eller lavere',
-                    maximum: 100,
-                    origin: 'number',
-                    input: grad,
-                    path: ['grad'],
+                    message: 'Kan ikke legge til dager tidligere enn 16 i forkant av sykmelding',
+                    input: fom,
+                    path: ['fom'],
                 });
             }
-        }
-        if (Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 16) {
-            ctx.addIssue({
-                code: 'custom',
-                message: 'Kan ikke legge til dager tidligere enn 16 i forkant av sykmelding',
-                input: fom,
-                path: ['fom'],
-            });
-        }
-    });
+        });

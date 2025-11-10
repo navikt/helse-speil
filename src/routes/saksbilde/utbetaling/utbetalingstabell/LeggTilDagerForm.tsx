@@ -4,7 +4,7 @@ import { FormProvider, useController, useForm } from 'react-hook-form';
 
 import { Button, DatePicker, ErrorMessage, useDatepicker } from '@navikt/ds-react';
 
-import { LeggTilDagerFormFields, LeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
+import { LeggTilDagerFormFields, lagLeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
@@ -29,7 +29,7 @@ export const LeggTilDagerForm = React.memo(
         const periodeFomMinusEnDag = dayjs(periodeFom, ISO_DATOFORMAT).subtract(1, 'day');
 
         const form = useForm<LeggTilDagerFormFields>({
-            resolver: zodResolver(LeggTilDagerSchema),
+            resolver: zodResolver(lagLeggTilDagerSchema(erSelvstendig)),
             reValidateMode: 'onBlur',
             shouldUnregister: false,
             defaultValues: {
