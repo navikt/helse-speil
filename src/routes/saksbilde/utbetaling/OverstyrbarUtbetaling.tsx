@@ -8,7 +8,7 @@ import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbe
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
-import { EndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm';
+import { DagEndringForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/DagEndringForm';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
@@ -312,7 +312,7 @@ export const OverstyrbarUtbetaling = ({
                                 />
                             ))}
                         </div>
-                        <EndringForm
+                        <DagEndringForm
                             markerteDager={markerteDager}
                             onSubmitEndring={onSubmitEndring}
                             erSelvstendig={isSelvstendigNaering(inntektsforhold)}
