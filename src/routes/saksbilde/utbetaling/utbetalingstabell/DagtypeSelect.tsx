@@ -57,8 +57,8 @@ function DagtypevelgerLabel({ erSelvstendig }: { erSelvstendig: boolean }) {
                 <HelpText title="Forklaring av dagtyper">
                     <VStack gap="space-16">
                         <VStack>
-                            <BodyShort weight="semibold">Syk (NAV)</BodyShort>
-                            <BodyShort>NAV skal betale alle eller noen av de første 16 dagene</BodyShort>
+                            <BodyShort weight="semibold">Syk (Nav)</BodyShort>
+                            <BodyShort>Nav skal betale alle eller noen av de første 16 dagene</BodyShort>
                         </VStack>
                         <VStack>
                             <BodyShort weight="semibold">Ferie</BodyShort>

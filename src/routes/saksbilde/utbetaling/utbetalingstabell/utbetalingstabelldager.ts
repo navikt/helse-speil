@@ -64,7 +64,7 @@ export const Sykedag: Speildag = {
 
 export const SykedagNav: Speildag = {
     speilDagtype: 'SykNav',
-    visningstekst: 'Syk (NAV)',
+    visningstekst: 'Syk (Nav)',
     overstyrtDagtype: 'SykedagNav',
 };
 

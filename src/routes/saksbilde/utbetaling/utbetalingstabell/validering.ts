@@ -163,7 +163,7 @@ export const sykNavValidering = (
     if (dagerSomKanOverstyresTilSykNav.length !== overstyrtTilSykNav.length) {
         setError(
             'kanIkkeOverstyreTilSykNav',
-            'Syk (NAV) kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
+            'Syk (Nav) kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
         );
         return false;
     }
