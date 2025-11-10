@@ -116,11 +116,6 @@ export type ArbeidsgiverInntekterFraAOrdningen = {
     skjaeringstidspunkt: Scalars['String']['output'];
 };
 
-export type ArbeidsgiverInput = {
-    berortVedtaksperiodeId: Scalars['UUID']['input'];
-    organisasjonsnummer: Scalars['String']['input'];
-};
-
 export type Arbeidsgiverinntekt = {
     __typename?: 'Arbeidsgiverinntekt';
     arbeidsgiver: Scalars['String']['output'];
@@ -528,16 +523,6 @@ export type LovhjemmelInput = {
     paragraf: Scalars['String']['input'];
 };
 
-export type MinimumSykdomsgradInput = {
-    aktorId: Scalars['String']['input'];
-    arbeidsgivere: Array<ArbeidsgiverInput>;
-    begrunnelse: Scalars['String']['input'];
-    fodselsnummer: Scalars['String']['input'];
-    initierendeVedtaksperiodeId: Scalars['UUID']['input'];
-    perioderVurdertIkkeOk: Array<PeriodeInput>;
-    perioderVurdertOk: Array<PeriodeInput>;
-};
-
 export type MinimumSykdomsgradOverstyring = Overstyring & {
     __typename?: 'MinimumSykdomsgradOverstyring';
     ferdigstilt: Scalars['Boolean']['output'];
@@ -559,7 +544,6 @@ export type Mutation = {
     leggPaVent?: Maybe<PaVent>;
     leggTilKommentar?: Maybe<Kommentar>;
     leggTilNotat?: Maybe<Notat>;
-    minimumSykdomsgrad?: Maybe<Scalars['Boolean']['output']>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStansAutomatiskBehandling: Scalars['Boolean']['output'];
     opprettAbonnement: Scalars['Boolean']['output'];
@@ -622,10 +606,6 @@ export type MutationLeggTilNotatArgs = {
     tekst: Scalars['String']['input'];
     type: NotatType;
     vedtaksperiodeId: Scalars['String']['input'];
-};
-
-export type MutationMinimumSykdomsgradArgs = {
-    minimumSykdomsgrad: MinimumSykdomsgradInput;
 };
 
 export type MutationOppdaterPersonArgs = {
@@ -895,11 +875,6 @@ export type PeriodeHistorikkElementNy = Historikkinnslag & {
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
-};
-
-export type PeriodeInput = {
-    fom: Scalars['LocalDate']['input'];
-    tom: Scalars['LocalDate']['input'];
 };
 
 export enum Periodehandling {
