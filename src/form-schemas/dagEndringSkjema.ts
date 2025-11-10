@@ -9,17 +9,38 @@ export const lagDagEndringSchema = (minimumGrad: number) =>
     z
         .object({
             dagtype: z.enum(utbetalingstabelldagtypeValues),
-            grad: z.nullable(
-                z
-                    .number({
-                        error: (issue) =>
-                            issue.input == null || issue.input === '' ? 'Velg grad' : 'Grad må være et tall',
-                    })
-                    .min(minimumGrad, `Grad må være minst ${minimumGrad}`)
-                    .max(100, 'Grad må være 100 eller lavere'),
-            ),
+            grad: z.nullable(z.number()),
         })
-        .refine((val) => kanVelgeGrad(val.dagtype) && !(Number.isNaN(val.grad) || val.grad == null), {
-            error: 'Velg grad',
-            path: ['grad'],
+        .superRefine(({ dagtype, grad }, ctx) => {
+            if (kanVelgeGrad(dagtype)) {
+                if (grad == null || (grad as unknown) === '') {
+                    ctx.addIssue({
+                        code: 'custom',
+                        message: 'Velg grad',
+                        input: grad,
+                    });
+                } else if (Number.isNaN(grad)) {
+                    ctx.addIssue({
+                        code: 'custom',
+                        message: 'Grad må være et tall',
+                        input: grad,
+                    });
+                } else if (grad < minimumGrad) {
+                    ctx.addIssue({
+                        code: 'too_small',
+                        message: `Grad må være minst ${minimumGrad}`,
+                        minimum: minimumGrad,
+                        origin: 'number',
+                        input: grad,
+                    });
+                } else if (grad > 100) {
+                    ctx.addIssue({
+                        code: 'too_big',
+                        message: 'Grad må være 100 eller lavere',
+                        maximum: 100,
+                        origin: 'number',
+                        input: grad,
+                    });
+                }
+            }
         });

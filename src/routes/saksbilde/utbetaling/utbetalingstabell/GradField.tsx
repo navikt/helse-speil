@@ -21,8 +21,11 @@ export function GradField({ name, kanIkkeVelgeDagtype, className }: GradFieldPro
 
     if (kanIkkeVelgeDagtype && field.value != null) {
         field.value = null;
+        field.onChange(null);
         setDisplay(field.value ?? '');
     }
+
+    console.log(field);
 
     return (
         <TextField
