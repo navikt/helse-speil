@@ -22,30 +22,26 @@ export function DagtypeSelect({ name, erSelvstendig, className, hideError = fals
     const overstyringsdagtyper = erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker;
 
     return (
-        <>
-            <Select
-                size="small"
-                label={<DagtypevelgerLabel erSelvstendig={erSelvstendig} />}
-                error={hideError ? fieldState.error?.message != undefined : fieldState.error?.message}
-                data-testid="dagtypevelger"
-                className={className}
-                {...field}
-            >
-                <>
-                    {overstyringsdagtyper.map((dag) => (
-                        <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                            {dag.visningstekst}
-                        </option>
-                    ))}
-                    <option disabled>-- Andre ytelser --</option>
-                    {typeendringerAndreYtelser.map((dag) => (
-                        <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                            {dag.visningstekst}
-                        </option>
-                    ))}
-                </>
-            </Select>
-        </>
+        <Select
+            size="small"
+            label={<DagtypevelgerLabel erSelvstendig={erSelvstendig} />}
+            error={hideError ? fieldState.error?.message != undefined : fieldState.error?.message}
+            data-testid="dagtypevelger"
+            className={className}
+            {...field}
+        >
+            {overstyringsdagtyper.map((dag) => (
+                <option key={dag.speilDagtype} value={dag.speilDagtype}>
+                    {dag.visningstekst}
+                </option>
+            ))}
+            <option disabled>-- Andre ytelser --</option>
+            {typeendringerAndreYtelser.map((dag) => (
+                <option key={dag.speilDagtype} value={dag.speilDagtype}>
+                    {dag.visningstekst}
+                </option>
+            ))}
+        </Select>
     );
 }
 
