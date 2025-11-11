@@ -176,7 +176,7 @@ interface PeriodeCardUberegnetProps {
     månedsbeløp?: number;
 }
 
-const PeriodeCardUberegnet = ({ periode, inntektsforhold, månedsbeløp }: PeriodeCardUberegnetProps): ReactElement => {
+const PeriodeCardUberegnet = ({ periode, inntektsforhold }: PeriodeCardUberegnetProps): ReactElement => {
     const arbeidsforhold = isArbeidsgiver(inntektsforhold) ? inntektsforhold.arbeidsforhold : [];
     return (
         <div>
@@ -205,11 +205,7 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold, månedsbeløp }: Perio
                     periodetype={periode.periodetype}
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
                 />
-                <InntektsforholdRow
-                    arbeidsforhold={arbeidsforhold}
-                    månedsbeløp={månedsbeløp}
-                    inntektsforhold={inntektsforhold}
-                />
+                <InntektsforholdRow arbeidsforhold={arbeidsforhold} inntektsforhold={inntektsforhold} />
             </section>
         </div>
     );
@@ -219,15 +215,9 @@ interface PeriodeCardBeregnetProps {
     periode: BeregnetPeriodeFragment;
     arbeidsforhold: Arbeidsforhold[];
     inntektsforhold: Inntektsforhold;
-    månedsbeløp: number | undefined;
 }
 
-const PeriodeCardBeregnet = ({
-    periode,
-    arbeidsforhold,
-    månedsbeløp,
-    inntektsforhold,
-}: PeriodeCardBeregnetProps): ReactElement => {
+const PeriodeCardBeregnet = ({ periode, arbeidsforhold, inntektsforhold }: PeriodeCardBeregnetProps): ReactElement => {
     const egenskaperForVisning = periode.egenskaper
         .filter((it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde)
         .map((it) => it.egenskap);
@@ -250,11 +240,7 @@ const PeriodeCardBeregnet = ({
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
                 />
                 <MaksdatoRow activePeriod={periode} />
-                <InntektsforholdRow
-                    arbeidsforhold={arbeidsforhold}
-                    månedsbeløp={månedsbeløp}
-                    inntektsforhold={inntektsforhold}
-                />
+                <InntektsforholdRow arbeidsforhold={arbeidsforhold} inntektsforhold={inntektsforhold} />
             </section>
         </div>
     );

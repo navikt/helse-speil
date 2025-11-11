@@ -47,9 +47,6 @@ export const VenstremenyBeregnetPeriode = ({
     inntektsforhold,
 }: VenstremenyBeregnetPeriodeProps): ReactElement => {
     const vilkårsgrunnlag = getVilkårsgrunnlag(currentPerson, activePeriod.vilkarsgrunnlagId);
-    const månedsbeløp = vilkårsgrunnlag?.inntekter.find(
-        (it) => isArbeidsgiver(inntektsforhold) && it.arbeidsgiver === inntektsforhold.organisasjonsnummer,
-    )?.omregnetArsinntekt?.manedsbelop;
 
     const { personTotalbeløp, arbeidsgiverTotalbeløp } = useTotalbeløp(
         isSelvstendigNaering(inntektsforhold),
@@ -76,7 +73,6 @@ export const VenstremenyBeregnetPeriode = ({
             <PeriodeCard.Beregnet
                 periode={activePeriod}
                 arbeidsforhold={isArbeidsgiver(inntektsforhold) ? inntektsforhold.arbeidsforhold : []}
-                månedsbeløp={månedsbeløp}
                 inntektsforhold={inntektsforhold}
             />
             <UtbetalingCard.Beregnet

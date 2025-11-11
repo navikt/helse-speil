@@ -10,7 +10,7 @@ import { Arbeidsforhold } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { somNorskDato } from '@utils/date';
-import { capitalizeName, somPenger } from '@utils/locale';
+import { capitalizeName } from '@utils/locale';
 import { isArbeidsgiver } from '@utils/typeguards';
 
 import styles from './ArbeidsgiverRow.module.scss';
@@ -55,30 +55,12 @@ const ArbeidsforholdRow = ({ arbeidsforhold, erAnonymisert }: ArbeidsforholdRowP
     );
 };
 
-interface MånedsbeløpRowProps {
-    månedsbeløp: number;
-}
-
-const MånedsbeløpRow = ({ månedsbeløp }: MånedsbeløpRowProps): ReactElement => {
-    return (
-        <HStack justify="space-between" align="center">
-            <BodyShort>Månedsbeløp:</BodyShort>
-            {somPenger(månedsbeløp)}
-        </HStack>
-    );
-};
-
 interface InntektsforholdRowProps {
     arbeidsforhold: Arbeidsforhold[];
-    månedsbeløp?: number;
     inntektsforhold: Inntektsforhold;
 }
 
-export const InntektsforholdRow = ({
-    arbeidsforhold,
-    månedsbeløp,
-    inntektsforhold,
-}: InntektsforholdRowProps): ReactElement => {
+export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: InntektsforholdRowProps): ReactElement => {
     const [open, setOpen] = useState(false);
     const erAnonymisert = useIsAnonymous();
 
@@ -113,7 +95,6 @@ export const InntektsforholdRow = ({
                             <Accordion.Content className={styles.content}>
                                 <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} erAnonymisert={erAnonymisert} />
                             </Accordion.Content>
-                            {månedsbeløp !== undefined && <MånedsbeløpRow månedsbeløp={månedsbeløp} />}
                         </Accordion.Item>
                     </Accordion>
                 </>
