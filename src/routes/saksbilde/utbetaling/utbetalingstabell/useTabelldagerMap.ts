@@ -1,10 +1,9 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-import { Dag, Dagoverstyring, Dagtype, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { Dag, Dagoverstyring, Dagtype, OverstyrtDag, Utbetalingsdagtype } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { erHelg } from '@utils/date';
 
 import {
     AAPdag,
@@ -77,10 +76,6 @@ const getUtbetalingstabelldag = (dag: Dag): Speildag => {
         case Utbetalingsdagtype.AvvistDag:
         case Utbetalingsdagtype.ForeldetDag:
             return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
-    }
-
-    if (dag.sykdomsdagtype === Sykdomsdagtype.Ventetidsdag) {
-        return erHelg(dag.dato) ? Navhelgedag : Sykedag;
     }
 
     return getSpeildag(dag.sykdomsdagtype, dag.utbetalingsdagtype);

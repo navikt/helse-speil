@@ -1214,13 +1214,13 @@ export enum Sykdomsdagtype {
     Feriedag = 'FERIEDAG',
     ForeldetSykedag = 'FORELDET_SYKEDAG',
     FriskHelgedag = 'FRISK_HELGEDAG',
+    Meldingtilnavdag = 'MELDINGTILNAVDAG',
     Permisjonsdag = 'PERMISJONSDAG',
     Sykedag = 'SYKEDAG',
     SykedagNav = 'SYKEDAG_NAV',
     SykHelgedag = 'SYK_HELGEDAG',
     Ubestemtdag = 'UBESTEMTDAG',
     Ukjent = 'UKJENT',
-    Ventetidsdag = 'VENTETIDSDAG',
 }
 
 export type Sykepengedager = {
