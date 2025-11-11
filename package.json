@@ -17,7 +17,7 @@
         "prebuild": "next telemetry disable",
         "build": "next build",
         "start": "next start",
-        "lint": "next lint",
+        "lint": "eslint .",
         "lint:fix": "eslint . --fix",
         "test": "jest",
         "tsc": "tsc",
