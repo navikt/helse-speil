@@ -1393,6 +1393,7 @@ export type VarselDto = {
     forklaring: Maybe<Scalars['String']['output']>;
     generasjonId: Scalars['UUID']['output'];
     handling: Maybe<Scalars['String']['output']>;
+    id: Scalars['UUID']['output'];
     kode: Scalars['String']['output'];
     opprettet: Scalars['LocalDateTime']['output'];
     tittel: Scalars['String']['output'];
@@ -2199,6 +2200,7 @@ export type ArbeidsgiverFragment = {
                   }>;
                   varsler: Array<{
                       __typename: 'VarselDTO';
+                      id: string;
                       generasjonId: string;
                       definisjonId: string;
                       opprettet: string;
@@ -2343,6 +2345,7 @@ export type ArbeidsgiverFragment = {
                   }>;
                   varsler: Array<{
                       __typename: 'VarselDTO';
+                      id: string;
                       generasjonId: string;
                       definisjonId: string;
                       opprettet: string;
@@ -2754,6 +2757,7 @@ export type UberegnetPeriodeFragment = {
     }>;
     varsler: Array<{
         __typename: 'VarselDTO';
+        id: string;
         generasjonId: string;
         definisjonId: string;
         opprettet: string;
@@ -3159,6 +3163,7 @@ export type BeregnetPeriodeFragment = {
     }>;
     varsler: Array<{
         __typename: 'VarselDTO';
+        id: string;
         generasjonId: string;
         definisjonId: string;
         opprettet: string;
@@ -3269,6 +3274,7 @@ export type Periode_BeregnetPeriode_Fragment = {
     }>;
     varsler: Array<{
         __typename: 'VarselDTO';
+        id: string;
         generasjonId: string;
         definisjonId: string;
         opprettet: string;
@@ -3379,6 +3385,7 @@ export type Periode_UberegnetPeriode_Fragment = {
     }>;
     varsler: Array<{
         __typename: 'VarselDTO';
+        id: string;
         generasjonId: string;
         definisjonId: string;
         opprettet: string;
@@ -3844,6 +3851,7 @@ export type PersonFragment = {
                       }>;
                       varsler: Array<{
                           __typename: 'VarselDTO';
+                          id: string;
                           generasjonId: string;
                           definisjonId: string;
                           opprettet: string;
@@ -3988,6 +3996,7 @@ export type PersonFragment = {
                       }>;
                       varsler: Array<{
                           __typename: 'VarselDTO';
+                          id: string;
                           generasjonId: string;
                           definisjonId: string;
                           opprettet: string;
@@ -4677,6 +4686,7 @@ export type PersonFragment = {
                       }>;
                       varsler: Array<{
                           __typename: 'VarselDTO';
+                          id: string;
                           generasjonId: string;
                           definisjonId: string;
                           opprettet: string;
@@ -4821,6 +4831,7 @@ export type PersonFragment = {
                       }>;
                       varsler: Array<{
                           __typename: 'VarselDTO';
+                          id: string;
                           generasjonId: string;
                           definisjonId: string;
                           opprettet: string;
@@ -5419,6 +5430,7 @@ export type FetchPersonQuery = {
                           }>;
                           varsler: Array<{
                               __typename: 'VarselDTO';
+                              id: string;
                               generasjonId: string;
                               definisjonId: string;
                               opprettet: string;
@@ -5563,6 +5575,7 @@ export type FetchPersonQuery = {
                           }>;
                           varsler: Array<{
                               __typename: 'VarselDTO';
+                              id: string;
                               generasjonId: string;
                               definisjonId: string;
                               opprettet: string;
@@ -6260,6 +6273,7 @@ export type FetchPersonQuery = {
                           }>;
                           varsler: Array<{
                               __typename: 'VarselDTO';
+                              id: string;
                               generasjonId: string;
                               definisjonId: string;
                               opprettet: string;
@@ -6404,6 +6418,7 @@ export type FetchPersonQuery = {
                           }>;
                           varsler: Array<{
                               __typename: 'VarselDTO';
+                              id: string;
                               generasjonId: string;
                               definisjonId: string;
                               opprettet: string;
@@ -6896,6 +6911,7 @@ export const PeriodeFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
@@ -7184,6 +7200,7 @@ export const UberegnetPeriodeFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
@@ -8029,6 +8046,7 @@ export const BeregnetPeriodeFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
@@ -8802,6 +8820,7 @@ export const ArbeidsgiverFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
@@ -10006,6 +10025,7 @@ export const PersonFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
@@ -12131,6 +12151,7 @@ export const FetchPersonDocument = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },

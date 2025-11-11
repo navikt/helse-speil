@@ -18,6 +18,7 @@ describe('VergemålTag', () => {
                     {
                         __typename: 'VarselDTO',
                         kode: 'SB_EX_4',
+                        id: 'a2c6db9d-f4a6-4810-ad53-ef5c0f0c692b',
                         definisjonId: '',
                         generasjonId: '',
                         opprettet: '',

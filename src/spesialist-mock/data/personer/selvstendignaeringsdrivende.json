@@ -771,6 +771,7 @@
                                     "varsler": [
                                         {
                                             "__typename": "VarselDTO",
+                                            "id": "ca329e84-bdbd-499a-b3b1-8747551303fc",
                                             "generasjonId": "1766864d-bdc0-40b3-abe2-82a4e8137c3a",
                                             "definisjonId": "abe636dc-797f-3d97-8801-ee794e7ec128",
                                             "opprettet": "2025-08-28T14:18:08.740126",

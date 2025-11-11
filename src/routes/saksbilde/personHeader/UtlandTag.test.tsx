@@ -14,6 +14,7 @@ describe('UtlandTag', () => {
         .medVarsler([
             {
                 __typename: 'VarselDTO',
+                id: '7c957f84-65ee-44a4-b9a7-fc4ab029d5f3',
                 kode: 'SB_EX_5',
                 tittel: 'Det har kommet inn dokumentasjon som igangsetter en revurdering, og den sykmeldte er nå registrert på bokommune 0393 (NAV utland og fellestjenester)',
                 definisjonId: '',

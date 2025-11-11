@@ -1391,6 +1391,7 @@ export type VarselDto = {
     forklaring?: Maybe<Scalars['String']['output']>;
     generasjonId: Scalars['UUID']['output'];
     handling?: Maybe<Scalars['String']['output']>;
+    id: Scalars['UUID']['output'];
     kode: Scalars['String']['output'];
     opprettet: Scalars['LocalDateTime']['output'];
     tittel: Scalars['String']['output'];

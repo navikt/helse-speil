@@ -118,6 +118,7 @@ describe('SaksbildeVarsel', () => {
 const getVarsel = (status?: Varselstatus): VarselDto => {
     return {
         __typename: 'VarselDTO',
+        id: '5d372089-5999-43ad-b4b6-06b8c913006a',
         definisjonId: 'en verdi',
         generasjonId: 'en verdi',
         opprettet: '2020-01-01',

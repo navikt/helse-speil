@@ -83,6 +83,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
 const getVarsel = (status?: Varselstatus): VarselDto => {
     return {
         __typename: 'VarselDTO',
+        id: 'd58b0cbe-8fe6-495b-b312-4e8a8f4db3dd',
         definisjonId: 'en verdi',
         generasjonId: 'en verdi',
         opprettet: '2020-01-01',

@@ -60,6 +60,7 @@ export class VarselMock {
                   },
               }
             : {
+                  id: crypto.randomUUID(),
                   definisjonId: definisjonIdString ?? '',
                   generasjonId: generasjonIdString,
                   opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
@@ -110,6 +111,7 @@ export class VarselMock {
                   },
               }
             : {
+                  id: crypto.randomUUID(),
                   definisjonId: '',
                   generasjonId: generasjonIdString,
                   opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
