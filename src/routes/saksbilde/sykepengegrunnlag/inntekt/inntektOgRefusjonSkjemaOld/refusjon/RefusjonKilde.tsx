@@ -10,11 +10,11 @@ import styles from './RefusjonSkjema/RefusjonSkjema.module.scss';
 
 interface RefusjonKildeProps {
     kilde: Kildetype;
-    harLokaleOpplysninger: boolean;
-    harEndringer: boolean;
+    harLokaleOpplysninger?: boolean;
+    harEndringer?: boolean;
 }
 
-export const RefusjonKilde = ({ kilde, harLokaleOpplysninger, harEndringer }: RefusjonKildeProps) => (
+export const RefusjonKilde = ({ kilde, harLokaleOpplysninger = false, harEndringer = false }: RefusjonKildeProps) => (
     <div className={styles.refusjonsopplysninger}>
         {kilde === Kildetype.Inntektsmelding && <Kilde type="Inntektsmelding">IM</Kilde>}
         {kilde === Kildetype.Saksbehandler &&
