@@ -272,6 +272,7 @@ export enum Dagtype {
     Feriedag = 'Feriedag',
     Foreldrepengerdag = 'Foreldrepengerdag',
     Helg = 'Helg',
+    MeldingTilNavdag = 'MeldingTilNavdag',
     Omsorgspengerdag = 'Omsorgspengerdag',
     Opplaringspengerdag = 'Opplaringspengerdag',
     Permisjonsdag = 'Permisjonsdag',
