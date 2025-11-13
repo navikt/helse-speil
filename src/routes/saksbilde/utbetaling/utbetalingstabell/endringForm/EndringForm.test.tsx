@@ -11,6 +11,7 @@ import {
     Egenmeldingsdag,
     Feriedag,
     Foreldrepengerdag,
+    MeldingTilNavdag,
     Omsorgspengerdag,
     Opplæringspengerdag,
     Permisjonsdag,
@@ -40,6 +41,7 @@ describe('Typeendringer', () => {
             Pleiepengerdag,
             Omsorgspengerdag,
             Opplæringspengerdag,
+            MeldingTilNavdag,
         ]);
     });
 });

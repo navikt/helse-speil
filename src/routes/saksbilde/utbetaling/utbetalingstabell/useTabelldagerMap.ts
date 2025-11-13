@@ -16,6 +16,7 @@ import {
     Feriedag,
     Foreldrepengerdag,
     Helgedag,
+    MeldingTilNavdag,
     Navhelgedag,
     Omsorgspengerdag,
     Opplæringspengerdag,
@@ -62,6 +63,8 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Speilda
             return SykedagNav;
         case Dagtype.Avvistdag:
             return Avslåttdag;
+        case Dagtype.MeldingTilNavdag:
+            return MeldingTilNavdag;
     }
 };
 

@@ -6,6 +6,7 @@ import {
     Egenmeldingsdag,
     Feriedag,
     Foreldrepengerdag,
+    MeldingTilNavdag,
     Omsorgspengerdag,
     Opplæringspengerdag,
     Permisjonsdag,
@@ -26,7 +27,7 @@ export const overstyringsdagtyperArbeidstaker: Speildag[] = [
     Arbeidsdag,
 ];
 
-export const overstyringsdagtyperSelvstendig: Speildag[] = [Sykedag, Arbeidsdag];
+export const overstyringsdagtyperSelvstendig: Speildag[] = [Sykedag, Arbeidsdag, MeldingTilNavdag];
 
 export const typeendringerAndreYtelser: Speildag[] = [
     // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
@@ -39,7 +40,9 @@ export const typeendringerAndreYtelser: Speildag[] = [
     Opplæringspengerdag,
 ];
 
-export const alleTypeendringer: Speildag[] = [...overstyringsdagtyperArbeidstaker, ...typeendringerAndreYtelser];
+export const alleTypeendringer: Speildag[] = Array.from(
+    new Set([...overstyringsdagtyperArbeidstaker, ...typeendringerAndreYtelser, ...overstyringsdagtyperSelvstendig]),
+);
 
 export const getDagFromType = (type: OverstyrbarDagtype): Speildag => {
     const speilDag = alleTypeendringer.find((dag) => dag.speilDagtype === type);
@@ -62,4 +65,5 @@ export enum OverstyrbarDagtype {
     Pleiepenger = 'Pleiepenger',
     Omsorgspenger = 'Omsorgspenger',
     Opplæringspenger = 'Opplæringspenger',
+    MeldingTilNav = 'MeldingTilNav',
 }

@@ -24,6 +24,8 @@ export const utbetalingstabelldagtypeValues = [
     'Pleiepenger',
     'Omsorgspenger',
     'Opplæringspenger',
+    'Ventetid',
+    'MeldingTilNav',
 ] as const;
 
 export type Utbetalingstabelldagtype = (typeof utbetalingstabelldagtypeValues)[number];

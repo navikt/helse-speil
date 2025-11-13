@@ -56,6 +56,12 @@ export const Egenmeldingsdag: Speildag = {
     overstyrtDagtype: 'Egenmeldingsdag',
 };
 
+export const MeldingTilNavdag: Speildag = {
+    speilDagtype: 'MeldingTilNav',
+    visningstekst: 'Melding til Nav',
+    overstyrtDagtype: 'MeldingTilNavdag',
+};
+
 export const Sykedag: Speildag = {
     speilDagtype: 'Syk',
     visningstekst: 'Syk',
@@ -176,6 +182,8 @@ export const getSpeildag = (sykdomsdagtype: Sykdomsdagtype, utbetalingsdagtype: 
             return FriskHelgedag;
         case Sykdomsdagtype.Avslatt:
             return Avslåttdag;
+        case Sykdomsdagtype.Meldingtilnavdag:
+            return MeldingTilNavdag;
         case Sykdomsdagtype.Ubestemtdag:
         default:
             return utbetalingsdagtype === Utbetalingsdagtype.Helgedag ? Helgedag : Ukjentdag;
