@@ -50,7 +50,7 @@ export const lagLeggTilDagerSchema = (erSelvstendig: boolean) =>
                     });
                 }
             }
-            if (dagtype === 'Syk' || dagtype === 'SykNav') {
+            if (!erSelvstendig && (dagtype === 'Syk' || dagtype === 'SykNav')) {
                 ctx.addIssue({
                     code: 'custom',
                     message: `Kan ikke legge til ${dagtype === 'Syk' ? 'Syk' : 'Syk (Nav)'} i forkant av sykmelding`,
@@ -58,10 +58,10 @@ export const lagLeggTilDagerSchema = (erSelvstendig: boolean) =>
                     path: ['dagtype'],
                 });
             }
-            if (erSelvstendig && Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 16) {
+            if (erSelvstendig && Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 18) {
                 ctx.addIssue({
                     code: 'custom',
-                    message: 'Du kan ikke legge inn dager mer enn 16 dager før sykmeldingen\n',
+                    message: 'Du kan ikke legge inn mer enn 18 dager før sykmeldingen\n',
                     input: fom,
                     path: ['fom'],
                 });
