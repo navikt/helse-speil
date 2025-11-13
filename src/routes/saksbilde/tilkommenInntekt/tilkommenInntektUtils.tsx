@@ -15,8 +15,8 @@ import { somDato, tilDatoer, tilUkedager } from '@utils/date';
 import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
 import { isBeregnetPeriode, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
 
-export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
-    const vedtaksperioder = finnAlleInntektsforhold(person)
+export const utledSykefraværstilfelleperioderForInntektsforhold = (inntektsforhold: Inntektsforhold[]) => {
+    const vedtaksperioder = inntektsforhold
         .flatMap((ag) => ag.generasjoner[0]?.perioder)
         .filter((periode) => periode != null)
         .map((periode) => ({
@@ -41,6 +41,10 @@ export function utledSykefraværstilfelleperioder(person: PersonFragment): DateP
             {} as Record<string, DatePeriod>,
         ),
     );
+};
+
+export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
+    return utledSykefraværstilfelleperioderForInntektsforhold(finnAlleInntektsforhold(person));
 }
 
 export function tilPerioderPerOrganisasjonsnummer(tilkomneInntekter: ApiTilkommenInntekt[]) {
