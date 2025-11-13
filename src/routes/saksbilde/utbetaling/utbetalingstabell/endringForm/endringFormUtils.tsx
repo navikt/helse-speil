@@ -1,5 +1,7 @@
 import assert from 'assert';
 
+import { erProd } from '@/env';
+
 import {
     ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
@@ -27,7 +29,11 @@ export const overstyringsdagtyperArbeidstaker: Speildag[] = [
     Arbeidsdag,
 ];
 
-export const overstyringsdagtyperSelvstendig: Speildag[] = [Sykedag, Arbeidsdag, MeldingTilNavdag];
+export const overstyringsdagtyperSelvstendig: Speildag[] = [
+    Sykedag,
+    Arbeidsdag,
+    ...(!erProd ? [MeldingTilNavdag] : []),
+];
 
 export const typeendringerAndreYtelser: Speildag[] = [
     // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
