@@ -6,7 +6,7 @@ import { Arbeidsgiver, Arbeidsgiverinntekt, InntektFraAOrdningen, Inntektstype, 
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
-import { InntektOgRefusjonSkjemaOld } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/InntektOgRefusjonSkjemaOld';
+import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
 import { arbeidsgiverTilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
@@ -72,21 +72,20 @@ export const InntektOgRefusjon = ({
             <InntektOgRefusjonHeader arbeidsgiverReferanse={arbeidsgiverTilReferanse(arbeidsgiver)} kilde="AINNTEKT" />
             <Label size="small">Beregnet månedsinntekt</Label>
             {editing && omregnetÅrsinntekt && (
-                <InntektOgRefusjonSkjemaOld
+                <InntektOgRefusjonSkjema
+                    person={person}
+                    arbeidsgiver={arbeidsgiver}
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
-                    close={() => setEditing(false)}
-                    harEndring={setEndret}
                     begrunnelser={
                         harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
                     }
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
-                    person={person}
-                    arbeidsgiver={arbeidsgiver}
                     inntektFom={inntekt.fom}
                     inntektTom={inntekt.tom}
-                    erDeaktivert={erDeaktivert ?? false}
-                    inntektFraAOrdningen={inntektFraAOrdningen}
-                    inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+                    lukkSkjema={() => {
+                        setEndret(false);
+                        setEditing(false);
+                    }}
                 />
             )}
             {!editing && (
