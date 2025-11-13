@@ -6,10 +6,15 @@ import { BodyShort, Button, HStack, VStack } from '@navikt/ds-react';
 import { DagEndringFormFields, lagDagEndringSchema } from '@/form-schemas/dagEndringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
+import { MeldingTilNavdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { DagtypeSelect } from '../DagtypeSelect';
-import { alleTypeendringer } from './endringFormUtils';
+import {
+    alleTypeendringer,
+    overstyringsdagtyperArbeidstaker,
+    overstyringsdagtyperSelvstendig,
+} from './endringFormUtils';
 import { kanVelgeGrad } from './kanVelgeGrad';
 
 import styles from './EndringForm.module.css';
@@ -35,6 +40,10 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
 
     const watchDagtype = form.watch('dagtype');
 
+    const overstyringsdagtyper = erSelvstendig
+        ? overstyringsdagtyperSelvstendig.filter((dag) => dag !== MeldingTilNavdag)
+        : overstyringsdagtyperArbeidstaker;
+
     const handleSubmit = (values: DagEndringFormFields) => {
         onSubmitEndring({
             grad: values.grad,
@@ -53,11 +62,12 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                     <HStack gap="4">
-                        <DagtypeSelect name="dagtype" erSelvstendig={erSelvstendig} />
-                        {/*<Box marginBlock="1 0">*/}
+                        <DagtypeSelect
+                            name="dagtype"
+                            erSelvstendig={erSelvstendig}
+                            overstyringsdagtyper={overstyringsdagtyper}
+                        />
                         <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} />
-                        {/*</Box>*/}
-                        {/*<Box marginBlock="8 0">*/}
                         <VStack align={'end'} justify={'end'}>
                             <Button
                                 size="small"

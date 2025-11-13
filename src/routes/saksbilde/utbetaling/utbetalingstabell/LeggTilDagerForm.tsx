@@ -8,7 +8,11 @@ import { LeggTilDagerFormFields, lagLeggTilDagerSchema } from '@/form-schemas/le
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
-import { alleTypeendringer } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
+import {
+    alleTypeendringer,
+    overstyringsdagtyperArbeidstaker,
+    overstyringsdagtyperSelvstendig,
+} from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -73,7 +77,14 @@ export const LeggTilDagerForm = React.memo(
                     <HStack gap="2" align="end" paddingBlock="0 2">
                         <DateField name={'fom'} label="Dato f.o.m." defaultMonth={periodeFomMinusEnDag.toDate()} />
                         <DateField name={'tom'} label="Dato t.o.m." disabled />
-                        <DagtypeSelect name="dagtype" erSelvstendig={erSelvstendig} hideError />
+                        <DagtypeSelect
+                            name="dagtype"
+                            erSelvstendig={erSelvstendig}
+                            overstyringsdagtyper={
+                                erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker
+                            }
+                            hideError
+                        />
                         <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} hideError />
                         <Button size="small" type="submit" variant="secondary" data-testid="legg-til">
                             Legg til

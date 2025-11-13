@@ -4,22 +4,25 @@ import { useController } from 'react-hook-form';
 import { BodyShort, HelpText, Select, VStack } from '@navikt/ds-react';
 
 import styles from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm.module.css';
-import {
-    overstyringsdagtyperArbeidstaker,
-    overstyringsdagtyperSelvstendig,
-    typeendringerAndreYtelser,
-} from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
+import { typeendringerAndreYtelser } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
+import { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 
 interface DagtypeSelecProps {
     name: string;
     erSelvstendig: boolean;
     className?: string;
     hideError?: boolean;
+    overstyringsdagtyper: Speildag[];
 }
 
-export function DagtypeSelect({ name, erSelvstendig, className, hideError = false }: DagtypeSelecProps): ReactElement {
+export function DagtypeSelect({
+    name,
+    erSelvstendig,
+    overstyringsdagtyper,
+    className,
+    hideError = false,
+}: DagtypeSelecProps): ReactElement {
     const { field, fieldState } = useController({ name });
-    const overstyringsdagtyper = erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker;
 
     return (
         <Select
