@@ -5,8 +5,6 @@ import { BodyShort } from '@navikt/ds-react';
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
 import { DateString } from '@typer/shared';
 
-import styles from './InntektOgRefusjonSkjema.module.css';
-
 type EditableInntektSlettLokaleOverstyringerModalProps = {
     showModal: boolean;
     onApprove: () => void;
@@ -30,9 +28,13 @@ export const SlettLokaleOverstyringerModal = ({
     >
         <BodyShort>
             Ved å trykke ja lagrer du disse nye endringene for skjæringstidspunkt:{' '}
-            <span className={styles.Skjæringstidspunkt}>{skjæringstidspunkt}</span>, <br /> og vil dermed overskrive
-            lokale overstyringer lagret på skjæringstidspunkt:{' '}
-            <span className={styles.Skjæringstidspunkt}>{overstyrtSkjæringstidspunkt ?? ''}</span>
+            <BodyShort as="span" weight="semibold">
+                {skjæringstidspunkt}
+            </BodyShort>
+            , <br /> og vil dermed overskrive lokale overstyringer lagret på skjæringstidspunkt:{' '}
+            <BodyShort as="span" weight="semibold">
+                {overstyrtSkjæringstidspunkt ?? ''}
+            </BodyShort>
         </BodyShort>
     </SlettLokaleEndringerModal>
 );

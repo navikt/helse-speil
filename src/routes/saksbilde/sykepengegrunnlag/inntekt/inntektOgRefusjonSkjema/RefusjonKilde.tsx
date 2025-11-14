@@ -1,12 +1,11 @@
 import React from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
+import { VStack } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
 import { Kildetype } from '@io/graphql';
-
-import styles from './RefusjonSkjema/RefusjonSkjema.module.scss';
 
 interface RefusjonKildeProps {
     kilde: Kildetype;
@@ -15,8 +14,8 @@ interface RefusjonKildeProps {
 }
 
 export const RefusjonKilde = ({ kilde, harLokaleOpplysninger = false, harEndringer = false }: RefusjonKildeProps) => (
-    <div className={styles.refusjonsopplysninger}>
-        {kilde === Kildetype.Inntektsmelding && <Kilde type="Inntektsmelding">IM</Kilde>}
+    <VStack align="center">
+        {kilde === Kildetype.Inntektsmelding && <Kilde type={'Inntektsmelding'}>IM</Kilde>}
         {kilde === Kildetype.Saksbehandler &&
             (harLokaleOpplysninger && harEndringer ? (
                 <div style={{ position: 'relative', width: '20px' }}>
@@ -27,5 +26,5 @@ export const RefusjonKilde = ({ kilde, harLokaleOpplysninger = false, harEndring
                     <PersonPencilFillIcon title="Saksbehandler ikon" height={12} width={12} />
                 </Kilde>
             ))}
-    </div>
+    </VStack>
 );

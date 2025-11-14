@@ -4,7 +4,7 @@ import { useController, useFormContext } from 'react-hook-form';
 import { BodyShort, ErrorMessage, HStack, HelpText, TextField, VStack } from '@navikt/ds-react';
 
 import { InntektOgRefusjonSchema } from '@/form-schemas/inntektOgRefusjonSkjema';
-import { capitalizeName, toKronerOgØre } from '@utils/locale';
+import { toKronerOgØre } from '@utils/locale';
 import { avrundetToDesimaler } from '@utils/tall';
 
 import styles from './ManedsbeløpInput.module.css';
@@ -25,7 +25,7 @@ export const Månedsbeløp = ({ månedsbeløp, kilde }: MånedsbeløpProps) => {
                 <BodyShort style={{ margin: '4px 0' }}>Månedsbeløp</BodyShort>
                 <VStack gap="2">
                     <HStack align="center" gap="2" wrap={false}>
-                        <BeløpFelt name="månedsbeløp" />
+                        <BeløpFelt name="månedsbeløp" label="Månedsbeløp" />
 
                         {kilde === 'INFOTRYGD' && (
                             <HelpText>
@@ -47,7 +47,7 @@ export const Månedsbeløp = ({ månedsbeløp, kilde }: MånedsbeløpProps) => {
     );
 };
 
-export function BeløpFelt({ name }: { name: string }) {
+export function BeløpFelt({ name, label }: { name: string; label: string }) {
     const { field, fieldState } = useController({ name });
     const [display, setDisplay] = useState<string>(field.value == null ? '' : toKronerOgØre(field.value));
 
@@ -77,7 +77,7 @@ export function BeløpFelt({ name }: { name: string }) {
                 field.onBlur();
             }}
             error={fieldState.error?.message != undefined}
-            label={capitalizeName(name)}
+            label={label}
             size="small"
             hideLabel
             htmlSize={12}

@@ -1,33 +1,15 @@
 import React, { ReactElement, useRef, useState } from 'react';
 import {
     CustomElement,
-    FieldError,
     FieldErrors,
-    FieldErrorsImpl,
     FieldValues,
     FormProvider,
-    Merge,
     useController,
-    useFieldArray,
     useForm,
     useFormContext,
 } from 'react-hook-form';
 
-import { PlusIcon } from '@navikt/aksel-icons';
-import {
-    BodyShort,
-    Box,
-    Button,
-    DatePicker,
-    ErrorMessage,
-    HStack,
-    Label,
-    Radio,
-    RadioGroup,
-    Textarea,
-    VStack,
-    useDatepicker,
-} from '@navikt/ds-react';
+import { Button, HStack, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import {
     InntektOgRefusjonSchema,
@@ -37,14 +19,12 @@ import {
 } from '@/form-schemas/inntektOgRefusjonSkjema';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Arbeidsgiver, Kildetype, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
-import {
-    BeløpFelt,
-    Månedsbeløp,
-} from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
-import { SlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/SlettLokaleOverstyringerModal';
-import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/RefusjonKilde';
-import { RefusjonFormFields } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjemaOld/refusjon/hooks/useRefusjonFormField';
+import { Arbeidsgiver, InntektFraAOrdningen, Kildetype, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
+import { SisteTolvMånedersInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånedersInntekt';
+import { RefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/RefusjonSkjema';
+import { SlettLokaleOverstyringerModal } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/SlettLokaleOverstyringerModal';
+import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import { utledSykefraværstilfelleperioderForInntektsforhold } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import {
     useLokaleRefusjonsopplysninger,
@@ -55,8 +35,8 @@ import { useInntektOgRefusjon, useLokaleInntektOverstyringer, useOverstyrtInntek
 import { useActivePeriod } from '@state/periode';
 import { BegrunnelseForOverstyring, type OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 import { DatePeriod, DateString } from '@typer/shared';
-import { somDate, somIsoDato } from '@utils/date';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
+import { isGhostPeriode } from '@utils/typeguards';
 
 interface InntektOgRefusjonSkjemaProps {
     person: PersonFragment;
@@ -64,6 +44,9 @@ interface InntektOgRefusjonSkjemaProps {
     skjæringstidspunkt: DateString;
     begrunnelser: BegrunnelseForOverstyring[];
     omregnetÅrsinntekt: OmregnetArsinntekt;
+    inntektFraAOrdningen?: InntektFraAOrdningen[];
+    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
+    erDeaktivert: Boolean;
     inntektFom: DateString | null;
     inntektTom: DateString | null;
     lukkSkjema: () => void;
@@ -75,6 +58,9 @@ export const InntektOgRefusjonSkjema = ({
     skjæringstidspunkt,
     begrunnelser,
     omregnetÅrsinntekt,
+    inntektFraAOrdningen,
+    inntekterForSammenligningsgrunnlag,
+    erDeaktivert,
     inntektFom,
     inntektTom,
     lukkSkjema,
@@ -194,7 +180,14 @@ export const InntektOgRefusjonSkjema = ({
             <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <VStack gap="4">
                     <Månedsbeløp månedsbeløp={omregnetÅrsinntekt.manedsbelop} kilde={omregnetÅrsinntekt.kilde} />
+                    <OmregnetÅrsinntekt omregnetÅrsintekt={omregnetÅrsinntekt?.belop} gap="16" />
                     <RefusjonSkjema inntektFom={inntektFom} inntektTom={inntektTom} />
+                    <SisteTolvMånedersInntekt
+                        skjæringstidspunkt={skjæringstidspunkt}
+                        inntektFraAOrdningen={inntektFraAOrdningen}
+                        erAktivGhost={isGhostPeriode(period) && !erDeaktivert}
+                        inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+                    />
                     <Begrunnelse begrunnelser={begrunnelser} />
                     <Notat />
                     {visFeilOppsummering && (
@@ -228,113 +221,6 @@ export const InntektOgRefusjonSkjema = ({
         </FormProvider>
     );
 };
-
-interface RefusjonSkjemaProps {
-    inntektFom: DateString | null;
-    inntektTom: DateString | null;
-}
-
-function RefusjonSkjema({ inntektFom, inntektTom }: RefusjonSkjemaProps) {
-    const { control, formState } = useFormContext<InntektOgRefusjonSchema>();
-    const { fields, remove, append } = useFieldArray({
-        name: 'refusjonsperioder',
-        control,
-    });
-
-    return (
-        <VStack align="start" gap="2">
-            <Label size="small">Refusjon</Label>
-            <VStack gap="1">
-                <Box borderWidth="0 0 1 0" borderColor="border-default" marginBlock="0 2">
-                    <HStack gap="8">
-                        <BodyShort weight="semibold" size="small">
-                            Fra og med dato
-                        </BodyShort>
-                        <BodyShort weight="semibold" size="small">
-                            Til og med dato
-                        </BodyShort>
-                        <BodyShort weight="semibold" size="small" style={{ whiteSpace: 'nowrap' }}>
-                            Månedlig refusjon
-                        </BodyShort>
-                    </HStack>
-                </Box>
-                <VStack gap="3">
-                    {fields.map((field, index) => {
-                        const fieldError = formState.errors.refusjonsperioder?.[`${index}`];
-                        return (
-                            <VStack key={field.id} gap="1">
-                                <HStack gap="2" wrap={false}>
-                                    <DateField
-                                        name={`refusjonsperioder.${index}.fom`}
-                                        label="Fra og med dato"
-                                        defaultMonth={somDate(inntektFom ?? undefined)}
-                                    />
-                                    <DateField
-                                        name={`refusjonsperioder.${index}.tom`}
-                                        label="Til og med dato"
-                                        defaultMonth={somDate(inntektTom ?? undefined)}
-                                    />
-                                    <BeløpFelt name={`refusjonsperioder.${index}.beløp`} />
-                                    <RefusjonKilde kilde={field.kilde as Kildetype} />
-                                    <Button
-                                        type="button"
-                                        onClick={() => remove(index)}
-                                        variant="tertiary"
-                                        size="xsmall"
-                                    >
-                                        Slett
-                                    </Button>
-                                </HStack>
-                                <RefusjonFeiloppsummering error={fieldError} />
-                            </VStack>
-                        );
-                    })}
-                </VStack>
-            </VStack>
-            <Button
-                type="button"
-                onClick={() => {
-                    append({
-                        fom: '',
-                        tom: '',
-                        beløp: 0,
-                        kilde: Kildetype.Saksbehandler,
-                    });
-                }}
-                icon={<PlusIcon />}
-                variant="tertiary"
-                size="xsmall"
-            >
-                Legg til
-            </Button>
-        </VStack>
-    );
-}
-
-interface FeiloppsummeringProps {
-    error: Merge<FieldError, FieldErrorsImpl<RefusjonFormFields>> | undefined;
-}
-
-const RefusjonFeiloppsummering = ({ error }: FeiloppsummeringProps): ReactElement | null =>
-    error != null ? (
-        <>
-            {error?.fom && (
-                <ErrorMessage size="small" showIcon>
-                    {error.fom.message}
-                </ErrorMessage>
-            )}
-            {error?.tom && (
-                <ErrorMessage size="small" showIcon>
-                    {error.tom.message}
-                </ErrorMessage>
-            )}
-            {error?.beløp && (
-                <ErrorMessage size="small" showIcon>
-                    {error.beløp.message}
-                </ErrorMessage>
-            )}
-        </>
-    ) : null;
 
 const formErrorsTilFeilliste = (errors: FieldErrors<InntektOgRefusjonSchema>): Skjemafeil[] =>
     Object.entries(errors)
@@ -371,42 +257,6 @@ const isRefusjonFormFieldsErrors = (error?: unknown): error is FieldErrors<Refus
 interface RefMedId extends CustomElement<FieldValues> {
     id?: string;
 }
-
-interface DateFieldProps {
-    name: string;
-    label: string;
-    defaultMonth?: Date;
-}
-
-const DateField = ({ name, label, defaultMonth }: DateFieldProps): ReactElement => {
-    const { field, fieldState } = useController({ name });
-
-    const { datepickerProps, inputProps } = useDatepicker({
-        defaultSelected: field.value,
-        defaultMonth: defaultMonth ?? field.value,
-        onDateChange: (date) => {
-            if (!date) {
-                field.onChange(null);
-            } else {
-                field.onChange(somIsoDato(date));
-            }
-        },
-    });
-
-    return (
-        <DatePicker {...datepickerProps}>
-            <DatePicker.Input
-                {...inputProps}
-                id={name.replaceAll('.', '-')}
-                size="small"
-                label={label}
-                onBlur={field.onBlur}
-                error={fieldState.error?.message != undefined}
-                hideLabel
-            />
-        </DatePicker>
-    );
-};
 
 interface BegrunnelseProps {
     begrunnelser: BegrunnelseForOverstyring[];
