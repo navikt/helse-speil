@@ -58,10 +58,13 @@ export const lagLeggTilDagerSchema = (erSelvstendig: boolean) =>
                     path: ['dagtype'],
                 });
             }
-            if (erSelvstendig && Math.abs(somDato(fom).diff(somDato(tom), 'days')) > 18) {
+            const antallDager = Math.abs(somDato(fom).diff(somDato(tom), 'days'));
+            const maksDagerForDagtype = dagtype === 'MeldingTilNav' ? 16 : 18;
+
+            if (erSelvstendig && antallDager > maksDagerForDagtype) {
                 ctx.addIssue({
                     code: 'custom',
-                    message: 'Du kan ikke legge inn mer enn 18 dager før sykmeldingen\n',
+                    message: `Maks ${dagtype === 'MeldingTilNav' ? '16 "Melding til Nav-dager"' : '18 dager'} kan legges inn før sykmeldingen`,
                     input: fom,
                     path: ['fom'],
                 });
