@@ -1,10 +1,11 @@
 import classNames from 'classnames';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { SettVarselStatusDocument, VarselDto, Varselstatus } from '@io/graphql';
+import { getVarsel } from '@io/rest/generated/varsler/varsler';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { getFormattedDatetimeString } from '@utils/date';
 import { apolloErrorCode } from '@utils/error';
@@ -32,17 +33,47 @@ const getErrorMessage = (errorCode: number): string => {
 };
 
 export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement => {
+    const [loading, setLoading] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
 
-    const [settVarselstatus, { error, loading }] = useMutation(SettVarselStatusDocument);
+    useEffect(() => {
+        setLoading(false);
+    }, [varsel?.vurdering?.status]);
+
+    const [settVarselstatus, { error }] = useMutation(SettVarselStatusDocument, {
+        fetchPolicy: 'no-cache',
+        update: async (cache) => {
+            const { data: response } = await getVarsel(varsel.id);
+            if (response !== undefined) {
+                cache.modify({
+                    id: cache.identify(varsel),
+                    fields: {
+                        vurdering() {
+                            return {
+                                ident: response?.vurdering?.ident,
+                                status: response?.status,
+                                tidsstempel: response?.vurdering?.tidsstempel,
+                            };
+                        },
+                    },
+                });
+            }
+        },
+        onError: () => {
+            setLoading(false);
+        },
+    });
 
     const settVarselstatusVurdert = async () => {
         const ident = innloggetSaksbehandler.ident;
         if (ident === undefined || ident === null) {
             return;
         }
+        setLoading(true);
+
+        //onCompleted
         await settVarselstatus({
             variables: {
                 generasjonIdString: varsel.generasjonId,
@@ -57,6 +88,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
         if (ident === undefined || ident === null) {
             return;
         }
+        setLoading(true);
         await settVarselstatus({
             variables: {
                 generasjonIdString: varsel.generasjonId,
