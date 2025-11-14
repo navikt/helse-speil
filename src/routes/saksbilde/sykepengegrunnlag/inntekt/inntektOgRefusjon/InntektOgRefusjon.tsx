@@ -83,6 +83,9 @@ export const InntektOgRefusjon = ({
                         harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
                     }
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
+                    inntektFraAOrdningen={inntektFraAOrdningen}
+                    inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+                    erDeaktivert={erDeaktivert ?? false}
                     inntektFom={inntekt.fom}
                     inntektTom={inntekt.tom}
                     lukkSkjema={() => {
