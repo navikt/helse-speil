@@ -891,6 +891,63 @@ export interface ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode {
     code?: ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeCode;
 }
 
+export type ApiVarselApiVarselstatus = (typeof ApiVarselApiVarselstatus)[keyof typeof ApiVarselApiVarselstatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiVarselApiVarselstatus = {
+    AKTIV: 'AKTIV',
+    VURDERT: 'VURDERT',
+    GODKJENT: 'GODKJENT',
+} as const;
+
+export interface ApiVarselApiVarselvurdering {
+    ident: string;
+    tidsstempel: string;
+}
+
+export type ApiVarselForklaring = null | string;
+
+export type ApiVarselHandling = null | string;
+
+export type ApiVarselVurdering = null | ApiVarselApiVarselvurdering;
+
+export interface ApiVarsel {
+    id: string;
+    definisjonId: string;
+    opprettet: string;
+    tittel: string;
+    forklaring?: ApiVarselForklaring;
+    handling?: ApiVarselHandling;
+    status: ApiVarselApiVarselstatus;
+    vurdering?: ApiVarselVurdering;
+}
+
+export type GetVarselErrorCode = (typeof GetVarselErrorCode)[keyof typeof GetVarselErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetVarselErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
+    VARSELDEFINISJON_MANGLER_FOR_KODE: 'VARSELDEFINISJON_MANGLER_FOR_KODE',
+    VARSELDEFINISJON_MANGLER_FOR_VURDERING: 'VARSELDEFINISJON_MANGLER_FOR_VURDERING',
+    SAKSBEHANDLER_MANGLER: 'SAKSBEHANDLER_MANGLER',
+    UGYLDIG_VARSEL_STATUS: 'UGYLDIG_VARSEL_STATUS',
+} as const;
+
+export type ApiHttpProblemDetailsGetVarselErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsGetVarselErrorCodeCode = null | GetVarselErrorCode;
+
+export interface ApiHttpProblemDetailsGetVarselErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsGetVarselErrorCodeDetail;
+    code?: ApiHttpProblemDetailsGetVarselErrorCodeCode;
+}
+
 export type GetOppgaverParams = {
     minstEnAvEgenskapene?: string[];
     ingenAvEgenskapene?: string;
