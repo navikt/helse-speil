@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import { GraphQLError } from 'graphql';
 
 import { PersonFragment } from '@io/graphql';
-import { ApiHttpProblemDetailsGetVarselErrorCode, ApiVarsel } from '@io/rest/generated/spesialist.schemas';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 
 import { MutationSettVarselstatusArgs, Person, VarselDto, Varselstatus } from '../schemaTypes';
@@ -11,30 +10,6 @@ const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export class VarselMock {
     private static varslerMedEndring: VarselDto[] = [];
-
-    static getVarsel = (varselIdString: string): ApiVarsel | ApiHttpProblemDetailsGetVarselErrorCode => {
-        const varsel = VarselMock.varslerMedEndring.find((varsel) => varsel.id === varselIdString);
-        if (!varsel) {
-            return {
-                code: 'VARSEL_IKKE_FUNNET',
-                status: 404,
-                title: 'Varsel ikke funnet',
-                type: 'about:blank',
-            } as ApiHttpProblemDetailsGetVarselErrorCode;
-        }
-        return {
-            id: varselIdString,
-            tittel: varsel.tittel,
-            forklaring: varsel.forklaring,
-            handling: varsel.handling,
-            definisjonId: varsel.definisjonId,
-            status: varsel.vurdering?.status,
-            vurdering: {
-                ident: varsel.vurdering?.ident,
-                tidsstempel: varsel.vurdering?.tidsstempel,
-            },
-        } as ApiVarsel;
-    };
 
     static getVarslerForPeriode = (varsler: VarselDto[]): VarselDto[] => {
         if (varsler === undefined || varsler === null) return [];
@@ -85,7 +60,7 @@ export class VarselMock {
                   },
               }
             : {
-                  id: gjeldendeVarsel?.id ?? crypto.randomUUID(),
+                  id: crypto.randomUUID(),
                   definisjonId: definisjonIdString ?? '',
                   generasjonId: generasjonIdString,
                   opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
