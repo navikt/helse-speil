@@ -1,14 +1,13 @@
 import classNames from 'classnames';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
-import { SettVarselStatusDocument, VarselDto, Varselstatus } from '@io/graphql';
-import { getVarsel } from '@io/rest/generated/varsler/varsler';
+import { useApolloClient } from '@apollo/client';
+import { VarselDto, Varselstatus } from '@io/graphql';
+import { getVarsel, useDeleteVarselvurdering, usePutVarselvurdering } from '@io/rest/generated/varsler/varsler';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { getFormattedDatetimeString } from '@utils/date';
-import { apolloErrorCode } from '@utils/error';
 
 import { Avhuking } from './Avhuking';
 import { VarselstatusType } from './Varsler';
@@ -33,74 +32,70 @@ const getErrorMessage = (errorCode: number): string => {
 };
 
 export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement => {
-    const [loading, setLoading] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
+    const apolloClient = useApolloClient();
 
-    useEffect(() => {
-        setLoading(false);
-    }, [varsel?.vurdering?.status]);
+    const { mutate: putVurdering, isPending: putIsPending, error: putError } = usePutVarselvurdering();
 
-    const [settVarselstatus, { error }] = useMutation(SettVarselStatusDocument, {
-        fetchPolicy: 'no-cache',
-        update: async (cache) => {
-            const { data: response } = await getVarsel(varsel.id);
-            if (response !== undefined) {
-                cache.modify({
-                    id: cache.identify(varsel),
-                    fields: {
-                        vurdering() {
-                            return {
-                                ident: response?.vurdering?.ident,
-                                status: response?.status,
-                                tidsstempel: response?.vurdering?.tidsstempel,
-                            };
-                        },
+    const { mutate: deleteVurdering, isPending: deleteIsPending, error: deleteError } = useDeleteVarselvurdering();
+
+    const refetchVarsel = async () => {
+        const { data: response } = await getVarsel(varsel.id);
+        if (response !== undefined) {
+            apolloClient.cache.modify({
+                id: apolloClient.cache.identify(varsel),
+                fields: {
+                    vurdering() {
+                        return {
+                            ident: response?.vurdering?.ident,
+                            status: response?.status,
+                            tidsstempel: response?.vurdering?.tidsstempel,
+                        };
                     },
-                });
-            }
-        },
-        onError: () => {
-            setLoading(false);
-        },
-    });
+                },
+            });
+        }
+    };
 
     const settVarselstatusVurdert = async () => {
         const ident = innloggetSaksbehandler.ident;
         if (ident === undefined || ident === null) {
             return;
         }
-        setLoading(true);
 
-        //onCompleted
-        await settVarselstatus({
-            variables: {
-                generasjonIdString: varsel.generasjonId,
-                ident: ident,
-                varselkode: varsel.kode,
-                definisjonIdString: varsel.definisjonId,
+        putVurdering(
+            {
+                varselId: varsel.id,
+                data: {
+                    definisjonId: varsel.definisjonId,
+                },
             },
-        });
+            {
+                onSuccess: async () => refetchVarsel(),
+            },
+        );
     };
     const settVarselstatusAktiv = async () => {
         const ident = innloggetSaksbehandler.ident;
         if (ident === undefined || ident === null) {
             return;
         }
-        setLoading(true);
-        await settVarselstatus({
-            variables: {
-                generasjonIdString: varsel.generasjonId,
-                ident: ident,
-                varselkode: varsel.kode,
+
+        deleteVurdering(
+            {
+                varselId: varsel.id,
             },
-        });
+            {
+                onSuccess: async () => refetchVarsel(),
+            },
+        );
     };
 
     return (
         <div className={classNames(className, styles.varsel, styles[type])}>
-            {loading ? (
+            {putIsPending || deleteIsPending ? (
                 <Loader className={styles.loader} size="medium" variant="interaction" />
             ) : (
                 <Avhuking
@@ -117,7 +112,12 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
                         {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
                     </BodyShort>
                 )}
-                {error && <BodyShort className={styles.error}>{getErrorMessage(apolloErrorCode(error))}</BodyShort>}
+                {(putError || deleteError) && (
+                    <BodyShort className={styles.error}>
+                        {putError?.status && getErrorMessage(putError.status)}
+                        {deleteError?.status && getErrorMessage(deleteError.status)}
+                    </BodyShort>
+                )}
             </div>
         </div>
     );

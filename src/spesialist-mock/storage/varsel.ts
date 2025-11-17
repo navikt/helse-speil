@@ -10,10 +10,10 @@ import { MutationSettVarselstatusArgs, Person, VarselDto, Varselstatus } from '.
 const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export class VarselMock {
-    private static varslerMedEndring: VarselDto[] = [];
+    private static varsler: VarselDto[] = [];
 
     static getVarsel = (varselIdString: string): ApiVarsel | ApiHttpProblemDetailsGetVarselErrorCode => {
-        const varsel = VarselMock.varslerMedEndring.find((varsel) => varsel.id === varselIdString);
+        const varsel = VarselMock.varsler.find((varsel) => varsel.id === varselIdString);
         if (!varsel) {
             return {
                 code: 'VARSEL_IKKE_FUNNET',
@@ -40,7 +40,7 @@ export class VarselMock {
         if (varsler === undefined || varsler === null) return [];
         const varslerCopy = [...varsler];
         return varslerCopy.map((varsel) => {
-            const varselMedEndring = this.varslerMedEndring.find(
+            const varselMedEndring = this.varsler.find(
                 (varselMedEndring) =>
                     varselMedEndring.generasjonId === varsel.generasjonId && varselMedEndring.kode === varsel.kode,
             );
@@ -63,7 +63,7 @@ export class VarselMock {
             .find((varsel) => varsel.kode === varselkode && varsel.generasjonId === generasjonIdString);
 
         const { varselMedEndring, index } = this.findWithIndex(
-            this.varslerMedEndring,
+            this.varsler,
             (varselMedEndring) =>
                 varselMedEndring.generasjonId === generasjonIdString && varselMedEndring.kode === varselkode,
         );
@@ -100,21 +100,29 @@ export class VarselMock {
                   },
               };
         if (index !== -1) {
-            this.varslerMedEndring[index] = varselMedVurdering;
+            this.varsler[index] = varselMedVurdering;
         } else {
-            this.varslerMedEndring.push(varselMedVurdering);
+            this.varsler.push(varselMedVurdering);
         }
 
         return varselMedVurdering;
     };
 
+    static leggTilEndretVarsel = (varsel: VarselDto) => {
+        const funnetVarselIndex = VarselMock.varsler.findIndex((it) => it.id === varsel.id);
+        if (funnetVarselIndex !== -1) {
+            VarselMock.varsler[funnetVarselIndex] = varsel;
+        } else {
+            VarselMock.varsler.push(varsel);
+        }
+    };
     static settVarselstatusAktiv = ({
         generasjonIdString,
         varselkode,
         ident,
     }: MutationSettVarselstatusArgs): VarselDto | GraphQLError => {
         const { varselMedEndring, index } = this.findWithIndex(
-            this.varslerMedEndring,
+            this.varsler,
             (varselMedEndring) =>
                 varselMedEndring.generasjonId === generasjonIdString && varselMedEndring.kode === varselkode,
         );
@@ -126,7 +134,7 @@ export class VarselMock {
             );
         }
 
-        this.varslerMedEndring[index] = varselMedEndring
+        this.varsler[index] = varselMedEndring
             ? {
                   ...varselMedEndring,
                   vurdering: {
@@ -150,7 +158,7 @@ export class VarselMock {
                       tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
                   },
               };
-        return this.varslerMedEndring[index];
+        return this.varsler[index];
     };
 
     static findWithIndex = (arr: VarselDto[], predicate: (varsel: VarselDto) => boolean) => {

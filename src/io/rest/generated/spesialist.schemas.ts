@@ -928,13 +928,7 @@ export type GetVarselErrorCode = (typeof GetVarselErrorCode)[keyof typeof GetVar
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetVarselErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
     VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
-    VARSELDEFINISJON_MANGLER_FOR_KODE: 'VARSELDEFINISJON_MANGLER_FOR_KODE',
-    VARSELDEFINISJON_MANGLER_FOR_VURDERING: 'VARSELDEFINISJON_MANGLER_FOR_VURDERING',
-    SAKSBEHANDLER_MANGLER: 'SAKSBEHANDLER_MANGLER',
-    UGYLDIG_VARSEL_STATUS: 'UGYLDIG_VARSEL_STATUS',
 } as const;
 
 export type ApiHttpProblemDetailsGetVarselErrorCodeDetail = null | string;
@@ -947,6 +941,84 @@ export interface ApiHttpProblemDetailsGetVarselErrorCode {
     title: string;
     detail?: ApiHttpProblemDetailsGetVarselErrorCodeDetail;
     code?: ApiHttpProblemDetailsGetVarselErrorCodeCode;
+}
+
+export interface ApiVarselvurdering {
+    definisjonId: string;
+}
+
+export type PutVarselvurderingErrorCode =
+    (typeof PutVarselvurderingErrorCode)[keyof typeof PutVarselvurderingErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PutVarselvurderingErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
+    VARSEL_VURDERT_AV_ANNEN_SAKSBEHANDLER: 'VARSEL_VURDERT_AV_ANNEN_SAKSBEHANDLER',
+    VARSEL_VURDERT_MED_ANNEN_DEFINISJON: 'VARSEL_VURDERT_MED_ANNEN_DEFINISJON',
+    VARSEL_KAN_IKKE_VURDERES: 'VARSEL_KAN_IKKE_VURDERES',
+} as const;
+
+export type ApiHttpProblemDetailsPutVarselvurderingErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsPutVarselvurderingErrorCodeCode = null | PutVarselvurderingErrorCode;
+
+export interface ApiHttpProblemDetailsPutVarselvurderingErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsPutVarselvurderingErrorCodeDetail;
+    code?: ApiHttpProblemDetailsPutVarselvurderingErrorCodeCode;
+}
+
+export type DeleteVarselvurderingErrorCode =
+    (typeof DeleteVarselvurderingErrorCode)[keyof typeof DeleteVarselvurderingErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DeleteVarselvurderingErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
+    VARSEL_HAR_FEIL_STATUS: 'VARSEL_HAR_FEIL_STATUS',
+} as const;
+
+export type ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeCode = null | DeleteVarselvurderingErrorCode;
+
+export interface ApiHttpProblemDetailsDeleteVarselvurderingErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeDetail;
+    code?: ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeCode;
+}
+
+export interface ApiNotatRequest {
+    tekst: string;
+}
+
+export interface ApiOpprettetRessursInt {
+    id: number;
+}
+
+export type ApiPostNotaterErrorCode = (typeof ApiPostNotaterErrorCode)[keyof typeof ApiPostNotaterErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostNotaterErrorCode = {
+    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostNotaterErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostNotaterErrorCodeCode = null | ApiPostNotaterErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostNotaterErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostNotaterErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostNotaterErrorCodeCode;
 }
 
 export type GetOppgaverParams = {
