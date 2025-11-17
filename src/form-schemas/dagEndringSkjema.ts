@@ -48,15 +48,31 @@ export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetali
                     });
                 }
             }
-            if (
-                (dagtype === 'Syk' || dagtype === 'SykNav') &&
-                markerteDager.some(
-                    (markertDag) => markertDag.dag === Egenmeldingsdag || markertDag.dag === MeldingTilNavdag,
-                )
+            if (dagtype === 'Syk' && markerteDager.some((markertDag) => markertDag.dag === MeldingTilNavdag)) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: `Du kan ikke overstyre Melding til Nav til Syk`,
+                    input: dagtype,
+                    path: ['dagtype'],
+                });
+            } else if (
+                (dagtype === 'SykNav' || dagtype === 'Syk') &&
+                markerteDager.some((markertDag) => markertDag.dag === Egenmeldingsdag)
+            ) {
+                const melding = dagtype === 'SykNav' ? 'Syk (Nav)' : 'Syk';
+                ctx.addIssue({
+                    code: 'custom',
+                    message: `Du kan ikke overstyre Egenmelding til ${melding}`,
+                    input: dagtype,
+                    path: ['dagtype'],
+                });
+            } else if (
+                dagtype === 'Ventetid' &&
+                markerteDager.some((markertDag) => markertDag.dag === MeldingTilNavdag)
             ) {
                 ctx.addIssue({
                     code: 'custom',
-                    message: `Du kan ikke overstyre Egenmelding eller Melding til Nav til Syk eller Syk (Nav)`,
+                    message: 'Du kan ikke overstyre Ventetid til Melding til Nav',
                     input: dagtype,
                     path: ['dagtype'],
                 });

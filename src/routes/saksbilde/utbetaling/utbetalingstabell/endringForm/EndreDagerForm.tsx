@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, ErrorMessage, HStack, Label, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
 import { DagEndringFormFields, lagDagEndringSchema } from '@/form-schemas/dagEndringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -83,20 +83,14 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
                     </HStack>
                     <VStack paddingBlock="2 0">
                         {form.formState.errors.dagtype?.message && (
-                            <HStack gap="2">
-                                <Label size="small">Dagtype:</Label>
-                                <ErrorMessage size="small" showIcon>
-                                    {form.formState.errors.dagtype.message}
-                                </ErrorMessage>
-                            </HStack>
+                            <ErrorMessage size="small" showIcon>
+                                Dagtype: {form.formState.errors.dagtype.message}
+                            </ErrorMessage>
                         )}
                         {form.formState.errors.grad?.message && (
-                            <HStack gap="2">
-                                <Label size="small">Grad:</Label>
-                                <ErrorMessage size="small" showIcon>
-                                    {form.formState.errors.grad.message}
-                                </ErrorMessage>
-                            </HStack>
+                            <ErrorMessage size="small" showIcon>
+                                Grad: {form.formState.errors.grad.message}
+                            </ErrorMessage>
                         )}
                     </VStack>
                 </form>
