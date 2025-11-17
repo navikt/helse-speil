@@ -48,11 +48,13 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
                 id: apolloClient.cache.identify(varsel),
                 fields: {
                     vurdering() {
-                        return {
-                            ident: response?.vurdering?.ident,
-                            status: response?.status,
-                            tidsstempel: response?.vurdering?.tidsstempel,
-                        };
+                        return response.vurdering
+                            ? {
+                                  ident: response.vurdering.ident,
+                                  status: response.status,
+                                  tidsstempel: response.vurdering.tidsstempel,
+                              }
+                            : null;
                     },
                 },
             });
