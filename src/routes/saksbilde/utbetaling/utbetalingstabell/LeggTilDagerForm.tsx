@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 import { FormProvider, useController, useForm } from 'react-hook-form';
 
-import { Button, DatePicker, ErrorMessage, HStack, Label, VStack, useDatepicker } from '@navikt/ds-react';
+import { Button, DatePicker, ErrorMessage, HStack, VStack, useDatepicker } from '@navikt/ds-react';
 
 import { LeggTilDagerFormFields, lagLeggTilDagerSchema } from '@/form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -92,28 +92,19 @@ export const LeggTilDagerForm = React.memo(
                     </HStack>
                     <VStack>
                         {fomError && (
-                            <HStack gap="2">
-                                <Label size="small">Dato f.o.m:</Label>
-                                <ErrorMessage size="small" showIcon>
-                                    {fomError}
-                                </ErrorMessage>
-                            </HStack>
+                            <ErrorMessage size="small" showIcon>
+                                Dato f.o.m: {fomError}
+                            </ErrorMessage>
                         )}
                         {dagtypeError && (
-                            <HStack gap="5">
-                                <Label size="small">Dagtype:</Label>
-                                <ErrorMessage size="small" showIcon>
-                                    {dagtypeError}
-                                </ErrorMessage>
-                            </HStack>
+                            <ErrorMessage size="small" showIcon>
+                                Dagtype: {dagtypeError}
+                            </ErrorMessage>
                         )}
                         {gradError && (
-                            <HStack gap="10">
-                                <Label size="small">Grad:</Label>
-                                <ErrorMessage size="small" showIcon>
-                                    {gradError}
-                                </ErrorMessage>
-                            </HStack>
+                            <ErrorMessage size="small" showIcon>
+                                Grad: {gradError}
+                            </ErrorMessage>
                         )}
                     </VStack>
                 </form>

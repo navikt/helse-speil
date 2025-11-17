@@ -53,7 +53,7 @@ export const lagLeggTilDagerSchema = (erSelvstendig: boolean) =>
             if (!erSelvstendig && (dagtype === 'Syk' || dagtype === 'SykNav')) {
                 ctx.addIssue({
                     code: 'custom',
-                    message: `Kan ikke legge til ${dagtype === 'Syk' ? 'Syk' : 'Syk (Nav)'} i forkant av sykmelding`,
+                    message: `Du kan ikke legge til ${dagtype === 'Syk' ? 'Syk' : 'Syk (Nav)'} i forkant av sykmelding`,
                     input: dagtype,
                     path: ['dagtype'],
                 });
