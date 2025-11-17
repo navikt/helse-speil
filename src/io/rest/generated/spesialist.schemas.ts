@@ -54,6 +54,7 @@ export type ApiOppgaveProjeksjonPaVentInfo = null | ApiOppgaveProjeksjonPaaVentI
 export interface ApiOppgaveProjeksjon {
     id: string;
     aktorId: string;
+    personPseudoId: string;
     navn: ApiPersonnavn;
     egenskaper: ApiEgenskap[];
     tildeling?: ApiOppgaveProjeksjonTildeling;

@@ -34,6 +34,7 @@ export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] 
 export const oppgaver: ApiOppgaveProjeksjon[] = [
     {
         id: '4680',
+        personPseudoId: '1be8f892-b6ff-47ed-b899-bfd0626f523d',
         aktorId: '2564094783926',
         opprettetTidspunkt: '2022-11-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-04-21 09:48:33.10625',
@@ -74,6 +75,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '5890',
+        personPseudoId: '2632e37d-33ca-454a-9489-d9847008858a',
         aktorId: '2805594640665',
         opprettetTidspunkt: '2023-04-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2023-01-21 09:48:33.10625',
@@ -112,6 +114,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     {
         // En ganske urealistisk oppgave, for å kunne fremprovosere en graphql-error fra oppgavelista
         id: '44201',
+        personPseudoId: 'b99b7845-f892-484c-b1d8-e070d2821bb6',
         aktorId: '1000000000003',
         opprettetTidspunkt: '2024-04-10T11:09:57',
         opprinneligSoeknadstidspunkt: '2024-01-21 09:48:33.10625',
@@ -125,6 +128,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '4959',
+        personPseudoId: '3ac490e6-1be6-480e-bb7a-06a5a507ab87',
         aktorId: '2348185725298',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
@@ -144,6 +148,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '4917',
+        personPseudoId: 'a8870494-8b47-457d-8ac7-606daee9c66f',
         aktorId: '1000001337420',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
@@ -162,6 +167,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '5917',
+        personPseudoId: '604575dd-da3c-4cc0-a1de-578496192441',
         aktorId: '1000001337421',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
@@ -180,6 +186,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '90021',
+        personPseudoId: '9f9092e6-9b9f-4847-a958-f375e50d0957',
         aktorId: '2128719010641',
         opprettetTidspunkt: '2023-07-02T11:08:58',
         opprinneligSoeknadstidspunkt: '2023-07-01 12:27:29.585667',

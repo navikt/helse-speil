@@ -5,6 +5,7 @@ import { generateId } from '@utils/generateId';
 
 export const enOppgaveForOversikten: OverridableConstructor<ApiOppgaveProjeksjon> = (overrides) => ({
     id: generateId(),
+    personPseudoId: '5fc87a14-1720-4c26-a26d-588da529af8a',
     aktorId: 'en-aktør',
     navn: {
         fornavn: 'Fornavn',
