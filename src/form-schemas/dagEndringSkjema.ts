@@ -1,11 +1,12 @@
 import { z } from 'zod/v4';
 
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
-import { utbetalingstabelldagtypeValues } from '@typer/utbetalingstabell';
+import { Egenmeldingsdag, MeldingTilNavdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import { Utbetalingstabelldag, utbetalingstabelldagtypeValues } from '@typer/utbetalingstabell';
 
 export type DagEndringFormFields = z.infer<ReturnType<typeof lagDagEndringSchema>>;
 
-export const lagDagEndringSchema = (minimumGrad: number) =>
+export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetalingstabelldag[]) =>
     z
         .object({
             dagtype: z.enum(utbetalingstabelldagtypeValues),
@@ -46,5 +47,18 @@ export const lagDagEndringSchema = (minimumGrad: number) =>
                         path: ['grad'],
                     });
                 }
+            }
+            if (
+                (dagtype === 'Syk' || dagtype === 'SykNav') &&
+                markerteDager.some(
+                    (markertDag) => markertDag.dag === Egenmeldingsdag || markertDag.dag === MeldingTilNavdag,
+                )
+            ) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: `Du kan ikke overstyre Egenmelding eller Melding til Nav til Syk eller Syk (Nav)`,
+                    input: dagtype,
+                    path: ['dagtype'],
+                });
             }
         });

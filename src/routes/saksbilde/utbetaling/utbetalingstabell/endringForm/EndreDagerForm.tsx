@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { DagEndringFormFields, lagDagEndringSchema } from '@/form-schemas/dagEndringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -31,7 +31,7 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
         .reduce((previousValue, currentValue) => Math.max(previousValue, currentValue.grad ?? 0), 0);
 
     const form = useForm<DagEndringFormFields>({
-        resolver: zodResolver(lagDagEndringSchema(minimumGrad)),
+        resolver: zodResolver(lagDagEndringSchema(minimumGrad, [...markerteDager.values()])),
         defaultValues: {
             dagtype: 'Syk',
             grad: 100,
@@ -66,8 +66,9 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
                             name="dagtype"
                             erSelvstendig={erSelvstendig}
                             overstyringsdagtyper={overstyringsdagtyper}
+                            hideError
                         />
-                        <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} />
+                        <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
                         <VStack align={'end'} justify={'end'}>
                             <Button
                                 size="small"
@@ -80,6 +81,24 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
                             </Button>
                         </VStack>
                     </HStack>
+                    <VStack paddingBlock="2 0">
+                        {form.formState.errors.dagtype?.message && (
+                            <HStack gap="2">
+                                <Label size="small">Dagtype:</Label>
+                                <ErrorMessage size="small" showIcon>
+                                    {form.formState.errors.dagtype.message}
+                                </ErrorMessage>
+                            </HStack>
+                        )}
+                        {form.formState.errors.grad?.message && (
+                            <HStack gap="2">
+                                <Label size="small">Grad:</Label>
+                                <ErrorMessage size="small" showIcon>
+                                    {form.formState.errors.grad.message}
+                                </ErrorMessage>
+                            </HStack>
+                        )}
+                    </VStack>
                 </form>
             </FormProvider>
         </div>
