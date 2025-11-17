@@ -77,7 +77,9 @@ export function FlexjarFelles({
     }, [activeState]);
 
     useEffect(() => {
-        fetchFeedback().catch();
+        if (textValue === '') {
+            fetchFeedback().catch();
+        }
     }, [activeState]);
 
     const feedbackPropsString = JSON.stringify(feedbackProps);
@@ -98,7 +100,6 @@ export function FlexjarFelles({
         const oppdatert = await fetchFeedback(p);
         if (oppdatert) {
             setErrorMsg(null);
-
             setActiveState(null);
             setTextValue('');
             setThanksFeedback(true);
