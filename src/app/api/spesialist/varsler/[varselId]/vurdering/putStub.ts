@@ -22,7 +22,7 @@ export const putStub = async (request: NextRequest, params: Promise<{ varselId: 
             type: 'about:blank',
         });
     }
-    VarselMock.leggTilEndretVarsel({
+    const endring = VarselMock.leggTilEndretVarsel({
         ...funnetVarsel,
         definisjonId: definisjonId,
         vurdering: {
@@ -31,5 +31,5 @@ export const putStub = async (request: NextRequest, params: Promise<{ varselId: 
             tidsstempel: new Date().toISOString(),
         },
     });
-    return new NextResponse(null, { status: 204 });
+    return new NextResponse(null, { status: endring === 'endret' ? 200 : 204 });
 };

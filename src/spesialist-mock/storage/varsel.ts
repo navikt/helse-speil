@@ -108,12 +108,15 @@ export class VarselMock {
         return varselMedVurdering;
     };
 
-    static leggTilEndretVarsel = (varsel: VarselDto) => {
+    static leggTilEndretVarsel = (varsel: VarselDto): 'uendret' | 'endret' => {
         const funnetVarselIndex = VarselMock.varsler.findIndex((it) => it.id === varsel.id);
-        if (funnetVarselIndex !== -1) {
+        const funnetVarsel = VarselMock.varsler[funnetVarselIndex];
+        if (funnetVarsel) {
             VarselMock.varsler[funnetVarselIndex] = varsel;
+            return funnetVarsel === varsel ? 'uendret' : 'endret';
         } else {
             VarselMock.varsler.push(varsel);
+            return 'endret';
         }
     };
     static settVarselstatusAktiv = ({

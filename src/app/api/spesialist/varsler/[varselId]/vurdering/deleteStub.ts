@@ -20,7 +20,7 @@ export const deleteStub = async (_: NextRequest, params: Promise<{ varselId: str
             type: 'about:blank',
         });
     }
-    VarselMock.leggTilEndretVarsel({
+    const endring = VarselMock.leggTilEndretVarsel({
         ...funnetVarsel,
         vurdering: {
             status: Varselstatus.Aktiv,
@@ -28,5 +28,5 @@ export const deleteStub = async (_: NextRequest, params: Promise<{ varselId: str
             tidsstempel: '',
         },
     });
-    return new NextResponse(null, { status: 200 });
+    return new NextResponse(null, { status: endring === 'endret' ? 200 : 204 });
 };
