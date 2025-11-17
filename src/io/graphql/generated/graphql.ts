@@ -6724,32 +6724,6 @@ export type SendTilGodkjenningV2MutationVariables = Exact<{
 
 export type SendTilGodkjenningV2Mutation = { __typename: 'Mutation'; sendTilGodkjenningV2: boolean | null };
 
-export type SettVarselStatusMutationVariables = Exact<{
-    generasjonIdString: Scalars['String']['input'];
-    ident: Scalars['String']['input'];
-    varselkode: Scalars['String']['input'];
-    definisjonIdString?: InputMaybe<Scalars['String']['input']>;
-}>;
-
-export type SettVarselStatusMutation = {
-    __typename: 'Mutation';
-    settVarselstatus: {
-        __typename: 'VarselDTO';
-        forklaring: string | null;
-        definisjonId: string;
-        generasjonId: string;
-        handling: string | null;
-        kode: string;
-        tittel: string;
-        vurdering: {
-            __typename: 'VarselvurderingDTO';
-            ident: string;
-            status: Varselstatus;
-            tidsstempel: string;
-        } | null;
-    } | null;
-};
-
 export type TilInfoTrygdMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
     arsak: Scalars['String']['input'];
@@ -14086,94 +14060,6 @@ export const SendTilGodkjenningV2Document = {
         },
     ],
 } as unknown as DocumentNode<SendTilGodkjenningV2Mutation, SendTilGodkjenningV2MutationVariables>;
-export const SettVarselStatusDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'SettVarselStatus' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'generasjonIdString' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'ident' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'varselkode' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'definisjonIdString' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'settVarselstatus' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'generasjonIdString' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'generasjonIdString' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'ident' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'ident' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'varselkode' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'varselkode' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'definisjonIdString' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'definisjonIdString' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'forklaring' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'definisjonId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'generasjonId' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'handling' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'kode' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tittel' } },
-                                { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'vurdering' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'ident' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'status' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tidsstempel' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: '__typename' } },
-                                        ],
-                                    },
-                                },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<SettVarselStatusMutation, SettVarselStatusMutationVariables>;
 export const TilInfoTrygdDocument = {
     kind: 'Document',
     definitions: [

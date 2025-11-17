@@ -1,13 +1,6 @@
-import dayjs from 'dayjs';
-import { GraphQLError } from 'graphql';
-
-import { PersonFragment } from '@io/graphql';
 import { ApiHttpProblemDetailsGetVarselErrorCode, ApiVarsel } from '@io/rest/generated/spesialist.schemas';
-import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 
-import { MutationSettVarselstatusArgs, Person, VarselDto, Varselstatus } from '../schemaTypes';
-
-const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
+import { VarselDto } from '../schemaTypes';
 
 export class VarselMock {
     private static varsler: VarselDto[] = [];
@@ -49,65 +42,6 @@ export class VarselMock {
                 : varsel;
         });
     };
-
-    static settVarselstatusVurdert = (
-        { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusArgs,
-        person?: Person,
-    ): VarselDto | GraphQLError => {
-        const gjeldendeVarsel = finnAlleInntektsforhold((person as PersonFragment) ?? null)
-            .flatMap((arbeidsgiver) =>
-                arbeidsgiver.generasjoner.flatMap((generasjon) =>
-                    generasjon.perioder.flatMap((periode) => periode.varsler),
-                ),
-            )
-            .find((varsel) => varsel.kode === varselkode && varsel.generasjonId === generasjonIdString);
-
-        const { varselMedEndring, index } = this.findWithIndex(
-            this.varsler,
-            (varselMedEndring) =>
-                varselMedEndring.generasjonId === generasjonIdString && varselMedEndring.kode === varselkode,
-        );
-
-        if (varselMedEndring?.vurdering && [Varselstatus.Vurdert].includes(varselMedEndring.vurdering.status)) {
-            return new GraphQLError(
-                `Varsel med varselkode=${varselkode}, generasjonId=${generasjonIdString} har ikke status AKTIV`,
-                { extensions: { code: 409 } },
-            );
-        }
-
-        const varselMedVurdering: VarselDto = varselMedEndring
-            ? {
-                  ...varselMedEndring,
-                  vurdering: {
-                      status: Varselstatus.Vurdert,
-                      ident: ident,
-                      tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  },
-              }
-            : {
-                  id: gjeldendeVarsel?.id ?? crypto.randomUUID(),
-                  definisjonId: definisjonIdString ?? '',
-                  generasjonId: generasjonIdString,
-                  opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  kode: varselkode,
-                  tittel: gjeldendeVarsel?.tittel ?? '',
-                  forklaring: gjeldendeVarsel?.forklaring ?? '',
-                  handling: gjeldendeVarsel?.handling ?? '',
-                  vurdering: {
-                      status: Varselstatus.Vurdert,
-                      ident: ident,
-                      tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  },
-              };
-        if (index !== -1) {
-            this.varsler[index] = varselMedVurdering;
-        } else {
-            this.varsler.push(varselMedVurdering);
-        }
-
-        return varselMedVurdering;
-    };
-
     static leggTilEndretVarsel = (varsel: VarselDto): 'uendret' | 'endret' => {
         const funnetVarselIndex = VarselMock.varsler.findIndex((it) => it.id === varsel.id);
         const funnetVarsel = VarselMock.varsler[funnetVarselIndex];
@@ -118,58 +52,5 @@ export class VarselMock {
             VarselMock.varsler.push(varsel);
             return 'endret';
         }
-    };
-    static settVarselstatusAktiv = ({
-        generasjonIdString,
-        varselkode,
-        ident,
-    }: MutationSettVarselstatusArgs): VarselDto | GraphQLError => {
-        const { varselMedEndring, index } = this.findWithIndex(
-            this.varsler,
-            (varselMedEndring) =>
-                varselMedEndring.generasjonId === generasjonIdString && varselMedEndring.kode === varselkode,
-        );
-
-        if (varselMedEndring?.vurdering && [Varselstatus.Godkjent].includes(varselMedEndring.vurdering.status)) {
-            return new GraphQLError(
-                `Varsel med varselkode=${varselkode}, generasjonId=${generasjonIdString} har ikke status GODKJENT`,
-                { extensions: { code: 409 } },
-            );
-        }
-
-        this.varsler[index] = varselMedEndring
-            ? {
-                  ...varselMedEndring,
-                  vurdering: {
-                      status: Varselstatus.Aktiv,
-                      ident: ident,
-                      tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  },
-              }
-            : {
-                  id: crypto.randomUUID(),
-                  definisjonId: '',
-                  generasjonId: generasjonIdString,
-                  opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  kode: varselkode,
-                  tittel: '',
-                  forklaring: null,
-                  handling: null,
-                  vurdering: {
-                      status: Varselstatus.Aktiv,
-                      ident: ident,
-                      tidsstempel: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                  },
-              };
-        return this.varsler[index];
-    };
-
-    static findWithIndex = (arr: VarselDto[], predicate: (varsel: VarselDto) => boolean) => {
-        const index = arr.findIndex(predicate);
-
-        return {
-            varselMedEndring: index !== -1 ? arr[index] : null,
-            index,
-        };
     };
 }

@@ -46,7 +46,6 @@ import {
     MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningV2Args,
-    MutationSettVarselstatusArgs,
     MutationStansAutomatiskBehandlingArgs,
     Notat,
     PeriodehistorikkType,
@@ -194,24 +193,6 @@ const getResolvers = (): IResolvers => ({
         },
         leggTilKommentar: (_, { tekst, dialogRef, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
             return DialogMock.addKommentar(dialogRef, { tekst, saksbehandlerident });
-        },
-        settVarselstatus: async (
-            _,
-            { generasjonIdString, definisjonIdString, varselkode, ident }: MutationSettVarselstatusArgs,
-        ) => {
-            if (definisjonIdString) {
-                return VarselMock.settVarselstatusVurdert(
-                    {
-                        generasjonIdString,
-                        definisjonIdString,
-                        varselkode,
-                        ident,
-                    },
-                    valgtPerson,
-                );
-            } else {
-                return VarselMock.settVarselstatusAktiv({ generasjonIdString, varselkode, ident });
-            }
         },
         opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
             if (TildelingMock.harTildeling(oppgaveId)) {
