@@ -32,14 +32,15 @@ const getErrorMessage = (errorCode: number): string => {
 };
 
 export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement => {
+    const [isLoading, setIsLoading] = React.useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
     const apolloClient = useApolloClient();
 
-    const { mutate: putVurdering, isPending: putIsPending, error: putError } = usePutVarselvurdering();
+    const { mutate: putVurdering, error: putError } = usePutVarselvurdering();
 
-    const { mutate: deleteVurdering, isPending: deleteIsPending, error: deleteError } = useDeleteVarselvurdering();
+    const { mutate: deleteVurdering, error: deleteError } = useDeleteVarselvurdering();
 
     const refetchVarsel = async () => {
         const { data: response } = await getVarsel(varsel.id);
@@ -59,6 +60,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
                 },
             });
         }
+        setIsLoading(false);
     };
 
     const settVarselstatusVurdert = async () => {
@@ -66,6 +68,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
         if (ident === undefined || ident === null) {
             return;
         }
+        setIsLoading(true);
 
         putVurdering(
             {
@@ -76,6 +79,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
             },
             {
                 onSuccess: async () => refetchVarsel(),
+                onError: () => setIsLoading(false),
             },
         );
     };
@@ -84,6 +88,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
         if (ident === undefined || ident === null) {
             return;
         }
+        setIsLoading(true);
 
         deleteVurdering(
             {
@@ -91,13 +96,14 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
             },
             {
                 onSuccess: async () => refetchVarsel(),
+                onError: () => setIsLoading(false),
             },
         );
     };
 
     return (
         <div className={classNames(className, styles.varsel, styles[type])}>
-            {putIsPending || deleteIsPending ? (
+            {isLoading ? (
                 <Loader className={styles.loader} size="medium" variant="interaction" />
             ) : (
                 <Avhuking
