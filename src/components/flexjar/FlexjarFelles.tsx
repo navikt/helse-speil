@@ -44,42 +44,46 @@ export function FlexjarFelles({
     const { mutate: oppdaterFeedback, error: oppdaterError } = useOppdaterFlexjarFeedback();
 
     const fetchFeedback = useCallback(
-        async (knappeklikk?: () => void): Promise<boolean> => {
-            if (activeState === null) {
-                return false;
-            }
+        (knappeklikk?: () => void): Promise<void> => {
+            if (activeState === null) return Promise.resolve();
 
             const payload: FeedbackPayload = {
                 feedback: textValue,
-                feedbackId: feedbackId,
+                feedbackId,
                 svar: activeState,
                 ...feedbackProps,
             };
 
-            if (data?.id) {
-                oppdaterFeedback(
-                    {
-                        id: data.id,
-                        payload,
-                    },
-                    { onSuccess: knappeklikk },
-                );
-                return true;
-            } else {
-                giFeedback(payload);
-                return false;
-            }
+            return new Promise((resolve, reject) => {
+                if (data?.id) {
+                    oppdaterFeedback(
+                        {
+                            id: data.id,
+                            payload,
+                        },
+                        {
+                            onSuccess: () => {
+                                knappeklikk?.();
+                                resolve();
+                            },
+                            onError: reject,
+                        },
+                    );
+                } else {
+                    giFeedback(payload, {
+                        onSuccess: () => {
+                            knappeklikk?.();
+                            resolve();
+                        },
+                        onError: reject,
+                    });
+                }
+            });
         },
         [activeState, data?.id, feedbackId, feedbackProps, giFeedback, oppdaterFeedback, textValue],
     );
     useEffect(() => {
         setErrorMsg(null);
-    }, [activeState]);
-
-    useEffect(() => {
-        if (textValue === '') {
-            fetchFeedback().catch();
-        }
     }, [activeState]);
 
     const feedbackPropsString = JSON.stringify(feedbackProps);
@@ -97,12 +101,16 @@ export function FlexjarFelles({
             setErrorMsg('Tilbakemeldingen kan ikke være tom. Legg til tekst i feltet.');
             return;
         }
-        const oppdatert = await fetchFeedback(p);
-        if (oppdatert) {
+
+        try {
+            await fetchFeedback(p);
+
             setErrorMsg(null);
             setActiveState(null);
             setTextValue('');
             setThanksFeedback(true);
+        } catch {
+            setErrorMsg('En ukjent feil oppstod, prøv igjen senere');
         }
     };
 
