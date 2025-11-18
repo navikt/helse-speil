@@ -556,7 +556,6 @@ export type Mutation = {
     sendIRetur?: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2?: Maybe<Scalars['Boolean']['output']>;
     sendTilInfotrygd: Scalars['Boolean']['output'];
-    settVarselstatus?: Maybe<VarselDto>;
     skjonnsfastsettSykepengegrunnlag?: Maybe<Scalars['Boolean']['output']>;
     stansAutomatiskBehandling: Scalars['Boolean']['output'];
 };
@@ -654,13 +653,6 @@ export type MutationSendTilInfotrygdArgs = {
     begrunnelser: Array<Scalars['String']['input']>;
     kommentar?: InputMaybe<Scalars['String']['input']>;
     oppgavereferanse: Scalars['String']['input'];
-};
-
-export type MutationSettVarselstatusArgs = {
-    definisjonIdString?: InputMaybe<Scalars['String']['input']>;
-    generasjonIdString: Scalars['String']['input'];
-    ident: Scalars['String']['input'];
-    varselkode: Scalars['String']['input'];
 };
 
 export type MutationSkjonnsfastsettSykepengegrunnlagArgs = {
@@ -992,6 +984,7 @@ export type QueryOpptegnelserArgs = {
 export type QueryPersonArgs = {
     aktorId?: InputMaybe<Scalars['String']['input']>;
     fnr?: InputMaybe<Scalars['String']['input']>;
+    personPseudoId?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type Refusjonselement = {
