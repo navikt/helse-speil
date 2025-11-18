@@ -5037,6 +5037,7 @@ export type PersonFragment = {
 export type FetchPersonQueryVariables = Exact<{
     fnr?: InputMaybe<Scalars['String']['input']>;
     aktorId?: InputMaybe<Scalars['String']['input']>;
+    personPseudoId?: InputMaybe<Scalars['String']['input']>;
 }>;
 
 export type FetchPersonQuery = {
@@ -11988,6 +11989,11 @@ export const FetchPersonDocument = {
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'aktorId' } },
                     type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
                 },
+                {
+                    kind: 'VariableDefinition',
+                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'personPseudoId' } },
+                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                },
             ],
             selectionSet: {
                 kind: 'SelectionSet',
@@ -12005,6 +12011,11 @@ export const FetchPersonDocument = {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'aktorId' },
                                 value: { kind: 'Variable', name: { kind: 'Name', value: 'aktorId' } },
+                            },
+                            {
+                                kind: 'Argument',
+                                name: { kind: 'Name', value: 'personPseudoId' },
+                                value: { kind: 'Variable', name: { kind: 'Name', value: 'personPseudoId' } },
                             },
                         ],
                         selectionSet: {
