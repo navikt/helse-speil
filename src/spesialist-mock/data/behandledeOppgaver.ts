@@ -4,6 +4,7 @@ export const behandledeOppgaver: BehandletOppgave[] = [
     {
         id: '4347',
         aktorId: '2564094783926',
+        personPseudoId: 'c7b71860-6629-45d9-8ec2-82c781a5fee0',
         ferdigstiltAv: 'Utvikler, Lokal',
         saksbehandler: 'A123456',
         beslutter: null,
@@ -16,6 +17,7 @@ export const behandledeOppgaver: BehandletOppgave[] = [
     {
         id: '4348',
         aktorId: '2564094783926',
+        personPseudoId: 'acf338da-e30b-4bfe-8d28-912c979f1e04',
         ferdigstiltAv: 'Saksbehandler, Annen',
         saksbehandler: 'B654321',
         beslutter: 'A123456',

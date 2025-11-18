@@ -178,6 +178,7 @@ export type BehandletOppgave = {
     id: Scalars['String']['output'];
     oppgavetype: Oppgavetype;
     periodetype: Periodetype;
+    personPseudoId: Scalars['UUID']['output'];
     personnavn: Personnavn;
     saksbehandler?: Maybe<Scalars['String']['output']>;
 };

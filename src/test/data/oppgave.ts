@@ -7,6 +7,7 @@ export const enOppgaveForOversikten: OverridableConstructor<ApiOppgaveProjeksjon
     id: generateId(),
     personPseudoId: '5fc87a14-1720-4c26-a26d-588da529af8a',
     aktorId: 'en-aktør',
+    personPseudoId: '51f1c4e0-5dd3-449b-92fc-693385970ea0',
     navn: {
         fornavn: 'Fornavn',
         mellomnavn: null,

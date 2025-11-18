@@ -180,6 +180,7 @@ export type BehandletOppgave = {
     id: Scalars['String']['output'];
     oppgavetype: Oppgavetype;
     periodetype: Periodetype;
+    personPseudoId: Scalars['UUID']['output'];
     personnavn: Personnavn;
     saksbehandler: Maybe<Scalars['String']['output']>;
 };
@@ -1510,6 +1511,7 @@ export type BehandledeOppgaverFeedQuery = {
             __typename: 'BehandletOppgave';
             id: string;
             aktorId: string;
+            personPseudoId: string;
             ferdigstiltAv: string | null;
             beslutter: string | null;
             saksbehandler: string | null;
@@ -11304,6 +11306,7 @@ export const BehandledeOppgaverFeedDocument = {
                                         selections: [
                                             { kind: 'Field', name: { kind: 'Name', value: 'id' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'personPseudoId' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'beslutter' } },
                                             { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },

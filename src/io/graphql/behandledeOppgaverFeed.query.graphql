@@ -3,6 +3,7 @@ query BehandledeOppgaverFeed($offset: Int!, $limit: Int!, $fom: LocalDate!, $tom
         oppgaver {
             id
             aktorId
+            personPseudoId
             ferdigstiltAv
             beslutter
             saksbehandler
