@@ -784,16 +784,16 @@ export interface ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode {
     code?: ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeCode;
 }
 
-export type ApiFattVedtakRequestBegrunnelse = null | string;
+export type ApiVedtakRequestBegrunnelse = null | string;
 
-export interface ApiFattVedtakRequest {
-    begrunnelse?: ApiFattVedtakRequestBegrunnelse;
+export interface ApiVedtakRequest {
+    begrunnelse?: ApiVedtakRequestBegrunnelse;
 }
 
-export type ApiPostFattVedtakErrorCode = (typeof ApiPostFattVedtakErrorCode)[keyof typeof ApiPostFattVedtakErrorCode];
+export type ApiPostVedtakErrorCode = (typeof ApiPostVedtakErrorCode)[keyof typeof ApiPostVedtakErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostFattVedtakErrorCode = {
+export const ApiPostVedtakErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
     OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
@@ -802,21 +802,22 @@ export const ApiPostFattVedtakErrorCode = {
     VARSLER_MANGLER_VURDERING: 'VARSLER_MANGLER_VURDERING',
     OVERLAPPER_MED_INFOTRYGD: 'OVERLAPPER_MED_INFOTRYGD',
     BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+    KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING: 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
     TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER: 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER',
     VARSEL_MANGLER_VARSELDEFINISJON: 'VARSEL_MANGLER_VARSELDEFINISJON',
 } as const;
 
-export type ApiHttpProblemDetailsApiPostFattVedtakErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsApiPostVedtakErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiPostFattVedtakErrorCodeCode = null | ApiPostFattVedtakErrorCode;
+export type ApiHttpProblemDetailsApiPostVedtakErrorCodeCode = null | ApiPostVedtakErrorCode;
 
-export interface ApiHttpProblemDetailsApiPostFattVedtakErrorCode {
+export interface ApiHttpProblemDetailsApiPostVedtakErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsApiPostFattVedtakErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostFattVedtakErrorCodeCode;
+    detail?: ApiHttpProblemDetailsApiPostVedtakErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostVedtakErrorCodeCode;
 }
 
 export interface ApiVedtaksperiodeAnnullerRequestÅrsak {

@@ -4,7 +4,7 @@ import { Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Personinfo, Utbetaling } from '@io/graphql';
-import { PostFattVedtakMutationError, usePostFattVedtak } from '@io/rest/generated/vedtak/vedtak';
+import { PostVedtakMutationError, usePostVedtak } from '@io/rest/generated/vedtak/vedtak';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
@@ -51,7 +51,7 @@ export const GodkjenningButton = ({
     ...buttonProps
 }: GodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
-    const { mutate, error, isPending: loading, reset: resetFattVedtakMutation } = usePostFattVedtak();
+    const { mutate, error, isPending: loading, reset: resetFattVedtakMutation } = usePostVedtak();
     useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
 
     const addUtbetalingstoast = useAddUtbetalingstoast();
@@ -106,7 +106,7 @@ export const GodkjenningButton = ({
     );
 };
 
-const somBackendfeil = (error: PostFattVedtakMutationError): BackendFeil => {
+const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
     let problemDetailsCode = error.response?.data?.code;
     if (!problemDetailsCode)
         return {
@@ -128,6 +128,7 @@ const somBackendfeil = (error: PostFattVedtakMutationError): BackendFeil => {
             return message('Det mangler vurdering av varsler i en eller flere perioder');
         case 'OVERLAPPER_MED_INFOTRYGD':
             return message('Det er overlappende utbetaling/registrering i Infotrygd');
+        case 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING':
         case 'BEHANDLING_IKKE_FUNNET':
         case 'VEDTAKSPERIODE_IKKE_FUNNET':
         case 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER':

@@ -6,42 +6,38 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { ApiFattVedtakRequest, ApiHttpProblemDetailsApiPostFattVedtakErrorCode } from '../spesialist.schemas';
+import type { ApiHttpProblemDetailsApiPostVedtakErrorCode, ApiVedtakRequest } from '../spesialist.schemas';
 
 import { useMutation } from '@tanstack/react-query';
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
-export const postFattVedtak = (
-    behandlingId: string,
-    apiFattVedtakRequest?: ApiFattVedtakRequest,
-    signal?: AbortSignal,
-) => {
+export const postVedtak = (behandlingId: string, apiVedtakRequest?: ApiVedtakRequest, signal?: AbortSignal) => {
     return callCustomAxios<void>({
-        url: `/api/spesialist/vedtak/${behandlingId}/fatt`,
+        url: `/api/spesialist/behandlinger/${behandlingId}/vedtak`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: apiFattVedtakRequest,
+        data: apiVedtakRequest,
         signal,
     });
 };
 
-export const getPostFattVedtakMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostFattVedtakErrorCode>,
+export const getPostVedtakMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostVedtakErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postFattVedtak>>,
+        Awaited<ReturnType<typeof postVedtak>>,
         TError,
-        { behandlingId: string; data: ApiFattVedtakRequest },
+        { behandlingId: string; data: ApiVedtakRequest },
         TContext
     >;
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof postFattVedtak>>,
+    Awaited<ReturnType<typeof postVedtak>>,
     TError,
-    { behandlingId: string; data: ApiFattVedtakRequest },
+    { behandlingId: string; data: ApiVedtakRequest },
     TContext
 > => {
-    const mutationKey = ['postFattVedtak'];
+    const mutationKey = ['postVedtak'];
     const { mutation: mutationOptions } = options
         ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
             ? options
@@ -49,41 +45,38 @@ export const getPostFattVedtakMutationOptions = <
         : { mutation: { mutationKey } };
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postFattVedtak>>,
-        { behandlingId: string; data: ApiFattVedtakRequest }
+        Awaited<ReturnType<typeof postVedtak>>,
+        { behandlingId: string; data: ApiVedtakRequest }
     > = (props) => {
         const { behandlingId, data } = props ?? {};
 
-        return postFattVedtak(behandlingId, data);
+        return postVedtak(behandlingId, data);
     };
 
     return { mutationFn, ...mutationOptions };
 };
 
-export type PostFattVedtakMutationResult = NonNullable<Awaited<ReturnType<typeof postFattVedtak>>>;
-export type PostFattVedtakMutationBody = ApiFattVedtakRequest;
-export type PostFattVedtakMutationError = ErrorType<ApiHttpProblemDetailsApiPostFattVedtakErrorCode>;
+export type PostVedtakMutationResult = NonNullable<Awaited<ReturnType<typeof postVedtak>>>;
+export type PostVedtakMutationBody = ApiVedtakRequest;
+export type PostVedtakMutationError = ErrorType<ApiHttpProblemDetailsApiPostVedtakErrorCode>;
 
-export const usePostFattVedtak = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostFattVedtakErrorCode>,
-    TContext = unknown,
->(
+export const usePostVedtak = <TError = ErrorType<ApiHttpProblemDetailsApiPostVedtakErrorCode>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postFattVedtak>>,
+            Awaited<ReturnType<typeof postVedtak>>,
             TError,
-            { behandlingId: string; data: ApiFattVedtakRequest },
+            { behandlingId: string; data: ApiVedtakRequest },
             TContext
         >;
     },
     queryClient?: QueryClient,
 ): UseMutationResult<
-    Awaited<ReturnType<typeof postFattVedtak>>,
+    Awaited<ReturnType<typeof postVedtak>>,
     TError,
-    { behandlingId: string; data: ApiFattVedtakRequest },
+    { behandlingId: string; data: ApiVedtakRequest },
     TContext
 > => {
-    const mutationOptions = getPostFattVedtakMutationOptions(options);
+    const mutationOptions = getPostVedtakMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };
