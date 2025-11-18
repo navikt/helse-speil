@@ -1,5 +1,6 @@
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactElement, useRef } from 'react';
+import { validate } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
 
@@ -15,7 +16,7 @@ import { apolloExtensionValue } from '@utils/error';
 
 import styles from './Personsøk.module.css';
 
-const erGyldigPersonId = (value: string) => value.match(/^\d{13}$/) || value.match(/^\d{11}$/);
+const erGyldigPersonId = (value: string) => value.match(/^\d{13}$/) || value.match(/^\d{11}$/) || validate(value);
 
 export const Personsøk = (): ReactElement => {
     const addVarsel = useAddVarsel();
@@ -41,9 +42,11 @@ export const Personsøk = (): ReactElement => {
             router.push('/');
             addVarsel(new BadRequestError(personId));
         } else {
-            const variables: { aktorId?: string; fnr?: string } = validFødselsnummer(personId)
+            const variables: { aktorId?: string; fnr?: string; personPseudoId?: string } = validFødselsnummer(personId)
                 ? { fnr: personId }
-                : { aktorId: personId };
+                : validate(personId)
+                  ? { personPseudoId: personId }
+                  : { aktorId: personId };
             hentPerson({
                 variables: variables,
             }).then(({ data, error }) => {
