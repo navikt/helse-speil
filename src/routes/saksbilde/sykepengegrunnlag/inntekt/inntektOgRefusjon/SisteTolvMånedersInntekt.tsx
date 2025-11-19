@@ -1,8 +1,8 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useState } from 'react';
 
-import { BodyShort, Detail, HStack } from '@navikt/ds-react';
+import { Accordion, BodyShort, Detail, HStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
@@ -55,6 +55,7 @@ export const SisteTolvMånedersInntekt = ({
     erAktivGhost = false,
     inntekterForSammenligningsgrunnlag = [],
 }: InntektFraAOrdningenProps) => {
+    const [open, setOpen] = useState(false);
     if (!inntektFraAOrdningen) {
         return;
     }
@@ -66,6 +67,9 @@ export const SisteTolvMånedersInntekt = ({
         antallMåneder,
     );
 
+    const førsteTreMnd = sisteXmåneder.slice(0, 3);
+    const restenAvMnd = sisteXmåneder.slice(3);
+
     return (
         <>
             <HStack gap="2" align="center">
@@ -75,7 +79,11 @@ export const SisteTolvMånedersInntekt = ({
                 <Kilde type={Inntektskilde.Aordningen}>{kildeForkortelse(Inntektskilde.Aordningen)}</Kilde>
             </HStack>
             <div
-                className={classNames(styles.grid, harInntekterForSammenligningsgrunnlag && styles.sammenligningsgrid)}
+                className={classNames(
+                    styles.grid,
+                    !harInntekterForSammenligningsgrunnlag && styles.erTreMnd,
+                    harInntekterForSammenligningsgrunnlag && styles.sammenligningsgrid,
+                )}
             >
                 <ParagrafOverskrift harInntekterForSammenligningsgrunnlag={harInntekterForSammenligningsgrunnlag} />
                 <Gjennomsnitt3Mnd
@@ -85,7 +93,7 @@ export const SisteTolvMånedersInntekt = ({
                     )}
                     harInntekterForSammenligningsgrunnlag={harInntekterForSammenligningsgrunnlag}
                 />
-                {sisteXmåneder.map((inntekt, i) => (
+                {førsteTreMnd.map((inntekt, i) => (
                     <React.Fragment key={i}>
                         <BodyShort className={styles.bold}>
                             {getMonthName(inntekt.maned)} {inntekt.maned.split('-')[0]}
@@ -98,6 +106,40 @@ export const SisteTolvMånedersInntekt = ({
                         )}
                     </React.Fragment>
                 ))}
+                {restenAvMnd.length > 0 && (
+                    <Accordion>
+                        <Accordion.Item open={open} className={styles.item}>
+                            <Accordion.Content className={styles.content}>
+                                <div className={classNames(styles.sammenligningsgridAlle, styles.grid)}>
+                                    {restenAvMnd.map((inntekt, i) => (
+                                        <React.Fragment key={i}>
+                                            <BodyShort className={styles.bold}>
+                                                {getMonthName(inntekt.maned)} {inntekt.maned.split('-')[0]}
+                                            </BodyShort>
+                                            <BodyShort>
+                                                {inntekt.sum !== null ? somPenger(inntekt.sum) : 'Ikke rapportert'}
+                                            </BodyShort>
+                                            {harInntekterForSammenligningsgrunnlag && (
+                                                <BodyShort>
+                                                    {visningSammenligningsgrunnlag(
+                                                        inntekterForSammenligningsgrunnlag,
+                                                        inntekt.maned,
+                                                    )}
+                                                </BodyShort>
+                                            )}
+                                        </React.Fragment>
+                                    ))}
+                                </div>
+                            </Accordion.Content>
+                            <Accordion.Header
+                                className={styles.header}
+                                onClick={() => setOpen((prevState) => !prevState)}
+                            >
+                                {open ? 'Vis flere måneder' : 'Vis færre måneder'}
+                            </Accordion.Header>
+                        </Accordion.Item>
+                    </Accordion>
+                )}
             </div>
             {erAktivGhost && (
                 <div className={styles.arbeidsforholdInfoText}>

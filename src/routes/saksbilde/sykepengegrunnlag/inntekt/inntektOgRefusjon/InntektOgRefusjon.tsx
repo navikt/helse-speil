@@ -84,6 +84,9 @@ export const InntektOgRefusjon = ({
                     arbeidsgiver={arbeidsgiver}
                     inntektFom={inntekt.fom}
                     inntektTom={inntekt.tom}
+                    erDeaktivert={erDeaktivert ?? false}
+                    inntektFraAOrdningen={inntektFraAOrdningen}
+                    inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
                 />
             )}
             {!editing && (

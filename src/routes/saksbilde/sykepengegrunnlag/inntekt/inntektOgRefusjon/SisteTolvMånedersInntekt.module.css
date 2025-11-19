@@ -13,6 +13,11 @@
     text-align: right;
 }
 
+.erTreMnd > p:nth-child(4n + 5),
+.erTreMnd > p:nth-child(4n + 6) {
+    background-color: #f2f7ff;
+}
+
 .sammenligningsgrid {
     grid-template-columns: 11rem 10rem 10rem;
 }
@@ -34,6 +39,36 @@
     background-color: #f2f7ff;
 }
 
+.item {
+    box-shadow: none !important;
+}
+
+.content {
+    padding: 8px 0 0;
+}
+
+.sammenligningsgridAlle {
+    margin-top: -0.5rem;
+    grid-template-columns: 11rem 10rem 10rem;
+}
+
+.sammenligningsgridAlle > p:nth-child(2n) {
+    white-space: nowrap;
+    text-align: left;
+}
+
+.sammenligningsgridAlle > p:nth-child(3n-1),
+.sammenligningsgridAlle > p:nth-child(3n) {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.sammenligningsgridAlle > p:nth-child(6n + 4),
+.sammenligningsgridAlle > p:nth-child(6n + 5),
+.sammenligningsgridAlle > p:nth-child(6n + 6) {
+    background-color: #f2f7ff;
+}
+
 .arbeidsforholdInfoText {
     display: flex;
     margin-top: 32px;
@@ -48,4 +83,25 @@
 
 .gjennomsnitt {
     margin-bottom: 0.5rem;
+}
+
+.header {
+    justify-content: flex-start;
+    display: flex;
+    box-shadow: none !important;
+    padding: 0.5rem 0 !important;
+    text-decoration: underline;
+    color: var(--a-surface-action);
+
+    & > span {
+        font-size: var(--a-font-size-large);
+        font-weight: var(--a-font-weight-regular);
+        line-height: var(--a-font-line-height-heading-xsmall);
+    }
+
+    &:hover {
+        background: none !important;
+        text-decoration: none;
+        color: var(--a-surface-action);
+    }
 }

@@ -15,8 +15,9 @@ import { Alert, Button, HStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { Arbeidsgiver, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import { Arbeidsgiver, InntektFraAOrdningen, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
+import { SisteTolvMånedersInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånedersInntekt';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import {
     useLokaleRefusjonsopplysninger,
@@ -54,10 +55,13 @@ interface EditableInntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];
     skjæringstidspunkt: DateString;
+    inntektFraAOrdningen?: InntektFraAOrdningen[];
+    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
     inntektFom: string | null;
     inntektTom: string | null;
     close: () => void;
     harEndring: (erEndret: boolean) => void;
+    erDeaktivert: Boolean;
 }
 
 export const InntektOgRefusjonSkjema = ({
@@ -66,10 +70,13 @@ export const InntektOgRefusjonSkjema = ({
     omregnetÅrsinntekt,
     begrunnelser,
     skjæringstidspunkt,
+    inntektFraAOrdningen,
+    inntekterForSammenligningsgrunnlag,
     inntektFom,
     inntektTom,
     close,
     harEndring,
+    erDeaktivert,
 }: EditableInntektProps): ReactElement => {
     const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onSubmit', reValidateMode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
@@ -199,6 +206,12 @@ export const InntektOgRefusjonSkjema = ({
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
                         />
                     )}
+                    <SisteTolvMånedersInntekt
+                        skjæringstidspunkt={skjæringstidspunkt}
+                        inntektFraAOrdningen={inntektFraAOrdningen}
+                        erAktivGhost={isGhostPeriode(period) && !erDeaktivert}
+                        inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
+                    />
                     <Begrunnelser begrunnelser={begrunnelser} />
                     <ForklaringTextarea
                         description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
