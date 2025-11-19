@@ -820,6 +820,38 @@ export interface ApiHttpProblemDetailsApiPostVedtakErrorCode {
     code?: ApiHttpProblemDetailsApiPostVedtakErrorCodeCode;
 }
 
+export type ApiForkastingRequestKommentar = null | string;
+
+export interface ApiForkastingRequest {
+    årsak: string;
+    begrunnelser: string[];
+    kommentar?: ApiForkastingRequestKommentar;
+}
+
+export type ApiPostForkastingErrorCode = (typeof ApiPostForkastingErrorCode)[keyof typeof ApiPostForkastingErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostForkastingErrorCode = {
+    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
+    TOTRINNSVURDERING_SENDT_TIL_BESLUTTER: 'TOTRINNSVURDERING_SENDT_TIL_BESLUTTER',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostForkastingErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostForkastingErrorCodeCode = null | ApiPostForkastingErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostForkastingErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostForkastingErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostForkastingErrorCodeCode;
+}
+
 export interface ApiVedtaksperiodeAnnullerRequestÅrsak {
     key: string;
     årsak: string;

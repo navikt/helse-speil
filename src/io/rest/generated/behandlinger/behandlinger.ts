@@ -6,7 +6,12 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { ApiHttpProblemDetailsApiPostVedtakErrorCode, ApiVedtakRequest } from '../spesialist.schemas';
+import type {
+    ApiForkastingRequest,
+    ApiHttpProblemDetailsApiPostForkastingErrorCode,
+    ApiHttpProblemDetailsApiPostVedtakErrorCode,
+    ApiVedtakRequest,
+} from '../spesialist.schemas';
 
 import { useMutation } from '@tanstack/react-query';
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
@@ -77,6 +82,82 @@ export const usePostVedtak = <TError = ErrorType<ApiHttpProblemDetailsApiPostVed
     TContext
 > => {
     const mutationOptions = getPostVedtakMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const postForkasting = (
+    behandlingId: string,
+    apiForkastingRequest?: ApiForkastingRequest,
+    signal?: AbortSignal,
+) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/behandlinger/${behandlingId}/forkasting`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiForkastingRequest,
+        signal,
+    });
+};
+
+export const getPostForkastingMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostForkastingErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postForkasting>>,
+        TError,
+        { behandlingId: string; data: ApiForkastingRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postForkasting>>,
+    TError,
+    { behandlingId: string; data: ApiForkastingRequest },
+    TContext
+> => {
+    const mutationKey = ['postForkasting'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postForkasting>>,
+        { behandlingId: string; data: ApiForkastingRequest }
+    > = (props) => {
+        const { behandlingId, data } = props ?? {};
+
+        return postForkasting(behandlingId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostForkastingMutationResult = NonNullable<Awaited<ReturnType<typeof postForkasting>>>;
+export type PostForkastingMutationBody = ApiForkastingRequest;
+export type PostForkastingMutationError = ErrorType<ApiHttpProblemDetailsApiPostForkastingErrorCode>;
+
+export const usePostForkasting = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostForkastingErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postForkasting>>,
+            TError,
+            { behandlingId: string; data: ApiForkastingRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postForkasting>>,
+    TError,
+    { behandlingId: string; data: ApiForkastingRequest },
+    TContext
+> => {
+    const mutationOptions = getPostForkastingMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

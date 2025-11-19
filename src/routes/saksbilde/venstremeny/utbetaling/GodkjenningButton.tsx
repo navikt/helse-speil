@@ -4,7 +4,7 @@ import { Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Personinfo, Utbetaling } from '@io/graphql';
-import { PostVedtakMutationError, usePostVedtak } from '@io/rest/generated/vedtak/vedtak';
+import { PostVedtakMutationError, usePostVedtak } from '@io/rest/generated/behandlinger/behandlinger';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
