@@ -4,10 +4,9 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
-import { BeregnetPeriodeFragment, TilInfoTrygdDocument } from '@io/graphql';
+import { BeregnetPeriodeFragment } from '@io/graphql';
+import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
 import { useAddToast } from '@state/toasts';
-import { apolloErrorCode } from '@utils/error';
 import { generateId } from '@utils/generateId';
 
 import { Begrunnelsesskjema } from './Begrunnelsesskjema';
@@ -43,7 +42,7 @@ type AvvisningModalProps = {
 export const AvvisningModal = ({ closeModal, showModal, activePeriod }: AvvisningModalProps): ReactElement => {
     const router = useRouter();
     const form = useForm();
-    const [sendTilInfotrygdMutation, { error, loading }] = useMutation(TilInfoTrygdDocument);
+    const { mutate: sendTilInfotrygdMutation, error, isPending: loading } = usePostForkasting();
     const addInfotrygdtoast = useAddInfotrygdtoast();
     const kommentar = form.watch('kommentar');
     const begrunnelser = form.watch(`begrunnelser`);
@@ -75,27 +74,24 @@ export const AvvisningModal = ({ closeModal, showModal, activePeriod }: Avvisnin
     const avvisUtbetaling = async (skjema: Avvisningsskjema) => {
         const skjemaBegrunnelser: string[] = skjema.begrunnelser?.map((begrunnelse) => begrunnelse.valueOf()) ?? [];
 
-        await sendTilInfotrygdMutation({
-            variables: {
-                oppgavereferanse: activePeriod.oppgave?.id ?? '',
-                kommentar: skjema.kommentar,
-                begrunnelser: skjemaBegrunnelser,
-                arsak: skjema.årsak.valueOf(),
+        sendTilInfotrygdMutation(
+            {
+                behandlingId: activePeriod.behandlingId,
+                data: {
+                    kommentar: skjema.kommentar,
+                    begrunnelser: skjemaBegrunnelser,
+                    årsak: skjema.årsak.valueOf(),
+                },
             },
-            onCompleted: () => {
-                addInfotrygdtoast();
-                closeModal();
-                router.push('/');
+            {
+                onSuccess: () => {
+                    addInfotrygdtoast();
+                    closeModal();
+                    router.push('/');
+                },
             },
-        });
+        );
     };
-
-    const errorMessage: string | undefined =
-        error !== undefined
-            ? apolloErrorCode(error) === 409
-                ? 'Oppgaven er allerede avvist'
-                : 'En feil har oppstått'
-            : undefined;
 
     return (
         <Modal aria-label="Avvisning modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
@@ -118,7 +114,7 @@ export const AvvisningModal = ({ closeModal, showModal, activePeriod }: Avvisnin
                 <Button variant="tertiary" type="button" onClick={closeModal}>
                     Avbryt
                 </Button>
-                {errorMessage && <ErrorMessage className={styles.feilmelding}>{errorMessage}</ErrorMessage>}
+                {error && <ErrorMessage className={styles.feilmelding}>En feil har oppstått</ErrorMessage>}
             </Modal.Footer>
         </Modal>
     );

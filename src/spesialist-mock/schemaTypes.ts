@@ -555,7 +555,6 @@ export type Mutation = {
     overstyrInntektOgRefusjon?: Maybe<Scalars['Boolean']['output']>;
     sendIRetur?: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2?: Maybe<Scalars['Boolean']['output']>;
-    sendTilInfotrygd: Scalars['Boolean']['output'];
     skjonnsfastsettSykepengegrunnlag?: Maybe<Scalars['Boolean']['output']>;
     stansAutomatiskBehandling: Scalars['Boolean']['output'];
 };
@@ -646,13 +645,6 @@ export type MutationSendIReturArgs = {
 export type MutationSendTilGodkjenningV2Args = {
     oppgavereferanse: Scalars['String']['input'];
     vedtakBegrunnelse?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type MutationSendTilInfotrygdArgs = {
-    arsak: Scalars['String']['input'];
-    begrunnelser: Array<Scalars['String']['input']>;
-    kommentar?: InputMaybe<Scalars['String']['input']>;
-    oppgavereferanse: Scalars['String']['input'];
 };
 
 export type MutationSkjonnsfastsettSykepengegrunnlagArgs = {

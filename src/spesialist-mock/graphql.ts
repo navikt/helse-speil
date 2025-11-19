@@ -252,14 +252,6 @@ const getResolvers = (): IResolvers => ({
             PaVentMock.fjernPåVent(oppgaveId);
             return true;
         },
-        sendTilInfotrygd: async () => {
-            return (
-                Math.random() < 0.95 ||
-                new GraphQLError(`Allerede sendt til Infotrygd`, {
-                    extensions: { code: 409 },
-                })
-            );
-        },
         overstyrDager: async () => {
             return true;
         },
