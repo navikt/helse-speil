@@ -10,6 +10,7 @@ import {
     PersonFragment,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
+import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
 import { useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/inntektsforhold/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -85,6 +86,11 @@ export const InntektOgRefusjonVisning = ({
                 lokaltMånedsbeløp={lokaltMånedsbeløp}
                 endret={endret}
                 inntektsendringer={inntektsendringer}
+            />
+            <OmregnetÅrsinntekt
+                omregnetÅrsintekt={omregnetÅrsinntekt?.belop}
+                gap="24"
+                harLokaltMånedsbeløp={lokaltMånedsbeløp != null}
             />
             {refusjon && refusjon.length !== 0 && (
                 <Refusjonsoversikt refusjon={refusjon} lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger} />

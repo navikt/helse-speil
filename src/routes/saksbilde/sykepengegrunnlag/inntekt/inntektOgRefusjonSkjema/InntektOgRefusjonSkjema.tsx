@@ -17,6 +17,7 @@ import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { Arbeidsgiver, InntektFraAOrdningen, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
+import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
 import { SisteTolvMånedersInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånedersInntekt';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import {
@@ -200,6 +201,7 @@ export const InntektOgRefusjonSkjema = ({
                         harEndringer={harEndringer}
                         feilmelding={form.formState.errors.manedsbelop?.message}
                     />
+                    <OmregnetÅrsinntekt omregnetÅrsintekt={omregnetÅrsinntekt?.belop} gap="16" />
                     {!isGhostPeriode(period) && (
                         <RefusjonSkjema
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
