@@ -25,7 +25,7 @@ const getTypePolicies = (): TypePolicies => {
                             });
                         }
 
-                        if (args?.aktorId) {
+                        if (args?.aktorId || args?.personPseudoId) {
                             if (existing) {
                                 // Den ber om det som allerede ligger i cachen på aktorId
                                 const fnr = readField<string>('fodselsnummer', existing);
@@ -38,7 +38,9 @@ const getTypePolicies = (): TypePolicies => {
                                 // Vi må se i cachen om det ligger en person med denne aktørIden, typisk når det bare er fetcha på fnr
                                 const values = Object.values(cache.extract());
                                 const relevantPerson = values.find(
-                                    (it) => it?.__typename === 'Person' && it.aktorId === args.aktorId,
+                                    (it) =>
+                                        it?.__typename === 'Person' &&
+                                        (it.aktorId === args.aktorId || it.personPseudoId === args.personPseudoId),
                                 ) as PersonFragment | undefined;
 
                                 if (relevantPerson == null) {
@@ -47,7 +49,7 @@ const getTypePolicies = (): TypePolicies => {
 
                                 return toReference({
                                     __typename: 'Person',
-                                    fodselsnummer: relevantPerson?.fodselsnummer,
+                                    fodselsnummer: relevantPerson.fodselsnummer,
                                 });
                             }
                         }
