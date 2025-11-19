@@ -1,6 +1,7 @@
 import { useParams, usePathname, useRouter } from 'next/navigation';
 
 export interface Navigation {
+    aktørId: string | undefined;
     navigateTo: (fane: Fane, aktørId?: string) => void;
     navigateToNext: () => void;
     navigateToPrevious: () => void;
@@ -20,15 +21,16 @@ const locationFromCurrentPath = (path: string, locations: string[]): number => {
     return locations.findIndex((location) => location.slice(1) === currentPathName);
 };
 
-const useCurrentPersonPseudoId = (): string | null => {
-    const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    return personPseudoId ?? null;
+const useCurrentAktørId = (): string | null => {
+    const { aktorId } = useParams<{ aktorId: string }>();
+    return aktorId ?? null;
 };
 
 export const useNavigation = (): Navigation => {
     const pathname = usePathname();
     const router = useRouter();
-    const currentPersonPseudoId = useCurrentPersonPseudoId();
+    const params = useParams<{ aktorId: string }>();
+    const currentAktørId = useCurrentAktørId();
 
     const currentLocation = locationFromCurrentPath(decodeURIComponent(pathname), locations);
 
@@ -36,14 +38,15 @@ export const useNavigation = (): Navigation => {
 
     const canNavigateToPrevious = currentLocation !== 0;
 
-    const navigateTo = (ønsketFane: Fane, personPseudoId: string | null = currentPersonPseudoId) => {
-        const destination = `/person/${personPseudoId}${locations[ønsketFane]}`;
+    const navigateTo = (ønsketFane: Fane, aktørId: string | null = currentAktørId) => {
+        const destination = `/person/${aktørId}${locations[ønsketFane]}`;
         if (destination !== pathname) {
             router.push(destination);
         }
     };
 
     return {
+        aktørId: params.aktorId,
         navigateTo: navigateTo,
         navigateToNext: () => canNavigateToNext && navigateTo(currentLocation + 1),
         navigateToPrevious: () => canNavigateToPrevious && navigateTo(currentLocation - 1),

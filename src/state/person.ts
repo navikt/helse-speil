@@ -4,13 +4,13 @@ import { QueryResult, useQuery } from '@apollo/client';
 import { FetchPersonDocument, FetchPersonQuery, FetchPersonQueryVariables } from '@io/graphql';
 
 export const useFetchPersonQuery = (): QueryResult<FetchPersonQuery, FetchPersonQueryVariables> => {
-    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const { aktorId } = useParams<{ aktorId?: string }>();
 
     return useQuery(FetchPersonDocument, {
         fetchPolicy: 'cache-first',
         variables: {
-            personPseudoId: personPseudoId,
+            aktorId: aktorId,
         },
-        skip: !personPseudoId,
+        skip: !aktorId,
     });
 };
