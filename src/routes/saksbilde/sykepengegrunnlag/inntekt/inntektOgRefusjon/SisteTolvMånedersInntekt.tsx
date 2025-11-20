@@ -135,7 +135,7 @@ export const SisteTolvMånedersInntekt = ({
                                 className={styles.header}
                                 onClick={() => setOpen((prevState) => !prevState)}
                             >
-                                {open ? 'Vis flere måneder' : 'Vis færre måneder'}
+                                {open ? 'Vis færre måneder' : 'Vis flere måneder'}
                             </Accordion.Header>
                         </Accordion.Item>
                     </Accordion>
