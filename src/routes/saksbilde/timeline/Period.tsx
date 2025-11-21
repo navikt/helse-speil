@@ -141,7 +141,7 @@ export const Period = ({
             setActivePeriodId(period.id);
             const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
             if (erPåTilkommenInntektSide) {
-                router.push(`/person/${person.aktorId}/dagoversikt`);
+                router.push(`/person/${person.personPseudoId}/dagoversikt`);
             }
         }
     };
