@@ -63,7 +63,7 @@ export const Personsøk = (): ReactElement => {
                     return;
                 }
                 if (data?.person) {
-                    router.push(`/person/${data.person.aktorId}/dagoversikt`);
+                    router.push(`/person/${data.person.personPseudoId}/dagoversikt`);
                 }
             });
         }

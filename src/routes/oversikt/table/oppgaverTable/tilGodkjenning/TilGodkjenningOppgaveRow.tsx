@@ -20,7 +20,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave }: TilGodkjenningOppgaveRowPr
         dayjs(oppgave.paVentInfo.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
 
     return (
-        <LinkRow aktørId={oppgave.aktorId}>
+        <LinkRow personPseudoId={oppgave.personPseudoId}>
             <TildelingCell oppgave={oppgave} />
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
             <DatoCell oppgave={oppgave} utgåttFrist={utgåttFrist} />

@@ -20,7 +20,7 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps): ReactEle
         dayjs(oppgave.paVentInfo?.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
 
     return (
-        <LinkRow aktørId={oppgave.aktorId}>
+        <LinkRow personPseudoId={oppgave.aktorId}>
             <SøkerCell name={oppgave.navn} />
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
             <DatoCell oppgave={oppgave} utgåttFrist={utgåttFrist} />

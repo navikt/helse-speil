@@ -17,16 +17,19 @@ import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStan
 import { PersonHeader } from '@saksbilde/personHeader';
 import { Timeline } from '@saksbilde/timeline';
 import { PersonStoreContext } from '@state/contexts/personStore';
+import { useFetchPersonQuery } from '@state/person';
 
 import styles from './layout.module.css';
 
 type LayoutProps = {
-    params: Promise<{ aktorId: string }>;
+    params: Promise<{ personPseudoId: string }>;
 };
 
 export default function Layout({ children, params }: PropsWithChildren<LayoutProps>): ReactElement {
-    const { aktorId } = use(params);
+    const { personPseudoId } = use(params);
     const [opprettAbonnement] = useMutation(OpprettAbonnementDocument);
+    const { data } = useFetchPersonQuery();
+    const aktorId = data?.person?.aktorId;
 
     useEffect(() => {
         if (aktorId) {
@@ -42,7 +45,7 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     useResetOpenedDocuments();
     useRefetchDriftsmeldinger();
 
-    return <AktorScopedLayout key={aktorId}>{children}</AktorScopedLayout>;
+    return <AktorScopedLayout key={personPseudoId}>{children}</AktorScopedLayout>;
 }
 
 const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {

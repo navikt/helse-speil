@@ -34,11 +34,11 @@ export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] 
 export const oppgaver: ApiOppgaveProjeksjon[] = [
     {
         id: '4680',
-        personPseudoId: '1be8f892-b6ff-47ed-b899-bfd0626f523d',
+        personPseudoId: '75dc6e54-b8e2-45b8-a9e0-48c018c613a4',
         aktorId: '2564094783926',
-        opprettetTidspunkt: '2022-11-02T11:09:57',
-        opprinneligSoeknadstidspunkt: '2022-04-21 09:48:33.10625',
-        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
+        opprettetTidspunkt: '2025-11-02T11:09:57',
+        opprinneligSoeknadstidspunkt: '2025-10-21 09:48:33.10625',
+        behandlingOpprettetTidspunkt: '2025-10-19 09:48:33.10625',
         navn: {
             fornavn: 'SLAPP',
             mellomnavn: null,

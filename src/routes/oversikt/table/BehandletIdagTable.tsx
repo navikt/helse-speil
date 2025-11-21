@@ -77,7 +77,7 @@ export const BehandletIdagTable = (): ReactElement => {
                             <Table.Body>
                                 {oppgaver && oppgaver.length > 0 ? (
                                     oppgaver.map((oppgave) => (
-                                        <LinkRow aktørId={oppgave.aktorId} key={oppgave.id}>
+                                        <LinkRow personPseudoId={oppgave.aktorId} key={oppgave.id}>
                                             <SaksbehandlerIdentCell
                                                 name={oppgave.saksbehandler}
                                                 style={{ width: 180 }}

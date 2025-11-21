@@ -14,15 +14,15 @@ const shouldOpenInNewTab = (event: React.SyntheticEvent): boolean => {
 };
 
 interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
-    aktørId: string;
+    personPseudoId: string;
 }
 
-export const LinkRow = ({ aktørId, children, ...rest }: LinkRowProps): ReactElement => {
+export const LinkRow = ({ personPseudoId, children, ...rest }: LinkRowProps): ReactElement => {
     const ref = useRef<HTMLTableRowElement | null>(null);
     const router = useRouter();
 
     const navigate = (event: React.SyntheticEvent) => {
-        const destinationUrl = `/person/${aktørId}/dagoversikt`;
+        const destinationUrl = `/person/${personPseudoId}/dagoversikt`;
         if (shouldOpenInNewTab(event)) {
             window.open(destinationUrl, '_blank');
         } else {

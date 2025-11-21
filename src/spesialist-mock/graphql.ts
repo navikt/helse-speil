@@ -135,6 +135,7 @@ export const fetchPersondata = (): Record<string, Person> => {
         leggTilLagretData(person);
         data[person.aktorId] = person;
         data[person.fodselsnummer] = person;
+        data[person.personPseudoId] = person;
         return data;
     }, {});
 };
@@ -143,13 +144,16 @@ let valgtPerson: Person | undefined;
 
 const getResolvers = (): IResolvers => ({
     Query: {
-        person: async (_, { fnr, aktorId }: { fnr?: string; aktorId?: string }) => {
+        person: async (
+            _,
+            { fnr, aktorId, personPseudoId }: { fnr?: string; aktorId?: string; personPseudoId?: string },
+        ) => {
             if (aktorId == '1000000000001') return new FlereFodselsnumreError();
             if (aktorId == '1000000000002') return new NotReadyError();
             if (aktorId == '1000000000003') return new ManglendeAvviksvurderingError();
             if (aktorId == '1000000000004') return new BeingPreparedError();
-            const person = fetchPersondata()[fnr ?? aktorId ?? ''];
-            if (!person) return new NotFoundError(fnr ?? aktorId ?? '');
+            const person = fetchPersondata()[personPseudoId ?? fnr ?? aktorId ?? ''];
+            if (!person) return new NotFoundError(personPseudoId ?? fnr ?? aktorId ?? '');
             valgtPerson = person;
             return person;
         },

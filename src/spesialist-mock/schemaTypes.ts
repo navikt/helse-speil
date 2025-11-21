@@ -33,6 +33,12 @@ export type Alder = {
     oppfylt: Scalars['Boolean']['output'];
 };
 
+export type AnnetFodselsnummer = {
+    __typename?: 'AnnetFodselsnummer';
+    fodselsnummer: Scalars['String']['output'];
+    personPseudoId: Scalars['UUID']['output'];
+};
+
 export type Annullering = {
     __typename?: 'Annullering';
     arbeidsgiverFagsystemId?: Maybe<Scalars['String']['output']>;
@@ -918,6 +924,7 @@ export type Periodevilkar = {
 export type Person = {
     __typename?: 'Person';
     aktorId: Scalars['String']['output'];
+    andreFodselsnummer: Array<AnnetFodselsnummer>;
     arbeidsgivere: Array<Arbeidsgiver>;
     dodsdato?: Maybe<Scalars['LocalDate']['output']>;
     enhet: Enhet;

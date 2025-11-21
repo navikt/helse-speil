@@ -35,6 +35,12 @@ export type Alder = {
     oppfylt: Scalars['Boolean']['output'];
 };
 
+export type AnnetFodselsnummer = {
+    __typename: 'AnnetFodselsnummer';
+    fodselsnummer: Scalars['String']['output'];
+    personPseudoId: Scalars['UUID']['output'];
+};
+
 export type Annullering = {
     __typename: 'Annullering';
     arbeidsgiverFagsystemId: Maybe<Scalars['String']['output']>;
@@ -920,6 +926,7 @@ export type Periodevilkar = {
 export type Person = {
     __typename: 'Person';
     aktorId: Scalars['String']['output'];
+    andreFodselsnummer: Array<AnnetFodselsnummer>;
     arbeidsgivere: Array<Arbeidsgiver>;
     dodsdato: Maybe<Scalars['LocalDate']['output']>;
     enhet: Enhet;
@@ -3461,6 +3468,7 @@ export type PersonFragment = {
     dodsdato: string | null;
     versjon: number;
     aktorId: string;
+    andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
     enhet: { __typename: 'Enhet'; id: string; navn: string };
     infotrygdutbetalinger: Array<{
         __typename: 'Infotrygdutbetaling';
@@ -5041,6 +5049,7 @@ export type FetchPersonQuery = {
         dodsdato: string | null;
         versjon: number;
         aktorId: string;
+        andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
         enhet: { __typename: 'Enhet'; id: string; navn: string };
         infotrygdutbetalinger: Array<{
             __typename: 'Infotrygdutbetaling';
@@ -9678,6 +9687,17 @@ export const PersonFragmentDoc = {
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'personPseudoId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'andreFodselsnummer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personPseudoId' } },
+                            ],
+                        },
+                    },
                     { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
                     {
                         kind: 'Field',
@@ -13292,6 +13312,17 @@ export const FetchPersonDocument = {
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'personPseudoId' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'andreFodselsnummer' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'personPseudoId' } },
+                            ],
+                        },
+                    },
                     { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
                     {
                         kind: 'Field',
