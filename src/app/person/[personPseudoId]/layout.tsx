@@ -16,6 +16,7 @@ import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument
 import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
 import { PersonHeader } from '@saksbilde/personHeader';
 import { Timeline } from '@saksbilde/timeline';
+import { VarselOmFlerFødselsnumre } from '@saksbilde/varselOmFlerFødselsnumre/VarselOmFlerFødselsnumre';
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { useFetchPersonQuery } from '@state/person';
 
@@ -55,6 +56,7 @@ const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {
         <PersonStoreContext.Provider value={personStore}>
             <div className={styles.Saksbilde}>
                 <InfovarselOmStans />
+                <VarselOmFlerFødselsnumre />
                 <PersonHeader />
                 <Timeline />
                 <VenterPåEndringProvider>{children}</VenterPåEndringProvider>

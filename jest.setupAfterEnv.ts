@@ -25,11 +25,11 @@ dayjs.locale('nb');
 mockRouter.default.useParser(
     createDynamicRouteParser([
         '/',
-        '/person/[aktorId]/dagoversikt',
-        '/person/[aktorId]/inngangsvilkår',
-        '/person/[aktorId]/sykepengegrunnlag',
-        '/person/[aktorId]/vurderingsmomenter',
-        '/person/[aktorId]/tilkommen-inntekt',
+        '/person/[personPseudoId]/dagoversikt',
+        '/person/[personPseudoId]/inngangsvilkår',
+        '/person/[personPseudoId]/sykepengegrunnlag',
+        '/person/[personPseudoId]/vurderingsmomenter',
+        '/person/[personPseudoId]/tilkommen-inntekt',
     ]),
 );
 

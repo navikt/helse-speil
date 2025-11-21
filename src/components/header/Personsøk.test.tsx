@@ -25,7 +25,6 @@ describe('Personsøk', () => {
                                 __typename: 'Query' as const,
                                 person: enPerson({
                                     aktorId: '1234567891000',
-                                    fodselsnummer: '1234567891000',
                                 }),
                             },
                         };
@@ -39,11 +38,11 @@ describe('Personsøk', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Søk' }));
 
         expect(lazyFetchMock).toHaveBeenCalledTimes(1);
-        expect(mockRouter.pathname).toEqual('/person/[aktorId]/dagoversikt');
+        expect(mockRouter.pathname).toEqual('/person/[personPseudoId]/dagoversikt');
     });
 
     it('when it errors it should redirect to root and display varsel', async () => {
-        mockRouter.setCurrentUrl('/person/annen-bruker/dagoversikt');
+        mockRouter.setCurrentUrl('/person/fb8c1382-bf1e-4027-9ab8-37a2c7772231/dagoversikt');
 
         render(
             <div>
@@ -57,9 +56,13 @@ describe('Personsøk', () => {
                         FetchPersonDocument,
                         {
                             __typename: 'Query',
-                            person: enPerson({ aktorId: 'annen-bruker', fodselsnummer: '12345678910' }),
+                            person: enPerson({
+                                aktorId: '1111111111111',
+                                fodselsnummer: '12345678910',
+                                personPseudoId: 'fb8c1382-bf1e-4027-9ab8-37a2c7772231',
+                            }),
                         },
-                        { aktorId: 'annen-bruker' },
+                        { aktorId: '1111111111111' },
                     ),
                 ],
                 mocks: [
