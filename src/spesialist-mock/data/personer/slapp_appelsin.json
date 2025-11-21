@@ -3,6 +3,12 @@
         "person": {
             "fodselsnummer": "06028620819",
             "personPseudoId": "75dc6e54-b8e2-45b8-a9e0-48c018c613a4",
+            "andreFodselsnummer": [
+                {
+                    "fodselsnummer": "07518405122",
+                    "personPseudoId": "b826d675-a38c-4c68-a1da-01d11d8e86e2"
+                }
+            ],
             "dodsdato": null,
             "enhet": {
                 "id": "1401",

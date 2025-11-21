@@ -4,6 +4,7 @@
             "__typename": "Person",
             "fodselsnummer": "30529311806",
             "personPseudoId": "d8d4eb0f-f881-4c2e-a739-a9e689a83aec",
+            "andreFodselsnummer": [],
             "dodsdato": null,
             "enhet": {
                 "__typename": "Enhet",
