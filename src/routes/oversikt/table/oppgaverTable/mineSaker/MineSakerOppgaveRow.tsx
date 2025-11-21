@@ -20,7 +20,7 @@ export const MineSakerOppgaveRow = ({ oppgave }: MineSakerOppgaveRowProps): Reac
         dayjs(oppgave.paVentInfo.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
 
     return (
-        <LinkRow personPseudoId={oppgave.aktorId}>
+        <LinkRow personPseudoId={oppgave.personPseudoId}>
             <SøkerCell name={oppgave.navn} />
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
             <DatoCell oppgave={oppgave} utgåttFrist={utgåttFrist} />
