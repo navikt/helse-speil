@@ -1,4 +1,5 @@
-import { compilerOptions } from './tsconfig.json';
+// @ts-ignore - https://thedrlambda.medium.com/nodejs-typescript-and-the-infuriating-esm-errors-828b77e7ecd3
+import { compilerOptions } from './tsconfig.json' with { type: 'json' };
 import type { Config } from 'jest';
 import nextJest from 'next/jest.js';
 import { pathsToModuleNameMapper } from 'ts-jest';
