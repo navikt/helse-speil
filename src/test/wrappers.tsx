@@ -51,7 +51,16 @@ export const JotaiWrapper = ({ children, atomValues }: PropsWithChildren<JotaiPr
 };
 
 function HydrateAtoms({ atomValues, children }: PropsWithChildren<JotaiProps>) {
-    useHydrateAtoms(new Map(atomValues));
+    useHydrateAtoms(
+        new Map(
+            atomValues
+                ? Array.from(atomValues, ([atom, value]) => [
+                      atom as unknown as WritableAtom<unknown, [unknown], unknown>,
+                      value,
+                  ])
+                : [],
+        ),
+    );
     return children;
 }
 

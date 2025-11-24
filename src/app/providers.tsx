@@ -74,7 +74,16 @@ function AtomsHydrator({
     atomValues: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
     children: ReactNode;
 }) {
-    useHydrateAtoms(new Map(atomValues));
+    useHydrateAtoms(
+        new Map(
+            atomValues
+                ? Array.from(atomValues, ([atom, value]) => [
+                      atom as unknown as WritableAtom<unknown, [unknown], unknown>,
+                      value,
+                  ])
+                : [],
+        ),
+    );
     return children;
 }
 
