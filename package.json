@@ -10,7 +10,7 @@
     },
     "license": "MIT",
     "engines": {
-        "node": "22"
+        "node": "24"
     },
     "scripts": {
         "dev": "PORT=1234 next dev --turbopack",
