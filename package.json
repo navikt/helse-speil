@@ -108,7 +108,7 @@
         "jest-fetch-mock": "^3.0.3",
         "lint-staged": "^16.2.7",
         "next-router-mock": "^1.0.4",
-        "orval": "^7.16.1",
+        "orval": "^7.17.0",
         "prettier": "^3.5.2",
         "sass": "^1.89.2",
         "ts-jest": "^29.2.6",
