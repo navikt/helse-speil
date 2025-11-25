@@ -4,7 +4,7 @@ import { CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 
-const getFormattedFødselsnummer = (fødselsnummer: string) => {
+export const getFormattedFødselsnummer = (fødselsnummer: string) => {
     return fødselsnummer.slice(0, 6) + ' ' + fødselsnummer.slice(6);
 };
 

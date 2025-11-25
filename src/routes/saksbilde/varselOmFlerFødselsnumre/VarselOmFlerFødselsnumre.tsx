@@ -1,8 +1,10 @@
 import Link from 'next/link';
-import { ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
 import { Alert, HStack } from '@navikt/ds-react';
 
+import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { getFormattedFødselsnummer } from '@saksbilde/personHeader/Fødselsnummer';
 import { useFetchPersonQuery } from '@state/person';
 
 export function VarselOmFlerFødselsnumre(): ReactElement | null {
@@ -15,11 +17,13 @@ export function VarselOmFlerFødselsnumre(): ReactElement | null {
     return (
         <Alert variant="warning" size="small" style={{ gridArea: 'unntatt' }}>
             <HStack gap="2">
-                Personen har flere fødselsnumre:
+                Personen har også andre fødselsnumre:
                 {andreFødselsnumre.map((value) => (
-                    <Link key={value.fodselsnummer} href={`/person/${value.personPseudoId}/dagoversikt`}>
-                        {value.fodselsnummer}
-                    </Link>
+                    <HStack>
+                        <Link key={value.fodselsnummer} href={`/person/${value.personPseudoId}/dagoversikt`}>
+                            <AnonymizableText>{getFormattedFødselsnummer(value.fodselsnummer)}</AnonymizableText>
+                        </Link>
+                    </HStack>
                 ))}
             </HStack>
         </Alert>
