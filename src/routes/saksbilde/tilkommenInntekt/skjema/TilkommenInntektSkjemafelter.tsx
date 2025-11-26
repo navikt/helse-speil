@@ -102,34 +102,22 @@ export const TilkommenInntektSkjemafelter = ({
                     </VStack>
                     <VStack marginBlock="4" gap="2">
                         <HGrid columns={2} width="75%">
-                            <Controller
+                            <ControlledDatePicker
                                 name="fom"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <ControlledDatePicker
-                                        field={field}
-                                        label="Periode f.o.m"
-                                        error={fieldState.error?.message}
-                                        gyldigePerioder={sykefraværstilfelleperioder}
-                                        erGyldigDato={erGyldigFom}
-                                        id="fom"
-                                    />
-                                )}
+                                label="Periode f.o.m"
+                                gyldigePerioder={sykefraværstilfelleperioder}
+                                erGyldigDato={erGyldigFom}
+                                id="fom"
+                                error
                             />
-                            <Controller
+                            <ControlledDatePicker
                                 name="tom"
-                                control={form.control}
-                                render={({ field, fieldState }) => (
-                                    <ControlledDatePicker
-                                        field={field}
-                                        label="Periode t.o.m"
-                                        error={fieldState.error?.message}
-                                        gyldigePerioder={sykefraværstilfelleperioder}
-                                        erGyldigDato={erGyldigTom}
-                                        id="tom"
-                                        defaultMonth={fom === '' ? undefined : fom}
-                                    />
-                                )}
+                                label="Periode t.o.m"
+                                gyldigePerioder={sykefraværstilfelleperioder}
+                                erGyldigDato={erGyldigTom}
+                                id="tom"
+                                defaultMonth={fom === '' ? undefined : fom}
+                                error
                             />
                         </HGrid>
                         {datofeil.length > 0 &&

@@ -1,15 +1,14 @@
 import React from 'react';
-import { ControllerRenderProps } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
-import { TilkommenInntektSchema } from '@/form-schemas';
 import { DatePeriod, DateString } from '@typer/shared';
 import { dateTilNorskDato, erGyldigNorskDato, norskDatoTilDate, plussEnDag, somDate } from '@utils/date';
 
 type ControlledDatePickerProps = {
-    field: ControllerRenderProps<TilkommenInntektSchema>;
-    error?: string;
+    name: string;
+    error?: boolean;
     label: string;
     gyldigePerioder: DatePeriod[];
     erGyldigDato: (dato: string) => boolean;
@@ -24,14 +23,15 @@ const senesteDag = (dato: DateString[]) =>
     dato.reduce((previousValue, currentValue) => (currentValue > previousValue ? currentValue : previousValue));
 
 export const ControlledDatePicker = ({
-    field,
-    error,
+    name,
+    error = false,
     label,
     gyldigePerioder,
     erGyldigDato,
     id,
     defaultMonth = undefined,
 }: ControlledDatePickerProps) => {
+    const { field, fieldState } = useController({ name });
     const tidligsteFom = tidligsteDag(gyldigePerioder.map((periode) => periode.fom));
     const senesteTom = senesteDag(gyldigePerioder.map((periode) => periode.tom));
     const dagenEtterSenesteFom = plussEnDag(senesteDag(gyldigePerioder.map((periode) => periode.fom)));
@@ -54,7 +54,6 @@ export const ControlledDatePicker = ({
         <DatePicker {...datepickerProps} dropdownCaption>
             <DatePicker.Input
                 {...inputProps}
-                {...field}
                 // Både inputProps og field har onChange-funksjon, vi kaller begge to for riktig state
                 onChange={(event) => {
                     inputProps.onChange?.(event);
@@ -65,11 +64,9 @@ export const ControlledDatePicker = ({
                     inputProps.onBlur?.(event);
                     field.onBlur();
                 }}
-                // Både inputProps og field har value, vi velger formen sin
-                value={field.value}
                 disabled={field.disabled}
                 label={label}
-                error={error !== undefined}
+                error={error ? fieldState.error?.message != undefined : fieldState.error?.message}
                 size="small"
                 style={{ width: '110px' }}
                 id={id}
