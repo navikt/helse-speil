@@ -4,22 +4,11 @@ import { ControllerRenderProps } from 'react-hook-form';
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
-import { AndreYtelserSkjema } from '@/form-schemas/andreYtelserSkjema';
 import { DatePeriod, DateString } from '@typer/shared';
 import { dateTilNorskDato, erGyldigNorskDato, norskDatoTilDate, plussEnDag, somDate } from '@utils/date';
 
 type ControlledDatePickerProps = {
     field: ControllerRenderProps<TilkommenInntektSchema>;
-    error?: string;
-    label: string;
-    gyldigePerioder: DatePeriod[];
-    erGyldigDato: (dato: string) => boolean;
-    id: string;
-    defaultMonth?: DateString;
-};
-
-type ControlledDatePickerAndreYtelserProps = {
-    field: ControllerRenderProps<AndreYtelserSkjema>;
     error?: string;
     label: string;
     gyldigePerioder: DatePeriod[];
@@ -42,7 +31,7 @@ export const ControlledDatePicker = ({
     erGyldigDato,
     id,
     defaultMonth = undefined,
-}: ControlledDatePickerProps | ControlledDatePickerAndreYtelserProps) => {
+}: ControlledDatePickerProps) => {
     const tidligsteFom = tidligsteDag(gyldigePerioder.map((periode) => periode.fom));
     const senesteTom = senesteDag(gyldigePerioder.map((periode) => periode.tom));
     const dagenEtterSenesteFom = plussEnDag(senesteDag(gyldigePerioder.map((periode) => periode.fom)));
