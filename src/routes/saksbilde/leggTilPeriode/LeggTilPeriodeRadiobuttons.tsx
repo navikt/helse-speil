@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import { XMarkIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack, Heading, Radio, RadioGroup } from '@navikt/ds-react';
 
+import { LeggTilAndreYtelser } from '@saksbilde/leggTilPeriode/andreytelser/LeggTilAndreYtelser';
 import { LeggTilTilkommenInntektViewNy } from '@saksbilde/leggTilPeriode/tilkommenInntektNy/LeggTilTilkommenInntektViewNy';
 
 export const LeggTilPeriodeRadiobuttons = () => {
@@ -51,7 +52,7 @@ export const LeggTilPeriodeRadiobuttons = () => {
                 </RadioGroup>
             </Box>
             {valg === 'tilkommeninntekt' && <LeggTilTilkommenInntektViewNy />}
-            {valg === 'andreytelser' && <></>}
+            {valg === 'andreytelser' && <LeggTilAndreYtelser />}
         </Box>
     );
 };

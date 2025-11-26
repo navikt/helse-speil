@@ -5,7 +5,7 @@ import { TextField } from '@navikt/ds-react';
 
 interface GradFieldProps {
     name: string;
-    kanIkkeVelgeDagtype: boolean;
+    kanIkkeVelgeDagtype?: boolean;
     hideError?: boolean;
     className?: string;
 }
