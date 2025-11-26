@@ -14,6 +14,8 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
+import { Opptegnelsetype } from '@io/graphql';
+import { opptegnelser } from '@spesialist-mock/data/opptegnelser';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
@@ -42,6 +44,7 @@ import {
     MutationLeggPaVentArgs,
     MutationLeggTilKommentarArgs,
     MutationLeggTilNotatArgs,
+    MutationOppdaterPersonArgs,
     MutationOpphevStansAutomatiskBehandlingArgs,
     MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
@@ -122,10 +125,10 @@ const lesTestpersoner = (): Person[] => {
     });
 };
 
-export const finnAktørId = (pseudoId: string): string | undefined => {
+export const finnAktørId = (id: string): string | undefined => {
     const personer = lesTestpersoner();
 
-    return personer.find((it) => it.personPseudoId === pseudoId)?.aktorId;
+    return personer.find((it) => it.personPseudoId === id || it.fodselsnummer === id)?.aktorId;
 };
 
 export const fetchPersondata = (): Record<string, Person> => {
@@ -309,7 +312,15 @@ const getResolvers = (): IResolvers => ({
             });
             return true;
         },
-        oppdaterPerson: async () => {
+        oppdaterPerson: async (_, { fodselsnummer }: MutationOppdaterPersonArgs) => {
+            opptegnelser.push({
+                aktorId: finnAktørId(fodselsnummer)!,
+                sekvensnummer: Math.max(...opptegnelser.map((it) => it.sekvensnummer)) + 1,
+                type: Opptegnelsetype.PersondataOppdatert,
+                payload: 'Mock-payload',
+                __typename: 'Opptegnelse',
+            });
+
             return true;
         },
         opprettAbonnement: async () => {
