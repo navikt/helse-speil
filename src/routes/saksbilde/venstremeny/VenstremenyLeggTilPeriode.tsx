@@ -6,7 +6,7 @@ import { useFetchPersonQuery } from '@state/person';
 
 import styles from './Venstremeny.module.css';
 
-export const VenstremenyTilkommenInntekt = (): ReactElement | null => {
+export const VenstremenyLeggTilPeriode = (): ReactElement | null => {
     const { data } = useFetchPersonQuery();
     const currentPerson = data?.person ?? null;
 

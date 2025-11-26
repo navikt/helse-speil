@@ -17,7 +17,7 @@ import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
-import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
+import { kanLeggeTilTilkommenInntekt, kanSeAndreYtelser } from '@utils/featureToggles';
 import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -166,7 +166,11 @@ const TimelineWithContent = ({
                             size="small"
                             style={{ marginLeft: '-0.5rem' }}
                             icon={<PlusIcon title="Legg til tilkommen inntekt" />}
-                            href={`/person/${person.personPseudoId}/tilkommeninntekt/ny`}
+                            href={
+                                kanSeAndreYtelser
+                                    ? `/person/${person.personPseudoId}/leggtilperiode`
+                                    : `/person/${person.personPseudoId}/tilkommeninntekt/ny`
+                            }
                         >
                             Legg til tilkommen inntekt/periode
                         </Button>

@@ -9,7 +9,7 @@ import navLenkeStyles from '@saksbilde/saksbildeMenu/NavLenke.module.css';
 import { DropdownMenu, LeggTilPeriodeDropdownMenuContent } from '@saksbilde/saksbildeMenu/dropdown/DropdownMenu';
 import { useFetchPersonQuery } from '@state/person';
 
-const TilkommenInntektSaksbildeMenuWrapper = (props: BoxProps) => (
+const LeggTilPeriodeSaksbildeMenuWrapper = (props: BoxProps) => (
     <Box
         paddingInline="4"
         borderWidth="0 0 1 0"
@@ -20,34 +20,34 @@ const TilkommenInntektSaksbildeMenuWrapper = (props: BoxProps) => (
     />
 );
 
-const TilkommenInntektSaksbildeMenuError = (): ReactElement => (
-    <TilkommenInntektSaksbildeMenuWrapper background-color="surface-danger-subtle">
+const LeggTilPeriodeSaksbildeMenuError = (): ReactElement => (
+    <LeggTilPeriodeSaksbildeMenuWrapper background-color="surface-danger-subtle">
         <HStack height="100%" align="center">
             <BodyShort>Det oppstod en feil. Kan ikke vise saksbildemeny.</BodyShort>
         </HStack>
-    </TilkommenInntektSaksbildeMenuWrapper>
+    </LeggTilPeriodeSaksbildeMenuWrapper>
 );
 
-export const TilkommenInntektSaksbildeMenu = (): ReactElement => {
+export const LeggTilPeriodeSaksbildeMenu = (): ReactElement => {
     const { data: personData } = useFetchPersonQuery();
     return (
-        <ErrorBoundary fallback={<TilkommenInntektSaksbildeMenuError />}>
-            <TilkommenInntektSaksbildeMenuWrapper>
+        <ErrorBoundary fallback={<LeggTilPeriodeSaksbildeMenuError />}>
+            <LeggTilPeriodeSaksbildeMenuWrapper>
                 <HStack>
                     <HStack as="nav" role="tablist">
                         <Link
                             className={classNames(navLenkeStyles.NavLink, navLenkeStyles.ActiveLink)}
                             href={'#'}
-                            title={'Tilkommen inntekt'}
+                            title={'Legg til periode'}
                         >
-                            Tilkommen inntekt
+                            Legg til periode
                         </Link>
                         <DropdownMenu>
                             <LeggTilPeriodeDropdownMenuContent person={personData?.person ?? undefined} />
                         </DropdownMenu>
                     </HStack>
                 </HStack>
-            </TilkommenInntektSaksbildeMenuWrapper>
+            </LeggTilPeriodeSaksbildeMenuWrapper>
         </ErrorBoundary>
     );
 };

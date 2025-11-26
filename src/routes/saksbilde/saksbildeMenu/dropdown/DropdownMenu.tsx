@@ -90,7 +90,7 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
     );
 };
 
-export const TilkommenInntektDropdownMenuContent = ({
+export const LeggTilPeriodeDropdownMenuContent = ({
     person,
 }: {
     person?: PersonFragment | null;

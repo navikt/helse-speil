@@ -71,3 +71,5 @@ export const kanBrukeUtviklersnarveier = (grupper: string[]) => erUtvikling || e
 export const kanLeggeTilTilkommenInntekt = (erSelvstendigNæring: boolean) => erUtvikling || !erSelvstendigNæring;
 
 export const harBeslutterrolle = (grupper: string[]): boolean => grupper.includes(groupIdForBesluttere);
+
+export const kanSeAndreYtelser = erUtvikling;
