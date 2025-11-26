@@ -91,12 +91,14 @@ const TilUtbetaling = ({ utbetaling, inntektsforholdReferanse, personinfo }: Til
                 {somPenger(utbetaling.arbeidsgiverNettoBelop + utbetaling.personNettoBelop)}
             </BodyShort>
         </HStack>
-        <HStack align="center" gap="4" className={styles.Row}>
-            <Arbeidsgiverikon />
-            <Inntektsforholdnavn inntektsforholdReferanse={inntektsforholdReferanse} />
-            <Spacer />
-            <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
-        </HStack>
+        {inntektsforholdReferanse.type === 'Arbeidsgiver' && (
+            <HStack align="center" gap="4" className={styles.Row}>
+                <Arbeidsgiverikon />
+                <Inntektsforholdnavn inntektsforholdReferanse={inntektsforholdReferanse} />
+                <Spacer />
+                <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
+            </HStack>
+        )}
         <HStack align="center" gap="4" className={styles.Row}>
             <SykmeldtikonMedTooltip />
             <AnonymizableTextWithEllipsis>{capitalizeName(getFormattedName(personinfo))}</AnonymizableTextWithEllipsis>
