@@ -152,7 +152,7 @@ export const TilkommenInntektSkjemaNy = ({
                     </VStack>
                     {gyldigPeriode !== undefined ? (
                         <VStack>
-                            <Box style={{ marginBlock: '-120px' }}>
+                            <Box style={{ marginBlock: '-160px' }}>
                                 <Box
                                     background={'surface-subtle'}
                                     borderWidth="0 0 0 1"
