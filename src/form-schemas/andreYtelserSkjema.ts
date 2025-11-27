@@ -1,5 +1,6 @@
 import { z } from 'zod/v4';
 
+import { andreYtelser } from '@saksbilde/leggTilPeriode/andreytelser/AndreYtelserSkjema';
 import { DatePeriod } from '@typer/shared';
 import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato } from '@utils/date';
 
@@ -18,6 +19,7 @@ export const lagAndreYtelserSchema = (sykefraværstilfelleperioder: DatePeriod[]
                 .refine((value) => erGyldigNorskDato(value), 'Til og med-datoen er ikke en gyldig norsk dato'),
             notat: z.string().min(1, { error: 'Notat til beslutter er påkrevd' }),
             grad: z.nullable(z.number()),
+            ytelse: z.enum(andreYtelser),
         })
         .superRefine(({ grad }, ctx) => {
             if (grad == null || (grad as unknown) === '') {

@@ -29,6 +29,7 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
         resolver: zodResolver(lagAndreYtelserSchema(sykefraværstilfelleperioder)),
         reValidateMode: 'onBlur',
         defaultValues: {
+            ytelse: '',
             fom: somNorskDato(startFom) ?? '',
             tom: somNorskDato(startTom) ?? '',
             notat: '',
@@ -82,11 +83,19 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
                     >
                         <HStack wrap={false}>
                             <VStack>
-                                {
-                                    <Select size="small" label="Velg Ytelse" style={{ width: '275px' }}>
-                                        <option value="">Andre ytelser her</option>
-                                    </Select>
-                                }
+                                <Controller
+                                    name="ytelse"
+                                    control={form.control}
+                                    defaultValue=""
+                                    render={({ field }) => (
+                                        <Select {...field} size="small" label="Velg ytelse" style={{ width: '275px' }}>
+                                            <option value="">Velg ytelse</option>
+                                            {andreYtelser.map((ytelse) => (
+                                                <option key={ytelse}>{ytelse}</option>
+                                            ))}
+                                        </Select>
+                                    )}
+                                />
                             </VStack>
                         </HStack>
                         <VStack marginBlock="4" gap="2">
@@ -162,3 +171,13 @@ const AndreYtelserError = (): ReactElement => (
         Noe gikk galt. Kan ikke vise andre ytelser for denne perioden.
     </Alert>
 );
+
+export const andreYtelser = [
+    'Foreldrepenger',
+    'Svangerskapspenger',
+    'Pleiepenger',
+    'Omsorgspenger',
+    'Opplæringspenger',
+];
+
+export type AndreYtelser = (typeof andreYtelser)[number];
