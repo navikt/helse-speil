@@ -32,13 +32,15 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
             ytelse: '',
             fom: somNorskDato(startFom) ?? '',
             tom: somNorskDato(startTom) ?? '',
+            grad: undefined,
             notat: '',
         },
     });
 
-    const datofeil: string[] = [form.formState.errors.fom?.message, form.formState.errors.tom?.message].filter(
-        (feil) => feil !== undefined,
-    );
+    const errors = form.formState.errors;
+    const fomError = errors.fom?.message;
+    const tomError = errors.tom?.message;
+    const gradError = errors.grad?.message;
 
     const fom = form.watch('fom');
     const tom = form.watch('tom');
@@ -69,10 +71,14 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
         [fom, sykefraværstilfelleperioder],
     );
 
+    const handleSubmit = (values: AndreYtelserFormFields) => {
+        console.log('Mock submit OK', values);
+    };
+
     return (
         <ErrorBoundary fallback={<AndreYtelserError />}>
             <FormProvider {...form}>
-                <form>
+                <form onSubmit={form.handleSubmit(handleSubmit)}>
                     <Box
                         background={'surface-subtle'}
                         paddingInline="10"
@@ -84,11 +90,17 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
                         <HStack wrap={false}>
                             <VStack>
                                 <Controller
-                                    name="ytelse"
                                     control={form.control}
-                                    defaultValue=""
-                                    render={({ field }) => (
-                                        <Select {...field} size="small" label="Velg ytelse" style={{ width: '275px' }}>
+                                    name="ytelse"
+                                    render={({ field, fieldState }) => (
+                                        <Select
+                                            {...field}
+                                            error={fieldState.error?.message}
+                                            label="Velg ytelse"
+                                            size="small"
+                                            id="ytelse"
+                                            style={{ width: '275px' }}
+                                        >
                                             <option value="">Velg ytelse</option>
                                             {andreYtelser.map((ytelse) => (
                                                 <option key={ytelse}>{ytelse}</option>
@@ -119,12 +131,21 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
                                 />
                                 <GradField name="grad" hideError />
                             </HGrid>
-                            {datofeil.length > 0 &&
-                                datofeil.map((feil) => (
-                                    <ErrorMessage key={feil} showIcon size="small">
-                                        {feil}
-                                    </ErrorMessage>
-                                ))}
+                            {fomError && (
+                                <ErrorMessage size="small" showIcon>
+                                    Dato f.o.m: {fomError}
+                                </ErrorMessage>
+                            )}
+                            {tomError && (
+                                <ErrorMessage size="small" showIcon>
+                                    Dato t.o.m: {tomError}
+                                </ErrorMessage>
+                            )}
+                            {gradError && (
+                                <ErrorMessage size="small" showIcon>
+                                    Grad: {gradError}
+                                </ErrorMessage>
+                            )}
                         </VStack>
                         <Box maxWidth="380px">
                             <Controller
