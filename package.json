@@ -44,7 +44,7 @@
         "@navikt/ds-css": "^7.34.0",
         "@navikt/ds-react": "^7.34.0",
         "@navikt/oasis": "^4.1.1",
-        "@portabletext/react": "^3.2.1",
+        "@portabletext/react": "^5.0.0",
         "@tanstack/react-query": "^5.90.7",
         "@types/uuid": "^10.0.0",
         "axios": "^1.12.2",
