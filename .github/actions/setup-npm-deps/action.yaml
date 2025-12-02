@@ -9,12 +9,16 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Install pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
     - uses: actions/setup-node@v6
       with:
         node-version: 24.x
-        cache: 'npm'
-        cache-dependency-path: 'package-lock.json'
+        cache: 'pnpm'
+        cache-dependency-path: 'pnpm-lock.json'
     - shell: bash
-      run: npm ci --ignore-scripts
+      run: pnpm install --frozen-lockfile --ignore-scripts
       env:
         NPM_AUTH_TOKEN: ${{ inputs.NPM_AUTH_TOKEN }}

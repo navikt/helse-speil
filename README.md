@@ -30,8 +30,8 @@ export NPM_AUTH_TOKEN=<token>
 ## Utvikle lokalt
 
 1. Sørg for at du har riktig versjon av node (se package.json), f.eks. med [nvm](https://github.com/nvm-sh/nvm) eller [mise](https://mise.jdx.dev).
-2. Installer prosjektet - `npm install`
-3. Kjør Speil lokalt med next dev server - `npm run dev`
+2. Installer prosjektet - `pnpm install`
+3. Kjør Speil lokalt med next dev server - `pnpm run dev`
 
 Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesialist.
 
@@ -55,7 +55,7 @@ cp envs/.env.production .env.production
 Deretter kan nextjs produksjonsbygg kjøres med:
 
 ```shell
-npm run build
+pnpm run build
 ```
 
 ## Hente og oppdaterte GraphQL-typer
@@ -70,7 +70,7 @@ i [GraphQL mappen](src/io/graphql).
 **Kommando for å oppdatere GraphQL-typer:**
 
 ```shell
-npm run generate-graphql
+pnpm run generate-graphql
 ```
 
 ## Oppdatere REST-typer og genererte Tanstack Query-hooks
@@ -81,7 +81,7 @@ OpenAPI-spec'en når man kjører lokalt krever ikke autentisering.
 **Kjør så kommandoen:**
 
 ```shell
-npm run generate-rest
+pnpm run generate-rest
 ```
 
 ## Henvendelser
