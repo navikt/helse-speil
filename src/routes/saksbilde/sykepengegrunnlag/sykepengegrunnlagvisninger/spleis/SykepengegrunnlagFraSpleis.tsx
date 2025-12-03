@@ -11,7 +11,7 @@ import {
 } from '@io/graphql';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 import { SykepengegrunnlagPanel } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/SykepengegrunnlagPanel';
-import { getRequiredInntekt } from '@state/utils';
+import { getActiveInntekt } from '@state/utils';
 
 import styles from './SykepengegrunnlagFraSpleis.module.css';
 
@@ -29,7 +29,7 @@ export const SykepengegrunnlagFraSpleis = ({
     periode,
     ...rest
 }: SykepengegrunnlagFraSpleisProps): ReactElement => {
-    const inntekt = getRequiredInntekt(vilkårsgrunnlag, organisasjonsnummer);
+    const inntekt = getActiveInntekt(vilkårsgrunnlag, organisasjonsnummer);
     const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
 
     useEffect(() => {

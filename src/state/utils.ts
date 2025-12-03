@@ -11,14 +11,11 @@ import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const getRequiredInntekt = (
+export const getActiveInntekt = (
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
     organisasjonsnummer: string,
 ): Arbeidsgiverinntekt =>
-    vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ??
-    (() => {
-        throw Error('Fant ikke inntekt');
-    })();
+    vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ?? vilkårsgrunnlag.inntekter[0]!;
 
 export const getVilkårsgrunnlag = (
     person: PersonFragment,
