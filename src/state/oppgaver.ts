@@ -1,6 +1,6 @@
 import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { ApolloError, useQuery } from '@apollo/client';
 import { useBruker } from '@auth/brukerContext';
@@ -51,7 +51,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const allFilters = useAllFilters();
     const { oid: innloggetSaksbehandlerOid } = useBruker();
 
-    const variables = useMemo(() => {
+    function variables() {
         const activeFilters = allFilters.filter((filter) => filter.status !== FilterStatus.OFF);
         const minusEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
             .filter(
@@ -91,7 +91,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
                     ? innloggetSaksbehandlerOid
                     : valgtSaksbehandler?.oid,
         };
-    }, [aktivTab, allFilters, sort, innloggetSaksbehandlerOid, valgtSaksbehandler]);
+    }
 
     useEffect(() => setCurrentPage(1), [setCurrentPage, variables]);
 
