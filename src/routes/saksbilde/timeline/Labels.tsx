@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
@@ -71,21 +71,20 @@ const getYearLabels = (start: Dayjs, end: Dayjs): Label[] => {
     });
 };
 
-const useLabels = (start: Dayjs, end: Dayjs): Label[] =>
-    useMemo(() => {
-        const numberOfDays = end.diff(start, 'day');
-        let labels: Label[];
+function useLabels(start: Dayjs, end: Dayjs): Label[] {
+    const numberOfDays = end.diff(start, 'day');
+    let labels: Label[];
 
-        if (numberOfDays < 40) {
-            labels = getDayLabels(start, end, numberOfDays);
-        } else if (numberOfDays < 370) {
-            labels = getMonthLabels(start, end);
-        } else {
-            labels = getYearLabels(start, end);
-        }
+    if (numberOfDays < 40) {
+        labels = getDayLabels(start, end, numberOfDays);
+    } else if (numberOfDays < 370) {
+        labels = getMonthLabels(start, end);
+    } else {
+        labels = getYearLabels(start, end);
+    }
 
-        return labels.filter((it) => it.style.right <= 100 && it.style.right > 0);
-    }, [start, end]);
+    return labels.filter((it) => it.style.right <= 100 && it.style.right > 0);
+}
 
 interface LabelsProps {
     start: Dayjs;
