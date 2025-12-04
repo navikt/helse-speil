@@ -34,6 +34,8 @@ export const plussEnDag = (dato: DateString): DateString =>
 export const minusEnDag = (dato: DateString): DateString =>
     dayjs(dato, ISO_DATOFORMAT, true).subtract(1, 'day').format(ISO_DATOFORMAT);
 
+export const plussEttÅr = (dato: Date): Date => dayjs(dato).add(1, 'year').toDate();
+
 export const erIPeriode = (dato: DateString, periode: DatePeriod) =>
     dayjs(dato, ISO_DATOFORMAT, true).isBetween(periode.fom, periode.tom, 'day', '[]');
 export const erEtter = (dato: DateString, tidligst: DateString) =>

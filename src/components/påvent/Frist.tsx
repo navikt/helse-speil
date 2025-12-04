@@ -2,6 +2,8 @@ import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
+import { plussEttÅr } from '@utils/date';
+
 interface FristProps {
     fristDato: Date | null;
     setFristDato: Dispatch<SetStateAction<Date | null>>;
@@ -10,11 +12,13 @@ interface FristProps {
 }
 
 export const Frist = ({ fristDato, setFristDato, error, setError }: FristProps): ReactElement => {
+    const idag = new Date();
     const { datepickerProps, inputProps } = useDatepicker({
         required: true,
         defaultSelected: fristDato ?? undefined,
         onDateChange: (dato: Date | undefined) => setFristDato(dato ?? null),
-        fromDate: new Date(),
+        fromDate: idag,
+        toDate: plussEttÅr(idag),
         onValidate: (val) => {
             if (val.isEmpty) setError('Oppfølgingsdato må være satt');
             else if (val.isBefore) setError('Oppfølgingsdato kan ikke være bakover i tid');
