@@ -1,5 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { useMemo } from 'react';
 
 import { Periode, Periodetilstand, Periodetype } from '@io/graphql';
 import { DatePeriod, DateString } from '@typer/shared';
@@ -55,14 +54,13 @@ const hasRightNeighbour = (i: number, periods: TimelinePeriod[]): boolean => {
     return withinADay(dayjs(thisPeriod.fom), dayjs(periodToTheRight.tom)) && !kreverButteEnder(thisPeriod);
 };
 
-export const usePopulateNeighbours = (periods: TimelinePeriod[]): TimelinePeriod[] =>
-    useMemo(() => {
-        return periods.map((period, index) => {
-            return {
-                ...period,
-                hasLeftNeighbour: hasLeftNeighbour(index, periods),
-                hasRightNeighbour: hasRightNeighbour(index, periods),
-                isFirst: index === 0,
-            };
-        });
-    }, [periods]);
+export function usePopulateNeighbours(periods: TimelinePeriod[]): TimelinePeriod[] {
+    return periods.map((period, index) => {
+        return {
+            ...period,
+            hasLeftNeighbour: hasLeftNeighbour(index, periods),
+            hasRightNeighbour: hasRightNeighbour(index, periods),
+            isFirst: index === 0,
+        };
+    });
+}
