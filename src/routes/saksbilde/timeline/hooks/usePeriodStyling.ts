@@ -1,5 +1,4 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { useMemo } from 'react';
 
 import { DatePeriod } from '@typer/shared';
 
@@ -44,44 +43,43 @@ export const getPosition = (date: Dayjs, start: Dayjs, end: Dayjs): number => {
  * @param end høyre ende av utsnittet
  * @param periods forventes å være sortert med nyeste (høyeste FOM) først
  */
-export const usePeriodStyling = <T extends DatePeriod>(
+export function usePeriodStyling<T extends DatePeriod>(
     start: Dayjs,
     end: Dayjs,
     periods: T[],
-): Map<number, PeriodStyling> =>
-    useMemo(() => {
-        const map = new Map<number, PeriodStyling>();
-        const datePeriods: StyledPeriod[] = periods.map((period) => {
-            return {
-                ...period,
-                fom: dayjs(period.fom).startOf('day'),
-                tom: dayjs(period.tom).endOf('day'),
-            };
-        });
+): Map<number, PeriodStyling> {
+    const map = new Map<number, PeriodStyling>();
+    const datePeriods: StyledPeriod[] = periods.map((period) => {
+        return {
+            ...period,
+            fom: dayjs(period.fom).startOf('day'),
+            tom: dayjs(period.tom).endOf('day'),
+        };
+    });
 
-        for (const [i, period] of datePeriods.entries()) {
-            const right = getPosition(period.fom, start, end);
-            const width = getPosition(period.tom, start, end) - right;
-            const borderRadii = getBorderRadii(period);
-            const høyreEndeAvPeriodenErSkjult = start > period.fom;
+    for (const [i, period] of datePeriods.entries()) {
+        const right = getPosition(period.fom, start, end);
+        const width = getPosition(period.tom, start, end) - right;
+        const borderRadii = getBorderRadii(period);
+        const høyreEndeAvPeriodenErSkjult = start > period.fom;
 
-            if (right === 0 && høyreEndeAvPeriodenErSkjult) {
-                borderRadii.borderTopRightRadius = 0;
-                borderRadii.borderBottomRightRadius = 0;
-            }
-
-            if (right + width === 100 && !period.isFirst) {
-                borderRadii.borderTopLeftRadius = 0;
-                borderRadii.borderBottomLeftRadius = 0;
-            }
-
-            const style = {
-                right: `${right}%`,
-                width: `${width}%`,
-                ...borderRadii,
-            };
-            map.set(i, style);
+        if (right === 0 && høyreEndeAvPeriodenErSkjult) {
+            borderRadii.borderTopRightRadius = 0;
+            borderRadii.borderBottomRightRadius = 0;
         }
 
-        return map;
-    }, [start, end, periods]);
+        if (right + width === 100 && !period.isFirst) {
+            borderRadii.borderTopLeftRadius = 0;
+            borderRadii.borderBottomLeftRadius = 0;
+        }
+
+        const style = {
+            right: `${right}%`,
+            width: `${width}%`,
+            ...borderRadii,
+        };
+        map.set(i, style);
+    }
+
+    return map;
+}
