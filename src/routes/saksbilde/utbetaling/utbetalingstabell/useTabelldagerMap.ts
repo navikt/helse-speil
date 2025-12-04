@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
 
 import { Dag, Dagoverstyring, Dagtype, OverstyrtDag, Utbetalingsdagtype } from '@io/graphql';
 import { DateString } from '@typer/shared';
@@ -149,58 +148,50 @@ type UseTabelldagerMapOptions = {
     erSelvstendigNæringsdrivende: boolean;
 };
 
-export const useTabelldagerMap = ({
+export function useTabelldagerMap({
     tidslinje,
     gjenståendeDager,
     overstyringer = [],
     maksdato,
     antallAGPDagerBruktFørPerioden,
     erSelvstendigNæringsdrivende,
-}: UseTabelldagerMapOptions): Map<string, Utbetalingstabelldag> =>
-    useMemo(() => {
-        const antallDagerIgjen: number | null =
-            typeof gjenståendeDager === 'number'
-                ? gjenståendeDager + antallSykedagerTilOgMedMaksdato(tidslinje, maksdato)
-                : null;
+}: UseTabelldagerMapOptions): Map<string, Utbetalingstabelldag> {
+    const antallDagerIgjen: number | null =
+        typeof gjenståendeDager === 'number'
+            ? gjenståendeDager + antallSykedagerTilOgMedMaksdato(tidslinje, maksdato)
+            : null;
 
-        const dager: Map<DateString, Utbetalingstabelldag> = createDagerMap(
-            tidslinje,
-            erSelvstendigNæringsdrivende,
-            antallDagerIgjen,
-            antallAGPDagerBruktFørPerioden,
-        );
+    const dager: Map<DateString, Utbetalingstabelldag> = createDagerMap(
+        tidslinje,
+        erSelvstendigNæringsdrivende,
+        antallDagerIgjen,
+        antallAGPDagerBruktFørPerioden,
+    );
 
-        for (const overstyring of overstyringer) {
-            for (const overstyrtDag of overstyring.dager) {
-                const existing = dager.get(overstyrtDag.dato);
-                if (existing) {
-                    dager.set(overstyrtDag.dato, {
-                        ...existing,
-                        overstyringer: (existing.overstyringer ?? []).concat([
-                            {
-                                vedtaksperiodeId: overstyring.vedtaksperiodeId,
-                                hendelseId: overstyring.hendelseId,
-                                begrunnelse: overstyring.begrunnelse,
-                                saksbehandler: overstyring.saksbehandler,
-                                timestamp: overstyring.timestamp,
-                                grad: overstyrtDag.grad,
-                                fraGrad: overstyrtDag.fraGrad,
-                                dag: getUtbetalingstabelldagtypeFromOverstyrtDag(overstyrtDag),
-                                dato: overstyrtDag.dato,
-                                ferdigstilt: overstyring.ferdigstilt,
-                            },
-                        ]),
-                    });
-                }
+    for (const overstyring of overstyringer) {
+        for (const overstyrtDag of overstyring.dager) {
+            const existing = dager.get(overstyrtDag.dato);
+            if (existing) {
+                dager.set(overstyrtDag.dato, {
+                    ...existing,
+                    overstyringer: (existing.overstyringer ?? []).concat([
+                        {
+                            vedtaksperiodeId: overstyring.vedtaksperiodeId,
+                            hendelseId: overstyring.hendelseId,
+                            begrunnelse: overstyring.begrunnelse,
+                            saksbehandler: overstyring.saksbehandler,
+                            timestamp: overstyring.timestamp,
+                            grad: overstyrtDag.grad,
+                            fraGrad: overstyrtDag.fraGrad,
+                            dag: getUtbetalingstabelldagtypeFromOverstyrtDag(overstyrtDag),
+                            dato: overstyrtDag.dato,
+                            ferdigstilt: overstyring.ferdigstilt,
+                        },
+                    ]),
+                });
             }
         }
+    }
 
-        return dager;
-    }, [
-        gjenståendeDager,
-        tidslinje,
-        maksdato,
-        erSelvstendigNæringsdrivende,
-        antallAGPDagerBruktFørPerioden,
-        overstyringer,
-    ]);
+    return dager;
+}
