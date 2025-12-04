@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { Alert, Box, HStack, VStack } from '@navikt/ds-react';
@@ -102,16 +102,13 @@ export const TilkommenInntektSkjemaNy = ({
         [fom, sykefraværstilfelleperioder],
     );
 
-    const gyldigPeriode: DatePeriod | undefined = useMemo(
-        () =>
-            erGyldigFom(fom) && erGyldigTom(tom)
-                ? {
-                      fom: norskDatoTilIsoDato(fom),
-                      tom: norskDatoTilIsoDato(tom),
-                  }
-                : undefined,
-        [fom, tom, erGyldigFom, erGyldigTom],
-    );
+    const gyldigPeriode: DatePeriod | undefined =
+        erGyldigFom(fom) && erGyldigTom(tom)
+            ? {
+                  fom: norskDatoTilIsoDato(fom),
+                  tom: norskDatoTilIsoDato(tom),
+              }
+            : undefined;
 
     const { setValue } = form;
 
