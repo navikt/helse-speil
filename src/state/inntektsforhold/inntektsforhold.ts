@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
 
 import {
     Arbeidsgiver,
@@ -65,24 +64,22 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: Perso
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
 };
 
-export const useDagoverstyringer = (
+export function useDagoverstyringer(
     fom: DateString,
     tom: DateString,
     inntektsforhold?: Inntektsforhold | null,
-): Dagoverstyring[] => {
-    return useMemo(() => {
-        if (!inntektsforhold) return [];
+): Dagoverstyring[] {
+    if (!inntektsforhold) return [];
 
-        const start = dayjs(fom);
-        const end = dayjs(tom);
-        return inntektsforhold.overstyringer.filter(isDagoverstyring).filter((overstyring) =>
-            overstyring.dager.some((dag) => {
-                const dato = dayjs(dag.dato);
-                return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
-            }),
-        );
-    }, [inntektsforhold, fom, tom]);
-};
+    const start = dayjs(fom);
+    const end = dayjs(tom);
+    return inntektsforhold.overstyringer.filter(isDagoverstyring).filter((overstyring) =>
+        overstyring.dager.some((dag) => {
+            const dato = dayjs(dag.dato);
+            return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
+        }),
+    );
+}
 
 export const useHarDagOverstyringer = (
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
