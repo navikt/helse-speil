@@ -1,5 +1,5 @@
 import dayjs, { Dayjs } from 'dayjs';
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import { Infotrygdutbetaling } from '@io/graphql';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -55,19 +55,15 @@ export const getMergedPeriods = (
 };
 
 export const useLatestPossibleDate = (periods: Periode[]): Dayjs => {
-    return useMemo(() => {
-        return getLatestDate(periods);
-    }, [periods]);
+    return getLatestDate(periods);
 };
 
 const useEarliestPossibleDate = (periods: Periode[]): Dayjs => {
-    return useMemo(() => {
-        return getEarliestDate(periods);
-    }, [periods]);
+    return getEarliestDate(periods);
 };
 
 const useAvailableZoomLevels = (startDate: Dayjs, delta: number) => {
-    return useMemo(() => getAvailableZoomLevels(startDate, delta), [startDate, delta]);
+    return getAvailableZoomLevels(startDate, delta);
 };
 
 const getNumberOfDaysInZoomLevel = (level: TimelineZoomLevel): number => {
@@ -88,10 +84,7 @@ export const useTimelineControls = (
     inntektsforhold: Inntektsforhold[],
     infotrygdutbetalinger: Infotrygdutbetaling[],
 ): UseTimelineControlsResult => {
-    const allPeriods = useMemo(
-        () => getMergedPeriods(inntektsforhold, infotrygdutbetalinger),
-        [inntektsforhold, infotrygdutbetalinger],
-    );
+    const allPeriods = getMergedPeriods(inntektsforhold, infotrygdutbetalinger);
 
     const latestPossibleDate = useLatestPossibleDate(allPeriods);
     const earliestPossibleDate = useEarliestPossibleDate(allPeriods);
