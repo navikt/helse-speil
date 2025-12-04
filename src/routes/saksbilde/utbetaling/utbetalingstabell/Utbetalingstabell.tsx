@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { ReactElement, useMemo } from 'react';
+import React, { ReactElement } from 'react';
 
 import { HStack, Table } from '@navikt/ds-react';
 
@@ -53,7 +53,7 @@ export const Utbetalingstabell = ({
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
 
-    const dagerList: Utbetalingstabelldag[] = useMemo(() => Array.from(dager.values()), [dager]);
+    const dagerList: Utbetalingstabelldag[] = Array.from(dager.values());
 
     const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt(person, personFødselsdato);
 

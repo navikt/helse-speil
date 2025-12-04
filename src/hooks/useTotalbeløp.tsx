@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { Dag } from '@io/graphql';
 import {
     getDagerMedUtbetaling,
@@ -19,7 +17,7 @@ export const useTotalbeløp = (erSelvstendigNæringsdrivede: boolean, tidslinje?
         tidslinje: tidslinje ?? [],
         erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivede,
     });
-    const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
+    const utbetalingsdager = getDagerMedUtbetaling(Array.from(dager.values()));
 
     const arbeidsgiverTotalbeløp = getTotalArbeidsgiverbeløp(utbetalingsdager);
     const personTotalbeløp = getTotalPersonbeløp(utbetalingsdager);
