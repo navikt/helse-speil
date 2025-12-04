@@ -1,48 +1,42 @@
-import { useMemo } from 'react';
-
 import { Infotrygdutbetaling } from '@io/graphql';
 import { InfotrygdPeriod } from '@typer/shared';
 import { somDato } from '@utils/date';
 
-export const useInfotrygdPeriods = (infotrygdutbetalinger: Infotrygdutbetaling[]): InfotrygdPeriod[] =>
-    useMemo(() => {
-        const utbetalinger = infotrygdutbetalinger
-            .filter((it) => !['Tilbakeført', 'Ukjent..'].includes(it.typetekst))
-            .sort((u1, u2) => dateAscending(u1.fom, u2.fom));
+export function useInfotrygdPeriods(infotrygdutbetalinger: Infotrygdutbetaling[]): InfotrygdPeriod[] {
+    const utbetalinger = infotrygdutbetalinger
+        .filter((it) => !['Tilbakeført', 'Ukjent..'].includes(it.typetekst))
+        .sort((u1, u2) => dateAscending(u1.fom, u2.fom));
 
-        const sammenslåtteUtbetalingsperioder: Infotrygdutbetaling[] = [];
-        let utbetaling: Infotrygdutbetaling | undefined = utbetalinger[0];
+    const sammenslåtteUtbetalingsperioder: Infotrygdutbetaling[] = [];
+    let utbetaling: Infotrygdutbetaling | undefined = utbetalinger[0];
 
-        while (utbetaling !== undefined) {
-            let tom: string = utbetaling.tom;
-            let søkEtterSenereTomForBerørteUtbetalinger = true;
+    while (utbetaling !== undefined) {
+        let tom: string = utbetaling.tom;
+        let søkEtterSenereTomForBerørteUtbetalinger = true;
 
-            while (søkEtterSenereTomForBerørteUtbetalinger) {
-                const senesteTomForBerørteUtbetalinger = utbetalinger
-                    .filter((it) => utbetalingUtenGapTilDato(it, tom))
-                    .map((it) => it.tom)
-                    .sort(dateDecending)[0];
+        while (søkEtterSenereTomForBerørteUtbetalinger) {
+            const senesteTomForBerørteUtbetalinger = utbetalinger
+                .filter((it) => utbetalingUtenGapTilDato(it, tom))
+                .map((it) => it.tom)
+                .sort(dateDecending)[0];
 
-                if (
-                    senesteTomForBerørteUtbetalinger &&
-                    somDato(senesteTomForBerørteUtbetalinger).isAfter(somDato(tom))
-                ) {
-                    tom = senesteTomForBerørteUtbetalinger;
-                } else {
-                    søkEtterSenereTomForBerørteUtbetalinger = false;
-                }
+            if (senesteTomForBerørteUtbetalinger && somDato(senesteTomForBerørteUtbetalinger).isAfter(somDato(tom))) {
+                tom = senesteTomForBerørteUtbetalinger;
+            } else {
+                søkEtterSenereTomForBerørteUtbetalinger = false;
             }
-
-            const sammenslåttUtbetalingsperiode = { ...utbetaling, tom: tom };
-            sammenslåtteUtbetalingsperioder.push(sammenslåttUtbetalingsperiode);
-
-            utbetaling = utbetalinger
-                .filter((it) => somDato(it.fom).isAfter(somDato(tom).add(1, 'day')))
-                .sort((a, b) => dateAscending(a.fom, b.fom))[0];
         }
 
-        return sammenslåtteUtbetalingsperioder;
-    }, [infotrygdutbetalinger]);
+        const sammenslåttUtbetalingsperiode = { ...utbetaling, tom: tom };
+        sammenslåtteUtbetalingsperioder.push(sammenslåttUtbetalingsperiode);
+
+        utbetaling = utbetalinger
+            .filter((it) => somDato(it.fom).isAfter(somDato(tom).add(1, 'day')))
+            .sort((a, b) => dateAscending(a.fom, b.fom))[0];
+    }
+
+    return sammenslåtteUtbetalingsperioder;
+}
 
 const dateAscending = (d1: string, d2: string): number => (somDato(d1).isBefore(somDato(d2)) ? -1 : 1);
 const dateDecending = (d1: string, d2: string): number => dateAscending(d1, d2) * -1;
