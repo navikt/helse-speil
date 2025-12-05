@@ -2,7 +2,6 @@ FROM gcr.io/distroless/nodejs24-debian13
 
 WORKDIR /app
 
-COPY .next/standalone/node_modules /app/node_modules
 COPY .next/standalone /app/
 COPY public /app/public/
 
