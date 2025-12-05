@@ -1,5 +1,7 @@
 # Konfigurasjon for registry ligger i .npmrc, slik at vi henter navikt-pakker fra riktig sted
 
+minimumReleaseAge: 10080  # 7 dager i minutter. Matcher vår dependanbot-config
+
 trustPolicy: no-downgrade # Ikke tillat å oppdatere en pakke om "trust level" er lavere på ny versjon enn gammel
 
 ignoreScripts: true # Fra pnpm docs: "Do not execute any scripts defined in the project package.json and its dependencies"

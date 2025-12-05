@@ -8,6 +8,8 @@ updates:
   # Maintain dependencies for GitHub Actions
   - package-ecosystem: "github-actions"
     directory: "/"
+    cooldown:
+      default-days: 7 # Delay all updates by 7 days by default
     commit-message:
       prefix: "⬆ "
     schedule:
@@ -24,9 +26,14 @@ updates:
   # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
+    cooldown:
+      default-days: 7 # Delay all updates by 7 days by default
     commit-message:
       prefix: "⬆ "
     schedule:
       interval: "daily"
-    registries:
-      - npm-github
+    registries: *
+    ignore:
+      - dependency-name: '@type/node'
+      - dependency-name: 'eslint'
+        version: ['9.x']
