@@ -13,9 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v6
       - uses: ./.github/actions/setup-npm-deps
+        name: Innstaller deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - run: cp envs/.env.dev .env.production
-      - run: npm run lint
-      - run: npm run test
-      - run: npm run build
+      - run: pnpm run lint
+      - run: pnpm run test
+      - run: pnpm run build

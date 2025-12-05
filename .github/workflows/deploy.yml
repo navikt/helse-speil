@@ -21,8 +21,8 @@ jobs:
       - uses: ./.github/actions/setup-npm-deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - run: npm run test
-      - run: npm run lint
+      - run: pnpm run lint
+      - run: pnpm run test
 
   build-dev:
     if: "!startsWith(github.ref, 'refs/heads/next/')"
@@ -38,7 +38,7 @@ jobs:
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - run: cp envs/.env.dev .env.production
-      - run: npm run build
+      - run: pnpm run build
       - uses: ./.github/actions/cdn-n-image
         name: Last opp til CDN og bygg docker image
         id: cdn-n-image
@@ -63,7 +63,7 @@ jobs:
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - run: cp envs/.env.production .env.production
-      - run: npm run build
+      - run: pnpm run build
       - uses: ./.github/actions/cdn-n-image
         name: Last opp til CDN og bygg docker image
         id: cdn-n-image
