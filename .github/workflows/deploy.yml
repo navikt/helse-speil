@@ -3,8 +3,7 @@ name: deploy
 on:
   push:
     branches:
-      - master
-      - next/**
+      - main
 
 env:
   APP: speil
@@ -51,7 +50,7 @@ jobs:
       image: ${{ steps.cdn-n-image.outputs.image }}
 
   build-production:
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     permissions:
       contents: 'read'
       id-token: 'write'
@@ -98,7 +97,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: 'write'
-    if: github.ref == 'refs/heads/master'
+    if: github.ref == 'refs/heads/main'
     environment:
       name: production
       url: https://speil.intern.nav.no

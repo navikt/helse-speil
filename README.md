@@ -1,6 +1,6 @@
 # Speil
 
-[![Actions Status](https://github.com/navikt/helse-speil/workflows/master/badge.svg)](https://github.com/navikt/helse-speil/actions)
+[![Actions Status](https://github.com/navikt/helse-speil/workflows/main/badge.svg)](https://github.com/navikt/helse-speil/actions)
 
 Saksbehandlerverktøy for sykepenger.
 
