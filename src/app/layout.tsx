@@ -47,7 +47,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
     }
 
     return (
-        <html lang="en">
+        <html lang="no">
             <head>{umamiAnalytics()}</head>
             <Preload />
             <Providers
