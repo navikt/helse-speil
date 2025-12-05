@@ -22,6 +22,7 @@ jobs:
         uses: ./.github/actions/setup-npm-deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - run: cp envs/.env.dev .env.production
       - run: pnpm run lint
       - run: pnpm run test
 
