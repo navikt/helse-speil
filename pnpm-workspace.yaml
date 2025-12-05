@@ -11,3 +11,5 @@ engineStrict: true # Krever at alle pakker vi installerer skal ha støtte for no
 # Disse er true by default, men vi setter dem eksplisitt for tydelighetens skyld
 lockfile: true
 preferFrozenLockfile: true
+
+nodeVersion: 24.11.1
