@@ -188,7 +188,7 @@ export const TilkommenInntektSkjema = ({
                                         inntektsforhold={finnAlleInntektsforhold(person)}
                                         periode={gyldigPeriode}
                                         error={fieldState.error !== undefined}
-                                        ekskluderteUkedager={field.value}
+                                        ekskluderteUkedager={field.value ?? []}
                                         setEkskluderteUkedager={(ekskluderteUkedager) => {
                                             field.onChange(ekskluderteUkedager);
                                             field.onBlur();
