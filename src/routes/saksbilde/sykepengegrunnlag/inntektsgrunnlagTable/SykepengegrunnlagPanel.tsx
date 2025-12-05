@@ -25,7 +25,7 @@ interface SykepengegrunnlagPanelProps {
     avviksvurdering: VilkarsgrunnlagAvviksvurdering | null;
     sykepengegrunnlag: number;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
-    aktivInntektskilde?: Arbeidsgiverinntekt;
+    aktivInntektskilde: Arbeidsgiverinntekt;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     person: PersonFragment;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;

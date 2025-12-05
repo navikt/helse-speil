@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactElement, useEffect, useState } from 'react';
+import React, { HTMLAttributes, ReactElement, useState } from 'react';
 
 import { HStack } from '@navikt/ds-react';
 
@@ -29,12 +29,9 @@ export const SykepengegrunnlagFraSpleis = ({
     periode,
     ...rest
 }: SykepengegrunnlagFraSpleisProps): ReactElement => {
-    const inntekt = getActiveInntekt(vilkårsgrunnlag, organisasjonsnummer);
-    const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(inntekt);
-
-    useEffect(() => {
-        setAktivInntektskilde(inntekt);
-    }, [inntekt]);
+    const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(
+        getActiveInntekt(vilkårsgrunnlag, organisasjonsnummer),
+    );
 
     return (
         <HStack justify="start" wrap={false} {...rest}>
