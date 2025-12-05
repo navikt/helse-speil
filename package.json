@@ -10,11 +10,11 @@
     },
     "type": "module",
     "license": "MIT",
-    "packageManager": "pnpm@10.24.0",
     "engines": {
         "node": "24",
         "pnpm": ">=10"
     },
+    "packageManager": "pnpm@10.24.0",
     "scripts": {
         "dev": "PORT=1234 next dev --turbopack",
         "prebuild": "next telemetry disable",
