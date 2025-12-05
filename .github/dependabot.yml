@@ -32,7 +32,7 @@ updates:
       prefix: "⬆ "
     schedule:
       interval: "daily"
-    registries: *
+    registries: '*'
     ignore:
       - dependency-name: '@type/node'
       - dependency-name: 'eslint'
