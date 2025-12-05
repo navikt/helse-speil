@@ -1,0 +1,11 @@
+# Konfigurasjon for registry ligger i .npmrc, slik at vi henter navikt-pakker fra riktig sted
+
+trustPolicy: no-downgrade # Ikke tillat å oppdatere en pakke om "trust level" er lavere på ny versjon enn gammel
+
+ignoreScripts: true # Fra pnpm docs: "Do not execute any scripts defined in the project package.json and its dependencies"
+
+engineStrict: true # Krever at alle pakker vi installerer skal ha støtte for node versjonen vi kjører
+
+# Disse er true by default, men vi setter dem eksplisitt for tydelighetens skyld
+lockfile: true
+preferFrozenLockfile: true
