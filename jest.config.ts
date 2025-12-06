@@ -9,7 +9,6 @@ const createJestConfig = nextJest({
 });
 
 const config: Config = {
-    preset: 'ts-jest',
     coverageProvider: 'v8',
     testEnvironment: 'jsdom',
     setupFiles: ['<rootDir>/jest.setup.ts'],
@@ -18,6 +17,9 @@ const config: Config = {
     watchPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/.next'],
     moduleNameMapper: {
         ...pathsToModuleNameMapper(compilerOptions.paths, { prefix: '<rootDir>/' }),
+        '^.+\\.module\\.(css|sass|scss)$': 'identity-obj-proxy',
+        '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
+        '^.+\\.(jpg|jpeg|png|gif|webp|svg)$': '<rootDir>/__mocks__/fileMock.js',
     },
 };
 
