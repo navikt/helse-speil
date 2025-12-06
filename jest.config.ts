@@ -14,6 +14,9 @@ const config: Config = {
     testEnvironment: 'jsdom',
     setupFiles: ['<rootDir>/jest.setup.ts'],
     setupFilesAfterEnv: ['<rootDir>/jest.setupAfterEnv.ts'],
+    transform: {
+        '^.+\\.(t|j)sx?$': '@swc/jest',
+    },
     transformIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/.next'],
     watchPathIgnorePatterns: ['<rootDir>/node_modules', '<rootDir>/.next'],
     moduleNameMapper: {
