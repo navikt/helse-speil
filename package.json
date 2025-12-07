@@ -14,6 +14,18 @@
         "node": "24",
         "pnpm": ">=10"
     },
+    "pnpm": {
+        "supportedArchitectures": {
+            "os": [
+                "darwin",
+                "linux"
+            ],
+            "cpu": [
+                "x64",
+                "arm64"
+            ]
+        }
+    },
     "packageManager": "pnpm@10.24.0",
     "scripts": {
         "dev": "PORT=1234 next dev --turbopack",
