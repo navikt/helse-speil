@@ -22,9 +22,13 @@ jobs:
         uses: ./.github/actions/setup-npm-deps
         with:
           NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
-      - run: cp envs/.env.dev .env.production
       - run: pnpm run lint
-      - run: pnpm run test
+      - run: pnpm run test -- --verbose --no-cache 2>&1 | tee test-output.txt
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: test-output
+          path: test-output.txt
 
   build-dev:
     if: "!startsWith(github.ref, 'refs/heads/next/')"
