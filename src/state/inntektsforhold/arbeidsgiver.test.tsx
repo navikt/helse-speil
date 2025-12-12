@@ -1,3 +1,5 @@
+import { vi } from 'vitest';
+
 import {
     finnArbeidsgiverForGhostPeriode,
     finnArbeidsgiverMedOrganisasjonsnummer,
@@ -8,9 +10,9 @@ import { enPerson } from '@test-data/person';
 import { renderHook } from '@test-utils';
 import { generateId } from '@utils/generateId';
 
-jest.mock('@state/person');
-jest.mock('@state/periode');
-jest.unmock('@state/inntektsforhold/arbeidsgiver');
+vi.mock('@state/person');
+vi.mock('@state/periode');
+vi.unmock('@state/inntektsforhold/arbeidsgiver');
 
 describe('findArbeidsgiverWithGhostPeriode', () => {
     it('returnerer arbeidsgiver som inneholder gitt ghost-periode', () => {
@@ -33,7 +35,7 @@ describe('findArbeidsgiverWithGhostPeriode', () => {
 
 describe('useArbeidsgiver', () => {
     afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     it('returnerer arbeidsgiver med gitt organisasjonsnummer', () => {

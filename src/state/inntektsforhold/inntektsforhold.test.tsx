@@ -1,3 +1,5 @@
+import { Mock, vi } from 'vitest';
+
 import { finnInntektsforholdForPeriode, useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -5,9 +7,9 @@ import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { renderHook } from '@test-utils';
 
-jest.mock('@state/person');
-jest.mock('@state/periode');
-jest.unmock('@state/inntektsforhold/arbeidsgiver');
+vi.mock('@state/person');
+vi.mock('@state/periode');
+vi.unmock('@state/inntektsforhold/arbeidsgiver');
 
 describe('finnInntektsforholdForPeriode', () => {
     it('returnerer arbeidsgiver som inneholder gitt periode', () => {
@@ -30,7 +32,7 @@ describe('finnInntektsforholdForPeriode', () => {
 
 describe('useAktivtInntektsforhold', () => {
     afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     it('returnerer null hvis det ikke finnes en aktiv periode', () => {
@@ -44,7 +46,7 @@ describe('useAktivtInntektsforhold', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        (useActivePeriod as jest.Mock).mockReturnValueOnce(periode);
+        (useActivePeriod as Mock).mockReturnValueOnce(periode);
 
         const { result } = renderHook(() => useAktivtInntektsforhold(person));
 

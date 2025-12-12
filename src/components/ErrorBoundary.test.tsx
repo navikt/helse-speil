@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
@@ -17,7 +18,7 @@ const ThrowsError = () => {
 
 describe('ErrorBoundary', () => {
     test('fanger exceptions og rendrer fallback (ReactNode)', () => {
-        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
         render(
             <ErrorBoundary fallback={<span>Dette er en fallback</span>}>
                 <ThrowsError />
@@ -27,7 +28,7 @@ describe('ErrorBoundary', () => {
         consoleErrorSpy.mockRestore();
     });
     test('fanger exceptions og rendrer fallback (function)', () => {
-        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
         render(
             <ErrorBoundary fallback={(error) => <span>{error.message}</span>}>
                 <ThrowsError />

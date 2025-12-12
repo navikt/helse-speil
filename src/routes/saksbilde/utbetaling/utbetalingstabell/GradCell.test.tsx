@@ -2,7 +2,6 @@ import React from 'react';
 
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { TestCellWrapper } from '@test-wrappers';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

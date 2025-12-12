@@ -1,5 +1,6 @@
-import { axe } from 'jest-axe';
 import React from 'react';
+import { Mock, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -15,13 +16,13 @@ const mockSort: SortState = {
     direction: 'ascending',
 };
 
-jest.mock('@state/oppgaver');
+vi.mock('@state/oppgaver');
 
 describe('OppgaverTable', () => {
     it('rendres uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        (useOppgaveFeed as jest.Mock).mockReturnValue({
+        (useOppgaveFeed as Mock).mockReturnValue({
             oppgaver,
             antallOppgaver: 1,
             error: undefined,
@@ -41,7 +42,7 @@ describe('OppgaverTable', () => {
     it('rendrer alle headere', () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        (useOppgaveFeed as jest.Mock).mockReturnValue({
+        (useOppgaveFeed as Mock).mockReturnValue({
             oppgaver,
             antallOppgaver: 1,
             error: undefined,
@@ -57,6 +58,3 @@ describe('OppgaverTable', () => {
         expect(screen.getAllByRole('columnheader')).toHaveLength(2);
     });
 });
-
-// Testen oversteg default setting på 5000 ved kjøring lokalt\
-jest.setTimeout(15000);

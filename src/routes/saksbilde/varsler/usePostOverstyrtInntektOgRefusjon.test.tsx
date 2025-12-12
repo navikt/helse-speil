@@ -1,3 +1,5 @@
+import { Mock, vi } from 'vitest';
+
 import {
     OpprettAbonnementDocument,
     Opptegnelse,
@@ -12,23 +14,26 @@ import { act, waitFor } from '@testing-library/react';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
-jest.mock('@state/toasts');
-jest.mock('@state/opptegnelser', () => ({
-    ...jest.requireActual('@state/opptegnelser'),
-    useHåndterOpptegnelser: jest.fn(),
-    useSetOpptegnelserPollingRate: jest.fn(),
+vi.mock('@state/toasts');
+vi.mock('@state/opptegnelser', async () => ({
+    ...(await vi.importActual('@state/opptegnelser')),
+    useHåndterOpptegnelser: vi.fn(),
+    useSetOpptegnelserPollingRate: vi.fn(),
 }));
-jest.mock('@io/graphql/polling');
+vi.mock('@io/graphql/polling');
 
-const addToastMock = jest.fn();
-(useAddToast as jest.Mock).mockReturnValue((toast: ToastObject) => {
-    addToastMock(toast);
-});
-(useRemoveToast as jest.Mock).mockReturnValue(() => {});
-(useHåndterOpptegnelser as jest.Mock).mockReturnValue(() => {});
-(useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {});
+const addToastMock = vi.fn();
 
 describe('usePostOverstyrInntektOgRefusjon', () => {
+    beforeEach(() => {
+        (useAddToast as Mock).mockReturnValue((toast: ToastObject) => {
+            addToastMock(toast);
+        });
+        (useRemoveToast as Mock).mockReturnValue(() => {});
+        (useHåndterOpptegnelser as Mock).mockReturnValue(() => {});
+        (useSetOpptegnelserPollingRate as Mock).mockReturnValue(() => {});
+    });
+
     it('skal ha initial state ved oppstart', () => {
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
         const { isLoading, error, timedOut } = result.current;
@@ -77,7 +82,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
     it('viser fullført toast når overstyring er ferdig', async () => {
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
 
-        (useHåndterOpptegnelser as jest.Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
+        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
             callBack({
                 aktorId: '1',
                 sekvensnummer: 1,

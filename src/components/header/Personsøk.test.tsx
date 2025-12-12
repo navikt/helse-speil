@@ -12,7 +12,7 @@ import { Personsøk } from './Personsøk';
 
 describe('Personsøk', () => {
     it('should fetch a person and redirect to dagoversikt', async () => {
-        const lazyFetchMock = jest.fn();
+        const lazyFetchMock = vi.fn();
         render(<Personsøk />, {
             mocks: [
                 createMock({

@@ -1,4 +1,5 @@
-import { axe } from 'jest-axe';
+import { vi } from 'vitest';
+import { axe } from 'vitest-axe';
 
 import { render } from '@test-utils';
 import { screen, within } from '@testing-library/react';
@@ -7,7 +8,7 @@ import { Tabs } from './Tabs';
 
 describe('Tabs', () => {
     afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     it('rendrer uten violations', async () => {

@@ -1,3 +1,5 @@
+import { Mock, vi } from 'vitest';
+
 import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
@@ -10,11 +12,11 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
 
-jest.mock('@state/person');
-jest.mock('@state/inntektsforhold/inntektsforhold');
-jest.mock('@state/toasts');
-jest.mock('@state/opptegnelser');
-jest.mock('@io/graphql/polling');
+vi.mock('@state/person');
+vi.mock('@state/inntektsforhold/inntektsforhold');
+vi.mock('@state/toasts');
+vi.mock('@state/opptegnelser');
+vi.mock('@io/graphql/polling');
 
 const AKTØR_ID = 'aktørId';
 const FØDSELSNUMMER = 'fødselsnummer';
@@ -22,13 +24,14 @@ const ORGNUMMER = '987654321';
 const VEDTAKSPERIODE_ID = 'vedtaksperiode';
 const BEGRUNNELSE = 'begrunnelse';
 
-(useAktivtInntektsforhold as jest.Mock).mockReturnValue(enArbeidsgiver({ organisasjonsnummer: ORGNUMMER }));
-
-(useAddToast as jest.Mock).mockReturnValue(() => {});
-(useRemoveToast as jest.Mock).mockReturnValue(() => {});
-(useSetOpptegnelserPollingRate as jest.Mock).mockReturnValue(() => {});
-
 describe('useOverstyrDager', () => {
+    beforeEach(() => {
+        (useAktivtInntektsforhold as Mock).mockReturnValue(enArbeidsgiver({ organisasjonsnummer: ORGNUMMER }));
+        (useAddToast as Mock).mockReturnValue(() => {});
+        (useRemoveToast as Mock).mockReturnValue(() => {});
+        (useSetOpptegnelserPollingRate as Mock).mockReturnValue(() => {});
+    });
+
     test('skal ha default verdier ved oppstart', async () => {
         const person = enPerson();
         const { result } = renderHook((initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver()), {
@@ -54,7 +57,7 @@ describe('useOverstyrDager', () => {
             },
         );
 
-        const callback = jest.fn();
+        const callback = vi.fn();
 
         await act(() =>
             result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID, callback),

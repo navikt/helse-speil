@@ -1,5 +1,6 @@
 import { createStore } from 'jotai';
 import React from 'react';
+import { Mock, vi } from 'vitest';
 
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
@@ -15,7 +16,7 @@ import { render, screen } from '@test-utils';
 import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-jest.mock('@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting');
+vi.mock('@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting');
 
 describe('SkjønnsfastsettingForm', () => {
     const periode = enBeregnetPeriode();
@@ -75,12 +76,14 @@ describe('SkjønnsfastsettingForm', () => {
     };
     const maler: SkjønnsfastsettingMal[] = [enMal, malMed25Avvik];
 
-    (usePostSkjønnsfastsattSykepengegrunnlag as jest.Mock).mockReturnValue({
-        isLoading: false,
-        error: null,
-        timedOut: false,
-        setTimedOut: () => {},
-        postSkjønnsfastsetting: () => {},
+    beforeEach(() => {
+        (usePostSkjønnsfastsattSykepengegrunnlag as Mock).mockReturnValue({
+            isLoading: false,
+            error: null,
+            timedOut: false,
+            setTimedOut: () => {},
+            postSkjønnsfastsetting: () => {},
+        });
     });
 
     it('viser årsaker fra maler', async () => {
@@ -92,12 +95,12 @@ describe('SkjønnsfastsettingForm', () => {
                 omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
                 sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
-                onEndretSykepengegrunnlag={jest.fn}
-                closeAndResetForm={jest.fn()}
+                onEndretSykepengegrunnlag={vi.fn()}
+                closeAndResetForm={vi.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
                 formValues={null}
-                setFormValues={jest.fn}
+                setFormValues={vi.fn()}
             />,
         );
         expect(await screen.findByText(maler[0]?.arsak as string)).toBeInTheDocument();
@@ -112,12 +115,12 @@ describe('SkjønnsfastsettingForm', () => {
                 omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
                 sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
-                onEndretSykepengegrunnlag={jest.fn}
-                closeAndResetForm={jest.fn()}
+                onEndretSykepengegrunnlag={vi.fn()}
+                closeAndResetForm={vi.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
                 formValues={null}
-                setFormValues={jest.fn}
+                setFormValues={vi.fn()}
             />,
         );
 
@@ -138,12 +141,12 @@ describe('SkjønnsfastsettingForm', () => {
                 omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
                 sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
-                onEndretSykepengegrunnlag={jest.fn}
-                closeAndResetForm={jest.fn()}
+                onEndretSykepengegrunnlag={vi.fn()}
+                closeAndResetForm={vi.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
                 formValues={null}
-                setFormValues={jest.fn}
+                setFormValues={vi.fn()}
             />,
         );
 
@@ -180,12 +183,12 @@ describe('SkjønnsfastsettingForm', () => {
                 omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
                 sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
-                onEndretSykepengegrunnlag={jest.fn}
-                closeAndResetForm={jest.fn()}
+                onEndretSykepengegrunnlag={vi.fn()}
+                closeAndResetForm={vi.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
                 formValues={null}
-                setFormValues={jest.fn}
+                setFormValues={vi.fn()}
             />,
         );
 
@@ -200,7 +203,7 @@ describe('SkjønnsfastsettingForm', () => {
     it('skal ha validering av at inntekt fordeles ved skjønnsfastsettelse til rapportert', async () => {
         const user = userEvent.setup();
 
-        (usePostSkjønnsfastsattSykepengegrunnlag as jest.Mock).mockReturnValue({
+        (usePostSkjønnsfastsattSykepengegrunnlag as Mock).mockReturnValue({
             isLoading: false,
             error: null,
             timedOut: false,
@@ -216,12 +219,12 @@ describe('SkjønnsfastsettingForm', () => {
                 omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
                 sammenligningsgrunnlag={100000}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
-                onEndretSykepengegrunnlag={jest.fn}
-                closeAndResetForm={jest.fn()}
+                onEndretSykepengegrunnlag={vi.fn()}
+                closeAndResetForm={vi.fn()}
                 maler={maler}
                 sisteSkjønnsfastsettelse={null}
                 formValues={null}
-                setFormValues={jest.fn}
+                setFormValues={vi.fn()}
             />,
         );
 

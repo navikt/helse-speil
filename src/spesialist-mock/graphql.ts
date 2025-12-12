@@ -1,12 +1,5 @@
 import spesialistSchema from './graphql.schema.json';
 import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import isBetween from 'dayjs/plugin/isBetween';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import minMax from 'dayjs/plugin/minMax';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
@@ -20,6 +13,7 @@ import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
+import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
@@ -60,15 +54,6 @@ import { OpphevStansMock } from './storage/opphevstans';
 import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
-
-dayjs.extend(relativeTime);
-dayjs.extend(minMax);
-dayjs.extend(isBetween);
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(isoWeek);
-dayjs.extend(customParseFormat);
-dayjs.locale('nb');
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;

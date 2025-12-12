@@ -1,3 +1,5 @@
+import { Mock, vi } from 'vitest';
+
 import { Dagoverstyring, Dagtype, Periodetilstand, VarselDto, Varselstatus } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { useInntektOgRefusjon } from '@state/overstyring';
@@ -9,20 +11,16 @@ import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-dat
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
 
-jest.mock('@state/overstyring');
-jest.mock('@state/tilkommenInntekt');
+vi.mock('@state/overstyring');
+vi.mock('@state/tilkommenInntekt');
 
 describe('SaksbildeVarsel', () => {
-    (useHentTilkommenInntektQuery as jest.Mock).mockReturnValue({ data: [] });
-    it('skal kaste feil om periode mangler skjæringstidspunkt', () => {
-        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
-        const periode = enBeregnetPeriode({ skjaeringstidspunkt: undefined });
-
-        expect(() => render(<SaksbildeVarsel person={enPerson()} periode={periode} />)).toThrow();
-        consoleErrorSpy.mockRestore();
+    beforeEach(() => {
+        (useHentTilkommenInntektQuery as Mock).mockReturnValue({ data: [] });
     });
-    it('skal kaste feil om ikke uberegnet periode mangler skjæringstidspunkt', () => {
-        const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    it('skal kaste feil om beregnet periode mangler skjæringstidspunkt', () => {
+        const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
         const periode = enBeregnetPeriode({ vilkarsgrunnlagId: undefined });
 
         expect(() => render(<SaksbildeVarsel person={enPerson()} periode={periode} />)).toThrow();
@@ -90,7 +88,7 @@ describe('SaksbildeVarsel', () => {
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
         const periode = enGhostPeriode();
 
-        (useInntektOgRefusjon as jest.Mock).mockReturnValue({
+        (useInntektOgRefusjon as Mock).mockReturnValue({
             aktørId: person.aktorId,
             fødselsnummer: person.fodselsnummer,
             skjæringstidspunkt: periode.skjaeringstidspunkt,

@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -14,7 +15,7 @@ import { Utbetaling } from './Utbetaling';
 
 describe('Utbetaling', () => {
     afterEach(() => {
-        jest.resetAllMocks();
+        vi.resetAllMocks();
     });
 
     it('rendrer revurderbar utbetaling', () => {

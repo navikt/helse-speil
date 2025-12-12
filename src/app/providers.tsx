@@ -1,14 +1,6 @@
 'use client';
 
-import dayjs from 'dayjs';
 import 'dayjs/locale/nb';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
-import isBetween from 'dayjs/plugin/isBetween';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
-import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
-import isoWeek from 'dayjs/plugin/isoWeek';
-import minMax from 'dayjs/plugin/minMax';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import type { WritableAtom } from 'jotai';
 import { Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
@@ -26,15 +18,7 @@ import { useFetchPersonQuery } from '@state/person';
 import { hydrateTotrinnsvurderingState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
-dayjs.extend(relativeTime);
-dayjs.extend(minMax);
-dayjs.extend(isBetween);
-dayjs.extend(isSameOrAfter);
-dayjs.extend(isSameOrBefore);
-dayjs.extend(isoWeek);
-dayjs.extend(customParseFormat);
-dayjs.locale('nb');
+import '@utils/dayjs.setup';
 
 initInstrumentation();
 

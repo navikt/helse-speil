@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering, Vurdering } from '@io/graphql';
-import '@testing-library/jest-dom';
 import { render, screen, within } from '@testing-library/react';
 
 import { InngangsvilkårWithContent } from './Inngangsvilkår';

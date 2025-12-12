@@ -1,16 +1,16 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { Kildetype } from '@io/graphql';
 import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
-import '@testing-library/jest-dom';
 import { screen } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { Utbetalingstabell } from './Utbetalingstabell';
 import { Sykedag } from './utbetalingstabelldager';
 
-jest.mock('./useAlderVedSkjæringstidspunkt', () => ({
+vi.mock('./useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
 

@@ -1,22 +1,22 @@
 import React from 'react';
+import { Mock } from 'vitest';
 
 import { fetchPersonMock, opptegnelseMock } from '@apollo-mocks';
 import { useNyheter } from '@external/sanity';
 import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
 import { render } from '@test-utils';
-import '@testing-library/jest-dom';
 import { fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SpeilError } from '@utils/error';
 
 import { Header } from './Header';
 
-jest.mock('@hooks/useKeyboardShortcuts');
-jest.mock('@external/sanity');
+vi.mock('@hooks/useKeyboardShortcuts');
+vi.mock('@external/sanity');
 
 let cachedVarsel: SpeilError | null = null;
 
-jest.mock('@state/varsler', () => ({
+vi.mock('@state/varsler', () => ({
     __esModule: true,
     Scopes: { GLOBAL: '/' },
     useAddVarsel: () => (varsel: SpeilError) => {
@@ -30,11 +30,11 @@ jest.mock('@state/varsler', () => ({
 
 describe('Header', () => {
     beforeEach(() => {
-        (useKeyboardActions as jest.Mock).mockReturnValue(() => Promise.resolve(null));
-        (useNyheter as jest.Mock).mockReturnValue({ nyheter: [] });
+        (useKeyboardActions as Mock).mockReturnValue(() => Promise.resolve(null));
+        (useNyheter as Mock).mockReturnValue({ nyheter: [] });
     });
     afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
         cachedVarsel = null;
     });
 

@@ -1,19 +1,20 @@
-import { axe } from 'jest-axe';
 import React from 'react';
+import { Mock, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
-import { createMock, render, screen } from '@test-utils';
+import { act, createMock, render, screen } from '@test-utils';
 
 import { Oversikt } from './Oversikt';
 
-jest.mock('@state/oppgaver');
-jest.mock('@external/sanity');
-jest.mock('@hooks/useRefetchDriftsmeldinger');
+vi.mock('@state/oppgaver');
+vi.mock('@external/sanity');
+vi.mock('@hooks/useRefetchDriftsmeldinger');
 
 const mockFetch = (data: unknown) =>
-    jest.fn().mockImplementation(() =>
+    vi.fn().mockImplementation(() =>
         Promise.resolve({
             ok: true,
             json: () => data,
@@ -25,8 +26,8 @@ describe('Oversikt', () => {
     it('rendrer uten violations', async () => {
         const oppgaver = [enOppgaveForOversikten()];
 
-        (useAntallOppgaver as jest.Mock).mockReturnValue({ antallMineSaker: 0, antallPåVent: 0 });
-        (useOppgaveFeed as jest.Mock).mockReturnValue({
+        (useAntallOppgaver as Mock).mockReturnValue({ antallMineSaker: 0, antallPåVent: 0 });
+        (useOppgaveFeed as Mock).mockReturnValue({
             oppgaver,
             antallOppgaver: 1,
             error: undefined,
@@ -42,6 +43,12 @@ describe('Oversikt', () => {
         expect(
             await screen.findByRole('region', { name: 'Toggle visning av behandlingsstatistikk' }),
         ).toBeInTheDocument();
+        expect(await screen.findByRole('table', { name: 'Saker som er klare for behandling' })).toBeInTheDocument();
+        expect(await screen.findByLabelText('Saksbehandler')).toBeInTheDocument();
+
+        await act(async () => {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+        });
 
         const result = await axe(container);
 

@@ -1,5 +1,5 @@
-import { axe } from 'jest-axe';
 import React from 'react';
+import { axe } from 'vitest-axe';
 
 import { render } from '@testing-library/react';
 

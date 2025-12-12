@@ -1,6 +1,6 @@
-import fetchMock from 'jest-fetch-mock';
 import { createStore } from 'jotai';
 import React from 'react';
+import { Mock, vi } from 'vitest';
 
 import { PersonStoreContext } from '@/state/contexts/personStore';
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
@@ -19,25 +19,24 @@ import { render, screen } from '@test-utils';
 
 import { SykepengegrunnlagFraSpleis } from './SykepengegrunnlagFraSpleis';
 
-jest.mock('@external/sanity');
-jest.mock('@state/periode');
-jest.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
-jest.mock('@state/toggles');
-jest.mock('@state/anonymization');
-jest.mock('@state/person');
-jest.mock('@hooks/useEndringerForPeriode');
+vi.mock('@external/sanity');
+vi.mock('@state/periode');
+vi.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
+vi.mock('@state/toggles');
+vi.mock('@state/anonymization');
+vi.mock('@state/person');
+vi.mock('@hooks/useEndringerForPeriode');
 
 describe('SykepengegrunnlagFraSpleis', () => {
     afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     beforeEach(() => {
-        (useSkjønnsfastsettelsesMaler as jest.Mock).mockReturnValue({
+        (useSkjønnsfastsettelsesMaler as Mock).mockReturnValue({
             maler: [],
             loading: false,
         });
-        fetchMock.doMock();
     });
 
     it('rendrer inntektsgrunnlag og inntektskilder', () => {
@@ -55,16 +54,16 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const inntekter = [inntektFraIM];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
-        (useFetchPersonQuery as jest.Mock).mockReturnValue({ data: { person: person } });
-        (useActivePeriod as jest.Mock).mockReturnValue(enBeregnetPeriode());
-        (useEndringerForPeriode as jest.Mock).mockReturnValue({
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: person } });
+        (useActivePeriod as Mock).mockReturnValue(enBeregnetPeriode());
+        (useEndringerForPeriode as Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],
             dagendringer: [],
             skjønnsfastsettingsendringer: [],
         });
-        (useVilkårsgrunnlag as jest.Mock).mockReturnValue(vilkårsgrunnlag);
-        (useIsAnonymous as jest.Mock).mockReturnValue(false);
+        (useVilkårsgrunnlag as Mock).mockReturnValue(vilkårsgrunnlag);
+        (useIsAnonymous as Mock).mockReturnValue(false);
 
         renderWithProvider(
             <SykepengegrunnlagFraSpleis
@@ -105,7 +104,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         ];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
-        (useEndringerForPeriode as jest.Mock).mockReturnValue({
+        (useEndringerForPeriode as Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],
             dagendringer: [],
@@ -139,8 +138,8 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const inntekter = [inntektFraIM, inntektFraAO];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
-        (useActivePeriod as jest.Mock).mockReturnValue(enGhostPeriode());
-        (useEndringerForPeriode as jest.Mock).mockReturnValue({
+        (useActivePeriod as Mock).mockReturnValue(enGhostPeriode());
+        (useEndringerForPeriode as Mock).mockReturnValue({
             inntektsendringer: [],
             arbeidsforholdendringer: [],
             dagendringer: [],

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Mock, vi } from 'vitest';
 
 import { customAxios } from '@app/axios/axiosClient';
 import { ArsakerQueryResult, SANITY_URL } from '@external/sanity';
@@ -12,7 +13,7 @@ import userEvent from '@testing-library/user-event';
 
 import { AnnulleringsModal } from './AnnulleringsModal';
 
-jest.mock('@state/toasts');
+vi.mock('@state/toasts');
 
 const enArbeidsgiverReferanse = (): ArbeidsgiverReferanse => ({
     type: 'Arbeidsgiver',
@@ -33,8 +34,7 @@ const defaultProps = {
     periode: enBeregnetPeriode(),
 };
 
-const addToastMock = jest.fn();
-(useAddToast as jest.Mock).mockReturnValue(addToastMock);
+const addToastMock = vi.fn();
 
 const stubbedeÅrsaker: ArsakerQueryResult = {
     result: [
@@ -50,7 +50,8 @@ const stubbedeÅrsaker: ArsakerQueryResult = {
 
 describe('Annulleringsmodal', () => {
     beforeEach(() => {
-        (customAxios.post as jest.Mock).mockImplementation((url: string, { query }: { query: string }) => {
+        (useAddToast as Mock).mockReturnValue(addToastMock);
+        (customAxios.post as Mock).mockImplementation((url: string, { query }: { query: string }) => {
             if (url === SANITY_URL && query.includes('_type == "arsaker"')) {
                 return Promise.resolve({ data: stubbedeÅrsaker });
             }

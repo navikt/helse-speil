@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { Periodetype } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -6,7 +7,6 @@ import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { render, screen } from '@test-utils';
-import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
@@ -14,7 +14,7 @@ import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
 let postOverstyringArguments: [Utbetalingstabelldag[], string] | [] = [];
 
-jest.mock('./utbetalingstabell/useOverstyrDager', () => ({
+vi.mock('./utbetalingstabell/useOverstyrDager', () => ({
     useOverstyrDager: () => ({
         postOverstyring: (_: Utbetalingstabelldag[], overstyrteDager: Utbetalingstabelldag[], begrunnelse: string) => {
             postOverstyringArguments = [overstyrteDager, begrunnelse];
@@ -22,11 +22,9 @@ jest.mock('./utbetalingstabell/useOverstyrDager', () => ({
     }),
 }));
 
-jest.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
+vi.mock('./utbetalingstabell/useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
 }));
-
-jest.setTimeout(7000);
 
 const dager = new Map<string, Utbetalingstabelldag>([
     ['2022-01-01', getUtbetalingstabellDag({ dato: '2022-01-01' })],

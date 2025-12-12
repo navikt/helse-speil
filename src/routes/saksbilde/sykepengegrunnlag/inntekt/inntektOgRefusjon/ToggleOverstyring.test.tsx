@@ -1,3 +1,5 @@
+import { Mock, vi } from 'vitest';
+
 import { Periodetilstand } from '@io/graphql';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
 import { useActivePeriod } from '@state/periode';
@@ -7,7 +9,7 @@ import { enBeregnetPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
 
-jest.mock('@state/periode');
+vi.mock('@state/periode');
 
 describe('ToggleOverstyring', () => {
     it('skal vise overstyringsknapp for beregnet periode', () => {
@@ -15,7 +17,7 @@ describe('ToggleOverstyring', () => {
         const generasjon = enGenerasjon({ perioder: [periode] });
         const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
-        (useActivePeriod as jest.Mock).mockReturnValue(periode);
+        (useActivePeriod as Mock).mockReturnValue(periode);
         render(
             <ToggleOverstyring
                 person={person}
@@ -25,7 +27,7 @@ describe('ToggleOverstyring', () => {
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 erDeaktivert={false}
                 editing={false}
-                setEditing={jest.fn()}
+                setEditing={vi.fn()}
             />,
         );
         expect(screen.getByText('Revurder')).toBeInTheDocument();
@@ -35,7 +37,7 @@ describe('ToggleOverstyring', () => {
         const generasjon = enGenerasjon({ perioder: [periode] });
         const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
-        (useActivePeriod as jest.Mock).mockReturnValue(periode);
+        (useActivePeriod as Mock).mockReturnValue(periode);
         render(
             <ToggleOverstyring
                 person={person}
@@ -45,7 +47,7 @@ describe('ToggleOverstyring', () => {
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 erDeaktivert={false}
                 editing={true}
-                setEditing={jest.fn()}
+                setEditing={vi.fn()}
             />,
         );
         expect(screen.getByText('Avbryt')).toBeInTheDocument();
@@ -57,7 +59,7 @@ describe('ToggleOverstyring', () => {
         const generasjon2 = enGenerasjon({ perioder: [valgtPeriode] });
         const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon, generasjon2] });
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
-        (useActivePeriod as jest.Mock).mockReturnValue(valgtPeriode);
+        (useActivePeriod as Mock).mockReturnValue(valgtPeriode);
         const { baseElement } = render(
             <ToggleOverstyring
                 person={person}
@@ -67,7 +69,7 @@ describe('ToggleOverstyring', () => {
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 erDeaktivert={false}
                 editing={true}
-                setEditing={jest.fn()}
+                setEditing={vi.fn()}
             />,
         );
         expect(baseElement.firstChild).toBeEmptyDOMElement();
@@ -83,7 +85,7 @@ describe('ToggleOverstyring', () => {
             const generasjon = enGenerasjon({ perioder: [valgtPeriode, beregnetPeriode] });
             const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
             const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
-            (useActivePeriod as jest.Mock).mockReturnValue(valgtPeriode);
+            (useActivePeriod as Mock).mockReturnValue(valgtPeriode);
             render(
                 <ToggleOverstyring
                     person={person}
@@ -93,7 +95,7 @@ describe('ToggleOverstyring', () => {
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                     erDeaktivert={false}
                     editing={false}
-                    setEditing={jest.fn()}
+                    setEditing={vi.fn()}
                 />,
             );
             expect(
@@ -105,7 +107,7 @@ describe('ToggleOverstyring', () => {
             const generasjon = enGenerasjon({ perioder: [uberegnetPeriode] });
             const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
             const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
-            (useActivePeriod as jest.Mock).mockReturnValue(uberegnetPeriode);
+            (useActivePeriod as Mock).mockReturnValue(uberegnetPeriode);
             render(
                 <ToggleOverstyring
                     person={person}
@@ -115,7 +117,7 @@ describe('ToggleOverstyring', () => {
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                     erDeaktivert={false}
                     editing={false}
-                    setEditing={jest.fn()}
+                    setEditing={vi.fn()}
                 />,
             );
             expect(

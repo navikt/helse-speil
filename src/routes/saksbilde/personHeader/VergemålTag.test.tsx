@@ -3,7 +3,6 @@ import React from 'react';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { VergemålTag } from './VergemålTag';

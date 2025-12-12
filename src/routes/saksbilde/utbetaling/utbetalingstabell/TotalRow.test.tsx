@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { TestRowWrapper } from '@test-wrappers';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 

@@ -2,7 +2,6 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { RefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonSkjema/RefusjonSkjema';
 import { render, screen } from '@test-utils';
-import '@testing-library/jest-dom';
 import userEvent from '@testing-library/user-event';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { somNorskDato } from '@utils/date';

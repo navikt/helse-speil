@@ -1,9 +1,9 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
-import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 
 import { UtlandTag } from './UtlandTag';
@@ -29,7 +29,7 @@ describe('UtlandTag', () => {
     const personMedVarsel = enPerson().medArbeidsgivere([arbeidsgiver]);
     const personUtenVarsel = enPerson();
     afterEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
     it('rendrer tag når det finnes en periode til godkjenning med varsel for utlandsenhet', () => {
         render(<UtlandTag person={personMedVarsel} />);
