@@ -12,6 +12,12 @@ for å sikre at all koden er på likt format. Hvordan utviklerne velger å overh
 men
 Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette konfigureres avhenger av IDE / Editor.
 
+## Gi tilgang til Speil i dev (aka preprod) via AD:
+
+Vedkommende som ønsker tilgang må:
+
+- Være medlem av minst en av gruppene som er spesifisert under `spec.azure.application.claims.groups`
+
 ## Forutsetninger
 
 ### Sett opp tilgang til Github Package Registry
