@@ -100,7 +100,7 @@ export const TilkommenInntektEndretEllerGjenopprettetHendelse = ({
         )}
         <VStack>
             <BodyShort weight="semibold">Notat til beslutter</BodyShort>
-            <BodyShort>{event.metadata.notatTilBeslutter}</BodyShort>
+            <BodyShortWithPreWrap>{event.metadata.notatTilBeslutter}</BodyShortWithPreWrap>
         </VStack>
     </>
 );
