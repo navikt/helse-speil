@@ -3,6 +3,7 @@ import React from 'react';
 
 import { BodyShort, VStack } from '@navikt/ds-react';
 
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import {
     ApiTilkommenInntektEndretEvent,
@@ -43,7 +44,7 @@ export const TilkommenInntektOpprettetHendelse = ({ event }: { event: ApiTilkomm
         </VStack>
         <VStack>
             <BodyShort weight="semibold">Notat til beslutter</BodyShort>
-            <BodyShort>{event.metadata.notatTilBeslutter}</BodyShort>
+            <BodyShortWithPreWrap>{event.metadata.notatTilBeslutter}</BodyShortWithPreWrap>
         </VStack>
     </>
 );
