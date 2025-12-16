@@ -28,6 +28,7 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
             if (isArbeidsgiver(inntektsforhold)) {
                 return (
                     <SykepengegrunnlagFraSpleis
+                        key={`${vilkårsgrunnlag.id}`}
                         vilkårsgrunnlag={vilkårsgrunnlag}
                         organisasjonsnummer={inntektsforhold.organisasjonsnummer}
                         data-testid="ubehandlet-sykepengegrunnlag"

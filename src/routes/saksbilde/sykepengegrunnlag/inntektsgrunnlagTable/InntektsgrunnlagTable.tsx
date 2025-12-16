@@ -13,7 +13,7 @@ import styles from './SykepengegrunnlagPanel.module.css';
 interface InntektsgrunnlagTableProps {
     person: PersonFragment;
     inntekter: Arbeidsgiverinntekt[];
-    aktivInntektskilde?: Arbeidsgiverinntekt;
+    aktivInntektskilde: Arbeidsgiverinntekt;
     setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
     omregnetÅrsinntekt?: number | null;
     sammenligningsgrunnlag?: number | null;
@@ -54,7 +54,7 @@ export const InntektsgrunnlagTable = ({
                     skjønnsmessigFastsatt={inntekt.skjonnsmessigFastsatt}
                     sammenligningsgrunnlag={inntekt.sammenligningsgrunnlag}
                     arbeidsforholdErDeaktivert={inntekt.deaktivert}
-                    erGjeldende={aktivInntektskilde?.arbeidsgiver == inntekt.arbeidsgiver}
+                    erGjeldende={aktivInntektskilde.arbeidsgiver == inntekt.arbeidsgiver}
                     onSetAktivInntektskilde={() => setAktivInntektskilde(inntekt)}
                 />
             ))}
