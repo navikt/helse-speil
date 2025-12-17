@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-import { useFetchPersonQuery } from '@/state/person';
 import {
     oppdatererPersondataToastKey,
     useOppdaterPersondata,
 } from '@saksbilde/saksbildeMenu/dropdown/useOppdaterPersondata';
+import { useFetchPersonQuery } from '@state/person';
 import { useRemoveToast } from '@state/toasts';
 
 export const useOppdaterPersondataEnGang = () => {

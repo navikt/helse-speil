@@ -30,7 +30,6 @@ export const ExpandableTimelineRow = ({
     const inntektsforholdReferanse = tilReferanse(inntektsforhold);
     return (
         <div className={styles.TimelineRow}>
-            {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events */}
             <div
                 role="button"
                 tabIndex={0}

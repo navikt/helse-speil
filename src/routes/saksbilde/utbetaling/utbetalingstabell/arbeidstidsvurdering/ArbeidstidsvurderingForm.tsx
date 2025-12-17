@@ -93,7 +93,7 @@ export const ArbeidstidsvurderingForm = ({
     };
 
     return (
-        <Box background={'surface-subtle'} as="article" padding="4">
+        <Box background="surface-subtle" as="article" padding="4">
             <HStack gap="2" paddingBlock="0 3">
                 <Heading size="small">Arbeidstidsvurdering</Heading>
                 <Button

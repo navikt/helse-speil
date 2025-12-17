@@ -4,9 +4,9 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Button, Checkbox, CheckboxGroup, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
-import { ApiPersonnavn, ApiTildeling } from '@/io/rest/generated/spesialist.schemas';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arsak, useArsaker } from '@external/sanity';
+import { ApiPersonnavn, ApiTildeling } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useEndrePåVent, useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';

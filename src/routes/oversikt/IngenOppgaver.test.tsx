@@ -1,7 +1,7 @@
 import React from 'react';
 import { axe } from 'vitest-axe';
 
-import { render } from '@/test/test-utils';
+import { render } from '@test-utils';
 
 import { IngenOppgaver } from './IngenOppgaver';
 import { TabType, tabState } from './tabState';

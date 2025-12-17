@@ -35,9 +35,9 @@ export const Refusjonslinje = ({ fom, tom, beløp, kilde, lokalEndring }: Refusj
                 <BodyShort>{beløp ? somPenger(beløp) : 'Ingen refusjon'}</BodyShort>
             </Table.DataCell>
             <Table.DataCell>
-                {kilde === Kildetype.Inntektsmelding && <Kilde type={'Inntektsmelding'}>IM</Kilde>}
+                {kilde === Kildetype.Inntektsmelding && <Kilde type="Inntektsmelding">IM</Kilde>}
                 {kilde === Kildetype.Saksbehandler && (
-                    <Kilde type={'Saksbehandler'}>
+                    <Kilde type="Saksbehandler">
                         <PersonPencilFillIcon title="Saksbehandler ikon" />
                     </Kilde>
                 )}

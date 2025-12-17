@@ -1,6 +1,7 @@
-import styles from './CellContent.module.scss';
 import classNames from 'classnames';
 import React, { ReactElement } from 'react';
+
+import styles from './CellContent.module.scss';
 
 interface CellContentProps extends React.HTMLAttributes<HTMLDivElement> {
     flexEnd?: boolean;

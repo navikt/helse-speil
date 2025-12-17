@@ -37,8 +37,8 @@ export const TilkommenInntektSaksbildeMenu = (): ReactElement => {
                     <HStack as="nav" role="tablist">
                         <Link
                             className={classNames(navLenkeStyles.NavLink, navLenkeStyles.ActiveLink)}
-                            href={'#'}
-                            title={'Tilkommen inntekt'}
+                            href="#"
+                            title="Tilkommen inntekt"
                         >
                             Tilkommen inntekt
                         </Link>

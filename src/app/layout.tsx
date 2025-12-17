@@ -40,7 +40,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                 strategy="afterInteractive"
                 src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
                 data-host-url="https://umami.nav.no"
-                data-website-id={'79077f8d-4fe9-4ef1-82e1-dde6af454cd3'}
+                data-website-id="79077f8d-4fe9-4ef1-82e1-dde6af454cd3"
                 data-auto-track="false"
             ></Script>
         );

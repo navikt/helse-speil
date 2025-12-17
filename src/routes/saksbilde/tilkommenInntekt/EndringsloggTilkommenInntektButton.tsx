@@ -6,7 +6,7 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { Kilde } from '@components/Kilde';
 import { EndringsloggTilkommenInntekt } from '@components/endringslogg/EndringsloggTilkommenInntekt';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import styles from '@routes/saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton.module.css';
+import styles from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton.module.css';
 
 export const EndringsloggTilkommenInntektButton = ({
     tilkommenInntekt,

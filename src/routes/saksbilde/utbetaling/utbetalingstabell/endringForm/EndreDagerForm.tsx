@@ -47,7 +47,7 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
     const handleSubmit = (values: DagEndringFormFields) => {
         onSubmitEndring({
             grad: values.grad,
-            dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!!,
+            dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!,
             erAvvist: false,
             erForeldet: false,
         });
@@ -69,7 +69,7 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
                             hideError
                         />
                         <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
-                        <VStack align={'end'} justify={'end'}>
+                        <VStack align="end" justify="end">
                             <Button
                                 size="small"
                                 type="submit"

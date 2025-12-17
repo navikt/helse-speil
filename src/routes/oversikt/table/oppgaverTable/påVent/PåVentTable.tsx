@@ -4,12 +4,11 @@ import { SortState, Table } from '@navikt/ds-react';
 
 import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { SortKey, useSetSortering } from '@oversikt/table/state/sortation';
+import styles from '@oversikt/table/table.module.css';
 
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { PåVentOppgaveRow } from './PåVentOppgaveRow';
 import { PåVentTableHeader } from './PåVentTableHeader';
-
-import styles from '../../table.module.css';
 
 interface PåVentTableProps {
     oppgaver: ApiOppgaveProjeksjon[];

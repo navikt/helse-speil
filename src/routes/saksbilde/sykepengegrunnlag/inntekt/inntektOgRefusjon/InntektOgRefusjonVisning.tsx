@@ -11,14 +11,14 @@ import {
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
+import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
+import { Refusjonsoversikt } from '@saksbilde/sykepengegrunnlag/refusjon/Refusjonsoversikt';
 import { useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/inntektsforhold/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { ActivePeriod } from '@typer/shared';
 import { isGhostPeriode } from '@utils/typeguards';
 
-import { OverstyrArbeidsforholdUtenSykdom } from '../../overstyring/OverstyrArbeidsforholdUtenSykdom';
-import { Refusjonsoversikt } from '../../refusjon/Refusjonsoversikt';
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import { useArbeidsforholdKanOverstyres } from './inntektOgRefusjonUtils';

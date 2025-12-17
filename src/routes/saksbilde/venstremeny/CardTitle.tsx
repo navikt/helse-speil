@@ -1,7 +1,8 @@
-import styles from './CardTitle.module.scss';
 import React from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
+
+import styles from './CardTitle.module.scss';
 
 type CardTitleProps = React.HTMLAttributes<HTMLParagraphElement>;
 

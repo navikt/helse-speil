@@ -107,7 +107,7 @@ export const GodkjenningButton = ({
 };
 
 const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
-    let problemDetailsCode = error.response?.data?.code;
+    const problemDetailsCode = error.response?.data?.code;
     if (!problemDetailsCode)
         return {
             message: 'Feil under fatting av vedtak. Kontakt utviklerteamet.',

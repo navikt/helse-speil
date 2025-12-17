@@ -9,15 +9,13 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
+import styles from '@saksbilde/historikk/Historikk.module.css';
 import { TilkommenInntektHendelse } from '@saksbilde/historikk/hendelser/TilkommenInntektHendelse';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
+import { useShowHistorikkState, useShowHøyremenyState } from '@saksbilde/historikk/state';
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-
-import { useShowHistorikkState, useShowHøyremenyState } from '../../historikk/state';
-
-import styles from '../../historikk/Historikk.module.css';
 
 const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();

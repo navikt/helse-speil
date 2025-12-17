@@ -97,10 +97,10 @@ export const TilkommenInntektSkjemaTabell = ({
                                                     }
                                                 }}
                                                 aria-labelledby={`id-${dato}`}
-                                                hideLabel={true}
+                                                hideLabel
                                                 size="small"
                                             >
-                                                {''}
+                                                {somNorskDato(dato)}
                                             </Checkbox>
                                             <BodyShort id={`id-${dato}`}>{somNorskDato(dato)}</BodyShort>
                                         </HStack>

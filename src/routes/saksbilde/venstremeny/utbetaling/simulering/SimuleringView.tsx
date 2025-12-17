@@ -53,7 +53,9 @@ export const SimuleringView = ({ simulering, utbetalingId }: SimuleringViewProps
                 )}
                 <SimuleringValue label="Utbetaling-ID" value={utbetalingId} />
             </div>
-            {simulering.perioder?.map((periode, i) => <SimuleringsperiodeView periode={periode} key={i} />)}
+            {simulering.perioder?.map((periode, i) => (
+                <SimuleringsperiodeView periode={periode} key={i} />
+            ))}
         </article>
     );
 };

@@ -21,11 +21,11 @@ interface KildeTypeIconProps {
 const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): ReactElement | null => {
     switch (kilde) {
         case 'SYKMELDING':
-            return <Kilde type={'Sykmelding'}>SM</Kilde>;
+            return <Kilde type="Sykmelding">SM</Kilde>;
         case 'SOKNAD':
-            return <Kilde type={'Soknad'}>SØ</Kilde>;
+            return <Kilde type="Soknad">SØ</Kilde>;
         case 'INNTEKTSMELDING':
-            return <Kilde type={'Inntektsmelding'}>IM</Kilde>;
+            return <Kilde type="Inntektsmelding">IM</Kilde>;
         case 'SAKSBEHANDLER':
             return overstyringer ? (
                 <EndringsloggButton
@@ -36,7 +36,7 @@ const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): ReactEleme
                     }
                 />
             ) : (
-                <Kilde type={'Saksbehandler'}>
+                <Kilde type="Saksbehandler">
                     <PersonPencilFillIcon title="Saksbehandler ikon" height={10} width={10} />
                 </Kilde>
             );

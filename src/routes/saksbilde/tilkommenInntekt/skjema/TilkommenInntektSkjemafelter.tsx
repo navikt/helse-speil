@@ -61,7 +61,7 @@ export const TilkommenInntektSkjemafelter = ({
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <Box
-                    background={'surface-subtle'}
+                    background="surface-subtle"
                     paddingInline="10"
                     paddingBlock="4"
                     width="460px"

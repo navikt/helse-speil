@@ -17,7 +17,7 @@ export const LeggTilPeriodeRadiobuttons = () => {
                 <Heading size="small">Legg til periode</Heading>
             </HStack>
             <Box
-                background={'surface-subtle'}
+                background="surface-subtle"
                 paddingBlock="4 4"
                 paddingInline="2 0"
                 borderWidth="0 0 0 3"
@@ -36,7 +36,7 @@ export const LeggTilPeriodeRadiobuttons = () => {
             </Box>
 
             <Box
-                background={'surface-subtle'}
+                background="surface-subtle"
                 paddingInline="10"
                 paddingBlock="6 0"
                 borderWidth="0 0 0 3"

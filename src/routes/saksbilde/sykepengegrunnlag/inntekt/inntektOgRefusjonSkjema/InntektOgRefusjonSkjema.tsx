@@ -62,7 +62,7 @@ interface EditableInntektProps {
     inntektTom: string | null;
     close: () => void;
     harEndring: (erEndret: boolean) => void;
-    erDeaktivert: Boolean;
+    erDeaktivert: boolean;
 }
 
 export const InntektOgRefusjonSkjema = ({

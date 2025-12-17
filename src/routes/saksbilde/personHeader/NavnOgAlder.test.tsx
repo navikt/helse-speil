@@ -1,8 +1,8 @@
 import dayjs from 'dayjs';
 
-import { render } from '@/test/test-utils';
 import { Adressebeskyttelse, Kjonn, Personinfo } from '@io/graphql';
 import { NavnOgAlder } from '@saksbilde/personHeader/NavnOgAlder';
+import { render } from '@test-utils';
 import { cleanup, screen } from '@testing-library/react';
 
 describe('NavnOgAlder', () => {

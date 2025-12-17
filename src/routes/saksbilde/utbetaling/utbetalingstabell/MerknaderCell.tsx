@@ -67,10 +67,7 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Re
                     <span className={styles.container} data-testid="Krav til medlemskap er ikke oppfylt">
                         <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
                         <BodyShort> og </BodyShort>
-                        <Link
-                            target="_blank"
-                            href={'https://lovdata.no/pro/#document/NL/lov/1997-02-28-19/KAPITTEL_1-2'}
-                        >
+                        <Link target="_blank" href="https://lovdata.no/pro/#document/NL/lov/1997-02-28-19/KAPITTEL_1-2">
                             kap. 2
                         </Link>
                     </span>

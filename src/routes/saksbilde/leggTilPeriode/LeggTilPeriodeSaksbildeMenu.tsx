@@ -37,8 +37,8 @@ export const LeggTilPeriodeSaksbildeMenu = (): ReactElement => {
                     <HStack as="nav" role="tablist">
                         <Link
                             className={classNames(navLenkeStyles.NavLink, navLenkeStyles.ActiveLink)}
-                            href={'#'}
-                            title={'Legg til periode'}
+                            href="#"
+                            title="Legg til periode"
                         >
                             Legg til periode
                         </Link>

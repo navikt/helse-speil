@@ -4,12 +4,11 @@ import { SortState, Table } from '@navikt/ds-react';
 
 import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { SortKey, useSetSortering } from '@oversikt/table/state/sortation';
+import styles from '@oversikt/table/table.module.css';
 
 import { IngenMatchendeFiltre } from '../IngenMatchendeFiltre';
 import { MineSakerOppgaveRow } from './MineSakerOppgaveRow';
 import { MineSakerTableHeader } from './MineSakerTableHeader';
-
-import styles from '../../table.module.css';
 
 interface MineSakerTableProps {
     oppgaver: ApiOppgaveProjeksjon[];

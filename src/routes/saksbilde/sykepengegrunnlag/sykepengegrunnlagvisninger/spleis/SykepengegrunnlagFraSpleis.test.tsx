@@ -2,11 +2,11 @@ import { createStore } from 'jotai';
 import React from 'react';
 import { Mock, vi } from 'vitest';
 
-import { PersonStoreContext } from '@/state/contexts/personStore';
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { useIsAnonymous } from '@state/anonymization';
+import { PersonStoreContext } from '@state/contexts/personStore';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';

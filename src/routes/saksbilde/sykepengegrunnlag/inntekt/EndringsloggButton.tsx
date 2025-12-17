@@ -38,7 +38,7 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
                 {...buttonProps}
                 onClick={() => setVisEndringslogg(true)}
             >
-                <Kilde type={'Saksbehandler'}>
+                <Kilde type="Saksbehandler">
                     <PersonPencilFillIcon title="Saksbehandler ikon" />
                 </Kilde>
             </button>

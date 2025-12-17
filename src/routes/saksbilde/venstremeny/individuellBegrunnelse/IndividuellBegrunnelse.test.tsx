@@ -46,7 +46,7 @@ describe('IndividuellBegrunnelse', () => {
         render(
             <IndividuellBegrunnelse
                 defaultÅpen={true}
-                vedtakBegrunnelseTekst={'en begrunnelse'}
+                vedtakBegrunnelseTekst="en begrunnelse"
                 setVedtakBegrunnelseTekst={vi.fn()}
                 periode={periode}
                 person={person}
@@ -98,7 +98,7 @@ describe('IndividuellBegrunnelse', () => {
         render(
             <IndividuellBegrunnelse
                 defaultÅpen={false}
-                vedtakBegrunnelseTekst={''}
+                vedtakBegrunnelseTekst=""
                 setVedtakBegrunnelseTekst={vi.fn()}
                 periode={periode}
                 person={person}

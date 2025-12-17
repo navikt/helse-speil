@@ -64,7 +64,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                             </HStack>
                         </Box>
                         <Box
-                            background={'surface-subtle'}
+                            background="surface-subtle"
                             borderWidth="0 0 0 3"
                             style={{ borderColor: 'transparent' }}
                             paddingBlock="4 5"

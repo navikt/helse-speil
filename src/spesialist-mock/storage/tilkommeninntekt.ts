@@ -10,7 +10,7 @@ import {
     ApiTilkommenInntektEventMetadata,
     ApiTilkommenInntektPatchApiTilkommenInntektEndringer,
     ApiTilkommenInntektskilde,
-} from '@/io/rest/generated/spesialist.schemas';
+} from '@io/rest/generated/spesialist.schemas';
 
 export class TilkommenInntektMock {
     static inntektskilder: Map<string, ApiTilkommenInntektskilde[]> = new Map();

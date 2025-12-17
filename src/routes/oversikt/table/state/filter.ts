@@ -1,7 +1,7 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
 import { SetStateAction } from 'react';
 
-import { ApiAktivSaksbehandler, ApiEgenskap } from '@/io/rest/generated/spesialist.schemas';
+import { ApiAktivSaksbehandler, ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithLocalStorage } from '@state/jotai';
 

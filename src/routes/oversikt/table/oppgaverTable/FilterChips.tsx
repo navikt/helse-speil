@@ -30,7 +30,7 @@ export const FilterChips = ({
         return (
             <Chips className={classNames(styles.filterChips)}>
                 {erFiltrertPåSaksbehandler && (
-                    <Chips.Removable key={'valgtsaksbehandler'} onClick={() => setValgtSaksbehandler(null)}>
+                    <Chips.Removable key="valgtsaksbehandler" onClick={() => setValgtSaksbehandler(null)}>
                         {lagOppslåttSaksbehandlerVisningsnavn(valgtSaksbehandler)}
                     </Chips.Removable>
                 )}

@@ -25,7 +25,7 @@ export const MeldingOmVedtakhendelse = ({
         kontekstknapp={
             <Button
                 icon={<ExternalLinkIcon />}
-                title={'Åpne vedtak i ny fane'}
+                title="Åpne vedtak i ny fane"
                 variant="tertiary"
                 size="xsmall"
                 onClick={() =>

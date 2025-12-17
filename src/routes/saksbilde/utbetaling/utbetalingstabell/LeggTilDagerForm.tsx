@@ -56,7 +56,7 @@ export const LeggTilDagerForm = React.memo(
                 nyeDagerMap.set(endringFom.format(ISO_DATOFORMAT), {
                     dato: endringFom.format(ISO_DATOFORMAT),
                     kilde: { type: Kildetype.Saksbehandler } as Kilde,
-                    dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!!,
+                    dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!,
                     erAGP: false,
                     erVentetid: false,
                     erAvvist: false,
@@ -75,8 +75,8 @@ export const LeggTilDagerForm = React.memo(
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                     <HStack gap="2" align="end" paddingBlock="0 2">
-                        <DateField name={'fom'} label="Dato f.o.m." defaultMonth={periodeFomMinusEnDag.toDate()} />
-                        <DateField name={'tom'} label="Dato t.o.m." disabled />
+                        <DateField name="fom" label="Dato f.o.m." defaultMonth={periodeFomMinusEnDag.toDate()} />
+                        <DateField name="tom" label="Dato t.o.m." disabled />
                         <DagtypeSelect
                             name="dagtype"
                             erSelvstendig={erSelvstendig}

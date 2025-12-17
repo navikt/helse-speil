@@ -2,9 +2,8 @@ import React, { PropsWithChildren } from 'react';
 
 import { Box } from '@navikt/ds-react';
 
+import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { TilkommenInntektSaksbildeMenu } from '@saksbilde/tilkommenInntekt/saksbilde/TilkommenInntektSaksbildeMenu';
-
-import styles from '../../saksbilder/SharedViews.module.css';
 
 export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
     return (

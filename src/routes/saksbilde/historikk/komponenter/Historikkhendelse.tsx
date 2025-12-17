@@ -37,7 +37,6 @@ export const Historikkhendelse = ({
 
     return !aktiv && children ? (
         <li
-            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
             role="button"
             tabIndex={0}
             onClick={(event: React.MouseEvent) => {
@@ -81,7 +80,6 @@ export const Historikkhendelse = ({
             </div>
         </li>
     ) : (
-        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
         <li role="button" tabIndex={0} className={classNames(styles.fokusområde, styles.hendelse)}>
             <div className={styles.iconContainer}>{icon}</div>
             <div className={styles.content}>
