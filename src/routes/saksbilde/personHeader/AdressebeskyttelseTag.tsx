@@ -5,8 +5,6 @@ import { Tag } from '@navikt/ds-react';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Adressebeskyttelse } from '@io/graphql';
 
-import styles from './PersonHeader.module.css';
-
 interface AdressebeskyttelseTagProps {
     adressebeskyttelse: Adressebeskyttelse;
 }
@@ -17,7 +15,7 @@ export const AdressebeskyttelseTag = ({ adressebeskyttelse }: Adressebeskyttelse
     }
     return (
         <AnonymizableContainer>
-            <Tag variant="error" size="medium" className={styles.Tag}>
+            <Tag variant="error" size="small">
                 {adressebeskyttelse} adresse
             </Tag>
         </AnonymizableContainer>

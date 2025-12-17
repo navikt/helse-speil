@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Kjonn, PersonFragment } from '@io/graphql';
@@ -38,7 +38,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
             <AnonymizableText>
                 Boenhet: {person.enhet.id} ({person.enhet.navn})
             </AnonymizableText>
-            <div className={styles.Tags}>
+            <HStack paddingInline="3 0" gap="3">
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag reservasjon={personinfo.reservasjon} />
                 <VergemålTag person={person} />
@@ -48,7 +48,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
                 <AutomatiskBehandlingStansetTag
                     erStanset={person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false}
                 />
-            </div>
+            </HStack>
         </div>
     );
 };

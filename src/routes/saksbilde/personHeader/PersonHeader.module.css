@@ -45,24 +45,6 @@
     box-shadow: 0 0 0 2px var(--a-border-focus);
 }
 
-.Tags {
-    margin-left: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.Tag {
-    height: 24px;
-    min-height: 24px;
-}
-
-.Tag.dødsdato {
-    background: #3e3832;
-    border: 1px solid #000000;
-    color: #f8f8f8;
-}
-
 @keyframes placeHolderShimmer {
     0% {
         background-position: -468px 0;

@@ -74,6 +74,7 @@ export const VenstremenyBeregnetPeriode = ({
                 periode={activePeriod}
                 arbeidsforhold={isArbeidsgiver(inntektsforhold) ? inntektsforhold.arbeidsforhold : []}
                 inntektsforhold={inntektsforhold}
+                dødsdato={currentPerson.dodsdato ?? undefined}
             />
             <UtbetalingCard.Beregnet
                 vilkårsgrunnlag={vilkårsgrunnlag}

@@ -97,9 +97,10 @@ const harRedusertAntallSykepengedager = (periode: BeregnetPeriodeFragment): bool
 
 interface MaksdatoRowProps {
     activePeriod: BeregnetPeriodeFragment;
+    dødsdato?: DateString;
 }
 
-const MaksdatoRow = ({ activePeriod }: MaksdatoRowProps): ReactElement => {
+const MaksdatoRow = ({ activePeriod, dødsdato }: MaksdatoRowProps): ReactElement => {
     const maksdatoDayjs = dayjs(activePeriod.maksdato);
     const maksdatotekst = maksdatoDayjs.isValid()
         ? `${maksdatoDayjs.format(NORSK_DATOFORMAT)} (${activePeriod.gjenstaendeSykedager ?? 'Ukjent antall'} dager igjen)`
@@ -115,33 +116,51 @@ const MaksdatoRow = ({ activePeriod }: MaksdatoRowProps): ReactElement => {
             </Tooltip>
             <div className={styles.maksdato}>
                 <BodyShort className={styles.noWrap}>{maksdatotekst}</BodyShort>
-                {!!alderVedSisteSykedag &&
-                    (alderVedSisteSykedag >= 70 ? (
-                        <div className={styles.over70}>
-                            <Tooltip content="Over 70 år">
-                                <div className={styles.iconContainer}>
-                                    <Advarselikon alt="Over 70 år" height={16} width={16} />
-                                </div>
-                            </Tooltip>
-                            <BodyShort size="small">
-                                <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
-                            </BodyShort>
-                        </div>
-                    ) : (
-                        harRedusertAntallSykepengedager(activePeriod) && (
-                            <div className={styles.over67}>
-                                <Tooltip content="Over 67 år - redusert antall sykepengedager">
-                                    <Tag className={styles.tag} variant="info" size="small">
-                                        Over 67 år
-                                    </Tag>
-                                </Tooltip>
-                            </div>
-                        )
-                    ))}
+                {!!alderVedSisteSykedag && maksdatoToolTip(alderVedSisteSykedag, activePeriod, dødsdato)}
             </div>
         </>
     );
 };
+
+function maksdatoToolTip(
+    alderVedSisteSykedag: number,
+    activePeriod: BeregnetPeriodeFragment,
+    dødsdato: string | undefined,
+) {
+    if (dødsdato) {
+        return (
+            <Tooltip content={`Personen døde ${dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}`}>
+                <Tag variant="neutral-filled" size="small">
+                    Død
+                </Tag>
+            </Tooltip>
+        );
+    } else if (alderVedSisteSykedag >= 70) {
+        return (
+            <div className={styles.over70}>
+                <Tooltip content="Over 70 år">
+                    <div className={styles.iconContainer}>
+                        <Advarselikon alt="Over 70 år" height={16} width={16} />
+                    </div>
+                </Tooltip>
+                <BodyShort size="small">
+                    <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
+                </BodyShort>
+            </div>
+        );
+    } else if (harRedusertAntallSykepengedager(activePeriod) && alderVedSisteSykedag >= 67) {
+        return (
+            <div className={styles.over67}>
+                <Tooltip content="Over 67 år - redusert antall sykepengedager">
+                    <Tag className={styles.tag} variant="info" size="small">
+                        Over 67 år
+                    </Tag>
+                </Tooltip>
+            </div>
+        );
+    }
+    return null;
+}
 
 const ArbeidsforholdOpphørt = ({
     arbeidsforhold,
@@ -215,9 +234,15 @@ interface PeriodeCardBeregnetProps {
     periode: BeregnetPeriodeFragment;
     arbeidsforhold: Arbeidsforhold[];
     inntektsforhold: Inntektsforhold;
+    dødsdato?: DateString;
 }
 
-const PeriodeCardBeregnet = ({ periode, arbeidsforhold, inntektsforhold }: PeriodeCardBeregnetProps): ReactElement => {
+const PeriodeCardBeregnet = ({
+    periode,
+    arbeidsforhold,
+    inntektsforhold,
+    dødsdato,
+}: PeriodeCardBeregnetProps): ReactElement => {
     const egenskaperForVisning = periode.egenskaper
         .filter((it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde)
         .map((it) => it.egenskap);
@@ -239,7 +264,7 @@ const PeriodeCardBeregnet = ({ periode, arbeidsforhold, inntektsforhold }: Perio
                     periodetype={periode.periodetype}
                     skjæringstidspunkt={periode.skjaeringstidspunkt}
                 />
-                <MaksdatoRow activePeriod={periode} />
+                <MaksdatoRow activePeriod={periode} dødsdato={dødsdato} />
                 <InntektsforholdRow arbeidsforhold={arbeidsforhold} inntektsforhold={inntektsforhold} />
             </section>
         </div>

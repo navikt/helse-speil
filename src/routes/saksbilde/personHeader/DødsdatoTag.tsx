@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -6,8 +5,6 @@ import { Tag } from '@navikt/ds-react';
 
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { NORSK_DATOFORMAT } from '@utils/date';
-
-import styles from './PersonHeader.module.css';
 
 interface DødsdatoTagProps {
     dødsdato?: string | null;
@@ -20,7 +17,7 @@ export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): ReactElement | n
 
     return (
         <AnonymizableContainer>
-            <Tag variant="info" size="medium" className={classNames(styles.Tag, styles.dødsdato)}>
+            <Tag variant="neutral-filled" size="small">
                 Dødsdato {dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}
             </Tag>
         </AnonymizableContainer>
