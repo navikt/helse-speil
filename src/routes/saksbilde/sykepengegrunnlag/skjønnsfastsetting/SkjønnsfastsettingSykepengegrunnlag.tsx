@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 
@@ -68,11 +68,13 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const closeAndResetForm = () => {
         setEditing(false);
         setFormValues(null);
+        setEndretSykepengegrunnlag(null);
     };
 
-    useEffect(() => {
+    const openForm = () => {
+        setEditing(true);
         setEndretSykepengegrunnlag(null);
-    }, [editing]);
+    };
 
     const sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null =
         useAktivtInntektsforhold(person)
@@ -92,7 +94,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     endretSykepengegrunnlag={endretSykepengegrunnlag}
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                     editing={editing}
-                    setEditing={setEditing}
+                    openForm={openForm}
                     maler={maler}
                     malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}
                     organisasjonsnummer={organisasjonsnummer}

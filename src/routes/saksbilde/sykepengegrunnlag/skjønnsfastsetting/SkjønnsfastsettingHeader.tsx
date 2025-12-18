@@ -30,7 +30,7 @@ interface SkjønnsfastsettingHeaderProps {
     endretSykepengegrunnlag: number | null;
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     editing: boolean;
-    setEditing: (state: boolean) => void;
+    openForm: () => void;
     maler: SkjønnsfastsettingMal[] | undefined;
     malerError: string | undefined;
     organisasjonsnummer: string;
@@ -43,7 +43,7 @@ export const SkjønnsfastsettingHeader = ({
     endretSykepengegrunnlag,
     sykepengegrunnlagsgrense,
     editing,
-    setEditing,
+    openForm,
     maler,
     malerError,
     closeAndResetForm,
@@ -100,7 +100,7 @@ export const SkjønnsfastsettingHeader = ({
                 harMaler &&
                 (!editing ? (
                     <Button
-                        onClick={() => setEditing(true)}
+                        onClick={openForm}
                         size="xsmall"
                         variant="secondary"
                         icon={<PersonPencilIcon />}
