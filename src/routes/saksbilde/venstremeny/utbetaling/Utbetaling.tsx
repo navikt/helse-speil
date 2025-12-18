@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { atom, useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
@@ -11,7 +11,7 @@ import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
-import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { finnAlleInntektsforhold, InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
@@ -63,15 +63,23 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     const onAvvisUtbetaling = useOnAvvis();
     const erReadOnly = useIsReadOnlyOppgave(person);
 
-    useEffect(() => {
-        if (godkjentPeriode !== period.vedtaksperiodeId && period.periodetilstand === Periodetilstand.TilGodkjenning) {
-            setGodkjentPeriode(undefined);
-        }
-    }, [period.vedtaksperiodeId, period.periodetilstand, godkjentPeriode]);
+    const prevPeriodRef = React.useRef(period.vedtaksperiodeId);
 
     if (!hasOppgave(period)) return null;
 
-    const periodenErSendt = !!godkjentPeriode;
+    if (prevPeriodRef.current !== period.vedtaksperiodeId) {
+        prevPeriodRef.current = period.vedtaksperiodeId;
+        if (godkjentPeriode !== undefined) {
+            setGodkjentPeriode(undefined);
+        }
+    }
+
+    const periodeEndret =
+        godkjentPeriode !== undefined &&
+        (godkjentPeriode !== period.vedtaksperiodeId || period.periodetilstand !== Periodetilstand.TilGodkjenning);
+
+    const periodenErSendt = godkjentPeriode === period.vedtaksperiodeId && !periodeEndret;
+
     const isRevurdering = period.utbetaling.type === 'REVURDERING';
     const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
