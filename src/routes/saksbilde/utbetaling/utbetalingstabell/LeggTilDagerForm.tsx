@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
-import { FormProvider, useController, useForm } from 'react-hook-form';
+import { FormProvider, useController, useForm, useWatch } from 'react-hook-form';
 
 import { Button, DatePicker, ErrorMessage, HStack, VStack, useDatepicker } from '@navikt/ds-react';
 
@@ -46,7 +46,7 @@ export const LeggTilDagerForm = React.memo(
         const fomError = errors.fom?.message;
         const gradError = errors.grad?.message;
         const dagtypeError = errors.dagtype?.message;
-        const watchDag = form.watch('dagtype');
+        const watchDag = useWatch({ name: 'dagtype', control: form.control });
 
         const handleSubmit = (values: LeggTilDagerFormFields) => {
             const nyeDagerMap = new Map<string, Utbetalingstabelldag>();

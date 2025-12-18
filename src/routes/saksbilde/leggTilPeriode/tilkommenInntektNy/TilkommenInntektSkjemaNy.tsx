@@ -1,5 +1,5 @@
 import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import { Alert, Box, HStack, VStack } from '@navikt/ds-react';
 
@@ -67,14 +67,14 @@ export const TilkommenInntektSkjemaNy = ({
         },
     });
 
-    const organisasjonsnummer = form.watch('organisasjonsnummer');
+    const organisasjonsnummer = useWatch({ name: 'organisasjonsnummer', control: form.control });
     const { data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
     useEffect(() => {
         setOrganisasjonEksisterer(organisasjonData?.data?.navn != undefined);
     }, [organisasjonData]);
 
-    const fom = form.watch('fom');
-    const tom = form.watch('tom');
+    const fom = useWatch({ name: 'fom', control: form.control });
+    const tom = useWatch({ name: 'tom', control: form.control });
 
     const erGyldigFom = useCallback(
         (fom: string) => {
@@ -115,7 +115,7 @@ export const TilkommenInntektSkjemaNy = ({
 
     const { setValue } = form;
 
-    const ekskluderteUkedager = form.watch('ekskluderteUkedager');
+    const ekskluderteUkedager = useWatch({ name: 'ekskluderteUkedager', control: form.control });
     useEffect(() => {
         if (gyldigPeriode !== undefined) {
             if (ekskluderteUkedager.some((ekskludertUkedag) => !erIPeriode(ekskludertUkedag, gyldigPeriode))) {
@@ -127,7 +127,7 @@ export const TilkommenInntektSkjemaNy = ({
         }
     }, [gyldigPeriode, ekskluderteUkedager, setValue]);
 
-    const periodebeløp = form.watch('periodebeløp');
+    const periodebeløp = useWatch({ name: 'periodebeløp', control: form.control });
     const inntektPerDag =
         gyldigPeriode !== undefined
             ? beregnInntektPerDag(isNumber(periodebeløp) ? periodebeløp : 0, gyldigPeriode, ekskluderteUkedager)

@@ -212,12 +212,21 @@ export const SkjønnsfastsettingForm = ({
         control: control,
     });
 
-    const watchedFormFields = watch();
+    const watchedFormFields = useWatch({ control: control });
     const prevFormFields = useRef(watchedFormFields);
 
     useEffect(() => {
         if (JSON.stringify(prevFormFields.current) !== JSON.stringify(watchedFormFields)) {
-            setFormValues(watchedFormFields);
+            setFormValues({
+                arbeidsgivere:
+                    watchedFormFields.arbeidsgivere?.map((arbeidsgiver) => ({
+                        organisasjonsnummer: arbeidsgiver.organisasjonsnummer ?? '',
+                        årlig: arbeidsgiver.årlig ?? 0,
+                    })) ?? [],
+                årsak: watchedFormFields.årsak ?? '',
+                type: watchedFormFields.type ?? null,
+                begrunnelseFritekst: watchedFormFields.begrunnelseFritekst ?? '',
+            });
             prevFormFields.current = watchedFormFields;
         }
     }, [watchedFormFields, setFormValues]);

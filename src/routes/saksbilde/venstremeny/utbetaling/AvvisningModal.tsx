@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import { ReactElement } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Button, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
@@ -44,8 +44,8 @@ export const AvvisningModal = ({ closeModal, showModal, activePeriod }: Avvisnin
     const form = useForm();
     const { mutate: sendTilInfotrygdMutation, error, isPending: loading } = usePostForkasting();
     const addInfotrygdtoast = useAddInfotrygdtoast();
-    const kommentar = form.watch('kommentar');
-    const begrunnelser = form.watch(`begrunnelser`);
+    const kommentar = useWatch({ name: 'kommentar', control: form.control });
+    const begrunnelser = useWatch({ name: 'begrunnelser', control: form.control });
     const annenBegrunnelse = begrunnelser ? begrunnelser.includes(Begrunnelse.Annet) : false;
 
     const harMinstÉnBegrunnelse = () => begrunnelser?.length > 0;

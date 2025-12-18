@@ -47,6 +47,7 @@ export const useOperationErrorHandler = (operasjon: string) => {
     const setVarsler = useSetAtom(varslerState);
 
     return (ex: Error) => {
+        // eslint-disable-next-line no-console
         console.log(`Feil ved ${operasjon}. ${ex.message}`);
         setVarsler((varsler) => [...varsler.filter((it) => it.name !== varsel.name), varsel]);
     };

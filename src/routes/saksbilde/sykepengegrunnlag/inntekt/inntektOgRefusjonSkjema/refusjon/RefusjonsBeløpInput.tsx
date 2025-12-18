@@ -23,7 +23,11 @@ export const RefusjonsBeløpInput = ({ index, refusjonsopplysning }: RefusjonsBe
             errors: { refusjonsopplysninger },
         },
     } = useFormContext<RefusjonFormValues>();
-    const { ref, onBlur, ...inputValidation } = register(`refusjonsopplysninger.${index}.beløp`, {
+    const {
+        ref: _,
+        onBlur,
+        ...inputValidation
+    } = register(`refusjonsopplysninger.${index}.beløp`, {
         required: 'Refusjonsopplysningsbeløp mangler',
         min: { value: 0, message: 'Refusjonsopplysningsbeløp må være 0 eller større' },
         validate: {

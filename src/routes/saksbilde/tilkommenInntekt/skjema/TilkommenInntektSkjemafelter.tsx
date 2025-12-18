@@ -1,6 +1,6 @@
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
-import { Controller, FieldErrors, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
 
@@ -54,8 +54,8 @@ export const TilkommenInntektSkjemafelter = ({
     const organisasjonsnummerFeil = form.formState.errors.organisasjonsnummer?.message;
     const periodebeløpFeil = form.formState.errors.periodebeløp?.message;
 
-    const fom = form.watch('fom');
-    const organisasjonsnummer = form.watch('organisasjonsnummer');
+    const fom = useWatch({ name: 'fom', control: form.control });
+    const organisasjonsnummer = useWatch({ name: 'organisasjonsnummer', control: form.control });
 
     return (
         <FormProvider {...form}>

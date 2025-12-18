@@ -1,5 +1,5 @@
 import { ReactElement } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, Heading, Modal } from '@navikt/ds-react';
 
@@ -44,8 +44,10 @@ export const AnnulleringsModal = ({
     const addToast = useAddToast();
 
     const form = useForm({ mode: 'onBlur', defaultValues: { kommentar: '', arsaker: [] as string[] } });
-    const kommentar = form.watch('kommentar').trim();
-    const arsaker: Arsak[] = form.watch('arsaker').map((årsak: string) => JSON.parse(årsak));
+    const kommentar = useWatch({ name: 'kommentar', control: form.control }).trim();
+    const arsaker: Arsak[] = useWatch({ name: 'arsaker', control: form.control }).map((årsak: string) =>
+        JSON.parse(årsak),
+    );
 
     const harValgtAnnet = arsaker.some((it) => it.arsak === 'Annet');
 

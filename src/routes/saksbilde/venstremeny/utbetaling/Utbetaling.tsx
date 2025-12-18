@@ -119,7 +119,6 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                             utbetaling={period.utbetaling}
                             inntektsforholdReferanse={inntektsforholdReferanse}
                             personinfo={person.personinfo}
-                            erBeslutteroppgave={erBeslutteroppgaveOgHarTilgang}
                             disabled={
                                 calculating ||
                                 periodenErSendt ||

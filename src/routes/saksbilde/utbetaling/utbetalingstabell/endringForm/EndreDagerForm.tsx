@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
@@ -38,7 +38,7 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
         },
     });
 
-    const watchDagtype = form.watch('dagtype');
+    const watchDagtype = useWatch({ name: 'dagtype', control: form.control });
 
     const overstyringsdagtyper = erSelvstendig
         ? overstyringsdagtyperSelvstendig.filter((dag) => dag !== MeldingTilNavdag)

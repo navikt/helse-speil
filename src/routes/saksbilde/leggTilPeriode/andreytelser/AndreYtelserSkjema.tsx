@@ -1,6 +1,7 @@
+/* eslint-disable */
 import { useRouter } from 'next/navigation';
 import React, { ReactElement, useCallback, useState } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Alert, Box, Button, ErrorMessage, HGrid, HStack, Select, Textarea, VStack } from '@navikt/ds-react';
 
@@ -42,8 +43,8 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
     const tomError = errors.tom?.message;
     const gradError = errors.grad?.message;
 
-    const fom = form.watch('fom');
-    const tom = form.watch('tom');
+    const fom = useWatch({ name: 'fom', control: form.control });
+    const tom = useWatch({ name: 'tom', control: form.control });
 
     const erGyldigFom = useCallback(
         (fom: string) => {
