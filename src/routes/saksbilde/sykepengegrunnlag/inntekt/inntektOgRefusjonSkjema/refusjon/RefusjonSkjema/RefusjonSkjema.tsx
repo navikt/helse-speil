@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { PlusIcon } from '@navikt/aksel-icons';
@@ -21,15 +21,12 @@ interface RefusjonProps {
 }
 
 export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplysninger }: RefusjonProps) => {
-    const { fields, addRefusjonsopplysning, removeRefusjonsopplysning, replaceRefusjonsopplysninger } =
-        useRefusjonFormField();
-    const { formState } = useFormContext<RefusjonFormValues>();
+    const initialRefusjonsopplysninger =
+        lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger;
 
-    useEffect(() => {
-        replaceRefusjonsopplysninger(
-            lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : fraRefusjonsopplysninger,
-        );
-    }, []);
+    const { fields, addRefusjonsopplysning, removeRefusjonsopplysning } =
+        useRefusjonFormField(initialRefusjonsopplysninger);
+    const { formState } = useFormContext<RefusjonFormValues>();
 
     return (
         <div id="refusjonsopplysninger">

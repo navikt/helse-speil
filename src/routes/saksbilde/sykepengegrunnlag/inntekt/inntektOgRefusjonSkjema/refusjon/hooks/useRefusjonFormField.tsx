@@ -1,3 +1,4 @@
+import { useRef } from 'react';
 import { useFieldArray } from 'react-hook-form';
 
 import { Kildetype } from '@io/graphql';
@@ -16,10 +17,25 @@ export interface RefusjonFormValues {
     refusjonsopplysninger: RefusjonFormFields[];
 }
 
-export function useRefusjonFormField() {
+const sortAndMapRefusjonsopplysninger = (refusjonsopplysninger: Refusjonsopplysning[]): RefusjonFormFields[] => {
+    return refusjonsopplysninger
+        .sort((a: Refusjonsopplysning, b: Refusjonsopplysning) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
+        .map((refusjonsopplysning) => ({
+            ...refusjonsopplysning,
+            beløp: avrundetToDesimaler(refusjonsopplysning.beløp),
+        }));
+};
+
+export function useRefusjonFormField(initialRefusjonsopplysninger: Refusjonsopplysning[]) {
+    const hasInitialized = useRef(false);
     const { fields, append, remove, replace, update } = useFieldArray<RefusjonFormValues>({
         name: 'refusjonsopplysninger',
     });
+
+    if (!hasInitialized.current) {
+        hasInitialized.current = true;
+        replace(sortAndMapRefusjonsopplysninger(initialRefusjonsopplysninger));
+    }
 
     const addRefusjonsopplysning = () => {
         append({
@@ -32,22 +48,6 @@ export function useRefusjonFormField() {
 
     const removeRefusjonsopplysning = (index: number) => () => {
         remove(index);
-    };
-
-    const replaceRefusjonsopplysninger = (refusjonsopplysninger: Refusjonsopplysning[]) => {
-        replace(
-            refusjonsopplysninger
-                .sort(
-                    (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
-                        new Date(b.fom).getTime() - new Date(a.fom).getTime(),
-                )
-                .map((refusjonsopplysning) => {
-                    return {
-                        ...refusjonsopplysning,
-                        beløp: avrundetToDesimaler(refusjonsopplysning.beløp),
-                    };
-                }),
-        );
     };
 
     const updateRefusjonsopplysninger = (
@@ -64,7 +64,6 @@ export function useRefusjonFormField() {
         fields,
         addRefusjonsopplysning,
         removeRefusjonsopplysning,
-        replaceRefusjonsopplysninger,
         updateRefusjonsopplysninger,
     };
 }
