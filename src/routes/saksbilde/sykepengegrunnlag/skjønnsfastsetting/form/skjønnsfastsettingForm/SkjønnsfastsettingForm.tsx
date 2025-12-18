@@ -199,7 +199,7 @@ export const SkjønnsfastsettingForm = ({
         ),
     });
 
-    const { control, formState, setValue, getValues, handleSubmit, watch } = form;
+    const { control, formState, setValue, getValues, handleSubmit } = form;
 
     const valgtType = useWatch({
         name: 'type',
@@ -236,7 +236,7 @@ export const SkjønnsfastsettingForm = ({
     const harFeil = !formState.isValid && formState.isSubmitted;
 
     const visFeilOppsummering = harFeil && Object.entries(formState.errors).length > 0;
-    const sykepengegrunnlagEndring = watch('arbeidsgivere')?.reduce(
+    const sykepengegrunnlagEndring = useWatch({ name: 'arbeidsgivere', control: form.control })?.reduce(
         (a: number, b: SkjønnsfastsettingFormFieldsArbeidsgiver) => +a + +b.årlig,
         0.0,
     );
