@@ -65,6 +65,7 @@ export const JusterbarSidemeny = ({
     useEffect(() => {
         if (!visSidemeny) {
             if (localStorageNavn) localStorage.removeItem(localStorageNavn);
+            // eslint-disable-next-line react-hooks/set-state-in-effect
             setWidth(defaultBredde);
         }
     }, [defaultBredde, localStorageNavn, visSidemeny]);
