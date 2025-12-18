@@ -7,8 +7,8 @@ import styles from './Anonymous.module.css';
 
 type ContainerProps = React.HTMLAttributes<HTMLDivElement>;
 
-export const AnonymizableContainer: OverridableComponent<ContainerProps, HTMLDivElement> = forwardRef(
-    ({ className, children, as: Component = 'div', ...rest }, ref) => {
+const AnonymizableContainerInner = forwardRef(
+    ({ className, children, as: Component = 'div', ...rest }: ContainerProps & { as?: React.ElementType }, ref) => {
         return (
             <Component ref={ref} className={classNames(styles.Anonymous, className)} {...rest}>
                 {children}
@@ -16,3 +16,7 @@ export const AnonymizableContainer: OverridableComponent<ContainerProps, HTMLDiv
         );
     },
 );
+
+AnonymizableContainerInner.displayName = 'AnonymizableContainer';
+
+export const AnonymizableContainer = AnonymizableContainerInner as OverridableComponent<ContainerProps, HTMLDivElement>;
