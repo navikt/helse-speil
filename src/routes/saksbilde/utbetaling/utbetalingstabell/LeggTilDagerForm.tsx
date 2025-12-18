@@ -151,3 +151,5 @@ function DateField({ name, label, defaultMonth, disabled, className }: DateField
         </DatePicker>
     );
 }
+
+LeggTilDagerForm.displayName = 'LeggTilDagerForm';

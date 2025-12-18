@@ -70,3 +70,5 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
         </>
     );
 });
+
+Varsler.displayName = 'Varsler';

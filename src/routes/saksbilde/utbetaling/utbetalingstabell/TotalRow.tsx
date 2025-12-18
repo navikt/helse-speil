@@ -41,3 +41,5 @@ export const TotalRow = React.memo(({ dager, overstyrer, erSelvstendigNæring }:
         </Table.Row>
     );
 });
+
+TotalRow.displayName = 'TotalRow';
