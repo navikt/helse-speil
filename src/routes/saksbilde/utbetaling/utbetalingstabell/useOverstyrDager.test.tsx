@@ -1,8 +1,14 @@
 import { Mock, vi } from 'vitest';
 
-import { Kildetype, OpprettAbonnementDocument, OverstyrDagerMutationDocument } from '@io/graphql';
+import {
+    Kildetype,
+    OpprettAbonnementDocument,
+    Opptegnelse,
+    Opptegnelsetype,
+    OverstyrDagerMutationDocument,
+} from '@io/graphql';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enPerson } from '@test-data/person';
@@ -15,7 +21,11 @@ import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
 vi.mock('@state/person');
 vi.mock('@state/inntektsforhold/inntektsforhold');
 vi.mock('@state/toasts');
-vi.mock('@state/opptegnelser');
+vi.mock('@state/opptegnelser', async () => ({
+    ...(await vi.importActual('@state/opptegnelser')),
+    useHåndterOpptegnelser: vi.fn(),
+    useSetOpptegnelserPollingRate: vi.fn(),
+}));
 vi.mock('@io/graphql/polling');
 
 const AKTØR_ID = 'aktørId';
@@ -30,6 +40,7 @@ describe('useOverstyrDager', () => {
         (useAddToast as Mock).mockReturnValue(() => {});
         (useRemoveToast as Mock).mockReturnValue(() => {});
         (useSetOpptegnelserPollingRate as Mock).mockReturnValue(() => {});
+        (useHåndterOpptegnelser as Mock).mockReturnValue(() => {});
     });
 
     test('skal ha default verdier ved oppstart', async () => {
@@ -73,6 +84,18 @@ describe('useOverstyrDager', () => {
             aktorId: AKTØR_ID,
             fodselsnummer: FØDSELSNUMMER,
         });
+
+        // Set up mock to trigger opptegnelse callback when hook re-runs after mutation
+        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
+            callBack({
+                aktorId: '1',
+                sekvensnummer: 1,
+                type: Opptegnelsetype.NySaksbehandleroppgave,
+                payload: '{}',
+                __typename: 'Opptegnelse',
+            });
+        });
+
         const { result, rerender } = renderHook(
             (initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver({ organisasjonsnummer: ORGNUMMER })),
             {

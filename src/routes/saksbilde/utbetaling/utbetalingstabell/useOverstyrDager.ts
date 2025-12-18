@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
@@ -31,7 +31,6 @@ export const useOverstyrDager = (
     person: PersonFragment,
     inntektsforhold: Inntektsforhold,
 ): UsePostOverstyringResult => {
-    const personFørRefetchRef = useRef(person);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const setPollingRate = useSetOpptegnelserPollingRate();
@@ -44,15 +43,10 @@ export const useOverstyrDager = (
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
-        }
-    });
-
-    useEffect(() => {
-        if (person !== personFørRefetchRef.current) {
             setTimedOut(false);
             setDone(true);
         }
-    }, [person]);
+    });
 
     useFjernKalkulerToast(calculating, () => setTimedOut(true));
 
@@ -77,7 +71,7 @@ export const useOverstyrDager = (
                 },
             },
             onCompleted: () => {
-                personFørRefetchRef.current = person;
+                setDone(false);
                 addToast(kalkulererToast({}));
                 setCalculating(true);
                 callback?.();
