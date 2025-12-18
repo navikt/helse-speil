@@ -8,6 +8,7 @@ import {
 } from '@io/graphql';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useSlettLokaleOverstyringer } from '@state/overstyring';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
 import { renderHook } from '@test-utils';
 import { act, waitFor } from '@testing-library/react';
@@ -20,18 +21,25 @@ vi.mock('@state/opptegnelser', async () => ({
     useHåndterOpptegnelser: vi.fn(),
     useSetOpptegnelserPollingRate: vi.fn(),
 }));
+vi.mock('@state/overstyring', async () => ({
+    ...(await vi.importActual('@state/overstyring')),
+    useSlettLokaleOverstyringer: vi.fn(),
+}));
 vi.mock('@io/graphql/polling');
 
 const addToastMock = vi.fn();
+const slettLokaleOverstyringerMock = vi.fn();
 
 describe('usePostOverstyrInntektOgRefusjon', () => {
     beforeEach(() => {
+        vi.clearAllMocks();
         (useAddToast as Mock).mockReturnValue((toast: ToastObject) => {
             addToastMock(toast);
         });
         (useRemoveToast as Mock).mockReturnValue(() => {});
         (useHåndterOpptegnelser as Mock).mockReturnValue(() => {});
         (useSetOpptegnelserPollingRate as Mock).mockReturnValue(() => {});
+        (useSlettLokaleOverstyringer as Mock).mockReturnValue(slettLokaleOverstyringerMock);
     });
 
     it('skal ha initial state ved oppstart', () => {
@@ -151,6 +159,54 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
         const { isLoading, error } = result.current;
         await waitFor(() => expect(isLoading).toBeFalsy());
         await waitFor(() => expect(error).not.toBeNull());
+    });
+
+    it('kaller resetLokaleOverstyringer når opptegnelse er ferdig', async () => {
+        const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
+
+        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
+            callBack({
+                aktorId: '1',
+                sekvensnummer: 1,
+                type: Opptegnelsetype.NySaksbehandleroppgave,
+                payload: '{}',
+                __typename: 'Opptegnelse',
+            });
+        });
+
+        await act(() =>
+            result.current.postOverstyring({
+                aktørId: 'aktørid',
+                fødselsnummer: 'fødselsnummer',
+                skjæringstidspunkt: '2020-01-01',
+                arbeidsgivere: [
+                    {
+                        begrunnelse: 'begrunnelse',
+                        forklaring: 'forklaring',
+                        fraMånedligInntekt: 10000,
+                        månedligInntekt: 20000,
+                        organisasjonsnummer: 'organisasjonsnummer',
+                        fraRefusjonsopplysninger: [],
+                        refusjonsopplysninger: [],
+                        fom: undefined,
+                        tom: undefined,
+                    },
+                ],
+                vedtaksperiodeId: '123',
+            }),
+        );
+
+        await waitFor(() => {
+            expect(slettLokaleOverstyringerMock).toHaveBeenCalled();
+        });
+
+        await waitFor(() =>
+            expect(addToastMock).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    key: kalkulererFerdigToastKey,
+                }),
+            ),
+        );
     });
 });
 

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
@@ -30,33 +30,17 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const setPollingRate = useSetOpptegnelserPollingRate();
     const resetLokaleOverstyringer = useSlettLokaleOverstyringer();
     const [calculating, setCalculating] = useCalculatingState();
-    const [slettLokaleOverstyringer, setSlettLokaleOverstyringer] = useState(false);
     const [timedOut, setTimedOut] = useState(false);
-    const [ferdigOpptegnelse, setFerdigOpptegnelse] = useState(false);
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
 
     useHåndterOpptegnelser((opptegnelse) => {
-        if (erOpptegnelseForNyOppgave(opptegnelse) && !ferdigOpptegnelse && calculating) {
-            setFerdigOpptegnelse(true);
-        }
-    });
-
-    useEffect(() => {
-        if (ferdigOpptegnelse) {
+        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
-            setSlettLokaleOverstyringer(true);
-            setFerdigOpptegnelse(false);
-        }
-    }, [ferdigOpptegnelse, addToast, removeToast, setCalculating]);
-
-    useEffect(() => {
-        if (slettLokaleOverstyringer) {
             resetLokaleOverstyringer();
-            setSlettLokaleOverstyringer(false);
         }
-    }, [resetLokaleOverstyringer, slettLokaleOverstyringer]);
+    });
 
     useFjernKalkulerToast(calculating, () => setTimedOut(true));
 
