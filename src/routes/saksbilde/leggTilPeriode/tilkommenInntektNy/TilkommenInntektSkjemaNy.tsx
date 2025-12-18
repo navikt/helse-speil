@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import { Alert, Box, HStack, VStack } from '@navikt/ds-react';
@@ -46,9 +46,6 @@ export const TilkommenInntektSkjemaNy = ({
     isSubmitting,
     submitError,
 }: TilkommenInntektProps): ReactElement => {
-    // Bakomforliggende state som kun benyttes i valideringen
-    const [organisasjonEksisterer, setOrganisasjonEksisterer] = useState<boolean>(false);
-
     const sykefraværstilfelleperioder = utledSykefraværstilfelleperioder(person);
     const eksisterendePerioder = tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter);
 
@@ -69,9 +66,8 @@ export const TilkommenInntektSkjemaNy = ({
 
     const organisasjonsnummer = useWatch({ name: 'organisasjonsnummer', control: form.control });
     const { data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
-    useEffect(() => {
-        setOrganisasjonEksisterer(organisasjonData?.data?.navn != undefined);
-    }, [organisasjonData]);
+
+    const organisasjonEksisterer = organisasjonData?.data?.navn != undefined;
 
     const fom = useWatch({ name: 'fom', control: form.control });
     const tom = useWatch({ name: 'tom', control: form.control });
