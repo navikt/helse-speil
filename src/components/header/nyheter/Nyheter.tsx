@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { PropsWithChildren, useEffect, useState } from 'react';
+import React, { PropsWithChildren, useRef } from 'react';
 
 import { BellFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Dropdown, HStack, InternalHeader as Header } from '@navikt/ds-react';
@@ -11,22 +11,21 @@ import { useNyheter } from '@external/sanity';
 import styles from './Nyheter.module.scss';
 
 export const Nyheter = () => {
-    const [skalViseIkonMedPrikk, setSkalViseIkonMedPrikk] = useState(false);
     const { nyheter, loading } = useNyheter();
     const sisteNyhet = nyheter[0];
+    const harBlittÅpnet = useRef(false);
 
-    useEffect(() => {
-        if (!loading) {
-            setSkalViseIkonMedPrikk(harNyNyhet(sisteNyhet?._createdAt));
+    const skalViseIkonMedPrikk = !loading && !harBlittÅpnet.current && harNyNyhet(sisteNyhet?._createdAt);
+
+    const handleOpenChange = (open: boolean) => {
+        if (open) {
+            harBlittÅpnet.current = true;
+            localStorage.setItem('sisteNyhetOpprettet', JSON.stringify(sisteNyhet?._createdAt));
         }
-    }, [loading, setSkalViseIkonMedPrikk, sisteNyhet]);
+    };
 
     return (
-        <Dropdown
-            onOpenChange={(open) =>
-                lagreSisteNyhetOpprettet(open, sisteNyhet?._createdAt, () => setSkalViseIkonMedPrikk(false))
-            }
-        >
+        <Dropdown onOpenChange={handleOpenChange}>
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
                 {skalViseIkonMedPrikk ? <BjelleDottIkon /> : <BellFillIcon title="nyheter i speil" fontSize="26px" />}
             </Header.Button>
@@ -63,15 +62,4 @@ const harNyNyhet = (sisteNyhetOpprettet: string | undefined): boolean => {
     if (lagretSisteNyhetOpprettet === null && sisteNyhetOpprettet !== undefined) return true;
 
     return dayjs(sisteNyhetOpprettet).isAfter(JSON.parse(lagretSisteNyhetOpprettet!));
-};
-
-const lagreSisteNyhetOpprettet = (
-    open: boolean,
-    sisteNyhetOpprettet: string | undefined,
-    visIkonUtenPrikk: () => void,
-): void => {
-    if (open) {
-        localStorage.setItem('sisteNyhetOpprettet', JSON.stringify(sisteNyhetOpprettet));
-        visIkonUtenPrikk();
-    }
 };
