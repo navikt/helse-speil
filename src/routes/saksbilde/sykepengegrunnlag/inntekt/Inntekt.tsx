@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 
 import { Alert, Box } from '@navikt/ds-react';
 
@@ -28,6 +28,7 @@ interface InntektContainerProps {
 
 const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElement | null => {
     const [editing, setEditing] = useState(false);
+    const previousPeriodIdRef = useRef<string | undefined>(undefined);
 
     const aktivPeriode = useActivePeriod(person);
     const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
@@ -35,6 +36,14 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
         aktivPeriode?.skjaeringstidspunkt ?? null,
         inntekt.arbeidsgiver,
     );
+
+    if (previousPeriodIdRef.current !== periodeForSkjæringstidspunktForArbeidsgiver?.id) {
+        previousPeriodIdRef.current = periodeForSkjæringstidspunktForArbeidsgiver?.id;
+        if (editing) {
+            setEditing(false);
+        }
+    }
+
     const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, inntekt.arbeidsgiver);
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
 
@@ -58,10 +67,6 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
         : aktivPeriode !== null && !isUberegnetPeriode(aktivPeriode)
           ? aktivPeriode.vilkarsgrunnlagId
           : null;
-
-    useEffect(() => {
-        setEditing(false);
-    }, [periodeForSkjæringstidspunktForArbeidsgiver?.id]);
 
     if (!aktivPeriode || !periodeForSkjæringstidspunktForArbeidsgiver || !vilkårsgrunnlagId) {
         return null;
