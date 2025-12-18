@@ -1,5 +1,3 @@
-import { useMemo } from 'react';
-
 import { Dag, Periode, PersonFragment } from '@io/graphql';
 import { Inntektsforhold, useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
@@ -22,7 +20,7 @@ export const useTotaltUtbetaltForSykefraværstilfellet = (person: PersonFragment
         tidslinje: tidslinjeForSykefraværstilfellet ?? [],
         erSelvstendigNæringsdrivende: isSelvstendigNaering(inntektsforhold),
     });
-    const utbetalingsdager = getDagerMedUtbetaling(useMemo(() => Array.from(dager.values()), [dager]));
+    const utbetalingsdager = getDagerMedUtbetaling(Array.from(dager.values()));
     const arbeidsgiverTotalbeløp = getTotalArbeidsgiverbeløp(utbetalingsdager);
     const personTotalbeløp = getTotalPersonbeløp(utbetalingsdager);
 
