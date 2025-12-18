@@ -128,6 +128,8 @@ const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
             return message('Det mangler vurdering av varsler i en eller flere perioder');
         case 'OVERLAPPER_MED_INFOTRYGD':
             return message('Det er overlappende utbetaling/registrering i Infotrygd');
+        case 'VEDTAK_ALLEREDE_FATTET':
+            return message('Vedtaket er allerede fattet');
         case 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING':
         case 'BEHANDLING_IKKE_FUNNET':
         case 'VEDTAKSPERIODE_IKKE_FUNNET':
