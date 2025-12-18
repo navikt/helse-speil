@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { BodyLong, BodyShort, Button, Textarea } from '@navikt/ds-react';
 
@@ -43,56 +43,63 @@ export function FlexjarFelles({
     const data = response ? response.data : null;
     const { mutate: oppdaterFeedback, error: oppdaterError } = useOppdaterFlexjarFeedback();
 
-    const fetchFeedback = useCallback(
-        (knappeklikk?: () => void): Promise<void> => {
-            if (activeState === null) return Promise.resolve();
+    const prevActiveStateRef = useRef(activeState);
+    const prevFeedbackIdRef = useRef(feedbackId);
 
-            const payload: FeedbackPayload = {
-                feedback: textValue,
-                feedbackId,
-                svar: activeState,
-                ...feedbackProps,
-            };
+    if (prevActiveStateRef.current !== activeState) {
+        prevActiveStateRef.current = activeState;
+        if (errorMsg !== null) {
+            setErrorMsg(null);
+        }
+    }
 
-            return new Promise((resolve, reject) => {
-                if (data?.id) {
-                    oppdaterFeedback(
-                        {
-                            id: data.id,
-                            payload,
-                        },
-                        {
-                            onSuccess: () => {
-                                knappeklikk?.();
-                                resolve();
-                            },
-                            onError: reject,
-                        },
-                    );
-                } else {
-                    giFeedback(payload, {
+    const feedbackPropsString = JSON.stringify(feedbackProps);
+    const prevFeedbackPropsStringRef = useRef(feedbackPropsString);
+    if (prevFeedbackPropsStringRef.current !== feedbackPropsString || prevFeedbackIdRef.current !== feedbackId) {
+        prevFeedbackPropsStringRef.current = feedbackPropsString;
+        prevFeedbackIdRef.current = feedbackId;
+        if (errorMsg !== null) setErrorMsg(null);
+        if (textValue !== '') setTextValue('');
+        if (activeState !== null) setActiveState(null);
+        reset();
+    }
+
+    const fetchFeedback = (knappeklikk?: () => void): Promise<void> => {
+        if (activeState === null) return Promise.resolve();
+
+        const payload: FeedbackPayload = {
+            feedback: textValue,
+            feedbackId,
+            svar: activeState,
+            ...feedbackProps,
+        };
+
+        return new Promise((resolve, reject) => {
+            if (data?.id) {
+                oppdaterFeedback(
+                    {
+                        id: data.id,
+                        payload,
+                    },
+                    {
                         onSuccess: () => {
                             knappeklikk?.();
                             resolve();
                         },
                         onError: reject,
-                    });
-                }
-            });
-        },
-        [activeState, data?.id, feedbackId, feedbackProps, giFeedback, oppdaterFeedback, textValue],
-    );
-    useEffect(() => {
-        setErrorMsg(null);
-    }, [activeState]);
-
-    const feedbackPropsString = JSON.stringify(feedbackProps);
-    useEffect(() => {
-        setErrorMsg(null);
-        setTextValue('');
-        setActiveState(null);
-        reset();
-    }, [feedbackPropsString, setActiveState, feedbackId, reset]);
+                    },
+                );
+            } else {
+                giFeedback(payload, {
+                    onSuccess: () => {
+                        knappeklikk?.();
+                        resolve();
+                    },
+                    onError: reject,
+                });
+            }
+        });
+    };
 
     const sendTilbakemelding = 'Send tilbakemelding';
 
