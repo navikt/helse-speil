@@ -245,7 +245,6 @@ const PeriodeCardBeregnet = ({
     dødsdato,
 }: PeriodeCardBeregnetProps): ReactElement => {
     const egenskaper = periode.egenskaper.map((it) => it.egenskap);
-    console.log(egenskaper);
     const egenskaperForVisning = periode.egenskaper
         .filter((it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde)
         .filter((it) => {
