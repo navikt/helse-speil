@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import {
     oppdatererPersondataToastKey,
@@ -13,12 +13,18 @@ export const useOppdaterPersondataEnGang = () => {
     const [forespørPersonoppdatering] = useOppdaterPersondata();
     const removeToast = useRemoveToast();
 
+    const forespørPersonoppdateringRef = useRef(forespørPersonoppdatering);
+    forespørPersonoppdateringRef.current = forespørPersonoppdatering;
+
+    const removeToastRef = useRef(removeToast);
+    removeToastRef.current = removeToast;
+
     useEffect(() => {
         if (fødselsnummer != undefined) {
-            void forespørPersonoppdatering(fødselsnummer);
+            void forespørPersonoppdateringRef.current(fødselsnummer);
         }
         return () => {
-            removeToast(oppdatererPersondataToastKey);
+            removeToastRef.current(oppdatererPersondataToastKey);
         };
     }, [fødselsnummer]);
 };
