@@ -19,7 +19,10 @@ export const EgenskaperTagsCell = ({ egenskaper }: EgenskaperTagsCellProps): Rea
             <span className={styles.flexCell}>
                 <EgenskaperTags
                     egenskaper={egenskaper.filter(
-                        (egenskap) => kategoriForEgenskap(egenskap) !== Kategori.Inntektsforhold,
+                        (egenskap) =>
+                            ![Kategori.Inntektsforhold, Kategori.Arbeidssituasjon].includes(
+                                kategoriForEgenskap(egenskap),
+                            ),
                     )}
                 />
             </span>

@@ -306,6 +306,7 @@ export enum Egenskap {
     Haster = 'HASTER',
     Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
     IngenUtbetaling = 'INGEN_UTBETALING',
+    JordbrukerReindrift = 'JORDBRUKER_REINDRIFT',
     ManglerIm = 'MANGLER_IM',
     Medlemskap = 'MEDLEMSKAP',
     OvergangFraIt = 'OVERGANG_FRA_IT',
@@ -474,6 +475,7 @@ export enum Inntektstype {
 }
 
 export enum Kategori {
+    Arbeidssituasjon = 'Arbeidssituasjon',
     Inntektsforhold = 'Inntektsforhold',
     Inntektskilde = 'Inntektskilde',
     Mottaker = 'Mottaker',

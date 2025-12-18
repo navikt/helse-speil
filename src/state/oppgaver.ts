@@ -177,6 +177,8 @@ export const kategoriForEgenskap = (egenskap: ApiEgenskap): Kategori => {
         case ApiEgenskap.PA_VENT:
         case ApiEgenskap.RETUR:
             return Kategori.Status;
+        case ApiEgenskap.JORDBRUKER_REINDRIFT:
+            return Kategori.Arbeidssituasjon;
 
         default:
             return Kategori.Ukategorisert;

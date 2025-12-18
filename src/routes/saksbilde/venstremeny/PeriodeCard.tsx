@@ -17,6 +17,7 @@ import {
     Arbeidsgiver,
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
+    Egenskap,
     Kategori,
     Periodetilstand,
     Periodetype,
@@ -243,8 +244,16 @@ const PeriodeCardBeregnet = ({
     inntektsforhold,
     dødsdato,
 }: PeriodeCardBeregnetProps): ReactElement => {
+    const egenskaper = periode.egenskaper.map((it) => it.egenskap);
+    console.log(egenskaper);
     const egenskaperForVisning = periode.egenskaper
         .filter((it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde)
+        .filter((it) => {
+            return !(
+                egenskaper.includes(Egenskap.JordbrukerReindrift) &&
+                it.egenskap === Egenskap.SelvstendigNaeringsdrivende
+            );
+        })
         .map((it) => it.egenskap);
     return (
         <div>

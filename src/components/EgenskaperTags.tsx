@@ -63,6 +63,8 @@ const tilTekst = (egenskap: ApiEgenskap) => {
             return 'Arbeidstaker';
         case ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE:
             return 'Selvstendig næringsdrivende';
+        case ApiEgenskap.JORDBRUKER_REINDRIFT:
+            return 'Jordbruk / Reindrift';
         default:
             return egenskap.toString();
     }
@@ -86,7 +88,7 @@ const tilVariant = (kategori: Kategori): TagProps['variant'] =>
             ? 'alt1'
             : kategori === Kategori.Status
               ? 'warning'
-              : kategori === Kategori.Inntektsforhold
+              : kategori === Kategori.Inntektsforhold || kategori === Kategori.Arbeidssituasjon
                 ? 'info'
                 : 'neutral';
 
@@ -100,6 +102,7 @@ const getData = (egenskaper: ApiEgenskap[]) => {
                 kategori === Kategori.Periodetype ||
                 kategori === Kategori.Oppgavetype ||
                 kategori === Kategori.Inntektsforhold ||
+                kategori === Kategori.Arbeidssituasjon ||
                 kategori === Kategori.Mottaker,
         )
         .map(({ kategori, egenskap }) => ({
@@ -113,6 +116,7 @@ const getData = (egenskaper: ApiEgenskap[]) => {
             if (a.kategori !== b.kategori) {
                 if (a.kategori === Kategori.Inntektsforhold) kategoriVerdi = -1;
                 else if (b.kategori === Kategori.Inntektsforhold) kategoriVerdi = 1;
+                else if (b.kategori === Kategori.Arbeidssituasjon) kategoriVerdi = 1;
                 else if (a.kategori === Kategori.Periodetype && b.kategori !== Kategori.Status) kategoriVerdi = -1;
                 else if (a.kategori === Kategori.Periodetype) kategoriVerdi = 1;
                 else if (a.kategori === Kategori.Ukategorisert) kategoriVerdi = 1;
