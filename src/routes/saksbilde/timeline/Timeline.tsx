@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import NextLink from 'next/link';
-import { ReactElement, useEffect } from 'react';
+import { ReactElement } from 'react';
 
 import { PlusIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
@@ -53,6 +53,16 @@ const TimelineWithContent = ({
     activePeriod,
     person,
 }: TimelineWithContentProps): ReactElement => {
+    const nyesteDag = useLatestDate(inntektsforhold, infotrygdutbetalinger);
+
+    const initialZoomLevel = (() => {
+        if (isBeregnetPeriode(activePeriod)) {
+            if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(1, 'year'))) return ZoomLevel.FIRE_ÅR;
+            if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(6, 'month'))) return ZoomLevel.ETT_ÅR;
+        }
+        return ZoomLevel.SEKS_MÅNEDER;
+    })();
+
     const {
         zoomLevels,
         currentZoomLevel,
@@ -61,20 +71,7 @@ const TimelineWithContent = ({
         navigateBackwards,
         canNavigateForwards,
         canNavigateBackwards,
-    } = useTimelineControls(inntektsforhold, infotrygdutbetalinger);
-    const nyesteDag = useLatestDate(inntektsforhold, infotrygdutbetalinger);
-
-    useEffect(() => {
-        const defaultZoomLevel = () => {
-            if (isBeregnetPeriode(activePeriod)) {
-                if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(1, 'year'))) return ZoomLevel.FIRE_ÅR;
-                else if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(6, 'month')))
-                    return ZoomLevel.ETT_ÅR;
-            }
-            return ZoomLevel.SEKS_MÅNEDER;
-        };
-        setCurrentZoomLevel(defaultZoomLevel());
-    }, []);
+    } = useTimelineControls(inntektsforhold, infotrygdutbetalinger, initialZoomLevel);
 
     useKeyboard([
         {

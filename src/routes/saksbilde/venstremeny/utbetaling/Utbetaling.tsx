@@ -11,7 +11,7 @@ import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
-import { finnAlleInntektsforhold, InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';

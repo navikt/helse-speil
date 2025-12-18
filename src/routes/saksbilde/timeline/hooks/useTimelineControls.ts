@@ -87,6 +87,7 @@ type UseTimelineControlsResult = {
 export const useTimelineControls = (
     inntektsforhold: Inntektsforhold[],
     infotrygdutbetalinger: Infotrygdutbetaling[],
+    initialZoomLevel: number = ZoomLevel.SEKS_MÅNEDER,
 ): UseTimelineControlsResult => {
     const allPeriods = useMemo(
         () => getMergedPeriods(inntektsforhold, infotrygdutbetalinger),
@@ -96,7 +97,7 @@ export const useTimelineControls = (
     const latestPossibleDate = useLatestPossibleDate(allPeriods);
     const earliestPossibleDate = useEarliestPossibleDate(allPeriods);
 
-    const [currentZoomIndex, setCurrentZoomIndex] = useState<number>(ZoomLevel.SEKS_MÅNEDER);
+    const [currentZoomIndex, setCurrentZoomIndex] = useState<number>(initialZoomLevel);
     const [currentDateDelta, setCurrentDateDelta] = useState<number>(0);
 
     const availableZoomLevels = useAvailableZoomLevels(latestPossibleDate, currentDateDelta);
