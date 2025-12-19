@@ -1,10 +1,11 @@
 import React from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SkjønnsfastsettingMal } from '@external/sanity';
+import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 
 import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 
@@ -13,19 +14,19 @@ type Props = {
 };
 
 export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
-    const { formState, register, setValue, getValues } = useFormContext();
+    const { formState, register, setValue, control } = useFormContext<SkjønnsfastsettingFormFields>();
     const årsaker = maler?.flatMap((it) => it.arsak) ?? [];
     const { ref, ...årsakValidation } = register('årsak', { required: 'Du må velge en årsak' });
 
     const resetType = () => {
-        setValue('type', '');
+        setValue('type', null);
     };
 
     const onEndre = () => {
         setValue('årsak', '');
     };
 
-    const valgtÅrsak = getValues('årsak');
+    const valgtÅrsak = useWatch({ name: 'årsak', control: control });
 
     return (
         <>
