@@ -10,18 +10,12 @@ import { renderHook } from '@testing-library/react';
 
 import { useOppdaterPersondataEnGang } from './useOppdaterPersondataEnGang';
 
-vi.mock('@state/person', () => ({
-    useFetchPersonQuery: vi.fn(),
-}));
-
+vi.mock('@state/person');
 vi.mock('@saksbilde/saksbildeMenu/dropdown/useOppdaterPersondata', () => ({
     useOppdaterPersondata: vi.fn(),
     oppdatererPersondataToastKey: 'oppdaterer-persondata-toast',
 }));
-
-vi.mock('@state/toasts', () => ({
-    useRemoveToast: vi.fn(),
-}));
+vi.mock('@state/toasts');
 
 describe('useOppdaterPersondataEnGang', () => {
     const forespørPersonoppdateringMock = vi.fn();
@@ -31,6 +25,7 @@ describe('useOppdaterPersondataEnGang', () => {
         vi.clearAllMocks();
         (useOppdaterPersondata as Mock).mockReturnValue([forespørPersonoppdateringMock]);
         (useRemoveToast as Mock).mockReturnValue(removeToastMock);
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: undefined } });
     });
 
     it('skal kalle forespørPersonoppdatering når fødselsnummer er definert', () => {
