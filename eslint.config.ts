@@ -1,6 +1,7 @@
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import reactHooks from 'eslint-plugin-react-hooks';
 import { defineConfig } from 'eslint/config';
 
 import tsmEslintReact from '@navikt/tsm-eslint-react';
@@ -8,24 +9,6 @@ import tsmEslintReact from '@navikt/tsm-eslint-react';
 import importAlias from '@limegrass/eslint-plugin-import-alias';
 
 const eslintConfig = defineConfig([
-    ...nextVitals,
-    ...nextTs,
-    ...tsmEslintReact,
-    {
-        extends: [eslintPluginPrettierRecommended],
-        rules: {
-            'prettier/prettier': 'warn',
-            'import/order': 'off',
-            '@typescript-eslint/no-unused-vars': [
-                'error',
-                {
-                    argsIgnorePattern: '^_',
-                    varsIgnorePattern: '^_',
-                    caughtErrorsIgnorePattern: '^_',
-                },
-            ],
-        },
-    },
     {
         ignores: [
             'src/io/graphql/generated/graphql.ts',
@@ -37,8 +20,30 @@ const eslintConfig = defineConfig([
             'dist/**',
         ],
     },
+    ...nextVitals,
+    ...nextTs,
+    ...tsmEslintReact,
+    reactHooks.configs.flat['recommended-latest'],
     {
+        extends: [eslintPluginPrettierRecommended],
         rules: {
+            'prettier/prettier': 'warn',
+            'import/order': 'off',
+            'import/no-extraneous-dependencies': 'error',
+            '@typescript-eslint/array-type': 'error',
+            '@typescript-eslint/no-namespace': 'off',
+            '@typescript-eslint/no-unused-vars': [
+                'error',
+                {
+                    args: 'all',
+                    argsIgnorePattern: '^_',
+                    caughtErrors: 'all',
+                    caughtErrorsIgnorePattern: '^_',
+                    destructuredArrayIgnorePattern: '^_',
+                    varsIgnorePattern: '^_',
+                    ignoreRestSiblings: true,
+                },
+            ],
             'react-hooks/refs': 'off',
             '@typescript-eslint/explicit-function-return-type': 'off',
         },
@@ -53,12 +58,6 @@ const eslintConfig = defineConfig([
                     relativeImportOverrides: [{ depth: 1, path: '.' }],
                 },
             ],
-        },
-    },
-    {
-        files: ['**/*.test.{js,ts,jsx,tsx}', '**/__tests__/**'],
-        rules: {
-            'import/no-extraneous-dependencies': 'off',
         },
     },
 ]);
