@@ -32,86 +32,6 @@ import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 
 import styles from './SkjønnsfastsettingForm.module.css';
 
-export const useAktiveArbeidsgivere = (
-    person: PersonFragment,
-    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
-    inntekter: Arbeidsgiverinntekt[],
-): Arbeidsgiver[] =>
-    finnAlleArbeidsgivere(person)
-        .filter(
-            (arbeidsgiver) =>
-                arbeidsgiver.generasjoner?.[0]?.perioder.some(
-                    (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt,
-                ) ||
-                arbeidsgiver.ghostPerioder.some(
-                    (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt && !it.deaktivert,
-                ),
-        )
-        .filter(
-            (arbeidsgiver) =>
-                inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
-                    ?.omregnetArsinntekt !== null,
-        );
-
-function useFormDefaults(
-    skjønnsfastsettelseFormState: SkjønnsfastsettingFormFields | null,
-    aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
-    forrigeSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null,
-    avrundetSammenligningsgrunnlag: number,
-): SkjønnsfastsettingFormFields {
-    if (skjønnsfastsettelseFormState) {
-        return skjønnsfastsettelseFormState;
-    } else {
-        if (forrigeSkjønnsfastsettelse && !forrigeSkjønnsfastsettelse.ferdigstilt) {
-            const type = mapType(forrigeSkjønnsfastsettelse.skjonnsfastsatt.type);
-            return {
-                begrunnelseFritekst: forrigeSkjønnsfastsettelse.skjonnsfastsatt.begrunnelseFritekst ?? '',
-                type: type,
-                årsak: forrigeSkjønnsfastsettelse.skjonnsfastsatt.arsak,
-                arbeidsgivere: initielleInntektsutfyllinger(
-                    aktiveArbeidsgivereInntekter,
-                    avrundetSammenligningsgrunnlag,
-                    type,
-                ),
-            };
-        } else {
-            return {
-                begrunnelseFritekst: '',
-                type: null,
-                årsak: '',
-                arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
-                    organisasjonsnummer: inntekt.arbeidsgiver,
-                    årlig: 0,
-                })),
-            };
-        }
-    }
-}
-
-const mapType = (type: Skjonnsfastsettingstype | null = Skjonnsfastsettingstype.Annet): Skjønnsfastsettingstype => {
-    switch (type) {
-        case Skjonnsfastsettingstype.OmregnetArsinntekt:
-            return Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT;
-        case Skjonnsfastsettingstype.RapportertArsinntekt:
-            return Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT;
-        case Skjonnsfastsettingstype.Annet:
-        default:
-            return Skjønnsfastsettingstype.ANNET;
-    }
-};
-
-export interface SkjønnsfastsettingFormFields {
-    arbeidsgivere: SkjønnsfastsettingFormFieldsArbeidsgiver[];
-    årsak: string;
-    type: Skjønnsfastsettingstype | null;
-    begrunnelseFritekst: string;
-}
-
-export interface SkjønnsfastsettingFormFieldsArbeidsgiver {
-    organisasjonsnummer: string;
-    årlig: number;
-}
-
 interface SkjønnsfastsettingFormProps {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
@@ -126,38 +46,6 @@ interface SkjønnsfastsettingFormProps {
     formValues: SkjønnsfastsettingFormFields | null;
     setFormValues: (skjønnsfastsettingFormFields: SkjønnsfastsettingFormFields) => void;
 }
-
-const initielleInntektsutfyllinger = (
-    aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
-    avrundetSammenligningsgrunnlag: number,
-    valgtType: Skjønnsfastsettingstype | null,
-) =>
-    aktiveArbeidsgivereInntekter?.map((inntekt) => ({
-        organisasjonsnummer: inntekt.arbeidsgiver,
-        årlig: initiellInntektsutfylling(
-            inntekt,
-            aktiveArbeidsgivereInntekter.length,
-            avrundetSammenligningsgrunnlag,
-            valgtType,
-        ),
-    })) ?? [];
-
-const initiellInntektsutfylling = (
-    inntekt: Arbeidsgiverinntekt,
-    antallAktiveArbeidsgivere: number,
-    totaltSammenligningsgrunnlag: number,
-    type: Skjønnsfastsettingstype | null,
-): number => {
-    switch (type) {
-        case Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT:
-            return avrundetToDesimaler(inntekt.omregnetArsinntekt?.belop ?? 0);
-        case Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT:
-            return antallAktiveArbeidsgivere > 1 ? 0 : avrundetToDesimaler(totaltSammenligningsgrunnlag);
-        case Skjønnsfastsettingstype.ANNET:
-        default:
-            return 0;
-    }
-};
 
 export const SkjønnsfastsettingForm = ({
     person,
@@ -321,6 +209,118 @@ export const SkjønnsfastsettingForm = ({
             </form>
         </FormProvider>
     );
+};
+
+export const useAktiveArbeidsgivere = (
+    person: PersonFragment,
+    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
+    inntekter: Arbeidsgiverinntekt[],
+): Arbeidsgiver[] =>
+    finnAlleArbeidsgivere(person)
+        .filter(
+            (arbeidsgiver) =>
+                arbeidsgiver.generasjoner?.[0]?.perioder.some(
+                    (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt,
+                ) ||
+                arbeidsgiver.ghostPerioder.some(
+                    (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt && !it.deaktivert,
+                ),
+        )
+        .filter(
+            (arbeidsgiver) =>
+                inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
+                    ?.omregnetArsinntekt !== null,
+        );
+
+function useFormDefaults(
+    skjønnsfastsettelseFormState: SkjønnsfastsettingFormFields | null,
+    aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
+    forrigeSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null,
+    avrundetSammenligningsgrunnlag: number,
+): SkjønnsfastsettingFormFields {
+    if (skjønnsfastsettelseFormState) {
+        return skjønnsfastsettelseFormState;
+    } else {
+        if (forrigeSkjønnsfastsettelse && !forrigeSkjønnsfastsettelse.ferdigstilt) {
+            const type = mapType(forrigeSkjønnsfastsettelse.skjonnsfastsatt.type);
+            return {
+                begrunnelseFritekst: forrigeSkjønnsfastsettelse.skjonnsfastsatt.begrunnelseFritekst ?? '',
+                type: type,
+                årsak: forrigeSkjønnsfastsettelse.skjonnsfastsatt.arsak,
+                arbeidsgivere: initielleInntektsutfyllinger(
+                    aktiveArbeidsgivereInntekter,
+                    avrundetSammenligningsgrunnlag,
+                    type,
+                ),
+            };
+        } else {
+            return {
+                begrunnelseFritekst: '',
+                type: null,
+                årsak: '',
+                arbeidsgivere: aktiveArbeidsgivereInntekter.map((inntekt) => ({
+                    organisasjonsnummer: inntekt.arbeidsgiver,
+                    årlig: 0,
+                })),
+            };
+        }
+    }
+}
+
+const mapType = (type: Skjonnsfastsettingstype | null = Skjonnsfastsettingstype.Annet): Skjønnsfastsettingstype => {
+    switch (type) {
+        case Skjonnsfastsettingstype.OmregnetArsinntekt:
+            return Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT;
+        case Skjonnsfastsettingstype.RapportertArsinntekt:
+            return Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT;
+        case Skjonnsfastsettingstype.Annet:
+        default:
+            return Skjønnsfastsettingstype.ANNET;
+    }
+};
+
+export interface SkjønnsfastsettingFormFields {
+    arbeidsgivere: SkjønnsfastsettingFormFieldsArbeidsgiver[];
+    årsak: string;
+    type: Skjønnsfastsettingstype | null;
+    begrunnelseFritekst: string;
+}
+
+export interface SkjønnsfastsettingFormFieldsArbeidsgiver {
+    organisasjonsnummer: string;
+    årlig: number;
+}
+
+const initielleInntektsutfyllinger = (
+    aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
+    avrundetSammenligningsgrunnlag: number,
+    valgtType: Skjønnsfastsettingstype | null,
+) =>
+    aktiveArbeidsgivereInntekter?.map((inntekt) => ({
+        organisasjonsnummer: inntekt.arbeidsgiver,
+        årlig: initiellInntektsutfylling(
+            inntekt,
+            aktiveArbeidsgivereInntekter.length,
+            avrundetSammenligningsgrunnlag,
+            valgtType,
+        ),
+    })) ?? [];
+
+const initiellInntektsutfylling = (
+    inntekt: Arbeidsgiverinntekt,
+    antallAktiveArbeidsgivere: number,
+    totaltSammenligningsgrunnlag: number,
+    type: Skjønnsfastsettingstype | null,
+): number => {
+    switch (type) {
+        case Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT:
+            return avrundetToDesimaler(inntekt.omregnetArsinntekt?.belop ?? 0);
+        case Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT:
+            return antallAktiveArbeidsgivere > 1 ? 0 : avrundetToDesimaler(totaltSammenligningsgrunnlag);
+        case Skjønnsfastsettingstype.ANNET:
+        default:
+            return 0;
+    }
 };
 
 interface RefMedId extends CustomElement<FieldValues> {
