@@ -33,6 +33,7 @@ interface UtbetalingCardProps {
     periodeArbeidsgiverNettoBeløp: number;
     gammeltTotalbeløp?: number;
     inntektsforhold: Inntektsforhold;
+    erJordbruker: boolean;
 }
 
 const UtbetalingCardBeregnet = ({
@@ -46,6 +47,7 @@ const UtbetalingCardBeregnet = ({
     periodeArbeidsgiverNettoBeløp,
     gammeltTotalbeløp,
     inntektsforhold,
+    erJordbruker,
 }: UtbetalingCardProps): ReactElement => (
     <section className={styles.Card}>
         <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
@@ -54,8 +56,8 @@ const UtbetalingCardBeregnet = ({
             <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
             {isSelvstendigNaering(inntektsforhold) && (
                 <>
-                    <BodyShort>Dekningsgrad</BodyShort>
-                    <BodyShort>80 %</BodyShort>
+                    <BodyShort>Dekning</BodyShort>
+                    <BodyShort>{erJordbruker ? 100 : 80} % fra 17. dag</BodyShort>
                 </>
             )}
             <BodyShort>Utbetalingsdager</BodyShort>
