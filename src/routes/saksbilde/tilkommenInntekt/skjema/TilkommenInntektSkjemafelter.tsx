@@ -88,7 +88,7 @@ export const TilkommenInntektSkjemafelter = ({
                             />
                             {erGyldigOrganisasjonsnummer(organisasjonsnummer) && (
                                 <div style={{ marginBottom: 'var(--a-spacing-1)' }}>
-                                    <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} />
+                                    <Organisasjonsnavn maxWidth="225px" organisasjonsnummer={organisasjonsnummer} />
                                 </div>
                             )}
                         </HStack>

@@ -39,7 +39,11 @@ export const TilkommenInntektDagoversikt = ({ inntektsforhold, periode, eksklude
                         <Table.HeaderCell>Dato</Table.HeaderCell>
                         {inntektsforholdReferanser.map((inntektsforhold) => (
                             <Table.HeaderCell key={inntektsforholdReferanseTilKey(inntektsforhold)}>
-                                <Inntektsforholdnavn inntektsforholdReferanse={inntektsforhold} weight="semibold" />
+                                <Inntektsforholdnavn
+                                    maxWidth="150px"
+                                    inntektsforholdReferanse={inntektsforhold}
+                                    weight="semibold"
+                                />
                             </Table.HeaderCell>
                         ))}
                     </Table.Row>
