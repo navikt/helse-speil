@@ -54,9 +54,9 @@ export const useSelectPeriod = () => {
 };
 
 const findPeriodToSelect = (person: PersonFragment): ActivePeriod | null => {
-    const perioderINyesteGenerasjoner = person.arbeidsgivere.flatMap(
-        (arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [],
-    );
+    const perioderINyesteGenerasjoner = finnAlleInntektsforhold(person)
+        .flatMap((inntektsforhold) => inntektsforhold.generasjoner[0]?.perioder ?? [])
+        .filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode));
 
     const aktuellePerioder = perioderINyesteGenerasjoner
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
