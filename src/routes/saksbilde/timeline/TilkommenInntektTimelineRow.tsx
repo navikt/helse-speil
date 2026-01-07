@@ -8,13 +8,14 @@ import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
 
-import styles from './TilkommenInntektTimelineRow.module.css';
+import styles from './TimelineRow.module.css';
 
 export interface TilkommenInntektTimelineRowProps {
     start: Dayjs;
     end: Dayjs;
     organisasjonsnummer: string;
     tilkomneInntekter: ApiTilkommenInntekt[];
+    alignWithExpandable?: boolean;
 }
 
 export const TilkommenInntektTimelineRow = ({
@@ -22,9 +23,10 @@ export const TilkommenInntektTimelineRow = ({
     end,
     organisasjonsnummer,
     tilkomneInntekter,
+    alignWithExpandable = false,
 }: TilkommenInntektTimelineRowProps): ReactElement => (
     <div className={styles.TimelineRow}>
-        <div className={classNames(styles.Name)}>
+        <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
             <SackKronerIcon className={styles.arbeidsgiverIkon} />
             <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} maxWidth="225px" showCopyButton />
         </div>

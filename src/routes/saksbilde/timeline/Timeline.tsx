@@ -143,7 +143,12 @@ const TimelineWithContent = ({
                             />
                         );
                     })}
-                <TilkommenInntektTimelineRows start={start} end={end} personPseudoId={person.personPseudoId} />
+                <TilkommenInntektTimelineRows
+                    start={start}
+                    end={end}
+                    personPseudoId={person.personPseudoId}
+                    alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
+                />
                 {infotrygdPeriods.length > 0 && (
                     <InfotrygdRow
                         start={start}

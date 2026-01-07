@@ -11,12 +11,14 @@ interface TilkommenInntektTimelineContainerProps {
     start: dayjs.Dayjs;
     end: dayjs.Dayjs;
     personPseudoId: string;
+    alignWithExpandable?: boolean;
 }
 
 export const TilkommenInntektTimelineRows = ({
     start,
     end,
     personPseudoId,
+    alignWithExpandable = false,
 }: TilkommenInntektTimelineContainerProps): ReactElement => {
     const { isFetching, data: response, error } = useHentTilkommenInntektQuery(personPseudoId);
 
@@ -39,6 +41,7 @@ export const TilkommenInntektTimelineRows = ({
                     end={end}
                     organisasjonsnummer={tilkommenInntektskilde.organisasjonsnummer}
                     tilkomneInntekter={tilkommenInntektskilde.inntekter}
+                    alignWithExpandable={alignWithExpandable}
                 />
             ))}
         </>
