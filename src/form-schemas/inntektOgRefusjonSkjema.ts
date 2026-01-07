@@ -5,61 +5,64 @@ import { erEtter, erFør, plussEnDag } from '@utils/date';
 
 export type InntektOgRefusjonSchema = z.infer<ReturnType<typeof lagInntektOgRefusjonSchema>>;
 export const lagInntektOgRefusjonSchema = (sykefraværstilfelle: DatePeriod, begrunnelser: string[]) =>
-    z.object({
-        månedsbeløp: z
-            .number({
+    z
+        .object({
+            månedsbeløp: z
+                .number({
+                    error: (issue) =>
+                        issue.input == null || issue.input === ''
+                            ? 'Månedsbeløp er påkrevd'
+                            : 'Månedsbeløp må være et tall',
+                })
+                .positive('Månedsbeløp må være større enn 0')
+                .max(10000000, 'Systemet håndterer ikke månedsbeløp over 10 millioner'),
+            refusjonsperioder: z
+                .array(refusjonsperiodeSchema)
+                .min(1, 'Det må oppgis minst én refusjonsperiode')
+                .superRefine((refusjonsperioder, ctx) => {
+                    const sorted = [...refusjonsperioder].sort((a, b) => sorter(a.fom, b.fom));
+                    sorted.slice(0, -1).forEach((current, i) => {
+                        const next = sorted[i + 1] as RefusjonsperiodeSchema;
+
+                        if (!current.tom) return;
+
+                        if (!erEtter(next.fom, current.tom)) {
+                            ctx.addIssue({
+                                code: 'custom',
+                                path: [i + 1, 'fom'],
+                                message: 'Oppgitte refusjonsperioder må ikke overlappe',
+                            });
+                            return;
+                        }
+
+                        if (plussEnDag(current.tom) !== next.fom) {
+                            ctx.addIssue({
+                                code: 'custom',
+                                path: [i + 1, 'fom'],
+                                message: 'Oppgitte refusjonsperioder må være sammenhengende',
+                            });
+                        }
+                    });
+                }),
+            begrunnelse: z.enum(begrunnelser, {
                 error: (issue) =>
-                    issue.input == null || issue.input === ''
-                        ? 'Månedsbeløp er påkrevd'
-                        : 'Månedsbeløp må være et tall',
-            })
-            .positive('Månedsbeløp må være større enn 0')
-            .max(10000000, 'Systemet håndterer ikke månedsbeløp over 10 millioner'),
-        refusjonsperioder: z
-            .array(refusjonsperiodeSchema)
-            .min(1, 'Det må oppgis minst én refusjonsperiode')
-            .superRefine((refusjonsperioder, ctx) => {
-                const sorted = [...refusjonsperioder].sort((a, b) => sorter(a.fom, b.fom));
-                sorted.slice(0, -1).forEach((current, i) => {
-                    const next = sorted[i + 1] as RefusjonsperiodeSchema;
-
-                    if (!current.tom) return;
-
-                    if (!erEtter(next.fom, current.tom)) {
-                        ctx.addIssue({
-                            code: 'custom',
-                            path: [i + 1, 'fom'],
-                            message: 'Oppgitte refusjonsperioder må ikke overlappe',
-                        });
-                        return;
-                    }
-
-                    if (plussEnDag(current.tom) !== next.fom) {
-                        ctx.addIssue({
-                            code: 'custom',
-                            path: [i + 1, 'fom'],
-                            message: 'Oppgitte refusjonsperioder må være sammenhengende',
-                        });
-                    }
-                });
-
+                    issue.input === '' || issue.input == null ? 'Begrunnelse er påkrevd' : 'Ugyldig begrunnelse',
+            }),
+            notat: z.string('Notat må være en tekst').min(1, 'Notat er påkrevd'),
+        })
+        .refine(
+            (inntektOgRefusjon) => {
+                const sorted = [...inntektOgRefusjon.refusjonsperioder].sort((a, b) => sorter(a.fom, b.fom));
                 const førsteFom = sorted[0]?.fom;
                 const sisteTom = sorted[sorted.length - 1]?.tom;
 
-                if (!(førsteFom === sykefraværstilfelle.fom && sisteTom === sykefraværstilfelle.tom)) {
-                    ctx.addIssue({
-                        code: 'custom',
-                        path: [0, 'fom'],
-                        message: 'Oppgitte refusjonsperioder må dekke hele sykefraværstilfellet',
-                    });
-                }
-            }),
-        begrunnelse: z.enum(begrunnelser, {
-            error: (issue) =>
-                issue.input === '' || issue.input == null ? 'Begrunnelse er påkrevd' : 'Ugyldig begrunnelse',
-        }),
-        notat: z.string('Notat må være en tekst').min(1, 'Notat er påkrevd'),
-    });
+                return førsteFom === sykefraværstilfelle.fom && sisteTom === sykefraværstilfelle.tom;
+            },
+            {
+                path: ['refusjonsperioder'],
+                message: 'Oppgitte refusjonsperioder må dekke hele sykefraværstilfellet',
+            },
+        );
 
 export type RefusjonsperiodeSchema = z.infer<typeof refusjonsperiodeSchema>;
 const refusjonsperiodeSchema = z
