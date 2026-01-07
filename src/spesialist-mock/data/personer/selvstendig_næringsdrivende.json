@@ -1,0 +1,813 @@
+{
+    "data": {
+        "person": {
+            "__typename": "Person",
+            "fodselsnummer": "23817999700",
+            "personPseudoId": "6d11ed7f-d58b-4edf-99cb-9295f549affc",
+            "andreFodselsnummer": [],
+            "dodsdato": null,
+            "enhet": {
+                "__typename": "Enhet",
+                "id": "1165",
+                "navn": "Stavanger - Madla"
+            },
+            "infotrygdutbetalinger": [],
+            "personinfo": {
+                "__typename": "Personinfo",
+                "fornavn": "KVART",
+                "mellomnavn": null,
+                "etternavn": "ARBEIDSKRAFT",
+                "adressebeskyttelse": "Ugradert",
+                "fodselsdato": "1979-01-23",
+                "kjonn": "Mann",
+                "fullmakt": false,
+                "reservasjon": null,
+                "unntattFraAutomatisering": {
+                    "__typename": "UnntattFraAutomatiskGodkjenning",
+                    "erUnntatt": false,
+                    "arsaker": [],
+                    "tidspunkt": null
+                },
+                "automatiskBehandlingStansetAvSaksbehandler": false
+            },
+            "selvstendigNaering": {
+                "__typename": "SelvstendigNaering",
+                "generasjoner": [
+                    {
+                        "__typename": "Generasjon",
+                        "id": "21c94f02-9c3f-419c-8457-b350b17c6b16",
+                        "perioder": [
+                            {
+                                "__typename": "BeregnetPeriode",
+                                "id": "f70c42a5-454d-386a-a50c-cf1b36d9d5a0",
+                                "beregningId": "77302309-07cc-4496-8ca1-8a0497899fbd",
+                                "forbrukteSykedager": 9,
+                                "gjenstaendeSykedager": 239,
+                                "vedtaksperiodeId": "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff",
+                                "handlinger": [
+                                    {
+                                        "__typename": "Handling",
+                                        "type": "UTBETALE",
+                                        "tillatt": true,
+                                        "begrunnelse": null
+                                    },
+                                    {
+                                        "__typename": "Handling",
+                                        "type": "AVVISE",
+                                        "tillatt": true,
+                                        "begrunnelse": null
+                                    }
+                                ],
+                                "notater": [],
+                                "historikkinnslag": [],
+                                "maksdato": "2026-05-29",
+                                "periodevilkar": {
+                                    "__typename": "Periodevilkar",
+                                    "alder": {
+                                        "__typename": "Alder",
+                                        "alderSisteSykedag": 46,
+                                        "oppfylt": true
+                                    },
+                                    "sykepengedager": {
+                                        "__typename": "Sykepengedager",
+                                        "forbrukteSykedager": 9,
+                                        "gjenstaendeSykedager": 239,
+                                        "maksdato": "2026-05-29",
+                                        "oppfylt": true,
+                                        "skjaeringstidspunkt": "2025-06-01"
+                                    }
+                                },
+                                "risikovurdering": {
+                                    "__typename": "Risikovurdering",
+                                    "funn": [],
+                                    "kontrollertOk": []
+                                },
+                                "utbetaling": {
+                                    "__typename": "Utbetaling",
+                                    "id": "b1521742-b72b-46ff-8fe3-9d0f4ed4c312",
+                                    "arbeidsgiverFagsystemId": "TAULXPQZQNG6DMVRL2HJ4BJPXQ",
+                                    "arbeidsgiverNettoBelop": 0,
+                                    "personFagsystemId": "J3YR72T6XBAINKV3P2K5TYDX2M",
+                                    "personNettoBelop": 21627,
+                                    "status": "UBETALT",
+                                    "type": "UTBETALING",
+                                    "vurdering": null,
+                                    "arbeidsgiversimulering": {
+                                        "__typename": "Simulering",
+                                        "fagsystemId": "TAULXPQZQNG6DMVRL2HJ4BJPXQ",
+                                        "totalbelop": null,
+                                        "tidsstempel": "2025-09-25T16:33:04.009856123",
+                                        "utbetalingslinjer": [],
+                                        "perioder": null
+                                    },
+                                    "personsimulering": {
+                                        "__typename": "Simulering",
+                                        "fagsystemId": "J3YR72T6XBAINKV3P2K5TYDX2M",
+                                        "totalbelop": 21627,
+                                        "tidsstempel": "2025-09-25T16:33:04.009938373",
+                                        "utbetalingslinjer": [],
+                                        "perioder": [
+                                            {
+                                                "__typename": "Simuleringsperiode",
+                                                "fom": "2025-06-17",
+                                                "tom": "2025-06-27",
+                                                "utbetalinger": [
+                                                    {
+                                                        "__typename": "Simuleringsutbetaling",
+                                                        "mottakerId": "23817999700",
+                                                        "mottakerNavn": "ARBEIDSKRAFT KVART",
+                                                        "forfall": "2025-09-25",
+                                                        "feilkonto": false,
+                                                        "detaljer": [
+                                                            {
+                                                                "__typename": "Simuleringsdetaljer",
+                                                                "fom": "2025-06-17",
+                                                                "tom": "2025-06-27",
+                                                                "utbetalingstype": "YTEL",
+                                                                "uforegrad": 100,
+                                                                "typeSats": "DAG",
+                                                                "tilbakeforing": false,
+                                                                "sats": 2403,
+                                                                "refunderesOrgNr": "           ",
+                                                                "konto": "2341110",
+                                                                "klassekode": "SPSNDDM-OP",
+                                                                "antallSats": 9,
+                                                                "belop": 21627,
+                                                                "klassekodebeskrivelse": "Sykepenger næring, Dagmamma"
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                },
+                                "vilkarsgrunnlagId": "ad7305d9-620d-4e87-ae75-d9d3980ad733",
+                                "oppgave": {
+                                    "__typename": "OppgaveForPeriodevisning",
+                                    "id": "4104"
+                                },
+                                "paVent": null,
+                                "totrinnsvurdering": {
+                                    "__typename": "Totrinnsvurdering",
+                                    "erBeslutteroppgave": false,
+                                    "erRetur": false,
+                                    "saksbehandler": null,
+                                    "beslutter": null
+                                },
+                                "egenskaper": [
+                                    {
+                                        "__typename": "Oppgaveegenskap",
+                                        "egenskap": "SOKNAD",
+                                        "kategori": "Oppgavetype"
+                                    },
+                                    {
+                                        "__typename": "Oppgaveegenskap",
+                                        "egenskap": "UTBETALING_TIL_SYKMELDT",
+                                        "kategori": "Mottaker"
+                                    },
+                                    {
+                                        "__typename": "Oppgaveegenskap",
+                                        "egenskap": "EN_ARBEIDSGIVER",
+                                        "kategori": "Inntektskilde"
+                                    },
+                                    {
+                                        "__typename": "Oppgaveegenskap",
+                                        "egenskap": "SELVSTENDIG_NAERINGSDRIVENDE",
+                                        "kategori": "Inntektsforhold"
+                                    },
+                                    {
+                                        "__typename": "Oppgaveegenskap",
+                                        "egenskap": "FORSTEGANGSBEHANDLING",
+                                        "kategori": "Periodetype"
+                                    }
+                                ],
+                                "avslag": [],
+                                "vedtakBegrunnelser": [],
+                                "annullering": null,
+                                "pensjonsgivendeInntekter": [
+                                    {
+                                        "__typename": "PensjonsgivendeInntekt",
+                                        "arligBelop": "796000.0",
+                                        "inntektsar": 2024
+                                    },
+                                    {
+                                        "__typename": "PensjonsgivendeInntekt",
+                                        "arligBelop": "796000.0",
+                                        "inntektsar": 2023
+                                    },
+                                    {
+                                        "__typename": "PensjonsgivendeInntekt",
+                                        "arligBelop": "796000.0",
+                                        "inntektsar": 2022
+                                    }
+                                ],
+                                "annulleringskandidater": [
+                                    {
+                                        "__typename": "Annulleringskandidat",
+                                        "fom": "2025-06-01",
+                                        "organisasjonsnummer": "SELVSTENDIG",
+                                        "tom": "2025-06-30",
+                                        "vedtaksperiodeId": "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff"
+                                    }
+                                ],
+                                "behandlingId": "37cab407-8707-476a-bf09-12d027862a4c",
+                                "fom": "2025-06-01",
+                                "tom": "2025-06-30",
+                                "erForkastet": false,
+                                "inntektstype": "ENARBEIDSGIVER",
+                                "opprettet": "2025-09-25T12:42:28.697712198",
+                                "periodetype": "FORSTEGANGSBEHANDLING",
+                                "tidslinje": [
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-01",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-02",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-03",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-04",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-05",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-06",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-07",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-08",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-09",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-10",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-11",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-12",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-13",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-14",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-15",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-16",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "VENTETIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-17",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-18",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-19",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-20",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-21",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "NAVHELGDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-22",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "NAVHELGDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-23",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-24",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-25",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-26",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-27",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYKEDAG",
+                                        "utbetalingsdagtype": "NAVDAG",
+                                        "utbetalingsinfo": {
+                                            "__typename": "Utbetalingsinfo",
+                                            "arbeidsgiverbelop": 0,
+                                            "inntekt": null,
+                                            "personbelop": 2403,
+                                            "refusjonsbelop": null,
+                                            "totalGrad": 100,
+                                            "utbetaling": 0
+                                        },
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-28",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "NAVHELGDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-29",
+                                        "grad": 100,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                            "type": "SOKNAD"
+                                        },
+                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "utbetalingsdagtype": "NAVHELGDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    },
+                                    {
+                                        "__typename": "Dag",
+                                        "dato": "2025-06-30",
+                                        "grad": null,
+                                        "kilde": {
+                                            "__typename": "Kilde",
+                                            "id": "4730ff2c-587f-4072-8c66-314f2f381a41",
+                                            "type": "SAKSBEHANDLER"
+                                        },
+                                        "sykdomsdagtype": "ARBEIDSDAG",
+                                        "utbetalingsdagtype": "ARBEIDSDAG",
+                                        "utbetalingsinfo": null,
+                                        "begrunnelser": null
+                                    }
+                                ],
+                                "periodetilstand": "TilGodkjenning",
+                                "skjaeringstidspunkt": "2025-06-01",
+                                "varsler": [],
+                                "hendelser": [
+                                    {
+                                        "__typename": "SoknadSelvstendig",
+                                        "id": "30786859-e714-40b7-8a94-3176cef07b49",
+                                        "type": "SENDT_SOKNAD_SELVSTENDIG",
+                                        "fom": "2025-06-01",
+                                        "tom": "2025-06-30",
+                                        "rapportertDato": "2025-07-01T00:00",
+                                        "sendtNav": "2025-07-01T00:00",
+                                        "eksternDokumentId": "5c4d2ab6-8477-435d-842b-765858f5cec9"
+                                    },
+                                    {
+                                        "__typename": "SoknadSelvstendig",
+                                        "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
+                                        "type": "SENDT_SOKNAD_SELVSTENDIG",
+                                        "fom": "2025-06-01",
+                                        "tom": "2025-06-30",
+                                        "rapportertDato": "2025-07-01T00:00",
+                                        "sendtNav": "2025-07-01T00:00",
+                                        "eksternDokumentId": "6d97b464-89b5-4098-9f10-6243cdd1fe4d"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ],
+                "overstyringer": [
+                    {
+                        "__typename": "Dagoverstyring",
+                        "hendelseId": "9f64e004-1e9c-4811-8c59-fb59718aecba",
+                        "saksbehandler": {
+                            "__typename": "Saksbehandler",
+                            "ident": "S149030",
+                            "navn": "Solheim, Martin Remøy"
+                        },
+                        "timestamp": "2025-09-25T13:31:21.900718",
+                        "ferdigstilt": false,
+                        "vedtaksperiodeId": "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff",
+                        "begrunnelse": "hei",
+                        "dager": [
+                            {
+                                "__typename": "OverstyrtDag",
+                                "grad": null,
+                                "fraGrad": 100,
+                                "dato": "2025-06-30",
+                                "type": "Arbeidsdag",
+                                "fraType": "Sykedag"
+                            }
+                        ]
+                    }
+                ]
+            },
+            "tildeling": {
+                "__typename": "Tildeling",
+                "navn": "Solheim, Martin Remøy",
+                "epost": "Martin.Remoy.Solheim@nav.no",
+                "oid": "9c3d9ee4-e487-4e43-b6ab-432743f5863b"
+            },
+            "versjon": 54,
+            "vilkarsgrunnlagV2": [
+                {
+                    "__typename": "VilkarsgrunnlagSpleisV2",
+                    "id": "ad7305d9-620d-4e87-ae75-d9d3980ad733",
+                    "sykepengegrunnlag": 780960,
+                    "skjaeringstidspunkt": "2025-06-01",
+                    "inntekter": [],
+                    "arbeidsgiverrefusjoner": [
+                        {
+                            "__typename": "Arbeidsgiverrefusjon",
+                            "arbeidsgiver": "SELVSTENDIG",
+                            "refusjonsopplysninger": []
+                        }
+                    ],
+                    "skjonnsmessigFastsattAarlig": null,
+                    "vurderingAvKravOmMedlemskap": "OPPFYLT",
+                    "oppfyllerKravOmMinstelonn": true,
+                    "oppfyllerKravOmOpptjening": true,
+                    "antallOpptjeningsdagerErMinst": 0,
+                    "grunnbelop": 130160,
+                    "opptjeningFra": "2025-06-01",
+                    "sykepengegrunnlagsgrense": {
+                        "__typename": "Sykepengegrunnlagsgrense",
+                        "grunnbelop": 130160,
+                        "grense": 780960,
+                        "virkningstidspunkt": "2025-05-01"
+                    },
+                    "beregningsgrunnlag": "818722.0",
+                    "avviksvurdering": null
+                }
+            ],
+            "aktorId": "2948505693240",
+            "arbeidsgivere": [],
+            "tilleggsinfoForInntektskilder": []
+        }
+    }
+}

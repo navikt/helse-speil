@@ -6,6 +6,7 @@
 !personer/slapp_appelsin.json
 !tilkommenInntekt/slapp_appelsin_tilkomne_inntekter.json
 !personer/uten_varsler.json
-!personer/selvstendignaeringsdrivende.json
+!personer/selvstendig_næringsdrivende.json
+!personer/selvstendig_næringsdrivende_jordbruker.json
 personer/*.json
 tilkommenInntekt/*.json
