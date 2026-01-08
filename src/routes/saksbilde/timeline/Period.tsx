@@ -1,5 +1,5 @@
 import classNames from 'classnames';
-import { usePathname, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
 import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
@@ -126,6 +126,7 @@ export const Period = ({
     erSelvstendigNæringsdrivende,
     ...buttonProps
 }: PeriodProps): ReactElement => {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
     const setActivePeriodId = useSetActivePeriodId(person);
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
@@ -141,7 +142,7 @@ export const Period = ({
             setActivePeriodId(period.id);
             const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
             if (erPåTilkommenInntektSide) {
-                router.push(`/person/${person.personPseudoId}/dagoversikt`);
+                router.push(`/person/${personPseudoId}/dagoversikt`);
             }
         }
     };
