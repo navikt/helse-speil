@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 
 import { BodyShort, HelpText, Textarea, VStack } from '@navikt/ds-react';
 
@@ -23,9 +23,9 @@ export const SkjønnsfastsettingBegrunnelse = ({
     sammenligningsgrunnlag,
     valgtMal,
 }: SkjønnsfastsettingBegrunnelseProps): ReactElement => {
-    const { formState, register, watch } = useFormContext();
-    const begrunnelseType = watch('type');
-    const arbeidsgivere = watch('arbeidsgivere', []);
+    const { formState, register } = useFormContext();
+    const begrunnelseType = useWatch({ name: 'type' });
+    const arbeidsgivere = useWatch({ name: 'arbeidsgivere' }) ?? [];
     const annet = arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
     const skjønnsfastsatt =
         begrunnelseType === Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT
