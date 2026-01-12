@@ -8,9 +8,11 @@ import { cwd } from 'process';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 import { Opptegnelsetype } from '@io/graphql';
+import { ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
 import { opptegnelser } from '@spesialist-mock/data/opptegnelser';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
+import { OpptegnelseMock } from '@spesialist-mock/storage/opptegnelse';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
@@ -114,6 +116,12 @@ export const finnAktørId = (id: string): string | undefined => {
     const personer = lesTestpersoner();
 
     return personer.find((it) => it.personPseudoId === id || it.fodselsnummer === id)?.aktorId;
+};
+
+export const finnFødselsnummer = (id: string): string | undefined => {
+    const personer = lesTestpersoner();
+
+    return personer.find((it) => it.personPseudoId === id || it.aktorId === id)?.fodselsnummer;
 };
 
 export const fetchPersondata = (): Record<string, Person> => {
@@ -305,6 +313,7 @@ const getResolvers = (): IResolvers => ({
                 payload: 'Mock-payload',
                 __typename: 'Opptegnelse',
             });
+            OpptegnelseMock.pushOpptegnelse(fodselsnummer, ApiOpptegnelseType.PERSONDATA_OPPDATERT);
 
             return true;
         },

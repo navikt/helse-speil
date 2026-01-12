@@ -1,6 +1,8 @@
 import { Opptegnelsetype } from '@io/graphql';
+import { ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
 import { opptegnelser } from '@spesialist-mock/data/opptegnelser';
-import { finnAktørId } from '@spesialist-mock/graphql';
+import { finnAktørId, finnFødselsnummer } from '@spesialist-mock/graphql';
+import { OpptegnelseMock } from '@spesialist-mock/storage/opptegnelse';
 
 export const stub = async (_request: Request, params: Promise<{ pseudoId: string }>) => {
     const { pseudoId } = await params;
@@ -13,6 +15,7 @@ export const stub = async (_request: Request, params: Promise<{ pseudoId: string
             payload: 'Mock-payload',
             __typename: 'Opptegnelse',
         });
+        OpptegnelseMock.pushOpptegnelse(finnFødselsnummer(pseudoId)!, ApiOpptegnelseType.NY_SAKSBEHANDLEROPPGAVE);
     }, 2000);
 
     return new Response(null, { status: 204 });

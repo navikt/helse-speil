@@ -1,0 +1,51 @@
+import { ApiOpptegnelse, ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
+import { finnFødselsnummer } from '@spesialist-mock/graphql';
+
+interface MockApiOpptegnelse extends ApiOpptegnelse {
+    fødselsnummer: string;
+}
+
+export class OpptegnelseMock {
+    static opptegnelser: MockApiOpptegnelse[] = [
+        {
+            fødselsnummer: '12345678910',
+            sekvensnummer: 1,
+            type: ApiOpptegnelseType.UTBETALING_ANNULLERING_OK,
+        },
+        {
+            fødselsnummer: '06028620819',
+            sekvensnummer: 2,
+            type: ApiOpptegnelseType.PERSONDATA_OPPDATERT,
+        },
+        {
+            fødselsnummer: '06028620819',
+            sekvensnummer: 3,
+            type: ApiOpptegnelseType.NY_SAKSBEHANDLEROPPGAVE,
+        },
+    ];
+
+    static pushOpptegnelse(fødselsnummer: string, type: ApiOpptegnelseType) {
+        this.opptegnelser.push({
+            fødselsnummer: fødselsnummer,
+            sekvensnummer: this.sisteSekvensnummer() + 1,
+            type: type,
+        });
+    }
+
+    static sisteSekvensnummer(): number {
+        return this.opptegnelser.map((it) => it.sekvensnummer).reduce((acc, curr) => (acc > curr ? acc : curr), 0);
+    }
+
+    static hentOpptegnelserFra(fraSekvensnummer: number, pseudoId: string): ApiOpptegnelse[] {
+        return this.opptegnelser
+            .filter(
+                (opptegnelse) =>
+                    finnFødselsnummer(pseudoId) === opptegnelse.fødselsnummer &&
+                    opptegnelse.sekvensnummer > fraSekvensnummer,
+            )
+            .map((mockOpptegnelse) => ({
+                sekvensnummer: mockOpptegnelse.sekvensnummer,
+                type: mockOpptegnelse.type,
+            }));
+    }
+}

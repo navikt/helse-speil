@@ -1,5 +1,9 @@
 import { NextRequest } from 'next/server';
 
-export async function stub(_request: NextRequest, _: Promise<{ pseudoId: string }>) {
-    return Response.json([]);
+import { OpptegnelseMock } from '@spesialist-mock/storage/opptegnelse';
+
+export async function stub(_request: NextRequest, params: Promise<{ pseudoId: string }>) {
+    const { pseudoId } = await params;
+    const fraSekvensnummer = Number.parseInt(_request.nextUrl.searchParams.get('fraSekvensnummer') ?? '-1');
+    return Response.json(OpptegnelseMock.hentOpptegnelserFra(fraSekvensnummer, pseudoId));
 }
