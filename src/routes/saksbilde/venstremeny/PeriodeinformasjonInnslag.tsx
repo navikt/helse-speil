@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Alert, Button, Heading, List } from '@navikt/ds-react';
+import { Alert, Box, Button, Heading, List } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { InntektsforholdReferanse, inntektsforholdReferanseTilKey } from '@state/inntektsforhold/inntektsforhold';
@@ -29,27 +29,29 @@ export const Periodeinformasjon = ({ tittel, periodeinformasjon }: Periodeinform
 
     return (
         <Alert variant="info">
-            <Heading spacing size="xsmall" level="3" className={styles.tittel}>
-                {tittel}
-            </Heading>
-            {periodeinformasjon.map((informasjon) => (
-                <List key={inntektsforholdReferanseTilKey(informasjon.inntektsforholdReferanse)} as="ul">
-                    {periodeinformasjon.length > 1 && (
-                        <Inntektsforholdnavn inntektsforholdReferanse={informasjon.inntektsforholdReferanse} />
-                    )}
-                    {informasjon.perioder.map((periode) => (
-                        <List.Item key={periode.id} className={styles.datoliste}>
-                            <Button
-                                className={styles.lenkeknapp}
-                                variant="tertiary"
-                                onClick={() => navigerTilPeriode(periode.id)}
-                            >
-                                {somNorskDato(periode.fom)} – {somNorskDato(periode.tom)}
-                            </Button>
-                        </List.Item>
-                    ))}
-                </List>
-            ))}
+            <Box maxWidth="15rem">
+                <Heading spacing size="xsmall" level="3" className={styles.tittel}>
+                    {tittel}
+                </Heading>
+                {periodeinformasjon.map((informasjon) => (
+                    <List key={inntektsforholdReferanseTilKey(informasjon.inntektsforholdReferanse)} as="ul">
+                        {periodeinformasjon.length > 1 && (
+                            <Inntektsforholdnavn inntektsforholdReferanse={informasjon.inntektsforholdReferanse} />
+                        )}
+                        {informasjon.perioder.map((periode) => (
+                            <List.Item key={periode.id} className={styles.datoliste}>
+                                <Button
+                                    className={styles.lenkeknapp}
+                                    variant="tertiary"
+                                    onClick={() => navigerTilPeriode(periode.id)}
+                                >
+                                    {somNorskDato(periode.fom)} – {somNorskDato(periode.tom)}
+                                </Button>
+                            </List.Item>
+                        ))}
+                    </List>
+                ))}
+            </Box>
         </Alert>
     );
 };
