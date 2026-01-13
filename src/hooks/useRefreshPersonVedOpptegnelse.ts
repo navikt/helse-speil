@@ -11,12 +11,7 @@ export const useRefreshPersonVedOpptegnelse = () => {
     const toasts = useToasts();
 
     useHåndterOpptegnelser(async (opptegnelse) => {
-        if (
-            data !== undefined &&
-            data.person?.aktorId &&
-            opptegnelse.aktorId.toString() === data.person.aktorId &&
-            !(networkStatus in [NetworkStatus.loading, NetworkStatus.refetch])
-        ) {
+        if (data !== undefined && !(networkStatus in [NetworkStatus.loading, NetworkStatus.refetch])) {
             const result = await refetch();
             if (erOpptegnelseForNyOppgave(opptegnelse)) {
                 if (result.data.person) selectPeriod(result.data.person);

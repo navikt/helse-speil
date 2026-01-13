@@ -6,7 +6,7 @@ interface MockApiOpptegnelse extends ApiOpptegnelse {
 }
 
 export class OpptegnelseMock {
-    static opptegnelser: MockApiOpptegnelse[] = [
+    private static opptegnelser: MockApiOpptegnelse[] = [
         {
             fødselsnummer: '12345678910',
             sekvensnummer: 1,
@@ -36,12 +36,12 @@ export class OpptegnelseMock {
         return this.opptegnelser.map((it) => it.sekvensnummer).reduce((acc, curr) => (acc > curr ? acc : curr), 0);
     }
 
-    static hentOpptegnelserFra(fraSekvensnummer: number, pseudoId: string): ApiOpptegnelse[] {
+    static hentOpptegnelserEtter(etterSekvensnummer: number, pseudoId: string): ApiOpptegnelse[] {
         return this.opptegnelser
             .filter(
                 (opptegnelse) =>
                     finnFødselsnummer(pseudoId) === opptegnelse.fødselsnummer &&
-                    opptegnelse.sekvensnummer > fraSekvensnummer,
+                    opptegnelse.sekvensnummer > etterSekvensnummer,
             )
             .map((mockOpptegnelse) => ({
                 sekvensnummer: mockOpptegnelse.sekvensnummer,

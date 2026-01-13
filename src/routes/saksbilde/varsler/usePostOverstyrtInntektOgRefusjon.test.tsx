@@ -1,11 +1,6 @@
 import { Mock, vi } from 'vitest';
 
-import {
-    OpprettAbonnementDocument,
-    Opptegnelse,
-    Opptegnelsetype,
-    OverstyrInntektOgRefusjonMutationDocument,
-} from '@io/graphql';
+import { Opptegnelse, Opptegnelsetype, OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
@@ -272,19 +267,6 @@ const mocks = [
         },
         result: {
             errors: [{ message: 'en feil' }],
-        },
-    },
-    {
-        request: {
-            query: OpprettAbonnementDocument,
-            variables: {
-                personidentifikator: 'aktørid',
-            },
-        },
-        result: {
-            data: {
-                opprettAbonnement: true,
-            },
         },
     },
 ];

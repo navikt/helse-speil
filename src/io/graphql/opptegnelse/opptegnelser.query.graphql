@@ -1,5 +1,0 @@
-query Opptegnelser($sekvensId: Int) {
-    opptegnelser(sekvensId: $sekvensId) {
-        aktorId, type, sekvensnummer, payload
-    }
-}

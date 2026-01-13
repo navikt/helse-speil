@@ -1,3 +1,0 @@
-mutation OpprettAbonnement($personidentifikator: String!) {
-    opprettAbonnement(personidentifikator: $personidentifikator)
-}

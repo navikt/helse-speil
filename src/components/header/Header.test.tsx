@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mock } from 'vitest';
 
-import { fetchPersonMock, opptegnelseMock } from '@apollo-mocks';
+import { fetchPersonMock } from '@apollo-mocks';
 import { useNyheter } from '@external/sanity';
 import { useKeyboardActions } from '@hooks/useKeyboardShortcuts';
 import { render } from '@test-utils';
@@ -39,14 +39,14 @@ describe('Header', () => {
     });
 
     it('legger til varsel ved ugyldig søk', async () => {
-        render(<Header />, { mocks: [fetchPersonMock, opptegnelseMock] });
+        render(<Header />, { mocks: [fetchPersonMock] });
         await userEvent.type(screen.getByRole('searchbox'), 'test');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).not.toBeNull();
     });
 
     it('legger ikke til varsel ved gyldig søk', async () => {
-        render(<Header />, { mocks: [fetchPersonMock, opptegnelseMock] });
+        render(<Header />, { mocks: [fetchPersonMock] });
         await userEvent.type(screen.getByRole('searchbox'), '12345678910');
         fireEvent.submit(screen.getByRole('searchbox'));
         expect(cachedVarsel).toBeNull();

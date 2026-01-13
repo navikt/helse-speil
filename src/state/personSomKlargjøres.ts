@@ -1,7 +1,8 @@
 import { atom, useAtom } from 'jotai';
+import { useParams } from 'next/navigation';
 
 import { Opptegnelsetype } from '@io/graphql';
-import { usePollEtterOpptegnelser } from '@io/graphql/polling';
+import { usePollEtterOpptegnelser } from '@io/rest/polling';
 import { useHåndterOpptegnelser } from '@state/opptegnelser';
 
 export type PersonSomKlargjøres = {
@@ -13,10 +14,11 @@ const personSomKlargjøresState = atom<PersonSomKlargjøres | null>(null);
 
 export const usePersonKlargjøres = () => {
     const [state, setState] = useAtom(personSomKlargjøresState);
-    usePollEtterOpptegnelser();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    usePollEtterOpptegnelser(personPseudoId);
 
     useHåndterOpptegnelser(async (opptegnelse) => {
-        if (state?.aktørId === opptegnelse.aktorId && opptegnelse.type === Opptegnelsetype.PersonKlarTilBehandling)
+        if (opptegnelse.type === Opptegnelsetype.PersonKlarTilBehandling)
             setState((prev) => prev && { ...prev, erKlargjort: true });
     });
 

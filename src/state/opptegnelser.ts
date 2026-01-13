@@ -3,15 +3,15 @@ import { atomWithReset, useResetAtom } from 'jotai/utils';
 import { useEffect } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { Opptegnelse } from '@io/graphql';
+import { ApiOpptegnelse } from '@io/rest/generated/spesialist.schemas';
 
 const opptegnelsePollingTimeState = atomWithReset(5_000);
 
-const nyesteOpptegnelserState = atomWithReset<Opptegnelse[]>([]);
+const nyesteOpptegnelserState = atomWithReset<ApiOpptegnelse[]>([]);
 
 const nyesteOpptegnelseSekvensIdState = atom<number | undefined>(undefined);
 
-export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: Opptegnelse) => void) => {
+export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: ApiOpptegnelse) => void) => {
     const opptegnelser = useAtomValue(nyesteOpptegnelserState);
     const resetOpptegnelser = useResetAtom(nyesteOpptegnelserState);
     useEffect(() => {
@@ -27,7 +27,7 @@ export const useMottaOpptegnelser = () => {
     const setOpptegnelserSekvensId = useSetNyesteOpptegnelseSekvens();
     const resetPolleFrekvens = useResetAtom(opptegnelsePollingTimeState);
     const tilbakestillFrekvensOmLitt = useDebouncedCallback(resetPolleFrekvens, 8000);
-    return (opptegnelser: Opptegnelse[]) => {
+    return (opptegnelser: ApiOpptegnelse[]) => {
         setOpptegnelser(opptegnelser);
         setOpptegnelserSekvensId(opptegnelser);
         tilbakestillFrekvensOmLitt();
@@ -38,7 +38,7 @@ export const useNyesteOpptegnelseSekvens = () => useAtomValue(nyesteOpptegnelseS
 
 const useSetNyesteOpptegnelseSekvens = () => {
     const [sekvensId, setSekvensId] = useAtom(nyesteOpptegnelseSekvensIdState);
-    return (opptegnelser: Opptegnelse[]) => {
+    return (opptegnelser: ApiOpptegnelse[]) => {
         opptegnelser.forEach((opptegnelse) => {
             if (sekvensId === undefined || opptegnelse.sekvensnummer > sekvensId) {
                 setSekvensId(opptegnelse.sekvensnummer);
@@ -56,5 +56,5 @@ export const useSetOpptegnelserPollingRate = () => {
     };
 };
 
-export const erOpptegnelseForNyOppgave = (opptegnelse: Opptegnelse): boolean =>
+export const erOpptegnelseForNyOppgave = (opptegnelse: ApiOpptegnelse): boolean =>
     opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';

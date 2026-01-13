@@ -1,12 +1,7 @@
 import { PropsWithChildren } from 'react';
 
-import { opprettAbonnementMock } from '@apollo-mocks';
-import {
-    OpptegnelserDocument,
-    OverstyrArbeidsforholdMutationDocument,
-    OverstyringArbeidsforholdInput,
-} from '@io/graphql';
-import { usePollEtterOpptegnelser } from '@io/graphql/polling';
+import { OverstyrArbeidsforholdMutationDocument, OverstyringArbeidsforholdInput } from '@io/graphql';
+import { usePollEtterOpptegnelser } from '@io/rest/polling';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -44,69 +39,9 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
                 orgnummer: arbeidsgiver.organisasjonsnummer,
                 lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
             }),
-            opprettAbonnementMock(person.aktorId),
-            createMock({
-                request: { query: OpptegnelserDocument, variables: { sekvensId: undefined } },
-                result: {
-                    data: {
-                        __typename: 'Query',
-                        opptegnelser: [],
-                    },
-                },
-            }),
-            createMock({
-                request: { query: OpptegnelserDocument, variables: { sekvensId: undefined } },
-                result: {
-                    data: {
-                        __typename: 'Query',
-                        opptegnelser: [
-                            {
-                                aktorId: person.aktorId,
-                                type: 'UTBETALING_ANNULLERING_OK',
-                                sekvensnummer: 1,
-                                payload: 'payload1',
-                                __typename: 'Opptegnelse',
-                            },
-                            {
-                                aktorId: person.aktorId,
-                                type: 'PERSONDATA_OPPDATERT',
-                                sekvensnummer: 2,
-                                payload: 'payload2',
-                                __typename: 'Opptegnelse',
-                            },
-                        ],
-                    },
-                },
-            }),
-            createMock({
-                request: { query: OpptegnelserDocument, variables: { sekvensId: 2 } },
-                result: {
-                    data: {
-                        __typename: 'Query',
-                        opptegnelser: [
-                            {
-                                aktorId: person.aktorId,
-                                type: 'NY_SAKSBEHANDLEROPPGAVE',
-                                sekvensnummer: 3,
-                                payload: 'payload3',
-                                __typename: 'Opptegnelse',
-                            },
-                        ],
-                    },
-                },
-            }),
-            createMock({
-                request: { query: OpptegnelserDocument, variables: { sekvensId: 3 } },
-                result: {
-                    data: {
-                        __typename: 'Query',
-                        opptegnelser: [],
-                    },
-                },
-            }),
         ];
         const PollingWrapper = ({ children }: PropsWithChildren) => {
-            usePollEtterOpptegnelser();
+            usePollEtterOpptegnelser(person.personPseudoId);
             return <>{children}</>;
         };
 
@@ -158,7 +93,6 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
                 forklaring: 'Saksbehandler angret å deaktivere arbeidsforholdet i beregningen',
                 orgnummer: arbeidsgiver.organisasjonsnummer,
             }),
-            opprettAbonnementMock(person.aktorId),
         ];
         render(
             <VenterPåEndringProvider>

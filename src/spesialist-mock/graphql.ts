@@ -7,9 +7,7 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
-import { Opptegnelsetype } from '@io/graphql';
 import { ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
-import { opptegnelser } from '@spesialist-mock/data/opptegnelser';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OpptegnelseMock } from '@spesialist-mock/storage/opptegnelse';
@@ -20,14 +18,7 @@ import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste } from './data/oppgaveoversikt';
-import {
-    BeingPreparedError,
-    FlereFodselsnumreError,
-    ManglendeAvviksvurderingError,
-    NotFoundError,
-    NotReadyError,
-} from './errors';
-import { hentOpptegnelser, opprettAbonnement } from './opptegnelser';
+import { BeingPreparedError, FlereFodselsnumreError, ManglendeAvviksvurderingError, NotReadyError } from './errors';
 import {
     Arbeidsgiver,
     BeregnetPeriode,
@@ -149,8 +140,8 @@ const getResolvers = (): IResolvers => ({
             if (aktorId == '1000000000003') return new ManglendeAvviksvurderingError();
             if (aktorId == '1000000000004') return new BeingPreparedError();
             const person = fetchPersondata()[personPseudoId ?? fnr ?? aktorId ?? ''];
-            if (!person) return new NotFoundError(personPseudoId ?? fnr ?? aktorId ?? '');
             valgtPerson = person;
+            OpptegnelseMock.pushOpptegnelse(person?.fodselsnummer ?? '', ApiOpptegnelseType.PERSONDATA_OPPDATERT);
             return person;
         },
         behandledeOppgaverFeed: async (
@@ -169,9 +160,6 @@ const getResolvers = (): IResolvers => ({
                 antallMineSaker: tildelinger.length,
                 antallMineSakerPaVent: paVent.length,
             };
-        },
-        opptegnelser: async (_, { sekvensId }) => {
-            return hentOpptegnelser(sekvensId);
         },
     },
     Mutation: {
@@ -306,19 +294,8 @@ const getResolvers = (): IResolvers => ({
             return true;
         },
         oppdaterPerson: async (_, { fodselsnummer }: MutationOppdaterPersonArgs) => {
-            opptegnelser.push({
-                aktorId: finnAktørId(fodselsnummer)!,
-                sekvensnummer: Math.max(...opptegnelser.map((it) => it.sekvensnummer)) + 1,
-                type: Opptegnelsetype.PersondataOppdatert,
-                payload: 'Mock-payload',
-                __typename: 'Opptegnelse',
-            });
             OpptegnelseMock.pushOpptegnelse(fodselsnummer, ApiOpptegnelseType.PERSONDATA_OPPDATERT);
-
             return true;
-        },
-        opprettAbonnement: async () => {
-            return opprettAbonnement();
         },
         stansAutomatiskBehandling: async (_, { fodselsnummer, begrunnelse }: MutationStansAutomatiskBehandlingArgs) => {
             const oppgaveId = finnOppgaveId();
