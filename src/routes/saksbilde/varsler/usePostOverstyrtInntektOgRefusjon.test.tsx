@@ -1,6 +1,7 @@
 import { Mock, vi } from 'vitest';
 
-import { Opptegnelse, Opptegnelsetype, OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
+import { OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
+import { ApiOpptegnelse, ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
@@ -85,13 +86,10 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
     it('viser fullført toast når overstyring er ferdig', async () => {
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
 
-        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
+        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: ApiOpptegnelse) => void) => {
             callBack({
-                aktorId: '1',
                 sekvensnummer: 1,
-                type: Opptegnelsetype.RevurderingFerdigbehandlet,
-                payload: '{}',
-                __typename: 'Opptegnelse',
+                type: ApiOpptegnelseType.REVURDERING_FERDIGBEHANDLET,
             });
         });
 
@@ -159,13 +157,10 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
     it('kaller resetLokaleOverstyringer når opptegnelse er ferdig', async () => {
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
 
-        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
+        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: ApiOpptegnelse) => void) => {
             callBack({
-                aktorId: '1',
                 sekvensnummer: 1,
-                type: Opptegnelsetype.NySaksbehandleroppgave,
-                payload: '{}',
-                __typename: 'Opptegnelse',
+                type: ApiOpptegnelseType.NY_SAKSBEHANDLEROPPGAVE,
             });
         });
 

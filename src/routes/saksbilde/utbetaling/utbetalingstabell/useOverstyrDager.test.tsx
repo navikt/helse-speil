@@ -1,6 +1,7 @@
 import { Mock, vi } from 'vitest';
 
-import { Kildetype, Opptegnelse, Opptegnelsetype, OverstyrDagerMutationDocument } from '@io/graphql';
+import { Kildetype, OverstyrDagerMutationDocument } from '@io/graphql';
+import { ApiOpptegnelse, ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -80,13 +81,10 @@ describe('useOverstyrDager', () => {
         });
 
         // Set up mock to trigger opptegnelse callback when hook re-runs after mutation
-        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: Opptegnelse) => void) => {
+        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: ApiOpptegnelse) => void) => {
             callBack({
-                aktorId: '1',
                 sekvensnummer: 1,
-                type: Opptegnelsetype.NySaksbehandleroppgave,
-                payload: '{}',
-                __typename: 'Opptegnelse',
+                type: ApiOpptegnelseType.NY_SAKSBEHANDLEROPPGAVE,
             });
         });
 

@@ -556,7 +556,6 @@ export type Mutation = {
     leggTilNotat?: Maybe<Notat>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStansAutomatiskBehandling: Scalars['Boolean']['output'];
-    opprettAbonnement: Scalars['Boolean']['output'];
     opprettTildeling?: Maybe<Tildeling>;
     overstyrArbeidsforhold?: Maybe<Scalars['Boolean']['output']>;
     overstyrDager?: Maybe<Scalars['Boolean']['output']>;
@@ -623,10 +622,6 @@ export type MutationOppdaterPersonArgs = {
 export type MutationOpphevStansAutomatiskBehandlingArgs = {
     begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
-};
-
-export type MutationOpprettAbonnementArgs = {
-    personidentifikator: Scalars['String']['input'];
 };
 
 export type MutationOpprettTildelingArgs = {
@@ -729,25 +724,6 @@ export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
 };
-
-export type Opptegnelse = {
-    __typename?: 'Opptegnelse';
-    aktorId: Scalars['String']['output'];
-    payload: Scalars['String']['output'];
-    sekvensnummer: Scalars['Int']['output'];
-    type: Opptegnelsetype;
-};
-
-export enum Opptegnelsetype {
-    FerdigbehandletGodkjenningsbehov = 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
-    NySaksbehandleroppgave = 'NY_SAKSBEHANDLEROPPGAVE',
-    PersondataOppdatert = 'PERSONDATA_OPPDATERT',
-    PersonKlarTilBehandling = 'PERSON_KLAR_TIL_BEHANDLING',
-    RevurderingAvvist = 'REVURDERING_AVVIST',
-    RevurderingFerdigbehandlet = 'REVURDERING_FERDIGBEHANDLET',
-    UtbetalingAnnulleringFeilet = 'UTBETALING_ANNULLERING_FEILET',
-    UtbetalingAnnulleringOk = 'UTBETALING_ANNULLERING_OK',
-}
 
 export type Overstyring = {
     ferdigstilt: Scalars['Boolean']['output'];
@@ -967,7 +943,6 @@ export type Query = {
     antallOppgaver: AntallOppgaver;
     behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
-    opptegnelser: Array<Opptegnelse>;
     person?: Maybe<Person>;
 };
 
@@ -976,10 +951,6 @@ export type QueryBehandledeOppgaverFeedArgs = {
     limit: Scalars['Int']['input'];
     offset: Scalars['Int']['input'];
     tom: Scalars['LocalDate']['input'];
-};
-
-export type QueryOpptegnelserArgs = {
-    sekvensId?: InputMaybe<Scalars['Int']['input']>;
 };
 
 export type QueryPersonArgs = {

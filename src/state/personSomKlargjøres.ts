@@ -1,7 +1,7 @@
 import { atom, useAtom } from 'jotai';
 import { useParams } from 'next/navigation';
 
-import { Opptegnelsetype } from '@io/graphql';
+import { ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
 import { usePollEtterOpptegnelser } from '@io/rest/polling';
 import { useHåndterOpptegnelser } from '@state/opptegnelser';
 
@@ -18,7 +18,7 @@ export const usePersonKlargjøres = () => {
     usePollEtterOpptegnelser(personPseudoId);
 
     useHåndterOpptegnelser(async (opptegnelse) => {
-        if (opptegnelse.type === Opptegnelsetype.PersonKlarTilBehandling)
+        if (opptegnelse.type === ApiOpptegnelseType.PERSON_KLAR_TIL_BEHANDLING)
             setState((prev) => prev && { ...prev, erKlargjort: true });
     });
 
