@@ -1,6 +1,7 @@
 import classNames from 'classnames';
 import dayjs from 'dayjs';
 import NextLink from 'next/link';
+import { useParams } from 'next/navigation';
 import { ReactElement } from 'react';
 
 import { PlusIcon } from '@navikt/aksel-icons';
@@ -53,6 +54,7 @@ const TimelineWithContent = ({
     activePeriod,
     person,
 }: TimelineWithContentProps): ReactElement => {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
     const nyesteDag = useLatestDate(inntektsforhold, infotrygdutbetalinger);
 
     const initialZoomLevel = (() => {
@@ -170,8 +172,8 @@ const TimelineWithContent = ({
                             icon={<PlusIcon title="Legg til tilkommen inntekt" />}
                             href={
                                 kanSeAndreYtelser
-                                    ? `/person/${person.personPseudoId}/leggtilperiode`
-                                    : `/person/${person.personPseudoId}/tilkommeninntekt/ny`
+                                    ? `/person/${personPseudoId}/leggtilperiode`
+                                    : `/person/${personPseudoId}/tilkommeninntekt/ny`
                             }
                         >
                             Legg til tilkommen inntekt/periode
