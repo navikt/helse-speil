@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
 
         personPseudoId = (
             await (
-                await fetch(`${getServerEnv().SPESIALIST_BASEURL}/api/spesialist/personer/sok`, {
+                await fetch(`${getServerEnv().SPESIALIST_BASEURL}/api/personer/sok`, {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify({
