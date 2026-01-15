@@ -54,7 +54,7 @@ const TimelineWithContent = ({
     activePeriod,
     person,
 }: TimelineWithContentProps): ReactElement => {
-    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const nyesteDag = useLatestDate(inntektsforhold, infotrygdutbetalinger);
 
     const initialZoomLevel = (() => {
@@ -148,7 +148,7 @@ const TimelineWithContent = ({
                 <TilkommenInntektTimelineRows
                     start={start}
                     end={end}
-                    personPseudoId={person.personPseudoId}
+                    personPseudoId={personPseudoId}
                     alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
                 />
                 {infotrygdPeriods.length > 0 && (

@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
@@ -25,7 +26,8 @@ interface HarBeslutteroppgaverProps {
 export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): ReactElement | null => {
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
-    const { data: tilkommenInntektResponse } = useHentTilkommenInntektQuery(person.personPseudoId);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: tilkommenInntektResponse } = useHentTilkommenInntektQuery(personPseudoId);
     const tilkommenInntektData = tilkommenInntektResponse?.data;
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const navigerTilPeriode = useNavigerTilPeriode();

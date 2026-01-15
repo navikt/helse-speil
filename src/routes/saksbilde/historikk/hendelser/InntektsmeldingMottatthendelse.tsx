@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from '@navikt/aksel-icons';
@@ -25,6 +26,7 @@ export const InntektsmeldingMottatthendelse = ({
     const leggTilÅpnetDokument = useAddOpenedDocument();
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const dokumentetErÅpnet = () => åpnedeDokumenter.find((it) => it.dokumentId === dokumentId);
 
@@ -61,7 +63,7 @@ export const InntektsmeldingMottatthendelse = ({
             timestamp={timestamp}
             aktiv={false}
         >
-            <Inntektsmeldingsinnhold dokumentId={dokumentId} personPseudoId={person.personPseudoId} person={person} />
+            <Inntektsmeldingsinnhold dokumentId={dokumentId} personPseudoId={personPseudoId} person={person} />
         </Historikkhendelse>
     );
 };

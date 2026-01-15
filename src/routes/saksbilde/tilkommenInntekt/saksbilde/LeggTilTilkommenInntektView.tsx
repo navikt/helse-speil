@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
@@ -19,10 +19,10 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
     const router = useRouter();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
-    const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
-        person?.personPseudoId,
-    );
+    const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } =
+        useHentTilkommenInntektQuery(personPseudoId);
     const tilkommenInntektData = tilkommenInntektResponse?.data;
     const tilkomneInntekterMedOrganisasjonsnummer: ApiTilkommenInntekt[] | undefined =
         tilkommenInntektData !== undefined

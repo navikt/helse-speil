@@ -1,5 +1,6 @@
 'use client';
 
+import { useParams } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
@@ -17,10 +18,10 @@ export const LeggTilTilkommenInntektViewNy = (): ReactElement | null => {
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
-    const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } = useHentTilkommenInntektQuery(
-        person?.personPseudoId,
-    );
+    const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } =
+        useHentTilkommenInntektQuery(personPseudoId);
     const tilkommenInntektData = tilkommenInntektResponse?.data;
     const tilkomneInntekterMedOrganisasjonsnummer: ApiTilkommenInntekt[] | undefined =
         tilkommenInntektData !== undefined

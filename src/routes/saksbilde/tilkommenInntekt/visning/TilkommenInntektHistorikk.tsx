@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { motion } from 'motion/react';
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
@@ -20,8 +21,9 @@ import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
     const person = fetchPersonData?.person ?? null;
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { isFetching: hentTilkommenInntektLoading, data: hentTilkommenInntektResponse } =
-        useHentTilkommenInntektQuery(person?.personPseudoId);
+        useHentTilkommenInntektQuery(personPseudoId);
     const hentTilkommenInntektData = hentTilkommenInntektResponse?.data;
     const tilkommenInntektId = useTilkommenInntektIdFraUrl();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();

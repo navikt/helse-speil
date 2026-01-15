@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { ArrowUndoIcon, PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
@@ -28,10 +28,11 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
     const person = personData?.person ?? null;
     const router = useRouter();
     const erReadOnly = useHarTotrinnsvurdering(person);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const { organisasjonsnummer, tilkommenInntekt } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntektId,
-        person?.personPseudoId,
+        personPseudoId,
     );
 
     const [showFjernModal, setShowFjernModal] = useState(false);
@@ -143,7 +144,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
             {showFjernModal && (
                 <FjernTilkommenInntektModal
                     tilkommenInntekt={tilkommenInntekt}
-                    personPseudoId={person?.personPseudoId}
+                    personPseudoId={personPseudoId}
                     onClose={() => setShowFjernModal(false)}
                 />
             )}

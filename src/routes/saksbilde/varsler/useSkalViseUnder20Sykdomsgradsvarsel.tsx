@@ -1,3 +1,5 @@
+import { useParams } from 'next/navigation';
+
 import { GhostPeriode, Periode } from '@io/graphql';
 import {
     getOppkuttedePerioder,
@@ -18,7 +20,8 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const { data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
-    const { data: tilkommenResponse } = useHentTilkommenInntektQuery(person?.personPseudoId);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: tilkommenResponse } = useHentTilkommenInntektQuery(personPseudoId);
     const tilkommenData = tilkommenResponse?.data;
 
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;

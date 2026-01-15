@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
@@ -24,6 +25,7 @@ interface OpenedDokumentProps {
 export const OpenedDokument = ({ person }: OpenedDokumentProps): ReactElement | null => {
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     if (åpnedeDokumenter.length === 0) return null;
 
@@ -41,11 +43,11 @@ export const OpenedDokument = ({ person }: OpenedDokumentProps): ReactElement | 
                         </button>
                     </div>
                     {dokument.dokumenttype === 'Søknad' ? (
-                        <Søknadsinnhold dokumentId={dokument.dokumentId} personPseudoId={person.personPseudoId} />
+                        <Søknadsinnhold dokumentId={dokument.dokumentId} personPseudoId={personPseudoId} />
                     ) : (
                         <Inntektsmeldingsinnhold
                             dokumentId={dokument.dokumentId}
-                            personPseudoId={person.personPseudoId}
+                            personPseudoId={personPseudoId}
                             person={person}
                         />
                     )}

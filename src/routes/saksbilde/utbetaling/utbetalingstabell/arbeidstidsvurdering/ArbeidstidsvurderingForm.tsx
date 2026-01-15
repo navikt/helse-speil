@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement, useEffect, useRef } from 'react';
 import {
     CustomElement,
@@ -45,8 +46,9 @@ export const ArbeidstidsvurderingForm = ({
     initierendeVedtaksperiodeId,
     setVurdererArbeidstid,
 }: ArbeidstidsvurderingFormProps): ReactElement => {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { isLoading, error, postArbeidstidsvurdering, timedOut, setTimedOut } = usePostArbeidstidsvurderingMedToast(
-        person.personPseudoId,
+        personPseudoId,
         () => setVurdererArbeidstid(false),
     );
     const form = useForm<ArbeidstidsvurderingFormFields>();

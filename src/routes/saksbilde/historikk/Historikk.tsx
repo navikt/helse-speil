@@ -1,5 +1,6 @@
 import classNames from 'classnames';
 import { motion } from 'motion/react';
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
@@ -70,6 +71,7 @@ const HistorikkWithContent = (): ReactElement => {
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();
     const aktivPeriode = useActivePeriod(person);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     useKeyboard([
         {
@@ -150,7 +152,7 @@ const HistorikkWithContent = (): ReactElement => {
                                                         <SøknadMottatthendelse
                                                             key={it.id}
                                                             dokumentId={it.dokumentId ?? ''}
-                                                            personPseudoId={person.personPseudoId}
+                                                            personPseudoId={personPseudoId}
                                                             timestamp={it.timestamp}
                                                         />
                                                     );

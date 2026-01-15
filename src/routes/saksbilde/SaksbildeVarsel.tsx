@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React from 'react';
 
 import { Alert } from '@navikt/ds-react';
@@ -31,7 +32,8 @@ interface SaksbildeVarselProps {
 }
 
 export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
-    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(person.personPseudoId);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(personPseudoId);
     const harTilkommenInntektEndring =
         tilkommenInntektData?.data?.some((inntektkilde) =>
             inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),
