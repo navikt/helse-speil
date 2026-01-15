@@ -1,18 +1,16 @@
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, ReactElement, useRef } from 'react';
+import React, { FormEvent, ReactElement, useRef, useState } from 'react';
 import { validate } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
 
-import { ApolloError, useLazyQuery } from '@apollo/client';
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FetchPersonDocument } from '@io/graphql';
 import { validFødselsnummer } from '@io/graphql/common';
-import { BadRequestError } from '@io/graphql/errors';
-import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { BadRequestError, NotFoundError } from '@io/graphql/errors';
+import { postPersonSok } from '@io/rest/generated/personsøk/personsøk';
+import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
 import { usePersonKlargjøres } from '@state/personSomKlargjøres';
-import { useAddVarsel, useRapporterGraphQLErrors } from '@state/varsler';
-import { apolloExtensionValue } from '@utils/error';
+import { useAddVarsel } from '@state/varsler';
 
 import styles from './Personsøk.module.css';
 
@@ -20,9 +18,8 @@ const erGyldigPersonId = (value: string) => value.match(/^\d{13}$/) || value.mat
 
 export const Personsøk = (): ReactElement => {
     const addVarsel = useAddVarsel();
+    const [loading, setLoading] = useState<boolean>(false);
     const router = useRouter();
-    const rapporterError = useRapporterGraphQLErrors();
-    const [hentPerson, { loading }] = useLazyQuery(FetchPersonDocument);
     const { venterPåKlargjøring } = usePersonKlargjøres();
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
@@ -42,30 +39,30 @@ export const Personsøk = (): ReactElement => {
             router.push('/');
             addVarsel(new BadRequestError(personId));
         } else {
-            const variables: { aktorId?: string; fnr?: string; personPseudoId?: string } = validFødselsnummer(personId)
-                ? { fnr: personId }
-                : validate(personId)
-                  ? { personPseudoId: personId }
-                  : { aktorId: personId };
-            hentPerson({
-                variables: variables,
-            }).then(({ data, error }) => {
-                if ((finnAlleInntektsforhold(data?.person ?? null).length ?? 0) === 0) {
-                    router.push('/');
-                    if (error?.graphQLErrors) {
-                        if (personenKlargjøres(error)) {
-                            const aktørId: string | null = apolloExtensionValue(error, 'persondata_hentes_for');
-                            if (aktørId) venterPåKlargjøring(aktørId);
-                        } else {
-                            rapporterError(error?.graphQLErrors, personId);
-                        }
-                    }
-                    return;
-                }
-                if (data?.person) {
-                    router.push(`/person/${data.person.personPseudoId}/dagoversikt`);
-                }
-            });
+            if (validate(personId)) {
+                router.push(`/person/${personId}/dagoversikt`);
+                return;
+            }
+            const personsøkVariables: ApiPersonSokRequest = validFødselsnummer(personId)
+                ? { identitetsnummer: personId }
+                : { aktørId: personId };
+
+            setLoading(true);
+            const personsøkResponse = await postPersonSok(personsøkVariables);
+            setLoading(false);
+
+            if (personsøkResponse.status >= 400 && personsøkResponse.status < 500) {
+                router.push('/');
+                addVarsel(new NotFoundError());
+                return;
+            }
+
+            if (!personsøkResponse.data.klarForVisning) {
+                venterPåKlargjøring(personsøkResponse.data.personPseudoId);
+                return;
+            }
+
+            router.push(`/person/${personsøkResponse.data.personPseudoId}/dagoversikt`);
         }
     };
 
@@ -74,9 +71,4 @@ export const Personsøk = (): ReactElement => {
             <Search label="Søk" size="small" variant="secondary" placeholder="Søk" ref={searchRef} />
         </form>
     );
-};
-
-const personenKlargjøres = (error: ApolloError) => {
-    const aktørId: string | null = apolloExtensionValue(error, 'persondata_hentes_for');
-    return aktørId != null;
 };

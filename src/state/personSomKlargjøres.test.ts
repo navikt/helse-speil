@@ -8,7 +8,7 @@ describe('personSomKlargjøres', () => {
     it('tom state når ingen personer klargjøres', () => {
         const { result } = renderHook(() => usePersonKlargjøres());
         expect(result.current.venter).toEqual(false);
-        expect(result.current.klargjortAktørId).toEqual(undefined);
+        expect(result.current.klargjortPseudoId).toEqual(undefined);
     });
     it('venter når person klargjøres for visning', () => {
         const { result } = renderHook(() => usePersonKlargjøres());

@@ -1115,6 +1115,41 @@ export interface ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCode {
     code?: ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCodeCode;
 }
 
+export type ApiPersonSokRequestAktørId = null | string;
+
+export type ApiPersonSokRequestIdentitetsnummer = null | string;
+
+export interface ApiPersonSokRequest {
+    aktørId?: ApiPersonSokRequestAktørId;
+    identitetsnummer?: ApiPersonSokRequestIdentitetsnummer;
+}
+
+export interface ApiPersonSokResponse {
+    personPseudoId: string;
+    klarForVisning: boolean;
+}
+
+export type ApiPostPersonSokErrorCode = (typeof ApiPostPersonSokErrorCode)[keyof typeof ApiPostPersonSokErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostPersonSokErrorCode = {
+    FOR_MANGE_INPUTPARAMETERE: 'FOR_MANGE_INPUTPARAMETERE',
+    MANGLER_INPUTPARAMETERE: 'MANGLER_INPUTPARAMETERE',
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostPersonSokErrorCodeCode = null | ApiPostPersonSokErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostPersonSokErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeCode;
+}
+
 export type GetOppgaverParams = {
     minstEnAvEgenskapene?: string[];
     ingenAvEgenskapene?: string;
