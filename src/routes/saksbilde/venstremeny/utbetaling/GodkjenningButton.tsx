@@ -125,7 +125,9 @@ const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
         case 'VARSLER_MANGLER_VURDERING':
             return message('Det mangler vurdering av varsler i en eller flere perioder');
         case 'OVERLAPPER_MED_INFOTRYGD':
-            return message('Det er overlappende utbetaling/registrering i Infotrygd');
+            return message(
+                'Da Speil sist synkroniserte med Infotrygd, ble det oppdaget overlappende utbetaling eller registrering i Infotrygd. Registreringen kan for eksempel være ferie.',
+            );
         case 'VEDTAK_ALLEREDE_FATTET':
             return message('Vedtaket er allerede fattet');
         case 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING':
@@ -133,6 +135,7 @@ const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
         case 'VEDTAKSPERIODE_IKKE_FUNNET':
         case 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER':
         case 'VARSEL_MANGLER_VARSELDEFINISJON':
+        default:
             return message(`Feil under fatting av vedtak. Kontakt utviklerteamet.`);
     }
 };

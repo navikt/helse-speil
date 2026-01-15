@@ -17,16 +17,19 @@
 }
 
 .modal {
+    max-width: 29rem;
+}
+
+.modalBody {
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
 
-.modal p:first-of-type {
+.modalBody p:first-of-type {
     font-weight: bold;
 }
 
 .Feilmelding {
-    margin-bottom: 1rem;
-    margin-left: 1.5rem;
+    padding: 0 1.5rem 1rem;
 }

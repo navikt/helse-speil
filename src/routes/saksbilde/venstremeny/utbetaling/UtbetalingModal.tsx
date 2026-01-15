@@ -39,13 +39,20 @@ export const UtbetalingModal = ({
     inntektsforholdReferanse,
     personinfo,
 }: UtbetalingModalProps): ReactElement => (
-    <Modal aria-label="Legg på vent modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
+    <Modal
+        className={styles.modal}
+        aria-label="utbetaling-modal"
+        portal
+        closeOnBackdropClick
+        open={showModal}
+        onClose={closeModal}
+    >
         <Modal.Header>
             <Heading level="1" size="medium">
                 Er du sikker?
             </Heading>
         </Modal.Header>
-        <Modal.Body className={styles.modal}>
+        <Modal.Body className={styles.modalBody}>
             {utbetaling && personinfo && (
                 <TilUtbetaling
                     utbetaling={utbetaling}
