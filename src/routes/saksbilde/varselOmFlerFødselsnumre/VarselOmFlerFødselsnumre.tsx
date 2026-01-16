@@ -25,6 +25,7 @@ export function VarselOmFlerFødselsnumre(): ReactElement | null {
                         </Link>
                     </HStack>
                 ))}
+                Fordi fødselsnumrene er behandlet hver for seg, må du sjekke om systemet har beregnet en periode feil.
             </HStack>
         </Alert>
     );
