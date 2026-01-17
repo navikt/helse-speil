@@ -910,7 +910,6 @@ export type Person = {
     enhet: Enhet;
     fodselsnummer: Scalars['String']['output'];
     infotrygdutbetalinger: Maybe<Array<Infotrygdutbetaling>>;
-    personPseudoId: Scalars['UUID']['output'];
     personinfo: Personinfo;
     selvstendigNaering: Maybe<SelvstendigNaering>;
     tildeling: Maybe<Tildeling>;
@@ -3409,7 +3408,6 @@ export type PeriodeFragment = Periode_BeregnetPeriode_Fragment | Periode_Uberegn
 export type PersonFragment = {
     __typename: 'Person';
     fodselsnummer: string;
-    personPseudoId: string;
     dodsdato: string | null;
     versjon: number;
     aktorId: string;
@@ -4989,7 +4987,6 @@ export type FetchPersonQuery = {
     person: {
         __typename: 'Person';
         fodselsnummer: string;
-        personPseudoId: string;
         dodsdato: string | null;
         versjon: number;
         aktorId: string;
@@ -9629,7 +9626,6 @@ export const PersonFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'personPseudoId' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'andreFodselsnummer' },
@@ -13168,7 +13164,6 @@ export const FetchPersonDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'fodselsnummer' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'personPseudoId' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'andreFodselsnummer' },

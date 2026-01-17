@@ -30,7 +30,7 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
         const periode = enBeregnetPeriode();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const personPseudoId = 'f4fa2a9d-c41f-4ec0-85ca-4550dcab0321';
-        const person = enPerson({ personPseudoId: personPseudoId }).medArbeidsgivere([arbeidsgiver]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         const mocks = [
             overstyrArbeidsforholdMutationMock(periode.skjaeringstidspunkt, periode.vedtaksperiodeId, {

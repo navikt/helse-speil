@@ -48,7 +48,9 @@ import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
 
-const leggTilLagretData = (person: Person): void => {
+type PersonMedPseudoId = Person & { personPseudoId: string };
+
+const leggTilLagretData = (person: PersonMedPseudoId): void => {
     let tildeling = person.tildeling;
 
     for (const arbeidsgiver of person.arbeidsgivere) {
@@ -94,7 +96,7 @@ const leggTilLagretData = (person: Person): void => {
     person.tildeling = tildeling;
 };
 
-const lesTestpersoner = (): Person[] => {
+const lesTestpersoner = (): PersonMedPseudoId[] => {
     const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
     const filenames = fs.readdirSync(url);
     return filenames.map((filename) => {
@@ -115,10 +117,10 @@ export const finnFødselsnummer = (id: string): string | undefined => {
     return personer.find((it) => it.personPseudoId === id || it.aktorId === id)?.fodselsnummer;
 };
 
-export const fetchPersondata = (): Record<string, Person> => {
+export const fetchPersondata = (): Record<string, PersonMedPseudoId> => {
     const personer = lesTestpersoner();
 
-    return personer.reduce((data: Record<string, Person>, person) => {
+    return personer.reduce((data: Record<string, PersonMedPseudoId>, person) => {
         leggTilLagretData(person);
         data[person.aktorId] = person;
         data[person.fodselsnummer] = person;
@@ -127,7 +129,7 @@ export const fetchPersondata = (): Record<string, Person> => {
     }, {});
 };
 
-let valgtPerson: Person | undefined;
+let valgtPerson: PersonMedPseudoId | undefined;
 
 const getResolvers = (): IResolvers => ({
     Query: {

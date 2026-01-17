@@ -514,7 +514,6 @@ fragment periode on Periode {
 
 fragment person on Person {
     fodselsnummer
-    personPseudoId
     andreFodselsnummer {
         fodselsnummer
         personPseudoId

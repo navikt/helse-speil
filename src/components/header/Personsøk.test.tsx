@@ -50,7 +50,6 @@ describe('Personsøk', () => {
                             person: enPerson({
                                 aktorId: '1111111111111',
                                 fodselsnummer: '12345678910',
-                                personPseudoId: 'fb8c1382-bf1e-4027-9ab8-37a2c7772231',
                             }),
                         },
                         { aktorId: '1111111111111' },
