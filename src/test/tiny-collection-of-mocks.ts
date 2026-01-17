@@ -12,7 +12,7 @@ export const fetchPersonMock = createMock({
     request: {
         query: FetchPersonDocument,
         variables: {
-            aktorId: '12345678910',
+            personPseudoId: '12345678-90ab-cdef-fedc-ba0987654321',
         },
     },
     result: {

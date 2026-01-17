@@ -9,7 +9,7 @@ export const useFetchPersonQuery = (): QueryResult<FetchPersonQuery, FetchPerson
     return useQuery(FetchPersonDocument, {
         fetchPolicy: 'cache-first',
         variables: {
-            personPseudoId: personPseudoId,
+            personPseudoId: personPseudoId!,
         },
         skip: !personPseudoId,
     });

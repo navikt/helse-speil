@@ -580,8 +580,8 @@ fragment person on Person {
     }
 }
 
-query FetchPerson($fnr: String, $aktorId: String, $personPseudoId: String) {
-    person(fnr: $fnr, aktorId: $aktorId, personPseudoId: $personPseudoId) {
+query FetchPerson($personPseudoId: String!) {
+    person(personPseudoId: $personPseudoId) {
         ...person
     }
 }

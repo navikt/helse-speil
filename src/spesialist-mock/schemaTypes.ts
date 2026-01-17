@@ -952,9 +952,7 @@ export type QueryBehandledeOppgaverFeedArgs = {
 };
 
 export type QueryPersonArgs = {
-    aktorId?: InputMaybe<Scalars['String']['input']>;
-    fnr?: InputMaybe<Scalars['String']['input']>;
-    personPseudoId?: InputMaybe<Scalars['String']['input']>;
+    personPseudoId: Scalars['String']['input'];
 };
 
 export type Refusjonselement = {

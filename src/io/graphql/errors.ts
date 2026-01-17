@@ -24,9 +24,9 @@ export class NotFoundError extends FetchError {
 }
 
 export class NotReadyError extends FetchError {
-    constructor(søketekst: string) {
+    constructor() {
         super(
-            `Det er ikke mottatt korrekt inntektsmelding eller søknad utover arbeidsgiverperioden for ${søketekst}.
+            `Det er ikke mottatt korrekt inntektsmelding eller søknad utover arbeidsgiverperioden for denne personen.
              Se i Gosys.`,
         );
         this.severity = 'info';

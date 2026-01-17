@@ -954,9 +954,7 @@ export type QueryBehandledeOppgaverFeedArgs = {
 };
 
 export type QueryPersonArgs = {
-    aktorId?: InputMaybe<Scalars['String']['input']>;
-    fnr?: InputMaybe<Scalars['String']['input']>;
-    personPseudoId?: InputMaybe<Scalars['String']['input']>;
+    personPseudoId: Scalars['String']['input'];
 };
 
 export type Refusjonselement = {
@@ -4977,9 +4975,7 @@ export type PersonFragment = {
 };
 
 export type FetchPersonQueryVariables = Exact<{
-    fnr?: InputMaybe<Scalars['String']['input']>;
-    aktorId?: InputMaybe<Scalars['String']['input']>;
-    personPseudoId?: InputMaybe<Scalars['String']['input']>;
+    personPseudoId: Scalars['String']['input'];
 }>;
 
 export type FetchPersonQuery = {
@@ -11837,18 +11833,8 @@ export const FetchPersonDocument = {
             variableDefinitions: [
                 {
                     kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'aktorId' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-                },
-                {
-                    kind: 'VariableDefinition',
                     variable: { kind: 'Variable', name: { kind: 'Name', value: 'personPseudoId' } },
-                    type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
                 },
             ],
             selectionSet: {
@@ -11858,16 +11844,6 @@ export const FetchPersonDocument = {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'person' },
                         arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fnr' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fnr' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'aktorId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'aktorId' } },
-                            },
                             {
                                 kind: 'Argument',
                                 name: { kind: 'Name', value: 'personPseudoId' },

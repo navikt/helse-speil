@@ -52,7 +52,7 @@ describe('Personsøk', () => {
                                 fodselsnummer: '12345678910',
                             }),
                         },
-                        { aktorId: '1111111111111' },
+                        { personPseudoId: '11111111-1111-1111-1111-111111111111' },
                     ),
                 ],
             },

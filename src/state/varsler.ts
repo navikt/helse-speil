@@ -2,14 +2,7 @@ import { GraphQLFormattedError } from 'graphql/error';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useSearchParams } from 'next/navigation';
 
-import {
-    BadRequestError,
-    FetchError,
-    FlereFodselsnumreError,
-    NotFoundError,
-    NotReadyError,
-    ProtectedError,
-} from '@io/graphql/errors';
+import { FetchError, FlereFodselsnumreError, NotFoundError, NotReadyError, ProtectedError } from '@io/graphql/errors';
 import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
 
@@ -17,20 +10,11 @@ const varslerState = atom<SpeilError[]>([]);
 
 export const useVarsler = (): SpeilError[] => {
     const params = useSearchParams();
-    const { error, variables } = useFetchPersonQuery();
+    const { error } = useFetchPersonQuery();
 
-    const errors: SpeilError[] = error?.graphQLErrors.map(mapError(variables?.fnr ?? variables?.aktorId)) ?? [];
+    const errors: SpeilError[] = error?.graphQLErrors.map(mapError()) ?? [];
 
-    return useAtomValue(varslerState).concat(params.get('aktorId') !== undefined ? errors : []);
-};
-
-export const useRapporterGraphQLErrors = (): ((
-    graphQLErrors: readonly GraphQLFormattedError[],
-    søkeparameter: string,
-) => void) => {
-    const addVarsel = useAddVarsel();
-
-    return (errors, søkeparameter) => errors.forEach((error) => addVarsel(mapError(søkeparameter)(error)));
+    return useAtomValue(varslerState).concat(params.get('personPseudoId') !== undefined ? errors : []);
 };
 
 export const useAddVarsel = (): ((varsel: SpeilError) => void) => {
@@ -66,12 +50,9 @@ export const useSetVarsler = () => {
 };
 
 const mapError =
-    (oppslagsparameter?: string | null) =>
+    () =>
     (error: GraphQLFormattedError): FetchError => {
         switch (error.extensions?.code) {
-            case 400: {
-                return new BadRequestError(oppslagsparameter ?? 'personen');
-            }
             case 403: {
                 return new ProtectedError();
             }
@@ -79,7 +60,7 @@ const mapError =
                 return new NotFoundError();
             }
             case 409: {
-                return new NotReadyError(oppslagsparameter ?? 'personen');
+                return new NotReadyError();
             }
             case 500: {
                 if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
