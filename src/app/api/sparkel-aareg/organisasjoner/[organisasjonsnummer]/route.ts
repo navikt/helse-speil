@@ -4,6 +4,7 @@ import { erUtvikling, getServerEnv } from '@/env';
 import { logger } from '@/logger';
 import { stubnavnForOrganisasjonsnummer } from '@app/api/sparkel-aareg/organisasjoner/[organisasjonsnummer]/stubnavn';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
+import { sleep } from '@spesialist-mock/constants';
 
 export const dynamic = 'force-dynamic';
 
@@ -12,6 +13,9 @@ export async function GET(req: Request, { params }: { params: Promise<{ organisa
 
     if (erUtvikling) {
         logger.info(`Mocker sparkel-aareg lokalt / i dev`);
+
+        // Delay på 500-1000ms for å se skeletons og loading-logikk i tilfeldig rekkefølge
+        await sleep(500 + Math.random() * 500);
 
         return organisasjonsnummer === '839942907'
             ? Response.json({}, { status: 404 })
