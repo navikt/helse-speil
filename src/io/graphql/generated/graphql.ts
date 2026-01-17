@@ -929,7 +929,6 @@ export type Personinfo = {
     fullmakt: Maybe<Scalars['Boolean']['output']>;
     kjonn: Kjonn;
     mellomnavn: Maybe<Scalars['String']['output']>;
-    reservasjon: Maybe<Reservasjon>;
     unntattFraAutomatisering: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
@@ -974,12 +973,6 @@ export type Refusjonsopplysning = {
     belop: Scalars['Float']['output'];
     fom: Scalars['LocalDate']['output'];
     tom: Maybe<Scalars['LocalDate']['output']>;
-};
-
-export type Reservasjon = {
-    __typename: 'Reservasjon';
-    kanVarsles: Scalars['Boolean']['output'];
-    reservert: Scalars['Boolean']['output'];
 };
 
 export type Risikovurdering = {
@@ -3441,7 +3434,6 @@ export type PersonFragment = {
         kjonn: Kjonn;
         fullmakt: boolean | null;
         automatiskBehandlingStansetAvSaksbehandler: boolean | null;
-        reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
         unntattFraAutomatisering: {
             __typename: 'UnntattFraAutomatiskGodkjenning';
             erUnntatt: boolean;
@@ -5022,7 +5014,6 @@ export type FetchPersonQuery = {
             kjonn: Kjonn;
             fullmakt: boolean | null;
             automatiskBehandlingStansetAvSaksbehandler: boolean | null;
-            reservasjon: { __typename: 'Reservasjon'; kanVarsles: boolean; reservert: boolean } | null;
             unntattFraAutomatisering: {
                 __typename: 'UnntattFraAutomatiskGodkjenning';
                 erUnntatt: boolean;
@@ -9692,17 +9683,6 @@ export const PersonFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'fullmakt' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'reservasjon' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'kanVarsles' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'unntattFraAutomatisering' },
                                     selectionSet: {
                                         kind: 'SelectionSet',
@@ -13240,17 +13220,6 @@ export const FetchPersonDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'fullmakt' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'reservasjon' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'kanVarsles' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'reservert' } },
-                                        ],
-                                    },
-                                },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'unntattFraAutomatisering' },

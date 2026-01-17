@@ -927,7 +927,6 @@ export type Personinfo = {
     fullmakt?: Maybe<Scalars['Boolean']['output']>;
     kjonn: Kjonn;
     mellomnavn?: Maybe<Scalars['String']['output']>;
-    reservasjon?: Maybe<Reservasjon>;
     unntattFraAutomatisering?: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
@@ -972,12 +971,6 @@ export type Refusjonsopplysning = {
     belop: Scalars['Float']['output'];
     fom: Scalars['LocalDate']['output'];
     tom?: Maybe<Scalars['LocalDate']['output']>;
-};
-
-export type Reservasjon = {
-    __typename?: 'Reservasjon';
-    kanVarsles: Scalars['Boolean']['output'];
-    reservert: Scalars['Boolean']['output'];
 };
 
 export type Risikovurdering = {

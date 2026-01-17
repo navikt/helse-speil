@@ -540,10 +540,6 @@ fragment person on Person {
         fodselsdato
         kjonn
         fullmakt
-        reservasjon {
-            kanVarsles
-            reservert
-        }
         unntattFraAutomatisering {
             erUnntatt
             arsaker
