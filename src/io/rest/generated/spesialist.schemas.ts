@@ -1150,6 +1150,33 @@ export interface ApiHttpProblemDetailsApiPostPersonSokErrorCode {
     code?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeCode;
 }
 
+export interface ApiKrrStatus {
+    kanVarsles: boolean;
+    reservert: boolean;
+}
+
+export type ApiGetKrrStatusForPersonErrorCode =
+    (typeof ApiGetKrrStatusForPersonErrorCode)[keyof typeof ApiGetKrrStatusForPersonErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetKrrStatusForPersonErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeCode = null | ApiGetKrrStatusForPersonErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeCode;
+}
+
 export type GetOppgaverParams = {
     minstEnAvEgenskapene?: string[];
     ingenAvEgenskapene?: string;

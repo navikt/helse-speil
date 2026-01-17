@@ -1,28 +1,30 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { Reservasjon } from '@io/graphql';
+import { Skeleton, Tooltip } from '@navikt/ds-react';
+
+import { useGetKrrStatusForPerson } from '@io/rest/generated/krr/krr';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
-interface ReservasjonTagProps {
-    reservasjon?: Reservasjon | null;
-}
+export const ReservasjonTag = (): ReactElement | null => {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: response, isPending } = useGetKrrStatusForPerson(personPseudoId);
+    const reservasjon = response?.data;
 
-export const ReservasjonTag = ({ reservasjon }: ReservasjonTagProps): ReactElement | null => {
-    if (reservasjon === null) {
+    if (isPending) {
+        return (
+            <Tooltip content="Henter status fra Kontakt- og Reservasjonsregisteret...">
+                <Skeleton variant="rectangle" width="6rem" />
+            </Tooltip>
+        );
+    }
+
+    if (reservasjon === undefined) {
         return (
             <TagMedTooltip
                 tooltipTekst="Systemet har ikke klart å hente status fra Kontakt- og reservasjonsregisteret"
                 etikett="Status KRR utilgjengelig"
-            />
-        );
-    }
-
-    if (!reservasjon) {
-        return (
-            <TagMedTooltip
-                tooltipTekst="Ikke registrert eller mangler samtykke i Kontakt- og reservasjonsregisteret, eventuell kommunikasjon må skje i brevform"
-                etikett="Ikke registrert KRR"
             />
         );
     }

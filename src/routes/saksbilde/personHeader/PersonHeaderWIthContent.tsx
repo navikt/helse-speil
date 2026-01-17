@@ -40,7 +40,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
             </AnonymizableText>
             <HStack paddingInline="3 0" gap="3">
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
-                <ReservasjonTag reservasjon={personinfo.reservasjon} />
+                <ReservasjonTag />
                 <VergemålTag person={person} />
                 <FullmaktTag person={person} />
                 <UtlandTag person={person} />
