@@ -48,7 +48,7 @@ export const getMergedPeriods = (
     infotrygdutbetalinger: Infotrygdutbetaling[],
 ): Periode[] => {
     return [
-        ...inntektsforhold.flatMap((it) => it.generasjoner.flatMap((it) => it.perioder) ?? []),
+        ...inntektsforhold.flatMap((it) => it.behandlinger.flatMap((it) => it.perioder) ?? []),
         ...inntektsforhold.flatMap((it) => (isArbeidsgiver(it) ? it.ghostPerioder : [])),
         ...infotrygdutbetalinger,
     ];

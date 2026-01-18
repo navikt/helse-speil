@@ -11,7 +11,7 @@ export const finnInitierendeVedtaksperiodeIdFraOverlappendePeriode = (
 ) => {
     const allePerioderPåSkjæringstidspunkt: PeriodeFragment[] = R.pipe(
         arbeidsgivere,
-        R.flatMap((ag) => ag.generasjoner?.[0]?.perioder),
+        R.flatMap((ag) => ag.behandlinger?.[0]?.perioder),
         R.filter((periode) => isBeregnetPeriode(periode) || isUberegnetPeriode(periode)),
         R.filter((periode) => periode.skjaeringstidspunkt === aktivPeriode.skjaeringstidspunkt),
     );

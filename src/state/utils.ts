@@ -40,7 +40,7 @@ export const getLatestUtbetalingTimestamp = (person: PersonFragment, after: Date
     let latest: Dayjs = dayjs(after);
 
     for (const arbeidsgiver of person.arbeidsgivere) {
-        for (const periode of arbeidsgiver.generasjoner[0]?.perioder ?? []) {
+        for (const periode of arbeidsgiver.behandlinger[0]?.perioder ?? []) {
             if (isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling)) {
                 latest = dayjs.max(dayjs(getRequiredTimestamp(periode.utbetaling)), latest) as Dayjs;
             }

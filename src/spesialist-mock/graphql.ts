@@ -54,8 +54,8 @@ const leggTilLagretData = (person: PersonMedPseudoId): void => {
     let tildeling = person.tildeling;
 
     for (const arbeidsgiver of person.arbeidsgivere) {
-        for (const generasjon of arbeidsgiver.generasjoner) {
-            for (const periode of generasjon.perioder as BeregnetPeriode[]) {
+        for (const behandling of arbeidsgiver.behandlinger) {
+            for (const periode of behandling.perioder as BeregnetPeriode[]) {
                 if (periode.oppgave?.id && TildelingMock.harTildeling(periode.oppgave.id)) {
                     tildeling = TildelingMock.getTildeling(periode.oppgave.id);
                 }
@@ -405,7 +405,7 @@ const getResolvers = (): IResolvers => ({
 const finnOppgaveId = (): string | null => {
     if (!valgtPerson) return null;
     const periode = valgtPerson.arbeidsgivere
-        .flatMap((a) => a.generasjoner.flatMap((g) => g.perioder))
+        .flatMap((a) => a.behandlinger.flatMap((g) => g.perioder))
         .find((periode) => isNotNullOrUndefined((periode as BeregnetPeriode).oppgave));
 
     return (periode as BeregnetPeriode)?.oppgave?.id ?? null;
@@ -417,7 +417,7 @@ const puttNotaterFraTestpersonerIMock = (): void => {
 
     personer.forEach((person) => {
         const notater: Notat[] = person.arbeidsgivere.flatMap((ag: Arbeidsgiver) =>
-            ag.generasjoner
+            ag.behandlinger
                 .flatMap((g) => g.perioder.flatMap((p) => (p as BeregnetPeriode).notater))
                 .filter((notat: Notat) => !!notat),
         );
@@ -437,7 +437,7 @@ const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
         const vedtaksperiodeHistorikkinnslag = new Map<UUID, Historikkinnslag[]>();
 
         person.arbeidsgivere.forEach((ag: Arbeidsgiver) => {
-            ag.generasjoner.forEach((g) => {
+            ag.behandlinger.forEach((g) => {
                 g.perioder.forEach((p) => {
                     if ((p as BeregnetPeriode).historikkinnslag) {
                         vedtaksperiodeHistorikkinnslag.set(p.vedtaksperiodeId, (p as BeregnetPeriode).historikkinnslag);

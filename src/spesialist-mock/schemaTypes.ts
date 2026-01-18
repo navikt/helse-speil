@@ -108,7 +108,7 @@ export type Arbeidsforholdoverstyring = Overstyring & {
 export type Arbeidsgiver = {
     __typename?: 'Arbeidsgiver';
     arbeidsforhold: Array<Arbeidsforhold>;
-    generasjoner: Array<Generasjon>;
+    behandlinger: Array<Behandling>;
     ghostPerioder: Array<GhostPeriode>;
     inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
     navn: Scalars['String']['output'];
@@ -187,6 +187,12 @@ export type BehandletOppgave = {
     personPseudoId: Scalars['UUID']['output'];
     personnavn: Personnavn;
     saksbehandler?: Maybe<Scalars['String']['output']>;
+};
+
+export type Behandling = {
+    __typename?: 'Behandling';
+    id: Scalars['UUID']['output'];
+    perioder: Array<Periode>;
 };
 
 export type Behandlingsstatistikk = {
@@ -357,12 +363,6 @@ export type FjernetFraPaVent = Historikkinnslag & {
     saksbehandlerIdent?: Maybe<Scalars['String']['output']>;
     timestamp: Scalars['LocalDateTime']['output'];
     type: PeriodehistorikkType;
-};
-
-export type Generasjon = {
-    __typename?: 'Generasjon';
-    id: Scalars['UUID']['output'];
-    perioder: Array<Periode>;
 };
 
 export type GhostPeriode = {
@@ -990,7 +990,7 @@ export type Sammenligningsgrunnlag = {
 
 export type SelvstendigNaering = {
     __typename?: 'SelvstendigNaering';
-    generasjoner: Array<Generasjon>;
+    behandlinger: Array<Behandling>;
     overstyringer: Array<Overstyring>;
 };
 
@@ -1344,9 +1344,9 @@ export enum Utbetalingtype {
 
 export type VarselDto = {
     __typename?: 'VarselDTO';
+    behandlingId: Scalars['UUID']['output'];
     definisjonId: Scalars['UUID']['output'];
     forklaring?: Maybe<Scalars['String']['output']>;
-    generasjonId: Scalars['UUID']['output'];
     handling?: Maybe<Scalars['String']['output']>;
     id: Scalars['UUID']['output'];
     kode: Scalars['String']['output'];

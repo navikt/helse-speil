@@ -17,7 +17,7 @@ import { isBeregnetPeriode, isSelvstendigNaering, isUberegnetPeriode } from '@ut
 
 export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
     const vedtaksperioder = finnAlleInntektsforhold(person)
-        .flatMap((ag) => ag.generasjoner[0]?.perioder)
+        .flatMap((ag) => ag.behandlinger[0]?.perioder)
         .filter((periode) => periode != null)
         .map((periode) => ({
             fom: periode.fom,
@@ -82,7 +82,7 @@ export const tilDagtypeTabell = (periode: DatePeriod, alleInntektsforhold: Innte
         const dagoverstyringer = useDagoverstyringer(periode.fom, periode.tom, inntektsforhold);
 
         const perioder =
-            inntektsforhold.generasjoner[0]?.perioder?.filter(
+            inntektsforhold.behandlinger[0]?.perioder?.filter(
                 (it) => dayjsTom.isSameOrAfter(it.fom) && dayjsFom.isSameOrBefore(it.tom),
             ) ?? [];
 

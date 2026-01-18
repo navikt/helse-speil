@@ -1,5 +1,5 @@
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
-import { erPeriodeIFørsteGenerasjon } from '@state/inntektsforhold/arbeidsgiver';
+import { erPeriodeIFørsteBehandling } from '@state/inntektsforhold/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
 import { getPeriodState } from '@utils/mapping';
 
@@ -67,18 +67,18 @@ const validateGodkjent = (periode: BeregnetPeriodeFragment): void => {
     }
 };
 
-const validatePeriodeTilhørerNyesteGenerasjon = (person: PersonFragment, periode: BeregnetPeriodeFragment): void => {
-    if (!erPeriodeIFørsteGenerasjon(person, periode)) {
+const validatePeriodeTilhørerNyesteBehandling = (person: PersonFragment, periode: BeregnetPeriodeFragment): void => {
+    if (!erPeriodeIFørsteBehandling(person, periode)) {
         throw {
             value: false,
-            technical: 'Arbeidsgiver mangler eller periode er i tidligere generasjon',
+            technical: 'Arbeidsgiver mangler eller periode er i tidligere behandling',
         };
     }
 };
 
 export const kanRevurderes = (person: PersonFragment, periode: BeregnetPeriodeFragment): OverstyringValidation => {
     try {
-        validatePeriodeTilhørerNyesteGenerasjon(person, periode);
+        validatePeriodeTilhørerNyesteBehandling(person, periode);
         validateBeslutter(periode);
         validateIkkeForkastet(periode);
         validateGodkjent(periode);
@@ -121,7 +121,7 @@ export const kanOverstyreRevurdering = (
     try {
         validateBeslutter(periode);
         validateRevurderes(periode);
-        validatePeriodeTilhørerNyesteGenerasjon(person, periode);
+        validatePeriodeTilhørerNyesteBehandling(person, periode);
         validateOverlappendePerioderErTilRevurdering(person, periode);
     } catch (error) {
         return error as OverstyringValidationError;

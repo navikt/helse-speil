@@ -45,7 +45,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
             (inntektsforhold): PeriodeinformasjonInnslag => ({
                 inntektsforholdReferanse: tilReferanse(inntektsforhold),
                 perioder:
-                    inntektsforhold.generasjoner[0]?.perioder
+                    inntektsforhold.behandlinger[0]?.perioder
                         .filter((periode) => !periode.erForkastet)
                         .filter(
                             (periode) =>

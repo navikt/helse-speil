@@ -1,9 +1,4 @@
-import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
+import { BeregnetPeriodeFragment, GhostPeriodeFragment, UberegnetPeriodeFragment } from '@io/graphql';
 
 export type DateString = string;
 
@@ -51,7 +46,5 @@ export type PeriodState =
     | 'avventerAnnullering';
 
 export type ActivePeriod = BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment;
-
-export type ArbeidsgiverGenerasjon = ArbeidsgiverFragment['generasjoner'][0];
 
 export type OverridableConstructor<T, E = object> = (overrides?: Partial<T>) => T & E;

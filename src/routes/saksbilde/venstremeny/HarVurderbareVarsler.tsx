@@ -22,9 +22,9 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Rea
         .map(
             (inntektsforhold): PeriodeinformasjonInnslag => ({
                 inntektsforholdReferanse: tilReferanse(inntektsforhold),
-                perioder: inntektsforhold.generasjoner
-                    .flatMap((generasjon) =>
-                        generasjon.perioder.filter((periode) =>
+                perioder: inntektsforhold.behandlinger
+                    .flatMap((behandling) =>
+                        behandling.perioder.filter((periode) =>
                             periode.varsler.some(
                                 (varsel) => varsel.vurdering === null || varsel.vurdering?.status === 'AKTIV',
                             ),

@@ -5,7 +5,7 @@ import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
-import { enGenerasjon } from '@test-data/generasjon';
+import { enBehandling } from '@test-data/behandling';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -69,7 +69,7 @@ describe('SaksbildeVarsel', () => {
                     arbeidsgivere: [
                         enArbeidsgiver({
                             overstyringer: [enDagoverstyring],
-                            generasjoner: [enGenerasjon({ perioder: [periode] })],
+                            behandlinger: [enBehandling({ perioder: [periode] })],
                         }),
                     ],
                 })}
@@ -118,7 +118,7 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
         __typename: 'VarselDTO',
         id: '5d372089-5999-43ad-b4b6-06b8c913006a',
         definisjonId: 'en verdi',
-        generasjonId: 'en verdi',
+        behandlingId: 'en verdi',
         opprettet: '2020-01-01',
         kode: 'RV_IM_1',
         tittel: 'Et varsel',

@@ -41,18 +41,18 @@ const useUtbetaltTidslinjeForSykefraværstilfellet = (
 
     const utbetaltePerioderINyesteGen = finnUtbetaltePerioderPåSkjæringstidspunkt(
         skjæringstidspunkt,
-        inntektsforhold.generasjoner[0]?.perioder,
+        inntektsforhold.behandlinger[0]?.perioder,
     );
     const utbetalteVedtaksperioderINyesteGen = utbetaltePerioderINyesteGen?.map(
         ({ vedtaksperiodeId }) => vedtaksperiodeId,
     );
 
-    const utbetaltePerioderIForrigeGenerasjon = finnUtbetaltePerioderPåSkjæringstidspunkt(
+    const utbetaltePerioderIForrigeBehandling = finnUtbetaltePerioderPåSkjæringstidspunkt(
         skjæringstidspunkt,
-        inntektsforhold.generasjoner[1]?.perioder,
+        inntektsforhold.behandlinger[1]?.perioder,
     );
     const utbetaltePerioderTilAnnullering = [
-        ...utbetaltePerioderIForrigeGenerasjon.filter(
+        ...utbetaltePerioderIForrigeBehandling.filter(
             ({ vedtaksperiodeId }, index) => !utbetalteVedtaksperioderINyesteGen?.includes(vedtaksperiodeId, index + 1),
         ),
         ...utbetaltePerioderINyesteGen,

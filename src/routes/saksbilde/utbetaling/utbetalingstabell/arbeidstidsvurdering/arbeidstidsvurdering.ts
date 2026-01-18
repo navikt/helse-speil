@@ -67,7 +67,7 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Ac
     finnAlleInntektsforhold(person).filter(
         (inntektsforhold) =>
             (
-                inntektsforhold.generasjoner[0]?.perioder
+                inntektsforhold.behandlinger[0]?.perioder
                     ?.filter(isBeregnetPeriode || isUberegnetPeriode)
                     ?.filter(overlapper(periode)) ?? []
             ).length > 0,
@@ -80,7 +80,7 @@ export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
 ): boolean => {
     const alleOverlappendePerioderPåSkjæringstidspunkt: PeriodeFragment[] = R.pipe(
         arbeidsgivere,
-        R.flatMap((ag) => ag.generasjoner?.[0]?.perioder),
+        R.flatMap((ag) => ag.behandlinger?.[0]?.perioder),
         R.filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it)),
         R.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt),
         R.filter((it) => overlapper(it)(periode)),
@@ -144,7 +144,7 @@ export const getOppkuttedePerioder = (
 const allePerioder = (overlappendeArbeidsgivere: ArbeidsgiverFragment[]): DatePeriod[] =>
     R.pipe(
         overlappendeArbeidsgivere,
-        R.flatMap((ag) => ag.generasjoner[0]?.perioder),
+        R.flatMap((ag) => ag.behandlinger[0]?.perioder),
         R.filter((periode) => periode !== undefined),
         R.map(tilDatePeriod),
     );

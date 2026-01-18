@@ -1,5 +1,5 @@
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
-import { enGenerasjon } from '@test-data/generasjon';
+import { enBehandling } from '@test-data/behandling';
 import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
@@ -14,7 +14,7 @@ describe('Finn vedtaksperiodeId for første periode i sykefraværstilfellet', ()
         });
         const arbeidsgiver = enArbeidsgiver({
             ghostPerioder: [],
-            generasjoner: [enGenerasjon({ perioder: [beregnetPeriode] })],
+            behandlinger: [enBehandling({ perioder: [beregnetPeriode] })],
         });
         const arbeidsgivere = [arbeidsgiver];
 
@@ -32,7 +32,7 @@ describe('Finn vedtaksperiodeId for første periode i sykefraværstilfellet', ()
         });
         const arbeidsgiver = enArbeidsgiver({
             ghostPerioder: [],
-            generasjoner: [enGenerasjon({ perioder: [_u_beregnetPeriode] })],
+            behandlinger: [enBehandling({ perioder: [_u_beregnetPeriode] })],
         });
         const arbeidsgivere = [arbeidsgiver];
 
@@ -52,7 +52,7 @@ describe('Finn vedtaksperiodeId for første periode i sykefraværstilfellet', ()
         });
         const arbeidsgiver = enArbeidsgiver({
             ghostPerioder: [ghostPeriode],
-            generasjoner: [enGenerasjon({ perioder: [beregnetPeriode] })],
+            behandlinger: [enBehandling({ perioder: [beregnetPeriode] })],
         });
         const arbeidsgivere = [arbeidsgiver];
 
@@ -72,7 +72,7 @@ describe('Finn vedtaksperiodeId for første periode i sykefraværstilfellet', ()
         });
         const arbeidsgiver = enArbeidsgiver({
             ghostPerioder: [ghostPeriode],
-            generasjoner: [enGenerasjon({ perioder: [_u_beregnetPeriode] })],
+            behandlinger: [enBehandling({ perioder: [_u_beregnetPeriode] })],
         });
         const arbeidsgivere = [arbeidsgiver];
 
@@ -96,11 +96,11 @@ describe('Finn vedtaksperiodeId for første periode i sykefraværstilfellet', ()
         });
         const ag1 = enArbeidsgiver({
             ghostPerioder: [],
-            generasjoner: [enGenerasjon({ perioder: [beregnetPeriodeAg1] })],
+            behandlinger: [enBehandling({ perioder: [beregnetPeriodeAg1] })],
         });
         const ag2 = enArbeidsgiver({
             ghostPerioder: [],
-            generasjoner: [enGenerasjon({ perioder: [beregnetPeriodeAg2] })],
+            behandlinger: [enBehandling({ perioder: [beregnetPeriodeAg2] })],
         });
         const arbeidsgivere = [ag1, ag2];
 
@@ -127,11 +127,11 @@ describe('Finn vedtaksperiodeId for første periode i sykefraværstilfellet', ()
 
         const ag1 = enArbeidsgiver({
             ghostPerioder: [ghostAg1],
-            generasjoner: [],
+            behandlinger: [],
         });
         const ag2 = enArbeidsgiver({
             ghostPerioder: [],
-            generasjoner: [enGenerasjon({ perioder: [beregnetPeriode1Ag2] })],
+            behandlinger: [enBehandling({ perioder: [beregnetPeriode1Ag2] })],
         });
         const arbeidsgivere = [ag1, ag2];
 

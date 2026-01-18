@@ -5,7 +5,7 @@ import {
     Overstyring,
     OverstyringFragment,
 } from '@io/graphql';
-import { enGenerasjon } from '@test-data/generasjon';
+import { enBehandling } from '@test-data/behandling';
 import { enGhostPeriode } from '@test-data/periode';
 import { OverridableConstructor } from '@typer/shared';
 
@@ -33,13 +33,13 @@ export const enArbeidsgiver: OverridableConstructor<ArbeidsgiverFragment, Extens
     navn: 'Sjokkerende Elektriker',
     organisasjonsnummer: genererOrganisasjonsnummer(),
     arbeidsforhold: [],
-    generasjoner: [enGenerasjon()],
+    behandlinger: [enBehandling()],
     ghostPerioder: [enGhostPeriode()],
     overstyringer: [],
     inntekterFraAordningen: [],
     ...overrides,
     medPerioder(perioder: BeregnetPeriodeFragment[]) {
-        this.generasjoner = [enGenerasjon({ perioder })];
+        this.behandlinger = [enBehandling({ perioder })];
         return this;
     },
     medGhostPerioder(ghostPerioder: GhostPeriodeFragment[]) {

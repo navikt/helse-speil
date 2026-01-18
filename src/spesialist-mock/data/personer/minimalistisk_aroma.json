@@ -531,7 +531,7 @@
                             "organisasjonsnummer": "972674818"
                         }
                     ],
-                    "generasjoner": [
+                    "behandlinger": [
                         {
                             "id": "f98ba07d-9abd-4e64-ab5a-0c4893334323",
                             "perioder": [
@@ -1108,7 +1108,7 @@
                                     "varsler": [
                                         {
                                             "id": "c7d140cd-aa26-4acc-90c3-8dedb9ae20f8",
-                                            "generasjonId": "71413e0b-87fc-408a-97dc-6c040ea9664f",
+                                            "behandlingId": "71413e0b-87fc-408a-97dc-6c040ea9664f",
                                             "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
                                             "opprettet": "2023-08-02T12:01:27",
                                             "kode": "RV_IM_4",
@@ -1467,7 +1467,7 @@
                                     "varsler": [
                                         {
                                             "id": "92d63392-b571-4d8d-a080-2db1ced9071b",
-                                            "generasjonId": "44b18d7f-7c44-4a5e-a95f-ab7f704c3f2f",
+                                            "behandlingId": "44b18d7f-7c44-4a5e-a95f-ab7f704c3f2f",
                                             "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
                                             "opprettet": "2023-05-02T06:09:57",
                                             "kode": "RV_IM_4",
@@ -1877,7 +1877,7 @@
                                     "varsler": [
                                         {
                                             "id": "2ef79f41-5be9-4303-9f97-61490a4b12ee",
-                                            "generasjonId": "51d0d62a-59e9-4990-9d70-22895b18185f",
+                                            "behandlingId": "51d0d62a-59e9-4990-9d70-22895b18185f",
                                             "definisjonId": "b8ccbad1-de8c-4ca6-b944-df240bc42e6b",
                                             "opprettet": "2023-03-07T15:13:35",
                                             "kode": "RV_MV_1",
@@ -1954,7 +1954,7 @@
                             "organisasjonsnummer": "907670201"
                         }
                     ],
-                    "generasjoner": [
+                    "behandlinger": [
                         {
                             "id": "40460643-2c41-48af-95fd-834b5620e4a9",
                             "perioder": [
@@ -2739,7 +2739,7 @@
                                     "varsler": [
                                         {
                                             "id": "283231b0-826e-4fe4-a6d9-47c1fe1c0bed",
-                                            "generasjonId": "5322acc9-af79-4805-915a-cf2c16bcdf94",
+                                            "behandlingId": "5322acc9-af79-4805-915a-cf2c16bcdf94",
                                             "definisjonId": "641acb03-c373-4760-816a-26999ac7cd3a",
                                             "opprettet": "2023-03-07T15:17:12",
                                             "kode": "RV_IM_2",
@@ -2754,7 +2754,7 @@
                                         },
                                         {
                                             "id": "9df38dbc-d213-4629-b775-cc9160c1e8ee",
-                                            "generasjonId": "f213be6e-9dbe-466a-bf36-0cdafa48b2a7",
+                                            "behandlingId": "f213be6e-9dbe-466a-bf36-0cdafa48b2a7",
                                             "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
                                             "kode": "RV_IM_4",
                                             "tittel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige.",
@@ -2764,7 +2764,7 @@
                                         },
                                         {
                                             "id": "233810a1-0b0f-417f-93c1-1c46f46d76d6",
-                                            "generasjonId": "f213be6e-9dbe-466a-bf36-0cdafa48b2a7",
+                                            "behandlingId": "f213be6e-9dbe-466a-bf36-0cdafa48b2a7",
                                             "definisjonId": "641acb03-c373-4760-816a-26999ac7cd3a",
                                             "kode": "RV_IM_2",
                                             "tittel": "Første fraværsdag i inntektsmeldingen er ulik skjæringstidspunktet. Kontrollér at inntektsmeldingen er knyttet til riktig periode.",

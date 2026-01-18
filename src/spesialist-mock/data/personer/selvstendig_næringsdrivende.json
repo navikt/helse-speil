@@ -32,9 +32,9 @@
             },
             "selvstendigNaering": {
                 "__typename": "SelvstendigNaering",
-                "generasjoner": [
+                "behandlinger": [
                     {
-                        "__typename": "Generasjon",
+                        "__typename": "Behandling",
                         "id": "21c94f02-9c3f-419c-8457-b350b17c6b16",
                         "perioder": [
                             {

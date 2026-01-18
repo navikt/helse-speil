@@ -19,7 +19,7 @@ describe('UtlandTag', () => {
                 tittel: 'Det har kommet inn dokumentasjon som igangsetter en revurdering, og den sykmeldte er nå registrert på bokommune 0393 (NAV utland og fellestjenester)',
                 definisjonId: '',
                 forklaring: '',
-                generasjonId: '',
+                behandlingId: '',
                 handling: '',
                 opprettet: '',
                 vurdering: null,

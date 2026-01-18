@@ -128,9 +128,9 @@
                     "organisasjonsnummer": "972674818",
                     "arbeidsforhold": [],
                     "ghostPerioder": [],
-                    "generasjoner": [
+                    "behandlinger": [
                         {
-                            "__typename": "Generasjon",
+                            "__typename": "Behandling",
                             "id": "94b1e592-6052-46b6-9704-e15287214993",
                             "perioder": [
                                 {
@@ -781,7 +781,7 @@
                                         {
                                             "__typename": "VarselDTO",
                                             "id": "a1813035-ef01-4ece-a26d-f430edf464fc",
-                                            "generasjonId": "08b92989-5ba2-4e78-b7e7-ba87330e6cd2",
+                                            "behandlingId": "08b92989-5ba2-4e78-b7e7-ba87330e6cd2",
                                             "definisjonId": "a232fccb-ac74-3fad-a9ff-16bd55e8e84b",
                                             "opprettet": "2025-06-13T13:54:08.133128",
                                             "kode": "RV_VV_2",
@@ -835,7 +835,7 @@
                             "organisasjonsnummer": "896929119"
                         }
                     ],
-                    "generasjoner": [],
+                    "behandlinger": [],
                     "overstyringer": [],
                     "inntekterFraAordningen": []
                 }

@@ -5,7 +5,7 @@ export const getAntallAGPDagerBruktFørPerioden = (
     inntektsforhold: Inntektsforhold,
     periode: UberegnetPeriodeFragment,
 ) =>
-    inntektsforhold.generasjoner[0]?.perioder
+    inntektsforhold.behandlinger[0]?.perioder
         .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
         .filter((it) => it.fom < periode.fom)
         .reverse()

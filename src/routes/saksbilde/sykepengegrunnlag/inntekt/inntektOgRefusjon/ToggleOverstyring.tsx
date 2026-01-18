@@ -48,7 +48,7 @@ export const ToggleOverstyring = ({
     if (!isGhostPeriode(periode) && !isInCurrentGeneration(periode, arbeidsgiver)) return null;
 
     const utbetalingForSkjæringstidspunkt =
-        Array.from(inntektsforhold?.generasjoner[0]?.perioder ?? [])
+        Array.from(inntektsforhold?.behandlinger[0]?.perioder ?? [])
             .filter(isBeregnetPeriode)
             .reverse()
             .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === periode.skjaeringstidspunkt)

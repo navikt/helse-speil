@@ -9,7 +9,7 @@ export const deleteStub = async (_: NextRequest, params: Promise<{ varselId: str
     const personer = Object.values(fetchPersondata());
     const funnetVarsel = personer
         .flatMap((it) =>
-            it.arbeidsgivere.flatMap((it) => it.generasjoner.flatMap((it) => it.perioder.flatMap((it) => it.varsler))),
+            it.arbeidsgivere.flatMap((it) => it.behandlinger.flatMap((it) => it.perioder.flatMap((it) => it.varsler))),
         )
         .find((it) => it.id === varselId);
     if (!funnetVarsel) {

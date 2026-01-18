@@ -20,7 +20,7 @@ import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean =>
     finnAlleInntektsforhold(person)
-        .flatMap((it) => it.generasjoner[0]?.perioder)
+        .flatMap((it) => it.behandlinger[0]?.perioder)
         .filter(isBeregnetPeriode)
         .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
         .every((it) =>
@@ -35,7 +35,7 @@ export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringst
 export const harPeriodeTilBeslutterFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean =>
     (
         finnAlleInntektsforhold(person)
-            .flatMap((it) => it.generasjoner[0]?.perioder)
+            .flatMap((it) => it.behandlinger[0]?.perioder)
             .filter(
                 (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt,
             ) as unknown as BeregnetPeriodeFragment[]
@@ -72,7 +72,7 @@ export const maybePeriodeTilGodkjenning = (
 ): BeregnetPeriodeFragment | null =>
     (
         finnAlleInntektsforhold(person)
-            .flatMap((it) => it.generasjoner[0]?.perioder)
+            .flatMap((it) => it.behandlinger[0]?.perioder)
             .filter(isBeregnetPeriode) as unknown as BeregnetPeriodeFragment[]
     ).find(
         (it) => it.periodetilstand === Periodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt,
@@ -100,7 +100,7 @@ export const useArbeidsforholdKanOverstyres = (
 
     const perioderISisteGen: Periode[] =
         finnAlleInntektsforhold(person)
-            .flatMap((it) => it.generasjoner[0]?.perioder)
+            .flatMap((it) => it.behandlinger[0]?.perioder)
             .filter((periode) => periode != undefined) ?? [];
     const harBeregnetPeriode = harBeregnetPeriodePåSkjæringstidspunkt(perioderISisteGen, period.skjaeringstidspunkt);
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, period.skjaeringstidspunkt);
@@ -125,7 +125,7 @@ const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: Periode[], skjæring
 
 const harIngenBeregnedePerioder = (arbeidsgiver: Arbeidsgiver, skjæringstidspunkt: DateString): boolean =>
     (
-        arbeidsgiver?.generasjoner[0]?.perioder.filter(
+        arbeidsgiver?.behandlinger[0]?.perioder.filter(
             (it) => it.skjaeringstidspunkt === skjæringstidspunkt && isBeregnetPeriode(it),
         ) ?? []
     ).length === 0;
@@ -136,7 +136,7 @@ const harIngenEtterfølgendePerioder = (
     fom: DateString,
 ): boolean =>
     (
-        arbeidsgiver?.generasjoner[0]?.perioder.filter(
+        arbeidsgiver?.behandlinger[0]?.perioder.filter(
             (it) => it.skjaeringstidspunkt === skjæringstidspunkt && dayjs(it.fom).isSameOrAfter(fom),
         ) ?? []
     ).length === 0;
@@ -151,7 +151,7 @@ export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspu
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
 
     const periodeVedSkjæringstidspunkt: Periode | null =
-        inntektsforhold?.generasjoner[0]?.perioder
+        inntektsforhold?.behandlinger[0]?.perioder
             .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
             .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
             .shift() ?? null;

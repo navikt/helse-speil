@@ -29,12 +29,12 @@ export const harBlittUtbetaltTidligere = (
     period: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
     inntektsforhold: Inntektsforhold,
 ): boolean => {
-    if (inntektsforhold.generasjoner.length <= 1) {
+    if (inntektsforhold.behandlinger.length <= 1) {
         return false;
     }
 
     return (
-        inntektsforhold.generasjoner
+        inntektsforhold.behandlinger
             .slice(1)
             .flatMap(({ perioder }) => perioder)
             .filter(
@@ -55,12 +55,12 @@ export const isNotReady = (period: Periode) =>
     ].includes(period.periodetilstand);
 
 export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Inntektsforhold): boolean => {
-    const sisteGenerasjon = arbeidsgiver.generasjoner[0];
-    if ((!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) || sisteGenerasjon == undefined) {
+    const sisteBehandling = arbeidsgiver.behandlinger[0];
+    if ((!isBeregnetPeriode(period) && !isUberegnetPeriode(period)) || sisteBehandling == undefined) {
         return false;
     }
 
-    return sisteGenerasjon.perioder.some((periode) => periode.id === period.id);
+    return sisteBehandling.perioder.some((periode) => periode.id === period.id);
 };
 export const isGodkjent = (period: ActivePeriod): boolean => {
     return ['utbetalt', 'utbetaltAutomatisk', 'revurdert', 'revurdertIngenUtbetaling'].includes(getPeriodState(period));
@@ -76,7 +76,7 @@ export const getOverlappendePerioder = (
     period: BeregnetPeriodeFragment,
 ): BeregnetPeriodeFragment[] => {
     return person.arbeidsgivere
-        .flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder ?? [])
+        .flatMap((arbeidsgiver) => arbeidsgiver.behandlinger[0]?.perioder ?? [])
         .filter(isBeregnetPeriode)
         .filter(overlapper(period)) as BeregnetPeriodeFragment[];
 };

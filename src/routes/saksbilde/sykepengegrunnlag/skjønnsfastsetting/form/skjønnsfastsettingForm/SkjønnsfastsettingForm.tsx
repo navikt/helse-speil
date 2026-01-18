@@ -219,7 +219,7 @@ export const useAktiveArbeidsgivere = (
     finnAlleArbeidsgivere(person)
         .filter(
             (arbeidsgiver) =>
-                arbeidsgiver.generasjoner?.[0]?.perioder.some(
+                arbeidsgiver.behandlinger?.[0]?.perioder.some(
                     (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt,
                 ) ||
                 arbeidsgiver.ghostPerioder.some(

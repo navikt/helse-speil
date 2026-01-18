@@ -23,8 +23,8 @@ export const useHarUvurderteVarslerPåEllerFør = (
     inntektsforhold: Inntektsforhold[],
 ): boolean => {
     return inntektsforhold
-        .filter((inntektsforhold) => inntektsforhold.generasjoner.length > 0)
-        .flatMap((inntektsforhold) => inntektsforhold.generasjoner[0]?.perioder)
+        .filter((inntektsforhold) => inntektsforhold.behandlinger.length > 0)
+        .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder)
         .filter((periode) => dayjs(periode?.tom).isSameOrBefore(dayjs(activePeriod.tom)))
         .some((periode) => {
             if (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) return false;

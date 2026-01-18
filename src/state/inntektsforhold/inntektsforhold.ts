@@ -3,9 +3,9 @@ import { useMemo } from 'react';
 
 import {
     Arbeidsgiver,
+    Behandling,
     BeregnetPeriodeFragment,
     Dagoverstyring,
-    Generasjon,
     PersonFragment,
     SelvstendigNaering,
     UberegnetPeriodeFragment,
@@ -43,7 +43,7 @@ export const finnInntektsforholdForPeriode = (
 ): Inntektsforhold | undefined => {
     if (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) {
         return finnAlleInntektsforhold(person).find((inntektsforhold) =>
-            inntektsforhold.generasjoner.flatMap((generasjon) => generasjon.perioder).find((p) => p.id === periode.id),
+            inntektsforhold.behandlinger.flatMap((behandling) => behandling.perioder).find((p) => p.id === periode.id),
         );
     }
     if (isGhostPeriode(periode)) {
@@ -57,9 +57,9 @@ export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: Perso
     const inntektsforhold = useAktivtInntektsforhold(person);
     if (!aktivPeriode || !inntektsforhold) return false;
 
-    const generasjon = finnNteEllerNyesteGenerasjon(aktivPeriode, inntektsforhold);
+    const behandling = finnNteEllerNyesteBehandling(aktivPeriode, inntektsforhold);
 
-    if (!aktivPeriode || generasjon?.id !== inntektsforhold.generasjoner[0]?.id) return false;
+    if (!aktivPeriode || behandling?.id !== inntektsforhold.behandlinger[0]?.id) return false;
 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     return periodeTilGodkjenning ? dayjs(aktivPeriode.fom).isSameOrBefore(periodeTilGodkjenning?.tom) : true;
@@ -103,7 +103,7 @@ export const finnPeriodeTilGodkjenning = (person: PersonFragment | null): Beregn
 
     return (
         (finnAlleInntektsforhold(person)
-            ?.flatMap((arbeidsgiver) => arbeidsgiver.generasjoner[0]?.perioder)
+            ?.flatMap((arbeidsgiver) => arbeidsgiver.behandlinger[0]?.perioder)
             .filter(
                 (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning',
             )?.[0] as BeregnetPeriodeFragment) ?? null
@@ -120,52 +120,52 @@ export type SelvstendigNæringReferanse = {
     type: 'Selvstendig Næring';
 };
 
-export const finnGenerasjonerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Generasjon[] =>
-    finnInntektsforholdForPeriode(person, periode)?.generasjoner ?? [];
+export const finnBehandlingerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Behandling[] =>
+    finnInntektsforholdForPeriode(person, periode)?.behandlinger ?? [];
 
 export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePeriod, person: PersonFragment) =>
     finnInntektsforholdForPeriode(person, aktivPeriode)?.overstyringer ?? [];
 /**
- * Henter forrige (eldre) generasjon relativt til generasjonen som inneholder den oppgitte perioden.
+ * Henter forrige (eldre) behandling relativt til behandlingen som inneholder den oppgitte perioden.
  *
- * Generasjoner er lagret i omvendt kronologisk rekkefølge (indeks 0 = nyeste).
+ * Behandlinger er lagret i omvendt kronologisk rekkefølge (indeks 0 = nyeste).
  *
- * @param periode Perioden som identifiserer aktiv generasjon.
- * @param inntektsforhold Arbeidsgiver som eier generasjonene.
- * @returns Forrige generasjon hvis perioden finnes, nyeste hvis ikke, ellers `null`.
+ * @param periode Perioden som identifiserer aktiv behandling.
+ * @param inntektsforhold Arbeidsgiver som eier behandlingene.
+ * @returns Forrige behandling hvis perioden finnes, nyeste hvis ikke, ellers `null`.
  */
-export const finnForrigeEllerNyesteGenerasjon = (
+export const finnForrigeEllerNyesteBehandling = (
     periode: ActivePeriod,
     inntektsforhold: Inntektsforhold,
-): Generasjon | null => finnNteEllerNyesteGenerasjon(periode, inntektsforhold, 1);
+): Behandling | null => finnNteEllerNyesteBehandling(periode, inntektsforhold, 1);
 /**
- * Henter en generasjon relativt til generasjonen som inneholder den oppgitte perioden.
+ * Henter en behandling relativt til behandlingen som inneholder den oppgitte perioden.
  *
- * Generasjoner er lagret i omvendt kronologisk rekkefølge (indeks 0 = nyeste).
+ * Behandlinger er lagret i omvendt kronologisk rekkefølge (indeks 0 = nyeste).
  *
  * Regler:
- * 1. Finn generasjonen som inneholder perioden (matcher `id` i beregnet eller uberegnet perioder).
- * 2. Hvis ingen generasjon inneholder perioden: returnerer alltid nyeste generasjon (indeks 0), eller `null` hvis ingen finnes (parameter \`n\` ignoreres i dette tilfellet).
- * 3. Hvis generasjon finnes: returner generasjonen med offset \`n\` (aktiv = 0, eldre = 1, nyere = -1 osv.). Faller utenfor indeks -> `null`.
+ * 1. Finn behandlingen som inneholder perioden (matcher `id` i beregnet eller uberegnet perioder).
+ * 2. Hvis ingen behandling inneholder perioden: returnerer alltid nyeste behandling (indeks 0), eller `null` hvis ingen finnes (parameter \`n\` ignoreres i dette tilfellet).
+ * 3. Hvis behandling finnes: returner behandlingen med offset \`n\` (aktiv = 0, eldre = 1, nyere = -1 osv.). Faller utenfor indeks -> `null`.
  *
  * @internal
- * @param periode Perioden som identifiserer aktiv generasjon.
- * @param inntektsforhold Arbeidsgiver som eier generasjonene.
+ * @param periode Perioden som identifiserer aktiv behandling.
+ * @param inntektsforhold Arbeidsgiver som eier behandlingene.
  * @param n Offset: 0 = aktiv, 1 = forrige (eldre), -1 = neste (nyere), >1 flere steg tilbake, <-1 flere steg frem.
- * @returns Generasjonen bestemt av offset, nyeste hvis aktiv ikke finnes, eller `null`.
+ * @returns Behandlingen bestemt av offset, nyeste hvis aktiv ikke finnes, eller `null`.
  */
-export const finnNteEllerNyesteGenerasjon = (
+export const finnNteEllerNyesteBehandling = (
     periode: ActivePeriod,
     inntektsforhold: Inntektsforhold,
     n: number = 0,
-): Generasjon | null => {
-    const aktivGenerasjonIndex = inntektsforhold.generasjoner.findIndex((g) =>
+): Behandling | null => {
+    const aktivBehandlingIndex = inntektsforhold.behandlinger.findIndex((g) =>
         g.perioder.some((p) => isBeregnetPeriode(periode) && p.id === periode.id),
     );
     return (
-        (aktivGenerasjonIndex < 0
-            ? inntektsforhold.generasjoner[0]
-            : inntektsforhold.generasjoner[aktivGenerasjonIndex + n]) ?? null
+        (aktivBehandlingIndex < 0
+            ? inntektsforhold.behandlinger[0]
+            : inntektsforhold.behandlinger[aktivBehandlingIndex + n]) ?? null
     );
 };
 

@@ -32,9 +32,9 @@
             },
             "selvstendigNaering": {
                 "__typename": "SelvstendigNaering",
-                "generasjoner": [
+                "behandlinger": [
                     {
-                        "__typename": "Generasjon",
+                        "__typename": "Behandling",
                         "id": "44728464-8496-43b6-8794-9834270f3a31",
                         "perioder": [
                             {
@@ -717,7 +717,7 @@
                                     {
                                         "__typename": "VarselDTO",
                                         "id": "e214c729-c44b-459e-bb5d-23c98eb51bda",
-                                        "generasjonId": "e2354e7c-1082-465d-a547-e96707f9e237",
+                                        "behandlingId": "e2354e7c-1082-465d-a547-e96707f9e237",
                                         "definisjonId": "22e52a23-b0fb-3e0f-b0b3-c4c03b187566",
                                         "opprettet": "2025-12-16T10:58:54.403070",
                                         "kode": "RV_SØ_55",

@@ -78,7 +78,7 @@ export const ArbeidstidsvurderingForm = ({
             perioderVurdertIkkeOk: perioderVurdertIkkeOk.map((period) => ({ fom: period.fom, tom: period.tom })),
             begrunnelse: skjemaverdier.begrunnelse,
             arbeidsgivere: overlappendeArbeidsgivere.map((arbeidsgiver) => {
-                const berørtVedtaksperiodeId = arbeidsgiver.generasjoner[0]?.perioder.find(
+                const berørtVedtaksperiodeId = arbeidsgiver.behandlinger[0]?.perioder.find(
                     overlapper(aktivPeriode),
                 )?.vedtaksperiodeId;
                 if (berørtVedtaksperiodeId == undefined)

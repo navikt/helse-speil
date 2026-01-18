@@ -1,6 +1,6 @@
 import { Inntektstype, Periodetilstand, PersonFragment } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
-import { enGenerasjon } from '@test-data/generasjon';
+import { enBehandling } from '@test-data/behandling';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -59,15 +59,15 @@ describe('kanRevurderes', () => {
         expect(kanRevurderes(person, periode)).toEqual(expected);
     });
 
-    it('returnerer false om perioden ikke er i siste generasjon', () => {
+    it('returnerer false om perioden ikke er i siste behandling', () => {
         const historiskPeriode = enBeregnetPeriode();
         const arbeidsgiver = enArbeidsgiver({
-            generasjoner: [enGenerasjon(), enGenerasjon({ perioder: [historiskPeriode] })],
+            behandlinger: [enBehandling(), enBehandling({ perioder: [historiskPeriode] })],
         });
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const expected = {
             value: false,
-            technical: 'Arbeidsgiver mangler eller periode er i tidligere generasjon',
+            technical: 'Arbeidsgiver mangler eller periode er i tidligere behandling',
         };
 
         expect(kanRevurderes(person, historiskPeriode)).toEqual(expected);

@@ -49,7 +49,7 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const harFlereArbeidsgiverePåSkjæringstidspunkt =
         inntektsforhold.filter(
             (inntektsforhold) =>
-                (inntektsforhold.generasjoner[0]?.perioder.filter(sammenlignSkjæringstidspunkt).length ?? 0) > 0 ||
+                (inntektsforhold.behandlinger[0]?.perioder.filter(sammenlignSkjæringstidspunkt).length ?? 0) > 0 ||
                 (isArbeidsgiver(inntektsforhold) &&
                     inntektsforhold.ghostPerioder.filter(sammenlignSkjæringstidspunkt).filter((it) => !it.deaktivert)
                         .length > 0),
@@ -60,7 +60,7 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
             false);
 
     const alleSammenfallendeDager = inntektsforhold
-        .flatMap((ag) => ag.generasjoner[0]?.perioder)
+        .flatMap((ag) => ag.behandlinger[0]?.perioder)
         .filter(
             (periode) =>
                 periode?.skjaeringstidspunkt === aktivPeriode.skjaeringstidspunkt && periode.fom === aktivPeriode.fom,

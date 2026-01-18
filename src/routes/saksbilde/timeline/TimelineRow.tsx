@@ -42,7 +42,7 @@ export const TimelineRow = ({
         </div>
         <div className={styles.Periods}>
             <Periods
-                periods={inntektsforhold.generasjoner[0]?.perioder ?? []}
+                periods={inntektsforhold.behandlinger[0]?.perioder ?? []}
                 start={start}
                 end={end}
                 ghostPeriods={isArbeidsgiver(inntektsforhold) ? inntektsforhold.ghostPerioder : []}

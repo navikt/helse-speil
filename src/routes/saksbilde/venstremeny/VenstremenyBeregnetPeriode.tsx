@@ -18,7 +18,7 @@ import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgave
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
 import {
     Inntektsforhold,
-    finnForrigeEllerNyesteGenerasjon,
+    finnForrigeEllerNyesteBehandling,
     tilReferanse,
 } from '@state/inntektsforhold/inntektsforhold';
 import { getVilkårsgrunnlag } from '@state/utils';
@@ -54,14 +54,14 @@ export const VenstremenyBeregnetPeriode = ({
         activePeriod.tidslinje,
     );
 
-    const forrigeGenerasjonPeriode: Periode | null | undefined = finnForrigeEllerNyesteGenerasjon(
+    const forrigeBehandlingPeriode: Periode | null | undefined = finnForrigeEllerNyesteBehandling(
         activePeriod,
         inntektsforhold,
     )?.perioder.find((periode) => periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId);
 
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(
         isSelvstendigNaering(inntektsforhold),
-        forrigeGenerasjonPeriode?.tidslinje,
+        forrigeBehandlingPeriode?.tidslinje,
     );
     const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
     const periodState = getPeriodState(activePeriod);
@@ -86,7 +86,7 @@ export const VenstremenyBeregnetPeriode = ({
                 personsimulering={activePeriod.utbetaling.personsimulering}
                 periodeArbeidsgiverNettoBeløp={arbeidsgiverTotalbeløp}
                 periodePersonNettoBeløp={personTotalbeløp}
-                gammeltTotalbeløp={forrigeGenerasjonPeriode ? gammeltTotalbeløp : undefined}
+                gammeltTotalbeløp={forrigeBehandlingPeriode ? gammeltTotalbeløp : undefined}
                 inntektsforhold={inntektsforhold}
                 erJordbruker={activePeriod.egenskaper
                     .map((egenskap) => egenskap.egenskap)

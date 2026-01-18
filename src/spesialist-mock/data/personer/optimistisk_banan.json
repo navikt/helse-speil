@@ -351,7 +351,7 @@
                         }
                     ],
                     "ghostPerioder": [],
-                    "generasjoner": [
+                    "behandlinger": [
                         {
                             "id": "b1074c8d-3070-4135-8d05-5bf0c154e903",
                             "perioder": [
@@ -5820,7 +5820,7 @@
                                     },
                                     "varsler": [
                                         {
-                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
+                                            "behandlingId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
                                             "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
                                             "opprettet": "2021-06-27T14:44:12",
                                             "kode": "RV_SØ_23",
@@ -9095,7 +9095,7 @@
                                     "varsler": [
                                         {
                                             "id": "cc89604c-8c87-454d-bf92-efd10b07e9df",
-                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
+                                            "behandlingId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
                                             "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
                                             "opprettet": "2021-01-22T15:56:41",
                                             "kode": "RV_IT_30",
@@ -14797,7 +14797,7 @@
                                     "varsler": [
                                         {
                                             "id": "288b4a09-3f20-4778-83a8-8b9464328a50",
-                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
+                                            "behandlingId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
                                             "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
                                             "opprettet": "2021-06-27T14:44:11",
                                             "kode": "RV_SØ_23",
@@ -17264,7 +17264,7 @@
                                     "varsler": [
                                         {
                                             "id": "f55f60b9-5816-42ed-b1b9-71c06248716c",
-                                            "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
+                                            "behandlingId": "9c980089-292d-48e8-a36b-ec95d20a5766",
                                             "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
                                             "opprettet": "2021-02-07T14:19:10",
                                             "kode": "SB_EX_1",
@@ -18088,7 +18088,7 @@
                                     "varsler": [
                                         {
                                             "id": "dbd1ec6b-0727-4e19-b3e5-51c4004ea885",
-                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
+                                            "behandlingId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
                                             "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
                                             "opprettet": "2021-01-22T15:56:41",
                                             "kode": "RV_IT_30",
@@ -23699,7 +23699,7 @@
                                     "varsler": [
                                         {
                                             "id": "14213ea8-6b3d-47ef-bf72-ac64848d2699",
-                                            "generasjonId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
+                                            "behandlingId": "1f9e0ae8-2638-482d-bdeb-4237f38b8dc6",
                                             "definisjonId": "1a20655c-7618-41a5-a092-92f0edf603f2",
                                             "opprettet": "2021-06-27T14:44:12",
                                             "kode": "RV_SØ_23",
@@ -26166,7 +26166,7 @@
                                     "varsler": [
                                         {
                                             "id": "cf72afd5-ff99-47b6-91ff-18d6b981c2cb",
-                                            "generasjonId": "9c980089-292d-48e8-a36b-ec95d20a5766",
+                                            "behandlingId": "9c980089-292d-48e8-a36b-ec95d20a5766",
                                             "definisjonId": "8c2f4822-834d-4817-bfd1-9b668a3e914d",
                                             "opprettet": "2021-02-07T14:19:12",
                                             "kode": "SB_EX_1",
@@ -26990,7 +26990,7 @@
                                     "varsler": [
                                         {
                                             "id": "cc27d193-ef1b-4ea0-aabc-3ff796144de2",
-                                            "generasjonId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
+                                            "behandlingId": "b8a0bcfc-90fb-4bdf-a612-5e0528582e12",
                                             "definisjonId": "7e6efbb1-68c3-4196-86f2-12a87fe4702f",
                                             "opprettet": "2021-01-22T15:56:34",
                                             "kode": "RV_IT_30",

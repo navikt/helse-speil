@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Generasjon, PersonFragment } from '@io/graphql';
+import { Behandling, PersonFragment } from '@io/graphql';
 import { Inntektsforhold, inntektsforholdReferanseTilKey, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
@@ -13,7 +13,7 @@ import type { TimelineRowProps } from './TimelineRow';
 import styles from './TimelineRow.module.css';
 
 interface ExpandableTimelineRowProp extends Omit<TimelineRowProps, 'periods'> {
-    generations: Generasjon[];
+    generations: Behandling[];
     person: PersonFragment;
     inntektsforhold: Inntektsforhold;
 }

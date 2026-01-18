@@ -54,11 +54,11 @@ export const useSelectPeriod = () => {
 };
 
 const findPeriodToSelect = (person: PersonFragment): ActivePeriod | null => {
-    const perioderINyesteGenerasjoner = finnAlleInntektsforhold(person)
-        .flatMap((inntektsforhold) => inntektsforhold.generasjoner[0]?.perioder ?? [])
+    const perioderINyesteBehandlinger = finnAlleInntektsforhold(person)
+        .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder ?? [])
         .filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode));
 
-    const aktuellePerioder = perioderINyesteGenerasjoner
+    const aktuellePerioder = perioderINyesteBehandlinger
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .filter(
             (period) =>
@@ -66,7 +66,7 @@ const findPeriodToSelect = (person: PersonFragment): ActivePeriod | null => {
                 period.periodetilstand !== Periodetilstand.TilInfotrygd,
         );
 
-    const venteperioder = perioderINyesteGenerasjoner
+    const venteperioder = perioderINyesteBehandlinger
         .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
         .filter((period) => venterTilstander.includes(period.periodetilstand));
 
@@ -83,8 +83,8 @@ const findPeriod = (periodeId: string | null, person: PersonFragment) => {
     return (
         finnAlleInntektsforhold(person)
             .flatMap((arbeidsgiver) => {
-                const perioder = arbeidsgiver.generasjoner
-                    .flatMap((generasjon) => generasjon.perioder)
+                const perioder = arbeidsgiver.behandlinger
+                    .flatMap((behandling) => behandling.perioder)
                     .filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode));
                 const ghostPerioder = (isArbeidsgiver(arbeidsgiver) ? arbeidsgiver.ghostPerioder : []).filter(
                     isGhostPeriode,

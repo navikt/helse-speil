@@ -132,7 +132,7 @@
                         }
                     ],
                     "ghostPerioder": [],
-                    "generasjoner": [
+                    "behandlinger": [
                         {
                             "id": "1048d54f-e00b-4a4a-9b1d-7a4d5dd7a017",
                             "perioder": [
@@ -775,7 +775,7 @@
                                     "varsler": [
                                         {
                                             "id": "828f7372-b1db-42ba-95a5-1a7db37916ef",
-                                            "generasjonId": "1048d54f-e00b-4a4a-9b1d-7a4d5dd7a017",
+                                            "behandlingId": "1048d54f-e00b-4a4a-9b1d-7a4d5dd7a017",
                                             "definisjonId": "EN_DEFINISJON",
                                             "opprettet": "2022-11-02T11:09:57",
                                             "kode": "EN_KODE",
@@ -1002,7 +1002,7 @@
                             "organisasjonsnummer": "839942907"
                         }
                     ],
-                    "generasjoner": [],
+                    "behandlinger": [],
                     "overstyringer": [],
                     "inntekterFraAordningen": []
                 }

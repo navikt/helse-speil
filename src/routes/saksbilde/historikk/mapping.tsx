@@ -2,10 +2,10 @@ import dayjs from 'dayjs';
 
 import {
     Arbeidsgiver,
+    Behandling,
     BeregnetPeriodeFragment,
     EndrePaVent,
     FjernetFraPaVent,
-    Generasjon,
     GhostPeriodeFragment,
     Hendelse,
     Historikkinnslag,
@@ -304,9 +304,9 @@ const kommentarer = (
 
 const getTidligsteVurderingstidsstempelForPeriode = (
     period: BeregnetPeriodeFragment,
-    generasjoner: Generasjon[],
+    behandlinger: Behandling[],
 ): string | null =>
-    [...generasjoner]
+    [...behandlinger]
         ?.reverse()
         ?.flatMap((it) =>
             it?.perioder
@@ -324,16 +324,16 @@ export const getDagoverstyringer = (
     period: BeregnetPeriodeFragment,
     inntektsforhold: Inntektsforhold,
 ): DagoverstyringhendelseObject[] => {
-    const generasjoner: Generasjon[] = inntektsforhold.generasjoner;
+    const behandlinger: Behandling[] = inntektsforhold.behandlinger;
     const overstyringer: Overstyring[] = inntektsforhold.overstyringer;
-    const vurderingstidsstempel = getTidligsteVurderingstidsstempelForPeriode(period, generasjoner);
+    const vurderingstidsstempel = getTidligsteVurderingstidsstempelForPeriode(period, behandlinger);
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         period.skjaeringstidspunkt,
-        generasjoner,
+        behandlinger,
     );
 
-    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = generasjoner[0]
-        ? getSisteVurdertePeriodeForSkjæringstidspunktet(period.skjaeringstidspunkt, generasjoner[0])
+    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = behandlinger[0]
+        ? getSisteVurdertePeriodeForSkjæringstidspunktet(period.skjaeringstidspunkt, behandlinger[0])
         : undefined;
 
     return overstyringer
@@ -360,9 +360,9 @@ export const getDagoverstyringerForAUU = (
     period: UberegnetPeriodeFragment,
     inntektsforhold: Inntektsforhold,
 ): DagoverstyringhendelseObject[] => {
-    const generasjoner = inntektsforhold.generasjoner;
+    const behandlinger = inntektsforhold.behandlinger;
     const sisteTomForIkkeGhostsPåSkjæringstidspunktet =
-        generasjoner[0] && getSisteTomForIkkeGhostsPåSkjæringstidspunktet(period.skjaeringstidspunkt, generasjoner[0]);
+        behandlinger[0] && getSisteTomForIkkeGhostsPåSkjæringstidspunktet(period.skjaeringstidspunkt, behandlinger[0]);
 
     return inntektsforhold.overstyringer
         .filter(isDagoverstyring)
@@ -410,11 +410,11 @@ export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): Utbeta
 
 const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    generasjoner: Generasjon[],
+    behandlinger: Behandling[],
 ): BeregnetPeriodeFragment | undefined =>
-    [...generasjoner]
-        .flatMap<Periode | undefined>((generasjon: Generasjon) =>
-            generasjon.perioder.flatMap((p: Periode) => (p.skjaeringstidspunkt === skjæringstidspunkt ? p : undefined)),
+    [...behandlinger]
+        .flatMap<Periode | undefined>((behandling: Behandling) =>
+            behandling.perioder.flatMap((p: Periode) => (p.skjaeringstidspunkt === skjæringstidspunkt ? p : undefined)),
         )
         .filter((period) => period !== undefined)
         .filter(isBeregnetPeriode)
@@ -425,8 +425,8 @@ export const getFørstePeriodeForSkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
     arbeidsgiver: Inntektsforhold,
 ): Periode | undefined =>
-    arbeidsgiver.generasjoner.length
-        ? [...arbeidsgiver.generasjoner][0]?.perioder
+    arbeidsgiver.behandlinger.length
+        ? [...arbeidsgiver.behandlinger][0]?.perioder
               .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
               .pop()
         : undefined;
@@ -438,7 +438,7 @@ export const kanStrekkes = (
     const erFørstePeriodePåSkjæringstidspunkt =
         getFørstePeriodeForSkjæringstidspunkt(periode.skjaeringstidspunkt, inntektsforhold)?.id === periode.id;
 
-    const sistePeriodeFørAktivPeriode = inntektsforhold.generasjoner[0]?.perioder.filter((p) =>
+    const sistePeriodeFørAktivPeriode = inntektsforhold.behandlinger[0]?.perioder.filter((p) =>
         dayjs(p.tom).isBefore(periode.fom),
     )[0];
 
@@ -450,9 +450,9 @@ export const kanStrekkes = (
 
 const getSisteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    generasjon: Generasjon,
+    behandling: Behandling,
 ): BeregnetPeriodeFragment | undefined =>
-    generasjon.perioder
+    behandling.perioder
         .filter(isBeregnetPeriode)
         .filter(
             (beregnetPeriodeFragment: BeregnetPeriodeFragment) =>
@@ -462,19 +462,19 @@ const getSisteVurdertePeriodeForSkjæringstidspunktet = (
 
 const getSisteTomForIkkeGhostsPåSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    generasjon: Generasjon,
+    behandling: Behandling,
 ): Periode | undefined =>
-    generasjon.perioder
+    behandling.perioder
         .filter((periode) => !isGhostPeriode(periode) && periode.skjaeringstidspunkt === skjæringstidspunkt)
         .shift();
 
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
-    generasjoner: Generasjon[],
+    behandlinger: Behandling[],
 ): Vurdering | null => {
     const førsteVurdertePeriodeForSkjæringstidspunktet = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         skjæringstidspunkt,
-        generasjoner,
+        behandlinger,
     );
 
     return førsteVurdertePeriodeForSkjæringstidspunktet?.utbetaling.vurdering ?? null;
@@ -487,7 +487,7 @@ export const getInntektoverstyringer = (
     const skjæringstidspunkt = period.skjaeringstidspunkt;
     const vurdering = getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt(
         skjæringstidspunkt,
-        inntektsforhold.generasjoner,
+        inntektsforhold.behandlinger,
     );
 
     return inntektsforhold.overstyringer
@@ -611,13 +611,13 @@ export const getMinimumSykdomsgradoverstyring = (
     period: BeregnetPeriodeFragment,
     inntektsforhold: Inntektsforhold,
 ): MinimumSykdomsgradhendelseObject[] => {
-    const generasjoner = inntektsforhold.generasjoner;
+    const behandlinger = inntektsforhold.behandlinger;
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         period.skjaeringstidspunkt,
-        generasjoner,
+        behandlinger,
     );
-    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = generasjoner[0]
-        ? getSisteVurdertePeriodeForSkjæringstidspunktet(period.skjaeringstidspunkt, generasjoner[0])
+    const sisteVurdertePeriodeForArbeidsgiverISkjæringstidspunktet = behandlinger[0]
+        ? getSisteVurdertePeriodeForSkjæringstidspunktet(period.skjaeringstidspunkt, behandlinger[0])
         : undefined;
 
     return inntektsforhold.overstyringer

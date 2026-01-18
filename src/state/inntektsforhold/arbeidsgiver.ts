@@ -7,7 +7,7 @@ import {
     PersonFragment,
 } from '@io/graphql';
 import {
-    finnNteEllerNyesteGenerasjon,
+    finnNteEllerNyesteBehandling,
     finnPeriodeTilGodkjenning,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
 } from '@state/inntektsforhold/inntektsforhold';
@@ -28,17 +28,17 @@ export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
 
     if (!skjæringstidspunkt || aktivPeriode == null || arbeidsgiver == null) return null;
 
-    const forrigeEllerNyesteGenerasjon = finnNteEllerNyesteGenerasjon(aktivPeriode, arbeidsgiver);
+    const forrigeEllerNyesteBehandling = finnNteEllerNyesteBehandling(aktivPeriode, arbeidsgiver);
 
-    const arbeidsgiverEierForrigeEllerNyesteGenerasjon = arbeidsgiver?.generasjoner.some(
-        (g) => g.id === forrigeEllerNyesteGenerasjon?.id,
+    const arbeidsgiverEierForrigeEllerNyesteBehandling = arbeidsgiver?.behandlinger.some(
+        (g) => g.id === forrigeEllerNyesteBehandling?.id,
     );
 
     const arbeidsgiverGhostPerioder =
         arbeidsgiver?.ghostPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
 
-    const arbeidsgiverPerioder = arbeidsgiverEierForrigeEllerNyesteGenerasjon
-        ? (forrigeEllerNyesteGenerasjon?.perioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [])
+    const arbeidsgiverPerioder = arbeidsgiverEierForrigeEllerNyesteBehandling
+        ? (forrigeEllerNyesteBehandling?.perioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [])
         : [];
     if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder.length === 0) {
         return null;
@@ -94,32 +94,32 @@ export const useLokaleRefusjonsopplysninger = (
     );
 };
 
-export const erPeriodeIFørsteGenerasjon = (person: PersonFragment, period: Periode): boolean =>
+export const erPeriodeIFørsteBehandling = (person: PersonFragment, period: Periode): boolean =>
     !!person.arbeidsgivere.find((arbeidsgiver: Arbeidsgiver): Periode | undefined =>
-        arbeidsgiver.generasjoner[0]?.perioder.find((it) => it.id === period.id),
+        arbeidsgiver.behandlinger[0]?.perioder.find((it) => it.id === period.id),
     );
 
 /**
  * Returnerer alle unike hendelser av type 'INNTEKTSMELDING' for en gitt arbeidsgiver.
  *
  * Bakgrunn:
- *  - Samme hendelse (identisk id) kan forekomme flere ganger fordi perioder i ulike generasjoner
+ *  - Samme hendelse (identisk id) kan forekomme flere ganger fordi perioder i ulike behandlinger
  *    refererer til de samme hendelsesobjektene, men som distinkte JS-objekter.
  *  - Kan ikke gå via Set fordi like hendelser er distinkte objekter - det knepet funker bare på primitiver.
  *
  * Strategi:
- *  1. Samler alle hendelser fra alle perioder i alle generasjoner.
+ *  1. Samler alle hendelser fra alle perioder i alle behandlinger.
  *  2. Dedupliserer ved å legge dem i en Map keyed på hendelsens `id`.
  *  3. Filtrerer ned til kun hendelser av typen 'INNTEKTSMELDING'.
  *
- * @param arbeidsgiver Arbeidsgiver som kan inneholde generasjoner med perioder og hendelser.
+ * @param arbeidsgiver Arbeidsgiver som kan inneholde behandlinger med perioder og hendelser.
  * @returns Liste av unike 'INNTEKTSMELDING'-hendelser (kan være tom liste).
  */
 export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Arbeidsgiver | null): Hendelse[] => {
     if (!arbeidsgiver) return [];
 
     const hendelser = new Map<string, Hendelse>();
-    arbeidsgiver.generasjoner
+    arbeidsgiver.behandlinger
         .flatMap((g) => g.perioder.flatMap((p) => p.hendelser))
         .forEach((h) => {
             hendelser.set(h.id, h);

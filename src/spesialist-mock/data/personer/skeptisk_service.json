@@ -934,7 +934,7 @@
                         }
                     ],
                     "ghostPerioder": [],
-                    "generasjoner": [
+                    "behandlinger": [
                         {
                             "id": "f5a3418a-1606-4aaa-b109-e2502d86d543",
                             "perioder": [
@@ -1789,7 +1789,7 @@
                                     "varsler": [
                                         {
                                             "id": "53db6f9a-c50e-4cd8-b486-cd79b0bc6e0a",
-                                            "generasjonId": "f9e92069-5fa4-41ee-aa5a-591c6f22bb87",
+                                            "behandlingId": "f9e92069-5fa4-41ee-aa5a-591c6f22bb87",
                                             "definisjonId": "ee56b459-bc4b-4c99-9355-1339a802e71f",
                                             "opprettet": "2024-10-09T15:23:38.479",
                                             "kode": "RV_VV_4",
@@ -1806,7 +1806,7 @@
                                         },
                                         {
                                             "id": "a4c67dbd-a81a-42c2-86ff-1c464162981d",
-                                            "generasjonId": "f9e92069-5fa4-41ee-aa5a-591c6f22bb87",
+                                            "behandlingId": "f9e92069-5fa4-41ee-aa5a-591c6f22bb87",
                                             "definisjonId": "d871617e-c9fd-4ba4-8f3a-3c3424059bdd",
                                             "opprettet": "2024-10-15T10:20:02.680",
                                             "kode": "RV_UT_23",
@@ -1823,7 +1823,7 @@
                                         },
                                         {
                                             "id": "573fb89b-caf7-411c-be94-b32c4151b2d0",
-                                            "generasjonId": "f9e92069-5fa4-41ee-aa5a-591c6f22bb87",
+                                            "behandlingId": "f9e92069-5fa4-41ee-aa5a-591c6f22bb87",
                                             "definisjonId": "aa5abb9e-ad71-3877-afd6-ad8751d79903",
                                             "opprettet": "2024-11-19T10:31:55.935095",
                                             "kode": "RV_VV_17",
@@ -1835,7 +1835,7 @@
                                         },
                                         {
                                             "id": "e9b687a1-3a0e-44ec-a815-879b0acad12e",
-                                            "generasjonId": "f9e92069-5fa4-41ee-aa5a-591c6f22bb87",
+                                            "behandlingId": "f9e92069-5fa4-41ee-aa5a-591c6f22bb87",
                                             "definisjonId": "70302f7f-7eda-439f-a4b6-8fdbc132edd0",
                                             "opprettet": "2024-11-19T10:31:57.012873",
                                             "kode": "RV_SI_3",
@@ -2541,7 +2541,7 @@
                                     "varsler": [
                                         {
                                             "id": "3e04ca05-d3dd-4ef0-9d8e-08bd2975dc14",
-                                            "generasjonId": "3fa16c22-6be9-475b-9966-856b243912d9",
+                                            "behandlingId": "3fa16c22-6be9-475b-9966-856b243912d9",
                                             "definisjonId": "479eea9d-c583-4011-8898-58c027ae797e",
                                             "opprettet": "2024-10-07T12:56:39.021",
                                             "kode": "RV_IM_4",
@@ -2580,7 +2580,7 @@
                                     "__typename": "BeregnetPeriode"
                                 }
                             ],
-                            "__typename": "Generasjon"
+                            "__typename": "Behandling"
                         },
                         {
                             "id": "67a07104-59d0-48f0-b945-e29add67b1bd",
@@ -3326,7 +3326,7 @@
                                     "varsler": [
                                         {
                                             "id": "42c929a3-aff4-48df-b4f8-ee426e632bc5",
-                                            "generasjonId": "6fbcf927-9fcf-475e-bbf4-9383265f6f63",
+                                            "behandlingId": "6fbcf927-9fcf-475e-bbf4-9383265f6f63",
                                             "definisjonId": "ee56b459-bc4b-4c99-9355-1339a802e71f",
                                             "opprettet": "2024-10-09T15:07:30.702",
                                             "kode": "RV_VV_4",
@@ -4037,7 +4037,7 @@
                                     "varsler": [
                                         {
                                             "id": "29bc64d4-b94f-4c23-bb12-04ff422e343e",
-                                            "generasjonId": "3fa16c22-6be9-475b-9966-856b243912d9",
+                                            "behandlingId": "3fa16c22-6be9-475b-9966-856b243912d9",
                                             "definisjonId": "479eea9d-c583-4011-8898-58c027ae797e",
                                             "opprettet": "2024-10-07T12:56:39.021",
                                             "kode": "RV_IM_4",
@@ -4076,7 +4076,7 @@
                                     "__typename": "BeregnetPeriode"
                                 }
                             ],
-                            "__typename": "Generasjon"
+                            "__typename": "Behandling"
                         },
                         {
                             "id": "220880c3-1f37-40f9-ac58-7b4d53c81cc2",
@@ -4752,7 +4752,7 @@
                                     "varsler": [
                                         {
                                             "id": "498ad8c5-4231-496e-a81b-d60f091b9d0b",
-                                            "generasjonId": "06aa084e-5d0c-4430-a755-148c5ae66067",
+                                            "behandlingId": "06aa084e-5d0c-4430-a755-148c5ae66067",
                                             "definisjonId": "a232fccb-ac74-3fad-a9ff-16bd55e8e84b",
                                             "opprettet": "2024-10-07T12:53:45.862",
                                             "kode": "RV_VV_2",
@@ -4791,7 +4791,7 @@
                                     "__typename": "BeregnetPeriode"
                                 }
                             ],
-                            "__typename": "Generasjon"
+                            "__typename": "Behandling"
                         }
                     ],
                     "overstyringer": [
@@ -5185,7 +5185,7 @@
                             "__typename": "GhostPeriode"
                         }
                     ],
-                    "generasjoner": [
+                    "behandlinger": [
                         {
                             "id": "e9dabbe7-ac83-4c66-a3a2-88ae94550715",
                             "perioder": [
@@ -5692,7 +5692,7 @@
                                     "varsler": [
                                         {
                                             "id": "050ca355-ef6d-4507-b0ca-e3b4a34f70ab",
-                                            "generasjonId": "16966c25-277c-4143-a436-73f4ee2c1520",
+                                            "behandlingId": "16966c25-277c-4143-a436-73f4ee2c1520",
                                             "definisjonId": "aa5abb9e-ad71-3877-afd6-ad8751d79903",
                                             "opprettet": "2024-11-17T22:14:22.097785",
                                             "kode": "RV_VV_17",
@@ -6409,7 +6409,7 @@
                                     "__typename": "BeregnetPeriode"
                                 }
                             ],
-                            "__typename": "Generasjon"
+                            "__typename": "Behandling"
                         },
                         {
                             "id": "f75208f2-e55e-4402-ac93-18fad91d5447",
@@ -6913,7 +6913,7 @@
                                     "varsler": [
                                         {
                                             "id": "18f8482d-143a-426a-87cb-4f0470964178",
-                                            "generasjonId": "6b4d6d6b-7dc2-4174-8c85-46fed453ae9b",
+                                            "behandlingId": "6b4d6d6b-7dc2-4174-8c85-46fed453ae9b",
                                             "definisjonId": "d871617e-c9fd-4ba4-8f3a-3c3424059bdd",
                                             "opprettet": "2024-10-15T10:20:02.667",
                                             "kode": "RV_UT_23",
@@ -6930,7 +6930,7 @@
                                         },
                                         {
                                             "id": "df3975f7-3af5-4420-a9a0-c79a9a12bd73",
-                                            "generasjonId": "6b4d6d6b-7dc2-4174-8c85-46fed453ae9b",
+                                            "behandlingId": "6b4d6d6b-7dc2-4174-8c85-46fed453ae9b",
                                             "definisjonId": "ee56b459-bc4b-4c99-9355-1339a802e71f",
                                             "opprettet": "2024-10-15T10:20:02.641",
                                             "kode": "RV_VV_4",
@@ -7647,7 +7647,7 @@
                                     "__typename": "BeregnetPeriode"
                                 }
                             ],
-                            "__typename": "Generasjon"
+                            "__typename": "Behandling"
                         },
                         {
                             "id": "17c20769-bc49-4c0e-a82a-ee2df9510889",
@@ -8787,7 +8787,7 @@
                                     "__typename": "BeregnetPeriode"
                                 }
                             ],
-                            "__typename": "Generasjon"
+                            "__typename": "Behandling"
                         },
                         {
                             "id": "596ba53e-a607-4b72-8e5c-f2c300e8e0c2",
@@ -9927,7 +9927,7 @@
                                     "__typename": "BeregnetPeriode"
                                 }
                             ],
-                            "__typename": "Generasjon"
+                            "__typename": "Behandling"
                         },
                         {
                             "id": "6491de9e-2c72-4795-bcb2-33154b05eef7",
@@ -10412,7 +10412,7 @@
                                     "varsler": [
                                         {
                                             "id": "45acc83f-db83-4831-92e5-0cf7e54ffa06",
-                                            "generasjonId": "7e1af852-24cf-4788-b343-37c35a82a15c",
+                                            "behandlingId": "7e1af852-24cf-4788-b343-37c35a82a15c",
                                             "definisjonId": "ee56b459-bc4b-4c99-9355-1339a802e71f",
                                             "opprettet": "2024-10-07T13:31:45.054",
                                             "kode": "RV_VV_4",
@@ -11129,7 +11129,7 @@
                                     "__typename": "BeregnetPeriode"
                                 }
                             ],
-                            "__typename": "Generasjon"
+                            "__typename": "Behandling"
                         }
                     ],
                     "overstyringer": [

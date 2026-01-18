@@ -8,7 +8,7 @@ import { usePostSkjønnsfastsattSykepengegrunnlag } from '@saksbilde/sykepengegr
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
-import { enGenerasjon } from '@test-data/generasjon';
+import { enBehandling } from '@test-data/behandling';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
@@ -21,16 +21,16 @@ vi.mock('@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting');
 describe('SkjønnsfastsettingForm', () => {
     const periode = enBeregnetPeriode();
     const periode2 = enBeregnetPeriode();
-    const generasjon = enGenerasjon({ perioder: [periode] });
-    const generasjon2 = enGenerasjon({ perioder: [periode2] });
-    const arbeidsgiver = enArbeidsgiver({ generasjoner: [generasjon] });
+    const behandling = enBehandling({ perioder: [periode] });
+    const behandling2 = enBehandling({ perioder: [periode2] });
+    const arbeidsgiver = enArbeidsgiver({ behandlinger: [behandling] });
     const arbeidsgiver2 = enArbeidsgiver({
-        generasjoner: [generasjon2],
+        behandlinger: [behandling2],
         organisasjonsnummer: '123456789',
         navn: 'Arbeidsgiver To',
     });
     const arbeidsgiver3 = enArbeidsgiver({
-        generasjoner: [],
+        behandlinger: [],
         organisasjonsnummer: '123456710',
         navn: 'Arbeidsgiver Tre',
     });

@@ -107,8 +107,8 @@ const TimelineWithContent = ({
     const end = currentZoomLevel.tom.endOf('day');
 
     const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
-    const harArbeidsgiverMedFlereGenerasjoner = inntektsforhold.some(
-        (arbeidsgiver) => arbeidsgiver.generasjoner.length > 1,
+    const harArbeidsgiverMedFlereBehandlinger = inntektsforhold.some(
+        (arbeidsgiver) => arbeidsgiver.behandlinger.length > 1,
     );
 
     return (
@@ -119,16 +119,16 @@ const TimelineWithContent = ({
                 {inntektsforhold
                     .filter(
                         (inntektsforhold) =>
-                            inntektsforhold.generasjoner.length > 0 ||
+                            inntektsforhold.behandlinger.length > 0 ||
                             (isArbeidsgiver(inntektsforhold) && inntektsforhold.ghostPerioder.length > 0),
                     )
                     .map((inntektsforhold, i) => {
-                        return inntektsforhold.generasjoner.length > 1 ? (
+                        return inntektsforhold.behandlinger.length > 1 ? (
                             <ExpandableTimelineRow
                                 key={i}
                                 start={start}
                                 end={end}
-                                generations={inntektsforhold.generasjoner}
+                                generations={inntektsforhold.behandlinger}
                                 activePeriod={activePeriod}
                                 person={person}
                                 inntektsforhold={inntektsforhold}
@@ -139,7 +139,7 @@ const TimelineWithContent = ({
                                 start={start}
                                 end={end}
                                 activePeriod={activePeriod}
-                                alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
+                                alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
                                 person={person}
                                 inntektsforhold={inntektsforhold}
                             />
@@ -149,14 +149,14 @@ const TimelineWithContent = ({
                     start={start}
                     end={end}
                     personPseudoId={personPseudoId}
-                    alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
+                    alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
                 />
                 {infotrygdPeriods.length > 0 && (
                     <InfotrygdRow
                         start={start}
                         end={end}
                         periods={infotrygdPeriods}
-                        alignWithExpandable={harArbeidsgiverMedFlereGenerasjoner}
+                        alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
                         person={person}
                     />
                 )}

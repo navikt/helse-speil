@@ -39,9 +39,9 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
     const automatiskBehandlingStansetAvSaksbehandler =
         person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
 
-    const generasjonHarAnnullering = finnAlleInntektsforhold(person).some((ag) =>
-        ag.generasjoner.some((generasjon) =>
-            generasjon.perioder.some(
+    const behandlingHarAnnullering = finnAlleInntektsforhold(person).some((ag) =>
+        ag.behandlinger.some((behandling) =>
+            behandling.perioder.some(
                 (periode) =>
                     isBeregnetPeriode(activePeriod) &&
                     periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId &&
@@ -56,7 +56,7 @@ export const DropdownMenuContent = ({ person, activePeriod }: DropdownMenuProps)
         isBeregnetPeriode(activePeriod) &&
         (activePeriod.periodetilstand === Periodetilstand.IngenUtbetaling ||
             activePeriod.periodetilstand === Periodetilstand.Utbetalt) &&
-        !generasjonHarAnnullering;
+        !behandlingHarAnnullering;
 
     return (
         <Dropdown.Menu placement="bottom-start" className={styles.dropdown}>

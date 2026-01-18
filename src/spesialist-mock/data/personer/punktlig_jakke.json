@@ -163,7 +163,7 @@
                         }
                     ],
                     "ghostPerioder": [],
-                    "generasjoner": [
+                    "behandlinger": [
                         {
                             "id": "58b59c75-ffb1-45a5-b8e3-6ce2c0833752",
                             "perioder": [
@@ -632,7 +632,7 @@
                                     "varsler": [
                                         {
                                             "id": "f8792435-816c-428f-8d49-efb23a477d5e",
-                                            "generasjonId": "ec4261ea-808b-4c1c-879a-3d96c5a4d52f",
+                                            "behandlingId": "ec4261ea-808b-4c1c-879a-3d96c5a4d52f",
                                             "definisjonId": "24daf321-bd10-4dcc-a6a8-4f7fc81c0bb3",
                                             "opprettet": "2023-03-01T11:12:13",
                                             "kode": "RV_IV_2",
@@ -838,7 +838,7 @@
                         }
                     ],
                     "ghostPerioder": [],
-                    "generasjoner": [],
+                    "behandlinger": [],
                     "overstyringer": [],
                     "inntekterFraAordningen": []
                 }

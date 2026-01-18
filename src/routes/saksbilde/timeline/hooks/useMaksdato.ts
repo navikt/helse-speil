@@ -17,7 +17,7 @@ const byFomDescending = (a: Periode, b: Periode): number => {
 
 export const useMaksdato = (inntektsforhold: Inntektsforhold[]): DateString | undefined =>
     inntektsforhold
-        .flatMap((it) => it.generasjoner[0]?.perioder)
+        .flatMap((it) => it.behandlinger[0]?.perioder)
         .filter(isBeregnetPeriode)
         .sort(byFomDescending)
         .find(hasValidMaksdato)?.maksdato;

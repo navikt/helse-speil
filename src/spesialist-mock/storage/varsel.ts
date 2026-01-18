@@ -35,7 +35,7 @@ export class VarselMock {
         return varslerCopy.map((varsel) => {
             const varselMedEndring = this.varsler.find(
                 (varselMedEndring) =>
-                    varselMedEndring.generasjonId === varsel.generasjonId && varselMedEndring.kode === varsel.kode,
+                    varselMedEndring.behandlingId === varsel.behandlingId && varselMedEndring.kode === varsel.kode,
             );
             return varselMedEndring
                 ? { ...varsel, definisjonId: varselMedEndring.definisjonId, vurdering: varselMedEndring.vurdering }

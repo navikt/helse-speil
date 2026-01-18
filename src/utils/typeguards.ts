@@ -87,6 +87,6 @@ export const isSelvstendigNaering = (
 ): inntektsforhold is SelvstendigNaering => {
     return (
         (inntektsforhold as ArbeidsgiverFragment).organisasjonsnummer == undefined &&
-        (inntektsforhold as SelvstendigNaering).generasjoner !== undefined
+        (inntektsforhold as SelvstendigNaering).behandlinger !== undefined
     );
 };

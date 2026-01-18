@@ -173,7 +173,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
 
 const skalPolleEtterNestePeriode = (person: PersonFragment) =>
     finnAlleInntektsforhold(person)
-        .flatMap((inntektskilde) => inntektskilde.generasjoner[0]?.perioder ?? [])
+        .flatMap((inntektskilde) => inntektskilde.behandlinger[0]?.perioder ?? [])
         .some((periode) =>
             [
                 Periodetilstand.VenterPaEnAnnenPeriode,
@@ -205,7 +205,7 @@ const useOnAvvis = (): (() => void) => {
 
 const harNyereUtbetaltPeriodePåPerson = (period: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
     const nyesteUtbetaltPeriodePåPerson = finnAlleInntektsforhold(person)
-        .flatMap((inntektsforhold) => inntektsforhold.generasjoner[0]?.perioder)
+        .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder)
         .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))
         .pop();
 

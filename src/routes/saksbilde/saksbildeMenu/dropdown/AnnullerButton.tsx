@@ -58,7 +58,7 @@ interface AnnullerButtonProps {
 
 export const AnnullerButton = ({ person, periode, inntektsforhold }: AnnullerButtonProps): ReactElement | null => {
     const harMinstEnUtbetaltPeriode =
-        inntektsforhold.generasjoner
+        inntektsforhold.behandlinger
             .flatMap((it) => it.perioder)
             .filter(
                 (it) =>

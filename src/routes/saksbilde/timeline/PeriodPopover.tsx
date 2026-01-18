@@ -6,7 +6,7 @@ import type { PopoverProps } from '@navikt/ds-react';
 import { BodyShort, Popover } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useForrigeGenerasjonPeriodeMedPeriode } from '@hooks/useForrigeGenerasjonPeriode';
+import { useForrigeBehandlingPeriodeMedPeriode } from '@hooks/useForrigeBehandlingPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, NotatType, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
@@ -101,7 +101,7 @@ export const BeregnetPopover = ({
         erSelvstendigNæringsdrivende,
         period.tidslinje,
     );
-    const forrigePeriode = useForrigeGenerasjonPeriodeMedPeriode(period, person);
+    const forrigePeriode = useForrigeBehandlingPeriodeMedPeriode(period, person);
     const { totalbeløp: gammeltTotalbeløp } = useTotalbeløp(erSelvstendigNæringsdrivende, forrigePeriode?.tidslinje);
 
     return (

@@ -23,7 +23,7 @@ const finnFørsteVilkårsprøvdePeriodePåSkjæringstidspunkt = (
     finnAlleArbeidsgivere(person).flatMap((arbeidsgiver) => ({
         arbeidsgiver: arbeidsgiver.organisasjonsnummer,
         initierendeVedtaksperiodeId:
-            arbeidsgiver.generasjoner?.[0]?.perioder
+            arbeidsgiver.behandlinger?.[0]?.perioder
                 ?.filter(
                     (periode) =>
                         periode.skjaeringstidspunkt === period.skjaeringstidspunkt && isBeregnetPeriode(periode),

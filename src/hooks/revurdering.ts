@@ -11,7 +11,7 @@ export const useActivePeriodHasLatestSkjæringstidspunkt = (person: PersonFragme
         return false;
     }
 
-    const lastBeregnetPeriode = inntektsforhold.generasjoner[0]?.perioder.filter(isBeregnetPeriode)[0];
+    const lastBeregnetPeriode = inntektsforhold.behandlinger[0]?.perioder.filter(isBeregnetPeriode)[0];
 
     return lastBeregnetPeriode !== undefined && lastBeregnetPeriode.skjaeringstidspunkt === period.skjaeringstidspunkt;
 };

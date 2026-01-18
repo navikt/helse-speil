@@ -29,7 +29,7 @@ import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 
-const useIsInCurrentGeneration = (person: PersonFragment): boolean => {
+const useIsInCurrentBehandling = (person: PersonFragment): boolean => {
     const period = useActivePeriod(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
 
@@ -56,10 +56,10 @@ const ReadonlyUtbetaling = ({
     inntektsforholdReferanse,
 }: ReadonlyUtbetalingProps): ReactElement => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
-    const periodeErISisteGenerasjon = useIsInCurrentGeneration(person);
+    const periodeErISisteBehandling = useIsInCurrentBehandling(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
-    const harTidligereSkjæringstidspunktOgISisteGenerasjon = !hasLatestSkjæringstidspunkt && periodeErISisteGenerasjon;
+    const harTidligereSkjæringstidspunktOgISisteBehandling = !hasLatestSkjæringstidspunkt && periodeErISisteBehandling;
 
     return (
         <Box paddingBlock="8 16" paddingInline="6" position="relative">
@@ -74,7 +74,7 @@ const ReadonlyUtbetaling = ({
                 />
                 {!(hasLatestSkjæringstidspunkt || erAktivPeriodeLikEllerFørPeriodeTilGodkjenning) && (
                     <HelpText>
-                        {harTidligereSkjæringstidspunktOgISisteGenerasjon
+                        {harTidligereSkjæringstidspunktOgISisteBehandling
                             ? 'Det er ikke mulig å gjøre endringer i denne perioden'
                             : 'Perioden kan ikke overstyres fordi det finnes en oppgave på en tidligere periode'}
                     </HelpText>

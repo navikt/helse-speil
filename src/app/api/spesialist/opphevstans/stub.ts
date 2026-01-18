@@ -19,7 +19,7 @@ const finnOppgaveId = (fødselsnummer: string): string | null => {
     const valgtPerson = fetchPersondata()[fødselsnummer];
     if (!valgtPerson) return null;
     const periode = valgtPerson.arbeidsgivere
-        .flatMap((a) => a.generasjoner.flatMap((g) => g.perioder))
+        .flatMap((a) => a.behandlinger.flatMap((g) => g.perioder))
         .find((periode) => isNotNullOrUndefined((periode as BeregnetPeriode).oppgave));
 
     return (periode as BeregnetPeriode)?.oppgave?.id ?? null;

@@ -52,7 +52,7 @@ export const InntektOgRefusjon = ({
         (it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt,
     )?.inntekter;
 
-    const harSykefravær = !!arbeidsgiver?.generasjoner[0]?.perioder.find((it) => it.fom === periode.fom);
+    const harSykefravær = !!arbeidsgiver?.behandlinger[0]?.perioder.find((it) => it.fom === periode.fom);
 
     return (
         <>
