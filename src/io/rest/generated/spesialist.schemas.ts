@@ -1056,6 +1056,28 @@ export interface ApiHttpProblemDetailsApiPostNotatErrorCode {
     code?: ApiHttpProblemDetailsApiPostNotatErrorCodeCode;
 }
 
+export type ApiPostFeilregistrerNotatErrorCode =
+    (typeof ApiPostFeilregistrerNotatErrorCode)[keyof typeof ApiPostFeilregistrerNotatErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostFeilregistrerNotatErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCodeCode = null | ApiPostFeilregistrerNotatErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCodeCode;
+}
+
 export type ApiGetOpptegnelseSekvensnummerSisteErrorCode =
     (typeof ApiGetOpptegnelseSekvensnummerSisteErrorCode)[keyof typeof ApiGetOpptegnelseSekvensnummerSisteErrorCode];
 
@@ -1148,33 +1170,6 @@ export interface ApiHttpProblemDetailsApiPostPersonSokErrorCode {
     title: string;
     detail?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeCode;
-}
-
-export interface ApiKrrStatus {
-    kanVarsles: boolean;
-    reservert: boolean;
-}
-
-export type ApiGetKrrStatusForPersonErrorCode =
-    (typeof ApiGetKrrStatusForPersonErrorCode)[keyof typeof ApiGetKrrStatusForPersonErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetKrrStatusForPersonErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeCode = null | ApiGetKrrStatusForPersonErrorCode;
-
-export interface ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeCode;
 }
 
 export type ApiKrrRegistrertStatus = (typeof ApiKrrRegistrertStatus)[keyof typeof ApiKrrRegistrertStatus];

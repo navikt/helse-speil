@@ -7,6 +7,7 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
+    ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCode,
     ApiHttpProblemDetailsApiPostNotatErrorCode,
     ApiNotatRequest,
     ApiNotatResponse,
@@ -81,6 +82,75 @@ export const usePostNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPostNota
     TContext
 > => {
     const mutationOptions = getPostNotatMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const putFeilregistrerNotat = (vedtaksperiodeId: string, notatId: number) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/notater/${notatId}/feilregistrer`,
+        method: 'PUT',
+    });
+};
+
+export const getPutFeilregistrerNotatMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof putFeilregistrerNotat>>,
+        TError,
+        { vedtaksperiodeId: string; notatId: number },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof putFeilregistrerNotat>>,
+    TError,
+    { vedtaksperiodeId: string; notatId: number },
+    TContext
+> => {
+    const mutationKey = ['putFeilregistrerNotat'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof putFeilregistrerNotat>>,
+        { vedtaksperiodeId: string; notatId: number }
+    > = (props) => {
+        const { vedtaksperiodeId, notatId } = props ?? {};
+
+        return putFeilregistrerNotat(vedtaksperiodeId, notatId);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PutFeilregistrerNotatMutationResult = NonNullable<Awaited<ReturnType<typeof putFeilregistrerNotat>>>;
+
+export type PutFeilregistrerNotatMutationError = ErrorType<ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCode>;
+
+export const usePutFeilregistrerNotat = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof putFeilregistrerNotat>>,
+            TError,
+            { vedtaksperiodeId: string; notatId: number },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof putFeilregistrerNotat>>,
+    TError,
+    { vedtaksperiodeId: string; notatId: number },
+    TContext
+> => {
+    const mutationOptions = getPutFeilregistrerNotatMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };
