@@ -1,7 +1,8 @@
 import React from 'react';
 import { Mock } from 'vitest';
 
-import { useGetKrrStatusForPerson } from '@io/rest/generated/krr/krr';
+import { useGetKrrRegistrertStatusForPerson } from '@io/rest/generated/krr/krr';
+import { ApiKrrRegistrertStatus } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@testing-library/react';
 
 import { ReservasjonTag } from './ReservasjonTag';
@@ -9,21 +10,28 @@ import { ReservasjonTag } from './ReservasjonTag';
 vi.mock('@io/rest/generated/krr/krr');
 
 describe('ReservasjonTag', () => {
-    it('rendrer tag når det ikke finnes reservasjonsstatus', async () => {
-        (useGetKrrStatusForPerson as Mock).mockReturnValueOnce({ data: {} });
+    it('rendrer tag når det feiler å hente status fra KRR', async () => {
+        (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({ data: {} });
         render(<ReservasjonTag />);
         expect(await screen.findByText('Status KRR utilgjengelig')).toBeVisible();
     });
-    it('rendrer tag når det finnes en reservasjon i KRR', async () => {
-        (useGetKrrStatusForPerson as Mock).mockReturnValueOnce({
-            data: { data: { kanVarsles: false, reservert: true } },
+    it('rendrer tag når personen har reservert seg i KRR', async () => {
+        (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({
+            data: { data: ApiKrrRegistrertStatus.RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING },
         });
         render(<ReservasjonTag />);
         expect(await screen.findByText('Reservert KRR')).toBeVisible();
     });
-    it('rendrer ikke tag når det ikke finnes en reservasjon i KRR', async () => {
-        (useGetKrrStatusForPerson as Mock).mockReturnValueOnce({
-            data: { data: { kanVarsles: true, reservert: false } },
+    it('rendrer tag når personen ikke ligger i KRR', async () => {
+        (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({
+            data: { data: ApiKrrRegistrertStatus.IKKE_REGISTRERT_I_KRR },
+        });
+        render(<ReservasjonTag />);
+        expect(await screen.findByText('Ikke registrert KRR')).toBeVisible();
+    });
+    it('rendrer ikke tag når personen ikke har reservert seg i KRR', async () => {
+        (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({
+            data: { data: ApiKrrRegistrertStatus.IKKE_RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING },
         });
         render(<ReservasjonTag />);
         expect(screen.queryByText('Reservert KRR')).not.toBeInTheDocument();
