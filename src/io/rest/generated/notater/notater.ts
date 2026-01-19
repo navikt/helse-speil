@@ -7,21 +7,17 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
-    ApiHttpProblemDetailsApiPostNotaterErrorCode,
+    ApiHttpProblemDetailsApiPostNotatErrorCode,
     ApiNotatRequest,
-    ApiOpprettetRessursInt,
+    ApiNotatResponse,
 } from '../spesialist.schemas';
 
 import { useMutation } from '@tanstack/react-query';
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
-export const postBehandlingNotater = (
-    behandlingId: string,
-    apiNotatRequest?: ApiNotatRequest,
-    signal?: AbortSignal,
-) => {
-    return callCustomAxios<ApiOpprettetRessursInt>({
-        url: `/api/spesialist/behandlinger/${behandlingId}/notater`,
+export const postNotat = (vedtaksperiodeId: string, apiNotatRequest?: ApiNotatRequest, signal?: AbortSignal) => {
+    return callCustomAxios<ApiNotatResponse>({
+        url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/notater`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: apiNotatRequest,
@@ -29,23 +25,23 @@ export const postBehandlingNotater = (
     });
 };
 
-export const getPostBehandlingNotaterMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostNotaterErrorCode>,
+export const getPostNotatMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postBehandlingNotater>>,
+        Awaited<ReturnType<typeof postNotat>>,
         TError,
-        { behandlingId: string; data: ApiNotatRequest },
+        { vedtaksperiodeId: string; data: ApiNotatRequest },
         TContext
     >;
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof postBehandlingNotater>>,
+    Awaited<ReturnType<typeof postNotat>>,
     TError,
-    { behandlingId: string; data: ApiNotatRequest },
+    { vedtaksperiodeId: string; data: ApiNotatRequest },
     TContext
 > => {
-    const mutationKey = ['postBehandlingNotater'];
+    const mutationKey = ['postNotat'];
     const { mutation: mutationOptions } = options
         ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
             ? options
@@ -53,41 +49,38 @@ export const getPostBehandlingNotaterMutationOptions = <
         : { mutation: { mutationKey } };
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postBehandlingNotater>>,
-        { behandlingId: string; data: ApiNotatRequest }
+        Awaited<ReturnType<typeof postNotat>>,
+        { vedtaksperiodeId: string; data: ApiNotatRequest }
     > = (props) => {
-        const { behandlingId, data } = props ?? {};
+        const { vedtaksperiodeId, data } = props ?? {};
 
-        return postBehandlingNotater(behandlingId, data);
+        return postNotat(vedtaksperiodeId, data);
     };
 
     return { mutationFn, ...mutationOptions };
 };
 
-export type PostBehandlingNotaterMutationResult = NonNullable<Awaited<ReturnType<typeof postBehandlingNotater>>>;
-export type PostBehandlingNotaterMutationBody = ApiNotatRequest;
-export type PostBehandlingNotaterMutationError = ErrorType<ApiHttpProblemDetailsApiPostNotaterErrorCode>;
+export type PostNotatMutationResult = NonNullable<Awaited<ReturnType<typeof postNotat>>>;
+export type PostNotatMutationBody = ApiNotatRequest;
+export type PostNotatMutationError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>;
 
-export const usePostBehandlingNotater = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostNotaterErrorCode>,
-    TContext = unknown,
->(
+export const usePostNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postBehandlingNotater>>,
+            Awaited<ReturnType<typeof postNotat>>,
             TError,
-            { behandlingId: string; data: ApiNotatRequest },
+            { vedtaksperiodeId: string; data: ApiNotatRequest },
             TContext
         >;
     },
     queryClient?: QueryClient,
 ): UseMutationResult<
-    Awaited<ReturnType<typeof postBehandlingNotater>>,
+    Awaited<ReturnType<typeof postNotat>>,
     TError,
-    { behandlingId: string; data: ApiNotatRequest },
+    { vedtaksperiodeId: string; data: ApiNotatRequest },
     TContext
 > => {
-    const mutationOptions = getPostBehandlingNotaterMutationOptions(options);
+    const mutationOptions = getPostNotatMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

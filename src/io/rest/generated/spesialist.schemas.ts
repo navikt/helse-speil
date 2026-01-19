@@ -1032,28 +1032,28 @@ export interface ApiNotatRequest {
     tekst: string;
 }
 
-export interface ApiOpprettetRessursInt {
+export interface ApiNotatResponse {
     id: number;
 }
 
-export type ApiPostNotaterErrorCode = (typeof ApiPostNotaterErrorCode)[keyof typeof ApiPostNotaterErrorCode];
+export type ApiPostNotatErrorCode = (typeof ApiPostNotatErrorCode)[keyof typeof ApiPostNotatErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostNotaterErrorCode = {
-    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+export const ApiPostNotatErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
 } as const;
 
-export type ApiHttpProblemDetailsApiPostNotaterErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsApiPostNotatErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiPostNotaterErrorCodeCode = null | ApiPostNotaterErrorCode;
+export type ApiHttpProblemDetailsApiPostNotatErrorCodeCode = null | ApiPostNotatErrorCode;
 
-export interface ApiHttpProblemDetailsApiPostNotaterErrorCode {
+export interface ApiHttpProblemDetailsApiPostNotatErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsApiPostNotaterErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostNotaterErrorCodeCode;
+    detail?: ApiHttpProblemDetailsApiPostNotatErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostNotatErrorCodeCode;
 }
 
 export type ApiGetOpptegnelseSekvensnummerSisteErrorCode =
@@ -1175,6 +1175,38 @@ export interface ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCode {
     title: string;
     detail?: ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiGetKrrStatusForPersonErrorCodeCode;
+}
+
+export type ApiKrrRegistrertStatus = (typeof ApiKrrRegistrertStatus)[keyof typeof ApiKrrRegistrertStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiKrrRegistrertStatus = {
+    RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING: 'RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING',
+    IKKE_RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING: 'IKKE_RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING',
+    IKKE_REGISTRERT_I_KRR: 'IKKE_REGISTRERT_I_KRR',
+} as const;
+
+export type ApiGetKrrRegistrertStatusForPersonErrorCode =
+    (typeof ApiGetKrrRegistrertStatusForPersonErrorCode)[keyof typeof ApiGetKrrRegistrertStatusForPersonErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetKrrRegistrertStatusForPersonErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode =
+    null | ApiGetKrrRegistrertStatusForPersonErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode;
 }
 
 export type GetOppgaverParams = {
