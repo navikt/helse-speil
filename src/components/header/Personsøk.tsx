@@ -6,7 +6,7 @@ import { Search } from '@navikt/ds-react';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { validFødselsnummer } from '@io/graphql/common';
-import { BadRequestError, NotFoundError } from '@io/graphql/errors';
+import { BadRequestError, FetchError, NotFoundError } from '@io/graphql/errors';
 import { postPersonSok } from '@io/rest/generated/personsøk/personsøk';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
 import { usePersonKlargjøres } from '@state/personSomKlargjøres';
@@ -48,21 +48,24 @@ export const Personsøk = (): ReactElement => {
                 : { aktørId: personId };
 
             setLoading(true);
-            const personsøkResponse = await postPersonSok(personsøkVariables);
-            setLoading(false);
-
-            if (personsøkResponse.status >= 400 && personsøkResponse.status < 500) {
-                router.push('/');
-                addVarsel(new NotFoundError());
-                return;
-            }
-
-            if (!personsøkResponse.data.klarForVisning) {
-                venterPåKlargjøring(personsøkResponse.data.personPseudoId);
-                return;
-            }
-
-            router.push(`/person/${personsøkResponse.data.personPseudoId}/dagoversikt`);
+            await postPersonSok(personsøkVariables)
+                .then((response) => {
+                    if (!response.data.klarForVisning) {
+                        venterPåKlargjøring(response.data.personPseudoId);
+                    } else {
+                        router.push(`/person/${response.data.personPseudoId}/dagoversikt`);
+                    }
+                })
+                .catch((error) => {
+                    if (error.response) {
+                        if (error.response.status >= 400 && error.response.status < 500) {
+                            addVarsel(new NotFoundError());
+                        } else {
+                            addVarsel(new FetchError());
+                        }
+                    }
+                })
+                .finally(() => setLoading(false));
         }
     };
 
