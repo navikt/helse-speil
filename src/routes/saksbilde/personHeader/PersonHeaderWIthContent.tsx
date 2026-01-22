@@ -7,6 +7,7 @@ import { Kjonn, PersonFragment } from '@io/graphql';
 import { AktørId } from '@saksbilde/personHeader/AktørId';
 import { AutomatiskBehandlingStansetTag } from '@saksbilde/personHeader/AutomatiskBehandlingStansetTag';
 import { FullmaktTag } from '@saksbilde/personHeader/FullmaktTag';
+import { enhetsnavn } from '@saksbilde/personHeader/enheter';
 
 import { AdressebeskyttelseTag } from './AdressebeskyttelseTag';
 import { DødsdatoTag } from './DødsdatoTag';
@@ -36,7 +37,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
             <AktørId aktørId={person.aktorId} />
             <BodyShort className={styles.Separator}>/</BodyShort>
             <AnonymizableText>
-                Boenhet: {person.enhet.id} ({person.enhet.navn})
+                Boenhet: {person.enhet.id} ({enhetsnavn.get(Number(person.enhet.id))})
             </AnonymizableText>
             <HStack paddingInline="3 0" gap="3">
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
