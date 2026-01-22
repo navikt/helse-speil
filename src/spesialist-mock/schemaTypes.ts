@@ -347,7 +347,6 @@ export type EndrePaVent = Historikkinnslag & {
 export type Enhet = {
     __typename?: 'Enhet';
     id: Scalars['String']['output'];
-    navn: Scalars['String']['output'];
 };
 
 export type Faresignal = {

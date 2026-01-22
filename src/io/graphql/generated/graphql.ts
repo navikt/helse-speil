@@ -349,7 +349,6 @@ export type EndrePaVent = Historikkinnslag & {
 export type Enhet = {
     __typename: 'Enhet';
     id: Scalars['String']['output'];
-    navn: Scalars['String']['output'];
 };
 
 export type Faresignal = {
@@ -3410,7 +3409,7 @@ export type PersonFragment = {
     versjon: number;
     aktorId: string;
     andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
-    enhet: { __typename: 'Enhet'; id: string; navn: string };
+    enhet: { __typename: 'Enhet'; id: string };
     infotrygdutbetalinger: Array<{
         __typename: 'Infotrygdutbetaling';
         organisasjonsnummer: string;
@@ -4987,7 +4986,7 @@ export type FetchPersonQuery = {
         versjon: number;
         aktorId: string;
         andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
-        enhet: { __typename: 'Enhet'; id: string; navn: string };
+        enhet: { __typename: 'Enhet'; id: string };
         infotrygdutbetalinger: Array<{
             __typename: 'Infotrygdutbetaling';
             organisasjonsnummer: string;
@@ -9639,10 +9638,7 @@ export const PersonFragmentDoc = {
                         name: { kind: 'Name', value: 'enhet' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                            ],
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
                         },
                     },
                     {
@@ -13157,10 +13153,7 @@ export const FetchPersonDocument = {
                         name: { kind: 'Name', value: 'enhet' },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                            ],
+                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
                         },
                     },
                     {

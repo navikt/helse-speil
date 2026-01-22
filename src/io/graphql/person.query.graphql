@@ -521,7 +521,6 @@ fragment person on Person {
     dodsdato
     enhet {
         id
-        navn
     }
     infotrygdutbetalinger {
         organisasjonsnummer
