@@ -75,7 +75,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '5890',
-        personPseudoId: '2632e37d-33ca-454a-9489-d9847008858a',
+        personPseudoId: '7afe562b-8984-4b8c-bfd3-b5f4a5bf4718',
         aktorId: '2805594640665',
         opprettetTidspunkt: '2023-04-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2023-01-21 09:48:33.10625',
@@ -128,7 +128,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '4959',
-        personPseudoId: '3ac490e6-1be6-480e-bb7a-06a5a507ab87',
+        personPseudoId: '2d1bc122-bbfc-4338-b2e9-f0fa4fbad2ba',
         aktorId: '2348185725298',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
@@ -148,7 +148,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '4917',
-        personPseudoId: 'a8870494-8b47-457d-8ac7-606daee9c66f',
+        personPseudoId: 'f3f2afdf-fe55-4f6c-b77a-38c15de1642d',
         aktorId: '1000001337420',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
@@ -167,8 +167,8 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '5917',
-        personPseudoId: '604575dd-da3c-4cc0-a1de-578496192441',
-        aktorId: '1000001337421',
+        personPseudoId: '951269d2-c272-4c64-9fa7-f25eac943c59',
+        aktorId: '2407074650987',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
@@ -186,8 +186,8 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '90021',
-        personPseudoId: '9f9092e6-9b9f-4847-a958-f375e50d0957',
-        aktorId: '2128719010641',
+        personPseudoId: '62a99893-299d-41ef-9ef4-7f3454a1a9ab',
+        aktorId: '2117136462117',
         opprettetTidspunkt: '2023-07-02T11:08:58',
         opprinneligSoeknadstidspunkt: '2023-07-01 12:27:29.585667',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',

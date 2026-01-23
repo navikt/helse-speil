@@ -1122,7 +1122,12 @@
                                     "oppgave": {
                                         "id": "5343"
                                     },
-                                    "egenskaper": [],
+                                    "egenskaper": [
+                                        {
+                                            "kategori": "Status",
+                                            "egenskap": "PA_VENT"
+                                        }
+                                    ],
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
@@ -1739,6 +1744,7 @@
                                         }
                                     ],
                                     "beregningId": "31a30973-399e-4d45-afe0-51952c34ecac",
+                                    "behandlingId": "51952c34-399e-4d45-afe0-31a30973ecac",
                                     "forbrukteSykedager": 1,
                                     "gjenstaendeSykedager": 247,
                                     "beslutterSaksbehandlerOid": null,
@@ -2756,6 +2762,7 @@
                                             "id": "9df38dbc-d213-4629-b775-cc9160c1e8ee",
                                             "behandlingId": "f213be6e-9dbe-466a-bf36-0cdafa48b2a7",
                                             "definisjonId": "d5553185-9350-4a2d-939b-6b6def9d2fa0",
+                                            "opprettet": "2023-03-07T15:17:12",
                                             "kode": "RV_IM_4",
                                             "tittel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige.",
                                             "forklaring": "Det har kommet inn flere inntektsmeldinger. Speil håndterer endringer i refusjon, men ikke tilfeller der inntekt eller arbeidsgiverperiode er endret. ",
@@ -2766,6 +2773,7 @@
                                             "id": "233810a1-0b0f-417f-93c1-1c46f46d76d6",
                                             "behandlingId": "f213be6e-9dbe-466a-bf36-0cdafa48b2a7",
                                             "definisjonId": "641acb03-c373-4760-816a-26999ac7cd3a",
+                                            "opprettet": "2023-03-07T15:17:12",
                                             "kode": "RV_IM_2",
                                             "tittel": "Første fraværsdag i inntektsmeldingen er ulik skjæringstidspunktet. Kontrollér at inntektsmeldingen er knyttet til riktig periode.",
                                             "forklaring": "Første fraværsdag i inntektsmeldingen er ulik første fraværsdag i sykdomsperioden:",
@@ -2774,7 +2782,12 @@
                                         }
                                     ],
                                     "vilkarsgrunnlagId": "612e342b-d832-4618-96f7-2d24856f768b",
-                                    "oppgave": null
+                                    "oppgave": null,
+                                    "egenskaper": [],
+                                    "avslag": [],
+                                    "vedtakBegrunnelser": [],
+                                    "pensjonsgivendeInntekter": [],
+                                    "annulleringskandidater": []
                                 }
                             ]
                         }

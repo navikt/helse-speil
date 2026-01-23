@@ -4820,6 +4820,7 @@
                         },
                         {
                             "hendelseId": "5d0b61ef-f408-47de-80ae-8949c5ad0cfb",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -4842,6 +4843,7 @@
                         },
                         {
                             "hendelseId": "69192e21-6d09-4ed6-a47a-62342de40b62",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -4864,6 +4866,7 @@
                         },
                         {
                             "hendelseId": "20594959-94ae-40a8-aa83-905e439b9959",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -4918,6 +4921,7 @@
                         },
                         {
                             "hendelseId": "ddb56e52-58ac-4894-800c-5988a198d9de",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -4942,6 +4946,7 @@
                         },
                         {
                             "hendelseId": "bccd95f7-9bc4-4d56-a27d-2dfa16f6ea47",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -4966,6 +4971,7 @@
                         },
                         {
                             "hendelseId": "17776485-e994-459d-9767-122bc7af1bcb",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -4990,6 +4996,7 @@
                         },
                         {
                             "hendelseId": "cc2585c4-00af-41b7-8c8b-e79133f0af94",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -5014,6 +5021,7 @@
                         },
                         {
                             "hendelseId": "3878ab0e-b4f2-497e-9e3b-1f05ca3fdb17",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -5038,6 +5046,7 @@
                         },
                         {
                             "hendelseId": "5ec5145a-b981-4197-9c24-0426940afacb",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "H159657",
                                 "navn": "Hasle, Jonas",
@@ -5068,6 +5077,7 @@
                         },
                         {
                             "hendelseId": "d0d2a5b7-b1b2-4172-9939-0e57f5f03262",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "H134988",
                                 "navn": "Hagen, Øyvind",
@@ -11160,6 +11170,7 @@
                         },
                         {
                             "hendelseId": "bccd95f7-9bc4-4d56-a27d-2dfa16f6ea47",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -11184,6 +11195,7 @@
                         },
                         {
                             "hendelseId": "17776485-e994-459d-9767-122bc7af1bcb",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -11208,6 +11220,7 @@
                         },
                         {
                             "hendelseId": "cc2585c4-00af-41b7-8c8b-e79133f0af94",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -11232,6 +11245,7 @@
                         },
                         {
                             "hendelseId": "3878ab0e-b4f2-497e-9e3b-1f05ca3fdb17",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "R136472",
                                 "navn": "Roark, Camilla Bårnes",
@@ -11256,6 +11270,7 @@
                         },
                         {
                             "hendelseId": "5ec5145a-b981-4197-9c24-0426940afacb",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "H159657",
                                 "navn": "Hasle, Jonas",
@@ -11286,6 +11301,7 @@
                         },
                         {
                             "hendelseId": "d0d2a5b7-b1b2-4172-9939-0e57f5f03262",
+                            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
                             "saksbehandler": {
                                 "ident": "H134988",
                                 "navn": "Hagen, Øyvind",
