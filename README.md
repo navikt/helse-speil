@@ -43,6 +43,11 @@ Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesial
 
 Kjør precommit hooks manuelt - `.husky/pre-commit`
 
+### Legge til en testperson lokalt:
+
+1. legg inn person-json i src/spesialist-mock/data/personer
+2. legg inn fødselsnummer og en personPseudoId i lista i src/spesialist-mock/storage/person.ts
+
 ## Bygge for produksjon lokalt
 
 Dersom du vil teste produksjonsbygget lokalt, må du først flytte over tilhørende miljøvariabler til `.env.production` i

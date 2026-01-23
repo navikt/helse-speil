@@ -1,35 +1,5 @@
 import { GraphQLError, GraphQLErrorOptions } from 'graphql';
 
-export class NotFoundError extends GraphQLError {
-    constructor(fnr: string) {
-        const message = `Finner ikke data for person med fødselsnummer ${fnr}`;
-        super(message, { extensions: { code: 404, field: 'person' } });
-    }
-}
-
-export class FlereFodselsnumreError extends GraphQLError {
-    constructor() {
-        super(`Mer enn ett fødselsnummer for personen`, {
-            extensions: {
-                code: 500,
-                feilkode: 'HarFlereFodselsnumre',
-                fodselsnumre: ['ddmmåånnnnn', 'ddmmåånnnnn'],
-            },
-        });
-    }
-}
-
-export class BeingPreparedError extends GraphQLError {
-    constructor() {
-        super(`Personen gjøres klar til visning`, {
-            extensions: {
-                code: 409,
-                persondata_hentes_for: '1000000000004',
-            },
-        });
-    }
-}
-
 export class NotReadyError extends GraphQLError {
     constructor() {
         super(`Person med fødselsnummer ... er ikke klar for visning ennå`, {
