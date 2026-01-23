@@ -93,8 +93,8 @@
 }
 
 .Period.waiting {
-    --period-background-color: var(--a-lightblue-50);
-    --period-hover-color: var(--a-lightblue-100);
-    --period-border-color: var(--a-lightblue-700);
+    --period-background-color: var(--ax-bg-info-soft);
+    --period-hover-color: var(--ax-bg-info-moderate-hover);
+    --period-border-color: var(--ax-border-info);
     --period-icon-color: var(--ax-neutral-1000);
 }

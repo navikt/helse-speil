@@ -23,7 +23,8 @@
 }
 
 .header:focus-visible {
-    box-shadow: var(--a-shadow-focus);
+    outline: 3px solid var(--ax-border-focus);
+    outline-offset: 3px;
 }
 
 .header:hover {

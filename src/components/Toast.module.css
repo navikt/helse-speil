@@ -1,6 +1,6 @@
 .Toast {
-    --toast-background-color: var(--a-surface-inverted);
-    --toast-border-color: var(--a-surface-inverted);
+    --toast-background-color: var(--ax-bg-raised);
+    --toast-border-color: var(--ax-bg-raised);
     --toast-text-color: var(--ax-text-neutral-contrast);
     position: relative;
     display: flex;

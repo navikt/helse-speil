@@ -20,11 +20,11 @@
 .avhuking.feil {
     color: var(--ax-danger-600);
     padding-left: 14px;
-    background: radial-gradient(circle at 50% 50%, var(--a-white) 25%, 0, transparent);
+    background: radial-gradient(circle at 50% 50%, var(--ax-bg-default) 25%, 0, transparent);
 }
 
 .avhuking.aktiv > svg > circle {
-    fill: var(--a-white);
+    fill: var(--ax-bg-default);
     stroke: var(--ax-accent-600);
 }
 
@@ -46,7 +46,7 @@
 }
 
 .avhuking.vurdert > svg > path {
-    fill: var(--a-white);
+    fill: var(--ax-bg-default);
 }
 
 .avhuking.ferdig-behandlet > svg > circle {
@@ -55,5 +55,5 @@
 }
 
 .avhuking.ferdig-behandlet > svg > path {
-    fill: var(--a-white);
+    fill: var(--ax-bg-default);
 }

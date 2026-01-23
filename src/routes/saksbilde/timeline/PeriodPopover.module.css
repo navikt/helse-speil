@@ -11,7 +11,7 @@
 }
 
 .NegativePenger {
-    color: var(--navds-semantic-color-feedback-danger-text);
+    color: var(--ax-text-danger-subtle);
     font-weight: bold;
 }
 
