@@ -50,7 +50,13 @@ export const NyhetModal = ({ closeModal, showModal, nyhetModal }: NyhetModalProp
                 )}
             </Modal.Body>
             {slides.length > 1 && (
-                <HStack gap="16" justify="center" align="center" paddingBlock="4 6" paddingInline="6 6">
+                <HStack
+                    gap="space-64"
+                    justify="center"
+                    align="center"
+                    paddingBlock="space-16 space-24"
+                    paddingInline="space-24 space-24"
+                >
                     <Button
                         variant="tertiary"
                         icon={<ChevronLeftIcon />}
@@ -59,7 +65,7 @@ export const NyhetModal = ({ closeModal, showModal, nyhetModal }: NyhetModalProp
                     >
                         Forrige
                     </Button>
-                    <HStack gap="3">
+                    <HStack gap="space-12">
                         {slides.map((_, index) => (
                             <span
                                 className={classNames(styles.step, slideIndex === index && styles.activestep)}

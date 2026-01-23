@@ -87,7 +87,7 @@ export const InntektOgRefusjonVisning = ({
             />
             <OmregnetÅrsinntekt
                 omregnetÅrsintekt={omregnetÅrsinntekt?.belop}
-                gap="24"
+                gap="space-96"
                 harLokaltMånedsbeløp={lokaltMånedsbeløp != null}
             />
             {refusjon && refusjon.length !== 0 && (

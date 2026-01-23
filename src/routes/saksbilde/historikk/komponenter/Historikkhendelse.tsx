@@ -61,8 +61,8 @@ export const Historikkhendelse = ({
         >
             <div className={styles.iconContainer}>{icon}</div>
             <div className={styles.content}>
-                <HStack gap="1" wrap={false}>
-                    <HStack gap="1" wrap={false}>
+                <HStack gap="space-4" wrap={false}>
+                    <HStack gap="space-4" wrap={false}>
                         <BodyShort weight="semibold">{title}</BodyShort>
                         {expanded ? (
                             <ChevronUpIcon style={{ flexShrink: 0 }} title="Vis mindre" fontSize="1.5rem" />
@@ -75,7 +75,7 @@ export const Historikkhendelse = ({
                 </HStack>
                 <HendelseDate timestamp={timestamp} ident={saksbehandler} />
                 <AnimatedExpandableDiv expanded={expanded}>
-                    <VStack gap="2">{children}</VStack>
+                    <VStack gap="space-8">{children}</VStack>
                 </AnimatedExpandableDiv>
             </div>
         </li>
@@ -83,13 +83,13 @@ export const Historikkhendelse = ({
         <li role="button" tabIndex={0} className={classNames(styles.fokusområde, styles.hendelse)}>
             <div className={styles.iconContainer}>{icon}</div>
             <div className={styles.content}>
-                <HStack gap="1" wrap={false}>
+                <HStack gap="space-4" wrap={false}>
                     <BodyShort weight="semibold">{title}</BodyShort>
                     {kontekstknapp && <Spacer />}
                     {kontekstknapp}
                 </HStack>
                 <HendelseDate timestamp={timestamp} ident={saksbehandler} />
-                {children && <VStack gap="2">{children}</VStack>}
+                {children && <VStack gap="space-8">{children}</VStack>}
             </div>
         </li>
     );

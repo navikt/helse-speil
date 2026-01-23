@@ -4,7 +4,7 @@
 }
 
 .snarveisrad:nth-of-type(2n-1) {
-    background-color: var(--a-gray-100);
+    background-color: var(--ax-neutral-200);
 }
 
 .snarvei {
@@ -19,5 +19,5 @@
 }
 
 .utviklersnacks {
-    margin-top: var(--a-spacing-4);
+    margin-top: var(--ax-space-16);
 }

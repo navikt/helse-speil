@@ -148,7 +148,7 @@ const OrganisasonsnavnKjent = ({
     const isAnonymous = useIsAnonymous();
     return (
         <Tooltip content={tooltipInnhold(isAnonymous, navn, organisasjonsnummer, visOrganisasjonsnummerITooltip)}>
-            <HStack gap="2" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
+            <HStack gap="space-8" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
                 <AnonymizableTextWithEllipsis {...bodyShortProps}>{navn}</AnonymizableTextWithEllipsis>
                 {showCopyButton && (
                     <CopyButton

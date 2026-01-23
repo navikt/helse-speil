@@ -89,7 +89,7 @@ type TilUtbetalingProps = {
 
 const TilUtbetaling = ({ utbetaling, inntektsforholdReferanse, personinfo }: TilUtbetalingProps): ReactElement => (
     <div className={styles.TilUtbetaling}>
-        <HStack align="center" gap="4" className={styles.Row}>
+        <HStack align="center" gap="space-16" className={styles.Row}>
             <BodyShort weight="semibold">
                 {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}
             </BodyShort>
@@ -99,14 +99,14 @@ const TilUtbetaling = ({ utbetaling, inntektsforholdReferanse, personinfo }: Til
             </BodyShort>
         </HStack>
         {inntektsforholdReferanse.type === 'Arbeidsgiver' && (
-            <HStack align="center" gap="4" className={styles.Row}>
+            <HStack align="center" gap="space-16" className={styles.Row}>
                 <Arbeidsgiverikon />
                 <Inntektsforholdnavn inntektsforholdReferanse={inntektsforholdReferanse} />
                 <Spacer />
                 <BodyShort>{somPenger(utbetaling.arbeidsgiverNettoBelop)}</BodyShort>
             </HStack>
         )}
-        <HStack align="center" gap="4" className={styles.Row}>
+        <HStack align="center" gap="space-16" className={styles.Row}>
             <SykmeldtikonMedTooltip />
             <AnonymizableTextWithEllipsis>{capitalizeName(getFormattedName(personinfo))}</AnonymizableTextWithEllipsis>
             <Spacer />

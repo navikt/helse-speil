@@ -16,7 +16,7 @@
 .tittel {
     display: flex;
     align-items: center;
-    color: var(--a-text-default);
+    color: var(--ax-text-neutral);
     font-size: 18px;
     font-weight: 600;
     margin-right: 0.5rem;
@@ -28,7 +28,7 @@
     font-size: 14px;
     display: flex;
     align-items: center;
-    color: var(--a-text-subtle);
+    color: var(--ax-text-neutral-subtle);
     white-space: nowrap;
     min-height: 1.5rem;
 }

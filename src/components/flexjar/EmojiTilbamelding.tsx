@@ -35,16 +35,16 @@ export const EmojiTilbakemelding = ({ feedbackId, tittel, feedbackProps }: Emoji
             <div className={styles.container}>
                 <div className={styles.content}>
                     <EmojiButton feedback={1} text="Veldig dårlig" className={styles.sinna} {...feedbackButtonProps}>
-                        <Sinna fill={activeState === 1 ? 'var(--a-red-100)' : undefined} />
+                        <Sinna fill={activeState === 1 ? 'var(--ax-danger-200)' : undefined} />
                     </EmojiButton>
                     <EmojiButton feedback={2} text="Dårlig" className={styles.lei} {...feedbackButtonProps}>
-                        <Lei fill={activeState === 2 ? 'var(--a-orange-100)' : undefined} />
+                        <Lei fill={activeState === 2 ? 'var(--ax-warning-200)' : undefined} />
                     </EmojiButton>
                     <EmojiButton feedback={3} text="Nøytral" className={styles.nøytral} {...feedbackButtonProps}>
-                        <Noytral fill={activeState === 3 ? 'var(--a-blue-100)' : undefined} />
+                        <Noytral fill={activeState === 3 ? 'var(--ax-accent-200)' : undefined} />
                     </EmojiButton>
                     <EmojiButton feedback={4} text="Bra" className={styles.glad} {...feedbackButtonProps}>
-                        <Glad fill={activeState === 4 ? 'var(--a-green-100)' : undefined} />
+                        <Glad fill={activeState === 4 ? 'var(--ax-success-200)' : undefined} />
                     </EmojiButton>
                     <EmojiButton
                         feedback={5}
@@ -52,7 +52,7 @@ export const EmojiTilbakemelding = ({ feedbackId, tittel, feedbackProps }: Emoji
                         className={styles['veldig-glad']}
                         {...feedbackButtonProps}
                     >
-                        <VeldigGlad fill={activeState === 5 ? 'var(--a-green-200)' : undefined} />
+                        <VeldigGlad fill={activeState === 5 ? 'var(--ax-success-300)' : undefined} />
                     </EmojiButton>
                 </div>
             </div>

@@ -4,6 +4,6 @@
 }
 
 .sammendrag li {
-    line-height: var(--a-font-line-height-large);
+    line-height: var(--ax-font-line-height-large);
     margin-left: 1rem;
 }

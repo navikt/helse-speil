@@ -46,7 +46,7 @@ export const MånedsbeløpInput = ({
     });
 
     return (
-        <HStack align="center" gap="2" wrap={false}>
+        <HStack align="center" gap="space-8" wrap={false}>
             <TextField
                 {...inputValidation}
                 className={styles.Input}

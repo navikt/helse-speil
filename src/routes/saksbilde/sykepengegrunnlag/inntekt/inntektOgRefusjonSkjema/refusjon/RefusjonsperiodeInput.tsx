@@ -36,7 +36,7 @@ export const RefusjonsperiodeInput = ({
     const { ref: _tomRef, ...tomFieldProps } = tomField;
 
     return (
-        <HStack wrap gap="2" justify="center">
+        <HStack wrap gap="space-8" justify="center">
             <DatePicker {...fomDatePickerProps} dropdownCaption>
                 <DatePicker.Input
                     {...fomFieldProps}

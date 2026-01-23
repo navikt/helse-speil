@@ -27,8 +27,8 @@ export const OverstyringToolBar = ({
     const [visLeggTilDagerForm, setVisLeggTilDagerForm] = useState(false);
 
     return (
-        <Box marginInline="6">
-            <HStack paddingBlock="0 4" gap="2">
+        <Box marginInline="space-24">
+            <HStack paddingBlock="space-0 space-16" gap="space-8">
                 <Heading size="small">{erRevurdering ? 'Revurder' : 'Endre'} dager</Heading>
                 <Button
                     size="xsmall"
@@ -48,7 +48,7 @@ export const OverstyringToolBar = ({
                 </Button>
             )}
             {visLeggTilDagerForm && (
-                <VStack gap="4" align="start">
+                <VStack gap="space-16" align="start">
                     <LeggTilDagerForm
                         onSubmitPølsestrekk={onSubmitPølsestrekk}
                         periodeFom={periodeFom}

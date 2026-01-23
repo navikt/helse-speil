@@ -1,32 +1,32 @@
 .nyhet {
-  padding: var(--a-spacing-4) 0;
+  padding: var(--ax-space-16) 0;
 }
 
 .dato {
-  color: var(--a-text-subtle);
+  color: var(--ax-text-neutral-subtle);
 }
 
 .button {
-  color: var(--a-text-action);
+  color: var(--ax-text-accent-subtle);
   background-color: var(--a-surface-transparent);
-  box-shadow: inset 0 0 0 2px var(--a-border-action);
+  box-shadow: inset 0 0 0 2px var(--ax-border-accent);
   width: 6rem;
 }
 
 .button:hover {
-  color: var(--a-text-action-on-action-subtle);
-  background-color: var(--a-surface-action-subtle-hover);
-  box-shadow: inset 0 0 0 2px var(--a-border-action-hover);
+  color: var(--ax-text-accent-subtle);
+  background-color: var(--ax-bg-accent-moderate-hover);
+  box-shadow: inset 0 0 0 2px var(--ax-border-accent);
 }
 
 .button:active {
-  color: var(--a-text-on-action);
-  background-color: var(--a-surface-action-active);
+  color: var(--ax-text-accent-contrast);
+  background-color: var(--ax-bg-accent-strong-pressed);
   box-shadow: none;
 }
 
 .list {
-  padding-left: var(--a-spacing-6);
+  padding-left: var(--ax-space-24);
 }
 
 .unorderedlist {

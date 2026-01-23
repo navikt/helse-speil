@@ -1,11 +1,11 @@
 .Kommentarer {
     display: flex;
     flex-direction: column;
-    font-size: var(--a-font-size-medium);
+    font-size: var(--ax-font-size-medium);
 }
 
 .Kommentarer > p {
-    font-weight: var(--a-font-weight-bold);
+    font-weight: var(--ax-font-weight-bold);
 }
 
 .Kommentar {
@@ -22,7 +22,7 @@
     content: '';
     height: 1px;
     width: 200px;
-    background-color: var(--a-border-divider);
+    background-color: var(--ax-border-neutral-subtle);
 }
 
 .Kommentarer * {
@@ -32,11 +32,11 @@
 .Kommentar > div {
     margin-right: 48px;
     white-space: pre-line;
-    line-height: var(--a-font-line-height-medium);
+    line-height: var(--ax-font-line-height-medium);
 }
 
 .Feilregistrert {
-    background: var(--a-surface-danger-subtle);
+    background: var(--ax-bg-danger-soft);
     padding: 0 8px;
     width: 200px;
     font-style: italic;

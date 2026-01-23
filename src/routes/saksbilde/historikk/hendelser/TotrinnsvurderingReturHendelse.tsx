@@ -33,7 +33,7 @@ export const TotrinnsvurderingReturHendelse = ({
             aktiv={true}
         >
             {notattekst && (
-                <VStack gap="0">
+                <VStack gap="space-0">
                     {førsteTekstlinje}
                     {øvrigeTekstlinjer !== '' && (
                         <Expandable>

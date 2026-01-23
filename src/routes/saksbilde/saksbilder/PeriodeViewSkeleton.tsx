@@ -9,8 +9,8 @@ import styles from './SharedViews.module.css';
 export const PeriodeViewSkeleton = (): ReactElement => (
     <div className={styles.Content}>
         <SaksbildemenySkeleton />
-        <Box marginInline="4" marginBlock="6">
-            <HStack gap="2" marginBlock="0 4">
+        <Box marginInline="space-16" marginBlock="space-24">
+            <HStack gap="space-8" marginBlock="space-0 space-16">
                 <Skeleton>
                     <Heading size="small">Dagoversikt Arbeidsgivernavn Gmbh</Heading>
                 </Skeleton>

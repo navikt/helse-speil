@@ -70,7 +70,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                         description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn"
                         ref={textArea}
                     />
-                    <HStack gap="2" align="center" marginBlock="4 0">
+                    <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                         <Button size="small" variant="primary" type="submit" loading={loading || submitting}>
                             Opphev stans
                         </Button>

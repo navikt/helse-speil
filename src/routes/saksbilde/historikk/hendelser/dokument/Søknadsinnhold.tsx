@@ -73,11 +73,11 @@ export const Søknadsinnhold = ({ dokumentId, personPseudoId }: SøknadsinnholdP
                     )}
                     {data.selvstendigNaringsdrivende && (
                         <DokumentFragment overskrift="Inntekt selvstendig næring">
-                            <VStack as="ul" paddingInline="2 0">
+                            <VStack as="ul" paddingInline="space-8 space-0">
                                 {data.selvstendigNaringsdrivende.inntekt?.map((it) => (
                                     <VStack as="li" key={it.ar}>
                                         <BodyShort weight="semibold">{it.ar}</BodyShort>
-                                        <VStack paddingInline="2 0">
+                                        <VStack paddingInline="space-8 space-0">
                                             <BodyShort>
                                                 Lønnsinntekt: {somPenger(it.pensjonsgivendeInntektAvLonnsinntekt)}
                                             </BodyShort>

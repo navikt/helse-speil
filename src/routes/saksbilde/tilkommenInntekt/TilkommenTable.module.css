@@ -6,13 +6,25 @@
 }
 
 .redigering .helg {
-    background: var(--a-bg-subtle)
-        repeating-linear-gradient(123deg, var(--a-gray-300), var(--a-gray-300) 1px, transparent 1px, transparent 9px);
+    background: var(--ax-bg-neutral-soft)
+        repeating-linear-gradient(
+            123deg,
+            var(--ax-neutral-400),
+            var(--ax-neutral-400) 1px,
+            transparent 1px,
+            transparent 9px
+        );
 }
 
 .visning .helg {
-    background: var(--a-bg-default)
-        repeating-linear-gradient(123deg, var(--a-gray-300), var(--a-gray-300) 1px, transparent 1px, transparent 9px);
+    background: var(--ax-bg-default)
+        repeating-linear-gradient(
+            123deg,
+            var(--ax-neutral-400),
+            var(--ax-neutral-400) 1px,
+            transparent 1px,
+            transparent 9px
+        );
 }
 
 .valgteDatoer {
@@ -20,16 +32,16 @@
 }
 
 .redigering .valgteDatoer {
-    background: var(--a-surface-selected);
+    background: var(--ax-bg-accent-soft);
 }
 
 .visning .valgteDatoer {
-    background: var(--a-surface-neutral-moderate);
+    background: var(--ax-bg-neutral-moderate);
 }
 
 .tabell th {
-    border-bottom: var(--a-border-strong) 1px solid !important;
-    border-right: var(--a-border-divider) 1px solid;
+    border-bottom: var(--ax-border-neutral-strong) 1px solid !important;
+    border-right: var(--ax-border-neutral-subtle) 1px solid;
 }
 
 .tabell th:last-of-type {
@@ -37,7 +49,7 @@
 }
 
 .tabell td {
-    border-right: var(--a-border-divider) 1px solid;
+    border-right: var(--ax-border-neutral-subtle) 1px solid;
 }
 
 .tabell td:last-of-type {
@@ -45,7 +57,7 @@
 }
 
 .tabell tr:not(:last-of-type) td {
-    border-bottom: var(--a-border-divider) 1px solid;
+    border-bottom: var(--ax-border-neutral-subtle) 1px solid;
 }
 
 .tabell tr:last-of-type td {

@@ -24,7 +24,7 @@ export const FilterList = ({ filters, text }: FilterListProps): ReactElement => 
                     <BodyShort weight="semibold">{text}</BodyShort>
                 </Accordion.Header>
                 <Accordion.Content className={classNames(styles.innhold)}>
-                    <VStack gap="2">
+                    <VStack gap="space-8">
                         {filters.map((it) => (
                             <AvOgPåKnapper filter={it} key={it.key} />
                         ))}

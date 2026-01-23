@@ -3,8 +3,8 @@
     display: flex;
     height: min-content;
     box-sizing: border-box;
-    border: 1px solid var(--a-border-strong);
-    color: var(--a-text-default);
+    border: 1px solid var(--ax-border-neutral-strong);
+    color: var(--ax-text-neutral);
     white-space: nowrap;
     min-width: max-content;
 }
@@ -14,7 +14,7 @@
 }
 
 .feilmelding {
-    color: var(--a-text-danger);
+    color: var(--ax-text-danger-subtle);
     font-size: 1rem;
     font-weight: 600;
     margin-top: 0.625rem;

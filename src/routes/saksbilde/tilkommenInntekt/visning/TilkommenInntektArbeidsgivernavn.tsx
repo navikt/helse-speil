@@ -7,7 +7,7 @@ import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 
 export const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { organisasjonsnummer: string }) => (
-    <HStack align="center" gap="1">
+    <HStack align="center" gap="space-4">
         <SackKronerIcon fontSize="1.4rem" />
         <Organisasjonsnavn maxWidth="225px" organisasjonsnummer={organisasjonsnummer} weight="semibold" />
         <HStack>

@@ -3,7 +3,7 @@
 }
 
 .fokusområde:focus-visible {
-    box-shadow: var(--a-shadow-focus);
+    box-shadow: var(--ax-bg-success-strong);
 }
 
 .klikkbar {

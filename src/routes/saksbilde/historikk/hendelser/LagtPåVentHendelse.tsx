@@ -44,7 +44,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
             aktiv={hendelse.erNyestePåVentInnslag}
         >
             <ÅrsakListe årsaker={hendelse.årsaker} />
-            <HStack gap="1">
+            <HStack gap="space-4">
                 <BodyShort>Oppfølgningsdato:</BodyShort>
                 <BodyShort weight="semibold">{somNorskDato(hendelse.frist ?? undefined)}</BodyShort>
             </HStack>

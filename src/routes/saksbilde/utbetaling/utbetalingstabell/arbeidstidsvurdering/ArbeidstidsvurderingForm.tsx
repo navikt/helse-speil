@@ -95,8 +95,8 @@ export const ArbeidstidsvurderingForm = ({
     };
 
     return (
-        <Box background="surface-subtle" as="article" padding="4">
-            <HStack gap="2" paddingBlock="0 3">
+        <Box background="neutral-soft" as="article" padding="space-16">
+            <HStack gap="space-8" paddingBlock="space-0 space-12">
                 <Heading size="small">Arbeidstidsvurdering</Heading>
                 <Button
                     size="xsmall"
@@ -122,7 +122,7 @@ export const ArbeidstidsvurderingForm = ({
                             feilliste={formErrorsTilFeilliste(form.formState.errors)}
                         />
                     )}
-                    <HStack gap="2" align="center" marginBlock="6 0">
+                    <HStack gap="space-8" align="center" marginBlock="space-24 space-0">
                         <Button size="small" variant="secondary" type="submit" loading={isLoading}>
                             Lagre
                         </Button>
@@ -185,7 +185,7 @@ const DelperiodeTabell = ({ oppkuttedePerioder, person, aktivPeriode }: Delperio
 );
 
 const Innledning = () => (
-    <VStack marginBlock="0 4" width="675px">
+    <VStack marginBlock="space-0 space-16" width="675px">
         <BodyShort weight="semibold">
             Vurder om arbeidsevnen er nedsatt med minst 20 % basert på arbeidstid i disse periodene
         </BodyShort>

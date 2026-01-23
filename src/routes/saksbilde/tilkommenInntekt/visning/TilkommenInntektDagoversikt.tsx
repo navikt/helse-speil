@@ -23,13 +23,13 @@ export const TilkommenInntektDagoversikt = ({ inntektsforhold, periode, eksklude
     return (
         <Box
             borderWidth="1 1 1 1"
-            borderColor="border-strong"
+            borderColor="neutral-strong"
             width="max-content"
             height="max-content"
             minWidth="300px"
         >
-            <Box background="surface-subtle" borderWidth="0 0 1 0" borderColor="border-strong">
-                <HStack align="center" padding="2">
+            <Box background="neutral-soft" borderWidth="0 0 1 0" borderColor="neutral-strong">
+                <HStack align="center" padding="space-8">
                     <BodyShort weight="semibold">Dagoversikt</BodyShort>
                 </HStack>
             </Box>

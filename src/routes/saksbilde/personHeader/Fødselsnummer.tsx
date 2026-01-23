@@ -13,7 +13,7 @@ interface FødselsnummerProps {
 }
 
 export const Fødselsnummer = ({ fødselsnummer }: FødselsnummerProps): ReactElement => (
-    <HStack gap="1">
+    <HStack gap="space-4">
         <AnonymizableText>{getFormattedFødselsnummer(fødselsnummer)}</AnonymizableText>
         <Tooltip content="Kopier fødselsnummer" keys={['alt', 'c']}>
             <CopyButton copyText={fødselsnummer} size="xsmall" />

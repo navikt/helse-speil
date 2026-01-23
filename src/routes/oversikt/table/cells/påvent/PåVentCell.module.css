@@ -21,15 +21,15 @@
 }
 
 .NotatButton:focus {
-    box-shadow: 0 0 0 2px var(--a-border-focus);
+    box-shadow: 0 0 0 2px var(--ax-border-focus);
 }
 
 .NotatButton:active {
-    background: var(--a-border-focus);
+    background: var(--ax-border-focus);
     box-shadow: none;
 }
 
 .utgåttFrist,
 .utgåttFrist svg {
-    color: var(--a-text-danger);
+    color: var(--ax-text-danger-subtle);
 }

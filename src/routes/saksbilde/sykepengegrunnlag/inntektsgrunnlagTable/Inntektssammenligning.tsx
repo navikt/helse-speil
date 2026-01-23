@@ -59,7 +59,7 @@ export const Inntektssammenligning = ({
         >
             <td>
                 <HStack
-                    gap="3"
+                    gap="space-12"
                     align="center"
                     maxWidth="228px"
                     className={classNames(!!arbeidsforholdErDeaktivert && styles.arbeidsgivernavnDeaktivert)}

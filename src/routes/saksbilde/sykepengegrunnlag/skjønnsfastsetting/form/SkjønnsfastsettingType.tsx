@@ -28,7 +28,7 @@ export const SkjønnsfastsettingType = (): ReactElement => {
                 className={styles.typer}
                 name="type"
                 legend={
-                    <HStack gap="2">
+                    <HStack gap="space-8">
                         Velg type skjønnsfastsettelse
                         {valgtType && (
                             <Button size="xsmall" variant="tertiary" onClick={onEndre}>

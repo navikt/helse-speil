@@ -10,6 +10,6 @@
 }
 
 .button > div:hover {
-    background-color: var(--a-text-default);
+    background-color: var(--ax-text-neutral);
     color: var(--a-white);
 }

@@ -54,7 +54,7 @@ export const BehandletIdagTable = (): ReactElement => {
 
     return (
         <VStack height="100%">
-            <HStack wrap gap="8" marginBlock="6 4">
+            <HStack wrap gap="space-32" marginBlock="space-24 space-16">
                 <DatePicker {...fomDatePicker.datepickerProps} dropdownCaption>
                     <DatePicker.Input {...fomDatePicker.inputProps} label="Fra og med dato" size="small" />
                 </DatePicker>

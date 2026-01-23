@@ -2,22 +2,22 @@
   padding: 0;
 
   .content {
-    border: 0.25rem solid var(--a-bg-subtle);
+    border: 0.25rem solid var(--ax-bg-neutral-soft);
 
     .header {
       display: flex;
-      background: var(--a-bg-subtle);
+      background: var(--ax-bg-neutral-soft);
       padding: 1rem;
       flex-direction: column;
 
       .tittel {
         margin-bottom: 0.5rem;
-        font-size: var(--a-font-size-heading-small);
+        font-size: var(--ax-font-size-heading-small);
       }
 
       .info {
         font-style: italic;
-        line-height: var(--a-font-line-height-large);
+        line-height: var(--ax-font-line-height-large);
       }
     }
 
@@ -41,7 +41,7 @@
 
   .thanks {
     padding: 1rem;
-    background: var(--a-surface-success-subtle);
+    background: var(--ax-bg-success-soft);
 
     .header {
       font-weight: bold;
@@ -58,8 +58,8 @@
   }
 
   &:hover, &.answer {
-    background: var(--a-surface-neutral-active);
-    color: var(--a-text-on-inverted);
+    background: var(--ax-bg-neutral-strong-pressed);
+    color: var(--ax-text-neutral-contrast);
   }
 
   &.answer:focus {

@@ -72,7 +72,7 @@ export const SisteTolvMånedersInntekt = ({
 
     return (
         <>
-            <HStack gap="2" align="center">
+            <HStack gap="space-8" align="center">
                 <Detail as="h2" className={styles.title} uppercase weight="semibold" textColor="subtle">
                     RAPPORTERT SISTE {antallMåneder} MÅNEDER
                 </Detail>

@@ -61,15 +61,15 @@ export const TilkommenInntektSkjemafelter = ({
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <Box
-                    background="surface-subtle"
-                    paddingInline="10"
-                    paddingBlock="4"
+                    background="neutral-soft"
+                    paddingInline="space-40"
+                    paddingBlock="space-16"
                     width="460px"
                     borderWidth="0 0 0 3"
-                    borderColor="border-action"
+                    borderColor="accent"
                 >
-                    <VStack gap="2">
-                        <HStack gap="1" align="end">
+                    <VStack gap="space-8">
+                        <HStack gap="space-4" align="end">
                             <Controller
                                 control={form.control}
                                 name="organisasjonsnummer"
@@ -87,20 +87,20 @@ export const TilkommenInntektSkjemafelter = ({
                                 )}
                             />
                             {erGyldigOrganisasjonsnummer(organisasjonsnummer) && (
-                                <div style={{ marginBottom: 'var(--a-spacing-1)' }}>
+                                <div style={{ marginBottom: 'var(--ax-space-4)' }}>
                                     <Organisasjonsnavn maxWidth="225px" organisasjonsnummer={organisasjonsnummer} />
                                 </div>
                             )}
                         </HStack>
                         {organisasjonsnummerFeil != undefined && (
-                            <HStack align="center" gap="1">
+                            <HStack align="center" gap="space-4">
                                 <ErrorMessage showIcon size="small">
                                     {organisasjonsnummerFeil}
                                 </ErrorMessage>
                             </HStack>
                         )}
                     </VStack>
-                    <VStack marginBlock="4" gap="2">
+                    <VStack marginBlock="space-16" gap="space-8">
                         <HGrid columns={2} width="75%">
                             <ControlledDatePicker
                                 name="fom"
@@ -127,7 +127,7 @@ export const TilkommenInntektSkjemafelter = ({
                                 </ErrorMessage>
                             ))}
                     </VStack>
-                    <VStack marginBlock="4" gap="2">
+                    <VStack marginBlock="space-16" gap="space-8">
                         <HGrid columns={2} width="75%">
                             <Controller
                                 control={form.control}
@@ -173,7 +173,7 @@ export const TilkommenInntektSkjemafelter = ({
                             />
                         </HGrid>
                         {periodebeløpFeil != undefined && (
-                            <HStack align="center" gap="1">
+                            <HStack align="center" gap="space-4">
                                 <ErrorMessage showIcon size="small">
                                     {periodebeløpFeil}
                                 </ErrorMessage>
@@ -197,12 +197,12 @@ export const TilkommenInntektSkjemafelter = ({
                         />
                     </Box>
                     {Object.values(form.formState.errors).length > 0 && (
-                        <Box marginBlock="4 6">
+                        <Box marginBlock="space-16 space-24">
                             <TilkommenInntektFeiloppsummering errors={form.formState.errors} />
                         </Box>
                     )}
                     <VStack>
-                        <HStack gap="2" marginBlock="4">
+                        <HStack gap="space-8" marginBlock="space-16">
                             <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
                                 Lagre
                             </Button>

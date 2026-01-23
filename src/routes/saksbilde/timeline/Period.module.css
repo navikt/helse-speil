@@ -1,8 +1,8 @@
 .Period {
-    --period-background-color: var(--a-gray-100);
-    --period-hover-color: var(--a-gray-200);
-    --period-border-color: var(--a-gray-600);
-    --period-icon-color: var(--a-gray-900);
+    --period-background-color: var(--ax-neutral-200);
+    --period-hover-color: var(--ax-neutral-300);
+    --period-border-color: var(--ax-neutral-700);
+    --period-icon-color: var(--ax-neutral-1000);
     box-sizing: border-box;
     display: flex;
     gap: 1rem;
@@ -22,8 +22,8 @@
 .Period.active,
 .Period:active,
 .Period:focus-visible {
-    box-shadow: 0 0 0 2px var(--a-border-focus);
-    border-color: var(--a-border-focus);
+    box-shadow: 0 0 0 2px var(--ax-border-focus);
+    border-color: var(--ax-border-focus);
     z-index: 20;
 }
 
@@ -51,50 +51,50 @@
 }
 
 .Period.success {
-    --period-background-color: var(--a-green-100);
-    --period-hover-color: var(--a-green-200);
-    --period-border-color: var(--a-green-700);
-    --period-icon-color: var(--a-green-700);
+    --period-background-color: var(--ax-success-200);
+    --period-hover-color: var(--ax-success-300);
+    --period-border-color: var(--ax-success-800);
+    --period-icon-color: var(--ax-success-800);
 }
 
 .Period.error {
-    --period-background-color: var(--a-red-50);
-    --period-hover-color: var(--a-red-100);
-    --period-border-color: var(--a-red-500);
-    --period-icon-color: var(--a-red-500);
+    --period-background-color: var(--ax-danger-100);
+    --period-hover-color: var(--ax-danger-200);
+    --period-border-color: var(--ax-danger-600);
+    --period-icon-color: var(--ax-danger-600);
 }
 
 .Period.attention {
-    --period-background-color: var(--a-orange-50);
-    --period-hover-color: var(--a-orange-100);
-    --period-border-color: var(--a-orange-600);
-    --period-icon-color: var(--a-orange-600);
+    --period-background-color: var(--ax-warning-100);
+    --period-hover-color: var(--ax-warning-200);
+    --period-border-color: var(--ax-warning-700);
+    --period-icon-color: var(--ax-warning-700);
 }
 
 .Period.old {
-    --period-background-color: var(--a-limegreen-100);
-    --period-hover-color: var(--a-limegreen-200);
-    --period-border-color: var(--a-limegreen-700);
-    --period-icon-color: var(--a-gray-900);
+    --period-background-color: var(--ax-meta-lime-200);
+    --period-hover-color: var(--ax-meta-lime-300);
+    --period-border-color: var(--ax-meta-lime-800);
+    --period-icon-color: var(--ax-neutral-1000);
 }
 
 .Period.legacy {
     --period-background-color: var(--nav-infotrygd-bakgrunn-stiplet);
     --period-hover-color: var(--nav-infotrygd-bakgrunn-stiplet-hover);
-    --period-border-color: var(--a-gray-900);
-    --period-icon-color: var(--a-gray-900);
+    --period-border-color: var(--ax-neutral-1000);
+    --period-icon-color: var(--ax-neutral-1000);
 }
 
 .Period.blank {
     --period-background-color: #ffffff;
-    --period-hover-color: var(--a-gray-100);
-    --period-border-color: var(--a-gray-600);
-    --period-icon-color: var(--a-gray-600);
+    --period-hover-color: var(--ax-neutral-200);
+    --period-border-color: var(--ax-neutral-700);
+    --period-icon-color: var(--ax-neutral-700);
 }
 
 .Period.waiting {
     --period-background-color: var(--a-lightblue-50);
     --period-hover-color: var(--a-lightblue-100);
     --period-border-color: var(--a-lightblue-700);
-    --period-icon-color: var(--a-gray-900);
+    --period-icon-color: var(--ax-neutral-1000);
 }

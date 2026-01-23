@@ -2,12 +2,12 @@
     --width: 522px;
     --border-size: 3px;
     width: calc(var(--width) - var(--border-size));
-    padding: var(--a-spacing-4) var(--a-spacing-3) var(--a-spacing-16) var(--a-spacing-3);
+    padding: var(--ax-space-16) var(--ax-space-12) var(--ax-space-64) var(--ax-space-12);
 }
 
 .inntekt.editing {
-    padding-left: var(--a-spacing-3);
-    border-left: var(--border-size) solid var(--a-surface-action);
+    padding-left: var(--ax-space-12);
+    border-left: var(--border-size) solid var(--ax-bg-accent-strong);
     width: var(--width);
     margin-left: calc(-1 * var(--border-size));
 }

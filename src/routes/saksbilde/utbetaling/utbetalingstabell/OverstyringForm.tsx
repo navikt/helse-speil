@@ -71,7 +71,7 @@ export const OverstyringForm = ({
     const visFeilOppsummering = !formState.isValid && Object.entries(formState.errors).length > 0;
 
     return (
-        <VStack marginInline="8" width="640px" gap="8">
+        <VStack marginInline="space-32" width="640px" gap="space-32">
             <Textarea
                 id="begrunnelse"
                 label="Notat til beslutter"
@@ -99,7 +99,7 @@ export const OverstyringForm = ({
                     })}
                 </ErrorSummary>
             )}
-            <HStack gap="2" marginBlock="0 2">
+            <HStack gap="space-8" marginBlock="space-0 space-8">
                 <Button
                     size="small"
                     variant="secondary"

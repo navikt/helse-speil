@@ -39,7 +39,7 @@ export const LeggTilNyKommentarForm = ({
                 }
                 {...form.register('Notattekst', { required: 'Tekstfeltet kan ikke være tomt' })}
             />
-            <HStack gap="2" align="center" marginBlock="4 0">
+            <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                 <Button size="small" variant="secondary" type="submit" loading={isFetching}>
                     Legg til
                 </Button>

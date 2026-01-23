@@ -16,7 +16,7 @@ export function VarselOmFlerFødselsnumre(): ReactElement | null {
     }
     return (
         <Alert variant="warning" size="small" style={{ gridArea: 'unntatt' }}>
-            <HStack gap="2">
+            <HStack gap="space-8">
                 Personen har også andre fødselsnumre:
                 {andreFødselsnumre.map((value, index) => (
                     <HStack key={index}>

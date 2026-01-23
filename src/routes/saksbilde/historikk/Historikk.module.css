@@ -39,9 +39,9 @@
 }
 
 .xbutton:hover {
-    background: var(--a-surface-hover);
+    background: var(--ax-bg-neutral-moderate-hoverA);
 }
 
 .error {
-    background-color: var(--a-surface-danger-subtle);
+    background-color: var(--ax-bg-danger-soft);
 }

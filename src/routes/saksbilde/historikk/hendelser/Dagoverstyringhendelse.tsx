@@ -68,7 +68,7 @@ export const Dagoverstyringhendelse = ({
         <HistorikkSection tittel="Notat til beslutter">
             <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
         </HistorikkSection>
-        <VStack marginBlock="2 2">
+        <VStack marginBlock="space-8 space-8">
             {groupSimilarDays(dager).map((group, i) => (
                 <div key={i} className={styles.grid}>
                     <BodyShort>Dato:</BodyShort>

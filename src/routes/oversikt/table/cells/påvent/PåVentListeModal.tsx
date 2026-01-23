@@ -33,8 +33,8 @@ export const PåVentListeModal = ({ closeModal, showModal, navn, påVentInfo }: 
                 </Heading>
             </Modal.Header>
             <Modal.Body>
-                <VStack gap="6">
-                    <HStack gap="12">
+                <VStack gap="space-24">
+                    <HStack gap="space-48">
                         <Innhold tittel="Søker" anonymize>
                             {søkernavn}
                         </Innhold>
@@ -55,7 +55,7 @@ export const PåVentListeModal = ({ closeModal, showModal, navn, påVentInfo }: 
                     {påVentInfo.kommentarer.length > 0 && (
                         <Innhold tittel="Kommentarer">
                             {påVentInfo.kommentarer.map((kommentar) => (
-                                <HStack gap="6" wrap={false} key={kommentar.id}>
+                                <HStack gap="space-24" wrap={false} key={kommentar.id}>
                                     <BodyShort className={styles.kommentardato}>
                                         {getFormattedDatetimeString(kommentar.opprettet)}
                                     </BodyShort>

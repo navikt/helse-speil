@@ -1,13 +1,13 @@
 .filterChips {
-    margin: var(--a-spacing-1) var(--a-spacing-3) var(--a-spacing-2);
+    margin: var(--ax-space-4) var(--ax-space-12) var(--ax-space-8);
 }
 
 .filteredOut {
-    background: var(--a-surface-danger);
+    background: var(--ax-bg-danger-strong);
 }
 
 .filteredOut:hover {
-    background: var(--a-surface-danger-hover);
+    background: var(--ax-bg-danger-strong-hover);
 }
 
 .ingenValgteFilter {
@@ -15,6 +15,6 @@
 }
 
 .ingenValgteFilter:hover {
-    background: var(--a-surface-neutral-subtle);
-    box-shadow: inset 0 0 0 1px var(--a-border-default);
+    background: var(--ax-bg-neutral-soft);
+    box-shadow: inset 0 0 0 1px var(--ax-border-neutral);
 }

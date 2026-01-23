@@ -7,7 +7,7 @@ $icon-container-width: 20px;
   gap: 0.5rem;
 
   &:not(:last-of-type) {
-    border-bottom: 1px solid var(--a-border-default);
+    border-bottom: 1px solid var(--ax-border-neutral);
   }
 
   .iconContainer {

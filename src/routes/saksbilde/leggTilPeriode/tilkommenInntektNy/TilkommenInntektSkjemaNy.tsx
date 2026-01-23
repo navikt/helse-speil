@@ -150,9 +150,9 @@ export const TilkommenInntektSkjemaNy = ({
                         <VStack>
                             <Box style={{ marginBlock: '-160px' }}>
                                 <Box
-                                    background="surface-subtle"
+                                    background="neutral-soft"
                                     borderWidth="0 0 0 1"
-                                    borderColor="border-strong"
+                                    borderColor="neutral-strong"
                                     height="2.5rem"
                                 ></Box>
                                 <Controller

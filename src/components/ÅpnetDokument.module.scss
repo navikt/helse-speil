@@ -6,7 +6,7 @@
   .dokument {
     width: 320px;
     padding: 1rem;
-    border-left: 1px solid var(--a-border-strong);
+    border-left: 1px solid var(--ax-border-neutral-strong);
 
     .header {
       display: flex;
@@ -40,7 +40,7 @@
         }
 
         &:hover {
-          background: var(--a-surface-hover)
+          background: var(--ax-bg-neutral-moderate-hoverA)
         }
       }
     }

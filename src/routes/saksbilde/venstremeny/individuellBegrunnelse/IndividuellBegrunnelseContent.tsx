@@ -25,7 +25,7 @@ export const IndividuellBegrunnelseContent = ({
     defaultÅpen,
     åpneModal,
 }: IndividuellBegrunnelseContentProps) => (
-    <Box marginBlock="0 4" paddingBlock="4 0" className={styles['begrunnelse-vedtak']}>
+    <Box marginBlock="space-0 space-16" paddingBlock="space-16 space-0" className={styles['begrunnelse-vedtak']}>
         {!erReadOnly && !erBeslutteroppgave && (
             <Box position="relative">
                 <ReadMore

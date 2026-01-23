@@ -19,7 +19,7 @@
 }
 .justerbarLinje.active {
     width: 0.5rem;
-    border-left: 1px solid var(--a-border-strong);
+    border-left: 1px solid var(--ax-border-neutral-strong);
 }
 
 .innhold {

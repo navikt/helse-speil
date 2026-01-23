@@ -35,7 +35,7 @@ export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
                 name="årsak"
                 error={formState.errors.årsak ? (formState.errors.årsak.message as string) : null}
                 legend={
-                    <HStack gap="2">
+                    <HStack gap="space-8">
                         Årsak til skjønnsfastsettelse
                         {valgtÅrsak && (
                             <Button type="button" size="xsmall" variant="tertiary" onClick={onEndre}>

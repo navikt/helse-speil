@@ -19,15 +19,15 @@
   cursor: pointer;
   padding: 0 13px;
   transition: background-color 0.1s ease;
-  color: var(--a-surface-action);
-  font-weight: var(--a-font-weight-bold);
+  color: var(--ax-bg-accent-strong);
+  font-weight: var(--ax-font-weight-bold);
   height: 48px;
   gap: 8px;
 
   &:before {
     position: absolute;
     content: '';
-    background: var(--a-surface-action);
+    background: var(--ax-bg-accent-strong);
     bottom: 0;
     left: 0;
     height: 0;
@@ -38,11 +38,11 @@
   }
 
   &:hover {
-    background-color: var(--a-surface-action-subtle-hover);
+    background-color: var(--ax-bg-accent-moderate-hover);
   }
 
   &:active {
-    background-color: var(--a-surface-action-selected);
+    background-color: var(--ax-bg-accent-strong-pressed);
 
     path {
       fill: white;
@@ -50,10 +50,10 @@
   }
 
   &:focus-visible {
-    box-shadow: inset 0 0 0 3px var(--a-border-focus);
+    box-shadow: inset 0 0 0 3px var(--ax-border-focus);
   }
 
   &:active {
-    color: var(--a-text-on-inverted);
+    color: var(--ax-text-neutral-contrast);
   }
 }

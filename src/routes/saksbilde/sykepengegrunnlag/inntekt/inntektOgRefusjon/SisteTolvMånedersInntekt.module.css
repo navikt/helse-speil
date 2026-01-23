@@ -91,17 +91,17 @@
     box-shadow: none !important;
     padding: 0.5rem 0 !important;
     text-decoration: underline;
-    color: var(--a-surface-action);
+    color: var(--ax-bg-accent-strong);
 
     & > span {
-        font-size: var(--a-font-size-large);
-        font-weight: var(--a-font-weight-regular);
-        line-height: var(--a-font-line-height-heading-xsmall);
+        font-size: var(--ax-font-size-large);
+        font-weight: var(--ax-font-weight-regular);
+        line-height: var(--ax-font-line-height-heading-xsmall);
     }
 
     &:hover {
         background: none !important;
         text-decoration: none;
-        color: var(--a-surface-action);
+        color: var(--ax-bg-accent-strong);
     }
 }

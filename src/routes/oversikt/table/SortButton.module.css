@@ -3,7 +3,7 @@
     cursor: pointer;
     background: none;
     user-select: none;
-    color: var(--a-text-default);
+    color: var(--ax-text-neutral);
     padding: 0 1.25rem 0 0;
     position: relative;
     font-weight: bold;
@@ -13,8 +13,8 @@
 .SortButton:after {
     pointer-events: none;
     content: '';
-    border-left: 0.25rem solid var(--a-bg-default);
-    border-right: 0.25rem solid var(--a-bg-default);
+    border-left: 0.25rem solid var(--ax-bg-default);
+    border-right: 0.25rem solid var(--ax-bg-default);
     position: absolute;
     right: 0.25rem;
     top: 50%;
@@ -26,7 +26,7 @@
 }
 
 .SortButton.descending:before {
-    border-bottom-color: var(--a-text-default);
+    border-bottom-color: var(--ax-text-neutral);
 }
 
 .SortButton:after {
@@ -35,5 +35,5 @@
 }
 
 .SortButton.ascending:after {
-    border-top-color: var(--a-text-default);
+    border-top-color: var(--ax-text-neutral);
 }

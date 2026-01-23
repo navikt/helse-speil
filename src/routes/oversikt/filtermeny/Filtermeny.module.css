@@ -1,7 +1,7 @@
 .filtermeny {
     overflow: auto;
     height: 100%;
-    padding-left: var(--a-spacing-2);
+    padding-left: var(--ax-space-8);
     scrollbar-width: none;
 }
 
@@ -11,15 +11,15 @@
 
 .justerbarlinjeplaceholder {
     width: 0.5rem;
-    border-left: 1px solid var(--a-border-strong);
+    border-left: 1px solid var(--ax-border-neutral-strong);
 }
 
 .skeletonsection {
-    border-bottom: 2px solid var(--a-border-subtle);
-    padding-bottom: var(--a-spacing-4);
-    padding-right: var(--a-spacing-6);
-    padding-left: var(--a-spacing-1);
-    margin-top: var(--a-spacing-5);
+    border-bottom: 2px solid var(--ax-border-neutral-subtle);
+    padding-bottom: var(--ax-space-16);
+    padding-right: var(--ax-space-24);
+    padding-left: var(--ax-space-4);
+    margin-top: var(--ax-space-20);
     display: flex;
     flex-direction: column;
     gap: 2px;

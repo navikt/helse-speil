@@ -31,7 +31,7 @@ export const KalkulerEndringerVarsel = ({
                 <BodyShort>
                     Endringene for sykepengegrunnlag må kalkuleres før du sender oppgaven til godkjenning.
                 </BodyShort>
-                <HStack gap="4" align="center" marginBlock="3 0">
+                <HStack gap="space-16" align="center" marginBlock="space-12 space-0">
                     <Button
                         size="small"
                         variant="primary"

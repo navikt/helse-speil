@@ -189,7 +189,7 @@ export const SkjønnsfastsettingForm = ({
                                     feilliste={formErrorsTilFeilliste(formState.errors)}
                                 />
                             )}
-                            <HStack gap="2" align="center" marginBlock="4 0">
+                            <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                                 {!erBeslutteroppgave ? (
                                     <Button size="small" variant="secondary" type="submit" loading={isLoading}>
                                         Lagre

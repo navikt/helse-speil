@@ -52,12 +52,12 @@ export const ArbeidstidsvurderingVisning = ({ oppkuttedePerioder, minimumSykdoms
             size="medium"
             className={styles.readmore}
             header={
-                <HStack gap="2" align="center">
+                <HStack gap="space-8" align="center">
                     <BriefcaseClockIcon fontSize="1.3rem" /> Vis vurdert arbeidstid for perioden
                 </HStack>
             }
         >
-            <Box maxWidth="650px" paddingBlock="2 4" paddingInline="4">
+            <Box maxWidth="650px" paddingBlock="space-8 space-16" paddingInline="space-16">
                 <Table size="small">
                     <Table.Header>
                         <Table.Row>

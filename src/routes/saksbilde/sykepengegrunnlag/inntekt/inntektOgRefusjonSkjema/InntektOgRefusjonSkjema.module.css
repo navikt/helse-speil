@@ -17,7 +17,7 @@
 .OpprinneligMånedsbeløp {
     text-decoration: line-through;
     justify-self: start;
-    margin: 0 0 0 var(--a-spacing-4);
+    margin: 0 0 0 var(--ax-space-16);
 }
 
 .beløp {

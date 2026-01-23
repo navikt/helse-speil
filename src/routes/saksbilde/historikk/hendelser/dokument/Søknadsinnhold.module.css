@@ -5,8 +5,8 @@
 }
 
 .dokument p {
-    font-size: var(--a-font-size-large);
-    line-height: var(--a-font-line-height-large);
+    font-size: var(--ax-font-size-large);
+    line-height: var(--ax-font-line-height-large);
     word-break: break-word;
     grid-column: 1 / span 2;
 }
@@ -28,7 +28,7 @@
 
 .inntektsliste {
     padding: 0;
-    margin-left: var(--a-spacing-2);
+    margin-left: var(--ax-space-8);
 }
 
 .skeleton {

@@ -23,7 +23,7 @@ export const SykepengegrunnlagSelvstendigPanel = ({
 }: SykepengegrunnlagSelvstendigPanelProps) => {
     const beregningsgrunnlagNumber = Number(beregningsgrunnlag);
     return (
-        <VStack gap="16">
+        <VStack gap="space-64">
             <Table className={styles.Table}>
                 <Table.Header>
                     <Table.Row>
@@ -57,13 +57,13 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                 <Table.Body>
                     <Table.Row shadeOnHover={false} className={styles.SelvstendigNaeringRow}>
                         <Table.DataCell>
-                            <HStack align="center" gap="2">
+                            <HStack align="center" gap="space-8">
                                 <Arbeidsgiverikon />
                                 Selvstendig næring
                             </HStack>
                         </Table.DataCell>
                         <Table.DataCell>
-                            <HStack align="center" gap="2">
+                            <HStack align="center" gap="space-8">
                                 {somPenger(beregningsgrunnlagNumber)}
                             </HStack>
                         </Table.DataCell>
@@ -79,10 +79,10 @@ export const SykepengegrunnlagSelvstendigPanel = ({
                 </Table.Body>
             </Table>
             <VStack gap="space-8">
-                <Box background="surface-subtle" borderRadius="xlarge" padding="4" marginInline="0 4">
+                <Box background="neutral-soft" borderRadius="12" padding="space-16" marginInline="space-0 space-16">
                     <HStack gap="space-56">
                         <BodyShort weight="semibold">Sykepengegrunnlag</BodyShort>
-                        <HStack align="center" gap="2">
+                        <HStack align="center" gap="space-8">
                             <BodyShort>{somPenger(sykepengegrunnlag)}</BodyShort>
                         </HStack>
                     </HStack>

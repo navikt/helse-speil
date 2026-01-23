@@ -2,7 +2,12 @@ import React, { ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 
-export const IconSyk = ({ width = 16, height = 16, alt = 'Sykikon', fill = 'var(--a-text-default)' }): ReactElement => {
+export const IconSyk = ({
+    width = 16,
+    height = 16,
+    alt = 'Sykikon',
+    fill = 'var(--ax-text-neutral)',
+}): ReactElement => {
     let titleId: string | undefined = useId();
     titleId = alt ? alt + titleId : undefined;
     return (

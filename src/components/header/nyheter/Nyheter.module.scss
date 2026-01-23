@@ -3,7 +3,7 @@
   max-height: 736px;
   overflow-y: hidden;
   padding: 0;
-  border-color: var(--a-border-action-selected);
+  border-color: var(--ax-border-accent-strong);
 }
 
 .list {
@@ -11,9 +11,9 @@
 }
 
 .heading {
-  background-color: var(--a-border-action-selected);
-  color: var(--a-text-on-inverted);
-  padding: var(--a-spacing-3) var(--a-spacing-4) var(--a-spacing-3);
+  background-color: var(--ax-border-accent-strong);
+  color: var(--ax-text-neutral-contrast);
+  padding: var(--ax-space-12) var(--ax-space-16) var(--ax-space-12);
   margin: 0;
 }
 
@@ -22,11 +22,11 @@
   max-height: 566px;
   overflow-y: auto;
   list-style: none;
-  padding: 0 var(--a-spacing-4);
+  padding: 0 var(--ax-space-16);
   margin: 0;
 
   > li {
-    border-top: 1px solid var(--a-border-default);
+    border-top: 1px solid var(--ax-border-neutral);
   }
 
   > li:first-child {

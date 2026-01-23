@@ -81,12 +81,12 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)}>
                     <Box
-                        background="surface-subtle"
-                        paddingInline="10"
-                        paddingBlock="4"
+                        background="neutral-soft"
+                        paddingInline="space-40"
+                        paddingBlock="space-16"
                         width="460px"
                         borderWidth="0 0 0 3"
-                        borderColor="border-action"
+                        borderColor="accent"
                     >
                         <HStack wrap={false}>
                             <VStack>
@@ -111,7 +111,7 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
                                 />
                             </VStack>
                         </HStack>
-                        <VStack marginBlock="4" gap="2">
+                        <VStack marginBlock="space-16" gap="space-8">
                             <HGrid columns={3}>
                                 <ControlledDatePicker
                                     name="fom"
@@ -165,7 +165,7 @@ export const AndreYtelserSkjema = ({ person }: AndreYtelserSkjemaProps): ReactEl
                             />
                         </Box>
                         <VStack>
-                            <HStack gap="2" marginBlock="4">
+                            <HStack gap="space-8" marginBlock="space-16">
                                 <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
                                     Lagre
                                 </Button>

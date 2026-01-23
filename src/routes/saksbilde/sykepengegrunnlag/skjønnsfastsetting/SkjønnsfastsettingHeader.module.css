@@ -10,8 +10,8 @@
 
 .beløp {
     position: relative;
-    padding-left: var(--a-spacing-2);
-    margin-left: var(--a-spacing-3);
+    padding-left: var(--ax-space-8);
+    margin-left: var(--ax-space-12);
 }
 
 .beløp > span {
@@ -19,7 +19,7 @@
 }
 
 .kildeIkon {
-    margin-left: var(--a-spacing-2);
+    margin-left: var(--ax-space-8);
 }
 
 .redigeringsknapp {
@@ -32,5 +32,5 @@
     text-decoration: line-through;
     display: flex;
     align-items: center;
-    padding-left: var(--a-spacing-4);
+    padding-left: var(--ax-space-16);
 }

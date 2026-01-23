@@ -9,7 +9,7 @@
   align-self: flex-start;
   display: flex;
   align-items: center;
-  height: var(--a-font-line-height-large);
+  height: var(--ax-font-line-height-large);
 }
 
 .arbeidsforhold {
@@ -29,7 +29,7 @@
   width: 100%;
 
   span {
-    height: var(--a-font-line-height-large);
+    height: var(--ax-font-line-height-large);
   }
 
   .arbeidsgiver {
@@ -45,12 +45,12 @@
   flex-direction: row-reverse;
   padding: 0 !important;
   text-decoration: underline;
-  color: var(--a-surface-action);
+  color: var(--ax-bg-accent-strong);
 
   & > span {
-    font-size: var(--a-font-size-large);
-    font-weight: var(--a-font-weight-regular);
-    line-height: var(--a-font-line-height-heading-xsmall);
+    font-size: var(--ax-font-size-large);
+    font-weight: var(--ax-font-weight-regular);
+    line-height: var(--ax-font-line-height-heading-xsmall);
   }
 
   &:focus {
@@ -64,7 +64,7 @@
   &:hover {
     background: none !important;
     text-decoration: none;
-    color: var(--a-surface-action);
+    color: var(--ax-bg-accent-strong);
   }
 
   &.anonymisert:hover {

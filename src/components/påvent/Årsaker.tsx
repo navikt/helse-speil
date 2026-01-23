@@ -33,7 +33,7 @@ export const Årsaker = ({ årsaker, årsakerLoading, valgteÅrsaker, setValgte�
                     );
                 })}
             {årsakerLoading && (
-                <VStack gap="1" style={{ width: '50%' }}>
+                <VStack gap="space-4" style={{ width: '50%' }}>
                     {Array.from({ length: 10 }, (_, index) => (
                         <div key={`skeleton${index}`} style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
                             <Skeleton variant="rectangle" width="1.5rem" height="1.5rem" />

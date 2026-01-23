@@ -1,19 +1,19 @@
 .skjønnsfastsetting {
-    padding-left: var(--a-spacing-5);
-    padding-right: var(--a-spacing-12);
+    padding-left: var(--ax-space-20);
+    padding-right: var(--ax-space-48);
 }
 
 .arbeidsgivere {
-    margin-bottom: var(--a-spacing-4);
+    margin-bottom: var(--ax-space-16);
 }
 
 .arbeidsgiver {
-    margin-bottom: var(--a-spacing-2);
+    margin-bottom: var(--ax-space-8);
 }
 
 .enArbeidsgiver {
     font-weight: bold;
-    margin-top: var(--a-spacing-2);
+    margin-top: var(--ax-space-8);
 }
 
 .arbeidsgiver:last-of-type td {
@@ -50,7 +50,7 @@
 }
 
 .total {
-    border-top: 1px solid var(--a-text-default);
+    border-top: 1px solid var(--ax-text-neutral);
 }
 
 .total td {
@@ -63,7 +63,7 @@
 }
 
 .error {
-    padding-top: var(--a-spacing-4);
+    padding-top: var(--ax-space-16);
 }
 
 .Bold,
@@ -81,6 +81,6 @@ label.Bold {
 }
 
 .detail {
-    color: var(--a-gray-700);
+    color: var(--ax-neutral-800);
     align-items: baseline;
 }

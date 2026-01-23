@@ -53,7 +53,7 @@ export const Returnotat = ({ onSubmit, setShowNotat, error, person }: Returnotat
                     vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                     notattype={NotatType.Retur}
                 />
-                <HStack gap="2" align="center" marginBlock="4 0">
+                <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                     <Button size="small" variant="secondary" type="submit">
                         Lagre notat og returner
                     </Button>

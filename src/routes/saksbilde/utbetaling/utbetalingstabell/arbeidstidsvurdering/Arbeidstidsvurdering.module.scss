@@ -38,7 +38,7 @@
 }
 
 .error {
-  padding-top: var(--a-spacing-4);
+  padding-top: var(--ax-space-16);
 }
 
 .zebrarad:nth-child(even) {
@@ -56,8 +56,8 @@
 
   &:hover, &:focus {
     &:before {
-      background-color: var(--a-grayalpha-200);
-      border-radius: var(--a-border-radius-medium);
+      background-color: var(--ax-neutral-300A);
+      border-radius: var(--ax-radius-4);
     }
   }
 

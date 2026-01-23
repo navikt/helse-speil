@@ -134,16 +134,11 @@ export const TilkommenInntektSkjema = ({
 
     return (
         <ErrorBoundary fallback={<TilkommenInntektError />}>
-            <Box marginBlock="4" width="max-content">
+            <Box marginBlock="space-16" width="max-content">
                 <HStack wrap={false}>
                     <VStack>
-                        <Box
-                            background="surface-subtle"
-                            borderWidth="0 0 0 3"
-                            borderColor="border-action"
-                            height="2.5rem"
-                        >
-                            <HStack style={{ paddingLeft: '5px' }} paddingBlock="2 4">
+                        <Box background="neutral-soft" borderWidth="0 0 0 3" borderColor="accent" height="2.5rem">
+                            <HStack style={{ paddingLeft: '5px' }} paddingBlock="space-8 space-16">
                                 <Button
                                     icon={<XMarkIcon />}
                                     size="xsmall"
@@ -171,9 +166,9 @@ export const TilkommenInntektSkjema = ({
                     {gyldigPeriode !== undefined ? (
                         <VStack>
                             <Box
-                                background="surface-subtle"
+                                background="neutral-soft"
                                 borderWidth="0 0 0 1"
-                                borderColor="border-strong"
+                                borderColor="neutral-strong"
                                 height="2.5rem"
                             ></Box>
                             <Controller

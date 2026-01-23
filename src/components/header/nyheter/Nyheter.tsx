@@ -41,7 +41,7 @@ export const Nyheter = () => {
                             ))}
                         </ScrollableContainer>
                     ) : (
-                        <HStack justify="center" align="center" paddingBlock="4 4">
+                        <HStack justify="center" align="center" paddingBlock="space-16 space-16">
                             <BodyShort>Ingen nyheter</BodyShort>
                         </HStack>
                     )}

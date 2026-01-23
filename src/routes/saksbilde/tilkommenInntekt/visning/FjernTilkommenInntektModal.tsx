@@ -66,7 +66,7 @@ export const FjernTilkommenInntektModal = ({
             onClose={onClose}
         >
             <Modal.Body>
-                <VStack gap="4">
+                <VStack gap="space-16">
                     <BodyLong>
                         Vil du fjerne perioden {somNorskDato(tilkommenInntekt.periode.fom)} –{' '}
                         {somNorskDato(tilkommenInntekt.periode.tom)}?

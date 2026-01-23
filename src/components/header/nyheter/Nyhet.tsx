@@ -21,7 +21,7 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
     ryddOppLocalStorage(nyhet, nyhetIderForLukkedeTvungeneModaler);
 
     return (
-        <VStack className={styles.nyhet} as="li" gap="2">
+        <VStack className={styles.nyhet} as="li" gap="space-8">
             <BodyShort className={styles.dato} size="small">
                 {getFormattedDateString(nyhet.dato)}
             </BodyShort>
@@ -29,7 +29,7 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
                 {nyhet.tittel}
             </Heading>
             <PortableText value={nyhet.beskrivelse} components={components} />
-            <HStack justify="space-between" gap="3 0">
+            <HStack justify="space-between" gap="space-12 space-0">
                 {nyhet.modal.antallSlides > 0 && (
                     <Button
                         className={styles.button}

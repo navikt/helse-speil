@@ -1,7 +1,7 @@
 .ikon {
     width: 20px;
     height: 16px;
-    border: 1px solid var(--a-gray-700);
-    background: var(--a-gray-100);
+    border: 1px solid var(--ax-neutral-800);
+    background: var(--ax-neutral-200);
     border-radius: 3px;
 }

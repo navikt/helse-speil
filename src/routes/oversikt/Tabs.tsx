@@ -124,7 +124,7 @@ export function TabsSkeleton(): ReactElement {
     return (
         <div className={styles.tabs}>
             <Skeleton variant="circle" width={32} height={32} style={{ marginRight: 304 }} />
-            <HStack gap="8">
+            <HStack gap="space-32">
                 <Skeleton width={106} height={32} />
                 <Skeleton width={94} height={32} />
                 <Skeleton width={72} height={32} />

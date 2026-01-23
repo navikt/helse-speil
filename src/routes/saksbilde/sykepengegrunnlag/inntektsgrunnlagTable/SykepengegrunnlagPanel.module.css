@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     --fixed-column-width: 12rem;
-    gap: var(--a-spacing-7);
-    padding: var(--a-spacing-4) 0 var(--a-spacing-16) var(--a-spacing-6);
+    gap: var(--ax-space-28);
+    padding: var(--ax-space-16) 0 var(--ax-space-64) var(--ax-space-24);
 }
 
 .Table {
@@ -15,10 +15,10 @@
 
 .Table td,
 .Table th {
-    padding: var(--a-spacing-2) var(--a-spacing-6) var(--a-spacing-2) var(--a-spacing-2);
+    padding: var(--ax-space-8) var(--ax-space-24) var(--ax-space-8) var(--ax-space-8);
     white-space: nowrap;
     border: none;
-    font-weight: var(--a-font-weight-regular);
+    font-weight: var(--ax-font-weight-regular);
 }
 
 .Table th {
@@ -32,11 +32,11 @@
 }
 
 .Table thead > tr:first-of-type > th {
-    padding-bottom: var(--a-spacing-3);
+    padding-bottom: var(--ax-space-12);
 }
 
 .Table tfoot > tr {
-    padding: var(--a-spacing-3) 0;
+    padding: var(--ax-space-12) 0;
 }
 
 .oppsummeringRow td {
@@ -49,9 +49,9 @@
 }
 
 .inntektsgrunnlagoppsummeringTable {
-    margin-top: var(--a-spacing-6);
+    margin-top: var(--ax-space-24);
 }
 
 .InntektsgrunnlagTableBody {
-    border-bottom: 1px solid var(--a-text-default);
+    border-bottom: 1px solid var(--ax-text-neutral);
 }

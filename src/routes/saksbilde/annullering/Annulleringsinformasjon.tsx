@@ -34,13 +34,13 @@ export const Annulleringsinformasjon = ({
     return (
         <div className={styles.gruppe}>
             <>
-                <Box paddingBlock="0 4">
+                <Box paddingBlock="space-0 space-16">
                     <Alert variant="info">
                         Når en periode annulleres, vil overlappende og etterfølgende perioder som det ikke har vært
                         fattet vedtak på, bli tatt ut av Speil.
                     </Alert>
                 </Box>
-                <HStack gap="2" paddingBlock="2">
+                <HStack gap="space-8" paddingBlock="space-8">
                     <Inntektsforholdnavn
                         inntektsforholdReferanse={inntektsforholdReferanse}
                         maxWidth="190px"

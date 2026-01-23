@@ -93,7 +93,7 @@ export const SykepengegrunnlagPanel = ({
                     />
                 </>
             ) : (
-                <Box width="655px" padding="4">
+                <Box width="655px" padding="space-16">
                     <Alert inline variant="info">
                         Avviksvurdering er ennå ikke utført av systemet.
                         <br />

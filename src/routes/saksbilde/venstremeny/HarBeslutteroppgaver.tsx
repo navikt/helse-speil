@@ -67,7 +67,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
 
     return (
         <Alert variant="info">
-            <VStack gap="4">
+            <VStack gap="space-16">
                 <VStack>
                     <Heading spacing size="xsmall" level="3" className={styles.tittel}>
                         Perioder til kontroll

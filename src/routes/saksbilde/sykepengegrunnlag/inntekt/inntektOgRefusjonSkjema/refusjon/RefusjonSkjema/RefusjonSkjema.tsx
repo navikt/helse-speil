@@ -32,7 +32,7 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
         <div id="refusjonsopplysninger">
             <Label size="small">Refusjon</Label>
 
-            <HStack gap="6">
+            <HStack gap="space-24">
                 <BodyShort>Fra og med dato</BodyShort>
                 <BodyShort>Til og med dato</BodyShort>
                 <BodyShort>Månedlig refusjon</BodyShort>
@@ -43,9 +43,9 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
                         <HStack
                             className={styles.RefusjonsRad}
                             data-testid="refusjonsopplysningrad"
-                            gap="2"
+                            gap="space-8"
                             align="center"
-                            paddingBlock="2"
+                            paddingBlock="space-8"
                         >
                             <RefusjonsperiodeInput index={index} refusjonsopplysning={refusjonsopplysning} />
                             <RefusjonsBeløpInput index={index} refusjonsopplysning={refusjonsopplysning} />

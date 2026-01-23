@@ -5,7 +5,7 @@ import { HStack, Skeleton, Table, VStack } from '@navikt/ds-react';
 import styles from './table.module.css';
 
 export const OppgaverTableSkeleton = (): ReactElement => (
-    <VStack marginBlock="4">
+    <VStack marginBlock="space-16">
         <FilterChipsSkeleton />
         <div className={styles.Content}>
             <div className={styles.Scrollable}>
@@ -53,7 +53,7 @@ export const BehandledeOppgaverTableSkeleton = (): ReactElement => (
 
 const FilterChipsSkeleton = (): ReactElement => (
     <div className={styles.filterchipsskeleton}>
-        <HStack gap="2" wrap={false}>
+        <HStack gap="space-8" wrap={false}>
             <Skeleton height={48} width={140} />
             <Skeleton height={48} width={100} />
             <Skeleton height={48} width={120} />
@@ -91,7 +91,7 @@ const BodyRowSkeleton = (): ReactElement => (
             <Skeleton width={90} height={32} />
         </Table.DataCell>
         <Table.DataCell>
-            <HStack gap="3" wrap={false}>
+            <HStack gap="space-12" wrap={false}>
                 <Skeleton width={96} height={32} />
                 <Skeleton width={96} height={32} />
                 <Skeleton width={96} height={32} />

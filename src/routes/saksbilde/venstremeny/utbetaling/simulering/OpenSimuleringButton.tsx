@@ -72,16 +72,16 @@ const openSimulering = ({ simulering, utbetalingId }: OpenSimuleringParameters) 
     root.render(<SimuleringView simulering={simulering} utbetalingId={utbetalingId} />);
 };
 
-interface OpenSimuleringButtonProps extends Omit<React.HTMLAttributes<HTMLAnchorElement>, 'children'> {
+interface OpenSimuleringButtonProps {
     simulering: Simulering;
     utbetaling: Utbetaling;
+    className?: string;
 }
 
 export const OpenSimuleringButton = ({
     simulering,
     utbetaling,
     className,
-    ...anchorProps
 }: OpenSimuleringButtonProps): ReactElement => {
     return (
         <Link
@@ -93,7 +93,6 @@ export const OpenSimuleringButton = ({
                 })
             }
             className={classNames(styles.OpenSimuleringButton, className)}
-            {...anchorProps}
         >
             Simulering
         </Link>

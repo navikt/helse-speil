@@ -4,12 +4,12 @@
     gap: 1rem;
     min-width: max-content;
     padding: 1.5rem 2.5rem 1.5rem 1.5rem;
-    border-left: 1px solid var(--a-border-strong);
+    border-left: 1px solid var(--ax-border-neutral-strong);
     height: 100%;
 }
 
 .Behandlingsstatistikk > table {
-    font-size: var(--a-font-size-medium);
+    font-size: var(--ax-font-size-medium);
     border-collapse: separate;
     border-spacing: 16px 0;
 }

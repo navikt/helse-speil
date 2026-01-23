@@ -50,7 +50,7 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | nu
             onClick={() => setÅpneDriftsmelding(!åpneDriftsmelding)}
             className={styles.driftsmelding}
         >
-            <HStack gap="2">
+            <HStack gap="space-8">
                 <BodyShort className={styles.tittel}>
                     {driftsmelding.lost === 'true' ? `[Løst] ${tittel}` : tittel}
                 </BodyShort>

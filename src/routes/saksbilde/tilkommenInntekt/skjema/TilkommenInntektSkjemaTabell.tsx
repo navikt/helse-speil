@@ -32,17 +32,17 @@ export const TilkommenInntektSkjemaTabell = ({
 
     return (
         <Box width="max-content" height="max-content" minWidth="300px">
-            <Box background="surface-subtle" borderWidth="0 0 0 1" borderColor="border-strong">
-                <HStack align="center" padding="2">
+            <Box background="neutral-soft" borderWidth="0 0 0 1" borderColor="neutral-strong">
+                <HStack align="center" padding="space-8">
                     <BodyShort weight="semibold">Velg hvilke dager som ikke skal tas med</BodyShort>
                 </HStack>
             </Box>
-            <Box borderWidth={error ? '2' : '1'} borderColor={error ? 'border-danger' : 'border-strong'}>
+            <Box borderWidth={error ? '2' : '1'} borderColor={error ? 'danger' : 'neutral-strong'}>
                 <Table size="small" className={cn(styles.tabell, styles.redigering)}>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>
-                                <HStack gap="2" align="center" wrap={false}>
+                                <HStack gap="space-8" align="center" wrap={false}>
                                     <Checkbox
                                         checked={alleUkedager.length === ekskluderteUkedager.length}
                                         indeterminate={
@@ -85,7 +85,7 @@ export const TilkommenInntektSkjemaTabell = ({
                                     className={cn(helg && styles.helg, valgt && styles.valgteDatoer)}
                                 >
                                     <Table.DataCell>
-                                        <HStack gap="2" align="center" wrap={false}>
+                                        <HStack gap="space-8" align="center" wrap={false}>
                                             <Checkbox
                                                 checked={valgt}
                                                 disabled={helg}

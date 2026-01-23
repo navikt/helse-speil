@@ -201,7 +201,7 @@ export const InntektOgRefusjonSkjema = ({
                         harEndringer={harEndringer}
                         feilmelding={form.formState.errors.manedsbelop?.message}
                     />
-                    <OmregnetÅrsinntekt omregnetÅrsintekt={omregnetÅrsinntekt?.belop} gap="16" />
+                    <OmregnetÅrsinntekt omregnetÅrsintekt={omregnetÅrsinntekt?.belop} gap="space-64" />
                     {!isGhostPeriode(period) && (
                         <RefusjonSkjema
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
@@ -229,7 +229,7 @@ export const InntektOgRefusjonSkjema = ({
                             Du har ikke endret månedsinntekt eller refusjonsopplysninger
                         </Alert>
                     )}
-                    <HStack gap="2">
+                    <HStack gap="space-8">
                         <Button size="small" variant="secondary" type="submit" onClick={validateRefusjon}>
                             Lagre
                         </Button>

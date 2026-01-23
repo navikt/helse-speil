@@ -1,5 +1,5 @@
 .header {
-    height: var(--a-spacing-14);
+    height: var(--ax-space-56);
     min-width: var(--speil-total-min-width);
     flex-shrink: 0;
 }
@@ -9,8 +9,8 @@
         -45deg,
         #4d4d00,
         #4d4d00 20px,
-        var(--a-gray-900) 20px,
-        var(--a-gray-900) 40px
+        var(--ax-neutral-1000) 20px,
+        var(--ax-neutral-1000) 40px
     );
 }
 
@@ -19,13 +19,13 @@
         -45deg,
         #004d00,
         #004d00 20px,
-        var(--a-gray-900) 20px,
-        var(--a-gray-900) 40px
+        var(--ax-neutral-1000) 20px,
+        var(--ax-neutral-1000) 40px
     );
 }
 
 .Link {
-    color: var(--a-text-on-inverted);
+    color: var(--ax-text-neutral-contrast);
     text-decoration: none;
     font-weight: 600;
 }

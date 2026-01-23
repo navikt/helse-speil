@@ -15,7 +15,7 @@ interface InntektOgRefusjonHeaderProps {
 }
 
 export const InntektOgRefusjonHeader = ({ arbeidsgiverReferanse, kilde }: InntektOgRefusjonHeaderProps) => (
-    <HStack marginBlock="5 6" gap="3" align="center">
+    <HStack marginBlock="space-20 space-24" gap="space-12" align="center">
         <Arbeidsgiverikon />
         <Inntektsforholdnavn inntektsforholdReferanse={arbeidsgiverReferanse} maxWidth="190px" />
         <HStack align="center">

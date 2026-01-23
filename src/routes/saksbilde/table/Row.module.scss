@@ -45,12 +45,12 @@
 
   &.avvist {
     background-color: #f9d2cc;
-    @include left-aligned(var(--a-border-danger))
+    @include left-aligned(var(--ax-border-danger))
   }
 
   &.agpEllerVentetid {
     background-color: #f8f8f8;
-    @include left-aligned(var(--a-text-subtle))
+    @include left-aligned(var(--ax-text-neutral-subtle))
   }
 
   &.nydag {

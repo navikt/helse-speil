@@ -21,9 +21,9 @@
 }
 
 .periodeListeElement {
-    margin-block-end: var(--a-spacing-1);
+    margin-block-end: var(--ax-space-4);
 
     > div {
-        color: var(--a-text-action) !important;
+        color: var(--ax-text-accent-subtle) !important;
     }
 }

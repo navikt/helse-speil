@@ -12,7 +12,7 @@ export const ÅrsakListe = ({ årsaker }: ÅrsakListeProps): ReactElement => (
     <ul className={styles.list}>
         {årsaker?.map((årsak, index) => (
             <li key={index}>
-                <HStack gap="3" align="center" wrap={false}>
+                <HStack gap="space-12" align="center" wrap={false}>
                     <span className={styles.prikk}>•</span>
                     {årsak}
                 </HStack>

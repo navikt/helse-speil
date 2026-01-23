@@ -81,7 +81,7 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
             : [];
 
     return (
-        <Box background="surface-action-subtle" className={cn(styles.inntekt, editing && styles.editing)}>
+        <Box background="accent-soft" className={cn(styles.inntekt, editing && styles.editing)}>
             {inntekt.omregnetArsinntekt != null && arbeidsgiver != null ? (
                 <InntektOgRefusjon
                     person={person}

@@ -1,12 +1,12 @@
 .tittel {
-  font-size: var(--a-font-size-medium);
+  font-size: var(--ax-font-size-medium);
   font-weight: 600;
   display: flex;
   align-items: center;
-  color: var(--a-gray-600);
+  color: var(--ax-neutral-700);
 
   a {
-    color: var(--a-gray-600);
+    color: var(--ax-neutral-700);
 
     &:hover {
       text-decoration: none;
@@ -15,10 +15,10 @@
     &:active,
     &:focus {
       outline: none;
-      color: var(--a-text-on-inverted);
+      color: var(--ax-text-neutral-contrast);
       text-decoration: none;
-      background-color: var(--a-border-focus);
-      box-shadow: 0 0 0 2px var(--a-border-focus);
+      background-color: var(--ax-border-focus);
+      box-shadow: 0 0 0 2px var(--ax-border-focus);
     }
   }
 }

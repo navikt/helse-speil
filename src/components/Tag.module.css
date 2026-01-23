@@ -1,13 +1,13 @@
 .Tag {
-    --tag-border-color: var(--a-border-strong);
-    --tag-background-color: var(--a-gray-50);
+    --tag-border-color: var(--ax-border-neutral-strong);
+    --tag-background-color: var(--ax-neutral-100);
     width: 20px;
     height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 13px;
-    font-weight: var(--a-font-weight-bold);
+    font-weight: var(--ax-font-weight-bold);
     line-height: 13px;
     border-radius: 3px;
     box-sizing: border-box;
@@ -16,31 +16,31 @@
 }
 
 .Tag.purple {
-    --tag-border-color: var(--a-purple-500);
-    --tag-background-color: var(--a-purple-100);
+    --tag-border-color: var(--ax-meta-purple-600);
+    --tag-background-color: var(--ax-meta-purple-200);
 }
 
 .Tag.blue {
-    --tag-border-color: var(--a-deepblue-500);
-    --tag-background-color: var(--a-deepblue-50);
+    --tag-border-color: var(--ax-brand-blue-600);
+    --tag-background-color: var(--ax-brand-blue-100);
 }
 
 .Tag.green {
-    --tag-border-color: var(--a-limegreen-800);
-    --tag-background-color: var(--a-limegreen-100);
+    --tag-border-color: var(--ax-meta-lime-900);
+    --tag-background-color: var(--ax-meta-lime-200);
 }
 
 .Tag.orange {
-    --tag-border-color: var(--a-orange-600);
-    --tag-background-color: var(--a-orange-100);
+    --tag-border-color: var(--ax-warning-700);
+    --tag-background-color: var(--ax-warning-200);
 }
 
 .Tag.red {
-    --tag-border-color: var(--a-red-600);
-    --tag-background-color: var(--a-red-100);
+    --tag-border-color: var(--ax-danger-700);
+    --tag-background-color: var(--ax-danger-200);
 }
 
 .Tag.gray {
-    --tag-border-color: var(--a-gray-600);
-    --tag-background-color: var(--a-gray-100);
+    --tag-border-color: var(--ax-neutral-700);
+    --tag-background-color: var(--ax-neutral-200);
 }

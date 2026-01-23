@@ -9,7 +9,7 @@ interface AktørIdProps {
 }
 
 export const AktørId = ({ aktørId }: AktørIdProps) => (
-    <HStack gap="1">
+    <HStack gap="space-4">
         <AnonymizableText>Aktør-ID: {aktørId}</AnonymizableText>
         <Tooltip content="Kopier aktør-ID">
             <CopyButton copyText={aktørId} size="xsmall" />

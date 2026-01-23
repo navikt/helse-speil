@@ -47,11 +47,11 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
 
     return (
         <>
-            <Box marginBlock="4" width="max-content">
+            <Box marginBlock="space-16" width="max-content">
                 <HStack wrap={false}>
                     <VStack>
                         <Box height="2.5rem">
-                            <HStack style={{ paddingLeft: '5px' }} paddingBlock="2 4">
+                            <HStack style={{ paddingLeft: '5px' }} paddingBlock="space-8 space-16">
                                 {!tilkommenInntekt.fjernet && !erReadOnly && (
                                     <Button
                                         variant="secondary"
@@ -65,21 +65,21 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                             </HStack>
                         </Box>
                         <Box
-                            background="surface-subtle"
+                            background="neutral-soft"
                             borderWidth="0 0 0 3"
                             style={{ borderColor: 'transparent' }}
-                            paddingBlock="4 5"
-                            paddingInline="6"
+                            paddingBlock="space-16 space-20"
+                            paddingInline="space-24"
                             width="460px"
                         >
-                            <VStack gap="4" align="start">
-                                <VStack gap="4" paddingInline="2">
+                            <VStack gap="space-16" align="start">
+                                <VStack gap="space-16" paddingInline="space-8">
                                     <HStack align="center">
                                         <TilkommenInntektArbeidsgivernavn organisasjonsnummer={organisasjonsnummer} />
                                         <EndringsloggTilkommenInntektButton tilkommenInntekt={tilkommenInntekt} />
                                     </HStack>
-                                    <VStack paddingInline="7" gap="4">
-                                        <HGrid columns={2} gap="2" width="450px">
+                                    <VStack paddingInline="space-28" gap="space-16">
+                                        <HGrid columns={2} gap="space-8" width="450px">
                                             <VStack>
                                                 <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
                                                 <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
@@ -121,7 +121,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                                     </Button>
                                 )}
                                 {tilkommenInntekt.fjernet && !erReadOnly && (
-                                    <Box paddingInline="4">
+                                    <Box paddingInline="space-16">
                                         <Link as={NextLink} href={`${tilkommenInntektId}/gjenopprett`}>
                                             <ArrowUndoIcon fontSize="1.3rem" />
                                             Legg til perioden likevel

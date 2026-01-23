@@ -120,7 +120,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
                     <FormProvider {...form}>
                         <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
                             <Notattekstfelt control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
-                            <HStack gap="2" align="center" marginBlock="4 0">
+                            <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                                 <Button size="small" variant="secondary" type="submit" loading={loading}>
                                     Lagre notat
                                 </Button>

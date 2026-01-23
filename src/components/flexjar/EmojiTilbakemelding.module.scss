@@ -8,23 +8,23 @@
     gap: 1rem;
 
     .sinna:hover {
-      color: var(--a-red-500);
+      color: var(--ax-danger-600);
     }
 
     .lei:hover {
-      color: var(--a-orange-500);
+      color: var(--ax-warning-600);
     }
 
     .nøytral:hover {
-      color: var(--a-blue-500);
+      color: var(--ax-accent-600);
     }
 
     .glad:hover {
-      color: var(--a-green-400);
+      color: var(--ax-success-500);
     }
 
     .veldig-glad:hover {
-      color: var(--a-green-700);
+      color: var(--ax-success-800);
     }
   }
 }

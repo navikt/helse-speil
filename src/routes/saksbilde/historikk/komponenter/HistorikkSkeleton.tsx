@@ -18,7 +18,7 @@ export const HistorikkSkeleton = (): ReactElement => {
                     <HistorikkhendelseSkeleton />
                 </ul>
             </div>
-            <VStack gap="6" className={skeletonStyles.historikkskeletonmeny}>
+            <VStack gap="space-24" className={skeletonStyles.historikkskeletonmeny}>
                 <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
                 <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />
                 <LoadingShimmer style={{ borderRadius: '100%', height: 32 }} />

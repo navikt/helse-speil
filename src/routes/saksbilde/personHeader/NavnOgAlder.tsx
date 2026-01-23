@@ -27,7 +27,7 @@ export const NavnOgAlder = ({ personinfo, dodsdato }: NavnOgAlderProps): ReactEl
     const formattedAge = personinfo.fodselsdato ? getFormattedAge(personinfo.fodselsdato, dodsdato) : null;
 
     return (
-        <HStack gap="1">
+        <HStack gap="space-4">
             <AnonymizableBold>
                 {formattedName} {formattedAge}
             </AnonymizableBold>

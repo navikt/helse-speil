@@ -80,14 +80,14 @@ export const Utbetalingstabell = ({
                             </Table.ColumnHeader>
                             {!erSelvstendigNæring && (
                                 <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
-                                    <HStack align="center" gap="2" wrap={false}>
+                                    <HStack align="center" gap="space-8" wrap={false}>
                                         <Arbeidsgiverikon />
                                         Refusjon
                                     </HStack>
                                 </Table.ColumnHeader>
                             )}
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
-                                <HStack align="center" gap="2" wrap={false}>
+                                <HStack align="center" gap="space-8" wrap={false}>
                                     <Sykmeldtikon />
                                     Utbetaling
                                 </HStack>

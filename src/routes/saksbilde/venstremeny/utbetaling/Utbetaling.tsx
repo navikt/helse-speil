@@ -88,9 +88,9 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
 
     return (
         <Box
-            background={rensetVedtakBegrunnelseTekst !== '' ? 'bg-subtle' : 'surface-transparent'}
-            paddingBlock="0 4"
-            paddingInline="4 4"
+            background={rensetVedtakBegrunnelseTekst !== '' ? 'neutral-soft' : undefined}
+            paddingBlock="space-0 space-16"
+            paddingInline="space-16 space-16"
             style={{ margin: '0 -1rem' }}
         >
             <IndividuellBegrunnelse
@@ -101,7 +101,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                 person={person}
             />
             {!erReadOnly && (
-                <HStack gap="4">
+                <HStack gap="space-16">
                     {trengerTotrinnsvurdering ? (
                         <SendTilGodkjenningButton
                             size="small"

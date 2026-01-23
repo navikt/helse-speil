@@ -1,7 +1,7 @@
 .notat {
     display: flex;
     flex-direction: column;
-    border-bottom: 1px solid var(--a-border-default);
+    border-bottom: 1px solid var(--ax-border-neutral);
     padding: 1rem 0;
 }
 
@@ -12,7 +12,7 @@
 .apneNotat {
     display: flex;
     align-items: flex-end;
-    color: var(--a-text-action);
+    color: var(--ax-text-accent-subtle);
     cursor: pointer;
     background: none;
     border: none;
@@ -22,7 +22,7 @@
 }
 
 .apneNotat.apen {
-    color: var(--a-text-default);
+    color: var(--ax-text-neutral);
     padding-bottom: 0.5rem;
 }
 
@@ -36,7 +36,7 @@
 }
 
 .apneNotat.apen > svg {
-    color: var(--a-text-action);
+    color: var(--ax-text-accent-subtle);
 }
 
 .apneNotat > svg {

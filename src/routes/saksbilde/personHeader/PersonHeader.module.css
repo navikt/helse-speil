@@ -6,8 +6,8 @@
     box-sizing: border-box;
     padding: 0 2rem;
     background: #f8f8f8;
-    border-bottom: 1px solid var(--a-border-strong);
-    color: var(--a-text-default);
+    border-bottom: 1px solid var(--ax-border-neutral-strong);
+    color: var(--ax-text-neutral);
     white-space: nowrap;
     min-width: max-content;
 }
@@ -17,7 +17,7 @@
 }
 
 .PersonHeader.Error {
-    background: var(--a-surface-danger-subtle);
+    background: var(--ax-bg-danger-soft);
 }
 
 .PersonHeader > svg {
@@ -39,10 +39,10 @@
 .Link:active,
 .Link:focus-visible {
     outline: none;
-    color: var(--a-text-on-inverted);
+    color: var(--ax-text-neutral-contrast);
     text-decoration: none;
-    background-color: var(--a-border-focus);
-    box-shadow: 0 0 0 2px var(--a-border-focus);
+    background-color: var(--ax-border-focus);
+    box-shadow: 0 0 0 2px var(--ax-border-focus);
 }
 
 @keyframes placeHolderShimmer {

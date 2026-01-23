@@ -28,13 +28,13 @@ export const BegrunnelseModal = ({
             </HStack>
         </Modal.Header>
         <Modal.Body>
-            <VStack gap="4">
+            <VStack gap="space-16">
                 <BegrunnelseInput
                     vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                     setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                     minRows={8}
                 />
-                <HStack gap="2">
+                <HStack gap="space-8">
                     <Button size="xsmall" variant="secondary" onClick={lukkModal}>
                         Lukk
                     </Button>

@@ -9,12 +9,12 @@
 
 .InputError {
     border-width: 2px;
-    border-color: var(--a-text-danger);
+    border-color: var(--ax-text-danger-subtle);
 }
 
 .Feilmelding {
     margin: 0.25rem 0;
-    color: var(--a-text-danger);
+    color: var(--ax-text-danger-subtle);
 }
 
 .column {

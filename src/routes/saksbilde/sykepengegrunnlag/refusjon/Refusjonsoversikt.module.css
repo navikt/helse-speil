@@ -11,7 +11,7 @@
 }
 
 .Table > tbody > tr:nth-of-type(2n + 1) {
-    background-color: var(--a-white);
+    background-color: var(--ax-bg-default);
 }
 
 .Table td,

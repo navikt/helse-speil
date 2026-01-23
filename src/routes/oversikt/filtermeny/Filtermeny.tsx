@@ -104,7 +104,7 @@ const SkeletonSection = ({ numberOfFilters }: SkeletonSectionProps): ReactElemen
     <div className={styles.skeletonsection}>
         <Skeleton height={28} />
         {range(0, numberOfFilters).map((index) => (
-            <HStack gap="2" wrap={false} key={index}>
+            <HStack gap="space-8" wrap={false} key={index}>
                 <Skeleton height={28} width={156} />
                 <Skeleton height={28} width={24} />
                 <Skeleton height={28} width={24} />

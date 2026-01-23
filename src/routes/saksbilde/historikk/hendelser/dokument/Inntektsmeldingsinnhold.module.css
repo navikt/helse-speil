@@ -1,6 +1,6 @@
 .dokument p {
-    font-size: var(--a-font-size-large);
-    line-height: var(--a-font-line-height-large);
+    font-size: var(--ax-font-size-large);
+    line-height: var(--ax-font-line-height-large);
     word-break: break-word;
 }
 

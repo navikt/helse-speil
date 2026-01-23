@@ -1,5 +1,5 @@
 .TotalRow > td {
-    border-color: var(--a-border-strong) !important;
+    border-color: var(--ax-border-neutral-strong) !important;
 }
 
 .TotalRow.overstyrer > td {

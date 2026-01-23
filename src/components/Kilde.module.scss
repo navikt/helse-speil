@@ -7,7 +7,7 @@
   border-style: solid;
   border-width: 1px;
   background-color: transparent;
-  color: var(--a-text-default);
+  color: var(--ax-text-neutral);
   width: 1.25rem;
   height: 1rem;
   cursor: default;
@@ -17,34 +17,34 @@
   }
 
   &__ainntekt {
-    background-color: var(--a-deepblue-100);
-    border-color: var(--a-deepblue-500);
+    background-color: var(--ax-brand-blue-200);
+    border-color: var(--ax-brand-blue-600);
   }
 
   &__aordningen {
-    background-color: var(--a-green-100);
-    border-color: var(--a-green-500);
+    background-color: var(--ax-success-200);
+    border-color: var(--ax-success-600);
   }
 
   &__sykmelding {
     background-color: var(--a-lightblue-100);
-    border-color: var(--a-blue-500);
+    border-color: var(--ax-accent-600);
   }
 
   &__søknad {
-    background-color: var(--a-purple-100);
-    border-color: var(--a-purple-400);
+    background-color: var(--ax-meta-purple-200);
+    border-color: var(--ax-meta-purple-500);
   }
 
   &__inntektsmelding {
-    background-color: var(--a-limegreen-100);
-    border-color: var(--a-orange-600);
+    background-color: var(--ax-meta-lime-200);
+    border-color: var(--ax-warning-700);
   }
 
   &__saksbehandler {
-    background-color: var(--a-gray-100);
-    color: var(--a-text-default);
-    border-color: var(--a-gray-700);
+    background-color: var(--ax-neutral-200);
+    color: var(--ax-text-neutral);
+    border-color: var(--ax-neutral-800);
 
     svg {
       width: 12px !important;
@@ -53,7 +53,7 @@
   }
 
   &__skatteetaten {
-    background-color: var(--a-green-50);
-    border-color: var(--a-green-600);
+    background-color: var(--ax-success-100);
+    border-color: var(--ax-success-700);
   }
 }

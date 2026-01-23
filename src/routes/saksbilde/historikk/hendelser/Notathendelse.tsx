@@ -73,7 +73,7 @@ export const Notathendelse = ({
             aktiv={true}
         >
             {error && <ErrorMessage>Kunne ikke feilregistrere notat. Prøv igjen senere.</ErrorMessage>}
-            <VStack gap="0">
+            <VStack gap="space-0">
                 {førsteTekstlinje}
                 {øvrigeTekstlinjer !== '' && (
                     <Expandable>

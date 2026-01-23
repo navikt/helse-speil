@@ -1,7 +1,7 @@
 .Toast {
     --toast-background-color: var(--a-surface-inverted);
     --toast-border-color: var(--a-surface-inverted);
-    --toast-text-color: var(--a-text-on-inverted);
+    --toast-text-color: var(--ax-text-neutral-contrast);
     position: relative;
     display: flex;
     cursor: pointer;
@@ -21,13 +21,13 @@
 }
 
 .Toast.success {
-    --toast-background-color: var(--a-surface-success-subtle);
-    --toast-border-color: var(--a-border-success);
-    --toast-text-color: var(--a-text-default);
+    --toast-background-color: var(--ax-bg-success-soft);
+    --toast-border-color: var(--ax-border-success);
+    --toast-text-color: var(--ax-text-neutral);
 }
 
 .Toast.error {
-    --toast-background-color: var(--a-surface-danger-subtle);
-    --toast-border-color: var(--a-border-danger);
-    --toast-text-color: var(--a-text-default);
+    --toast-background-color: var(--ax-bg-danger-soft);
+    --toast-border-color: var(--ax-border-danger);
+    --toast-text-color: var(--ax-text-neutral);
 }

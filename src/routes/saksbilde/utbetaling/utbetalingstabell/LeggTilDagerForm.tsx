@@ -74,7 +74,7 @@ export const LeggTilDagerForm = React.memo(
         return (
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
-                    <HStack gap="2" align="end" paddingBlock="0 2">
+                    <HStack gap="space-8" align="end" paddingBlock="space-0 space-8">
                         <DateField name="fom" label="Dato f.o.m." defaultMonth={periodeFomMinusEnDag.toDate()} />
                         <DateField name="tom" label="Dato t.o.m." disabled />
                         <DagtypeSelect

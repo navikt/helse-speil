@@ -8,14 +8,14 @@
 }
 
 :root {
-    --a-font-size-medium: 0.875rem;
-    --a-font-size-large: 1rem;
+    --ax-font-size-medium: 0.875rem;
+    --ax-font-size-large: 1rem;
     --speil-light-hover: #e9e7e7;
     --nav-infotrygd-bakgrunn-stiplet: repeating-linear-gradient(132deg, #fff, #fff 6px, #e3e0df 6px, #e3e0df 7.5px);
     --nav-infotrygd-bakgrunn-stiplet-hover: repeating-linear-gradient(
         132deg,
-        var(--a-gray-100),
-        var(--a-gray-100) 6px,
+        var(--ax-neutral-200),
+        var(--ax-neutral-200) 6px,
         #e3e0df 6px,
         #e3e0df 7.5px
     );
@@ -35,7 +35,7 @@
 
 /* Sladding av sensitive data, f.eks. når man deler skjerm eller tar skjermbilder */
 :root {
-    --anonymous-background: var(--a-gray-200);
+    --anonymous-background: var(--ax-neutral-300);
     --anonymous-color: var(--anonymous-background);
     --anonymous-border-radius: 0.25rem;
     --anonymous-opacity: 0;
@@ -60,7 +60,7 @@ body {
 }
 
 body {
-    background-color: var(--a-bg-default);
+    background-color: var(--ax-bg-default);
     font-size: 1rem;
     display: flex;
     flex-direction: column;

@@ -1,11 +1,11 @@
 .avhuking {
     border: none;
     background: none;
-    min-height: var(--a-font-line-height-xlarge);
+    min-height: var(--ax-font-line-height-xlarge);
     display: flex;
     align-items: center;
     align-self: flex-start;
-    padding: 0.65rem var(--a-spacing-2) 0.65rem var(--a-spacing-4);
+    padding: 0.65rem var(--ax-space-8) 0.65rem var(--ax-space-16);
 }
 
 .avhuking[aria-disabled='true'] {
@@ -18,31 +18,31 @@
 }
 
 .avhuking.feil {
-    color: var(--a-red-500);
+    color: var(--ax-danger-600);
     padding-left: 14px;
     background: radial-gradient(circle at 50% 50%, var(--a-white) 25%, 0, transparent);
 }
 
 .avhuking.aktiv > svg > circle {
     fill: var(--a-white);
-    stroke: var(--a-blue-500);
+    stroke: var(--ax-accent-600);
 }
 
 .avhuking.aktiv:hover > svg > circle {
-    fill: var(--a-blue-50);
+    fill: var(--ax-accent-100);
 }
 
 .avhuking.aktiv > svg > path {
-    fill: var(--a-blue-500);
+    fill: var(--ax-accent-600);
 }
 
 .avhuking.vurdert > svg > circle {
-    fill: var(--a-border-success);
-    stroke: var(--a-border-success);
+    fill: var(--ax-border-success);
+    stroke: var(--ax-border-success);
 }
 
 .avhuking.vurdert:hover > svg > circle {
-    fill: var(--a-green-700);
+    fill: var(--ax-success-800);
 }
 
 .avhuking.vurdert > svg > path {
@@ -50,8 +50,8 @@
 }
 
 .avhuking.ferdig-behandlet > svg > circle {
-    fill: var(--a-border-success);
-    stroke: var(--a-border-success);
+    fill: var(--ax-border-success);
+    stroke: var(--ax-border-success);
 }
 
 .avhuking.ferdig-behandlet > svg > path {

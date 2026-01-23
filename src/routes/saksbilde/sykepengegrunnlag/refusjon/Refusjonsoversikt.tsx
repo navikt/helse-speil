@@ -16,7 +16,7 @@ interface RefusjonProps {
 export const Refusjonsoversikt = ({ refusjon, lokaleRefusjonsopplysninger }: RefusjonProps): ReactElement => {
     const refusjonIVisning = lokaleRefusjonsopplysninger.length > 0 ? lokaleRefusjonsopplysninger : refusjon;
     return (
-        <Box marginBlock="6">
+        <Box marginBlock="space-24">
             <Label size="small">Refusjon</Label>
             <Table className={styles.Table} size="small">
                 <Table.Header>

@@ -30,7 +30,7 @@
   z-index: 2;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
-  background-color: var(--a-icon-danger);
+  background-color: var(--ax-text-danger-decoration);
 
   span {
     line-height: 1rem;
@@ -43,7 +43,7 @@
 
   &:hover {
     padding-left: 1rem;
-    background-color: var(--a-surface-danger-hover)
+    background-color: var(--ax-bg-danger-strong-hover)
   }
 }
 
@@ -52,7 +52,7 @@
   right: 0.5rem;
   top: 0.5rem;
   cursor: pointer;
-  color: var(--a-surface-neutral-active);
+  color: var(--ax-bg-neutral-strong-pressed);
   height: 2rem;
   width: 2rem;
   padding: 0;
@@ -82,11 +82,11 @@
 
   &:hover,
   &:focus {
-    background: var(--a-surface-neutral-active);
+    background: var(--ax-bg-neutral-strong-pressed);
   }
 
   &:active {
-    background: var(--a-surface-neutral-active);
+    background: var(--ax-bg-neutral-strong-pressed);
   }
 
   &:hover:before,
@@ -95,6 +95,6 @@
   &:focus:after,
   &:active:before,
   &:active:after {
-    background: var(--a-bg-default);
+    background: var(--ax-bg-default);
   }
 }

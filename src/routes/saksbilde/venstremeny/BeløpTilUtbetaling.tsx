@@ -35,7 +35,7 @@ export const BeløpTilUtbetaling = ({
     inntektsforhold,
 }: BeløpTilUtbetalingProps) => (
     <div className={styles.TilUtbetaling}>
-        <HStack align="center" gap="4" className={styles.Row}>
+        <HStack align="center" gap="space-16" className={styles.Row}>
             <BodyShort weight="semibold">
                 {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt for perioden' : 'Beløp for perioden'}
             </BodyShort>
@@ -46,7 +46,7 @@ export const BeløpTilUtbetaling = ({
         </HStack>
         {isArbeidsgiver(inntektsforhold) && (
             <>
-                <HStack align="center" gap="4" className={styles.Row}>
+                <HStack align="center" gap="space-16" className={styles.Row}>
                     <Arbeidsgiverikon />
                     <Inntektsforholdnavn inntektsforholdReferanse={tilReferanse(inntektsforhold)} maxWidth="200px" />
                     <Spacer />
@@ -61,7 +61,7 @@ export const BeløpTilUtbetaling = ({
                 )}
             </>
         )}
-        <HStack align="center" gap="4" className={styles.Row}>
+        <HStack align="center" gap="space-16" className={styles.Row}>
             <SykmeldtikonMedTooltip />
             <AnonymizableTextWithEllipsis>{capitalizeName(getFormattedName(personinfo))}</AnonymizableTextWithEllipsis>
             <Spacer />

@@ -56,7 +56,7 @@ export const InntektOgRefusjon = ({
 
     return (
         <>
-            <HStack gap="2" align="center">
+            <HStack gap="space-8" align="center">
                 <ToggleOverstyring
                     person={person}
                     arbeidsgiver={arbeidsgiver}

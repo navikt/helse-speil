@@ -2,10 +2,10 @@
   button {
     display: flex;
     flex-direction: row-reverse;
-    color: var(--a-text-default);
+    color: var(--ax-text-neutral);
 
     &:hover {
-      color: var(--a-text-default);
+      color: var(--ax-text-neutral);
     }
   }
 

@@ -5,7 +5,7 @@
     flex-direction: column;
     grid-area: høyremeny;
     margin-left: auto;
-    border-left: 1px solid var(--a-border-divider);
+    border-left: 1px solid var(--ax-border-neutral-subtle);
     width: 58px;
     align-items: center;
     background-color: #fff;
@@ -17,13 +17,13 @@
     width: 2rem;
     border-bottom: 0;
     padding: 0;
-    background: var(--a-bg-subtle);
+    background: var(--ax-bg-neutral-soft);
     border-radius: 50%;
     margin-top: 1.5rem;
 }
 
 .filterknapp.active {
-    background-color: var(--a-surface-action);
+    background-color: var(--ax-bg-accent-strong);
     color: #ffffff;
 }
 

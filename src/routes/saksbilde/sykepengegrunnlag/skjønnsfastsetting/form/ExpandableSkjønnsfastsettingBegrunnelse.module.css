@@ -1,5 +1,5 @@
 .header {
-    color: var(--a-surface-action) !important;
+    color: var(--ax-bg-accent-strong) !important;
     background: none !important;
     text-decoration: underline;
     padding: 0 !important;
@@ -14,8 +14,8 @@
 }
 
 .header > span {
-    font-size: var(--a-font-size-medium);
-    font-weight: var(--a-font-weight-regular);
+    font-size: var(--ax-font-size-medium);
+    font-weight: var(--ax-font-weight-regular);
 }
 
 .header:focus {

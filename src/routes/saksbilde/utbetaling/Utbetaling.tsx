@@ -62,8 +62,8 @@ const ReadonlyUtbetaling = ({
     const harTidligereSkjæringstidspunktOgISisteBehandling = !hasLatestSkjæringstidspunkt && periodeErISisteBehandling;
 
     return (
-        <Box paddingBlock="8 16" paddingInline="6" position="relative">
-            <HStack align="center" gap="2">
+        <Box paddingBlock="space-32 space-64" paddingInline="space-24" position="relative">
+            <HStack align="center" gap="space-8">
                 <Heading size="xsmall" level="1">
                     Dagoversikt
                 </Heading>
@@ -80,7 +80,7 @@ const ReadonlyUtbetaling = ({
                     </HelpText>
                 )}
             </HStack>
-            <Box paddingBlock="8 0" data-testid="utbetaling">
+            <Box paddingBlock="space-32 space-0" data-testid="utbetaling">
                 <Utbetalingstabell
                     fom={fom}
                     tom={tom}

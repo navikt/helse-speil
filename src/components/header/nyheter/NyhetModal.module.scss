@@ -1,7 +1,7 @@
 .body {
   display: flex;
   flex-direction: column;
-  gap: var(--a-spacing-4);
+  gap: var(--ax-space-16);
   min-height: 10rem;
 }
 
@@ -21,12 +21,12 @@
 }
 
 .step {
-  background-color: var(--a-surface-action-subtle-hover);
+  background-color: var(--ax-bg-accent-moderate-hover);
   height: 12px;
   width: 12px;
   border-radius: 100%;
 }
 
 .activestep {
-  background-color: var(--a-text-action);
+  background-color: var(--ax-text-accent-subtle);
 }

@@ -6,12 +6,12 @@
 }
 
 .ekspanderbartVarsel > button {
-    --background-color: var(--a-surface-warning-subtle);
-    --border-color: var(--a-border-warning);
-    color: var(--a-text-default);
+    --background-color: var(--ax-bg-warning-soft);
+    --border-color: var(--ax-border-warning);
+    color: var(--ax-text-neutral);
     background-color: var(--background-color) !important;
     border-bottom: 1px solid var(--border-color) !important;
-    padding: 0 var(--a-spacing-4) 0 0 !important;
+    padding: 0 var(--ax-space-16) 0 0 !important;
     flex-direction: row-reverse;
     justify-content: space-between;
     box-shadow: none !important;
@@ -22,29 +22,29 @@
 }
 
 .ekspanderbartVarsel.aktiv > button {
-    --background-color: var(--a-surface-warning-subtle);
-    --border-color: var(--a-border-warning);
+    --background-color: var(--ax-bg-warning-soft);
+    --border-color: var(--ax-border-warning);
 }
 
 .ekspanderbartVarsel.vurdert > button {
-    --background-color: var(--a-surface-success-subtle);
-    --border-color: var(--a-border-success);
-    padding: var(--a-spacing-2) var(--a-spacing-4) var(--a-spacing-2) 0;
+    --background-color: var(--ax-bg-success-soft);
+    --border-color: var(--ax-border-success);
+    padding: var(--ax-space-8) var(--ax-space-16) var(--ax-space-8) 0;
 }
 
 .ekspanderbartVarsel.ferdig-behandlet > button {
     --background-color: #f1f1f1;
-    --border-color: var(--a-border-success);
-    padding: var(--a-spacing-2) var(--a-spacing-4) var(--a-spacing-2) 0;
+    --border-color: var(--ax-border-success);
+    padding: var(--ax-space-8) var(--ax-space-16) var(--ax-space-8) 0;
 }
 
 .ekspanderbartVarsel.feil > button {
-    --background-color: var(--a-surface-danger-subtle);
-    --border-color: var(--a-border-danger);
+    --background-color: var(--ax-bg-danger-soft);
+    --border-color: var(--ax-border-danger);
 }
 
 .ekspanderbartVarsel > button:global(.navds-accordion__header:hover) {
-    text-decoration-color: var(--a-text-default);
+    text-decoration-color: var(--ax-text-neutral);
 }
 
 .ekspanderbartVarsel > button:focus,
@@ -57,11 +57,11 @@
 }
 
 .ekspanderbartVarsel > button > svg > path {
-    fill: var(--a-text-default);
+    fill: var(--ax-text-neutral);
 }
 
 .content {
-    --border-color: var(--a-border-warning);
+    --border-color: var(--ax-border-warning);
     --background-color: #fffaf3;
     padding: 0.5rem 3.25rem;
     border: none !important;
@@ -70,21 +70,21 @@
 }
 
 .content.aktiv {
-    --background-color: var(--a-surface-warning-subtle);
-    --border-color: var(--a-border-warning);
+    --background-color: var(--ax-bg-warning-soft);
+    --border-color: var(--ax-border-warning);
 }
 
 .content.vurdert {
-    --background-color: var(--a-surface-success-subtle);
-    --border-color: var(--a-border-success);
+    --background-color: var(--ax-bg-success-soft);
+    --border-color: var(--ax-border-success);
 }
 
 .content.ferdig-behandlet {
     --background-color: #f1f1f1;
-    --border-color: var(--a-border-success);
+    --border-color: var(--ax-border-success);
 }
 
 .content.feil {
-    --background-color: var(--a-surface-danger-subtle);
-    --border-color: var(--a-border-danger);
+    --background-color: var(--ax-bg-danger-soft);
+    --border-color: var(--ax-border-danger);
 }

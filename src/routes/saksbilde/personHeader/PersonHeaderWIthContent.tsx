@@ -39,7 +39,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
             <AnonymizableText>
                 Boenhet: {person.enhet.id} ({enhetsnavn.get(Number(person.enhet.id))})
             </AnonymizableText>
-            <HStack paddingInline="3 0" gap="3">
+            <HStack paddingInline="space-12 space-0" gap="space-12">
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag />
                 <VergemålTag person={person} />

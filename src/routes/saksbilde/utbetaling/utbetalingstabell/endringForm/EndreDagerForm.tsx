@@ -61,7 +61,7 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
             </BodyShort>
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
-                    <HStack gap="4">
+                    <HStack gap="space-16">
                         <DagtypeSelect
                             name="dagtype"
                             erSelvstendig={erSelvstendig}
@@ -81,7 +81,7 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
                             </Button>
                         </VStack>
                     </HStack>
-                    <VStack paddingBlock="2 0">
+                    <VStack paddingBlock="space-8 space-0">
                         {form.formState.errors.dagtype?.message && (
                             <ErrorMessage size="small" showIcon>
                                 Dagtype: {form.formState.errors.dagtype.message}

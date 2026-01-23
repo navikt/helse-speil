@@ -1,10 +1,10 @@
 .tabs {
-  border-bottom: 1px solid var(--a-border-divider);
+  border-bottom: 1px solid var(--ax-border-neutral-subtle);
   margin: 0.5rem 1.5rem 0;
   display: flex;
   flex-wrap: nowrap;
   align-items: center;
-  height: var(--a-spacing-12);
+  height: var(--ax-space-48);
 
   > span {
     white-space: nowrap;
@@ -26,13 +26,13 @@
   height: max-content;
   font-family: inherit;
   font-size: 1rem;
-  font-weight: var(--a-font-weight-bold);
-  color: var(--a-text-default);
+  font-weight: var(--ax-font-weight-bold);
+  color: var(--ax-text-neutral);
   cursor: pointer;
   outline: none;
 
   > span {
-    font-weight: var(--a-font-weight-regular);
+    font-weight: var(--ax-font-weight-regular);
   }
 
   &:before {
@@ -42,14 +42,14 @@
     height: 0;
     left: 0;
     bottom: 0;
-    background-color: var(--a-surface-action);
+    background-color: var(--ax-bg-accent-strong);
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     transition: height 0.1s ease;
   }
 
   &:hover, &:before {
-    color: var(--a-surface-action);
+    color: var(--ax-bg-accent-strong);
   }
 
   &:focus-visible {
@@ -62,7 +62,7 @@
 }
 
 .button {
-  background: var(--a-bg-subtle);
+  background: var(--ax-bg-neutral-soft);
 
   > svg {
     transform: translateY(-1px);
@@ -73,12 +73,12 @@
   }
 
   &:active {
-    background: var(--a-surface-action);
+    background: var(--ax-bg-accent-strong);
     color: #ffffff;
   }
 
   &.active:not(:active) {
-    background: var(--a-surface-action);
+    background: var(--ax-bg-accent-strong);
     color: #ffffff;
   }
 
@@ -119,7 +119,7 @@
 
   &:hover,
   &:focus-visible {
-    background: var(--a-surface-action-subtle-hover);
+    background: var(--ax-bg-accent-moderate-hover);
   }
 
   &:focus-visible {
@@ -127,7 +127,7 @@
   }
 
   &:active {
-    background-color: var(--a-surface-action-selected);
+    background-color: var(--ax-bg-accent-strong-pressed);
 
     > svg > g,
     > svg > path {

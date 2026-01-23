@@ -40,9 +40,9 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
 
 const SaksbildeMenuWrapper = (props: BoxProps) => (
     <Box
-        paddingInline="4"
+        paddingInline="space-16"
         borderWidth="0 0 1 0"
-        borderColor="border-subtle"
+        borderColor="neutral-subtle"
         height="3rem"
         overflow="hidden"
         {...props}
@@ -51,7 +51,7 @@ const SaksbildeMenuWrapper = (props: BoxProps) => (
 
 export const SaksbildemenySkeleton = () => (
     <SaksbildeMenuWrapper>
-        <HStack gap="5" paddingInline="5">
+        <HStack gap="space-20" paddingInline="space-20">
             <NavLenkeSkeleton tittel="Dagoversikt" />
             <NavLenkeSkeleton tittel="Inngangsvilkår" />
             <NavLenkeSkeleton tittel="Sykepengegrunnlag" />

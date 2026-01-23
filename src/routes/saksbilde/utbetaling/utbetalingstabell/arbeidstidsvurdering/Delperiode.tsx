@@ -31,7 +31,7 @@ export const Delperiode = ({
             {somNorskDato(delperiode.fom)} – {somNorskDato(delperiode.tom)}
         </Table.DataCell>
         <Table.DataCell>
-            <HStack align="center" gap="3">
+            <HStack align="center" gap="space-12">
                 <RadioGroup
                     legend="Perioder"
                     error={error}
@@ -41,7 +41,7 @@ export const Delperiode = ({
                     defaultValue={defaultValue}
                     readOnly={erReadOnly || erAktivPeriodeIkkeBestemmendeForDelperioden}
                 >
-                    <HStack gap="8">
+                    <HStack gap="space-32">
                         <Radio value="Ja" size="small" {...field}>
                             Ja (innvilgelse)
                         </Radio>

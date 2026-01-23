@@ -14,7 +14,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--a-gray-800);
+    background: var(--ax-neutral-900);
 }
 
 .Button:hover:not(:disabled) {
@@ -34,7 +34,7 @@
 }
 
 .Button:disabled {
-    background: var(--a-gray-400);
+    background: var(--ax-neutral-500);
 }
 
 .Button path {

@@ -79,7 +79,7 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
     });
 
     return (
-        <Box background="surface-subtle" padding="2" borderWidth="0 0 1 0" borderColor="border-divider">
+        <Box background="neutral-soft" padding="space-8" borderWidth="0 0 1 0" borderColor="neutral-subtle">
             {harPeriodeTilBeslutter ||
             (harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder &&
                 !erAktivperiodeBestemmendeForMinstEnDelperiode) ? (

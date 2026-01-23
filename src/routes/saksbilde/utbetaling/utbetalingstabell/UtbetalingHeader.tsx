@@ -21,7 +21,7 @@ export const UtbetalingHeader = ({
     inntektsforholdReferanse,
     erRevurdering,
 }: UtbetalingHeaderProps): ReactElement | null => (
-    <HStack align="center" gap="1">
+    <HStack align="center" gap="space-4">
         <Heading size="xsmall" level="1">
             Dagoversikt
         </Heading>

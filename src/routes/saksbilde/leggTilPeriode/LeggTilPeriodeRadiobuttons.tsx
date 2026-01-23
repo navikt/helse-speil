@@ -12,16 +12,16 @@ export const LeggTilPeriodeRadiobuttons = () => {
     const router = useRouter();
 
     return (
-        <Box paddingBlock="6" width="460px">
-            <HStack paddingInline="2 0" paddingBlock="0 1">
+        <Box paddingBlock="space-24" width="460px">
+            <HStack paddingInline="space-8 space-0" paddingBlock="space-0 space-4">
                 <Heading size="small">Legg til periode</Heading>
             </HStack>
             <Box
-                background="surface-subtle"
-                paddingBlock="4 4"
-                paddingInline="2 0"
+                background="neutral-soft"
+                paddingBlock="space-16 space-16"
+                paddingInline="space-8 space-0"
                 borderWidth="0 0 0 3"
-                borderColor="border-action"
+                borderColor="accent"
                 height="2.5rem"
             >
                 <Button
@@ -34,13 +34,12 @@ export const LeggTilPeriodeRadiobuttons = () => {
                     Avbryt
                 </Button>
             </Box>
-
             <Box
-                background="surface-subtle"
-                paddingInline="10"
-                paddingBlock="6 0"
+                background="neutral-soft"
+                paddingInline="space-40"
+                paddingBlock="space-24 space-0"
                 borderWidth="0 0 0 3"
-                borderColor="border-action"
+                borderColor="accent"
             >
                 <RadioGroup legend="Legg til" value={valg} onChange={(value) => setValg(value)}>
                     <Radio size="small" value="tilkommeninntekt">

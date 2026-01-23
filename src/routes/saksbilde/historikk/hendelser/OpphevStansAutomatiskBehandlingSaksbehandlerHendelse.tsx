@@ -31,7 +31,7 @@ export function OpphevStansAutomatiskBehandlingSaksbehandlerHendelse({
             saksbehandler={saksbehandler ?? undefined}
         >
             {notattekst && (
-                <VStack gap="0">
+                <VStack gap="space-0">
                     {førsteTekstlinje}
                     {øvrigeTekstlinjer !== '' && (
                         <Expandable>

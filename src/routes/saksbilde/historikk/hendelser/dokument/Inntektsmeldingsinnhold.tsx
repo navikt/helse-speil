@@ -45,7 +45,7 @@ export const Inntektsmeldingsinnhold = ({
             {data && (
                 <div className={styles.dokument}>
                     {arbeidsgiverReferanse && (
-                        <HStack gap="3" align="center" className={styles.arbeidsgiver}>
+                        <HStack gap="space-12" align="center" className={styles.arbeidsgiver}>
                             <Arbeidsgiverikon />
                             <Inntektsforholdnavn inntektsforholdReferanse={arbeidsgiverReferanse} maxWidth="72%" />
                         </HStack>

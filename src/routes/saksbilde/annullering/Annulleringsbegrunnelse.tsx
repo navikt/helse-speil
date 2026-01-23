@@ -20,7 +20,7 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
     return (
         <div className={styles.annulleringsbegrunnelse}>
             <Heading size="small">Årsak til annullering</Heading>
-            <Box paddingBlock="4">
+            <Box paddingBlock="space-16">
                 <Alert variant="info">
                     Årsakene og begrunnelsen du fyller ut her, finner du ikke igjen i Speil etterpå.
                     <br />
@@ -49,7 +49,7 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
                         );
                     })}
                 {loading && (
-                    <VStack gap="1" style={{ width: '50%' }}>
+                    <VStack gap="space-4" style={{ width: '50%' }}>
                         {Array.from({ length: 20 }, (_, index) => (
                             <div
                                 key={`skeleton${index}`}

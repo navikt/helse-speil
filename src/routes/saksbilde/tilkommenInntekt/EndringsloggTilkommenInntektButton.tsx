@@ -19,7 +19,7 @@ export const EndringsloggTilkommenInntektButton = ({
         <>
             <button
                 className={classNames(styles.button)}
-                style={{ marginLeft: 'var(--a-spacing-2)' }}
+                style={{ marginLeft: 'var(--ax-space-8)' }}
                 type="button"
                 onClick={() => setVisEndringslogg(true)}
             >

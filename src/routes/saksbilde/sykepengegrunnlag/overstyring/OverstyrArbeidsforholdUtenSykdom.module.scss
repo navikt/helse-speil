@@ -20,7 +20,7 @@
 
   &.editing {
     margin-left: -15px;
-    border-left: 3px solid var(--a-surface-action);
+    border-left: 3px solid var(--ax-bg-accent-strong);
     padding: 0.5rem 1rem;
   }
 
@@ -44,7 +44,7 @@
         align-items: center;
         font-size: 18px;
         font-weight: 600;
-        color: var(--a-text-default);
+        color: var(--ax-text-neutral);
       }
     }
   }

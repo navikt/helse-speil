@@ -4,11 +4,11 @@
 }
 
 .strek {
-    border-right: 3px solid var(--a-gray-200);
+    border-right: 3px solid var(--ax-neutral-300);
 }
 
 .kolonnetittel {
-    color: var(--a-gray-600);
+    color: var(--ax-neutral-700);
     font-size: 14px;
 }
 
@@ -55,7 +55,7 @@
 
 .table tfoot > tr:first-of-type > td {
     padding: 0.75rem 0.5rem;
-    border-top: 1px solid var(--a-text-default);
+    border-top: 1px solid var(--ax-text-neutral);
 }
 
 .inntekt {
@@ -72,7 +72,7 @@
 }
 
 .arbeidsgiverrad:hover > * {
-    background-color: var(--a-gray-100);
+    background-color: var(--ax-neutral-200);
     cursor: pointer;
 }
 

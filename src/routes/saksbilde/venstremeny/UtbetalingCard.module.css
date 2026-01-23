@@ -23,7 +23,7 @@
 }
 
 .ErrorMessage {
-    color: var(--a-text-danger);
+    color: var(--ax-text-danger-subtle);
     font-weight: 600;
     margin-top: 1rem;
 }
@@ -33,5 +33,5 @@
 }
 
 .Skeleton span {
-    height: var(--a-font-line-height-large);
+    height: var(--ax-font-line-height-large);
 }

@@ -149,7 +149,7 @@ const OverstyrArbeidsforholdSkjema = ({
                             </ErrorSummary>
                         </div>
                     )}
-                    <HStack gap="2" align="center" marginBlock="4 0">
+                    <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                         <Button size="small" variant="secondary" type="submit" loading={isLoading}>
                             Ferdig
                         </Button>
