@@ -100,7 +100,6 @@ export const InntektOgRefusjon = ({
                     inntektFraAOrdningen={inntektFraAOrdningen}
                     erDeaktivert={erDeaktivert ?? false}
                     inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
-                    harSykefravær={harSykefravær}
                     organisasjonsnummer={organisasjonsnummer}
                     overstyringer={arbeidsgiver.overstyringer}
                 />

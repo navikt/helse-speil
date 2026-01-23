@@ -33,7 +33,6 @@ interface InntektOgRefusjonVisningProps {
     inntektFraAOrdningen?: InntektFraAOrdningen[];
     erDeaktivert: boolean;
     inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
-    harSykefravær: boolean;
     organisasjonsnummer: string;
     overstyringer: Overstyring[];
 }
@@ -48,7 +47,6 @@ export const InntektOgRefusjonVisning = ({
     inntektFraAOrdningen,
     erDeaktivert,
     inntekterForSammenligningsgrunnlag,
-    harSykefravær,
     organisasjonsnummer,
     overstyringer,
 }: InntektOgRefusjonVisningProps) => {
@@ -101,7 +99,7 @@ export const InntektOgRefusjonVisning = ({
                 erAktivGhost={erGhostperiode && !erDeaktivert}
                 inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
             />
-            {arbeidsforholdKanOverstyres && !harSykefravær && (
+            {(arbeidsforholdKanOverstyres || erDeaktivert) && (
                 <OverstyrArbeidsforholdUtenSykdom
                     organisasjonsnummerAktivPeriode={organisasjonsnummer}
                     skjæringstidspunkt={skjæringstidspunkt}
