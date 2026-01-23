@@ -1,5 +1,7 @@
 import { NextRequest } from 'next/server';
 
+import { logger } from '@navikt/next-logger';
+
 import {
     ApiEgenskap,
     ApiOppgaveProjeksjon,
@@ -12,6 +14,7 @@ import { tilfeldigeOppgaver } from '@spesialist-mock/data/mockDataGenerator';
 import { oppgaveVedtaksperioder, oppgaver } from '@spesialist-mock/data/oppgaver';
 import { LagtPaVent } from '@spesialist-mock/schemaTypes';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
+import { PersonMock } from '@spesialist-mock/storage/person';
 import { PaVentMock } from '@spesialist-mock/storage/påvent';
 import { TildelingMock } from '@spesialist-mock/storage/tildeling';
 
@@ -204,6 +207,9 @@ const filtrer = (
 
 const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
     return oppgaver.map((oppgave) => {
+        const personPseudoId = PersonMock.findPersonPseudoId(oppgave.aktorId);
+        if (personPseudoId != null) oppgave.personPseudoId = personPseudoId;
+        else logger.error(`Fant ikke personPseudoId for oppgave med aktørId ${oppgave.aktorId}`);
         if (oppgave.tildeling !== undefined && oppgave.tildeling !== null && !TildelingMock.harTildeling(oppgave.id)) {
             TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
         }

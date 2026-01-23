@@ -11,6 +11,7 @@ import { ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OpptegnelseMock } from '@spesialist-mock/storage/opptegnelse';
+import { PersonMock } from '@spesialist-mock/storage/person';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
@@ -18,7 +19,7 @@ import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { behandledeOppgaverliste } from './data/oppgaveoversikt';
-import { BeingPreparedError, FlereFodselsnumreError, ManglendeAvviksvurderingError, NotReadyError } from './errors';
+import { ManglendeAvviksvurderingError, NotReadyError } from './errors';
 import {
     Arbeidsgiver,
     BeregnetPeriode,
@@ -50,7 +51,7 @@ import { VarselMock } from './storage/varsel';
 
 type PersonMedPseudoId = Person & { personPseudoId: string };
 
-const leggTilLagretData = (person: PersonMedPseudoId): void => {
+const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
 
     for (const arbeidsgiver of person.arbeidsgivere) {
@@ -105,43 +106,35 @@ const lesTestpersoner = (): PersonMedPseudoId[] => {
     });
 };
 
-export const finnAktørId = (id: string): string | undefined => {
-    const personer = lesTestpersoner();
-
-    return personer.find((it) => it.personPseudoId === id || it.fodselsnummer === id)?.aktorId;
-};
-
 export const finnFødselsnummer = (id: string): string | undefined => {
     const personer = lesTestpersoner();
 
     return personer.find((it) => it.personPseudoId === id || it.aktorId === id)?.fodselsnummer;
 };
 
-export const fetchPersondata = (): Record<string, PersonMedPseudoId> => {
+export const fetchPersondata = (): Record<string, Person> => {
     const personer = lesTestpersoner();
 
-    return personer.reduce((data: Record<string, PersonMedPseudoId>, person) => {
+    return personer.reduce((data: Record<string, Person>, person) => {
         leggTilLagretData(person);
         data[person.aktorId] = person;
         data[person.fodselsnummer] = person;
-        data[person.personPseudoId] = person;
         return data;
     }, {});
 };
 
-let valgtPerson: PersonMedPseudoId | undefined;
+let valgtPerson: Person | undefined;
 
 const getResolvers = (): IResolvers => ({
     Query: {
-        person: async (
-            _,
-            { fnr, aktorId, personPseudoId }: { fnr?: string; aktorId?: string; personPseudoId?: string },
-        ) => {
-            if (aktorId == '1000000000001') return new FlereFodselsnumreError();
-            if (aktorId == '1000000000002') return new NotReadyError();
-            if (aktorId == '1000000000003') return new ManglendeAvviksvurderingError();
-            if (aktorId == '1000000000004') return new BeingPreparedError();
-            const person = fetchPersondata()[personPseudoId ?? fnr ?? aktorId ?? ''];
+        person: async (_, { personPseudoId }: { personPseudoId: string }) => {
+            if (personPseudoId == '64b51f30-2f3f-4872-afb9-8f7f31ab6c36') return new NotReadyError();
+            if (personPseudoId == 'b99b7845-f892-484c-b1d8-e070d2821bb6') return new ManglendeAvviksvurderingError();
+
+            const fødselsnummer = PersonMock.findFødselsnummer(personPseudoId);
+            if (!fødselsnummer) throw Error('personPseudoId i person-query skal vel alltid tilhøre en person?');
+            const person = fetchPersondata()[fødselsnummer];
+
             valgtPerson = person;
             return person;
         },

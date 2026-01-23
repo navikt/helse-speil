@@ -34,7 +34,7 @@ export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] 
 export const oppgaver: ApiOppgaveProjeksjon[] = [
     {
         id: '4680',
-        personPseudoId: '75dc6e54-b8e2-45b8-a9e0-48c018c613a4',
+        personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2564094783926',
         opprettetTidspunkt: '2025-11-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2025-10-21 09:48:33.10625',
@@ -75,7 +75,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '5890',
-        personPseudoId: '7afe562b-8984-4b8c-bfd3-b5f4a5bf4718',
+        personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2805594640665',
         opprettetTidspunkt: '2023-04-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2023-01-21 09:48:33.10625',
@@ -114,7 +114,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     {
         // En ganske urealistisk oppgave, for å kunne fremprovosere en graphql-error fra oppgavelista
         id: '44201',
-        personPseudoId: 'b99b7845-f892-484c-b1d8-e070d2821bb6',
+        personPseudoId: '', // id-en injectes i syncMock
         aktorId: '1000000000003',
         opprettetTidspunkt: '2024-04-10T11:09:57',
         opprinneligSoeknadstidspunkt: '2024-01-21 09:48:33.10625',
@@ -128,7 +128,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '4959',
-        personPseudoId: '2d1bc122-bbfc-4338-b2e9-f0fa4fbad2ba',
+        personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2348185725298',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
@@ -148,7 +148,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '4917',
-        personPseudoId: 'f3f2afdf-fe55-4f6c-b77a-38c15de1642d',
+        personPseudoId: '', // id-en injectes i syncMock
         aktorId: '1000001337420',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
@@ -167,7 +167,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '5917',
-        personPseudoId: '951269d2-c272-4c64-9fa7-f25eac943c59',
+        personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2407074650987',
         opprettetTidspunkt: '2023-01-02T11:09:57',
         opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
@@ -186,7 +186,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
     },
     {
         id: '90021',
-        personPseudoId: '62a99893-299d-41ef-9ef4-7f3454a1a9ab',
+        personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2117136462117',
         opprettetTidspunkt: '2023-07-02T11:08:58',
         opprinneligSoeknadstidspunkt: '2023-07-01 12:27:29.585667',

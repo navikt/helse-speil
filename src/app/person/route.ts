@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { erLokal, getServerEnv } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
-import { fetchPersondata } from '@spesialist-mock/graphql';
+import { PersonMock } from '@spesialist-mock/storage/person';
 
 export async function POST(request: NextRequest) {
     let personPseudoId = null;
@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     const aktørId = formData.get('aktørId')?.toString();
 
     if (erLokal) {
-        personPseudoId = fetchPersondata()[identitetsnummer ?? aktørId ?? '']?.personPseudoId;
+        personPseudoId = PersonMock.findPersonPseudoId(identitetsnummer ?? aktørId ?? '');
     } else {
         const wonderwallToken = hentWonderwallToken(request);
         if (!wonderwallToken) {

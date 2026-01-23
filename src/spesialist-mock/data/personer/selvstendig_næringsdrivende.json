@@ -3,7 +3,6 @@
         "person": {
             "__typename": "Person",
             "fodselsnummer": "23817999700",
-            "personPseudoId": "6d11ed7f-d58b-4edf-99cb-9295f549affc",
             "andreFodselsnummer": [],
             "dodsdato": null,
             "enhet": {
