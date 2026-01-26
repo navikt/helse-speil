@@ -242,8 +242,8 @@ export const Saksbildevarsler = ({
     return (
         <div className="Saksbildevarsler">
             {skalViseVarsler && (
-                <Accordion>
-                    <Accordion.Item open={open}>
+                <Accordion indent={false}>
+                    <Accordion.Item open={open} className={styles.saksbildevarsler}>
                         <Accordion.Header
                             className={classNames(
                                 styles.varslerheader,

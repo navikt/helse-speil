@@ -22,15 +22,15 @@ export const EkspanderbartVarsel = ({ varsel, type }: EkspanderbartVarselProps):
     const [open, setOpen] = useState(false);
 
     return (
-        <Accordion>
+        <Accordion indent={false}>
             <Accordion.Item defaultOpen={open} className={classNames(styles.ekspanderbartVarsel, styles[type])}>
-                <Accordion.Header onClick={() => setOpen(!open)}>
+                <Accordion.Header className={styles.header} onClick={() => setOpen(!open)}>
                     <Varsel className={styles.varsel} varsel={varsel} type={type} />
                 </Accordion.Header>
                 <Accordion.Content className={classNames(styles.content, styles[type])}>
                     <Varselseksjon tittel="Hva betyr det?">{varsel.forklaring}</Varselseksjon>
                     <Varselseksjon tittel="Hva gjør du?">{varsel.handling}</Varselseksjon>
-                    <Tag variant="neutral">
+                    <Tag variant="neutral" className={styles.tag}>
                         Opprettet: {dayjs(varsel.opprettet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
                     </Tag>
                 </Accordion.Content>

@@ -10,6 +10,7 @@
 .varsler {
     padding: 0;
     border-bottom: 0;
+    margin: 0;
 }
 
 .varslerheader {
@@ -20,6 +21,16 @@
     display: flex;
     width: unset;
     box-shadow: none !important;
+    border-radius: 0;
+}
+
+.saksbildevarsler[data-expanded='true']:last-child {
+    border-bottom: 0;
+}
+
+.varslerheader::before,
+.varslerheader::after {
+    height: 0;
 }
 
 .varslerheader > span {
