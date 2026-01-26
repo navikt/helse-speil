@@ -26,6 +26,9 @@ export const organisasjonsnummerHarRiktigKontrollsiffer = (organisasjonsnummer: 
     const felt = organisasjonsnummer.split('').map(Number).slice(0, -1);
     const produkter = felt.map((tall, index) => tall * (vekttall[index] ?? 0));
     const sum = produkter.reduce((a, b) => a + b, 0);
-    const kontrollsiffer = 11 - (sum % 11);
+    let kontrollsiffer = 11 - (sum % 11);
+    if (kontrollsiffer === 11) {
+        kontrollsiffer = 0;
+    }
     return kontrollsiffer === Number(organisasjonsnummer) % 10;
 };
