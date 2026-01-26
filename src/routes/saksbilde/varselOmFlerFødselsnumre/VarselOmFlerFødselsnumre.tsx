@@ -15,7 +15,7 @@ export function VarselOmFlerFødselsnumre(): ReactElement | null {
         return null;
     }
     return (
-        <Alert variant="warning" size="small" style={{ gridArea: 'unntatt' }}>
+        <Alert variant="warning" size="small" style={{ gridArea: 'unntatt', borderRadius: 0 }}>
             <HStack gap="space-8">
                 Personen har også andre fødselsnumre:
                 {andreFødselsnumre.map((value, index) => (
