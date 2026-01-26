@@ -3,6 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { ActionMenu, BodyShort, VStack } from '@navikt/ds-react';
 import { InternalHeaderUserButton } from '@navikt/ds-react/InternalHeader';
 
+import { erUtvikling } from '@/env';
 import { DarkModeToggle } from '@components/DarkModeToggle';
 import { TastaturModal } from '@components/TastaturModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
@@ -47,8 +48,12 @@ export const UserMenu = (): ReactElement => {
                     <ActionMenu.Item onClick={() => setVisTastatursnarveier(!visTastatursnarveier)}>
                         Tastatursnarveier
                     </ActionMenu.Item>
-                    <ActionMenu.Divider />
-                    <DarkModeToggle />
+                    {erUtvikling && (
+                        <>
+                            <ActionMenu.Divider />
+                            <DarkModeToggle />
+                        </>
+                    )}
                     <ActionMenu.Divider />
                     <ActionMenu.Item as="a" href="/oauth2/logout">
                         Logg ut
