@@ -21,8 +21,8 @@ const visibleStyle = {
 export const AnonymiseringProvider = ({ children }: PropsWithChildren): ReactElement => {
     const anonymiser = useIsAnonymous();
     return (
-        <body style={anonymiser ? anomizedStyle : visibleStyle}>
-            <div id="root">{children}</div>
-        </body>
+        <div id="root" style={anonymiser ? anomizedStyle : visibleStyle}>
+            {children}
+        </div>
     );
 };

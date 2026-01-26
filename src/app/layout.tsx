@@ -47,25 +47,27 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
     }
 
     return (
-        <html lang="no">
+        <html lang="no" suppressHydrationWarning>
             <head>{umamiAnalytics()}</head>
             <Preload />
-            <Providers
-                bruker={{
-                    oid: payload.oid,
-                    epost: payload.preferred_username,
-                    navn: payload.name,
-                    ident: payload.NAVident,
-                    grupper: payload.groups,
-                }}
-            >
-                <Driftsmeldinger />
-                <Header />
-                <Varsler />
-                <PersonSomKlargjøres />
-                {children}
-                <Toasts />
-            </Providers>
+            <body>
+                <Providers
+                    bruker={{
+                        oid: payload.oid,
+                        epost: payload.preferred_username,
+                        navn: payload.name,
+                        ident: payload.NAVident,
+                        grupper: payload.groups,
+                    }}
+                >
+                    <Driftsmeldinger />
+                    <Header />
+                    <Varsler />
+                    <PersonSomKlargjøres />
+                    {children}
+                    <Toasts />
+                </Providers>
+            </body>
         </html>
     );
 }
