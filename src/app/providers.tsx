@@ -4,6 +4,7 @@ import 'dayjs/locale/nb';
 import type { WritableAtom } from 'jotai';
 import { Provider } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
+import { ThemeProvider } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
 
@@ -31,19 +32,21 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
     const [apolloClient] = useState(() => createApolloClient());
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <ApolloProvider client={apolloClient}>
-                <Provider>
-                    <AtomsHydrator atomValues={getAtomValues(bruker)}>
-                        <SyncAlerts>
-                            <AnonymiseringProvider>
-                                <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
-                            </AnonymiseringProvider>
-                        </SyncAlerts>
-                    </AtomsHydrator>
-                </Provider>
-            </ApolloProvider>
-        </QueryClientProvider>
+        <ThemeProvider attribute="class" enableSystem={true} defaultTheme="system" disableTransitionOnChange={false}>
+            <QueryClientProvider client={queryClient}>
+                <ApolloProvider client={apolloClient}>
+                    <Provider>
+                        <AtomsHydrator atomValues={getAtomValues(bruker)}>
+                            <SyncAlerts>
+                                <AnonymiseringProvider>
+                                    <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                                </AnonymiseringProvider>
+                            </SyncAlerts>
+                        </AtomsHydrator>
+                    </Provider>
+                </ApolloProvider>
+            </QueryClientProvider>
+        </ThemeProvider>
     );
 };
 

@@ -1,7 +1,7 @@
 'use client';
 
 import classNames from 'classnames/bind';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import React, { ReactElement } from 'react';
 
 import { InternalHeader } from '@navikt/ds-react';
@@ -21,7 +21,7 @@ const cx = classNames.bind(styles);
 export const Header = (): ReactElement => {
     return (
         <InternalHeader className={cx(styles.header, { localhostHeader: erLokal, devHeader: erDev })}>
-            <InternalHeader.Title as={Link} href="/" className={styles.Link}>
+            <InternalHeader.Title as={NextLink} href="/">
                 Nav Sykepenger
             </InternalHeader.Title>
             <Personsøk />

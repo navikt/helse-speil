@@ -110,6 +110,7 @@
         "jiti": "^2.6.1",
         "jsdom": "^26.0.0",
         "lint-staged": "^16.2.7",
+        "next-themes": "^0.4.6",
         "next-router-mock": "^1.0.4",
         "openapi3-ts": "^4.5.0",
         "orval": "^7.17.0",

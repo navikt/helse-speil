@@ -9,8 +9,8 @@
         -45deg,
         #4d4d00,
         #4d4d00 20px,
-        var(--ax-neutral-1000) 20px,
-        var(--ax-neutral-1000) 40px
+        var(--ax-bg-raised) 20px,
+        var(--ax-bg-raised) 40px
     );
 }
 
@@ -19,8 +19,8 @@
         -45deg,
         #004d00,
         #004d00 20px,
-        var(--ax-neutral-1000) 20px,
-        var(--ax-neutral-1000) 40px
+        var(--ax-bg-raised) 20px,
+        var(--ax-bg-raised) 40px
     );
 }
 
