@@ -84,7 +84,7 @@ export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: Inntekts
                         </Tooltip>
                     </HStack>
                     <div />
-                    <Accordion>
+                    <Accordion indent={false}>
                         <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
                             <Accordion.Header
                                 className={classNames(styles.header, erAnonymisert && styles.anonymisert)}

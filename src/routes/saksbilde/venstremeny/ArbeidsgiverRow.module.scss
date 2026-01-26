@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: column;
   box-shadow: none !important;
+
+  &[data-expanded="true"]:last-child {
+    border-bottom: 0;
+  }
 }
 
 .iconContainer {
@@ -71,8 +75,13 @@
   &.anonymisert:hover {
     text-decoration: none;
   }
+
+  &::before, &::after {
+    height: 0;
+  }
 }
 
 .content {
   padding: 0;
+  margin: 0;
 }
