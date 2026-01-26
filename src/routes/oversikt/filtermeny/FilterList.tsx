@@ -18,7 +18,7 @@ export const FilterList = ({ filters, text }: FilterListProps): ReactElement => 
     const [open, setOpen] = useState(true);
 
     return (
-        <Accordion>
+        <Accordion indent={false}>
             <Accordion.Item defaultOpen className={styles.liste}>
                 <Accordion.Header onClick={() => setOpen(!open)} className={styles.header}>
                     <BodyShort weight="semibold">{text}</BodyShort>

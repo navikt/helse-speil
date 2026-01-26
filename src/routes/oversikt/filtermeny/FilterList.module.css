@@ -1,5 +1,6 @@
 .liste {
     padding-top: var(--ax-space-12);
+    border-bottom: 2px solid var(--ax-border-neutral-subtle);
 }
 
 .liste .header {
@@ -10,7 +11,12 @@
     box-shadow: none;
 }
 
+.liste .header::before,
+.header::after {
+    height: 0;
+}
+
 .innhold {
     padding: 0 var(--ax-space-4) 18px;
-    margin-left: var(--ax-space-28);
+    margin: 0 0 0 30px;
 }
