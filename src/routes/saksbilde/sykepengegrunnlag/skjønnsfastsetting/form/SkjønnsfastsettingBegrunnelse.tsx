@@ -37,7 +37,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
     return (
         <div className={styles.skjønnsfastsettingBegrunnelse}>
             <div>
-                <BodyShort>
+                <BodyShort style={{ marginBottom: 8 }}>
                     <span className={styles.Bold}>Begrunnelse</span> Teksten vises til den sykmeldte i «Svar på søknad
                     om sykepenger».
                 </BodyShort>

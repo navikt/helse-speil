@@ -21,7 +21,7 @@ export const ExpandableSkjønnsfastsettingBegrunnelseContent = ({
 }: ExpandableSkjønnsfastsettingBegrunnelseProps): ReactElement => {
     const [open, setOpen] = useState(false);
     return (
-        <Accordion>
+        <Accordion indent={false}>
             <Accordion.Item open={open} className={classNames(styles.item, className)} {...divProps}>
                 <Accordion.Content className={styles.content}>{children}</Accordion.Content>
                 {!open && (
