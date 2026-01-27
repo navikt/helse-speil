@@ -5,7 +5,7 @@
     height: 48px;
     box-sizing: border-box;
     padding: 0 2rem;
-    background: #f8f8f8;
+    background: var(--ax-bg-raised);
     border-bottom: 1px solid var(--ax-border-neutral-strong);
     color: var(--ax-text-neutral);
     white-space: nowrap;
