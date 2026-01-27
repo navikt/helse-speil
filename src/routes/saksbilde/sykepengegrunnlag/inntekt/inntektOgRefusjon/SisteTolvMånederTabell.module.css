@@ -1,0 +1,25 @@
+.table td,
+.table th {
+    white-space: nowrap;
+    border: 0;
+}
+
+.table tbody tr:nth-child(odd) {
+    background-color: var(--ax-bg-default);
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: var(--ax-bg-accent-soft);
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.textRight {
+    text-align: right;
+}
+
+.gjennomsnittRow td {
+    border-bottom: 1px solid var(--ax-border-neutral-subtle);
+}
