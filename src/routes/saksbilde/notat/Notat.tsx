@@ -11,7 +11,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { LeggTilNotatDocument, NotatType, PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useFjernNotat, useGetNotatTekst, useUpsertNotat } from '@state/notater';
+import { useNotatkladd } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { apolloErrorCode } from '@utils/error';
 import { isGhostPeriode } from '@utils/typeguards';
@@ -26,10 +26,10 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
     const aktivPeriode = useActivePeriod(person);
     const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
 
-    const fjernNotat = useFjernNotat();
-    const lagretNotat = useGetNotatTekst(
-        NotatType.Generelt,
-        !erGhostEllerHarIkkeAktivPeriode ? aktivPeriode.vedtaksperiodeId : '',
+    const notatkladd = useNotatkladd();
+
+    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(
+        !erGhostEllerHarIkkeAktivPeriode ? aktivPeriode.vedtaksperiodeId : undefined,
     );
 
     const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
@@ -100,7 +100,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
 
     const lukkNotatfelt = () => {
         setOpen(false);
-        fjernNotat(aktivPeriode.vedtaksperiodeId, NotatType.Generelt);
+        notatkladd.fjernNotat(aktivPeriode.vedtaksperiodeId, NotatType.Generelt);
     };
 
     return (
@@ -150,9 +150,8 @@ function Notattekstfelt({
 }) {
     const { field, fieldState } = useController({ name: 'tekst', control });
 
-    const replaceNotat = useUpsertNotat();
-    const lagretNotat = useGetNotatTekst(NotatType.Generelt, vedtaksperiodeId);
-
+    const notatkladd = useNotatkladd();
+    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId);
     return (
         <Textarea
             {...field}
@@ -161,11 +160,7 @@ function Notattekstfelt({
             error={fieldState.error?.message}
             onChange={(e) => {
                 field.onChange(e);
-                replaceNotat({
-                    vedtaksperiodeId: vedtaksperiodeId,
-                    tekst: e.target.value,
-                    type: NotatType.Generelt,
-                });
+                notatkladd.upsertNotat(e.target.value, vedtaksperiodeId);
             }}
             value={lagretNotat}
             description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."

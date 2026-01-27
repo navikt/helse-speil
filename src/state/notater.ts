@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { atom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 import { useMutation } from '@apollo/client';
 import { LeggTilKommentarDocument, NotatFragment, NotatType, PeriodehistorikkType } from '@io/graphql';
@@ -31,6 +31,36 @@ export const useGetNotatTekst = (notattype: NotatType, vedtaksperiodeId: string)
     const notater = useAtomValue(lokaleNotaterState);
     return notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst;
 };
+
+export function useNotatkladd() {
+    const [notater, setNotater] = useAtom(lokaleNotaterState);
+    return {
+        finnNotatForVedtaksperiode: (
+            vedtaksperiodeId: string | undefined,
+            notattype: NotatType = NotatType.Generelt,
+        ) => {
+            return notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)
+                ?.tekst;
+        },
+        fjernNotat: (vedtaksperiodeId: string, notattype: NotatType = NotatType.Generelt) => {
+            setNotater((currentValue) => [
+                ...currentValue.filter(
+                    (notat) => notat.type !== notattype || notat.vedtaksperiodeId !== vedtaksperiodeId,
+                ),
+            ]);
+        },
+        upsertNotat: (tekst: string, vedtaksperiodeId: string, type: NotatType = NotatType.Generelt) => {
+            setNotater((currentState: LagretNotat[]) => [
+                ...currentState.filter((notat) => notat.type !== type || notat.vedtaksperiodeId !== vedtaksperiodeId),
+                {
+                    tekst,
+                    vedtaksperiodeId,
+                    type,
+                },
+            ]);
+        },
+    };
+}
 
 export const useLeggTilKommentar = (
     dialogRef: number,
