@@ -25,7 +25,7 @@ export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions
                 key: current,
                 message: (
                     <>
-                        {message} <Loader size="xsmall" variant="inverted" />
+                        {message} <Loader size="xsmall" />
                     </>
                 ),
             });

@@ -1,7 +1,7 @@
 .Toast {
-    --toast-background-color: var(--ax-bg-raised);
-    --toast-border-color: var(--ax-bg-raised);
-    --toast-text-color: var(--ax-text-neutral);
+    --toast-background-color: var(--ax-neutral-1000);
+    --toast-border-color: var(--ax-neutral-1000);
+    --toast-text-color: var(--ax-text-neutral-contrast);
     position: relative;
     display: flex;
     cursor: pointer;
