@@ -4,8 +4,6 @@ import { Checkbox, CheckboxGroup, Heading, Modal } from '@navikt/ds-react';
 
 import { TotrinnsvurderingState, useTotrinnsvurdering } from '@state/toggles';
 
-import styles from './ToggleMeny.module.css';
-
 type ToggleMenyProps = {
     closeModal: () => void;
     showModal: boolean;
@@ -22,7 +20,7 @@ export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
                 </Heading>
             </Modal.Header>
             <Modal.Body>
-                <form className={styles.ToggleMeny}>
+                <form>
                     <CheckboxGroup legend="Totrinnsvurdering" value={totrinnsvurderingStateToCheckboxValue(totrinn)}>
                         <Checkbox value="harBeslutterrolle" onChange={toggleTotrinn('harBeslutterrolle')}>
                             Har beslutterrolle

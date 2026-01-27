@@ -1,9 +1,0 @@
-.ToggleMeny {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-.ToggleMeny label {
-    padding: var(--ax-space-8) 0;
-}
