@@ -1,5 +1,6 @@
 .label {
     width: 160px;
+    color: var(--ax-text-neutral);
 }
 .knapp {
     height: 24px;
