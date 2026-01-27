@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Box, Label, Table } from '@navikt/ds-react';
+import { Box, Label, Table } from '@navikt/ds-react';
 
 import { Refusjonsopplysning } from '@typer/overstyring';
 
@@ -21,14 +21,10 @@ export const Refusjonsoversikt = ({ refusjon, lokaleRefusjonsopplysninger }: Ref
             <Table className={styles.Table} size="small">
                 <Table.Header>
                     <Table.Row>
-                        <Table.HeaderCell>
-                            <BodyShort>Fra og med dato</BodyShort>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell>
-                            <BodyShort>Til og med dato</BodyShort>
-                        </Table.HeaderCell>
-                        <Table.HeaderCell align="right">
-                            <BodyShort>Refusjonsbeløp</BodyShort>
+                        <Table.HeaderCell className={styles.nowrap}>Fra og med dato</Table.HeaderCell>
+                        <Table.HeaderCell className={styles.nowrap}>Til og med dato</Table.HeaderCell>
+                        <Table.HeaderCell align="right" className={styles.nowrap}>
+                            Refusjonsbeløp
                         </Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
