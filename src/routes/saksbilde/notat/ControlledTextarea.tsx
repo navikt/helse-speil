@@ -4,7 +4,7 @@ import { Control, useController } from 'react-hook-form';
 import { Textarea } from '@navikt/ds-react';
 
 import { NotatType } from '@io/graphql';
-import { useGetNotatTekst, useReplaceNotat } from '@state/notater';
+import { useGetNotatTekst, useUpsertNotat } from '@state/notater';
 
 interface ControlledTextareaProps {
     vedtaksperiodeId: string;
@@ -17,7 +17,7 @@ export const ControlledTextarea = ({
     vedtaksperiodeId,
     notattype = NotatType.Generelt,
 }: ControlledTextareaProps): ReactElement => {
-    const replaceNotat = useReplaceNotat();
+    const replaceNotat = useUpsertNotat();
     const lagretNotat = useGetNotatTekst(notattype, vedtaksperiodeId) ?? '';
     const { field, fieldState } = useController({
         control: control,

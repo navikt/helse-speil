@@ -6,9 +6,7 @@ import { LeggTilKommentarDocument, NotatFragment, NotatType, PeriodehistorikkTyp
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { Notat } from '@typer/notat';
 
-export const useNotater = () => useAtomValue(lokaleNotaterState);
-
-export const useReplaceNotat = () => {
+export const useUpsertNotat = () => {
     const setNotat = useSetAtom(lokaleNotaterState);
     return (nyttNotat: LagretNotat) => {
         setNotat((currentState: LagretNotat[]) => [
@@ -30,7 +28,7 @@ export const useFjernNotat = () => {
 };
 
 export const useGetNotatTekst = (notattype: NotatType, vedtaksperiodeId: string): string | undefined => {
-    const notater = useNotater();
+    const notater = useAtomValue(lokaleNotaterState);
     return notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst;
 };
 

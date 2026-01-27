@@ -1,20 +1,20 @@
 import classNames from 'classnames';
-import React, { ReactElement, useEffect, useState } from 'react';
-import { FieldValues, SubmitHandler, useForm } from 'react-hook-form';
+import React, { ReactElement, useState } from 'react';
+import { Control, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack, Textarea } from '@navikt/ds-react';
 
+import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
 import { useMutation } from '@apollo/client';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { LeggTilNotatDocument, NotatType, PersonFragment } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useFjernNotat, useNotater } from '@state/notater';
+import { useFjernNotat, useGetNotatTekst, useUpsertNotat } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { apolloErrorCode } from '@utils/error';
 import { isGhostPeriode } from '@utils/typeguards';
-
-import { ControlledTextarea } from './ControlledTextarea';
 
 import styles from './Notat.module.css';
 
@@ -23,30 +23,33 @@ interface NotatProps {
 }
 
 export const Notat = ({ person }: NotatProps): ReactElement | null => {
-    const notater = useNotater();
-    const fjernNotat = useFjernNotat();
     const aktivPeriode = useActivePeriod(person);
-    const [open, setOpen] = useState(false);
-    const form = useForm();
+    const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
+
+    const fjernNotat = useFjernNotat();
+    const lagretNotat = useGetNotatTekst(
+        NotatType.Generelt,
+        !erGhostEllerHarIkkeAktivPeriode ? aktivPeriode.vedtaksperiodeId : '',
+    );
+
     const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
     const { oid } = useInnloggetSaksbehandler();
 
-    const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
-    const harPåbegyntNotat =
-        !erGhostEllerHarIkkeAktivPeriode &&
-        notater.find(
-            (notat) => notat.type === NotatType.Generelt && notat.vedtaksperiodeId === aktivPeriode.vedtaksperiodeId,
-        )?.tekst !== undefined;
-    useEffect(() => {
-        setOpen(harPåbegyntNotat);
-    }, [harPåbegyntNotat]);
+    const form = useForm<NotatFormFields>({
+        resolver: zodResolver(notatSkjema),
+        defaultValues: {
+            tekst: lagretNotat,
+        },
+    });
+
+    const [open, setOpen] = useState(lagretNotat != undefined);
 
     useKeyboard([
         {
             key: Key.N,
             action: () => {
                 setOpen(true);
-                form.setFocus(`${NotatType.Generelt}-tekst`);
+                form.setFocus('tekst');
             },
             ignoreIfModifiers: false,
             modifier: Key.Alt,
@@ -55,7 +58,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
 
     if (erGhostEllerHarIkkeAktivPeriode) return null;
 
-    const submit: SubmitHandler<FieldValues> = (data) => {
+    const submit: SubmitHandler<NotatFormFields> = (data) => {
         void nyttNotat({
             variables: {
                 oid: oid,
@@ -114,17 +117,19 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
             {open && (
                 <>
                     <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
-                    <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
-                        <ControlledTextarea control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
-                        <HStack gap="2" align="center" marginBlock="4 0">
-                            <Button size="small" variant="secondary" type="submit" loading={loading}>
-                                Lagre notat
-                            </Button>
-                            <Button size="small" variant="tertiary" type="button" onClick={lukkNotatfelt}>
-                                Avbryt
-                            </Button>
-                        </HStack>
-                    </form>
+                    <FormProvider {...form}>
+                        <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
+                            <Notattekstfelt control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
+                            <HStack gap="2" align="center" marginBlock="4 0">
+                                <Button size="small" variant="secondary" type="submit" loading={loading}>
+                                    Lagre notat
+                                </Button>
+                                <Button size="small" variant="tertiary" type="button" onClick={lukkNotatfelt}>
+                                    Avbryt
+                                </Button>
+                            </HStack>
+                        </form>
+                    </FormProvider>
                 </>
             )}
             {error && (
@@ -135,3 +140,36 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
         </li>
     );
 };
+
+function Notattekstfelt({
+    control,
+    vedtaksperiodeId,
+}: {
+    control: Control<NotatFormFields>;
+    vedtaksperiodeId: string;
+}) {
+    const { field, fieldState } = useController({ name: 'tekst', control });
+
+    const replaceNotat = useUpsertNotat();
+    const lagretNotat = useGetNotatTekst(NotatType.Generelt, vedtaksperiodeId);
+
+    return (
+        <Textarea
+            {...field}
+            label="tekst"
+            hideLabel
+            error={fieldState.error?.message}
+            onChange={(e) => {
+                field.onChange(e);
+                replaceNotat({
+                    vedtaksperiodeId: vedtaksperiodeId,
+                    tekst: e.target.value,
+                    type: NotatType.Generelt,
+                });
+            }}
+            value={lagretNotat}
+            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
+            maxLength={2000}
+        />
+    );
+}
