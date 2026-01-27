@@ -22,6 +22,10 @@ export class NotatMock {
     private static notater: Map<UUID, Notat[]> = new Map();
     private static notatCounter: number = 0;
 
+    /**
+     * @param id kan være vedtaksperiodeId eller notatId
+     * @param notatProperties data for Notat
+     */
     static addNotat = (id: string, notatProperties?: Partial<Notat>): Notat => {
         const vedtaksperiodeId = findVedtaksperiodeId(id) ?? id;
         const notat = NotatMock.getMockedNotat(vedtaksperiodeId, notatProperties);
