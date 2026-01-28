@@ -12,7 +12,7 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    background: #f8f8f8;
+    background: var(--ax-bg-neutral-soft);
     flex: 1;
     gap: 0.25rem;
 }
