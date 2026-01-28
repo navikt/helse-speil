@@ -82,7 +82,10 @@ export const Begrunnelsesskjema = ({ activePeriod }: BegrunnelsesskjemaProps): R
                             return <BegrunnelseCheckbox key={`${index}-checkbox`} begrunnelse={varsel.tittel} />;
                     }
                 })}
-                <BegrunnelseCheckbox begrunnelse="Annet" />
+
+                {Object.values(Begrunnelse).map((key) => (
+                    <BegrunnelseCheckbox key={key} begrunnelse={key} />
+                ))}
             </Fieldset>
             <Controller
                 name="kommentar"
