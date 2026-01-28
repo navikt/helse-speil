@@ -29,11 +29,3 @@
     text-decoration: none;
     font-weight: 600;
 }
-
-.utviklingTape {
-    background: repeating-linear-gradient(-75deg, yellow, yellow 10px, black 10px, black 20px);
-    margin-left: 200px;
-    padding: 8px;
-    width: 500px;
-    color: black;
-}
