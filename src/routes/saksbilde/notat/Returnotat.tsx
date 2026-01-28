@@ -46,6 +46,7 @@ export const Returnotat = ({
             </VStack>
             <NotatSkjema
                 submit={submit}
+                submitTekst="Lagre notat og returner"
                 vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                 skjulNotatFelt={() => setShowNotat(false)}
                 loading={loading}

@@ -127,6 +127,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
                         </VStack>
                         <NotatSkjema
                             submit={submit}
+                            submitTekst="Lagre notat"
                             vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                             skjulNotatFelt={() => setOpen(false)}
                             loading={loading}

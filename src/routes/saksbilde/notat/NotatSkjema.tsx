@@ -11,12 +11,13 @@ import { useNotatkladd } from '@state/notater';
 
 interface NotatSkjemaProps {
     submit: SubmitHandler<NotatFormFields>;
+    submitTekst: string;
     vedtaksperiodeId: string;
     skjulNotatFelt: () => void;
     loading: boolean;
 }
 
-export function NotatSkjema({ submit, vedtaksperiodeId, skjulNotatFelt, loading }: NotatSkjemaProps) {
+export function NotatSkjema({ submit, submitTekst, vedtaksperiodeId, skjulNotatFelt, loading }: NotatSkjemaProps) {
     const notatkladd = useNotatkladd();
 
     const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId, NotatType.Retur);
@@ -43,7 +44,7 @@ export function NotatSkjema({ submit, vedtaksperiodeId, skjulNotatFelt, loading 
                 />
                 <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                     <Button size="small" variant="secondary" type="submit" loading={loading}>
-                        Lagre notat og returner
+                        {submitTekst}
                     </Button>
                     <Button size="small" variant="tertiary" onClick={lukkNotatfelt} type="button">
                         Avbryt
