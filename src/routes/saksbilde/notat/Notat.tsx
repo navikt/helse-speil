@@ -1,15 +1,15 @@
 import React, { ReactElement, useState } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
 import { useMutation } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { LeggTilNotatDocument, NotatType, PersonFragment } from '@io/graphql';
-import { Notattekstfelt } from '@saksbilde/notat/Notattekstfelt';
+import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotatkladd } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
@@ -28,6 +28,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
 
     const lagretNotat = notatkladd.finnNotatForVedtaksperiode(
         !erGhostEllerHarIkkeAktivPeriode ? aktivPeriode.vedtaksperiodeId : undefined,
+        NotatType.Generelt,
     );
 
     const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
@@ -103,52 +104,41 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
     };
 
     return (
-        <VStack
-            as="li"
-            align="start"
-            paddingBlock="0 space-16"
-            style={{ borderBottom: '1px solid var(--a-border-default)' }}
-        >
-            <Button
-                size="xsmall"
-                variant="tertiary"
-                icon={
-                    open ? (
-                        <MinusCircleIcon title="nytt-notat" fontSize="1.5rem" />
-                    ) : (
-                        <PlusCircleFillIcon title="nytt-notat" fontSize="1.5rem" />
-                    )
-                }
-                onClick={() => setOpen(!open)}
-            >
-                Skriv nytt notat
-            </Button>
-
-            {open && (
-                <>
-                    <VStack paddingBlock="0 space-8">
-                        <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
-                    </VStack>
-                    <FormProvider {...form}>
-                        <form onSubmit={form.handleSubmit(submit)} style={{ width: '100%' }}>
-                            <Notattekstfelt control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
-                            <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                                <Button size="small" variant="secondary" type="submit" loading={loading}>
-                                    Lagre notat
-                                </Button>
-                                <Button size="small" variant="tertiary" type="button" onClick={lukkNotatfelt}>
-                                    Avbryt
-                                </Button>
-                            </HStack>
-                        </form>
-                    </FormProvider>
-                </>
-            )}
-            {error && (
-                <ErrorMessage>
-                    {apolloErrorCode(error) === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres'}
-                </ErrorMessage>
-            )}
-        </VStack>
+        <Box borderWidth="0 0 1 0" borderColor="neutral">
+            <VStack as="li" align="start" paddingBlock="space-0 space-16" gap="space-4">
+                <Button
+                    size="xsmall"
+                    variant="tertiary"
+                    icon={
+                        open ? (
+                            <MinusCircleIcon title="nytt-notat" fontSize="1.5rem" />
+                        ) : (
+                            <PlusCircleFillIcon title="nytt-notat" fontSize="1.5rem" />
+                        )
+                    }
+                    onClick={() => setOpen(!open)}
+                >
+                    Skriv nytt notat
+                </Button>
+                {open && (
+                    <>
+                        <VStack paddingBlock="space-0 space-8">
+                            <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
+                        </VStack>
+                        <NotatSkjema
+                            submit={submit}
+                            vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
+                            skjulNotatFelt={() => setOpen(false)}
+                            loading={loading}
+                        />
+                    </>
+                )}
+                {error && (
+                    <ErrorMessage>
+                        {apolloErrorCode(error) === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres'}
+                    </ErrorMessage>
+                )}
+            </VStack>
+        </Box>
     );
 };

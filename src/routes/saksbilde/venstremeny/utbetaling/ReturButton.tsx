@@ -41,7 +41,7 @@ export const ReturButton = ({
     const [error, setError] = useState<string | undefined>();
 
     const addReturtoast = useAddReturtoast();
-    const [sendIReturMutation] = useMutation(SendIReturDocument);
+    const [sendIReturMutation, { loading }] = useMutation(SendIReturDocument);
 
     const closeNotat = () => {
         setError(undefined);
@@ -85,7 +85,13 @@ export const ReturButton = ({
                 Returner
             </Button>
             {showNotat && (
-                <Returnotat onSubmit={returnerUtbetaling} setShowNotat={setShowNotat} error={error} person={person} />
+                <Returnotat
+                    onSubmit={returnerUtbetaling}
+                    setShowNotat={setShowNotat}
+                    error={error}
+                    person={person}
+                    loading={loading}
+                />
             )}
         </>
     );

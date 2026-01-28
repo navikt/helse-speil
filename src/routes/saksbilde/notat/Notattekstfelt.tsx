@@ -19,7 +19,7 @@ export function Notattekstfelt({
     const { field, fieldState } = useController({ name: 'tekst', control });
 
     const notatkladd = useNotatkladd();
-    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId);
+    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId, notatType);
     return (
         <Textarea
             {...field}
