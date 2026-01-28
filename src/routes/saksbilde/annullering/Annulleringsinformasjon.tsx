@@ -55,7 +55,7 @@ export const Annulleringsinformasjon = ({
                 <BodyShort>Utbetalingene for følgende perioder annulleres</BodyShort>
                 <List as="ul" size="small">
                     {kandidater.map((kandidat) => (
-                        <ListItem key="kandidater">
+                        <ListItem key={`annulleringsperiode-${kandidat.fom}-${kandidat.tom}`}>
                             {somNorskDato(kandidat.fom)} - {somNorskDato(kandidat.tom)}
                         </ListItem>
                     ))}

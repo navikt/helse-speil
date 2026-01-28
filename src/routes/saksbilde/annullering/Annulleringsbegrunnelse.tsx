@@ -29,7 +29,6 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
             </Box>
             <Fieldset
                 legend="Hvorfor kunne ikke vedtaket revurderes?"
-                className={styles.checkboxcontainer}
                 error={formState.errors.arsaker ? (formState.errors.arsaker.message as string) : null}
             >
                 {!loading &&
@@ -42,9 +41,8 @@ export const Annulleringsbegrunnelse = (): ReactElement => {
                                     void onChangeArsaker(event);
                                 }}
                                 {...arsakerValidation}
-                                className={styles.arsakerCheckbox}
                             >
-                                <p>{årsak.arsak}</p>
+                                {årsak.arsak}
                             </NavCheckbox>
                         );
                     })}
