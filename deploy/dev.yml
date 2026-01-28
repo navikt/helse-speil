@@ -75,8 +75,6 @@ spec:
           - id: 'c811e9f4-26a6-43f9-b930-8c83365683a9' # 0000-AZ-speil-kode7-dev (fortrolig adresse)
           - id: 'dd4e2415-b68d-43a4-87b5-fe2ba5f1dc61' # speil-besluttere-dev (tror ikke denne er i bruk per nå, siden det er egne toggles for besluttertilganger i frontenden og egne flagg for spesialist (i dev, såklart))
           - id: '317665ad-1402-458e-b8e6-9cb50afc1252' # speil-brukere-dev
-  secureLogs:
-    enabled: true
   envFrom:
     - secret: speil
   env:

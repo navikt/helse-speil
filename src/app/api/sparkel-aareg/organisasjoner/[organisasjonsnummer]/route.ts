@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { logger } from '@navikt/next-logger';
+
 import { erUtvikling, getServerEnv } from '@/env';
-import { logger } from '@/logger';
 import { stubnavnForOrganisasjonsnummer } from '@app/api/sparkel-aareg/organisasjoner/[organisasjonsnummer]/stubnavn';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 import { sleep } from '@spesialist-mock/constants';

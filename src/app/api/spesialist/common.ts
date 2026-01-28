@@ -1,7 +1,8 @@
 import { NextRequest } from 'next/server';
 
+import { logger } from '@navikt/next-logger';
+
 import { erLokal } from '@/env';
-import { logger } from '@/logger';
 import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
 import { sleep } from '@spesialist-mock/constants';
 

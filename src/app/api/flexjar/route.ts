@@ -1,5 +1,6 @@
+import { logger } from '@navikt/next-logger';
+
 import { erLokal } from '@/env';
-import { logger } from '@/logger';
 import { postOpprett } from '@app/api/flexjar/flexjar';
 
 export const dynamic = 'force-dynamic';

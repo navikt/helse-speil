@@ -8,6 +8,8 @@ import { ThemeProvider } from 'next-themes';
 import { usePathname } from 'next/navigation';
 import { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
 
+import { configureLogger } from '@navikt/next-logger';
+
 import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '@app/apollo/apolloClient';
 import { Bruker, BrukerContext } from '@auth/brukerContext';
@@ -22,6 +24,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@utils/dayjs.setup';
 
 initInstrumentation();
+configureLogger({});
 
 type Props = {
     bruker: Bruker;

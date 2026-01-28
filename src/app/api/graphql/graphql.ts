@@ -1,7 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
+import { logger } from '@navikt/next-logger';
+
 import { getServerEnv } from '@/env';
-import { logger } from '@/logger';
 import { byttTilOboToken } from '@auth/token';
 import { metrics } from '@observability/metrics';
 

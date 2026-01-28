@@ -1,4 +1,5 @@
-import { logger } from '@/logger';
+import { logger } from '@navikt/next-logger';
+
 import { Handling, kallModia } from '@app/api/modia/modia';
 import { hentWonderwallToken } from '@auth/token';
 

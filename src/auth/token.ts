@@ -3,10 +3,11 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { ZodError, z } from 'zod/v4';
 
+import { logger } from '@navikt/next-logger';
+import { teamLogger } from '@navikt/next-logger/team-log';
 import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 
 import { erLokal } from '@/env';
-import { logger } from '@/logger';
 import { metrics } from '@observability/metrics';
 
 type TokenPayload = z.infer<typeof tokenPayloadSchema>;
@@ -59,7 +60,7 @@ export async function getTokenPayload(): Promise<TokenPayload> {
         metrics.authErrorCounter.inc({ type: 'parse-error' }, 1);
 
         if (e instanceof ZodError) {
-            logger.sikker.error(
+            teamLogger.error(
                 `Klarte ikke å parse payloaden fra tokenet til ${validationResult.payload.preferred_username}\n\n${`The following envs are missing: ${
                     e.issues
                         .filter((it) => it.message === 'Required')
@@ -67,9 +68,9 @@ export async function getTokenPayload(): Promise<TokenPayload> {
                         .join(', ') || 'None are missing, but zod is not happy. Look at cause'
                 }`}`,
             );
-            logger.error('Failed to parse token payload', e);
+            logger.error(e, 'Failed to parse token payload');
         } else {
-            logger.error('Unknown error: Failed to parse token payload', e);
+            logger.error(e, 'Unknown error: Failed to parse token payload');
         }
 
         throw e;
