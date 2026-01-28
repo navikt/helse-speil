@@ -8,7 +8,6 @@
     border-left: 1px solid var(--ax-border-neutral-subtle);
     width: 58px;
     align-items: center;
-    background-color: #fff;
     z-index: 1;
 }
 
@@ -17,7 +16,6 @@
     width: 2rem;
     border-bottom: 0;
     padding: 0;
-    background: var(--ax-bg-neutral-soft);
     border-radius: 50%;
     margin-top: 1.5rem;
 }
