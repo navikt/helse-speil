@@ -25,7 +25,7 @@ const BegrunnelseCheckbox = ({ begrunnelse, label }: BegrunnelseCheckboxProps): 
     };
 
     return (
-        <Checkbox className={styles.Checkbox} value={begrunnelse} onChange={onCheck} {...begrunnelserValidation}>
+        <Checkbox value={begrunnelse} onChange={onCheck} {...begrunnelserValidation}>
             {label ? label : begrunnelse}
         </Checkbox>
     );
@@ -45,7 +45,7 @@ export const Begrunnelsesskjema = ({ activePeriod }: BegrunnelsesskjemaProps): R
     const annet = begrunnelser ? begrunnelser.includes(Begrunnelse.Annet) : false;
 
     return (
-        <div className={styles.Begrunnelsesskjema}>
+        <>
             <Fieldset
                 className={styles.Fieldset}
                 legend="Årsak til at oppgaven ikke kan behandles"
@@ -102,6 +102,6 @@ export const Begrunnelsesskjema = ({ activePeriod }: BegrunnelsesskjemaProps): R
                     />
                 )}
             />
-        </div>
+        </>
     );
 };

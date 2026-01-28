@@ -27,8 +27,8 @@ export const Årsaker = ({ årsaker, årsakerLoading, valgteÅrsaker, setValgte�
             {!årsakerLoading &&
                 årsaker?.map((årsak) => {
                     return (
-                        <Checkbox key={årsak._key} value={årsak.arsak} className={styles.årsakcheckbox}>
-                            <p>{årsak.arsak}</p>
+                        <Checkbox key={årsak._key} value={årsak.arsak}>
+                            {årsak.arsak}
                         </Checkbox>
                     );
                 })}
