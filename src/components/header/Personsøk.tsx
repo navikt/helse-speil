@@ -3,6 +3,7 @@ import React, { FormEvent, ReactElement, useRef, useState } from 'react';
 import { validate } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
+import { teamLogger } from '@navikt/next-logger/team-log';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { validFødselsnummer } from '@io/graphql/common';
@@ -59,8 +60,10 @@ export const Personsøk = (): ReactElement => {
                 .catch((error) => {
                     if (error.response) {
                         if (error.response.status >= 400 && error.response.status < 500) {
+                            teamLogger.warn(error, 'Fikk klientfeil fra søk etter person, viser at person ikke finnes');
                             addVarsel(new NotFoundError());
                         } else {
+                            teamLogger.error(error, 'Fikk serverfeil fra søk etter person, viser feilmelding');
                             addVarsel(new FetchError());
                         }
                     }
