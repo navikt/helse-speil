@@ -21,10 +21,6 @@
     position: relative;
     height: 2rem;
     padding: 0 1rem;
-    vertical-align: middle;
-    box-sizing: border-box;
-    border-bottom: 1px solid #c6c2bf;
-    background: transparent;
 
     &:not(:first-of-type):not(:last-of-type) {
       padding-right: 1rem;
@@ -32,7 +28,7 @@
   }
 
   &.markert > td {
-    background: #f1f1f1;
+    background: var(--ax-bg-neutral-moderate);
   }
 
   &.helg {
@@ -44,16 +40,16 @@
   }
 
   &.avvist {
-    background-color: #f9d2cc;
+    background-color: var(--ax-bg-danger-moderate);
     @include left-aligned(var(--ax-border-danger))
   }
 
   &.agpEllerVentetid {
-    background-color: #f8f8f8;
+    background-color: var(--ax-bg-neutral-soft);
     @include left-aligned(var(--ax-text-neutral-subtle))
   }
 
   &.nydag {
-    background-color: #fff;
+    background-color: var(--ax-bg-default);
   }
 }
