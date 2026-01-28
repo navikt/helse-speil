@@ -79,13 +79,13 @@ const tilTooltip = (egenskap: ApiEgenskap) => {
     }
 };
 
-const tilVariant = (kategori: Kategori): TagProps['variant'] =>
+const tilDataColor = (kategori: Kategori): TagProps['data-color'] =>
     kategori === Kategori.Ukategorisert
-        ? 'alt2'
+        ? 'gammalost'
         : kategori === Kategori.Oppgavetype
-          ? 'alt3'
+          ? 'info'
           : kategori === Kategori.Mottaker
-            ? 'alt1'
+            ? 'meta-purple'
             : kategori === Kategori.Status
               ? 'warning'
               : kategori === Kategori.Inntektsforhold || kategori === Kategori.Arbeidssituasjon
@@ -107,7 +107,7 @@ const getData = (egenskaper: ApiEgenskap[]) => {
         )
         .map(({ kategori, egenskap }) => ({
             kategori,
-            variant: tilVariant(kategori),
+            dataColor: tilDataColor(kategori),
             tekst: tilTekst(egenskap),
             tooltiptekst: tilTooltip(egenskap),
         }))
@@ -139,7 +139,7 @@ export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps): ReactElemen
         <>
             {getData(egenskaper).map((egenskap, index) => (
                 <Tooltip content={egenskap.tooltiptekst} key={index}>
-                    <Tag style={{ fontSize: 16 }} size="small" variant={egenskap.variant}>
+                    <Tag style={{ fontSize: 16 }} size="small" variant="outline" data-color={egenskap.dataColor}>
                         {egenskap.tekst}
                     </Tag>
                 </Tooltip>

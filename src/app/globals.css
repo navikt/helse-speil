@@ -54,6 +54,15 @@
     --anonymizable-user-select: unset;
 }
 
+[data-color='gammalost'] {
+    --ax-bg-moderate: var(--ax-bg-meta-lime-soft);
+    --ax-text-default: var(--ax-text-meta-lime);
+    --ax-text-subtle: var(--ax-text-meta-lime-subtle);
+    --ax-text-decoration: var(--ax-text-meta-lime-decoration);
+    --ax-text-contrast: var(--ax-text-meta-lime-contrast);
+    --ax-border-default: var(--ax-border-meta-lime);
+}
+
 html,
 body {
     height: 100vh;
