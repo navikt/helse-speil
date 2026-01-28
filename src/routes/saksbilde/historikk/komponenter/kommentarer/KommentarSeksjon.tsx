@@ -27,7 +27,7 @@ export const KommentarSeksjon = ({
                 <ReadMore
                     onClick={() => setOpen(!open)}
                     size="small"
-                    header={open ? `Kommentarer (${kommentarer?.length})` : 'Lukk kommentarer'}
+                    header={open ? 'Lukk kommentarer' : `Kommentarer (${kommentarer?.length})`}
                 >
                     <Kommentarer kommentarer={kommentarer} />
                 </ReadMore>
