@@ -28,3 +28,5 @@ export const useBrukerIdent = (): string => {
     const context = useBruker();
     return context.ident;
 };
+
+BrukerContext.displayName = 'BrukerContext';

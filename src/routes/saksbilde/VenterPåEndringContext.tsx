@@ -39,3 +39,5 @@ export const VenterPåEndringProvider = ({ children }: PropsWithChildren) => {
         </VenterPåEndringContext.Provider>
     );
 };
+
+VenterPåEndringContext.displayName = 'VenterPåEndringContext';

@@ -13,3 +13,5 @@ export const usePersonStore = (): JotaiStore => {
         );
     return context;
 };
+
+PersonStoreContext.displayName = 'PersonStoreContext';
