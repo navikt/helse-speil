@@ -1,36 +1,10 @@
 import dayjs from 'dayjs';
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { atom, useAtom } from 'jotai';
 
 import { useMutation } from '@apollo/client';
 import { LeggTilKommentarDocument, NotatFragment, NotatType, PeriodehistorikkType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { Notat } from '@typer/notat';
-
-export const useUpsertNotat = () => {
-    const setNotat = useSetAtom(lokaleNotaterState);
-    return (nyttNotat: LagretNotat) => {
-        setNotat((currentState: LagretNotat[]) => [
-            ...currentState.filter(
-                (notat) => notat.type !== nyttNotat.type || notat.vedtaksperiodeId !== nyttNotat.vedtaksperiodeId,
-            ),
-            nyttNotat,
-        ]);
-    };
-};
-
-export const useFjernNotat = () => {
-    const setNotat = useSetAtom(lokaleNotaterState);
-    return (vedtaksperiodeId: string, notattype: NotatType) => {
-        setNotat((currentValue) => [
-            ...currentValue.filter((notat) => notat.type !== notattype || notat.vedtaksperiodeId !== vedtaksperiodeId),
-        ]);
-    };
-};
-
-export const useGetNotatTekst = (notattype: NotatType, vedtaksperiodeId: string): string | undefined => {
-    const notater = useAtomValue(lokaleNotaterState);
-    return notater.find((notat) => notat.type === notattype && notat.vedtaksperiodeId === vedtaksperiodeId)?.tekst;
-};
 
 export function useNotatkladd() {
     const [notater, setNotater] = useAtom(lokaleNotaterState);

@@ -1,15 +1,16 @@
 import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
-import { Control, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, ErrorMessage, HStack, Textarea } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
 import { useMutation } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { LeggTilNotatDocument, NotatType, PersonFragment } from '@io/graphql';
+import { Notattekstfelt } from '@saksbilde/notat/Notattekstfelt';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotatkladd } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
@@ -37,6 +38,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
 
     const form = useForm<NotatFormFields>({
         resolver: zodResolver(notatSkjema),
+        reValidateMode: 'onBlur',
         defaultValues: {
             tekst: lagretNotat,
         },
@@ -140,31 +142,3 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
         </li>
     );
 };
-
-function Notattekstfelt({
-    control,
-    vedtaksperiodeId,
-}: {
-    control: Control<NotatFormFields>;
-    vedtaksperiodeId: string;
-}) {
-    const { field, fieldState } = useController({ name: 'tekst', control });
-
-    const notatkladd = useNotatkladd();
-    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId);
-    return (
-        <Textarea
-            {...field}
-            label="tekst"
-            hideLabel
-            error={fieldState.error?.message}
-            onChange={(e) => {
-                field.onChange(e);
-                notatkladd.upsertNotat(e.target.value, vedtaksperiodeId);
-            }}
-            value={lagretNotat}
-            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
-            maxLength={2000}
-        />
-    );
-}
