@@ -81,7 +81,7 @@ const tilTooltip = (egenskap: ApiEgenskap) => {
 
 const tilDataColor = (kategori: Kategori): TagProps['data-color'] =>
     kategori === Kategori.Ukategorisert
-        ? 'gammalost'
+        ? 'brand-magenta'
         : kategori === Kategori.Oppgavetype
           ? 'info'
           : kategori === Kategori.Mottaker

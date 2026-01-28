@@ -181,7 +181,7 @@ const ArbeidsforholdOpphørt = ({
         <>
             {erAlleArbeidsforholdPåArbeidsgiverOpphørt && sisteOpphørteArbeidsforhold && (
                 <Box marginBlock="space-0 space-16">
-                    <Tag variant="info-moderate" style={{ fontSize: 16 }} size="small">
+                    <Tag variant="strong" data-color="info" style={{ fontSize: 16 }} size="small">
                         Arbeidsforhold opphørt {somNorskDato(sisteOpphørteArbeidsforhold)}
                     </Tag>
                 </Box>
