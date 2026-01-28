@@ -13,17 +13,23 @@
   cursor: default;
 
   .tekst {
-    letter-spacing: 0.5px;
+    transform: translateY(1px);
   }
 
   &__ainntekt {
     background-color: var(--ax-brand-blue-200);
     border-color: var(--ax-brand-blue-600);
+    .tekst {
+      transform: translate(-0.5px, 1px);
+    }
   }
 
   &__aordningen {
     background-color: var(--ax-success-200);
     border-color: var(--ax-success-600);
+    .tekst {
+      transform: translate(0.5px, 1px);
+    }
   }
 
   &__sykmelding {
