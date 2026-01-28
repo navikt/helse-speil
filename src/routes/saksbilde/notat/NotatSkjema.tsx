@@ -36,7 +36,13 @@ export function NotatSkjema({ submit, submitTekst, vedtaksperiodeId, skjulNotatF
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(submit)} style={{ width: '100%' }}>
+            <form
+                onSubmit={form.handleSubmit(function (formFields: NotatFormFields) {
+                    submit(formFields);
+                    lukkNotatfelt();
+                })}
+                style={{ width: '100%' }}
+            >
                 <Notattekstfelt
                     control={form.control}
                     vedtaksperiodeId={vedtaksperiodeId}
