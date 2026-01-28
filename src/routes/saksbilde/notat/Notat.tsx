@@ -1,9 +1,8 @@
-import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
 import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
 import { useMutation } from '@apollo/client';
@@ -16,8 +15,6 @@ import { useNotatkladd } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { apolloErrorCode } from '@utils/error';
 import { isGhostPeriode } from '@utils/typeguards';
-
-import styles from './Notat.module.css';
 
 interface NotatProps {
     person: PersonFragment;
@@ -106,21 +103,34 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
     };
 
     return (
-        <li className={styles.notat}>
-            <button onClick={() => setOpen(!open)} className={classNames(styles.apneNotat, open && styles.apen)}>
-                {open ? (
-                    <MinusCircleIcon title="nytt-notat" fontSize="1.5rem" />
-                ) : (
-                    <PlusCircleFillIcon title="nytt-notat" fontSize="1.5rem" />
-                )}
-                <BodyShort className={styles.tekst}>Skriv nytt notat</BodyShort>
-            </button>
+        <VStack
+            as="li"
+            align="start"
+            paddingBlock="0 space-16"
+            style={{ borderBottom: '1px solid var(--a-border-default)' }}
+        >
+            <Button
+                size="xsmall"
+                variant="tertiary"
+                icon={
+                    open ? (
+                        <MinusCircleIcon title="nytt-notat" fontSize="1.5rem" />
+                    ) : (
+                        <PlusCircleFillIcon title="nytt-notat" fontSize="1.5rem" />
+                    )
+                }
+                onClick={() => setOpen(!open)}
+            >
+                Skriv nytt notat
+            </Button>
 
             {open && (
                 <>
-                    <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
+                    <VStack paddingBlock="0 space-8">
+                        <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
+                    </VStack>
                     <FormProvider {...form}>
-                        <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
+                        <form onSubmit={form.handleSubmit(submit)} style={{ width: '100%' }}>
                             <Notattekstfelt control={form.control} vedtaksperiodeId={aktivPeriode.vedtaksperiodeId} />
                             <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                                 <Button size="small" variant="secondary" type="submit" loading={loading}>
@@ -139,6 +149,6 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
                     {apolloErrorCode(error) === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres'}
                 </ErrorMessage>
             )}
-        </li>
+        </VStack>
     );
 };

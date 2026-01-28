@@ -1,8 +1,7 @@
-import classNames from 'classnames';
 import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 import { FieldValues, FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
 import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,8 +10,6 @@ import { Notattekstfelt } from '@saksbilde/notat/Notattekstfelt';
 import { useNotatkladd } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode } from '@utils/typeguards';
-
-import styles from './Notat.module.css';
 
 interface ReturnotatProps {
     onSubmit: (returtekst: string) => Promise<unknown>;
@@ -51,16 +48,18 @@ export const Returnotat = ({ onSubmit, setShowNotat, error, person }: Returnotat
     };
 
     return (
-        <li className={classNames(styles.notat, styles.retur)}>
-            <BodyShort weight="semibold">Returner sak til saksbehandler</BodyShort>
-            <BodyShort>
-                Forklar hvorfor oppgaven sendes tilbake på en enkel måte, slik at det er lett å forstå hva som må
-                vurderes og gjøres annerledes.
-                <br />
-                (Blir ikke forevist den sykmeldte, med mindre hen ber om innsyn)
-            </BodyShort>
+        <VStack as="li" paddingBlock="0 space-16">
+            <VStack paddingBlock="0 space-8">
+                <BodyShort weight="semibold">Returner sak til saksbehandler</BodyShort>
+                <BodyShort>
+                    Forklar hvorfor oppgaven sendes tilbake på en enkel måte, slik at det er lett å forstå hva som må
+                    vurderes og gjøres annerledes.
+                    <br />
+                    (Blir ikke forevist den sykmeldte, med mindre hen ber om innsyn)
+                </BodyShort>
+            </VStack>
             <FormProvider {...form}>
-                <form onSubmit={form.handleSubmit(submit)} className={styles.form}>
+                <form onSubmit={form.handleSubmit(submit)} style={{ width: '100%' }}>
                     <Notattekstfelt
                         control={form.control}
                         vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
@@ -77,6 +76,6 @@ export const Returnotat = ({ onSubmit, setShowNotat, error, person }: Returnotat
                 </form>
             </FormProvider>
             {error && <ErrorMessage>{error}</ErrorMessage>}
-        </li>
+        </VStack>
     );
 };
