@@ -1,3 +1,5 @@
+import { useTheme } from 'next-themes';
+
 import { useBrukerGrupper } from '@auth/brukerContext';
 import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
@@ -140,7 +142,9 @@ const useOpenDemosiderForVedtak = (): (() => void) => {
 
 export const useKeyboardActions = (): Action[] => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
+    const { theme, setTheme } = useTheme();
     const erUtvikler = kanBrukeUtviklersnarveier(useBrukerGrupper());
+    const toggleDarkMode = () => setTheme(theme === 'dark' ? 'light' : 'dark');
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();
     const fødselsnummer = useCurrentFødselsnummer();
@@ -258,6 +262,14 @@ export const useKeyboardActions = (): Action[] => {
             visningstekst: 'Åpne generelt notat (fokus på tekstfeltet om notatet allerede er åpent)',
             visningssnarvei: ['ALT', 'N'],
             action: () => {},
+            ignoreIfModifiers: false,
+            modifier: Key.Alt,
+        },
+        {
+            key: Key.D,
+            visningstekst: 'Skru på mørk modus',
+            visningssnarvei: ['ALT', 'D'],
+            action: () => toggleDarkMode(),
             ignoreIfModifiers: false,
             modifier: Key.Alt,
         },
