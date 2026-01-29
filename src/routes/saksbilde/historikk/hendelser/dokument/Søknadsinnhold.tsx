@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { BodyShort, VStack } from '@navikt/ds-react';
+import { VStack } from '@navikt/ds-react';
 
 import { useGetSoknad } from '@io/rest/generated/dokumenter/dokumenter';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
@@ -76,24 +76,24 @@ export const Søknadsinnhold = ({ dokumentId, personPseudoId }: SøknadsinnholdP
                             <VStack as="ul" paddingInline="space-8 space-0">
                                 {data.selvstendigNaringsdrivende.inntekt?.map((it) => (
                                     <VStack as="li" key={it.ar}>
-                                        <BodyShort weight="semibold">{it.ar}</BodyShort>
+                                        <span style={{ fontWeight: 600 }}>{it.ar}</span>
                                         <VStack paddingInline="space-8 space-0">
-                                            <BodyShort>
+                                            <span>
                                                 Lønnsinntekt: {somPenger(it.pensjonsgivendeInntektAvLonnsinntekt)}
-                                            </BodyShort>
-                                            <BodyShort>
+                                            </span>
+                                            <span>
                                                 Lønnsinntekt (pensjonsdel):{' '}
                                                 {somPenger(it.pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel)}
-                                            </BodyShort>
-                                            <BodyShort>
+                                            </span>
+                                            <span>
                                                 Næringsinntekt: {somPenger(it.pensjonsgivendeInntektAvNaringsinntekt)}
-                                            </BodyShort>
-                                            <BodyShort>
+                                            </span>
+                                            <span>
                                                 Næringsinntekt (fiske, fangst eller familiebhg.):{' '}
                                                 {somPenger(
                                                     it.pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage,
                                                 )}
-                                            </BodyShort>
+                                            </span>
                                         </VStack>
                                     </VStack>
                                 ))}
