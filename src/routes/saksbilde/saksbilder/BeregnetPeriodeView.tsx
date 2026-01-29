@@ -19,7 +19,7 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
     const tab = last(usePathname().split('/'));
 
     return (
-        <Box overflowX="scroll">
+        <Box overflowX="auto">
             {tab === 'dagoversikt' && <Utbetaling person={person} periode={period} />}
             {decodeURI(tab ?? '') === 'inngangsvilkår' && <Inngangsvilkår person={person} periode={period} />}
             {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} periode={period} />}

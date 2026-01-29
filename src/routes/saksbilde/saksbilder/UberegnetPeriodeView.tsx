@@ -18,7 +18,5 @@ export const UberegnetPeriodeView = ({ person, activePeriod }: UberegnetPeriodeV
     const tab = last(usePathname().split('/'));
     useNavigateOnMount(tab !== 'dagoversikt' ? Fane.Utbetaling : undefined);
 
-    return (
-        <Box overflowX="scroll">{tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}</Box>
-    );
+    return <Box overflowX="auto">{tab === 'dagoversikt' && <Utbetaling person={person} periode={activePeriod} />}</Box>;
 };

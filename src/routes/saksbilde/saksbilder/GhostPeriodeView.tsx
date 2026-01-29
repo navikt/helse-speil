@@ -21,7 +21,7 @@ export const GhostPeriodeView = ({ activePeriod, person }: GhostPeriodeViewProps
     return (
         <>
             {tab === 'sykepengegrunnlag' && (
-                <Box overflowX="scroll">
+                <Box overflowX="auto">
                     <Sykepengegrunnlag person={person} periode={activePeriod} />
                 </Box>
             )}
