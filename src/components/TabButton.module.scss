@@ -4,45 +4,30 @@
   align-items: center;
   justify-content: center;
   box-sizing: border-box;
-  background: none;
   outline: none;
   border: none;
   cursor: pointer;
-  padding: 0 13px;
   transition: background-color 0.1s ease;
+  height: 2rem;
+  width: 2rem;
+  border-radius: 50%;
+  margin-top: 1.5rem;
+  background: var(--ax-bg-neutral-moderate);
 
-  &:not(.disabled) {
+  &:hover {
+    background-color: var(--ax-bg-accent-moderate-hover);
+  }
+
+  &:focus-visible {
+    box-shadow: inset 0 0 0 3px var(--ax-border-focus);
+  }
+
+  &.active {
+    background-color: var(--ax-bg-accent-strong);
+    color: var(--ax-text-contrast);
+
     &:hover {
-      background-color: var(--ax-bg-accent-moderate-hover);
+      background-color: var(--ax-bg-accent-strong-hover);
     }
-
-    &:active {
-      background-color: var(--ax-bg-accent-strong-pressed);
-
-      path {
-        fill: white;
-      }
-    }
-
-    &:focus-visible {
-      box-shadow: inset 0 0 0 3px var(--ax-border-focus);
-    }
-  }
-
-  &:before {
-    position: absolute;
-    content: '';
-    background: var(--ax-bg-accent-strong);
-    bottom: 0;
-    left: 0;
-    height: 0;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    width: 100%;
-    transition: height 0.1s ease;
-  }
-
-  &.active:before {
-    height: 4px;
   }
 }

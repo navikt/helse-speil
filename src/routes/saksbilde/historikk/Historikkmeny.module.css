@@ -10,25 +10,3 @@
     align-items: center;
     z-index: 1;
 }
-
-.filterknapp {
-    height: 2rem;
-    width: 2rem;
-    border-bottom: 0;
-    padding: 0;
-    border-radius: 50%;
-    margin-top: 1.5rem;
-    background: var(--ax-bg-neutral-moderate);
-}
-
-.filterknapp.active {
-    background-color: var(--ax-bg-accent-strong);
-    color: var(--ax-text-contrast);
-}
-
-.filterknapp.active:before {
-    left: initial;
-    right: 0;
-    top: 4px;
-    height: 0;
-}

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { ClockIcon, FolderIcon, PencilWritingIcon, PersonPencilIcon } from '@navikt/aksel-icons';
@@ -29,7 +28,6 @@ export const Historikkmeny = (): ReactElement => {
     return (
         <div className={styles.historikkmeny}>
             <TabButton
-                className={classNames(styles.filterknapp, showHistorikk && filter === 'Historikk' && styles.active)}
                 active={showHistorikk && filter === 'Historikk'}
                 onClick={activateFilter('Historikk')}
                 title="Historikk"
@@ -37,23 +35,16 @@ export const Historikkmeny = (): ReactElement => {
                 <ClockIcon title="Historikk" fontSize="18px" />
             </TabButton>
             <TabButton
-                className={classNames(styles.filterknapp, showHistorikk && filter === 'Dokument' && styles.active)}
                 active={showHistorikk && filter === 'Dokument'}
                 onClick={activateFilter('Dokument')}
                 title="Dokumenter"
             >
                 <FolderIcon title="Dokumenter" fontSize="18px" />
             </TabButton>
-            <TabButton
-                className={classNames(styles.filterknapp, showHistorikk && filter === 'Notat' && styles.active)}
-                active={showHistorikk && filter === 'Notat'}
-                onClick={activateFilter('Notat')}
-                title="Notat"
-            >
+            <TabButton active={showHistorikk && filter === 'Notat'} onClick={activateFilter('Notat')} title="Notat">
                 <PencilWritingIcon title="Notat" fontSize="18px" />
             </TabButton>
             <TabButton
-                className={classNames(styles.filterknapp, showHistorikk && filter === 'Overstyring' && styles.active)}
                 active={showHistorikk && filter === 'Overstyring'}
                 onClick={activateFilter('Overstyring')}
                 title="Overstyring"
