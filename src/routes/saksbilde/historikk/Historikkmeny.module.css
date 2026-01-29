@@ -23,7 +23,7 @@
 
 .filterknapp.active {
     background-color: var(--ax-bg-accent-strong);
-    color: #ffffff;
+    color: var(--ax-text-contrast);
 }
 
 .filterknapp.active:before {

@@ -63,7 +63,6 @@
     width: var(--carret-width);
     height: 8px;
     flex-shrink: 0;
-    background: #fff;
     box-shadow: 1.5px 1.5px 0 0 var(--ax-bg-accent-strong);
     transform-origin: 80% 80%;
     transform: translate(-50%, -30%) rotate(-45deg);

@@ -20,7 +20,7 @@ export const Saksbehandlervurdering = ({
 }: SaksbehandlervurderingProps): ReactElement => (
     <div className={classNames(styles.container, styles['container__saksbehandler'], className)} {...divProps}>
         <div className={styles.ikoncontainer}>
-            <PersonPencilFillIcon color="white" />
+            <PersonPencilFillIcon color="var(--ax-text-neutral-contrast)" />
         </div>
         <div className={styles.column}>
             <Heading level="2" size="xsmall">

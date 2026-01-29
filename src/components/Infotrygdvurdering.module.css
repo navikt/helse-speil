@@ -11,7 +11,7 @@
     content: '';
     position: absolute;
     width: 4px;
-    background-color: #78706a;
+    background-color: var(--ax-bg-neutral-strong);
     height: calc(100% - 32px);
     top: 32px;
     left: 12px;
@@ -21,7 +21,7 @@
 
 .iconcontainer {
     position: absolute;
-    background-color: #78706a;
+    background-color: var(--ax-bg-neutral-strong);
     height: 1.5rem;
     width: 1.5rem;
     border-radius: 50%;

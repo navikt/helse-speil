@@ -3,10 +3,10 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
 
+import { useMaksdato } from '@saksbilde/timeline/hooks/useMaksdato';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { getFormattedDateString } from '@utils/date';
 
-import { useMaksdato } from './hooks/useMaksdato';
 import { getPosition } from './hooks/usePeriodStyling';
 import { usePopoverAnchor } from './hooks/usePopoverAnchor';
 

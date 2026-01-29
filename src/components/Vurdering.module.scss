@@ -30,13 +30,13 @@
 
   &__saksbehandler {
     &:before, .ikoncontainer {
-      background-color: #826ba1;
+      background-color: var(--ax-bg-meta-purple-strong);
     }
   }
 
   &__automatisk {
     &:before, .ikoncontainer {
-      background-color: #59514b;
+      background-color: var(--ax-bg-neutral-strong);
     }
   }
 

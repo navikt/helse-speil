@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { Checkbox } from '@navikt/ds-react';
@@ -19,8 +18,6 @@ export const MarkerAlleDagerCheckbox = ({
     setMarkerteDager,
     ...rest
 }: MarkerAlleDagerCheckboxProps): ReactElement => {
-    const hasSelectedSome = markerteDager.size > 0 && markerteDager.size !== alleDager.size;
-
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.checked) {
             setMarkerteDager(alleDager);
@@ -32,7 +29,6 @@ export const MarkerAlleDagerCheckbox = ({
     return (
         <div className={styles.MarkerAlleDagerCheckbox}>
             <Checkbox
-                className={classNames(styles.Checkbox, hasSelectedSome && styles.partial)}
                 onChange={onChange}
                 checked={alleDager.size === markerteDager.size}
                 {...rest}

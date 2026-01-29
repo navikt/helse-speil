@@ -74,16 +74,16 @@
 
   &:active {
     background: var(--ax-bg-accent-strong);
-    color: #ffffff;
+    color: var(--ax-text-contrast);
   }
 
   &.active:not(:active) {
     background: var(--ax-bg-accent-strong);
-    color: #ffffff;
+    color: var(--ax-text-contrast);
   }
 
   &.active > svg > path {
-    fill: #ffffff;
+    fill: var(--ax-text-contrast);
   }
 }
 
@@ -132,7 +132,7 @@
 
     > svg > g,
     > svg > path {
-      fill: #fff;
+      fill: var(--ax-text-contrast);
     }
   }
 }
