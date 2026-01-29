@@ -19,41 +19,16 @@
   cursor: pointer;
   padding: 0 13px;
   transition: background-color 0.1s ease;
-  color: var(--ax-bg-accent-strong);
+  color: var(--ax-text-subtle);
   font-weight: var(--ax-font-weight-bold);
   height: 48px;
   gap: 8px;
-
-  &:before {
-    position: absolute;
-    content: '';
-    background: var(--ax-bg-accent-strong);
-    bottom: 0;
-    left: 0;
-    height: 0;
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    width: 100%;
-    transition: height 0.1s ease;
-  }
 
   &:hover {
     background-color: var(--ax-bg-accent-moderate-hover);
   }
 
-  &:active {
-    background-color: var(--ax-bg-accent-strong-pressed);
-
-    path {
-      fill: white;
-    }
-  }
-
   &:focus-visible {
     box-shadow: inset 0 0 0 3px var(--ax-border-focus);
-  }
-
-  &:active {
-    color: var(--ax-text-neutral-contrast);
   }
 }

@@ -20,7 +20,7 @@
 }
 
 .NavLink:active {
-    background-color: var(--ax-bg-accent-strong-pressed);
+    background-color: var(--ax-bg-accent-moderate-pressed);
 }
 
 .NavLink:focus-visible {
@@ -34,10 +34,6 @@
     transform: translateX(-50%);
     color: var(--ax-text-neutral);
     white-space: nowrap;
-}
-
-.NavLink:active:after {
-    color: var(--ax-text-neutral-contrast);
 }
 
 .ActiveLink.NavLink:after {
