@@ -131,6 +131,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
                             vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                             skjulNotatFelt={() => setOpen(false)}
                             loading={loading}
+                            notattype={NotatType.Generelt}
                         />
                     </>
                 )}

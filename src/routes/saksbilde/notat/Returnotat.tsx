@@ -3,7 +3,7 @@ import { FieldValues, SubmitHandler } from 'react-hook-form';
 
 import { BodyShort, ErrorMessage, VStack } from '@navikt/ds-react';
 
-import { PersonFragment } from '@io/graphql';
+import { NotatType, PersonFragment } from '@io/graphql';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useActivePeriod } from '@state/periode';
 import { isGhostPeriode } from '@utils/typeguards';
@@ -50,6 +50,7 @@ export const Returnotat = ({
                 vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                 skjulNotatFelt={() => setShowNotat(false)}
                 loading={loading}
+                notattype={NotatType.Retur}
             />
             {error && <ErrorMessage>{error}</ErrorMessage>}
         </VStack>

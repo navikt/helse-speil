@@ -15,15 +15,23 @@ interface NotatSkjemaProps {
     vedtaksperiodeId: string;
     skjulNotatFelt: () => void;
     loading: boolean;
+    notattype: NotatType;
 }
 
-export function NotatSkjema({ submit, submitTekst, vedtaksperiodeId, skjulNotatFelt, loading }: NotatSkjemaProps) {
+export function NotatSkjema({
+    submit,
+    submitTekst,
+    vedtaksperiodeId,
+    skjulNotatFelt,
+    loading,
+    notattype,
+}: NotatSkjemaProps) {
     const notatkladd = useNotatkladd();
 
-    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId, NotatType.Retur);
+    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId, notattype);
 
     const lukkNotatfelt = () => {
-        notatkladd.fjernNotat(vedtaksperiodeId, NotatType.Retur);
+        notatkladd.fjernNotat(vedtaksperiodeId, notattype);
         skjulNotatFelt();
     };
 
@@ -43,11 +51,7 @@ export function NotatSkjema({ submit, submitTekst, vedtaksperiodeId, skjulNotatF
                 })}
                 style={{ width: '100%' }}
             >
-                <Notattekstfelt
-                    control={form.control}
-                    vedtaksperiodeId={vedtaksperiodeId}
-                    notatType={NotatType.Retur}
-                />
+                <Notattekstfelt control={form.control} vedtaksperiodeId={vedtaksperiodeId} notatType={notattype} />
                 <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                     <Button size="small" variant="secondary" type="submit" loading={loading}>
                         {submitTekst}
