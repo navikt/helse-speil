@@ -1,5 +1,5 @@
 .erGjeldende > * {
-    background-color: #e6f0ff;
+    background-color: var(--ax-bg-accent-soft);
     padding-right: 2.5rem;
 }
 

@@ -1,8 +1,8 @@
 .tilkommenInntekt {
-    --period-background-color: #e0d8e9;
-    --period-hover-color: #c9bbd9;
-    --period-border-color: #8269a2;
-    --period-icon-color: #634689;
+    --period-background-color: var(--ax-bg-meta-purple-moderate);
+    --period-hover-color: var(--ax-bg-meta-purple-moderate-hover);
+    --period-border-color: var(--ax-border-meta-purple-strong);
+    --period-icon-color: var(--ax-bg-meta-purple-strong);
     box-sizing: border-box;
     display: flex;
     gap: 1rem;
@@ -47,4 +47,8 @@
     width: 21px;
     height: 21px;
     color: var(--period-icon-color);
+}
+
+.vanligIkon circle {
+    fill: var(--ax-text-neutral-contrast);
 }

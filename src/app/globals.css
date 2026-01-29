@@ -10,16 +10,7 @@
 :root {
     --ax-font-size-medium: 0.875rem;
     --ax-font-size-large: 1rem;
-    --speil-light-hover: #e9e7e7;
-    --nav-infotrygd-bakgrunn-stiplet: repeating-linear-gradient(132deg, #fff, #fff 6px, #e3e0df 6px, #e3e0df 7.5px);
-    --nav-infotrygd-bakgrunn-stiplet-hover: repeating-linear-gradient(
-        132deg,
-        var(--ax-neutral-200),
-        var(--ax-neutral-200) 6px,
-        #e3e0df 6px,
-        #e3e0df 7.5px
-    );
-
+    --speil-light-hover: var(--ax-bg-neutral-soft);
     --speil-total-min-width: 1400px;
 
     /* overstyrer plassering av knapper i aksel-modal */
