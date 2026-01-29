@@ -22,8 +22,8 @@
 .tilkommenInntekt.active,
 .tilkommenInntekt:active,
 .tilkommenInntekt:focus-visible {
-    box-shadow: 0 0 0 2px var(--ax-border-focus);
-    border-color: var(--ax-border-focus);
+    box-shadow: 0 0 0 2px var(--ax-border-accent-strong);
+    border-color: var(--ax-border-accent-strong);
     z-index: 20;
 }
 
