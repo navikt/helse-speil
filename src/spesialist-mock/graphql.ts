@@ -143,7 +143,6 @@ const getResolvers = (): IResolvers => ({
             if (aktorId == '1000000000004') return new BeingPreparedError();
             const person = fetchPersondata()[personPseudoId ?? fnr ?? aktorId ?? ''];
             valgtPerson = person;
-            OpptegnelseMock.pushOpptegnelse(person?.fodselsnummer ?? '', ApiOpptegnelseType.PERSONDATA_OPPDATERT);
             return person;
         },
         behandledeOppgaverFeed: async (
