@@ -85,14 +85,16 @@ export function SisteTolvMånederTabell({
                         ))}
                 </TableBody>
             </Table>
-            <Button
-                size="xsmall"
-                variant="tertiary"
-                icon={isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
-                onClick={() => setIsExpanded((prev) => !prev)}
-            >
-                {isExpanded ? 'Vis færre måneder' : 'Vis flere måneder'}
-            </Button>
+            {restenAvMnd.length > 0 && (
+                <Button
+                    size="xsmall"
+                    variant="tertiary"
+                    icon={isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    onClick={() => setIsExpanded((prev) => !prev)}
+                >
+                    {isExpanded ? 'Vis færre måneder' : 'Vis flere måneder'}
+                </Button>
+            )}
         </VStack>
     );
 }
