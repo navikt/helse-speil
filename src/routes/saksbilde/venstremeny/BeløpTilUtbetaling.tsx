@@ -61,11 +61,11 @@ export const BeløpTilUtbetaling = ({
                 )}
             </>
         )}
-        <HStack align="center" gap="space-16" className={styles.Row}>
+        <HStack align="center" gap="space-16" wrap={false} className={styles.Row}>
             <SykmeldtikonMedTooltip />
             <AnonymizableTextWithEllipsis>{capitalizeName(getFormattedName(personinfo))}</AnonymizableTextWithEllipsis>
             <Spacer />
-            <BodyShort>{somPenger(periodePersonNettoBeløp)}</BodyShort>
+            <BodyShort className={styles.noWrap}>{somPenger(periodePersonNettoBeløp)}</BodyShort>
         </HStack>
         {personsimulering && isSimulering(personsimulering) && (
             <OpenSimuleringButton

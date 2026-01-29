@@ -10,6 +10,10 @@
     width: var(--icon-width);
 }
 
+.noWrap {
+    white-space: nowrap;
+}
+
 .SimuleringButton {
     margin-left: calc(var(--icon-width) + var(--margin));
     margin-bottom: 0.25rem;
