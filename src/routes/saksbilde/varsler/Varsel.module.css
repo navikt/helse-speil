@@ -15,7 +15,7 @@
 }
 
 .varsel.ferdig-behandlet {
-    background-color: #f1f1f1;
+    background-color: var(--ax-bg-neutral-soft);
     border-color: var(--ax-border-success);
 }
 

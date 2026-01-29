@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { Detail, Heading } from '@navikt/ds-react';
 
 import styles from './Vurdering.module.scss';
 
@@ -26,9 +26,7 @@ export const Saksbehandlervurdering = ({
             <Heading level="2" size="xsmall">
                 {title}
             </Heading>
-            <BodyShort className={styles.details} size="small">
-                Behandlet av {ident}
-            </BodyShort>
+            <Detail textColor="subtle">Behandlet av {ident}</Detail>
         </div>
         {children}
     </div>

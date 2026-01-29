@@ -33,7 +33,7 @@
 }
 
 .ekspanderbartVarsel.ferdig-behandlet > button {
-    --background-color: #f1f1f1;
+    --background-color: var(--ax-bg-neutral-soft);
     --border-color: var(--ax-border-success);
     padding: var(--ax-space-8) var(--ax-space-16) var(--ax-space-8) 0;
 }
@@ -76,7 +76,7 @@
 
 .content {
     --border-color: var(--ax-border-warning);
-    --background-color: #fffaf3;
+    --background-color: var(--ax-bg-warning-soft);
     padding: 0 3.25rem;
     border-bottom: 1px solid var(--border-color) !important;
     background-color: var(--background-color);
@@ -94,7 +94,7 @@
 }
 
 .content.ferdig-behandlet {
-    --background-color: #f1f1f1;
+    --background-color: var(--ax-bg-neutral-soft);
     --border-color: var(--ax-border-success);
 }
 

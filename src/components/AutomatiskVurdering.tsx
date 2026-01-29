@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { CogFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { Detail, Heading } from '@navikt/ds-react';
 
 import styles from './Vurdering.module.scss';
 
@@ -25,9 +25,7 @@ export const AutomatiskVurdering = ({
             <Heading level="2" size="xsmall">
                 {title}
             </Heading>
-            <BodyShort size="small" className={styles.details}>
-                Behandlet av {ident}
-            </BodyShort>
+            <Detail textColor="subtle">Behandlet av {ident}</Detail>
         </div>
         {children}
     </div>
