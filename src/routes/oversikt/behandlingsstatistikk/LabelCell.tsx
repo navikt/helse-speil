@@ -1,117 +1,137 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { HStack, Tag } from '@navikt/ds-react';
 
-import { Tag } from '@components/Tag';
-
-const BaseCell = ({ children }: PropsWithChildren): ReactElement => {
-    return <BodyShort size="small">{children}</BodyShort>;
-};
+import styles from './LabelCell.module.css';
 
 const EnArbeidsgiver = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="purple">EA</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="meta-purple" className={styles.tag}>
+                EA
+            </Tag>
             Én arb. giver
-        </BaseCell>
+        </HStack>
     );
 };
 
 const FlereArbeidsgivere = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="purple">FA</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="meta-purple" className={styles.tag}>
+                FA
+            </Tag>
             Flere arb. givere
-        </BaseCell>
+        </HStack>
     );
 };
 
 const Førstegangsbehandling = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="purple">F</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="meta-purple" className={styles.tag}>
+                F
+            </Tag>
             Førstegangsbeh.
-        </BaseCell>
+        </HStack>
     );
 };
 
 const Forlengelser = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="blue">FL</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="info" className={styles.tag}>
+                FL
+            </Tag>
             Forlengelser
-        </BaseCell>
+        </HStack>
     );
 };
 
 const ForlengelseInfotrygd = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="gray">FI</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="neutral" className={styles.tag}>
+                FI
+            </Tag>
             Forlengelse - IT
-        </BaseCell>
+        </HStack>
     );
 };
 
 const Vurderingsoppgaver = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="orange">QA</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="brand-beige" className={styles.tag}>
+                QA
+            </Tag>
             Vurderingsoppgaver
-        </BaseCell>
+        </HStack>
     );
 };
 
 const FortroligAdresse = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="red">FA</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="brand-magenta" className={styles.tag}>
+                FA
+            </Tag>
             Fortrolig adresse
-        </BaseCell>
+        </HStack>
     );
 };
 
 const Stikkprøver = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="red">S</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="brand-magenta" className={styles.tag}>
+                S
+            </Tag>
             Stikkprøver
-        </BaseCell>
+        </HStack>
     );
 };
 
 const Revurdering = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="orange">R</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="brand-beige" className={styles.tag}>
+                R
+            </Tag>
             Revurdering
-        </BaseCell>
+        </HStack>
     );
 };
 
 const Beslutter = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="orange">B</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="brand-beige" className={styles.tag}>
+                B
+            </Tag>
             Beslutter
-        </BaseCell>
+        </HStack>
     );
 };
 
 const EgenAnsatt = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="orange">E</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="brand-beige" className={styles.tag}>
+                E
+            </Tag>
             Egen ansatt
-        </BaseCell>
+        </HStack>
     );
 };
 const Søknad = (): ReactElement => {
     return (
-        <BaseCell>
-            <Tag color="orange">SØ</Tag>
+        <HStack align="center" gap="space-8">
+            <Tag data-color="brand-beige" className={styles.tag}>
+                SØ
+            </Tag>
             Søknad
-        </BaseCell>
+        </HStack>
     );
 };
 

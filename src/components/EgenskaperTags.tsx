@@ -87,7 +87,7 @@ const tilDataColor = (kategori: Kategori): TagProps['data-color'] =>
           : kategori === Kategori.Mottaker
             ? 'meta-purple'
             : kategori === Kategori.Status
-              ? 'warning'
+              ? 'brand-beige'
               : kategori === Kategori.Inntektsforhold || kategori === Kategori.Arbeidssituasjon
                 ? 'info'
                 : 'neutral';
