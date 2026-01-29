@@ -11,6 +11,7 @@ import {
     VilkarsgrunnlagSpleisV2,
     Vurdering,
 } from '@io/graphql';
+import { OppfylteVilkår } from '@saksbilde/vilkår/vilkårsgrupper/OppfylteVilkår';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
@@ -20,7 +21,6 @@ import { isSelvstendigNaering } from '@utils/typeguards';
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
-import { OppfylteVilkår } from './vilkårsgrupper/OppfylteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
 import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
 

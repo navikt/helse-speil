@@ -23,7 +23,7 @@
 }
 
 .Picker:active {
-    background: var(--ax-neutral-300);
+    background: var(--ax-bg-default);
 }
 
 .Picker:focus-visible {

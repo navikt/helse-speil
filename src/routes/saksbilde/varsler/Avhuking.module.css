@@ -46,7 +46,7 @@
 }
 
 .avhuking.vurdert > svg > path {
-    fill: var(--ax-bg-default);
+    fill: var(--ax-text-neutral-contrast);
 }
 
 .avhuking.ferdig-behandlet > svg > circle {
