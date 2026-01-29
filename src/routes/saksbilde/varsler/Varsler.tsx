@@ -59,7 +59,7 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
                     } else {
                         return (
                             <Varsel
-                                className={classNames(styles.varsel, styles['ikke-ekspanderbart'])}
+                                className={classNames(styles.varsel, styles.ikkeEkspanderbart)}
                                 key={index}
                                 varsel={varsel}
                                 type={type}

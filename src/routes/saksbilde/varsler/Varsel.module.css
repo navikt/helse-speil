@@ -30,6 +30,10 @@
     text-decoration: none;
 }
 
+.tittel {
+    color: var(--ax-text-neutral);
+}
+
 .vurdering {
     color: var(--ax-text-neutral-subtle);
 }

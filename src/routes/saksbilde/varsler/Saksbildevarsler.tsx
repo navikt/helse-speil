@@ -271,13 +271,13 @@ export const Saksbildevarsler = ({
                             )}
                             {infoVarsler.map(({ grad, melding }, index) => (
                                 <Alert className={styles.Varsel} variant={grad} key={index}>
-                                    <BodyShort>{melding}</BodyShort>
+                                    <BodyShort className={styles.text}>{melding}</BodyShort>
                                 </Alert>
                             ))}
                             {varsler && <Varsler varsler={varsler} />}
                             {feilVarsler.map(({ grad, melding }, index) => (
                                 <Alert className={styles.Varsel} variant={grad} key={index}>
-                                    <BodyShort>{melding}</BodyShort>
+                                    <BodyShort className={styles.text}>{melding}</BodyShort>
                                 </Alert>
                             ))}
                         </Accordion.Content>

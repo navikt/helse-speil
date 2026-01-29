@@ -4,6 +4,6 @@
     padding-right: var(--ax-space-16);
 }
 
-.ikke-ekspanderbart {
+.ikkeEkspanderbart {
     padding: var(--ax-space-8) var(--ax-space-16) var(--ax-space-8) 0;
 }

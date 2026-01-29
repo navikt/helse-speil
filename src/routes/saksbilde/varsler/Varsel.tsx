@@ -114,7 +114,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
                 />
             )}
             <div className={styles.wrapper}>
-                <BodyShort>{varsel.tittel}</BodyShort>
+                <BodyShort className={styles.tittel}>{varsel.tittel}</BodyShort>
                 {(varselStatus === Varselstatus.Vurdert || varselStatus === Varselstatus.Godkjent) && (
                     <BodyShort className={styles.vurdering}>
                         {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
