@@ -5,7 +5,7 @@
 }
 
 .Picker {
-    background: #fff;
+    background: var(--ax-bg-raised);
     border: none;
     box-shadow: 0 0 0 1px #c6c2bf;
     color: var(--ax-text-neutral);
@@ -14,6 +14,7 @@
     height: 24px;
     padding: 0 8px;
     margin: 1px;
+    cursor: pointer;
 }
 
 .Picker:hover,
@@ -44,6 +45,6 @@
 }
 
 .Picker.active {
-    background: var(--ax-text-neutral);
-    color: #fff;
+    background: var(--ax-bg-neutral-strong-pressed);
+    color: var(--ax-text-contrast);
 }

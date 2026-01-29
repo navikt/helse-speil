@@ -14,11 +14,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--ax-neutral-900);
+    background: var(--ax-bg-neutral-strong-pressed);
 }
 
 .Button:hover:not(:disabled) {
     opacity: 0.8;
+    cursor: pointer;
 }
 
 .Button:active:not(:disabled) {
@@ -38,5 +39,5 @@
 }
 
 .Button path {
-    fill: white;
+    fill: var(--ax-bg-default);
 }
