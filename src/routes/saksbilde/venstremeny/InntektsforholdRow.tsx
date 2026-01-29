@@ -1,5 +1,4 @@
-import classNames from 'classnames';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
@@ -61,7 +60,7 @@ interface InntektsforholdRowProps {
 }
 
 export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: InntektsforholdRowProps): ReactElement => {
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
     const erAnonymisert = useIsAnonymous();
 
     return (
@@ -85,13 +84,8 @@ export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: Inntekts
                     </HStack>
                     <div />
                     <Accordion indent={false}>
-                        <Accordion.Item open={open} className={styles.arbeidsgiverRow}>
-                            <Accordion.Header
-                                className={classNames(styles.header, erAnonymisert && styles.anonymisert)}
-                                onClick={() => setOpen((prevState) => !prevState)}
-                            >
-                                Arbeidsforhold
-                            </Accordion.Header>
+                        <Accordion.Item className={styles.arbeidsgiverRow}>
+                            <Accordion.Header className={styles.header}>Arbeidsforhold</Accordion.Header>
                             <Accordion.Content className={styles.content}>
                                 <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} erAnonymisert={erAnonymisert} />
                             </Accordion.Content>

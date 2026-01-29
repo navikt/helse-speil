@@ -3,7 +3,7 @@
   max-height: 736px;
   overflow-y: hidden;
   padding: 0;
-  border-color: var(--ax-border-accent-strong);
+  border-color: var(--ax-bg-accent-strong);
 }
 
 .list {
@@ -11,7 +11,7 @@
 }
 
 .heading {
-  background-color: var(--ax-border-accent-strong);
+  background-color: var(--ax-bg-accent-strong);
   color: var(--ax-text-neutral-contrast);
   padding: var(--ax-space-12) var(--ax-space-16) var(--ax-space-12);
   margin: 0;

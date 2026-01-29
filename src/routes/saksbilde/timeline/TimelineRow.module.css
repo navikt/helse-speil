@@ -41,7 +41,7 @@
 
 .Expandable {
     padding: 0 0 0 var(--carret-padding);
-    color: var(--ax-bg-accent-strong);
+    color: var(--ax-text-subtle);
     outline: none;
     background: none;
     border: none;
@@ -63,7 +63,7 @@
     width: var(--carret-width);
     height: 8px;
     flex-shrink: 0;
-    box-shadow: 1.5px 1.5px 0 0 var(--ax-bg-accent-strong);
+    box-shadow: 1.5px 1.5px 0 0 var(--ax-text-subtle);
     transform-origin: 80% 80%;
     transform: translate(-50%, -30%) rotate(-45deg);
 }
