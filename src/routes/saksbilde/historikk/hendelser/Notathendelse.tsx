@@ -55,11 +55,10 @@ export const Notathendelse = ({
                     <ActionMenu>
                         <ActionMenu.Trigger>
                             <Button
-                                icon={<MenuElipsisHorizontalIcon />}
-                                title="Alternativer"
-                                variant="tertiary"
                                 size="xsmall"
+                                variant="tertiary"
                                 loading={loading}
+                                icon={<MenuElipsisHorizontalIcon title="Handlinger" />}
                             />
                         </ActionMenu.Trigger>
                         <ActionMenu.Content>
