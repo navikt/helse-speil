@@ -22,8 +22,8 @@
 .Period.active,
 .Period:active,
 .Period:focus-visible {
-    box-shadow: 0 0 0 2px var(--ax-border-focus);
-    border-color: var(--ax-border-focus);
+    box-shadow: 0 0 0 2px var(--ax-border-accent-strong);
+    border-color: var(--ax-border-accent-strong);
     z-index: 20;
 }
 
@@ -86,6 +86,10 @@
     --period-icon-color: var(--ax-neutral-1000);
 }
 
+:global(.dark) .Period.old {
+    --period-icon-color: var(--ax-bg-meta-lime-strong);
+}
+
 .Period.legacy {
     --period-background-color: repeating-linear-gradient(
         132deg,
@@ -117,4 +121,8 @@
     --period-hover-color: var(--ax-bg-info-moderate-hover);
     --period-border-color: var(--ax-border-info-strong);
     --period-icon-color: var(--ax-neutral-1000);
+}
+
+:global(.dark) .Period.waiting {
+    --period-icon-color: var(--ax-bg-info-strong);
 }
