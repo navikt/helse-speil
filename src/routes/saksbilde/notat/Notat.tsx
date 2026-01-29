@@ -107,13 +107,13 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
         <Box borderWidth="0 0 1 0" borderColor="neutral">
             <VStack as="li" align="start" paddingBlock="space-0 space-16" gap="space-4">
                 <Button
-                    size="xsmall"
+                    size="small"
                     variant="tertiary"
                     icon={
                         open ? (
-                            <MinusCircleIcon title="nytt-notat" fontSize="1.5rem" />
+                            <MinusCircleIcon title="lukk" fontSize="1.5rem" />
                         ) : (
-                            <PlusCircleFillIcon title="nytt-notat" fontSize="1.5rem" />
+                            <PlusCircleFillIcon title="åpne" fontSize="1.5rem" />
                         )
                     }
                     onClick={() => setOpen(!open)}

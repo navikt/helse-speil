@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
 import { atom, useAtom } from 'jotai';
+import { SubmitHandler } from 'react-hook-form';
 
+import { KommentarFormFields } from '@/form-schemas/kommentarSkjema';
 import { useMutation } from '@apollo/client';
 import { LeggTilKommentarDocument, NotatFragment, NotatType, PeriodehistorikkType } from '@io/graphql';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -41,8 +43,9 @@ export const useLeggTilKommentar = (
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
 
-    const onLeggTilKommentar = async (tekst: string) => {
+    const onLeggTilKommentar: SubmitHandler<KommentarFormFields> = async (formFields) => {
         const saksbehandlerident = innloggetSaksbehandler.ident;
+        const tekst = formFields.tekst;
         if (saksbehandlerident) {
             await leggTilKommentar({
                 variables: {

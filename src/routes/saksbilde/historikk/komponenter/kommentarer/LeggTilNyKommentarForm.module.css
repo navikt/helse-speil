@@ -1,8 +1,0 @@
-.leggTilNyKommentarForm {
-    display: flex;
-    flex-direction: column;
-}
-
-.leggTilNyKommentarForm textarea {
-    font-size: var(--ax-font-size-medium);
-}

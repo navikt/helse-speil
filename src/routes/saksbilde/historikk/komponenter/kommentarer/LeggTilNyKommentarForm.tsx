@@ -1,52 +1,57 @@
 import React, { ReactElement } from 'react';
-import { useForm } from 'react-hook-form';
+import { Control, FormProvider, SubmitHandler, useController, useForm } from 'react-hook-form';
 
-import { Button, HStack, Textarea } from '@navikt/ds-react';
+import { Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
-import styles from './LeggTilNyKommentarForm.module.css';
+import { KommentarFormFields, kommentarSkjema } from '@/form-schemas/kommentarSkjema';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-interface LeggTilNyKommentarFormProps extends Omit<React.FormHTMLAttributes<HTMLFormElement>, 'onSubmit'> {
-    label?: string;
-    onSubmitForm: (tekst: string) => void;
+interface LeggTilNyKommentarFormProps {
+    loading: boolean;
+    onLeggTilKommentar: SubmitHandler<KommentarFormFields>;
     closeForm: () => void;
-    isFetching: boolean;
-    hasError: boolean;
+    errorMessage?: string;
 }
 
 export const LeggTilNyKommentarForm = ({
-    label = 'Notat',
-    onSubmitForm,
+    errorMessage,
+    loading,
+    onLeggTilKommentar,
     closeForm,
-    isFetching,
-    hasError,
-    ...formProps
 }: LeggTilNyKommentarFormProps): ReactElement => {
-    const form = useForm();
-
-    const submitForm = () => {
-        onSubmitForm(form.getValues().Notattekst);
-    };
+    const form = useForm<KommentarFormFields>({
+        resolver: zodResolver(kommentarSkjema),
+    });
 
     return (
-        <form className={styles.leggTilNyKommentarForm} onSubmit={form.handleSubmit(submitForm)} {...formProps}>
-            <Textarea
-                label={label}
-                description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
-                aria-invalid={typeof form.formState.errors.Notattekst === 'object'}
-                error={
-                    (form.formState.errors.Notattekst?.message as string) ??
-                    (hasError && 'Det skjedde en feil. Prøv igjen senere.')
-                }
-                {...form.register('Notattekst', { required: 'Tekstfeltet kan ikke være tomt' })}
-            />
-            <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                <Button size="small" variant="secondary" type="submit" loading={isFetching}>
-                    Legg til
-                </Button>
-                <Button size="small" variant="tertiary" type="button" onClick={closeForm}>
-                    Avbryt
-                </Button>
-            </HStack>
-        </form>
+        <FormProvider {...form}>
+            <form onSubmit={form.handleSubmit(onLeggTilKommentar)}>
+                <VStack>
+                    <Kommentartekstfelt control={form.control} />
+                    <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
+                        <Button size="small" variant="secondary" type="submit" loading={loading}>
+                            Legg til
+                        </Button>
+                        <Button size="small" variant="tertiary" type="button" onClick={closeForm}>
+                            Avbryt
+                        </Button>
+                    </HStack>
+                    {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                </VStack>
+            </form>
+        </FormProvider>
     );
 };
+
+function Kommentartekstfelt({ control }: { control: Control<KommentarFormFields> }) {
+    const { field, fieldState } = useController({ name: 'tekst', control: control });
+
+    return (
+        <Textarea
+            {...field}
+            label="Kommentar"
+            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
+            error={fieldState.error?.message}
+        />
+    );
+}

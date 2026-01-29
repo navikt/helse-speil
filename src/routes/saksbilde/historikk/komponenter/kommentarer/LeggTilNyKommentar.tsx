@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 
+import { PlusCircleFillIcon } from '@navikt/aksel-icons';
+import { Button } from '@navikt/ds-react';
+
 import { PeriodehistorikkType } from '@io/graphql';
-import { InteractableLinkText } from '@saksbilde/historikk/komponenter/InteractableLinkText';
 import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';
 import { finnKommentertElementType, useLeggTilKommentar } from '@state/notater';
+import { apolloErrorCode } from '@utils/error';
 
 type LeggTilNyKommentarProps = {
     dialogRef: number;
@@ -12,23 +15,38 @@ type LeggTilNyKommentarProps = {
 };
 
 export const LeggTilNyKommentar = ({ dialogRef, historikkinnslagId, historikktype }: LeggTilNyKommentarProps) => {
-    const [showAddDialog, setShowAddDialog] = useState(false);
+    const [visLeggTilKommentar, setVisLeggTilKommentar] = useState(false);
 
     const { onLeggTilKommentar, loading, error } = useLeggTilKommentar(
         dialogRef,
         { id: historikkinnslagId, type: finnKommentertElementType(historikktype) },
-        () => setShowAddDialog(false),
+        () => setVisLeggTilKommentar(false),
     );
 
-    return showAddDialog ? (
+    const errorMessage: string | undefined =
+        error == undefined
+            ? undefined
+            : apolloErrorCode(error) === 401
+              ? 'Du har blitt logget ut'
+              : 'Kommentaren kunne ikke lagres';
+
+    return visLeggTilKommentar ? (
         <LeggTilNyKommentarForm
-            label="Kommentar"
-            onSubmitForm={onLeggTilKommentar}
-            closeForm={() => setShowAddDialog(false)}
-            isFetching={loading}
-            hasError={error != undefined}
+            loading={loading}
+            onLeggTilKommentar={onLeggTilKommentar}
+            errorMessage={errorMessage}
+            closeForm={() => setVisLeggTilKommentar(false)}
         />
     ) : (
-        <InteractableLinkText onInteract={() => setShowAddDialog(true)}>Legg til ny kommentar</InteractableLinkText>
+        <span>
+            <Button
+                size="xsmall"
+                variant="tertiary"
+                icon={<PlusCircleFillIcon />}
+                onClick={() => setVisLeggTilKommentar(true)}
+            >
+                Legg til ny kommentar
+            </Button>
+        </span>
     );
 };
