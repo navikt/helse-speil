@@ -5,15 +5,21 @@ import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
-import { useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { LeggTilNotatDocument, NotatType, PersonFragment } from '@io/graphql';
+import {
+    BeregnetPeriodeFragment,
+    LeggTilNotatDocument,
+    NotatType,
+    PersonFragment,
+    UberegnetPeriodeFragment,
+} from '@io/graphql';
+import { getNotat, usePostNotat } from '@io/rest/generated/notater/notater';
+import { ApiNotat } from '@io/rest/generated/spesialist.schemas';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useNotatkladd } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
-import { apolloErrorCode } from '@utils/error';
 import { isGhostPeriode } from '@utils/typeguards';
 
 interface NotatProps {
@@ -31,8 +37,11 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
         NotatType.Generelt,
     );
 
-    const [nyttNotat, { loading, error }] = useMutation(LeggTilNotatDocument);
-    const { oid } = useInnloggetSaksbehandler();
+    const { mutate: postNotat, error, reset } = usePostNotat();
+    // Midlertidig: håndlaget loading-state fordi den skal dekke både POST og GET, fordi vi bruker har dataene i apollo
+    // selv om vi bruker REST til å kommunisere med spesialist.
+    const [loading, setLoading] = useState(false);
+    const apolloClient = useApolloClient();
 
     const form = useForm<NotatFormFields>({
         resolver: zodResolver(notatSkjema),
@@ -59,49 +68,75 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
     if (erGhostEllerHarIkkeAktivPeriode) return null;
 
     const submit: SubmitHandler<NotatFormFields> = (data) => {
-        void nyttNotat({
-            variables: {
-                oid: oid,
-                tekst: data.tekst || '',
-                type: NotatType.Generelt,
+        setLoading(true);
+        postNotat(
+            {
                 vedtaksperiodeId: aktivPeriode.vedtaksperiodeId,
+                data: {
+                    tekst: data.tekst || '',
+                },
             },
-            update: (cache, { data }) => {
-                cache.writeQuery({
-                    query: LeggTilNotatDocument,
-                    variables: {
-                        oid: oid,
-                        tekst: data?.leggTilNotat?.tekst || '',
-                        type: NotatType.Generelt,
-                        vedtaksperiodeId: aktivPeriode.vedtaksperiodeId,
-                    },
-                    data: data,
-                });
-                cache.modify({
-                    id: cache.identify({
-                        __typename: aktivPeriode?.__typename,
-                        behandlingId: aktivPeriode?.behandlingId,
-                    }),
-                    fields: {
-                        notater(existingNotater) {
-                            return [
-                                ...existingNotater,
-                                { __ref: cache.identify({ __typename: 'Notat', id: data?.leggTilNotat?.id }) },
-                            ];
-                        },
-                    },
-                });
+            {
+                onSuccess: async ({ data: { id } }) => {
+                    await hentNyopprettetNotat(aktivPeriode.vedtaksperiodeId, id);
+                    setLoading(false);
+                },
+                onError: () => setLoading(false),
             },
-            onCompleted: () => {
-                lukkNotatfelt();
-            },
-        });
+        );
     };
 
-    const lukkNotatfelt = () => {
+    const hentNyopprettetNotat = async (vedtaksperiodeId: string, notatId: number) => {
+        const { data: notat } = await getNotat(vedtaksperiodeId, notatId);
+        if (notat == undefined) return null;
+        oppdaterApolloCache(notat, aktivPeriode);
+        notatkladd.fjernNotat(vedtaksperiodeId, NotatType.Generelt);
         setOpen(false);
-        notatkladd.fjernNotat(aktivPeriode.vedtaksperiodeId, NotatType.Generelt);
     };
+
+    function oppdaterApolloCache(notat: ApiNotat, periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment) {
+        apolloClient.cache.writeQuery({
+            query: LeggTilNotatDocument,
+            variables: {
+                oid: notat.saksbehandlerOid,
+                tekst: notat.tekst,
+                type: NotatType.Generelt,
+                vedtaksperiodeId: periode.vedtaksperiodeId,
+            },
+            data: {
+                __typename: 'Mutation',
+                leggTilNotat: {
+                    __typename: 'Notat',
+                    id: notat.id,
+                    tekst: notat.tekst,
+                    opprettet: notat.opprettet,
+                    saksbehandlerOid: notat.saksbehandlerOid,
+                    saksbehandlerNavn: notat.saksbehandlerNavn,
+                    saksbehandlerEpost: notat.saksbehandlerEpost,
+                    saksbehandlerIdent: notat.saksbehandlerIdent,
+                    vedtaksperiodeId: notat.vedtaksperiodeId,
+                    feilregistrert: notat.feilregistrert,
+                    feilregistrert_tidspunkt: notat.feilregistrert_tidspunkt ?? '',
+                    type: NotatType.Generelt,
+                    kommentarer: [],
+                },
+            },
+        });
+        apolloClient.cache.modify({
+            id: apolloClient.cache.identify({
+                __typename: periode?.__typename,
+                behandlingId: periode?.behandlingId,
+            }),
+            fields: {
+                notater(existingNotater) {
+                    return [
+                        ...existingNotater,
+                        { __ref: apolloClient.cache.identify({ __typename: 'Notat', id: notat.id }) },
+                    ];
+                },
+            },
+        });
+    }
 
     return (
         <Box borderWidth="0 0 1 0" borderColor="neutral">
@@ -129,15 +164,18 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
                             submit={submit}
                             submitTekst="Lagre notat"
                             vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
-                            skjulNotatFelt={() => setOpen(false)}
+                            skjulNotatFelt={() => {
+                                setOpen(false);
+                                reset();
+                            }}
                             loading={loading}
                             notattype={NotatType.Generelt}
                         />
                     </>
                 )}
-                {error && (
+                {open && error && (
                     <ErrorMessage>
-                        {apolloErrorCode(error) === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres'}
+                        {error.response?.status === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres'}
                     </ErrorMessage>
                 )}
             </VStack>

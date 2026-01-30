@@ -7,14 +7,143 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
+    ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode,
     ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCode,
+    ApiHttpProblemDetailsApiPostKommentarErrorCode,
     ApiHttpProblemDetailsApiPostNotatErrorCode,
+    ApiHttpProblemDetailsGetNotatErrorCode,
+    ApiKommentarRequest,
+    ApiKommentarResponse,
+    ApiNotat,
     ApiNotatRequest,
     ApiNotatResponse,
 } from '../spesialist.schemas';
 
-import { useMutation } from '@tanstack/react-query';
-import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import type {
+    DataTag,
+    DefinedInitialDataOptions,
+    DefinedUseQueryResult,
+    MutationFunction,
+    QueryClient,
+    QueryFunction,
+    QueryKey,
+    UndefinedInitialDataOptions,
+    UseMutationOptions,
+    UseMutationResult,
+    UseQueryOptions,
+    UseQueryResult,
+} from '@tanstack/react-query';
+
+export const getNotat = (vedtaksperiodeId: string, notatId: number, signal?: AbortSignal) => {
+    return callCustomAxios<ApiNotat>({
+        url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/notater/${notatId}`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetNotatQueryKey = (vedtaksperiodeId?: string, notatId?: number) => {
+    return [`/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/notater/${notatId}`] as const;
+};
+
+export const getGetNotatQueryOptions = <
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+>(
+    vedtaksperiodeId: string,
+    notatId: number,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetNotatQueryKey(vedtaksperiodeId, notatId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNotat>>> = ({ signal }) =>
+        getNotat(vedtaksperiodeId, notatId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(vedtaksperiodeId && notatId),
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetNotatQueryResult = NonNullable<Awaited<ReturnType<typeof getNotat>>>;
+export type GetNotatQueryError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>;
+
+export function useGetNotat<
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+>(
+    vedtaksperiodeId: string,
+    notatId: number,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getNotat>>,
+                    TError,
+                    Awaited<ReturnType<typeof getNotat>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetNotat<
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+>(
+    vedtaksperiodeId: string,
+    notatId: number,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getNotat>>,
+                    TError,
+                    Awaited<ReturnType<typeof getNotat>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetNotat<
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+>(
+    vedtaksperiodeId: string,
+    notatId: number,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetNotat<
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+>(
+    vedtaksperiodeId: string,
+    notatId: number,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetNotatQueryOptions(vedtaksperiodeId, notatId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
 
 export const postNotat = (vedtaksperiodeId: string, apiNotatRequest?: ApiNotatRequest, signal?: AbortSignal) => {
     return callCustomAxios<ApiNotatResponse>({
@@ -85,6 +214,83 @@ export const usePostNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPostNota
 
     return useMutation(mutationOptions, queryClient);
 };
+export const postKommentar = (
+    vedtaksperiodeId: string,
+    notatId: number,
+    apiKommentarRequest?: ApiKommentarRequest,
+    signal?: AbortSignal,
+) => {
+    return callCustomAxios<ApiKommentarResponse>({
+        url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/notater/${notatId}/kommentarer`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiKommentarRequest,
+        signal,
+    });
+};
+
+export const getPostKommentarMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postKommentar>>,
+        TError,
+        { vedtaksperiodeId: string; notatId: number; data: ApiKommentarRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postKommentar>>,
+    TError,
+    { vedtaksperiodeId: string; notatId: number; data: ApiKommentarRequest },
+    TContext
+> => {
+    const mutationKey = ['postKommentar'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postKommentar>>,
+        { vedtaksperiodeId: string; notatId: number; data: ApiKommentarRequest }
+    > = (props) => {
+        const { vedtaksperiodeId, notatId, data } = props ?? {};
+
+        return postKommentar(vedtaksperiodeId, notatId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostKommentarMutationResult = NonNullable<Awaited<ReturnType<typeof postKommentar>>>;
+export type PostKommentarMutationBody = ApiKommentarRequest;
+export type PostKommentarMutationError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>;
+
+export const usePostKommentar = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postKommentar>>,
+            TError,
+            { vedtaksperiodeId: string; notatId: number; data: ApiKommentarRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postKommentar>>,
+    TError,
+    { vedtaksperiodeId: string; notatId: number; data: ApiKommentarRequest },
+    TContext
+> => {
+    const mutationOptions = getPostKommentarMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
 export const putFeilregistrerNotat = (vedtaksperiodeId: string, notatId: number) => {
     return callCustomAxios<void>({
         url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/notater/${notatId}/feilregistrer`,
@@ -151,6 +357,78 @@ export const usePutFeilregistrerNotat = <
     TContext
 > => {
     const mutationOptions = getPutFeilregistrerNotatMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const putFeilregistrerKommentar = (vedtaksperiodeId: string, notatId: number, kommentarId: number) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/notater/${notatId}/kommentarer/${kommentarId}/feilregistrer`,
+        method: 'PUT',
+    });
+};
+
+export const getPutFeilregistrerKommentarMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof putFeilregistrerKommentar>>,
+        TError,
+        { vedtaksperiodeId: string; notatId: number; kommentarId: number },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof putFeilregistrerKommentar>>,
+    TError,
+    { vedtaksperiodeId: string; notatId: number; kommentarId: number },
+    TContext
+> => {
+    const mutationKey = ['putFeilregistrerKommentar'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof putFeilregistrerKommentar>>,
+        { vedtaksperiodeId: string; notatId: number; kommentarId: number }
+    > = (props) => {
+        const { vedtaksperiodeId, notatId, kommentarId } = props ?? {};
+
+        return putFeilregistrerKommentar(vedtaksperiodeId, notatId, kommentarId);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PutFeilregistrerKommentarMutationResult = NonNullable<
+    Awaited<ReturnType<typeof putFeilregistrerKommentar>>
+>;
+
+export type PutFeilregistrerKommentarMutationError =
+    ErrorType<ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode>;
+
+export const usePutFeilregistrerKommentar = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof putFeilregistrerKommentar>>,
+            TError,
+            { vedtaksperiodeId: string; notatId: number; kommentarId: number },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof putFeilregistrerKommentar>>,
+    TError,
+    { vedtaksperiodeId: string; notatId: number; kommentarId: number },
+    TContext
+> => {
+    const mutationOptions = getPutFeilregistrerKommentarMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };
