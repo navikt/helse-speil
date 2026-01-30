@@ -47,7 +47,6 @@ export function NotatSkjema({
             <form
                 onSubmit={form.handleSubmit(function (formFields: NotatFormFields) {
                     submit(formFields);
-                    lukkNotatfelt();
                 })}
                 style={{ width: '100%' }}
             >
