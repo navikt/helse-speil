@@ -45,8 +45,7 @@ Kjør precommit hooks manuelt - `.husky/pre-commit`
 
 ### Legge til en testperson lokalt:
 
-1. legg inn person-json i src/spesialist-mock/data/personer
-2. legg inn fødselsnummer og en personPseudoId i lista i src/spesialist-mock/storage/person.ts
+1. Kjør `pnpm run import-testperson` og følg instruksjonene
 
 ## Bygge for produksjon lokalt
 
