@@ -1,5 +1,5 @@
 import { ApiOpptegnelse, ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
-import { finnFødselsnummer } from '@spesialist-mock/graphql';
+import { PersonMock } from '@spesialist-mock/storage/person';
 
 interface MockApiOpptegnelse extends ApiOpptegnelse {
     fødselsnummer: string;
@@ -40,7 +40,7 @@ export class OpptegnelseMock {
         return this.opptegnelser
             .filter(
                 (opptegnelse) =>
-                    finnFødselsnummer(pseudoId) === opptegnelse.fødselsnummer &&
+                    PersonMock.findFødselsnummer(pseudoId) === opptegnelse.fødselsnummer &&
                     opptegnelse.sekvensnummer > etterSekvensnummer,
             )
             .map((mockOpptegnelse) => ({
