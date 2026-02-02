@@ -58,6 +58,12 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
         status = 'error';
     }
 
+    const medPunktum = (uryddetTekst?: string) => {
+        const ryddetTekst = uryddetTekst?.trim();
+        if (!ryddetTekst) return '';
+        return ryddetTekst.endsWith('.') ? `${ryddetTekst} ` : `${ryddetTekst}. `;
+    };
+
     return (
         <GlobalAlert status={status} size="medium" onClick={() => setÅpneDriftsmelding((prev) => !prev)}>
             <GlobalAlert.Header>
@@ -73,10 +79,14 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
             </GlobalAlert.Header>
             {åpneDriftsmelding && (
                 <GlobalAlert.Content>
-                    {driftsmelding.arsak + '. '}
-                    {driftsmelding.tiltak + '. '}
-                    {driftsmelding.oppdatering ? driftsmelding.oppdatering + '. ' : ''}
-                    {driftsmelding.cta ? driftsmelding.cta + '.' : ''}
+                    {åpneDriftsmelding && (
+                        <GlobalAlert.Content>
+                            {medPunktum(driftsmelding.arsak)}
+                            {medPunktum(driftsmelding.tiltak)}
+                            {medPunktum(driftsmelding.oppdatering)}
+                            {medPunktum(driftsmelding.cta)}
+                        </GlobalAlert.Content>
+                    )}
                 </GlobalAlert.Content>
             )}
         </GlobalAlert>
