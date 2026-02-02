@@ -32,7 +32,7 @@ export type ApiBrukerrolle = (typeof ApiBrukerrolle)[keyof typeof ApiBrukerrolle
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiBrukerrolle = {
-    SELVSTSTENDIG_NÆRINGSDRIVENDE_BETA: 'SELVSTSTENDIG_NÆRINGSDRIVENDE_BETA',
+    SELVSTENDIG_NÆRINGSDRIVENDE_BETA: 'SELVSTENDIG_NÆRINGSDRIVENDE_BETA',
     BESLUTTER: 'BESLUTTER',
     EGEN_ANSATT: 'EGEN_ANSATT',
     KODE_7: 'KODE_7',
