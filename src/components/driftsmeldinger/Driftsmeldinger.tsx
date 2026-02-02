@@ -1,14 +1,12 @@
 'use client';
 
 import classNames from 'classnames';
-import dayjs, { Dayjs } from 'dayjs';
 import React, { ReactElement, useState } from 'react';
 import * as R from 'remeda';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { Alert, BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, GlobalAlert, HStack } from '@navikt/ds-react';
 
-import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Driftsmelding as DriftsmeldingType, useDriftsmelding } from '@external/sanity';
 import { getFormattedDatetimeString } from '@utils/date';
 
@@ -27,104 +25,60 @@ export const Driftsmeldinger = (): ReactElement[] => {
 };
 
 const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | null => {
-    const [vis, kvitterUt] = useVisDriftsmelding(driftsmelding);
     const [åpneDriftsmelding, setÅpneDriftsmelding] = useState(false);
+    type Konsekvens = 'treghet' | 'delvisMulig' | 'ikkeMulig';
 
-    const løst = driftsmelding.lost === 'true';
-    const warning = driftsmelding.konsekvens === 'treghet' || driftsmelding.konsekvens === 'delvisMulig';
-    const konsekvensmelding = warning ? 'warning' : 'error';
+    const erLøst = driftsmelding.lost === 'true';
 
-    const titler: Record<string, string> = {
+    const titler: Record<Konsekvens, string> = {
         treghet: 'Treghet i speil',
         delvisMulig: 'Delvis mulig å saksbehandle i speil',
         ikkeMulig: 'Ikke mulig å saksbehandle i speil',
     };
 
-    const tittel = titler[driftsmelding.konsekvens] ?? '';
+    const konsekvens = driftsmelding.konsekvens as Konsekvens;
 
-    return vis ? (
-        <Alert
-            variant={løst ? 'success' : konsekvensmelding}
-            closeButton={løst}
-            onClose={() => kvitterUt()}
-            onClick={() => setÅpneDriftsmelding(!åpneDriftsmelding)}
-            className={styles.driftsmelding}
-        >
-            <HStack gap="space-8">
-                <BodyShort className={styles.tittel}>
-                    {driftsmelding.lost === 'true' ? `[Løst] ${tittel}` : tittel}
-                </BodyShort>
-                <BodyShort className={styles.dato}>{dato(driftsmelding)}</BodyShort>
-                <span className={styles.button}>
+    const tittel = titler[konsekvens];
+    let status: 'success' | 'warning' | 'error';
+    if (erLøst) {
+        status = 'success';
+    } else if (konsekvens === 'treghet' || konsekvens === 'delvisMulig') {
+        status = 'warning';
+    } else {
+        status = 'error';
+    }
+
+    return (
+        <GlobalAlert status={status} size="medium" onClick={() => setÅpneDriftsmelding((prev) => !prev)}>
+            <GlobalAlert.Header>
+                <GlobalAlert.Title>{tittel}</GlobalAlert.Title>
+                <HStack margin="space-8">
+                    <BodyShort className={styles.dato}>{dato(driftsmelding, erLøst)}</BodyShort>
                     <ChevronDownIcon
                         title="Vis mer"
                         fontSize="1.5rem"
                         className={classNames(styles.chevron, åpneDriftsmelding && styles.chevronrotated)}
                     />
-                </span>
-            </HStack>
+                </HStack>
+            </GlobalAlert.Header>
             {åpneDriftsmelding && (
-                <BodyShortWithPreWrap className={styles.melding}>
+                <GlobalAlert.Content>
                     {driftsmelding.arsak + '. '}
                     {driftsmelding.tiltak + '. '}
                     {driftsmelding.oppdatering ? driftsmelding.oppdatering + '. ' : ''}
                     {driftsmelding.cta ? driftsmelding.cta + '.' : ''}
-                </BodyShortWithPreWrap>
+                </GlobalAlert.Content>
             )}
-        </Alert>
-    ) : null;
-};
-
-type Detaljer = { klikketVekk: Dayjs | string };
-
-type UtkvitterteDriftsmeldinger = { [key: string]: Detaljer };
-
-function deserialize(value: string | null): UtkvitterteDriftsmeldinger {
-    if (!value) return {};
-    const parsed = JSON.parse(value) as UtkvitterteDriftsmeldinger;
-    return Object.keys(parsed).reduce(
-        (acc, key) => ({
-            ...acc,
-            [key]: { klikketVekk: dayjs(parsed[key]?.klikketVekk) },
-        }),
-        {},
+        </GlobalAlert>
     );
-}
-
-const useVisDriftsmelding = (driftsmelding: DriftsmeldingType): [boolean, () => void] => {
-    const globalKey = 'driftsmeldinger';
-
-    function get<T>(key?: T): T extends string ? Detaljer : UtkvitterteDriftsmeldinger {
-        const value = localStorage.getItem(globalKey);
-        const deserialized = deserialize(value);
-        return (key ? deserialized[key as string] : deserialized) as T extends string
-            ? Detaljer
-            : UtkvitterteDriftsmeldinger;
-    }
-
-    function set(utkvitterteDriftsmeldinger: UtkvitterteDriftsmeldinger) {
-        localStorage.setItem(globalKey, JSON.stringify(utkvitterteDriftsmeldinger));
-    }
-
-    const keyForEnDriftsmelding = driftsmelding._id + ':' + driftsmelding._rev;
-
-    const visDriftsmelding = get(keyForEnDriftsmelding) == null;
-
-    const oppdaterLocalStorage = () => {
-        const lagrede = get();
-        lagrede[keyForEnDriftsmelding] = { klikketVekk: dayjs() };
-        set(lagrede);
-    };
-
-    return [visDriftsmelding, oppdaterLocalStorage];
 };
 
-function dato(driftsmelding: DriftsmeldingType): string {
+function dato(driftsmelding: DriftsmeldingType, erLøst: boolean): string {
     const created = driftsmelding._createdAt.toString();
     const updated = driftsmelding._updatedAt.toString();
 
-    if (updated !== created) {
-        return `(Oppdatert: ${getFormattedDatetimeString(updated)})`;
+    if (erLøst) {
+        return `(Løst: ${getFormattedDatetimeString(updated)})`;
     }
-    return `(${getFormattedDatetimeString(created)})`;
+    return `(Oppdatert: ${getFormattedDatetimeString(created)})`;
 }

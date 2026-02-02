@@ -1,6 +1,5 @@
 .driftsmelding {
   cursor: pointer;
-  border-radius: 0;
 
   &:hover {
     .tittel {
@@ -20,13 +19,6 @@
 
 .dato {
   font-size: 14px;
-  color: var(--ax-text-neutral-subtle);
-}
-
-.tittel {
-  font-size: 18px;
-  text-decoration: none;
-
 }
 
 .chevron {
@@ -35,8 +27,4 @@
 
 .chevronrotated {
   transform: rotate(180deg);
-}
-
-.melding {
-  margin-top: 0.25rem;
 }
