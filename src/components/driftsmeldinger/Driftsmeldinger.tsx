@@ -90,7 +90,9 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
             <GlobalAlert.Header>
                 <GlobalAlert.Title>{informasjonsmelding.tittel}</GlobalAlert.Title>
                 <HStack margin="space-8">
-                    <BodyShort className={styles.dato}>{informasjonsmelding._updatedAt}</BodyShort>
+                    <BodyShort
+                        className={styles.dato}
+                    >{`(${getFormattedDatetimeString(informasjonsmelding._updatedAt)})`}</BodyShort>
                     <ChevronDownIcon
                         title="Vis mer"
                         fontSize="1.5rem"
