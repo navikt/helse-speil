@@ -31,12 +31,7 @@ export const Driftsmeldinger = (): ReactElement[] => {
         <InformasjonsmeldingInnhold key={index} informasjonsmelding={informasjonsmelding} />
     ));
 
-    return [...drift, ...info].sort((a, b) => {
-        const aUpdatedAt = a.props.driftsmelding?._updatedAt ?? a.props.informasjonsmelding?._updatedAt;
-        const bUpdatedAt = b.props.driftsmelding?._updatedAt ?? b.props.informasjonsmelding?._updatedAt;
-
-        return new Date(bUpdatedAt).getTime() - new Date(aUpdatedAt).getTime();
-    }) as ReactElement[];
+    return [...drift, ...info];
 };
 
 const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactElement | null => {
