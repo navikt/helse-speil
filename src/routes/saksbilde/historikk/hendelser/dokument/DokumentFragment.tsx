@@ -11,10 +11,8 @@ interface EnBlokkProps extends React.HTMLAttributes<HTMLDivElement> {
 export const DokumentFragment = ({ overskrift, children }: EnBlokkProps): ReactElement => {
     return (
         <>
-            <BodyShort weight="semibold" size="small">
-                {overskrift}
-            </BodyShort>
-            <BodyShort size="small">{children}</BodyShort>
+            <BodyShort weight="semibold">{overskrift}</BodyShort>
+            <BodyShort>{children}</BodyShort>
         </>
     );
 };
@@ -22,10 +20,8 @@ export const DokumentFragment = ({ overskrift, children }: EnBlokkProps): ReactE
 export const DokumentFragmentAnonymisert = ({ overskrift, children }: EnBlokkProps): ReactElement => {
     return (
         <>
-            <BodyShort weight="semibold" size="small">
-                {overskrift}
-            </BodyShort>
-            <AnonymizableText size="small">{children}</AnonymizableText>
+            <BodyShort weight="semibold">{overskrift}</BodyShort>
+            <AnonymizableText>{children}</AnonymizableText>
         </>
     );
 };
