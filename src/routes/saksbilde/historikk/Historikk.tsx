@@ -184,7 +184,7 @@ const HistorikkWithContent = (): ReactElement => {
                                             }
                                         }
                                         case 'Notat': {
-                                            return <Notathendelse key={it.id} {...it} />;
+                                            return <Notathendelse key={it.id + 'notat'} {...it} />;
                                         }
                                         case 'Utbetaling': {
                                             return <Utbetalinghendelse key={it.id} {...it} />;

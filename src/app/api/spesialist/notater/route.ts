@@ -1,4 +1,4 @@
 import { stubEllerVideresendTilSpesialist } from '@app/api/spesialist/common';
-import { stub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/notater/stub';
+import { stub } from '@app/api/spesialist/notater/stub';
 
 export const POST = stubEllerVideresendTilSpesialist(stub);

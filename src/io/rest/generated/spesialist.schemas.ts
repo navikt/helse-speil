@@ -28,6 +28,23 @@ export interface ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode {
     code?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeCode;
 }
 
+export type GetBrukerrollerErrorCode = (typeof GetBrukerrollerErrorCode)[keyof typeof GetBrukerrollerErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetBrukerrollerErrorCode = {} as const;
+
+export type ApiHttpProblemDetailsGetBrukerrollerErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsGetBrukerrollerErrorCodeCode = null | GetBrukerrollerErrorCode;
+
+export interface ApiHttpProblemDetailsGetBrukerrollerErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsGetBrukerrollerErrorCodeDetail;
+    code?: ApiHttpProblemDetailsGetBrukerrollerErrorCodeCode;
+}
+
 export type ApiOppgaveSorteringsfelt = (typeof ApiOppgaveSorteringsfelt)[keyof typeof ApiOppgaveSorteringsfelt];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1187,6 +1204,58 @@ export interface ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode {
     title: string;
     detail?: ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeCode;
+}
+
+export type GetNotatV2ErrorCode = (typeof GetNotatV2ErrorCode)[keyof typeof GetNotatV2ErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetNotatV2ErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsGetNotatV2ErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsGetNotatV2ErrorCodeCode = null | GetNotatV2ErrorCode;
+
+export interface ApiHttpProblemDetailsGetNotatV2ErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsGetNotatV2ErrorCodeDetail;
+    code?: ApiHttpProblemDetailsGetNotatV2ErrorCodeCode;
+}
+
+export interface ApiNotatV2Request {
+    vedtaksperiodeId: string;
+    tekst: string;
+}
+
+export interface ApiPatchNotatRequest {
+    feilregistrert: boolean;
+}
+
+export type ApiPatchNotatErrorCode = (typeof ApiPatchNotatErrorCode)[keyof typeof ApiPatchNotatErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPatchNotatErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
+    KAN_IKKE_FJERNE_FEILREGISTRERING: 'KAN_IKKE_FJERNE_FEILREGISTRERING',
+} as const;
+
+export type ApiHttpProblemDetailsApiPatchNotatErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPatchNotatErrorCodeCode = null | ApiPatchNotatErrorCode;
+
+export interface ApiHttpProblemDetailsApiPatchNotatErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPatchNotatErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchNotatErrorCodeCode;
 }
 
 export type ApiGetOpptegnelseSekvensnummerSisteErrorCode =

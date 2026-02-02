@@ -15,7 +15,7 @@ import {
     PersonFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import { getNotat, usePostNotat } from '@io/rest/generated/notater/notater';
+import { getNotatV2, usePostNotatV2 } from '@io/rest/generated/notater/notater';
 import { ApiNotat } from '@io/rest/generated/spesialist.schemas';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useNotatkladd } from '@state/notater';
@@ -37,7 +37,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
         NotatType.Generelt,
     );
 
-    const { mutate: postNotat, error, reset } = usePostNotat();
+    const { mutate: postNotat, error, reset } = usePostNotatV2();
     // Midlertidig: håndlaget loading-state fordi den skal dekke både POST og GET, fordi vi bruker har dataene i apollo
     // selv om vi bruker REST til å kommunisere med spesialist.
     const [loading, setLoading] = useState(false);
@@ -71,9 +71,9 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
         setLoading(true);
         postNotat(
             {
-                vedtaksperiodeId: aktivPeriode.vedtaksperiodeId,
                 data: {
                     tekst: data.tekst || '',
+                    vedtaksperiodeId: aktivPeriode.vedtaksperiodeId,
                 },
             },
             {
@@ -87,7 +87,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
     };
 
     const hentNyopprettetNotat = async (vedtaksperiodeId: string, notatId: number) => {
-        const { data: notat } = await getNotat(vedtaksperiodeId, notatId);
+        const { data: notat } = await getNotatV2(notatId);
         if (notat == undefined) return null;
         oppdaterApolloCache(notat, aktivPeriode);
         notatkladd.fjernNotat(vedtaksperiodeId, NotatType.Generelt);
