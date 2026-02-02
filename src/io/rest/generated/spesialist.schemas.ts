@@ -28,6 +28,18 @@ export interface ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode {
     code?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeCode;
 }
 
+export type ApiBrukerrolle = (typeof ApiBrukerrolle)[keyof typeof ApiBrukerrolle];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiBrukerrolle = {
+    SELVSTSTENDIG_NÆRINGSDRIVENDE_BETA: 'SELVSTSTENDIG_NÆRINGSDRIVENDE_BETA',
+    BESLUTTER: 'BESLUTTER',
+    EGEN_ANSATT: 'EGEN_ANSATT',
+    KODE_7: 'KODE_7',
+    STIKKPRØVE: 'STIKKPRØVE',
+    UTVIKLER: 'UTVIKLER',
+} as const;
+
 export type GetBrukerrollerErrorCode = (typeof GetBrukerrollerErrorCode)[keyof typeof GetBrukerrollerErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -928,7 +940,9 @@ export type ApiArbeidstidsvurderingErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiArbeidstidsvurderingErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    MISMATCH_I_IDENTITETSNUMRE: 'MISMATCH_I_IDENTITETSNUMRE',
     MANGLER_VURDERTE_PERIODER: 'MANGLER_VURDERTE_PERIODER',
 } as const;
 
@@ -979,6 +993,7 @@ export type GetVarselErrorCode = (typeof GetVarselErrorCode)[keyof typeof GetVar
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetVarselErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
 } as const;
@@ -1087,6 +1102,7 @@ export type GetNotatErrorCode = (typeof GetNotatErrorCode)[keyof typeof GetNotat
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetNotatErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
 } as const;
@@ -1115,6 +1131,7 @@ export type ApiPostNotatErrorCode = (typeof ApiPostNotatErrorCode)[keyof typeof 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostNotatErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
 } as const;

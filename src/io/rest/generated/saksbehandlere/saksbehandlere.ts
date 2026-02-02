@@ -8,6 +8,7 @@ import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiAktivSaksbehandler,
+    ApiBrukerrolle,
     ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode,
     ApiHttpProblemDetailsGetBrukerrollerErrorCode,
 } from '../spesialist.schemas';
@@ -121,7 +122,7 @@ export function useGetAktiveSaksbehandlere<
 }
 
 export const getBrukerroller = (signal?: AbortSignal) => {
-    return callCustomAxios<string[]>({ url: `/api/spesialist/brukerroller`, method: 'GET', signal });
+    return callCustomAxios<ApiBrukerrolle[]>({ url: `/api/spesialist/brukerroller`, method: 'GET', signal });
 };
 
 export const getGetBrukerrollerQueryKey = () => {
