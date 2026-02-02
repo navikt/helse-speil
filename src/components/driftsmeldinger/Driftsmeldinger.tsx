@@ -7,24 +7,39 @@ import * as R from 'remeda';
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { BodyShort, GlobalAlert, HStack } from '@navikt/ds-react';
 
-import { Driftsmelding as DriftsmeldingType, useDriftsmelding } from '@external/sanity';
+import { Driftsmelding, Informasjonsmelding, useDriftsmelding, useInformasjonsmelding } from '@external/sanity';
 import { getFormattedDatetimeString } from '@utils/date';
 
 import styles from './Driftsmeldinger.module.scss';
 
 interface DriftsmeldingProps {
-    driftsmelding: DriftsmeldingType;
+    driftsmelding: Driftsmelding;
+}
+interface InformasjonsmeldingProps {
+    informasjonsmelding: Informasjonsmelding;
 }
 
 export const Driftsmeldinger = (): ReactElement[] => {
     const { driftsmeldinger } = useDriftsmelding();
+    const { informasjonsmeldinger } = useInformasjonsmelding();
 
-    return R.sortBy(driftsmeldinger, [R.prop('_updatedAt'), 'desc']).map((driftsmelding, index) => (
-        <Driftsmelding key={index} driftsmelding={driftsmelding} />
+    const drift = R.sortBy(driftsmeldinger, [R.prop('_updatedAt'), 'desc']).map((driftsmelding, index) => (
+        <DriftsmeldingInnhold key={index} driftsmelding={driftsmelding} />
     ));
+
+    const info = R.sortBy(informasjonsmeldinger, [R.prop('_updatedAt'), 'desc']).map((informasjonsmelding, index) => (
+        <InformasjonsmeldingInnhold key={index} informasjonsmelding={informasjonsmelding} />
+    ));
+
+    return [...drift, ...info].sort((a, b) => {
+        const aUpdatedAt = a.props.driftsmelding?._updatedAt ?? a.props.informasjonsmelding?._updatedAt;
+        const bUpdatedAt = b.props.driftsmelding?._updatedAt ?? b.props.informasjonsmelding?._updatedAt;
+
+        return new Date(bUpdatedAt).getTime() - new Date(aUpdatedAt).getTime();
+    }) as ReactElement[];
 };
 
-const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | null => {
+const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactElement | null => {
     const [åpneDriftsmelding, setÅpneDriftsmelding] = useState(false);
     type Konsekvens = 'treghet' | 'delvisMulig' | 'ikkeMulig';
 
@@ -73,7 +88,27 @@ const Driftsmelding = ({ driftsmelding }: DriftsmeldingProps): ReactElement | nu
     );
 };
 
-function dato(driftsmelding: DriftsmeldingType, erLøst: boolean): string {
+const InformasjonsmeldingInnhold = ({ informasjonsmelding }: InformasjonsmeldingProps): ReactElement | null => {
+    const [åpneInformasjonsmelding, setÅpneInformasjonsmelding] = useState(false);
+    return (
+        <GlobalAlert status="announcement" size="medium" onClick={() => setÅpneInformasjonsmelding((prev) => !prev)}>
+            <GlobalAlert.Header>
+                <GlobalAlert.Title>{informasjonsmelding.tittel}</GlobalAlert.Title>
+                <HStack margin="space-8">
+                    <BodyShort className={styles.dato}>{informasjonsmelding._updatedAt}</BodyShort>
+                    <ChevronDownIcon
+                        title="Vis mer"
+                        fontSize="1.5rem"
+                        className={classNames(styles.chevron, åpneInformasjonsmelding && styles.chevronrotated)}
+                    />
+                </HStack>
+            </GlobalAlert.Header>
+            {åpneInformasjonsmelding && <GlobalAlert.Content>{informasjonsmelding.beskrivelse}</GlobalAlert.Content>}
+        </GlobalAlert>
+    );
+};
+
+function dato(driftsmelding: Driftsmelding, erLøst: boolean): string {
     const created = driftsmelding._createdAt.toString();
     const updated = driftsmelding._updatedAt.toString();
 

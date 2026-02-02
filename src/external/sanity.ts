@@ -35,6 +35,18 @@ export interface Driftsmelding {
     _createdAt: DateString;
 }
 
+export interface Informasjonsmelding {
+    _id: string;
+    _rev: string;
+    iProd: 'true' | 'false';
+    iDev: 'true' | 'false';
+    tittel: string;
+    beskrivelse: string;
+    synligTil: DateString;
+    _updatedAt: DateString;
+    _createdAt: DateString;
+}
+
 export interface Arsaker {
     _id: string;
     arsaker: Arsak[];
@@ -83,6 +95,10 @@ type SkjønnsfastsettelseMalerQueryResult = {
 
 type DriftsmeldingerQueryResult = {
     result: Driftsmelding[];
+};
+
+type InformasjonsmeldingerQueryResult = {
+    result: Informasjonsmelding[];
 };
 
 export type ArsakerQueryResult = {
@@ -155,6 +171,34 @@ export function useDriftsmelding() {
 
     return {
         driftsmeldinger: aktiveDriftsmeldinger,
+        loading,
+        error,
+    };
+}
+
+export function useInformasjonsmelding() {
+    const {
+        data,
+        error,
+        isPending: loading,
+    } = useQuery({
+        queryKey: ['sanity', 'informasjonsmeldinger'],
+        queryFn: async (): Promise<AxiosResponse<InformasjonsmeldingerQueryResult>> =>
+            customAxios.post(SANITY_URL, {
+                query: `*[_type == "informasjonsmelding"]`,
+            }),
+        staleTime: Infinity,
+        gcTime: 0,
+    });
+
+    const aktiveInformasjonsmeldinger =
+        data?.data?.result
+            .filter((it: Informasjonsmelding) => !erProd || it.iProd === 'true')
+            .filter((it: Informasjonsmelding) => !erUtvikling || it.iDev === 'true')
+            .filter((informasjonsmelding) => dayjs(informasjonsmelding.synligTil).isAfter(dayjs())) ?? [];
+
+    return {
+        informasjonsmeldinger: aktiveInformasjonsmeldinger,
         loading,
         error,
     };
