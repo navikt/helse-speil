@@ -40,7 +40,6 @@ export const JotaiWrapper = ({ children, atomValues }: PropsWithChildren<JotaiPr
                 epost: 'test-username',
                 navn: 'Test User',
                 ident: 'Otest123',
-                grupper: ['test-group'],
             }}
         >
             <Provider>

@@ -39,7 +39,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
             <QueryClientProvider client={queryClient}>
                 <ApolloProvider client={apolloClient}>
                     <Provider>
-                        <AtomsHydrator atomValues={getAtomValues(bruker)}>
+                        <AtomsHydrator atomValues={getAtomValues()}>
                             <SyncAlerts>
                                 <AnonymiseringProvider>
                                     <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
@@ -53,8 +53,8 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
     );
 };
 
-function getAtomValues(bruker: Bruker) {
-    return typeof window !== 'undefined' ? [hydrateTotrinnsvurderingState(bruker.grupper), hydrateFilters()] : [];
+function getAtomValues() {
+    return typeof window !== 'undefined' ? [hydrateTotrinnsvurderingState(), hydrateFilters()] : [];
 }
 
 function AtomsHydrator({

@@ -5,7 +5,6 @@ export type Saksbehandler = {
     epost: string;
     navn: string;
     ident?: string;
-    isLoggedIn?: boolean;
 };
 
 export const useInnloggetSaksbehandler = (): Saksbehandler => {
@@ -16,6 +15,5 @@ export const useInnloggetSaksbehandler = (): Saksbehandler => {
         epost: authInfo.epost,
         navn: authInfo.navn,
         ident: authInfo.ident,
-        isLoggedIn: true,
     };
 };

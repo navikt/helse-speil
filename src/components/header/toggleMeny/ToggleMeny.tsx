@@ -22,9 +22,6 @@ export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
             <Modal.Body>
                 <form>
                     <CheckboxGroup legend="Totrinnsvurdering" value={totrinnsvurderingStateToCheckboxValue(totrinn)}>
-                        <Checkbox value="harBeslutterrolle" onChange={toggleTotrinn('harBeslutterrolle')}>
-                            Har beslutterrolle
-                        </Checkbox>
                         <Checkbox value="kanBeslutteEgne" onChange={toggleTotrinn('kanBeslutteEgne')}>
                             Kan beslutte egen beslutteroppgave
                         </Checkbox>
@@ -37,7 +34,6 @@ export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
 
 const totrinnsvurderingStateToCheckboxValue = (totrinn: TotrinnsvurderingState): string[] => {
     const array: string[] = [];
-    if (totrinn.harBeslutterrolle) array.push('harBeslutterrolle');
     if (totrinn.kanBeslutteEgne) array.push('kanBeslutteEgne');
     return array;
 };

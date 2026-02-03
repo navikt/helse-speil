@@ -10,8 +10,8 @@ import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 const useBrukerinfo = () => {
-    const { navn, ident, isLoggedIn } = useInnloggetSaksbehandler();
-    return isLoggedIn ? { navn, ident: ident ?? '' } : { navn: 'Ikke pålogget', ident: '' };
+    const { navn, ident } = useInnloggetSaksbehandler();
+    return { navn, ident: ident ?? '' };
 };
 
 export const UserMenu = (): ReactElement => {

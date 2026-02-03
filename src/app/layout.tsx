@@ -57,7 +57,6 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                         epost: payload.preferred_username,
                         navn: payload.name,
                         ident: payload.NAVident,
-                        grupper: payload.groups,
                     }}
                 >
                     <Driftsmeldinger />

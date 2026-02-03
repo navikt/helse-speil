@@ -1,10 +1,9 @@
 import { useTheme } from 'next-themes';
 
 import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
+import { useErUtvikler } from '@hooks/brukerrolleHooks';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
-import { useGetBrukerroller } from '@io/rest/generated/saksbehandlere/saksbehandlere';
-import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
@@ -143,8 +142,7 @@ const useOpenDemosiderForVedtak = (): (() => void) => {
 export const useKeyboardActions = (): Action[] => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
     const { theme, setTheme } = useTheme();
-    const { data: brukerroller } = useGetBrukerroller();
-    const erUtvikler = brukerroller?.data.includes(ApiBrukerrolle.UTVIKLER) ?? false;
+    const erUtvikler = useErUtvikler();
     const toggleDarkMode = () => setTheme(theme === 'dark' ? 'light' : 'dark');
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();

@@ -4,16 +4,13 @@ import type { SetStateAction } from 'react';
 
 import { erUtvikling } from '@/env';
 import { atomWithSessionStorage } from '@state/jotai';
-import { harBeslutterrolle } from '@utils/featureToggles';
 
 // Totrinnsvurdering
 export type TotrinnsvurderingState = {
-    harBeslutterrolle: boolean;
     kanBeslutteEgne: boolean;
 };
 
 const defaultTotrinnsvurderingState: TotrinnsvurderingState = {
-    harBeslutterrolle: false,
     kanBeslutteEgne: false,
 };
 
@@ -22,16 +19,15 @@ const totrinnsvurderingState = atomWithSessionStorage<TotrinnsvurderingState>(
     defaultTotrinnsvurderingState,
 );
 
-export function hydrateTotrinnsvurderingState(
-    brukerRoller: string[],
-): [WritableAtom<TotrinnsvurderingState, [SetStateAction<TotrinnsvurderingState>], void>, TotrinnsvurderingState] {
+export function hydrateTotrinnsvurderingState(): [
+    WritableAtom<TotrinnsvurderingState, [SetStateAction<TotrinnsvurderingState>], void>,
+    TotrinnsvurderingState,
+] {
     const sessionStorageState = sessionStorage.getItem('totrinnsvurderingState');
 
     return [
         totrinnsvurderingState,
-        sessionStorageState && erUtvikling
-            ? JSON.parse(sessionStorageState)
-            : { ...defaultTotrinnsvurderingState, harBeslutterrolle: harBeslutterrolle(brukerRoller) },
+        sessionStorageState && erUtvikling ? JSON.parse(sessionStorageState) : { ...defaultTotrinnsvurderingState },
     ];
 }
 
@@ -49,10 +45,6 @@ export const useTotrinnsvurdering = (): [
                 [property]: !prevState[property],
             })),
     ];
-};
-
-export const useHarBeslutterrolle = (): boolean => {
-    return useTotrinnsvurdering()[0]?.harBeslutterrolle;
 };
 
 export const useKanBeslutteEgneOppgaver = (): boolean => {
