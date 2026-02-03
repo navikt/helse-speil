@@ -1,11 +1,13 @@
 import React, { ReactElement, useState } from 'react';
 
-import { ActionMenu, BodyShort, VStack } from '@navikt/ds-react';
+import { ActionMenu, BodyShort, HStack, Tag, VStack } from '@navikt/ds-react';
 import { InternalHeaderUserButton } from '@navikt/ds-react/InternalHeader';
 
 import { DarkModeToggle } from '@components/DarkModeToggle';
 import { TastaturModal } from '@components/TastaturModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
+import { useGetBrukerroller } from '@io/rest/generated/saksbehandlere/saksbehandlere';
+import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
@@ -20,6 +22,8 @@ export const UserMenu = (): ReactElement => {
     const toggleAnonymity = useToggleAnonymity();
     const [visTastatursnarveier, setVisTastatursnarveier] = useState(false);
 
+    const brukerroller = useGetBrukerroller();
+    const harRoller = (brukerroller?.data?.data?.length ?? 0) > 0;
     useKeyboard([
         {
             key: Key.F1,
@@ -40,6 +44,19 @@ export const UserMenu = (): ReactElement => {
                         <BodyShort>{ident}</BodyShort>
                     </VStack>
                     <ActionMenu.Divider />
+
+                    {harRoller && (
+                        <ActionMenu.Group label="Roller">
+                            <HStack gap="space-4" paddingInline="space-8" maxWidth="16rem">
+                                {sorterBrukerroller(brukerroller.data?.data ?? []).map((rolle) => (
+                                    <Tag size="xsmall" key={rolle}>
+                                        {brukerrolleVisningstekst(rolle)}
+                                    </Tag>
+                                ))}
+                            </HStack>
+                        </ActionMenu.Group>
+                    )}
+                    <ActionMenu.Divider />
                     <ActionMenu.Item onClick={toggleAnonymity}>
                         {isAnonymous ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
                     </ActionMenu.Item>
@@ -55,39 +72,50 @@ export const UserMenu = (): ReactElement => {
                     </ActionMenu.Item>
                 </ActionMenu.Content>
             </ActionMenu>
-            {/*<Dropdown>*/}
-            {/*    <Header.UserButton name={navn} description={ident} as={Dropdown.Toggle} />*/}
-            {/*    <Dropdown.Menu className={styles.UserMenu}>*/}
-            {/*        <Dropdown.Menu.List>*/}
-            {/*            <BodyShort className={styles.MenuItem}>*/}
-            {/*                {navn}*/}
-            {/*                <br />*/}
-            {/*                {ident}*/}
-            {/*            </BodyShort>*/}
-            {/*            <Dropdown.Menu.Divider />*/}
-            {/*            <Dropdown.Menu.List.Item className={styles.MenuItem} onClick={toggleAnonymity}>*/}
-            {/*                {isAnonymous ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}*/}
-            {/*            </Dropdown.Menu.List.Item>*/}
-            {/*            <Dropdown.Menu.Divider />*/}
-            {/*            <Dropdown.Menu.List.Item*/}
-            {/*                as="a"*/}
-            {/*                className={styles.MenuItem}*/}
-            {/*                onClick={() => setVisTastatursnarveier(!visTastatursnarveier)}*/}
-            {/*            >*/}
-            {/*                Tastatursnarveier*/}
-            {/*            </Dropdown.Menu.List.Item>*/}
-            {/*            <Dropdown.Menu.Divider />*/}
-            {/*            <DarkModeToggle />*/}
-            {/*            <Dropdown.Menu.Divider />*/}
-            {/*            <Dropdown.Menu.List.Item as="a" href="/oauth2/logout" className={styles.MenuItem}>*/}
-            {/*                Logg ut*/}
-            {/*            </Dropdown.Menu.List.Item>*/}
-            {/*        </Dropdown.Menu.List>*/}
-            {/*    </Dropdown.Menu>*/}
-            {/*</Dropdown>*/}
             {visTastatursnarveier && (
                 <TastaturModal closeModal={() => setVisTastatursnarveier(false)} showModal={visTastatursnarveier} />
             )}
         </>
     );
 };
+
+const BRUKERROLLE_REKKEFØLGE: ApiBrukerrolle[] = [
+    ApiBrukerrolle.BESLUTTER,
+    ApiBrukerrolle.STIKKPRØVE,
+    ApiBrukerrolle.EGEN_ANSATT,
+    ApiBrukerrolle.KODE_7,
+    ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA,
+    ApiBrukerrolle.UTVIKLER,
+];
+
+function sorterBrukerroller(roller: ApiBrukerrolle[]): ApiBrukerrolle[] {
+    return [...roller].sort((a, b) => {
+        const indexA = BRUKERROLLE_REKKEFØLGE.indexOf(a);
+        const indexB = BRUKERROLLE_REKKEFØLGE.indexOf(b);
+
+        if (indexA === -1 && indexB === -1) return 0;
+        if (indexA === -1) return 1;
+        if (indexB === -1) return -1;
+
+        return indexA - indexB;
+    });
+}
+
+function brukerrolleVisningstekst(brukerrolle: ApiBrukerrolle): string {
+    switch (brukerrolle) {
+        case ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA:
+            return 'Selvstendig næringsdrivende';
+        case ApiBrukerrolle.EGEN_ANSATT:
+            return 'Egen ansatt';
+        case ApiBrukerrolle.STIKKPRØVE:
+            return 'Stikkprøve';
+        case ApiBrukerrolle.UTVIKLER:
+            return 'Utvikler';
+        case ApiBrukerrolle.KODE_7:
+            return 'Kode 7';
+        case ApiBrukerrolle.BESLUTTER:
+            return 'Beslutter';
+        default:
+            return brukerrolle;
+    }
+}
