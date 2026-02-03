@@ -3,10 +3,12 @@ import { atom, useAtom } from 'jotai';
 import { SubmitHandler } from 'react-hook-form';
 
 import { KommentarFormFields } from '@/form-schemas/kommentarSkjema';
-import { useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { LeggTilKommentarDocument, NotatFragment, NotatType, PeriodehistorikkType } from '@io/graphql';
+import { usePostKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { Notat } from '@typer/notat';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 export function useNotatkladd() {
     const [notater, setNotater] = useAtom(lokaleNotaterState);
@@ -41,46 +43,63 @@ export const useLeggTilKommentar = (
     hideDialog: () => void,
 ) => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const [leggTilKommentar, { error, loading }] = useMutation(LeggTilKommentarDocument);
+    const { mutate, error, isPending: loading } = usePostKommentar();
+    const apolloClient = useApolloClient();
 
     const onLeggTilKommentar: SubmitHandler<KommentarFormFields> = async (formFields) => {
         const saksbehandlerident = innloggetSaksbehandler.ident;
         const tekst = formFields.tekst;
         if (saksbehandlerident) {
-            await leggTilKommentar({
-                variables: {
-                    tekst,
-                    dialogRef,
-                    saksbehandlerident,
+            mutate(
+                {
+                    dialogId: dialogRef,
+                    data: {
+                        tekst,
+                    },
                 },
-                update: (cache, { data }) => {
-                    cache.writeQuery({
-                        query: LeggTilKommentarDocument,
-                        variables: {
-                            tekst,
-                            dialogRef,
-                            saksbehandlerident,
-                        },
-                        data,
-                    });
-                    cache.modify({
-                        id: cache.identify({ __typename: kommentertInnhold.type, id: kommentertInnhold.id }),
-                        fields: {
-                            kommentarer(eksisterendeKommentarer) {
-                                return [
-                                    ...eksisterendeKommentarer,
-                                    {
-                                        __ref: cache.identify({
-                                            __typename: 'Kommentar',
-                                            id: data?.leggTilKommentar?.id,
-                                        }),
-                                    },
-                                ];
+                {
+                    onSuccess: async (data) => {
+                        apolloClient.cache.writeQuery({
+                            query: LeggTilKommentarDocument,
+                            variables: {
+                                tekst,
+                                dialogRef,
+                                saksbehandlerident,
                             },
-                        },
-                    });
+                            data: {
+                                __typename: 'Mutation',
+                                leggTilKommentar: {
+                                    __typename: 'Kommentar',
+                                    id: data.data.id,
+                                    tekst: tekst,
+                                    opprettet: dayjs().format(ISO_DATOFORMAT),
+                                    saksbehandlerident: saksbehandlerident,
+                                    feilregistrert_tidspunkt: null,
+                                },
+                            },
+                        });
+                        apolloClient.cache.modify({
+                            id: apolloClient.cache.identify({
+                                __typename: kommentertInnhold.type,
+                                id: kommentertInnhold.id,
+                            }),
+                            fields: {
+                                kommentarer(eksisterendeKommentarer) {
+                                    return [
+                                        ...eksisterendeKommentarer,
+                                        {
+                                            __ref: apolloClient.cache.identify({
+                                                __typename: 'Kommentar',
+                                                id: data.data.id,
+                                            }),
+                                        },
+                                    ];
+                                },
+                            },
+                        });
+                    },
                 },
-            });
+            );
             hideDialog();
         }
     };
@@ -100,7 +119,7 @@ type KommentertElementType =
     | 'OpphevStansAutomatiskBehandlingSaksbehandler'
     | 'Notat';
 
-interface KommentertElement {
+export interface KommentertElement {
     id: number;
     type: KommentertElementType;
 }

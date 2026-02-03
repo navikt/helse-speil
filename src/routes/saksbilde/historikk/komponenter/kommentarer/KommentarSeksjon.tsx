@@ -26,6 +26,7 @@ export const KommentarSeksjon = ({
             {antall > 0 && (
                 <ReadMore
                     onClick={() => setOpen(!open)}
+                    open={open}
                     size="small"
                     header={open ? 'Lukk kommentarer' : `Kommentarer (${kommentarer?.length})`}
                 >
@@ -37,6 +38,7 @@ export const KommentarSeksjon = ({
                     historikktype={historikktype}
                     dialogRef={dialogRef}
                     historikkinnslagId={historikkinnslagId}
+                    åpneKommentarvisning={() => setOpen(true)}
                 />
             )}
         </>

@@ -13,7 +13,7 @@ import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhen
 import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { NotathendelseObject } from '@typer/historikk';
-import { ISO_DATOFORMAT } from '@utils/date';
+import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
 
@@ -49,7 +49,7 @@ export const Notathendelse = ({
                                 return true;
                             },
                             feilregistert_tidspunkt() {
-                                return dayjs().format(ISO_DATOFORMAT) ?? '';
+                                return dayjs().format(ISO_TIDSPUNKTFORMAT) ?? '';
                             },
                         },
                     });
