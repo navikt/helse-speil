@@ -12,7 +12,6 @@ import { LeggTilKommentarDocument, PeriodehistorikkType } from '@io/graphql';
 import { usePostKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { finnKommentertElementType } from '@state/notater';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 type LeggTilNyKommentarProps = {
@@ -29,16 +28,59 @@ export const LeggTilNyKommentar = ({
     åpneKommentarvisning,
 }: LeggTilNyKommentarProps) => {
     const [visLeggTilKommentar, setVisLeggTilKommentar] = useState(false);
-    // Må holde på loading i state for å holde lastetilstand imens vi oppdaterer apollo state i overgangen til REST.
-    const [isLoading, setIsLoading] = useState(false);
 
-    const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const { leggTilKommentar, loading, error } = useLeggTilKommentar(
+        dialogRef,
+        historikkinnslagId,
+        () => {
+            setVisLeggTilKommentar(false);
+            åpneKommentarvisning();
+        },
+        historikktype,
+    );
+
+    const errorMessage: string | undefined =
+        error == undefined
+            ? undefined
+            : error.status === 401
+              ? 'Du har blitt logget ut'
+              : 'Kommentaren kunne ikke lagres';
+
+    return visLeggTilKommentar ? (
+        <LeggTilNyKommentarForm
+            loading={loading}
+            onLeggTilKommentar={leggTilKommentar}
+            errorMessage={errorMessage}
+            closeForm={() => setVisLeggTilKommentar(false)}
+        />
+    ) : (
+        <span>
+            <VisForSaksbehandler>
+                <Button
+                    size="xsmall"
+                    variant="tertiary"
+                    icon={<PlusCircleFillIcon />}
+                    onClick={() => setVisLeggTilKommentar(true)}
+                >
+                    Legg til ny kommentar
+                </Button>
+            </VisForSaksbehandler>
+        </span>
+    );
+};
+
+function useLeggTilKommentar(
+    dialogRef: number,
+    historikkinnslagId: number,
+    onSuccess: () => void,
+    historikktype?: PeriodehistorikkType,
+) {
+    const [isLoading, setIsLoading] = useState(false);
+    const { ident: saksbehandlerident } = useInnloggetSaksbehandler();
     const { mutate, error, isPending: loading } = usePostKommentar();
     const apolloClient = useApolloClient();
 
-    const onLeggTilKommentar: SubmitHandler<KommentarFormFields> = async (formFields) => {
-        const saksbehandlerident = innloggetSaksbehandler.ident;
-        const tekst = formFields.tekst;
+    const leggTilKommentar: SubmitHandler<KommentarFormFields> = async ({ tekst }) => {
         if (saksbehandlerident) {
             setIsLoading(true);
             mutate(
@@ -89,8 +131,7 @@ export const LeggTilNyKommentar = ({
                             },
                         });
                         setIsLoading(false);
-                        setVisLeggTilKommentar(false);
-                        åpneKommentarvisning();
+                        onSuccess();
                     },
                     onError: () => {
                         setIsLoading(false);
@@ -100,32 +141,34 @@ export const LeggTilNyKommentar = ({
         }
     };
 
-    const errorMessage: string | undefined =
-        error == undefined
-            ? undefined
-            : error.status === 401
-              ? 'Du har blitt logget ut'
-              : 'Kommentaren kunne ikke lagres';
+    type KommentertElementType =
+        | 'LagtPaVent'
+        | 'EndrePaVent'
+        | 'TotrinnsvurderingRetur'
+        | 'StansAutomatiskBehandlingSaksbehandler'
+        | 'OpphevStansAutomatiskBehandlingSaksbehandler'
+        | 'Notat';
 
-    return visLeggTilKommentar ? (
-        <LeggTilNyKommentarForm
-            loading={loading || isLoading}
-            onLeggTilKommentar={onLeggTilKommentar}
-            errorMessage={errorMessage}
-            closeForm={() => setVisLeggTilKommentar(false)}
-        />
-    ) : (
-        <span>
-            <VisForSaksbehandler>
-                <Button
-                    size="xsmall"
-                    variant="tertiary"
-                    icon={<PlusCircleFillIcon />}
-                    onClick={() => setVisLeggTilKommentar(true)}
-                >
-                    Legg til ny kommentar
-                </Button>
-            </VisForSaksbehandler>
-        </span>
-    );
-};
+    const finnKommentertElementType = (historikktype?: PeriodehistorikkType): KommentertElementType => {
+        switch (historikktype) {
+            case PeriodehistorikkType.LeggPaVent:
+                return 'LagtPaVent';
+            case PeriodehistorikkType.EndrePaVent:
+                return 'EndrePaVent';
+            case PeriodehistorikkType.TotrinnsvurderingRetur:
+                return 'TotrinnsvurderingRetur';
+            case PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler:
+                return 'StansAutomatiskBehandlingSaksbehandler';
+            case PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler:
+                return 'OpphevStansAutomatiskBehandlingSaksbehandler';
+            default:
+                return 'Notat';
+        }
+    };
+
+    return {
+        leggTilKommentar,
+        loading: loading || isLoading,
+        error,
+    };
+}

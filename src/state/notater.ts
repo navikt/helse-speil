@@ -1,8 +1,6 @@
-import dayjs from 'dayjs';
 import { atom, useAtom } from 'jotai';
 
-import { NotatFragment, NotatType, PeriodehistorikkType } from '@io/graphql';
-import { Notat } from '@typer/notat';
+import { NotatType } from '@io/graphql';
 
 export function useNotatkladd() {
     const [notater, setNotater] = useAtom(lokaleNotaterState);
@@ -31,49 +29,7 @@ export function useNotatkladd() {
     };
 }
 
-type KommentertElementType =
-    | 'LagtPaVent'
-    | 'EndrePaVent'
-    | 'TotrinnsvurderingRetur'
-    | 'StansAutomatiskBehandlingSaksbehandler'
-    | 'OpphevStansAutomatiskBehandlingSaksbehandler'
-    | 'Notat';
-
-export const finnKommentertElementType = (historikktype?: PeriodehistorikkType): KommentertElementType => {
-    switch (historikktype) {
-        case PeriodehistorikkType.LeggPaVent:
-            return 'LagtPaVent';
-        case PeriodehistorikkType.EndrePaVent:
-            return 'EndrePaVent';
-        case PeriodehistorikkType.TotrinnsvurderingRetur:
-            return 'TotrinnsvurderingRetur';
-        case PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler:
-            return 'StansAutomatiskBehandlingSaksbehandler';
-        case PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler:
-            return 'OpphevStansAutomatiskBehandlingSaksbehandler';
-        default:
-            return 'Notat';
-    }
-};
-
-export const toNotat = (spesialistNotat: NotatFragment): Notat => ({
-    id: `${spesialistNotat.id}`,
-    dialogRef: spesialistNotat.dialogRef,
-    tekst: spesialistNotat.tekst,
-    saksbehandler: {
-        navn: spesialistNotat.saksbehandlerNavn,
-        oid: spesialistNotat.saksbehandlerOid,
-        epost: spesialistNotat.saksbehandlerEpost,
-        ident: spesialistNotat.saksbehandlerIdent,
-    },
-    opprettet: dayjs(spesialistNotat.opprettet),
-    vedtaksperiodeId: spesialistNotat.vedtaksperiodeId,
-    feilregistrert: spesialistNotat.feilregistrert,
-    erOpphevStans: spesialistNotat.type === 'OpphevStans',
-    kommentarer: spesialistNotat.kommentarer ?? [],
-});
-
-export interface LagretNotat {
+interface LagretNotat {
     vedtaksperiodeId: string;
     tekst: string;
     type: NotatType;

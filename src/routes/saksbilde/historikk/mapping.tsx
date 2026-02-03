@@ -14,6 +14,7 @@ import {
     Inntektsmelding,
     Kommentar,
     LagtPaVent,
+    NotatFragment,
     OpphevStansAutomatiskBehandlingSaksbehandler,
     Overstyring,
     Periode,
@@ -33,7 +34,6 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
-import { toNotat } from '@state/notater';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
     AnnulleringhendelseObject,
@@ -663,6 +663,23 @@ export const getNotathendelser = (period: BeregnetPeriodeFragment | UberegnetPer
             }) satisfies NotathendelseObject,
     );
 };
+
+const toNotat = (spesialistNotat: NotatFragment): Notat => ({
+    id: `${spesialistNotat.id}`,
+    dialogRef: spesialistNotat.dialogRef,
+    tekst: spesialistNotat.tekst,
+    saksbehandler: {
+        navn: spesialistNotat.saksbehandlerNavn,
+        oid: spesialistNotat.saksbehandlerOid,
+        epost: spesialistNotat.saksbehandlerEpost,
+        ident: spesialistNotat.saksbehandlerIdent,
+    },
+    opprettet: dayjs(spesialistNotat.opprettet),
+    vedtaksperiodeId: spesialistNotat.vedtaksperiodeId,
+    feilregistrert: spesialistNotat.feilregistrert,
+    erOpphevStans: spesialistNotat.type === 'OpphevStans',
+    kommentarer: spesialistNotat.kommentarer ?? [],
+});
 
 const byTimestamp = (a: Notat, b: Notat): number => {
     return dayjs(b.opprettet).diff(dayjs(a.opprettet));
