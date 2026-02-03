@@ -5,7 +5,7 @@ import React, { ReactElement, useState } from 'react';
 import * as R from 'remeda';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { BodyShort, GlobalAlert, HStack } from '@navikt/ds-react';
+import { BodyShort, GlobalAlert, HStack, InfoCard } from '@navikt/ds-react';
 
 import { Driftsmelding, Informasjonsmelding, useDriftsmelding, useInformasjonsmelding } from '@external/sanity';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -23,12 +23,12 @@ export const Driftsmeldinger = (): ReactElement[] => {
     const { driftsmeldinger } = useDriftsmelding();
     const { informasjonsmeldinger } = useInformasjonsmelding();
 
-    const drift = R.sortBy(driftsmeldinger, [R.prop('_updatedAt'), 'desc']).map((driftsmelding, index) => (
-        <DriftsmeldingInnhold key={index} driftsmelding={driftsmelding} />
+    const drift = R.sortBy(driftsmeldinger, [R.prop('_updatedAt'), 'desc']).map((driftsmelding) => (
+        <DriftsmeldingInnhold key={`drift-${driftsmelding._id}`} driftsmelding={driftsmelding} />
     ));
 
-    const info = R.sortBy(informasjonsmeldinger, [R.prop('_updatedAt'), 'desc']).map((informasjonsmelding, index) => (
-        <InformasjonsmeldingInnhold key={index} informasjonsmelding={informasjonsmelding} />
+    const info = R.sortBy(informasjonsmeldinger, [R.prop('_updatedAt'), 'desc']).map((informasjonsmelding) => (
+        <InformasjonsmeldingInnhold key={`info-${informasjonsmelding._id}`} informasjonsmelding={informasjonsmelding} />
     ));
 
     return [...drift, ...info];
@@ -65,7 +65,12 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
     };
 
     return (
-        <GlobalAlert status={status} size="medium" onClick={() => setÅpneDriftsmelding((prev) => !prev)}>
+        <GlobalAlert
+            status={status}
+            size="medium"
+            onClick={() => setÅpneDriftsmelding((prev) => !prev)}
+            className={styles.driftsmelding}
+        >
             <GlobalAlert.Header>
                 <GlobalAlert.Title>{tittel}</GlobalAlert.Title>
                 <HStack margin="space-8">
@@ -79,14 +84,10 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
             </GlobalAlert.Header>
             {åpneDriftsmelding && (
                 <GlobalAlert.Content>
-                    {åpneDriftsmelding && (
-                        <GlobalAlert.Content>
-                            {medPunktum(driftsmelding.arsak)}
-                            {medPunktum(driftsmelding.tiltak)}
-                            {medPunktum(driftsmelding.oppdatering)}
-                            {medPunktum(driftsmelding.cta)}
-                        </GlobalAlert.Content>
-                    )}
+                    {medPunktum(driftsmelding.arsak)}
+                    {medPunktum(driftsmelding.tiltak)}
+                    {medPunktum(driftsmelding.oppdatering)}
+                    {medPunktum(driftsmelding.cta)}
                 </GlobalAlert.Content>
             )}
         </GlobalAlert>
@@ -96,9 +97,14 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
 const InformasjonsmeldingInnhold = ({ informasjonsmelding }: InformasjonsmeldingProps): ReactElement | null => {
     const [åpneInformasjonsmelding, setÅpneInformasjonsmelding] = useState(false);
     return (
-        <GlobalAlert status="announcement" size="medium" onClick={() => setÅpneInformasjonsmelding((prev) => !prev)}>
-            <GlobalAlert.Header>
-                <GlobalAlert.Title>{informasjonsmelding.tittel}</GlobalAlert.Title>
+        <InfoCard
+            data-color="info"
+            size="medium"
+            onClick={() => setÅpneInformasjonsmelding((prev) => !prev)}
+            className={styles.infomelding}
+        >
+            <InfoCard.Header>
+                <InfoCard.Title>{informasjonsmelding.tittel}</InfoCard.Title>
                 <HStack margin="space-8">
                     <BodyShort
                         className={styles.dato}
@@ -109,9 +115,9 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
                         className={classNames(styles.chevron, åpneInformasjonsmelding && styles.chevronrotated)}
                     />
                 </HStack>
-            </GlobalAlert.Header>
+            </InfoCard.Header>
             {åpneInformasjonsmelding && <GlobalAlert.Content>{informasjonsmelding.beskrivelse}</GlobalAlert.Content>}
-        </GlobalAlert>
+        </InfoCard>
     );
 };
 

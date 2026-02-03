@@ -1,16 +1,10 @@
 .driftsmelding {
   cursor: pointer;
+}
 
-  &:hover {
-    .tittel {
-    text-decoration: underline;
-    }
-
-    .button{
-      background-color: var(--ax-neutral-300A);
-      border-radius: var(--ax-radius-4);
-    }
-  }
+.infomelding {
+  cursor: pointer;
+  border-radius: 0;
 }
 
 .button {
