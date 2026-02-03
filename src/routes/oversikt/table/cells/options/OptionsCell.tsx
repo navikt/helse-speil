@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
@@ -30,34 +31,36 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
     return (
         <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>
             <span className={styles.wrapper}>
-                <Dropdown>
-                    <Button
-                        as={Dropdown.Toggle}
-                        size="xsmall"
-                        variant="secondary"
-                        title="Mer"
-                        className={styles.OptionsButton}
-                    >
-                        <MenuElipsisHorizontalIcon title="Alternativer" height={20} width={20} />
-                    </Button>
-                    <Dropdown.Menu>
-                        <Dropdown.Menu.List>
-                            {!erTildeltInnloggetBruker && !erTildelt && (
-                                <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
-                            )}
-                            <PåVentMenuButton
-                                oppgavereferanse={oppgave.id}
-                                tildeling={oppgave?.tildeling ?? null}
-                                navn={navn}
-                                erPåVent={erPåVent}
-                            />
-                            <MeldAvMenuButton
-                                oppgavereferanse={oppgave.id}
-                                erTildeltInnloggetBruker={erTildeltInnloggetBruker}
-                            />
-                        </Dropdown.Menu.List>
-                    </Dropdown.Menu>
-                </Dropdown>
+                <VisForSaksbehandler>
+                    <Dropdown>
+                        <Button
+                            as={Dropdown.Toggle}
+                            size="xsmall"
+                            variant="secondary"
+                            title="Mer"
+                            className={styles.OptionsButton}
+                        >
+                            <MenuElipsisHorizontalIcon title="Alternativer" height={20} width={20} />
+                        </Button>
+                        <Dropdown.Menu>
+                            <Dropdown.Menu.List>
+                                {!erTildeltInnloggetBruker && !erTildelt && (
+                                    <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
+                                )}
+                                <PåVentMenuButton
+                                    oppgavereferanse={oppgave.id}
+                                    tildeling={oppgave?.tildeling ?? null}
+                                    navn={navn}
+                                    erPåVent={erPåVent}
+                                />
+                                <MeldAvMenuButton
+                                    oppgavereferanse={oppgave.id}
+                                    erTildeltInnloggetBruker={erTildeltInnloggetBruker}
+                                />
+                            </Dropdown.Menu.List>
+                        </Dropdown.Menu>
+                    </Dropdown>
+                </VisForSaksbehandler>
             </span>
         </Table.DataCell>
     );
