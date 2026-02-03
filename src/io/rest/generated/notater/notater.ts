@@ -11,12 +11,12 @@ import type {
     ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode,
     ApiHttpProblemDetailsApiPostKommentarErrorCode,
     ApiHttpProblemDetailsApiPostNotatErrorCode,
-    ApiHttpProblemDetailsGetNotatV2ErrorCode,
+    ApiHttpProblemDetailsGetNotatErrorCode,
     ApiKommentarRequest,
     ApiKommentarResponse,
     ApiNotat,
+    ApiNotatRequest,
     ApiNotatResponse,
-    ApiNotatV2Request,
     ApiPatchNotatRequest,
 } from '../spesialist.schemas';
 
@@ -185,26 +185,26 @@ export const usePutFeilregistrerKommentar = <
 
     return useMutation(mutationOptions, queryClient);
 };
-export const getNotatV2 = (notatId: number, signal?: AbortSignal) => {
+export const getNotat = (notatId: number, signal?: AbortSignal) => {
     return callCustomAxios<ApiNotat>({ url: `/api/spesialist/notater/${notatId}`, method: 'GET', signal });
 };
 
-export const getGetNotatV2QueryKey = (notatId?: number) => {
+export const getGetNotatQueryKey = (notatId?: number) => {
     return [`/api/spesialist/notater/${notatId}`] as const;
 };
 
-export const getGetNotatV2QueryOptions = <
-    TData = Awaited<ReturnType<typeof getNotatV2>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatV2ErrorCode>,
+export const getGetNotatQueryOptions = <
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotatV2>>, TError, TData>> },
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
 ) => {
     const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetNotatV2QueryKey(notatId);
+    const queryKey = queryOptions?.queryKey ?? getGetNotatQueryKey(notatId);
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNotatV2>>> = ({ signal }) => getNotatV2(notatId, signal);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNotat>>> = ({ signal }) => getNotat(notatId, signal);
 
     return {
         queryKey,
@@ -213,68 +213,68 @@ export const getGetNotatV2QueryOptions = <
         staleTime: Infinity,
         gcTime: 0,
         ...queryOptions,
-    } as UseQueryOptions<Awaited<ReturnType<typeof getNotatV2>>, TError, TData> & {
+    } as UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData> & {
         queryKey: DataTag<QueryKey, TData, TError>;
     };
 };
 
-export type GetNotatV2QueryResult = NonNullable<Awaited<ReturnType<typeof getNotatV2>>>;
-export type GetNotatV2QueryError = ErrorType<ApiHttpProblemDetailsGetNotatV2ErrorCode>;
+export type GetNotatQueryResult = NonNullable<Awaited<ReturnType<typeof getNotat>>>;
+export type GetNotatQueryError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>;
 
-export function useGetNotatV2<
-    TData = Awaited<ReturnType<typeof getNotatV2>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatV2ErrorCode>,
+export function useGetNotat<
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
     options: {
-        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotatV2>>, TError, TData>> &
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> &
             Pick<
                 DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getNotatV2>>,
+                    Awaited<ReturnType<typeof getNotat>>,
                     TError,
-                    Awaited<ReturnType<typeof getNotatV2>>
+                    Awaited<ReturnType<typeof getNotat>>
                 >,
                 'initialData'
             >;
     },
     queryClient?: QueryClient,
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetNotatV2<
-    TData = Awaited<ReturnType<typeof getNotatV2>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatV2ErrorCode>,
+export function useGetNotat<
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
     options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotatV2>>, TError, TData>> &
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> &
             Pick<
                 UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getNotatV2>>,
+                    Awaited<ReturnType<typeof getNotat>>,
                     TError,
-                    Awaited<ReturnType<typeof getNotatV2>>
+                    Awaited<ReturnType<typeof getNotat>>
                 >,
                 'initialData'
             >;
     },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetNotatV2<
-    TData = Awaited<ReturnType<typeof getNotatV2>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatV2ErrorCode>,
+export function useGetNotat<
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotatV2>>, TError, TData>> },
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-export function useGetNotatV2<
-    TData = Awaited<ReturnType<typeof getNotatV2>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatV2ErrorCode>,
+export function useGetNotat<
+    TData = Awaited<ReturnType<typeof getNotat>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotatV2>>, TError, TData>> },
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetNotatV2QueryOptions(notatId, options);
+    const queryOptions = getGetNotatQueryOptions(notatId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
@@ -353,61 +353,54 @@ export const usePatchNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPatchNo
 
     return useMutation(mutationOptions, queryClient);
 };
-export const postNotatV2 = (apiNotatV2Request?: ApiNotatV2Request, signal?: AbortSignal) => {
+export const postNotat = (apiNotatRequest?: ApiNotatRequest, signal?: AbortSignal) => {
     return callCustomAxios<ApiNotatResponse>({
         url: `/api/spesialist/notater`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: apiNotatV2Request,
+        data: apiNotatRequest,
         signal,
     });
 };
 
-export const getPostNotatV2MutationOptions = <
+export const getPostNotatMutationOptions = <
     TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>,
     TContext = unknown,
 >(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postNotatV2>>,
-        TError,
-        { data: ApiNotatV2Request },
-        TContext
-    >;
-}): UseMutationOptions<Awaited<ReturnType<typeof postNotatV2>>, TError, { data: ApiNotatV2Request }, TContext> => {
-    const mutationKey = ['postNotatV2'];
+    mutation?: UseMutationOptions<Awaited<ReturnType<typeof postNotat>>, TError, { data: ApiNotatRequest }, TContext>;
+}): UseMutationOptions<Awaited<ReturnType<typeof postNotat>>, TError, { data: ApiNotatRequest }, TContext> => {
+    const mutationKey = ['postNotat'];
     const { mutation: mutationOptions } = options
         ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
             ? options
             : { ...options, mutation: { ...options.mutation, mutationKey } }
         : { mutation: { mutationKey } };
 
-    const mutationFn: MutationFunction<Awaited<ReturnType<typeof postNotatV2>>, { data: ApiNotatV2Request }> = (
-        props,
-    ) => {
+    const mutationFn: MutationFunction<Awaited<ReturnType<typeof postNotat>>, { data: ApiNotatRequest }> = (props) => {
         const { data } = props ?? {};
 
-        return postNotatV2(data);
+        return postNotat(data);
     };
 
     return { mutationFn, ...mutationOptions };
 };
 
-export type PostNotatV2MutationResult = NonNullable<Awaited<ReturnType<typeof postNotatV2>>>;
-export type PostNotatV2MutationBody = ApiNotatV2Request;
-export type PostNotatV2MutationError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>;
+export type PostNotatMutationResult = NonNullable<Awaited<ReturnType<typeof postNotat>>>;
+export type PostNotatMutationBody = ApiNotatRequest;
+export type PostNotatMutationError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>;
 
-export const usePostNotatV2 = <TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>, TContext = unknown>(
+export const usePostNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postNotatV2>>,
+            Awaited<ReturnType<typeof postNotat>>,
             TError,
-            { data: ApiNotatV2Request },
+            { data: ApiNotatRequest },
             TContext
         >;
     },
     queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof postNotatV2>>, TError, { data: ApiNotatV2Request }, TContext> => {
-    const mutationOptions = getPostNotatV2MutationOptions(options);
+): UseMutationResult<Awaited<ReturnType<typeof postNotat>>, TError, { data: ApiNotatRequest }, TContext> => {
+    const mutationOptions = getPostNotatMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

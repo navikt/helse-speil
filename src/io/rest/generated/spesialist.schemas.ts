@@ -1151,28 +1151,28 @@ export interface ApiNotat {
     kommentarer: ApiKommentar[];
 }
 
-export type GetNotatV2ErrorCode = (typeof GetNotatV2ErrorCode)[keyof typeof GetNotatV2ErrorCode];
+export type GetNotatErrorCode = (typeof GetNotatErrorCode)[keyof typeof GetNotatErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetNotatV2ErrorCode = {
+export const GetNotatErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
     NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
 } as const;
 
-export type ApiHttpProblemDetailsGetNotatV2ErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsGetNotatErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsGetNotatV2ErrorCodeCode = null | GetNotatV2ErrorCode;
+export type ApiHttpProblemDetailsGetNotatErrorCodeCode = null | GetNotatErrorCode;
 
-export interface ApiHttpProblemDetailsGetNotatV2ErrorCode {
+export interface ApiHttpProblemDetailsGetNotatErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsGetNotatV2ErrorCodeDetail;
-    code?: ApiHttpProblemDetailsGetNotatV2ErrorCodeCode;
+    detail?: ApiHttpProblemDetailsGetNotatErrorCodeDetail;
+    code?: ApiHttpProblemDetailsGetNotatErrorCodeCode;
 }
 
-export interface ApiNotatV2Request {
+export interface ApiNotatRequest {
     vedtaksperiodeId: string;
     tekst: string;
 }
