@@ -1060,6 +1060,59 @@ export interface ApiHttpProblemDetailsDeleteVarselvurderingErrorCode {
     code?: ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeCode;
 }
 
+export interface ApiKommentarRequest {
+    tekst: string;
+}
+
+export interface ApiKommentarResponse {
+    id: number;
+}
+
+export type ApiPostKommentarErrorCode = (typeof ApiPostKommentarErrorCode)[keyof typeof ApiPostKommentarErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostKommentarErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
+    DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostKommentarErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostKommentarErrorCodeCode = null | ApiPostKommentarErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostKommentarErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostKommentarErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostKommentarErrorCodeCode;
+}
+
+export type ApiPostFeilregistrerKommentarErrorCode =
+    (typeof ApiPostFeilregistrerKommentarErrorCode)[keyof typeof ApiPostFeilregistrerKommentarErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostFeilregistrerKommentarErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeCode =
+    null | ApiPostFeilregistrerKommentarErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeCode;
+}
+
 export type ApiNotatType = (typeof ApiNotatType)[keyof typeof ApiNotatType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1098,28 +1151,29 @@ export interface ApiNotat {
     kommentarer: ApiKommentar[];
 }
 
-export type GetNotatErrorCode = (typeof GetNotatErrorCode)[keyof typeof GetNotatErrorCode];
+export type GetNotatV2ErrorCode = (typeof GetNotatV2ErrorCode)[keyof typeof GetNotatV2ErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetNotatErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+export const GetNotatV2ErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
     NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
 } as const;
 
-export type ApiHttpProblemDetailsGetNotatErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsGetNotatV2ErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsGetNotatErrorCodeCode = null | GetNotatErrorCode;
+export type ApiHttpProblemDetailsGetNotatV2ErrorCodeCode = null | GetNotatV2ErrorCode;
 
-export interface ApiHttpProblemDetailsGetNotatErrorCode {
+export interface ApiHttpProblemDetailsGetNotatV2ErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsGetNotatErrorCodeDetail;
-    code?: ApiHttpProblemDetailsGetNotatErrorCodeCode;
+    detail?: ApiHttpProblemDetailsGetNotatV2ErrorCodeDetail;
+    code?: ApiHttpProblemDetailsGetNotatV2ErrorCodeCode;
 }
 
-export interface ApiNotatRequest {
+export interface ApiNotatV2Request {
+    vedtaksperiodeId: string;
     tekst: string;
 }
 
@@ -1146,107 +1200,6 @@ export interface ApiHttpProblemDetailsApiPostNotatErrorCode {
     title: string;
     detail?: ApiHttpProblemDetailsApiPostNotatErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiPostNotatErrorCodeCode;
-}
-
-export interface ApiKommentarRequest {
-    tekst: string;
-}
-
-export interface ApiKommentarResponse {
-    id: number;
-}
-
-export type ApiPostKommentarErrorCode = (typeof ApiPostKommentarErrorCode)[keyof typeof ApiPostKommentarErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostKommentarErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
-    DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostKommentarErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostKommentarErrorCodeCode = null | ApiPostKommentarErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostKommentarErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostKommentarErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostKommentarErrorCodeCode;
-}
-
-export type ApiPostFeilregistrerNotatErrorCode =
-    (typeof ApiPostFeilregistrerNotatErrorCode)[keyof typeof ApiPostFeilregistrerNotatErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostFeilregistrerNotatErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCodeCode = null | ApiPostFeilregistrerNotatErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostFeilregistrerNotatErrorCodeCode;
-}
-
-export type ApiPostFeilregistrerKommentarErrorCode =
-    (typeof ApiPostFeilregistrerKommentarErrorCode)[keyof typeof ApiPostFeilregistrerKommentarErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostFeilregistrerKommentarErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeCode =
-    null | ApiPostFeilregistrerKommentarErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeCode;
-}
-
-export type GetNotatV2ErrorCode = (typeof GetNotatV2ErrorCode)[keyof typeof GetNotatV2ErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetNotatV2ErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
-} as const;
-
-export type ApiHttpProblemDetailsGetNotatV2ErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsGetNotatV2ErrorCodeCode = null | GetNotatV2ErrorCode;
-
-export interface ApiHttpProblemDetailsGetNotatV2ErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsGetNotatV2ErrorCodeDetail;
-    code?: ApiHttpProblemDetailsGetNotatV2ErrorCodeCode;
-}
-
-export interface ApiNotatV2Request {
-    vedtaksperiodeId: string;
-    tekst: string;
 }
 
 export interface ApiPatchNotatRequest {
