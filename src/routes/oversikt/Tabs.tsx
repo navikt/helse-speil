@@ -4,6 +4,8 @@ import { ReactElement, useEffect, useRef } from 'react';
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
 
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 import { useFiltermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
 import { TabType, useTabState } from './tabState';
@@ -111,9 +113,11 @@ export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement
             <FilterButton />
             <span role="tablist">
                 <AlleSakerTab />
-                <MineSakerTab antall={antallMineSaker} />
-                <VentendeSakerTab antall={antallPåVent} />
-                <BehandletIdagTab />
+                <VisForSaksbehandler>
+                    <MineSakerTab antall={antallMineSaker} />
+                    <VentendeSakerTab antall={antallPåVent} />
+                    <BehandletIdagTab />
+                </VisForSaksbehandler>
             </span>
             <StatistikkButton />
         </div>

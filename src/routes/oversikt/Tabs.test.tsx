@@ -6,6 +6,11 @@ import { screen, within } from '@testing-library/react';
 
 import { Tabs } from './Tabs';
 
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useErSaksbehandler: () => true,
+    useErBeslutter: () => true,
+}));
+
 describe('Tabs', () => {
     afterEach(() => {
         vi.clearAllMocks();
