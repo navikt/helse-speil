@@ -1,8 +1,15 @@
+import { vi } from 'vitest';
+
 import { Avslagstype, Utbetalingsdagtype, VedtakUtfall } from '@io/graphql';
 import { IndividuellBegrunnelse } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelse';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
+
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useErSaksbehandler: () => true,
+    useErBeslutter: () => true,
+}));
 
 describe('IndividuellBegrunnelse', () => {
     it('åpnes med preutfylt verdi dersom det tidligere er sendt inn avslag', () => {

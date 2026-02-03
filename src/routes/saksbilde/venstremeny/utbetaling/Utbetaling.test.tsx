@@ -1,5 +1,5 @@
 import { createStore } from 'jotai';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
 import { Utbetaling } from '@saksbilde/venstremeny/utbetaling/Utbetaling';
 import { PersonStoreContext } from '@state/contexts/personStore';
@@ -10,6 +10,11 @@ import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useErSaksbehandler: () => true,
+    useErBeslutter: () => true,
+}));
 
 describe('Utbetaling', () => {
     it('resetter godkjentPeriode når perioden endres', async () => {
