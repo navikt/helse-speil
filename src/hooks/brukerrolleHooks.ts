@@ -12,3 +12,7 @@ export const useErUtvikler = () => {
 export const useErBeslutter = () => {
     return useErBrukerrolle(ApiBrukerrolle.BESLUTTER);
 };
+
+export const useErSaksbehandler = () => {
+    return useErBrukerrolle(ApiBrukerrolle.SAKSBEHANDLER);
+};

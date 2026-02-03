@@ -10,6 +10,7 @@ import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
 import { erUtvikling } from '@/env';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Infotrygdutbetaling, PersonFragment } from '@io/graphql';
@@ -163,22 +164,25 @@ const TimelineWithContent = ({
             </div>
             <div className={styles.TimelineButtons}>
                 <div className={styles.LeftButtons}>
-                    {kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering)) && !erBeslutteroppgave && (
-                        <Button
-                            as={NextLink}
-                            variant="tertiary"
-                            size="small"
-                            style={{ marginLeft: '-0.5rem' }}
-                            icon={<PlusIcon title="Legg til tilkommen inntekt" />}
-                            href={
-                                kanSeAndreYtelser
-                                    ? `/person/${personPseudoId}/leggtilperiode`
-                                    : `/person/${personPseudoId}/tilkommeninntekt/ny`
-                            }
-                        >
-                            Legg til tilkommen inntekt/periode
-                        </Button>
-                    )}
+                    <VisForSaksbehandler>
+                        {kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering)) &&
+                            !erBeslutteroppgave && (
+                                <Button
+                                    as={NextLink}
+                                    variant="tertiary"
+                                    size="small"
+                                    style={{ marginLeft: '-0.5rem' }}
+                                    icon={<PlusIcon title="Legg til tilkommen inntekt" />}
+                                    href={
+                                        kanSeAndreYtelser
+                                            ? `/person/${personPseudoId}/leggtilperiode`
+                                            : `/person/${personPseudoId}/tilkommeninntekt/ny`
+                                    }
+                                >
+                                    Legg til tilkommen inntekt/periode
+                                </Button>
+                            )}
+                    </VisForSaksbehandler>
                 </div>
                 <div className={styles.TimelineControls}>
                     <ScrollButtons

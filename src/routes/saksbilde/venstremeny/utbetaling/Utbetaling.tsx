@@ -5,6 +5,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
@@ -83,7 +84,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     const isRevurdering = period.utbetaling.type === 'REVURDERING';
     const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
-    const trengerTotrinnsvurdering =
+    const skalSendesTilTotrinnsvurdering =
         isBeregnetPeriode(period) && period.totrinnsvurdering && !period.totrinnsvurdering.erBeslutteroppgave;
 
     return (
@@ -102,52 +103,78 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
             />
             {!erReadOnly && (
                 <HStack gap="space-16">
-                    {trengerTotrinnsvurdering ? (
-                        <SendTilGodkjenningButton
-                            size="small"
-                            utbetaling={period.utbetaling}
-                            inntektsforholdReferanse={inntektsforholdReferanse}
-                            personinfo={person.personinfo}
-                            oppgavereferanse={period.oppgave?.id ?? ''}
-                            disabled={
-                                calculating ||
-                                periodenErSendt ||
-                                harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null
-                            }
-                            onSuccess={onSendTilGodkjenning}
-                            vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
-                        >
-                            Send til godkjenning
-                        </SendTilGodkjenningButton>
-                    ) : (
-                        <GodkjenningButton
-                            size="small"
-                            behandlingId={period.behandlingId}
-                            utbetaling={period.utbetaling}
-                            inntektsforholdReferanse={inntektsforholdReferanse}
-                            personinfo={person.personinfo}
-                            disabled={
-                                calculating ||
-                                periodenErSendt ||
-                                harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null
-                            }
-                            onSuccess={onGodkjennUtbetaling}
-                            vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
-                        >
-                            {erBeslutteroppgaveOgHarTilgang
-                                ? 'Godkjenn og fatt vedtak'
-                                : harArbeidsgiverutbetaling || harBrukerutbetaling
-                                  ? 'Fatt vedtak'
-                                  : 'Godkjenn'}
-                        </GodkjenningButton>
-                    )}
-                    {!isRevurdering &&
-                        !period.totrinnsvurdering?.erBeslutteroppgave &&
-                        !harNyereUtbetaltPeriodePåPerson(period, person) && (
-                            <AvvisningButton size="small" disabled={periodenErSendt} activePeriod={period} />
+                    <VisForSaksbehandler>
+                        {skalSendesTilTotrinnsvurdering && (
+                            <SendTilGodkjenningButton
+                                size="small"
+                                utbetaling={period.utbetaling}
+                                inntektsforholdReferanse={inntektsforholdReferanse}
+                                personinfo={person.personinfo}
+                                oppgavereferanse={period.oppgave?.id ?? ''}
+                                disabled={
+                                    calculating ||
+                                    periodenErSendt ||
+                                    harUvurderteVarslerPåUtbetaling ||
+                                    lokaleInntektoverstyringer.aktørId !== null
+                                }
+                                onSuccess={onSendTilGodkjenning}
+                                vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
+                            >
+                                Send til godkjenning
+                            </SendTilGodkjenningButton>
                         )}
+                    </VisForSaksbehandler>
+                    {!skalSendesTilTotrinnsvurdering && (
+                        <>
+                            {erBeslutteroppgaveOgHarTilgang && (
+                                <GodkjenningButton
+                                    size="small"
+                                    behandlingId={period.behandlingId}
+                                    utbetaling={period.utbetaling}
+                                    inntektsforholdReferanse={inntektsforholdReferanse}
+                                    personinfo={person.personinfo}
+                                    disabled={
+                                        calculating ||
+                                        periodenErSendt ||
+                                        harUvurderteVarslerPåUtbetaling ||
+                                        lokaleInntektoverstyringer.aktørId !== null
+                                    }
+                                    onSuccess={onGodkjennUtbetaling}
+                                    vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
+                                >
+                                    Godkjenn og fatt vedtak
+                                </GodkjenningButton>
+                            )}
+                            <VisForSaksbehandler>
+                                {!erBeslutteroppgaveOgHarTilgang && (
+                                    <GodkjenningButton
+                                        size="small"
+                                        behandlingId={period.behandlingId}
+                                        utbetaling={period.utbetaling}
+                                        inntektsforholdReferanse={inntektsforholdReferanse}
+                                        personinfo={person.personinfo}
+                                        disabled={
+                                            calculating ||
+                                            periodenErSendt ||
+                                            harUvurderteVarslerPåUtbetaling ||
+                                            lokaleInntektoverstyringer.aktørId !== null
+                                        }
+                                        onSuccess={onGodkjennUtbetaling}
+                                        vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
+                                    >
+                                        {harArbeidsgiverutbetaling || harBrukerutbetaling ? 'Fatt vedtak' : 'Godkjenn'}
+                                    </GodkjenningButton>
+                                )}
+                            </VisForSaksbehandler>
+                        </>
+                    )}
+                    <VisForSaksbehandler>
+                        {!isRevurdering &&
+                            !period.totrinnsvurdering?.erBeslutteroppgave &&
+                            !harNyereUtbetaltPeriodePåPerson(period, person) && (
+                                <AvvisningButton size="small" disabled={periodenErSendt} activePeriod={period} />
+                            )}
+                    </VisForSaksbehandler>
                     {erBeslutteroppgaveOgHarTilgang && (
                         <ReturButton
                             size="small"
@@ -163,7 +190,9 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                 <BodyShort className={styles.infotekst}>
                     <Loader className={styles.spinner} />
                     <span>
-                        {trengerTotrinnsvurdering ? 'Perioden sendes til godkjenning' : 'Neste periode klargjøres'}
+                        {skalSendesTilTotrinnsvurdering
+                            ? 'Perioden sendes til godkjenning'
+                            : 'Neste periode klargjøres'}
                     </span>
                 </BodyShort>
             )}
