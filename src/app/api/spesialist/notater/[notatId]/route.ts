@@ -1,4 +1,5 @@
 import { stubEllerVideresendTilSpesialist } from '@app/api/spesialist/common';
-import { stub } from '@app/api/spesialist/notater/[notatId]/stub';
+import { getStub, patchStub } from '@app/api/spesialist/notater/[notatId]/stub';
 
-export const GET = stubEllerVideresendTilSpesialist(stub);
+export const GET = stubEllerVideresendTilSpesialist(getStub);
+export const PATCH = stubEllerVideresendTilSpesialist(patchStub);

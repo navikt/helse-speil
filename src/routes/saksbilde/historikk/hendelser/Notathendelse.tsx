@@ -1,17 +1,19 @@
+import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { FeilregistrerNotatMutationDocument } from '@io/graphql';
+import { usePatchNotat } from '@io/rest/generated/notater/notater';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkChatIkon, HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { NotathendelseObject } from '@typer/historikk';
+import { ISO_DATOFORMAT } from '@utils/date';
 
 type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
 
@@ -26,23 +28,35 @@ export const Notathendelse = ({
     kommentarer,
 }: NotathendelseProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const apolloClient = useApolloClient();
 
-    const [feilregistrerNotat, { loading, error }] = useMutation(FeilregistrerNotatMutationDocument, {
-        variables: { id: parseInt(id) },
-        update: (cache, { data }) => {
-            cache.modify({
-                id: cache.identify({ __typename: 'Notat', id: data?.feilregistrerNotat?.id }),
-                fields: {
-                    feilregistrert() {
-                        return true;
-                    },
-                    feilregistert_tidspunkt() {
-                        return data?.feilregistrerNotat?.feilregistrert_tidspunkt ?? '';
-                    },
+    const { mutate, isPending: loading, error } = usePatchNotat();
+
+    function feilregistrerNotat() {
+        mutate(
+            {
+                notatId: parseInt(id),
+                data: {
+                    feilregistrert: true,
                 },
-            });
-        },
-    });
+            },
+            {
+                onSuccess: async () => {
+                    apolloClient.cache.modify({
+                        id: apolloClient.cache.identify({ __typename: 'Notat', id: parseInt(id) }),
+                        fields: {
+                            feilregistrert() {
+                                return true;
+                            },
+                            feilregistert_tidspunkt() {
+                                return dayjs().format(ISO_DATOFORMAT) ?? '';
+                            },
+                        },
+                    });
+                },
+            },
+        );
+    }
 
     const førsteTekstlinje = tekst.split(/\r?\n/, 1)[0]!;
     const øvrigeTekstlinjer = tekst.slice(førsteTekstlinje.length).trim();
