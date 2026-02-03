@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { PeriodehistorikkType } from '@io/graphql';
 import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';
 import { finnKommentertElementType, useLeggTilKommentar } from '@state/notater';
@@ -39,14 +40,16 @@ export const LeggTilNyKommentar = ({ dialogRef, historikkinnslagId, historikktyp
         />
     ) : (
         <span>
-            <Button
-                size="xsmall"
-                variant="tertiary"
-                icon={<PlusCircleFillIcon />}
-                onClick={() => setVisLeggTilKommentar(true)}
-            >
-                Legg til ny kommentar
-            </Button>
+            <VisForSaksbehandler>
+                <Button
+                    size="xsmall"
+                    variant="tertiary"
+                    icon={<PlusCircleFillIcon />}
+                    onClick={() => setVisLeggTilKommentar(true)}
+                >
+                    Legg til ny kommentar
+                </Button>
+            </VisForSaksbehandler>
         </span>
     );
 };
