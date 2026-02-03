@@ -4,6 +4,7 @@ import { PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, HelpText } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 
 import styles from './UtbetalingHeader.module.css';
@@ -33,14 +34,16 @@ export const UtbetalingHeader = ({
         {periodeErForkastet ? (
             <HelpText>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</HelpText>
         ) : (
-            <Button
-                size="xsmall"
-                variant="tertiary"
-                onClick={toggleOverstyring}
-                icon={<PersonPencilIcon fontSize="1.5rem" />}
-            >
-                {erRevurdering ? 'Revurder' : 'Endre'} dager
-            </Button>
+            <VisForSaksbehandler>
+                <Button
+                    size="xsmall"
+                    variant="tertiary"
+                    onClick={toggleOverstyring}
+                    icon={<PersonPencilIcon fontSize="1.5rem" />}
+                >
+                    {erRevurdering ? 'Revurder' : 'Endre'} dager
+                </Button>
+            </VisForSaksbehandler>
         )}
     </HStack>
 );

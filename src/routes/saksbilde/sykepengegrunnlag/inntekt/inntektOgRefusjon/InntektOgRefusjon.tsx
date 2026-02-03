@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { HStack, Label, Tag } from '@navikt/ds-react';
 
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { Arbeidsgiver, Arbeidsgiverinntekt, InntektFraAOrdningen, Inntektstype, PersonFragment } from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
@@ -57,16 +58,18 @@ export const InntektOgRefusjon = ({
     return (
         <>
             <HStack gap="space-8" align="center">
-                <ToggleOverstyring
-                    person={person}
-                    arbeidsgiver={arbeidsgiver}
-                    periode={periode}
-                    vilkårsgrunnlagId={vilkårsgrunnlagId}
-                    organisasjonsnummer={organisasjonsnummer}
-                    erDeaktivert={erDeaktivert ?? false}
-                    editing={editing}
-                    setEditing={setEditing}
-                />
+                <VisForSaksbehandler>
+                    <ToggleOverstyring
+                        person={person}
+                        arbeidsgiver={arbeidsgiver}
+                        periode={periode}
+                        vilkårsgrunnlagId={vilkårsgrunnlagId}
+                        organisasjonsnummer={organisasjonsnummer}
+                        erDeaktivert={erDeaktivert ?? false}
+                        editing={editing}
+                        setEditing={setEditing}
+                    />
+                </VisForSaksbehandler>
                 {inntekt.deaktivert && <Tag variant="neutral">Brukes ikke i beregningen</Tag>}
             </HStack>
             <InntektOgRefusjonHeader arbeidsgiverReferanse={arbeidsgiverTilReferanse(arbeidsgiver)} kilde="AINNTEKT" />

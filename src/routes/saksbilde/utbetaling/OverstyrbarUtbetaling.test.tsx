@@ -14,6 +14,11 @@ import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
 let postOverstyringArguments: [Utbetalingstabelldag[], string] | [] = [];
 
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useErSaksbehandler: () => true,
+    useErBeslutter: () => true,
+}));
+
 vi.mock('./utbetalingstabell/useOverstyrDager', () => ({
     useOverstyrDager: () => ({
         postOverstyring: (_: Utbetalingstabelldag[], overstyrteDager: Utbetalingstabelldag[], begrunnelse: string) => {

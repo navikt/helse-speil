@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack } from '@navikt/ds-react';
 
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { ArbeidstidsvurderingForm } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/ArbeidstidsvurderingForm';
@@ -88,27 +89,29 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
                     minimumSykdomsgradsoverstyringer={minimumSykdomsgradsoverstyringer}
                 />
             ) : (
-                <HStack align="center">
-                    {vurdererArbeidstid ? (
-                        <ArbeidstidsvurderingForm
-                            person={person}
-                            aktivPeriode={aktivPeriode}
-                            oppkuttedePerioder={oppkuttedePerioder}
-                            overlappendeArbeidsgivere={overlappendeArbeidsgivere}
-                            initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
-                            setVurdererArbeidstid={setVurdererArbeidstid}
-                        />
-                    ) : (
-                        <Button
-                            size="small"
-                            variant="secondary"
-                            onClick={() => setVurdererArbeidstid(true)}
-                            icon={<BriefcaseClockIcon fontSize="1.5rem" />}
-                        >
-                            Vurder arbeidstid
-                        </Button>
-                    )}
-                </HStack>
+                <VisForSaksbehandler>
+                    <HStack align="center">
+                        {vurdererArbeidstid ? (
+                            <ArbeidstidsvurderingForm
+                                person={person}
+                                aktivPeriode={aktivPeriode}
+                                oppkuttedePerioder={oppkuttedePerioder}
+                                overlappendeArbeidsgivere={overlappendeArbeidsgivere}
+                                initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
+                                setVurdererArbeidstid={setVurdererArbeidstid}
+                            />
+                        ) : (
+                            <Button
+                                size="small"
+                                variant="secondary"
+                                onClick={() => setVurdererArbeidstid(true)}
+                                icon={<BriefcaseClockIcon fontSize="1.5rem" />}
+                            >
+                                Vurder arbeidstid
+                            </Button>
+                        )}
+                    </HStack>
+                </VisForSaksbehandler>
             )}
         </Box>
     );

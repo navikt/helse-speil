@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Box, BoxProps, HStack, Skeleton } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { PersonFragment } from '@io/graphql';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -30,7 +31,9 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
                     {erVilkårsvurdert && <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />}
                     {harRisikofunn && <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />}
                 </HStack>
-                <StorMeny person={person} activePeriod={activePeriod} />
+                <VisForSaksbehandler>
+                    <StorMeny person={person} activePeriod={activePeriod} />
+                </VisForSaksbehandler>
             </HStack>
         </SaksbildeMenuWrapper>
     );

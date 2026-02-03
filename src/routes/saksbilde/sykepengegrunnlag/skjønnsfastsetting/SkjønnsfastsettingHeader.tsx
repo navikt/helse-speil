@@ -5,6 +5,7 @@ import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
+import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
     BeregnetPeriodeFragment,
@@ -96,30 +97,32 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {!erBeslutteroppgave &&
-                harMaler &&
-                (!editing ? (
-                    <Button
-                        onClick={openForm}
-                        size="xsmall"
-                        variant="secondary"
-                        icon={<PersonPencilIcon />}
-                        className={styles.redigeringsknapp}
-                    >
-                        Skjønnsfastsett
-                    </Button>
-                ) : (
-                    <Button
-                        onClick={closeAndResetForm}
-                        size="xsmall"
-                        variant="tertiary"
-                        icon={<XMarkIcon />}
-                        className={styles.redigeringsknapp}
-                        style={{ marginRight: '1rem' }}
-                    >
-                        Avbryt
-                    </Button>
-                ))}
+            {!erBeslutteroppgave && harMaler && (
+                <VisForSaksbehandler>
+                    {!editing ? (
+                        <Button
+                            onClick={openForm}
+                            size="xsmall"
+                            variant="secondary"
+                            icon={<PersonPencilIcon />}
+                            className={styles.redigeringsknapp}
+                        >
+                            Skjønnsfastsett
+                        </Button>
+                    ) : (
+                        <Button
+                            onClick={closeAndResetForm}
+                            size="xsmall"
+                            variant="tertiary"
+                            icon={<XMarkIcon />}
+                            className={styles.redigeringsknapp}
+                            style={{ marginRight: '1rem' }}
+                        >
+                            Avbryt
+                        </Button>
+                    )}
+                </VisForSaksbehandler>
+            )}
             {malerError && <ErrorMessage>{malerError}</ErrorMessage>}
         </div>
     );

@@ -13,6 +13,11 @@ import { generateId } from '@utils/generateId';
 
 import { Utbetaling } from './Utbetaling';
 
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useErSaksbehandler: () => true,
+    useErBeslutter: () => true,
+}));
+
 describe('Utbetaling', () => {
     afterEach(() => {
         vi.resetAllMocks();
