@@ -38,6 +38,8 @@ export const ApiBrukerrolle = {
     KODE_7: 'KODE_7',
     STIKKPRØVE: 'STIKKPRØVE',
     UTVIKLER: 'UTVIKLER',
+    SAKSBEHANDLER: 'SAKSBEHANDLER',
+    LESETILGANG: 'LESETILGANG',
 } as const;
 
 export type GetBrukerrollerErrorCode = (typeof GetBrukerrollerErrorCode)[keyof typeof GetBrukerrollerErrorCode];
@@ -1072,9 +1074,6 @@ export type ApiPostKommentarErrorCode = (typeof ApiPostKommentarErrorCode)[keyof
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostKommentarErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
     DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
 } as const;
 
@@ -1090,27 +1089,29 @@ export interface ApiHttpProblemDetailsApiPostKommentarErrorCode {
     code?: ApiHttpProblemDetailsApiPostKommentarErrorCodeCode;
 }
 
-export type ApiPostFeilregistrerKommentarErrorCode =
-    (typeof ApiPostFeilregistrerKommentarErrorCode)[keyof typeof ApiPostFeilregistrerKommentarErrorCode];
+export interface ApiPatchKommentarRequest {
+    feilregistrert: boolean;
+}
+
+export type ApiPatchKommentarErrorCode = (typeof ApiPatchKommentarErrorCode)[keyof typeof ApiPatchKommentarErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostFeilregistrerKommentarErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+export const ApiPatchKommentarErrorCode = {
+    KAN_IKKE_FJERNE_FEILREGISTRERING: 'KAN_IKKE_FJERNE_FEILREGISTRERING',
     DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
+    KOMMENTAR_IKKE_FUNNET: 'KOMMENTAR_IKKE_FUNNET',
 } as const;
 
-export type ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsApiPatchKommentarErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeCode =
-    null | ApiPostFeilregistrerKommentarErrorCode;
+export type ApiHttpProblemDetailsApiPatchKommentarErrorCodeCode = null | ApiPatchKommentarErrorCode;
 
-export interface ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCode {
+export interface ApiHttpProblemDetailsApiPatchKommentarErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostFeilregistrerKommentarErrorCodeCode;
+    detail?: ApiHttpProblemDetailsApiPatchKommentarErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchKommentarErrorCodeCode;
 }
 
 export type ApiNotatType = (typeof ApiNotatType)[keyof typeof ApiNotatType];

@@ -80,6 +80,8 @@ export const UserMenu = (): ReactElement => {
 };
 
 const BRUKERROLLE_REKKEFØLGE: ApiBrukerrolle[] = [
+    ApiBrukerrolle.SAKSBEHANDLER,
+    ApiBrukerrolle.LESETILGANG,
     ApiBrukerrolle.BESLUTTER,
     ApiBrukerrolle.STIKKPRØVE,
     ApiBrukerrolle.EGEN_ANSATT,
@@ -103,6 +105,10 @@ function sorterBrukerroller(roller: ApiBrukerrolle[]): ApiBrukerrolle[] {
 
 function brukerrolleVisningstekst(brukerrolle: ApiBrukerrolle): string {
     switch (brukerrolle) {
+        case ApiBrukerrolle.SAKSBEHANDLER:
+            return 'Saksbehandler';
+        case ApiBrukerrolle.LESETILGANG:
+            return 'Lesetilgang';
         case ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA:
             return 'Selvstendig næringsdrivende';
         case ApiBrukerrolle.EGEN_ANSATT:
