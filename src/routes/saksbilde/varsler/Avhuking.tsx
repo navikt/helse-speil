@@ -3,6 +3,7 @@ import React, { MouseEvent, ReactElement } from 'react';
 
 import { XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 
+import { useErSaksbehandler } from '@hooks/brukerrolleHooks';
 import { Varselstatus } from '@io/graphql';
 import { CheckIcon } from '@saksbilde/timeline/icons';
 
@@ -23,7 +24,8 @@ export const Avhuking = ({
     settVarselstatusAktiv,
     settVarselstatusVurdert,
 }: AvhukingProps): ReactElement => {
-    const disabledButton = varselstatus === Varselstatus.Godkjent || type === 'feil';
+    const erSaksbehandler = useErSaksbehandler();
+    const disabledButton = varselstatus === Varselstatus.Godkjent || type === 'feil' || !erSaksbehandler;
 
     const clickEvent = (event: MouseEvent<HTMLSpanElement>) => {
         if (disabledButton) return;
