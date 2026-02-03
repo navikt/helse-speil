@@ -8,7 +8,7 @@
 
 .formWrapper.redigerer {
     background-color: var(--ax-bg-neutral-soft);
-    border-left: 3px solid var(--ax-bg-accent-strong);
+    border-left: 3px solid var(--ax-bg-strong);
     margin: 0 0 var(--ax-space-8) -2rem;
     border-radius: 0;
 }

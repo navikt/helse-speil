@@ -9,7 +9,7 @@
 }
 
 .table tbody tr:nth-child(even) {
-    background-color: var(--ax-bg-accent-soft);
+    background-color: var(--ax-bg-soft);
 }
 
 .bold {

@@ -3,7 +3,7 @@
     align-items: center;
     font-size: var(--ax-font-size-medium);
     font-weight: var(--ax-font-weight-regular);
-    color: var(--ax-bg-accent-strong);
+    color: var(--ax-bg-strong);
     text-decoration: underline;
     gap: 0.5rem;
 }

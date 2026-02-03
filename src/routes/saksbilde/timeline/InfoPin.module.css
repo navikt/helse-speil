@@ -2,7 +2,7 @@
     position: absolute;
     width: 2px;
     height: 6px;
-    background: var(--ax-bg-accent-strong);
+    background: var(--ax-bg-strong);
     left: 50%;
     top: -6px;
     transform: translateX(-50%);
@@ -17,7 +17,7 @@
     width: 10px;
     height: 10px;
     border-radius: 10px;
-    background-color: var(--ax-bg-accent-strong);
+    background-color: var(--ax-bg-strong);
     transform: translateX(-50%);
 }
 
@@ -29,7 +29,7 @@
     width: 12px;
     height: 12px;
     background: var(--ax-bg-default);
-    border: 2px solid var(--ax-bg-accent-strong);
+    border: 2px solid var(--ax-bg-strong);
 }
 
 .Pin.notat:after {
@@ -40,6 +40,6 @@
     width: 4px;
     height: 4px;
     border-radius: 10px;
-    background-color: var(--ax-bg-accent-strong);
+    background-color: var(--ax-bg-strong);
     transform: translateX(-50%);
 }

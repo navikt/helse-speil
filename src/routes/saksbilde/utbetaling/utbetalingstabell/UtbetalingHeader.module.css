@@ -13,7 +13,7 @@
     height: 2rem;
     display: flex;
     align-items: center;
-    border: 2px solid var(--ax-bg-accent-strong);
+    border: 2px solid var(--ax-bg-strong);
     border-radius: 0.25rem;
     padding: 0 0.5rem;
 }
@@ -27,7 +27,7 @@
 }
 
 .button:hover {
-    background: var(--ax-bg-accent-moderate-hover);
+    background: var(--ax-bg-moderate-hover);
 }
 
 .mediumFontSize {

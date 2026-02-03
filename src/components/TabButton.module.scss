@@ -15,7 +15,7 @@
   background: var(--ax-bg-neutral-moderate);
 
   &:hover {
-    background-color: var(--ax-bg-accent-moderate-hover);
+    background-color: var(--ax-bg-moderate-hover);
   }
 
   &:focus-visible {
@@ -23,11 +23,11 @@
   }
 
   &.active {
-    background-color: var(--ax-bg-accent-strong);
+    background-color: var(--ax-bg-strong);
     color: var(--ax-text-contrast);
 
     &:hover {
-      background-color: var(--ax-bg-accent-strong-hover);
+      background-color: var(--ax-bg-strong-hover);
     }
   }
 }

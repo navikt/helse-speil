@@ -19,7 +19,7 @@
 
 .varslerheader {
     background-color: transparent !important;
-    color: var(--ax-text-accent-subtle);
+    color: var(--ax-text-subtle);
     padding: 0.5rem;
     border-bottom: 0;
     display: flex;

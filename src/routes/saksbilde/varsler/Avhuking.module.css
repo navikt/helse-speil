@@ -25,7 +25,7 @@
 
 .avhuking.aktiv > svg > circle {
     fill: var(--ax-bg-default);
-    stroke: var(--ax-accent-600);
+    stroke: var(--ax-text-subtle);
 }
 
 .avhuking.aktiv:hover > svg > circle {
@@ -33,7 +33,7 @@
 }
 
 .avhuking.aktiv > svg > path {
-    fill: var(--ax-accent-600);
+    fill: var(--ax-text-subtle);
 }
 
 .avhuking.vurdert > svg > circle {

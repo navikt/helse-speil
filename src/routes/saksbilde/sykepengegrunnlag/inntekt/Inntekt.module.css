@@ -7,7 +7,7 @@
 
 .inntekt.editing {
     padding-left: var(--ax-space-12);
-    border-left: var(--border-size) solid var(--ax-bg-accent-strong);
+    border-left: var(--border-size) solid var(--ax-bg-strong);
     width: var(--width);
     margin-left: calc(-1 * var(--border-size));
 }

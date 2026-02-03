@@ -16,11 +16,11 @@
 }
 
 .NavLink:hover {
-    background-color: var(--ax-bg-accent-moderate-hover);
+    background-color: var(--ax-bg-moderate-hover);
 }
 
 .NavLink:active {
-    background-color: var(--ax-bg-accent-moderate-pressed);
+    background-color: var(--ax-bg-moderate-pressed);
 }
 
 .NavLink:focus-visible {
@@ -43,7 +43,7 @@
 .ActiveLink:before {
     position: absolute;
     content: '';
-    background: var(--ax-bg-accent-strong);
+    background: var(--ax-bg-strong);
     bottom: 0;
     left: 0;
     border-top-left-radius: 2px;

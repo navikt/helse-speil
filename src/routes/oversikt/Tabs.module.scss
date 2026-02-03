@@ -42,14 +42,14 @@
     height: 0;
     left: 0;
     bottom: 0;
-    background-color: var(--ax-bg-accent-strong);
+    background-color: var(--ax-bg-strong);
     border-top-left-radius: 2px;
     border-top-right-radius: 2px;
     transition: height 0.1s ease;
   }
 
   &:hover, &:before {
-    color: var(--ax-bg-accent-strong);
+    color: var(--ax-bg-strong);
   }
 
   &:focus-visible {
@@ -73,12 +73,12 @@
   }
 
   &:active {
-    background: var(--ax-bg-accent-strong);
+    background: var(--ax-bg-strong);
     color: var(--ax-text-contrast);
   }
 
   &.active:not(:active) {
-    background: var(--ax-bg-accent-strong);
+    background: var(--ax-bg-strong);
     color: var(--ax-text-contrast);
   }
 
@@ -119,7 +119,7 @@
 
   &:hover,
   &:focus-visible {
-    background: var(--ax-bg-accent-moderate-hover);
+    background: var(--ax-bg-moderate-hover);
   }
 
   &:focus-visible {
@@ -128,7 +128,7 @@
   }
 
   &:active {
-    background-color: var(--ax-bg-accent-strong-pressed);
+    background-color: var(--ax-bg-strong-pressed);
 
     > svg > g,
     > svg > path {
