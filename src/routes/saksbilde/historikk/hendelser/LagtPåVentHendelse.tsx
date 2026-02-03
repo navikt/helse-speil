@@ -63,7 +63,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
                 />
             )}
             {!hendelse.erNyestePåVentInnslag && hendelse.kommentarer && (
-                <Kommentarer kommentarer={hendelse.kommentarer} />
+                <Kommentarer dialogRef={hendelse.dialogRef} kommentarer={hendelse.kommentarer} />
             )}
         </Historikkhendelse>
     );

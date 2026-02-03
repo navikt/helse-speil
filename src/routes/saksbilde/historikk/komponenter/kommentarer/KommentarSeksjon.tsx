@@ -30,7 +30,7 @@ export const KommentarSeksjon = ({
                     size="small"
                     header={open ? 'Lukk kommentarer' : `Kommentarer (${kommentarer?.length})`}
                 >
-                    <Kommentarer kommentarer={kommentarer} />
+                    <Kommentarer kommentarer={kommentarer} dialogRef={dialogRef ?? null} />
                 </ReadMore>
             )}
             {dialogRef && (

@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import { UUID } from '@typer/spesialist-mock';
+import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 import { oppgaveVedtaksperioder } from '../data/oppgaver';
 import {
@@ -11,8 +12,6 @@ import {
     Notat,
     NotatType,
 } from '../schemaTypes';
-
-const ISO_TIDSPUNKTFORMAT = 'YYYY-MM-DDTHH:mm:ss';
 
 export const findVedtaksperiodeId = (id: string): UUID | undefined => {
     return oppgaveVedtaksperioder.find((it) => it.id === id)?.vedtaksperiodeId;
@@ -100,14 +99,14 @@ export class NotatMock {
         id: NotatMock.notatCounter++,
         dialogRef: Math.floor(1000000 + Math.random() * 9000000),
         tekst: 'Revidert utgave 2',
-        opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
         saksbehandlerOid: '11111111-2222-3333-4444-555555555555',
         saksbehandlerNavn: 'Utvikler, Lokal',
         saksbehandlerEpost: 'epost@nav.no',
         saksbehandlerIdent: 'A123456',
         vedtaksperiodeId: vedtaksperiodeId,
         feilregistrert: false,
-        feilregistrert_tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        feilregistrert_tidspunkt: dayjs().format(ISO_TIDSPUNKTFORMAT),
         type: NotatType.PaaVent,
         kommentarer: [],
         ...overrides,

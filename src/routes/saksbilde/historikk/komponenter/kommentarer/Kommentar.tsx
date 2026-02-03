@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { BodyShort, Box, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
-import { useMutation } from '@apollo/client';
-import { FeilregistrerKommentarMutationDocument, Kommentar as GraphQLKommentar } from '@io/graphql';
+import { useApolloClient } from '@apollo/client';
+import { Kommentar as GraphQLKommentar } from '@io/graphql';
+import { usePatchKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { HendelseDate } from '@saksbilde/historikk/komponenter/HendelseDate';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
@@ -13,27 +14,44 @@ import { KommentarDropdown } from './KommentarDropdown';
 
 interface KommentarProps {
     kommentar: GraphQLKommentar;
+    dialogRef: number | null;
 }
 
-export const Kommentar = ({ kommentar }: KommentarProps) => {
-    const [feilregistrerKommentar, { loading, error }] = useMutation(FeilregistrerKommentarMutationDocument);
+export const Kommentar = ({ kommentar, dialogRef }: KommentarProps) => {
+    const { mutate, isPending: loading, error } = usePatchKommentar();
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
+    const { cache } = useApolloClient();
+    const [isLoading, setIsLoading] = useState(false);
 
-    const onFeilregistrerKommentar = (id: number) => () => {
-        void feilregistrerKommentar({
-            variables: { id: id },
-            update: (cache, { data }) => {
-                cache.modify({
-                    id: cache.identify({ __typename: 'Kommentar', id: id }),
-                    fields: {
-                        feilregistrert_tidspunkt() {
-                            return data?.feilregistrerKommentar?.feilregistrert_tidspunkt?.toString() ?? '';
-                        },
-                    },
-                });
+    function doFeilregistrerKommentar() {
+        if (dialogRef === null) return;
+        setIsLoading(true);
+        mutate(
+            {
+                dialogId: dialogRef,
+                kommentarId: kommentar.id,
+                data: {
+                    feilregistrert: true,
+                },
             },
-        });
-    };
+            {
+                onSuccess: () => {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'Kommentar', id: kommentar.id }),
+                        fields: {
+                            feilregistrert_tidspunkt() {
+                                return dayjs().format(ISO_TIDSPUNKTFORMAT) ?? '';
+                            },
+                        },
+                    });
+                    setIsLoading(false);
+                },
+                onError: () => {
+                    setIsLoading(false);
+                },
+            },
+        );
+    }
 
     const erFeilregistrert = dayjs(kommentar.feilregistrert_tidspunkt, ISO_TIDSPUNKTFORMAT).isValid();
 
@@ -47,12 +65,14 @@ export const Kommentar = ({ kommentar }: KommentarProps) => {
             <VStack key={kommentar.id}>
                 <HStack align="center" justify="space-between">
                     <HendelseDate timestamp={kommentar.opprettet} ident={kommentar.saksbehandlerident} />
-                    {!erFeilregistrert && innloggetSaksbehandler.ident === kommentar.saksbehandlerident && (
-                        <KommentarDropdown
-                            feilregistrerAction={onFeilregistrerKommentar(kommentar.id)}
-                            isFetching={loading}
-                        />
-                    )}
+                    {dialogRef != null &&
+                        !erFeilregistrert &&
+                        innloggetSaksbehandler.ident === kommentar.saksbehandlerident && (
+                            <KommentarDropdown
+                                feilregistrerAction={doFeilregistrerKommentar}
+                                isFetching={loading || isLoading}
+                            />
+                        )}
                 </HStack>
 
                 <Box

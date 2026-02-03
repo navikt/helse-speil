@@ -8,9 +8,10 @@ import { Kommentar } from './Kommentar';
 
 interface KommentarerProps {
     kommentarer: GraphQLKommentar[];
+    dialogRef: number | null;
 }
 
-export const Kommentarer = ({ kommentarer }: KommentarerProps): ReactElement | null => {
+export const Kommentarer = ({ kommentarer, dialogRef }: KommentarerProps): ReactElement | null => {
     if (kommentarer.length === 0) return null;
 
     return (
@@ -21,7 +22,7 @@ export const Kommentarer = ({ kommentarer }: KommentarerProps): ReactElement | n
             {[...kommentarer]
                 .sort((a, b) => new Date(a.opprettet).getTime() - new Date(b.opprettet).getTime())
                 .map((kommentar, index) => (
-                    <Kommentar kommentar={kommentar} key={index} />
+                    <Kommentar dialogRef={dialogRef} kommentar={kommentar} key={index} />
                 ))}
         </>
     );

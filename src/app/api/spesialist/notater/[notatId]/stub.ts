@@ -21,7 +21,9 @@ export const patchStub = async (_request: Request, params: Promise<{ notatId: st
         NextResponse.json({ detail: 'Fant ikke notat' }, { status: 404 });
     }
 
-    NotatMock.feilregistrerNotat({ id: notat!.id });
+    if (notat?.feilregistrert == false) {
+        NotatMock.feilregistrerNotat({ id: notat!.id });
+    }
 
     return NextResponse.json('{}');
 };
