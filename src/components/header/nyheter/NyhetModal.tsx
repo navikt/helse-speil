@@ -24,7 +24,7 @@ export const NyhetModal = ({ closeModal, showModal, nyhetModal }: NyhetModalProp
     const [slideIndex, setSlideIndex] = useState(0);
 
     return (
-        <Modal aria-label="Nyhet modal" width="800px" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
+        <Modal aria-label="Nyhet modal" width="800px" closeOnBackdropClick open={showModal} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium">
                     {nyhetModal.modalOverskrift}

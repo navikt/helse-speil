@@ -252,7 +252,7 @@ const FellesPåVentModal = ({
     const årsakAnnetErValgt = (valgteÅrsaker: string[]) => valgteÅrsaker.includes('Annet');
 
     return (
-        <Modal aria-label="På vent-modal" portal closeOnBackdropClick open={true} onClose={closeModal}>
+        <Modal aria-label="På vent-modal" closeOnBackdropClick open={true} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
                     {tittel}

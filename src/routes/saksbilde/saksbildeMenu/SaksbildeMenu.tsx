@@ -8,7 +8,7 @@ import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { NavLenke, NavLenkeSkeleton } from './NavLenke';
-import { DropdownMenu, DropdownMenuContent } from './dropdown/DropdownMenu';
+import { StorMeny } from './dropdown/DropdownMenu';
 
 type SaksbildeMenuProps = {
     person: PersonFragment;
@@ -30,9 +30,7 @@ const SaksbildeMenuContainer = ({ person, activePeriod }: SaksbildeMenuProps): R
                     {erVilkårsvurdert && <NavLenke to="sykepengegrunnlag" tittel="Sykepengegrunnlag" />}
                     {harRisikofunn && <NavLenke to="vurderingsmomenter" tittel="Vurderingsmomenter" />}
                 </HStack>
-                <DropdownMenu>
-                    <DropdownMenuContent person={person} activePeriod={activePeriod} />
-                </DropdownMenu>
+                <StorMeny person={person} activePeriod={activePeriod} />
             </HStack>
         </SaksbildeMenuWrapper>
     );

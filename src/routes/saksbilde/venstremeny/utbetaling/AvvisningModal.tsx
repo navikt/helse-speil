@@ -94,7 +94,7 @@ export const AvvisningModal = ({ closeModal, showModal, activePeriod }: Avvisnin
     };
 
     return (
-        <Modal aria-label="Avvisning modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
+        <Modal aria-label="Avvisning modal" closeOnBackdropClick open={showModal} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium">
                     Kan ikke behandles her

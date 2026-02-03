@@ -19,14 +19,7 @@ export const EndringsloggArbeidsforhold = ({
     closeModal,
     showModal,
 }: EndringsloggArbeidsforholdProps): ReactElement => (
-    <Modal
-        aria-label="Endringslogg modal"
-        portal
-        closeOnBackdropClick
-        open={showModal}
-        onClose={closeModal}
-        width="1200px"
-    >
+    <Modal aria-label="Endringslogg modal" closeOnBackdropClick open={showModal} onClose={closeModal} width="1200px">
         <Modal.Header>
             <Heading level="1" size="medium">
                 Endringslogg

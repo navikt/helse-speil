@@ -20,7 +20,7 @@ export const TastaturModal = ({ closeModal, showModal }: TastaturModalProps): Re
     );
 
     return (
-        <Modal aria-label="Tastatursnarveier modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
+        <Modal aria-label="Tastatursnarveier modal" closeOnBackdropClick open={showModal} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium">
                     Tastatursnarveier

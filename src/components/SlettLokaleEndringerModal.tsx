@@ -16,7 +16,7 @@ export const SlettLokaleEndringerModal = ({
     heading,
     children,
 }: PropsWithChildren<SlettLokaleEndringerModalProps>): ReactElement => (
-    <Modal aria-label="Slett lokale endringer modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
+    <Modal aria-label="Slett lokale endringer modal" closeOnBackdropClick open={showModal} onClose={closeModal}>
         <Modal.Header>
             <Heading level="1" size="medium">
                 {heading}

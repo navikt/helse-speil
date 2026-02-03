@@ -6,7 +6,7 @@ import { BodyShort, Box, BoxProps, HStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import navLenkeStyles from '@saksbilde/saksbildeMenu/NavLenke.module.css';
-import { DropdownMenu, LeggTilPeriodeDropdownMenuContent } from '@saksbilde/saksbildeMenu/dropdown/DropdownMenu';
+import { LitenMeny } from '@saksbilde/saksbildeMenu/dropdown/DropdownMenu';
 import { useFetchPersonQuery } from '@state/person';
 
 const TilkommenInntektSaksbildeMenuWrapper = (props: BoxProps) => (
@@ -42,9 +42,7 @@ export const TilkommenInntektSaksbildeMenu = (): ReactElement => {
                         >
                             Tilkommen inntekt
                         </Link>
-                        <DropdownMenu>
-                            <LeggTilPeriodeDropdownMenuContent person={personData?.person ?? undefined} />
-                        </DropdownMenu>
+                        <LitenMeny person={personData?.person} />
                     </HStack>
                 </HStack>
             </TilkommenInntektSaksbildeMenuWrapper>

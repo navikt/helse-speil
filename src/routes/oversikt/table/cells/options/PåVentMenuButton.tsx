@@ -1,28 +1,19 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
-import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
-import { ApiPersonnavn, ApiTildeling } from '@io/rest/generated/spesialist.schemas';
 import { useFjernPåVentFraOppgaveoversikt } from '@state/påvent';
 
 import styles from './OptionsCell.module.css';
 
 interface PåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     oppgavereferanse: string;
-    tildeling: ApiTildeling | null;
-    navn: ApiPersonnavn;
     erPåVent: boolean;
+    showModal: () => void;
 }
 
-export const PåVentMenuButton = ({
-    oppgavereferanse,
-    tildeling,
-    navn,
-    erPåVent,
-}: PåVentMenuButtonProps): ReactElement => {
+export const PåVentMenuButton = ({ oppgavereferanse, erPåVent, showModal }: PåVentMenuButtonProps): ReactElement => {
     const [fjernPåVent] = useFjernPåVentFraOppgaveoversikt();
-    const [showModal, setShowModal] = useState(false);
 
     const fjernFraPåVent = async () => {
         await fjernPåVent(oppgavereferanse);
@@ -31,21 +22,13 @@ export const PåVentMenuButton = ({
     return (
         <>
             {!erPåVent ? (
-                <Dropdown.Menu.List.Item onClick={() => setShowModal(true)} className={styles.MenuButton}>
+                <Dropdown.Menu.List.Item onClick={showModal} className={styles.MenuButton}>
                     Legg på vent
                 </Dropdown.Menu.List.Item>
             ) : (
                 <Dropdown.Menu.List.Item onClick={fjernFraPåVent} className={styles.MenuButton}>
                     Fjern fra på vent
                 </Dropdown.Menu.List.Item>
-            )}
-            {showModal && (
-                <LeggPåVentModal
-                    oppgaveId={oppgavereferanse}
-                    navn={navn}
-                    utgangspunktTildeling={tildeling}
-                    onClose={() => setShowModal(false)}
-                />
             )}
         </>
     );

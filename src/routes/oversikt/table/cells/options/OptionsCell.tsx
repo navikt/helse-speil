@@ -1,9 +1,10 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
 import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
@@ -23,6 +24,7 @@ interface OptionsButtonProps {
 }
 
 export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement => {
+    const [showModal, setShowModal] = useState(false);
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
     const erTildelt = !!oppgave.tildeling?.oid;
@@ -49,9 +51,8 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                                 )}
                                 <PåVentMenuButton
                                     oppgavereferanse={oppgave.id}
-                                    tildeling={oppgave?.tildeling ?? null}
-                                    navn={navn}
                                     erPåVent={erPåVent}
+                                    showModal={() => setShowModal(true)}
                                 />
                                 <MeldAvMenuButton
                                     oppgavereferanse={oppgave.id}
@@ -61,6 +62,14 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                         </Dropdown.Menu>
                     </Dropdown>
                 </VisForSaksbehandler>
+                {showModal && (
+                    <LeggPåVentModal
+                        oppgaveId={oppgave.id}
+                        navn={navn}
+                        utgangspunktTildeling={oppgave?.tildeling ?? null}
+                        onClose={() => setShowModal(false)}
+                    />
+                )}
             </span>
         </Table.DataCell>
     );

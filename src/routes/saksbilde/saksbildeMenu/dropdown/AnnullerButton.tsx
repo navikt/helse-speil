@@ -1,50 +1,11 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
 import { BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
-import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
-import { Inntektsforhold, InntektsforholdReferanse, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isBeregnetPeriode } from '@utils/typeguards';
-
-interface AnnullerButtonWithContentProps {
-    vedtaksperiodeId: string;
-    arbeidsgiverFagsystemId: string;
-    personFagsystemId: string;
-    inntektsforholdReferanse: InntektsforholdReferanse;
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment;
-}
-
-const AnnullerButtonWithContent = ({
-    arbeidsgiverFagsystemId,
-    personFagsystemId,
-    vedtaksperiodeId,
-    inntektsforholdReferanse,
-    person,
-    periode,
-}: AnnullerButtonWithContentProps): ReactElement => {
-    const [showModal, setShowModal] = useState(false);
-
-    return (
-        <>
-            <Dropdown.Menu.List.Item onClick={() => setShowModal(true)}>Annuller</Dropdown.Menu.List.Item>
-            {showModal && (
-                <AnnulleringsModal
-                    closeModal={() => setShowModal(false)}
-                    showModal={showModal}
-                    inntektsforholdReferanse={inntektsforholdReferanse}
-                    vedtaksperiodeId={vedtaksperiodeId}
-                    arbeidsgiverFagsystemId={arbeidsgiverFagsystemId}
-                    personFagsystemId={personFagsystemId}
-                    person={person}
-                    periode={periode}
-                />
-            )}
-        </>
-    );
-};
 
 const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUtbetaltPeriode: boolean): boolean => {
     return !harBeslutteroppgavePåSykefraværet && harMinstEnUtbetaltPeriode;
@@ -54,9 +15,15 @@ interface AnnullerButtonProps {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
     inntektsforhold: Inntektsforhold;
+    showModal: () => void;
 }
 
-export const AnnullerButton = ({ person, periode, inntektsforhold }: AnnullerButtonProps): ReactElement | null => {
+export const AnnullerButton = ({
+    person,
+    periode,
+    inntektsforhold,
+    showModal,
+}: AnnullerButtonProps): ReactElement | null => {
     const harMinstEnUtbetaltPeriode =
         inntektsforhold.behandlinger
             .flatMap((it) => it.perioder)
@@ -73,14 +40,5 @@ export const AnnullerButton = ({ person, periode, inntektsforhold }: AnnullerBut
         return null;
     }
 
-    return (
-        <AnnullerButtonWithContent
-            vedtaksperiodeId={periode.vedtaksperiodeId}
-            arbeidsgiverFagsystemId={periode.utbetaling.arbeidsgiverFagsystemId}
-            personFagsystemId={periode.utbetaling.personFagsystemId}
-            inntektsforholdReferanse={tilReferanse(inntektsforhold)}
-            person={person}
-            periode={periode}
-        />
-    );
+    return <Dropdown.Menu.List.Item onClick={showModal}>Annuller</Dropdown.Menu.List.Item>;
 };

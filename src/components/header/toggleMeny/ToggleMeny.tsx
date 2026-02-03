@@ -13,7 +13,7 @@ export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
     const [totrinn, toggleTotrinn] = useTotrinnsvurdering();
 
     return (
-        <Modal aria-label="Toggle meny modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
+        <Modal aria-label="Toggle meny modal" closeOnBackdropClick open={showModal} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium">
                     Toggles

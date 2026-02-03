@@ -15,7 +15,7 @@ type EndringsloggDagerProps = {
 };
 
 export const EndringsloggDager = ({ endringer, closeModal, showModal }: EndringsloggDagerProps): ReactElement => (
-    <Modal aria-label="Endringslogg modal" portal closeOnBackdropClick open={showModal} onClose={closeModal}>
+    <Modal aria-label="Endringslogg modal" closeOnBackdropClick open={showModal} onClose={closeModal}>
         <Modal.Header>
             <Heading level="1" size="medium">
                 Endringslogg

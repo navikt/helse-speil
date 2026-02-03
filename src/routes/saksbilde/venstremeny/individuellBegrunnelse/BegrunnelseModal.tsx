@@ -18,7 +18,7 @@ export const BegrunnelseModal = ({
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
 }: BegrunnelseModalProps) => (
-    <Modal aria-label="Modal" portal closeOnBackdropClick open={modalÅpen} onClose={lukkModal} width="800px">
+    <Modal aria-label="Modal" closeOnBackdropClick open={modalÅpen} onClose={lukkModal} width="800px">
         <Modal.Header closeButton={false}>
             <HStack justify="space-between" align="center">
                 <Heading level="1" size="medium">

@@ -104,14 +104,7 @@ export const AnnulleringsModal = ({
     };
 
     return (
-        <Modal
-            aria-label="Annulleringsmodal"
-            portal
-            closeOnBackdropClick
-            open={showModal}
-            onClose={closeModal}
-            width="850px"
-        >
+        <Modal aria-label="Annulleringsmodal" closeOnBackdropClick open={showModal} onClose={closeModal} width="850px">
             <Modal.Header>
                 <Heading size="medium">Annullering</Heading>
             </Modal.Header>

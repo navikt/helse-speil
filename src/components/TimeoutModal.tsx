@@ -11,7 +11,6 @@ type TimeoutModalProps = {
 export const TimeoutModal = ({ showModal, closeModal }: TimeoutModalProps): ReactElement => (
     <Modal
         aria-label="Kalkuleringen tar tid modal"
-        portal
         closeOnBackdropClick
         open={showModal}
         onClose={closeModal}

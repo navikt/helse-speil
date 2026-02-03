@@ -20,13 +20,7 @@ export const PåVentListeModal = ({ closeModal, showModal, navn, påVentInfo }: 
     const søkernavn = getFormatertNavn(navn);
 
     return (
-        <Modal
-            aria-label="Legg på vent notater modal"
-            portal
-            closeOnBackdropClick
-            open={showModal}
-            onClose={closeModal}
-        >
+        <Modal aria-label="Legg på vent notater modal" closeOnBackdropClick open={showModal} onClose={closeModal}>
             <Modal.Header>
                 <Heading level="1" size="medium" className={styles.tittel}>
                     Lagt på vent

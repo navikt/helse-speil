@@ -6,24 +6,24 @@ import { BodyShort, Button, Heading, Modal, Textarea } from '@navikt/ds-react';
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { useMutation } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FetchPersonDocument, StansAutomatiskBehandlingDocument } from '@io/graphql';
+import { FetchPersonDocument, OpphevStansAutomatiskBehandlingDocument } from '@io/graphql';
 import { ToastObject, useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
 import styles from './StansAutomatiskBehandlingModal.module.css';
 
-interface StansAutomatiskBehandlingModalProps {
+interface OpphevStansAutomatiskBehandlingModalProps {
     fødselsnummer: string;
     closeModal: () => void;
     showModal: boolean;
 }
 
-export function StansAutomatiskBehandlingModal({
+export function OpphevStansAutomatiskBehandlingModal({
     fødselsnummer,
     showModal,
     closeModal,
-}: StansAutomatiskBehandlingModalProps): ReactElement {
-    const [stansAutomatiskBehandlingMutation, { error }] = useMutation(StansAutomatiskBehandlingDocument, {
+}: OpphevStansAutomatiskBehandlingModalProps): ReactElement {
+    const [opphevStansAutomatiskBehandlingMutation, { error }] = useMutation(OpphevStansAutomatiskBehandlingDocument, {
         refetchQueries: [FetchPersonDocument],
     });
     const addToast = useAddToast();
@@ -36,12 +36,12 @@ export function StansAutomatiskBehandlingModal({
     });
 
     async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        await stansAutomatiskBehandlingMutation({
+        await opphevStansAutomatiskBehandlingMutation({
             variables: values,
             awaitRefetchQueries: true,
         }).then(() => {
             closeModal();
-            addToast(stansAutomatiskBehandlingToast);
+            addToast(opphevStansAutomatiskBehandlingToast);
         });
     }
 
@@ -55,12 +55,12 @@ export function StansAutomatiskBehandlingModal({
         >
             <Modal.Header>
                 <Heading level="1" size="medium">
-                    Stans automatisk behandling av sykepenger
+                    Opphev stans av automatisk behandling
                 </Heading>
             </Modal.Header>
             <Modal.Body>
                 <FormProvider {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} id="stans-automatisk-behandling-modal-form">
+                    <form onSubmit={form.handleSubmit(onSubmit)} id="opphev-stans-automatisk-behandling-modal-form">
                         <Controller
                             control={form.control}
                             name="begrunnelse"
@@ -81,10 +81,10 @@ export function StansAutomatiskBehandlingModal({
                 <Button
                     variant="primary"
                     type="submit"
-                    form="stans-automatisk-behandling-modal-form"
+                    form="opphev-stans-automatisk-behandling-modal-form"
                     loading={form.formState.isSubmitting}
                 >
-                    Stans automatisk behandling
+                    Opphev
                 </Button>
                 <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting} onClick={closeModal}>
                     Avbryt
@@ -99,9 +99,9 @@ export function StansAutomatiskBehandlingModal({
     );
 }
 
-const stansAutomatiskBehandlingToast: ToastObject = {
+const opphevStansAutomatiskBehandlingToast: ToastObject = {
     key: generateId(),
-    message: 'Automatisk behandling stanset',
+    message: 'Stans av automatisk behandling opphevet',
     variant: 'success',
     timeToLiveMs: 5000,
 };

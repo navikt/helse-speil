@@ -10,6 +10,7 @@ export const stansAutomatiskBehandlingSchema = z.object({
         .string()
         .min(1, { error: 'Fyll inn begrunnelse.' })
         .max(1000, { error: 'Begrunnelsen kan maks være 1000 tegn.' }),
+    fodselsnummer: z.string(),
 });
 
 export type TilkommenInntektSchema = z.infer<ReturnType<typeof lagTilkommenInntektSchema>>;

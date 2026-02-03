@@ -42,7 +42,6 @@ export const UtbetalingModal = ({
     <Modal
         className={styles.modal}
         aria-label="utbetaling-modal"
-        portal
         closeOnBackdropClick
         open={showModal}
         onClose={closeModal}

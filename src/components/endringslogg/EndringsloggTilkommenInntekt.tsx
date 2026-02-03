@@ -28,14 +28,7 @@ export const EndringsloggTilkommenInntekt = ({
     closeModal,
     showModal,
 }: EndringsloggTilkommenInntektProps): ReactElement => (
-    <Modal
-        aria-label="Endringslogg modal"
-        width="1200px"
-        portal
-        closeOnBackdropClick
-        open={showModal}
-        onClose={closeModal}
-    >
+    <Modal aria-label="Endringslogg modal" width="1200px" closeOnBackdropClick open={showModal} onClose={closeModal}>
         <Modal.Header>
             <Heading level="1" size="medium">
                 Endringslogg
