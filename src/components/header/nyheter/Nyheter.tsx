@@ -1,17 +1,23 @@
+'use client';
+
 import dayjs from 'dayjs';
+import { useTheme } from 'next-themes';
 import React, { PropsWithChildren, useRef } from 'react';
 
 import { BellFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Dropdown, HStack, InternalHeader as Header } from '@navikt/ds-react';
+import { BodyShort, Dropdown, HStack, InternalHeader as Header, Theme } from '@navikt/ds-react';
 
 import { Nyhet } from '@components/header/nyheter/Nyhet';
 import { BjelleDottIkon } from '@components/ikoner/BjelleDottIkon';
 import { useNyheter } from '@external/sanity';
+import { useMounted } from '@hooks/useMounted';
 
 import styles from './Nyheter.module.scss';
 
 export const Nyheter = () => {
     const { nyheter, loading } = useNyheter();
+    const { resolvedTheme } = useTheme();
+    const mounted = useMounted();
     const sisteNyhet = nyheter[0];
     const harBlittÅpnet = useRef(false);
 
@@ -29,24 +35,28 @@ export const Nyheter = () => {
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
                 {skalViseIkonMedPrikk ? <BjelleDottIkon /> : <BellFillIcon title="nyheter i speil" fontSize="26px" />}
             </Header.Button>
-            <Dropdown.Menu className={styles.menu}>
-                <Dropdown.Menu.GroupedList className={styles.list}>
-                    <Dropdown.Menu.GroupedList.Heading className={styles.heading}>
-                        Nytt i Speil
-                    </Dropdown.Menu.GroupedList.Heading>
-                    {nyheter.length > 0 ? (
-                        <ScrollableContainer>
-                            {nyheter.map((nyhet) => (
-                                <Nyhet key={nyhet._id} nyhet={nyhet} />
-                            ))}
-                        </ScrollableContainer>
-                    ) : (
-                        <HStack justify="center" align="center" paddingBlock="space-16 space-16">
-                            <BodyShort>Ingen nyheter</BodyShort>
-                        </HStack>
-                    )}
-                </Dropdown.Menu.GroupedList>
-            </Dropdown.Menu>
+            {mounted && (
+                <Theme theme={resolvedTheme as 'light' | 'dark'}>
+                    <Dropdown.Menu className={styles.menu}>
+                        <Dropdown.Menu.GroupedList className={styles.list}>
+                            <Dropdown.Menu.GroupedList.Heading className={styles.heading}>
+                                Nytt i Speil
+                            </Dropdown.Menu.GroupedList.Heading>
+                            {nyheter.length > 0 ? (
+                                <ScrollableContainer>
+                                    {nyheter.map((nyhet) => (
+                                        <Nyhet key={nyhet._id} nyhet={nyhet} />
+                                    ))}
+                                </ScrollableContainer>
+                            ) : (
+                                <HStack justify="center" align="center" paddingBlock="space-16 space-16">
+                                    <BodyShort>Ingen nyheter</BodyShort>
+                                </HStack>
+                            )}
+                        </Dropdown.Menu.GroupedList>
+                    </Dropdown.Menu>
+                </Theme>
+            )}
         </Dropdown>
     );
 };

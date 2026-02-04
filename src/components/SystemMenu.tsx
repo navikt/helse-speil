@@ -1,8 +1,12 @@
+'use client';
+
+import { useTheme } from 'next-themes';
 import React, { ReactElement } from 'react';
 
 import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
-import { Dropdown, InternalHeader as Header } from '@navikt/ds-react';
+import { Dropdown, InternalHeader as Header, Theme } from '@navikt/ds-react';
 
+import { useMounted } from '@hooks/useMounted';
 import { useFetchPersonQuery } from '@state/person';
 
 import styles from './SystemMenu.module.css';
@@ -159,17 +163,26 @@ const createLinks = (maybeFnr: string | null, maybeAktoerId: string | null): (Hr
 ];
 
 export const SystemMenu = (): ReactElement => {
+    const { resolvedTheme } = useTheme();
+    const mounted = useMounted();
+
     return (
         <Dropdown>
             <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
                 <MenuGridIcon title="Systemmeny" fontSize="2.25rem" />
             </Header.Button>
-            <Dropdown.Menu className={styles.DropdownContent}>
-                <Dropdown.Menu.GroupedList>
-                    <Dropdown.Menu.GroupedList.Heading>Systemer og oppslagsverk</Dropdown.Menu.GroupedList.Heading>
-                    <SystemMenuLinks />
-                </Dropdown.Menu.GroupedList>
-            </Dropdown.Menu>
+            {mounted && (
+                <Theme theme={resolvedTheme as 'light' | 'dark'}>
+                    <Dropdown.Menu className={styles.DropdownContent}>
+                        <Dropdown.Menu.GroupedList>
+                            <Dropdown.Menu.GroupedList.Heading>
+                                Systemer og oppslagsverk
+                            </Dropdown.Menu.GroupedList.Heading>
+                            <SystemMenuLinks />
+                        </Dropdown.Menu.GroupedList>
+                    </Dropdown.Menu>
+                </Theme>
+            )}
         </Dropdown>
     );
 };

@@ -1,11 +1,15 @@
+'use client';
+
+import { useTheme } from 'next-themes';
 import React, { ReactElement, useState } from 'react';
 
-import { ActionMenu, BodyShort, HStack, Tag, VStack } from '@navikt/ds-react';
+import { ActionMenu, BodyShort, HStack, Tag, Theme, VStack } from '@navikt/ds-react';
 import { InternalHeaderUserButton } from '@navikt/ds-react/InternalHeader';
 
 import { DarkModeToggle } from '@components/DarkModeToggle';
 import { TastaturModal } from '@components/TastaturModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
+import { useMounted } from '@hooks/useMounted';
 import { useGetBrukerroller } from '@io/rest/generated/saksbehandlere/saksbehandlere';
 import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
@@ -18,6 +22,8 @@ const useBrukerinfo = () => {
 
 export const UserMenu = (): ReactElement => {
     const { navn, ident } = useBrukerinfo();
+    const { resolvedTheme } = useTheme();
+    const mounted = useMounted();
     const isAnonymous = useIsAnonymous();
     const toggleAnonymity = useToggleAnonymity();
     const [visTastatursnarveier, setVisTastatursnarveier] = useState(false);
@@ -38,39 +44,43 @@ export const UserMenu = (): ReactElement => {
                 <ActionMenu.Trigger>
                     <InternalHeaderUserButton name={navn} description={ident} />
                 </ActionMenu.Trigger>
-                <ActionMenu.Content>
-                    <VStack paddingInline="space-8">
-                        <BodyShort>{navn}</BodyShort>
-                        <BodyShort>{ident}</BodyShort>
-                    </VStack>
-                    <ActionMenu.Divider />
+                {mounted && (
+                    <Theme theme={resolvedTheme as 'light' | 'dark'}>
+                        <ActionMenu.Content>
+                            <VStack paddingInline="space-8">
+                                <BodyShort>{navn}</BodyShort>
+                                <BodyShort>{ident}</BodyShort>
+                            </VStack>
+                            <ActionMenu.Divider />
 
-                    {harRoller && (
-                        <ActionMenu.Group label="Roller">
-                            <HStack gap="space-4" paddingInline="space-8" maxWidth="16rem">
-                                {sorterBrukerroller(brukerroller.data?.data ?? []).map((rolle) => (
-                                    <Tag size="xsmall" key={rolle}>
-                                        {brukerrolleVisningstekst(rolle)}
-                                    </Tag>
-                                ))}
-                            </HStack>
-                        </ActionMenu.Group>
-                    )}
-                    <ActionMenu.Divider />
-                    <ActionMenu.Item onClick={toggleAnonymity}>
-                        {isAnonymous ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
-                    </ActionMenu.Item>
-                    <ActionMenu.Divider />
-                    <ActionMenu.Item onClick={() => setVisTastatursnarveier(!visTastatursnarveier)}>
-                        Tastatursnarveier
-                    </ActionMenu.Item>
-                    <ActionMenu.Divider />
-                    <DarkModeToggle />
-                    <ActionMenu.Divider />
-                    <ActionMenu.Item as="a" href="/oauth2/logout">
-                        Logg ut
-                    </ActionMenu.Item>
-                </ActionMenu.Content>
+                            {harRoller && (
+                                <ActionMenu.Group label="Roller">
+                                    <HStack gap="space-4" paddingInline="space-8" maxWidth="16rem">
+                                        {sorterBrukerroller(brukerroller.data?.data ?? []).map((rolle) => (
+                                            <Tag size="xsmall" key={rolle}>
+                                                {brukerrolleVisningstekst(rolle)}
+                                            </Tag>
+                                        ))}
+                                    </HStack>
+                                </ActionMenu.Group>
+                            )}
+                            <ActionMenu.Divider />
+                            <ActionMenu.Item onClick={toggleAnonymity}>
+                                {isAnonymous ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
+                            </ActionMenu.Item>
+                            <ActionMenu.Divider />
+                            <ActionMenu.Item onClick={() => setVisTastatursnarveier(!visTastatursnarveier)}>
+                                Tastatursnarveier
+                            </ActionMenu.Item>
+                            <ActionMenu.Divider />
+                            <DarkModeToggle />
+                            <ActionMenu.Divider />
+                            <ActionMenu.Item as="a" href="/oauth2/logout">
+                                Logg ut
+                            </ActionMenu.Item>
+                        </ActionMenu.Content>
+                    </Theme>
+                )}
             </ActionMenu>
             {visTastatursnarveier && (
                 <TastaturModal closeModal={() => setVisTastatursnarveier(false)} showModal={visTastatursnarveier} />
