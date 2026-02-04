@@ -1,9 +1,9 @@
-import { useGetBrukerroller } from '@io/rest/generated/saksbehandlere/saksbehandlere';
-import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
+import { useGetBruker } from '@io/rest/generated/saksbehandlere/saksbehandlere';
+import { ApiBrukerrolle, ApiTilgang } from '@io/rest/generated/spesialist.schemas';
 
 const useErBrukerrolle = (brukerrolle: ApiBrukerrolle) => {
-    const { data: brukerroller } = useGetBrukerroller();
-    return brukerroller?.data.includes(brukerrolle) ?? false;
+    const { data: bruker } = useGetBruker();
+    return bruker?.data?.brukerroller?.includes(brukerrolle) ?? false;
 };
 
 export const useHarFeilsøkingsrolle = () => {
@@ -14,5 +14,6 @@ export const useHarBeslutterrolle = () => {
 };
 
 export const useHarSkrivetilgang = () => {
-    return useErBrukerrolle(ApiBrukerrolle.SAKSBEHANDLER);
+    const { data: bruker } = useGetBruker();
+    return bruker?.data?.tilganger?.includes(ApiTilgang.SKRIV) ?? false;
 };
