@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
 import { TimerPauseIcon } from '@navikt/aksel-icons';
-import { Button, Table, Tooltip } from '@navikt/ds-react';
+import { Button, HStack, Table, Tooltip } from '@navikt/ds-react';
 
 import { ApiOppgaveProjeksjonPaaVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
@@ -19,12 +19,12 @@ interface PåVentCellProps {
 
 export const PåVentCell = ({ navn, utgåttFrist, påVentInfo }: PåVentCellProps): ReactElement => {
     return (
-        <Table.DataCell onClick={(event) => event.stopPropagation()} className={classNames(styles.PåVentCell)}>
+        <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.PåVentCell}>
             {!!påVentInfo && (
-                <div className={styles.KnappOgTekst}>
+                <HStack gap="space-8" wrap={false}>
                     <PåVentKnapp navn={navn} utgåttFrist={utgåttFrist} påVentInfo={påVentInfo} />
                     <SisteNotattekst påVentInfo={påVentInfo} />
-                </div>
+                </HStack>
             )}
         </Table.DataCell>
     );
@@ -49,13 +49,13 @@ const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): R
         <>
             <Tooltip content="Lagt på vent">
                 <Button
-                    variant="secondary"
+                    variant="tertiary-neutral"
+                    size="xsmall"
                     className={classNames(styles.NotatButton, utgåttFrist && styles.utgåttFrist)}
                     onClick={toggleModal}
                     onKeyUp={toggleModal}
-                >
-                    <TimerPauseIcon fontSize="1.5rem" title="Vis lagt på vent-notater" />
-                </Button>
+                    icon={<TimerPauseIcon fontSize="1.5rem" aria-hidden />}
+                />
             </Tooltip>
             {showModal && (
                 <PåVentListeModal

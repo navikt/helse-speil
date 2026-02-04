@@ -2,33 +2,6 @@
     width: 16rem;
 }
 
-.KnappOgTekst {
-    display: flex;
-    width: 100%;
-    gap: 0.5rem;
-}
-
-.NotatButton {
-    padding: 0 0 1px 0;
-    background: transparent;
-    box-shadow: none;
-    display: flex;
-    align-items: center;
-}
-
-.NotatButton span {
-    display: flex;
-}
-
-.NotatButton:focus {
-    box-shadow: 0 0 0 2px var(--ax-border-focus);
-}
-
-.NotatButton:active {
-    background: var(--ax-border-focus);
-    box-shadow: none;
-}
-
 .utgåttFrist,
 .utgåttFrist svg {
     color: var(--ax-text-danger-subtle);
