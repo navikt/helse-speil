@@ -14,8 +14,8 @@ import { generateId } from '@utils/generateId';
 import { Utbetaling } from './Utbetaling';
 
 vi.mock('@hooks/brukerrolleHooks', () => ({
-    useErSaksbehandler: () => true,
-    useErBeslutter: () => true,
+    useHarSkrivetilgang: () => true,
+    useHarBeslutterrolle: () => true,
 }));
 
 describe('Utbetaling', () => {

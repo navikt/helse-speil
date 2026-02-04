@@ -1,7 +1,7 @@
 import { useTheme } from 'next-themes';
 
 import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
-import { useErUtvikler } from '@hooks/brukerrolleHooks';
+import { useHarFeilsøkingsrolle } from '@hooks/brukerrolleHooks';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { useActivePeriod } from '@state/periode';
@@ -142,7 +142,7 @@ const useOpenDemosiderForVedtak = (): (() => void) => {
 export const useKeyboardActions = (): Action[] => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
     const { theme, setTheme } = useTheme();
-    const erUtvikler = useErUtvikler();
+    const erUtvikler = useHarFeilsøkingsrolle();
     const toggleDarkMode = () => setTheme(theme === 'dark' ? 'light' : 'dark');
     const clickPrevious = () => navigateToPrevious?.();
     const clickNext = () => navigateToNext?.();

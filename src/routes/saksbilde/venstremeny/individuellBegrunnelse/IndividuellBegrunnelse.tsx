@@ -1,6 +1,6 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
-import { useErSaksbehandler } from '@hooks/brukerrolleHooks';
+import { useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
@@ -23,8 +23,8 @@ export const IndividuellBegrunnelse = ({
 }: BegrunnelseVedtakProps): ReactElement | null => {
     const [modalÅpen, setModalÅpen] = useState(false);
 
-    const erSaksbehander = useErSaksbehandler();
-    const erReadOnly = useIsReadOnlyOppgave(person) || !erSaksbehander;
+    const harSkrivetilgang = useHarSkrivetilgang();
+    const erReadOnly = useIsReadOnlyOppgave(person) || !harSkrivetilgang;
 
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
 

@@ -6,7 +6,7 @@ import { BodyShort, Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
 import { useApolloClient } from '@apollo/client';
-import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import {
@@ -142,7 +142,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
     return (
         <Box borderWidth="0 0 1 0" borderColor="neutral">
             <VStack as="li" align="start" paddingBlock="space-0 space-16" gap="space-4">
-                <VisForSaksbehandler>
+                <VisHvisSkrivetilgang>
                     <Button
                         size="small"
                         variant="tertiary"
@@ -157,7 +157,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
                     >
                         Skriv nytt notat
                     </Button>
-                </VisForSaksbehandler>
+                </VisHvisSkrivetilgang>
                 {open && (
                     <>
                         <VStack paddingBlock="space-0 space-8">

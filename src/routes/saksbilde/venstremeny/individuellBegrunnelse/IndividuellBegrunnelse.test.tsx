@@ -7,8 +7,8 @@ import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
 
 vi.mock('@hooks/brukerrolleHooks', () => ({
-    useErSaksbehandler: () => true,
-    useErBeslutter: () => true,
+    useHarSkrivetilgang: () => true,
+    useHarBeslutterrolle: () => true,
 }));
 
 describe('IndividuellBegrunnelse', () => {

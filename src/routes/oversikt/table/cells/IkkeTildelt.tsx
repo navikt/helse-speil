@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useOpprettTildeling } from '@state/tildeling';
 
@@ -24,7 +24,7 @@ export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps): Reac
 
     return (
         <div style={{ width: width }} className={styles.IkkeTildelt}>
-            <VisForSaksbehandler>
+            <VisHvisSkrivetilgang>
                 <Button
                     className={styles.Tildelingsknapp}
                     variant="secondary"
@@ -35,7 +35,7 @@ export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps): Reac
                 >
                     Tildel meg
                 </Button>
-            </VisForSaksbehandler>
+            </VisHvisSkrivetilgang>
         </div>
     );
 };

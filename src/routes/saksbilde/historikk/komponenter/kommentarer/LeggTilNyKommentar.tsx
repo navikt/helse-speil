@@ -7,7 +7,7 @@ import { Button } from '@navikt/ds-react';
 
 import { KommentarFormFields } from '@/form-schemas/kommentarSkjema';
 import { useApolloClient } from '@apollo/client';
-import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { LeggTilKommentarDocument, PeriodehistorikkType } from '@io/graphql';
 import { usePostKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';
@@ -55,7 +55,7 @@ export const LeggTilNyKommentar = ({
         />
     ) : (
         <span>
-            <VisForSaksbehandler>
+            <VisHvisSkrivetilgang>
                 <Button
                     size="xsmall"
                     variant="tertiary"
@@ -64,7 +64,7 @@ export const LeggTilNyKommentar = ({
                 >
                     Legg til ny kommentar
                 </Button>
-            </VisForSaksbehandler>
+            </VisHvisSkrivetilgang>
         </span>
     );
 };

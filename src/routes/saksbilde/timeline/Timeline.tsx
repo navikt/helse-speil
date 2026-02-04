@@ -10,7 +10,7 @@ import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
 import { erUtvikling } from '@/env';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Infotrygdutbetaling, PersonFragment } from '@io/graphql';
@@ -164,7 +164,7 @@ const TimelineWithContent = ({
             </div>
             <div className={styles.TimelineButtons}>
                 <div className={styles.LeftButtons}>
-                    <VisForSaksbehandler>
+                    <VisHvisSkrivetilgang>
                         {kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering)) &&
                             !erBeslutteroppgave && (
                                 <Button
@@ -182,7 +182,7 @@ const TimelineWithContent = ({
                                     Legg til tilkommen inntekt/periode
                                 </Button>
                             )}
-                    </VisForSaksbehandler>
+                    </VisHvisSkrivetilgang>
                 </div>
                 <div className={styles.TimelineControls}>
                     <ScrollButtons

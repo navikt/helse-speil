@@ -6,13 +6,13 @@ const useErBrukerrolle = (brukerrolle: ApiBrukerrolle) => {
     return brukerroller?.data.includes(brukerrolle) ?? false;
 };
 
-export const useErUtvikler = () => {
+export const useHarFeilsøkingsrolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.UTVIKLER);
 };
-export const useErBeslutter = () => {
+export const useHarBeslutterrolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.BESLUTTER);
 };
 
-export const useErSaksbehandler = () => {
+export const useHarSkrivetilgang = () => {
     return useErBrukerrolle(ApiBrukerrolle.SAKSBEHANDLER);
 };

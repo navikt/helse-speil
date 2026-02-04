@@ -12,8 +12,8 @@ import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('@hooks/brukerrolleHooks', () => ({
-    useErSaksbehandler: () => true,
-    useErBeslutter: () => true,
+    useHarSkrivetilgang: () => true,
+    useHarBeslutterrolle: () => true,
 }));
 
 describe('Utbetaling', () => {

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack } from '@navikt/ds-react';
 
-import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { ArbeidstidsvurderingForm } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/ArbeidstidsvurderingForm';
@@ -89,7 +89,7 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
                     minimumSykdomsgradsoverstyringer={minimumSykdomsgradsoverstyringer}
                 />
             ) : (
-                <VisForSaksbehandler>
+                <VisHvisSkrivetilgang>
                     <HStack align="center">
                         {vurdererArbeidstid ? (
                             <ArbeidstidsvurderingForm
@@ -111,7 +111,7 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
                             </Button>
                         )}
                     </HStack>
-                </VisForSaksbehandler>
+                </VisHvisSkrivetilgang>
             )}
         </Box>
     );

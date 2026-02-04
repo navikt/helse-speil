@@ -5,7 +5,7 @@ import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
-import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
     BeregnetPeriodeFragment,
@@ -98,7 +98,7 @@ export const SkjønnsfastsettingHeader = ({
                 </>
             )}
             {!erBeslutteroppgave && harMaler && (
-                <VisForSaksbehandler>
+                <VisHvisSkrivetilgang>
                     {!editing ? (
                         <Button
                             onClick={openForm}
@@ -121,7 +121,7 @@ export const SkjønnsfastsettingHeader = ({
                             Avbryt
                         </Button>
                     )}
-                </VisForSaksbehandler>
+                </VisHvisSkrivetilgang>
             )}
             {malerError && <ErrorMessage>{malerError}</ErrorMessage>}
         </div>

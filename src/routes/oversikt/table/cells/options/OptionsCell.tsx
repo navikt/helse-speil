@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
-import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -33,7 +33,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
     return (
         <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.ikoncell}>
             <span className={styles.wrapper}>
-                <VisForSaksbehandler>
+                <VisHvisSkrivetilgang>
                     <Dropdown>
                         <Button
                             as={Dropdown.Toggle}
@@ -61,7 +61,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                             </Dropdown.Menu.List>
                         </Dropdown.Menu>
                     </Dropdown>
-                </VisForSaksbehandler>
+                </VisHvisSkrivetilgang>
                 {showModal && (
                     <LeggPåVentModal
                         oppgaveId={oppgave.id}

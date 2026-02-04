@@ -5,7 +5,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
-import { VisForSaksbehandler } from '@components/VisForSaksbehandler';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
@@ -103,7 +103,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
             />
             {!erReadOnly && (
                 <HStack gap="space-16">
-                    <VisForSaksbehandler>
+                    <VisHvisSkrivetilgang>
                         {skalSendesTilTotrinnsvurdering && (
                             <SendTilGodkjenningButton
                                 size="small"
@@ -123,7 +123,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                 Send til godkjenning
                             </SendTilGodkjenningButton>
                         )}
-                    </VisForSaksbehandler>
+                    </VisHvisSkrivetilgang>
                     {!skalSendesTilTotrinnsvurdering && (
                         <>
                             {erBeslutteroppgaveOgHarTilgang && (
@@ -145,7 +145,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                     Godkjenn og fatt vedtak
                                 </GodkjenningButton>
                             )}
-                            <VisForSaksbehandler>
+                            <VisHvisSkrivetilgang>
                                 {!erBeslutteroppgaveOgHarTilgang && (
                                     <GodkjenningButton
                                         size="small"
@@ -165,16 +165,16 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                         {harArbeidsgiverutbetaling || harBrukerutbetaling ? 'Fatt vedtak' : 'Godkjenn'}
                                     </GodkjenningButton>
                                 )}
-                            </VisForSaksbehandler>
+                            </VisHvisSkrivetilgang>
                         </>
                     )}
-                    <VisForSaksbehandler>
+                    <VisHvisSkrivetilgang>
                         {!isRevurdering &&
                             !period.totrinnsvurdering?.erBeslutteroppgave &&
                             !harNyereUtbetaltPeriodePåPerson(period, person) && (
                                 <AvvisningButton size="small" disabled={periodenErSendt} activePeriod={period} />
                             )}
-                    </VisForSaksbehandler>
+                    </VisHvisSkrivetilgang>
                     {erBeslutteroppgaveOgHarTilgang && (
                         <ReturButton
                             size="small"
