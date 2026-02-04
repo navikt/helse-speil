@@ -33,13 +33,13 @@
         "lint-staged": "lint-staged"
     },
     "lint-staged": {
-        "*.{js,jsx,ts,tsx,css,md}": [
+        "*.{js,css,md}": [
             "prettier --write"
         ],
         "*.json": [
             "prettier --write --ignore-pattern 'src/spesialist-mock/data/personer/**'"
         ],
-        "*.{js,jsx,ts,tsx}": [
+        "*.{ts,tsx}": [
             "eslint --fix"
         ]
     },
