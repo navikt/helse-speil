@@ -1,9 +1,10 @@
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
-import { BodyShort, Box, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
+import { Box, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
 import { useApolloClient } from '@apollo/client';
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Kommentar as GraphQLKommentar } from '@io/graphql';
 import { usePatchKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { HendelseDate } from '@saksbilde/historikk/komponenter/HendelseDate';
@@ -11,6 +12,8 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 import { KommentarDropdown } from './KommentarDropdown';
+
+import styles from './Kommentar.module.css';
 
 interface KommentarProps {
     kommentar: GraphQLKommentar;
@@ -79,9 +82,12 @@ export const Kommentar = ({ kommentar, dialogRef }: KommentarProps) => {
                     background={erFeilregistrert ? 'danger-soft' : undefined}
                     paddingInline={erFeilregistrert ? 'space-8' : 'space-0'}
                 >
-                    <BodyShort size="small" style={erFeilregistrert ? { fontStyle: 'italic' } : {}}>
+                    <BodyShortWithPreWrap
+                        size="small"
+                        className={erFeilregistrert ? styles.feilregistrertTekst : undefined}
+                    >
                         {kommentar.tekst} {erFeilregistrert && '(feilregistert)'}
-                    </BodyShort>
+                    </BodyShortWithPreWrap>
                 </Box>
 
                 {error && <ErrorMessage>Kunne ikke feilregistrere kommentar. Prøv igjen senere.</ErrorMessage>}
