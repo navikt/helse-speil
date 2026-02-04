@@ -37,7 +37,6 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2564094783926',
         opprettetTidspunkt: '2025-11-02T11:09:57',
-        opprinneligSoeknadstidspunkt: '2025-10-21 09:48:33.10625',
         behandlingOpprettetTidspunkt: '2025-10-19 09:48:33.10625',
         navn: {
             fornavn: 'SLAPP',
@@ -78,7 +77,6 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2805594640665',
         opprettetTidspunkt: '2023-04-02T11:09:57',
-        opprinneligSoeknadstidspunkt: '2023-01-21 09:48:33.10625',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'PUNKTLIG',
@@ -117,7 +115,6 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '1000000000003',
         opprettetTidspunkt: '2024-04-10T11:09:57',
-        opprinneligSoeknadstidspunkt: '2024-01-21 09:48:33.10625',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: '',
@@ -131,7 +128,6 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2348185725298',
         opprettetTidspunkt: '2023-01-02T11:09:57',
-        opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'BAMES',
@@ -151,7 +147,6 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '1000001337420',
         opprettetTidspunkt: '2023-01-02T11:09:57',
-        opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'OPTIMISTISK',
@@ -170,7 +165,6 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2407074650987',
         opprettetTidspunkt: '2023-01-02T11:09:57',
-        opprinneligSoeknadstidspunkt: '2022-12-30 12:27:29.585667',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'OPTIMISTISK',
@@ -189,7 +183,6 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2117136462117',
         opprettetTidspunkt: '2023-07-02T11:08:58',
-        opprinneligSoeknadstidspunkt: '2023-07-01 12:27:29.585667',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
             fornavn: 'SKEPTISK',

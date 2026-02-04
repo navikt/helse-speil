@@ -65,7 +65,6 @@ export type ApiOppgaveSorteringsfelt = (typeof ApiOppgaveSorteringsfelt)[keyof t
 export const ApiOppgaveSorteringsfelt = {
     tildeling: 'tildeling',
     opprettetTidspunkt: 'opprettetTidspunkt',
-    opprinneligSoeknadstidspunkt: 'opprinneligSoeknadstidspunkt',
     paVentInfo_tidsfrist: 'paVentInfo_tidsfrist',
     behandlingOpprettetTidspunkt: 'behandlingOpprettetTidspunkt',
 } as const;
@@ -90,7 +89,6 @@ export interface ApiOppgaveProjeksjon {
     egenskaper: ApiEgenskap[];
     tildeling?: ApiOppgaveProjeksjonTildeling;
     opprettetTidspunkt: string;
-    opprinneligSoeknadstidspunkt: string;
     behandlingOpprettetTidspunkt: string;
     paVentInfo?: ApiOppgaveProjeksjonPaVentInfo;
 }
@@ -730,6 +728,7 @@ export type ApiPostTilkomneInntekterErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostTilkomneInntekterErrorCode = {
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 

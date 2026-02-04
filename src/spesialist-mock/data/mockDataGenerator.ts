@@ -35,7 +35,6 @@ const tilfeldigOppgave = (oppgaveId: number): ApiOppgaveProjeksjon => {
     const dato = tilfeldigDato();
     const opprettetDato = dato.toISOString();
     dato.setDate(dato.getDate() - Math.floor(1 + Math.random() * 31));
-    const søknadsDato = dato.toISOString();
 
     return {
         aktorId: Math.floor(1000000000000 + Math.random() * 9000000000000).toString(),
@@ -63,7 +62,6 @@ const tilfeldigOppgave = (oppgaveId: number): ApiOppgaveProjeksjon => {
             etternavn: tilfeldigEtternavn(),
         },
         opprettetTidspunkt: opprettetDato,
-        opprinneligSoeknadstidspunkt: søknadsDato,
         behandlingOpprettetTidspunkt: tilfeldigDato().toISOString(),
         tildeling: {
             epost: 'tildeling@epost.no',

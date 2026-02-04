@@ -20,7 +20,6 @@ export const enOppgaveForOversikten: OverridableConstructor<ApiOppgaveProjeksjon
     ],
     tildeling: null,
     opprettetTidspunkt: '2020-01-01',
-    opprinneligSoeknadstidspunkt: '2020-01-01',
     behandlingOpprettetTidspunkt: '2020-01-01',
     paVentInfo: null,
     ...overrides,
