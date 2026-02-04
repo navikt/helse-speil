@@ -37,17 +37,23 @@ export const PåVentListeModal = ({ closeModal, showModal, navn, påVentInfo }: 
                         <Innhold tittel="Saksbehandler">{påVentInfo.saksbehandler}</Innhold>
                     </HStack>
                     {påVentInfo.arsaker.length > 0 && (
-                        <Innhold tittel="Årsak">
+                        <VStack>
+                            <Heading level="2" size="xsmall">
+                                Årsak
+                            </Heading>
                             <ul>
                                 {påVentInfo.arsaker.map((årsak) => (
                                     <li key={årsak}>{årsak}</li>
                                 ))}
                             </ul>
-                        </Innhold>
+                        </VStack>
                     )}
                     {!!påVentInfo.tekst && <Innhold tittel="Notat">{påVentInfo.tekst}</Innhold>}
                     {påVentInfo.kommentarer.length > 0 && (
-                        <Innhold tittel="Kommentarer">
+                        <VStack>
+                            <Heading level="2" size="xsmall">
+                                Kommentarer
+                            </Heading>
                             {påVentInfo.kommentarer.map((kommentar) => (
                                 <HStack gap="space-24" wrap={false} key={kommentar.id}>
                                     <BodyShort className={styles.kommentardato}>
@@ -56,7 +62,7 @@ export const PåVentListeModal = ({ closeModal, showModal, navn, påVentInfo }: 
                                     <BodyShort>{kommentar.tekst}</BodyShort>
                                 </HStack>
                             ))}
-                        </Innhold>
+                        </VStack>
                     )}
                 </VStack>
             </Modal.Body>
