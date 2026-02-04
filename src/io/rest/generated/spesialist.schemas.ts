@@ -59,6 +59,36 @@ export interface ApiHttpProblemDetailsGetBrukerrollerErrorCode {
     code?: ApiHttpProblemDetailsGetBrukerrollerErrorCodeCode;
 }
 
+export type ApiTilgang = (typeof ApiTilgang)[keyof typeof ApiTilgang];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiTilgang = {
+    LES: 'LES',
+    SKRIV: 'SKRIV',
+} as const;
+
+export interface ApiBruker {
+    brukerroller: ApiBrukerrolle[];
+    tilganger: ApiTilgang[];
+}
+
+export type GetBrukerErrorCode = (typeof GetBrukerErrorCode)[keyof typeof GetBrukerErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetBrukerErrorCode = {} as const;
+
+export type ApiHttpProblemDetailsGetBrukerErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsGetBrukerErrorCodeCode = null | GetBrukerErrorCode;
+
+export interface ApiHttpProblemDetailsGetBrukerErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsGetBrukerErrorCodeDetail;
+    code?: ApiHttpProblemDetailsGetBrukerErrorCodeCode;
+}
+
 export type ApiOppgaveSorteringsfelt = (typeof ApiOppgaveSorteringsfelt)[keyof typeof ApiOppgaveSorteringsfelt];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

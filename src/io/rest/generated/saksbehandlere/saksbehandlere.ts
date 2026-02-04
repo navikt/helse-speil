@@ -8,8 +8,10 @@ import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiAktivSaksbehandler,
+    ApiBruker,
     ApiBrukerrolle,
     ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode,
+    ApiHttpProblemDetailsGetBrukerErrorCode,
     ApiHttpProblemDetailsGetBrukerrollerErrorCode,
 } from '../spesialist.schemas';
 
@@ -201,6 +203,96 @@ export function useGetBrukerroller<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = getGetBrukerrollerQueryOptions(options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
+
+export const getBruker = (signal?: AbortSignal) => {
+    return callCustomAxios<ApiBruker>({ url: `/api/spesialist/bruker`, method: 'GET', signal });
+};
+
+export const getGetBrukerQueryKey = () => {
+    return [`/api/spesialist/bruker`] as const;
+};
+
+export const getGetBrukerQueryOptions = <
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>>;
+}) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetBrukerQueryKey();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBruker>>> = ({ signal }) => getBruker(signal);
+
+    return { queryKey, queryFn, staleTime: Infinity, gcTime: 0, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof getBruker>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetBrukerQueryResult = NonNullable<Awaited<ReturnType<typeof getBruker>>>;
+export type GetBrukerQueryError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>;
+
+export function useGetBruker<
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getBruker>>,
+                    TError,
+                    Awaited<ReturnType<typeof getBruker>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetBruker<
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getBruker>>,
+                    TError,
+                    Awaited<ReturnType<typeof getBruker>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetBruker<
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetBruker<
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetBrukerQueryOptions(options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
