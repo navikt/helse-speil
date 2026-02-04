@@ -1,6 +1,8 @@
-.LinkRow:hover,
-.LinkRow:focus-visible {
-    background-color: var(--ax-bg-neutral-soft);
+.LinkRow:hover {
     cursor: pointer;
-    outline: none;
+}
+.LinkRow:focus-visible {
+    outline: 3px solid var(--ax-border-focus);
+    outline-offset: 3px;
+    z-index: 3;
 }
