@@ -83,6 +83,19 @@
     margin: 0;
 }
 
+.ekspanderbartVarsel[data-expanded='false'] > .content {
+    grid-template-rows: 0fr;
+    min-height: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+.ekspanderbartVarsel[data-expanded='false'] > .content > * {
+    min-height: 0;
+    overflow: hidden;
+}
+
 .content.aktiv {
     --background-color: var(--ax-bg-warning-soft);
     --border-color: var(--ax-border-warning);

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { Accordion, Tag } from '@navikt/ds-react';
 
@@ -19,12 +19,10 @@ interface EkspanderbartVarselProps {
 }
 
 export const EkspanderbartVarsel = ({ varsel, type }: EkspanderbartVarselProps): ReactElement => {
-    const [open, setOpen] = useState(false);
-
     return (
         <Accordion indent={false}>
-            <Accordion.Item defaultOpen={open} className={cn(styles.ekspanderbartVarsel, styles[type])}>
-                <Accordion.Header className={styles.header} onClick={() => setOpen(!open)}>
+            <Accordion.Item className={cn(styles.ekspanderbartVarsel, styles[type])}>
+                <Accordion.Header className={styles.header}>
                     <Varsel className={styles.varsel} varsel={varsel} type={type} />
                 </Accordion.Header>
                 <Accordion.Content className={cn(styles.content, styles[type])}>
