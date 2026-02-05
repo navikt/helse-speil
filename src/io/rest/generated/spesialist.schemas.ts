@@ -5,87 +5,94 @@
  * OpenAPI spec version: latest
  */
 export interface ApiAktivSaksbehandler {
-    navn: string;
-    ident: string;
-    oid: string;
+  navn: string;
+  ident: string;
+  oid: string;
 }
 
-export type ApiGetAktiveSaksbehandlereErrorCode =
-    (typeof ApiGetAktiveSaksbehandlereErrorCode)[keyof typeof ApiGetAktiveSaksbehandlereErrorCode];
+export type ApiGetAktiveSaksbehandlereErrorCode = typeof ApiGetAktiveSaksbehandlereErrorCode[keyof typeof ApiGetAktiveSaksbehandlereErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetAktiveSaksbehandlereErrorCode = {} as const;
+export const ApiGetAktiveSaksbehandlereErrorCode = {
+} as const;
 
 export type ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeDetail = null | string;
 
 export type ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeCode = null | ApiGetAktiveSaksbehandlereErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCodeCode;
 }
 
-export type ApiBrukerrolle = (typeof ApiBrukerrolle)[keyof typeof ApiBrukerrolle];
+export type ApiBrukerrolle = typeof ApiBrukerrolle[keyof typeof ApiBrukerrolle];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiBrukerrolle = {
-    SELVSTENDIG_NÆRINGSDRIVENDE_BETA: 'SELVSTENDIG_NÆRINGSDRIVENDE_BETA',
-    BESLUTTER: 'BESLUTTER',
-    EGEN_ANSATT: 'EGEN_ANSATT',
-    KODE_7: 'KODE_7',
-    STIKKPRØVE: 'STIKKPRØVE',
-    UTVIKLER: 'UTVIKLER',
+  SELVSTENDIG_NÆRINGSDRIVENDE_BETA: 'SELVSTENDIG_NÆRINGSDRIVENDE_BETA',
+  BESLUTTER: 'BESLUTTER',
+  EGEN_ANSATT: 'EGEN_ANSATT',
+  KODE_7: 'KODE_7',
+  STIKKPRØVE: 'STIKKPRØVE',
+  UTVIKLER: 'UTVIKLER',
 } as const;
 
-export type ApiTilgang = (typeof ApiTilgang)[keyof typeof ApiTilgang];
+export type ApiTilgang = typeof ApiTilgang[keyof typeof ApiTilgang];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiTilgang = {
-    LES: 'LES',
-    SKRIV: 'SKRIV',
+  LES: 'LES',
+  SKRIV: 'SKRIV',
 } as const;
 
 export interface ApiBruker {
-    brukerroller: ApiBrukerrolle[];
-    tilganger: ApiTilgang[];
+  brukerroller: ApiBrukerrolle[];
+  tilganger: ApiTilgang[];
 }
 
-export type GetBrukerErrorCode = (typeof GetBrukerErrorCode)[keyof typeof GetBrukerErrorCode];
+export type GetBrukerErrorCode = typeof GetBrukerErrorCode[keyof typeof GetBrukerErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetBrukerErrorCode = {} as const;
+export const GetBrukerErrorCode = {
+} as const;
 
 export type ApiHttpProblemDetailsGetBrukerErrorCodeDetail = null | string;
 
 export type ApiHttpProblemDetailsGetBrukerErrorCodeCode = null | GetBrukerErrorCode;
 
 export interface ApiHttpProblemDetailsGetBrukerErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsGetBrukerErrorCodeDetail;
-    code?: ApiHttpProblemDetailsGetBrukerErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsGetBrukerErrorCodeDetail;
+  code?: ApiHttpProblemDetailsGetBrukerErrorCodeCode;
 }
 
-export type ApiOppgaveSorteringsfelt = (typeof ApiOppgaveSorteringsfelt)[keyof typeof ApiOppgaveSorteringsfelt];
+export type ApiOppgaveSorteringsfelt = typeof ApiOppgaveSorteringsfelt[keyof typeof ApiOppgaveSorteringsfelt];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiOppgaveSorteringsfelt = {
-    tildeling: 'tildeling',
-    opprettetTidspunkt: 'opprettetTidspunkt',
-    paVentInfo_tidsfrist: 'paVentInfo_tidsfrist',
-    behandlingOpprettetTidspunkt: 'behandlingOpprettetTidspunkt',
+  tildeling: 'tildeling',
+  opprettetTidspunkt: 'opprettetTidspunkt',
+  paVentInfo_tidsfrist: 'paVentInfo_tidsfrist',
+  behandlingOpprettetTidspunkt: 'behandlingOpprettetTidspunkt',
 } as const;
 
-export type ApiSorteringsrekkefølge = (typeof ApiSorteringsrekkefølge)[keyof typeof ApiSorteringsrekkefølge];
+export type ApiSorteringsrekkefølge = typeof ApiSorteringsrekkefølge[keyof typeof ApiSorteringsrekkefølge];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiSorteringsrekkefølge = {
-    STIGENDE: 'STIGENDE',
-    SYNKENDE: 'SYNKENDE',
+  STIGENDE: 'STIGENDE',
+  SYNKENDE: 'SYNKENDE',
 } as const;
 
 export type ApiOppgaveProjeksjonTildeling = null | ApiTildeling;
@@ -93,127 +100,130 @@ export type ApiOppgaveProjeksjonTildeling = null | ApiTildeling;
 export type ApiOppgaveProjeksjonPaVentInfo = null | ApiOppgaveProjeksjonPaaVentInfo;
 
 export interface ApiOppgaveProjeksjon {
-    id: string;
-    aktorId: string;
-    personPseudoId: string;
-    navn: ApiPersonnavn;
-    egenskaper: ApiEgenskap[];
-    tildeling?: ApiOppgaveProjeksjonTildeling;
-    opprettetTidspunkt: string;
-    behandlingOpprettetTidspunkt: string;
-    paVentInfo?: ApiOppgaveProjeksjonPaVentInfo;
+  id: string;
+  aktorId: string;
+  personPseudoId: string;
+  navn: ApiPersonnavn;
+  egenskaper: ApiEgenskap[];
+  tildeling?: ApiOppgaveProjeksjonTildeling;
+  opprettetTidspunkt: string;
+  behandlingOpprettetTidspunkt: string;
+  paVentInfo?: ApiOppgaveProjeksjonPaVentInfo;
 }
 
 export type ApiPersonnavnMellomnavn = null | string;
 
 export interface ApiPersonnavn {
-    fornavn: string;
-    etternavn: string;
-    mellomnavn?: ApiPersonnavnMellomnavn;
+  fornavn: string;
+  etternavn: string;
+  mellomnavn?: ApiPersonnavnMellomnavn;
 }
 
-export type ApiEgenskap = (typeof ApiEgenskap)[keyof typeof ApiEgenskap];
+export type ApiEgenskap = typeof ApiEgenskap[keyof typeof ApiEgenskap];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiEgenskap = {
-    RISK_QA: 'RISK_QA',
-    FORTROLIG_ADRESSE: 'FORTROLIG_ADRESSE',
-    STRENGT_FORTROLIG_ADRESSE: 'STRENGT_FORTROLIG_ADRESSE',
-    EGEN_ANSATT: 'EGEN_ANSATT',
-    BESLUTTER: 'BESLUTTER',
-    SPESIALSAK: 'SPESIALSAK',
-    REVURDERING: 'REVURDERING',
-    SOKNAD: 'SOKNAD',
-    STIKKPROVE: 'STIKKPROVE',
-    UTBETALING_TIL_SYKMELDT: 'UTBETALING_TIL_SYKMELDT',
-    DELVIS_REFUSJON: 'DELVIS_REFUSJON',
-    UTBETALING_TIL_ARBEIDSGIVER: 'UTBETALING_TIL_ARBEIDSGIVER',
-    INGEN_UTBETALING: 'INGEN_UTBETALING',
-    EN_ARBEIDSGIVER: 'EN_ARBEIDSGIVER',
-    FLERE_ARBEIDSGIVERE: 'FLERE_ARBEIDSGIVERE',
-    FORLENGELSE: 'FORLENGELSE',
-    FORSTEGANGSBEHANDLING: 'FORSTEGANGSBEHANDLING',
-    INFOTRYGDFORLENGELSE: 'INFOTRYGDFORLENGELSE',
-    OVERGANG_FRA_IT: 'OVERGANG_FRA_IT',
-    UTLAND: 'UTLAND',
-    HASTER: 'HASTER',
-    RETUR: 'RETUR',
-    VERGEMAL: 'VERGEMAL',
-    SKJONNSFASTSETTELSE: 'SKJONNSFASTSETTELSE',
-    PA_VENT: 'PA_VENT',
-    TILBAKEDATERT: 'TILBAKEDATERT',
-    GOSYS: 'GOSYS',
-    MANGLER_IM: 'MANGLER_IM',
-    MEDLEMSKAP: 'MEDLEMSKAP',
-    GRUNNBELOPSREGULERING: 'GRUNNBELOPSREGULERING',
-    SELVSTENDIG_NAERINGSDRIVENDE: 'SELVSTENDIG_NAERINGSDRIVENDE',
-    ARBEIDSTAKER: 'ARBEIDSTAKER',
-    JORDBRUKER_REINDRIFT: 'JORDBRUKER_REINDRIFT',
+  RISK_QA: 'RISK_QA',
+  FORTROLIG_ADRESSE: 'FORTROLIG_ADRESSE',
+  STRENGT_FORTROLIG_ADRESSE: 'STRENGT_FORTROLIG_ADRESSE',
+  EGEN_ANSATT: 'EGEN_ANSATT',
+  BESLUTTER: 'BESLUTTER',
+  SPESIALSAK: 'SPESIALSAK',
+  REVURDERING: 'REVURDERING',
+  SOKNAD: 'SOKNAD',
+  STIKKPROVE: 'STIKKPROVE',
+  UTBETALING_TIL_SYKMELDT: 'UTBETALING_TIL_SYKMELDT',
+  DELVIS_REFUSJON: 'DELVIS_REFUSJON',
+  UTBETALING_TIL_ARBEIDSGIVER: 'UTBETALING_TIL_ARBEIDSGIVER',
+  INGEN_UTBETALING: 'INGEN_UTBETALING',
+  EN_ARBEIDSGIVER: 'EN_ARBEIDSGIVER',
+  FLERE_ARBEIDSGIVERE: 'FLERE_ARBEIDSGIVERE',
+  FORLENGELSE: 'FORLENGELSE',
+  FORSTEGANGSBEHANDLING: 'FORSTEGANGSBEHANDLING',
+  INFOTRYGDFORLENGELSE: 'INFOTRYGDFORLENGELSE',
+  OVERGANG_FRA_IT: 'OVERGANG_FRA_IT',
+  UTLAND: 'UTLAND',
+  HASTER: 'HASTER',
+  RETUR: 'RETUR',
+  VERGEMAL: 'VERGEMAL',
+  SKJONNSFASTSETTELSE: 'SKJONNSFASTSETTELSE',
+  PA_VENT: 'PA_VENT',
+  TILBAKEDATERT: 'TILBAKEDATERT',
+  GOSYS: 'GOSYS',
+  MANGLER_IM: 'MANGLER_IM',
+  MEDLEMSKAP: 'MEDLEMSKAP',
+  GRUNNBELOPSREGULERING: 'GRUNNBELOPSREGULERING',
+  SELVSTENDIG_NAERINGSDRIVENDE: 'SELVSTENDIG_NAERINGSDRIVENDE',
+  ARBEIDSTAKER: 'ARBEIDSTAKER',
+  JORDBRUKER_REINDRIFT: 'JORDBRUKER_REINDRIFT',
 } as const;
 
 export interface ApiTildeling {
-    navn: string;
-    epost: string;
-    oid: string;
+  navn: string;
+  epost: string;
+  oid: string;
 }
 
 export type ApiOppgaveProjeksjonPaaVentInfoTekst = null | string;
 
 export interface ApiOppgaveProjeksjonPaaVentInfo {
-    arsaker: string[];
-    tekst?: ApiOppgaveProjeksjonPaaVentInfoTekst;
-    dialogRef: number;
-    saksbehandler: string;
-    opprettet: string;
-    tidsfrist: string;
-    kommentarer: ApiOppgaveProjeksjonPaaVentInfoKommentar[];
+  arsaker: string[];
+  tekst?: ApiOppgaveProjeksjonPaaVentInfoTekst;
+  dialogRef: number;
+  saksbehandler: string;
+  opprettet: string;
+  tidsfrist: string;
+  kommentarer: ApiOppgaveProjeksjonPaaVentInfoKommentar[];
 }
 
 export type ApiOppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt = null | string;
 
 export interface ApiOppgaveProjeksjonPaaVentInfoKommentar {
-    id: number;
-    tekst: string;
-    opprettet: string;
-    saksbehandlerident: string;
-    feilregistrert_tidspunkt?: ApiOppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt;
+  id: number;
+  tekst: string;
+  opprettet: string;
+  saksbehandlerident: string;
+  feilregistrert_tidspunkt?: ApiOppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt;
 }
 
 export interface ApiOppgaveProjeksjonSide {
-    totaltAntall: number;
-    sidetall: number;
-    sidestoerrelse: number;
-    elementer: ApiOppgaveProjeksjon[];
+  totaltAntall: number;
+  sidetall: number;
+  sidestoerrelse: number;
+  elementer: ApiOppgaveProjeksjon[];
 }
 
-export type ApiGetOppgaverErrorCode = (typeof ApiGetOppgaverErrorCode)[keyof typeof ApiGetOppgaverErrorCode];
+export type ApiGetOppgaverErrorCode = typeof ApiGetOppgaverErrorCode[keyof typeof ApiGetOppgaverErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetOppgaverErrorCode = {} as const;
+export const ApiGetOppgaverErrorCode = {
+} as const;
 
 export type ApiHttpProblemDetailsApiGetOppgaverErrorCodeDetail = null | string;
 
 export type ApiHttpProblemDetailsApiGetOppgaverErrorCodeCode = null | ApiGetOppgaverErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetOppgaverErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeCode;
 }
 
 export interface ApiOpphevStansRequest {
-    fodselsnummer: string;
-    begrunnelse: string;
+  fodselsnummer: string;
+  begrunnelse: string;
 }
 
-export type ApiPostOpphevStansErrorCode =
-    (typeof ApiPostOpphevStansErrorCode)[keyof typeof ApiPostOpphevStansErrorCode];
+export type ApiPostOpphevStansErrorCode = typeof ApiPostOpphevStansErrorCode[keyof typeof ApiPostOpphevStansErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostOpphevStansErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail = null | string;
@@ -221,26 +231,27 @@ export type ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail = null | stri
 export type ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode = null | ApiPostOpphevStansErrorCode;
 
 export interface ApiHttpProblemDetailsApiPostOpphevStansErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode;
 }
 
-export type ApiSoknadstype = (typeof ApiSoknadstype)[keyof typeof ApiSoknadstype];
+export type ApiSoknadstype = typeof ApiSoknadstype[keyof typeof ApiSoknadstype];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiSoknadstype = {
-    Selvstendig_og_frilanser: 'Selvstendig_og_frilanser',
-    Opphold_utland: 'Opphold_utland',
-    Arbeidstaker: 'Arbeidstaker',
-    Annet_arbeidsforhold: 'Annet_arbeidsforhold',
-    Arbeidsledig: 'Arbeidsledig',
-    Behandlingsdager: 'Behandlingsdager',
-    Reisetilskudd: 'Reisetilskudd',
-    Gradert_reisetilskudd: 'Gradert_reisetilskudd',
-    UKJENT: 'UKJENT',
+  Selvstendig_og_frilanser: 'Selvstendig_og_frilanser',
+  Opphold_utland: 'Opphold_utland',
+  Arbeidstaker: 'Arbeidstaker',
+  Annet_arbeidsforhold: 'Annet_arbeidsforhold',
+  Arbeidsledig: 'Arbeidsledig',
+  Behandlingsdager: 'Behandlingsdager',
+  Reisetilskudd: 'Reisetilskudd',
+  Gradert_reisetilskudd: 'Gradert_reisetilskudd',
+  UKJENT: 'UKJENT',
 } as const;
 
 export type ApiSoknadsperioderGrad = null | number;
@@ -250,11 +261,11 @@ export type ApiSoknadsperioderFaktiskGrad = null | number;
 export type ApiSoknadsperioderSykmeldingsgrad = null | number;
 
 export interface ApiSoknadsperioder {
-    fom: string;
-    tom: string;
-    grad?: ApiSoknadsperioderGrad;
-    faktiskGrad?: ApiSoknadsperioderFaktiskGrad;
-    sykmeldingsgrad?: ApiSoknadsperioderSykmeldingsgrad;
+  fom: string;
+  tom: string;
+  grad?: ApiSoknadsperioderGrad;
+  faktiskGrad?: ApiSoknadsperioderFaktiskGrad;
+  sykmeldingsgrad?: ApiSoknadsperioderSykmeldingsgrad;
 }
 
 export type ApiSporsmalTag = null | string;
@@ -272,77 +283,79 @@ export type ApiSporsmalUndersporsmal = null | ApiSporsmal[];
 export type ApiSporsmalKriterieForVisningAvUndersporsmal = null | ApiVisningskriterium;
 
 export interface ApiSporsmal {
-    tag?: ApiSporsmalTag;
-    sporsmalstekst?: ApiSporsmalSporsmalstekst;
-    undertekst?: ApiSporsmalUndertekst;
-    svartype?: ApiSporsmalSvartype;
-    svar?: ApiSporsmalSvar;
-    undersporsmal?: ApiSporsmalUndersporsmal;
-    kriterieForVisningAvUndersporsmal?: ApiSporsmalKriterieForVisningAvUndersporsmal;
+  tag?: ApiSporsmalTag;
+  sporsmalstekst?: ApiSporsmalSporsmalstekst;
+  undertekst?: ApiSporsmalUndertekst;
+  svartype?: ApiSporsmalSvartype;
+  svar?: ApiSporsmalSvar;
+  undersporsmal?: ApiSporsmalUndersporsmal;
+  kriterieForVisningAvUndersporsmal?: ApiSporsmalKriterieForVisningAvUndersporsmal;
 }
 
-export type ApiSvartype = (typeof ApiSvartype)[keyof typeof ApiSvartype];
+export type ApiSvartype = typeof ApiSvartype[keyof typeof ApiSvartype];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiSvartype = {
-    JA_NEI: 'JA_NEI',
-    CHECKBOX: 'CHECKBOX',
-    CHECKBOX_GRUPPE: 'CHECKBOX_GRUPPE',
-    CHECKBOX_PANEL: 'CHECKBOX_PANEL',
-    DATO: 'DATO',
-    PERIODE: 'PERIODE',
-    PERIODER: 'PERIODER',
-    TIMER: 'TIMER',
-    FRITEKST: 'FRITEKST',
-    IKKE_RELEVANT: 'IKKE_RELEVANT',
-    BEKREFTELSESPUNKTER: 'BEKREFTELSESPUNKTER',
-    OPPSUMMERING: 'OPPSUMMERING',
-    PROSENT: 'PROSENT',
-    RADIO_GRUPPE: 'RADIO_GRUPPE',
-    RADIO_GRUPPE_TIMER_PROSENT: 'RADIO_GRUPPE_TIMER_PROSENT',
-    RADIO: 'RADIO',
-    TALL: 'TALL',
-    RADIO_GRUPPE_UKEKALENDER: 'RADIO_GRUPPE_UKEKALENDER',
-    LAND: 'LAND',
-    COMBOBOX_SINGLE: 'COMBOBOX_SINGLE',
-    COMBOBOX_MULTI: 'COMBOBOX_MULTI',
-    INFO_BEHANDLINGSDAGER: 'INFO_BEHANDLINGSDAGER',
-    KVITTERING: 'KVITTERING',
-    DATOER: 'DATOER',
-    BELOP: 'BELOP',
-    KILOMETER: 'KILOMETER',
-    GRUPPE_AV_UNDERSPORSMAL: 'GRUPPE_AV_UNDERSPORSMAL',
-    AAR_MAANED: 'AAR_MAANED',
-    UKJENT: 'UKJENT',
+  JA_NEI: 'JA_NEI',
+  CHECKBOX: 'CHECKBOX',
+  CHECKBOX_GRUPPE: 'CHECKBOX_GRUPPE',
+  CHECKBOX_PANEL: 'CHECKBOX_PANEL',
+  DATO: 'DATO',
+  PERIODE: 'PERIODE',
+  PERIODER: 'PERIODER',
+  TIMER: 'TIMER',
+  FRITEKST: 'FRITEKST',
+  IKKE_RELEVANT: 'IKKE_RELEVANT',
+  BEKREFTELSESPUNKTER: 'BEKREFTELSESPUNKTER',
+  OPPSUMMERING: 'OPPSUMMERING',
+  PROSENT: 'PROSENT',
+  RADIO_GRUPPE: 'RADIO_GRUPPE',
+  RADIO_GRUPPE_TIMER_PROSENT: 'RADIO_GRUPPE_TIMER_PROSENT',
+  RADIO: 'RADIO',
+  TALL: 'TALL',
+  RADIO_GRUPPE_UKEKALENDER: 'RADIO_GRUPPE_UKEKALENDER',
+  LAND: 'LAND',
+  COMBOBOX_SINGLE: 'COMBOBOX_SINGLE',
+  COMBOBOX_MULTI: 'COMBOBOX_MULTI',
+  INFO_BEHANDLINGSDAGER: 'INFO_BEHANDLINGSDAGER',
+  KVITTERING: 'KVITTERING',
+  DATOER: 'DATOER',
+  BELOP: 'BELOP',
+  KILOMETER: 'KILOMETER',
+  GRUPPE_AV_UNDERSPORSMAL: 'GRUPPE_AV_UNDERSPORSMAL',
+  AAR_MAANED: 'AAR_MAANED',
+  UKJENT: 'UKJENT',
 } as const;
 
 export type ApiSvarVerdi = null | string;
 
 export interface ApiSvar {
-    verdi?: ApiSvarVerdi;
+  verdi?: ApiSvarVerdi;
 }
 
-export type ApiVisningskriterium = (typeof ApiVisningskriterium)[keyof typeof ApiVisningskriterium];
+export type ApiVisningskriterium = typeof ApiVisningskriterium[keyof typeof ApiVisningskriterium];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiVisningskriterium = {
-    NEI: 'NEI',
-    JA: 'JA',
-    CHECKED: 'CHECKED',
-    UKJENT: 'UKJENT',
+  NEI: 'NEI',
+  JA: 'JA',
+  CHECKED: 'CHECKED',
+  UKJENT: 'UKJENT',
 } as const;
 
 export interface ApiSoknadSelvstendigNaringsdrivende {
-    inntekt: ApiSoknadSelvstendigNaringsdrivendeApiInntektsar[];
+  inntekt: ApiSoknadSelvstendigNaringsdrivendeApiInntektsar[];
 }
 
 export interface ApiSoknadSelvstendigNaringsdrivendeApiInntektsar {
-    ar: string;
-    pensjonsgivendeInntektAvLonnsinntekt: number;
-    pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel: number;
-    pensjonsgivendeInntektAvNaringsinntekt: number;
-    pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage: number;
-    erFerdigLignet: boolean;
+  ar: string;
+  pensjonsgivendeInntektAvLonnsinntekt: number;
+  pensjonsgivendeInntektAvLonnsinntektBarePensjonsdel: number;
+  pensjonsgivendeInntektAvNaringsinntekt: number;
+  pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage: number;
+  erFerdigLignet: boolean;
 }
 
 export type ApiSoknadType = null | ApiSoknadstype;
@@ -360,22 +373,23 @@ export type ApiSoknadSporsmal = null | ApiSporsmal[];
 export type ApiSoknadSelvstendigNaringsdrivendeProperty = null | ApiSoknadSelvstendigNaringsdrivende;
 
 export interface ApiSoknad {
-    type?: ApiSoknadType;
-    arbeidGjenopptatt?: ApiSoknadArbeidGjenopptatt;
-    sykmeldingSkrevet?: ApiSoknadSykmeldingSkrevet;
-    egenmeldingsdagerFraSykmelding?: ApiSoknadEgenmeldingsdagerFraSykmelding;
-    soknadsperioder?: ApiSoknadSoknadsperioder;
-    sporsmal?: ApiSoknadSporsmal;
-    selvstendigNaringsdrivende?: ApiSoknadSelvstendigNaringsdrivendeProperty;
+  type?: ApiSoknadType;
+  arbeidGjenopptatt?: ApiSoknadArbeidGjenopptatt;
+  sykmeldingSkrevet?: ApiSoknadSykmeldingSkrevet;
+  egenmeldingsdagerFraSykmelding?: ApiSoknadEgenmeldingsdagerFraSykmelding;
+  soknadsperioder?: ApiSoknadSoknadsperioder;
+  sporsmal?: ApiSoknadSporsmal;
+  selvstendigNaringsdrivende?: ApiSoknadSelvstendigNaringsdrivendeProperty;
 }
 
-export type ApiGetSoknadErrorCode = (typeof ApiGetSoknadErrorCode)[keyof typeof ApiGetSoknadErrorCode];
+export type ApiGetSoknadErrorCode = typeof ApiGetSoknadErrorCode[keyof typeof ApiGetSoknadErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetSoknadErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
 } as const;
 
 export type ApiHttpProblemDetailsApiGetSoknadErrorCodeDetail = null | string;
@@ -383,11 +397,11 @@ export type ApiHttpProblemDetailsApiGetSoknadErrorCodeDetail = null | string;
 export type ApiHttpProblemDetailsApiGetSoknadErrorCodeCode = null | ApiGetSoknadErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetSoknadErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetSoknadErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetSoknadErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiGetSoknadErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiGetSoknadErrorCodeCode;
 }
 
 export type ApiRefusjonBeloepPrMnd = null | number;
@@ -395,8 +409,8 @@ export type ApiRefusjonBeloepPrMnd = null | number;
 export type ApiRefusjonOpphoersdato = null | string;
 
 export interface ApiRefusjon {
-    beloepPrMnd?: ApiRefusjonBeloepPrMnd;
-    opphoersdato?: ApiRefusjonOpphoersdato;
+  beloepPrMnd?: ApiRefusjonBeloepPrMnd;
+  opphoersdato?: ApiRefusjonOpphoersdato;
 }
 
 export type ApiEndringIRefusjonEndringsdato = null | string;
@@ -404,8 +418,8 @@ export type ApiEndringIRefusjonEndringsdato = null | string;
 export type ApiEndringIRefusjonBeloep = null | number;
 
 export interface ApiEndringIRefusjon {
-    endringsdato?: ApiEndringIRefusjonEndringsdato;
-    beloep?: ApiEndringIRefusjonBeloep;
+  endringsdato?: ApiEndringIRefusjonEndringsdato;
+  beloep?: ApiEndringIRefusjonBeloep;
 }
 
 export type ApiOpphoerAvNaturalytelseNaturalytelse = null | ApiNaturalytelse;
@@ -415,35 +429,36 @@ export type ApiOpphoerAvNaturalytelseFom = null | string;
 export type ApiOpphoerAvNaturalytelseBeloepPrMnd = null | number;
 
 export interface ApiOpphoerAvNaturalytelse {
-    naturalytelse?: ApiOpphoerAvNaturalytelseNaturalytelse;
-    fom?: ApiOpphoerAvNaturalytelseFom;
-    beloepPrMnd?: ApiOpphoerAvNaturalytelseBeloepPrMnd;
+  naturalytelse?: ApiOpphoerAvNaturalytelseNaturalytelse;
+  fom?: ApiOpphoerAvNaturalytelseFom;
+  beloepPrMnd?: ApiOpphoerAvNaturalytelseBeloepPrMnd;
 }
 
-export type ApiNaturalytelse = (typeof ApiNaturalytelse)[keyof typeof ApiNaturalytelse];
+export type ApiNaturalytelse = typeof ApiNaturalytelse[keyof typeof ApiNaturalytelse];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiNaturalytelse = {
-    KOSTDOEGN: 'KOSTDOEGN',
-    LOSJI: 'LOSJI',
-    ANNET: 'ANNET',
-    SKATTEPLIKTIGDELFORSIKRINGER: 'SKATTEPLIKTIGDELFORSIKRINGER',
-    BIL: 'BIL',
-    KOSTDAGER: 'KOSTDAGER',
-    RENTEFORDELLAAN: 'RENTEFORDELLAAN',
-    BOLIG: 'BOLIG',
-    ELEKTRONISKKOMMUNIKASJON: 'ELEKTRONISKKOMMUNIKASJON',
-    AKSJERGRUNNFONDSBEVISTILUNDERKURS: 'AKSJERGRUNNFONDSBEVISTILUNDERKURS',
-    OPSJONER: 'OPSJONER',
-    KOSTBESPARELSEIHJEMMET: 'KOSTBESPARELSEIHJEMMET',
-    FRITRANSPORT: 'FRITRANSPORT',
-    BEDRIFTSBARNEHAGEPLASS: 'BEDRIFTSBARNEHAGEPLASS',
-    TILSKUDDBARNEHAGEPLASS: 'TILSKUDDBARNEHAGEPLASS',
-    BESOEKSREISERHJEMMETANNET: 'BESOEKSREISERHJEMMETANNET',
-    INNBETALINGTILUTENLANDSKPENSJONSORDNING: 'INNBETALINGTILUTENLANDSKPENSJONSORDNING',
-    YRKEBILTJENESTLIGBEHOVLISTEPRIS: 'YRKEBILTJENESTLIGBEHOVLISTEPRIS',
-    YRKEBILTJENESTLIGBEHOVKILOMETER: 'YRKEBILTJENESTLIGBEHOVKILOMETER',
-    UKJENT: 'UKJENT',
+  KOSTDOEGN: 'KOSTDOEGN',
+  LOSJI: 'LOSJI',
+  ANNET: 'ANNET',
+  SKATTEPLIKTIGDELFORSIKRINGER: 'SKATTEPLIKTIGDELFORSIKRINGER',
+  BIL: 'BIL',
+  KOSTDAGER: 'KOSTDAGER',
+  RENTEFORDELLAAN: 'RENTEFORDELLAAN',
+  BOLIG: 'BOLIG',
+  ELEKTRONISKKOMMUNIKASJON: 'ELEKTRONISKKOMMUNIKASJON',
+  AKSJERGRUNNFONDSBEVISTILUNDERKURS: 'AKSJERGRUNNFONDSBEVISTILUNDERKURS',
+  OPSJONER: 'OPSJONER',
+  KOSTBESPARELSEIHJEMMET: 'KOSTBESPARELSEIHJEMMET',
+  FRITRANSPORT: 'FRITRANSPORT',
+  BEDRIFTSBARNEHAGEPLASS: 'BEDRIFTSBARNEHAGEPLASS',
+  TILSKUDDBARNEHAGEPLASS: 'TILSKUDDBARNEHAGEPLASS',
+  BESOEKSREISERHJEMMETANNET: 'BESOEKSREISERHJEMMETANNET',
+  INNBETALINGTILUTENLANDSKPENSJONSORDNING: 'INNBETALINGTILUTENLANDSKPENSJONSORDNING',
+  YRKEBILTJENESTLIGBEHOVLISTEPRIS: 'YRKEBILTJENESTLIGBEHOVLISTEPRIS',
+  YRKEBILTJENESTLIGBEHOVKILOMETER: 'YRKEBILTJENESTLIGBEHOVKILOMETER',
+  UKJENT: 'UKJENT',
 } as const;
 
 export type ApiGjenopptakelseNaturalytelseNaturalytelse = null | ApiNaturalytelse;
@@ -453,9 +468,9 @@ export type ApiGjenopptakelseNaturalytelseFom = null | string;
 export type ApiGjenopptakelseNaturalytelseBeloepPrMnd = null | number;
 
 export interface ApiGjenopptakelseNaturalytelse {
-    naturalytelse?: ApiGjenopptakelseNaturalytelseNaturalytelse;
-    fom?: ApiGjenopptakelseNaturalytelseFom;
-    beloepPrMnd?: ApiGjenopptakelseNaturalytelseBeloepPrMnd;
+  naturalytelse?: ApiGjenopptakelseNaturalytelseNaturalytelse;
+  fom?: ApiGjenopptakelseNaturalytelseFom;
+  beloepPrMnd?: ApiGjenopptakelseNaturalytelseBeloepPrMnd;
 }
 
 export type ApiIMPeriodeFom = null | string;
@@ -463,8 +478,8 @@ export type ApiIMPeriodeFom = null | string;
 export type ApiIMPeriodeTom = null | string;
 
 export interface ApiIMPeriode {
-    fom?: ApiIMPeriodeFom;
-    tom?: ApiIMPeriodeTom;
+  fom?: ApiIMPeriodeFom;
+  tom?: ApiIMPeriodeTom;
 }
 
 export type ApiInntektEndringAarsakPerioder = null | ApiIMPeriode[];
@@ -474,10 +489,10 @@ export type ApiInntektEndringAarsakGjelderFra = null | string;
 export type ApiInntektEndringAarsakBleKjent = null | string;
 
 export interface ApiInntektEndringAarsak {
-    aarsak: string;
-    perioder?: ApiInntektEndringAarsakPerioder;
-    gjelderFra?: ApiInntektEndringAarsakGjelderFra;
-    bleKjent?: ApiInntektEndringAarsakBleKjent;
+  aarsak: string;
+  perioder?: ApiInntektEndringAarsakPerioder;
+  gjelderFra?: ApiInntektEndringAarsakGjelderFra;
+  bleKjent?: ApiInntektEndringAarsakBleKjent;
 }
 
 export type ApiAvsenderSystemNavn = null | string;
@@ -485,8 +500,8 @@ export type ApiAvsenderSystemNavn = null | string;
 export type ApiAvsenderSystemVersjon = null | string;
 
 export interface ApiAvsenderSystem {
-    navn?: ApiAvsenderSystemNavn;
-    versjon?: ApiAvsenderSystemVersjon;
+  navn?: ApiAvsenderSystemNavn;
+  versjon?: ApiAvsenderSystemVersjon;
 }
 
 export type ApiDokumentInntektsmeldingArbeidsforholdId = null | string;
@@ -524,34 +539,34 @@ export type ApiDokumentInntektsmeldingInntektEndringAarsaker = null | ApiInntekt
 export type ApiDokumentInntektsmeldingAvsenderSystem = null | ApiAvsenderSystem;
 
 export interface ApiDokumentInntektsmelding {
-    arbeidsforholdId?: ApiDokumentInntektsmeldingArbeidsforholdId;
-    virksomhetsnummer?: ApiDokumentInntektsmeldingVirksomhetsnummer;
-    begrunnelseForReduksjonEllerIkkeUtbetalt?: ApiDokumentInntektsmeldingBegrunnelseForReduksjonEllerIkkeUtbetalt;
-    bruttoUtbetalt?: ApiDokumentInntektsmeldingBruttoUtbetalt;
-    beregnetInntekt?: ApiDokumentInntektsmeldingBeregnetInntekt;
-    refusjon?: ApiDokumentInntektsmeldingRefusjon;
-    endringIRefusjoner?: ApiDokumentInntektsmeldingEndringIRefusjoner;
-    opphoerAvNaturalytelser?: ApiDokumentInntektsmeldingOpphoerAvNaturalytelser;
-    gjenopptakelseNaturalytelser?: ApiDokumentInntektsmeldingGjenopptakelseNaturalytelser;
-    arbeidsgiverperioder?: ApiDokumentInntektsmeldingArbeidsgiverperioder;
-    ferieperioder?: ApiDokumentInntektsmeldingFerieperioder;
-    foersteFravaersdag?: ApiDokumentInntektsmeldingFoersteFravaersdag;
-    naerRelasjon?: ApiDokumentInntektsmeldingNaerRelasjon;
-    innsenderFulltNavn?: ApiDokumentInntektsmeldingInnsenderFulltNavn;
-    innsenderTelefon?: ApiDokumentInntektsmeldingInnsenderTelefon;
-    inntektEndringAarsaker?: ApiDokumentInntektsmeldingInntektEndringAarsaker;
-    avsenderSystem?: ApiDokumentInntektsmeldingAvsenderSystem;
+  arbeidsforholdId?: ApiDokumentInntektsmeldingArbeidsforholdId;
+  virksomhetsnummer?: ApiDokumentInntektsmeldingVirksomhetsnummer;
+  begrunnelseForReduksjonEllerIkkeUtbetalt?: ApiDokumentInntektsmeldingBegrunnelseForReduksjonEllerIkkeUtbetalt;
+  bruttoUtbetalt?: ApiDokumentInntektsmeldingBruttoUtbetalt;
+  beregnetInntekt?: ApiDokumentInntektsmeldingBeregnetInntekt;
+  refusjon?: ApiDokumentInntektsmeldingRefusjon;
+  endringIRefusjoner?: ApiDokumentInntektsmeldingEndringIRefusjoner;
+  opphoerAvNaturalytelser?: ApiDokumentInntektsmeldingOpphoerAvNaturalytelser;
+  gjenopptakelseNaturalytelser?: ApiDokumentInntektsmeldingGjenopptakelseNaturalytelser;
+  arbeidsgiverperioder?: ApiDokumentInntektsmeldingArbeidsgiverperioder;
+  ferieperioder?: ApiDokumentInntektsmeldingFerieperioder;
+  foersteFravaersdag?: ApiDokumentInntektsmeldingFoersteFravaersdag;
+  naerRelasjon?: ApiDokumentInntektsmeldingNaerRelasjon;
+  innsenderFulltNavn?: ApiDokumentInntektsmeldingInnsenderFulltNavn;
+  innsenderTelefon?: ApiDokumentInntektsmeldingInnsenderTelefon;
+  inntektEndringAarsaker?: ApiDokumentInntektsmeldingInntektEndringAarsaker;
+  avsenderSystem?: ApiDokumentInntektsmeldingAvsenderSystem;
 }
 
-export type ApiGetInntektsmeldingErrorCode =
-    (typeof ApiGetInntektsmeldingErrorCode)[keyof typeof ApiGetInntektsmeldingErrorCode];
+export type ApiGetInntektsmeldingErrorCode = typeof ApiGetInntektsmeldingErrorCode[keyof typeof ApiGetInntektsmeldingErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetInntektsmeldingErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
-    MANGLER_FØDSELSNUMMER_OG_AKTØRID: 'MANGLER_FØDSELSNUMMER_OG_AKTØRID',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
+  MANGLER_FØDSELSNUMMER_OG_AKTØRID: 'MANGLER_FØDSELSNUMMER_OG_AKTØRID',
 } as const;
 
 export type ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeDetail = null | string;
@@ -559,188 +574,181 @@ export type ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeDetail = null | s
 export type ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeCode = null | ApiGetInntektsmeldingErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiGetInntektsmeldingErrorCodeCode;
 }
 
 export interface ApiTilkommenInntektskilde {
-    organisasjonsnummer: string;
-    inntekter: ApiTilkommenInntekt[];
+  organisasjonsnummer: string;
+  inntekter: ApiTilkommenInntekt[];
 }
 
 export interface ApiTilkommenInntekt {
-    tilkommenInntektId: string;
-    organisasjonsnummer: string;
-    periode: ApiDatoPeriode;
-    periodebelop: string;
-    ekskluderteUkedager: string[];
-    fjernet: boolean;
-    erDelAvAktivTotrinnsvurdering: boolean;
-    events: ApiTilkommenInntektEvent[];
+  tilkommenInntektId: string;
+  organisasjonsnummer: string;
+  periode: ApiDatoPeriode;
+  periodebelop: string;
+  ekskluderteUkedager: string[];
+  fjernet: boolean;
+  erDelAvAktivTotrinnsvurdering: boolean;
+  events: ApiTilkommenInntektEvent[];
 }
 
 export interface ApiDatoPeriode {
-    fom: string;
-    tom: string;
+  fom: string;
+  tom: string;
 }
 
-export type ApiTilkommenInntektEvent =
-    | ApiTilkommenInntektEndretEvent
-    | ApiTilkommenInntektFjernetEvent
-    | ApiTilkommenInntektGjenopprettetEvent
-    | ApiTilkommenInntektOpprettetEvent;
+export type ApiTilkommenInntektEvent = ApiTilkommenInntektEndretEvent | ApiTilkommenInntektFjernetEvent | ApiTilkommenInntektGjenopprettetEvent | ApiTilkommenInntektOpprettetEvent;
 
-export type ApiTilkommenInntektEndretEventType =
-    (typeof ApiTilkommenInntektEndretEventType)[keyof typeof ApiTilkommenInntektEndretEventType];
+export type ApiTilkommenInntektEndretEventType = typeof ApiTilkommenInntektEndretEventType[keyof typeof ApiTilkommenInntektEndretEventType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiTilkommenInntektEndretEventType = {
-    ApiTilkommenInntektEndretEvent: 'ApiTilkommenInntektEndretEvent',
+  ApiTilkommenInntektEndretEvent: 'ApiTilkommenInntektEndretEvent',
 } as const;
 
 export interface ApiTilkommenInntektEndretEvent {
-    metadata: ApiTilkommenInntektEventMetadata;
-    endringer: ApiTilkommenInntektEventEndringer;
-    type: ApiTilkommenInntektEndretEventType;
+  metadata: ApiTilkommenInntektEventMetadata;
+  endringer: ApiTilkommenInntektEventEndringer;
+  type: ApiTilkommenInntektEndretEventType;
 }
 
 export interface ApiTilkommenInntektEventMetadata {
-    sekvensnummer: number;
-    tidspunkt: string;
-    utfortAvSaksbehandlerIdent: string;
-    notatTilBeslutter: string;
+  sekvensnummer: number;
+  tidspunkt: string;
+  utfortAvSaksbehandlerIdent: string;
+  notatTilBeslutter: string;
 }
 
-export type ApiTilkommenInntektEventEndringerOrganisasjonsnummer =
-    null | ApiTilkommenInntektEventEndringerStringEndring;
+export type ApiTilkommenInntektEventEndringerOrganisasjonsnummer = null | ApiTilkommenInntektEventEndringerStringEndring;
 
 export type ApiTilkommenInntektEventEndringerPeriode = null | ApiTilkommenInntektEventEndringerDatoPeriodeEndring;
 
 export type ApiTilkommenInntektEventEndringerPeriodebelop = null | ApiTilkommenInntektEventEndringerBigDecimalEndring;
 
-export type ApiTilkommenInntektEventEndringerEkskluderteUkedager =
-    null | ApiTilkommenInntektEventEndringerListLocalDateEndring;
+export type ApiTilkommenInntektEventEndringerEkskluderteUkedager = null | ApiTilkommenInntektEventEndringerListLocalDateEndring;
 
 export interface ApiTilkommenInntektEventEndringer {
-    organisasjonsnummer?: ApiTilkommenInntektEventEndringerOrganisasjonsnummer;
-    periode?: ApiTilkommenInntektEventEndringerPeriode;
-    periodebelop?: ApiTilkommenInntektEventEndringerPeriodebelop;
-    ekskluderteUkedager?: ApiTilkommenInntektEventEndringerEkskluderteUkedager;
+  organisasjonsnummer?: ApiTilkommenInntektEventEndringerOrganisasjonsnummer;
+  periode?: ApiTilkommenInntektEventEndringerPeriode;
+  periodebelop?: ApiTilkommenInntektEventEndringerPeriodebelop;
+  ekskluderteUkedager?: ApiTilkommenInntektEventEndringerEkskluderteUkedager;
 }
 
 export interface ApiTilkommenInntektEventEndringerStringEndring {
-    fra: string;
-    til: string;
+  fra: string;
+  til: string;
 }
 
 export interface ApiTilkommenInntektEventEndringerDatoPeriodeEndring {
-    fra: ApiDatoPeriode;
-    til: ApiDatoPeriode;
+  fra: ApiDatoPeriode;
+  til: ApiDatoPeriode;
 }
 
 export interface ApiTilkommenInntektEventEndringerBigDecimalEndring {
-    fra: string;
-    til: string;
+  fra: string;
+  til: string;
 }
 
 export interface ApiTilkommenInntektEventEndringerListLocalDateEndring {
-    fra: string[];
-    til: string[];
+  fra: string[];
+  til: string[];
 }
 
-export type ApiTilkommenInntektFjernetEventType =
-    (typeof ApiTilkommenInntektFjernetEventType)[keyof typeof ApiTilkommenInntektFjernetEventType];
+export type ApiTilkommenInntektFjernetEventType = typeof ApiTilkommenInntektFjernetEventType[keyof typeof ApiTilkommenInntektFjernetEventType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiTilkommenInntektFjernetEventType = {
-    ApiTilkommenInntektFjernetEvent: 'ApiTilkommenInntektFjernetEvent',
+  ApiTilkommenInntektFjernetEvent: 'ApiTilkommenInntektFjernetEvent',
 } as const;
 
 export interface ApiTilkommenInntektFjernetEvent {
-    metadata: ApiTilkommenInntektEventMetadata;
-    type: ApiTilkommenInntektFjernetEventType;
+  metadata: ApiTilkommenInntektEventMetadata;
+  type: ApiTilkommenInntektFjernetEventType;
 }
 
-export type ApiTilkommenInntektGjenopprettetEventType =
-    (typeof ApiTilkommenInntektGjenopprettetEventType)[keyof typeof ApiTilkommenInntektGjenopprettetEventType];
+export type ApiTilkommenInntektGjenopprettetEventType = typeof ApiTilkommenInntektGjenopprettetEventType[keyof typeof ApiTilkommenInntektGjenopprettetEventType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiTilkommenInntektGjenopprettetEventType = {
-    ApiTilkommenInntektGjenopprettetEvent: 'ApiTilkommenInntektGjenopprettetEvent',
+  ApiTilkommenInntektGjenopprettetEvent: 'ApiTilkommenInntektGjenopprettetEvent',
 } as const;
 
 export interface ApiTilkommenInntektGjenopprettetEvent {
-    metadata: ApiTilkommenInntektEventMetadata;
-    endringer: ApiTilkommenInntektEventEndringer;
-    type: ApiTilkommenInntektGjenopprettetEventType;
+  metadata: ApiTilkommenInntektEventMetadata;
+  endringer: ApiTilkommenInntektEventEndringer;
+  type: ApiTilkommenInntektGjenopprettetEventType;
 }
 
-export type ApiTilkommenInntektOpprettetEventType =
-    (typeof ApiTilkommenInntektOpprettetEventType)[keyof typeof ApiTilkommenInntektOpprettetEventType];
+export type ApiTilkommenInntektOpprettetEventType = typeof ApiTilkommenInntektOpprettetEventType[keyof typeof ApiTilkommenInntektOpprettetEventType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiTilkommenInntektOpprettetEventType = {
-    ApiTilkommenInntektOpprettetEvent: 'ApiTilkommenInntektOpprettetEvent',
+  ApiTilkommenInntektOpprettetEvent: 'ApiTilkommenInntektOpprettetEvent',
 } as const;
 
 export interface ApiTilkommenInntektOpprettetEvent {
-    metadata: ApiTilkommenInntektEventMetadata;
-    organisasjonsnummer: string;
-    periode: ApiDatoPeriode;
-    periodebelop: string;
-    ekskluderteUkedager: string[];
-    type: ApiTilkommenInntektOpprettetEventType;
+  metadata: ApiTilkommenInntektEventMetadata;
+  organisasjonsnummer: string;
+  periode: ApiDatoPeriode;
+  periodebelop: string;
+  ekskluderteUkedager: string[];
+  type: ApiTilkommenInntektOpprettetEventType;
 }
 
-export type ApiGetTilkomneInntektskilderForPersonErrorCode =
-    (typeof ApiGetTilkomneInntektskilderForPersonErrorCode)[keyof typeof ApiGetTilkomneInntektskilderForPersonErrorCode];
+export type ApiGetTilkomneInntektskilderForPersonErrorCode = typeof ApiGetTilkomneInntektskilderForPersonErrorCode[keyof typeof ApiGetTilkomneInntektskilderForPersonErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetTilkomneInntektskilderForPersonErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
 export type ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode =
-    null | ApiGetTilkomneInntektskilderForPersonErrorCode;
+export type ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode = null | ApiGetTilkomneInntektskilderForPersonErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode;
 }
 
 export interface ApiTilkommenInntektInput {
-    organisasjonsnummer: string;
-    periode: ApiDatoPeriode;
-    periodebelop: string;
-    ekskluderteUkedager: string[];
+  organisasjonsnummer: string;
+  periode: ApiDatoPeriode;
+  periodebelop: string;
+  ekskluderteUkedager: string[];
 }
 
 export interface ApiLeggTilTilkommenInntektRequest {
-    fodselsnummer: string;
-    verdier: ApiTilkommenInntektInput;
-    notatTilBeslutter: string;
+  fodselsnummer: string;
+  verdier: ApiTilkommenInntektInput;
+  notatTilBeslutter: string;
 }
 
 export interface ApiLeggTilTilkommenInntektResponse {
-    tilkommenInntektId: string;
+  tilkommenInntektId: string;
 }
 
-export type ApiPostTilkomneInntekterErrorCode =
-    (typeof ApiPostTilkomneInntekterErrorCode)[keyof typeof ApiPostTilkomneInntekterErrorCode];
+export type ApiPostTilkomneInntekterErrorCode = typeof ApiPostTilkomneInntekterErrorCode[keyof typeof ApiPostTilkomneInntekterErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostTilkomneInntekterErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail = null | string;
@@ -748,11 +756,11 @@ export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail = null 
 export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode = null | ApiPostTilkomneInntekterErrorCode;
 
 export interface ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode;
 }
 
 export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer = null | ApiPatchStringEndring;
@@ -761,57 +769,56 @@ export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriode = null |
 
 export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriodebeløp = null | ApiPatchBigDecimalEndring;
 
-export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerEkskluderteUkedager =
-    null | ApiPatchListLocalDateEndring;
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerEkskluderteUkedager = null | ApiPatchListLocalDateEndring;
 
 export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerFjernet = null | ApiPatchBooleanEndring;
 
 export interface ApiTilkommenInntektPatchApiTilkommenInntektEndringer {
-    organisasjonsnummer?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer;
-    periode?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriode;
-    periodebeløp?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriodebeløp;
-    ekskluderteUkedager?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerEkskluderteUkedager;
-    fjernet?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerFjernet;
+  organisasjonsnummer?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer;
+  periode?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriode;
+  periodebeløp?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriodebeløp;
+  ekskluderteUkedager?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerEkskluderteUkedager;
+  fjernet?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerFjernet;
 }
 
 export interface ApiPatchStringEndring {
-    fra: string;
-    til: string;
+  fra: string;
+  til: string;
 }
 
 export interface ApiPatchDatoPeriodeEndring {
-    fra: ApiDatoPeriode;
-    til: ApiDatoPeriode;
+  fra: ApiDatoPeriode;
+  til: ApiDatoPeriode;
 }
 
 export interface ApiPatchBigDecimalEndring {
-    fra: string;
-    til: string;
+  fra: string;
+  til: string;
 }
 
 export interface ApiPatchListLocalDateEndring {
-    fra: string[];
-    til: string[];
+  fra: string[];
+  til: string[];
 }
 
 export interface ApiPatchBooleanEndring {
-    fra: boolean;
-    til: boolean;
+  fra: boolean;
+  til: boolean;
 }
 
 export interface ApiTilkommenInntektPatch {
-    endringer: ApiTilkommenInntektPatchApiTilkommenInntektEndringer;
-    notatTilBeslutter: string;
+  endringer: ApiTilkommenInntektPatchApiTilkommenInntektEndringer;
+  notatTilBeslutter: string;
 }
 
-export type ApiPatchTilkommenInntektErrorCode =
-    (typeof ApiPatchTilkommenInntektErrorCode)[keyof typeof ApiPatchTilkommenInntektErrorCode];
+export type ApiPatchTilkommenInntektErrorCode = typeof ApiPatchTilkommenInntektErrorCode[keyof typeof ApiPatchTilkommenInntektErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPatchTilkommenInntektErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
-    FEIL_UTGANGSPUNKT: 'FEIL_UTGANGSPUNKT',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
+  FEIL_UTGANGSPUNKT: 'FEIL_UTGANGSPUNKT',
 } as const;
 
 export type ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeDetail = null | string;
@@ -819,36 +826,37 @@ export type ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeDetail = null 
 export type ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeCode = null | ApiPatchTilkommenInntektErrorCode;
 
 export interface ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeCode;
 }
 
 export type ApiVedtakRequestBegrunnelse = null | string;
 
 export interface ApiVedtakRequest {
-    begrunnelse?: ApiVedtakRequestBegrunnelse;
+  begrunnelse?: ApiVedtakRequestBegrunnelse;
 }
 
-export type ApiPostVedtakErrorCode = (typeof ApiPostVedtakErrorCode)[keyof typeof ApiPostVedtakErrorCode];
+export type ApiPostVedtakErrorCode = typeof ApiPostVedtakErrorCode[keyof typeof ApiPostVedtakErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostVedtakErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
-    SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG: 'SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG',
-    SAKSBEHANDLER_KAN_IKKE_BESLUTTE_EGEN_OPPGAVE: 'SAKSBEHANDLER_KAN_IKKE_BESLUTTE_EGEN_OPPGAVE',
-    VARSLER_MANGLER_VURDERING: 'VARSLER_MANGLER_VURDERING',
-    OVERLAPPER_MED_INFOTRYGD: 'OVERLAPPER_MED_INFOTRYGD',
-    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
-    KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING: 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER: 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER',
-    VARSEL_MANGLER_VARSELDEFINISJON: 'VARSEL_MANGLER_VARSELDEFINISJON',
-    VEDTAK_ALLEREDE_FATTET: 'VEDTAK_ALLEREDE_FATTET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+  OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
+  SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG: 'SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG',
+  SAKSBEHANDLER_KAN_IKKE_BESLUTTE_EGEN_OPPGAVE: 'SAKSBEHANDLER_KAN_IKKE_BESLUTTE_EGEN_OPPGAVE',
+  VARSLER_MANGLER_VURDERING: 'VARSLER_MANGLER_VURDERING',
+  OVERLAPPER_MED_INFOTRYGD: 'OVERLAPPER_MED_INFOTRYGD',
+  BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+  KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING: 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING',
+  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+  TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER: 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER',
+  VARSEL_MANGLER_VARSELDEFINISJON: 'VARSEL_MANGLER_VARSELDEFINISJON',
+  VEDTAK_ALLEREDE_FATTET: 'VEDTAK_ALLEREDE_FATTET',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostVedtakErrorCodeDetail = null | string;
@@ -856,32 +864,33 @@ export type ApiHttpProblemDetailsApiPostVedtakErrorCodeDetail = null | string;
 export type ApiHttpProblemDetailsApiPostVedtakErrorCodeCode = null | ApiPostVedtakErrorCode;
 
 export interface ApiHttpProblemDetailsApiPostVedtakErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostVedtakErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostVedtakErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPostVedtakErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPostVedtakErrorCodeCode;
 }
 
 export type ApiForkastingRequestKommentar = null | string;
 
 export interface ApiForkastingRequest {
-    årsak: string;
-    begrunnelser: string[];
-    kommentar?: ApiForkastingRequestKommentar;
+  årsak: string;
+  begrunnelser: string[];
+  kommentar?: ApiForkastingRequestKommentar;
 }
 
-export type ApiPostForkastingErrorCode = (typeof ApiPostForkastingErrorCode)[keyof typeof ApiPostForkastingErrorCode];
+export type ApiPostForkastingErrorCode = typeof ApiPostForkastingErrorCode[keyof typeof ApiPostForkastingErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostForkastingErrorCode = {
-    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
-    TOTRINNSVURDERING_SENDT_TIL_BESLUTTER: 'TOTRINNSVURDERING_SENDT_TIL_BESLUTTER',
+  BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+  OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
+  TOTRINNSVURDERING_SENDT_TIL_BESLUTTER: 'TOTRINNSVURDERING_SENDT_TIL_BESLUTTER',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostForkastingErrorCodeDetail = null | string;
@@ -889,74 +898,73 @@ export type ApiHttpProblemDetailsApiPostForkastingErrorCodeDetail = null | strin
 export type ApiHttpProblemDetailsApiPostForkastingErrorCodeCode = null | ApiPostForkastingErrorCode;
 
 export interface ApiHttpProblemDetailsApiPostForkastingErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostForkastingErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostForkastingErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPostForkastingErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPostForkastingErrorCodeCode;
 }
 
 export interface ApiVedtaksperiodeAnnullerRequestÅrsak {
-    key: string;
-    årsak: string;
+  key: string;
+  årsak: string;
 }
 
 export type ApiVedtaksperiodeAnnullerRequestKommentar = null | string;
 
 export interface ApiVedtaksperiodeAnnullerRequest {
-    arbeidsgiverFagsystemId: string;
-    personFagsystemId: string;
-    årsaker: ApiVedtaksperiodeAnnullerRequestÅrsak[];
-    kommentar?: ApiVedtaksperiodeAnnullerRequestKommentar;
+  arbeidsgiverFagsystemId: string;
+  personFagsystemId: string;
+  årsaker: ApiVedtaksperiodeAnnullerRequestÅrsak[];
+  kommentar?: ApiVedtaksperiodeAnnullerRequestKommentar;
 }
 
-export type ApiPostVedtaksperiodeAnnullerErrorCode =
-    (typeof ApiPostVedtaksperiodeAnnullerErrorCode)[keyof typeof ApiPostVedtaksperiodeAnnullerErrorCode];
+export type ApiPostVedtaksperiodeAnnullerErrorCode = typeof ApiPostVedtaksperiodeAnnullerErrorCode[keyof typeof ApiPostVedtaksperiodeAnnullerErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostVedtaksperiodeAnnullerErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    ALLEREDE_ANNULLERT: 'ALLEREDE_ANNULLERT',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+  ALLEREDE_ANNULLERT: 'ALLEREDE_ANNULLERT',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode =
-    null | ApiPostVedtaksperiodeAnnullerErrorCode;
+export type ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode = null | ApiPostVedtaksperiodeAnnullerErrorCode;
 
 export interface ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode;
 }
 
 export interface ApiArbeidstidsvurderingRequestArbeidsgiver {
-    organisasjonsnummer: string;
-    berørtVedtaksperiodeId: string;
+  organisasjonsnummer: string;
+  berørtVedtaksperiodeId: string;
 }
 
 export interface ApiArbeidstidsvurderingRequest {
-    aktørId: string;
-    fødselsnummer: string;
-    perioderVurdertOk: ApiDatoPeriode[];
-    perioderVurdertIkkeOk: ApiDatoPeriode[];
-    begrunnelse: string;
-    arbeidsgivere: ApiArbeidstidsvurderingRequestArbeidsgiver[];
-    initierendeVedtaksperiodeId: string;
+  aktørId: string;
+  fødselsnummer: string;
+  perioderVurdertOk: ApiDatoPeriode[];
+  perioderVurdertIkkeOk: ApiDatoPeriode[];
+  begrunnelse: string;
+  arbeidsgivere: ApiArbeidstidsvurderingRequestArbeidsgiver[];
+  initierendeVedtaksperiodeId: string;
 }
 
-export type ApiArbeidstidsvurderingErrorCode =
-    (typeof ApiArbeidstidsvurderingErrorCode)[keyof typeof ApiArbeidstidsvurderingErrorCode];
+export type ApiArbeidstidsvurderingErrorCode = typeof ApiArbeidstidsvurderingErrorCode[keyof typeof ApiArbeidstidsvurderingErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiArbeidstidsvurderingErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    MISMATCH_I_IDENTITETSNUMRE: 'MISMATCH_I_IDENTITETSNUMRE',
-    MANGLER_VURDERTE_PERIODER: 'MANGLER_VURDERTE_PERIODER',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  MISMATCH_I_IDENTITETSNUMRE: 'MISMATCH_I_IDENTITETSNUMRE',
+  MANGLER_VURDERTE_PERIODER: 'MANGLER_VURDERTE_PERIODER',
 } as const;
 
 export type ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeDetail = null | string;
@@ -964,25 +972,26 @@ export type ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeDetail = null |
 export type ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeCode = null | ApiArbeidstidsvurderingErrorCode;
 
 export interface ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCodeCode;
 }
 
-export type ApiVarselApiVarselstatus = (typeof ApiVarselApiVarselstatus)[keyof typeof ApiVarselApiVarselstatus];
+export type ApiVarselApiVarselstatus = typeof ApiVarselApiVarselstatus[keyof typeof ApiVarselApiVarselstatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiVarselApiVarselstatus = {
-    AKTIV: 'AKTIV',
-    VURDERT: 'VURDERT',
-    GODKJENT: 'GODKJENT',
+  AKTIV: 'AKTIV',
+  VURDERT: 'VURDERT',
+  GODKJENT: 'GODKJENT',
 } as const;
 
 export interface ApiVarselApiVarselvurdering {
-    ident: string;
-    tidsstempel: string;
+  ident: string;
+  tidsstempel: string;
 }
 
 export type ApiVarselForklaring = null | string;
@@ -992,23 +1001,24 @@ export type ApiVarselHandling = null | string;
 export type ApiVarselVurdering = null | ApiVarselApiVarselvurdering;
 
 export interface ApiVarsel {
-    id: string;
-    definisjonId: string;
-    opprettet: string;
-    tittel: string;
-    forklaring?: ApiVarselForklaring;
-    handling?: ApiVarselHandling;
-    status: ApiVarselApiVarselstatus;
-    vurdering?: ApiVarselVurdering;
+  id: string;
+  definisjonId: string;
+  opprettet: string;
+  tittel: string;
+  forklaring?: ApiVarselForklaring;
+  handling?: ApiVarselHandling;
+  status: ApiVarselApiVarselstatus;
+  vurdering?: ApiVarselVurdering;
 }
 
-export type GetVarselErrorCode = (typeof GetVarselErrorCode)[keyof typeof GetVarselErrorCode];
+export type GetVarselErrorCode = typeof GetVarselErrorCode[keyof typeof GetVarselErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetVarselErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
 } as const;
 
 export type ApiHttpProblemDetailsGetVarselErrorCodeDetail = null | string;
@@ -1016,27 +1026,27 @@ export type ApiHttpProblemDetailsGetVarselErrorCodeDetail = null | string;
 export type ApiHttpProblemDetailsGetVarselErrorCodeCode = null | GetVarselErrorCode;
 
 export interface ApiHttpProblemDetailsGetVarselErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsGetVarselErrorCodeDetail;
-    code?: ApiHttpProblemDetailsGetVarselErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsGetVarselErrorCodeDetail;
+  code?: ApiHttpProblemDetailsGetVarselErrorCodeCode;
 }
 
 export interface ApiVarselvurdering {
-    definisjonId: string;
+  definisjonId: string;
 }
 
-export type PutVarselvurderingErrorCode =
-    (typeof PutVarselvurderingErrorCode)[keyof typeof PutVarselvurderingErrorCode];
+export type PutVarselvurderingErrorCode = typeof PutVarselvurderingErrorCode[keyof typeof PutVarselvurderingErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutVarselvurderingErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
-    VARSEL_VURDERT_AV_ANNEN_SAKSBEHANDLER: 'VARSEL_VURDERT_AV_ANNEN_SAKSBEHANDLER',
-    VARSEL_VURDERT_MED_ANNEN_DEFINISJON: 'VARSEL_VURDERT_MED_ANNEN_DEFINISJON',
-    VARSEL_KAN_IKKE_VURDERES: 'VARSEL_KAN_IKKE_VURDERES',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
+  VARSEL_VURDERT_AV_ANNEN_SAKSBEHANDLER: 'VARSEL_VURDERT_AV_ANNEN_SAKSBEHANDLER',
+  VARSEL_VURDERT_MED_ANNEN_DEFINISJON: 'VARSEL_VURDERT_MED_ANNEN_DEFINISJON',
+  VARSEL_KAN_IKKE_VURDERES: 'VARSEL_KAN_IKKE_VURDERES',
 } as const;
 
 export type ApiHttpProblemDetailsPutVarselvurderingErrorCodeDetail = null | string;
@@ -1044,21 +1054,21 @@ export type ApiHttpProblemDetailsPutVarselvurderingErrorCodeDetail = null | stri
 export type ApiHttpProblemDetailsPutVarselvurderingErrorCodeCode = null | PutVarselvurderingErrorCode;
 
 export interface ApiHttpProblemDetailsPutVarselvurderingErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsPutVarselvurderingErrorCodeDetail;
-    code?: ApiHttpProblemDetailsPutVarselvurderingErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsPutVarselvurderingErrorCodeDetail;
+  code?: ApiHttpProblemDetailsPutVarselvurderingErrorCodeCode;
 }
 
-export type DeleteVarselvurderingErrorCode =
-    (typeof DeleteVarselvurderingErrorCode)[keyof typeof DeleteVarselvurderingErrorCode];
+export type DeleteVarselvurderingErrorCode = typeof DeleteVarselvurderingErrorCode[keyof typeof DeleteVarselvurderingErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteVarselvurderingErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
-    VARSEL_HAR_FEIL_STATUS: 'VARSEL_HAR_FEIL_STATUS',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
+  VARSEL_HAR_FEIL_STATUS: 'VARSEL_HAR_FEIL_STATUS',
 } as const;
 
 export type ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeDetail = null | string;
@@ -1066,26 +1076,27 @@ export type ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeDetail = null | s
 export type ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeCode = null | DeleteVarselvurderingErrorCode;
 
 export interface ApiHttpProblemDetailsDeleteVarselvurderingErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeDetail;
-    code?: ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeDetail;
+  code?: ApiHttpProblemDetailsDeleteVarselvurderingErrorCodeCode;
 }
 
 export interface ApiKommentarRequest {
-    tekst: string;
+  tekst: string;
 }
 
 export interface ApiKommentarResponse {
-    id: number;
+  id: number;
 }
 
-export type ApiPostKommentarErrorCode = (typeof ApiPostKommentarErrorCode)[keyof typeof ApiPostKommentarErrorCode];
+export type ApiPostKommentarErrorCode = typeof ApiPostKommentarErrorCode[keyof typeof ApiPostKommentarErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostKommentarErrorCode = {
-    DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
+  DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostKommentarErrorCodeDetail = null | string;
@@ -1093,24 +1104,25 @@ export type ApiHttpProblemDetailsApiPostKommentarErrorCodeDetail = null | string
 export type ApiHttpProblemDetailsApiPostKommentarErrorCodeCode = null | ApiPostKommentarErrorCode;
 
 export interface ApiHttpProblemDetailsApiPostKommentarErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostKommentarErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostKommentarErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPostKommentarErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPostKommentarErrorCodeCode;
 }
 
 export interface ApiPatchKommentarRequest {
-    feilregistrert: boolean;
+  feilregistrert: boolean;
 }
 
-export type ApiPatchKommentarErrorCode = (typeof ApiPatchKommentarErrorCode)[keyof typeof ApiPatchKommentarErrorCode];
+export type ApiPatchKommentarErrorCode = typeof ApiPatchKommentarErrorCode[keyof typeof ApiPatchKommentarErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPatchKommentarErrorCode = {
-    KAN_IKKE_FJERNE_FEILREGISTRERING: 'KAN_IKKE_FJERNE_FEILREGISTRERING',
-    DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
-    KOMMENTAR_IKKE_FUNNET: 'KOMMENTAR_IKKE_FUNNET',
+  KAN_IKKE_FJERNE_FEILREGISTRERING: 'KAN_IKKE_FJERNE_FEILREGISTRERING',
+  DIALOG_IKKE_FUNNET: 'DIALOG_IKKE_FUNNET',
+  KOMMENTAR_IKKE_FUNNET: 'KOMMENTAR_IKKE_FUNNET',
 } as const;
 
 export type ApiHttpProblemDetailsApiPatchKommentarErrorCodeDetail = null | string;
@@ -1118,58 +1130,57 @@ export type ApiHttpProblemDetailsApiPatchKommentarErrorCodeDetail = null | strin
 export type ApiHttpProblemDetailsApiPatchKommentarErrorCodeCode = null | ApiPatchKommentarErrorCode;
 
 export interface ApiHttpProblemDetailsApiPatchKommentarErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPatchKommentarErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPatchKommentarErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPatchKommentarErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPatchKommentarErrorCodeCode;
 }
 
-export type ApiNotatType = (typeof ApiNotatType)[keyof typeof ApiNotatType];
+export type ApiNotatType = typeof ApiNotatType[keyof typeof ApiNotatType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiNotatType = {
-    Retur: 'Retur',
-    Generelt: 'Generelt',
-    PaaVent: 'PaaVent',
-    OpphevStans: 'OpphevStans',
+  Generelt: 'Generelt',
+  OpphevStans: 'OpphevStans',
 } as const;
 
 export type ApiKommentarFeilregistrertTidspunkt = null | string;
 
 export interface ApiKommentar {
-    id: number;
-    tekst: string;
-    opprettet: string;
-    saksbehandlerident: string;
-    feilregistrert_tidspunkt?: ApiKommentarFeilregistrertTidspunkt;
+  id: number;
+  tekst: string;
+  opprettet: string;
+  saksbehandlerident: string;
+  feilregistrert_tidspunkt?: ApiKommentarFeilregistrertTidspunkt;
 }
 
 export type ApiNotatFeilregistrertTidspunkt = null | string;
 
 export interface ApiNotat {
-    id: number;
-    dialogRef: number;
-    tekst: string;
-    opprettet: string;
-    saksbehandlerOid: string;
-    saksbehandlerNavn: string;
-    saksbehandlerEpost: string;
-    saksbehandlerIdent: string;
-    vedtaksperiodeId: string;
-    feilregistrert: boolean;
-    feilregistrert_tidspunkt?: ApiNotatFeilregistrertTidspunkt;
-    type: ApiNotatType;
-    kommentarer: ApiKommentar[];
+  id: number;
+  dialogRef: number;
+  tekst: string;
+  opprettet: string;
+  saksbehandlerOid: string;
+  saksbehandlerNavn: string;
+  saksbehandlerEpost: string;
+  saksbehandlerIdent: string;
+  vedtaksperiodeId: string;
+  feilregistrert: boolean;
+  feilregistrert_tidspunkt?: ApiNotatFeilregistrertTidspunkt;
+  type: ApiNotatType;
+  kommentarer: ApiKommentar[];
 }
 
-export type GetNotatErrorCode = (typeof GetNotatErrorCode)[keyof typeof GetNotatErrorCode];
+export type GetNotatErrorCode = typeof GetNotatErrorCode[keyof typeof GetNotatErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetNotatErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
 } as const;
 
 export type ApiHttpProblemDetailsGetNotatErrorCodeDetail = null | string;
@@ -1177,29 +1188,51 @@ export type ApiHttpProblemDetailsGetNotatErrorCodeDetail = null | string;
 export type ApiHttpProblemDetailsGetNotatErrorCodeCode = null | GetNotatErrorCode;
 
 export interface ApiHttpProblemDetailsGetNotatErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsGetNotatErrorCodeDetail;
-    code?: ApiHttpProblemDetailsGetNotatErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsGetNotatErrorCodeDetail;
+  code?: ApiHttpProblemDetailsGetNotatErrorCodeCode;
+}
+
+export type GetNotaterForVedtaksperiodeErrorCode = typeof GetNotaterForVedtaksperiodeErrorCode[keyof typeof GetNotaterForVedtaksperiodeErrorCode];
+
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const GetNotaterForVedtaksperiodeErrorCode = {
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCodeCode = null | GetNotaterForVedtaksperiodeErrorCode;
+
+export interface ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode {
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCodeDetail;
+  code?: ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCodeCode;
 }
 
 export interface ApiNotatRequest {
-    vedtaksperiodeId: string;
-    tekst: string;
+  vedtaksperiodeId: string;
+  tekst: string;
 }
 
 export interface ApiNotatResponse {
-    id: number;
+  id: number;
 }
 
-export type ApiPostNotatErrorCode = (typeof ApiPostNotatErrorCode)[keyof typeof ApiPostNotatErrorCode];
+export type ApiPostNotatErrorCode = typeof ApiPostNotatErrorCode[keyof typeof ApiPostNotatErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostNotatErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostNotatErrorCodeDetail = null | string;
@@ -1207,25 +1240,26 @@ export type ApiHttpProblemDetailsApiPostNotatErrorCodeDetail = null | string;
 export type ApiHttpProblemDetailsApiPostNotatErrorCodeCode = null | ApiPostNotatErrorCode;
 
 export interface ApiHttpProblemDetailsApiPostNotatErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostNotatErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostNotatErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPostNotatErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPostNotatErrorCodeCode;
 }
 
 export interface ApiPatchNotatRequest {
-    feilregistrert: boolean;
+  feilregistrert: boolean;
 }
 
-export type ApiPatchNotatErrorCode = (typeof ApiPatchNotatErrorCode)[keyof typeof ApiPatchNotatErrorCode];
+export type ApiPatchNotatErrorCode = typeof ApiPatchNotatErrorCode[keyof typeof ApiPatchNotatErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPatchNotatErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
-    NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
-    KAN_IKKE_FJERNE_FEILREGISTRERING: 'KAN_IKKE_FJERNE_FEILREGISTRERING',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+  NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
+  KAN_IKKE_FJERNE_FEILREGISTRERING: 'KAN_IKKE_FJERNE_FEILREGISTRERING',
 } as const;
 
 export type ApiHttpProblemDetailsApiPatchNotatErrorCodeDetail = null | string;
@@ -1233,58 +1267,59 @@ export type ApiHttpProblemDetailsApiPatchNotatErrorCodeDetail = null | string;
 export type ApiHttpProblemDetailsApiPatchNotatErrorCodeCode = null | ApiPatchNotatErrorCode;
 
 export interface ApiHttpProblemDetailsApiPatchNotatErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPatchNotatErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPatchNotatErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPatchNotatErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPatchNotatErrorCodeCode;
 }
 
-export type ApiGetOpptegnelseSekvensnummerSisteErrorCode =
-    (typeof ApiGetOpptegnelseSekvensnummerSisteErrorCode)[keyof typeof ApiGetOpptegnelseSekvensnummerSisteErrorCode];
+export type ApiGetOpptegnelseSekvensnummerSisteErrorCode = typeof ApiGetOpptegnelseSekvensnummerSisteErrorCode[keyof typeof ApiGetOpptegnelseSekvensnummerSisteErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetOpptegnelseSekvensnummerSisteErrorCode = {} as const;
+export const ApiGetOpptegnelseSekvensnummerSisteErrorCode = {
+} as const;
 
 export type ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeCode =
-    null | ApiGetOpptegnelseSekvensnummerSisteErrorCode;
+export type ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeCode = null | ApiGetOpptegnelseSekvensnummerSisteErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeCode;
 }
 
 export interface ApiOpptegnelse {
-    sekvensnummer: number;
-    type: ApiOpptegnelseType;
+  sekvensnummer: number;
+  type: ApiOpptegnelseType;
 }
 
-export type ApiOpptegnelseType = (typeof ApiOpptegnelseType)[keyof typeof ApiOpptegnelseType];
+export type ApiOpptegnelseType = typeof ApiOpptegnelseType[keyof typeof ApiOpptegnelseType];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiOpptegnelseType = {
-    UTBETALING_ANNULLERING_FEILET: 'UTBETALING_ANNULLERING_FEILET',
-    UTBETALING_ANNULLERING_OK: 'UTBETALING_ANNULLERING_OK',
-    FERDIGBEHANDLET_GODKJENNINGSBEHOV: 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
-    NY_SAKSBEHANDLEROPPGAVE: 'NY_SAKSBEHANDLEROPPGAVE',
-    REVURDERING_AVVIST: 'REVURDERING_AVVIST',
-    REVURDERING_FERDIGBEHANDLET: 'REVURDERING_FERDIGBEHANDLET',
-    PERSONDATA_OPPDATERT: 'PERSONDATA_OPPDATERT',
-    PERSON_KLAR_TIL_BEHANDLING: 'PERSON_KLAR_TIL_BEHANDLING',
+  UTBETALING_ANNULLERING_FEILET: 'UTBETALING_ANNULLERING_FEILET',
+  UTBETALING_ANNULLERING_OK: 'UTBETALING_ANNULLERING_OK',
+  FERDIGBEHANDLET_GODKJENNINGSBEHOV: 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
+  NY_SAKSBEHANDLEROPPGAVE: 'NY_SAKSBEHANDLEROPPGAVE',
+  REVURDERING_AVVIST: 'REVURDERING_AVVIST',
+  REVURDERING_FERDIGBEHANDLET: 'REVURDERING_FERDIGBEHANDLET',
+  PERSONDATA_OPPDATERT: 'PERSONDATA_OPPDATERT',
+  PERSON_KLAR_TIL_BEHANDLING: 'PERSON_KLAR_TIL_BEHANDLING',
 } as const;
 
-export type ApiGetOpptegnelserForPersonErrorCode =
-    (typeof ApiGetOpptegnelserForPersonErrorCode)[keyof typeof ApiGetOpptegnelserForPersonErrorCode];
+export type ApiGetOpptegnelserForPersonErrorCode = typeof ApiGetOpptegnelserForPersonErrorCode[keyof typeof ApiGetOpptegnelserForPersonErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetOpptegnelserForPersonErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
 export type ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCodeDetail = null | string;
@@ -1292,11 +1327,11 @@ export type ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCodeDetail = nu
 export type ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCodeCode = null | ApiGetOpptegnelserForPersonErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiGetOpptegnelserForPersonErrorCodeCode;
 }
 
 export type ApiPersonSokRequestAktørId = null | string;
@@ -1304,22 +1339,23 @@ export type ApiPersonSokRequestAktørId = null | string;
 export type ApiPersonSokRequestIdentitetsnummer = null | string;
 
 export interface ApiPersonSokRequest {
-    aktørId?: ApiPersonSokRequestAktørId;
-    identitetsnummer?: ApiPersonSokRequestIdentitetsnummer;
+  aktørId?: ApiPersonSokRequestAktørId;
+  identitetsnummer?: ApiPersonSokRequestIdentitetsnummer;
 }
 
 export interface ApiPersonSokResponse {
-    personPseudoId: string;
-    klarForVisning: boolean;
+  personPseudoId: string;
+  klarForVisning: boolean;
 }
 
-export type ApiPostPersonSokErrorCode = (typeof ApiPostPersonSokErrorCode)[keyof typeof ApiPostPersonSokErrorCode];
+export type ApiPostPersonSokErrorCode = typeof ApiPostPersonSokErrorCode[keyof typeof ApiPostPersonSokErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostPersonSokErrorCode = {
-    FOR_MANGE_INPUTPARAMETERE: 'FOR_MANGE_INPUTPARAMETERE',
-    MANGLER_INPUTPARAMETERE: 'MANGLER_INPUTPARAMETERE',
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  FOR_MANGE_INPUTPARAMETERE: 'FOR_MANGE_INPUTPARAMETERE',
+  MANGLER_INPUTPARAMETERE: 'MANGLER_INPUTPARAMETERE',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail = null | string;
@@ -1327,57 +1363,58 @@ export type ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail = null | string
 export type ApiHttpProblemDetailsApiPostPersonSokErrorCodeCode = null | ApiPostPersonSokErrorCode;
 
 export interface ApiHttpProblemDetailsApiPostPersonSokErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiPostPersonSokErrorCodeCode;
 }
 
-export type ApiKrrRegistrertStatus = (typeof ApiKrrRegistrertStatus)[keyof typeof ApiKrrRegistrertStatus];
+export type ApiKrrRegistrertStatus = typeof ApiKrrRegistrertStatus[keyof typeof ApiKrrRegistrertStatus];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiKrrRegistrertStatus = {
-    RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING: 'RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING',
-    IKKE_RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING: 'IKKE_RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING',
-    IKKE_REGISTRERT_I_KRR: 'IKKE_REGISTRERT_I_KRR',
+  RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING: 'RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING',
+  IKKE_RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING: 'IKKE_RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING',
+  IKKE_REGISTRERT_I_KRR: 'IKKE_REGISTRERT_I_KRR',
 } as const;
 
-export type ApiGetKrrRegistrertStatusForPersonErrorCode =
-    (typeof ApiGetKrrRegistrertStatusForPersonErrorCode)[keyof typeof ApiGetKrrRegistrertStatusForPersonErrorCode];
+export type ApiGetKrrRegistrertStatusForPersonErrorCode = typeof ApiGetKrrRegistrertStatusForPersonErrorCode[keyof typeof ApiGetKrrRegistrertStatusForPersonErrorCode];
+
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetKrrRegistrertStatusForPersonErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+  FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
 } as const;
 
 export type ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode =
-    null | ApiGetKrrRegistrertStatusForPersonErrorCode;
+export type ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode = null | ApiGetKrrRegistrertStatusForPersonErrorCode;
 
 export interface ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode;
+  type: string;
+  status: number;
+  title: string;
+  detail?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeDetail;
+  code?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode;
 }
 
 export type GetOppgaverParams = {
-    minstEnAvEgenskapene?: string[];
-    ingenAvEgenskapene?: string;
-    erTildelt?: boolean;
-    tildeltTilOid?: string;
-    erPaaVent?: boolean;
-    sorteringsfelt?: ApiOppgaveSorteringsfelt;
-    sorteringsrekkefoelge?: ApiSorteringsrekkefølge;
-    sidetall?: number;
-    sidestoerrelse?: number;
+minstEnAvEgenskapene?: string[];
+ingenAvEgenskapene?: string;
+erTildelt?: boolean;
+tildeltTilOid?: string;
+erPaaVent?: boolean;
+sorteringsfelt?: ApiOppgaveSorteringsfelt;
+sorteringsrekkefoelge?: ApiSorteringsrekkefølge;
+sidetall?: number;
+sidestoerrelse?: number;
 };
 
 export type GetOpptegnelserForPersonParams = {
-    etterSekvensnummer: number;
+etterSekvensnummer: number;
 };
+

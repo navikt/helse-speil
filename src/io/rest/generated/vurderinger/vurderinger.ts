@@ -4,89 +4,75 @@
  * API
  * OpenAPI spec version: latest
  */
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+
 import type {
     ApiArbeidstidsvurderingRequest,
-    ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode,
+    ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode
 } from '../spesialist.schemas';
 
-import { useMutation } from '@tanstack/react-query';
-import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+
 
 export const postArbeidstidsvurdering = (
     pseudoId: string,
     apiArbeidstidsvurderingRequest?: ApiArbeidstidsvurderingRequest,
-    signal?: AbortSignal,
+ signal?: AbortSignal
 ) => {
-    return callCustomAxios<void>({
-        url: `/api/spesialist/personer/${pseudoId}/vurderinger/arbeidstid`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: apiArbeidstidsvurderingRequest,
-        signal,
-    });
-};
+      
+      
+      return callCustomAxios<void>(
+      {url: `/api/spesialist/personer/${pseudoId}/vurderinger/arbeidstid`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: apiArbeidstidsvurderingRequest, signal
+    },
+      );
+    }
+  
 
-export const getPostArbeidstidsvurderingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+
+export const getPostArbeidstidsvurderingMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postArbeidstidsvurdering>>, TError,{pseudoId: string;data: ApiArbeidstidsvurderingRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postArbeidstidsvurdering>>, TError,{pseudoId: string;data: ApiArbeidstidsvurderingRequest}, TContext> => {
+
+const mutationKey = ['postArbeidstidsvurdering'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postArbeidstidsvurdering>>, {pseudoId: string;data: ApiArbeidstidsvurderingRequest}> = (props) => {
+          const {pseudoId,data} = props ?? {};
+
+          return  postArbeidstidsvurdering(pseudoId,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostArbeidstidsvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof postArbeidstidsvurdering>>>
+    export type PostArbeidstidsvurderingMutationBody = ApiArbeidstidsvurderingRequest
+    export type PostArbeidstidsvurderingMutationError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>
+
+    export const usePostArbeidstidsvurdering = <TError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postArbeidstidsvurdering>>, TError,{pseudoId: string;data: ApiArbeidstidsvurderingRequest}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postArbeidstidsvurdering>>,
         TError,
-        { pseudoId: string; data: ApiArbeidstidsvurderingRequest },
+        {pseudoId: string;data: ApiArbeidstidsvurderingRequest},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postArbeidstidsvurdering>>,
-    TError,
-    { pseudoId: string; data: ApiArbeidstidsvurderingRequest },
-    TContext
-> => {
-    const mutationKey = ['postArbeidstidsvurdering'];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postArbeidstidsvurdering>>,
-        { pseudoId: string; data: ApiArbeidstidsvurderingRequest }
-    > = (props) => {
-        const { pseudoId, data } = props ?? {};
+      const mutationOptions = getPostArbeidstidsvurderingMutationOptions(options);
 
-        return postArbeidstidsvurdering(pseudoId, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostArbeidstidsvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof postArbeidstidsvurdering>>>;
-export type PostArbeidstidsvurderingMutationBody = ApiArbeidstidsvurderingRequest;
-export type PostArbeidstidsvurderingMutationError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>;
-
-export const usePostArbeidstidsvurdering = <
-    TError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postArbeidstidsvurdering>>,
-            TError,
-            { pseudoId: string; data: ApiArbeidstidsvurderingRequest },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postArbeidstidsvurdering>>,
-    TError,
-    { pseudoId: string; data: ApiArbeidstidsvurderingRequest },
-    TContext
-> => {
-    const mutationOptions = getPostArbeidstidsvurderingMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
+      return useMutation(mutationOptions, queryClient);
+    }
+    

@@ -4,17 +4,6 @@
  * API
  * OpenAPI spec version: latest
  */
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type {
-    ApiHttpProblemDetailsDeleteVarselvurderingErrorCode,
-    ApiHttpProblemDetailsGetVarselErrorCode,
-    ApiHttpProblemDetailsPutVarselvurderingErrorCode,
-    ApiVarsel,
-    ApiVarselvurdering,
-} from '../spesialist.schemas';
-
-import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -27,232 +16,219 @@ import type {
     UseMutationOptions,
     UseMutationResult,
     UseQueryOptions,
-    UseQueryResult,
+    UseQueryResult
 } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
-export const getVarsel = (varselId: string, signal?: AbortSignal) => {
-    return callCustomAxios<ApiVarsel>({ url: `/api/spesialist/varsler/${varselId}`, method: 'GET', signal });
-};
+import type {
+    ApiHttpProblemDetailsDeleteVarselvurderingErrorCode,
+    ApiHttpProblemDetailsGetVarselErrorCode,
+    ApiHttpProblemDetailsPutVarselvurderingErrorCode,
+    ApiVarsel,
+    ApiVarselvurdering
+} from '../spesialist.schemas';
 
-export const getGetVarselQueryKey = (varselId?: string) => {
-    return [`/api/spesialist/varsler/${varselId}`] as const;
-};
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 
-export const getGetVarselQueryOptions = <
-    TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
->(
+
+export const getVarsel = (
     varselId: string,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> },
+ signal?: AbortSignal
 ) => {
-    const { query: queryOptions } = options ?? {};
+      
+      
+      return callCustomAxios<ApiVarsel>(
+      {url: `/api/spesialist/varsler/${varselId}`, method: 'GET', signal
+    },
+      );
+    }
+  
 
-    const queryKey = queryOptions?.queryKey ?? getGetVarselQueryKey(varselId);
+
+
+export const getGetVarselQueryKey = (varselId?: string,) => {
+    return [
+    `/api/spesialist/varsler/${varselId}`
+    ] as const;
+    }
+
+    
+export const getGetVarselQueryOptions = <TData = Awaited<ReturnType<typeof getVarsel>>, TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>>(varselId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetVarselQueryKey(varselId);
+
+  
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getVarsel>>> = ({ signal }) => getVarsel(varselId, signal);
 
-    return {
-        queryKey,
-        queryFn,
-        enabled: !!varselId,
-        staleTime: Infinity,
-        gcTime: 0,
-        ...queryOptions,
-    } as UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-};
+      
 
-export type GetVarselQueryResult = NonNullable<Awaited<ReturnType<typeof getVarsel>>>;
-export type GetVarselQueryError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>;
+      
 
-export function useGetVarsel<
-    TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
->(
-    varselId: string,
-    options: {
-        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getVarsel>>,
-                    TError,
-                    Awaited<ReturnType<typeof getVarsel>>
-                >,
-                'initialData'
-            >;
-    },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetVarsel<
-    TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
->(
-    varselId: string,
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getVarsel>>,
-                    TError,
-                    Awaited<ReturnType<typeof getVarsel>>
-                >,
-                'initialData'
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetVarsel<
-    TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
->(
-    varselId: string,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-export function useGetVarsel<
-    TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
->(
-    varselId: string,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetVarselQueryOptions(varselId, options);
-
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
+   return  { queryKey, queryFn, enabled: !!(varselId),  staleTime: Infinity, gcTime: 0,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
 
-export const putVarselvurdering = (varselId: string, apiVarselvurdering?: ApiVarselvurdering) => {
-    return callCustomAxios<void>({
-        url: `/api/spesialist/varsler/${varselId}/vurdering`,
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        data: apiVarselvurdering,
-    });
-};
+export type GetVarselQueryResult = NonNullable<Awaited<ReturnType<typeof getVarsel>>>
+export type GetVarselQueryError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>
 
-export const getPutVarselvurderingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+
+export function useGetVarsel<TData = Awaited<ReturnType<typeof getVarsel>>, TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>>(
+ varselId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getVarsel>>,
+          TError,
+          Awaited<ReturnType<typeof getVarsel>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetVarsel<TData = Awaited<ReturnType<typeof getVarsel>>, TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>>(
+ varselId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getVarsel>>,
+          TError,
+          Awaited<ReturnType<typeof getVarsel>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetVarsel<TData = Awaited<ReturnType<typeof getVarsel>>, TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>>(
+ varselId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetVarsel<TData = Awaited<ReturnType<typeof getVarsel>>, TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>>(
+ varselId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetVarselQueryOptions(varselId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
+export const putVarselvurdering = (
+    varselId: string,
+    apiVarselvurdering?: ApiVarselvurdering,
+ ) => {
+      
+      
+      return callCustomAxios<void>(
+      {url: `/api/spesialist/varsler/${varselId}/vurdering`, method: 'PUT',
+      headers: {'Content-Type': 'application/json', },
+      data: apiVarselvurdering
+    },
+      );
+    }
+  
+
+
+export const getPutVarselvurderingMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putVarselvurdering>>, TError,{varselId: string;data: ApiVarselvurdering}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof putVarselvurdering>>, TError,{varselId: string;data: ApiVarselvurdering}, TContext> => {
+
+const mutationKey = ['putVarselvurdering'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof putVarselvurdering>>, {varselId: string;data: ApiVarselvurdering}> = (props) => {
+          const {varselId,data} = props ?? {};
+
+          return  putVarselvurdering(varselId,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PutVarselvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof putVarselvurdering>>>
+    export type PutVarselvurderingMutationBody = ApiVarselvurdering
+    export type PutVarselvurderingMutationError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>
+
+    export const usePutVarselvurdering = <TError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof putVarselvurdering>>, TError,{varselId: string;data: ApiVarselvurdering}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof putVarselvurdering>>,
         TError,
-        { varselId: string; data: ApiVarselvurdering },
+        {varselId: string;data: ApiVarselvurdering},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof putVarselvurdering>>,
-    TError,
-    { varselId: string; data: ApiVarselvurdering },
-    TContext
-> => {
-    const mutationKey = ['putVarselvurdering'];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof putVarselvurdering>>,
-        { varselId: string; data: ApiVarselvurdering }
-    > = (props) => {
-        const { varselId, data } = props ?? {};
+      const mutationOptions = getPutVarselvurderingMutationOptions(options);
 
-        return putVarselvurdering(varselId, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PutVarselvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof putVarselvurdering>>>;
-export type PutVarselvurderingMutationBody = ApiVarselvurdering;
-export type PutVarselvurderingMutationError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>;
-
-export const usePutVarselvurdering = <
-    TError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof putVarselvurdering>>,
-            TError,
-            { varselId: string; data: ApiVarselvurdering },
-            TContext
-        >;
+      return useMutation(mutationOptions, queryClient);
+    }
+    export const deleteVarselvurdering = (
+    varselId: string,
+ ) => {
+      
+      
+      return callCustomAxios<void>(
+      {url: `/api/spesialist/varsler/${varselId}/vurdering`, method: 'DELETE'
     },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof putVarselvurdering>>,
-    TError,
-    { varselId: string; data: ApiVarselvurdering },
-    TContext
-> => {
-    const mutationOptions = getPutVarselvurderingMutationOptions(options);
+      );
+    }
+  
 
-    return useMutation(mutationOptions, queryClient);
-};
-export const deleteVarselvurdering = (varselId: string) => {
-    return callCustomAxios<void>({ url: `/api/spesialist/varsler/${varselId}/vurdering`, method: 'DELETE' });
-};
 
-export const getDeleteVarselvurderingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+export const getDeleteVarselvurderingMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteVarselvurdering>>, TError,{varselId: string}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof deleteVarselvurdering>>, TError,{varselId: string}, TContext> => {
+
+const mutationKey = ['deleteVarselvurdering'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteVarselvurdering>>, {varselId: string}> = (props) => {
+          const {varselId} = props ?? {};
+
+          return  deleteVarselvurdering(varselId,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type DeleteVarselvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof deleteVarselvurdering>>>
+    
+    export type DeleteVarselvurderingMutationError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>
+
+    export const useDeleteVarselvurdering = <TError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof deleteVarselvurdering>>, TError,{varselId: string}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof deleteVarselvurdering>>,
         TError,
-        { varselId: string },
+        {varselId: string},
         TContext
-    >;
-}): UseMutationOptions<Awaited<ReturnType<typeof deleteVarselvurdering>>, TError, { varselId: string }, TContext> => {
-    const mutationKey = ['deleteVarselvurdering'];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteVarselvurdering>>, { varselId: string }> = (
-        props,
-    ) => {
-        const { varselId } = props ?? {};
+      const mutationOptions = getDeleteVarselvurderingMutationOptions(options);
 
-        return deleteVarselvurdering(varselId);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type DeleteVarselvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof deleteVarselvurdering>>>;
-
-export type DeleteVarselvurderingMutationError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>;
-
-export const useDeleteVarselvurdering = <
-    TError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof deleteVarselvurdering>>,
-            TError,
-            { varselId: string },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<Awaited<ReturnType<typeof deleteVarselvurdering>>, TError, { varselId: string }, TContext> => {
-    const mutationOptions = getDeleteVarselvurderingMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
+      return useMutation(mutationOptions, queryClient);
+    }
+    

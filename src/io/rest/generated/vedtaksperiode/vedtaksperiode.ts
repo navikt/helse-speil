@@ -4,92 +4,75 @@
  * API
  * OpenAPI spec version: latest
  */
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
+
 import type {
     ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode,
-    ApiVedtaksperiodeAnnullerRequest,
+    ApiVedtaksperiodeAnnullerRequest
 } from '../spesialist.schemas';
 
-import { useMutation } from '@tanstack/react-query';
-import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+
 
 export const postVedtaksperiodeAnnuller = (
     vedtaksperiodeId: string,
     apiVedtaksperiodeAnnullerRequest?: ApiVedtaksperiodeAnnullerRequest,
-    signal?: AbortSignal,
+ signal?: AbortSignal
 ) => {
-    return callCustomAxios<void>({
-        url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/annuller`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: apiVedtaksperiodeAnnullerRequest,
-        signal,
-    });
-};
+      
+      
+      return callCustomAxios<void>(
+      {url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/annuller`, method: 'POST',
+      headers: {'Content-Type': 'application/json', },
+      data: apiVedtaksperiodeAnnullerRequest, signal
+    },
+      );
+    }
+  
 
-export const getPostVedtaksperiodeAnnullerMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
+
+export const getPostVedtaksperiodeAnnullerMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>, TError,{vedtaksperiodeId: string;data: ApiVedtaksperiodeAnnullerRequest}, TContext>, }
+): UseMutationOptions<Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>, TError,{vedtaksperiodeId: string;data: ApiVedtaksperiodeAnnullerRequest}, TContext> => {
+
+const mutationKey = ['postVedtaksperiodeAnnuller'];
+const {mutation: mutationOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }};
+
+      
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>, {vedtaksperiodeId: string;data: ApiVedtaksperiodeAnnullerRequest}> = (props) => {
+          const {vedtaksperiodeId,data} = props ?? {};
+
+          return  postVedtaksperiodeAnnuller(vedtaksperiodeId,data,)
+        }
+
+        
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PostVedtaksperiodeAnnullerMutationResult = NonNullable<Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>>
+    export type PostVedtaksperiodeAnnullerMutationBody = ApiVedtaksperiodeAnnullerRequest
+    export type PostVedtaksperiodeAnnullerMutationError = ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>
+
+    export const usePostVedtaksperiodeAnnuller = <TError = ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>, TError,{vedtaksperiodeId: string;data: ApiVedtaksperiodeAnnullerRequest}, TContext>, }
+ , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>,
         TError,
-        { vedtaksperiodeId: string; data: ApiVedtaksperiodeAnnullerRequest },
+        {vedtaksperiodeId: string;data: ApiVedtaksperiodeAnnullerRequest},
         TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>,
-    TError,
-    { vedtaksperiodeId: string; data: ApiVedtaksperiodeAnnullerRequest },
-    TContext
-> => {
-    const mutationKey = ['postVedtaksperiodeAnnuller'];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
+      > => {
 
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>,
-        { vedtaksperiodeId: string; data: ApiVedtaksperiodeAnnullerRequest }
-    > = (props) => {
-        const { vedtaksperiodeId, data } = props ?? {};
+      const mutationOptions = getPostVedtaksperiodeAnnullerMutationOptions(options);
 
-        return postVedtaksperiodeAnnuller(vedtaksperiodeId, data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostVedtaksperiodeAnnullerMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>
->;
-export type PostVedtaksperiodeAnnullerMutationBody = ApiVedtaksperiodeAnnullerRequest;
-export type PostVedtaksperiodeAnnullerMutationError =
-    ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>;
-
-export const usePostVedtaksperiodeAnnuller = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>,
-            TError,
-            { vedtaksperiodeId: string; data: ApiVedtaksperiodeAnnullerRequest },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>,
-    TError,
-    { vedtaksperiodeId: string; data: ApiVedtaksperiodeAnnullerRequest },
-    TContext
-> => {
-    const mutationOptions = getPostVedtaksperiodeAnnullerMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
+      return useMutation(mutationOptions, queryClient);
+    }
+    

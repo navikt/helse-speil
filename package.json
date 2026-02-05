@@ -34,7 +34,7 @@
     },
     "lint-staged": {
         "*.{js,css,md}": [
-            "prettier --write"
+            "prettier --write --ignore-pattern 'src/io/rest/generated/**"
         ],
         "*.json": [
             "prettier --write --ignore-pattern 'src/spesialist-mock/data/personer/**'"

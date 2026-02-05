@@ -4,14 +4,6 @@
  * API
  * OpenAPI spec version: latest
  */
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type {
-    ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
-    ApiKrrRegistrertStatus,
-} from '../spesialist.schemas';
-
-import { useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -21,119 +13,102 @@ import type {
     QueryKey,
     UndefinedInitialDataOptions,
     UseQueryOptions,
-    UseQueryResult,
+    UseQueryResult
 } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
-export const getKrrRegistrertStatusForPerson = (pseudoId: string, signal?: AbortSignal) => {
-    return callCustomAxios<ApiKrrRegistrertStatus>({
-        url: `/api/spesialist/personer/${pseudoId}/krr-registrert-status`,
-        method: 'GET',
-        signal,
-    });
-};
+import type {
+    ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
+    ApiKrrRegistrertStatus
+} from '../spesialist.schemas';
 
-export const getGetKrrRegistrertStatusForPersonQueryKey = (pseudoId?: string) => {
-    return [`/api/spesialist/personer/${pseudoId}/krr-registrert-status`] as const;
-};
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 
-export const getGetKrrRegistrertStatusForPersonQueryOptions = <
-    TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
->(
+
+export const getKrrRegistrertStatusForPerson = (
     pseudoId: string,
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>>;
-    },
+ signal?: AbortSignal
 ) => {
-    const { query: queryOptions } = options ?? {};
-
-    const queryKey = queryOptions?.queryKey ?? getGetKrrRegistrertStatusForPersonQueryKey(pseudoId);
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>> = ({ signal }) =>
-        getKrrRegistrertStatusForPerson(pseudoId, signal);
-
-    return {
-        queryKey,
-        queryFn,
-        enabled: !!pseudoId,
-        staleTime: Infinity,
-        gcTime: 0,
-        ...queryOptions,
-    } as UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-};
-
-export type GetKrrRegistrertStatusForPersonQueryResult = NonNullable<
-    Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>
->;
-export type GetKrrRegistrertStatusForPersonQueryError =
-    ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>;
-
-export function useGetKrrRegistrertStatusForPerson<
-    TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
->(
-    pseudoId: string,
-    options: {
-        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>> &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-                    TError,
-                    Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>
-                >,
-                'initialData'
-            >;
+      
+      
+      return callCustomAxios<ApiKrrRegistrertStatus>(
+      {url: `/api/spesialist/personer/${pseudoId}/krr-registrert-status`, method: 'GET', signal
     },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetKrrRegistrertStatusForPerson<
-    TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
->(
-    pseudoId: string,
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>> &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-                    TError,
-                    Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>
-                >,
-                'initialData'
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetKrrRegistrertStatusForPerson<
-    TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
->(
-    pseudoId: string,
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>>;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+      );
+    }
+  
 
-export function useGetKrrRegistrertStatusForPerson<
-    TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
->(
-    pseudoId: string,
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>>;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetKrrRegistrertStatusForPersonQueryOptions(pseudoId, options);
 
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
 
-    query.queryKey = queryOptions.queryKey;
+export const getGetKrrRegistrertStatusForPersonQueryKey = (pseudoId?: string,) => {
+    return [
+    `/api/spesialist/personer/${pseudoId}/krr-registrert-status`
+    ] as const;
+    }
 
-    return query;
+    
+export const getGetKrrRegistrertStatusForPersonQueryOptions = <TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>>(pseudoId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>>, }
+) => {
+
+const {query: queryOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetKrrRegistrertStatusForPersonQueryKey(pseudoId);
+
+  
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>> = ({ signal }) => getKrrRegistrertStatusForPerson(pseudoId, signal);
+
+      
+
+      
+
+   return  { queryKey, queryFn, enabled: !!(pseudoId),  staleTime: Infinity, gcTime: 0,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
 }
+
+export type GetKrrRegistrertStatusForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>>
+export type GetKrrRegistrertStatusForPersonQueryError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>
+
+
+export function useGetKrrRegistrertStatusForPerson<TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>>(
+ pseudoId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
+          TError,
+          Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetKrrRegistrertStatusForPerson<TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>>(
+ pseudoId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
+          TError,
+          Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>
+        > , 'initialData'
+      >, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetKrrRegistrertStatusForPerson<TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>>(
+ pseudoId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>>, }
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetKrrRegistrertStatusForPerson<TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>>(
+ pseudoId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>, TError, TData>>, }
+ , queryClient?: QueryClient 
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetKrrRegistrertStatusForPersonQueryOptions(pseudoId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  query.queryKey = queryOptions.queryKey ;
+
+  return query;
+}
+
+
+
+
