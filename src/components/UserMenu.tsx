@@ -10,8 +10,8 @@ import { DarkModeToggle } from '@components/DarkModeToggle';
 import { TastaturModal } from '@components/TastaturModal';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useMounted } from '@hooks/useMounted';
-import { useGetBrukerroller } from '@io/rest/generated/saksbehandlere/saksbehandlere';
-import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
+import { useGetBruker } from '@io/rest/generated/saksbehandlere/saksbehandlere';
+import { ApiBrukerrolle, ApiTilgang } from '@io/rest/generated/spesialist.schemas';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
@@ -28,8 +28,8 @@ export const UserMenu = (): ReactElement => {
     const toggleAnonymity = useToggleAnonymity();
     const [visTastatursnarveier, setVisTastatursnarveier] = useState(false);
 
-    const brukerroller = useGetBrukerroller();
-    const harRoller = (brukerroller?.data?.data?.length ?? 0) > 0;
+    const bruker = useGetBruker();
+    const harRoller = (bruker?.data?.data?.brukerroller?.length ?? 0) > 0;
     useKeyboard([
         {
             key: Key.F1,
@@ -52,11 +52,19 @@ export const UserMenu = (): ReactElement => {
                                 <BodyShort>{ident}</BodyShort>
                             </VStack>
                             <ActionMenu.Divider />
-
+                            <ActionMenu.Group label="Tilgang">
+                                <HStack gap="space-4" paddingInline="space-8" maxWidth="16rem">
+                                    {bruker?.data?.data?.tilganger.map((tilgang) => (
+                                        <Tag size="xsmall" key={tilgang}>
+                                            {tilgangVisningstekst(tilgang)}
+                                        </Tag>
+                                    ))}
+                                </HStack>
+                            </ActionMenu.Group>
                             {harRoller && (
                                 <ActionMenu.Group label="Roller">
                                     <HStack gap="space-4" paddingInline="space-8" maxWidth="16rem">
-                                        {sorterBrukerroller(brukerroller.data?.data ?? []).map((rolle) => (
+                                        {sorterBrukerroller(bruker?.data?.data?.brukerroller ?? []).map((rolle) => (
                                             <Tag size="xsmall" key={rolle}>
                                                 {brukerrolleVisningstekst(rolle)}
                                             </Tag>
@@ -133,5 +141,14 @@ function brukerrolleVisningstekst(brukerrolle: ApiBrukerrolle): string {
             return 'Beslutter';
         default:
             return brukerrolle;
+    }
+}
+
+function tilgangVisningstekst(tilgang: ApiTilgang): string {
+    switch (tilgang) {
+        case ApiTilgang.LES:
+            return 'Lesetilgang';
+        case ApiTilgang.SKRIV:
+            return 'Skrivetilgang';
     }
 }
