@@ -38,26 +38,7 @@ export const ApiBrukerrolle = {
     KODE_7: 'KODE_7',
     STIKKPRØVE: 'STIKKPRØVE',
     UTVIKLER: 'UTVIKLER',
-    SAKSBEHANDLER: 'SAKSBEHANDLER',
-    LESETILGANG: 'LESETILGANG',
 } as const;
-
-export type GetBrukerrollerErrorCode = (typeof GetBrukerrollerErrorCode)[keyof typeof GetBrukerrollerErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const GetBrukerrollerErrorCode = {} as const;
-
-export type ApiHttpProblemDetailsGetBrukerrollerErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsGetBrukerrollerErrorCodeCode = null | GetBrukerrollerErrorCode;
-
-export interface ApiHttpProblemDetailsGetBrukerrollerErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsGetBrukerrollerErrorCodeDetail;
-    code?: ApiHttpProblemDetailsGetBrukerrollerErrorCodeCode;
-}
 
 export type ApiTilgang = (typeof ApiTilgang)[keyof typeof ApiTilgang];
 
@@ -897,6 +878,7 @@ export const ApiPostForkastingErrorCode = {
     BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
     TOTRINNSVURDERING_SENDT_TIL_BESLUTTER: 'TOTRINNSVURDERING_SENDT_TIL_BESLUTTER',
