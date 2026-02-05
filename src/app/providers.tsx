@@ -35,7 +35,13 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
     const [apolloClient] = useState(() => createApolloClient());
 
     return (
-        <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light" disableTransitionOnChange={false}>
+        <ThemeProvider
+            attribute="class"
+            enableSystem={false}
+            defaultTheme="light"
+            disableTransitionOnChange={false}
+            themes={['light', 'dark', 'infotrygd']}
+        >
             <QueryClientProvider client={queryClient}>
                 <ApolloProvider client={apolloClient}>
                     <Provider>

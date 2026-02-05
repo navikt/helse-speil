@@ -45,15 +45,6 @@
     --anonymizable-user-select: unset;
 }
 
-[data-color='gammalost'] {
-    --ax-bg-moderate: var(--ax-bg-meta-lime-soft);
-    --ax-text-default: var(--ax-text-meta-lime);
-    --ax-text-subtle: var(--ax-text-meta-lime-subtle);
-    --ax-text-decoration: var(--ax-text-meta-lime-decoration);
-    --ax-text-contrast: var(--ax-text-meta-lime-contrast);
-    --ax-border-default: var(--ax-border-meta-lime);
-}
-
 html,
 body {
     height: 100vh;
@@ -64,4 +55,22 @@ body {
     font-size: 1rem;
     display: flex;
     flex-direction: column;
+}
+
+[data-color='infotrygd'] {
+    --ax-font-family:
+        'Courier New', 'Monaco', 'Lucida Console', 'Liberation Mono', 'DejaVu Sans Mono', 'Bitstream Vera Sans Mono',
+        monospace;
+    --ax-bg-strong: #00fefe;
+    --ax-text-subtle: #00fefe;
+    --ax-border-default: #00fefe;
+}
+
+[data-color='gammalost'] {
+    --ax-bg-moderate: var(--ax-bg-meta-lime-soft);
+    --ax-text-default: var(--ax-text-meta-lime);
+    --ax-text-subtle: var(--ax-text-meta-lime-subtle);
+    --ax-text-decoration: var(--ax-text-meta-lime-decoration);
+    --ax-text-contrast: var(--ax-text-meta-lime-contrast);
+    --ax-border-default: var(--ax-border-meta-lime);
 }

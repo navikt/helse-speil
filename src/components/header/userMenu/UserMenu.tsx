@@ -1,15 +1,15 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import React, { ReactElement, useState } from 'react';
 
 import { ActionMenu, BodyShort, HStack, Tag, Theme, VStack } from '@navikt/ds-react';
 import { InternalHeaderUserButton } from '@navikt/ds-react/InternalHeader';
 
-import { DarkModeToggle } from '@components/DarkModeToggle';
 import { TastaturModal } from '@components/TastaturModal';
+import { DarkModeToggle } from '@components/header/userMenu/DarkModeToggle';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useMounted } from '@hooks/useMounted';
+import { useResolvedTheme } from '@hooks/useResolvedTheme';
 import { useGetBrukerroller } from '@io/rest/generated/saksbehandlere/saksbehandlere';
 import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
@@ -22,7 +22,7 @@ const useBrukerinfo = () => {
 
 export const UserMenu = (): ReactElement => {
     const { navn, ident } = useBrukerinfo();
-    const { resolvedTheme } = useTheme();
+    const { themeValue, dataColor } = useResolvedTheme();
     const mounted = useMounted();
     const isAnonymous = useIsAnonymous();
     const toggleAnonymity = useToggleAnonymity();
@@ -45,7 +45,7 @@ export const UserMenu = (): ReactElement => {
                     <InternalHeaderUserButton name={navn} description={ident} />
                 </ActionMenu.Trigger>
                 {mounted && (
-                    <Theme theme={resolvedTheme as 'light' | 'dark'}>
+                    <Theme theme={themeValue} data-color={dataColor}>
                         <ActionMenu.Content>
                             <VStack paddingInline="space-8">
                                 <BodyShort>{navn}</BodyShort>

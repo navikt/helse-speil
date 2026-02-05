@@ -1,22 +1,22 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import React, { useState } from 'react';
 
 import { InternalHeader, Theme } from '@navikt/ds-react';
 
 import { ToggleMeny } from '@components/header/toggleMeny/ToggleMeny';
+import { useResolvedTheme } from '@hooks/useResolvedTheme';
 
 export const ToggleMenyButton = () => {
     const [showModal, setShowModal] = useState(false);
-    const { resolvedTheme } = useTheme();
+    const { themeValue, dataColor } = useResolvedTheme();
 
     return (
         <>
             <InternalHeader.Button onClick={() => setShowModal(true)}>Toggles</InternalHeader.Button>
 
             {showModal && (
-                <Theme theme={resolvedTheme as 'light' | 'dark'}>
+                <Theme theme={themeValue} data-color={dataColor}>
                     <ToggleMeny closeModal={() => setShowModal(false)} showModal={showModal} />
                 </Theme>
             )}

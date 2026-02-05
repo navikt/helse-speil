@@ -1,12 +1,12 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import React, { ReactElement } from 'react';
 
 import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
 import { Dropdown, InternalHeader as Header, Theme } from '@navikt/ds-react';
 
 import { useMounted } from '@hooks/useMounted';
+import { useResolvedTheme } from '@hooks/useResolvedTheme';
 import { useFetchPersonQuery } from '@state/person';
 
 import styles from './SystemMenu.module.css';
@@ -163,7 +163,7 @@ const createLinks = (maybeFnr: string | null, maybeAktoerId: string | null): (Hr
 ];
 
 export const SystemMenu = (): ReactElement => {
-    const { resolvedTheme } = useTheme();
+    const { themeValue, dataColor } = useResolvedTheme();
     const mounted = useMounted();
 
     return (
@@ -172,7 +172,7 @@ export const SystemMenu = (): ReactElement => {
                 <MenuGridIcon title="Systemmeny" fontSize="2.25rem" />
             </Header.Button>
             {mounted && (
-                <Theme theme={resolvedTheme as 'light' | 'dark'}>
+                <Theme theme={themeValue} data-color={dataColor}>
                     <Dropdown.Menu className={styles.DropdownContent}>
                         <Dropdown.Menu.GroupedList>
                             <Dropdown.Menu.GroupedList.Heading>

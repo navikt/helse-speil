@@ -8,11 +8,11 @@ import { InternalHeader } from '@navikt/ds-react';
 
 import { erDev, erLokal, erUtvikling } from '@/env';
 import { SystemMenu } from '@components/SystemMenu';
-import { UserMenu } from '@components/UserMenu';
 import { EasterEgg } from '@components/header/EasterEgg';
 import { Personsøk } from '@components/header/Personsøk';
 import { Nyheter } from '@components/header/nyheter/Nyheter';
 import { ToggleMenyButton } from '@components/header/toggleMeny/ToggleMenyButton';
+import { UserMenu } from '@components/header/userMenu/UserMenu';
 
 import styles from './Header.module.css';
 

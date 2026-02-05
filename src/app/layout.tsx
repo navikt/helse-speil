@@ -9,6 +9,7 @@ import { Preload } from '@app/preload';
 import { Providers } from '@app/providers';
 import { getTokenPayload } from '@auth/token';
 import { PersonSomKlargjøres } from '@components/PersonSomKlargjøres';
+import { ThemeSync } from '@components/ThemeSync';
 import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Driftsmeldinger } from '@components/driftsmeldinger/Driftsmeldinger';
@@ -59,6 +60,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                         ident: payload.NAVident,
                     }}
                 >
+                    <ThemeSync />
                     <Driftsmeldinger />
                     <Header />
                     <Varsler />

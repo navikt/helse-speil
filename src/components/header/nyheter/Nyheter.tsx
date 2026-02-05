@@ -1,7 +1,6 @@
 'use client';
 
 import dayjs from 'dayjs';
-import { useTheme } from 'next-themes';
 import React, { PropsWithChildren, useRef } from 'react';
 
 import { BellFillIcon } from '@navikt/aksel-icons';
@@ -11,12 +10,13 @@ import { Nyhet } from '@components/header/nyheter/Nyhet';
 import { BjelleDottIkon } from '@components/ikoner/BjelleDottIkon';
 import { useNyheter } from '@external/sanity';
 import { useMounted } from '@hooks/useMounted';
+import { useResolvedTheme } from '@hooks/useResolvedTheme';
 
 import styles from './Nyheter.module.scss';
 
 export const Nyheter = () => {
     const { nyheter, loading } = useNyheter();
-    const { resolvedTheme } = useTheme();
+    const { themeValue, dataColor } = useResolvedTheme();
     const mounted = useMounted();
     const sisteNyhet = nyheter[0];
     const harBlittÅpnet = useRef(false);
@@ -36,7 +36,7 @@ export const Nyheter = () => {
                 {skalViseIkonMedPrikk ? <BjelleDottIkon /> : <BellFillIcon title="nyheter i speil" fontSize="26px" />}
             </Header.Button>
             {mounted && (
-                <Theme theme={resolvedTheme as 'light' | 'dark'}>
+                <Theme theme={themeValue} data-color={dataColor}>
                     <Dropdown.Menu className={styles.menu}>
                         <Dropdown.Menu.GroupedList className={styles.list}>
                             <Dropdown.Menu.GroupedList.Heading className={styles.heading}>
