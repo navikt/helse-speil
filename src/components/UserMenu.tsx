@@ -54,7 +54,7 @@ export const UserMenu = (): ReactElement => {
                             <ActionMenu.Divider />
                             <ActionMenu.Group label="Tilgang">
                                 <HStack gap="space-4" paddingInline="space-8" maxWidth="16rem">
-                                    {bruker?.data?.data?.tilganger.map((tilgang) => (
+                                    {bruker?.data?.data?.tilganger?.map((tilgang) => (
                                         <Tag size="xsmall" key={tilgang}>
                                             {tilgangVisningstekst(tilgang)}
                                         </Tag>
