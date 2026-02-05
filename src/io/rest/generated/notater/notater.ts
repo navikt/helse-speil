@@ -4,35 +4,40 @@
  * API
  * OpenAPI spec version: latest
  */
-import type {
-    DataTag,
-    DefinedInitialDataOptions,
-    DefinedUseQueryResult,
-    MutationFunction,
-    QueryClient,
-    QueryFunction,
-    QueryKey,
-    UndefinedInitialDataOptions,
-    UseMutationOptions,
-    UseMutationResult,
-    UseQueryOptions,
-    UseQueryResult
+import {
+  useMutation,
+  useQuery
 } from '@tanstack/react-query';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
-    ApiHttpProblemDetailsApiPatchNotatErrorCode,
-    ApiHttpProblemDetailsApiPostNotatErrorCode,
-    ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode,
-    ApiHttpProblemDetailsGetNotatErrorCode,
-    ApiNotat,
-    ApiNotatRequest,
-    ApiNotatResponse,
-    ApiPatchNotatRequest
+  ApiHttpProblemDetailsApiPatchNotatErrorCode,
+  ApiHttpProblemDetailsApiPostNotatErrorCode,
+  ApiHttpProblemDetailsGetNotatErrorCode,
+  ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode,
+  ApiNotat,
+  ApiNotatRequest,
+  ApiNotatResponse,
+  ApiPatchNotatRequest
 } from '../spesialist.schemas';
 
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+
+
 
 
 export const getNotat = (

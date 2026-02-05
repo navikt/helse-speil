@@ -4,18 +4,27 @@
  * API
  * OpenAPI spec version: latest
  */
-import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
-import { useMutation } from '@tanstack/react-query';
+import {
+  useMutation
+} from '@tanstack/react-query';
+import type {
+  MutationFunction,
+  QueryClient,
+  UseMutationOptions,
+  UseMutationResult
+} from '@tanstack/react-query';
 
 import type {
-    ApiForkastingRequest,
-    ApiHttpProblemDetailsApiPostForkastingErrorCode,
-    ApiHttpProblemDetailsApiPostVedtakErrorCode,
-    ApiVedtakRequest
+  ApiForkastingRequest,
+  ApiHttpProblemDetailsApiPostForkastingErrorCode,
+  ApiHttpProblemDetailsApiPostVedtakErrorCode,
+  ApiVedtakRequest
 } from '../spesialist.schemas';
 
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+
+
 
 
 export const postVedtak = (

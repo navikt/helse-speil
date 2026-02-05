@@ -4,32 +4,37 @@
  * API
  * OpenAPI spec version: latest
  */
-import type {
-    DataTag,
-    DefinedInitialDataOptions,
-    DefinedUseQueryResult,
-    MutationFunction,
-    QueryClient,
-    QueryFunction,
-    QueryKey,
-    UndefinedInitialDataOptions,
-    UseMutationOptions,
-    UseMutationResult,
-    UseQueryOptions,
-    UseQueryResult
+import {
+  useMutation,
+  useQuery
 } from '@tanstack/react-query';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  MutationFunction,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseMutationOptions,
+  UseMutationResult,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
-    ApiHttpProblemDetailsDeleteVarselvurderingErrorCode,
-    ApiHttpProblemDetailsGetVarselErrorCode,
-    ApiHttpProblemDetailsPutVarselvurderingErrorCode,
-    ApiVarsel,
-    ApiVarselvurdering
+  ApiHttpProblemDetailsDeleteVarselvurderingErrorCode,
+  ApiHttpProblemDetailsGetVarselErrorCode,
+  ApiHttpProblemDetailsPutVarselvurderingErrorCode,
+  ApiVarsel,
+  ApiVarselvurdering
 } from '../spesialist.schemas';
 
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+
+
 
 
 export const getVarsel = (

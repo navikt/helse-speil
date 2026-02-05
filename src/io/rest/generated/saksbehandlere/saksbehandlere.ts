@@ -4,28 +4,32 @@
  * API
  * OpenAPI spec version: latest
  */
-import type {
-    DataTag,
-    DefinedInitialDataOptions,
-    DefinedUseQueryResult,
-    QueryClient,
-    QueryFunction,
-    QueryKey,
-    UndefinedInitialDataOptions,
-    UseQueryOptions,
-    UseQueryResult
+import {
+  useQuery
 } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import type {
+  DataTag,
+  DefinedInitialDataOptions,
+  DefinedUseQueryResult,
+  QueryClient,
+  QueryFunction,
+  QueryKey,
+  UndefinedInitialDataOptions,
+  UseQueryOptions,
+  UseQueryResult
+} from '@tanstack/react-query';
 
 import type {
-    ApiAktivSaksbehandler,
-    ApiBruker,
-    ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode,
-    ApiHttpProblemDetailsGetBrukerErrorCode
+  ApiAktivSaksbehandler,
+  ApiBruker,
+  ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode,
+  ApiHttpProblemDetailsGetBrukerErrorCode
 } from '../spesialist.schemas';
 
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+
+
 
 
 export const getAktiveSaksbehandlere = (

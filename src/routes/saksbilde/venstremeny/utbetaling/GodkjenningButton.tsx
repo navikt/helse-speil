@@ -132,7 +132,6 @@ const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
             return message('Vedtaket er allerede fattet');
         case 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING':
         case 'BEHANDLING_IKKE_FUNNET':
-        case 'VEDTAKSPERIODE_IKKE_FUNNET':
         case 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER':
         case 'VARSEL_MANGLER_VARSELDEFINISJON':
         default:

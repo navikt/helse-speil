@@ -223,6 +223,7 @@ export type ApiPostOpphevStansErrorCode = typeof ApiPostOpphevStansErrorCode[key
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostOpphevStansErrorCode = {
+  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
@@ -387,7 +388,7 @@ export type ApiGetSoknadErrorCode = typeof ApiGetSoknadErrorCode[keyof typeof Ap
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetSoknadErrorCode = {
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
   FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
 } as const;
@@ -563,7 +564,7 @@ export type ApiGetInntektsmeldingErrorCode = typeof ApiGetInntektsmeldingErrorCo
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetInntektsmeldingErrorCode = {
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
   FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
   MANGLER_FØDSELSNUMMER_OG_AKTØRID: 'MANGLER_FØDSELSNUMMER_OG_AKTØRID',
@@ -709,7 +710,7 @@ export type ApiGetTilkomneInntektskilderForPersonErrorCode = typeof ApiGetTilkom
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetTilkomneInntektskilderForPersonErrorCode = {
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
@@ -853,7 +854,6 @@ export const ApiPostVedtakErrorCode = {
   OVERLAPPER_MED_INFOTRYGD: 'OVERLAPPER_MED_INFOTRYGD',
   BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
   KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING: 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING',
-  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
   TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER: 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER',
   VARSEL_MANGLER_VARSELDEFINISJON: 'VARSEL_MANGLER_VARSELDEFINISJON',
   VEDTAK_ALLEREDE_FATTET: 'VEDTAK_ALLEREDE_FATTET',
@@ -885,9 +885,7 @@ export type ApiPostForkastingErrorCode = typeof ApiPostForkastingErrorCode[keyof
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostForkastingErrorCode = {
   BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
-  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
   OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
   OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
   TOTRINNSVURDERING_SENDT_TIL_BESLUTTER: 'TOTRINNSVURDERING_SENDT_TIL_BESLUTTER',
@@ -961,7 +959,7 @@ export type ApiArbeidstidsvurderingErrorCode = typeof ApiArbeidstidsvurderingErr
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiArbeidstidsvurderingErrorCode = {
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
   MISMATCH_I_IDENTITETSNUMRE: 'MISMATCH_I_IDENTITETSNUMRE',
   MANGLER_VURDERTE_PERIODER: 'MANGLER_VURDERTE_PERIODER',
@@ -1016,7 +1014,6 @@ export type GetVarselErrorCode = typeof GetVarselErrorCode[keyof typeof GetVarse
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetVarselErrorCode = {
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
   VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
 } as const;
@@ -1230,7 +1227,6 @@ export type ApiPostNotatErrorCode = typeof ApiPostNotatErrorCode[keyof typeof Ap
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostNotatErrorCode = {
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
   VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
 } as const;
@@ -1257,7 +1253,6 @@ export type ApiPatchNotatErrorCode = typeof ApiPatchNotatErrorCode[keyof typeof 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPatchNotatErrorCode = {
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-  VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
   NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
   KAN_IKKE_FJERNE_FEILREGISTRERING: 'KAN_IKKE_FJERNE_FEILREGISTRERING',
 } as const;
@@ -1318,7 +1313,7 @@ export type ApiGetOpptegnelserForPersonErrorCode = typeof ApiGetOpptegnelserForP
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetOpptegnelserForPersonErrorCode = {
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
@@ -1385,7 +1380,7 @@ export type ApiGetKrrRegistrertStatusForPersonErrorCode = typeof ApiGetKrrRegist
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetKrrRegistrertStatusForPersonErrorCode = {
-  PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+  PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
   MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
   FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
 } as const;
