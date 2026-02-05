@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -15,6 +14,7 @@ import {
 } from '@io/graphql';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
 import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
@@ -94,12 +94,12 @@ const Differansevisning = ({ gammeltTotalbeløp, differanse }: Differansevisning
         <BodyShort>Forrige beløp for perioden</BodyShort>
         <BodyShort>{somPenger(gammeltTotalbeløp)}</BodyShort>
         <BodyShort>Differanse</BodyShort>
-        <BodyShort className={classNames(differanse < 0 && styles.NegativePenger)}>{somPenger(differanse)}</BodyShort>
+        <BodyShort className={cn(differanse < 0 && styles.NegativePenger)}>{somPenger(differanse)}</BodyShort>
     </div>
 );
 
 const UtbetalingCardSkeleton = (): ReactElement => (
-    <section className={classNames(styles.Skeleton, styles.Card)}>
+    <section className={cn(styles.Skeleton, styles.Card)}>
         <LoadingShimmer style={{ width: 100 }} />
         <LoadingShimmer />
         <LoadingShimmer />

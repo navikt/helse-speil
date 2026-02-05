@@ -1,9 +1,9 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import styles from './SimuleringsperiodeView.module.css';
 
@@ -18,7 +18,7 @@ export const SimuleringsperiodeValue = ({ label, value }: SimuleringsperiodeValu
             <BodyShort size="small">{label}</BodyShort>
             <BodyShort
                 size="small"
-                className={classNames(styles.Bold, typeof value === 'number' && value < 0 && styles.NegativtBeløp)}
+                className={cn(styles.Bold, typeof value === 'number' && value < 0 && styles.NegativtBeløp)}
             >
                 {typeof value === 'number' ? somPenger(value) : value}
             </BodyShort>

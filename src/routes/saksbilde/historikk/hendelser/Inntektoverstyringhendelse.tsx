@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -14,6 +13,7 @@ import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhen
 import { InntektoverstyringhendelseObject } from '@typer/historikk';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, getFormattedDateString, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import styles from './Inntektoverstyringhendelse.module.css';
 
@@ -80,7 +80,7 @@ export const Inntektoverstyringhendelse = ({
                         <BodyShort>{inntekt.forklaring}</BodyShort>
                     </HistorikkSection>
                     <HistorikkSection tittel="Refusjon">
-                        <div className={classNames(styles.gridfullwidth, styles.refusjonselementer)}>
+                        <div className={cn(styles.gridfullwidth, styles.refusjonselementer)}>
                             {inntekt.fraRefusjonsopplysninger &&
                                 [...inntekt.fraRefusjonsopplysninger]
                                     .sort(
@@ -110,7 +110,7 @@ export const Inntektoverstyringhendelse = ({
                                         );
                                     })}
                         </div>
-                        <div className={classNames(styles.gridfullwidth, styles.refusjonselementer)}>
+                        <div className={cn(styles.gridfullwidth, styles.refusjonselementer)}>
                             {inntekt.refusjonsopplysninger &&
                                 inntekt.refusjonsopplysninger.map((refusjonsopplysning, index) => {
                                     return (

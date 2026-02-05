@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
 
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
@@ -8,6 +7,7 @@ import { NyhetModal } from '@components/header/nyheter/NyhetModal';
 import { NyhetType } from '@external/sanity';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { getFormattedDateString } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import styles from './Nyhet.module.scss';
 
@@ -96,7 +96,7 @@ export const components: PortableTextComponents = {
         normal: ({ children }) => <BodyShort>{children}</BodyShort>,
     },
     list: {
-        bullet: ({ children }) => <ul className={classNames(styles.list, styles.unorderedlist)}>{children}</ul>,
+        bullet: ({ children }) => <ul className={cn(styles.list, styles.unorderedlist)}>{children}</ul>,
         number: ({ children }) => <ol className={styles.list}>{children}</ol>,
     },
     marks: {

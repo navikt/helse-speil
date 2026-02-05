@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -8,6 +7,7 @@ import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { PersonFragment } from '@io/graphql';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { TimelinePeriod } from '@typer/timeline';
+import { cn } from '@utils/tw';
 import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
 import { Periods } from './Periods';
@@ -32,7 +32,7 @@ export const TimelineRow = ({
     inntektsforhold,
 }: TimelineRowProps): ReactElement => (
     <div className={styles.TimelineRow}>
-        <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
+        <div className={cn(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
             <Arbeidsgiverikon />
             <Inntektsforholdnavn
                 inntektsforholdReferanse={tilReferanse(inntektsforhold)}
@@ -56,7 +56,7 @@ export const TimelineRow = ({
 
 export const TimelineRowSkeleton = (): ReactElement => {
     return (
-        <div className={classNames(styles.TimelineRow, styles.TimelineRowSkeleton)}>
+        <div className={cn(styles.TimelineRow, styles.TimelineRowSkeleton)}>
             <div className={styles.Name}>
                 <LoadingShimmer />
             </div>

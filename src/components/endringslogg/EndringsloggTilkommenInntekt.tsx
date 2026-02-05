@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
@@ -14,6 +13,7 @@ import {
 import { tilSorterteDagerMedEndringstype } from '@state/tilkommenInntekt';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import styles from './Endringslogg.module.css';
 

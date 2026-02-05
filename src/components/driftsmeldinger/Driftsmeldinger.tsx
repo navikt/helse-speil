@@ -1,6 +1,5 @@
 'use client';
 
-import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 import * as R from 'remeda';
 
@@ -9,6 +8,7 @@ import { BodyShort, GlobalAlert, HStack, InfoCard } from '@navikt/ds-react';
 
 import { Driftsmelding, Informasjonsmelding, useDriftsmelding, useInformasjonsmelding } from '@external/sanity';
 import { getFormattedDatetimeString } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import styles from './Driftsmeldinger.module.scss';
 
@@ -78,7 +78,7 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
                     <ChevronDownIcon
                         title="Vis mer"
                         fontSize="1.5rem"
-                        className={classNames(styles.chevron, åpneDriftsmelding && styles.chevronrotated)}
+                        className={cn(styles.chevron, åpneDriftsmelding && styles.chevronrotated)}
                     />
                 </HStack>
             </GlobalAlert.Header>
@@ -112,7 +112,7 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
                     <ChevronDownIcon
                         title="Vis mer"
                         fontSize="1.5rem"
-                        className={classNames(styles.chevron, åpneInformasjonsmelding && styles.chevronrotated)}
+                        className={cn(styles.chevron, åpneInformasjonsmelding && styles.chevronrotated)}
                     />
                 </HStack>
             </InfoCard.Header>

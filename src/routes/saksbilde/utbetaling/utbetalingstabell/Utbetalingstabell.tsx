@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement, useMemo } from 'react';
 
 import { HStack, Table } from '@navikt/ds-react';
@@ -10,6 +9,7 @@ import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { getFormattedDateString } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import { DagtypeCell } from './DagtypeCell';
 import { DateCell } from './DateCell';
@@ -58,7 +58,7 @@ export const Utbetalingstabell = ({
     const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt(person, personFødselsdato);
 
     return (
-        <section className={classNames(styles.container, overstyrer && styles.overstyrer)}>
+        <section className={cn(styles.container, overstyrer && styles.overstyrer)}>
             <div className={styles.tableContainer}>
                 <Table aria-label={`Utbetalinger for sykmeldingsperiode fra ${formattedFom} til ${formattedTom}`}>
                     <Table.Header>

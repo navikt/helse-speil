@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -27,6 +26,7 @@ import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod, DatePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
+import { cn } from '@utils/tw';
 import { isArbeidsgiver } from '@utils/typeguards';
 
 import { CardTitle } from './CardTitle';
@@ -307,7 +307,7 @@ const PeriodeCardTilkommen = ({ arbeidsgiver, inntektsforhold }: PeriodeCardTilk
 
 const PeriodeCardSkeleton = (): ReactElement => {
     return (
-        <section className={classNames(styles.skeleton, styles.grid)}>
+        <section className={cn(styles.skeleton, styles.grid)}>
             <LoadingShimmer />
             <LoadingShimmer />
             <LoadingShimmer />

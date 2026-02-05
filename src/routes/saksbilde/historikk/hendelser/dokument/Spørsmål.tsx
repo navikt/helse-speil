@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { CheckmarkIcon } from '@navikt/aksel-icons';
@@ -6,6 +5,7 @@ import { CheckmarkIcon } from '@navikt/aksel-icons';
 import { ApiSporsmal, ApiSvar, ApiSvartype } from '@io/rest/generated/spesialist.schemas';
 import { somNorskDato, somNorskÅrMåned } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import { DokumentFragment } from './DokumentFragment';
 
@@ -23,7 +23,7 @@ export const Spørsmål = ({ spørsmål, rotnivå = true }: SpørsmålProps): Re
         return (
             <div
                 key={(it.tag ?? '') + (it.undertekst ?? '')}
-                className={classNames(
+                className={cn(
                     styles.spørsmål,
                     rotnivå && styles.rotspørsmål,
                     it.svar?.[0]?.verdi === 'CHECKED' && styles.sammelinje,

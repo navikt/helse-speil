@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { ReactElement } from 'react';
 import { range } from 'remeda';
 
@@ -6,6 +5,7 @@ import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { SøkefeltSaksbehandlere } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
+import { cn } from '@utils/tw';
 
 import { TabType, useAktivTab } from '../tabState';
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
@@ -31,7 +31,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
             åpnesTilVenstre
             onChangeBredde={(width) => settBredde(width)}
         >
-            <section className={classNames(styles.filtermeny)}>
+            <section className={cn(styles.filtermeny)}>
                 {aktivTab === TabType.TilGodkjenning && <SøkefeltSaksbehandlere />}
                 {aktivTab === TabType.TilGodkjenning && (
                     <FilterList
@@ -81,7 +81,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
 export function FiltermenySkeleton(): ReactElement {
     return (
         <HStack wrap={false}>
-            <div className={classNames(styles.filtermeny, styles.filterskeleton)}>
+            <div className={cn(styles.filtermeny, styles.filterskeleton)}>
                 <SkeletonSection numberOfFilters={1} />
                 <SkeletonSection numberOfFilters={1} />
                 <SkeletonSection numberOfFilters={2} />

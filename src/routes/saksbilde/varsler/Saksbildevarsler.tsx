@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
@@ -7,6 +6,7 @@ import { Accordion, Alert, BodyShort } from '@navikt/ds-react';
 import { Overstyring, VarselDto, Varselstatus } from '@io/graphql';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { DateString, PeriodState } from '@typer/shared';
+import { cn } from '@utils/tw';
 import {
     isArbeidsforholdoverstyring,
     isDagoverstyring,
@@ -245,7 +245,7 @@ export const Saksbildevarsler = ({
                 <Accordion indent={false}>
                     <Accordion.Item open={open} className={styles.saksbildevarsler}>
                         <Accordion.Header
-                            className={classNames(
+                            className={cn(
                                 styles.varslerheader,
                                 infoVarsler.length === 0 &&
                                     varsler?.length === 0 &&

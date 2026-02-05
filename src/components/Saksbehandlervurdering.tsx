@@ -1,8 +1,9 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { Detail, Heading } from '@navikt/ds-react';
+
+import { cn } from '@utils/tw';
 
 import styles from './Vurdering.module.scss';
 
@@ -18,7 +19,7 @@ export const Saksbehandlervurdering = ({
     ident,
     ...divProps
 }: SaksbehandlervurderingProps): ReactElement => (
-    <div className={classNames(styles.container, styles['container__saksbehandler'], className)} {...divProps}>
+    <div className={cn(styles.container, styles['container__saksbehandler'], className)} {...divProps}>
         <div className={styles.ikoncontainer}>
             <PersonPencilFillIcon color="var(--ax-text-neutral-contrast)" />
         </div>

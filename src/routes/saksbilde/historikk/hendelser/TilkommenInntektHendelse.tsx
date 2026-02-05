@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import React from 'react';
 
 import { BodyShort, VStack } from '@navikt/ds-react';
@@ -17,6 +16,7 @@ import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhen
 import { tilSorterteDagerMedEndringstype } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import styles from './TilkommenInntektHendelse.module.css';
 

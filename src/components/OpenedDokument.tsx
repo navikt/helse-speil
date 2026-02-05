@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
@@ -15,6 +14,7 @@ import {
     useRemoveOpenedDocument,
 } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { HendelseDate } from '@saksbilde/historikk/komponenter/HendelseDate';
+import { cn } from '@utils/tw';
 
 import styles from './ÅpnetDokument.module.scss';
 
@@ -30,7 +30,7 @@ export const OpenedDokument = ({ person }: OpenedDokumentProps): ReactElement | 
     if (åpnedeDokumenter.length === 0) return null;
 
     return (
-        <div className={classNames(styles.dokumenter)}>
+        <div className={cn(styles.dokumenter)}>
             {åpnedeDokumenter.map((dokument, index) => (
                 <div className={styles.dokument} key={`dokument${index}`}>
                     <div className={styles.header}>

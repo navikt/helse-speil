@@ -1,8 +1,8 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { DatePeriod } from '@typer/shared';
+import { cn } from '@utils/tw';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import styles from './InfoPin.module.css';
@@ -36,5 +36,5 @@ export const InfoPin = ({ period }: InfoPinProps): ReactElement | null => {
         return null;
     }
 
-    return <div className={classNames(styles.Pin, showNotatPin && styles.notat)} />;
+    return <div className={cn(styles.Pin, showNotatPin && styles.notat)} />;
 };

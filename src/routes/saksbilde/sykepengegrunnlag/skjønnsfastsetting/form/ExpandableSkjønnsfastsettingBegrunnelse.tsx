@@ -1,7 +1,8 @@
-import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
 import { Accordion } from '@navikt/ds-react';
+
+import { cn } from '@utils/tw';
 
 import styles from './ExpandableSkjønnsfastsettingBegrunnelse.module.css';
 
@@ -22,11 +23,9 @@ export const ExpandableSkjønnsfastsettingBegrunnelseContent = ({
     const [open, setOpen] = useState(false);
     return (
         <Accordion indent={false}>
-            <Accordion.Item open={open} className={classNames(styles.item, className)} {...divProps}>
+            <Accordion.Item open={open} className={cn(styles.item, className)} {...divProps}>
                 <Accordion.Content className={styles.content}>{children}</Accordion.Content>
-                {!open && (
-                    <Accordion.Item className={classNames(styles.content, styles.closed)}>{children}</Accordion.Item>
-                )}
+                {!open && <Accordion.Item className={cn(styles.content, styles.closed)}>{children}</Accordion.Item>}
                 <Accordion.Header
                     className={styles.header}
                     onClick={() => {

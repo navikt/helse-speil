@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import React, { ReactElement, useRef, useState } from 'react';
 
 import { Alert, Box } from '@navikt/ds-react';
@@ -14,6 +13,7 @@ import {
 import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
+import { cn } from '@utils/tw';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';

@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, Checkbox, HStack, Table } from '@navikt/ds-react';
@@ -9,6 +8,7 @@ import { DagtypeCell } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeCell
 import { Inntektsforhold, inntektsforholdReferanseTilKey } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import styles from '../TilkommenTable.module.css';
 

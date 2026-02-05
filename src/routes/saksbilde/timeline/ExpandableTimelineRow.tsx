@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Behandling, PersonFragment } from '@io/graphql';
 import { Inntektsforhold, inntektsforholdReferanseTilKey, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { cn } from '@utils/tw';
 import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
 import { Periods } from './Periods';
@@ -35,7 +35,7 @@ export const ExpandableTimelineRow = ({
                 tabIndex={0}
                 aria-expanded={isExpanded}
                 aria-controls={`periods-${inntektsforholdReferanseTilKey(inntektsforholdReferanse)}`}
-                className={classNames(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
+                className={cn(styles.Name, styles.Expandable, isExpanded && styles.expanded)}
                 onClick={() => setIsExpanded((prevState) => !prevState)}
             >
                 <Arbeidsgiverikon />
@@ -45,7 +45,7 @@ export const ExpandableTimelineRow = ({
                     maxWidth="200px"
                 />
             </div>
-            <div className={classNames(styles.Periods)}>
+            <div className={cn(styles.Periods)}>
                 {generations[0] && (
                     <Periods
                         start={start}

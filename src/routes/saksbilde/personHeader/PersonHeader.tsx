@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -8,6 +7,7 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Kjonn } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
 import { useFetchPersonQuery } from '@state/person';
+import { cn } from '@utils/tw';
 
 import { GenderIcon } from './GenderIcon';
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
@@ -49,7 +49,7 @@ const PersonHeaderSkeleton = (): ReactElement => {
 
 const PersonHeaderError = (): ReactElement => {
     return (
-        <div className={classNames(styles.PersonHeader, styles.Error)}>
+        <div className={cn(styles.PersonHeader, styles.Error)}>
             <BodyShort>Det oppstod en feil. Kan ikke vise personinformasjon.</BodyShort>
         </div>
     );

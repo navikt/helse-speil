@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useAtom } from 'jotai';
 import React, { ReactElement } from 'react';
 
@@ -6,6 +5,7 @@ import { Chips } from '@navikt/ds-react';
 
 import { lagOppslåttSaksbehandlerVisningsnavn } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
 import { TabType } from '@oversikt/tabState';
+import { cn } from '@utils/tw';
 
 import { Filter, FilterStatus, valgtSaksbehandlerAtom } from '../state/filter';
 
@@ -28,7 +28,7 @@ export const FilterChips = ({
     const erFiltrertPåSaksbehandler = valgtSaksbehandler && aktivTab === TabType.TilGodkjenning;
     if (activeFilters.length > 0 || erFiltrertPåSaksbehandler) {
         return (
-            <Chips className={classNames(styles.filterChips)}>
+            <Chips className={cn(styles.filterChips)}>
                 {erFiltrertPåSaksbehandler && (
                     <Chips.Removable key="valgtsaksbehandler" onClick={() => setValgtSaksbehandler(null)}>
                         {lagOppslåttSaksbehandlerVisningsnavn(valgtSaksbehandler)}
@@ -36,7 +36,7 @@ export const FilterChips = ({
                 )}
                 {activeFilters.map((filter) => (
                     <Chips.Removable
-                        className={classNames(filter.status === FilterStatus.MINUS && styles.filteredOut)}
+                        className={cn(filter.status === FilterStatus.MINUS && styles.filteredOut)}
                         key={filter.key}
                         onClick={() => toggleFilter(filter.key, FilterStatus.OFF)}
                     >
@@ -59,7 +59,7 @@ export const FilterChips = ({
     }
 
     return (
-        <Chips className={classNames(styles.filterChips)}>
+        <Chips className={cn(styles.filterChips)}>
             <Chips.Toggle className={styles.ingenValgteFilter} disabled>
                 Ingen aktive filter
             </Chips.Toggle>

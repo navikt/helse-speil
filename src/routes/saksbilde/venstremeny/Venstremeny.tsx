@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -7,6 +6,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { cn } from '@utils/tw';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 import { PeriodeCard } from './PeriodeCard';
@@ -66,7 +66,7 @@ const VenstremenyContainer = (): ReactElement | null => {
 
 const VenstremenySkeleton = (): ReactElement => {
     return (
-        <section className={classNames(styles.Venstremeny, styles.Skeleton)}>
+        <section className={cn(styles.Venstremeny, styles.Skeleton)}>
             <PeriodeCard.Skeleton />
             <UtbetalingCard.Skeleton />
         </section>
@@ -75,7 +75,7 @@ const VenstremenySkeleton = (): ReactElement => {
 
 const VenstremenyError = (): ReactElement => {
     return (
-        <section className={classNames(styles.Venstremeny, styles.Error)}>
+        <section className={cn(styles.Venstremeny, styles.Error)}>
             <BodyShort>Det har skjedd en feil. Kan ikke vise venstremenyen for perioden.</BodyShort>
         </section>
     );

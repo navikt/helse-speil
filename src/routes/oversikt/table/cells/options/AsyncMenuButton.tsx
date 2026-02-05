@@ -1,7 +1,8 @@
-import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
 import { Dropdown, Loader } from '@navikt/ds-react';
+
+import { cn } from '@utils/tw';
 
 import styles from './AsyncMenuButton.module.css';
 
@@ -39,11 +40,7 @@ export const AsyncMenuButton = ({
     };
 
     return (
-        <Dropdown.Menu.List.Item
-            onClick={onClick}
-            className={classNames(styles.AsyncMenuButton, className)}
-            {...buttonProps}
-        >
+        <Dropdown.Menu.List.Item onClick={onClick} className={cn(styles.AsyncMenuButton, className)} {...buttonProps}>
             {children}
             {isPerformingAsyncOperation && <Loader size="xsmall" />}
         </Dropdown.Menu.List.Item>

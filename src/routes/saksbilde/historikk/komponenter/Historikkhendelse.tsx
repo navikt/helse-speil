@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
@@ -7,6 +6,7 @@ import { BodyShort, HStack, Spacer, VStack } from '@navikt/ds-react';
 import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { HendelseDate } from '@saksbilde/historikk/komponenter/HendelseDate';
 import { DateString } from '@typer/shared';
+import { cn } from '@utils/tw';
 
 import styles from './Historikkhendelse.module.scss';
 
@@ -56,7 +56,7 @@ export const Historikkhendelse = ({
                     }
                 }
             }}
-            className={classNames(styles.fokusområde, styles.klikkbar, styles.hendelse)}
+            className={cn(styles.fokusområde, styles.klikkbar, styles.hendelse)}
             ref={ref}
         >
             <div className={styles.iconContainer}>{icon}</div>
@@ -80,7 +80,7 @@ export const Historikkhendelse = ({
             </div>
         </li>
     ) : (
-        <li role="button" tabIndex={0} className={classNames(styles.fokusområde, styles.hendelse)}>
+        <li role="button" tabIndex={0} className={cn(styles.fokusområde, styles.hendelse)}>
             <div className={styles.iconContainer}>{icon}</div>
             <div className={styles.content}>
                 <HStack gap="space-4" wrap={false}>

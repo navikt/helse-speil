@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
@@ -22,6 +21,7 @@ import {
     useAktiveArbeidsgivere,
 } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { cn } from '@utils/tw';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
 import { SkjønnsfastsettingHeader } from './SkjønnsfastsettingHeader';
@@ -84,10 +84,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
 
     return (
         <VStack gap="space-8">
-            <div
-                key={periode.skjaeringstidspunkt}
-                className={classNames(styles.formWrapper, editing && styles.redigerer)}
-            >
+            <div key={periode.skjaeringstidspunkt} className={cn(styles.formWrapper, editing && styles.redigerer)}>
                 <SkjønnsfastsettingHeader
                     person={person}
                     sykepengegrunnlag={sykepengegrunnlag}

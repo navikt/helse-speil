@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import React from 'react';
 
 import { BodyShort, Box, HStack, Table } from '@navikt/ds-react';
@@ -10,6 +9,7 @@ import { DagtypeCell } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeCell
 import { Inntektsforhold, inntektsforholdReferanseTilKey } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erHelg, somNorskDato } from '@utils/date';
+import { cn } from '@utils/tw';
 
 interface Props {
     inntektsforhold: Inntektsforhold[];

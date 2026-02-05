@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import { ReactElement, useEffect, useRef } from 'react';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { cn } from '@utils/tw';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
 import { useFiltermenyWidth, useShowFiltermeny, useToggleFiltermeny } from './filtermeny/state';
@@ -23,7 +23,7 @@ const OppgaveTab = ({ tag, label, numberOfTasks }: OppgaveTabProps): ReactElemen
 
     return (
         <button
-            className={classNames(styles.tab, aktivTab === tag && styles.active)}
+            className={cn(styles.tab, aktivTab === tag && styles.active)}
             role="tab"
             aria-selected={aktivTab === tag}
             onClick={() => setAktivTab(tag)}
@@ -63,7 +63,7 @@ const FilterButton = (): ReactElement => {
     return (
         <button
             id="filtermeny-toggle"
-            className={classNames(
+            className={cn(
                 styles.roundedbutton,
                 styles.button,
                 styles.filterbutton,
@@ -87,7 +87,7 @@ const StatistikkButton = (): ReactElement => {
     return (
         <button
             id="behandlingsstatistikk-toggle"
-            className={classNames(
+            className={cn(
                 styles.roundedbutton,
                 styles.button,
                 styles.statistikkbutton,

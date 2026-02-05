@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
@@ -8,6 +7,7 @@ import { VarselDto, Varselstatus } from '@io/graphql';
 import { getVarsel, useDeleteVarselvurdering, usePutVarselvurdering } from '@io/rest/generated/varsler/varsler';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { getFormattedDatetimeString } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import { Avhuking } from './Avhuking';
 import { VarselstatusType } from './Varsler';
@@ -102,7 +102,7 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
     };
 
     return (
-        <div className={classNames(className, styles.varsel, styles[type])}>
+        <div className={cn(className, styles.varsel, styles[type])}>
             {isLoading ? (
                 <Loader className={styles.loader} size="medium" variant="interaction" />
             ) : (

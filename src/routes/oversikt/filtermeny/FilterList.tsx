@@ -1,9 +1,9 @@
-import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
 import { Accordion, BodyShort, VStack } from '@navikt/ds-react';
 
 import { AvOgPåKnapper } from '@oversikt/filtermeny/AvOgPåKnapper';
+import { cn } from '@utils/tw';
 
 import { Filter } from '../table/state/filter';
 
@@ -23,7 +23,7 @@ export const FilterList = ({ filters, text }: FilterListProps): ReactElement => 
                 <Accordion.Header onClick={() => setOpen(!open)} className={styles.header}>
                     <BodyShort weight="semibold">{text}</BodyShort>
                 </Accordion.Header>
-                <Accordion.Content className={classNames(styles.innhold)}>
+                <Accordion.Content className={cn(styles.innhold)}>
                     <VStack gap="space-8">
                         {filters.map((it) => (
                             <AvOgPåKnapper filter={it} key={it.key} />

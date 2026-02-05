@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { MouseEvent, ReactElement } from 'react';
 
 import { XMarkOctagonFillIcon } from '@navikt/aksel-icons';
@@ -6,6 +5,7 @@ import { XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
 import { Varselstatus } from '@io/graphql';
 import { CheckIcon } from '@saksbilde/timeline/icons';
+import { cn } from '@utils/tw';
 
 import { VarselstatusType } from './Varsler';
 
@@ -59,7 +59,7 @@ export const Avhuking = ({
             aria-label="Toggle varselvurdering"
             onClick={clickEvent}
             onKeyDown={keyboardEvent}
-            className={classNames(styles.avhuking, styles[type])}
+            className={cn(styles.avhuking, styles[type])}
         >
             {type === 'feil' ? <XMarkOctagonFillIcon fontSize="1.73rem" /> : <CheckIcon width="24px" height="24px" />}
         </span>

@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+
+import { cn } from '@utils/tw';
 
 import styles from './JusterbarSidemeny.module.css';
 
@@ -71,17 +72,17 @@ export const JusterbarSidemeny = ({
     }, [defaultBredde, localStorageNavn, visSidemeny]);
 
     return (
-        <div className={classNames(styles.justerbarSidemeny, className, åpnesTilVenstre && styles.venstre)}>
+        <div className={cn(styles.justerbarSidemeny, className, åpnesTilVenstre && styles.venstre)}>
             <div
                 role="separator"
-                className={classNames(styles.justerbarLinje, visSidemeny && styles.active)}
+                className={cn(styles.justerbarLinje, visSidemeny && styles.active)}
                 onMouseDown={(e) => {
                     e.preventDefault();
                     isResized.current = true;
                 }}
             />
             <div
-                className={classNames(styles.innhold, visSidemeny && styles.active, åpnesTilVenstre && styles.venstre)}
+                className={cn(styles.innhold, visSidemeny && styles.active, åpnesTilVenstre && styles.venstre)}
                 style={{ width: `${width}px` }}
             >
                 {children}

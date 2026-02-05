@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import { AutomatiskVurdering } from '@components/AutomatiskVurdering';
 import { Saksbehandlervurdering } from '@components/Saksbehandlervurdering';
 import { Vilkårdata } from '@typer/vilkår';
 import { getFormattedDateString } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 
@@ -41,7 +41,7 @@ export const VurdertISpleis = ({
     return automatiskBehandlet ? (
         <AutomatiskVurdering title={tittel} ident={ident}>
             <ul
-                className={classNames(styles.kolonne, styles.behandlet)}
+                className={cn(styles.kolonne, styles.behandlet)}
                 data-testid="vurdert-automatisk"
                 aria-label="Vilkår vurdert automatisk"
             >
@@ -53,7 +53,7 @@ export const VurdertISpleis = ({
     ) : (
         <Saksbehandlervurdering title={tittel} ident={ident}>
             <ul
-                className={classNames(styles.kolonne, styles.behandlet)}
+                className={cn(styles.kolonne, styles.behandlet)}
                 data-testid="vurdert-av-saksbehandler"
                 aria-label="Vilkår vurdert av saksbehandler"
             >

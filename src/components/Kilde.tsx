@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 
 import { Inntektskilde } from '@io/graphql';
 import { Kildetype } from '@saksbilde/historikk/hendelser/dokument/dokument';
+import { cn } from '@utils/tw';
 
 import styles from './Kilde.module.scss';
 
@@ -75,7 +75,7 @@ const erTekst = (kilde: KildeikonType): boolean =>
 
 export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProps>): ReactElement => (
     <Tooltip content={getKildeTypeTooltip(type)}>
-        <div className={classNames(styles.kildeikon, styles[`kildeikon__${finnCSSklasse(type)}`], className)}>
+        <div className={cn(styles.kildeikon, styles[`kildeikon__${finnCSSklasse(type)}`], className)}>
             {erTekst(type) ? <div className={styles.tekst}>{children}</div> : children}
         </div>
     </Tooltip>

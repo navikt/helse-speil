@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { PropsWithChildren, ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
@@ -7,6 +6,7 @@ import { Kryssikon } from '@components/ikoner/Kryssikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
 import { Vilkårstype } from '@typer/vilkår';
+import { cn } from '@utils/tw';
 
 import styles from './Vilkarsgruppetittel.module.css';
 
@@ -24,7 +24,7 @@ export const Vilkårsgruppetittel = ({
     type,
     className,
 }: PropsWithChildren<VilkårsgruppetittelProps>) => (
-    <div className={classNames('vilkårsgruppetittel', className, [styles.header])}>
+    <div className={cn('vilkårsgruppetittel', className, [styles.header])}>
         <div className={styles.ikon}>
             {oppfylt === undefined || oppfylt === null ? (
                 <Utropstegnikon alt="Til vurdering" />

@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
 import rowStyles from '@saksbilde/table/Row.module.scss';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { cn } from '@utils/tw';
 
 import { UtbetalingCell } from './UtbetalingCell';
 import { getDagerMedUtbetaling, getTotalArbeidsgiverbeløp, getTotalPersonbeløp } from './dagerUtils';
@@ -23,7 +23,7 @@ export const TotalRow = React.memo(({ dager, overstyrer, erSelvstendigNæring }:
     const personbeløpTotal = getTotalPersonbeløp(utbetalingsdager);
 
     return (
-        <Table.Row className={classNames(rowStyles.row, styles.TotalRow, overstyrer && styles.overstyrer)}>
+        <Table.Row className={cn(rowStyles.row, styles.TotalRow, overstyrer && styles.overstyrer)}>
             <Table.DataCell style={{ fontWeight: 'bold' }}>TOTAL</Table.DataCell>
             <Table.DataCell>
                 <BodyShort weight="semibold">{utbetalingsdager.length} dager</BodyShort>

@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useFetchPersonQuery } from '@state/person';
+import { cn } from '@utils/tw';
 
 import { UnntattFraAutomatisering } from './UnntattFraAutomatisering';
 
@@ -35,7 +35,7 @@ const InfovarselOmStansContainer = (): ReactElement | null => {
 
 const InfovarselOmStansError = (): ReactElement => {
     return (
-        <div className={classNames(styles.Error)}>
+        <div className={cn(styles.Error)}>
             <BodyShort>Det oppstod en feil. Kan ikke vise personinformasjon.</BodyShort>
         </div>
     );

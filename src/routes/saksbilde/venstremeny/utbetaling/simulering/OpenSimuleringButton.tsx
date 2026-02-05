@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { Link } from '@navikt/ds-react';
 
 import { Simulering, Utbetaling } from '@io/graphql';
+import { cn } from '@utils/tw';
 
 import { SimuleringView } from './SimuleringView';
 
@@ -92,7 +92,7 @@ export const OpenSimuleringButton = ({
                     utbetalingId: utbetaling.id,
                 })
             }
-            className={classNames(styles.OpenSimuleringButton, className)}
+            className={cn(styles.OpenSimuleringButton, className)}
         >
             Simulering
         </Link>

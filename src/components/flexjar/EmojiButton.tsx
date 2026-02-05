@@ -1,7 +1,8 @@
-import classNames from 'classnames';
 import React, { ReactNode } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
+
+import { cn } from '@utils/tw';
 
 import styles from './EmojiButton.module.scss';
 
@@ -31,7 +32,7 @@ export const EmojiButton = (props: EmojiButtonProps) => {
         <button
             type="button"
             aria-pressed={isActive}
-            className={classNames(styles.button, props.className)}
+            className={cn(styles.button, props.className)}
             onClick={handleOnClick}
         >
             {props.children}

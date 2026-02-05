@@ -1,8 +1,8 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 import { Vilkårdata } from '@typer/vilkår';
+import { cn } from '@utils/tw';
 
 import { Vilkårsgruppetittel } from '../Vilkårsgruppetittel';
 
@@ -15,7 +15,7 @@ interface VurdertIInfotrygdProps {
 export const VurdertIInfotrygd = ({ vilkår }: VurdertIInfotrygdProps) => (
     <Infotrygdvurdering title="Inngangsvilkår vurdert i Infotrygd">
         <ul
-            className={classNames(styles.kolonne, styles.behandlet)}
+            className={cn(styles.kolonne, styles.behandlet)}
             data-testid="vurdert-i-infotrygd"
             aria-label="Vilkår vurdert i Infotrygd"
         >

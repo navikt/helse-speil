@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -9,6 +8,7 @@ import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
 import { IngenMatchendeFiltre } from '@oversikt/table/oppgaverTable/IngenMatchendeFiltre';
 import { useCurrentPageState } from '@oversikt/table/state/pagination';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
+import { cn } from '@utils/tw';
 
 import { LinkRow } from './LinkRow';
 import { OppgaverTableError } from './OppgaverTableError';
@@ -62,7 +62,7 @@ export const BehandletIdagTable = (): ReactElement => {
                     <DatePicker.Input {...tomDatePicker.inputProps} label="Til og med dato" size="small" />
                 </DatePicker>
             </HStack>
-            <VStack className={classNames(styles.TableContainer, loading && styles.Loading)}>
+            <VStack className={cn(styles.TableContainer, loading && styles.Loading)}>
                 <div className={styles.Content}>
                     <div className={styles.Scrollble}>
                         <Table className={styles.Table} aria-label="Oppgaver behandlet av meg i dag" zebraStripes>

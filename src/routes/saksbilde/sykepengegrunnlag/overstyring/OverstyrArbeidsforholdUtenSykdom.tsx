@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -10,6 +9,7 @@ import { TimeoutModal } from '@components/TimeoutModal';
 import { PersonFragment } from '@io/graphql';
 import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
+import { cn } from '@utils/tw';
 
 import { Begrunnelser } from '../inntekt/Begrunnelser';
 import { AngreOverstyrArbeidsforholdUtenSykdom } from './AngreOverstyrArbeidsforholdUtenSykdom';
@@ -42,7 +42,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
     const skalViseOverstyr = venterPåEndringState.visOverstyrKnapp && !arbeidsforholdErDeaktivert;
 
     return (
-        <div className={classNames(styles.formcontainer, editingArbeidsforhold && styles.editing)}>
+        <div className={cn(styles.formcontainer, editingArbeidsforhold && styles.editing)}>
             <div className={styles.header}>
                 {editingArbeidsforhold && (
                     <div className={styles.tittelwrapper}>

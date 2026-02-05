@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement, useRef } from 'react';
 
 import { BodyShort, Popover } from '@navikt/ds-react';
@@ -8,6 +7,7 @@ import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { FjernetTilkommenInntektIkon, TilkommenInntektIkon } from '@saksbilde/timeline/icons';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { somNorskDato } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import { useIsWiderThan } from './hooks/useIsWiderThan';
 import { usePopoverAnchor } from './hooks/usePopoverAnchor';
@@ -36,7 +36,7 @@ export const TilkommenInntektPeriod = ({ tilkommenInntekt, ...buttonProps }: Per
     return (
         <>
             <button
-                className={classNames(styles.tilkommenInntekt, isActive && styles.active)}
+                className={cn(styles.tilkommenInntekt, isActive && styles.active)}
                 {...buttonProps}
                 onMouseOver={onMouseOver}
                 onMouseOut={onMouseOut}

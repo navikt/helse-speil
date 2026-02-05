@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { erHelg } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import styles from './Row.module.scss';
 
@@ -17,7 +17,7 @@ interface RowProps extends PropsWithChildren {
 export const Row = ({ children, dag, erMarkert, erOverstyrt }: RowProps): ReactElement => {
     return (
         <Table.Row
-            className={classNames(
+            className={cn(
                 styles.row,
                 erMarkert && styles.markert,
                 erHelg(dag.dato) && styles.helg,

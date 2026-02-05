@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort, HStack, Tooltip } from '@navikt/ds-react';
@@ -19,6 +18,7 @@ import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/a
 import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import { EndringsloggButton } from '../inntekt/EndringsloggButton';
 import { TableCell } from './TableCell';
@@ -53,16 +53,13 @@ export const Inntektssammenligning = ({
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(endringer, person);
 
     return (
-        <tr
-            className={classNames(styles.arbeidsgiverRow, erGjeldende && styles.erGjeldende)}
-            onClick={onSetAktivInntektskilde}
-        >
+        <tr className={cn(styles.arbeidsgiverRow, erGjeldende && styles.erGjeldende)} onClick={onSetAktivInntektskilde}>
             <td>
                 <HStack
                     gap="space-12"
                     align="center"
                     maxWidth="228px"
-                    className={classNames(!!arbeidsforholdErDeaktivert && styles.arbeidsgivernavnDeaktivert)}
+                    className={cn(!!arbeidsforholdErDeaktivert && styles.arbeidsgivernavnDeaktivert)}
                 >
                     {arbeidsforholdErDeaktivert === true ? (
                         <Tooltip content="Arbeidsforhold er deaktivert">

@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
 
 import { somPenger } from '@utils/locale';
 import { avviksprosentVisning } from '@utils/tall';
+import { cn } from '@utils/tw';
 
 import styles from './SykepengegrunnlagPanel.module.css';
 
@@ -20,7 +20,7 @@ export const InntektsgrunnlagoppsummeringTable = ({
     avviksprosent,
 }: InntektsgrunnlagoppsummeringTableProps) => {
     return (
-        <Table className={classNames(styles.Table, styles.inntektsgrunnlagoppsummeringTable)}>
+        <Table className={cn(styles.Table, styles.inntektsgrunnlagoppsummeringTable)}>
             <Table.Body className={styles.InntektsgrunnlagTableBody}>
                 <Table.Row className={styles.oppsummeringRow}>
                     <TableCellText text="Total omregnet årsinntekt" />

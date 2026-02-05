@@ -1,8 +1,8 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
 import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
+import { cn } from '@utils/tw';
 
 import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { Varsel } from './Varsel';
@@ -59,7 +59,7 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
                     } else {
                         return (
                             <Varsel
-                                className={classNames(styles.varsel, styles.ikkeEkspanderbart)}
+                                className={cn(styles.varsel, styles.ikkeEkspanderbart)}
                                 key={index}
                                 varsel={varsel}
                                 type={type}

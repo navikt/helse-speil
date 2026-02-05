@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement, useRef, useState } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
@@ -6,6 +5,7 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { Kilde } from '@components/Kilde';
 import { EndringsloggSykepengegrunnlagskjønnsfastsetting } from '@components/endringslogg/EndringsloggSykepengegrunnlagskjønnsfastsetting';
 import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
+import { cn } from '@utils/tw';
 
 import styles from '../inntekt/EndringsloggButton.module.css';
 
@@ -28,7 +28,7 @@ export const EndringsloggSkjønnsfastsettingButton = ({
     return (
         <>
             <button
-                className={classNames(styles.button, className)}
+                className={cn(styles.button, className)}
                 type="button"
                 ref={buttonRef}
                 {...buttonProps}

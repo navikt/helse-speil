@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useAtomValue } from 'jotai';
 import React, { ReactElement } from 'react';
 
@@ -11,6 +10,7 @@ import { OppgaverTableError } from '@oversikt/table/OppgaverTableError';
 import { OppgaverTableSkeleton } from '@oversikt/table/OppgaverTableSkeleton';
 import { useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { useOppgaveFeed } from '@state/oppgaver';
+import { cn } from '@utils/tw';
 
 import { Pagination } from '../Pagination';
 import { useFilters, useSetMultipleFilters, useToggleFilter, valgtSaksbehandlerAtom } from '../state/filter';
@@ -62,10 +62,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
     }
 
     return (
-        <VStack
-            paddingBlock="space-16 space-0"
-            className={classNames(styles.TableContainer, loading && styles.Loading)}
-        >
+        <VStack paddingBlock="space-16 space-0" className={cn(styles.TableContainer, loading && styles.Loading)}>
             <FilterChips
                 activeFilters={activeFilters}
                 setMultipleFilters={setMultipleFilters}

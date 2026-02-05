@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import Image from 'next/image';
 import React, { ReactElement, useState } from 'react';
 
@@ -8,6 +7,7 @@ import { Button, HStack, Heading, Modal } from '@navikt/ds-react';
 import { components } from '@components/header/nyheter/Nyhet';
 import { NyhetModalType } from '@external/sanity';
 import { PortableText } from '@portabletext/react';
+import { cn } from '@utils/tw';
 
 import styles from './NyhetModal.module.scss';
 
@@ -67,10 +67,7 @@ export const NyhetModal = ({ closeModal, showModal, nyhetModal }: NyhetModalProp
                     </Button>
                     <HStack gap="space-12">
                         {slides.map((_, index) => (
-                            <span
-                                className={classNames(styles.step, slideIndex === index && styles.activestep)}
-                                key={index}
-                            />
+                            <span className={cn(styles.step, slideIndex === index && styles.activestep)} key={index} />
                         ))}
                     </HStack>
                     <Button

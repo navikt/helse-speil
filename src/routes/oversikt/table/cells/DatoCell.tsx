@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
@@ -6,6 +5,7 @@ import { Table } from '@navikt/ds-react';
 import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { SortKey, useDateSortValue } from '@oversikt/table/state/sortation';
 import { NORSK_DATOFORMAT, somDato } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import styles from './DatoCell.module.css';
 
@@ -18,10 +18,7 @@ export const DatoCell = ({ oppgave, utgåttFrist }: DatoProps): ReactElement => 
     const sorteringsnøkkel = useDateSortValue();
     return (
         <Table.DataCell
-            className={classNames(
-                styles.datocell,
-                sorteringsnøkkel === SortKey.Tidsfrist && utgåttFrist && styles.utgåttfrist,
-            )}
+            className={cn(styles.datocell, sorteringsnøkkel === SortKey.Tidsfrist && utgåttFrist && styles.utgåttfrist)}
         >
             {getVisningsDato(oppgave, sorteringsnøkkel)}
         </Table.DataCell>

@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
 import { TimerPauseIcon } from '@navikt/aksel-icons';
@@ -6,6 +5,7 @@ import { Button, HStack, Table, Tooltip } from '@navikt/ds-react';
 
 import { ApiOppgaveProjeksjonPaaVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
+import { cn } from '@utils/tw';
 
 import { PåVentListeModal } from './PåVentListeModal';
 
@@ -51,7 +51,7 @@ const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): R
                 <Button
                     variant="tertiary-neutral"
                     size="xsmall"
-                    className={classNames(styles.NotatButton, utgåttFrist && styles.utgåttFrist)}
+                    className={cn(styles.NotatButton, utgåttFrist && styles.utgåttFrist)}
                     onClick={toggleModal}
                     onKeyUp={toggleModal}
                     icon={<TimerPauseIcon fontSize="1.5rem" aria-hidden />}

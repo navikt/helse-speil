@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import { motion } from 'motion/react';
 import React, { PropsWithChildren } from 'react';
 
 import { Feilikon } from '@components/ikoner/Feilikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { useRemoveToast } from '@state/toasts';
+import { cn } from '@utils/tw';
 
 import styles from './Toast.module.css';
 
@@ -30,7 +30,7 @@ export const Toast = ({ id, children, variant }: PropsWithChildren<ToastProps>) 
             layout
         >
             <button
-                className={classNames(styles.Toast, variant && styles[variant])}
+                className={cn(styles.Toast, variant && styles[variant])}
                 onClick={() => removeToast(id)}
                 aria-live="polite"
             >

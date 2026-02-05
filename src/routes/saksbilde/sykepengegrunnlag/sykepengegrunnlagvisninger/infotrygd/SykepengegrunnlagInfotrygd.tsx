@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Table } from '@navikt/ds-react';
@@ -9,6 +8,7 @@ import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
 import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import styles from './SykepengegrunnlagFraInfotrygd.module.css';
 
@@ -82,9 +82,7 @@ interface InfotrygdInntektProps {
 }
 
 const InfotrygdInntekt = ({ aktivtOrgnummer, arbeidsgivernavn, inntekt }: InfotrygdInntektProps): ReactElement => (
-    <Table.Row
-        className={classNames(styles.arbeidsgiverrad, aktivtOrgnummer === inntekt.arbeidsgiver && styles.ergjeldende)}
-    >
+    <Table.Row className={cn(styles.arbeidsgiverrad, aktivtOrgnummer === inntekt.arbeidsgiver && styles.ergjeldende)}>
         <Table.DataCell>
             <Inntektsforholdnavn
                 inntektsforholdReferanse={lagArbeidsgiverReferanse(

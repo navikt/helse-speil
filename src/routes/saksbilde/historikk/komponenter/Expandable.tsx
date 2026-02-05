@@ -1,10 +1,10 @@
-import classNames from 'classnames';
 import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
 
 import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 
 import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { LinkText } from '@saksbilde/historikk/komponenter/LinkText';
+import { cn } from '@utils/tw';
 
 import styles from './Expandable.module.css';
 
@@ -52,7 +52,7 @@ export const Expandable = ({
                     }
                 }
             }}
-            className={classNames(styles.fokusområde, styles.klikkbar, className)}
+            className={cn(styles.fokusområde, styles.klikkbar, className)}
             ref={ref}
         >
             <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>

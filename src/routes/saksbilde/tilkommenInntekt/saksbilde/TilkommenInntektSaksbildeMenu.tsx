@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import Link from 'next/link';
 import React, { ReactElement } from 'react';
 
@@ -8,6 +7,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import navLenkeStyles from '@saksbilde/saksbildeMenu/NavLenke.module.css';
 import { LitenMeny } from '@saksbilde/saksbildeMenu/dropdown/DropdownMenu';
 import { useFetchPersonQuery } from '@state/person';
+import { cn } from '@utils/tw';
 
 const TilkommenInntektSaksbildeMenuWrapper = (props: BoxProps) => (
     <Box
@@ -36,7 +36,7 @@ export const TilkommenInntektSaksbildeMenu = (): ReactElement => {
                 <HStack>
                     <HStack as="nav" role="tablist">
                         <Link
-                            className={classNames(navLenkeStyles.NavLink, navLenkeStyles.ActiveLink)}
+                            className={cn(navLenkeStyles.NavLink, navLenkeStyles.ActiveLink)}
                             href="#"
                             title="Tilkommen inntekt"
                         >

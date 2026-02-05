@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -7,6 +6,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { Infotrygdikon } from '@components/ikoner/Infotrygdikon';
 import { PersonFragment } from '@io/graphql';
 import { InfotrygdPeriod } from '@typer/shared';
+import { cn } from '@utils/tw';
 
 import { Periods } from './Periods';
 
@@ -29,7 +29,7 @@ export const InfotrygdRow = ({
 }: InfotrygdRowProps): ReactElement => {
     return (
         <div className={styles.TimelineRow}>
-            <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
+            <div className={cn(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
                 <Infotrygdikon />
                 <BodyShort size="small">Infotrygd</BodyShort>
             </div>

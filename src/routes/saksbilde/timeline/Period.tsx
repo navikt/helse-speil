@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
@@ -8,6 +7,7 @@ import { useSetActivePeriodId } from '@state/periode';
 import { PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { getPeriodState } from '@utils/mapping';
+import { cn } from '@utils/tw';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
 import { InfoPin } from './InfoPin';
@@ -98,7 +98,7 @@ const getClassNames = (period: TimelinePeriod, notCurrent?: boolean, isActive?: 
     const periodState = getPeriodState(period);
     const periodCategory = getPeriodCategory(periodState);
 
-    return classNames(
+    return cn(
         styles.Period,
         className,
         periodCategory && styles[periodCategory],

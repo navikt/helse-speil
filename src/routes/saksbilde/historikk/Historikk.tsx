@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { motion } from 'motion/react';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
@@ -32,6 +31,7 @@ import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSke
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject, HistorikkhendelseObject } from '@typer/historikk';
+import { cn } from '@utils/tw';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -241,7 +241,7 @@ const historikkhendelseComponents = {
 
 const HistorikkError = (): ReactElement => {
     return (
-        <div className={classNames(styles.historikk, styles.error)}>
+        <div className={cn(styles.historikk, styles.error)}>
             <ul>
                 <div>
                     <BodyShort>Noe gikk galt. Kan ikke vise historikk for perioden.</BodyShort>

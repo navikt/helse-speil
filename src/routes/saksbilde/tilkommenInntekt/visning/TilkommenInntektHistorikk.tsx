@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { motion } from 'motion/react';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
@@ -17,6 +16,7 @@ import { useShowHistorikkState, useShowHøyremenyState } from '@saksbilde/histor
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { cn } from '@utils/tw';
 
 const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
@@ -84,7 +84,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
 
 const TilkommenInntektHistorikkError = (): ReactElement => {
     return (
-        <div className={classNames(styles.historikk, styles.error)}>
+        <div className={cn(styles.historikk, styles.error)}>
             <ul>
                 <div>
                     <BodyShort>Noe gikk galt. Kan ikke vise historikk for perioden.</BodyShort>

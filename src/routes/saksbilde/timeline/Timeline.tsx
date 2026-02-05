@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import NextLink from 'next/link';
 import { useParams } from 'next/navigation';
@@ -20,6 +19,7 @@ import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
 import { kanLeggeTilTilkommenInntekt, kanSeAndreYtelser } from '@utils/featureToggles';
+import { cn } from '@utils/tw';
 import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { ExpandableTimelineRow } from './ExpandableTimelineRow';
@@ -255,7 +255,7 @@ const TimelineSkeleton = (): ReactElement => {
 
 const TimelineError = (): ReactElement => {
     return (
-        <div className={classNames(styles.Timeline, styles.Error)}>
+        <div className={cn(styles.Timeline, styles.Error)}>
             <BodyShort>Det har skjedd en feil. Kan ikke vise tidslinjen for denne personen.</BodyShort>
         </div>
     );

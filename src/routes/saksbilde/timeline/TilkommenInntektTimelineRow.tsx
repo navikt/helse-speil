@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import { Dayjs } from 'dayjs';
 import React, { ReactElement } from 'react';
 
@@ -7,6 +6,7 @@ import { SackKronerIcon } from '@navikt/aksel-icons';
 import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TilkommenInntektPeriods } from '@saksbilde/timeline/TilkommenInntektPeriods';
+import { cn } from '@utils/tw';
 
 import styles from './TimelineRow.module.css';
 
@@ -26,7 +26,7 @@ export const TilkommenInntektTimelineRow = ({
     alignWithExpandable = false,
 }: TilkommenInntektTimelineRowProps): ReactElement => (
     <div className={styles.TimelineRow}>
-        <div className={classNames(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
+        <div className={cn(styles.Name, alignWithExpandable && styles.AlignWithExpandable)}>
             <SackKronerIcon className={styles.arbeidsgiverIkon} />
             <Organisasjonsnavn organisasjonsnummer={organisasjonsnummer} maxWidth="200px" showCopyButton />
         </div>

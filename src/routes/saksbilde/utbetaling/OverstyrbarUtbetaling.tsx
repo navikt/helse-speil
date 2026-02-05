@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -11,6 +10,7 @@ import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/Utbeta
 import { EndreDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerForm';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { cn } from '@utils/tw';
 import { isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
@@ -258,10 +258,7 @@ export const OverstyrbarUtbetaling = ({
 
     const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Utbetalt;
     return (
-        <article
-            className={classNames(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)}
-            data-testid="utbetaling"
-        >
+        <article className={cn(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)} data-testid="utbetaling">
             {!overstyrer && (
                 <UtbetalingHeader
                     periodeErForkastet={
@@ -282,7 +279,7 @@ export const OverstyrbarUtbetaling = ({
                     erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                 />
             )}
-            <div className={classNames(styles.TableContainer)}>
+            <div className={cn(styles.TableContainer)}>
                 <Utbetalingstabell
                     fom={periode.fom}
                     tom={periode.tom}

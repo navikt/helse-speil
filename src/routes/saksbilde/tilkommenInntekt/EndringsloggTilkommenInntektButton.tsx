@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement, useState } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
@@ -7,6 +6,7 @@ import { Kilde } from '@components/Kilde';
 import { EndringsloggTilkommenInntekt } from '@components/endringslogg/EndringsloggTilkommenInntekt';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import styles from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton.module.css';
+import { cn } from '@utils/tw';
 
 export const EndringsloggTilkommenInntektButton = ({
     tilkommenInntekt,
@@ -18,7 +18,7 @@ export const EndringsloggTilkommenInntektButton = ({
     return (
         <>
             <button
-                className={classNames(styles.button)}
+                className={cn(styles.button)}
                 style={{ marginLeft: 'var(--ax-space-8)' }}
                 type="button"
                 onClick={() => setVisEndringslogg(true)}

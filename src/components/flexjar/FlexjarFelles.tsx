@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { useRef, useState } from 'react';
 
 import { BodyLong, BodyShort, Button, Textarea } from '@navikt/ds-react';
@@ -6,6 +5,7 @@ import { BodyLong, BodyShort, Button, Textarea } from '@navikt/ds-react';
 import { useOppdaterFlexjarFeedback } from '@external/flexjar/useOppdaterFlexjarFeedback';
 import { useOpprettFlexjarFeedback } from '@external/flexjar/useOpprettFlexjarFeedback';
 import { FeedbackPayload } from '@typer/flexjar';
+import { cn } from '@utils/tw';
 
 import styles from './FlexjarFelles.module.scss';
 
@@ -211,7 +211,7 @@ export function FeedbackButton(props: FeedbackButtonProps) {
         <Button
             variant="secondary-neutral"
             size="medium"
-            className={classNames(styles.button, props.activeState === props.svar && styles.answer)}
+            className={cn(styles.button, props.activeState === props.svar && styles.answer)}
             aria-pressed={props.activeState === props.svar}
             onClick={() => {
                 props.setThanksFeedback(false);

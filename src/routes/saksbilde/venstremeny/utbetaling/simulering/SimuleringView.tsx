@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
@@ -6,6 +5,7 @@ import { BodyShort, Heading } from '@navikt/ds-react';
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Simulering } from '@io/graphql';
 import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import { SimuleringsperiodeView } from './SimuleringsperiodeView';
 
@@ -20,10 +20,7 @@ const SimuleringValue = ({ label, value }: SimuleringValueProps): ReactElement =
     return (
         <div className={styles.SimuleringValue}>
             <BodyShort size="small">{label}</BodyShort>
-            <BodyShort
-                size="small"
-                className={classNames(typeof value === 'number' && value < 0 && styles.NegativtBeløp)}
-            >
+            <BodyShort size="small" className={cn(typeof value === 'number' && value < 0 && styles.NegativtBeløp)}>
                 {typeof value === 'number' ? somPenger(value) : value}
             </BodyShort>
         </div>

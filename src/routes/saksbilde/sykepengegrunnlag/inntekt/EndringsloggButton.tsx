@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { ReactElement, useRef, useState } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
@@ -8,6 +7,7 @@ import { EndringsloggArbeidsforhold } from '@components/endringslogg/Endringslog
 import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
 import { OverstyringFragment } from '@io/graphql';
+import { cn } from '@utils/tw';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
 
 import styles from './EndringsloggButton.module.css';
@@ -32,7 +32,7 @@ export const EndringsloggButton = <T extends OverstyringFragment>({
     return (
         <>
             <button
-                className={classNames(styles.button, className)}
+                className={cn(styles.button, className)}
                 type="button"
                 ref={buttonRef}
                 {...buttonProps}

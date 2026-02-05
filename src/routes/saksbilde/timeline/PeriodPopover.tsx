@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import dayjs from 'dayjs';
 import React, { ReactElement, ReactNode } from 'react';
 
@@ -14,6 +13,7 @@ import { TimelinePeriod } from '@typer/timeline';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
+import { cn } from '@utils/tw';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
 
 import styles from './PeriodPopover.module.css';
@@ -140,10 +140,7 @@ export const BeregnetPopover = ({
             {forrigePeriode && period.utbetaling.status === Utbetalingstatus.Ubetalt && (
                 <>
                     <BodyShort size="small">Differanse</BodyShort>
-                    <BodyShort
-                        size="small"
-                        className={classNames(totalbeløp - gammeltTotalbeløp < 0 && styles.NegativePenger)}
-                    >
+                    <BodyShort size="small" className={cn(totalbeløp - gammeltTotalbeløp < 0 && styles.NegativePenger)}>
                         {somPenger(totalbeløp - gammeltTotalbeløp)}
                     </BodyShort>
                 </>
@@ -168,10 +165,10 @@ export const BeregnetPopover = ({
             )}
             {period.gjenstaendeSykedager !== null && period.gjenstaendeSykedager !== undefined && (
                 <>
-                    <BodyShort className={classNames(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
+                    <BodyShort className={cn(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
                         Dager igjen:
                     </BodyShort>
-                    <BodyShort className={classNames(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
+                    <BodyShort className={cn(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
                         {period.gjenstaendeSykedager}
                     </BodyShort>
                 </>
