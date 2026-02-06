@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { nextleton } from 'nextleton';
 
 import { UUID } from '@typer/spesialist-mock';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
@@ -17,29 +18,29 @@ export const findVedtaksperiodeId = (id: string): UUID | undefined => {
     return oppgaveVedtaksperioder.find((it) => it.id === id)?.vedtaksperiodeId;
 };
 
-export class NotatMock {
-    private static notater: Map<UUID, Notat[]> = new Map();
-    private static notatCounter: number = 0;
+class NotatMock {
+    private notater: Map<UUID, Notat[]> = new Map();
+    private notatCounter: number = 0;
 
     /**
      * @param id kan være vedtaksperiodeId eller notatId
      * @param notatProperties data for Notat
      */
-    static addNotat = (id: string, notatProperties?: Partial<Notat>): Notat => {
+    addNotat = (id: string, notatProperties?: Partial<Notat>): Notat => {
         const vedtaksperiodeId = findVedtaksperiodeId(id) ?? id;
-        const notat = NotatMock.getMockedNotat(vedtaksperiodeId, notatProperties);
-        NotatMock.notater.set(vedtaksperiodeId, [...NotatMock.getNotater(vedtaksperiodeId), notat]);
+        const notat = this.getMockedNotat(vedtaksperiodeId, notatProperties);
+        this.notater.set(vedtaksperiodeId, [...this.getNotater(vedtaksperiodeId), notat]);
         return notat;
     };
 
-    static getNotatMedDialogId = (dialogId: number): Notat | undefined =>
-        Array.from(NotatMock.notater.values())
+    getNotatMedDialogId = (dialogId: number): Notat | undefined =>
+        Array.from(this.notater.values())
             .flat()
             .find((n) => n.dialogRef === dialogId);
 
-    static getKommentar = (id: number): Kommentar | undefined => {
+    getKommentar = (id: number): Kommentar | undefined => {
         let _kommentar: Kommentar | undefined;
-        NotatMock.notater.forEach((notater) =>
+        this.notater.forEach((notater) =>
             notater.find((notat) => {
                 _kommentar = notat.kommentarer.find((kommentar) => kommentar.id === id);
             }),
@@ -47,17 +48,17 @@ export class NotatMock {
         return _kommentar;
     };
 
-    static getNotat = (id: number): Notat | undefined => {
+    getNotat = (id: number): Notat | undefined => {
         let _notat: Notat | undefined;
-        NotatMock.notater.forEach((notater) => (_notat = notater.find((notat) => notat.id === id)));
+        this.notater.forEach((notater) => (_notat = notater.find((notat) => notat.id === id)));
         return _notat;
     };
 
-    static feilregistrerKommentar = ({ id }: MutationFeilregistrerKommentarArgs): void => {
-        NotatMock.notater.forEach((notater: Notat[], vedtaksperiodeId: UUID) => {
+    feilregistrerKommentar = ({ id }: MutationFeilregistrerKommentarArgs): void => {
+        this.notater.forEach((notater: Notat[], vedtaksperiodeId: UUID) => {
             const notat = notater.find((it) => it.kommentarer.find((it) => it.id === id));
             if (notat) {
-                NotatMock.updateNotat(vedtaksperiodeId, notat.id, {
+                this.updateNotat(vedtaksperiodeId, notat.id, {
                     kommentarer: [
                         ...notat.kommentarer.map((it) =>
                             it.id === id
@@ -69,34 +70,34 @@ export class NotatMock {
             }
         });
     };
-    static feilregistrerNotat = ({ id }: MutationFeilregistrerNotatArgs): void => {
-        const notat = NotatMock.getNotat(id);
+    feilregistrerNotat = ({ id }: MutationFeilregistrerNotatArgs): void => {
+        const notat = this.getNotat(id);
         if (notat) {
-            NotatMock.updateNotat(notat.vedtaksperiodeId, notat.id, {
+            this.updateNotat(notat.vedtaksperiodeId, notat.id, {
                 feilregistrert: true,
                 feilregistrert_tidspunkt: dayjs().format(ISO_TIDSPUNKTFORMAT),
             });
         }
     };
 
-    static getNotater = (id: UUID): Notat[] => {
-        return NotatMock.notater.get(id) ?? [];
+    getNotater = (id: UUID): Notat[] => {
+        return this.notater.get(id) ?? [];
     };
 
-    static updateNotat = (id: UUID, notatId: number, overrides: Partial<Notat>): void => {
-        NotatMock.notater.set(
+    updateNotat = (id: UUID, notatId: number, overrides: Partial<Notat>): void => {
+        this.notater.set(
             id,
-            NotatMock.getNotater(id).map((it) => (it.id === notatId ? { ...it, ...overrides } : it)),
+            this.getNotater(id).map((it) => (it.id === notatId ? { ...it, ...overrides } : it)),
         );
     };
 
-    static getNotaterForPeriode = (periode: BeregnetPeriode): Notat[] => [
-        ...NotatMock.getNotater(periode.vedtaksperiodeId),
-        ...NotatMock.getNotater(periode.oppgave?.id ?? '-1'),
+    getNotaterForPeriode = (periode: BeregnetPeriode): Notat[] => [
+        ...this.getNotater(periode.vedtaksperiodeId),
+        ...this.getNotater(periode.oppgave?.id ?? '-1'),
     ];
 
-    private static getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => ({
-        id: NotatMock.notatCounter++,
+    private getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => ({
+        id: this.notatCounter++,
         dialogRef: Math.floor(1000000 + Math.random() * 9000000),
         tekst: 'Revidert utgave 2',
         opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
@@ -112,3 +113,7 @@ export class NotatMock {
         ...overrides,
     });
 }
+
+const mock = nextleton('notatMock', () => new NotatMock());
+
+export { mock as NotatMock };
