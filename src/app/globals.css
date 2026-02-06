@@ -1,6 +1,8 @@
 @import 'tailwindcss';
 @import '@navikt/ds-css' layer(components);
 
+@config '../../tailwind.config.ts';
+
 #root {
     display: flex;
     flex-direction: column;
