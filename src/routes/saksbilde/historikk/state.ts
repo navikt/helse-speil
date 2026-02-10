@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { atom, useAtom, useAtomValue } from 'jotai';
 
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { ApiNotat } from '@io/rest/generated/spesialist.schemas';
 import { finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold, finnInntektsforholdForPeriode } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithSessionStorage } from '@state/jotai';
@@ -21,17 +22,21 @@ import {
     getInntektoverstyringerForGhost,
     getMeldingOmVedtak,
     getMinimumSykdomsgradoverstyring,
-    getNotathendelser,
     getSykepengegrunnlagskjønnsfastsetting,
     getUtbetalingshendelse,
     getVedtakBegrunnelser,
+    tilNotathendelse,
 } from './mapping';
 
 const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
 
-const getHendelserForBeregnetPeriode = (periode: BeregnetPeriodeFragment, person: PersonFragment): HendelseObject[] => {
+const getHendelserForBeregnetPeriode = (
+    periode: BeregnetPeriodeFragment,
+    person: PersonFragment,
+    notater: ApiNotat[],
+): HendelseObject[] => {
     const inntektsforhold = finnInntektsforholdForPeriode(person, periode);
     if (!inntektsforhold) {
         return [];
@@ -52,7 +57,7 @@ const getHendelserForBeregnetPeriode = (periode: BeregnetPeriodeFragment, person
     ].filter(hendelseTidspunktLiktEllerFørUtbetalingForPeriode(periode));
 
     const hendelserForAlleUtbetalinger = [
-        ...getNotathendelser(periode),
+        ...tilNotathendelse(notater),
         ...getHistorikkinnslag(periode),
         getUtbetalingshendelse(periode),
         getAnnullering(periode),
@@ -86,6 +91,7 @@ const getHendelserForGhostPeriode = (periode: GhostPeriodeFragment, person: Pers
 const getHendelserForUberegnetPeriode = (
     periode: UberegnetPeriodeFragment,
     person: PersonFragment,
+    notater: ApiNotat[],
 ): HendelseObject[] => {
     const inntektsforhold = finnInntektsforholdForPeriode(person, periode);
     if (!inntektsforhold) {
@@ -99,20 +105,20 @@ const getHendelserForUberegnetPeriode = (
         ...getDagoverstyringerForAUU(periode, inntektsforhold),
         ...getInntektoverstyringer(periode, inntektsforhold),
         ...getSykepengegrunnlagskjønnsfastsetting(periode, inntektsforhold, andreInntektsforhold),
-        ...getNotathendelser(periode),
+        ...tilNotathendelse(notater),
     ].sort(byTimestamp);
 };
 
-const useHistorikk = (person: PersonFragment | null): HendelseObject[] => {
+const useHistorikk = (person: PersonFragment | null, notater: ApiNotat[]): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
     if (!person || !activePeriod) {
         return [];
     }
 
     if (isBeregnetPeriode(activePeriod)) {
-        return getHendelserForBeregnetPeriode(activePeriod, person);
+        return getHendelserForBeregnetPeriode(activePeriod, person, notater);
     } else if (isUberegnetPeriode(activePeriod)) {
-        return getHendelserForUberegnetPeriode(activePeriod, person);
+        return getHendelserForUberegnetPeriode(activePeriod, person, notater);
     } else if (isGhostPeriode(activePeriod)) {
         return getHendelserForGhostPeriode(activePeriod, person);
     } else {
@@ -153,9 +159,9 @@ const showHistorikkState = atomWithSessionStorage('showHistorikkState', true);
 
 export const useShowHistorikkState = () => useAtom(showHistorikkState);
 
-export const useFilteredHistorikk = (person: PersonFragment | null): HendelseObject[] => {
+export const useFilteredHistorikk = (person: PersonFragment | null, notater: ApiNotat[]): HendelseObject[] => {
     const filter = useAtomValue(filterState);
-    const historikk = useHistorikk(person);
+    const historikk = useHistorikk(person, notater);
 
     return historikk.filter((hendelse) => filterMap[filter].includes(hendelse.type));
 };

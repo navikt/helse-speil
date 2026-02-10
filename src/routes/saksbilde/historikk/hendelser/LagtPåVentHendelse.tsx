@@ -9,8 +9,8 @@ import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe'
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
-import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
 import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
+import { HendelseKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarSeksjon';
 import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
@@ -55,7 +55,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
                 </Expandable>
             )}
             {hendelse.erNyestePåVentInnslag && (
-                <KommentarSeksjon
+                <HendelseKommentarSeksjon
                     kommentarer={hendelse.kommentarer!}
                     dialogRef={hendelse.dialogRef ?? undefined}
                     historikkinnslagId={hendelse.historikkinnslagId!}

@@ -10,7 +10,7 @@ import { usePatchNotat } from '@io/rest/generated/notater/notater';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkChatIkon, HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
-import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
+import { NotatKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/notat/NotatKommentarSeksjon';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { NotathendelseObject } from '@typer/historikk';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
@@ -26,6 +26,7 @@ export const Notathendelse = ({
     timestamp,
     feilregistrert,
     kommentarer,
+    vedtaksperiodeId,
 }: NotathendelseProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const apolloClient = useApolloClient();
@@ -94,10 +95,10 @@ export const Notathendelse = ({
                     </Expandable>
                 )}
             </VStack>
-            <KommentarSeksjon
+            <NotatKommentarSeksjon
                 kommentarer={kommentarer}
+                vedtaksperiodeId={vedtaksperiodeId}
                 dialogRef={dialogRef}
-                historikkinnslagId={Number.parseInt(id)}
             />
         </Historikkhendelse>
     );

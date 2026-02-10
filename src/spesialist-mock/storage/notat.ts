@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 import { nextleton } from 'nextleton';
 
+import { ApiNotat } from '@io/rest/generated/spesialist.schemas';
 import { UUID } from '@typer/spesialist-mock';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
@@ -95,6 +96,30 @@ class NotatMock {
         ...this.getNotater(periode.vedtaksperiodeId),
         ...this.getNotater(periode.oppgave?.id ?? '-1'),
     ];
+
+    getNotaterForVedtaksperiode = (vedtaksperiodeId: string): ApiNotat[] => {
+        return this.getNotater(vedtaksperiodeId).map((notat) => ({
+            id: notat.id,
+            vedtaksperiodeId: notat.vedtaksperiodeId,
+            kommentarer: notat.kommentarer.map((kommentar) => ({
+                id: kommentar.id,
+                saksbehandlerident: kommentar.saksbehandlerident,
+                tekst: kommentar.tekst,
+                feilregistrert_tidspunkt: kommentar.feilregistrert_tidspunkt,
+                opprettet: kommentar.opprettet,
+            })),
+            dialogRef: notat.dialogRef,
+            feilregistrert_tidspunkt: notat.feilregistrert_tidspunkt,
+            opprettet: notat.opprettet,
+            feilregistrert: notat.feilregistrert,
+            type: notat.type == NotatType.OpphevStans ? 'OpphevStans' : 'Generelt',
+            tekst: notat.tekst,
+            saksbehandlerOid: notat.saksbehandlerOid,
+            saksbehandlerEpost: '',
+            saksbehandlerIdent: '',
+            saksbehandlerNavn: '',
+        }));
+    };
 
     private getMockedNotat = (vedtaksperiodeId: string, overrides?: Partial<Notat>): Notat => ({
         id: this.notatCounter++,

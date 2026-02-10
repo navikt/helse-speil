@@ -4,40 +4,35 @@
  * API
  * OpenAPI spec version: latest
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
-  MutationFunction,
-  QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
-  UseMutationOptions,
-  UseMutationResult,
-  UseQueryOptions,
-  UseQueryResult
+    DataTag,
+    DefinedInitialDataOptions,
+    DefinedUseQueryResult,
+    MutationFunction,
+    QueryClient,
+    QueryFunction,
+    QueryKey,
+    UndefinedInitialDataOptions,
+    UseMutationOptions,
+    UseMutationResult,
+    UseQueryOptions,
+    UseQueryResult
 } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 import type {
-  ApiHttpProblemDetailsApiPatchNotatErrorCode,
-  ApiHttpProblemDetailsApiPostNotatErrorCode,
-  ApiHttpProblemDetailsGetNotatErrorCode,
-  ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode,
-  ApiNotat,
-  ApiNotatRequest,
-  ApiNotatResponse,
-  ApiPatchNotatRequest
+    ApiHttpProblemDetailsApiPatchNotatErrorCode,
+    ApiHttpProblemDetailsApiPostNotatErrorCode,
+    ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode,
+    ApiHttpProblemDetailsGetNotatErrorCode,
+    ApiNotat,
+    ApiNotatRequest,
+    ApiNotatResponse,
+    ApiPatchNotatRequest
 } from '../spesialist.schemas';
 
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-
-
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 
 
 export const getNotat = (
@@ -315,7 +310,8 @@ const {mutation: mutationOptions} = options ?
     export type PostNotatMutationBody = ApiNotatRequest
     export type PostNotatMutationError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>
 
-    export const usePostNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>,
+
+export const usePostNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>,
     TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postNotat>>, TError,{data: ApiNotatRequest}, TContext>, }
  , queryClient?: QueryClient): UseMutationResult<
         Awaited<ReturnType<typeof postNotat>>,

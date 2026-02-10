@@ -2,12 +2,12 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { Kommentar as GraphQLKommentar } from '@io/graphql';
+import { Kommentar as KommentarType } from '@typer/notat';
 
 import { Kommentar } from './Kommentar';
 
 interface KommentarerProps {
-    kommentarer: GraphQLKommentar[];
+    kommentarer: KommentarType[];
     dialogRef: number | null;
 }
 

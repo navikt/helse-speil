@@ -7,7 +7,7 @@ import { PeriodehistorikkType } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
-import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
+import { HendelseKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarSeksjon';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
 type StansAutomatiskBehandlingSaksbehandlerHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
@@ -40,7 +40,7 @@ export function StansAutomatiskBehandlingSaksbehandlerHendelse({
                     )}
                 </VStack>
             )}
-            <KommentarSeksjon
+            <HendelseKommentarSeksjon
                 kommentarer={kommentarer}
                 dialogRef={dialogRef ?? undefined}
                 historikkinnslagId={historikkinnslagId}

@@ -1,5 +1,4 @@
 import {
-    Kommentar,
     OverstyrtDag,
     OverstyrtInntekt,
     OverstyrtMinimumSykdomsgrad,
@@ -9,6 +8,7 @@ import {
     VedtakUtfall,
 } from '@io/graphql';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { Kommentar } from '@typer/notat';
 
 import { DateString } from './shared';
 

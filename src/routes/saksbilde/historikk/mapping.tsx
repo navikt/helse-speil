@@ -7,14 +7,13 @@ import {
     EndrePaVent,
     FjernetFraPaVent,
     GhostPeriodeFragment,
+    Kommentar as GraphQLKommentar,
     Hendelse,
     Historikkinnslag,
     InntektHentetFraAOrdningen,
     Inntektoverstyring,
     Inntektsmelding,
-    Kommentar,
     LagtPaVent,
-    NotatFragment,
     OpphevStansAutomatiskBehandlingSaksbehandler,
     Overstyring,
     Periode,
@@ -33,6 +32,7 @@ import {
     UberegnetPeriodeFragment,
     Vurdering,
 } from '@io/graphql';
+import { ApiKommentar, ApiNotat } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
@@ -49,7 +49,7 @@ import {
     UtbetalinghendelseObject,
     VedtakBegrunnelseObject,
 } from '@typer/historikk';
-import { Notat } from '@typer/notat';
+import { Kommentar, Notat } from '@typer/notat';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';
 import {
@@ -299,7 +299,7 @@ const kommentarer = (
     historikkelement?.__typename === 'TotrinnsvurderingRetur' ||
     historikkelement?.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
     historikkelement?.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
-        ? historikkelement.kommentarer
+        ? historikkelement.kommentarer.map(toKommentar)
         : [];
 
 const getTidligsteVurderingstidsstempelForPeriode = (
@@ -642,8 +642,8 @@ export const getMinimumSykdomsgradoverstyring = (
         }));
 };
 
-export const getNotathendelser = (period: BeregnetPeriodeFragment | UberegnetPeriodeFragment) => {
-    const notater = period.notater.map(toNotat);
+export const tilNotathendelse = (apiNotater: ApiNotat[]) => {
+    const notater = apiNotater.map(toNotat);
     return notater.map(
         (notat: Notat) =>
             ({
@@ -664,21 +664,29 @@ export const getNotathendelser = (period: BeregnetPeriodeFragment | UberegnetPer
     );
 };
 
-const toNotat = (spesialistNotat: NotatFragment): Notat => ({
-    id: `${spesialistNotat.id}`,
-    dialogRef: spesialistNotat.dialogRef,
-    tekst: spesialistNotat.tekst,
+const toNotat = (apiNotat: ApiNotat): Notat => ({
+    id: `${apiNotat.id}`,
+    dialogRef: apiNotat.dialogRef,
+    tekst: apiNotat.tekst,
     saksbehandler: {
-        navn: spesialistNotat.saksbehandlerNavn,
-        oid: spesialistNotat.saksbehandlerOid,
-        epost: spesialistNotat.saksbehandlerEpost,
-        ident: spesialistNotat.saksbehandlerIdent,
+        navn: apiNotat.saksbehandlerNavn,
+        oid: apiNotat.saksbehandlerOid,
+        epost: apiNotat.saksbehandlerEpost,
+        ident: apiNotat.saksbehandlerIdent,
     },
-    opprettet: dayjs(spesialistNotat.opprettet),
-    vedtaksperiodeId: spesialistNotat.vedtaksperiodeId,
-    feilregistrert: spesialistNotat.feilregistrert,
-    erOpphevStans: spesialistNotat.type === 'OpphevStans',
-    kommentarer: spesialistNotat.kommentarer ?? [],
+    opprettet: dayjs(apiNotat.opprettet),
+    vedtaksperiodeId: apiNotat.vedtaksperiodeId,
+    feilregistrert: apiNotat.feilregistrert,
+    erOpphevStans: apiNotat.type === 'OpphevStans',
+    kommentarer: apiNotat.kommentarer.map(toKommentar) ?? [],
+});
+
+const toKommentar = (apiKommentar: ApiKommentar | GraphQLKommentar): Kommentar => ({
+    id: apiKommentar.id,
+    tekst: apiKommentar.tekst,
+    opprettet: apiKommentar.opprettet,
+    saksbehandlerident: apiKommentar.saksbehandlerident,
+    feilregistrert_tidspunkt: apiKommentar.feilregistrert_tidspunkt ?? undefined,
 });
 
 const byTimestamp = (a: Notat, b: Notat): number => {

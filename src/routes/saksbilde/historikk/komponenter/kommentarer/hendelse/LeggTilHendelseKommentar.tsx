@@ -17,15 +17,15 @@ import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 type LeggTilNyKommentarProps = {
     dialogRef: number;
     historikkinnslagId: number;
-    historikktype?: PeriodehistorikkType;
     åpneKommentarvisning: () => void;
+    historikktype?: PeriodehistorikkType;
 };
 
-export const LeggTilNyKommentar = ({
+export const LeggTilHendelseKommentar = ({
     dialogRef,
     historikkinnslagId,
-    historikktype,
     åpneKommentarvisning,
+    historikktype,
 }: LeggTilNyKommentarProps) => {
     const [visLeggTilKommentar, setVisLeggTilKommentar] = useState(false);
 
@@ -91,7 +91,7 @@ function useLeggTilKommentar(
                     },
                 },
                 {
-                    onSuccess: async (data) => {
+                    onSuccess: async ({ data: { id } }) => {
                         apolloClient.cache.writeQuery({
                             query: LeggTilKommentarDocument,
                             variables: {
@@ -103,7 +103,7 @@ function useLeggTilKommentar(
                                 __typename: 'Mutation',
                                 leggTilKommentar: {
                                     __typename: 'Kommentar',
-                                    id: data.data.id,
+                                    id: id,
                                     tekst: tekst,
                                     opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
                                     saksbehandlerident: saksbehandlerident,
@@ -123,7 +123,7 @@ function useLeggTilKommentar(
                                         {
                                             __ref: apolloClient.cache.identify({
                                                 __typename: 'Kommentar',
-                                                id: data.data.id,
+                                                id: id,
                                             }),
                                         },
                                     ];
@@ -141,34 +141,34 @@ function useLeggTilKommentar(
         }
     };
 
-    type KommentertElementType =
-        | 'LagtPaVent'
-        | 'EndrePaVent'
-        | 'TotrinnsvurderingRetur'
-        | 'StansAutomatiskBehandlingSaksbehandler'
-        | 'OpphevStansAutomatiskBehandlingSaksbehandler'
-        | 'Notat';
-
-    const finnKommentertElementType = (historikktype?: PeriodehistorikkType): KommentertElementType => {
-        switch (historikktype) {
-            case PeriodehistorikkType.LeggPaVent:
-                return 'LagtPaVent';
-            case PeriodehistorikkType.EndrePaVent:
-                return 'EndrePaVent';
-            case PeriodehistorikkType.TotrinnsvurderingRetur:
-                return 'TotrinnsvurderingRetur';
-            case PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler:
-                return 'StansAutomatiskBehandlingSaksbehandler';
-            case PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler:
-                return 'OpphevStansAutomatiskBehandlingSaksbehandler';
-            default:
-                return 'Notat';
-        }
-    };
-
     return {
         leggTilKommentar,
         loading: loading || isLoading,
         error,
     };
 }
+
+type KommentertElementType =
+    | 'LagtPaVent'
+    | 'EndrePaVent'
+    | 'TotrinnsvurderingRetur'
+    | 'StansAutomatiskBehandlingSaksbehandler'
+    | 'OpphevStansAutomatiskBehandlingSaksbehandler'
+    | 'Notat';
+
+const finnKommentertElementType = (historikktype?: PeriodehistorikkType): KommentertElementType => {
+    switch (historikktype) {
+        case PeriodehistorikkType.LeggPaVent:
+            return 'LagtPaVent';
+        case PeriodehistorikkType.EndrePaVent:
+            return 'EndrePaVent';
+        case PeriodehistorikkType.TotrinnsvurderingRetur:
+            return 'TotrinnsvurderingRetur';
+        case PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler:
+            return 'StansAutomatiskBehandlingSaksbehandler';
+        case PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler:
+            return 'OpphevStansAutomatiskBehandlingSaksbehandler';
+        default:
+            return 'Notat';
+    }
+};

@@ -5,22 +5,15 @@ import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
-import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import {
-    BeregnetPeriodeFragment,
-    LeggTilNotatDocument,
-    NotatType,
-    PersonFragment,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
-import { getNotat, usePostNotat } from '@io/rest/generated/notater/notater';
-import { ApiNotat } from '@io/rest/generated/spesialist.schemas';
+import { NotatType, PersonFragment } from '@io/graphql';
+import { getGetNotaterForVedtaksperiodeQueryKey, usePostNotat } from '@io/rest/generated/notater/notater';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useNotatkladd } from '@state/notater';
 import { useActivePeriod } from '@state/periode';
+import { useQueryClient } from '@tanstack/react-query';
 import { isGhostPeriode } from '@utils/typeguards';
 
 interface NotatProps {
@@ -39,10 +32,8 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
     );
 
     const { mutate: postNotat, error, reset } = usePostNotat();
-    // Midlertidig: håndlaget loading-state fordi den skal dekke både POST og GET, fordi vi bruker har dataene i apollo
-    // selv om vi bruker REST til å kommunisere med spesialist.
     const [loading, setLoading] = useState(false);
-    const apolloClient = useApolloClient();
+    const queryClient = useQueryClient();
 
     const form = useForm<NotatFormFields>({
         resolver: zodResolver(notatSkjema),
@@ -78,66 +69,18 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
                 },
             },
             {
-                onSuccess: async ({ data: { id } }) => {
-                    await hentNyopprettetNotat(aktivPeriode.vedtaksperiodeId, id);
+                onSuccess: async () => {
+                    await queryClient.invalidateQueries({
+                        queryKey: getGetNotaterForVedtaksperiodeQueryKey(aktivPeriode.vedtaksperiodeId),
+                    });
+                    notatkladd.fjernNotat(aktivPeriode.vedtaksperiodeId, NotatType.Generelt);
+                    setOpen(false);
                     setLoading(false);
                 },
                 onError: () => setLoading(false),
             },
         );
     };
-
-    const hentNyopprettetNotat = async (vedtaksperiodeId: string, notatId: number) => {
-        const { data: notat } = await getNotat(notatId);
-        if (notat == undefined) return null;
-        oppdaterApolloCache(notat, aktivPeriode);
-        notatkladd.fjernNotat(vedtaksperiodeId, NotatType.Generelt);
-        setOpen(false);
-    };
-
-    function oppdaterApolloCache(notat: ApiNotat, periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment) {
-        apolloClient.cache.writeQuery({
-            query: LeggTilNotatDocument,
-            variables: {
-                oid: notat.saksbehandlerOid,
-                tekst: notat.tekst,
-                type: NotatType.Generelt,
-                vedtaksperiodeId: periode.vedtaksperiodeId,
-            },
-            data: {
-                __typename: 'Mutation',
-                leggTilNotat: {
-                    __typename: 'Notat',
-                    id: notat.id,
-                    tekst: notat.tekst,
-                    opprettet: notat.opprettet,
-                    saksbehandlerOid: notat.saksbehandlerOid,
-                    saksbehandlerNavn: notat.saksbehandlerNavn,
-                    saksbehandlerEpost: notat.saksbehandlerEpost,
-                    saksbehandlerIdent: notat.saksbehandlerIdent,
-                    vedtaksperiodeId: notat.vedtaksperiodeId,
-                    feilregistrert: notat.feilregistrert,
-                    feilregistrert_tidspunkt: notat.feilregistrert_tidspunkt ?? '',
-                    type: NotatType.Generelt,
-                    kommentarer: [],
-                },
-            },
-        });
-        apolloClient.cache.modify({
-            id: apolloClient.cache.identify({
-                __typename: periode?.__typename,
-                behandlingId: periode?.behandlingId,
-            }),
-            fields: {
-                notater(existingNotater) {
-                    return [
-                        ...existingNotater,
-                        { __ref: apolloClient.cache.identify({ __typename: 'Notat', id: notat.id }) },
-                    ];
-                },
-            },
-        });
-    }
 
     return (
         <Box borderWidth="0 0 1 0" borderColor="neutral">

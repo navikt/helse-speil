@@ -6,7 +6,7 @@ import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { PeriodehistorikkType } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkArrowUndoIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
-import { KommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/KommentarSeksjon';
+import { HendelseKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarSeksjon';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
 import { Historikkhendelse } from '../komponenter/Historikkhendelse';
@@ -42,7 +42,7 @@ export const TotrinnsvurderingReturHendelse = ({
                     )}
                 </VStack>
             )}
-            <KommentarSeksjon
+            <HendelseKommentarSeksjon
                 kommentarer={kommentarer}
                 dialogRef={dialogRef ?? undefined}
                 historikkinnslagId={historikkinnslagId}

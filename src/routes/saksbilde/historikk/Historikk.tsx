@@ -3,13 +3,14 @@ import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, HStack, LocalAlert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
+import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { ArbeidstidVurderthendelse } from '@saksbilde/historikk/hendelser/ArbeidstidVurderthendelse';
@@ -32,6 +33,7 @@ import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject, HistorikkhendelseObject } from '@typer/historikk';
 import { cn } from '@utils/tw';
+import { isGhostPeriode } from '@utils/typeguards';
 
 import { Notat } from '../notat/Notat';
 import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
@@ -66,11 +68,17 @@ const getHistorikkTitle = (type: Filtertype): string => {
 const HistorikkWithContent = (): ReactElement => {
     const { loading, data } = useFetchPersonQuery();
     const person = data?.person ?? null;
-    const historikk = useFilteredHistorikk(person);
+    const aktivPeriode = useActivePeriod(person);
+    const vedtaksperiodeId = (isGhostPeriode(aktivPeriode) ? undefined : aktivPeriode?.vedtaksperiodeId) ?? '';
+    const {
+        data: notatData,
+        isPending: notaterLoading,
+        error: notaterError,
+    } = useGetNotaterForVedtaksperiode(vedtaksperiodeId);
+    const historikk = useFilteredHistorikk(person, notatData?.data ?? []);
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();
-    const aktivPeriode = useActivePeriod(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     useKeyboard([
@@ -82,7 +90,7 @@ const HistorikkWithContent = (): ReactElement => {
         },
     ]);
 
-    if (loading) return <HistorikkSkeleton />;
+    if (loading || notaterLoading) return <HistorikkSkeleton />;
     else if (aktivPeriode == null) return <></>;
 
     return (
@@ -101,6 +109,7 @@ const HistorikkWithContent = (): ReactElement => {
                     }}
                     style={{ overflow: 'hidden' }}
                 >
+                    {notaterError && <LocalAlert status="error">Kunne ikke hente notater</LocalAlert>}
                     {person && (
                         <div className={styles.historikk}>
                             <HStack className={styles.header}>

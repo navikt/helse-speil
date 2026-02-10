@@ -1,7 +1,5 @@
 import { Dayjs } from 'dayjs';
 
-import { Kommentar } from '@io/graphql';
-
 export type NotatSaksbehandler = {
     oid: string;
     epost: string;
@@ -19,4 +17,12 @@ export type Notat = {
     feilregistrert: boolean;
     erOpphevStans: boolean;
     kommentarer: Kommentar[];
+};
+
+export type Kommentar = {
+    id: number;
+    opprettet: string;
+    saksbehandlerident: string;
+    tekst: string;
+    feilregistrert_tidspunkt: string | undefined;
 };
