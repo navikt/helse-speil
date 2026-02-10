@@ -4,203 +4,209 @@
  * API
  * OpenAPI spec version: latest
  */
-import {
-  useQuery
-} from '@tanstack/react-query';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
-  QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
-  UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
-
-import type {
-  ApiAktivSaksbehandler,
-  ApiBruker,
-  ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode,
-  ApiHttpProblemDetailsGetBrukerErrorCode
+    ApiAktivSaksbehandler,
+    ApiBruker,
+    ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode,
+    ApiHttpProblemDetailsGetBrukerErrorCode,
 } from '../spesialist.schemas';
 
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import type {
+    DataTag,
+    DefinedInitialDataOptions,
+    DefinedUseQueryResult,
+    QueryClient,
+    QueryFunction,
+    QueryKey,
+    UndefinedInitialDataOptions,
+    UseQueryOptions,
+    UseQueryResult,
+} from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 
-
-
-
-export const getAktiveSaksbehandlere = (
-    
- signal?: AbortSignal
-) => {
-      
-      
-      return callCustomAxios<ApiAktivSaksbehandler[]>(
-      {url: `/api/spesialist/aktive-saksbehandlere`, method: 'GET', signal
-    },
-      );
-    }
-  
-
-
+export const getAktiveSaksbehandlere = (signal?: AbortSignal) => {
+    return callCustomAxios<ApiAktivSaksbehandler[]>({
+        url: `/api/spesialist/aktive-saksbehandlere`,
+        method: 'GET',
+        signal,
+    });
+};
 
 export const getGetAktiveSaksbehandlereQueryKey = () => {
-    return [
-    `/api/spesialist/aktive-saksbehandlere`
-    ] as const;
-    }
+    return [`/api/spesialist/aktive-saksbehandlere`] as const;
+};
 
-    
-export const getGetAktiveSaksbehandlereQueryOptions = <TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>>, }
-) => {
+export const getGetAktiveSaksbehandlereQueryOptions = <
+    TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+>(options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>>;
+}) => {
+    const { query: queryOptions } = options ?? {};
 
-const {query: queryOptions} = options ?? {};
+    const queryKey = queryOptions?.queryKey ?? getGetAktiveSaksbehandlereQueryKey();
 
-  const queryKey =  queryOptions?.queryKey ?? getGetAktiveSaksbehandlereQueryKey();
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>> = ({ signal }) =>
+        getAktiveSaksbehandlere(signal);
 
-  
+    return { queryKey, queryFn, staleTime: Infinity, gcTime: 0, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>> = ({ signal }) => getAktiveSaksbehandlere(signal);
+export type GetAktiveSaksbehandlereQueryResult = NonNullable<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>>;
+export type GetAktiveSaksbehandlereQueryError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>;
 
-      
-
-      
-
-   return  { queryKey, queryFn,   staleTime: Infinity, gcTime: 0,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
-}
-
-export type GetAktiveSaksbehandlereQueryResult = NonNullable<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>>
-export type GetAktiveSaksbehandlereQueryError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>
-
-
-export function useGetAktiveSaksbehandlere<TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-          TError,
-          Awaited<ReturnType<typeof getAktiveSaksbehandlere>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAktiveSaksbehandlere<TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-          TError,
-          Awaited<ReturnType<typeof getAktiveSaksbehandlere>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetAktiveSaksbehandlere<TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetAktiveSaksbehandlere<TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetAktiveSaksbehandlereQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-
-export const getBruker = (
-    
- signal?: AbortSignal
-) => {
-      
-      
-      return callCustomAxios<ApiBruker>(
-      {url: `/api/spesialist/bruker`, method: 'GET', signal
+export function useGetAktiveSaksbehandlere<
+    TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+>(
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
+                    TError,
+                    Awaited<ReturnType<typeof getAktiveSaksbehandlere>>
+                >,
+                'initialData'
+            >;
     },
-      );
-    }
-  
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetAktiveSaksbehandlere<
+    TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+>(
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
+                    TError,
+                    Awaited<ReturnType<typeof getAktiveSaksbehandlere>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetAktiveSaksbehandlere<
+    TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
+export function useGetAktiveSaksbehandlere<
+    TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetAktiveSaksbehandlereQueryOptions(options);
 
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
+
+export const getBruker = (signal?: AbortSignal) => {
+    return callCustomAxios<ApiBruker>({ url: `/api/spesialist/bruker`, method: 'GET', signal });
+};
 
 export const getGetBrukerQueryKey = () => {
-    return [
-    `/api/spesialist/bruker`
-    ] as const;
-    }
+    return [`/api/spesialist/bruker`] as const;
+};
 
-    
-export const getGetBrukerQueryOptions = <TData = Awaited<ReturnType<typeof getBruker>>, TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>>, }
-) => {
+export const getGetBrukerQueryOptions = <
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>>;
+}) => {
+    const { query: queryOptions } = options ?? {};
 
-const {query: queryOptions} = options ?? {};
-
-  const queryKey =  queryOptions?.queryKey ?? getGetBrukerQueryKey();
-
-  
+    const queryKey = queryOptions?.queryKey ?? getGetBrukerQueryKey();
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getBruker>>> = ({ signal }) => getBruker(signal);
 
-      
+    return { queryKey, queryFn, staleTime: Infinity, gcTime: 0, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof getBruker>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
 
-      
+export type GetBrukerQueryResult = NonNullable<Awaited<ReturnType<typeof getBruker>>>;
+export type GetBrukerQueryError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>;
 
-   return  { queryKey, queryFn,   staleTime: Infinity, gcTime: 0,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetBruker<
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getBruker>>,
+                    TError,
+                    Awaited<ReturnType<typeof getBruker>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetBruker<
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getBruker>>,
+                    TError,
+                    Awaited<ReturnType<typeof getBruker>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetBruker<
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetBruker<
+    TData = Awaited<ReturnType<typeof getBruker>>,
+    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetBrukerQueryOptions(options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
 }
-
-export type GetBrukerQueryResult = NonNullable<Awaited<ReturnType<typeof getBruker>>>
-export type GetBrukerQueryError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>
-
-
-export function useGetBruker<TData = Awaited<ReturnType<typeof getBruker>>, TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>>(
-  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getBruker>>,
-          TError,
-          Awaited<ReturnType<typeof getBruker>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetBruker<TData = Awaited<ReturnType<typeof getBruker>>, TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getBruker>>,
-          TError,
-          Awaited<ReturnType<typeof getBruker>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetBruker<TData = Awaited<ReturnType<typeof getBruker>>, TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetBruker<TData = Awaited<ReturnType<typeof getBruker>>, TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>>(
-  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetBrukerQueryOptions(options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
-

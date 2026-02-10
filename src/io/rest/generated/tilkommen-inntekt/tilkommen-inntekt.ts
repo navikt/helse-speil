@@ -4,241 +4,296 @@
  * API
  * OpenAPI spec version: latest
  */
-import {
-  useMutation,
-  useQuery
-} from '@tanstack/react-query';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
-  DataTag,
-  DefinedInitialDataOptions,
-  DefinedUseQueryResult,
-  MutationFunction,
-  QueryClient,
-  QueryFunction,
-  QueryKey,
-  UndefinedInitialDataOptions,
-  UseMutationOptions,
-  UseMutationResult,
-  UseQueryOptions,
-  UseQueryResult
-} from '@tanstack/react-query';
-
-import type {
-  ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode,
-  ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode,
-  ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode,
-  ApiLeggTilTilkommenInntektRequest,
-  ApiLeggTilTilkommenInntektResponse,
-  ApiTilkommenInntektPatch,
-  ApiTilkommenInntektskilde
+    ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode,
+    ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode,
+    ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode,
+    ApiLeggTilTilkommenInntektRequest,
+    ApiLeggTilTilkommenInntektResponse,
+    ApiTilkommenInntektPatch,
+    ApiTilkommenInntektskilde,
 } from '../spesialist.schemas';
 
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import type {
+    DataTag,
+    DefinedInitialDataOptions,
+    DefinedUseQueryResult,
+    MutationFunction,
+    QueryClient,
+    QueryFunction,
+    QueryKey,
+    UndefinedInitialDataOptions,
+    UseMutationOptions,
+    UseMutationResult,
+    UseQueryOptions,
+    UseQueryResult,
+} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
+export const getTilkomneInntektskilderForPerson = (pseudoId: string, signal?: AbortSignal) => {
+    return callCustomAxios<ApiTilkommenInntektskilde[]>({
+        url: `/api/spesialist/personer/${pseudoId}/tilkomne-inntektskilder`,
+        method: 'GET',
+        signal,
+    });
+};
 
+export const getGetTilkomneInntektskilderForPersonQueryKey = (pseudoId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/tilkomne-inntektskilder`] as const;
+};
 
-
-export const getTilkomneInntektskilderForPerson = (
+export const getGetTilkomneInntektskilderForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+>(
     pseudoId: string,
- signal?: AbortSignal
-) => {
-      
-      
-      return callCustomAxios<ApiTilkommenInntektskilde[]>(
-      {url: `/api/spesialist/personer/${pseudoId}/tilkomne-inntektskilder`, method: 'GET', signal
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
     },
-      );
-    }
-  
-
-
-
-export const getGetTilkomneInntektskilderForPersonQueryKey = (pseudoId?: string,) => {
-    return [
-    `/api/spesialist/personer/${pseudoId}/tilkomne-inntektskilder`
-    ] as const;
-    }
-
-    
-export const getGetTilkomneInntektskilderForPersonQueryOptions = <TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>>(pseudoId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>, }
 ) => {
+    const { query: queryOptions } = options ?? {};
 
-const {query: queryOptions} = options ?? {};
+    const queryKey = queryOptions?.queryKey ?? getGetTilkomneInntektskilderForPersonQueryKey(pseudoId);
 
-  const queryKey =  queryOptions?.queryKey ?? getGetTilkomneInntektskilderForPersonQueryKey(pseudoId);
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>> = ({ signal }) =>
+        getTilkomneInntektskilderForPerson(pseudoId, signal);
 
-  
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!pseudoId,
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>> = ({ signal }) => getTilkomneInntektskilderForPerson(pseudoId, signal);
+export type GetTilkomneInntektskilderForPersonQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>
+>;
+export type GetTilkomneInntektskilderForPersonQueryError =
+    ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>;
 
-      
+export function useGetTilkomneInntektskilderForPerson<
+    TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetTilkomneInntektskilderForPerson<
+    TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetTilkomneInntektskilderForPerson<
+    TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
-      
+export function useGetTilkomneInntektskilderForPerson<
+    TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetTilkomneInntektskilderForPersonQueryOptions(pseudoId, options);
 
-   return  { queryKey, queryFn, enabled: !!(pseudoId),  staleTime: Infinity, gcTime: 0,  ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
 }
-
-export type GetTilkomneInntektskilderForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>>
-export type GetTilkomneInntektskilderForPersonQueryError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>
-
-
-export function useGetTilkomneInntektskilderForPerson<TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>>(
- pseudoId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>> & Pick<
-        DefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
-          TError,
-          Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTilkomneInntektskilderForPerson<TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>>(
- pseudoId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>> & Pick<
-        UndefinedInitialDataOptions<
-          Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
-          TError,
-          Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>
-        > , 'initialData'
-      >, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-export function useGetTilkomneInntektskilderForPerson<TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>>(
- pseudoId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>, }
- , queryClient?: QueryClient
-  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
-
-export function useGetTilkomneInntektskilderForPerson<TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>>(
- pseudoId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>, TError, TData>>, }
- , queryClient?: QueryClient 
- ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-
-  const queryOptions = getGetTilkomneInntektskilderForPersonQueryOptions(pseudoId,options)
-
-  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-  query.queryKey = queryOptions.queryKey ;
-
-  return query;
-}
-
-
-
 
 export const postTilkomneInntekter = (
     apiLeggTilTilkommenInntektRequest?: ApiLeggTilTilkommenInntektRequest,
- signal?: AbortSignal
+    signal?: AbortSignal,
 ) => {
-      
-      
-      return callCustomAxios<ApiLeggTilTilkommenInntektResponse>(
-      {url: `/api/spesialist/tilkomne-inntekter`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: apiLeggTilTilkommenInntektRequest, signal
-    },
-      );
-    }
-  
+    return callCustomAxios<ApiLeggTilTilkommenInntektResponse>({
+        url: `/api/spesialist/tilkomne-inntekter`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiLeggTilTilkommenInntektRequest,
+        signal,
+    });
+};
 
-
-export const getPostTilkomneInntekterMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postTilkomneInntekter>>, TError,{data: ApiLeggTilTilkommenInntektRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postTilkomneInntekter>>, TError,{data: ApiLeggTilTilkommenInntektRequest}, TContext> => {
-
-const mutationKey = ['postTilkomneInntekter'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postTilkomneInntekter>>, {data: ApiLeggTilTilkommenInntektRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postTilkomneInntekter(data,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostTilkomneInntekterMutationResult = NonNullable<Awaited<ReturnType<typeof postTilkomneInntekter>>>
-    export type PostTilkomneInntekterMutationBody = ApiLeggTilTilkommenInntektRequest
-    export type PostTilkomneInntekterMutationError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>
-
-    export const usePostTilkomneInntekter = <TError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postTilkomneInntekter>>, TError,{data: ApiLeggTilTilkommenInntektRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
+export const getPostTilkomneInntekterMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postTilkomneInntekter>>,
         TError,
-        {data: ApiLeggTilTilkommenInntektRequest},
+        { data: ApiLeggTilTilkommenInntektRequest },
         TContext
-      > => {
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postTilkomneInntekter>>,
+    TError,
+    { data: ApiLeggTilTilkommenInntektRequest },
+    TContext
+> => {
+    const mutationKey = ['postTilkomneInntekter'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
 
-      const mutationOptions = getPostTilkomneInntekterMutationOptions(options);
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postTilkomneInntekter>>,
+        { data: ApiLeggTilTilkommenInntektRequest }
+    > = (props) => {
+        const { data } = props ?? {};
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    export const patchTilkommenInntekt = (
+        return postTilkomneInntekter(data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostTilkomneInntekterMutationResult = NonNullable<Awaited<ReturnType<typeof postTilkomneInntekter>>>;
+export type PostTilkomneInntekterMutationBody = ApiLeggTilTilkommenInntektRequest;
+export type PostTilkomneInntekterMutationError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>;
+
+export const usePostTilkomneInntekter = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postTilkomneInntekter>>,
+            TError,
+            { data: ApiLeggTilTilkommenInntektRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postTilkomneInntekter>>,
+    TError,
+    { data: ApiLeggTilTilkommenInntektRequest },
+    TContext
+> => {
+    const mutationOptions = getPostTilkomneInntekterMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const patchTilkommenInntekt = (
     tilkommenInntektId: string,
     apiTilkommenInntektPatch?: ApiTilkommenInntektPatch,
- ) => {
-      
-      
-      return callCustomAxios<void>(
-      {url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: apiTilkommenInntektPatch
-    },
-      );
-    }
-  
+) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/tilkomne-inntekter/${tilkommenInntektId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiTilkommenInntektPatch,
+    });
+};
 
-
-export const getPatchTilkommenInntektMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchTilkommenInntekt>>, TError,{tilkommenInntektId: string;data: ApiTilkommenInntektPatch}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof patchTilkommenInntekt>>, TError,{tilkommenInntektId: string;data: ApiTilkommenInntektPatch}, TContext> => {
-
-const mutationKey = ['patchTilkommenInntekt'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchTilkommenInntekt>>, {tilkommenInntektId: string;data: ApiTilkommenInntektPatch}> = (props) => {
-          const {tilkommenInntektId,data} = props ?? {};
-
-          return  patchTilkommenInntekt(tilkommenInntektId,data,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PatchTilkommenInntektMutationResult = NonNullable<Awaited<ReturnType<typeof patchTilkommenInntekt>>>
-    export type PatchTilkommenInntektMutationBody = ApiTilkommenInntektPatch
-    export type PatchTilkommenInntektMutationError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>
-
-    export const usePatchTilkommenInntekt = <TError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchTilkommenInntekt>>, TError,{tilkommenInntektId: string;data: ApiTilkommenInntektPatch}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
+export const getPatchTilkommenInntektMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof patchTilkommenInntekt>>,
         TError,
-        {tilkommenInntektId: string;data: ApiTilkommenInntektPatch},
+        { tilkommenInntektId: string; data: ApiTilkommenInntektPatch },
         TContext
-      > => {
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof patchTilkommenInntekt>>,
+    TError,
+    { tilkommenInntektId: string; data: ApiTilkommenInntektPatch },
+    TContext
+> => {
+    const mutationKey = ['patchTilkommenInntekt'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
 
-      const mutationOptions = getPatchTilkommenInntektMutationOptions(options);
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof patchTilkommenInntekt>>,
+        { tilkommenInntektId: string; data: ApiTilkommenInntektPatch }
+    > = (props) => {
+        const { tilkommenInntektId, data } = props ?? {};
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+        return patchTilkommenInntekt(tilkommenInntektId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PatchTilkommenInntektMutationResult = NonNullable<Awaited<ReturnType<typeof patchTilkommenInntekt>>>;
+export type PatchTilkommenInntektMutationBody = ApiTilkommenInntektPatch;
+export type PatchTilkommenInntektMutationError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>;
+
+export const usePatchTilkommenInntekt = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof patchTilkommenInntekt>>,
+            TError,
+            { tilkommenInntektId: string; data: ApiTilkommenInntektPatch },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof patchTilkommenInntekt>>,
+    TError,
+    { tilkommenInntektId: string; data: ApiTilkommenInntektPatch },
+    TContext
+> => {
+    const mutationOptions = getPatchTilkommenInntektMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};

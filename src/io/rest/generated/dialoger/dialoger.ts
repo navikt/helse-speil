@@ -4,146 +4,163 @@
  * API
  * OpenAPI spec version: latest
  */
-import {
-  useMutation
-} from '@tanstack/react-query';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
-  MutationFunction,
-  QueryClient,
-  UseMutationOptions,
-  UseMutationResult
-} from '@tanstack/react-query';
-
-import type {
-  ApiHttpProblemDetailsApiPatchKommentarErrorCode,
-  ApiHttpProblemDetailsApiPostKommentarErrorCode,
-  ApiKommentarRequest,
-  ApiKommentarResponse,
-  ApiPatchKommentarRequest
+    ApiHttpProblemDetailsApiPatchKommentarErrorCode,
+    ApiHttpProblemDetailsApiPostKommentarErrorCode,
+    ApiKommentarRequest,
+    ApiKommentarResponse,
+    ApiPatchKommentarRequest,
 } from '../spesialist.schemas';
 
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
+export const postKommentar = (dialogId: number, apiKommentarRequest?: ApiKommentarRequest, signal?: AbortSignal) => {
+    return callCustomAxios<ApiKommentarResponse>({
+        url: `/api/spesialist/dialoger/${dialogId}/kommentarer`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiKommentarRequest,
+        signal,
+    });
+};
 
-
-
-export const postKommentar = (
-    dialogId: number,
-    apiKommentarRequest?: ApiKommentarRequest,
- signal?: AbortSignal
-) => {
-      
-      
-      return callCustomAxios<ApiKommentarResponse>(
-      {url: `/api/spesialist/dialoger/${dialogId}/kommentarer`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: apiKommentarRequest, signal
-    },
-      );
-    }
-  
-
-
-export const getPostKommentarMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postKommentar>>, TError,{dialogId: number;data: ApiKommentarRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postKommentar>>, TError,{dialogId: number;data: ApiKommentarRequest}, TContext> => {
-
-const mutationKey = ['postKommentar'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postKommentar>>, {dialogId: number;data: ApiKommentarRequest}> = (props) => {
-          const {dialogId,data} = props ?? {};
-
-          return  postKommentar(dialogId,data,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostKommentarMutationResult = NonNullable<Awaited<ReturnType<typeof postKommentar>>>
-    export type PostKommentarMutationBody = ApiKommentarRequest
-    export type PostKommentarMutationError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>
-
-    export const usePostKommentar = <TError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postKommentar>>, TError,{dialogId: number;data: ApiKommentarRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
+export const getPostKommentarMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postKommentar>>,
         TError,
-        {dialogId: number;data: ApiKommentarRequest},
+        { dialogId: number; data: ApiKommentarRequest },
         TContext
-      > => {
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postKommentar>>,
+    TError,
+    { dialogId: number; data: ApiKommentarRequest },
+    TContext
+> => {
+    const mutationKey = ['postKommentar'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
 
-      const mutationOptions = getPostKommentarMutationOptions(options);
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postKommentar>>,
+        { dialogId: number; data: ApiKommentarRequest }
+    > = (props) => {
+        const { dialogId, data } = props ?? {};
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    export const patchKommentar = (
+        return postKommentar(dialogId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostKommentarMutationResult = NonNullable<Awaited<ReturnType<typeof postKommentar>>>;
+export type PostKommentarMutationBody = ApiKommentarRequest;
+export type PostKommentarMutationError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>;
+
+export const usePostKommentar = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postKommentar>>,
+            TError,
+            { dialogId: number; data: ApiKommentarRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postKommentar>>,
+    TError,
+    { dialogId: number; data: ApiKommentarRequest },
+    TContext
+> => {
+    const mutationOptions = getPostKommentarMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const patchKommentar = (
     dialogId: number,
     kommentarId: number,
     apiPatchKommentarRequest?: ApiPatchKommentarRequest,
- ) => {
-      
-      
-      return callCustomAxios<void>(
-      {url: `/api/spesialist/dialoger/${dialogId}/kommentarer/${kommentarId}`, method: 'PATCH',
-      headers: {'Content-Type': 'application/json', },
-      data: apiPatchKommentarRequest
-    },
-      );
-    }
-  
+) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/dialoger/${dialogId}/kommentarer/${kommentarId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiPatchKommentarRequest,
+    });
+};
 
-
-export const getPatchKommentarMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchKommentar>>, TError,{dialogId: number;kommentarId: number;data: ApiPatchKommentarRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof patchKommentar>>, TError,{dialogId: number;kommentarId: number;data: ApiPatchKommentarRequest}, TContext> => {
-
-const mutationKey = ['patchKommentar'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof patchKommentar>>, {dialogId: number;kommentarId: number;data: ApiPatchKommentarRequest}> = (props) => {
-          const {dialogId,kommentarId,data} = props ?? {};
-
-          return  patchKommentar(dialogId,kommentarId,data,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PatchKommentarMutationResult = NonNullable<Awaited<ReturnType<typeof patchKommentar>>>
-    export type PatchKommentarMutationBody = ApiPatchKommentarRequest
-    export type PatchKommentarMutationError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>
-
-    export const usePatchKommentar = <TError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof patchKommentar>>, TError,{dialogId: number;kommentarId: number;data: ApiPatchKommentarRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
+export const getPatchKommentarMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof patchKommentar>>,
         TError,
-        {dialogId: number;kommentarId: number;data: ApiPatchKommentarRequest},
+        { dialogId: number; kommentarId: number; data: ApiPatchKommentarRequest },
         TContext
-      > => {
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof patchKommentar>>,
+    TError,
+    { dialogId: number; kommentarId: number; data: ApiPatchKommentarRequest },
+    TContext
+> => {
+    const mutationKey = ['patchKommentar'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
 
-      const mutationOptions = getPatchKommentarMutationOptions(options);
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof patchKommentar>>,
+        { dialogId: number; kommentarId: number; data: ApiPatchKommentarRequest }
+    > = (props) => {
+        const { dialogId, kommentarId, data } = props ?? {};
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+        return patchKommentar(dialogId, kommentarId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PatchKommentarMutationResult = NonNullable<Awaited<ReturnType<typeof patchKommentar>>>;
+export type PatchKommentarMutationBody = ApiPatchKommentarRequest;
+export type PatchKommentarMutationError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>;
+
+export const usePatchKommentar = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof patchKommentar>>,
+            TError,
+            { dialogId: number; kommentarId: number; data: ApiPatchKommentarRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof patchKommentar>>,
+    TError,
+    { dialogId: number; kommentarId: number; data: ApiPatchKommentarRequest },
+    TContext
+> => {
+    const mutationOptions = getPatchKommentarMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};

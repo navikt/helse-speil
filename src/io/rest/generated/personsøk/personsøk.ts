@@ -4,84 +4,75 @@
  * API
  * OpenAPI spec version: latest
  */
-import {
-  useMutation
-} from '@tanstack/react-query';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
-  MutationFunction,
-  QueryClient,
-  UseMutationOptions,
-  UseMutationResult
-} from '@tanstack/react-query';
-
-import type {
-  ApiHttpProblemDetailsApiPostPersonSokErrorCode,
-  ApiPersonSokRequest,
-  ApiPersonSokResponse
+    ApiHttpProblemDetailsApiPostPersonSokErrorCode,
+    ApiPersonSokRequest,
+    ApiPersonSokResponse,
 } from '../spesialist.schemas';
 
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
+export const postPersonSok = (apiPersonSokRequest?: ApiPersonSokRequest, signal?: AbortSignal) => {
+    return callCustomAxios<ApiPersonSokResponse>({
+        url: `/api/spesialist/personer/sok`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiPersonSokRequest,
+        signal,
+    });
+};
 
-
-
-export const postPersonSok = (
-    apiPersonSokRequest?: ApiPersonSokRequest,
- signal?: AbortSignal
-) => {
-      
-      
-      return callCustomAxios<ApiPersonSokResponse>(
-      {url: `/api/spesialist/personer/sok`, method: 'POST',
-      headers: {'Content-Type': 'application/json', },
-      data: apiPersonSokRequest, signal
-    },
-      );
-    }
-  
-
-
-export const getPostPersonSokMutationOptions = <TError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postPersonSok>>, TError,{data: ApiPersonSokRequest}, TContext>, }
-): UseMutationOptions<Awaited<ReturnType<typeof postPersonSok>>, TError,{data: ApiPersonSokRequest}, TContext> => {
-
-const mutationKey = ['postPersonSok'];
-const {mutation: mutationOptions} = options ?
-      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
-      options
-      : {...options, mutation: {...options.mutation, mutationKey}}
-      : {mutation: { mutationKey, }};
-
-      
-
-
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof postPersonSok>>, {data: ApiPersonSokRequest}> = (props) => {
-          const {data} = props ?? {};
-
-          return  postPersonSok(data,)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type PostPersonSokMutationResult = NonNullable<Awaited<ReturnType<typeof postPersonSok>>>
-    export type PostPersonSokMutationBody = ApiPersonSokRequest
-    export type PostPersonSokMutationError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>
-
-    export const usePostPersonSok = <TError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof postPersonSok>>, TError,{data: ApiPersonSokRequest}, TContext>, }
- , queryClient?: QueryClient): UseMutationResult<
+export const getPostPersonSokMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postPersonSok>>,
         TError,
-        {data: ApiPersonSokRequest},
+        { data: ApiPersonSokRequest },
         TContext
-      > => {
+    >;
+}): UseMutationOptions<Awaited<ReturnType<typeof postPersonSok>>, TError, { data: ApiPersonSokRequest }, TContext> => {
+    const mutationKey = ['postPersonSok'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
 
-      const mutationOptions = getPostPersonSokMutationOptions(options);
+    const mutationFn: MutationFunction<Awaited<ReturnType<typeof postPersonSok>>, { data: ApiPersonSokRequest }> = (
+        props,
+    ) => {
+        const { data } = props ?? {};
 
-      return useMutation(mutationOptions, queryClient);
-    }
-    
+        return postPersonSok(data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostPersonSokMutationResult = NonNullable<Awaited<ReturnType<typeof postPersonSok>>>;
+export type PostPersonSokMutationBody = ApiPersonSokRequest;
+export type PostPersonSokMutationError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>;
+
+export const usePostPersonSok = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postPersonSok>>,
+            TError,
+            { data: ApiPersonSokRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<Awaited<ReturnType<typeof postPersonSok>>, TError, { data: ApiPersonSokRequest }, TContext> => {
+    const mutationOptions = getPostPersonSokMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
