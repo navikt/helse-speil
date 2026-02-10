@@ -8,28 +8,20 @@ import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { NotatType, PersonFragment } from '@io/graphql';
+import { NotatType } from '@io/graphql';
 import { getGetNotaterForVedtaksperiodeQueryKey, usePostNotat } from '@io/rest/generated/notater/notater';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useNotatkladd } from '@state/notater';
-import { useActivePeriod } from '@state/periode';
 import { useQueryClient } from '@tanstack/react-query';
-import { isGhostPeriode } from '@utils/typeguards';
 
 interface NotatProps {
-    person: PersonFragment;
+    vedtaksperiodeId: string;
 }
 
-export const Notat = ({ person }: NotatProps): ReactElement | null => {
-    const aktivPeriode = useActivePeriod(person);
-    const erGhostEllerHarIkkeAktivPeriode = isGhostPeriode(aktivPeriode) || !aktivPeriode;
-
+export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => {
     const notatkladd = useNotatkladd();
 
-    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(
-        !erGhostEllerHarIkkeAktivPeriode ? aktivPeriode.vedtaksperiodeId : undefined,
-        NotatType.Generelt,
-    );
+    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId, NotatType.Generelt);
 
     const { mutate: postNotat, error, reset } = usePostNotat();
     const [loading, setLoading] = useState(false);
@@ -57,23 +49,21 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
         },
     ]);
 
-    if (erGhostEllerHarIkkeAktivPeriode) return null;
-
     const submit: SubmitHandler<NotatFormFields> = (data) => {
         setLoading(true);
         postNotat(
             {
                 data: {
                     tekst: data.tekst || '',
-                    vedtaksperiodeId: aktivPeriode.vedtaksperiodeId,
+                    vedtaksperiodeId: vedtaksperiodeId,
                 },
             },
             {
                 onSuccess: async () => {
                     await queryClient.invalidateQueries({
-                        queryKey: getGetNotaterForVedtaksperiodeQueryKey(aktivPeriode.vedtaksperiodeId),
+                        queryKey: getGetNotaterForVedtaksperiodeQueryKey(vedtaksperiodeId),
                     });
-                    notatkladd.fjernNotat(aktivPeriode.vedtaksperiodeId, NotatType.Generelt);
+                    notatkladd.fjernNotat(vedtaksperiodeId, NotatType.Generelt);
                     setOpen(false);
                     setLoading(false);
                 },
@@ -109,7 +99,7 @@ export const Notat = ({ person }: NotatProps): ReactElement | null => {
                         <NotatSkjema
                             submit={submit}
                             submitTekst="Lagre notat"
-                            vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
+                            vedtaksperiodeId={vedtaksperiodeId}
                             skjulNotatFelt={() => {
                                 setOpen(false);
                                 reset();

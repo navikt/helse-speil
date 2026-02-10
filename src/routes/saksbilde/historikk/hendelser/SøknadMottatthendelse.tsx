@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from '@navikt/aksel-icons';
@@ -12,18 +13,14 @@ import { useAddOpenedDocument, useOpenedDocuments, useRemoveOpenedDocument } fro
 
 type SøknadMottatthendelseProps = {
     dokumentId: string;
-    personPseudoId: string;
     timestamp: DateString;
 };
 
-export const SøknadMottatthendelse = ({
-    timestamp,
-    dokumentId,
-    personPseudoId,
-}: SøknadMottatthendelseProps): ReactElement => {
+export const SøknadMottatthendelse = ({ timestamp, dokumentId }: SøknadMottatthendelseProps): ReactElement => {
     const leggTilÅpnetDokument = useAddOpenedDocument();
     const fjernÅpnetDokument = useRemoveOpenedDocument();
     const åpnedeDokumenter = useOpenedDocuments();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const dokumentetErÅpnet = () => åpnedeDokumenter.find((it) => it.dokumentId === dokumentId);
 
