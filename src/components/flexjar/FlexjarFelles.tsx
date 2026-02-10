@@ -5,7 +5,6 @@ import { BodyLong, BodyShort, Button, Textarea } from '@navikt/ds-react';
 import { useOppdaterFlexjarFeedback } from '@external/flexjar/useOppdaterFlexjarFeedback';
 import { useOpprettFlexjarFeedback } from '@external/flexjar/useOpprettFlexjarFeedback';
 import { FeedbackPayload } from '@typer/flexjar';
-import { cn } from '@utils/tw';
 
 import styles from './FlexjarFelles.module.scss';
 
@@ -195,34 +194,5 @@ export function FlexjarFelles({
                 </div>
             </div>
         </section>
-    );
-}
-
-interface FeedbackButtonProps {
-    tekst: string;
-    svar: string;
-    activeState: number | string | null;
-    setThanksFeedback: (b: boolean) => void;
-    setActiveState: (s: number | string | null) => void;
-}
-
-export function FeedbackButton(props: FeedbackButtonProps) {
-    return (
-        <Button
-            variant="secondary-neutral"
-            size="medium"
-            className={cn(styles.button, props.activeState === props.svar && styles.answer)}
-            aria-pressed={props.activeState === props.svar}
-            onClick={() => {
-                props.setThanksFeedback(false);
-                if (props.activeState === props.svar) {
-                    props.setActiveState(null);
-                } else {
-                    props.setActiveState(props.svar);
-                }
-            }}
-        >
-            {props.tekst}
-        </Button>
     );
 }
