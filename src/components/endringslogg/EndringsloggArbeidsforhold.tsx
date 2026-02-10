@@ -1,12 +1,10 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
+import { Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { Arbeidsforholdoverstyring } from '@io/graphql';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
-
-import styles from './Endringslogg.module.css';
 
 type EndringsloggArbeidsforholdProps = {
     closeModal: () => void;
@@ -47,11 +45,11 @@ export const EndringsloggArbeidsforhold = ({
                                     {endring.deaktivert ? 'Brukes ikke i beregningen' : 'Brukes i beregningen'}
                                 </Table.DataCell>
                                 <Table.DataCell>{getFormattedDateString(endring.skjaeringstidspunkt)}</Table.DataCell>
-                                <Table.DataCell>
-                                    <BodyShort className={styles.Begrunnelse}>{endring.begrunnelse}</BodyShort>
+                                <Table.DataCell className="max-w-75 whitespace-normal!">
+                                    {endring.begrunnelse}
                                 </Table.DataCell>
-                                <Table.DataCell>
-                                    <BodyShort className={styles.Begrunnelse}>{endring.forklaring}</BodyShort>
+                                <Table.DataCell className="max-w-75 whitespace-normal!">
+                                    {endring.forklaring}
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {endring.saksbehandler.ident ?? endring.saksbehandler.navn}

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
+import { Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { Inntektoverstyring } from '@io/graphql';
@@ -49,11 +49,11 @@ export const EndringsloggInntekt = ({ endringer, closeModal, showModal }: Endrin
                                 <Table.DataCell>
                                     {getFormattedDateString(endring.inntekt.skjaeringstidspunkt)}
                                 </Table.DataCell>
-                                <Table.DataCell>
-                                    <BodyShort className={styles.Begrunnelse}>{endring.inntekt.begrunnelse}</BodyShort>
+                                <Table.DataCell className="max-w-75 whitespace-normal!">
+                                    {endring.inntekt.begrunnelse}
                                 </Table.DataCell>
-                                <Table.DataCell>
-                                    <BodyShort className={styles.Begrunnelse}>{endring.inntekt.forklaring}</BodyShort>
+                                <Table.DataCell className="max-w-75 whitespace-normal!">
+                                    {endring.inntekt.forklaring}
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {endring.saksbehandler.ident ?? endring.saksbehandler.navn}

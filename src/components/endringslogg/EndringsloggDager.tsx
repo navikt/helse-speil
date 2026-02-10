@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
+import { Heading, Modal, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { OverstyringerPrDag } from '@typer/utbetalingstabell';
@@ -15,7 +15,7 @@ type EndringsloggDagerProps = {
 };
 
 export const EndringsloggDager = ({ endringer, closeModal, showModal }: EndringsloggDagerProps): ReactElement => (
-    <Modal aria-label="Endringslogg modal" closeOnBackdropClick open={showModal} onClose={closeModal}>
+    <Modal aria-label="Endringslogg modal" closeOnBackdropClick open={showModal} onClose={closeModal} width="1200px">
         <Modal.Header>
             <Heading level="1" size="medium">
                 Endringslogg
@@ -46,9 +46,7 @@ export const EndringsloggDager = ({ endringer, closeModal, showModal }: Endrings
                                     </span>{' '}
                                     {typeof grad === 'number' && `${grad} %`}
                                 </Table.DataCell>
-                                <Table.DataCell>
-                                    <BodyShort className={styles.Begrunnelse}>{begrunnelse}</BodyShort>
-                                </Table.DataCell>
+                                <Table.DataCell className="max-w-100 whitespace-normal!">{begrunnelse}</Table.DataCell>
                                 <Table.DataCell>{saksbehandler.ident ?? saksbehandler.navn}</Table.DataCell>
                                 <Table.DataCell>{getFormattedDatetimeString(timestamp)}</Table.DataCell>
                             </Table.Row>
