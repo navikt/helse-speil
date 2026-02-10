@@ -15,16 +15,16 @@ vi.mock('@state/person');
 describe('Personsøk', () => {
     it('finds a personPseudoId and redirects to dagoversikt', async () => {
         const personPseudoId = 'fb8c1382-bf1e-4027-9ab8-37a2c7772231';
-        (postPersonSok as Mock).mockResolvedValueOnce({
-            data: { personPseudoId: personPseudoId, klarForVisning: true },
-        });
+        (postPersonSok as Mock).mockResolvedValueOnce({ personPseudoId: personPseudoId, klarForVisning: true });
 
         render(<Personsøk />);
 
         await userEvent.type(screen.getByRole('searchbox', { name: 'Søk' }), '1234567891000');
         await userEvent.click(screen.getByRole('button', { name: 'Søk' }));
 
-        expect(mockRouter.pathname).toEqual('/person/[personPseudoId]/dagoversikt');
+        await vi.waitFor(() => {
+            expect(mockRouter.pathname).toEqual('/person/[personPseudoId]/dagoversikt');
+        });
     });
 
     it('displays varsel when person is not found', async () => {
