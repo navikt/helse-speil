@@ -3,7 +3,7 @@ import { ApiBrukerrolle, ApiTilgang } from '@io/rest/generated/spesialist.schema
 
 const useErBrukerrolle = (brukerrolle: ApiBrukerrolle) => {
     const { data: bruker } = useGetBruker();
-    return bruker?.data?.brukerroller?.includes(brukerrolle) ?? false;
+    return bruker?.brukerroller?.includes(brukerrolle) ?? false;
 };
 
 export const useHarFeilsøkingsrolle = () => {
@@ -15,5 +15,5 @@ export const useHarBeslutterrolle = () => {
 
 export const useHarSkrivetilgang = () => {
     const { data: bruker } = useGetBruker();
-    return bruker?.data?.tilganger?.includes(ApiTilgang.SKRIV) ?? false;
+    return bruker?.tilganger?.includes(ApiTilgang.SKRIV) ?? false;
 };

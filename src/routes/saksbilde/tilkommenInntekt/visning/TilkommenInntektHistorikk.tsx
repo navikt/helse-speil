@@ -22,9 +22,8 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
     const person = fetchPersonData?.person ?? null;
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { isFetching: hentTilkommenInntektLoading, data: hentTilkommenInntektResponse } =
+    const { isFetching: hentTilkommenInntektLoading, data: tilkommenInntektData } =
         useHentTilkommenInntektQuery(personPseudoId);
-    const hentTilkommenInntektData = hentTilkommenInntektResponse?.data;
     const tilkommenInntektId = useTilkommenInntektIdFraUrl();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();
@@ -40,7 +39,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
 
     if (fetchPersonLoading || hentTilkommenInntektLoading) return <HistorikkSkeleton />;
 
-    const tilkommenInntekt = hentTilkommenInntektData
+    const tilkommenInntekt = tilkommenInntektData
         ?.flatMap((tilkommenInntektskilde) => tilkommenInntektskilde.inntekter)
         .find((tilkommenInntekt) => tilkommenInntekt.tilkommenInntektId === tilkommenInntektId);
     const events =

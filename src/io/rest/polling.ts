@@ -11,7 +11,7 @@ export const usePollEtterOpptegnelser = (personPseudoId?: string) => {
     const mottaOpptegnelser = useMottaOpptegnelser();
     const pollInterval = useOpptegnelserPollingRate();
     const { data: sisteSekvensnummerData } = useGetOpptegnelseSekvensnummerSiste();
-    const etterSekvensnummer = useNyesteOpptegnelseSekvens() ?? sisteSekvensnummerData?.data ?? 0;
+    const etterSekvensnummer = useNyesteOpptegnelseSekvens() ?? sisteSekvensnummerData ?? 0;
 
     const skalPolle = personPseudoId != undefined;
 
@@ -27,7 +27,7 @@ export const usePollEtterOpptegnelser = (personPseudoId?: string) => {
     );
 
     useEffect(() => {
-        const opptegnelser: ApiOpptegnelse[] = data?.data ?? [];
+        const opptegnelser: ApiOpptegnelse[] = data ?? [];
         if (opptegnelser.length === 0) return;
         mottaOpptegnelser(opptegnelser);
     }, [data, mottaOpptegnelser]);

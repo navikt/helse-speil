@@ -21,9 +21,8 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
-    const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } =
+    const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } =
         useHentTilkommenInntektQuery(personPseudoId);
-    const tilkommenInntektData = tilkommenInntektResponse?.data;
     const tilkomneInntekterMedOrganisasjonsnummer: ApiTilkommenInntekt[] | undefined =
         tilkommenInntektData !== undefined
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
@@ -57,7 +56,7 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
             {
                 onSuccess: (data) => {
                     tilkommenInntektRefetch().then(() => {
-                        navigerTilTilkommenInntekt(data.data.tilkommenInntektId);
+                        navigerTilTilkommenInntekt(data.tilkommenInntektId);
                     });
                 },
                 onError: () => {

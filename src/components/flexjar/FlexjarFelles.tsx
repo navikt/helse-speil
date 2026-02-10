@@ -38,8 +38,7 @@ export function FlexjarFelles({
     const [textValue, setTextValue] = useState('');
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
     const textAreaRef = useRef(null);
-    const { mutate: giFeedback, data: response, error: opprettError, reset } = useOpprettFlexjarFeedback();
-    const data = response ? response.data : null;
+    const { mutate: giFeedback, data, error: opprettError, reset } = useOpprettFlexjarFeedback();
     const { mutate: oppdaterFeedback, error: oppdaterError } = useOppdaterFlexjarFeedback();
 
     const prevActiveStateRef = useRef(activeState);

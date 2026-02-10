@@ -19,8 +19,7 @@ type SøknadsinnholdProps = {
 };
 
 export const Søknadsinnhold = ({ dokumentId, personPseudoId }: SøknadsinnholdProps): ReactElement => {
-    const { data: response, isLoading, error } = useGetSoknad(personPseudoId, dokumentId);
-    const data = response?.data;
+    const { data, isLoading, error } = useGetSoknad(personPseudoId, dokumentId);
 
     return (
         <div>

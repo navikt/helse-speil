@@ -10,8 +10,7 @@ import { TagMedTooltip } from './TagMedTooltip';
 
 export const ReservasjonTag = (): ReactElement | null => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { data: response, isLoading } = useGetKrrRegistrertStatusForPerson(personPseudoId);
-    const registrertStatus = response?.data;
+    const { data: registrertStatus, isLoading } = useGetKrrRegistrertStatusForPerson(personPseudoId);
 
     if (isLoading) {
         return (

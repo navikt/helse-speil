@@ -4,8 +4,8 @@
  * API
  * OpenAPI spec version: latest
  */
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiForkastingRequest,
     ApiHttpProblemDetailsApiPostForkastingErrorCode,
@@ -13,8 +13,8 @@ import type {
     ApiVedtakRequest,
 } from '../spesialist.schemas';
 
-import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
+import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 
 export const postVedtak = (behandlingId: string, apiVedtakRequest?: ApiVedtakRequest, signal?: AbortSignal) => {
     return callCustomAxios<void>({

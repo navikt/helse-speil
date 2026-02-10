@@ -28,8 +28,8 @@ export const UserMenu = (): ReactElement => {
     const toggleAnonymity = useToggleAnonymity();
     const [visTastatursnarveier, setVisTastatursnarveier] = useState(false);
 
-    const bruker = useGetBruker();
-    const harRoller = (bruker?.data?.data?.brukerroller?.length ?? 0) > 0;
+    const { data } = useGetBruker();
+    const harRoller = (data?.brukerroller?.length ?? 0) > 0;
     useKeyboard([
         {
             key: Key.F1,
@@ -54,7 +54,7 @@ export const UserMenu = (): ReactElement => {
                             <ActionMenu.Divider />
                             <ActionMenu.Group label="Tilgang">
                                 <HStack gap="space-4" paddingInline="space-8" maxWidth="16rem">
-                                    {bruker?.data?.data?.tilganger?.map((tilgang) => (
+                                    {data?.tilganger?.map((tilgang) => (
                                         <Tag size="xsmall" key={tilgang}>
                                             {tilgangVisningstekst(tilgang)}
                                         </Tag>
@@ -64,7 +64,7 @@ export const UserMenu = (): ReactElement => {
                             {harRoller && (
                                 <ActionMenu.Group label="Roller">
                                     <HStack gap="space-4" paddingInline="space-8" maxWidth="16rem">
-                                        {sorterBrukerroller(bruker?.data?.data?.brukerroller ?? []).map((rolle) => (
+                                        {sorterBrukerroller(data?.brukerroller ?? []).map((rolle) => (
                                             <Tag size="xsmall" key={rolle}>
                                                 {brukerrolleVisningstekst(rolle)}
                                             </Tag>

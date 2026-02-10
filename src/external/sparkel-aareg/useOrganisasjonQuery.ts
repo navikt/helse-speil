@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios';
-
 import { customAxios } from '@app/axios/axiosClient';
 import { useQuery } from '@tanstack/react-query';
 
@@ -8,8 +6,8 @@ type SparkelApiOrganisasjon = { organisasjonsnummer: string; navn: string | null
 export const useOrganisasjonQuery = (organisasjonsnummer?: string) =>
     useQuery({
         queryKey: ['/api/sparkel-aareg/organisasjoner/{organisasjonsnummer}', organisasjonsnummer],
-        queryFn: async (): Promise<AxiosResponse<SparkelApiOrganisasjon>> =>
-            customAxios.get(`/api/sparkel-aareg/organisasjoner/${organisasjonsnummer}`),
+        queryFn: async (): Promise<SparkelApiOrganisasjon> =>
+            (await customAxios.get(`/api/sparkel-aareg/organisasjoner/${organisasjonsnummer}`)).data,
         gcTime: Infinity,
         staleTime: Infinity,
         enabled: erGyldigOrganisasjonsnummer(organisasjonsnummer),

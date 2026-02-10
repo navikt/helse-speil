@@ -4,14 +4,15 @@
  * API
  * OpenAPI spec version: latest
  */
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
     ApiOppgaveProjeksjonSide,
     GetOppgaverParams,
 } from '../spesialist.schemas';
 
+import { useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -23,7 +24,6 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
 
 export const getOppgaver = (params?: GetOppgaverParams, signal?: AbortSignal) => {
     return callCustomAxios<ApiOppgaveProjeksjonSide>({

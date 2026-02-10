@@ -75,7 +75,7 @@ const HistorikkWithContent = (): ReactElement => {
         isPending: notaterLoading,
         error: notaterError,
     } = useGetNotaterForVedtaksperiode(vedtaksperiodeId);
-    const historikk = useFilteredHistorikk(person, notatData?.data ?? []);
+    const historikk = useFilteredHistorikk(person, notatData ?? []);
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();

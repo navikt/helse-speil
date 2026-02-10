@@ -2,7 +2,7 @@ import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo } from 'react';
 
-import { ApolloError, useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client';
 import { useBruker } from '@auth/brukerContext';
 import { AntallOppgaverDocument, Kategori } from '@io/graphql';
 import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
@@ -23,12 +23,6 @@ import {
 import { limit, useCurrentPageState } from '@oversikt/table/state/pagination';
 import { SortKey, useSorteringValue } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
-
-export interface ApolloResponse<T> {
-    data?: T;
-    error?: ApolloError;
-    loading: boolean;
-}
 
 export type FetchMoreArgs = {
     variables: {
@@ -112,8 +106,8 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     );
 
     return {
-        oppgaver: data?.data?.elementer,
-        antallOppgaver: data?.data?.totaltAntall ?? 0,
+        oppgaver: data?.elementer,
+        antallOppgaver: data?.totaltAntall ?? 0,
         error,
         loading,
     };

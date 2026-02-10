@@ -12,6 +12,7 @@ import { configureLogger } from '@navikt/next-logger';
 
 import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '@app/apollo/apolloClient';
+import useExposeQueryClient from '@app/useExposeQueryClient';
 import { Bruker, BrukerContext } from '@auth/brukerContext';
 import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
 import { useLoadingToast } from '@hooks/useLoadingToast';
@@ -33,6 +34,7 @@ type Props = {
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
     const [queryClient] = useState(() => new QueryClient());
     const [apolloClient] = useState(() => createApolloClient());
+    useExposeQueryClient(queryClient);
 
     return (
         <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light" disableTransitionOnChange={false}>

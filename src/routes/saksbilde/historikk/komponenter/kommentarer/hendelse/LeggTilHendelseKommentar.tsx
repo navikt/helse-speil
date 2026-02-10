@@ -91,7 +91,7 @@ function useLeggTilKommentar(
                     },
                 },
                 {
-                    onSuccess: async ({ data: { id } }) => {
+                    onSuccess: async ({ id }) => {
                         apolloClient.cache.writeQuery({
                             query: LeggTilKommentarDocument,
                             variables: {

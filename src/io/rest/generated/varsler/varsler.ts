@@ -4,8 +4,8 @@
  * API
  * OpenAPI spec version: latest
  */
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiHttpProblemDetailsDeleteVarselvurderingErrorCode,
     ApiHttpProblemDetailsGetVarselErrorCode,
@@ -14,6 +14,7 @@ import type {
     ApiVarselvurdering,
 } from '../spesialist.schemas';
 
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -28,7 +29,6 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
-import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const getVarsel = (varselId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiVarsel>({ url: `/api/spesialist/varsler/${varselId}`, method: 'GET', signal });

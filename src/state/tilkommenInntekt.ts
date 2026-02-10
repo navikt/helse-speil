@@ -16,8 +16,8 @@ export const tilTilkomneInntekterMedOrganisasjonsnummer = (inntektskilder: ApiTi
     inntektskilder.flatMap((inntektskilde) => inntektskilde.inntekter.map((tilkommenInntekt) => tilkommenInntekt));
 
 export const useTilkommenInntektMedOrganisasjonsnummer = (tilkommenInntektId: string, personPseudoId?: string) => {
-    const { data: tilkommenInntektResponse, refetch } = useHentTilkommenInntektQuery(personPseudoId);
-    const tilkommenInntektMedOrganisasjonsnummer = tilkommenInntektResponse?.data
+    const { data, refetch } = useHentTilkommenInntektQuery(personPseudoId);
+    const tilkommenInntektMedOrganisasjonsnummer = data
         ?.flatMap((tilkommenInntektskilde) =>
             tilkommenInntektskilde.inntekter.map((tilkommenInntekt) => ({
                 organisasjonsnummer: tilkommenInntektskilde.organisasjonsnummer,

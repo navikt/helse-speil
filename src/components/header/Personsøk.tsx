@@ -50,11 +50,11 @@ export const Personsøk = (): ReactElement => {
 
             setLoading(true);
             await postPersonSok(personsøkVariables)
-                .then((response) => {
-                    if (!response.data.klarForVisning) {
-                        venterPåKlargjøring(response.data.personPseudoId);
+                .then((data) => {
+                    if (!data.klarForVisning) {
+                        venterPåKlargjøring(data.personPseudoId);
                     } else {
-                        router.push(`/person/${response.data.personPseudoId}/dagoversikt`);
+                        router.push(`/person/${data.personPseudoId}/dagoversikt`);
                     }
                 })
                 .catch((error) => {

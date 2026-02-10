@@ -13,8 +13,7 @@ import styles from './SøkefeltSaksbehandlere.module.css';
 
 export const SøkefeltSaksbehandlere = () => {
     const [valgtSaksbehandler, setValgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
-    const { data: response } = useGetAktiveSaksbehandlere({ query: { gcTime: 60000 } });
-    const aktiveSaksbehandlere = response?.data;
+    const { data: aktiveSaksbehandlere } = useGetAktiveSaksbehandlere({ query: { gcTime: 60000 } });
 
     const saksbehandlereOptions: ComboboxOption[] =
         aktiveSaksbehandlere

@@ -50,7 +50,7 @@ export const Organisasjonsnavn = ({
     visOrganisasjonsnummerITooltip?: boolean;
 } & Omit<BodyShortProps, 'children'>) => {
     const { isPending: loading, data } = useOrganisasjonQuery(organisasjonsnummer);
-    const navn = data?.data?.navn ?? undefined;
+    const navn = data?.navn ?? undefined;
 
     return loading ? (
         <Tooltip content="Henter navn fra enhetsregisteret...">

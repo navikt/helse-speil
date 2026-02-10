@@ -67,7 +67,7 @@ export const TilkommenInntektSkjemaNy = ({
     const organisasjonsnummer = useWatch({ name: 'organisasjonsnummer', control: form.control });
     const { data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
 
-    const organisasjonEksisterer = organisasjonData?.data?.navn != undefined;
+    const organisasjonEksisterer = organisasjonData?.navn != undefined;
 
     const fom = useWatch({ name: 'fom', control: form.control });
     const tom = useWatch({ name: 'tom', control: form.control });

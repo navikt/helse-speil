@@ -29,8 +29,7 @@ export const Inntektsmeldingsinnhold = ({
     personPseudoId,
     person,
 }: InntektsmeldinginnholdProps): ReactElement => {
-    const { data: response, isLoading, error } = useGetInntektsmelding(personPseudoId, dokumentId);
-    const data = response?.data;
+    const { data, isLoading, error } = useGetInntektsmelding(personPseudoId, dokumentId);
 
     const virksomhetsnummer = data?.virksomhetsnummer;
     const arbeidsgiverReferanse: ArbeidsgiverReferanse | null = virksomhetsnummer

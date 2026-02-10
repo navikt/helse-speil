@@ -27,8 +27,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { data: tilkommenInntektResponse } = useHentTilkommenInntektQuery(personPseudoId);
-    const tilkommenInntektData = tilkommenInntektResponse?.data;
+    const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(personPseudoId);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const navigerTilPeriode = useNavigerTilPeriode();
 

@@ -20,7 +20,7 @@ export const TilkommenInntektTimelineRows = ({
     personPseudoId,
     alignWithExpandable = false,
 }: TilkommenInntektTimelineContainerProps): ReactElement => {
-    const { isFetching, data: response, error } = useHentTilkommenInntektQuery(personPseudoId);
+    const { isFetching, data, error } = useHentTilkommenInntektQuery(personPseudoId);
 
     if (isFetching) {
         return <TimelineRowSkeleton />;
@@ -34,7 +34,7 @@ export const TilkommenInntektTimelineRows = ({
 
     return (
         <>
-            {response?.data?.map((tilkommenInntektskilde) => (
+            {data?.map((tilkommenInntektskilde) => (
                 <TilkommenInntektTimelineRow
                     key={tilkommenInntektskilde.organisasjonsnummer}
                     start={start}

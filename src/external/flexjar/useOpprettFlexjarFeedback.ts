@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios';
-
 import { customAxios } from '@app/axios/axiosClient';
 import { useMutation } from '@tanstack/react-query';
 import { FeedbackPayload } from '@typer/flexjar';
@@ -10,6 +8,6 @@ type OpprettFeedbackResponse = {
 
 export const useOpprettFlexjarFeedback = () =>
     useMutation({
-        mutationFn: async (payload: FeedbackPayload): Promise<AxiosResponse<OpprettFeedbackResponse>> =>
-            customAxios.post(`/api/flexjar`, payload),
+        mutationFn: async (payload: FeedbackPayload): Promise<OpprettFeedbackResponse> =>
+            (await customAxios.post(`/api/flexjar`, payload)).data,
     });

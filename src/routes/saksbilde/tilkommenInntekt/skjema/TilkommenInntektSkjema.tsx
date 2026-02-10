@@ -70,7 +70,7 @@ export const TilkommenInntektSkjema = ({
     const organisasjonsnummer = useWatch({ name: 'organisasjonsnummer', control: form.control });
     const { data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
     // Bakenforliggende state som kun benyttes i valideringe
-    const organisasjonEksisterer = organisasjonData?.data?.navn != undefined;
+    const organisasjonEksisterer = organisasjonData?.navn != undefined;
 
     const fom = useWatch({ name: 'fom', control: form.control });
     const tom = useWatch({ name: 'tom', control: form.control });

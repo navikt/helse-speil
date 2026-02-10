@@ -35,7 +35,7 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(personPseudoId);
     const harTilkommenInntektEndring =
-        tilkommenInntektData?.data?.some((inntektkilde) =>
+        tilkommenInntektData?.some((inntektkilde) =>
             inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),
         ) ?? false;
 

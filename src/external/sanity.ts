@@ -1,4 +1,3 @@
-import { AxiosResponse } from 'axios';
 import dayjs from 'dayjs';
 
 import { erLokal, erProd, erUtvikling } from '@/env';
@@ -118,17 +117,15 @@ export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, har
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'skjønnsfastsettelsesMaler'],
-        queryFn: async (): Promise<AxiosResponse<SkjønnsfastsettelseMalerQueryResult>> =>
-            customAxios.post(SANITY_URL, {
-                query: `*[_type == "skjonnsfastsettelseMal"]`,
-            }),
+        queryFn: async (): Promise<SkjønnsfastsettelseMalerQueryResult> =>
+            (await customAxios.post(SANITY_URL, { query: `*[_type == "skjonnsfastsettelseMal"]` })).data,
         staleTime: Infinity,
         gcTime: 0,
     });
 
     return {
         maler: data
-            ? filterRelevantMaler(data.data.result, {
+            ? filterRelevantMaler(data.result, {
                   skalVise828AndreLedd,
                   arbeidsforholdMal: harFlereArbeidsgivere ? 'FLERE_ARBEIDSGIVERE' : 'EN_ARBEIDSGIVER',
               })
@@ -149,16 +146,15 @@ export function useDriftsmelding() {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'driftsmeldinger'],
-        queryFn: async (): Promise<AxiosResponse<DriftsmeldingerQueryResult>> =>
-            customAxios.post(SANITY_URL, {
-                query: `*[_type == "driftsmelding"]`,
-            }),
+        queryFn: async (): Promise<DriftsmeldingerQueryResult> =>
+            (await customAxios.post<DriftsmeldingerQueryResult>(SANITY_URL, { query: `*[_type == "driftsmelding"]` }))
+                .data,
         staleTime: Infinity,
         gcTime: 0,
     });
 
     const aktiveDriftsmeldinger =
-        data?.data?.result
+        data?.result
             .filter((it: Driftsmelding) => !erProd || it.iProd === 'true')
             .filter((it: Driftsmelding) => !erUtvikling || it.iDev === 'true')
             .filter(
@@ -183,16 +179,14 @@ export function useInformasjonsmelding() {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'informasjonsmeldinger'],
-        queryFn: async (): Promise<AxiosResponse<InformasjonsmeldingerQueryResult>> =>
-            customAxios.post(SANITY_URL, {
-                query: `*[_type == "informasjonsmelding"]`,
-            }),
+        queryFn: async (): Promise<InformasjonsmeldingerQueryResult> =>
+            (await customAxios.post(SANITY_URL, { query: `*[_type == "informasjonsmelding"]` })).data,
         staleTime: Infinity,
         gcTime: 0,
     });
 
     const aktiveInformasjonsmeldinger =
-        data?.data?.result
+        data?.result
             .filter((it: Informasjonsmelding) => !erProd || it.iProd === 'true')
             .filter((it: Informasjonsmelding) => !erUtvikling || it.iDev === 'true')
             .filter((informasjonsmelding) => dayjs(informasjonsmelding.synligTil).isAfter(dayjs())) ?? [];
@@ -211,16 +205,14 @@ export function useArsaker(id: string) {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'årsaker', id],
-        queryFn: async (): Promise<AxiosResponse<ArsakerQueryResult>> =>
-            customAxios.post(SANITY_URL, {
-                query: `*[_type == "arsaker" && _id == "${id}"]`,
-            }),
+        queryFn: async (): Promise<ArsakerQueryResult> =>
+            (await customAxios.post(SANITY_URL, { query: `*[_type == "arsaker" && _id == "${id}"]` })).data,
         staleTime: Infinity,
         gcTime: 0,
     });
 
     return {
-        arsaker: data?.data?.result ?? [],
+        arsaker: data?.result ?? [],
         loading,
         error,
     };
@@ -233,9 +225,10 @@ export function useNyheter() {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'nyheter'],
-        queryFn: async (): Promise<AxiosResponse<NyheterQueryResult>> =>
-            customAxios.post(SANITY_URL, {
-                query: `*[_type == "nyhet"]{
+        queryFn: async (): Promise<NyheterQueryResult> =>
+            (
+                await customAxios.post(SANITY_URL, {
+                    query: `*[_type == "nyhet"]{
                     _id,
                     _createdAt,
                     iProd,
@@ -270,13 +263,14 @@ export function useNyheter() {
                         }
                     }
                 } | order(_createdAt desc)`,
-            }),
+                })
+            ).data,
         staleTime: Infinity,
         gcTime: 0,
     });
 
     const nyheter =
-        data?.data?.result
+        data?.result
             .filter((it: NyhetType) => (erProd ? it.iProd : true))
             .filter((it: NyhetType) => (erLokal ? !it.modal?.tvungenModal : true)) ?? [];
 

@@ -21,8 +21,7 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const person = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { data: tilkommenResponse } = useHentTilkommenInntektQuery(personPseudoId);
-    const tilkommenData = tilkommenResponse?.data;
+    const { data: tilkommenData } = useHentTilkommenInntektQuery(personPseudoId);
 
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;
 

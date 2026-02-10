@@ -43,17 +43,17 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
     const { mutate: deleteVurdering, error: deleteError } = useDeleteVarselvurdering();
 
     const refetchVarsel = async () => {
-        const { data: response } = await getVarsel(varsel.id);
-        if (response !== undefined) {
+        const data = await getVarsel(varsel.id);
+        if (data !== undefined) {
             apolloClient.cache.modify({
                 id: apolloClient.cache.identify(varsel),
                 fields: {
                     vurdering() {
-                        return response.vurdering
+                        return data.vurdering
                             ? {
-                                  ident: response.vurdering.ident,
-                                  status: response.status,
-                                  tidsstempel: response.vurdering.tidsstempel,
+                                  ident: data.vurdering.ident,
+                                  status: data.status,
+                                  tidsstempel: data.vurdering.tidsstempel,
                               }
                             : null;
                     },

@@ -24,9 +24,8 @@ export const EndreTilkommenInntektView = ({
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
-    const { data: tilkommenInntektResponse, refetch: tilkommenInntektRefetch } =
+    const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } =
         useHentTilkommenInntektQuery(personPseudoId);
-    const tilkommenInntektData = tilkommenInntektResponse?.data;
     const tilkomneInntekterMedOrganisasjonsnummer: ApiTilkommenInntekt[] | undefined =
         tilkommenInntektData !== undefined
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
