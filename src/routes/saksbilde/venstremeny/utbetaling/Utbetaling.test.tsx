@@ -1,6 +1,8 @@
+import { defaultAxiosResponse } from '../../../../../vitest.setup';
 import { createStore } from 'jotai';
-import { describe, expect, it, vi } from 'vitest';
+import { Mock, describe, expect, it, vi } from 'vitest';
 
+import { customAxios } from '@app/axios/axiosClient';
 import { Utbetaling } from '@saksbilde/venstremeny/utbetaling/Utbetaling';
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
@@ -29,6 +31,8 @@ describe('Utbetaling', () => {
         );
 
         const store = createStore();
+
+        (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
 
         const { rerender } = render(
             <PersonStoreContext.Provider value={store}>

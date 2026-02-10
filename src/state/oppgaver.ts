@@ -1,13 +1,14 @@
-import { AxiosError } from 'axios';
 import { useAtom } from 'jotai';
 import { useEffect, useMemo } from 'react';
 
 import { useQuery } from '@apollo/client';
+import { ErrorType } from '@app/axios/orval-mutator';
 import { useBruker } from '@auth/brukerContext';
 import { AntallOppgaverDocument, Kategori } from '@io/graphql';
 import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiEgenskap,
+    ApiHttpProblemDetailsApiGetOppgaverErrorCode,
     ApiOppgaveProjeksjon,
     ApiOppgaveSorteringsfelt,
     ApiSorteringsrekkefølge,
@@ -33,7 +34,7 @@ export type FetchMoreArgs = {
 
 interface OppgaveFeedResponse {
     oppgaver?: ApiOppgaveProjeksjon[];
-    error: AxiosError | null;
+    error: ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
     loading: boolean;
     antallOppgaver: number;
 }

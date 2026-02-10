@@ -1,3 +1,4 @@
+import { defaultAxiosResponse } from '../../../../vitest.setup';
 import React from 'react';
 import { Mock, vi } from 'vitest';
 
@@ -101,6 +102,7 @@ describe('Annulleringsmodal', () => {
     });
 
     test('viser toast etter at annullering-kallet er gjort', async () => {
+        (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
         render(<AnnulleringsModal {...defaultProps} />);
 
         await userEvent.click(await screen.findByRole('checkbox', { name: 'Ferie' }));

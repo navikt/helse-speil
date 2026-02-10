@@ -66,7 +66,7 @@ vi.mock('next/image', () => ({
 }));
 
 // Default AxiosResponse to prevent React Query "Query data cannot be undefined" warning
-const defaultAxiosResponse = {
+export const defaultAxiosResponse = {
     data: [],
     status: 200,
     statusText: 'OK',
@@ -88,14 +88,14 @@ interface CustomAxiosMock extends MockFn {
 
 // Custom mock function that maintains default implementations
 const createCustomAxiosMock = (): CustomAxiosMock => {
-    const mockFn = vi.fn().mockResolvedValue(defaultAxiosResponse) as unknown as CustomAxiosMock;
-    mockFn.get = vi.fn().mockResolvedValue(defaultAxiosResponse);
-    mockFn.delete = vi.fn().mockResolvedValue(defaultAxiosResponse);
-    mockFn.head = vi.fn().mockResolvedValue(defaultAxiosResponse);
-    mockFn.options = vi.fn().mockResolvedValue(defaultAxiosResponse);
-    mockFn.post = vi.fn().mockResolvedValue(defaultAxiosResponse);
-    mockFn.put = vi.fn().mockResolvedValue(defaultAxiosResponse);
-    mockFn.patch = vi.fn().mockResolvedValue(defaultAxiosResponse);
+    const mockFn = vi.fn() as CustomAxiosMock;
+    mockFn.get = vi.fn();
+    mockFn.delete = vi.fn();
+    mockFn.head = vi.fn();
+    mockFn.options = vi.fn();
+    mockFn.post = vi.fn();
+    mockFn.put = vi.fn();
+    mockFn.patch = vi.fn();
     return mockFn;
 };
 
@@ -108,14 +108,6 @@ vi.mock('@app/axios/axiosClient', () => ({
 beforeEach(() => {
     vi.resetAllMocks();
     // Re-apply default implementations after reset
-    customAxiosMock.mockResolvedValue(defaultAxiosResponse);
-    customAxiosMock.get.mockResolvedValue(defaultAxiosResponse);
-    customAxiosMock.delete.mockResolvedValue(defaultAxiosResponse);
-    customAxiosMock.head.mockResolvedValue(defaultAxiosResponse);
-    customAxiosMock.options.mockResolvedValue(defaultAxiosResponse);
-    customAxiosMock.post.mockResolvedValue(defaultAxiosResponse);
-    customAxiosMock.put.mockResolvedValue(defaultAxiosResponse);
-    customAxiosMock.patch.mockResolvedValue(defaultAxiosResponse);
 });
 
 // Suppress known console warnings/errors that are not relevant to tests

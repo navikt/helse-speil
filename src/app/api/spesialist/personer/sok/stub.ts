@@ -13,7 +13,16 @@ export const stub = async (_request: Request) => {
 
     const personPseudoId = PersonMock.findPersonPseudoId(identitetsnummer ?? aktørId ?? '');
 
-    if (personPseudoId == undefined) return Response.json({}, { status: 404 });
+    if (personPseudoId == undefined)
+        return Response.json(
+            {
+                type: 'about:blank',
+                status: 404,
+                title: 'Person ikke funnet',
+                code: 'PERSON_IKKE_FUNNET',
+            },
+            { status: 404 },
+        );
 
     return Response.json({ personPseudoId: personPseudoId, klarForVisning: person?.personinfo != null });
 };
