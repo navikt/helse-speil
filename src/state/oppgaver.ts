@@ -11,6 +11,7 @@ import {
     ApiOppgaveProjeksjon,
     ApiOppgaveSorteringsfelt,
     ApiSorteringsrekkefølge,
+    GetOppgaverParams,
 } from '@io/rest/generated/spesialist.schemas';
 import { TabType, useAktivTab } from '@oversikt/tabState';
 import {
@@ -20,7 +21,7 @@ import {
     useAllFilters,
     valgtSaksbehandlerAtom,
 } from '@oversikt/table/state/filter';
-import { limit, useCurrentPageState } from '@oversikt/table/state/pagination';
+import { limit, useCurrentPageValue, useResetToFirstPageOnHashChange } from '@oversikt/table/state/pagination';
 import { SortKey, useSorteringValue } from '@oversikt/table/state/sortation';
 import { InfoAlert } from '@utils/error';
 
@@ -39,13 +40,14 @@ interface OppgaveFeedResponse {
 
 export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const [valgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
-    const [currentPage, setCurrentPage] = useCurrentPageState();
+    const currentPage = useCurrentPageValue();
+    const resetToFirstPageOnHashChange = useResetToFirstPageOnHashChange();
     const sort = useSorteringValue();
     const aktivTab = useAktivTab();
     const allFilters = useAllFilters();
     const { oid: innloggetSaksbehandlerOid } = useBruker();
 
-    const variables = useMemo(() => {
+    const variables = useMemo<GetOppgaverParams>(() => {
         const activeFilters = allFilters.filter((filter) => filter.status !== FilterStatus.OFF);
         const minusEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
             .filter(
@@ -87,7 +89,9 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
         };
     }, [aktivTab, allFilters, sort, innloggetSaksbehandlerOid, valgtSaksbehandler]);
 
-    useEffect(() => setCurrentPage(1), [setCurrentPage, variables]);
+    useEffect(() => {
+        createHash(variables).then(resetToFirstPageOnHashChange);
+    }, [resetToFirstPageOnHashChange, variables]);
 
     const {
         data,
@@ -225,4 +229,9 @@ const finnSorteringsNøkkel = (sortKey: SortKey) => {
         default:
             return ApiOppgaveSorteringsfelt.opprettetTidspunkt;
     }
+};
+
+const createHash = async (variables: GetOppgaverParams) => {
+    const digest = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(variables)));
+    return new Uint8Array(digest).toString();
 };

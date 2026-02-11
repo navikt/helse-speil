@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import type { WritableAtom } from 'jotai/index';
+import type { WritableAtom } from 'jotai';
 import type { SetStateAction } from 'react';
 
 import { erUtvikling } from '@/env';
