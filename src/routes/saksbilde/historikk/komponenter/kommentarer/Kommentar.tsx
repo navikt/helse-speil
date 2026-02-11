@@ -21,40 +21,9 @@ interface KommentarProps {
 }
 
 export const Kommentar = ({ kommentar, dialogRef }: KommentarProps) => {
-    const { mutate, isPending: loading, error } = usePatchKommentar();
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const { cache } = useApolloClient();
-    const [isLoading, setIsLoading] = useState(false);
 
-    function doFeilregistrerKommentar() {
-        if (dialogRef === null) return;
-        setIsLoading(true);
-        mutate(
-            {
-                dialogId: dialogRef,
-                kommentarId: kommentar.id,
-                data: {
-                    feilregistrert: true,
-                },
-            },
-            {
-                onSuccess: () => {
-                    cache.modify({
-                        id: cache.identify({ __typename: 'Kommentar', id: kommentar.id }),
-                        fields: {
-                            feilregistrert_tidspunkt() {
-                                return dayjs().format(ISO_TIDSPUNKTFORMAT) ?? '';
-                            },
-                        },
-                    });
-                    setIsLoading(false);
-                },
-                onError: () => {
-                    setIsLoading(false);
-                },
-            },
-        );
-    }
+    const { feilregistrerKommentar, loading, error } = useFeilregistrerKommentar(kommentar.id, dialogRef);
 
     const erFeilregistrert = dayjs(kommentar.feilregistrert_tidspunkt, ISO_TIDSPUNKTFORMAT).isValid();
 
@@ -71,10 +40,7 @@ export const Kommentar = ({ kommentar, dialogRef }: KommentarProps) => {
                     {dialogRef != null &&
                         !erFeilregistrert &&
                         innloggetSaksbehandler.ident === kommentar.saksbehandlerident && (
-                            <KommentarDropdown
-                                feilregistrerAction={doFeilregistrerKommentar}
-                                isFetching={loading || isLoading}
-                            />
+                            <KommentarDropdown feilregistrerAction={feilregistrerKommentar} isFetching={loading} />
                         )}
                 </HStack>
 
@@ -95,3 +61,41 @@ export const Kommentar = ({ kommentar, dialogRef }: KommentarProps) => {
         </Box>
     );
 };
+
+function useFeilregistrerKommentar(kommentarId: number, dialogRef: number | null) {
+    const { mutate, error } = usePatchKommentar();
+    const { cache } = useApolloClient();
+    const [loading, setLoading] = useState(false);
+
+    function feilregistrerKommentar() {
+        if (dialogRef === null) return;
+        setLoading(true);
+        mutate(
+            {
+                dialogId: dialogRef,
+                kommentarId: kommentarId,
+                data: {
+                    feilregistrert: true,
+                },
+            },
+            {
+                onSuccess: async () => {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'Kommentar', id: kommentarId }),
+                        fields: {
+                            feilregistrert_tidspunkt() {
+                                return dayjs().format(ISO_TIDSPUNKTFORMAT) ?? '';
+                            },
+                        },
+                    });
+                    setLoading(false);
+                },
+                onError: () => {
+                    setLoading(false);
+                },
+            },
+        );
+    }
+
+    return { feilregistrerKommentar, loading, error };
+}
