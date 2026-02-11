@@ -122,7 +122,6 @@ function HistorikkVisning({
                                 <HendelseRenderer
                                     key={`${it.type}-${it.id}-${index}`}
                                     hendelse={it}
-                                    index={index}
                                     person={person}
                                     erAnnullertBeregnetPeriode={erAnnullertBeregnetPeriode}
                                 />

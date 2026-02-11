@@ -32,14 +32,12 @@ import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse
 
 interface HendelseRendererProps {
     hendelse: HendelseObject;
-    index: number;
     person: PersonFragment;
     erAnnullertBeregnetPeriode: boolean;
 }
 
 export function HendelseRenderer({
     hendelse,
-    index,
     person,
     erAnnullertBeregnetPeriode,
 }: HendelseRendererProps): ReactElement | null {
@@ -51,11 +49,11 @@ export function HendelseRenderer({
         case 'Dagoverstyring':
             return <DagoverstyringRenderer hendelse={hendelse} />;
         case 'Inntektoverstyring':
-            return <InntektoverstyringRenderer hendelse={hendelse} index={index} />;
+            return <InntektoverstyringRenderer hendelse={hendelse} />;
         case 'Sykepengegrunnlagskjonnsfastsetting':
-            return <SykepengegrunnlagskjonnsfastsettingRenderer hendelse={hendelse} index={index} />;
+            return <SykepengegrunnlagskjonnsfastsettingRenderer hendelse={hendelse} />;
         case 'MinimumSykdomsgradoverstyring':
-            return <MinimumSykdomsgradRenderer hendelse={hendelse} index={index} />;
+            return <MinimumSykdomsgradRenderer hendelse={hendelse} />;
         case 'Dokument':
             return <DokumentRenderer hendelse={hendelse} person={person} />;
         case 'Notat':
@@ -74,7 +72,7 @@ export function HendelseRenderer({
 }
 
 function ArbeidsforholdoverstyringRenderer({ hendelse }: { hendelse: ArbeidsforholdoverstyringhendelseObject }) {
-    return <Arbeidsforholdoverstyringhendelse key={hendelse.id} {...hendelse} />;
+    return <Arbeidsforholdoverstyringhendelse {...hendelse} />;
 }
 
 function AnnetArbeidsforholdoverstyringRenderer({
@@ -82,41 +80,27 @@ function AnnetArbeidsforholdoverstyringRenderer({
 }: {
     hendelse: AnnetArbeidsforholdoverstyringhendelseObject;
 }) {
-    return <AnnetArbeidsforholdoverstyringhendelse key={hendelse.id} {...hendelse} />;
+    return <AnnetArbeidsforholdoverstyringhendelse {...hendelse} />;
 }
 
 function DagoverstyringRenderer({ hendelse }: { hendelse: DagoverstyringhendelseObject }) {
-    return <Dagoverstyringhendelse key={hendelse.id} {...hendelse} />;
+    return <Dagoverstyringhendelse {...hendelse} />;
 }
 
-function InntektoverstyringRenderer({
-    hendelse,
-    index,
-}: {
-    hendelse: InntektoverstyringhendelseObject;
-    index: number;
-}) {
-    return <Inntektoverstyringhendelse key={`${hendelse.id}-${index}`} {...hendelse} />;
+function InntektoverstyringRenderer({ hendelse }: { hendelse: InntektoverstyringhendelseObject }) {
+    return <Inntektoverstyringhendelse {...hendelse} />;
 }
 
 function SykepengegrunnlagskjonnsfastsettingRenderer({
     hendelse,
-    index,
 }: {
     hendelse: SykepengegrunnlagskjonnsfastsettinghendelseObject;
-    index: number;
 }) {
-    return <SykepengegrunnlagSkjønnsfastsatthendelse key={`${hendelse.id}-${index}`} {...hendelse} />;
+    return <SykepengegrunnlagSkjønnsfastsatthendelse {...hendelse} />;
 }
 
-function MinimumSykdomsgradRenderer({
-    hendelse,
-    index,
-}: {
-    hendelse: MinimumSykdomsgradhendelseObject;
-    index: number;
-}) {
-    return <ArbeidstidVurderthendelse key={`${hendelse.id}-${index}`} {...hendelse} />;
+function MinimumSykdomsgradRenderer({ hendelse }: { hendelse: MinimumSykdomsgradhendelseObject }) {
+    return <ArbeidstidVurderthendelse {...hendelse} />;
 }
 
 function DokumentRenderer({ hendelse, person }: { hendelse: DokumenthendelseObject; person: PersonFragment }) {
@@ -124,19 +108,19 @@ function DokumentRenderer({ hendelse, person }: { hendelse: DokumenthendelseObje
 }
 
 function NotatRenderer({ hendelse }: { hendelse: NotathendelseObject }) {
-    return <Notathendelse key={`${hendelse.id}-notat`} {...hendelse} />;
+    return <Notathendelse {...hendelse} />;
 }
 
 function UtbetalingRenderer({ hendelse }: { hendelse: UtbetalinghendelseObject }) {
-    return <Utbetalinghendelse key={hendelse.id} {...hendelse} />;
+    return <Utbetalinghendelse {...hendelse} />;
 }
 
 function HistorikkRenderer({ hendelse, person }: { hendelse: HistorikkhendelseObject; person: PersonFragment }) {
-    return <HistorikkHendelse key={hendelse.id} hendelse={hendelse} person={person} />;
+    return <HistorikkHendelse hendelse={hendelse} person={person} />;
 }
 
 function VedtakBegrunnelseRenderer({ hendelse }: { hendelse: VedtakBegrunnelseObject }) {
-    return <VedtakBegrunnelsehendelse key={hendelse.id} {...hendelse} />;
+    return <VedtakBegrunnelsehendelse {...hendelse} />;
 }
 
 function AnnulleringRenderer({
@@ -146,7 +130,5 @@ function AnnulleringRenderer({
     hendelse: AnnulleringhendelseObject;
     erAnnullertBeregnetPeriode: boolean;
 }) {
-    return (
-        <Annulleringhendelse key={hendelse.id} erAnnullertBeregnetPeriode={erAnnullertBeregnetPeriode} {...hendelse} />
-    );
+    return <Annulleringhendelse erAnnullertBeregnetPeriode={erAnnullertBeregnetPeriode} {...hendelse} />;
 }
