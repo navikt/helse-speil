@@ -1,10 +1,11 @@
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { XMarkIcon } from '@navikt/aksel-icons';
+import { HStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { PersonFragment } from '@io/graphql';
+import { XKnapp } from '@saksbilde/historikk/XKnapp';
 import { Inntektsmeldingsinnhold } from '@saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from '@saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
 import {
@@ -33,15 +34,15 @@ export const OpenedDokument = ({ person }: OpenedDokumentProps): ReactElement | 
         <div className={cn(styles.dokumenter)}>
             {åpnedeDokumenter.map((dokument, index) => (
                 <div className={styles.dokument} key={`dokument${index}`}>
-                    <div className={styles.header}>
-                        <Kilde className={styles.ikon} type={getKildetype(dokument.dokumenttype)}>
-                            {getKildetekst(dokument.dokumenttype)}
-                        </Kilde>
-                        <HendelseDate timestamp={dokument.timestamp} />
-                        <button className={styles.button} onClick={() => fjernÅpnetDokument(dokument.dokumentId)}>
-                            <XMarkIcon title="lukk åpnet dokument" />
-                        </button>
-                    </div>
+                    <HStack justify="space-between" align="center" marginBlock="space-0 space-16">
+                        <HStack gap="space-8" align="center">
+                            <Kilde className={styles.ikon} type={getKildetype(dokument.dokumenttype)}>
+                                {getKildetekst(dokument.dokumenttype)}
+                            </Kilde>
+                            <HendelseDate timestamp={dokument.timestamp} />
+                        </HStack>
+                        <XKnapp tittel="Lukk åpent dokument" onClick={() => fjernÅpnetDokument(dokument.dokumentId)} />
+                    </HStack>
                     {dokument.dokumenttype === 'Søknad' ? (
                         <Søknadsinnhold dokumentId={dokument.dokumentId} personPseudoId={personPseudoId} />
                     ) : (

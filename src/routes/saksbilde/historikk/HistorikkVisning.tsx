@@ -1,14 +1,14 @@
 import { motion } from 'motion/react';
 import { ReactElement } from 'react';
 
-import { XMarkIcon } from '@navikt/aksel-icons';
-import { HStack, LocalAlert } from '@navikt/ds-react';
+import { BodyShort, HStack, LocalAlert } from '@navikt/ds-react';
 
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { PersonFragment } from '@io/graphql';
 import { HendelseRenderer } from '@saksbilde/historikk/HendelseRenderer';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
+import { XKnapp } from '@saksbilde/historikk/XKnapp';
 import { getHistorikkTitle } from '@saksbilde/historikk/constants/historikkTitles';
 import { Notat } from '@saksbilde/notat/Notat';
 import { Filtertype, HendelseObject } from '@typer/historikk';
@@ -56,11 +56,9 @@ export function HistorikkVisning({
                 >
                     {harNotatError && <LocalAlert status="error">Kunne ikke hente notater</LocalAlert>}
                     <div className={styles.historikk}>
-                        <HStack className={styles.header}>
-                            <div>{getHistorikkTitle(filter)}</div>
-                            <button className={styles.xbutton} onClick={lukkHistorikk}>
-                                <XMarkIcon title="lukk historikk" />
-                            </button>
+                        <HStack padding="space-16" justify="space-between" align="center">
+                            <BodyShort size="small">{getHistorikkTitle(filter)}</BodyShort>
+                            <XKnapp tittel="Lukk historikk" onClick={lukkHistorikk} />
                         </HStack>
                         <ul>
                             {filter !== 'Dokument' && filter !== 'Overstyring' && (

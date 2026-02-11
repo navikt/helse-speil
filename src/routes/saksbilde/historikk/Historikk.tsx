@@ -1,11 +1,10 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
-
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
 import { isAnnullertBeregnetPeriode } from '@saksbilde/SaksbildeVarsel';
+import { historikkFeil } from '@saksbilde/historikk/HistorikkFeil';
 import { HistorikkVisning } from '@saksbilde/historikk/HistorikkVisning';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import {
@@ -16,10 +15,7 @@ import {
 } from '@saksbilde/historikk/state';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { cn } from '@utils/tw';
 import { isGhostPeriode } from '@utils/typeguards';
-
-import styles from './Historikk.module.css';
 
 function HistorikkWithContent(): ReactElement | null {
     const { loading, data } = useFetchPersonQuery();
@@ -63,21 +59,9 @@ function HistorikkWithContent(): ReactElement | null {
     );
 }
 
-function HistorikkError(): ReactElement {
-    return (
-        <div className={cn(styles.historikk, styles.error)}>
-            <ul>
-                <div>
-                    <BodyShort>Noe gikk galt. Kan ikke vise historikk for perioden.</BodyShort>
-                </div>
-            </ul>
-        </div>
-    );
-}
-
 export function Historikk(): ReactElement {
     return (
-        <ErrorBoundary fallback={<HistorikkError />}>
+        <ErrorBoundary fallback={historikkFeil}>
             <HistorikkWithContent />
         </ErrorBoundary>
     );

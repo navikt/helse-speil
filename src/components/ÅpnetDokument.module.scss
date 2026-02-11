@@ -7,42 +7,5 @@
     width: 320px;
     padding: 1rem;
     border-left: 1px solid var(--ax-border-neutral-strong);
-
-    .header {
-      display: flex;
-      margin-bottom: 1rem;
-
-      p {
-        font-size: 1rem !important
-      }
-
-      .ikon {
-        display: flex;
-        align-items: center;
-        height: 1rem;
-        margin-top: 2px;
-        width: 1.25rem;
-        margin-right: 0.5rem;
-      }
-
-      .button {
-        border: 0;
-        width: 1rem;
-        height: 1rem;
-        background: transparent;
-        cursor: pointer;
-        padding: 0;
-        border-radius: 0.25rem;
-        margin-left: auto;
-
-        svg {
-          font-size: 1rem;
-        }
-
-        &:hover {
-          background: var(--ax-bg-neutral-moderate-hoverA)
-        }
-      }
-    }
   }
 }

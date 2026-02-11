@@ -2,7 +2,6 @@ import { motion } from 'motion/react';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -10,13 +9,14 @@ import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import styles from '@saksbilde/historikk/Historikk.module.css';
+import { historikkFeil } from '@saksbilde/historikk/HistorikkFeil';
+import { XKnapp } from '@saksbilde/historikk/XKnapp';
 import { TilkommenInntektHendelse } from '@saksbilde/historikk/hendelser/TilkommenInntektHendelse';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { useShowHistorikkState, useShowHøyremenyState } from '@saksbilde/historikk/state';
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { cn } from '@utils/tw';
 
 const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
@@ -62,11 +62,9 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
                     style={{ overflow: 'hidden' }}
                 >
                     <div className={styles.historikk}>
-                        <HStack className={styles.header}>
-                            <div>HISTORIKK</div>
-                            <button className={styles.xbutton} onClick={() => setShowHistorikk(false)}>
-                                <XMarkIcon title="Lukk historikk" />
-                            </button>
+                        <HStack padding="space-16" justify="space-between" align="center">
+                            <BodyShort size="small">HISTORIKK</BodyShort>
+                            <XKnapp tittel="Lukk historikk" onClick={() => setShowHistorikk(false)} />
                         </HStack>
                         <ul>
                             {events.map((event) => (
@@ -81,21 +79,9 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     );
 };
 
-const TilkommenInntektHistorikkError = (): ReactElement => {
-    return (
-        <div className={cn(styles.historikk, styles.error)}>
-            <ul>
-                <div>
-                    <BodyShort>Noe gikk galt. Kan ikke vise historikk for perioden.</BodyShort>
-                </div>
-            </ul>
-        </div>
-    );
-};
-
 export const TilkommenInntektHistorikk = (): ReactElement => {
     return (
-        <ErrorBoundary fallback={<TilkommenInntektHistorikkError />}>
+        <ErrorBoundary fallback={historikkFeil}>
             <TilkommenInntektHistorikkWithContent />
         </ErrorBoundary>
     );
