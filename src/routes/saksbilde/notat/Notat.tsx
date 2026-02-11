@@ -95,7 +95,7 @@ function useLeggTilNotat(vedtaksperiodeId: string, onSuccess: () => void) {
         postNotat(
             {
                 data: {
-                    tekst: tekst || '',
+                    tekst: tekst,
                     vedtaksperiodeId: vedtaksperiodeId,
                 },
             },
