@@ -39,12 +39,14 @@ export const TotrinnsvurderingReturHendelse = ({
                     )}
                 </VStack>
             )}
-            <HendelseKommentarSeksjon
-                kommentarer={kommentarer}
-                dialogRef={dialogRef ?? undefined}
-                historikkinnslagId={historikkinnslagId}
-                historikktype={PeriodehistorikkType.TotrinnsvurderingRetur}
-            />
+            {dialogRef && (
+                <HendelseKommentarSeksjon
+                    kommentarer={kommentarer}
+                    dialogRef={dialogRef}
+                    historikkinnslagId={historikkinnslagId}
+                    historikktype={PeriodehistorikkType.TotrinnsvurderingRetur}
+                />
+            )}
         </Historikkhendelse>
     );
 };

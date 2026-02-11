@@ -37,12 +37,14 @@ export function StansAutomatiskBehandlingSaksbehandlerHendelse({
                     )}
                 </VStack>
             )}
-            <HendelseKommentarSeksjon
-                kommentarer={kommentarer}
-                dialogRef={dialogRef ?? undefined}
-                historikkinnslagId={historikkinnslagId}
-                historikktype={PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler}
-            />
+            {dialogRef && (
+                <HendelseKommentarSeksjon
+                    kommentarer={kommentarer}
+                    dialogRef={dialogRef}
+                    historikkinnslagId={historikkinnslagId}
+                    historikktype={PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler}
+                />
+            )}
         </Historikkhendelse>
     );
 }

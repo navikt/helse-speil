@@ -9,8 +9,8 @@ import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe'
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
-import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
 import { HendelseKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarSeksjon';
+import { HendelseKommentarer } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarer';
 import { useActivePeriod } from '@state/periode';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
@@ -54,16 +54,16 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
                     <BodyShortWithPreWrap>{hendelse.notattekst}</BodyShortWithPreWrap>
                 </Expandable>
             )}
-            {hendelse.erNyestePåVentInnslag && (
+            {hendelse.erNyestePåVentInnslag && hendelse.dialogRef && (
                 <HendelseKommentarSeksjon
                     kommentarer={hendelse.kommentarer!}
-                    dialogRef={hendelse.dialogRef ?? undefined}
+                    dialogRef={hendelse.dialogRef}
                     historikkinnslagId={hendelse.historikkinnslagId!}
                     historikktype={hendelse.historikktype}
                 />
             )}
-            {!hendelse.erNyestePåVentInnslag && hendelse.kommentarer && (
-                <Kommentarer dialogRef={hendelse.dialogRef} kommentarer={hendelse.kommentarer} />
+            {!hendelse.erNyestePåVentInnslag && hendelse.kommentarer && hendelse.dialogRef && (
+                <HendelseKommentarer dialogRef={hendelse.dialogRef} kommentarer={hendelse.kommentarer} />
             )}
         </Historikkhendelse>
     );

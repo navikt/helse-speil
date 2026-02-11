@@ -2,14 +2,14 @@ import React, { ReactElement, useState } from 'react';
 
 import { ReadMore } from '@navikt/ds-react';
 
-import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
 import { LeggTilNotatKommentar } from '@saksbilde/historikk/komponenter/kommentarer/notat/LeggTilNotatKommentar';
+import { NotatKommentarer } from '@saksbilde/historikk/komponenter/kommentarer/notat/NotatKommentarer';
 import { Kommentar } from '@typer/notat';
 
 type NotatKommentarSeksjonProps = {
     kommentarer: Kommentar[];
     vedtaksperiodeId: string;
-    dialogRef?: number;
+    dialogRef: number;
 };
 export const NotatKommentarSeksjon = ({
     kommentarer,
@@ -28,7 +28,11 @@ export const NotatKommentarSeksjon = ({
                     size="small"
                     header={open ? 'Lukk kommentarer' : `Kommentarer (${kommentarer?.length})`}
                 >
-                    <Kommentarer kommentarer={kommentarer} dialogRef={dialogRef ?? null} />
+                    <NotatKommentarer
+                        kommentarer={kommentarer}
+                        vedtaksperiodeId={vedtaksperiodeId}
+                        dialogRef={dialogRef}
+                    />
                 </ReadMore>
             )}
             {dialogRef && (

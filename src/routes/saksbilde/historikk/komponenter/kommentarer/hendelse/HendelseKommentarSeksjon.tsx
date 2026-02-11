@@ -3,13 +3,13 @@ import React, { ReactElement, useState } from 'react';
 import { ReadMore } from '@navikt/ds-react';
 
 import { PeriodehistorikkType } from '@io/graphql';
-import { Kommentarer } from '@saksbilde/historikk/komponenter/kommentarer/Kommentarer';
+import { HendelseKommentarer } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarer';
 import { LeggTilHendelseKommentar } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/LeggTilHendelseKommentar';
 import { Kommentar } from '@typer/notat';
 
 type HendelseKommentarSeksjonProps = {
     kommentarer: Kommentar[];
-    dialogRef?: number;
+    dialogRef: number;
     historikkinnslagId: number;
     historikktype?: PeriodehistorikkType;
 };
@@ -19,7 +19,7 @@ export const HendelseKommentarSeksjon = ({
     dialogRef,
     historikkinnslagId,
     historikktype,
-}: HendelseKommentarSeksjonProps): ReactElement => {
+}: HendelseKommentarSeksjonProps): ReactElement | null => {
     const [open, setOpen] = useState(false);
     const antall = kommentarer?.length ?? 0;
 
@@ -32,17 +32,15 @@ export const HendelseKommentarSeksjon = ({
                     size="small"
                     header={open ? 'Lukk kommentarer' : `Kommentarer (${kommentarer?.length})`}
                 >
-                    <Kommentarer kommentarer={kommentarer} dialogRef={dialogRef ?? null} />
+                    <HendelseKommentarer kommentarer={kommentarer} dialogRef={dialogRef} />
                 </ReadMore>
             )}
-            {dialogRef && (
-                <LeggTilHendelseKommentar
-                    dialogRef={dialogRef}
-                    historikkinnslagId={historikkinnslagId}
-                    åpneKommentarvisning={() => setOpen(true)}
-                    historikktype={historikktype}
-                />
-            )}
+            <LeggTilHendelseKommentar
+                dialogRef={dialogRef}
+                historikkinnslagId={historikkinnslagId}
+                åpneKommentarvisning={() => setOpen(true)}
+                historikktype={historikktype}
+            />
         </>
     );
 };
