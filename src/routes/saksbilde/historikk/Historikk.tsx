@@ -15,18 +15,22 @@ import { HendelseRenderer } from '@saksbilde/historikk/HendelseRenderer';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { getHistorikkTitle } from '@saksbilde/historikk/constants/historikkTitles';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
+import {
+    useFilterState,
+    useFilteredHistorikk,
+    useShowHistorikkState,
+    useShowHøyremenyState,
+} from '@saksbilde/historikk/state';
+import { Notat } from '@saksbilde/notat/Notat';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { Filtertype, HendelseObject } from '@typer/historikk';
 import { cn } from '@utils/tw';
 import { isGhostPeriode } from '@utils/typeguards';
 
-import { Notat } from '../notat/Notat';
-import { useFilterState, useFilteredHistorikk, useShowHistorikkState, useShowHøyremenyState } from './state';
-
 import styles from './Historikk.module.css';
 
-function HistorikkWithContent(): ReactElement {
+function HistorikkWithContent(): ReactElement | null {
     const { loading, data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
@@ -39,7 +43,7 @@ function HistorikkWithContent(): ReactElement {
     const historikk = useFilteredHistorikk(person, notatData ?? []);
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
-    const [showHøyremeny, _] = useShowHøyremenyState();
+    const [showHøyremeny] = useShowHøyremenyState();
 
     useKeyboard([
         {
@@ -51,7 +55,7 @@ function HistorikkWithContent(): ReactElement {
     ]);
 
     if (loading || notaterLoading) return <HistorikkSkeleton />;
-    else if (aktivPeriode == null || person == null || isGhostPeriode(aktivPeriode)) return <></>;
+    else if (aktivPeriode == null || person == null || isGhostPeriode(aktivPeriode)) return null;
 
     return (
         <HistorikkVisning
