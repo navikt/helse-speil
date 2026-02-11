@@ -115,9 +115,9 @@ class NotatMock {
             type: notat.type == NotatType.OpphevStans ? 'OpphevStans' : 'Generelt',
             tekst: notat.tekst,
             saksbehandlerOid: notat.saksbehandlerOid,
-            saksbehandlerEpost: '',
-            saksbehandlerIdent: '',
-            saksbehandlerNavn: '',
+            saksbehandlerEpost: notat.saksbehandlerEpost,
+            saksbehandlerIdent: notat.saksbehandlerIdent,
+            saksbehandlerNavn: notat.saksbehandlerNavn,
         }));
     };
 
