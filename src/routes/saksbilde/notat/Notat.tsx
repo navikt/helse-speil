@@ -1,12 +1,11 @@
 import React, { ReactElement, useState } from 'react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { SubmitHandler } from 'react-hook-form';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
-import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
+import { NotatFormFields } from '@/form-schemas/notatSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { NotatType } from '@io/graphql';
 import { getGetNotaterForVedtaksperiodeQueryKey, usePostNotat } from '@io/rest/generated/notater/notater';
@@ -27,14 +26,6 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
     const [loading, setLoading] = useState(false);
     const queryClient = useQueryClient();
 
-    const form = useForm<NotatFormFields>({
-        resolver: zodResolver(notatSkjema),
-        reValidateMode: 'onBlur',
-        defaultValues: {
-            tekst: lagretNotat,
-        },
-    });
-
     const [open, setOpen] = useState(lagretNotat != undefined);
 
     useKeyboard([
@@ -42,7 +33,6 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
             key: Key.N,
             action: () => {
                 setOpen(true);
-                form.setFocus('tekst');
             },
             ignoreIfModifiers: false,
             modifier: Key.Alt,

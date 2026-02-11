@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button, HStack } from '@navikt/ds-react';
@@ -40,6 +40,10 @@ export function NotatSkjema({
         defaultValues: {
             tekst: lagretNotat,
         },
+    });
+
+    useEffect(() => {
+        form.setFocus('tekst');
     });
 
     return (
