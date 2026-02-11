@@ -19,14 +19,11 @@ interface NotatProps {
 
 export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => {
     const notatkladd = useNotatkladd();
-
     const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId, NotatType.Generelt);
 
-    const { mutate: postNotat, error, reset } = usePostNotat();
-    const [loading, setLoading] = useState(false);
-    const queryClient = useQueryClient();
-
     const [open, setOpen] = useState(lagretNotat != undefined);
+
+    const { leggTilNotat, loading, error, reset } = useLeggTilNotat(vedtaksperiodeId, () => setOpen(false));
 
     useKeyboard([
         {
@@ -38,29 +35,6 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
             modifier: Key.Alt,
         },
     ]);
-
-    const submit: SubmitHandler<NotatFormFields> = (data) => {
-        setLoading(true);
-        postNotat(
-            {
-                data: {
-                    tekst: data.tekst || '',
-                    vedtaksperiodeId: vedtaksperiodeId,
-                },
-            },
-            {
-                onSuccess: async () => {
-                    await queryClient.invalidateQueries({
-                        queryKey: getGetNotaterForVedtaksperiodeQueryKey(vedtaksperiodeId),
-                    });
-                    notatkladd.fjernNotat(vedtaksperiodeId, NotatType.Generelt);
-                    setOpen(false);
-                    setLoading(false);
-                },
-                onError: () => setLoading(false),
-            },
-        );
-    };
 
     return (
         <Box borderWidth="0 0 1 0" borderColor="neutral">
@@ -87,7 +61,7 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
                             <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
                         </VStack>
                         <NotatSkjema
-                            submit={submit}
+                            submit={leggTilNotat}
                             submitTekst="Lagre notat"
                             vedtaksperiodeId={vedtaksperiodeId}
                             skjulNotatFelt={() => {
@@ -108,3 +82,40 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
         </Box>
     );
 };
+
+function useLeggTilNotat(vedtaksperiodeId: string, onSuccess: () => void) {
+    const [loading, setLoading] = useState(false);
+
+    const { mutate: postNotat, error, reset } = usePostNotat();
+    const queryClient = useQueryClient();
+    const notatkladd = useNotatkladd();
+
+    const leggTilNotat: SubmitHandler<NotatFormFields> = async ({ tekst }) => {
+        setLoading(true);
+        postNotat(
+            {
+                data: {
+                    tekst: tekst || '',
+                    vedtaksperiodeId: vedtaksperiodeId,
+                },
+            },
+            {
+                onSuccess: async () => {
+                    await queryClient.invalidateQueries({
+                        queryKey: getGetNotaterForVedtaksperiodeQueryKey(vedtaksperiodeId),
+                    });
+                    notatkladd.fjernNotat(vedtaksperiodeId, NotatType.Generelt);
+                    onSuccess();
+                    setLoading(false);
+                },
+                onError: () => setLoading(false),
+            },
+        );
+    };
+    return {
+        leggTilNotat,
+        loading,
+        error,
+        reset,
+    };
+}
