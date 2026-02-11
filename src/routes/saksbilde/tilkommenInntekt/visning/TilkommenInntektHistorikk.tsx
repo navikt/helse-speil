@@ -2,13 +2,12 @@ import { motion } from 'motion/react';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import styles from '@saksbilde/historikk/Historikk.module.css';
 import { historikkFeil } from '@saksbilde/historikk/HistorikkFeil';
 import { XKnapp } from '@saksbilde/historikk/XKnapp';
 import { TilkommenInntektHendelse } from '@saksbilde/historikk/hendelser/TilkommenInntektHendelse';
@@ -46,7 +45,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
         tilkommenInntekt?.events?.toSorted((a, b) => b.metadata.sekvensnummer - a.metadata.sekvensnummer) ?? [];
 
     return (
-        <div className={styles['historikk-container']}>
+        <HStack style={{ gridArea: 'høyremeny' }}>
             <JusterbarSidemeny
                 defaultBredde={320}
                 visSidemeny={showHøyremeny && showHistorikk}
@@ -61,21 +60,21 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
                     }}
                     style={{ overflow: 'hidden' }}
                 >
-                    <div className={styles.historikk}>
+                    <VStack>
                         <HStack padding="space-16" justify="space-between" align="center">
                             <BodyShort size="small">HISTORIKK</BodyShort>
                             <XKnapp tittel="Lukk historikk" onClick={() => setShowHistorikk(false)} />
                         </HStack>
-                        <ul>
+                        <VStack as="ul" paddingInline="space-16" paddingBlock="space-0 space-32">
                             {events.map((event) => (
                                 <TilkommenInntektHendelse key={event.metadata.sekvensnummer} event={event} />
                             ))}
-                        </ul>
-                    </div>
+                        </VStack>
+                    </VStack>
                 </motion.div>
             </JusterbarSidemeny>
             {person && showHøyremeny && <OpenedDokument person={person} />}
-        </div>
+        </HStack>
     );
 };
 

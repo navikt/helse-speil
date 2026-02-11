@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { ReactElement } from 'react';
 
-import { BodyShort, HStack, LocalAlert } from '@navikt/ds-react';
+import { BodyShort, HStack, LocalAlert, VStack } from '@navikt/ds-react';
 
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
@@ -12,8 +12,6 @@ import { XKnapp } from '@saksbilde/historikk/XKnapp';
 import { getHistorikkTitle } from '@saksbilde/historikk/constants/historikkTitles';
 import { Notat } from '@saksbilde/notat/Notat';
 import { Filtertype, HendelseObject } from '@typer/historikk';
-
-import styles from './Historikk.module.css';
 
 export interface HistorikkVisningProps {
     person: PersonFragment;
@@ -39,7 +37,7 @@ export function HistorikkVisning({
     lukkHistorikk,
 }: HistorikkVisningProps): ReactElement {
     return (
-        <div className={styles['historikk-container']}>
+        <HStack style={{ gridArea: 'høyremeny' }}>
             <JusterbarSidemeny
                 defaultBredde={320}
                 visSidemeny={visHøyremeny && visHistorikk}
@@ -55,12 +53,12 @@ export function HistorikkVisning({
                     style={{ overflow: 'hidden' }}
                 >
                     {harNotatError && <LocalAlert status="error">Kunne ikke hente notater</LocalAlert>}
-                    <div className={styles.historikk}>
+                    <VStack>
                         <HStack padding="space-16" justify="space-between" align="center">
                             <BodyShort size="small">{getHistorikkTitle(filter)}</BodyShort>
                             <XKnapp tittel="Lukk historikk" onClick={lukkHistorikk} />
                         </HStack>
-                        <ul>
+                        <VStack as="ul" paddingInline="space-16" paddingBlock="space-0 space-32">
                             {filter !== 'Dokument' && filter !== 'Overstyring' && (
                                 <Notat vedtaksperiodeId={vedtaksperiodeId} />
                             )}
@@ -72,12 +70,12 @@ export function HistorikkVisning({
                                     erAnnullertBeregnetPeriode={erAnnullertBeregnetPeriode}
                                 />
                             ))}
-                        </ul>
-                    </div>
+                        </VStack>
+                    </VStack>
                 </motion.div>
             </JusterbarSidemeny>
             {visHøyremeny && <OpenedDokument person={person} />}
             <Historikkmeny />
-        </div>
+        </HStack>
     );
 }
