@@ -62,10 +62,10 @@ export function HistorikkVisning({
                             {filter !== 'Dokument' && filter !== 'Overstyring' && (
                                 <Notat vedtaksperiodeId={vedtaksperiodeId} />
                             )}
-                            {historikk.map((it: HendelseObject, index) => (
+                            {historikk.map((hendelse: HendelseObject, index) => (
                                 <HendelseRenderer
-                                    key={`${it.type}-${it.id}-${index}`}
-                                    hendelse={it}
+                                    key={`${hendelse.type}-${hendelse.id}-${index}`}
+                                    hendelse={hendelse}
                                     person={person}
                                     erAnnullertBeregnetPeriode={erAnnullertBeregnetPeriode}
                                 />
