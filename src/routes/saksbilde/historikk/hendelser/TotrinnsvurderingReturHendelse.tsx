@@ -11,15 +11,12 @@ import { HistorikkhendelseObject } from '@typer/historikk';
 
 import { Historikkhendelse } from '../komponenter/Historikkhendelse';
 
-type TotrinnsvurderingReturHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type TotrinnsvurderingReturHendelseProps = {
+    hendelse: HistorikkhendelseObject;
+};
 
 export const TotrinnsvurderingReturHendelse = ({
-    saksbehandler,
-    timestamp,
-    notattekst,
-    dialogRef,
-    historikkinnslagId,
-    kommentarer,
+    hendelse: { saksbehandler, timestamp, notattekst, dialogRef, historikkinnslagId, kommentarer },
 }: TotrinnsvurderingReturHendelseProps): ReactElement => {
     const førsteTekstlinje = notattekst?.split(/\r?\n/, 1)[0];
     const øvrigeTekstlinjer = notattekst?.slice(førsteTekstlinje!.length)?.trim();

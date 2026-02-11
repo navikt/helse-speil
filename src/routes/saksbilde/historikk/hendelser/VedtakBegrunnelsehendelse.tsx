@@ -9,13 +9,12 @@ import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSect
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { VedtakBegrunnelseObject } from '@typer/historikk';
 
-type VedtakBegrunnelsehendelseProps = Omit<VedtakBegrunnelseObject, 'type' | 'id'>;
+type VedtakBegrunnelsehendelseProps = {
+    hendelse: VedtakBegrunnelseObject;
+};
 
 export const VedtakBegrunnelsehendelse = ({
-    utfall,
-    begrunnelse,
-    saksbehandler,
-    timestamp,
+    hendelse: { utfall, begrunnelse, saksbehandler, timestamp },
 }: VedtakBegrunnelsehendelseProps): ReactElement => {
     return (
         <Historikkhendelse

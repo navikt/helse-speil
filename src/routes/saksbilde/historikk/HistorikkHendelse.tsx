@@ -19,7 +19,7 @@ interface HistorikkHendelseProps {
 
 export const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps): ReactElement => {
     const HendelseComponent = historikkhendelseComponents[hendelse.historikktype];
-    return <HendelseComponent person={person} hendelse={hendelse} {...hendelse} />;
+    return <HendelseComponent person={person} hendelse={hendelse} />;
 };
 const historikkhendelseComponents = {
     [PeriodehistorikkType.LeggPaVent]: LagtPåVentHendelse,

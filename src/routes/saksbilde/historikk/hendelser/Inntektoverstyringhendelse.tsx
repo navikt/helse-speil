@@ -17,13 +17,12 @@ import { cn } from '@utils/tw';
 
 import styles from './Inntektoverstyringhendelse.module.css';
 
-type InntektoverstyringhendelseProps = Omit<InntektoverstyringhendelseObject, 'type' | 'id'>;
+type InntektoverstyringhendelseProps = {
+    hendelse: InntektoverstyringhendelseObject;
+};
 
 export const Inntektoverstyringhendelse = ({
-    erRevurdering,
-    saksbehandler,
-    timestamp,
-    inntekt,
+    hendelse: { erRevurdering, saksbehandler, timestamp, inntekt },
 }: InntektoverstyringhendelseProps): ReactElement => {
     return (
         <>

@@ -4,11 +4,12 @@ import { HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/komponenter/H
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
-type TotrinnsvurderingAttestertHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type TotrinnsvurderingAttestertHendelseProps = {
+    hendelse: HistorikkhendelseObject;
+};
 
 export const TotrinnsvurderingAttestertHendelse = ({
-    saksbehandler,
-    timestamp,
+    hendelse: { saksbehandler, timestamp },
 }: TotrinnsvurderingAttestertHendelseProps): ReactElement => (
     <Historikkhendelse
         icon={<HistorikkCheckmarkCircleIkon />}

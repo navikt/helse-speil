@@ -9,15 +9,12 @@ import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhen
 import { ArbeidsforholdoverstyringhendelseObject } from '@typer/historikk';
 import { getFormattedDateString } from '@utils/date';
 
-type ArbeidsforholdoverstyringhendelseProps = Omit<ArbeidsforholdoverstyringhendelseObject, 'type' | 'id'>;
+type ArbeidsforholdoverstyringhendelseProps = {
+    hendelse: ArbeidsforholdoverstyringhendelseObject;
+};
 
 export const Arbeidsforholdoverstyringhendelse = ({
-    erDeaktivert,
-    saksbehandler,
-    timestamp,
-    begrunnelse,
-    forklaring,
-    skjæringstidspunkt,
+    hendelse: { erDeaktivert, saksbehandler, timestamp, begrunnelse, forklaring, skjæringstidspunkt },
 }: ArbeidsforholdoverstyringhendelseProps): ReactElement => {
     return (
         <Historikkhendelse

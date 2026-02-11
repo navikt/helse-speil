@@ -4,11 +4,12 @@ import { HistorikkXMarkOctagonIkon } from '@saksbilde/historikk/komponenter/Hend
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
-type StansAutomatiskBehandlingHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type StansAutomatiskBehandlingHendelseProps = {
+    hendelse: HistorikkhendelseObject;
+};
 
 export const StansAutomatiskBehandlingHendelse = ({
-    saksbehandler,
-    timestamp,
+    hendelse: { saksbehandler, timestamp },
 }: StansAutomatiskBehandlingHendelseProps): ReactElement => (
     <Historikkhendelse
         icon={<HistorikkXMarkOctagonIkon />}

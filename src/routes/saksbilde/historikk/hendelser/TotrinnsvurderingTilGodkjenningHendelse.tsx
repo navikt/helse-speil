@@ -4,11 +4,12 @@ import { HistorikkPaperplaneIkon } from '@saksbilde/historikk/komponenter/Hendel
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
-type TotrinnsvurderingTilGodkjenningHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type TotrinnsvurderingTilGodkjenningHendelseProps = {
+    hendelse: HistorikkhendelseObject;
+};
 
 export const TotrinnsvurderingTilGodkjenningHendelse = ({
-    saksbehandler,
-    timestamp,
+    hendelse: { saksbehandler, timestamp },
 }: TotrinnsvurderingTilGodkjenningHendelseProps): ReactElement => (
     <Historikkhendelse
         icon={<HistorikkPaperplaneIkon />}

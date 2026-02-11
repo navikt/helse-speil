@@ -10,15 +10,12 @@ import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhen
 import { HendelseKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarSeksjon';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
-type StansAutomatiskBehandlingSaksbehandlerHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type StansAutomatiskBehandlingSaksbehandlerHendelseProps = {
+    hendelse: HistorikkhendelseObject;
+};
 
 export function StansAutomatiskBehandlingSaksbehandlerHendelse({
-    timestamp,
-    saksbehandler,
-    notattekst,
-    dialogRef,
-    kommentarer,
-    historikkinnslagId,
+    hendelse: { timestamp, saksbehandler, notattekst, dialogRef, kommentarer, historikkinnslagId },
 }: StansAutomatiskBehandlingSaksbehandlerHendelseProps): ReactElement {
     const førsteTekstlinje = notattekst?.split(/\r?\n/, 1)[0];
     const øvrigeTekstlinjer = notattekst?.slice(førsteTekstlinje!.length)?.trim();

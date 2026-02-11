@@ -4,11 +4,12 @@ import { HistorikkArrowSquarepathIkon } from '@saksbilde/historikk/komponenter/H
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { HistorikkhendelseObject } from '@typer/historikk';
 
-type VedtaksperiodeReberegnetHendelseProps = Omit<HistorikkhendelseObject, 'type' | 'id'>;
+type VedtaksperiodeReberegnetHendelseProps = {
+    hendelse: HistorikkhendelseObject;
+};
 
 export const VedtaksperiodeReberegnetHendelse = ({
-    saksbehandler,
-    timestamp,
+    hendelse: { saksbehandler, timestamp },
 }: VedtaksperiodeReberegnetHendelseProps): ReactElement => (
     <Historikkhendelse
         icon={<HistorikkArrowSquarepathIkon />}

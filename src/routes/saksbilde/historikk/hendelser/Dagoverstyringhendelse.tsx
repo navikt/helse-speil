@@ -49,49 +49,49 @@ const groupSimilarDays = (days: OverstyrtDag[]): GroupedDays[] => {
     }, []);
 };
 
-type DagoverstyringhendelseProps = Omit<DagoverstyringhendelseObject, 'type' | 'id'>;
+type DagoverstyringhendelseProps = {
+    hendelse: DagoverstyringhendelseObject;
+};
 
 export const Dagoverstyringhendelse = ({
-    erRevurdering,
-    saksbehandler,
-    timestamp,
-    begrunnelse,
-    dager,
-}: DagoverstyringhendelseProps): ReactElement => (
-    <Historikkhendelse
-        icon={<HistorikkKildeSaksbehandlerIkon />}
-        title={erRevurdering ? 'Dager revurdert' : 'Dager endret'}
-        timestamp={timestamp}
-        saksbehandler={saksbehandler}
-        aktiv={false}
-    >
-        <HistorikkSection tittel="Notat til beslutter">
-            <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
-        </HistorikkSection>
-        <VStack marginBlock="space-8 space-8">
-            {groupSimilarDays(dager).map((group, i) => (
-                <div key={i} className={styles.grid}>
-                    <BodyShort>Dato:</BodyShort>
-                    <BodyShort>
-                        {getFormattedDateString(group.start)}
-                        {group.start !== group.end && ` - ${getFormattedDateString(group.end)}`}
-                    </BodyShort>
-                    <BodyShort>Grad:</BodyShort>
-                    <BodyShort>
-                        {group.fraGrad !== null && group.fraGrad !== undefined && group.grad !== group.fraGrad && (
-                            <span className={styles.fromvalue}>{group.fraGrad} %</span>
-                        )}
-                        {group.grad} {group.grad !== null && group.grad !== undefined && '%'}
-                    </BodyShort>
-                    <BodyShort>Type:</BodyShort>
-                    <BodyShort>
-                        {group.fraType && group.fraType !== group.type && (
-                            <span className={styles.fromvalue}>{group.fraType}</span>
-                        )}
-                        {group.type}
-                    </BodyShort>
-                </div>
-            ))}
-        </VStack>
-    </Historikkhendelse>
-);
+    hendelse: { erRevurdering, saksbehandler, timestamp, begrunnelse, dager },
+}: DagoverstyringhendelseProps): ReactElement => {
+    return (
+        <Historikkhendelse
+            icon={<HistorikkKildeSaksbehandlerIkon />}
+            title={erRevurdering ? 'Dager revurdert' : 'Dager endret'}
+            timestamp={timestamp}
+            saksbehandler={saksbehandler}
+            aktiv={false}
+        >
+            <HistorikkSection tittel="Notat til beslutter">
+                <BodyShortWithPreWrap>{begrunnelse}</BodyShortWithPreWrap>
+            </HistorikkSection>
+            <VStack marginBlock="space-8 space-8">
+                {groupSimilarDays(dager).map((group, i) => (
+                    <div key={i} className={styles.grid}>
+                        <BodyShort>Dato:</BodyShort>
+                        <BodyShort>
+                            {getFormattedDateString(group.start)}
+                            {group.start !== group.end && ` - ${getFormattedDateString(group.end)}`}
+                        </BodyShort>
+                        <BodyShort>Grad:</BodyShort>
+                        <BodyShort>
+                            {group.fraGrad !== null && group.fraGrad !== undefined && group.grad !== group.fraGrad && (
+                                <span className={styles.fromvalue}>{group.fraGrad} %</span>
+                            )}
+                            {group.grad} {group.grad !== null && group.grad !== undefined && '%'}
+                        </BodyShort>
+                        <BodyShort>Type:</BodyShort>
+                        <BodyShort>
+                            {group.fraType && group.fraType !== group.type && (
+                                <span className={styles.fromvalue}>{group.fraType}</span>
+                            )}
+                            {group.type}
+                        </BodyShort>
+                    </div>
+                ))}
+            </VStack>
+        </Historikkhendelse>
+    );
+};

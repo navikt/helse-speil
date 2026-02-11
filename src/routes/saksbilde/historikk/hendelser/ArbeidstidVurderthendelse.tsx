@@ -9,42 +9,44 @@ import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhen
 import { MinimumSykdomsgradhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 
-type ArbeidstidVurderthendelseProps = Omit<MinimumSykdomsgradhendelseObject, 'type' | 'id'>;
+type ArbeidstidVurderthendelseProps = {
+    hendelse: MinimumSykdomsgradhendelseObject;
+};
 
 export const ArbeidstidVurderthendelse = ({
-    saksbehandler,
-    timestamp,
-    minimumSykdomsgrad,
-}: ArbeidstidVurderthendelseProps): ReactElement => (
-    <Historikkhendelse
-        icon={<HistorikkKildeSaksbehandlerIkon />}
-        title="Arbeidstid vurdert"
-        timestamp={timestamp}
-        saksbehandler={saksbehandler}
-        aktiv={false}
-    >
-        {minimumSykdomsgrad.perioderVurdertOk.length > 0 && (
-            <HistorikkSection tittel="Innvilgede perioder">
-                <BodyShort>
-                    {minimumSykdomsgrad.perioderVurdertOk
-                        .map((periode) => `${somNorskDato(periode.fom)} – ${somNorskDato(periode.tom)}`)
-                        .join(', ')
-                        .replace(/,(?=[^,]*$)/, ' og')}
-                </BodyShort>
+    hendelse: { saksbehandler, timestamp, minimumSykdomsgrad },
+}: ArbeidstidVurderthendelseProps): ReactElement => {
+    return (
+        <Historikkhendelse
+            icon={<HistorikkKildeSaksbehandlerIkon />}
+            title="Arbeidstid vurdert"
+            timestamp={timestamp}
+            saksbehandler={saksbehandler}
+            aktiv={false}
+        >
+            {minimumSykdomsgrad.perioderVurdertOk.length > 0 && (
+                <HistorikkSection tittel="Innvilgede perioder">
+                    <BodyShort>
+                        {minimumSykdomsgrad.perioderVurdertOk
+                            .map((periode) => `${somNorskDato(periode.fom)} – ${somNorskDato(periode.tom)}`)
+                            .join(', ')
+                            .replace(/,(?=[^,]*$)/, ' og')}
+                    </BodyShort>
+                </HistorikkSection>
+            )}
+            {minimumSykdomsgrad.perioderVurdertIkkeOk.length > 0 && (
+                <HistorikkSection tittel="Avslåtte perioder">
+                    <BodyShort>
+                        {minimumSykdomsgrad.perioderVurdertIkkeOk
+                            .map((periode) => `${somNorskDato(periode.fom)} – ${somNorskDato(periode.tom)}`)
+                            .join(', ')
+                            .replace(/,(?=[^,]*$)/, ' og')}
+                    </BodyShort>
+                </HistorikkSection>
+            )}
+            <HistorikkSection tittel="Notat til beslutter">
+                <BodyShortWithPreWrap>{minimumSykdomsgrad.begrunnelse}</BodyShortWithPreWrap>
             </HistorikkSection>
-        )}
-        {minimumSykdomsgrad.perioderVurdertIkkeOk.length > 0 && (
-            <HistorikkSection tittel="Avslåtte perioder">
-                <BodyShort>
-                    {minimumSykdomsgrad.perioderVurdertIkkeOk
-                        .map((periode) => `${somNorskDato(periode.fom)} – ${somNorskDato(periode.tom)}`)
-                        .join(', ')
-                        .replace(/,(?=[^,]*$)/, ' og')}
-                </BodyShort>
-            </HistorikkSection>
-        )}
-        <HistorikkSection tittel="Notat til beslutter">
-            <BodyShortWithPreWrap>{minimumSykdomsgrad.begrunnelse}</BodyShortWithPreWrap>
-        </HistorikkSection>
-    </Historikkhendelse>
-);
+        </Historikkhendelse>
+    );
+};

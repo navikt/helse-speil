@@ -15,10 +15,9 @@ import { somPenger } from '@utils/locale';
 
 import styles from './Inntektoverstyringhendelse.module.css';
 
-type SykepengegrunnlagSkjønnsfastsatthendelseProps = Omit<
-    SykepengegrunnlagskjonnsfastsettinghendelseObject,
-    'type' | 'id'
->;
+type SykepengegrunnlagSkjønnsfastsatthendelseProps = {
+    hendelse: SykepengegrunnlagskjonnsfastsettinghendelseObject;
+};
 
 export const getSkjønnsfastsettelseTypeTekst = (type?: Skjonnsfastsettingstype | null) => {
     switch (type) {
@@ -34,48 +33,49 @@ export const getSkjønnsfastsettelseTypeTekst = (type?: Skjonnsfastsettingstype 
 };
 
 export const SykepengegrunnlagSkjønnsfastsatthendelse = ({
-    saksbehandler,
-    timestamp,
-    skjønnsfastsatt,
-    arbeidsgivere,
-}: SykepengegrunnlagSkjønnsfastsatthendelseProps): ReactElement => (
-    <Historikkhendelse
-        icon={<HistorikkKildeSaksbehandlerIkon />}
-        title="Sykepengegrunnlag skjønnsfastsatt"
-        timestamp={timestamp}
-        saksbehandler={saksbehandler}
-        aktiv={false}
-    >
-        <HistorikkSection tittel="Årsak">
-            <BodyShort>{skjønnsfastsatt.arsak}</BodyShort>
-        </HistorikkSection>
-        <HistorikkSection tittel="Type skjønnsfastsettelse">
-            <BodyShort>{getSkjønnsfastsettelseTypeTekst(skjønnsfastsatt.type)}</BodyShort>
-        </HistorikkSection>
-        <HistorikkSection tittel="Begrunnelse">
-            <Expandable expandText="Åpne" collapseText="Lukk">
-                <BodyShortWithPreWrap>{skjønnsfastsatt.begrunnelseMal}</BodyShortWithPreWrap>
-            </Expandable>
-        </HistorikkSection>
-        <HistorikkSection tittel="Nærmere begrunnelse for skjønnsvurderingen">
-            <BodyShortWithPreWrap>{skjønnsfastsatt.begrunnelseFritekst}</BodyShortWithPreWrap>
-        </HistorikkSection>
-        <HistorikkSection tittel="Konklusjon">
-            <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
-        </HistorikkSection>
-        <HistorikkSection tittel="Årsinntekt">
-            {arbeidsgivere.map((ag, index) => (
-                <Fragment key={`ag-${index}`}>
-                    <Inntektsforholdnavn inntektsforholdReferanse={ag.inntektsforholdReferanse} />
-                    <BodyShort>
-                        {ag.fraÅrlig !== ag.årlig && <span className={styles.fromvalue}>{somPenger(ag.fraÅrlig)}</span>}
-                        {somPenger(ag.årlig)}
-                    </BodyShort>
-                </Fragment>
-            ))}
-        </HistorikkSection>
-        <HistorikkSection tittel="Skj. tidspunkt">
-            <BodyShort>{getFormattedDateString(skjønnsfastsatt.skjaeringstidspunkt)}</BodyShort>
-        </HistorikkSection>
-    </Historikkhendelse>
-);
+    hendelse: { saksbehandler, timestamp, skjønnsfastsatt, arbeidsgivere },
+}: SykepengegrunnlagSkjønnsfastsatthendelseProps): ReactElement => {
+    return (
+        <Historikkhendelse
+            icon={<HistorikkKildeSaksbehandlerIkon />}
+            title="Sykepengegrunnlag skjønnsfastsatt"
+            timestamp={timestamp}
+            saksbehandler={saksbehandler}
+            aktiv={false}
+        >
+            <HistorikkSection tittel="Årsak">
+                <BodyShort>{skjønnsfastsatt.arsak}</BodyShort>
+            </HistorikkSection>
+            <HistorikkSection tittel="Type skjønnsfastsettelse">
+                <BodyShort>{getSkjønnsfastsettelseTypeTekst(skjønnsfastsatt.type)}</BodyShort>
+            </HistorikkSection>
+            <HistorikkSection tittel="Begrunnelse">
+                <Expandable expandText="Åpne" collapseText="Lukk">
+                    <BodyShortWithPreWrap>{skjønnsfastsatt.begrunnelseMal}</BodyShortWithPreWrap>
+                </Expandable>
+            </HistorikkSection>
+            <HistorikkSection tittel="Nærmere begrunnelse for skjønnsvurderingen">
+                <BodyShortWithPreWrap>{skjønnsfastsatt.begrunnelseFritekst}</BodyShortWithPreWrap>
+            </HistorikkSection>
+            <HistorikkSection tittel="Konklusjon">
+                <BodyShort>{skjønnsfastsatt.begrunnelseKonklusjon}</BodyShort>
+            </HistorikkSection>
+            <HistorikkSection tittel="Årsinntekt">
+                {arbeidsgivere.map((ag, index) => (
+                    <Fragment key={`ag-${index}`}>
+                        <Inntektsforholdnavn inntektsforholdReferanse={ag.inntektsforholdReferanse} />
+                        <BodyShort>
+                            {ag.fraÅrlig !== ag.årlig && (
+                                <span className={styles.fromvalue}>{somPenger(ag.fraÅrlig)}</span>
+                            )}
+                            {somPenger(ag.årlig)}
+                        </BodyShort>
+                    </Fragment>
+                ))}
+            </HistorikkSection>
+            <HistorikkSection tittel="Skj. tidspunkt">
+                <BodyShort>{getFormattedDateString(skjønnsfastsatt.skjaeringstidspunkt)}</BodyShort>
+            </HistorikkSection>
+        </Historikkhendelse>
+    );
+};

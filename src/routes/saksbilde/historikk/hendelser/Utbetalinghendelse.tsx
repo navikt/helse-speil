@@ -15,20 +15,20 @@ const getTittel = (type: Utbetalingtype, automatisk: boolean, godkjent: boolean)
     }
 };
 
-type UtbetalinghendelseProps = Omit<UtbetalinghendelseObject, 'type' | 'id'>;
+type UtbetalinghendelseProps = {
+    hendelse: UtbetalinghendelseObject;
+};
 
 export const Utbetalinghendelse = ({
-    automatisk,
-    godkjent,
-    utbetalingstype,
-    saksbehandler,
-    timestamp,
-}: UtbetalinghendelseProps): ReactElement => (
-    <Historikkhendelse
-        icon={godkjent ? <HistorikkCheckmarkCircleIkon /> : <HistorikkXMarkOctagonIkon />}
-        title={getTittel(utbetalingstype, automatisk, godkjent)}
-        timestamp={timestamp}
-        saksbehandler={saksbehandler}
-        aktiv={false}
-    />
-);
+    hendelse: { automatisk, godkjent, utbetalingstype, saksbehandler, timestamp },
+}: UtbetalinghendelseProps): ReactElement => {
+    return (
+        <Historikkhendelse
+            icon={godkjent ? <HistorikkCheckmarkCircleIkon /> : <HistorikkXMarkOctagonIkon />}
+            title={getTittel(utbetalingstype, automatisk, godkjent)}
+            timestamp={timestamp}
+            saksbehandler={saksbehandler}
+            aktiv={false}
+        />
+    );
+};

@@ -15,18 +15,22 @@ import { useInnloggetSaksbehandler } from '@state/authentication';
 import { NotathendelseObject } from '@typer/historikk';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
-type NotathendelseProps = Omit<NotathendelseObject, 'type'>;
+type NotathendelseProps = {
+    hendelse: NotathendelseObject;
+};
 
 export const Notathendelse = ({
-    id,
-    dialogRef,
-    tekst,
-    erOpphevStans,
-    saksbehandler,
-    timestamp,
-    feilregistrert,
-    kommentarer,
-    vedtaksperiodeId,
+    hendelse: {
+        id,
+        dialogRef,
+        tekst,
+        erOpphevStans,
+        saksbehandler,
+        timestamp,
+        feilregistrert,
+        kommentarer,
+        vedtaksperiodeId,
+    },
 }: NotathendelseProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const apolloClient = useApolloClient();
