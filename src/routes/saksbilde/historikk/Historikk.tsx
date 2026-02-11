@@ -11,16 +11,9 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { PersonFragment } from '@io/graphql';
 import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
 import { isAnnullertBeregnetPeriode } from '@saksbilde/SaksbildeVarsel';
-import { HistorikkHendelse } from '@saksbilde/historikk/HistorikkHendelse';
+import { HendelseRenderer } from '@saksbilde/historikk/HendelseRenderer';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { getHistorikkTitle } from '@saksbilde/historikk/constants/historikkTitles';
-import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
-import { ArbeidstidVurderthendelse } from '@saksbilde/historikk/hendelser/ArbeidstidVurderthendelse';
-import { InntektHentetFraAordningenhendelse } from '@saksbilde/historikk/hendelser/InntektHentetFraAordningenhendelse';
-import { InntektsmeldingMottatthendelse } from '@saksbilde/historikk/hendelser/InntektsmeldingMottatthendelse';
-import { MeldingOmVedtakhendelse } from '@saksbilde/historikk/hendelser/MeldingOmVedtakhendelse';
-import { SykmeldingMottatthendelse } from '@saksbilde/historikk/hendelser/SykmeldingMottatthendelse';
-import { SøknadMottatthendelse } from '@saksbilde/historikk/hendelser/SøknadMottatthendelse';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
@@ -29,14 +22,6 @@ import { cn } from '@utils/tw';
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Notat } from '../notat/Notat';
-import { AnnetArbeidsforholdoverstyringhendelse } from './hendelser/AnnetArbeidsforholdoverstyringhendelse';
-import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdoverstyringhendelse';
-import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
-import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
-import { Notathendelse } from './hendelser/Notathendelse';
-import { SykepengegrunnlagSkjønnsfastsatthendelse } from './hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
-import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
-import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse';
 import { useFilterState, useFilteredHistorikk, useShowHistorikkState, useShowHøyremenyState } from './state';
 
 import styles from './Historikk.module.css';
@@ -133,99 +118,15 @@ function HistorikkVisning({
                             {filter !== 'Dokument' && filter !== 'Overstyring' && (
                                 <Notat vedtaksperiodeId={vedtaksperiodeId} />
                             )}
-                            {historikk.map((it: HendelseObject, index) => {
-                                switch (it.type) {
-                                    case 'Arbeidsforholdoverstyring': {
-                                        return <Arbeidsforholdoverstyringhendelse key={it.id} {...it} />;
-                                    }
-                                    case 'AnnetArbeidsforholdoverstyring': {
-                                        return <AnnetArbeidsforholdoverstyringhendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Dagoverstyring': {
-                                        return <Dagoverstyringhendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Inntektoverstyring': {
-                                        return <Inntektoverstyringhendelse key={`${it.id}-${index}`} {...it} />;
-                                    }
-                                    case 'Sykepengegrunnlagskjonnsfastsetting': {
-                                        return (
-                                            <SykepengegrunnlagSkjønnsfastsatthendelse
-                                                key={`${it.id}-${index}`}
-                                                {...it}
-                                            />
-                                        );
-                                    }
-                                    case 'MinimumSykdomsgradoverstyring': {
-                                        return <ArbeidstidVurderthendelse key={`${it.id}-${index}`} {...it} />;
-                                    }
-                                    case 'Dokument': {
-                                        switch (it.dokumenttype) {
-                                            case 'Vedtak':
-                                                return (
-                                                    <MeldingOmVedtakhendelse
-                                                        key={it.id}
-                                                        dokumentId={it.dokumentId ?? undefined}
-                                                        fødselsnummer={person.fodselsnummer}
-                                                        timestamp={it.timestamp}
-                                                    />
-                                                );
-                                            case 'Søknad':
-                                                return (
-                                                    <SøknadMottatthendelse
-                                                        key={it.id}
-                                                        dokumentId={it.dokumentId ?? ''}
-                                                        timestamp={it.timestamp}
-                                                    />
-                                                );
-                                            case 'Inntektsmelding':
-                                                return (
-                                                    <InntektsmeldingMottatthendelse
-                                                        key={it.id}
-                                                        dokumentId={it.dokumentId ?? ''}
-                                                        person={person}
-                                                        timestamp={it.timestamp}
-                                                    />
-                                                );
-                                            case 'Sykmelding':
-                                                return (
-                                                    <SykmeldingMottatthendelse key={it.id} timestamp={it.timestamp} />
-                                                );
-                                            case 'InntektHentetFraAordningen':
-                                                return (
-                                                    <InntektHentetFraAordningenhendelse
-                                                        key={it.id}
-                                                        timestamp={it.timestamp}
-                                                    />
-                                                );
-                                            default:
-                                                return null;
-                                        }
-                                    }
-                                    case 'Notat': {
-                                        return <Notathendelse key={it.id + 'notat'} {...it} />;
-                                    }
-                                    case 'Utbetaling': {
-                                        return <Utbetalinghendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Historikk': {
-                                        return <HistorikkHendelse key={it.id} hendelse={it} person={person} />;
-                                    }
-                                    case 'VedtakBegrunnelse': {
-                                        return <VedtakBegrunnelsehendelse key={it.id} {...it} />;
-                                    }
-                                    case 'Annullering': {
-                                        return (
-                                            <Annulleringhendelse
-                                                key={it.id}
-                                                erAnnullertBeregnetPeriode={erAnnullertBeregnetPeriode}
-                                                {...it}
-                                            />
-                                        );
-                                    }
-                                    default:
-                                        return null;
-                                }
-                            })}
+                            {historikk.map((it: HendelseObject, index) => (
+                                <HendelseRenderer
+                                    key={`${it.type}-${it.id}-${index}`}
+                                    hendelse={it}
+                                    index={index}
+                                    person={person}
+                                    erAnnullertBeregnetPeriode={erAnnullertBeregnetPeriode}
+                                />
+                            ))}
                         </ul>
                     </div>
                 </motion.div>
