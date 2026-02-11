@@ -13,6 +13,7 @@ import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notat
 import { isAnnullertBeregnetPeriode } from '@saksbilde/SaksbildeVarsel';
 import { HistorikkHendelse } from '@saksbilde/historikk/HistorikkHendelse';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
+import { getHistorikkTitle } from '@saksbilde/historikk/constants/historikkTitles';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { ArbeidstidVurderthendelse } from '@saksbilde/historikk/hendelser/ArbeidstidVurderthendelse';
 import { InntektHentetFraAordningenhendelse } from '@saksbilde/historikk/hendelser/InntektHentetFraAordningenhendelse';
@@ -233,23 +234,6 @@ function HistorikkVisning({
             <Historikkmeny />
         </div>
     );
-}
-
-function getHistorikkTitle(type: Filtertype): string {
-    switch (type) {
-        case 'Dokument': {
-            return 'DOKUMENTER';
-        }
-        case 'Historikk': {
-            return 'HISTORIKK';
-        }
-        case 'Notat': {
-            return 'NOTATER';
-        }
-        case 'Overstyring': {
-            return 'OVERSTYRINGER';
-        }
-    }
 }
 
 function HistorikkError(): ReactElement {
