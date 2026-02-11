@@ -1,19 +1,17 @@
-import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
-import { useApolloClient } from '@apollo/client';
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { usePatchNotat } from '@io/rest/generated/notater/notater';
+import { getGetNotaterForVedtaksperiodeQueryKey, usePatchNotat } from '@io/rest/generated/notater/notater';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkChatIkon, HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { NotatKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/notat/NotatKommentarSeksjon';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useQueryClient } from '@tanstack/react-query';
 import { NotathendelseObject } from '@typer/historikk';
-import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 type NotathendelseProps = {
     hendelse: NotathendelseObject;
@@ -33,35 +31,7 @@ export const Notathendelse = ({
     },
 }: NotathendelseProps): ReactElement => {
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
-    const apolloClient = useApolloClient();
-
-    const { mutate, isPending: loading, error } = usePatchNotat();
-
-    function feilregistrerNotat() {
-        mutate(
-            {
-                notatId: parseInt(id),
-                data: {
-                    feilregistrert: true,
-                },
-            },
-            {
-                onSuccess: async () => {
-                    apolloClient.cache.modify({
-                        id: apolloClient.cache.identify({ __typename: 'Notat', id: parseInt(id) }),
-                        fields: {
-                            feilregistrert() {
-                                return true;
-                            },
-                            feilregistert_tidspunkt() {
-                                return dayjs().format(ISO_TIDSPUNKTFORMAT) ?? '';
-                            },
-                        },
-                    });
-                },
-            },
-        );
-    }
+    const { feilregistrerNotat, loading, error } = useFeilregistrerNotat(vedtaksperiodeId, Number.parseInt(id));
 
     const førsteTekstlinje = tekst.split(/\r?\n/, 1)[0]!;
     const øvrigeTekstlinjer = tekst.slice(førsteTekstlinje.length).trim();
@@ -81,7 +51,7 @@ export const Notathendelse = ({
                             />
                         </ActionMenu.Trigger>
                         <ActionMenu.Content>
-                            <ActionMenu.Item onSelect={() => feilregistrerNotat()}>Feilregistrer</ActionMenu.Item>
+                            <ActionMenu.Item onSelect={feilregistrerNotat}>Feilregistrer</ActionMenu.Item>
                         </ActionMenu.Content>
                     </ActionMenu>
                 ) : undefined
@@ -107,6 +77,41 @@ export const Notathendelse = ({
         </Historikkhendelse>
     );
 };
+
+function useFeilregistrerNotat(vedtaksperiodeId: string, notatId: number) {
+    const [loading, setLoading] = useState<boolean>(false);
+    const { mutate, error } = usePatchNotat();
+    const queryClient = useQueryClient();
+
+    function feilregistrerNotat() {
+        setLoading(true);
+        mutate(
+            {
+                notatId: notatId,
+                data: {
+                    feilregistrert: true,
+                },
+            },
+            {
+                onSuccess: async () => {
+                    await queryClient.invalidateQueries({
+                        queryKey: getGetNotaterForVedtaksperiodeQueryKey(vedtaksperiodeId),
+                    });
+                    setLoading(false);
+                },
+                onError: () => {
+                    setLoading(false);
+                },
+            },
+        );
+    }
+
+    return {
+        feilregistrerNotat,
+        loading,
+        error,
+    };
+}
 
 const toNotatTittel = (erOpphevStans: boolean): string => {
     if (erOpphevStans) {
