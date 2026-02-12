@@ -8,7 +8,7 @@ import { Button } from '@navikt/ds-react';
 import { KommentarFormFields } from '@/form-schemas/kommentarSkjema';
 import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { LeggTilKommentarDocument, PeriodehistorikkType } from '@io/graphql';
+import { KommentarFragmentDoc, PeriodehistorikkType } from '@io/graphql';
 import { usePostKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -92,23 +92,16 @@ function useLeggTilKommentar(
                 },
                 {
                     onSuccess: async ({ id }) => {
-                        apolloClient.cache.writeQuery({
-                            query: LeggTilKommentarDocument,
-                            variables: {
-                                tekst,
-                                dialogRef,
-                                saksbehandlerident,
-                            },
+                        apolloClient.writeFragment({
+                            id: `Kommentar:{"id":${id}}`,
+                            fragment: KommentarFragmentDoc,
                             data: {
-                                __typename: 'Mutation',
-                                leggTilKommentar: {
-                                    __typename: 'Kommentar',
-                                    id: id,
-                                    tekst: tekst,
-                                    opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                                    saksbehandlerident: saksbehandlerident,
-                                    feilregistrert_tidspunkt: null,
-                                },
+                                id: id,
+                                tekst: tekst,
+                                opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
+                                saksbehandlerident: saksbehandlerident,
+                                feilregistrert_tidspunkt: null,
+                                __typename: 'Kommentar',
                             },
                         });
                         apolloClient.cache.modify({

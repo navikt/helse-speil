@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server';
 
-import { ApiOpphevStansRequest } from '@io/rest/generated/spesialist.schemas';
+import { ApiNotatType, ApiOpphevStansRequest } from '@io/rest/generated/spesialist.schemas';
 import { fetchPersondata } from '@spesialist-mock/graphql';
-import { BeregnetPeriode, NotatType } from '@spesialist-mock/schemaTypes';
+import { BeregnetPeriode } from '@spesialist-mock/schemaTypes';
 import { NotatMock } from '@spesialist-mock/storage/notat';
 import { OpphevStansMock } from '@spesialist-mock/storage/opphevstans';
 import { isNotNullOrUndefined } from '@utils/typeguards';
@@ -10,7 +10,7 @@ import { isNotNullOrUndefined } from '@utils/typeguards';
 export const stub = async (request: NextRequest) => {
     const requestBody: ApiOpphevStansRequest = await request.json();
     const oppgaveId = finnOppgaveId(requestBody.fodselsnummer);
-    if (oppgaveId) NotatMock.addNotat(oppgaveId, { tekst: requestBody.begrunnelse, type: NotatType.OpphevStans });
+    if (oppgaveId) NotatMock.addNotat(oppgaveId, { tekst: requestBody.begrunnelse, type: ApiNotatType.OpphevStans });
     OpphevStansMock.addUnntattFraAutomatiskGodkjenning(requestBody.fodselsnummer, { erUnntatt: false });
     return new Response(null, { status: 204 });
 };

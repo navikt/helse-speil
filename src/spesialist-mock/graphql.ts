@@ -26,13 +26,9 @@ import {
     BeregnetPeriode,
     Egenskap,
     Historikkinnslag,
-    MutationFeilregistrerKommentarArgs,
-    MutationFeilregistrerNotatArgs,
     MutationFjernPaVentArgs,
     MutationFjernTildelingArgs,
     MutationLeggPaVentArgs,
-    MutationLeggTilKommentarArgs,
-    MutationLeggTilNotatArgs,
     MutationOppdaterPersonArgs,
     MutationOpphevStansAutomatiskBehandlingArgs,
     MutationOpprettTildelingArgs,
@@ -42,7 +38,6 @@ import {
     PeriodehistorikkType,
     Person,
 } from './schemaTypes';
-import { NotatMock } from './storage/notat';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 import { OpphevStansMock } from './storage/opphevstans';
 import { PaVentMock } from './storage/påvent';
@@ -150,25 +145,6 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Mutation: {
-        leggTilNotat: (_, { type, vedtaksperiodeId, tekst }: MutationLeggTilNotatArgs) => {
-            return NotatMock.addNotat(vedtaksperiodeId, {
-                tekst: tekst,
-                type: type,
-                dialogRef: DialogMock.addDialog() ?? undefined,
-            });
-        },
-        feilregistrerNotat: (_, { id }: MutationFeilregistrerNotatArgs) => {
-            NotatMock.feilregistrerNotat({ id });
-            return NotatMock.getNotat(id);
-        },
-        feilregistrerKommentar: (_, { id }: MutationFeilregistrerKommentarArgs) => {
-            // Fungerer bare for generelle notater, ikke lagt på vent osv
-            NotatMock.feilregistrerKommentar({ id });
-            return NotatMock.getKommentar(id);
-        },
-        leggTilKommentar: (_, { tekst, dialogRef, saksbehandlerident }: MutationLeggTilKommentarArgs) => {
-            return DialogMock.addKommentar(dialogRef, { tekst, saksbehandlerident });
-        },
         opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
             if (TildelingMock.harTildeling(oppgaveId)) {
                 return new GraphQLError('Oppgave allerede tildelt', {

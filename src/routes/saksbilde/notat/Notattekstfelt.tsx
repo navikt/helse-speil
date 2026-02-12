@@ -4,17 +4,17 @@ import { Control, useController } from 'react-hook-form';
 import { Textarea } from '@navikt/ds-react';
 
 import { NotatFormFields } from '@/form-schemas/notatSkjema';
-import { NotatType } from '@io/graphql';
+import { KladdNotatType } from '@io/rest/generated/spesialist.schemas';
 import { useNotatkladd } from '@state/notater';
 
 export function Notattekstfelt({
     control,
     vedtaksperiodeId,
-    notatType = NotatType.Generelt,
+    notatType = KladdNotatType.Generelt,
 }: {
     control: Control<NotatFormFields>;
     vedtaksperiodeId: string;
-    notatType?: NotatType;
+    notatType?: KladdNotatType;
 }) {
     const { field, fieldState } = useController({ name: 'tekst', control });
 

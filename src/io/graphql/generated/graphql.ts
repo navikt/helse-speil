@@ -546,14 +546,9 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 export type Mutation = {
     __typename: 'Mutation';
     endrePaVent: Maybe<PaVent>;
-    feilregistrerKommentar: Maybe<Kommentar>;
-    feilregistrerKommentarV2: Maybe<Kommentar>;
-    feilregistrerNotat: Maybe<Notat>;
     fjernPaVent: Maybe<Scalars['Boolean']['output']>;
     fjernTildeling: Scalars['Boolean']['output'];
     leggPaVent: Maybe<PaVent>;
-    leggTilKommentar: Maybe<Kommentar>;
-    leggTilNotat: Maybe<Notat>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStansAutomatiskBehandling: Scalars['Boolean']['output'];
     opprettTildeling: Maybe<Tildeling>;
@@ -574,18 +569,6 @@ export type MutationEndrePaVentArgs = {
     tildeling: Scalars['Boolean']['input'];
 };
 
-export type MutationFeilregistrerKommentarArgs = {
-    id: Scalars['Int']['input'];
-};
-
-export type MutationFeilregistrerKommentarV2Args = {
-    id: Scalars['Int']['input'];
-};
-
-export type MutationFeilregistrerNotatArgs = {
-    id: Scalars['Int']['input'];
-};
-
 export type MutationFjernPaVentArgs = {
     oppgaveId: Scalars['String']['input'];
 };
@@ -600,19 +583,6 @@ export type MutationLeggPaVentArgs = {
     notatTekst?: InputMaybe<Scalars['String']['input']>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationLeggTilKommentarArgs = {
-    dialogRef: Scalars['Int']['input'];
-    saksbehandlerident: Scalars['String']['input'];
-    tekst: Scalars['String']['input'];
-};
-
-export type MutationLeggTilNotatArgs = {
-    saksbehandlerOid: Scalars['String']['input'];
-    tekst: Scalars['String']['input'];
-    type: NotatType;
-    vedtaksperiodeId: Scalars['String']['input'];
 };
 
 export type MutationOppdaterPersonArgs = {
@@ -658,30 +628,6 @@ export type MutationStansAutomatiskBehandlingArgs = {
     begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
 };
-
-export type Notat = {
-    __typename: 'Notat';
-    dialogRef: Scalars['Int']['output'];
-    feilregistrert: Scalars['Boolean']['output'];
-    feilregistrert_tidspunkt: Maybe<Scalars['LocalDateTime']['output']>;
-    id: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    opprettet: Scalars['LocalDateTime']['output'];
-    saksbehandlerEpost: Scalars['String']['output'];
-    saksbehandlerIdent: Scalars['String']['output'];
-    saksbehandlerNavn: Scalars['String']['output'];
-    saksbehandlerOid: Scalars['UUID']['output'];
-    tekst: Scalars['String']['output'];
-    type: NotatType;
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export enum NotatType {
-    Generelt = 'Generelt',
-    OpphevStans = 'OpphevStans',
-    PaaVent = 'PaaVent',
-    Retur = 'Retur',
-}
 
 export type OmregnetArsinntekt = {
     __typename: 'OmregnetArsinntekt';
@@ -1501,24 +1447,6 @@ export type HentBehandlingsstatistikkQuery = {
         utbetalingTilArbeidsgiver: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
         utbetalingTilSykmeldt: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
     };
-};
-
-export type LeggTilKommentarMutationVariables = Exact<{
-    tekst: Scalars['String']['input'];
-    dialogRef: Scalars['Int']['input'];
-    saksbehandlerident: Scalars['String']['input'];
-}>;
-
-export type LeggTilKommentarMutation = {
-    __typename: 'Mutation';
-    leggTilKommentar: {
-        __typename: 'Kommentar';
-        id: number;
-        tekst: string;
-        opprettet: string;
-        saksbehandlerident: string;
-        feilregistrert_tidspunkt: string | null;
-    } | null;
 };
 
 export type OverstyrArbeidsforholdMutationMutationVariables = Exact<{
@@ -10838,69 +10766,6 @@ export const HentBehandlingsstatistikkDocument = {
         },
     ],
 } as unknown as DocumentNode<HentBehandlingsstatistikkQuery, HentBehandlingsstatistikkQueryVariables>;
-export const LeggTilKommentarDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'LeggTilKommentar' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tekst' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'dialogRef' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'leggTilKommentar' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'tekst' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tekst' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'dialogRef' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'dialogRef' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'saksbehandlerident' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<LeggTilKommentarMutation, LeggTilKommentarMutationVariables>;
 export const OverstyrArbeidsforholdMutationDocument = {
     kind: 'Document',
     definitions: [

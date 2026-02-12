@@ -544,14 +544,9 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 export type Mutation = {
     __typename?: 'Mutation';
     endrePaVent?: Maybe<PaVent>;
-    feilregistrerKommentar?: Maybe<Kommentar>;
-    feilregistrerKommentarV2?: Maybe<Kommentar>;
-    feilregistrerNotat?: Maybe<Notat>;
     fjernPaVent?: Maybe<Scalars['Boolean']['output']>;
     fjernTildeling: Scalars['Boolean']['output'];
     leggPaVent?: Maybe<PaVent>;
-    leggTilKommentar?: Maybe<Kommentar>;
-    leggTilNotat?: Maybe<Notat>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opphevStansAutomatiskBehandling: Scalars['Boolean']['output'];
     opprettTildeling?: Maybe<Tildeling>;
@@ -572,18 +567,6 @@ export type MutationEndrePaVentArgs = {
     tildeling: Scalars['Boolean']['input'];
 };
 
-export type MutationFeilregistrerKommentarArgs = {
-    id: Scalars['Int']['input'];
-};
-
-export type MutationFeilregistrerKommentarV2Args = {
-    id: Scalars['Int']['input'];
-};
-
-export type MutationFeilregistrerNotatArgs = {
-    id: Scalars['Int']['input'];
-};
-
 export type MutationFjernPaVentArgs = {
     oppgaveId: Scalars['String']['input'];
 };
@@ -598,19 +581,6 @@ export type MutationLeggPaVentArgs = {
     notatTekst?: InputMaybe<Scalars['String']['input']>;
     oppgaveId: Scalars['String']['input'];
     tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationLeggTilKommentarArgs = {
-    dialogRef: Scalars['Int']['input'];
-    saksbehandlerident: Scalars['String']['input'];
-    tekst: Scalars['String']['input'];
-};
-
-export type MutationLeggTilNotatArgs = {
-    saksbehandlerOid: Scalars['String']['input'];
-    tekst: Scalars['String']['input'];
-    type: NotatType;
-    vedtaksperiodeId: Scalars['String']['input'];
 };
 
 export type MutationOppdaterPersonArgs = {
@@ -656,30 +626,6 @@ export type MutationStansAutomatiskBehandlingArgs = {
     begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
 };
-
-export type Notat = {
-    __typename?: 'Notat';
-    dialogRef: Scalars['Int']['output'];
-    feilregistrert: Scalars['Boolean']['output'];
-    feilregistrert_tidspunkt?: Maybe<Scalars['LocalDateTime']['output']>;
-    id: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    opprettet: Scalars['LocalDateTime']['output'];
-    saksbehandlerEpost: Scalars['String']['output'];
-    saksbehandlerIdent: Scalars['String']['output'];
-    saksbehandlerNavn: Scalars['String']['output'];
-    saksbehandlerOid: Scalars['UUID']['output'];
-    tekst: Scalars['String']['output'];
-    type: NotatType;
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export enum NotatType {
-    Generelt = 'Generelt',
-    OpphevStans = 'OpphevStans',
-    PaaVent = 'PaaVent',
-    Retur = 'Retur',
-}
 
 export type OmregnetArsinntekt = {
     __typename?: 'OmregnetArsinntekt';

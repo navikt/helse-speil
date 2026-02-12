@@ -7,8 +7,8 @@ import { BodyShort, Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 import { NotatFormFields } from '@/form-schemas/notatSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { NotatType } from '@io/graphql';
 import { getGetNotaterForVedtaksperiodeQueryKey, usePostNotat } from '@io/rest/generated/notater/notater';
+import { ApiNotatType } from '@io/rest/generated/spesialist.schemas';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useNotatkladd } from '@state/notater';
 import { useQueryClient } from '@tanstack/react-query';
@@ -19,7 +19,7 @@ interface NotatProps {
 
 export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => {
     const notatkladd = useNotatkladd();
-    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId, NotatType.Generelt);
+    const lagretNotat = notatkladd.finnNotatForVedtaksperiode(vedtaksperiodeId, ApiNotatType.Generelt);
 
     const [open, setOpen] = useState(lagretNotat != undefined);
 
@@ -69,7 +69,7 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
                                 reset();
                             }}
                             loading={loading}
-                            notattype={NotatType.Generelt}
+                            notattype={ApiNotatType.Generelt}
                         />
                     </>
                 )}
@@ -104,7 +104,7 @@ function useLeggTilNotat(vedtaksperiodeId: string, onSuccess: () => void) {
                     await queryClient.invalidateQueries({
                         queryKey: getGetNotaterForVedtaksperiodeQueryKey(vedtaksperiodeId),
                     });
-                    notatkladd.fjernNotat(vedtaksperiodeId, NotatType.Generelt);
+                    notatkladd.fjernNotat(vedtaksperiodeId, ApiNotatType.Generelt);
                     onSuccess();
                     setLoading(false);
                 },
