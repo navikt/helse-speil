@@ -7,7 +7,8 @@ import { BodyShort, Popover } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeBehandlingPeriodeMedPeriode } from '@hooks/useForrigeBehandlingPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
-import { BeregnetPeriodeFragment, NotatType, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
+import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
 import { somNorskDato } from '@utils/date';
@@ -82,6 +83,11 @@ interface SpleisPopoverProps extends DatePeriod {
     erSelvstendigNæringsdrivende: boolean;
 }
 
+const useHarGenereltNotat = (period: BeregnetPeriodeFragment) => {
+    const { data } = useGetNotaterForVedtaksperiode(period.vedtaksperiodeId);
+    return data?.some((notat) => notat.type === 'Generelt') || false;
+};
+
 export const BeregnetPopover = ({
     period,
     state,
@@ -95,7 +101,7 @@ export const BeregnetPopover = ({
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
     const ferieperiode = getDayTypesRender(Utbetalingsdagtype.Feriedag, dayTypes);
     const avslåttperiode = getDayTypesRender(Utbetalingsdagtype.AvvistDag, dayTypes);
-    const harGenereltNotat = period.notater.filter((notat) => notat.type === NotatType.Generelt).length > 0;
+    const harGenereltNotat = useHarGenereltNotat(period);
 
     const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(
         erSelvstendigNæringsdrivende,
