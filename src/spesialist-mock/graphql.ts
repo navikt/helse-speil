@@ -39,7 +39,6 @@ import {
     MutationSendIReturArgs,
     MutationSendTilGodkjenningV2Args,
     MutationStansAutomatiskBehandlingArgs,
-    Notat,
     PeriodehistorikkType,
     Person,
 } from './schemaTypes';
@@ -72,7 +71,6 @@ const leggTilLagretData = (person: Person): void => {
                 periode.historikkinnslag = HistorikkinnslagMock.getHistorikkinnslag(
                     periode.vedtaksperiodeId,
                 ) as Historikkinnslag[];
-                periode.notater = NotatMock.getNotaterForPeriode(periode);
                 periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
                 const oppgavereferanse: string | null = periode.oppgave?.id ?? null;
                 const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
@@ -399,25 +397,6 @@ const finnOppgaveId = (): string | null => {
     return (periode as BeregnetPeriode)?.oppgave?.id ?? null;
 };
 
-// Henter notater fra testpersonene og putter dem inn i NotatMock, slik at de er synlige på oversikten også
-const puttNotaterFraTestpersonerIMock = (): void => {
-    const personer = lesTestpersoner();
-
-    personer.forEach((person) => {
-        const notater: Notat[] = person.arbeidsgivere.flatMap((ag: Arbeidsgiver) =>
-            ag.behandlinger
-                .flatMap((g) => g.perioder.flatMap((p) => (p as BeregnetPeriode).notater))
-                .filter((notat: Notat) => !!notat),
-        );
-        notater.forEach((notat) => {
-            const dialogId = notat.dialogRef;
-            DialogMock.addDialog(dialogId);
-            NotatMock.addNotat(notat.vedtaksperiodeId, notat);
-            DialogMock.addKommentarer(dialogId, notat.kommentarer);
-        });
-    });
-};
-
 const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
     const personer = lesTestpersoner();
 
@@ -455,7 +434,6 @@ const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
 };
 
 export const buildSchema = (): GraphQLSchema => {
-    puttNotaterFraTestpersonerIMock();
     puttHistorikkinnslagFraTestpersonerIMock();
     return makeExecutableSchema({
         typeDefs: buildClientSchema(spesialistSchema as unknown as IntrospectionQuery),

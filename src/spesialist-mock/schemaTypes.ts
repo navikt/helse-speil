@@ -233,7 +233,6 @@ export type BeregnetPeriode = Periode & {
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
     maksdato: Scalars['LocalDate']['output'];
-    notater: Array<Notat>;
     oppgave?: Maybe<OppgaveForPeriodevisning>;
     opprettet: Scalars['LocalDateTime']['output'];
     paVent?: Maybe<PaVent>;
@@ -1263,7 +1262,6 @@ export type UberegnetPeriode = Periode & {
     hendelser: Array<Hendelse>;
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
-    notater: Array<Notat>;
     opprettet: Scalars['LocalDateTime']['output'];
     periodetilstand: Periodetilstand;
     periodetype: Periodetype;

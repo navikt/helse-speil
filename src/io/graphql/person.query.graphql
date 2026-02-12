@@ -217,23 +217,6 @@ fragment vilkarsgrunnlagV2 on VilkarsgrunnlagV2 {
     }
 }
 
-fragment notat on Notat {
-    id
-    dialogRef
-    tekst
-    opprettet
-    saksbehandlerOid
-    saksbehandlerNavn
-    saksbehandlerEpost
-    saksbehandlerIdent
-    vedtaksperiodeId
-    feilregistrert
-    type
-    kommentarer {
-        ...kommentar
-    }
-}
-
 fragment kommentar on Kommentar {
     id
     tekst
@@ -254,9 +237,6 @@ fragment ghostPeriode on GhostPeriode {
 
 fragment uberegnetPeriode on UberegnetPeriode {
     id
-    notater {
-        ...notat
-    }
     ...periode
 }
 
@@ -270,9 +250,6 @@ fragment beregnetPeriode on BeregnetPeriode {
         type
         tillatt
         begrunnelse
-    }
-    notater {
-        ...notat
     }
     historikkinnslag {
         id
