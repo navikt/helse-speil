@@ -32,9 +32,6 @@ export const videresendTilSpesialist = async (request: Request): Promise<Respons
         }
 
         headers.set('Authorization', `Bearer ${oboResult.token}`);
-    } else {
-        const lokalOboToken = await fetch('http://localhost:8080/local-token').then((res) => res.text());
-        headers.set('Authorization', `Bearer ${lokalOboToken}`);
     }
 
     const spesialistBaseUrl = erLokal ? 'http://localhost:8080' : getServerEnv().SPESIALIST_BASEURL;
