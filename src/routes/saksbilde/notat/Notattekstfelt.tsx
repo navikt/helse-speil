@@ -4,8 +4,8 @@ import { Control, useController } from 'react-hook-form';
 import { Textarea } from '@navikt/ds-react';
 
 import { NotatFormFields } from '@/form-schemas/notatSkjema';
-import { KladdNotatType } from '@io/rest/generated/spesialist.schemas';
 import { useNotatkladd } from '@state/notater';
+import { KladdNotatType } from '@typer/notat';
 
 export function Notattekstfelt({
     control,

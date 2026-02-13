@@ -5,9 +5,9 @@ import { Button, HStack } from '@navikt/ds-react';
 
 import { NotatFormFields, notatSkjema } from '@/form-schemas/notatSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { KladdNotatType } from '@io/rest/generated/spesialist.schemas';
 import { Notattekstfelt } from '@saksbilde/notat/Notattekstfelt';
 import { useNotatkladd } from '@state/notater';
+import { KladdNotatType } from '@typer/notat';
 
 interface NotatSkjemaProps {
     submit: SubmitHandler<NotatFormFields>;

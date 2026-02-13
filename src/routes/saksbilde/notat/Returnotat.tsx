@@ -4,9 +4,9 @@ import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { BodyShort, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { PersonFragment } from '@io/graphql';
-import { KladdNotatType } from '@io/rest/generated/spesialist.schemas';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useActivePeriod } from '@state/periode';
+import { KladdNotatType } from '@typer/notat';
 import { isGhostPeriode } from '@utils/typeguards';
 
 interface ReturnotatProps {

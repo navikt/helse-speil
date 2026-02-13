@@ -1,6 +1,6 @@
 import { atom, useAtom } from 'jotai';
 
-import { KladdNotatType } from '@io/rest/generated/spesialist.schemas';
+import { KladdNotatType } from '@typer/notat';
 
 export function useNotatkladd() {
     const [notater, setNotater] = useAtom(lokaleNotaterState);

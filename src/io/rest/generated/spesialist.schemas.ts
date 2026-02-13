@@ -1124,18 +1124,10 @@ export interface ApiHttpProblemDetailsApiPatchKommentarErrorCode {
 
 export type ApiNotatType = (typeof ApiNotatType)[keyof typeof ApiNotatType];
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiNotatType = {
     Generelt: 'Generelt',
     OpphevStans: 'OpphevStans',
-} as const;
-
-// I frontend types notater som lagres i en kladdeting med alle fire typer
-export type KladdNotatType =  (typeof KladdNotatType)[keyof typeof KladdNotatType];
-
-export const KladdNotatType = {
-    ...ApiNotatType,
-    PaaVent: 'PaaVent',
-    Retur: 'Retur'
 } as const;
 
 export type ApiKommentarFeilregistrertTidspunkt = null | string;
