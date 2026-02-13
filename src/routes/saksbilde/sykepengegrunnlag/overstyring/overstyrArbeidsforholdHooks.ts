@@ -11,7 +11,7 @@ import {
 import { useCalculatingState } from '@state/calculating';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
@@ -54,7 +54,6 @@ export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): Overstyrt
 export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkulert?: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
 
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
@@ -99,7 +98,6 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
                     if (aktørId) {
                         setCalculating(true);
                         addToast(kalkulererToast({}));
-                        setPollingRate(1000);
                     }
                 },
             });

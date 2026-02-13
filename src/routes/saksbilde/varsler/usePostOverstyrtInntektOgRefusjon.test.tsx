@@ -3,7 +3,7 @@ import { Mock, vi } from 'vitest';
 import { OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
 import { ApiOpptegnelse, ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
-import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
 import { renderHook } from '@test-utils';
@@ -34,7 +34,6 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
         });
         (useRemoveToast as Mock).mockReturnValue(() => {});
         (useHåndterOpptegnelser as Mock).mockReturnValue(() => {});
-        (useSetOpptegnelserPollingRate as Mock).mockReturnValue(() => {});
         (useSlettLokaleOverstyringer as Mock).mockReturnValue(slettLokaleOverstyringerMock);
     });
 

@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 
 import { OverstyrArbeidsforholdMutationDocument, OverstyringArbeidsforholdInput } from '@io/graphql';
-import { usePollEtterOpptegnelser } from '@io/rest/polling';
+import { useAbonnerPåEndringer } from '@io/sse/polling';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -9,6 +9,15 @@ import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { createMock, render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
+
+class MockEventSource {
+    close = vi.fn();
+    addEventListener = vi.fn();
+    removeEventListener = vi.fn();
+    dispatchEvent = vi.fn();
+}
+
+global.EventSource = MockEventSource as never;
 
 describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
     it('skal vise ikke bruk arbeidsforholdet knap om arbeidsforholdet ikke er deaktivert og knappen ikke er trykket', () => {
@@ -42,7 +51,7 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
             }),
         ];
         const PollingWrapper = ({ children }: PropsWithChildren) => {
-            usePollEtterOpptegnelser(personPseudoId);
+            useAbonnerPåEndringer(personPseudoId);
             return <>{children}</>;
         };
 

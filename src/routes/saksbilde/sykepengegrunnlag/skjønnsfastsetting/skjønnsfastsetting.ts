@@ -10,7 +10,7 @@ import {
 } from '@io/graphql';
 import { useCalculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import {
     SkjønnsfastsattArbeidsgiver,
@@ -27,7 +27,6 @@ export enum Skjønnsfastsettingstype {
 export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
 
@@ -90,7 +89,6 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
                 onCompleted: () => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
-                    setPollingRate(1000);
                 },
             });
         },

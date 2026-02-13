@@ -4,7 +4,7 @@ import { Loader } from '@navikt/ds-react';
 
 import { useMutation } from '@apollo/client';
 import { OppdaterPersonDocument } from '@io/graphql';
-import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { SpeilError } from '@utils/error';
@@ -26,7 +26,6 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: (fødselsn
     const addVarsel = useAddVarsel();
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
     const removeVarsel = useRemoveVarsel();
     const [polling, setPolling] = useState(false);
     const [oppdaterPerson] = useMutation(OppdaterPersonDocument);
@@ -46,7 +45,6 @@ export const useOppdaterPersondata = (): [forespørPersonoppdatering: (fødselsn
     const forespørPersonoppdatering = async (fodselsnummer: string): Promise<void> => {
         addToast({ key: oppdatererPersondataToastKey, message: oppdatererPersondataMessage() });
         removeVarsel(PersonoppdateringAlert.key);
-        setPollingRate(500);
         void oppdaterPerson({
             variables: { fodselsnummer },
             onCompleted: () => setPolling(true),

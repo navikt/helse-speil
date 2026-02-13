@@ -3,7 +3,7 @@ import { Mock, vi } from 'vitest';
 import { Kildetype, OverstyrDagerMutationDocument } from '@io/graphql';
 import { ApiOpptegnelse, ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enPerson } from '@test-data/person';
@@ -34,7 +34,6 @@ describe('useOverstyrDager', () => {
         (useAktivtInntektsforhold as Mock).mockReturnValue(enArbeidsgiver({ organisasjonsnummer: ORGNUMMER }));
         (useAddToast as Mock).mockReturnValue(() => {});
         (useRemoveToast as Mock).mockReturnValue(() => {});
-        (useSetOpptegnelserPollingRate as Mock).mockReturnValue(() => {});
         (useHåndterOpptegnelser as Mock).mockReturnValue(() => {});
     });
 

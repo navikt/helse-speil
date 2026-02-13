@@ -1,7 +1,7 @@
 import { atom, useAtom } from 'jotai';
 
 import { ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
-import { usePollEtterOpptegnelser } from '@io/rest/polling';
+import { useAbonnerPåEndringer } from '@io/sse/polling';
 import { useHåndterOpptegnelser } from '@state/opptegnelser';
 
 export type PersonSomKlargjøres = {
@@ -13,7 +13,7 @@ const personSomKlargjøresState = atom<PersonSomKlargjøres | null>(null);
 
 export const usePersonKlargjøres = () => {
     const [state, setState] = useAtom(personSomKlargjøresState);
-    usePollEtterOpptegnelser(state?.personPseudoId);
+    useAbonnerPåEndringer(state?.personPseudoId);
 
     useHåndterOpptegnelser(async (opptegnelse) => {
         if (opptegnelse.type === ApiOpptegnelseType.PERSON_KLAR_TIL_BEHANDLING)

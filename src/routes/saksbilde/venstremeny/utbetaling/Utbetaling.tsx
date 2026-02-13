@@ -13,7 +13,6 @@ import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/gr
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -200,7 +199,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     );
 };
 
-const skalPolleEtterNestePeriode = (person: PersonFragment) =>
+const skalVentePåNestePeriode = (person: PersonFragment) =>
     finnAlleInntektsforhold(person)
         .flatMap((inntektskilde) => inntektskilde.behandlinger[0]?.perioder ?? [])
         .some((periode) =>
@@ -216,12 +215,9 @@ const hasOppgave = (period: BeregnetPeriodeFragment): boolean =>
 
 const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment): (() => void) => {
     const router = useRouter();
-    const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
 
     return () => {
-        if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
-            setOpptegnelsePollingTime(1000);
-        } else {
+        if (!skalVentePåNestePeriode(person) && !(isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
             router.push('/');
         }
     };

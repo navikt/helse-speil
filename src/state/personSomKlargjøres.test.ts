@@ -3,6 +3,15 @@ import { enPerson } from '@test-data/person';
 import { renderHook } from '@test-utils';
 import { act } from '@testing-library/react';
 
+class MockEventSource {
+    close = vi.fn();
+    addEventListener = vi.fn();
+    removeEventListener = vi.fn();
+    dispatchEvent = vi.fn();
+}
+
+global.EventSource = MockEventSource as never;
+
 describe('personSomKlargjøres', () => {
     const aktørId = enPerson().aktorId;
     it('tom state når ingen personer klargjøres', () => {

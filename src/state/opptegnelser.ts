@@ -1,15 +1,10 @@
-import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
 import { atomWithReset, useResetAtom } from 'jotai/utils';
 import { useEffect } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
 
 import { ApiOpptegnelse } from '@io/rest/generated/spesialist.schemas';
 
-const opptegnelsePollingTimeState = atomWithReset(5_000);
-
 const nyesteOpptegnelserState = atomWithReset<ApiOpptegnelse[]>([]);
-
-const nyesteOpptegnelseSekvensIdState = atom<number | undefined>(undefined);
 
 export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: ApiOpptegnelse) => void) => {
     const opptegnelser = useAtomValue(nyesteOpptegnelserState);
@@ -24,37 +19,9 @@ export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: ApiOpptegnels
 
 export const useMottaOpptegnelser = () => {
     const setOpptegnelser = useSetAtom(nyesteOpptegnelserState);
-    const setOpptegnelserSekvensId = useSetNyesteOpptegnelseSekvens();
-    const resetPolleFrekvens = useResetAtom(opptegnelsePollingTimeState);
-    const tilbakestillFrekvensOmLitt = useDebouncedCallback(resetPolleFrekvens, 8000);
     return (opptegnelser: ApiOpptegnelse[]) => {
-        setOpptegnelser(opptegnelser);
-        setOpptegnelserSekvensId(opptegnelser);
-        tilbakestillFrekvensOmLitt();
+        setOpptegnelser((prev) => [...prev, ...opptegnelser]);
     };
 };
-
-export const useNyesteOpptegnelseSekvens = () => useAtomValue(nyesteOpptegnelseSekvensIdState);
-
-const useSetNyesteOpptegnelseSekvens = () => {
-    const [sekvensId, setSekvensId] = useAtom(nyesteOpptegnelseSekvensIdState);
-    return (opptegnelser: ApiOpptegnelse[]) => {
-        opptegnelser.forEach((opptegnelse) => {
-            if (sekvensId === undefined || opptegnelse.sekvensnummer > sekvensId) {
-                setSekvensId(opptegnelse.sekvensnummer);
-            }
-        });
-    };
-};
-
-export const useOpptegnelserPollingRate = () => useAtomValue(opptegnelsePollingTimeState);
-
-export const useSetOpptegnelserPollingRate = () => {
-    const setOpptegnelsePollingRate = useSetAtom(opptegnelsePollingTimeState);
-    return (rate: number) => {
-        setOpptegnelsePollingRate(rate);
-    };
-};
-
 export const erOpptegnelseForNyOppgave = (opptegnelse: ApiOpptegnelse): boolean =>
     opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';

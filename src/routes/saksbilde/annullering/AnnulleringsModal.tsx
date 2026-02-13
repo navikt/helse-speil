@@ -9,7 +9,6 @@ import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import type { ApiVedtaksperiodeAnnullerRequest } from '@io/rest/generated/spesialist.schemas';
 import { usePostVedtaksperiodeAnnuller } from '@io/rest/generated/vedtaksperiode/vedtaksperiode';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
-import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useAddToast } from '@state/toasts';
 
 import { Annulleringsbegrunnelse } from './Annulleringsbegrunnelse';
@@ -38,7 +37,6 @@ export const AnnulleringsModal = ({
     person,
     periode,
 }: AnnulleringsModalProps): ReactElement => {
-    const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
     const { mutate: annullerMutation, error, isPending: loading } = usePostVedtaksperiodeAnnuller();
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const addToast = useAddToast();
@@ -86,7 +84,6 @@ export const AnnulleringsModal = ({
                 },
                 {
                     onSuccess: () => {
-                        setOpptegnelsePollingTime(1000);
                         addToast({
                             message: 'Annulleringen er sendt',
                             timeToLiveMs: 5000,

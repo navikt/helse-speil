@@ -7,7 +7,7 @@ import { OverstyrDagerMutationDocument, OverstyrDagerMutationMutation, PersonFra
 import { useCalculatingState } from '@state/calculating';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser } from '@state/opptegnelser';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -33,7 +33,6 @@ export const useOverstyrDager = (
 ): UsePostOverstyringResult => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
     const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
@@ -75,7 +74,6 @@ export const useOverstyrDager = (
                 addToast(kalkulererToast({}));
                 setCalculating(true);
                 callback?.();
-                setPollingRate(1000);
             },
         }).catch(() => Promise.resolve());
     return {
