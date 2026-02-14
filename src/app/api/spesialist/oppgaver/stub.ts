@@ -53,7 +53,7 @@ const sorter = (
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, saksbehandlerSortFunction);
         case ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, behandlingOpprettetSortFunction);
-        case ApiOppgaveSorteringsfelt.paVentInfo_tidsfrist:
+        case ApiOppgaveSorteringsfelt.påVentInfo_tidsfrist:
             return sorterOppgaver(oppgaver, sorteringsrekkefølge, oppfølgingsdatoSortFunction);
         default:
             return oppgaver;

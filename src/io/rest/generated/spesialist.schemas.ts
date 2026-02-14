@@ -76,7 +76,7 @@ export type ApiOppgaveSorteringsfelt = (typeof ApiOppgaveSorteringsfelt)[keyof t
 export const ApiOppgaveSorteringsfelt = {
     tildeling: 'tildeling',
     opprettetTidspunkt: 'opprettetTidspunkt',
-    paVentInfo_tidsfrist: 'paVentInfo_tidsfrist',
+    påVentInfo_tidsfrist: 'påVentInfo_tidsfrist',
     behandlingOpprettetTidspunkt: 'behandlingOpprettetTidspunkt',
 } as const;
 
