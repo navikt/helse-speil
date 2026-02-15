@@ -5,6 +5,9 @@ import { erLokal, getServerEnv } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
+// Endepunkt for å kunne søke opp personer på fødselsnummer eller aktørID.
+// Ble laget for å dyplenke fra spanner til aktuell person i speil.
+
 export async function POST(request: NextRequest) {
     let personPseudoId = null;
     const formData = await request.formData();
