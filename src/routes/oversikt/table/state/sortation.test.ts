@@ -29,7 +29,7 @@ describe('sortation', () => {
             const { result } = renderHook(() => useSorteringValue(), {
                 atomValues: [[tabState, TabType.Ventende]],
             });
-            expect(result.current).toEqual({ orderBy: SortKey.Opprettet, direction: 'ascending' });
+            expect(result.current).toEqual({ orderBy: SortKey.Tidsfrist, direction: 'ascending' });
         });
     });
 
@@ -97,7 +97,7 @@ describe('sortation', () => {
             const { result } = renderHook(() => useDateSortValue(), {
                 atomValues: [[tabState, TabType.Ventende]],
             });
-            expect(result.current).toBe(SortKey.Opprettet);
+            expect(result.current).toBe(SortKey.Tidsfrist);
         });
 
         it('følger sorteringsnøkkel når det sorteres på en dato-kolonne', () => {

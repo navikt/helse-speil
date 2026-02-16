@@ -26,7 +26,7 @@ type SorteringPerTab = { [key in TabType]: SortState };
 const sorteringPerTab = atomWithLocalStorage<SorteringPerTab>('sorteringPerTab', {
     [TabType.TilGodkjenning]: defaultSortering,
     [TabType.Mine]: defaultSortering,
-    [TabType.Ventende]: defaultSortering,
+    [TabType.Ventende]: { orderBy: SortKey.Tidsfrist, direction: 'ascending' },
     [TabType.BehandletIdag]: defaultSortering,
 });
 
