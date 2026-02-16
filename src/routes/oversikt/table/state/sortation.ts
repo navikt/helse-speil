@@ -46,7 +46,12 @@ const datoSortKeyPerTab = atomWithLocalStorage<DatoSortKeyPerTab>('dateSortKeyPe
     [TabType.BehandletIdag]: SortKey.Opprettet,
 });
 
-const sortering = atom((get) => get(sorteringPerTab)[get(tabState)] as SortState);
+const sortering = atom((get) => {
+    const tab = get(tabState);
+    const sort = get(sorteringPerTab)[tab] as SortState;
+    if (tab === TabType.Ventende) return { ...sort, orderBy: SortKey.Tidsfrist };
+    return sort;
+});
 
 export const useSorteringValue = () => useAtomValue(sortering);
 
