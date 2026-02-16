@@ -8,7 +8,7 @@ import { useOppdaterPersondataEnGang } from '@hooks/useOppdaterPersondataEnGang'
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
-import { usePollEtterOpptegnelser } from '@io/rest/polling';
+import { LyttPåEndringer } from '@routes/LyttPåEndringer';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
@@ -28,13 +28,17 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
 
     useRefreshPersonVedOpptegnelse();
     useOppdaterPersondataEnGang();
-    usePollEtterOpptegnelser(personPseudoId);
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useKeyboardShortcuts();
     useResetOpenedDocuments();
     useRefetchDriftsmeldinger();
 
-    return <AktorScopedLayout key={personPseudoId}>{children}</AktorScopedLayout>;
+    return (
+        <AktorScopedLayout key={personPseudoId}>
+            <LyttPåEndringer personPseudoId={personPseudoId} />
+            {children}
+        </AktorScopedLayout>
+    );
 }
 
 const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {

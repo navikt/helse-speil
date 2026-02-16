@@ -200,7 +200,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     );
 };
 
-const skalPolleEtterNestePeriode = (person: PersonFragment) =>
+const skalVentePåNestePeriode = (person: PersonFragment) =>
     finnAlleInntektsforhold(person)
         .flatMap((inntektskilde) => inntektskilde.behandlinger[0]?.perioder ?? [])
         .some((periode) =>
@@ -219,7 +219,7 @@ const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment):
     const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
 
     return () => {
-        if (skalPolleEtterNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
+        if (skalVentePåNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
             setOpptegnelsePollingTime(1000);
         } else {
             router.push('/');

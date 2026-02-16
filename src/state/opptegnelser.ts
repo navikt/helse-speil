@@ -33,6 +33,12 @@ export const useMottaOpptegnelser = () => {
         tilbakestillFrekvensOmLitt();
     };
 };
+export const useMottaOpptegnelserViaSSE = () => {
+    const setOpptegnelser = useSetAtom(nyesteOpptegnelserState);
+    return (opptegnelse: ApiOpptegnelse) => {
+        setOpptegnelser((prev) => [...prev, opptegnelse]);
+    };
+};
 
 export const useNyesteOpptegnelseSekvens = () => useAtomValue(nyesteOpptegnelseSekvensIdState);
 
