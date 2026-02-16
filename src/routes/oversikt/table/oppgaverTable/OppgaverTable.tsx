@@ -6,6 +6,7 @@ import { SortState, VStack } from '@navikt/ds-react';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { IngenOppgaver } from '@oversikt/IngenOppgaver';
 import { TabType, useAktivTab } from '@oversikt/tabState';
+import { BehandletIdagTableSkeleton } from '@oversikt/table/BehandletIdagTableSkeleton';
 import { OppgaverTableError } from '@oversikt/table/OppgaverTableError';
 import { useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { useOppgaveFeed } from '@state/oppgaver';
@@ -34,7 +35,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
     const toggleFilter = useToggleFilter();
     const setMultipleFilters = useSetMultipleFilters();
 
-    const harIkkeHentetOppgaverForGjeldendeQuery = oppgaver === undefined && loading;
+    const harIkkeHentetOppgaverForGjeldendeQuery = loading;
 
     useLoadingToast({ isLoading: harIkkeHentetOppgaverForGjeldendeQuery, message: 'Henter oppgaver' });
     const valgtSaksbehandler = useAtomValue(valgtSaksbehandlerAtom);
@@ -54,6 +55,10 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
 
     if (error) {
         return <OppgaverTableError />;
+    }
+
+    if (oppgaver === undefined) {
+        return <BehandletIdagTableSkeleton />;
     }
 
     return (
