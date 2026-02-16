@@ -7,7 +7,6 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { IngenOppgaver } from '@oversikt/IngenOppgaver';
 import { TabType, useAktivTab } from '@oversikt/tabState';
 import { OppgaverTableError } from '@oversikt/table/OppgaverTableError';
-import { OppgaverTableSkeleton } from '@oversikt/table/OppgaverTableSkeleton';
 import { useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { useOppgaveFeed } from '@state/oppgaver';
 import { cn } from '@utils/tw';
@@ -53,10 +52,6 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
         return <IngenOppgaver />;
     }
 
-    if (harIkkeHentetOppgaverForGjeldendeQuery) {
-        return <OppgaverTableSkeleton />;
-    }
-
     if (error) {
         return <OppgaverTableError />;
     }
@@ -72,10 +67,26 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
             <div className={styles.Content}>
                 <div className={styles.Scrollable}>
                     {aktivTab === TabType.TilGodkjenning && (
-                        <TilGodkjenningTable oppgaver={oppgaver ?? []} sort={sort} />
+                        <TilGodkjenningTable
+                            oppgaver={oppgaver ?? []}
+                            sort={sort}
+                            loading={harIkkeHentetOppgaverForGjeldendeQuery}
+                        />
                     )}
-                    {aktivTab === TabType.Mine && <MineSakerTable oppgaver={oppgaver ?? []} sort={sort} />}
-                    {aktivTab === TabType.Ventende && <PåVentTable oppgaver={oppgaver ?? []} sort={sort} />}
+                    {aktivTab === TabType.Mine && (
+                        <MineSakerTable
+                            oppgaver={oppgaver ?? []}
+                            sort={sort}
+                            loading={harIkkeHentetOppgaverForGjeldendeQuery}
+                        />
+                    )}
+                    {aktivTab === TabType.Ventende && (
+                        <PåVentTable
+                            oppgaver={oppgaver ?? []}
+                            sort={sort}
+                            loading={harIkkeHentetOppgaverForGjeldendeQuery}
+                        />
+                    )}
                 </div>
             </div>
             <Pagination antallOppgaver={antallOppgaver} fetchMore={() => {}} />

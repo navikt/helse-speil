@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { SortState, Table } from '@navikt/ds-react';
 
 import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { OppgaverBodySkeleton } from '@oversikt/table/oppgaverTable/OppgaverBodySkeleton';
 import { SortKey, useSetSortering } from '@oversikt/table/state/sortation';
 import styles from '@oversikt/table/table.module.css';
 
@@ -13,9 +14,10 @@ import { MineSakerTableHeader } from './MineSakerTableHeader';
 interface MineSakerTableProps {
     oppgaver: ApiOppgaveProjeksjon[];
     sort: SortState;
+    loading: boolean;
 }
 
-export const MineSakerTable = ({ oppgaver, sort }: MineSakerTableProps): ReactElement => {
+export const MineSakerTable = ({ oppgaver, sort, loading }: MineSakerTableProps): ReactElement => {
     const setSortering = useSetSortering();
     return (
         <Table
@@ -26,13 +28,12 @@ export const MineSakerTable = ({ oppgaver, sort }: MineSakerTableProps): ReactEl
             zebraStripes
         >
             <MineSakerTableHeader />
-            <Table.Body>
-                {oppgaver.length > 0 ? (
-                    oppgaver.map((oppgave) => <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} />)
-                ) : (
-                    <IngenMatchendeFiltre />
-                )}
-            </Table.Body>
+            <Table.Body>{loading ? <OppgaverBodySkeleton /> : <MineSakerTableBody oppgaver={oppgaver} />}</Table.Body>
         </Table>
     );
 };
+
+function MineSakerTableBody({ oppgaver }: { oppgaver: ApiOppgaveProjeksjon[] }) {
+    if (oppgaver.length === 0) return <IngenMatchendeFiltre />;
+    return oppgaver.map((oppgave) => <MineSakerOppgaveRow key={oppgave.id} oppgave={oppgave} />);
+}

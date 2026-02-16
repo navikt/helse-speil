@@ -10,9 +10,9 @@ import { useCurrentPageState } from '@oversikt/table/state/pagination';
 import { useBehandledeOppgaverFeed } from '@state/behandledeOppgaver';
 import { cn } from '@utils/tw';
 
+import { BehandletIdagTableSkeleton } from './BehandletIdagTableSkeleton';
 import { LinkRow } from './LinkRow';
 import { OppgaverTableError } from './OppgaverTableError';
-import { OppgaverTableSkeleton } from './OppgaverTableSkeleton';
 import { Pagination } from './Pagination';
 import { BehandletTimestampCell } from './cells/BehandletTimestampCell';
 import { SaksbehandlerIdentCell } from './cells/SaksbehandlerIdentCell';
@@ -45,7 +45,7 @@ export const BehandletIdagTable = (): ReactElement => {
     useLoadingToast({ isLoading: harIkkeHentetOppgaverForGjeldendeQuery, message: 'Henter oppgaver' });
 
     if (harIkkeHentetOppgaverForGjeldendeQuery) {
-        return <OppgaverTableSkeleton />;
+        return <BehandletIdagTableSkeleton />;
     }
 
     if (error) {
