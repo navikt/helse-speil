@@ -2,23 +2,22 @@ import React, { ReactElement } from 'react';
 
 import { Select, Table } from '@navikt/ds-react';
 
-import { SortKey, useDateSortState } from '../state/sortation';
-
-import styles from './DateSelectHeader.module.css';
+import { SortKey, useDateSortValue, useSetDatoSortering } from '../state/sortation';
 
 export const DateSelectHeader = (): ReactElement => {
-    const [datoKey, setDatoKey] = useDateSortState();
+    const datoKey = useDateSortValue();
+    const setDatoSortering = useSetDatoSortering();
 
     const lagreValgtFatoSortering = (event: React.ChangeEvent<HTMLSelectElement>) =>
-        setDatoKey(event.target.value as unknown as SortKey);
+        setDatoSortering(event.target.value as SortKey);
 
     return (
         <Table.DataCell aria-label="Sorteringsdato">
             <Select
                 label="Sorteringsdatovelger"
+                size="small"
                 hideLabel
                 onChange={lagreValgtFatoSortering}
-                className={styles.DatoSelect}
                 value={datoKey}
             >
                 <option value={SortKey.BehandlingOpprettetTidspunkt}>
