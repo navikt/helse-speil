@@ -7,7 +7,7 @@ export const stub = async (_request: Request, params: Promise<{ pseudoId: string
 
     setTimeout(() => {
         OpptegnelseMock.pushOpptegnelse(
-            PersonMock.findFødselsnummer(pseudoId)!,
+            PersonMock.findFødselsnummerForPersonPseudoId(pseudoId)!,
             ApiOpptegnelseType.NY_SAKSBEHANDLEROPPGAVE,
         );
     }, 2000);

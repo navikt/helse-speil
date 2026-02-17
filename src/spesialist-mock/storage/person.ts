@@ -38,10 +38,10 @@ export class PersonMock {
         },
     ];
 
-    static findFødselsnummer = (searchTerm: string): string | null => {
+    static findFødselsnummerForPersonPseudoId = (personPseudoId: string): string | null => {
         return (
             PersonMock.persons.find((person) => {
-                if (person.aktørId == searchTerm || person.personPseudoId == searchTerm) return person;
+                if (person.personPseudoId == personPseudoId) return person;
             })?.fødselsnummer ?? null
         );
     };

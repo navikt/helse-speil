@@ -40,7 +40,7 @@ export class OpptegnelseMock {
         return this.opptegnelser
             .filter(
                 (opptegnelse) =>
-                    PersonMock.findFødselsnummer(pseudoId) === opptegnelse.fødselsnummer &&
+                    PersonMock.findFødselsnummerForPersonPseudoId(pseudoId) === opptegnelse.fødselsnummer &&
                     opptegnelse.sekvensnummer > etterSekvensnummer,
             )
             .map((mockOpptegnelse) => ({

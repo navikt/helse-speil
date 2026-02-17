@@ -11,10 +11,10 @@ import {
     ApiTilkommenInntektPatchApiTilkommenInntektEndringer,
     ApiTilkommenInntektskilde,
 } from '@io/rest/generated/spesialist.schemas';
+import { PersonMock } from '@spesialist-mock/storage/person';
 
 export class TilkommenInntektMock {
     static inntektskilder: Map<string, ApiTilkommenInntektskilde[]> = new Map();
-    private static pseudoIdtoFødselsnummerMap: Map<string, string> = new Map();
 
     static {
         const url = path.join(cwd(), 'src/spesialist-mock/data/tilkommenInntekt');
@@ -29,16 +29,12 @@ export class TilkommenInntektMock {
                 tilkommenInntektMockFil.fodselsnummer,
                 tilkommenInntektMockFil.data.tilkomneInntektskilder,
             );
-            TilkommenInntektMock.pseudoIdtoFødselsnummerMap.set(
-                tilkommenInntektMockFil.personPseudoId,
-                tilkommenInntektMockFil.fodselsnummer,
-            );
         });
     }
 
     static tilkomneInntektskilder = (pseudoId: string): ApiTilkommenInntektskilde[] => {
-        const fødselsnummer = TilkommenInntektMock.pseudoIdtoFødselsnummerMap.get(pseudoId);
-        if (fødselsnummer === undefined) {
+        const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(pseudoId);
+        if (fødselsnummer === null) {
             return [];
         }
         return TilkommenInntektMock.inntektskilder.get(fødselsnummer) ?? [];

@@ -119,7 +119,7 @@ const getResolvers = (): IResolvers => ({
             if (personPseudoId == '64b51f30-2f3f-4872-afb9-8f7f31ab6c36') return new NotReadyError();
             if (personPseudoId == 'b99b7845-f892-484c-b1d8-e070d2821bb6') return new ManglendeAvviksvurderingError();
 
-            const fødselsnummer = PersonMock.findFødselsnummer(personPseudoId);
+            const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
             if (!fødselsnummer) throw Error('personPseudoId i person-query skal vel alltid tilhøre en person?');
             const person = fetchPersondata()[fødselsnummer];
 
