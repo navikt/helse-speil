@@ -19,9 +19,19 @@ import { UvurderteVarslerIcon } from './icons/UvurderteVarslerIcon';
 
 import styles from './Period.module.css';
 
-type PeriodCategory = 'success' | 'error' | 'attention' | 'waiting' | 'neutral' | 'neutralError' | 'plus';
+export type PeriodCategory =
+    | 'success'
+    | 'error'
+    | 'attention'
+    | 'waiting'
+    | 'neutral'
+    | 'neutralError'
+    | 'plus'
+    | 'ghost'
+    | 'historisk'
+    | 'ukjent';
 
-const getPeriodCategory = (periodState: PeriodState): PeriodCategory | null => {
+export const getPeriodCategory = (periodState: PeriodState): PeriodCategory => {
     switch (periodState) {
         case 'utbetaltAutomatisk':
         case 'revurdert':
@@ -64,7 +74,7 @@ const getPeriodCategory = (periodState: PeriodState): PeriodCategory | null => {
         case 'infotrygdUkjent':
         case 'ukjent':
         default: {
-            return null;
+            return 'ukjent';
         }
     }
 };

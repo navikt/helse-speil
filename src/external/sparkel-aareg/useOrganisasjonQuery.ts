@@ -1,17 +1,37 @@
 import { customAxios } from '@app/axios/axiosClient';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries, useQuery } from '@tanstack/react-query';
 
 type SparkelApiOrganisasjon = { organisasjonsnummer: string; navn: string | null } | null;
 
+const organisasjonQueryOptions = (orgnr: string) => ({
+    queryKey: ['/api/sparkel-aareg/organisasjoner/{organisasjonsnummer}', orgnr],
+    queryFn: async (): Promise<SparkelApiOrganisasjon> =>
+        (await customAxios.get(`/api/sparkel-aareg/organisasjoner/${orgnr}`)).data,
+    gcTime: Infinity,
+    staleTime: Infinity,
+    enabled: erGyldigOrganisasjonsnummer(orgnr),
+});
+
 export const useOrganisasjonQuery = (organisasjonsnummer?: string) =>
-    useQuery({
-        queryKey: ['/api/sparkel-aareg/organisasjoner/{organisasjonsnummer}', organisasjonsnummer],
-        queryFn: async (): Promise<SparkelApiOrganisasjon> =>
-            (await customAxios.get(`/api/sparkel-aareg/organisasjoner/${organisasjonsnummer}`)).data,
-        gcTime: Infinity,
-        staleTime: Infinity,
-        enabled: erGyldigOrganisasjonsnummer(organisasjonsnummer),
+    useQuery(organisasjonQueryOptions(organisasjonsnummer ?? ''));
+
+export const useOrganisasjonerQuery = (organisasjonsnumre: string[]) => {
+    const queries = useQueries({
+        queries: organisasjonsnumre.map(organisasjonQueryOptions),
     });
+
+    const isLoading = queries.some((q) => q.isPending || q.isFetching);
+
+    const navnMap = new Map<string, string>();
+    queries.forEach((query, index) => {
+        const orgnr = organisasjonsnumre[index];
+        if (orgnr && query.data?.navn) {
+            navnMap.set(orgnr, query.data.navn);
+        }
+    });
+
+    return { navnMap, isLoading };
+};
 
 export const erGyldigOrganisasjonsnummer = (organisasjonsnummer: string | undefined) =>
     organisasjonsnummer !== undefined &&

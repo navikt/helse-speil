@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useAtom } from 'jotai';
 import NextLink from 'next/link';
 import { useParams } from 'next/navigation';
 import { ReactElement } from 'react';
@@ -13,8 +14,10 @@ import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Infotrygdutbetaling, PersonFragment } from '@io/graphql';
+import { Tidslinje } from '@saksbilde/tidslinje/Tidslinje';
 import { TilkommenInntektTimelineRows } from '@saksbilde/timeline/TilkommenInntektTimelineRows';
 import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { atomWithLocalStorage } from '@state/jotai';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { TimelinePeriod } from '@typer/timeline';
@@ -202,7 +205,10 @@ const TimelineWithContent = ({
     );
 };
 
+const newTimeline = atomWithLocalStorage('newTimeline', false, false);
+
 const TimelineContainer = (): ReactElement | null => {
+    const [useNewTimeline, setUseNewTimeline] = useAtom(newTimeline);
     const { loading, data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const activePeriod = useActivePeriod(person);
@@ -218,12 +224,33 @@ const TimelineContainer = (): ReactElement | null => {
     const infotrygdutbetalinger = person.infotrygdutbetalinger;
 
     return (
-        <TimelineWithContent
-            inntektsforhold={inntektsforhold}
-            infotrygdutbetalinger={infotrygdutbetalinger ?? []}
-            activePeriod={activePeriod}
-            person={person}
-        />
+        <div className="relative [grid-area:timeline]">
+            {erUtvikling && (
+                <Button
+                    variant="tertiary"
+                    size="xsmall"
+                    onClick={() => setUseNewTimeline((prev) => !prev)}
+                    className="absolute z-10 mt-2 ml-6"
+                >
+                    {useNewTimeline ? 'Bruk gammel tidslinje' : 'Bruk ny tidslinje'}
+                </Button>
+            )}
+            {useNewTimeline ? (
+                <Tidslinje
+                    person={person}
+                    inntektsforhold={inntektsforhold}
+                    infotrygdutbetalinger={infotrygdutbetalinger ?? []}
+                    activePeriod={activePeriod}
+                />
+            ) : (
+                <TimelineWithContent
+                    inntektsforhold={inntektsforhold}
+                    infotrygdutbetalinger={infotrygdutbetalinger ?? []}
+                    activePeriod={activePeriod}
+                    person={person}
+                />
+            )}
+        </div>
     );
 };
 
