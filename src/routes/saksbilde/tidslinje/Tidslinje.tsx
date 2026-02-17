@@ -1,19 +1,24 @@
 import dayjs from 'dayjs';
 import { useParams, usePathname, useRouter } from 'next/navigation';
-import React, { PropsWithChildren, ReactElement } from 'react';
+import React, { ReactElement } from 'react';
 
-import { BodyShort, HGrid, Heading, VStack } from '@navikt/ds-react';
+import { BodyShort, HGrid } from '@navikt/ds-react';
 
-import { GhostPeriode, Infotrygdutbetaling, Periode, PersonFragment } from '@io/graphql';
+import { Infotrygdutbetaling, PersonFragment } from '@io/graphql';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TilkommenInntektKnapp } from '@saksbilde/tidslinje/TilkommenInntektKnapp';
-import { groupTidslinjeData, useTilkomneInntekterRader } from '@saksbilde/tidslinje/groupTidslinjedata';
+import {
+    TidslinjeElement,
+    groupTidslinjeData,
+    useTilkomneInntekterRader,
+} from '@saksbilde/tidslinje/groupTidslinjedata';
 import { Timeline } from '@saksbilde/tidslinje/timeline/Timeline';
 import { TimelinePeriod, TimelineVariant } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { MaksdatoPin } from '@saksbilde/tidslinje/timeline/pin/pins/MaksdatoPin';
 import { TimelineRow } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
 import { TimelineZoom } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
 import { PeriodCategory } from '@saksbilde/timeline/Period';
+import { BeregnetPopover, GhostPopover, InfotrygdPopover, UberegnetPopover } from '@saksbilde/timeline/PeriodPopover';
 import { useInfotrygdPeriods } from '@saksbilde/timeline/hooks/useInfotrygdPeriods';
 import { useMaksdato } from '@saksbilde/timeline/hooks/useMaksdato';
 import { BlankIcon, CheckIcon, CrossIcon, TaskIcon, WaitingIcon } from '@saksbilde/timeline/icons';
@@ -21,11 +26,11 @@ import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
-import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
+import { somNorskDato } from '@utils/date';
 import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
-import { isSelvstendigNaering } from '@utils/typeguards';
+import { getPeriodState } from '@utils/mapping';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isSelvstendigNaering } from '@utils/typeguards';
 
 interface TidslinjeProps {
     inntektsforhold: Inntektsforhold[];
@@ -63,12 +68,10 @@ export function Tidslinje({
                         key={rad.id}
                         label={rad.navn}
                         icon={rad.icon}
-                        copyLabelButton={rad.navn !== 'Selvstendig næringsdrivende'}
+                        copyLabelButton={rad.navn !== 'Selvstendig næring'}
                     >
                         {rad.tidslinjeElementer.map((element) => {
-                            const periode = element.periode;
-                            const ghostPeriode = element.ghostPeriode;
-                            const id = periode?.id ?? ghostPeriode?.id;
+                            const id = element.periode?.id ?? element.ghostPeriode?.id;
 
                             return (
                                 <TimelinePeriod
@@ -90,8 +93,11 @@ export function Tidslinje({
                                     variant={statusTilVariant[element.status]}
                                     generasjonIndex={element.generasjonIndex}
                                 >
-                                    {periode && <BehandlingPopover periode={periode} />}
-                                    {ghostPeriode && <GhostPeriodePopover ghostPeriode={ghostPeriode} />}
+                                    <Popover
+                                        element={element}
+                                        person={person}
+                                        erSelvstendigNæring={rad.navn === 'Selvstendig næring'}
+                                    />
                                 </TimelinePeriod>
                             );
                         })}
@@ -112,7 +118,10 @@ export function Tidslinje({
                                 variant="tilkommen_inntekt"
                             >
                                 {element.tilkommenInntekt && (
-                                    <TilkommenInntektPopover tilkommenInntekt={element.tilkommenInntekt} />
+                                    <TilkommenInntektPopover
+                                        tilkommenInntekt={element.tilkommenInntekt}
+                                        element={element}
+                                    />
                                 )}
                             </TimelinePeriod>
                         ))}
@@ -128,9 +137,7 @@ export function Tidslinje({
                                 icon={<CheckIcon />}
                                 variant="infotrygd"
                             >
-                                {element.infotrygdPeriode && (
-                                    <InfotrygdPeriodePopover infotrygdPeriode={element.infotrygdPeriode} />
-                                )}
+                                <Popover element={element} person={person} />
                             </TimelinePeriod>
                         ))}
                     </TimelineRow>
@@ -143,74 +150,6 @@ export function Tidslinje({
                 kanLeggeTilTilkommenInntekt={kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering))}
             />
         </div>
-    );
-}
-
-function BehandlingPopover({ periode }: { periode: Periode }): ReactElement {
-    return (
-        <PopoverContentWrapper heading="Behandling">
-            <BodyShort size="small">Periode:</BodyShort>
-            <BodyShort size="small">
-                {getFormattedDateString(periode.fom) + ' - ' + getFormattedDateString(periode.tom)}
-            </BodyShort>
-
-            {periode.skjaeringstidspunkt && (
-                <>
-                    <BodyShort size="small">Skjæringstidspunkt:</BodyShort>
-                    <BodyShort size="small">{getFormattedDateString(periode.skjaeringstidspunkt)}</BodyShort>
-                </>
-            )}
-
-            <BodyShort size="small">Opprettet:</BodyShort>
-            <BodyShort size="small">{getFormattedDatetimeString(periode.opprettet)}</BodyShort>
-
-            {/*<BodyShort size="small">Opprettet av:</BodyShort>*/}
-            {/*<BodyShort size="small">{periode.opprettetAvNavIdent}</BodyShort>*/}
-
-            {/*<BodyShort size="small">Status:</BodyShort>*/}
-            {/*<BodyShort size="small">{statusTilTekst[periode.status]}</BodyShort>*/}
-            {/*{periode.beslutterNavIdent && (*/}
-            {/*    <>*/}
-            {/*        <BodyShort size="small">Beslutter:</BodyShort>*/}
-            {/*        <BodyShort size="small">{periode.beslutterNavIdent}</BodyShort>*/}
-            {/*    </>*/}
-            {/*)}*/}
-        </PopoverContentWrapper>
-    );
-}
-
-function GhostPeriodePopover({ ghostPeriode }: { ghostPeriode: GhostPeriode }): ReactElement {
-    return (
-        <PopoverContentWrapper heading="Arbeidsforhold uten sykefravær">
-            <BodyShort size="small">Periode:</BodyShort>
-            <BodyShort size="small">
-                {getFormattedDateString(ghostPeriode.fom) + ' - ' + getFormattedDateString(ghostPeriode.tom)}
-            </BodyShort>
-        </PopoverContentWrapper>
-    );
-}
-
-function InfotrygdPeriodePopover({ infotrygdPeriode }: { infotrygdPeriode: InfotrygdPeriod }): ReactElement {
-    return (
-        <PopoverContentWrapper heading="Behandlet i infotrygd">
-            <BodyShort size="small">Periode:</BodyShort>
-            <BodyShort size="small">
-                {getFormattedDateString(infotrygdPeriode.fom) + ' - ' + getFormattedDateString(infotrygdPeriode.tom)}
-            </BodyShort>
-        </PopoverContentWrapper>
-    );
-}
-
-function PopoverContentWrapper({ heading, children }: PropsWithChildren<{ heading: string }>): ReactElement {
-    return (
-        <VStack gap="space-4">
-            <Heading size="xsmall" level="3">
-                {heading}
-            </Heading>
-            <HGrid columns={2} gap="space-4 space-24">
-                {children}
-            </HGrid>
-        </VStack>
     );
 }
 
@@ -240,17 +179,62 @@ const statusTilVariant: Record<PeriodCategory, TimelineVariant> = {
     ukjent: 'ingen_utbetaling', // TODO fix
 };
 
-function TilkommenInntektPopover({ tilkommenInntekt }: { tilkommenInntekt: ApiTilkommenInntekt }): ReactElement {
+function TilkommenInntektPopover({
+    tilkommenInntekt,
+    element,
+}: {
+    tilkommenInntekt: ApiTilkommenInntekt;
+    element: TidslinjeElement;
+}): ReactElement {
+    const fom = somNorskDato(element.fom) ?? '-';
+    const tom = somNorskDato(element.tom) ?? '-';
+
     return (
-        <PopoverContentWrapper heading="Tilkommen inntekt">
+        <HGrid columns={2} gap="space-4 space-24">
+            <BodyShort size="small" className="col-span-2" weight="semibold">
+                Tilkommen inntekt
+                {tilkommenInntekt.fjernet ? ' (fjernet)' : ''}
+            </BodyShort>
             <BodyShort size="small">Periode:</BodyShort>
             <BodyShort size="small">
-                {getFormattedDateString(tilkommenInntekt.periode.fom) +
-                    ' - ' +
-                    getFormattedDateString(tilkommenInntekt.periode.tom)}
+                {fom} - {tom}
             </BodyShort>
-            <BodyShort size="small">Organisasjonsnummer:</BodyShort>
-            <BodyShort size="small">{tilkommenInntekt.organisasjonsnummer}</BodyShort>
-        </PopoverContentWrapper>
+        </HGrid>
+    );
+}
+
+function Popover({
+    element,
+    person,
+    erSelvstendigNæring = false,
+}: {
+    element: TidslinjeElement;
+    person: PersonFragment;
+    erSelvstendigNæring?: boolean;
+}): ReactElement {
+    const period = element.periode ?? element.ghostPeriode ?? element.infotrygdPeriode;
+    const fom = somNorskDato(element.fom) ?? '-';
+    const tom = somNorskDato(element.tom) ?? '-';
+    const state = getPeriodState(period);
+
+    return (
+        <HGrid columns={2} gap="space-4 space-24">
+            {isInfotrygdPeriod(period) ? (
+                <InfotrygdPopover fom={fom} tom={tom} />
+            ) : isBeregnetPeriode(period) ? (
+                <BeregnetPopover
+                    period={period}
+                    state={state}
+                    fom={fom}
+                    tom={tom}
+                    person={person}
+                    erSelvstendigNæringsdrivende={erSelvstendigNæring}
+                />
+            ) : isGhostPeriode(period) ? (
+                <GhostPopover fom={fom} tom={tom} />
+            ) : (
+                <UberegnetPopover state={state} fom={fom} tom={tom} />
+            )}
+        </HGrid>
     );
 }

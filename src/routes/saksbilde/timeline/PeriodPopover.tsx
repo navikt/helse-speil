@@ -64,10 +64,12 @@ const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     return `${antallDager} dager`;
 };
 
-const InfotrygdPopover = ({ fom, tom }: DatePeriod): ReactElement => {
+export const InfotrygdPopover = ({ fom, tom }: DatePeriod): ReactElement => {
     return (
         <>
-            <BodyShort size="small">Behandlet i Infotrygd</BodyShort>
+            <BodyShort size="small" className="col-span-2" weight="semibold">
+                Behandlet i Infotrygd
+            </BodyShort>
             <BodyShort size="small">Sykepenger</BodyShort>
             <BodyShort size="small">
                 ({fom} - {tom})
@@ -112,7 +114,9 @@ export const BeregnetPopover = ({
 
     return (
         <>
-            <BodyShort size="small">{getPeriodStateText(state)}</BodyShort>
+            <BodyShort size="small" className="col-span-2" weight="semibold">
+                {getPeriodStateText(state)}
+            </BodyShort>
             {(arbeidsgiverTotalbeløp !== 0 || personTotalbeløp !== 0) && (
                 <>
                     <BodyShort size="small">Mottaker:</BodyShort>
@@ -188,10 +192,12 @@ export const BeregnetPopover = ({
     );
 };
 
-const GhostPopover = ({ fom, tom }: DatePeriod): ReactElement => {
+export const GhostPopover = ({ fom, tom }: DatePeriod): ReactElement => {
     return (
         <>
-            <BodyShort size="small">Arbeidsforhold uten sykefravær</BodyShort>
+            <BodyShort size="small" className="col-span-2" weight="semibold">
+                Arbeidsforhold uten sykefravær
+            </BodyShort>
             <BodyShort size="small">Periode:</BodyShort>
             <BodyShort size="small">
                 {fom} - {tom}
@@ -204,12 +210,14 @@ interface UberegnetPopoverProps extends DatePeriod {
     state: PeriodState;
 }
 
-const UberegnetPopover = ({ fom, tom, state }: UberegnetPopoverProps): ReactElement => {
+export const UberegnetPopover = ({ fom, tom, state }: UberegnetPopoverProps): ReactElement => {
     const stateText = getPeriodStateText(state);
 
     return (
         <>
-            <BodyShort size="small">{stateText}</BodyShort>
+            <BodyShort size="small" className="col-span-2" weight="semibold">
+                {stateText}
+            </BodyShort>
             <BodyShort size="small">Periode:</BodyShort>
             <BodyShort size="small">
                 {fom} - {tom}

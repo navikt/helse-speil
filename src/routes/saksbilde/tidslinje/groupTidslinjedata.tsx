@@ -9,7 +9,7 @@ import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { InfotrygdPeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 
-type TidslinjeElement = {
+export type TidslinjeElement = {
     fom: string;
     tom: string;
     skjæringstidspunkt?: string;
