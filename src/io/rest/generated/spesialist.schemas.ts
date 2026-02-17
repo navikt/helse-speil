@@ -203,6 +203,44 @@ export interface ApiHttpProblemDetailsApiGetOppgaverErrorCode {
     code?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeCode;
 }
 
+export type ApiBehandletOppgaveProjeksjonBeslutter = null | string;
+
+export type ApiBehandletOppgaveProjeksjonSaksbehandler = null | string;
+
+export interface ApiBehandletOppgaveProjeksjon {
+    id: number;
+    personPseudoId: string;
+    ferdigstiltTidspunkt: string;
+    beslutter?: ApiBehandletOppgaveProjeksjonBeslutter;
+    saksbehandler?: ApiBehandletOppgaveProjeksjonSaksbehandler;
+    personnavn: ApiPersonnavn;
+}
+
+export interface ApiBehandletOppgaveProjeksjonSide {
+    totaltAntall: number;
+    sidetall: number;
+    sidestoerrelse: number;
+    elementer: ApiBehandletOppgaveProjeksjon[];
+}
+
+export type ApiGetBehandletOppgaverErrorCode =
+    (typeof ApiGetBehandletOppgaverErrorCode)[keyof typeof ApiGetBehandletOppgaverErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetBehandletOppgaverErrorCode = {} as const;
+
+export type ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeCode = null | ApiGetBehandletOppgaverErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeCode;
+}
+
 export interface ApiOpphevStansRequest {
     fodselsnummer: string;
     begrunnelse: string;
@@ -1389,6 +1427,13 @@ export type GetOppgaverParams = {
     sorteringsrekkefoelge?: ApiSorteringsrekkefølge;
     sidetall?: number;
     sidestoerrelse?: number;
+};
+
+export type GetBehandledeOppgaverParams = {
+    fom: string;
+    tom: string;
+    sidetall: number;
+    sidestoerrelse: number;
 };
 
 export type GetOpptegnelserForPersonParams = {

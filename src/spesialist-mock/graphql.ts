@@ -19,7 +19,6 @@ import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { behandlingsstatistikk } from './data/behandlingsstatistikk';
-import { behandledeOppgaverliste } from './data/oppgaveoversikt';
 import { ManglendeAvviksvurderingError, NotReadyError } from './errors';
 import {
     Arbeidsgiver,
@@ -125,12 +124,6 @@ const getResolvers = (): IResolvers => ({
 
             valgtPerson = person;
             return person;
-        },
-        behandledeOppgaverFeed: async (
-            _,
-            { offset, limit, fom, tom }: { offset: number; limit: number; fom: string; tom: string },
-        ) => {
-            return behandledeOppgaverliste(offset, limit, fom, tom);
         },
         behandlingsstatistikk: async () => {
             return behandlingsstatistikk;

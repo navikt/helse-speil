@@ -1,10 +1,13 @@
 import { randomUUID } from 'crypto';
 import dayjs from 'dayjs';
 
-import { ApiEgenskap, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiBehandletOppgaveProjeksjon,
+    ApiEgenskap,
+    ApiOppgaveProjeksjon,
+} from '@io/rest/generated/spesialist.schemas';
 
 import { antallTilfeldigeBehandledeOppgaver, antallTilfeldigeOppgaver } from '../constants';
-import { AntallArbeidsforhold, BehandletOppgave, Oppgavetype, Periodetype } from '../schemaTypes';
 
 const genererTilfeldigeOppgaver = (antall: number): ApiOppgaveProjeksjon[] => {
     const oppgaver: ApiOppgaveProjeksjon[] = [];
@@ -17,8 +20,8 @@ const genererTilfeldigeOppgaver = (antall: number): ApiOppgaveProjeksjon[] => {
     return oppgaver;
 };
 
-const genererTilfeldigeBehandledeOppgaver = (antall: number) => {
-    const oppgaver: BehandletOppgave[] = [];
+const genererTilfeldigeBehandledeOppgaver = (antall: number): ApiBehandletOppgaveProjeksjon[] => {
+    const oppgaver: ApiBehandletOppgaveProjeksjon[] = [];
     let n = 0;
     let startId = 8000;
     while (n < antall) {
@@ -75,25 +78,30 @@ const tilfeldigOppgave = (oppgaveId: number): ApiOppgaveProjeksjon => {
     } as ApiOppgaveProjeksjon;
 };
 
-const tilfeldigBehandletOppgave = (oppgaveId: number): BehandletOppgave =>
-    ({
-        id: oppgaveId.toString(),
-        aktorId: Math.floor(1000000000000 + Math.random() * 9000000000000).toString(),
-        oppgavetype: Math.random() > 0.2 ? Oppgavetype.Soknad : Oppgavetype.Revurdering,
-        periodetype: tilfeldigElementFra(Object.values(Periodetype)),
-        antallArbeidsforhold: tilfeldigElementFra(Object.values(AntallArbeidsforhold)),
-        ferdigstiltAv: Math.random() > 0.2 ? 'Utvikler, Lokal' : 'Saksbehandler, Annen',
+const tilfeldigBehandletOppgave = (oppgaveId: number): ApiBehandletOppgaveProjeksjon => {
+    const saksbehandler = Math.random() > 0.2 ? 'Utvikler, Lokal' : 'Saksbehandler, Annen';
+    return {
+        id: oppgaveId,
+        personPseudoId: '',
         ferdigstiltTidspunkt: dayjs()
             .subtract(Math.random() * 3, 'day')
             .set('hour', 6 + Math.random() * 9)
             .set('minute', Math.random() * 59)
             .toISOString(),
+        beslutter:
+            saksbehandler === 'Saksbehandler, Annen'
+                ? 'Utvikler, Lokal'
+                : Math.random() > 0.2
+                  ? 'Saksbehandler, Annen'
+                  : null,
+        saksbehandler: saksbehandler,
         personnavn: {
             fornavn: tilfeldigFornavn(),
             mellomnavn: tilfeldigMellomnavn(),
             etternavn: tilfeldigEtternavn(),
         },
-    }) as BehandletOppgave;
+    } as ApiBehandletOppgaveProjeksjon;
+};
 
 const tilfeldigeUkategoriserteEgenskaper = (): ApiEgenskap[] => {
     const egenskaper: ApiEgenskap[] = [];

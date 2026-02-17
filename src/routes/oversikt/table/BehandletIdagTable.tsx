@@ -21,7 +21,7 @@ import { SøkerCell } from './cells/SøkerCell';
 import styles from './table.module.css';
 
 export const BehandletIdagTable = (): ReactElement => {
-    const { oppgaver, antallOppgaver, error, loading, fetchMore, refetch } = useBehandledeOppgaverFeed();
+    const { oppgaver, antallOppgaver, loading, error, refetch } = useBehandledeOppgaverFeed();
     const [_, setCurrentPage] = useCurrentPageState();
 
     const harIkkeHentetOppgaverForGjeldendeQuery = oppgaver === undefined && loading;
@@ -100,10 +100,7 @@ export const BehandletIdagTable = (): ReactElement => {
                         </Table>
                     </div>
                 </div>
-                <Pagination
-                    antallOppgaver={antallOppgaver}
-                    fetchMore={(offset: number) => void fetchMore({ variables: { offset } })}
-                />
+                <Pagination antallOppgaver={antallOppgaver} />
             </VStack>
         </VStack>
     );

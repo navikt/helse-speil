@@ -94,7 +94,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
                     )}
                 </div>
             </div>
-            <Pagination antallOppgaver={antallOppgaver} fetchMore={() => {}} />
+            <Pagination antallOppgaver={antallOppgaver} />
         </VStack>
     );
 };
