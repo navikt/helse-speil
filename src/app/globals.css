@@ -71,184 +71,93 @@ body {
 
 /* Tidslinjeperiode styling */
 [data-period-variant='ventende'] {
-    --ax-bg-soft: var(--ax-bg-accent-soft);
-    --ax-bg-softA: var(--ax-bg-accent-softA);
     --ax-bg-moderate: var(--ax-bg-accent-moderate);
-    --ax-bg-moderateA: var(--ax-bg-accent-moderateA);
     --ax-bg-moderate-hover: var(--ax-bg-accent-moderate-hover);
-    --ax-bg-moderate-hoverA: var(--ax-bg-accent-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-accent-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-accent-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-accent-strong);
-    --ax-bg-strong-hover: var(--ax-bg-accent-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-accent-strong-pressed);
     --ax-text-default: var(--ax-text-accent);
-    --ax-text-subtle: var(--ax-text-accent-subtle);
     --ax-text-decoration: var(--ax-text-accent-decoration);
-    --ax-text-contrast: var(--ax-text-accent-contrast);
     --ax-border-default: var(--ax-border-accent);
-    --ax-border-subtle: var(--ax-border-accent-subtle);
-    --ax-border-subtleA: var(--ax-border-accent-subtleA);
     --ax-border-strong: var(--ax-border-accent-strong);
 }
 
 [data-period-variant='behandles'] {
-    --ax-bg-soft: var(--ax-bg-brand-beige-soft);
-    --ax-bg-softA: var(--ax-bg-brand-beige-softA);
     --ax-bg-moderate: var(--ax-bg-brand-beige-moderate);
-    --ax-bg-moderateA: var(--ax-bg-brand-beige-moderateA);
     --ax-bg-moderate-hover: var(--ax-bg-brand-beige-moderate-hover);
-    --ax-bg-moderate-hoverA: var(--ax-bg-brand-beige-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-brand-beige-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-brand-beige-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-brand-beige-strong);
-    --ax-bg-strong-hover: var(--ax-bg-brand-beige-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-brand-beige-strong-pressed);
     --ax-text-default: var(--ax-text-brand-beige);
-    --ax-text-subtle: var(--ax-text-brand-beige-subtle);
     --ax-text-decoration: var(--ax-text-brand-beige-decoration);
-    --ax-text-contrast: var(--ax-text-brand-beige-contrast);
     --ax-border-default: var(--ax-border-brand-beige);
-    --ax-border-subtle: var(--ax-border-brand-beige-subtle);
-    --ax-border-subtleA: var(--ax-border-brand-beige-subtleA);
     --ax-border-strong: var(--ax-border-brand-beige-strong);
 }
 
 [data-period-variant='godkjent'] {
-    --ax-bg-soft: var(--ax-bg-success-soft);
-    --ax-bg-softA: var(--ax-bg-success-softA);
     --ax-bg-moderate: var(--ax-bg-success-moderate);
-    --ax-bg-moderateA: var(--ax-bg-success-moderateA);
     --ax-bg-moderate-hover: var(--ax-bg-success-moderate-hover);
-    --ax-bg-moderate-hoverA: var(--ax-bg-success-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-success-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-success-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-success-strong);
-    --ax-bg-strong-hover: var(--ax-bg-success-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-success-strong-pressed);
     --ax-text-default: var(--ax-text-success);
-    --ax-text-subtle: var(--ax-text-success-subtle);
     --ax-text-decoration: var(--ax-text-success-decoration);
-    --ax-text-contrast: var(--ax-text-success-contrast);
     --ax-border-default: var(--ax-border-success);
-    --ax-border-subtle: var(--ax-border-success-subtle);
-    --ax-border-subtleA: var(--ax-border-success-subtleA);
     --ax-border-strong: var(--ax-border-success-strong);
+    --period-icon-border: var(--ax-text-success-decoration);
+    --period-icon-bg: var(--ax-text-success-decoration);
+    --period-icon-fill: var(--ax-text-neutral-contrast);
 }
 
 [data-period-variant='historisk'] {
-    --ax-bg-soft: var(--ax-bg-meta-lime-soft);
-    --ax-bg-softA: var(--ax-bg-meta-lime-softA);
     --ax-bg-moderate: var(--ax-bg-meta-lime-moderate);
-    --ax-bg-moderateA: var(--ax-bg-meta-lime-moderateA);
     --ax-bg-moderate-hover: var(--ax-bg-meta-lime-moderate-hover);
-    --ax-bg-moderate-hoverA: var(--ax-bg-meta-lime-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-meta-lime-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-meta-lime-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-meta-lime-strong);
-    --ax-bg-strong-hover: var(--ax-bg-meta-lime-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-meta-lime-strong-pressed);
     --ax-text-default: var(--ax-text-meta-lime);
-    --ax-text-subtle: var(--ax-text-meta-lime-subtle);
     --ax-text-decoration: var(--ax-text-meta-lime-decoration);
-    --ax-text-contrast: var(--ax-text-meta-lime-contrast);
     --ax-border-default: var(--ax-border-meta-lime);
-    --ax-border-subtle: var(--ax-border-meta-lime-subtle);
-    --ax-border-subtleA: var(--ax-border-meta-lime-subtleA);
     --ax-border-strong: var(--ax-border-meta-lime-strong);
+    --period-icon-border: var(--ax-text-meta-lime-decoration);
+    --period-icon-bg: var(--ax-text-meta-lime-decoration);
+    --period-icon-fill: var(--ax-text-neutral-contrast);
 }
 
 [data-period-variant='ghost'] {
-    --ax-bg-soft: var(--ax-bg-default);
-    --ax-bg-softA: var(--ax-bg-default);
     --ax-bg-moderate: var(--ax-bg-default);
-    --ax-bg-moderateA: var(--ax-bg-default);
     --ax-bg-moderate-hover: var(--ax-bg-neutral-soft);
-    --ax-bg-moderate-hoverA: var(--ax-bg-neutral-soft);
-    --ax-bg-moderate-pressed: var(--ax-bg-neutral-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-neutral-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-default);
-    --ax-bg-strong-hover: var(--ax-bg-neutral-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-neutral-strong-pressed);
     --ax-text-default: var(--ax-text-neutral);
-    --ax-text-subtle: var(--ax-text-neutral-subtle);
     --ax-text-decoration: var(--ax-text-neutral-decoration);
-    --ax-text-contrast: var(--ax-text-neutral-contrast);
     --ax-border-default: var(--ax-border-neutral);
-    --ax-border-subtle: var(--ax-border-neutral-subtle);
-    --ax-border-subtleA: var(--ax-border-neutral-subtleA);
     --ax-border-strong: var(--ax-border-neutral-strong);
+    --period-icon-border: var(--ax-border-neutral);
+    --period-icon-bg: var(--ax-bg-default);
+    --period-icon-fill: var(--ax-border-neutral);
 }
 
 [data-period-variant='tilkommen_inntekt'] {
-    --ax-bg-soft: var(--ax-bg-meta-purple-soft);
-    --ax-bg-softA: var(--ax-bg-meta-purple-softA);
     --ax-bg-moderate: var(--ax-bg-meta-purple-moderate);
-    --ax-bg-moderateA: var(--ax-bg-meta-purple-moderateA);
     --ax-bg-moderate-hover: var(--ax-bg-meta-purple-moderate-hover);
-    --ax-bg-moderate-hoverA: var(--ax-bg-meta-purple-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-meta-purple-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-meta-purple-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-meta-purple-strong);
-    --ax-bg-strong-hover: var(--ax-bg-meta-purple-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-meta-purple-strong-pressed);
     --ax-text-default: var(--ax-text-meta-purple);
-    --ax-text-subtle: var(--ax-text-meta-purple-subtle);
     --ax-text-decoration: var(--ax-text-meta-purple-decoration);
-    --ax-text-contrast: var(--ax-text-meta-purple-contrast);
     --ax-border-default: var(--ax-border-meta-purple);
-    --ax-border-subtle: var(--ax-border-meta-purple-subtle);
-    --ax-border-subtleA: var(--ax-border-meta-purple-subtleA);
     --ax-border-strong: var(--ax-border-meta-purple-strong);
+    --period-icon-border: var(--ax-text-meta-purple-decoration);
+    --period-icon-bg: var(--ax-text-meta-purple-decoration);
+    --period-icon-fill: var(--ax-text-neutral-contrast);
 }
 
 [data-period-variant='ingen_utbetaling'] {
-    --ax-bg-soft: var(--ax-bg-neutral-soft);
-    --ax-bg-softA: var(--ax-bg-neutral-softA);
     --ax-bg-moderate: var(--ax-bg-neutral-moderate);
-    --ax-bg-moderateA: var(--ax-bg-neutral-moderateA);
     --ax-bg-moderate-hover: var(--ax-bg-neutral-moderate-hover);
-    --ax-bg-moderate-hoverA: var(--ax-bg-neutral-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-neutral-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-neutral-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-neutral-strong);
-    --ax-bg-strong-hover: var(--ax-bg-neutral-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-neutral-strong-pressed);
     --ax-text-default: var(--ax-text-neutral);
-    --ax-text-subtle: var(--ax-text-neutral-subtle);
     --ax-text-decoration: var(--ax-text-neutral-decoration);
-    --ax-text-contrast: var(--ax-text-neutral-contrast);
-    --ax-border-default: var(--ax-border-neutral);
-    --ax-border-subtle: var(--ax-border-neutral-subtle);
-    --ax-border-subtleA: var(--ax-border-neutral-subtleA);
+    --ax-border-default: var(--ax-border-focus);
     --ax-border-strong: var(--ax-border-neutral-strong);
+    --period-icon-border: var(--ax-text-neutral-decoration);
+    --period-icon-bg: var(--ax-text-neutral-decoration);
+    --period-icon-fill: var(--ax-text-neutral-contrast);
 }
 
 [data-period-variant='forkastet'] {
-    --ax-bg-soft: var(--ax-bg-danger-soft);
-    --ax-bg-softA: var(--ax-bg-danger-softA);
     --ax-bg-moderate: var(--ax-bg-danger-moderate);
-    --ax-bg-moderateA: var(--ax-bg-danger-moderateA);
     --ax-bg-moderate-hover: var(--ax-bg-danger-moderate-hover);
-    --ax-bg-moderate-hoverA: var(--ax-bg-danger-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-danger-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-danger-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-danger-strong);
-    --ax-bg-strong-hover: var(--ax-bg-danger-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-danger-strong-pressed);
     --ax-text-default: var(--ax-text-danger);
-    --ax-text-subtle: var(--ax-text-danger-subtle);
-    --ax-text-decoration: var(--ax-text-default);
-    --ax-text-contrast: var(--ax-text-danger-contrast);
+    --ax-text-decoration: var(--ax-text-danger-decoration);
     --ax-border-default: var(--ax-border-danger);
-    --ax-border-subtle: var(--ax-border-danger-subtle);
-    --ax-border-subtleA: var(--ax-border-danger-subtleA);
     --ax-border-strong: var(--ax-border-danger-strong);
 }
 
 [data-period-variant='infotrygd'] {
-    --ax-bg-soft: var(--ax-bg-meta-purple-soft);
-    --ax-bg-softA: var(--ax-bg-meta-purple-softA);
     --ax-bg-moderate: repeating-linear-gradient(
         132deg,
         var(--ax-bg-default),
@@ -256,7 +165,6 @@ body {
         var(--ax-bg-neutral-moderate) 6px,
         var(--ax-bg-neutral-moderate) 7.5px
     );
-    --ax-bg-moderateA: var(--ax-bg-meta-purple-moderateA);
     --ax-bg-moderate-hover: repeating-linear-gradient(
         132deg,
         var(--ax-bg-neutral-soft),
@@ -264,18 +172,11 @@ body {
         var(--ax-bg-neutral-moderate) 6px,
         var(--ax-bg-neutral-moderate) 7.5px
     );
-    --ax-bg-moderate-hoverA: var(--ax-bg-meta-purple-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-meta-purple-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-meta-purple-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-meta-purple-strong);
-    --ax-bg-strong-hover: var(--ax-bg-meta-purple-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-meta-purple-strong-pressed);
     --ax-text-default: var(--ax-text-default);
-    --ax-text-subtle: var(--ax-text-meta-purple-subtle);
-    --ax-text-decoration: var(--ax-text-default);
-    --ax-text-contrast: var(--ax-text-meta-purple-contrast);
-    --ax-border-default: var(--ax-border-focus);
-    --ax-border-subtle: var(--ax-border-focus);
-    --ax-border-subtleA: var(--ax-border-meta-purple-subtleA);
-    --ax-border-strong: var(--ax-border-focus);
+    --ax-text-decoration: var(--ax-text-neutral-decoration);
+    --ax-border-default: var(--ax-border-neutral);
+    --ax-border-strong: var(--ax-border-neutral-strong);
+    --period-icon-border: var(--ax-border-neutral);
+    --period-icon-bg: var(--ax-bg-default);
+    --period-icon-fill: var(--ax-border-neutral);
 }
