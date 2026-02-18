@@ -6,6 +6,7 @@ import { ComponentWithType } from '@saksbilde/tidslinje/timeline';
 import { useTimelineContext } from '@saksbilde/tidslinje/timeline/context';
 import { TimelinePeriod } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { useExpandedRows, useRowContext } from '@saksbilde/tidslinje/timeline/row/context';
+import { cn } from '@utils/tw';
 
 import { PeriodContext } from '../period/context';
 
@@ -19,9 +20,16 @@ export const TimelineRow: ComponentWithType<TimelineRowProps> = (): ReactElement
     const { width } = useTimelineContext();
     const expandedRows = useExpandedRows();
     const { periods, generasjonPeriodsByLevel, rowIndex } = useRowContext();
+    const rowActive =
+        periods.some((p) => p.isActive) ||
+        Array.from(generasjonPeriodsByLevel.values()).some((levelPeriods) => levelPeriods.some((p) => p.isActive));
 
     return (
-        <VStack className="my-4 bg-ax-bg-neutral-soft" gap="space-8" style={{ width }}>
+        <VStack
+            className={cn('my-4 bg-ax-bg-neutral-softA', { 'bg-ax-bg-accent-moderate': rowActive })}
+            gap="space-8"
+            style={{ width }}
+        >
             <HStack className="relative h-[24px]">
                 {periods.map((period) => (
                     <PeriodContext.Provider key={period.id} value={{ periodId: period.id }}>
