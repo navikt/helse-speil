@@ -24,11 +24,12 @@ export const BeregnetPeriodeView = ({ period, person }: BeregnetPeriodeViewProps
     return (
         <Box overflowX="auto">
             {tab === 'dagoversikt' && <Utbetaling person={person} periode={period} />}
-            {decodeURI(tab ?? '') === 'inngangsvilkår' && visNyInngangsvilkår ? (
-                <InngangsvilkårNy periode={period} />
-            ) : (
-                <Inngangsvilkår person={person} periode={period} />
-            )}
+            {decodeURI(tab ?? '') === 'inngangsvilkår' &&
+                (visNyInngangsvilkår ? (
+                    <InngangsvilkårNy periode={period} />
+                ) : (
+                    <Inngangsvilkår person={person} periode={period} />
+                ))}
             {tab === 'sykepengegrunnlag' && <Sykepengegrunnlag person={person} periode={period} />}
             {tab === 'vurderingsmomenter' && <Vurderingsmomenter periode={period} />}
         </Box>
