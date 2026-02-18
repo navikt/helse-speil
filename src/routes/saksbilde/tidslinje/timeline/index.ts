@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import React, { PropsWithChildren, ReactElement, ReactNode } from 'react';
 
-import { TimelinePeriodProps, TimelineVariant } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
+import { PeriodPins, TimelinePeriodProps, TimelineVariant } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { TimelinePinProps } from '@saksbilde/tidslinje/timeline/pin/TimelinePin';
 import { TimelineRowProps } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
 
@@ -22,6 +22,7 @@ type Period = {
     cropLeft: boolean;
     cropRight: boolean;
     generasjonIndex: number;
+    periodPins?: PeriodPins[];
 };
 
 export type RowLabels = {
@@ -136,6 +137,7 @@ export function parseRows(rows: ReactElement<TimelineRowProps>[]): ParsedRow[] {
                 cropLeft,
                 cropRight,
                 generasjonIndex,
+                periodPins: period.props.periodPins,
             };
 
             if (isGenerasjon) {

@@ -5,7 +5,7 @@ import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-export const useUvurderteVarslerPåPeriode = (periode: BeregnetPeriodeFragment | DatePeriod): boolean => {
+export const harUvurderteVarslerPåPeriode = (periode: BeregnetPeriodeFragment | DatePeriod): boolean => {
     if (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) {
         return false;
     }
@@ -18,7 +18,7 @@ export const useUvurderteVarslerPåPeriode = (periode: BeregnetPeriodeFragment |
         );
 };
 
-export const useHarUvurderteVarslerPåEllerFør = (
+export const harUvurderteVarslerPåEllerFør = (
     activePeriod: BeregnetPeriodeFragment,
     inntektsforhold: Inntektsforhold[],
 ): boolean => {

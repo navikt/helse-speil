@@ -8,7 +8,7 @@ import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
+import { harUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
@@ -50,7 +50,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     const ventEllerHopp = useOnGodkjenn(period, person);
     const router = useRouter();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
-    const harUvurderteVarslerPåUtbetaling = useHarUvurderteVarslerPåEllerFør(period, finnAlleInntektsforhold(person));
+    const harUvurderteVarslerPåUtbetaling = harUvurderteVarslerPåEllerFør(period, finnAlleInntektsforhold(person));
     const calculating = useCalculatingValue();
 
     const onGodkjennUtbetaling = () => {

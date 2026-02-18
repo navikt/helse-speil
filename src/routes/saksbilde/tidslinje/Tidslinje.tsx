@@ -7,11 +7,7 @@ import { BodyShort, HGrid } from '@navikt/ds-react';
 import { Infotrygdutbetaling, PersonFragment } from '@io/graphql';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TilkommenInntektKnapp } from '@saksbilde/tidslinje/TilkommenInntektKnapp';
-import {
-    TidslinjeElement,
-    groupTidslinjeData,
-    useTilkomneInntekterRader,
-} from '@saksbilde/tidslinje/groupTidslinjedata';
+import { TidslinjeElement, useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { Timeline } from '@saksbilde/tidslinje/timeline/Timeline';
 import { TimelinePeriod, TimelineVariant } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { MaksdatoPin } from '@saksbilde/tidslinje/timeline/pin/pins/MaksdatoPin';
@@ -54,8 +50,11 @@ export function Tidslinje({
     const activeTilkommenInntektId = useTilkommenInntektIdFraUrl();
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
 
-    const { arbeidsgiverRader, infotrygdRad } = groupTidslinjeData(inntektsforhold, infotrygdPeriods);
-    const { tilkommenRader } = useTilkomneInntekterRader(tilkomneInntekter ?? []);
+    const { arbeidsgiverRader, infotrygdRad, tilkommenRader } = useTidslinjeRader(
+        inntektsforhold,
+        infotrygdPeriods,
+        tilkomneInntekter ?? [],
+    );
 
     const maksdato = useMaksdato(inntektsforhold);
 
@@ -92,6 +91,7 @@ export function Tidslinje({
                                     icon={statusTilIkon[element.status]}
                                     variant={statusTilVariant[element.status]}
                                     generasjonIndex={element.generasjonIndex}
+                                    periodPins={element.periodPins}
                                 >
                                     <Popover
                                         element={element}
@@ -111,9 +111,9 @@ export function Tidslinje({
                                 startDate={dayjs(element.fom)}
                                 endDate={dayjs(element.tom)}
                                 onSelectPeriod={() => {
-                                    navigerTilTilkommenInntekt(element.tilkommenInntekt.tilkommenInntektId);
+                                    navigerTilTilkommenInntekt(element.tilkommenInntekt!.tilkommenInntektId);
                                 }}
-                                activePeriod={activeTilkommenInntektId === element.tilkommenInntekt.tilkommenInntektId}
+                                activePeriod={activeTilkommenInntektId === element.tilkommenInntekt!.tilkommenInntektId}
                                 icon={statusTilIkon[element.status]}
                                 variant="tilkommen_inntekt"
                             >

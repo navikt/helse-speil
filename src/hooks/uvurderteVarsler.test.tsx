@@ -1,4 +1,4 @@
-import { useHarUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
+import { harUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
     ArbeidsgiverFragment,
     BeregnetPeriodeFragment,
@@ -14,7 +14,6 @@ import {
     VarselDto,
     Varselstatus,
 } from '@io/graphql';
-import { renderHook } from '@testing-library/react';
 
 const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto): BeregnetPeriodeFragment => {
     return {
@@ -126,7 +125,7 @@ const getBehandlinger = (periods: BeregnetPeriodeFragment[]) => {
     ];
 };
 
-describe('useUvurderteVarslerpåEllerFør', () => {
+describe('harUvurderteVarslerPåEllerFør', () => {
     it('Arbeidsgiver uten behandlinger filtreres vekk før sjekk av uvurderte varsler', () => {
         const period: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
         const arbeidsgivere: ArbeidsgiverFragment[] = [
@@ -141,11 +140,9 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             ),
         ];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere), {
-            initialProps: '',
-        });
+        const result = harUvurderteVarslerPåEllerFør(period, arbeidsgivere);
 
-        expect(result.current).toEqual(false);
+        expect(result).toEqual(false);
     });
     it('Kan godkjenne varsler dersom det ikke finnes uvurderte varsler', () => {
         const period: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
@@ -161,9 +158,9 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             ),
         ];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere));
+        const result = harUvurderteVarslerPåEllerFør(period, arbeidsgivere);
 
-        expect(result.current).toEqual(false);
+        expect(result).toEqual(false);
     });
     it('Kan ikke godkjenne periode dersom det finnes varsel som ikke er vurdert', () => {
         const period: BeregnetPeriodeFragment = getFetchedBeregnetPeriode(
@@ -173,9 +170,9 @@ describe('useUvurderteVarslerpåEllerFør', () => {
         );
         const arbeidsgivere: ArbeidsgiverFragment[] = [getArbeidsgiver('et orgnr', getBehandlinger([period]))];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere));
+        const result = harUvurderteVarslerPåEllerFør(period, arbeidsgivere);
 
-        expect(result.current).toEqual(true);
+        expect(result).toEqual(true);
     });
     it('Kan ikke godkjenne periode dersom det finnes varsel på tidligere periode som ikke er vurdert', () => {
         const period: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
@@ -189,9 +186,9 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             ),
         ];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(period, arbeidsgivere));
+        const result = harUvurderteVarslerPåEllerFør(period, arbeidsgivere);
 
-        expect(result.current).toEqual(true);
+        expect(result).toEqual(true);
     });
     it('Kan godkjenne periode dersom det kun finnes uvurderte varsler på perioder som ligger senere i tid', () => {
         const activePeriod: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
@@ -205,9 +202,9 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             ),
         ];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere));
+        const result = harUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere);
 
-        expect(result.current).toEqual(false);
+        expect(result).toEqual(false);
     });
     it('Kan ikke godkjenne periode dersom det finnes uvurderte varsler på perioder på andre arbeidsgivere som ligger før eller samtidig i tid', () => {
         const activePeriod: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
@@ -219,9 +216,9 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             ),
         ];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere));
+        const result = harUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere);
 
-        expect(result.current).toEqual(true);
+        expect(result).toEqual(true);
     });
     it('Kan ikke godkjenne periode dersom det finnes varsel på tidligere perioder på andre arbeidsgivere som som ikke er vurdert', () => {
         const activePeriod: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
@@ -233,9 +230,9 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             ),
         ];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere));
+        const result = harUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere);
 
-        expect(result.current).toEqual(true);
+        expect(result).toEqual(true);
     });
     it('Kan godkjenne periode dersom det finnes uvurderte varsler på perioder på andre arbeidsgivere som ligger senere i tid', () => {
         const activePeriod: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
@@ -247,8 +244,8 @@ describe('useUvurderteVarslerpåEllerFør', () => {
             ),
         ];
 
-        const { result } = renderHook(() => useHarUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere));
+        const result = harUvurderteVarslerPåEllerFør(activePeriod, arbeidsgivere);
 
-        expect(result.current).toEqual(false);
+        expect(result).toEqual(false);
     });
 });

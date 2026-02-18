@@ -1,7 +1,7 @@
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement, ReactNode, useRef } from 'react';
 
-import { useUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
+import { harUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { PersonFragment } from '@io/graphql';
 import { useSetActivePeriodId } from '@state/periode';
 import { PeriodState } from '@typer/shared';
@@ -140,7 +140,7 @@ export const Period = ({
     const setActivePeriodId = useSetActivePeriodId(person);
     const button = useRef<HTMLButtonElement>(null);
     const iconIsVisible = useIsWiderThan(button, 32);
-    const harUvurderteVarsler = useUvurderteVarslerPåPeriode(period);
+    const harUvurderteVarsler = harUvurderteVarslerPåPeriode(period);
     const pathname = usePathname();
     const router = useRouter();
 

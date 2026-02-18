@@ -6,6 +6,7 @@ import { PopoverContent } from '@navikt/ds-react/Popover';
 
 import { ComponentWithType, getNumberOfDays } from '@saksbilde/tidslinje/timeline';
 import { useTimelineContext } from '@saksbilde/tidslinje/timeline/context';
+import { PeriodPins as Pins } from '@saksbilde/tidslinje/timeline/period/PeriodPins';
 import { usePeriodContext } from '@saksbilde/tidslinje/timeline/period/context';
 import { usePopoverAnchor } from '@saksbilde/tidslinje/timeline/period/usePopoverAnchor';
 import { useRowContext } from '@saksbilde/tidslinje/timeline/row/context';
@@ -22,6 +23,8 @@ export type TimelineVariant =
     | 'infotrygd'
     | 'forkastet';
 
+export type PeriodPins = 'warning' | 'info' | 'notat';
+
 export interface TimelinePeriodProps extends PropsWithChildren {
     startDate: Dayjs;
     endDate: Dayjs;
@@ -31,6 +34,7 @@ export interface TimelinePeriodProps extends PropsWithChildren {
     icon?: ReactElement;
     variant: TimelineVariant;
     generasjonIndex?: number;
+    periodPins?: PeriodPins[];
 }
 
 export const TimelinePeriod: ComponentWithType<TimelinePeriodProps> = (): ReactElement => {
@@ -45,7 +49,8 @@ export const TimelinePeriod: ComponentWithType<TimelinePeriodProps> = (): ReactE
 
     if (!period) return <></>;
 
-    const { startDate, endDate, cropLeft, cropRight, isActive, onSelectPeriod, icon, variant, children } = period;
+    const { startDate, endDate, cropLeft, cropRight, isActive, onSelectPeriod, icon, variant, children, periodPins } =
+        period;
 
     // TODO ordne bredde og plassering et annet sted
     const width = getNumberOfDays(startDate, endDate) * dayLength;
@@ -71,6 +76,7 @@ export const TimelinePeriod: ComponentWithType<TimelinePeriodProps> = (): ReactE
                 onMouseOut={onMouseOut}
                 onClick={() => onSelectPeriod?.()}
             >
+                {periodPins && <Pins pins={periodPins} />}
                 {showIcon && <span className={cn('aksel-timeline__period--inner')}>{icon}</span>}
             </button>
             <Popover strategy="fixed" anchorEl={anchorEl} open={open} onClose={onClose}>
