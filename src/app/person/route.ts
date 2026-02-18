@@ -19,7 +19,7 @@ export async function POST(request: NextRequest) {
     } else {
         const wonderwallToken = hentWonderwallToken(request);
         if (!wonderwallToken) {
-            return new Response(null, { status: 401 });
+            return IkkeAutentisert;
         }
 
         const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
@@ -49,14 +49,23 @@ export async function POST(request: NextRequest) {
         ).personPseudoId;
     }
 
-    if (personPseudoId != null) {
-        return new Response(null, {
-            status: 302,
-            headers: { Location: `/person/${personPseudoId}/dagoversikt` },
-        });
-    } else {
-        return new Response(null, {
-            status: 404,
-        });
-    }
+    return personPseudoId != null ? Suksess(personPseudoId) : IkkeFunnet;
 }
+
+const Suksess = (personPseudoId: string) =>
+    new Response(null, {
+        status: 302,
+        headers: { Location: `/person/${personPseudoId}/dagoversikt` },
+    });
+
+const IkkeAutentisert = new Response(
+    "<html lang='no'><body>Du er ikke autentisert. <a href='/'>Gå til forsiden</a></body></html>",
+    {
+        status: 401,
+        headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    },
+);
+
+const IkkeFunnet = new Response(null, {
+    status: 404,
+});
