@@ -93,25 +93,25 @@ body {
 }
 
 [data-period-variant='behandles'] {
-    --ax-bg-soft: var(--ax-bg-warning-soft);
-    --ax-bg-softA: var(--ax-bg-warning-softA);
-    --ax-bg-moderate: var(--ax-bg-warning-moderate);
-    --ax-bg-moderateA: var(--ax-bg-warning-moderateA);
-    --ax-bg-moderate-hover: var(--ax-bg-warning-moderate-hover);
-    --ax-bg-moderate-hoverA: var(--ax-bg-warning-moderate-hoverA);
-    --ax-bg-moderate-pressed: var(--ax-bg-warning-moderate-pressed);
-    --ax-bg-moderate-pressedA: var(--ax-bg-warning-moderate-pressedA);
-    --ax-bg-strong: var(--ax-bg-warning-strong);
-    --ax-bg-strong-hover: var(--ax-bg-warning-strong-hover);
-    --ax-bg-strong-pressed: var(--ax-bg-warning-strong-pressed);
-    --ax-text-default: var(--ax-text-warning);
-    --ax-text-subtle: var(--ax-text-warning-subtle);
-    --ax-text-decoration: var(--ax-text-warning-decoration);
-    --ax-text-contrast: var(--ax-text-warning-contrast);
-    --ax-border-default: var(--ax-border-warning);
-    --ax-border-subtle: var(--ax-border-warning-subtle);
-    --ax-border-subtleA: var(--ax-border-warning-subtleA);
-    --ax-border-strong: var(--ax-border-warning-strong);
+    --ax-bg-soft: var(--ax-bg-brand-beige-soft);
+    --ax-bg-softA: var(--ax-bg-brand-beige-softA);
+    --ax-bg-moderate: var(--ax-bg-brand-beige-moderate);
+    --ax-bg-moderateA: var(--ax-bg-brand-beige-moderateA);
+    --ax-bg-moderate-hover: var(--ax-bg-brand-beige-moderate-hover);
+    --ax-bg-moderate-hoverA: var(--ax-bg-brand-beige-moderate-hoverA);
+    --ax-bg-moderate-pressed: var(--ax-bg-brand-beige-moderate-pressed);
+    --ax-bg-moderate-pressedA: var(--ax-bg-brand-beige-moderate-pressedA);
+    --ax-bg-strong: var(--ax-bg-brand-beige-strong);
+    --ax-bg-strong-hover: var(--ax-bg-brand-beige-strong-hover);
+    --ax-bg-strong-pressed: var(--ax-bg-brand-beige-strong-pressed);
+    --ax-text-default: var(--ax-text-brand-beige);
+    --ax-text-subtle: var(--ax-text-brand-beige-subtle);
+    --ax-text-decoration: var(--ax-text-brand-beige-decoration);
+    --ax-text-contrast: var(--ax-text-brand-beige-contrast);
+    --ax-border-default: var(--ax-border-brand-beige);
+    --ax-border-subtle: var(--ax-border-brand-beige-subtle);
+    --ax-border-subtleA: var(--ax-border-brand-beige-subtleA);
+    --ax-border-strong: var(--ax-border-brand-beige-strong);
 }
 
 [data-period-variant='godkjent'] {
