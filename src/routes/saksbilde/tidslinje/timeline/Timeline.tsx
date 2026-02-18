@@ -41,9 +41,9 @@ export function Timeline({ children }: PropsWithChildren): ReactElement {
                 <ToggleRowContext.Provider value={toggleRowExpanded}>
                     <VStack
                         gap="space-16"
-                        className="ignore-axe w-full border-b border-ax-border-neutral-subtle p-8 pb-4"
+                        className="ignore-axe w-full border-b border-ax-border-neutral-subtle px-6 pt-8 pb-4"
                     >
-                        <HStack gap="space-12" wrap={false}>
+                        <HStack gap="space-16" wrap={false}>
                             <TimelineRowLabels labels={rowLabels} />
                             <TimelineScrollableRows ref={timelineScrollableContainerRef}>
                                 {pins}

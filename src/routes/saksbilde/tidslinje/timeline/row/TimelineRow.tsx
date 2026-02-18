@@ -26,7 +26,7 @@ export const TimelineRow: ComponentWithType<TimelineRowProps> = (): ReactElement
 
     return (
         <VStack
-            className={cn('my-4 bg-ax-bg-neutral-softA', { 'bg-ax-bg-accent-moderate': rowActive })}
+            className={cn('my-3 bg-ax-bg-neutral-softA', { 'bg-ax-bg-accent-moderate': rowActive })}
             gap="space-8"
             style={{ width }}
         >

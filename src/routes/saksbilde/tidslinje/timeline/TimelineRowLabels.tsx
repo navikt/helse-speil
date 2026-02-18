@@ -18,7 +18,7 @@ export function TimelineRowLabels({ labels }: TimelineRowLabelsProps): ReactElem
 
     return (
         <VStack className="-ml-2 w-[254px] min-w-[254px]">
-            <div className="h-[20px]" />
+            <div className="h-[24px]" />
             {labels.map((label) => {
                 const isExpandable = label.generationLevels > 0;
                 const isExpanded = expandedRows.has(label.rowIndex);
@@ -30,7 +30,7 @@ export function TimelineRowLabels({ labels }: TimelineRowLabelsProps): ReactElem
                         gap="space-4"
                         wrap={false}
                         align="start"
-                        className="my-4"
+                        className="my-3"
                         style={{ height: `${24 + expandedExtraHeight}px` }}
                     >
                         <HStack
