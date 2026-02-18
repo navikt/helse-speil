@@ -19,7 +19,7 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { initInstrumentation } from '@observability/faro';
 import { hydrateFilters } from '@oversikt/table/state/filter';
 import { useFetchPersonQuery } from '@state/person';
-import { hydrateTotrinnsvurderingState } from '@state/toggles';
+import { hydrateToggleState } from '@state/toggles';
 import { useSetVarsler } from '@state/varsler';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@utils/dayjs.setup';
@@ -56,7 +56,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
 };
 
 function getAtomValues() {
-    return typeof window !== 'undefined' ? [hydrateTotrinnsvurderingState(), hydrateFilters()] : [];
+    return typeof window !== 'undefined' ? [hydrateToggleState(), hydrateFilters()] : [];
 }
 
 function AtomsHydrator({

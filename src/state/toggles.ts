@@ -1,52 +1,44 @@
-import { useAtom } from 'jotai';
 import type { WritableAtom } from 'jotai';
+import { useAtom, useAtomValue } from 'jotai';
 import type { SetStateAction } from 'react';
 
 import { erUtvikling } from '@/env';
 import { atomWithSessionStorage } from '@state/jotai';
 
-// Totrinnsvurdering
-export type TotrinnsvurderingState = {
+export type ToggleState = {
     kanBeslutteEgne: boolean;
+    nyInngangsvilkår: boolean;
 };
 
-const defaultTotrinnsvurderingState: TotrinnsvurderingState = {
+const defaultToggleState: ToggleState = {
     kanBeslutteEgne: false,
+    nyInngangsvilkår: false,
 };
 
-const totrinnsvurderingState = atomWithSessionStorage<TotrinnsvurderingState>(
-    'totrinnsvurderingState',
-    defaultTotrinnsvurderingState,
-);
+const toggleState = atomWithSessionStorage<ToggleState>('toggleState', defaultToggleState);
 
-export function hydrateTotrinnsvurderingState(): [
-    WritableAtom<TotrinnsvurderingState, [SetStateAction<TotrinnsvurderingState>], void>,
-    TotrinnsvurderingState,
-] {
-    const sessionStorageState = sessionStorage.getItem('totrinnsvurderingState');
+export function hydrateToggleState(): [WritableAtom<ToggleState, [SetStateAction<ToggleState>], void>, ToggleState] {
+    const sessionStorageState = sessionStorage.getItem('toggleState');
 
     return [
-        totrinnsvurderingState,
-        sessionStorageState && erUtvikling ? JSON.parse(sessionStorageState) : { ...defaultTotrinnsvurderingState },
+        toggleState,
+        sessionStorageState && erUtvikling ? JSON.parse(sessionStorageState) : { ...defaultToggleState },
     ];
 }
 
-export const useTotrinnsvurdering = (): [
-    value: TotrinnsvurderingState,
-    toggle: (property: keyof TotrinnsvurderingState) => () => void,
-] => {
-    const [totrinnsvurdering, setTotrinnsvurdering] = useAtom(totrinnsvurderingState);
+export const useToggle = (): { value: ToggleState; toggle: (property: keyof ToggleState) => () => void } => {
+    const [toggleStateValue, setToggleState] = useAtom(toggleState);
 
-    return [
-        totrinnsvurdering,
-        (property: keyof TotrinnsvurderingState) => () =>
-            setTotrinnsvurdering((prevState) => ({
+    return {
+        value: toggleStateValue,
+        toggle: (property: keyof ToggleState) => () =>
+            setToggleState((prevState) => ({
                 ...prevState,
                 [property]: !prevState[property],
             })),
-    ];
+    };
 };
 
-export const useKanBeslutteEgneOppgaver = (): boolean => {
-    return useTotrinnsvurdering()[0]?.kanBeslutteEgne;
-};
+export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
+
+export const useKanSeNyInngangsvilkår = (): boolean => useAtomValue(toggleState).nyInngangsvilkår;
