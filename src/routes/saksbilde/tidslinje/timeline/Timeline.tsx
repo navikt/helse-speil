@@ -58,6 +58,7 @@ export function Timeline({ children }: PropsWithChildren): ReactElement {
                                                 ...Array.from(row.generasjonPeriodsByLevel.values()).flat(),
                                             ],
                                             rowIndex,
+                                            totalRows: parsedRows.length,
                                         }}
                                     >
                                         <TimelineRow label={row.label} icon={row.icon} />

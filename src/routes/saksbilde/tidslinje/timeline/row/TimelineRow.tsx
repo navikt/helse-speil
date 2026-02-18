@@ -19,10 +19,11 @@ export interface TimelineRowProps extends PropsWithChildren {
 export const TimelineRow: ComponentWithType<TimelineRowProps> = (): ReactElement => {
     const { width } = useTimelineContext();
     const expandedRows = useExpandedRows();
-    const { periods, generasjonPeriodsByLevel, rowIndex } = useRowContext();
+    const { periods, generasjonPeriodsByLevel, rowIndex, totalRows } = useRowContext();
     const rowActive =
-        periods.some((p) => p.isActive) ||
-        Array.from(generasjonPeriodsByLevel.values()).some((levelPeriods) => levelPeriods.some((p) => p.isActive));
+        totalRows > 1 &&
+        (periods.some((p) => p.isActive) ||
+            Array.from(generasjonPeriodsByLevel.values()).some((levelPeriods) => levelPeriods.some((p) => p.isActive)));
 
     return (
         <VStack

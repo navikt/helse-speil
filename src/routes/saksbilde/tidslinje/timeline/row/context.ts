@@ -7,6 +7,7 @@ type RowContextType = {
     allPeriods: ParsedRow['periods'];
     generasjonPeriodsByLevel: Map<number, ParsedRow['periods']>;
     rowIndex: number;
+    totalRows: number;
 };
 
 const RowContext = createContext<RowContextType | null>(null);
