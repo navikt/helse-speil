@@ -38,13 +38,13 @@ export const kallModia = async (handling: Handling, wonderwallToken: string, dat
     const modiaBaseUrl = getServerEnv().MODIA_BASEURL;
     const maskertToken = oboResult.token.substring(0, 6);
     const url = `${modiaBaseUrl}${path}`;
-    logger.info(`Kaller ${url} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
+    logger.debug(`Kaller ${url} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
 
     const start = Date.now();
     const response = await fetch(url, options);
     if (!response.ok) throw Error(`Fetch feilet, status: ${response.status}`);
 
     const tidBrukt = Date.now() - start;
-    logger.info(`Kall til Modia (${modiaBaseUrl}) med X-Request-Id: ${callId} ferdig etter ${tidBrukt} ms`);
+    logger.debug(`Kall til Modia (${modiaBaseUrl}) med X-Request-Id: ${callId} ferdig etter ${tidBrukt} ms`);
     return response;
 };

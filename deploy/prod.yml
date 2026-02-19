@@ -80,6 +80,8 @@ spec:
   envFrom:
     - secret: speil
   env:
+    - name: LOG_LEVEL
+      value: debug
     - name: CLIENT_ID_SPESIALIST
       value: api://prod-gcp.tbd.spesialist/.default
     - name: SPESIALIST_BASE_URL

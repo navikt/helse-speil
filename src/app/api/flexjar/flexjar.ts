@@ -29,13 +29,13 @@ const postFlexjarQuery = async (
     const baseUrl = getServerEnv().FLEXJAR_BASEURL;
     const erMethodPost = method === 'POST';
     const maskertToken = oboResult.token.substring(0, 6);
-    logger.info(`Kaller ${baseUrl} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
+    logger.debug(`Kaller ${baseUrl} med X-Request-Id: ${callId} og token: ${maskertToken}...`);
     const start = Date.now();
     const path = erMethodPost ? 'api/azure/v2/feedback' : `api/azure/v2/feedback/${urlId}`;
     const response = await fetch(`${baseUrl}/${path}`, options);
     const tidBrukt = Date.now() - start;
     const responseData = erMethodPost ? await response.json() : {};
-    logger.info(
+    logger.debug(
         `Flexjar-kall til ${baseUrl} med X-Request-Id: ${callId} - ferdig etter ${tidBrukt} ms, response: ${JSON.stringify(
             responseData,
         )}`,

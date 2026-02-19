@@ -26,14 +26,14 @@ export const postGraphQLQuery = async (wonderwallToken: string, data: string): P
     const operationName = JSON.parse(data)['operationName'];
     const maskertToken = oboResult.token.substring(0, 6);
     const baseUrl = getServerEnv().SPESIALIST_BASEURL;
-    logger.info(
+    logger.debug(
         `Kaller ${baseUrl} med X-Request-Id: ${callId}, operationName: ${operationName} og token: ${maskertToken}...`,
     );
     const stopTimer = metrics.spesialistRequestHistogram.startTimer({ route: '/api/graphql' });
     const response = await fetch(`${baseUrl}/graphql`, options);
     const timerSeconds = stopTimer();
     const tidBrukt = +(timerSeconds * 1000).toFixed(0);
-    logger.info(
+    logger.debug(
         `GraphQL-kall til ${baseUrl} med X-Request-Id: ${callId} og operationName: ${operationName} ferdig etter ${tidBrukt} ms`,
     );
     return response;
