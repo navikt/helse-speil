@@ -1,214 +1,191 @@
-import dayjs from 'dayjs';
-import { useAtom } from 'jotai';
-import NextLink from 'next/link';
-import { useParams } from 'next/navigation';
 import { ReactElement } from 'react';
 
-import { PlusIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Skeleton } from '@navikt/ds-react';
+import { BodyShort, Skeleton } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { Infotrygdutbetaling, PersonFragment } from '@io/graphql';
 import { Tidslinje } from '@saksbilde/tidslinje/Tidslinje';
-import { TilkommenInntektTimelineRows } from '@saksbilde/timeline/TilkommenInntektTimelineRows';
-import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { atomWithLocalStorage } from '@state/jotai';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { TimelinePeriod } from '@typer/timeline';
-import { kanLeggeTilTilkommenInntekt, kanSeAndreYtelser } from '@utils/featureToggles';
 import { cn } from '@utils/tw';
-import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
-import { ExpandableTimelineRow } from './ExpandableTimelineRow';
-import { InfotrygdRow } from './InfotrygdRow';
-import { Labels, LabelsSkeleton } from './Labels';
-import { Pins } from './Pins';
+import { LabelsSkeleton } from './Labels';
 import { ScrollButtons } from './ScrollButtons';
-import { TimelineRow, TimelineRowSkeleton } from './TimelineRow';
-import { ZoomLevelPicker } from './ZoomLevelPicker';
-import { useInfotrygdPeriods } from './hooks/useInfotrygdPeriods';
-import { ZoomLevel, getMergedPeriods, useLatestPossibleDate, useTimelineControls } from './hooks/useTimelineControls';
+import { TimelineRowSkeleton } from './TimelineRow';
 
 import styles from './Timeline.module.css';
 
-interface TimelineWithContentProps {
-    inntektsforhold: Inntektsforhold[];
-    infotrygdutbetalinger: Infotrygdutbetaling[];
-    activePeriod: TimelinePeriod | null;
-    person: PersonFragment;
-}
+// interface TimelineWithContentProps {
+//     inntektsforhold: Inntektsforhold[];
+//     infotrygdutbetalinger: Infotrygdutbetaling[];
+//     activePeriod: TimelinePeriod | null;
+//     person: PersonFragment;
+// }
 
-const useLatestDate = (
-    inntektsforhold: Inntektsforhold[],
-    infotrygdutbetalinger: Infotrygdutbetaling[],
-): dayjs.Dayjs => {
-    const perioder = getMergedPeriods(inntektsforhold, infotrygdutbetalinger);
-    return useLatestPossibleDate(perioder);
-};
+// const useLatestDate = (
+//     inntektsforhold: Inntektsforhold[],
+//     infotrygdutbetalinger: Infotrygdutbetaling[],
+// ): dayjs.Dayjs => {
+//     const perioder = getMergedPeriods(inntektsforhold, infotrygdutbetalinger);
+//     return useLatestPossibleDate(perioder);
+// };
 
-const TimelineWithContent = ({
-    inntektsforhold,
-    infotrygdutbetalinger,
-    activePeriod,
-    person,
-}: TimelineWithContentProps): ReactElement => {
-    const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const nyesteDag = useLatestDate(inntektsforhold, infotrygdutbetalinger);
-
-    const initialZoomLevel = (() => {
-        if (isBeregnetPeriode(activePeriod)) {
-            if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(1, 'year'))) return ZoomLevel.FIRE_ÅR;
-            if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(6, 'month'))) return ZoomLevel.ETT_ÅR;
-        }
-        return ZoomLevel.SEKS_MÅNEDER;
-    })();
-
-    const {
-        zoomLevels,
-        currentZoomLevel,
-        setCurrentZoomLevel,
-        navigateForwards,
-        navigateBackwards,
-        canNavigateForwards,
-        canNavigateBackwards,
-    } = useTimelineControls(inntektsforhold, infotrygdutbetalinger, initialZoomLevel);
-
-    useKeyboard([
-        {
-            key: Key.Minus,
-            action: navigateForwards,
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-        {
-            key: Key.NumpadAdd,
-            action: navigateForwards,
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-        {
-            key: Key.Slash,
-            action: canNavigateBackwards ? navigateBackwards : () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-        {
-            key: Key.NumpadSubtract,
-            action: canNavigateBackwards ? navigateBackwards : () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-    ]);
-
-    const erBeslutteroppgave = useHarTotrinnsvurdering(person);
-    const start = currentZoomLevel.fom.startOf('day');
-    const end = currentZoomLevel.tom.endOf('day');
-
-    const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
-    const harArbeidsgiverMedFlereBehandlinger = inntektsforhold.some(
-        (arbeidsgiver) => arbeidsgiver.behandlinger.length > 1,
-    );
-
-    return (
-        <div className={styles.Timeline}>
-            <Pins start={start} end={end} inntektsforhold={inntektsforhold} />
-            <Labels start={start} end={end} />
-            <div className={styles.Rows}>
-                {inntektsforhold
-                    .filter(
-                        (inntektsforhold) =>
-                            inntektsforhold.behandlinger.length > 0 ||
-                            (isArbeidsgiver(inntektsforhold) && inntektsforhold.ghostPerioder.length > 0),
-                    )
-                    .map((inntektsforhold, i) => {
-                        return inntektsforhold.behandlinger.length > 1 ? (
-                            <ExpandableTimelineRow
-                                key={i}
-                                start={start}
-                                end={end}
-                                generations={inntektsforhold.behandlinger}
-                                activePeriod={activePeriod}
-                                person={person}
-                                inntektsforhold={inntektsforhold}
-                            />
-                        ) : (
-                            <TimelineRow
-                                key={i}
-                                start={start}
-                                end={end}
-                                activePeriod={activePeriod}
-                                alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
-                                person={person}
-                                inntektsforhold={inntektsforhold}
-                            />
-                        );
-                    })}
-                <TilkommenInntektTimelineRows
-                    start={start}
-                    end={end}
-                    personPseudoId={personPseudoId}
-                    alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
-                />
-                {infotrygdPeriods.length > 0 && (
-                    <InfotrygdRow
-                        start={start}
-                        end={end}
-                        periods={infotrygdPeriods}
-                        alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
-                        person={person}
-                    />
-                )}
-            </div>
-            <div className={styles.TimelineButtons}>
-                <div className={styles.LeftButtons}>
-                    <VisHvisSkrivetilgang>
-                        {kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering)) &&
-                            !erBeslutteroppgave && (
-                                <Button
-                                    as={NextLink}
-                                    variant="tertiary"
-                                    size="small"
-                                    style={{ marginLeft: '-0.5rem' }}
-                                    icon={<PlusIcon title="Legg til tilkommen inntekt" />}
-                                    href={
-                                        kanSeAndreYtelser
-                                            ? `/person/${personPseudoId}/leggtilperiode`
-                                            : `/person/${personPseudoId}/tilkommeninntekt/ny`
-                                    }
-                                >
-                                    Legg til tilkommen inntekt/periode
-                                </Button>
-                            )}
-                    </VisHvisSkrivetilgang>
-                </div>
-                <div className={styles.TimelineControls}>
-                    <ScrollButtons
-                        navigateForwards={navigateForwards}
-                        navigateBackwards={navigateBackwards}
-                        canNavigateForwards={canNavigateForwards}
-                        canNavigateBackwards={canNavigateBackwards}
-                    />
-                    <ZoomLevelPicker
-                        currentZoomLevel={currentZoomLevel}
-                        availableZoomLevels={zoomLevels}
-                        setActiveZoomLevel={setCurrentZoomLevel}
-                    />
-                </div>
-            </div>
-        </div>
-    );
-};
-
-const newTimeline = atomWithLocalStorage('newTimeline', false, false);
+// const TimelineWithContent = ({
+//     inntektsforhold,
+//     infotrygdutbetalinger,
+//     activePeriod,
+//     person,
+// }: TimelineWithContentProps): ReactElement => {
+//     const { personPseudoId } = useParams<{ personPseudoId: string }>();
+//     const nyesteDag = useLatestDate(inntektsforhold, infotrygdutbetalinger);
+//
+//     const initialZoomLevel = (() => {
+//         if (isBeregnetPeriode(activePeriod)) {
+//             if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(1, 'year'))) return ZoomLevel.FIRE_ÅR;
+//             if (dayjs(activePeriod.fom).isSameOrBefore(nyesteDag.subtract(6, 'month'))) return ZoomLevel.ETT_ÅR;
+//         }
+//         return ZoomLevel.SEKS_MÅNEDER;
+//     })();
+//
+//     const {
+//         zoomLevels,
+//         currentZoomLevel,
+//         setCurrentZoomLevel,
+//         navigateForwards,
+//         navigateBackwards,
+//         canNavigateForwards,
+//         canNavigateBackwards,
+//     } = useTimelineControls(inntektsforhold, infotrygdutbetalinger, initialZoomLevel);
+//
+//     useKeyboard([
+//         {
+//             key: Key.Minus,
+//             action: navigateForwards,
+//             ignoreIfModifiers: false,
+//             modifier: Key.Alt,
+//         },
+//         {
+//             key: Key.NumpadAdd,
+//             action: navigateForwards,
+//             ignoreIfModifiers: false,
+//             modifier: Key.Alt,
+//         },
+//         {
+//             key: Key.Slash,
+//             action: canNavigateBackwards ? navigateBackwards : () => {},
+//             ignoreIfModifiers: false,
+//             modifier: Key.Alt,
+//         },
+//         {
+//             key: Key.NumpadSubtract,
+//             action: canNavigateBackwards ? navigateBackwards : () => {},
+//             ignoreIfModifiers: false,
+//             modifier: Key.Alt,
+//         },
+//     ]);
+//
+//     const erBeslutteroppgave = useHarTotrinnsvurdering(person);
+//     const start = currentZoomLevel.fom.startOf('day');
+//     const end = currentZoomLevel.tom.endOf('day');
+//
+//     const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
+//     const harArbeidsgiverMedFlereBehandlinger = inntektsforhold.some(
+//         (arbeidsgiver) => arbeidsgiver.behandlinger.length > 1,
+//     );
+//
+//     return (
+//         <div className={styles.Timeline}>
+//             <Pins start={start} end={end} inntektsforhold={inntektsforhold} />
+//             <Labels start={start} end={end} />
+//             <div className={styles.Rows}>
+//                 {inntektsforhold
+//                     .filter(
+//                         (inntektsforhold) =>
+//                             inntektsforhold.behandlinger.length > 0 ||
+//                             (isArbeidsgiver(inntektsforhold) && inntektsforhold.ghostPerioder.length > 0),
+//                     )
+//                     .map((inntektsforhold, i) => {
+//                         return inntektsforhold.behandlinger.length > 1 ? (
+//                             <ExpandableTimelineRow
+//                                 key={i}
+//                                 start={start}
+//                                 end={end}
+//                                 generations={inntektsforhold.behandlinger}
+//                                 activePeriod={activePeriod}
+//                                 person={person}
+//                                 inntektsforhold={inntektsforhold}
+//                             />
+//                         ) : (
+//                             <TimelineRow
+//                                 key={i}
+//                                 start={start}
+//                                 end={end}
+//                                 activePeriod={activePeriod}
+//                                 alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
+//                                 person={person}
+//                                 inntektsforhold={inntektsforhold}
+//                             />
+//                         );
+//                     })}
+//                 <TilkommenInntektTimelineRows
+//                     start={start}
+//                     end={end}
+//                     personPseudoId={personPseudoId}
+//                     alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
+//                 />
+//                 {infotrygdPeriods.length > 0 && (
+//                     <InfotrygdRow
+//                         start={start}
+//                         end={end}
+//                         periods={infotrygdPeriods}
+//                         alignWithExpandable={harArbeidsgiverMedFlereBehandlinger}
+//                         person={person}
+//                     />
+//                 )}
+//             </div>
+//             <div className={styles.TimelineButtons}>
+//                 <div className={styles.LeftButtons}>
+//                     <VisHvisSkrivetilgang>
+//                         {kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering)) &&
+//                             !erBeslutteroppgave && (
+//                                 <Button
+//                                     as={NextLink}
+//                                     variant="tertiary"
+//                                     size="small"
+//                                     style={{ marginLeft: '-0.5rem' }}
+//                                     icon={<PlusIcon title="Legg til tilkommen inntekt" />}
+//                                     href={
+//                                         kanSeAndreYtelser
+//                                             ? `/person/${personPseudoId}/leggtilperiode`
+//                                             : `/person/${personPseudoId}/tilkommeninntekt/ny`
+//                                     }
+//                                 >
+//                                     Legg til tilkommen inntekt/periode
+//                                 </Button>
+//                             )}
+//                     </VisHvisSkrivetilgang>
+//                 </div>
+//                 <div className={styles.TimelineControls}>
+//                     <ScrollButtons
+//                         navigateForwards={navigateForwards}
+//                         navigateBackwards={navigateBackwards}
+//                         canNavigateForwards={canNavigateForwards}
+//                         canNavigateBackwards={canNavigateBackwards}
+//                     />
+//                     <ZoomLevelPicker
+//                         currentZoomLevel={currentZoomLevel}
+//                         availableZoomLevels={zoomLevels}
+//                         setActiveZoomLevel={setCurrentZoomLevel}
+//                     />
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
 
 const TimelineContainer = (): ReactElement | null => {
-    const [useNewTimeline, setUseNewTimeline] = useAtom(newTimeline);
     const { loading, data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const activePeriod = useActivePeriod(person);
@@ -225,31 +202,12 @@ const TimelineContainer = (): ReactElement | null => {
 
     return (
         <div className="relative [grid-area:timeline]">
-            {erUtvikling && (
-                <Button
-                    variant="tertiary"
-                    size="xsmall"
-                    onClick={() => setUseNewTimeline((prev) => !prev)}
-                    className="absolute z-10 mt-2 ml-6"
-                >
-                    {useNewTimeline ? 'Bruk gammel tidslinje' : 'Bruk ny tidslinje'}
-                </Button>
-            )}
-            {useNewTimeline ? (
-                <Tidslinje
-                    person={person}
-                    inntektsforhold={inntektsforhold}
-                    infotrygdutbetalinger={infotrygdutbetalinger ?? []}
-                    activePeriod={activePeriod}
-                />
-            ) : (
-                <TimelineWithContent
-                    inntektsforhold={inntektsforhold}
-                    infotrygdutbetalinger={infotrygdutbetalinger ?? []}
-                    activePeriod={activePeriod}
-                    person={person}
-                />
-            )}
+            <Tidslinje
+                person={person}
+                inntektsforhold={inntektsforhold}
+                infotrygdutbetalinger={infotrygdutbetalinger ?? []}
+                activePeriod={activePeriod}
+            />
         </div>
     );
 };
