@@ -1,6 +1,7 @@
 import { ReactElement } from 'react';
 
-import { useHarFeilsøkingsrolle } from '@hooks/brukerrolleHooks';
+import { useBrukerrolle } from '@hooks/brukerrolleHooks';
+import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
 import { usePollEtterOpptegnelser } from '@io/rest/polling';
 import { useAbonnerPåEndringer } from '@io/sse/polling';
 
@@ -9,9 +10,10 @@ export interface LyttPåEndringerProviderProps {
 }
 
 export const LyttPåEndringer = ({ personPseudoId }: LyttPåEndringerProviderProps) => {
-    const erUtvikler = useHarFeilsøkingsrolle();
+    const { isLoading, harRolle } = useBrukerrolle(ApiBrukerrolle.UTVIKLER);
     if (!personPseudoId) return null;
-    return erUtvikler ? (
+    if (isLoading) return null;
+    return harRolle ? (
         <MottaEndringerOverStrøm personPseudoId={personPseudoId} />
     ) : (
         <PollEtterEndringer personPseudoId={personPseudoId} />
