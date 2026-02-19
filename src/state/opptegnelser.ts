@@ -21,7 +21,6 @@ export const useHåndterOpptegnelser = (onOpptegnelseCallback: (o: ApiOpptegnels
         }
     }, [onOpptegnelseCallback, opptegnelser, resetOpptegnelser]);
 };
-
 export const useMottaOpptegnelser = () => {
     const setOpptegnelser = useSetAtom(nyesteOpptegnelserState);
     const setOpptegnelserSekvensId = useSetNyesteOpptegnelseSekvens();
@@ -33,13 +32,6 @@ export const useMottaOpptegnelser = () => {
         tilbakestillFrekvensOmLitt();
     };
 };
-export const useMottaOpptegnelserViaSSE = () => {
-    const setOpptegnelser = useSetAtom(nyesteOpptegnelserState);
-    return (opptegnelse: ApiOpptegnelse) => {
-        setOpptegnelser((prev) => [...prev, opptegnelse]);
-    };
-};
-
 export const useNyesteOpptegnelseSekvens = () => useAtomValue(nyesteOpptegnelseSekvensIdState);
 
 const useSetNyesteOpptegnelseSekvens = () => {
@@ -52,7 +44,6 @@ const useSetNyesteOpptegnelseSekvens = () => {
         });
     };
 };
-
 export const useOpptegnelserPollingRate = () => useAtomValue(opptegnelsePollingTimeState);
 
 export const useSetOpptegnelserPollingRate = () => {
@@ -61,6 +52,5 @@ export const useSetOpptegnelserPollingRate = () => {
         setOpptegnelsePollingRate(rate);
     };
 };
-
 export const erOpptegnelseForNyOppgave = (opptegnelse: ApiOpptegnelse): boolean =>
     opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE' || opptegnelse.type === 'REVURDERING_FERDIGBEHANDLET';

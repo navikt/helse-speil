@@ -13,7 +13,7 @@ export async function stub(_request: NextRequest, params: Promise<{ pseudoId: st
             const opptegnelser = OpptegnelseMock.hentOpptegnelserEtter(-1, pseudoId);
 
             opptegnelser.forEach((opptegnelse, i) => {
-                const data = `data: ${JSON.stringify(opptegnelse)}\n\n`;
+                const data = `event: ${opptegnelse.type}\ndata: {}\n\n`;
                 const timeout = setTimeout(
                     () => {
                         try {

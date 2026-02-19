@@ -1,7 +1,8 @@
 import { atom, useAtom } from 'jotai';
 
-import { ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
+import { ApiOpptegnelseType, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { useHåndterOpptegnelser } from '@state/opptegnelser';
+import { useHåndterNyttEvent } from '@state/serverSentEvents';
 
 export type PersonSomKlargjøres = {
     personPseudoId: string;
@@ -15,6 +16,11 @@ export const usePersonKlargjøres = () => {
 
     useHåndterOpptegnelser(async (opptegnelse) => {
         if (opptegnelse.type === ApiOpptegnelseType.PERSON_KLAR_TIL_BEHANDLING)
+            setState((prev) => prev && { ...prev, erKlargjort: true });
+    });
+
+    useHåndterNyttEvent(async (event) => {
+        if (event.event === ApiServerSentEventEvent.PERSON_KLAR_TIL_BEHANDLING)
             setState((prev) => prev && { ...prev, erKlargjort: true });
     });
 

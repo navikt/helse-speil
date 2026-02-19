@@ -12,6 +12,7 @@ import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { overlapper } from '@state/selectors/period';
+import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, erEtter, erFør, erIPeriode, minusEnDag, plussEnDag } from '@utils/date';
@@ -29,6 +30,13 @@ export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onFe
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
+            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            setCalculating(false);
+            onFerdigKalkulert();
+        }
+    });
+    useHåndterNyttEvent((event) => {
+        if (erNyOppgaveEvent(event) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
             onFerdigKalkulert();

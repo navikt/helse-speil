@@ -11,6 +11,7 @@ import { useCalculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
+import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
@@ -36,6 +37,14 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
+            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            setCalculating(false);
+            resetLokaleOverstyringer();
+        }
+    });
+
+    useHåndterNyttEvent((event) => {
+        if (erNyOppgaveEvent(event) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
             resetLokaleOverstyringer();

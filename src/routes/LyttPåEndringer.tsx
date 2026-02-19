@@ -3,7 +3,7 @@ import { ReactElement } from 'react';
 import { useBrukerrolle } from '@hooks/brukerrolleHooks';
 import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
 import { usePollEtterOpptegnelser } from '@io/rest/polling';
-import { useAbonnerPåEndringer } from '@io/sse/polling';
+import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
 
 export interface LyttPåEndringerProviderProps {
     personPseudoId?: string;

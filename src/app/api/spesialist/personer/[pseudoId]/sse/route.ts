@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 
 import { stubEllerVideresendSseTilSpesialist } from '@app/api/spesialist/common';
-import { stub } from '@app/api/spesialist/personer/[pseudoId]/opptegnelser-stream/stub';
+import { stub } from '@app/api/spesialist/personer/[pseudoId]/sse/stub';
 
 export async function GET(request: NextRequest, context: { params: Promise<{ pseudoId: string }> }) {
     request.headers.set('Accept', 'text/event-stream');

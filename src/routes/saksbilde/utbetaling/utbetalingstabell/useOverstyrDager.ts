@@ -8,6 +8,7 @@ import { useCalculatingState } from '@state/calculating';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -41,6 +42,14 @@ export const useOverstyrDager = (
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
+            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            setCalculating(false);
+            setTimedOut(false);
+            setDone(true);
+        }
+    });
+    useHåndterNyttEvent((event) => {
+        if (erNyOppgaveEvent(event) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
             setTimedOut(false);

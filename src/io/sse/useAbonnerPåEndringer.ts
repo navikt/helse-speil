@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 
-import { ApiOpptegnelse } from '@io/rest/generated/spesialist.schemas';
-import { useMottaOpptegnelserViaSSE } from '@state/opptegnelser';
+import { ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
+import { useMottaServerSentEvents } from '@state/serverSentEvents';
 
 export const useAbonnerPåEndringer = (personPseudoId?: string) => {
-    const settOpptegnelser = useMottaOpptegnelserViaSSE();
+    const settEvents = useMottaServerSentEvents();
 
     useEffect(() => {
         if (!personPseudoId) return;
@@ -16,13 +16,16 @@ export const useAbonnerPåEndringer = (personPseudoId?: string) => {
         const kobleTilEventStream = () => {
             if (tilkoblingLukket) return;
 
-            gjeldendeEs = new EventSource(`/api/spesialist/personer/${personPseudoId}/opptegnelser-stream`);
+            gjeldendeEs = new EventSource(`/api/spesialist/personer/${personPseudoId}/sse`);
 
-            gjeldendeEs.onmessage = (event) => {
-                const data: ApiOpptegnelse = JSON.parse(event.data);
-                // Her kan man på sikt invalidere respektive queries basert på hvilken opptegnelse-type vi mottok
-                settOpptegnelser(data);
-            };
+            for (const eventType of Object.values(ApiServerSentEventEvent)) {
+                gjeldendeEs.addEventListener(eventType, (_) => {
+                    settEvents({
+                        event: eventType,
+                        data: null,
+                    });
+                });
+            }
 
             gjeldendeEs.onerror = () => {
                 gjeldendeEs?.close();
@@ -39,5 +42,5 @@ export const useAbonnerPåEndringer = (personPseudoId?: string) => {
             if (retryTimeout) clearTimeout(retryTimeout);
             gjeldendeEs?.close();
         };
-    }, [personPseudoId, settOpptegnelser]);
+    }, [personPseudoId, settEvents]);
 };

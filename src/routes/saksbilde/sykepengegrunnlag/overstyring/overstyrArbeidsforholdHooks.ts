@@ -13,6 +13,7 @@ import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold'
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
 import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
+import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
@@ -63,6 +64,13 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
 
     useHåndterOpptegnelser((opptegnelse) => {
         if (calculating && opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE') {
+            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            setCalculating(false);
+            if (onFerdigKalkulert) onFerdigKalkulert();
+        }
+    });
+    useHåndterNyttEvent((event) => {
+        if (calculating && event.event === 'NY_SAKSBEHANDLEROPPGAVE') {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
             setCalculating(false);
             if (onFerdigKalkulert) onFerdigKalkulert();
