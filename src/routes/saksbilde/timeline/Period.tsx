@@ -26,7 +26,8 @@ export type PeriodCategory =
     | 'waiting'
     | 'neutral'
     | 'neutralError'
-    | 'plus'
+    | 'tilkommen'
+    | 'tilkommen_fjernet'
     | 'ghost'
     | 'historisk'
     | 'ukjent';
@@ -95,7 +96,7 @@ const getIcon = (periodCategory: PeriodCategory | null): ReactNode => {
         case 'waiting': {
             return <WaitingIcon />;
         }
-        case 'plus': {
+        case 'tilkommen': {
             return <TilkommenInntektIkon />;
         }
         default: {

@@ -124,7 +124,7 @@ body {
     --period-icon-fill: var(--ax-border-neutral);
 }
 
-[data-period-variant='tilkommen_inntekt'] {
+[data-period-variant='tilkommen'] {
     --ax-bg-moderate: var(--ax-bg-meta-purple-moderate);
     --ax-bg-moderate-hover: var(--ax-bg-meta-purple-moderate-hover);
     --ax-text-default: var(--ax-text-meta-purple);
@@ -134,6 +134,15 @@ body {
     --period-icon-border: var(--ax-text-meta-purple-decoration);
     --period-icon-bg: var(--ax-text-meta-purple-decoration);
     --period-icon-fill: var(--ax-text-neutral-contrast);
+}
+
+[data-period-variant='tilkommen_fjernet'] {
+    --ax-bg-moderate: var(--ax-bg-meta-purple-moderate);
+    --ax-bg-moderate-hover: var(--ax-bg-meta-purple-moderate-hover);
+    --ax-text-default: var(--ax-text-meta-purple);
+    --ax-text-decoration: var(--ax-text-neutral-decoration);
+    --ax-border-default: var(--ax-border-meta-purple);
+    --ax-border-strong: var(--ax-border-meta-purple-strong);
 }
 
 [data-period-variant='ingen_utbetaling'] {

@@ -17,7 +17,14 @@ import { PeriodCategory } from '@saksbilde/timeline/Period';
 import { BeregnetPopover, GhostPopover, InfotrygdPopover, UberegnetPopover } from '@saksbilde/timeline/PeriodPopover';
 import { useInfotrygdPeriods } from '@saksbilde/timeline/hooks/useInfotrygdPeriods';
 import { useMaksdato } from '@saksbilde/timeline/hooks/useMaksdato';
-import { BlankIcon, CheckIcon, CrossIcon, TaskIcon, WaitingIcon } from '@saksbilde/timeline/icons';
+import {
+    BlankIcon,
+    CheckIcon,
+    CrossIcon,
+    FjernetTilkommenInntektIkon,
+    TaskIcon,
+    WaitingIcon,
+} from '@saksbilde/timeline/icons';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
@@ -115,7 +122,7 @@ export function Tidslinje({
                                 }}
                                 activePeriod={activeTilkommenInntektId === element.tilkommenInntekt!.tilkommenInntektId}
                                 icon={statusTilIkon[element.status]}
-                                variant="tilkommen_inntekt"
+                                variant={statusTilVariant[element.status]}
                             >
                                 {element.tilkommenInntekt && (
                                     <TilkommenInntektPopover
@@ -158,7 +165,8 @@ export const statusTilIkon: Record<PeriodCategory, ReactElement> = {
     neutral: <CheckIcon />,
     ghost: <CheckIcon />,
     historisk: <CheckIcon />,
-    plus: <CheckIcon />,
+    tilkommen: <CheckIcon />,
+    tilkommen_fjernet: <FjernetTilkommenInntektIkon />,
     attention: <TaskIcon />,
     waiting: <WaitingIcon />,
     neutralError: <CrossIcon />,
@@ -172,7 +180,8 @@ const statusTilVariant: Record<PeriodCategory, TimelineVariant> = {
     ghost: 'ghost',
     attention: 'behandles',
     waiting: 'ventende',
-    plus: 'tilkommen_inntekt',
+    tilkommen: 'tilkommen',
+    tilkommen_fjernet: 'tilkommen_fjernet',
     neutralError: 'forkastet',
     error: 'forkastet',
     historisk: 'historisk',

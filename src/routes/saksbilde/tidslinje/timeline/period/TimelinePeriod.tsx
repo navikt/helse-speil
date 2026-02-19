@@ -18,7 +18,8 @@ export type TimelineVariant =
     | 'ventende'
     | 'ingen_utbetaling'
     | 'ghost'
-    | 'tilkommen_inntekt'
+    | 'tilkommen'
+    | 'tilkommen_fjernet'
     | 'historisk'
     | 'infotrygd'
     | 'forkastet';

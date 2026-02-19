@@ -149,7 +149,7 @@ export function useTidslinjeRader(
             .map((inntekt) => ({
                 fom: inntekt.periode.fom,
                 tom: inntekt.periode.tom,
-                status: (inntekt.fjernet ? 'neutral' : 'plus') as PeriodCategory, // TODO fiks
+                status: (inntekt.fjernet ? 'tilkommen_fjernet' : 'tilkommen') as PeriodCategory,
                 tilkommenInntekt: inntekt,
                 generasjonIndex: 0,
             }))
