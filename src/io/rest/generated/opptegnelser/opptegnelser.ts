@@ -26,6 +26,162 @@ import type {
     UseQueryResult,
 } from '@tanstack/react-query';
 
+/**
+ * Operasjon for Server Sent Events. NB: Gir en strøm av elementer. Ikke ment for bruk som normal GET-operasjon med f. eks. autogenerert Tanstack Query-hook!
+ */
+export const getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream = (
+    personPseudoId: string,
+    signal?: AbortSignal,
+) => {
+    return callCustomAxios<ApiOpptegnelse>({
+        url: `/api/spesialist/personer/${personPseudoId}/opptegnelser-stream`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetApiSpesialistPersonerPersonPseudoIdOpptegnelserStreamQueryKey = (personPseudoId?: string) => {
+    return [`/api/spesialist/personer/${personPseudoId}/opptegnelser-stream`] as const;
+};
+
+export const getGetApiSpesialistPersonerPersonPseudoIdOpptegnelserStreamQueryOptions = <
+    TData = Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+    TError = ErrorType<ApiOpptegnelse>,
+>(
+    personPseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+                TError,
+                TData
+            >
+        >;
+    },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey =
+        queryOptions?.queryKey ?? getGetApiSpesialistPersonerPersonPseudoIdOpptegnelserStreamQueryKey(personPseudoId);
+
+    const queryFn: QueryFunction<
+        Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>
+    > = ({ signal }) => getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream(personPseudoId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!personPseudoId,
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<
+        Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetApiSpesialistPersonerPersonPseudoIdOpptegnelserStreamQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>
+>;
+export type GetApiSpesialistPersonerPersonPseudoIdOpptegnelserStreamQueryError = ErrorType<ApiOpptegnelse>;
+
+export function useGetApiSpesialistPersonerPersonPseudoIdOpptegnelserStream<
+    TData = Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+    TError = ErrorType<ApiOpptegnelse>,
+>(
+    personPseudoId: string,
+    options: {
+        query: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+                    TError,
+                    Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiSpesialistPersonerPersonPseudoIdOpptegnelserStream<
+    TData = Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+    TError = ErrorType<ApiOpptegnelse>,
+>(
+    personPseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+                TError,
+                TData
+            >
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+                    TError,
+                    Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetApiSpesialistPersonerPersonPseudoIdOpptegnelserStream<
+    TData = Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+    TError = ErrorType<ApiOpptegnelse>,
+>(
+    personPseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+                TError,
+                TData
+            >
+        >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetApiSpesialistPersonerPersonPseudoIdOpptegnelserStream<
+    TData = Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+    TError = ErrorType<ApiOpptegnelse>,
+>(
+    personPseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<
+                Awaited<ReturnType<typeof getApiSpesialistPersonerPersonPseudoIdOpptegnelserStream>>,
+                TError,
+                TData
+            >
+        >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetApiSpesialistPersonerPersonPseudoIdOpptegnelserStreamQueryOptions(
+        personPseudoId,
+        options,
+    );
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
+
 export const getOpptegnelseSekvensnummerSiste = (signal?: AbortSignal) => {
     return callCustomAxios<number>({ url: `/api/spesialist/opptegnelse-sekvensnummer/siste`, method: 'GET', signal });
 };

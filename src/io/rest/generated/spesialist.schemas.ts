@@ -4,6 +4,44 @@
  * API
  * OpenAPI spec version: latest
  */
+export type ApiOpptegnelseType = (typeof ApiOpptegnelseType)[keyof typeof ApiOpptegnelseType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiOpptegnelseType = {
+    UTBETALING_ANNULLERING_FEILET: 'UTBETALING_ANNULLERING_FEILET',
+    UTBETALING_ANNULLERING_OK: 'UTBETALING_ANNULLERING_OK',
+    FERDIGBEHANDLET_GODKJENNINGSBEHOV: 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
+    NY_SAKSBEHANDLEROPPGAVE: 'NY_SAKSBEHANDLEROPPGAVE',
+    REVURDERING_AVVIST: 'REVURDERING_AVVIST',
+    REVURDERING_FERDIGBEHANDLET: 'REVURDERING_FERDIGBEHANDLET',
+    PERSONDATA_OPPDATERT: 'PERSONDATA_OPPDATERT',
+    PERSON_KLAR_TIL_BEHANDLING: 'PERSON_KLAR_TIL_BEHANDLING',
+} as const;
+
+export interface ApiOpptegnelse {
+    sekvensnummer: number;
+    type: ApiOpptegnelseType;
+}
+
+export type ApiServerSentEventEvent = (typeof ApiServerSentEventEvent)[keyof typeof ApiServerSentEventEvent];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiServerSentEventEvent = {
+    UTBETALING_ANNULLERING_FEILET: 'UTBETALING_ANNULLERING_FEILET',
+    UTBETALING_ANNULLERING_OK: 'UTBETALING_ANNULLERING_OK',
+    FERDIGBEHANDLET_GODKJENNINGSBEHOV: 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
+    NY_SAKSBEHANDLEROPPGAVE: 'NY_SAKSBEHANDLEROPPGAVE',
+    REVURDERING_AVVIST: 'REVURDERING_AVVIST',
+    REVURDERING_FERDIGBEHANDLET: 'REVURDERING_FERDIGBEHANDLET',
+    PERSONDATA_OPPDATERT: 'PERSONDATA_OPPDATERT',
+    PERSON_KLAR_TIL_BEHANDLING: 'PERSON_KLAR_TIL_BEHANDLING',
+} as const;
+
+export interface ApiServerSentEvent {
+    event: ApiServerSentEventEvent;
+    data: null;
+}
+
 export interface ApiAktivSaksbehandler {
     navn: string;
     ident: string;
@@ -1310,25 +1348,6 @@ export interface ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCo
     code?: ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeCode;
 }
 
-export interface ApiOpptegnelse {
-    sekvensnummer: number;
-    type: ApiOpptegnelseType;
-}
-
-export type ApiOpptegnelseType = (typeof ApiOpptegnelseType)[keyof typeof ApiOpptegnelseType];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiOpptegnelseType = {
-    UTBETALING_ANNULLERING_FEILET: 'UTBETALING_ANNULLERING_FEILET',
-    UTBETALING_ANNULLERING_OK: 'UTBETALING_ANNULLERING_OK',
-    FERDIGBEHANDLET_GODKJENNINGSBEHOV: 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
-    NY_SAKSBEHANDLEROPPGAVE: 'NY_SAKSBEHANDLEROPPGAVE',
-    REVURDERING_AVVIST: 'REVURDERING_AVVIST',
-    REVURDERING_FERDIGBEHANDLET: 'REVURDERING_FERDIGBEHANDLET',
-    PERSONDATA_OPPDATERT: 'PERSONDATA_OPPDATERT',
-    PERSON_KLAR_TIL_BEHANDLING: 'PERSON_KLAR_TIL_BEHANDLING',
-} as const;
-
 export type ApiGetOpptegnelserForPersonErrorCode =
     (typeof ApiGetOpptegnelserForPersonErrorCode)[keyof typeof ApiGetOpptegnelserForPersonErrorCode];
 
@@ -1415,6 +1434,39 @@ export interface ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCod
     title: string;
     detail?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode;
+}
+
+export interface ForsikringInnhold {
+    gjelderFraDag: number;
+    dekningsgrad: number;
+}
+
+export type ApiForsikringForsikringInnhold = null | ForsikringInnhold;
+
+export interface ApiForsikring {
+    eksisterer: boolean;
+    forsikringInnhold?: ApiForsikringForsikringInnhold;
+}
+
+export type ApiForsikringErrorCode = (typeof ApiForsikringErrorCode)[keyof typeof ApiForsikringErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiForsikringErrorCode = {
+    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
+} as const;
+
+export type ApiHttpProblemDetailsApiForsikringErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiForsikringErrorCodeCode = null | ApiForsikringErrorCode;
+
+export interface ApiHttpProblemDetailsApiForsikringErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiForsikringErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiForsikringErrorCodeCode;
 }
 
 export type GetOppgaverParams = {
