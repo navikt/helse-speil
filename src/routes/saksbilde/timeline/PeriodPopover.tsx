@@ -1,21 +1,17 @@
 import dayjs from 'dayjs';
 import React, { ReactElement, ReactNode } from 'react';
 
-import type { PopoverProps } from '@navikt/ds-react';
-import { BodyShort, Popover } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
-import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useForrigeBehandlingPeriodeMedPeriode } from '@hooks/useForrigeBehandlingPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
-import { TimelinePeriod } from '@typer/timeline';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodStateText } from '@utils/mapping';
 import { cn } from '@utils/tw';
-import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
 
 import styles from './PeriodPopover.module.css';
 
@@ -223,48 +219,5 @@ export const UberegnetPopover = ({ fom, tom, state }: UberegnetPopoverProps): Re
                 {fom} - {tom}
             </BodyShort>
         </>
-    );
-};
-
-interface PeriodPopoverProps extends Omit<PopoverProps, 'children'> {
-    period: TimelinePeriod;
-    state: PeriodState;
-    person: PersonFragment;
-    erSelvstendigNæringsdrivende: boolean;
-}
-
-export const PeriodPopover = ({
-    period,
-    state,
-    person,
-    erSelvstendigNæringsdrivende,
-    ...popoverProps
-}: PeriodPopoverProps): ReactElement => {
-    const fom = somNorskDato(period.fom) ?? '-';
-    const tom = somNorskDato(period.tom) ?? '-';
-
-    return (
-        <Popover {...popoverProps}>
-            <Popover.Content className={styles.RouteContainer}>
-                <ErrorBoundary fallback={<div />}>
-                    {isInfotrygdPeriod(period) ? (
-                        <InfotrygdPopover fom={fom} tom={tom} />
-                    ) : isBeregnetPeriode(period) ? (
-                        <BeregnetPopover
-                            period={period}
-                            state={state}
-                            fom={fom}
-                            tom={tom}
-                            person={person}
-                            erSelvstendigNæringsdrivende={erSelvstendigNæringsdrivende}
-                        />
-                    ) : isGhostPeriode(period) ? (
-                        <GhostPopover fom={fom} tom={tom} />
-                    ) : (
-                        <UberegnetPopover state={state} fom={fom} tom={tom} />
-                    )}
-                </ErrorBoundary>
-            </Popover.Content>
-        </Popover>
     );
 };

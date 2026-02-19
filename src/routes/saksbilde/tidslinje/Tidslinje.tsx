@@ -13,7 +13,6 @@ import { TimelinePeriod, TimelineVariant } from '@saksbilde/tidslinje/timeline/p
 import { MaksdatoPin } from '@saksbilde/tidslinje/timeline/pin/pins/MaksdatoPin';
 import { TimelineRow } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
 import { TimelineZoom } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
-import { PeriodCategory } from '@saksbilde/timeline/Period';
 import { BeregnetPopover, GhostPopover, InfotrygdPopover, UberegnetPopover } from '@saksbilde/timeline/PeriodPopover';
 import { useInfotrygdPeriods } from '@saksbilde/timeline/hooks/useInfotrygdPeriods';
 import { useMaksdato } from '@saksbilde/timeline/hooks/useMaksdato';
@@ -29,6 +28,7 @@ import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { PeriodCategory } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
 import { somNorskDato } from '@utils/date';
 import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';

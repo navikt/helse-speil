@@ -45,6 +45,67 @@ export type PeriodState =
     | 'tilSkjønnsfastsettelse'
     | 'avventerAnnullering';
 
+export type PeriodCategory =
+    | 'success'
+    | 'error'
+    | 'attention'
+    | 'waiting'
+    | 'neutral'
+    | 'neutralError'
+    | 'tilkommen'
+    | 'tilkommen_fjernet'
+    | 'ghost'
+    | 'historisk'
+    | 'ukjent';
+
+export const getPeriodCategory = (periodState: PeriodState): PeriodCategory => {
+    switch (periodState) {
+        case 'utbetaltAutomatisk':
+        case 'revurdert':
+        case 'infotrygdUtbetalt':
+        case 'utbetalt': {
+            return 'success';
+        }
+        case 'revurderingFeilet':
+        case 'utbetalingFeilet':
+        case 'tilInfotrygd':
+        case 'annullert':
+        case 'annulleringFeilet':
+        case 'avslag': {
+            return 'error';
+        }
+        case 'revurderes':
+        case 'tilGodkjenning':
+        case 'tilSkjønnsfastsettelse': {
+            return 'attention';
+        }
+        case 'venter':
+        case 'venterPåInntektsopplysninger':
+        case 'venterPåKiling':
+        case 'tilAnnullering':
+        case 'tilUtbetalingAutomatisk':
+        case 'tilUtbetaling':
+        case 'avventerAnnullering': {
+            return 'waiting';
+        }
+        case 'infotrygdFerie':
+        case 'utenSykefravær':
+        case 'utenSykefraværDeaktivert':
+        case 'revurdertIngenUtbetaling':
+        case 'ingenUtbetaling':
+        case 'kunPermisjon':
+        case 'kunFerie':
+            return 'neutral';
+        case 'forkastetIngenUtbetaling':
+            return 'neutralError';
+        case 'infotrygdUkjent':
+        case 'ukjent':
+        default: {
+            return 'ukjent';
+        }
+    }
+};
+
 export type ActivePeriod = BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment;
 
 export type OverridableConstructor<T, E = object> = (overrides?: Partial<T>) => T & E;

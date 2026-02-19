@@ -1,3 +1,5 @@
+import React from 'react';
+
 import { ArchiveIcon, BriefcaseIcon, SackKronerIcon } from '@navikt/aksel-icons';
 
 import { capitalizeArbeidsgiver } from '@components/Inntektsforholdnavn';
@@ -7,10 +9,9 @@ import { Arbeidsgiver, GhostPeriode, Periode, Sykdomsdagtype, Utbetalingsdagtype
 import { getGetNotaterForVedtaksperiodeQueryOptions } from '@io/rest/generated/notater/notater';
 import { ApiTilkommenInntekt, ApiTilkommenInntektskilde } from '@io/rest/generated/spesialist.schemas';
 import { PeriodPins } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
-import { PeriodCategory, getPeriodCategory } from '@saksbilde/timeline/Period';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useQueries } from '@tanstack/react-query';
-import { InfotrygdPeriod } from '@typer/shared';
+import { InfotrygdPeriod, PeriodCategory, getPeriodCategory } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
