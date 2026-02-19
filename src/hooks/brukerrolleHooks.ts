@@ -6,14 +6,6 @@ const useErBrukerrolle = (brukerrolle: ApiBrukerrolle) => {
     return bruker?.brukerroller?.includes(brukerrolle) ?? false;
 };
 
-export const useBrukerrolle = (brukerrolle: ApiBrukerrolle) => {
-    const { data: bruker, isLoading } = useGetBruker();
-    return {
-        isLoading: isLoading,
-        harRolle: bruker?.brukerroller?.includes(brukerrolle) ?? false,
-    };
-};
-
 export const useHarFeilsøkingsrolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.UTVIKLER);
 };

@@ -1,19 +1,26 @@
 import { ReactElement } from 'react';
 
-import { useBrukerrolle } from '@hooks/brukerrolleHooks';
-import { ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
+import { useGetBruker } from '@io/rest/generated/saksbehandlere/saksbehandlere';
+import { ApiBruker, ApiBrukerrolle } from '@io/rest/generated/spesialist.schemas';
 import { usePollEtterOpptegnelser } from '@io/rest/polling';
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
+
+const harBrukerrolle = (data: ApiBruker, rolle: ApiBrukerrolle) => {
+    return data?.brukerroller?.includes(rolle) ?? false;
+};
 
 export interface LyttPåEndringerProviderProps {
     personPseudoId?: string;
 }
 
 export const LyttPåEndringer = ({ personPseudoId }: LyttPåEndringerProviderProps) => {
-    const { isLoading, harRolle } = useBrukerrolle(ApiBrukerrolle.UTVIKLER);
-    if (!personPseudoId) return null;
-    if (isLoading) return null;
-    return harRolle ? (
+    const { isLoading, data } = useGetBruker();
+    if (!personPseudoId || isLoading || !data) return null;
+    const erUtvikler = harBrukerrolle(data, ApiBrukerrolle.UTVIKLER);
+    const harTilgangTilNæringsdrivende = harBrukerrolle(data, ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA);
+    const betaBruker = erUtvikler || harTilgangTilNæringsdrivende;
+
+    return betaBruker ? (
         <MottaEndringerOverStrøm personPseudoId={personPseudoId} />
     ) : (
         <PollEtterEndringer personPseudoId={personPseudoId} />
