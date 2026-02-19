@@ -21,8 +21,8 @@ export const CrossIcon = ({ alt = 'Cross-ikon', ...svgProps }: CrossIconProps): 
             {...svgProps}
         >
             <title id={titleId}>{alt}</title>
-            <circle cx="9" cy="9" r="8.25" fill="white" stroke="#262626" strokeWidth="0.5" />
-            <circle cx="9" cy="9" r="7.75" fill="#262626" stroke="#262626" strokeWidth="0.5" />
+            <circle cx="9" cy="9" r="8.25" fill="currentColor" stroke="currentColor" strokeWidth="0.5" />
+            <circle cx="9" cy="9" r="7.75" fill="currentColor" stroke="currentColor" strokeWidth="0.5" />
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

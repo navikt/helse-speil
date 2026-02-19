@@ -22,7 +22,7 @@ export type TimelineVariant =
     | 'tilkommen_fjernet'
     | 'historisk'
     | 'infotrygd'
-    | 'forkastet';
+    | 'annullert';
 
 export type PeriodPins = 'warning' | 'info' | 'notat';
 

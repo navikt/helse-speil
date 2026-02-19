@@ -182,8 +182,8 @@ const statusTilVariant: Record<PeriodCategory, TimelineVariant> = {
     waiting: 'ventende',
     tilkommen: 'tilkommen',
     tilkommen_fjernet: 'tilkommen_fjernet',
-    neutralError: 'forkastet',
-    error: 'forkastet',
+    neutralError: 'ingen_utbetaling',
+    error: 'annullert',
     historisk: 'historisk',
     ukjent: 'ingen_utbetaling', // TODO fix
 };

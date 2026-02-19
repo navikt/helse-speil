@@ -157,7 +157,7 @@ body {
     --period-icon-fill: var(--ax-text-neutral-contrast);
 }
 
-[data-period-variant='forkastet'] {
+[data-period-variant='annullert'] {
     --ax-bg-moderate: var(--ax-bg-danger-moderate);
     --ax-bg-moderate-hover: var(--ax-bg-danger-moderate-hover);
     --ax-text-default: var(--ax-text-danger);
