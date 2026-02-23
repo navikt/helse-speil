@@ -4,25 +4,6 @@
  * API
  * OpenAPI spec version: latest
  */
-export type ApiOpptegnelseType = (typeof ApiOpptegnelseType)[keyof typeof ApiOpptegnelseType];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiOpptegnelseType = {
-    UTBETALING_ANNULLERING_FEILET: 'UTBETALING_ANNULLERING_FEILET',
-    UTBETALING_ANNULLERING_OK: 'UTBETALING_ANNULLERING_OK',
-    FERDIGBEHANDLET_GODKJENNINGSBEHOV: 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
-    NY_SAKSBEHANDLEROPPGAVE: 'NY_SAKSBEHANDLEROPPGAVE',
-    REVURDERING_AVVIST: 'REVURDERING_AVVIST',
-    REVURDERING_FERDIGBEHANDLET: 'REVURDERING_FERDIGBEHANDLET',
-    PERSONDATA_OPPDATERT: 'PERSONDATA_OPPDATERT',
-    PERSON_KLAR_TIL_BEHANDLING: 'PERSON_KLAR_TIL_BEHANDLING',
-} as const;
-
-export interface ApiOpptegnelse {
-    sekvensnummer: number;
-    type: ApiOpptegnelseType;
-}
-
 export type ApiServerSentEventEvent = (typeof ApiServerSentEventEvent)[keyof typeof ApiServerSentEventEvent];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1459,6 +1440,25 @@ export interface ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCo
     detail?: ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiGetOpptegnelseSekvensnummerSisteErrorCodeCode;
 }
+
+export interface ApiOpptegnelse {
+    sekvensnummer: number;
+    type: ApiOpptegnelseType;
+}
+
+export type ApiOpptegnelseType = (typeof ApiOpptegnelseType)[keyof typeof ApiOpptegnelseType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiOpptegnelseType = {
+    UTBETALING_ANNULLERING_FEILET: 'UTBETALING_ANNULLERING_FEILET',
+    UTBETALING_ANNULLERING_OK: 'UTBETALING_ANNULLERING_OK',
+    FERDIGBEHANDLET_GODKJENNINGSBEHOV: 'FERDIGBEHANDLET_GODKJENNINGSBEHOV',
+    NY_SAKSBEHANDLEROPPGAVE: 'NY_SAKSBEHANDLEROPPGAVE',
+    REVURDERING_AVVIST: 'REVURDERING_AVVIST',
+    REVURDERING_FERDIGBEHANDLET: 'REVURDERING_FERDIGBEHANDLET',
+    PERSONDATA_OPPDATERT: 'PERSONDATA_OPPDATERT',
+    PERSON_KLAR_TIL_BEHANDLING: 'PERSON_KLAR_TIL_BEHANDLING',
+} as const;
 
 export type ApiGetOpptegnelserForPersonErrorCode =
     (typeof ApiGetOpptegnelserForPersonErrorCode)[keyof typeof ApiGetOpptegnelserForPersonErrorCode];
