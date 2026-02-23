@@ -109,14 +109,16 @@ export function useTidslinjeRader(
         );
 
         const ghostElements: TidslinjeElement[] = isArbeidsgiver(forhold)
-            ? forhold.ghostPerioder.map((ghostPeriode: GhostPeriode) => ({
-                  fom: ghostPeriode.fom,
-                  tom: ghostPeriode.tom,
-                  skjæringstidspunkt: ghostPeriode.skjaeringstidspunkt,
-                  status: ghostPeriode.deaktivert ? 'ghostDeaktivert' : 'ghost',
-                  ghostPeriode,
-                  generasjonIndex: 0,
-              }))
+            ? forhold.ghostPerioder
+                  .filter((ghostPeriode: GhostPeriode) => !ghostPeriode.deaktivert)
+                  .map((ghostPeriode: GhostPeriode) => ({
+                      fom: ghostPeriode.fom,
+                      tom: ghostPeriode.tom,
+                      skjæringstidspunkt: ghostPeriode.skjaeringstidspunkt,
+                      status: 'ghost',
+                      ghostPeriode,
+                      generasjonIndex: 0,
+                  }))
             : [];
 
         return {
