@@ -57,7 +57,7 @@ export const Organisasjonsnavn = ({
             <Skeleton width="8rem" />
         </Tooltip>
     ) : navn === undefined ? (
-        <Tooltip content="Klarte ikke finne ikke navn på organisasjonen i enhetsregisteret">
+        <Tooltip content="Klarte ikke finne navn på organisasjonen i enhetsregisteret">
             <HStack align="center">
                 <AnonymizableTextWithEllipsis {...bodyShortProps}>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
                 <ExclamationmarkTriangleIcon color="red" />
