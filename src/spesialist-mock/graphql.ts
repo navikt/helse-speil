@@ -285,7 +285,7 @@ const getResolvers = (): IResolvers => ({
     },
     Periode: {
         __resolveType: (periode: { utbetaling: Utbetaling; vilkarsgrunnlagId: string }) => {
-            return periode.utbetaling.id ? 'BeregnetPeriode' : 'UberegnetPeriode';
+            return periode.utbetaling?.id ? 'BeregnetPeriode' : 'UberegnetPeriode';
         },
     },
     VilkarsgrunnlagV2: {
