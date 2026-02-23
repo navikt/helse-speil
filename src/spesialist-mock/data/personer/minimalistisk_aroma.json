@@ -986,7 +986,6 @@
                                             "vedtaksperiodeId": "546cb550-bcd0-4b95-abc0-d17bf6818bf7"
                                         }
                                     ],
-                                    "beregningId": "ca5997d1-09b8-42d0-ab47-60ec17e06a59",
                                     "forbrukteSykedager": 31,
                                     "gjenstaendeSykedager": 217,
                                     "beslutterSaksbehandlerOid": null,
@@ -1377,7 +1376,6 @@
                                             "vedtaksperiodeId": "3d1d6b8d-3139-4fd9-aa1e-48e65689e273"
                                         }
                                     ],
-                                    "beregningId": "642b3839-1033-4ba2-84f6-7c164dd4b9fc",
                                     "forbrukteSykedager": 1,
                                     "gjenstaendeSykedager": 247,
                                     "beslutterSaksbehandlerOid": null,
@@ -1742,7 +1740,6 @@
                                             "vedtaksperiodeId": "3d1d6b8d-3139-4fd9-aa1e-48e65689e273"
                                         }
                                     ],
-                                    "beregningId": "31a30973-399e-4d45-afe0-51952c34ecac",
                                     "behandlingId": "51952c34-399e-4d45-afe0-31a30973ecac",
                                     "forbrukteSykedager": 1,
                                     "gjenstaendeSykedager": 247,
@@ -2635,7 +2632,6 @@
                                             "vedtaksperiodeId": "9bd25288-db25-416a-a9b4-e52c88affa81"
                                         }
                                     ],
-                                    "beregningId": "805f6c5e-4df6-46b9-ad01-d76e8c9ae180",
                                     "forbrukteSykedager": 21,
                                     "gjenstaendeSykedager": 227,
                                     "beslutterSaksbehandlerOid": null,

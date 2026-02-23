@@ -939,7 +939,6 @@
                             "perioder": [
                                 {
                                     "id": "b19d32ae-a402-3e0e-ad62-22c311b70ab7",
-                                    "beregningId": "5cb33da5-161f-4299-9b0e-8eca9020de41",
                                     "forbrukteSykedager": 22,
                                     "gjenstaendeSykedager": 226,
                                     "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
@@ -1871,7 +1870,6 @@
                                 },
                                 {
                                     "id": "fa17116c-85f0-3b64-ba58-2081a1dc2574",
-                                    "beregningId": "8e4333f8-ab4c-4797-b1e1-8546b3aa80bb",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "vedtaksperiodeId": "1bea5cec-4d65-4599-a50c-2614971c3e17",
@@ -2586,7 +2584,6 @@
                             "perioder": [
                                 {
                                     "id": "5ff1d824-990e-38b0-a0d5-9879f6816591",
-                                    "beregningId": "aa44d2d8-c7fe-48af-ae7d-690bc57e1f9c",
                                     "forbrukteSykedager": 22,
                                     "gjenstaendeSykedager": 226,
                                     "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
@@ -3367,7 +3364,6 @@
                                 },
                                 {
                                     "id": "68d61df5-ce20-39e0-ac15-cdbd7851b9a5",
-                                    "beregningId": "8e4333f8-ab4c-4797-b1e1-8546b3aa80bb",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "vedtaksperiodeId": "1bea5cec-4d65-4599-a50c-2614971c3e17",
@@ -4082,7 +4078,6 @@
                             "perioder": [
                                 {
                                     "id": "64505bda-dc64-3804-94fa-b7de0df411ac",
-                                    "beregningId": "16474661-34ef-4c44-9209-394e4639449d",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "vedtaksperiodeId": "1bea5cec-4d65-4599-a50c-2614971c3e17",
@@ -5200,7 +5195,6 @@
                             "perioder": [
                                 {
                                     "id": "cc02db1d-3477-3c8b-9267-74e7e2c5d1c1",
-                                    "beregningId": "923441dc-b167-433c-bd71-de0b1bce4993",
                                     "forbrukteSykedager": 22,
                                     "gjenstaendeSykedager": 226,
                                     "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
@@ -5733,7 +5727,6 @@
                                 },
                                 {
                                     "id": "31516c11-841d-34af-98bc-4b2d92fa28f6",
-                                    "beregningId": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
@@ -6425,7 +6418,6 @@
                             "perioder": [
                                 {
                                     "id": "4acf6cb7-f104-3c11-b240-540d2f298773",
-                                    "beregningId": "5c2a1210-4ec4-4430-aed9-65d69b40d38a",
                                     "forbrukteSykedager": 18,
                                     "gjenstaendeSykedager": 230,
                                     "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
@@ -6971,7 +6963,6 @@
                                 },
                                 {
                                     "id": "4a39b569-fcb5-3ac0-81cb-bb275def472c",
-                                    "beregningId": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
@@ -7663,7 +7654,6 @@
                             "perioder": [
                                 {
                                     "id": "5698d119-83fb-3d37-89b6-dd687f65579d",
-                                    "beregningId": "428c2597-2cac-4405-bf51-e85c619ac22a",
                                     "forbrukteSykedager": 22,
                                     "gjenstaendeSykedager": 226,
                                     "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
@@ -8111,7 +8101,6 @@
                                 },
                                 {
                                     "id": "fe82f120-bc36-360d-92ca-1f91bc610db4",
-                                    "beregningId": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
@@ -8803,7 +8792,6 @@
                             "perioder": [
                                 {
                                     "id": "1e4e7be9-1e9e-3a68-99d7-30dab2a23624",
-                                    "beregningId": "cd993866-3a03-4d47-9e09-3a7484e29dca",
                                     "forbrukteSykedager": 22,
                                     "gjenstaendeSykedager": 226,
                                     "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
@@ -9251,7 +9239,6 @@
                                 },
                                 {
                                     "id": "fc520af1-6ce8-3d0c-bc3f-51405a40ec38",
-                                    "beregningId": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
@@ -9943,7 +9930,6 @@
                             "perioder": [
                                 {
                                     "id": "b47d7c76-c37d-349d-ba7c-f7b900f0d68a",
-                                    "beregningId": "86886334-6cef-4290-abcb-c9e66f64e25c",
                                     "forbrukteSykedager": 22,
                                     "gjenstaendeSykedager": 226,
                                     "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
@@ -10453,7 +10439,6 @@
                                 },
                                 {
                                     "id": "5c04fb01-b3c4-398a-8fd2-b66a68d61821",
-                                    "beregningId": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "forbrukteSykedager": 11,
                                     "gjenstaendeSykedager": 237,
                                     "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",

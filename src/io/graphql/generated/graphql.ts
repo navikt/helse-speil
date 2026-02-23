@@ -223,7 +223,6 @@ export type BeregnetPeriode = Periode & {
     annulleringskandidater: Array<Annulleringskandidat>;
     avslag: Array<Avslag>;
     behandlingId: Scalars['UUID']['output'];
-    beregningId: Scalars['UUID']['output'];
     egenskaper: Array<Oppgaveegenskap>;
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['LocalDate']['output'];
@@ -1650,7 +1649,6 @@ export type ArbeidsgiverFragment = {
             | {
                   __typename: 'BeregnetPeriode';
                   id: string;
-                  beregningId: string;
                   forbrukteSykedager: number | null;
                   gjenstaendeSykedager: number | null;
                   vedtaksperiodeId: string;
@@ -2533,7 +2531,6 @@ export type UberegnetPeriodeFragment = {
 export type BeregnetPeriodeFragment = {
     __typename: 'BeregnetPeriode';
     id: string;
-    beregningId: string;
     forbrukteSykedager: number | null;
     gjenstaendeSykedager: number | null;
     vedtaksperiodeId: string;
@@ -3181,7 +3178,6 @@ export type PersonFragment = {
                 | {
                       __typename: 'BeregnetPeriode';
                       id: string;
-                      beregningId: string;
                       forbrukteSykedager: number | null;
                       gjenstaendeSykedager: number | null;
                       vedtaksperiodeId: string;
@@ -3972,7 +3968,6 @@ export type PersonFragment = {
                 | {
                       __typename: 'BeregnetPeriode';
                       id: string;
-                      beregningId: string;
                       forbrukteSykedager: number | null;
                       gjenstaendeSykedager: number | null;
                       vedtaksperiodeId: string;
@@ -4670,7 +4665,6 @@ export type FetchPersonQuery = {
                     | {
                           __typename: 'BeregnetPeriode';
                           id: string;
-                          beregningId: string;
                           forbrukteSykedager: number | null;
                           gjenstaendeSykedager: number | null;
                           vedtaksperiodeId: string;
@@ -5469,7 +5463,6 @@ export type FetchPersonQuery = {
                     | {
                           __typename: 'BeregnetPeriode';
                           id: string;
-                          beregningId: string;
                           forbrukteSykedager: number | null;
                           gjenstaendeSykedager: number | null;
                           vedtaksperiodeId: string;
@@ -6816,7 +6809,6 @@ export const BeregnetPeriodeFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'beregningId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
@@ -8389,7 +8381,6 @@ export const ArbeidsgiverFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'beregningId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
@@ -9545,7 +9536,6 @@ export const PersonFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'beregningId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },
@@ -11254,7 +11244,6 @@ export const FetchPersonDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'beregningId' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'forbrukteSykedager' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'gjenstaendeSykedager' } },
                     { kind: 'Field', name: { kind: 'Name', value: 'vedtaksperiodeId' } },

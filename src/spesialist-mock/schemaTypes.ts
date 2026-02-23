@@ -221,7 +221,6 @@ export type BeregnetPeriode = Periode & {
     annulleringskandidater: Array<Annulleringskandidat>;
     avslag: Array<Avslag>;
     behandlingId: Scalars['UUID']['output'];
-    beregningId: Scalars['UUID']['output'];
     egenskaper: Array<Oppgaveegenskap>;
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['LocalDate']['output'];

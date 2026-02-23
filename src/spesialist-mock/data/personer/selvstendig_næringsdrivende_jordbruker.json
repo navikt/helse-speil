@@ -39,7 +39,6 @@
                             {
                                 "__typename": "BeregnetPeriode",
                                 "id": "6b40d54c-dcff-33bf-9d82-462ad7945b09",
-                                "beregningId": "95af0167-50fe-4e49-9f97-bd813a1dc5c3",
                                 "forbrukteSykedager": 10,
                                 "gjenstaendeSykedager": 238,
                                 "vedtaksperiodeId": "eace1b7f-5c4e-46c0-886a-002e806de583",

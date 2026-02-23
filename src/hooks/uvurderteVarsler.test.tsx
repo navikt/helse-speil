@@ -19,7 +19,6 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
     return {
         __typename: 'BeregnetPeriode',
         behandlingId: 'EN_BEHANDLING_ID',
-        beregningId: 'EN_ID',
         erForkastet: false,
         fom: fom,
         tom: tom,

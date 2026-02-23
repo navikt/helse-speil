@@ -36,6 +36,7 @@ import {
     MutationStansAutomatiskBehandlingArgs,
     PeriodehistorikkType,
     Person,
+    Utbetaling,
 } from './schemaTypes';
 import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 import { OpphevStansMock } from './storage/opphevstans';
@@ -283,8 +284,8 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Periode: {
-        __resolveType: (periode: { beregningId: string; vilkarsgrunnlagId: string }) => {
-            return periode.beregningId ? 'BeregnetPeriode' : 'UberegnetPeriode';
+        __resolveType: (periode: { utbetaling: Utbetaling; vilkarsgrunnlagId: string }) => {
+            return periode.utbetaling.id ? 'BeregnetPeriode' : 'UberegnetPeriode';
         },
     },
     VilkarsgrunnlagV2: {

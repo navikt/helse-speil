@@ -242,7 +242,6 @@ fragment uberegnetPeriode on UberegnetPeriode {
 
 fragment beregnetPeriode on BeregnetPeriode {
     id
-    beregningId
     forbrukteSykedager
     gjenstaendeSykedager
     vedtaksperiodeId
