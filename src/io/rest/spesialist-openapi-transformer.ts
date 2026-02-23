@@ -56,7 +56,7 @@ const transformPathItem = (pathItem: PathItemObject): PathItemObject => {
     return endretPathItem;
 };
 
-export const spesialistOpenAPITransformer = (api: Record<string, unknown>): Record<string, unknown> => {
+export const spesialistOpenAPITransformer = (api: object): object => {
     const typedApi = api as unknown as OpenAPIObject;
     // Ta bort security scheme fra toppen, siden det håndteres av OBO-flyten i rutingen
     let components = typedApi.components;
