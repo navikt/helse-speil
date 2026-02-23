@@ -398,7 +398,7 @@ export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): Utbeta
     const { automatisk, godkjent, tidsstempel, ident } = periode.utbetaling.vurdering;
 
     return {
-        id: `utbetaling-${periode.beregningId}`,
+        id: `utbetaling-${periode.utbetaling.id}`,
         type: 'Utbetaling',
         automatisk: automatisk,
         godkjent: godkjent,
