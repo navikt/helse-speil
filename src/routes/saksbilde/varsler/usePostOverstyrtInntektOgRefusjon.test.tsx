@@ -151,7 +151,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
         await waitFor(() => expect(error).not.toBeNull());
     });
 
-    it('kaller resetLokaleOverstyringer når opptegnelse er ferdig', async () => {
+    it('kaller resetLokaleOverstyringer når event mottas', async () => {
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
 
         (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {

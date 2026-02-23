@@ -4,7 +4,7 @@ import { useFetchPersonQuery } from '@state/person';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useToasts } from '@state/toasts';
 
-export const useRefreshPersonVedOpptegnelse = () => {
+export const useRefreshPersonVedEvent = () => {
     const { data, networkStatus, refetch } = useFetchPersonQuery();
     const selectPeriod = useSelectPeriod();
     const addToast = useAddToast();

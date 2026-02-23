@@ -77,7 +77,7 @@ describe('useOverstyrDager', () => {
             fodselsnummer: FØDSELSNUMMER,
         });
 
-        // Set up mock to trigger opptegnelse callback when hook re-runs after mutation
+        // Set up mock to trigger event callback when hook re-runs after mutation
         (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {
             onNyttEvent({
                 event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,

@@ -7,11 +7,11 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
-import { ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
+import { ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { sleep } from '@spesialist-mock/constants';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
+import { ServerSentEventsMock } from '@spesialist-mock/storage/events';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
-import { OpptegnelseMock } from '@spesialist-mock/storage/opptegnelse';
 import { PersonMock } from '@spesialist-mock/storage/person';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
@@ -252,7 +252,7 @@ const getResolvers = (): IResolvers => ({
         },
         oppdaterPerson: async (_, { fodselsnummer }: MutationOppdaterPersonArgs) => {
             await sleep(800);
-            OpptegnelseMock.pushOpptegnelse(fodselsnummer, ApiOpptegnelseType.PERSONDATA_OPPDATERT);
+            ServerSentEventsMock.pushEvent(fodselsnummer, ApiServerSentEventEvent.PERSONDATA_OPPDATERT);
             return true;
         },
         stansAutomatiskBehandling: async (_, { fodselsnummer, begrunnelse }: MutationStansAutomatiskBehandlingArgs) => {

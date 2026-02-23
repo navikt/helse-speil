@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-import { OpptegnelseMock } from '@spesialist-mock/storage/opptegnelse';
+import { ServerSentEventsMock } from '@spesialist-mock/storage/events';
 
 export async function stub(_request: NextRequest, params: Promise<{ pseudoId: string }>) {
     const { pseudoId } = await params;
@@ -10,10 +10,10 @@ export async function stub(_request: NextRequest, params: Promise<{ pseudoId: st
 
     const stream = new ReadableStream({
         start(controller) {
-            const opptegnelser = OpptegnelseMock.hentOpptegnelserEtter(-1, pseudoId);
+            const events = ServerSentEventsMock.hentEventsFor(pseudoId);
 
-            opptegnelser.forEach((opptegnelse, i) => {
-                const data = `event: ${opptegnelse.type}\ndata: {}\n\n`;
+            events.forEach((event, i) => {
+                const data = `event: ${event.event}\ndata: {}\n\n`;
                 const timeout = setTimeout(
                     () => {
                         try {

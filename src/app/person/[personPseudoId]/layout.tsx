@@ -6,7 +6,7 @@ import React, { PropsWithChildren, ReactElement, use, useState } from 'react';
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useOppdaterPersondataEnGang } from '@hooks/useOppdaterPersondataEnGang';
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
-import { useRefreshPersonVedOpptegnelse } from '@hooks/useRefreshPersonVedOpptegnelse';
+import { useRefreshPersonVedEvent } from '@hooks/useRefreshPersonVedEvent';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
@@ -26,7 +26,7 @@ type LayoutProps = {
 export default function Layout({ children, params }: PropsWithChildren<LayoutProps>): ReactElement {
     const { personPseudoId } = use(params);
 
-    useRefreshPersonVedOpptegnelse();
+    useRefreshPersonVedEvent();
     useOppdaterPersondataEnGang();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useAbonnerPåEndringer(personPseudoId);
