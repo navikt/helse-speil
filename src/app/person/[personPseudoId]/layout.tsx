@@ -13,7 +13,7 @@ import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
 import { PersonHeader } from '@saksbilde/personHeader';
-import { Timeline } from '@saksbilde/timeline';
+import { Tidslinje } from '@saksbilde/tidslinje/Tidslinje';
 import { VarselOmFlerFødselsnumre } from '@saksbilde/varselOmFlerFødselsnumre/VarselOmFlerFødselsnumre';
 import { PersonStoreContext } from '@state/contexts/personStore';
 
@@ -50,7 +50,7 @@ const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {
                 <InfovarselOmStans />
                 <VarselOmFlerFødselsnumre />
                 <PersonHeader />
-                <Timeline />
+                <Tidslinje />
                 <VenterPåEndringProvider>{children}</VenterPåEndringProvider>
             </div>
         </PersonStoreContext.Provider>

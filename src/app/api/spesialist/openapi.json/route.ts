@@ -1,5 +1,3 @@
-import type { OpenAPIObject } from 'openapi3-ts/oas30';
-
 import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
 import { spesialistOpenAPITransformer } from '@io/rest/spesialist-openapi-transformer';
 
@@ -12,7 +10,7 @@ const rewriteOpenApiSpec = async function (response: Response): Promise<Response
         return response;
     }
 
-    const openApiSpec = (await response.json()) as OpenAPIObject;
+    const openApiSpec = await response.json();
 
     return Response.json(spesialistOpenAPITransformer(openApiSpec));
 };

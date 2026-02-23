@@ -4,7 +4,7 @@ import { XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 
 import { useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
 import { Varselstatus } from '@io/graphql';
-import { CheckIcon } from '@saksbilde/timeline/icons';
+import { CheckIcon } from '@saksbilde/tidslinje/icons';
 import { cn } from '@utils/tw';
 
 import { VarselstatusType } from './Varsler';

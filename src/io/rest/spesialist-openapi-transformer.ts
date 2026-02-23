@@ -56,9 +56,10 @@ const transformPathItem = (pathItem: PathItemObject): PathItemObject => {
     return endretPathItem;
 };
 
-export const spesialistOpenAPITransformer = (api: OpenAPIObject): OpenAPIObject => {
+export const spesialistOpenAPITransformer = (api: Record<string, unknown>): Record<string, unknown> => {
+    const typedApi = api as unknown as OpenAPIObject;
     // Ta bort security scheme fra toppen, siden det håndteres av OBO-flyten i rutingen
-    let components = api.components;
+    let components = typedApi.components;
     if (components) {
         components = { ...components };
         components.securitySchemes = undefined;
@@ -66,12 +67,12 @@ export const spesialistOpenAPITransformer = (api: OpenAPIObject): OpenAPIObject 
 
     const endredePaths: PathsObject = {};
 
-    for (const [path, item] of Object.entries(api.paths)) {
+    for (const [path, item] of Object.entries(typedApi.paths)) {
         // Endre fra /api/* til /api/spesialist/*
         const speilPath = path.replace(/^\/api\//, '/api/spesialist/');
         // Erstatt ÆØÅ i paths siden Orval ikke takler det
         const pathUtenÆØÅ = erstattÆØÅ(speilPath);
         endredePaths[pathUtenÆØÅ] = transformPathItem(item);
     }
-    return { ...api, paths: endredePaths, components: components };
+    return { ...typedApi, paths: endredePaths, components: components };
 };

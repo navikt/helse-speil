@@ -1,66 +1,79 @@
 import dayjs from 'dayjs';
 import React, { ReactElement, ReactNode } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HGrid } from '@navikt/ds-react';
 
 import { useForrigeBehandlingPeriodeMedPeriode } from '@hooks/useForrigeBehandlingPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
+import { TidslinjeElement } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
-import { getPeriodStateText } from '@utils/mapping';
+import { getPeriodState, getPeriodStateText } from '@utils/mapping';
 import { cn } from '@utils/tw';
+import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
 
-import styles from './PeriodPopover.module.css';
+interface PeriodPopoverProps {
+    element: TidslinjeElement;
+    person: PersonFragment;
+    erSelvstendigNæring?: boolean;
+}
 
-const groupDayTypes = (period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype, DatePeriod[]> => {
-    const map = new Map<Utbetalingsdagtype, DatePeriod[]>();
+export function PeriodPopover({ element, person, erSelvstendigNæring = false }: PeriodPopoverProps): ReactElement {
+    const period = element.periode ?? element.ghostPeriode ?? element.infotrygdPeriode;
+    const fom = somNorskDato(element.fom) ?? '-';
+    const tom = somNorskDato(element.tom) ?? '-';
+    const state = getPeriodState(period);
 
-    let currentDayType: Utbetalingsdagtype | undefined = period.tidslinje[0]?.utbetalingsdagtype;
-    let currentFom: DateString | undefined = period.tidslinje[0]?.dato;
-
-    const updateDayTypesMap = (i: number, map: Map<Utbetalingsdagtype, DatePeriod[]>): void => {
-        if (!currentDayType || !currentFom) return;
-        if (!map.has(currentDayType)) {
-            map.set(currentDayType, []);
-        }
-        const tom = period.tidslinje[i - 1]?.dato;
-        if (tom) map.get(currentDayType)?.push({ fom: currentFom, tom: tom });
-    };
-
-    for (let i = 1; i < period.tidslinje.length; i++) {
-        const currentDay = period.tidslinje[i];
-        if (currentDay && currentDay.utbetalingsdagtype !== currentDayType) {
-            updateDayTypesMap(i, map);
-            currentDayType = currentDay.utbetalingsdagtype;
-            currentFom = currentDay.dato;
-        }
-    }
-
-    updateDayTypesMap(period.tidslinje.length, map);
-
-    return map;
-};
-
-const getDayTypesRender = (dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagtype, DatePeriod[]>): ReactNode => {
-    const periods = map.get(dayType);
-    if (!periods || periods.length === 0) return undefined;
-    if (periods.length === 1) {
-        const period = periods[0];
-        return period?.fom === period?.tom
-            ? somNorskDato(period?.fom)
-            : `${somNorskDato(period?.fom)} - ${somNorskDato(period?.tom)}`;
-    }
-    const antallDager = periods.reduce(
-        (count, period) => count + dayjs(period.tom).diff(dayjs(period.fom), 'day') + 1,
-        0,
+    return (
+        <HGrid columns={2} gap="space-4 space-24">
+            {isInfotrygdPeriod(period) ? (
+                <InfotrygdPopover fom={fom} tom={tom} />
+            ) : isBeregnetPeriode(period) ? (
+                <BeregnetPopover
+                    period={period}
+                    state={state}
+                    fom={fom}
+                    tom={tom}
+                    person={person}
+                    erSelvstendigNæringsdrivende={erSelvstendigNæring}
+                />
+            ) : isGhostPeriode(period) ? (
+                <GhostPopover fom={fom} tom={tom} />
+            ) : (
+                <UberegnetPopover state={state} fom={fom} tom={tom} />
+            )}
+        </HGrid>
     );
-    return `${antallDager} dager`;
-};
+}
 
-export const InfotrygdPopover = ({ fom, tom }: DatePeriod): ReactElement => {
+interface TilkommenInntektPopoverProps {
+    tilkommenInntekt: ApiTilkommenInntekt;
+    element: TidslinjeElement;
+}
+
+export function TilkommenInntektPopover({ tilkommenInntekt, element }: TilkommenInntektPopoverProps): ReactElement {
+    const fom = somNorskDato(element.fom) ?? '-';
+    const tom = somNorskDato(element.tom) ?? '-';
+
+    return (
+        <HGrid columns={2} gap="space-4 space-24">
+            <BodyShort size="small" className="col-span-2" weight="semibold">
+                Tilkommen inntekt
+                {tilkommenInntekt.fjernet ? ' (fjernet)' : ''}
+            </BodyShort>
+            <BodyShort size="small">Periode:</BodyShort>
+            <BodyShort size="small">
+                {fom} - {tom}
+            </BodyShort>
+        </HGrid>
+    );
+}
+
+function InfotrygdPopover({ fom, tom }: DatePeriod): ReactElement {
     return (
         <>
             <BodyShort size="small" className="col-span-2" weight="semibold">
@@ -72,7 +85,7 @@ export const InfotrygdPopover = ({ fom, tom }: DatePeriod): ReactElement => {
             </BodyShort>
         </>
     );
-};
+}
 
 interface SpleisPopoverProps extends DatePeriod {
     period: BeregnetPeriodeFragment;
@@ -81,19 +94,14 @@ interface SpleisPopoverProps extends DatePeriod {
     erSelvstendigNæringsdrivende: boolean;
 }
 
-const useHarGenereltNotat = (period: BeregnetPeriodeFragment) => {
-    const { data } = useGetNotaterForVedtaksperiode(period.vedtaksperiodeId);
-    return data?.some((notat) => notat.type === 'Generelt') || false;
-};
-
-export const BeregnetPopover = ({
+function BeregnetPopover({
     period,
     state,
     fom,
     tom,
     person,
     erSelvstendigNæringsdrivende,
-}: SpleisPopoverProps): ReactElement => {
+}: SpleisPopoverProps): ReactElement {
     const dayTypes = groupDayTypes(period);
 
     const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
@@ -146,7 +154,10 @@ export const BeregnetPopover = ({
             {forrigePeriode && period.utbetaling.status === Utbetalingstatus.Ubetalt && (
                 <>
                     <BodyShort size="small">Differanse</BodyShort>
-                    <BodyShort size="small" className={cn(totalbeløp - gammeltTotalbeløp < 0 && styles.NegativePenger)}>
+                    <BodyShort
+                        size="small"
+                        className={cn(totalbeløp - gammeltTotalbeløp < 0 && 'font-semibold text-ax-text-danger-subtle')}
+                    >
                         {somPenger(totalbeløp - gammeltTotalbeløp)}
                     </BodyShort>
                 </>
@@ -171,10 +182,16 @@ export const BeregnetPopover = ({
             )}
             {period.gjenstaendeSykedager !== null && period.gjenstaendeSykedager !== undefined && (
                 <>
-                    <BodyShort className={cn(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
+                    <BodyShort
+                        className={cn(period.gjenstaendeSykedager <= 0 && 'text-ax-text-danger-subtle italic')}
+                        size="small"
+                    >
                         Dager igjen:
                     </BodyShort>
-                    <BodyShort className={cn(period.gjenstaendeSykedager <= 0 && styles.Error)} size="small">
+                    <BodyShort
+                        className={cn(period.gjenstaendeSykedager <= 0 && 'text-ax-text-danger-subtle italic')}
+                        size="small"
+                    >
                         {period.gjenstaendeSykedager}
                     </BodyShort>
                 </>
@@ -186,9 +203,9 @@ export const BeregnetPopover = ({
             )}
         </>
     );
-};
+}
 
-export const GhostPopover = ({ fom, tom }: DatePeriod): ReactElement => {
+function GhostPopover({ fom, tom }: DatePeriod): ReactElement {
     return (
         <>
             <BodyShort size="small" className="col-span-2" weight="semibold">
@@ -200,13 +217,13 @@ export const GhostPopover = ({ fom, tom }: DatePeriod): ReactElement => {
             </BodyShort>
         </>
     );
-};
+}
 
 interface UberegnetPopoverProps extends DatePeriod {
     state: PeriodState;
 }
 
-export const UberegnetPopover = ({ fom, tom, state }: UberegnetPopoverProps): ReactElement => {
+function UberegnetPopover({ fom, tom, state }: UberegnetPopoverProps): ReactElement {
     const stateText = getPeriodStateText(state);
 
     return (
@@ -220,4 +237,54 @@ export const UberegnetPopover = ({ fom, tom, state }: UberegnetPopoverProps): Re
             </BodyShort>
         </>
     );
-};
+}
+
+function groupDayTypes(period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype, DatePeriod[]> {
+    const map = new Map<Utbetalingsdagtype, DatePeriod[]>();
+
+    let currentDayType: Utbetalingsdagtype | undefined = period.tidslinje[0]?.utbetalingsdagtype;
+    let currentFom: DateString | undefined = period.tidslinje[0]?.dato;
+
+    const updateDayTypesMap = (i: number, map: Map<Utbetalingsdagtype, DatePeriod[]>): void => {
+        if (!currentDayType || !currentFom) return;
+        if (!map.has(currentDayType)) {
+            map.set(currentDayType, []);
+        }
+        const tom = period.tidslinje[i - 1]?.dato;
+        if (tom) map.get(currentDayType)?.push({ fom: currentFom, tom: tom });
+    };
+
+    for (let i = 1; i < period.tidslinje.length; i++) {
+        const currentDay = period.tidslinje[i];
+        if (currentDay && currentDay.utbetalingsdagtype !== currentDayType) {
+            updateDayTypesMap(i, map);
+            currentDayType = currentDay.utbetalingsdagtype;
+            currentFom = currentDay.dato;
+        }
+    }
+
+    updateDayTypesMap(period.tidslinje.length, map);
+
+    return map;
+}
+
+function getDayTypesRender(dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagtype, DatePeriod[]>): ReactNode {
+    const periods = map.get(dayType);
+    if (!periods || periods.length === 0) return undefined;
+    if (periods.length === 1) {
+        const period = periods[0];
+        return period?.fom === period?.tom
+            ? somNorskDato(period?.fom)
+            : `${somNorskDato(period?.fom)} - ${somNorskDato(period?.tom)}`;
+    }
+    const antallDager = periods.reduce(
+        (count, period) => count + dayjs(period.tom).diff(dayjs(period.fom), 'day') + 1,
+        0,
+    );
+    return `${antallDager} dager`;
+}
+
+function useHarGenereltNotat(period: BeregnetPeriodeFragment) {
+    const { data } = useGetNotaterForVedtaksperiode(period.vedtaksperiodeId);
+    return data?.some((notat) => notat.type === 'Generelt') || false;
+}
