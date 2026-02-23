@@ -7,7 +7,6 @@ import { OverstyrDagerMutationDocument, OverstyrDagerMutationMutation, PersonFra
 import { useCalculatingState } from '@state/calculating';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
@@ -34,20 +33,11 @@ export const useOverstyrDager = (
 ): UsePostOverstyringResult => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
     const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
     const [done, setDone] = useState(false);
 
-    useHåndterOpptegnelser((opptegnelse) => {
-        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
-            setTimedOut(false);
-            setDone(true);
-        }
-    });
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
@@ -84,7 +74,6 @@ export const useOverstyrDager = (
                 addToast(kalkulererToast({}));
                 setCalculating(true);
                 callback?.();
-                setPollingRate(1000);
             },
         }).catch(() => Promise.resolve());
     return {

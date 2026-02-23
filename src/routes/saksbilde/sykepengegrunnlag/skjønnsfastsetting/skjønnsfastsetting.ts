@@ -10,7 +10,6 @@ import {
 } from '@io/graphql';
 import { useCalculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import {
@@ -28,19 +27,11 @@ export enum Skjønnsfastsettingstype {
 export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(SkjonnsfastsettelseMutationDocument);
 
-    useHåndterOpptegnelser((opptegnelse) => {
-        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
-            onFerdigKalkulert();
-        }
-    });
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
@@ -98,7 +89,6 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
                 onCompleted: () => {
                     setCalculating(true);
                     addToast(kalkulererToast({}));
-                    setPollingRate(1000);
                 },
             });
         },

@@ -13,7 +13,6 @@ import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/gr
 import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -216,11 +215,9 @@ const hasOppgave = (period: BeregnetPeriodeFragment): boolean =>
 
 const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment): (() => void) => {
     const router = useRouter();
-    const setOpptegnelsePollingTime = useSetOpptegnelserPollingRate();
 
     return () => {
         if (skalVentePåNestePeriode(person) || (isBeregnetPeriode(period) && isRevurdering(period.utbetaling))) {
-            setOpptegnelsePollingTime(1000);
         } else {
             router.push('/');
         }

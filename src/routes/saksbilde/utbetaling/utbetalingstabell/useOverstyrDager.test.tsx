@@ -1,9 +1,9 @@
 import { Mock, vi } from 'vitest';
 
 import { Kildetype, OverstyrDagerMutationDocument } from '@io/graphql';
-import { ApiOpptegnelse, ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
+import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
+import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enPerson } from '@test-data/person';
@@ -16,12 +16,10 @@ import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
 vi.mock('@state/person');
 vi.mock('@state/inntektsforhold/inntektsforhold');
 vi.mock('@state/toasts');
-vi.mock('@state/opptegnelser', async () => ({
-    ...(await vi.importActual('@state/opptegnelser')),
-    useHåndterOpptegnelser: vi.fn(),
-    useSetOpptegnelserPollingRate: vi.fn(),
+vi.mock('@state/serverSentEvents', async () => ({
+    ...(await vi.importActual('@state/serverSentEvents')),
+    useHåndterNyttEvent: vi.fn(),
 }));
-vi.mock('@io/graphql/polling');
 
 const AKTØR_ID = 'aktørId';
 const FØDSELSNUMMER = 'fødselsnummer';
@@ -34,8 +32,7 @@ describe('useOverstyrDager', () => {
         (useAktivtInntektsforhold as Mock).mockReturnValue(enArbeidsgiver({ organisasjonsnummer: ORGNUMMER }));
         (useAddToast as Mock).mockReturnValue(() => {});
         (useRemoveToast as Mock).mockReturnValue(() => {});
-        (useSetOpptegnelserPollingRate as Mock).mockReturnValue(() => {});
-        (useHåndterOpptegnelser as Mock).mockReturnValue(() => {});
+        (useHåndterNyttEvent as Mock).mockReturnValue(() => {});
     });
 
     test('skal ha default verdier ved oppstart', async () => {
@@ -81,10 +78,10 @@ describe('useOverstyrDager', () => {
         });
 
         // Set up mock to trigger opptegnelse callback when hook re-runs after mutation
-        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: ApiOpptegnelse) => void) => {
-            callBack({
-                sekvensnummer: 1,
-                type: ApiOpptegnelseType.NY_SAKSBEHANDLEROPPGAVE,
+        (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {
+            onNyttEvent({
+                event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,
+                data: null,
             });
         });
 

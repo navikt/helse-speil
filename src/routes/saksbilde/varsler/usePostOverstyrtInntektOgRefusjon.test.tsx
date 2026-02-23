@@ -1,10 +1,10 @@
 import { Mock, vi } from 'vitest';
 
 import { OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
-import { ApiOpptegnelse, ApiOpptegnelseType } from '@io/rest/generated/spesialist.schemas';
+import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
-import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
+import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
 import { renderHook } from '@test-utils';
 import { act, waitFor } from '@testing-library/react';
@@ -12,16 +12,14 @@ import { act, waitFor } from '@testing-library/react';
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
 vi.mock('@state/toasts');
-vi.mock('@state/opptegnelser', async () => ({
-    ...(await vi.importActual('@state/opptegnelser')),
-    useHåndterOpptegnelser: vi.fn(),
-    useSetOpptegnelserPollingRate: vi.fn(),
+vi.mock('@state/serverSentEvents', async () => ({
+    ...(await vi.importActual('@state/serverSentEvents')),
+    useHåndterNyttEvent: vi.fn(),
 }));
 vi.mock('@state/overstyring', async () => ({
     ...(await vi.importActual('@state/overstyring')),
     useSlettLokaleOverstyringer: vi.fn(),
 }));
-vi.mock('@io/graphql/polling');
 
 const addToastMock = vi.fn();
 const slettLokaleOverstyringerMock = vi.fn();
@@ -33,8 +31,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
             addToastMock(toast);
         });
         (useRemoveToast as Mock).mockReturnValue(() => {});
-        (useHåndterOpptegnelser as Mock).mockReturnValue(() => {});
-        (useSetOpptegnelserPollingRate as Mock).mockReturnValue(() => {});
+        (useHåndterNyttEvent as Mock).mockReturnValue(() => {});
         (useSlettLokaleOverstyringer as Mock).mockReturnValue(slettLokaleOverstyringerMock);
     });
 
@@ -86,10 +83,10 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
     it('viser fullført toast når overstyring er ferdig', async () => {
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
 
-        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: ApiOpptegnelse) => void) => {
-            callBack({
-                sekvensnummer: 1,
-                type: ApiOpptegnelseType.REVURDERING_FERDIGBEHANDLET,
+        (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {
+            onNyttEvent({
+                event: ApiServerSentEventEvent.REVURDERING_FERDIGBEHANDLET,
+                data: null,
             });
         });
 
@@ -157,10 +154,10 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
     it('kaller resetLokaleOverstyringer når opptegnelse er ferdig', async () => {
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
 
-        (useHåndterOpptegnelser as Mock).mockImplementation((callBack: (o: ApiOpptegnelse) => void) => {
-            callBack({
-                sekvensnummer: 1,
-                type: ApiOpptegnelseType.NY_SAKSBEHANDLEROPPGAVE,
+        (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {
+            onNyttEvent({
+                event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,
+                data: null,
             });
         });
 

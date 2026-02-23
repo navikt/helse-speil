@@ -9,7 +9,6 @@ import {
 } from '@io/graphql';
 import { useCalculatingState } from '@state/calculating';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -28,20 +27,11 @@ interface PostOverstyrtInntektOgRefusjonResponse {
 export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefusjonResponse => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
     const resetLokaleOverstyringer = useSlettLokaleOverstyringer();
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
-
-    useHåndterOpptegnelser((opptegnelse) => {
-        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
-            resetLokaleOverstyringer();
-        }
-    });
 
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && calculating) {
@@ -99,7 +89,6 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
             onCompleted: () => {
                 setCalculating(true);
                 addToast(kalkulererToast({}));
-                setPollingRate(1000);
             },
         }).catch(() => Promise.resolve());
 

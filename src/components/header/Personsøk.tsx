@@ -10,7 +10,7 @@ import { validFødselsnummer } from '@io/graphql/common';
 import { BadRequestError, FetchError, NotFoundError } from '@io/graphql/errors';
 import { usePostPersonSok } from '@io/rest/generated/personsøk/personsøk';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
-import { LyttPåEndringer } from '@routes/LyttPåEndringer';
+import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
 import { usePersonKlargjøres } from '@state/personSomKlargjøres';
 import { useAddVarsel } from '@state/varsler';
 
@@ -23,6 +23,7 @@ export const Personsøk = (): ReactElement => {
     const router = useRouter();
     const { mutate, isPending: loading } = usePostPersonSok();
     const { venterPåKlargjøring, klargjortPseudoId } = usePersonKlargjøres();
+    useAbonnerPåEndringer(klargjortPseudoId);
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
@@ -80,7 +81,6 @@ export const Personsøk = (): ReactElement => {
 
     return (
         <>
-            {klargjortPseudoId && <LyttPåEndringer personPseudoId={klargjortPseudoId} />}
             <form className={styles.searchForm} onSubmit={søkOppPerson} autoComplete="off">
                 <Search label="Søk" size="small" variant="secondary" placeholder="Søk" ref={searchRef} />
             </form>

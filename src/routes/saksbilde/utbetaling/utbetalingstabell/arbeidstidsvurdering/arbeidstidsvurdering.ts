@@ -10,7 +10,6 @@ import { usePostArbeidstidsvurdering } from '@io/rest/generated/vurderinger/vurd
 import { useCalculatingState } from '@state/calculating';
 import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { erOpptegnelseForNyOppgave, useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { overlapper } from '@state/selectors/period';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -21,20 +20,12 @@ import { isBeregnetPeriode, isNotNullOrUndefined, isUberegnetPeriode } from '@ut
 export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onFerdigKalkulert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
 
     const { mutate: overstyrMutation, error, isPending: loading } = usePostArbeidstidsvurdering();
     const fjernNotat = useFjernNotat();
 
-    useHåndterOpptegnelser((opptegnelse) => {
-        if (erOpptegnelseForNyOppgave(opptegnelse) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
-            onFerdigKalkulert();
-        }
-    });
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
@@ -62,7 +53,6 @@ export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onFe
                     onSuccess: () => {
                         setCalculating(true);
                         addToast(kalkulererToast({}));
-                        setPollingRate(1000);
                         fjernNotat(arbeidstidsvurderingRequest.initierendeVedtaksperiodeId);
                     },
                 },

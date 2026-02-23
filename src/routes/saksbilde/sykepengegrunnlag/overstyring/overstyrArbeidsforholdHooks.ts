@@ -11,7 +11,6 @@ import {
 import { useCalculatingState } from '@state/calculating';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { useHåndterOpptegnelser, useSetOpptegnelserPollingRate } from '@state/opptegnelser';
 import { useActivePeriodWithPerson } from '@state/periode';
 import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -55,20 +54,12 @@ export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): Overstyrt
 export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkulert?: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const setPollingRate = useSetOpptegnelserPollingRate();
 
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(OverstyrArbeidsforholdMutationDocument);
 
-    useHåndterOpptegnelser((opptegnelse) => {
-        if (calculating && opptegnelse.type === 'NY_SAKSBEHANDLEROPPGAVE') {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
-            if (onFerdigKalkulert) onFerdigKalkulert();
-        }
-    });
     useHåndterNyttEvent((event) => {
         if (calculating && event.event === 'NY_SAKSBEHANDLEROPPGAVE') {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
@@ -107,7 +98,6 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
                     if (aktørId) {
                         setCalculating(true);
                         addToast(kalkulererToast({}));
-                        setPollingRate(1000);
                     }
                 },
             });
