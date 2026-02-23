@@ -164,6 +164,9 @@ body {
     --ax-text-decoration: var(--ax-text-danger-decoration);
     --ax-border-default: var(--ax-border-danger);
     --ax-border-strong: var(--ax-border-danger-strong);
+    --period-icon-border: var(--ax-text-danger-decoration);
+    --period-icon-bg: var(--ax-text-danger-decoration);
+    --period-icon-fill: var(--ax-text-neutral-contrast);
 }
 
 [data-period-variant='infotrygd'] {

@@ -113,7 +113,7 @@ export function useTidslinjeRader(
                   fom: ghostPeriode.fom,
                   tom: ghostPeriode.tom,
                   skjæringstidspunkt: ghostPeriode.skjaeringstidspunkt,
-                  status: 'ghost' as const,
+                  status: ghostPeriode.deaktivert ? 'ghostDeaktivert' : 'ghost',
                   ghostPeriode,
                   generasjonIndex: 0,
               }))

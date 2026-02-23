@@ -55,6 +55,7 @@ export type PeriodCategory =
     | 'tilkommen'
     | 'tilkommen_fjernet'
     | 'ghost'
+    | 'ghostDeaktivert'
     | 'historisk'
     | 'ukjent';
 
