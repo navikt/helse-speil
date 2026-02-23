@@ -794,6 +794,118 @@ export interface ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonError
     code?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode;
 }
 
+export interface ApiSamlingAvVurderteInngangsvilkår {
+    samlingAvVurderteInngangsvilkårId: string;
+    versjon: number;
+    skjæringstidspunkt: string;
+    vurderteInngangsvilkår: ApiVurdertInngangsvilkår[];
+}
+
+export type ApiVurdertInngangsvilkår = Automatisk | Manuell;
+
+export type AutomatiskVurderingskode = null | string;
+
+export type AutomatiskType = (typeof AutomatiskType)[keyof typeof AutomatiskType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const AutomatiskType = {
+    AUTOMATISK: 'AUTOMATISK',
+} as const;
+
+export interface Automatisk {
+    vilkårskode: string;
+    vurderingskode?: AutomatiskVurderingskode;
+    tidspunkt: string;
+    automatiskVurdering: ApiAutomatiskVurdering;
+    type: AutomatiskType;
+}
+
+export type ApiAutomatiskVurderingGrunnlagsdata = { [key: string]: string };
+
+export interface ApiAutomatiskVurdering {
+    system: string;
+    versjon: string;
+    grunnlagsdata: ApiAutomatiskVurderingGrunnlagsdata;
+}
+
+export type ManuellVurderingskode = null | string;
+
+export type ManuellType = (typeof ManuellType)[keyof typeof ManuellType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ManuellType = {
+    MANUELL: 'MANUELL',
+} as const;
+
+export interface Manuell {
+    vilkårskode: string;
+    vurderingskode?: ManuellVurderingskode;
+    tidspunkt: string;
+    manuellVurdering: ApiManuellVurdering;
+    type: ManuellType;
+}
+
+export interface ApiManuellVurdering {
+    navident: string;
+    begrunnelse: string;
+}
+
+export type ApiGetVurderteInngangsvilkårErrorCode =
+    (typeof ApiGetVurderteInngangsvilkårErrorCode)[keyof typeof ApiGetVurderteInngangsvilkårErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetVurderteInngangsvilkårErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCodeCode =
+    null | ApiGetVurderteInngangsvilkårErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCodeCode;
+}
+
+export interface ApiManuellInngangsvilkårVurdering {
+    vilkårskode: string;
+    vurderingskode: string;
+    tidspunkt: string;
+    begrunnelse: string;
+}
+
+export interface ApiPostManuelleInngangsvilkårVurderingerRequest {
+    versjon: number;
+    vurderinger: ApiManuellInngangsvilkårVurdering[];
+}
+
+export type ApiPostVurderteInngangsvilkårErrorCode =
+    (typeof ApiPostVurderteInngangsvilkårErrorCode)[keyof typeof ApiPostVurderteInngangsvilkårErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostVurderteInngangsvilkårErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCodeCode =
+    null | ApiPostVurderteInngangsvilkårErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCodeCode;
+}
+
 export interface ApiTilkommenInntektInput {
     organisasjonsnummer: string;
     periode: ApiDatoPeriode;
