@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-import { cwd } from 'process';
 import { v4 as uuidv4 } from 'uuid';
 
 import {
@@ -14,19 +11,6 @@ type VilkårsvurderingerPerSkjæringstidspunkt = Map<string, ApiSamlingAvVurdert
 
 export class VilkårsvurderingerMock {
     static data: Map<string, VilkårsvurderingerPerSkjæringstidspunkt> = new Map();
-
-    static {
-        const url = path.join(cwd(), 'src/spesialist-mock/data/vilkårsvurderinger');
-        const filenames = fs.readdirSync(url);
-        filenames.forEach((filename) => {
-            const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
-            const parsed = JSON.parse(raw);
-            const perSkjæringstidspunkt: VilkårsvurderingerPerSkjæringstidspunkt = new Map(
-                Object.entries(parsed.data),
-            );
-            VilkårsvurderingerMock.data.set(parsed.fodselsnummer, perSkjæringstidspunkt);
-        });
-    }
 
     static hentVurderinger = (pseudoId: string, skjaeringstidspunkt: string): ApiSamlingAvVurderteInngangsvilkår[] => {
         const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(pseudoId);
