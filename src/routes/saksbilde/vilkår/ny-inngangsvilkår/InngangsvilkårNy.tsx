@@ -107,6 +107,7 @@ function Vilkår({ vilkår, vurdering }: VilkårProps) {
             togglePlacement="right"
             className={cn({ 'bg-ax-bg-accent-moderate': erÅpen })}
             contentGutter="none"
+            expandOnRowClick
             onOpenChange={setErÅpen}
         >
             <HStack as={Table.DataCell} gap="space-12">
