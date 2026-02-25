@@ -6,7 +6,7 @@ const useErBrukerrolle = (brukerrolle: ApiBrukerrolle) => {
     return bruker?.brukerroller?.includes(brukerrolle) ?? false;
 };
 
-export const useHarFeilsøkingsrolle = () => {
+export const useHarUtviklerRolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.UTVIKLER);
 };
 export const useHarBeslutterrolle = () => {
