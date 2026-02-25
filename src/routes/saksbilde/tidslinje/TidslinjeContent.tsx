@@ -21,6 +21,7 @@ import { TimelinePeriod, TimelineVariant } from '@saksbilde/tidslinje/timeline/p
 import { MaksdatoPin } from '@saksbilde/tidslinje/timeline/pin/pins/MaksdatoPin';
 import { TimelineRow } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
 import { TimelineZoom } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
+import { useIsAnonymous } from '@state/anonymization';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
@@ -46,6 +47,7 @@ export function TidslinjeContent({
     const pathname = usePathname();
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const isAnonymous = useIsAnonymous();
     const setActivePeriodId = useSetActivePeriodId(person);
     const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
     const { data: tilkomneInntekter } = useHentTilkommenInntektQuery(personPseudoId);
@@ -70,6 +72,7 @@ export function TidslinjeContent({
                         label={rad.navn}
                         icon={rad.icon}
                         copyLabelButton={rad.navn !== 'Selvstendig næring'}
+                        anonymized={isAnonymous}
                     >
                         {rad.tidslinjeElementer.map((element) => {
                             const id = element.periode?.id ?? element.ghostPeriode?.id;
@@ -106,7 +109,7 @@ export function TidslinjeContent({
                     </TimelineRow>
                 ))}
                 {tilkommenRader.map((rad) => (
-                    <TimelineRow key={rad.id} label={rad.navn} icon={rad.icon} copyLabelButton>
+                    <TimelineRow key={rad.id} label={rad.navn} icon={rad.icon} copyLabelButton anonymized={isAnonymous}>
                         {rad.tidslinjeElementer.map((element) => (
                             <TimelinePeriod
                                 key={element.fom + element.tom}

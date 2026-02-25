@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 
 import { ChevronDownIcon, ChevronRightIcon } from '@navikt/aksel-icons';
-import { CopyButton, HStack, Tooltip, VStack } from '@navikt/ds-react';
+import { BodyShort, CopyButton, HStack, Tooltip, VStack } from '@navikt/ds-react';
 
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { RowLabels } from '@saksbilde/tidslinje/timeline/index';
 import { useExpandedRows, useToggleRow } from '@saksbilde/tidslinje/timeline/row/context';
 import { cn } from '@utils/tw';
@@ -57,12 +56,17 @@ export function TimelineRowLabels({ labels }: TimelineRowLabelsProps): ReactElem
                             )}
                             {label.icon}
                             <Tooltip content={label.label} describesChild>
-                                <AnonymizableTextWithEllipsis
+                                <BodyShort
                                     data-sensitive
-                                    className="max-w-[168px] leading-6 group-hover:underline"
+                                    className={cn(
+                                        'max-w-[168px] leading-6 group-hover:underline',
+                                        label.anonymized &&
+                                            'pointer-events-none rounded bg-ax-bg-neutral-moderate text-transparent select-none',
+                                    )}
+                                    truncate
                                 >
                                     {label.label}
-                                </AnonymizableTextWithEllipsis>
+                                </BodyShort>
                             </Tooltip>
                         </HStack>
                         {label.copyLabelButton && (

@@ -31,6 +31,7 @@ export type RowLabels = {
     rowIndex: number;
     generationLevels: number;
     copyLabelButton: boolean;
+    anonymized: boolean;
 }[];
 
 type ParsedRowsResult = {
@@ -67,6 +68,7 @@ export function useParsedRows(children: ReactNode): ParsedRowsResult {
             rowIndex,
             generationLevels: row.generasjonPeriodsByLevel?.size ?? 0,
             copyLabelButton: row.copyLabelButton,
+            anonymized: row.anonymized,
         };
     });
     const allPeriods = parsedRows.map((row) => row.periods).flat();
@@ -83,6 +85,7 @@ export type ParsedRow = {
     periods: Period[];
     generasjonPeriodsByLevel: Map<number, Period[]>;
     copyLabelButton: boolean;
+    anonymized: boolean;
 };
 
 export function parseRows(rows: ReactElement<TimelineRowProps>[]): ParsedRow[] {
@@ -160,6 +163,7 @@ export function parseRows(rows: ReactElement<TimelineRowProps>[]): ParsedRow[] {
             periods,
             generasjonPeriodsByLevel: sortedGenerasjonPeriodsByLevel,
             copyLabelButton: row.props?.copyLabelButton ?? false,
+            anonymized: row.props?.anonymized ?? false,
         });
     });
 
