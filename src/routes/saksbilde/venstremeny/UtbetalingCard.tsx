@@ -12,7 +12,6 @@ import {
     VilkarsgrunnlagInfotrygdV2,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
-import { Forsikring } from '@saksbilde/venstremeny/Forsikring';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { somPenger } from '@utils/locale';
 import { cn } from '@utils/tw';
@@ -35,7 +34,6 @@ interface UtbetalingCardProps {
     gammeltTotalbeløp?: number;
     inntektsforhold: Inntektsforhold;
     erJordbruker: boolean;
-    behandlingId: string;
 }
 
 const UtbetalingCardBeregnet = ({
@@ -50,7 +48,6 @@ const UtbetalingCardBeregnet = ({
     gammeltTotalbeløp,
     inntektsforhold,
     erJordbruker,
-    behandlingId,
 }: UtbetalingCardProps): ReactElement => (
     <section className={styles.Card}>
         <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
@@ -58,7 +55,10 @@ const UtbetalingCardBeregnet = ({
             <BodyShort>Sykepengegrunnlag</BodyShort>
             <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
             {isSelvstendigNaering(inntektsforhold) && (
-                <Forsikring behandlingId={behandlingId} erJordbruker={erJordbruker} />
+                <>
+                    <BodyShort>Dekning</BodyShort>
+                    <BodyShort>{erJordbruker ? 100 : 80} % fra 17. dag</BodyShort>
+                </>
             )}
             <BodyShort>Utbetalingsdager</BodyShort>
             <BodyShort>{antallUtbetalingsdager}</BodyShort>

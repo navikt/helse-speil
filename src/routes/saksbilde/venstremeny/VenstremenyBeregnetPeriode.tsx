@@ -91,7 +91,6 @@ export const VenstremenyBeregnetPeriode = ({
                 erJordbruker={activePeriod.egenskaper
                     .map((egenskap) => egenskap.egenskap)
                     .includes(Egenskap.JordbrukerReindrift)}
-                behandlingId={activePeriod.behandlingId}
             />
             {activePeriod.periodetilstand === Periodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
                 <ErrorMessage>Du har ikke tilgang til å behandle denne oppgaven</ErrorMessage>
