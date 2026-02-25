@@ -20,7 +20,11 @@ export async function POST(request: NextRequest) {
         const spesialistBaseUrl = getServerEnv().SPESIALIST_BASEURL;
         let token: string;
         if (spesialistBackend === 'lokal') {
-            token = await fetch(`${spesialistBaseUrl}/local-token`).then((res) => res.text());
+            const res = await fetch(`${spesialistBaseUrl}/local-token`);
+            if (!res.ok) {
+                throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);
+            }
+            token = await res.text();
         } else {
             const wonderwallToken = hentWonderwallToken(request);
             if (!wonderwallToken) {
