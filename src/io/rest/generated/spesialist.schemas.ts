@@ -856,7 +856,6 @@ export interface ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCode {
 export interface ApiManuellInngangsvilkårVurdering {
     vilkårskode: string;
     vurderingskode: string;
-    tidspunkt: string;
     begrunnelse: string;
 }
 

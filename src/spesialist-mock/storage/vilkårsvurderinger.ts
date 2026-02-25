@@ -40,7 +40,7 @@ export class VilkårsvurderingerMock {
             vurderteInngangsvilkår: vurderinger.map((v) => ({
                 vilkårskode: v.vilkårskode,
                 vurderingskode: v.vurderingskode,
-                tidspunkt: v.tidspunkt,
+                tidspunkt: new Date().toISOString(),
                 manuellVurdering: {
                     navident: 'A123456',
                     begrunnelse: v.begrunnelse,
