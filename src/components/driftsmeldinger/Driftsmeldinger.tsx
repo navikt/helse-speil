@@ -28,7 +28,6 @@ export const Driftsmeldinger = (): ReactElement[] => {
         <DriftsmeldingInnhold key={`drift-${driftsmelding._id}`} driftsmelding={driftsmelding} />
     ));
 
-    console.log(informasjonsmeldinger);
     const info = R.sortBy(informasjonsmeldinger, [R.prop('_updatedAt'), 'desc']).map((informasjonsmelding) => (
         <InformasjonsmeldingInnhold key={`info-${informasjonsmelding._id}`} informasjonsmelding={informasjonsmelding} />
     ));
