@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 
-import { erLokal, getServerEnv } from '@/env';
+import { getServerEnv, spesialistBackend } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 
 const substringAfter = (url: string, searchString: string) =>
@@ -19,8 +19,11 @@ export const videresendTilSpesialist = async (request: Request): Promise<Respons
     const headers = filterHeadersExcept(request.headers, ['host', 'cookie', 'authorization']);
 
     headers.set('X-Request-Id', uuidv4());
+    let token: string;
 
-    if (!erLokal) {
+    if (spesialistBackend === 'lokal') {
+        token = await fetch(`${getServerEnv().SPESIALIST_BASEURL}/local-token`).then((res) => res.text());
+    } else {
         const wonderwallToken = hentWonderwallToken(request);
         if (!wonderwallToken) {
             return new Response(null, { status: 401 });
@@ -30,14 +33,14 @@ export const videresendTilSpesialist = async (request: Request): Promise<Respons
         if (!oboResult.ok) {
             throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
         }
-
-        headers.set('Authorization', `Bearer ${oboResult.token}`);
+        token = oboResult.token;
     }
 
-    const spesialistBaseUrl = erLokal ? 'http://localhost:8080' : getServerEnv().SPESIALIST_BASEURL;
+    headers.set('Authorization', `Bearer ${token}`);
+
     const spesialistRelativeUrl = `/api/${substringAfter(request.url, '/api/spesialist/')}`;
 
-    return fetch(`${spesialistBaseUrl}${spesialistRelativeUrl}`, {
+    return fetch(`${getServerEnv().SPESIALIST_BASEURL}${spesialistRelativeUrl}`, {
         method: request.method,
         headers: headers,
         body: request.body,

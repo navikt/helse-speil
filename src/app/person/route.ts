@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
-import { erLokal, getServerEnv } from '@/env';
+import { getServerEnv, spesialistBackend } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
@@ -14,28 +14,39 @@ export async function POST(request: NextRequest) {
     const identitetsnummer = formData.get('identitetsnummer')?.toString();
     const aktørId = formData.get('aktørId')?.toString();
 
-    if (erLokal) {
+    if (spesialistBackend === 'mock') {
         personPseudoId = PersonMock.findPersonPseudoId(identitetsnummer ?? aktørId ?? '');
     } else {
-        const wonderwallToken = hentWonderwallToken(request);
-        if (!wonderwallToken) {
-            return IkkeAutentisert;
-        }
+        const spesialistBaseUrl = getServerEnv().SPESIALIST_BASEURL;
+        let token: string;
+        if (spesialistBackend === 'lokal') {
+            const res = await fetch(`${spesialistBaseUrl}/local-token`);
+            if (!res.ok) {
+                throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);
+            }
+            token = await res.text();
+        } else {
+            const wonderwallToken = hentWonderwallToken(request);
+            if (!wonderwallToken) {
+                return IkkeAutentisert;
+            }
 
-        const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
-        if (!oboResult.ok) {
-            throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
+            const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
+            if (!oboResult.ok) {
+                throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
+            }
+            token = oboResult.token;
         }
 
         const headers = new Headers();
         headers.set('X-Request-Id', uuidv4());
-        headers.set('Authorization', `Bearer ${oboResult.token}`);
+        headers.set('Authorization', `Bearer ${token}`);
         headers.set('Content-Type', 'application/json');
         headers.set('Accept', 'application/json');
 
         personPseudoId = (
             await (
-                await fetch(`${getServerEnv().SPESIALIST_BASEURL}/api/personer/sok`, {
+                await fetch(`${spesialistBaseUrl}/api/personer/sok`, {
                     method: 'POST',
                     headers: headers,
                     body: JSON.stringify({

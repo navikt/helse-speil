@@ -2,7 +2,7 @@ import { ZodError, z } from 'zod/v4';
 
 export type PublicEnv = z.infer<typeof browserEnvSchema>;
 export const browserEnvSchema = z.object({
-    NEXT_PUBLIC_RUNTIME_ENV: z.union([z.literal('test'), z.literal('dev'), z.literal('lokal'), z.literal('prod')]),
+    NEXT_PUBLIC_RUNTIME_ENV: z.enum(['test', 'dev', 'lokal', 'prod', 'mock']),
     NEXT_PUBLIC_ASSET_PREFIX: z.string().optional(),
     NEXT_PUBLIC_TELEMETRY_URL: z.string().optional(),
 });
@@ -35,8 +35,9 @@ export const browserEnv = browserEnvSchema.parse({
     NEXT_PUBLIC_TELEMETRY_URL: process.env.NEXT_PUBLIC_TELEMETRY_URL,
 } satisfies Record<keyof PublicEnv, string | undefined>);
 
-const getRawServerConfig = (): Partial<unknown> =>
-    ({
+const getRawServerConfig = (): Partial<unknown> => {
+    const spesialistBackend = spesialistBackendVariant();
+    return {
         FLEXJAR_SCOPE: process.env.CLIENT_ID_FLEXJAR,
         FLEXJAR_BASEURL: process.env.FLEXJAR_BASE_URL,
         MODIA_SCOPE: process.env.MODIA_API_SCOPE,
@@ -44,14 +45,20 @@ const getRawServerConfig = (): Partial<unknown> =>
         SPARKEL_AAREG_SCOPE: process.env.SPARKEL_AAREG_SCOPE,
         SPARKEL_AAREG_BASEURL: process.env.SPARKEL_AAREG_BASEURL,
         SPESIALIST_SCOPE: process.env.CLIENT_ID_SPESIALIST,
-        SPESIALIST_BASEURL: process.env.SPESIALIST_BASE_URL,
+        SPESIALIST_BASEURL:
+            spesialistBackend === 'deployed'
+                ? process.env.SPESIALIST_BASE_URL
+                : spesialistBackend === 'lokal'
+                  ? 'http://localhost:8080'
+                  : 'http://0.0.0.0:4321',
         // Provided by nais
         AZURE_APP_CLIENT_ID: process.env.AZURE_APP_CLIENT_ID,
         AZURE_APP_CLIENT_SECRET: process.env.AZURE_APP_CLIENT_SECRET,
         AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
         AZURE_APP_WELL_KNOWN_URL: process.env.AZURE_APP_WELL_KNOWN_URL,
         AZURE_APP_PRE_AUTHORIZED_APPS: process.env.AZURE_APP_PRE_AUTHORIZED_APPS,
-    }) satisfies Record<keyof ServerEnv, string | undefined>;
+    } satisfies Record<keyof ServerEnv, string | undefined>;
+};
 
 /**
  * Server envs are lazy loaded and verified using Zod.
@@ -75,8 +82,21 @@ export function getServerEnv(): ServerEnv & PublicEnv {
         }
     }
 }
+const spesialistBackendVariant = (): 'mock' | 'lokal' | 'deployed' => {
+    switch (browserEnv.NEXT_PUBLIC_RUNTIME_ENV) {
+        case 'test':
+        case 'mock':
+            return 'mock';
+        case 'dev':
+        case 'prod':
+            return 'deployed';
+        case 'lokal':
+            return 'lokal';
+    }
+};
 
-export const erLokal = process.env.NODE_ENV !== 'production';
+export const spesialistBackend = spesialistBackendVariant();
 export const erDev = browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev';
 export const erProd = browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'prod';
-export const erUtvikling = erLokal || erDev;
+
+export const erUtvikling = spesialistBackend !== 'deployed' || erDev;

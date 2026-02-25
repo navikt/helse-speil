@@ -7,7 +7,7 @@ import { logger } from '@navikt/next-logger';
 import { teamLogger } from '@navikt/next-logger/team-log';
 import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 
-import { erLokal } from '@/env';
+import { spesialistBackend } from '@/env';
 import { metrics } from '@observability/metrics';
 
 type TokenPayload = z.infer<typeof tokenPayloadSchema>;
@@ -20,7 +20,7 @@ const tokenPayloadSchema = z.object({
 });
 
 export async function getTokenPayload(): Promise<TokenPayload> {
-    if (erLokal) {
+    if (spesialistBackend !== 'deployed') {
         return {
             oid: '11111111-2222-3333-4444-555555555555',
             preferred_username: 'local-username',
@@ -78,7 +78,7 @@ export async function getTokenPayload(): Promise<TokenPayload> {
 }
 
 export async function byttTilOboToken(token: string, scope: string): Promise<ReturnType<typeof requestAzureOboToken>> {
-    if (erLokal) {
+    if (spesialistBackend !== 'deployed') {
         return {
             ok: true,
             token: 'fake-local-obo-token',
@@ -90,7 +90,7 @@ export async function byttTilOboToken(token: string, scope: string): Promise<Ret
 }
 
 export const hentWonderwallToken = (req: Request | IncomingMessage | Headers): string | null => {
-    if (erLokal) {
+    if (spesialistBackend !== 'deployed') {
         return 'fake-local-wonderwall-token';
     }
 

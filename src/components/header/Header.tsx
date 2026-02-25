@@ -6,7 +6,7 @@ import React, { ReactElement } from 'react';
 
 import { InternalHeader } from '@navikt/ds-react';
 
-import { erDev, erLokal, erUtvikling } from '@/env';
+import { erDev, erUtvikling, spesialistBackend } from '@/env';
 import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';
 import { EasterEgg } from '@components/header/EasterEgg';
@@ -20,7 +20,12 @@ const cx = classNames.bind(styles);
 
 export const Header = (): ReactElement => {
     return (
-        <InternalHeader className={cx(styles.header, { localhostHeader: erLokal, devHeader: erDev })}>
+        <InternalHeader
+            className={cx(styles.header, {
+                localhostHeader: spesialistBackend !== 'deployed',
+                devHeader: erDev,
+            })}
+        >
             <InternalHeader.Title as={NextLink} href="/">
                 Nav Sykepenger
             </InternalHeader.Title>
