@@ -13,7 +13,11 @@ export const postGraphQLQuery = async (wonderwallToken: string, data: string): P
     const baseUrl = getServerEnv().SPESIALIST_BASEURL;
 
     if (spesialistBackend === 'lokal') {
-        token = await fetch(`${baseUrl}/local-token`).then((res) => res.text());
+        const res = await fetch(`${baseUrl}/local-token`);
+        if (!res.ok) {
+            throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);
+        }
+        token = await res.text();
     } else {
         const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
         if (!oboResult.ok) {
