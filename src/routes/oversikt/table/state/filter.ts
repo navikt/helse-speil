@@ -262,7 +262,7 @@ export function hydrateFilters(): [WritableAtom<FiltersPerTab, [SetStateAction<F
 const filtersState = atom(
     (get) => get(filtersPerTab)[get(tabState)],
     (get, set, newFilters: Filter[]) => {
-        set(filtersPerTab, (filters) => ({ ...filters, [get(tabState)]: newFilters }));
+        void set(filtersPerTab, (filters) => ({ ...filters, [get(tabState)]: newFilters }));
     },
 );
 
