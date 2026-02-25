@@ -22,7 +22,7 @@ export const videresendTilSpesialist = async (request: Request): Promise<Respons
     let token: string;
 
     if (spesialistBackend === 'lokal') {
-        token = await fetch('http://localhost:8080/local-token').then((res) => res.text());
+        token = await fetch(`${getServerEnv().SPESIALIST_BASEURL}/local-token`).then((res) => res.text());
     } else {
         const wonderwallToken = hentWonderwallToken(request);
         if (!wonderwallToken) {
