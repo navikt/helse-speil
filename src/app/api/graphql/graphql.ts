@@ -2,21 +2,30 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { logger } from '@navikt/next-logger';
 
-import { getServerEnv } from '@/env';
+import { getServerEnv, spesialistBackend } from '@/env';
 import { byttTilOboToken } from '@auth/token';
 import { metrics } from '@observability/metrics';
 
 export const postGraphQLQuery = async (wonderwallToken: string, data: string): Promise<Response> => {
     const callId = uuidv4();
-    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
-    if (!oboResult.ok) {
-        throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
+
+    let token: string;
+    const baseUrl = getServerEnv().SPESIALIST_BASEURL;
+
+    if (spesialistBackend === 'lokal') {
+        token = await fetch(`${baseUrl}/local-token`).then((res) => res.text());
+    } else {
+        const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
+        if (!oboResult.ok) {
+            throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
+        }
+        token = oboResult.token;
     }
 
     const options = {
         method: 'post',
         headers: {
-            Authorization: `Bearer ${oboResult.token}`,
+            Authorization: `Bearer ${token}`,
             'X-Request-Id': callId,
             'Content-Type': 'application/json',
         },
@@ -24,8 +33,7 @@ export const postGraphQLQuery = async (wonderwallToken: string, data: string): P
     };
 
     const operationName = JSON.parse(data)['operationName'];
-    const maskertToken = oboResult.token.substring(0, 6);
-    const baseUrl = getServerEnv().SPESIALIST_BASEURL;
+    const maskertToken = token.substring(0, 6);
     logger.debug(
         `Kaller ${baseUrl} med X-Request-Id: ${callId}, operationName: ${operationName} og token: ${maskertToken}...`,
     );

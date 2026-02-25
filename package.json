@@ -16,7 +16,8 @@
     },
     "packageManager": "pnpm@10.28.2",
     "scripts": {
-        "dev": "PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
+        "dev": "NEXT_PUBLIC_RUNTIME_ENV=mock PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
+        "lokal-spesialist": "NEXT_PUBLIC_RUNTIME_ENV=lokal PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "import-testperson": "dev/importer-testdata.sh",
         "prebuild": "next telemetry disable",
         "preinstall": "npx only-allow pnpm",
