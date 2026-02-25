@@ -6,6 +6,7 @@ import * as R from 'remeda';
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { BodyShort, GlobalAlert, HStack, InfoCard } from '@navikt/ds-react';
 
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Driftsmelding, Informasjonsmelding, useDriftsmelding, useInformasjonsmelding } from '@external/sanity';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
@@ -27,6 +28,7 @@ export const Driftsmeldinger = (): ReactElement[] => {
         <DriftsmeldingInnhold key={`drift-${driftsmelding._id}`} driftsmelding={driftsmelding} />
     ));
 
+    console.log(informasjonsmeldinger);
     const info = R.sortBy(informasjonsmeldinger, [R.prop('_updatedAt'), 'desc']).map((informasjonsmelding) => (
         <InformasjonsmeldingInnhold key={`info-${informasjonsmelding._id}`} informasjonsmelding={informasjonsmelding} />
     ));
@@ -116,7 +118,11 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
                     />
                 </HStack>
             </InfoCard.Header>
-            {åpneInformasjonsmelding && <GlobalAlert.Content>{informasjonsmelding.beskrivelse}</GlobalAlert.Content>}
+            {åpneInformasjonsmelding && (
+                <GlobalAlert.Content>
+                    <BodyShortWithPreWrap>{informasjonsmelding.beskrivelse}</BodyShortWithPreWrap>
+                </GlobalAlert.Content>
+            )}
         </InfoCard>
     );
 };
