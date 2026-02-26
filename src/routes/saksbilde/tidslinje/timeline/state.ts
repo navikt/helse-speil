@@ -76,3 +76,36 @@ export function useExpandableRows() {
 
     return { expandedRows, toggleRowExpanded };
 }
+
+export function useScrollToActivePeriod(
+    containerRef: RefObject<HTMLDivElement | null>,
+    width: number,
+    zoomLevel: ZoomLevel,
+) {
+    const hasScrolledInitially = useRef(false);
+
+    // Scroll active period into view on initial render (once layout is ready)
+    useEffect(() => {
+        if (hasScrolledInitially.current || !width) return;
+
+        const activePeriod = containerRef.current?.querySelector<HTMLElement>('[data-active-period]');
+        if (!activePeriod) return;
+
+        requestAnimationFrame(() => {
+            activePeriod.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'instant' });
+        });
+        hasScrolledInitially.current = true;
+    }, [containerRef, width]);
+
+    // Scroll active period into view when zoom level changes
+    useEffect(() => {
+        if (!hasScrolledInitially.current) return;
+
+        const activePeriod = containerRef.current?.querySelector<HTMLElement>('[data-active-period]');
+        if (!activePeriod) return;
+
+        requestAnimationFrame(() => {
+            activePeriod.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'instant' });
+        });
+    }, [containerRef, zoomLevel]);
+}

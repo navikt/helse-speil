@@ -1,7 +1,7 @@
 'use client';
 
 import { createStore } from 'jotai';
-import React, { PropsWithChildren, ReactElement, use, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from 'react';
 
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useOppdaterPersondataEnGang } from '@hooks/useOppdaterPersondataEnGang';
@@ -25,6 +25,11 @@ type LayoutProps = {
 
 export default function Layout({ children, params }: PropsWithChildren<LayoutProps>): ReactElement {
     const { personPseudoId } = use(params);
+
+    useEffect(() => {
+        document.documentElement.classList.add('overflow-y-scroll');
+        return () => document.documentElement.classList.remove('overflow-y-scroll');
+    }, []);
 
     useRefreshPersonVedEvent();
     useOppdaterPersondataEnGang();

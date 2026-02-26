@@ -6,7 +6,7 @@ import { TimelineRowLabels } from '@saksbilde/tidslinje/timeline/TimelineRowLabe
 import { TimelineScrollableRows } from '@saksbilde/tidslinje/timeline/TimelineScrollableRows';
 import { useParsedRows } from '@saksbilde/tidslinje/timeline/index';
 import { TimelineRow } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
-import { useExpandableRows, useTimelineState } from '@saksbilde/tidslinje/timeline/state';
+import { useExpandableRows, useScrollToActivePeriod, useTimelineState } from '@saksbilde/tidslinje/timeline/state';
 
 import { TimelineContext } from './context';
 import { ExpandedRowsContext, RowContext, ToggleRowContext } from './row/context';
@@ -24,6 +24,8 @@ export function Timeline({ children }: PropsWithChildren): ReactElement {
         setZoomSpanInDays,
         timelineScrollableContainerRef,
     } = useTimelineState(earliestDate, latestDate);
+
+    useScrollToActivePeriod(timelineScrollableContainerRef, width, zoomLevel);
 
     return (
         <TimelineContext.Provider

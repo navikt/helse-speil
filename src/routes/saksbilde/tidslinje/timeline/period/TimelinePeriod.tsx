@@ -62,6 +62,7 @@ export const TimelinePeriod: ComponentWithType<TimelinePeriodProps> = (): ReactE
         <>
             <button
                 data-period-variant={variant}
+                data-active-period={isActive || undefined}
                 className={cn(
                     'aksel-timeline__period--clickable aksel-timeline__period absolute h-[24px] rounded-full',
                     {
