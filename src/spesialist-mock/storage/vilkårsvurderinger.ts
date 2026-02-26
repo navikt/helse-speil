@@ -31,6 +31,7 @@ export class VilkårsvurderingerMock {
                 skjæringstidspunkt: skjaeringstidspunkt,
                 vurderteInngangsvilkår: [
                     {
+                        id: uuidv4(),
                         vilkårskode: 'MEDLEM_I_FOLKETRYGDEN',
                         vurderingskode: 'MEDLEMSKAP_JA',
                         tidspunkt: new Date().toISOString(),
@@ -41,6 +42,7 @@ export class VilkårsvurderingerMock {
                         type: ManuellType.MANUELL,
                     },
                     {
+                        id: uuidv4(),
                         vilkårskode: 'OPPTJENING',
                         vurderingskode: 'OPPTJENING_MINST_4_UKER',
                         tidspunkt: new Date().toISOString(),
@@ -86,6 +88,7 @@ export class VilkårsvurderingerMock {
         );
 
         const nyeVurderinger = vurderinger.map((v) => ({
+            id: uuidv4(),
             vilkårskode: v.vilkårskode,
             vurderingskode: v.vurderingskode,
             tidspunkt: new Date().toISOString(),

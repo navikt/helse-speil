@@ -28,7 +28,7 @@ import {
     usePostVurderteInngangsvilkårForPerson,
 } from '@io/rest/generated/vilkårsvurderinger/vilkårsvurderinger';
 import { useQueryClient } from '@tanstack/react-query';
-import { somNorskDato } from '@utils/date';
+import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { cn } from '@utils/tw';
 
 import type { Underspørsmål } from './kodeverkTyper';
@@ -256,7 +256,7 @@ function VilkårContent({
             <VStack paddingInline="space-44" paddingBlock="space-12" gap="space-20">
                 <Link href={vilkår.lovdatalenke.href}>{vilkår.lovdatalenke.lenketekst}</Link>
                 <VilkårForm vilkårskode={vilkårskode} periode={periode} initialAssessment={vurdering} />
-                <Endringslogg />
+                <Endringslogg vilkårskode={vilkårskode} skjaeringstidspunkt={periode.skjaeringstidspunkt} />
             </VStack>
         </Box>
     );
@@ -421,7 +421,26 @@ function VilkårForm({ vilkårskode, periode, initialAssessment }: VilkårFormPr
     );
 }
 
-function Endringslogg() {
+function Endringslogg({ vilkårskode, skjaeringstidspunkt }: { vilkårskode: string; skjaeringstidspunkt: string }) {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: samlingAvVurderinger } = useGetVurderteInngangsvilkårForPerson(personPseudoId, skjaeringstidspunkt);
+
+    const historikk = useMemo(() => {
+        if (!samlingAvVurderinger?.length) return [];
+        const seenIds = new Set<string>();
+        return samlingAvVurderinger
+            .flatMap((samling) => {
+                const vurdering = samling.vurderteInngangsvilkår?.find((v) => v.vilkårskode === vilkårskode);
+                return vurdering ? [vurdering] : [];
+            })
+            .filter((vurdering) => {
+                if (seenIds.has(vurdering.id)) return false;
+                seenIds.add(vurdering.id);
+                return true;
+            })
+            .sort((a, b) => new Date(b.tidspunkt).getTime() - new Date(a.tidspunkt).getTime());
+    }, [samlingAvVurderinger, vilkårskode]);
+
     return (
         <Box borderWidth="1 0 0" paddingBlock="space-20" borderColor="neutral" paddingInline="space-8">
             <Heading size="xsmall">Endringslogg:</Heading>
@@ -443,22 +462,22 @@ function Endringslogg() {
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    <Table.Row>
-                        <Table.DataCell>01.02.2026 kl. 10:31</Table.DataCell>
-                        <Table.DataCell>Oppfylt</Table.DataCell>
-                        <Table.DataCell>
-                            <Link href="#">Jeg har vurdert bla bla bla</Link>
-                        </Table.DataCell>
-                        <Table.DataCell>B123456</Table.DataCell>
-                    </Table.Row>
-                    <Table.Row>
-                        <Table.DataCell>18.01.2026 kl. 11:49</Table.DataCell>
-                        <Table.DataCell>Ikke oppfylt</Table.DataCell>
-                        <Table.DataCell>
-                            <Link href="#">Åpne datagrunnlaget for den automatiske vurderingen</Link>
-                        </Table.DataCell>
-                        <Table.DataCell>Automatisk</Table.DataCell>
-                    </Table.Row>
+                    {historikk.map((vurdering, index) => (
+                        <Table.Row key={index}>
+                            <Table.DataCell>{getFormattedDatetimeString(vurdering.tidspunkt)}</Table.DataCell>
+                            <Table.DataCell>
+                                {getVilkårStatusVisningstekst(
+                                    getVurderingStatus(vurdering.vurderingskode, vilkårskode) as VilkårStatus,
+                                )}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {vurdering.type === 'MANUELL' ? vurdering.manuellVurdering?.begrunnelse : ''}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {vurdering.type === 'MANUELL' ? vurdering.manuellVurdering?.navident : 'Automatisk'}
+                            </Table.DataCell>
+                        </Table.Row>
+                    ))}
                 </Table.Body>
             </Table>
         </Box>

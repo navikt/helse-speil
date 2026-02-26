@@ -794,6 +794,7 @@ export const AutomatiskType = {
 } as const;
 
 export interface Automatisk {
+    id: string;
     vilkårskode: string;
     vurderingskode?: AutomatiskVurderingskode;
     tidspunkt: string;
@@ -819,6 +820,7 @@ export const ManuellType = {
 } as const;
 
 export interface Manuell {
+    id: string;
     vilkårskode: string;
     vurderingskode?: ManuellVurderingskode;
     tidspunkt: string;
