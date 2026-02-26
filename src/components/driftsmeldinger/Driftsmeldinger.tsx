@@ -85,12 +85,10 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
             </GlobalAlert.Header>
             {åpneDriftsmelding && (
                 <GlobalAlert.Content>
-                    <BodyShortWithPreWrap>
-                        {medPunktum(driftsmelding.arsak)}
-                        {medPunktum(driftsmelding.tiltak)}
-                        {medPunktum(driftsmelding.oppdatering)}
-                        {medPunktum(driftsmelding.cta)}
-                    </BodyShortWithPreWrap>
+                    {medPunktum(driftsmelding.arsak)}
+                    {medPunktum(driftsmelding.tiltak)}
+                    {medPunktum(driftsmelding.oppdatering)}
+                    {medPunktum(driftsmelding.cta)}
                 </GlobalAlert.Content>
             )}
         </GlobalAlert>
