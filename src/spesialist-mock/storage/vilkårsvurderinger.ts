@@ -65,7 +65,7 @@ export class VilkårsvurderingerMock {
     static leggTilManuelleVurderinger = (
         pseudoId: string,
         skjaeringstidspunkt: string,
-        _versjon: number,
+        versjon: number,
         vurderinger: ApiManuellInngangsvilkårVurdering[],
     ): void => {
         const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(pseudoId);
@@ -81,6 +81,12 @@ export class VilkårsvurderingerMock {
             (acc, samling) => (!acc || samling.versjon > acc.versjon ? samling : acc),
             undefined,
         );
+
+        if (forrigeSamling && forrigeSamling.versjon !== versjon) {
+            throw new Error(
+                `Versjonskonflikt: Forrige versjon er ${forrigeSamling.versjon}, men versjon ${versjon} ble sendt inn.`,
+            );
+        }
 
         const endredeVilkårskoder = new Set(vurderinger.map((v) => v.vilkårskode));
         const uendredeVurderinger = (forrigeSamling?.vurderteInngangsvilkår ?? []).filter(

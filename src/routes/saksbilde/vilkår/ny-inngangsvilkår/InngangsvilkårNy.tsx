@@ -50,12 +50,9 @@ function InngangsvilkårContainer({ periode }: { periode: BeregnetPeriode }) {
         isError,
     } = useGetVurderteInngangsvilkårForPerson(personPseudoId, periode.skjaeringstidspunkt);
 
-    const vurderinger = useMemo(() => {
-        if (!samlingAvVurderinger?.length) return [];
-        const sisteSamling = samlingAvVurderinger.reduce((acc, samling) =>
-            samling.versjon > acc.versjon ? samling : acc,
-        );
-        return sisteSamling.vurderteInngangsvilkår ?? [];
+    const sisteSamling = useMemo(() => {
+        if (!samlingAvVurderinger?.length) return undefined;
+        return samlingAvVurderinger.reduce((acc, samling) => (samling.versjon > acc.versjon ? samling : acc));
     }, [samlingAvVurderinger]);
 
     if (isError) {
@@ -65,6 +62,13 @@ function InngangsvilkårContainer({ periode }: { periode: BeregnetPeriode }) {
                 <LocalAlert.Content>
                     Det skjedde en feil ved innlastning av inngangsvilkår. Prøv igjen senere.
                 </LocalAlert.Content>
+            </LocalAlert>
+        );
+    }
+    if (!sisteSamling && !isLoading) {
+        return (
+            <LocalAlert status="warning">
+                <LocalAlert.Title>Ingen vurderinger funnet</LocalAlert.Title>
             </LocalAlert>
         );
     }
@@ -93,7 +97,10 @@ function InngangsvilkårContainer({ periode }: { periode: BeregnetPeriode }) {
                 <Table.Body>
                     {saksbehandlerUiKodeverk.map((vilkårUiInfo) => {
                         const vilkårInfo = getVilkårInfo(vilkårUiInfo.vilkårskode);
-                        const vurdering = findVurderingForVilkår(vilkårUiInfo.vilkårskode, vurderinger);
+                        const vurdering = findVurderingForVilkår(
+                            vilkårUiInfo.vilkårskode,
+                            sisteSamling?.vurderteInngangsvilkår,
+                        );
                         const status = getVurderingStatus(vurdering?.vurderingskode, vilkårUiInfo.vilkårskode);
 
                         if (!vilkårInfo) {
@@ -126,6 +133,7 @@ function InngangsvilkårContainer({ periode }: { periode: BeregnetPeriode }) {
                         return (
                             <Vilkår
                                 key={vilkårUiInfo.vilkårskode}
+                                versjon={sisteSamling?.versjon || 0}
                                 vilkårskode={vilkårUiInfo.vilkårskode}
                                 periode={periode}
                                 vilkår={{
@@ -180,12 +188,19 @@ function Vilkår({
     vilkårskode,
     periode,
     rawVurdering,
-}: VilkårProps & { vilkårskode: string; periode: BeregnetPeriode }) {
+    versjon,
+}: VilkårProps & { vilkårskode: string; periode: BeregnetPeriode; versjon: number }) {
     const [erÅpen, setErÅpen] = useState(false);
     return (
         <Table.ExpandableRow
             content={
-                <VilkårContent vilkår={vilkår} vilkårskode={vilkårskode} vurdering={rawVurdering} periode={periode} />
+                <VilkårContent
+                    vilkår={vilkår}
+                    vilkårskode={vilkårskode}
+                    vurdering={rawVurdering}
+                    periode={periode}
+                    versjon={versjon}
+                />
             }
             togglePlacement="right"
             className={cn({ 'bg-ax-bg-accent-moderate': erÅpen })}
@@ -277,11 +292,13 @@ function VilkårContent({
     vilkårskode,
     vurdering,
     periode,
+    versjon,
 }: {
     vilkår: Vilkår;
     vilkårskode: string;
     vurdering: (Automatisk | Manuell) | undefined;
     periode: BeregnetPeriode;
+    versjon: number;
 }) {
     return (
         <Box
@@ -292,7 +309,12 @@ function VilkårContent({
         >
             <VStack paddingInline="space-44" paddingBlock="space-12" gap="space-20">
                 <Link href={vilkår.lovdatalenke.href}>{vilkår.lovdatalenke.lenketekst}</Link>
-                <VilkårForm vilkårskode={vilkårskode} periode={periode} initialAssessment={vurdering} />
+                <VilkårForm
+                    vilkårskode={vilkårskode}
+                    periode={periode}
+                    initialAssessment={vurdering}
+                    versjon={versjon}
+                />
                 <Endringslogg vilkårskode={vilkårskode} skjaeringstidspunkt={periode.skjaeringstidspunkt} />
             </VStack>
         </Box>
@@ -333,9 +355,10 @@ interface VilkårFormProps {
     vilkårskode: string;
     periode: BeregnetPeriode;
     initialAssessment?: Automatisk | Manuell;
+    versjon: number;
 }
 
-function VilkårForm({ vilkårskode, periode, initialAssessment }: VilkårFormProps) {
+function VilkårForm({ vilkårskode, periode, initialAssessment, versjon }: VilkårFormProps) {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
     const vilkårUiInfo = saksbehandlerUiKodeverk.find((v) => v.vilkårskode === vilkårskode);
@@ -403,7 +426,7 @@ function VilkårForm({ vilkårskode, periode, initialAssessment }: VilkårFormPr
             pseudoId: personPseudoId,
             skjaeringstidspunkt: periode.skjaeringstidspunkt,
             data: {
-                versjon: 0,
+                versjon,
                 vurderinger: [vurdering],
             },
         });
