@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { logger } from '@navikt/next-logger';
 
 import { getServerEnv } from '@/env';
-import { byttTilOboToken } from '@auth/token';
+import { WonderwallError, byttTilOboToken, hentWonderwallToken } from '@auth/token';
 
 export enum Handling {
     velgBrukerIModia,
@@ -17,10 +17,14 @@ const handlinger: { [key in Handling]: Handlingdata } = {
     [Handling.nullstillBruker]: { path: '/api/context/aktivbruker', method: 'DELETE' },
 };
 
-export const kallModia = async (handling: Handling, wonderwallToken: string, data?: string): Promise<Response> => {
+export const kallModia = async (handling: Handling, req: Request, data?: string): Promise<Response | Error> => {
+    const token = hentWonderwallToken(req);
+    if (!token) {
+        return new WonderwallError('Fikk ikke token fra Wonderwall');
+    }
     const { method, path } = handlinger[handling];
     const callId = uuidv4();
-    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().MODIA_SCOPE);
+    const oboResult = await byttTilOboToken(token, getServerEnv().MODIA_SCOPE);
     if (!oboResult.ok) {
         throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
     }

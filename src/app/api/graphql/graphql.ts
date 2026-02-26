@@ -2,29 +2,22 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { logger } from '@navikt/next-logger';
 
-import { getServerEnv, spesialistBackend } from '@/env';
-import { byttTilOboToken } from '@auth/token';
+import { getServerEnv } from '@/env';
+import { WonderwallError, oboTokenViaWonderwall } from '@auth/token';
 import { metrics } from '@observability/metrics';
 
-export const postGraphQLQuery = async (wonderwallToken: string, data: string): Promise<Response> => {
+export const postGraphQLQuery = async (req: Request, data: string): Promise<Response> => {
     const callId = uuidv4();
 
-    let token: string;
     const baseUrl = getServerEnv().SPESIALIST_BASEURL;
 
-    if (spesialistBackend === 'lokal') {
-        const res = await fetch(`${baseUrl}/local-token`);
-        if (!res.ok) {
-            throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);
-        }
-        token = await res.text();
-    } else {
-        const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
-        if (!oboResult.ok) {
-            throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
-        }
-        token = oboResult.token;
+    const oboResult = await oboTokenViaWonderwall(req, getServerEnv().SPESIALIST_SCOPE);
+    if (!oboResult.ok) {
+        if (oboResult.error satisfies WonderwallError) {
+            return new Response(null, { status: 401 });
+        } else throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
     }
+    const token = oboResult.token;
 
     const options = {
         method: 'post',

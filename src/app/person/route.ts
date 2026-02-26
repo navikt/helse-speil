@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
 import { getServerEnv, spesialistBackend } from '@/env';
-import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
+import { WonderwallError, oboTokenViaWonderwall } from '@auth/token';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
 // Endepunkt for å kunne søke opp personer på fødselsnummer eller aktørID.
@@ -18,25 +18,13 @@ export async function POST(request: NextRequest) {
         personPseudoId = PersonMock.findPersonPseudoId(identitetsnummer ?? aktørId ?? '');
     } else {
         const spesialistBaseUrl = getServerEnv().SPESIALIST_BASEURL;
-        let token: string;
-        if (spesialistBackend === 'lokal') {
-            const res = await fetch(`${spesialistBaseUrl}/local-token`);
-            if (!res.ok) {
-                throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);
-            }
-            token = await res.text();
-        } else {
-            const wonderwallToken = hentWonderwallToken(request);
-            if (!wonderwallToken) {
-                return IkkeAutentisert;
-            }
-
-            const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
-            if (!oboResult.ok) {
-                throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
-            }
-            token = oboResult.token;
+        const resultat = await oboTokenViaWonderwall(request, getServerEnv().SPESIALIST_SCOPE);
+        if (!resultat.ok) {
+            if (resultat.error instanceof WonderwallError) return IkkeAutentisert;
+            else throw new Error(`Feil ved henting av OBO-token: ${resultat.error.message}`);
         }
+
+        const token = resultat.ok;
 
         const headers = new Headers();
         headers.set('X-Request-Id', uuidv4());

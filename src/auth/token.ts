@@ -5,7 +5,7 @@ import { ZodError, z } from 'zod/v4';
 
 import { logger } from '@navikt/next-logger';
 import { teamLogger } from '@navikt/next-logger/team-log';
-import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
+import { TokenResult, getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 
 import { getServerEnv, spesialistBackend } from '@/env';
 import { metrics } from '@observability/metrics';
@@ -94,6 +94,34 @@ export async function byttTilOboToken(token: string, scope: string): Promise<Ret
             return requestAzureOboToken(token, scope);
     }
 }
+
+export async function oboTokenViaWonderwall(
+    req: Request | IncomingMessage | Headers,
+    scope: string,
+): Promise<TokenResult> {
+    switch (spesialistBackend) {
+        case 'mock':
+            return {
+                ok: true,
+                token: 'fake-local-obo-token',
+            };
+        case 'lokal':
+            const res = await fetch(`${getServerEnv().SPESIALIST_BASEURL}/local-token`);
+            if (!res.ok) {
+                throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);
+            }
+            return TokenResult.Ok(await res.text());
+        case 'deployed':
+            const token = getToken(req);
+            if (token == null) {
+                return TokenResult.Error(new WonderwallError('Fikk ikke token fra Wonderwall'));
+            }
+            metrics.oboCounter.inc({ target_client_id: scope }, 1);
+            return requestAzureOboToken(token, scope);
+    }
+}
+
+export class WonderwallError extends Error {}
 
 export const hentWonderwallToken = (req: Request | IncomingMessage | Headers): string | null => {
     if (spesialistBackend !== 'deployed') {
