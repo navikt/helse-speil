@@ -60,16 +60,15 @@ const UtbetalingCardBeregnet = ({
             <div className={styles.Grid}>
                 <BodyShort>Sykepengegrunnlag</BodyShort>
                 <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
-                {isSelvstendigNaering(inntektsforhold) && (
-                    <>
-                        <BodyShort>Dekning</BodyShort>
-                        {erUtvikling ? (
-                            <Forsikring behandlingId={behandlingId} forsikringHardkodet={forsikringHardkodet} />
-                        ) : (
+                {isSelvstendigNaering(inntektsforhold) &&
+                    (erUtvikling ? (
+                        <Forsikring behandlingId={behandlingId} forsikringHardkodet={forsikringHardkodet} />
+                    ) : (
+                        <>
+                            <BodyShort>Dekning</BodyShort>
                             <BodyShort>{forsikringHardkodet}</BodyShort>
-                        )}
-                    </>
-                )}
+                        </>
+                    ))}
                 <BodyShort>Utbetalingsdager</BodyShort>
                 <BodyShort>{antallUtbetalingsdager}</BodyShort>
             </div>

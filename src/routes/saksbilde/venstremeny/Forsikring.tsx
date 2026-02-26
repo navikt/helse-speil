@@ -21,6 +21,7 @@ export const Forsikring = ({
     if (isLoading) {
         return (
             <>
+                <BodyShort>Dekning</BodyShort>
                 <LoadingShimmer />
             </>
         );
@@ -35,6 +36,7 @@ export const Forsikring = ({
                         aria-label="Feil"
                         className="text-ax-text-warning-decoration"
                     />
+                    <BodyShort>Dekning</BodyShort>
                 </HStack>
                 <BodyShort>{somBackendfeil(error).message}</BodyShort>
             </>
@@ -42,11 +44,14 @@ export const Forsikring = ({
     }
 
     return (
-        <BodyShort>
-            {data?.eksisterer
-                ? `${data.forsikringInnhold?.dekningsgrad} % fra ${data.forsikringInnhold?.gjelderFraDag}. dag`
-                : forsikringHardkodet}
-        </BodyShort>
+        <>
+            <BodyShort>Dekning</BodyShort>
+            <BodyShort>
+                {data?.eksisterer
+                    ? `${data.forsikringInnhold?.dekningsgrad} % fra ${data.forsikringInnhold?.gjelderFraDag}. dag`
+                    : forsikringHardkodet}
+            </BodyShort>
+        </>
     );
 };
 
