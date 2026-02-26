@@ -2,6 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
+import { erUtvikling } from '@/env';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import {
     Maybe,
@@ -12,6 +13,7 @@ import {
     VilkarsgrunnlagInfotrygdV2,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
+import { Forsikring } from '@saksbilde/venstremeny/Forsikring';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { somPenger } from '@utils/locale';
 import { cn } from '@utils/tw';
@@ -34,6 +36,7 @@ interface UtbetalingCardProps {
     gammeltTotalbeløp?: number;
     inntektsforhold: Inntektsforhold;
     erJordbruker: boolean;
+    behandlingId: string;
 }
 
 const UtbetalingCardBeregnet = ({
@@ -48,41 +51,49 @@ const UtbetalingCardBeregnet = ({
     gammeltTotalbeløp,
     inntektsforhold,
     erJordbruker,
-}: UtbetalingCardProps): ReactElement => (
-    <section className={styles.Card}>
-        <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
-        <div className={styles.Grid}>
-            <BodyShort>Sykepengegrunnlag</BodyShort>
-            <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
-            {isSelvstendigNaering(inntektsforhold) && (
-                <>
-                    <BodyShort>Dekning</BodyShort>
-                    <BodyShort>{erJordbruker ? 100 : 80} % fra 17. dag</BodyShort>
-                </>
+    behandlingId,
+}: UtbetalingCardProps): ReactElement => {
+    const forsikringHardkodet = `${erJordbruker ? 100 : 80} % fra 17. dag`;
+    return (
+        <section className={styles.Card}>
+            <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
+            <div className={styles.Grid}>
+                <BodyShort>Sykepengegrunnlag</BodyShort>
+                <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
+                {isSelvstendigNaering(inntektsforhold) && (
+                    <>
+                        <BodyShort>Dekning</BodyShort>
+                        {erUtvikling ? (
+                            <Forsikring behandlingId={behandlingId} forsikringHardkodet={forsikringHardkodet} />
+                        ) : (
+                            <BodyShort>{forsikringHardkodet}</BodyShort>
+                        )}
+                    </>
+                )}
+                <BodyShort>Utbetalingsdager</BodyShort>
+                <BodyShort>{antallUtbetalingsdager}</BodyShort>
+            </div>
+            {gammeltTotalbeløp !== undefined && (
+                <Differansevisning
+                    gammeltTotalbeløp={gammeltTotalbeløp}
+                    differanse={periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp - gammeltTotalbeløp}
+                />
             )}
-            <BodyShort>Utbetalingsdager</BodyShort>
-            <BodyShort>{antallUtbetalingsdager}</BodyShort>
-        </div>
-        {gammeltTotalbeløp !== undefined && (
-            <Differansevisning
-                gammeltTotalbeløp={gammeltTotalbeløp}
-                differanse={periodePersonNettoBeløp + periodeArbeidsgiverNettoBeløp - gammeltTotalbeløp}
+            <BeløpTilUtbetaling
+                utbetaling={utbetaling}
+                personinfo={personinfo}
+                arbeidsgiversimulering={arbeidsgiversimulering}
+                personsimulering={personsimulering}
+                periodePersonNettoBeløp={periodePersonNettoBeløp}
+                periodeArbeidsgiverNettoBeløp={periodeArbeidsgiverNettoBeløp}
+                inntektsforhold={inntektsforhold}
             />
-        )}
-        <BeløpTilUtbetaling
-            utbetaling={utbetaling}
-            personinfo={personinfo}
-            arbeidsgiversimulering={arbeidsgiversimulering}
-            personsimulering={personsimulering}
-            periodePersonNettoBeløp={periodePersonNettoBeløp}
-            periodeArbeidsgiverNettoBeløp={periodeArbeidsgiverNettoBeløp}
-            inntektsforhold={inntektsforhold}
-        />
-        {!arbeidsgiversimulering && !personsimulering && utbetaling.status !== Utbetalingstatus.Annullert && (
-            <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>
-        )}
-    </section>
-);
+            {!arbeidsgiversimulering && !personsimulering && utbetaling.status !== Utbetalingstatus.Annullert && (
+                <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>
+            )}
+        </section>
+    );
+};
 
 interface DifferansevisningProps {
     gammeltTotalbeløp: number;

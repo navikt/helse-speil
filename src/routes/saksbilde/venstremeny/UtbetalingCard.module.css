@@ -13,7 +13,7 @@
     margin-bottom: 1.5rem;
 }
 
-.Grid > p:nth-of-type(2n) {
+.Grid > :nth-child(2n) {
     justify-self: flex-end;
 }
 
