@@ -13,6 +13,7 @@ import {
     LocalAlert,
     Radio,
     RadioGroup,
+    Skeleton,
     Table,
     Textarea,
     VStack,
@@ -20,8 +21,7 @@ import {
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { BeregnetPeriode } from '@io/graphql';
-import type { ApiManuellInngangsvilkårVurdering } from '@io/rest/generated/spesialist.schemas';
-import type { Automatisk, Manuell } from '@io/rest/generated/spesialist.schemas';
+import type { ApiManuellInngangsvilkårVurdering, Automatisk, Manuell } from '@io/rest/generated/spesialist.schemas';
 import {
     getGetVurderteInngangsvilkårForPersonQueryKey,
     useGetVurderteInngangsvilkårForPerson,
@@ -44,10 +44,11 @@ import {
 function InngangsvilkårContainer({ periode }: { periode: BeregnetPeriode }) {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
-    const { data: samlingAvVurderinger } = useGetVurderteInngangsvilkårForPerson(
-        personPseudoId,
-        periode.skjaeringstidspunkt,
-    );
+    const {
+        data: samlingAvVurderinger,
+        isLoading,
+        isError,
+    } = useGetVurderteInngangsvilkårForPerson(personPseudoId, periode.skjaeringstidspunkt);
 
     const vurderinger = useMemo(() => {
         if (!samlingAvVurderinger?.length) return [];
@@ -56,6 +57,17 @@ function InngangsvilkårContainer({ periode }: { periode: BeregnetPeriode }) {
         );
         return sisteSamling.vurderteInngangsvilkår ?? [];
     }, [samlingAvVurderinger]);
+
+    if (isError) {
+        return (
+            <LocalAlert status="error">
+                <LocalAlert.Title>Feil ved innlastning av inngangsvilkår</LocalAlert.Title>
+                <LocalAlert.Content>
+                    Det skjedde en feil ved innlastning av inngangsvilkår. Prøv igjen senere.
+                </LocalAlert.Content>
+            </LocalAlert>
+        );
+    }
 
     return (
         <VStack marginBlock="space-20" marginInline="space-24" gap="space-20">
@@ -87,7 +99,30 @@ function InngangsvilkårContainer({ periode }: { periode: BeregnetPeriode }) {
                         if (!vilkårInfo) {
                             return null;
                         }
-
+                        if (isLoading) {
+                            return (
+                                <Table.ExpandableRow
+                                    key={vilkårUiInfo.vilkårskode}
+                                    content={<></>}
+                                    togglePlacement="right"
+                                    expandOnRowClick
+                                >
+                                    <HStack as={Table.DataCell} gap="space-12">
+                                        <Skeleton width={24} height={24} />
+                                        <Skeleton variant="text" width="200px" />
+                                    </HStack>
+                                    <Table.DataCell>
+                                        <Skeleton variant="text" width="40px" />
+                                    </Table.DataCell>
+                                    <Table.DataCell>
+                                        <Skeleton variant="text" width="40px" />
+                                    </Table.DataCell>
+                                    <Table.DataCell>
+                                        <Skeleton variant="text" width="40px" />
+                                    </Table.DataCell>
+                                </Table.ExpandableRow>
+                            );
+                        }
                         return (
                             <Vilkår
                                 key={vilkårUiInfo.vilkårskode}
@@ -177,8 +212,10 @@ function getVilkårStatusVisningstekst(status: VilkårStatus | undefined): strin
             return 'Oppfylt';
         case 'IkkeOppfylt':
             return 'Ikke oppfylt';
+        case 'IkkeVurdert':
+            return 'Ikke vurdert';
     }
-    return 'Ikke vurdert';
+    return '';
 }
 
 function UnderspørsmålRadioGroup({
