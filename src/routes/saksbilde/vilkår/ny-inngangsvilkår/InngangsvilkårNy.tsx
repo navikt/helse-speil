@@ -2,7 +2,13 @@ import { useParams } from 'next/navigation';
 import { ReactElement, useEffect, useMemo, useState } from 'react';
 import { type Control, Controller, FieldValues, FormProvider, useForm } from 'react-hook-form';
 
-import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
+import {
+    CheckmarkCircleFillIcon,
+    ExclamationmarkTriangleFillIcon,
+    PersonPencilIcon,
+    XMarkOctagonFillIcon,
+    XMarkOctagonIcon,
+} from '@navikt/aksel-icons';
 import {
     BodyShort,
     Box,
@@ -238,11 +244,13 @@ function UnderspørsmålRadioGroup({
     vilkårskode,
     parentFieldName,
     control,
+    readOnly,
 }: {
     underspørsmål: Underspørsmål[];
     vilkårskode: string;
     parentFieldName: string;
     control: Control<FieldValues>;
+    readOnly?: boolean;
 }) {
     return (
         <VStack gap="space-16">
@@ -255,6 +263,7 @@ function UnderspørsmålRadioGroup({
                             <RadioGroup
                                 legend={spørsmål.navn || 'Velg svar'}
                                 size="small"
+                                readOnly={readOnly}
                                 {...field}
                                 value={field.value || ''}
                                 onChange={(value) => {
@@ -273,6 +282,7 @@ function UnderspørsmålRadioGroup({
                                                         vilkårskode={vilkårskode}
                                                         parentFieldName={`${parentFieldName}_${spørsmål.kode}_${alternativ.kode}`}
                                                         control={control}
+                                                        readOnly={readOnly}
                                                     />
                                                 </Box>
                                             )}
@@ -308,8 +318,8 @@ function VilkårContent({
             className="-mt-4 -mr-2 -mb-4 -ml-2"
         >
             <VStack paddingInline="space-44" paddingBlock="space-12" gap="space-20">
-                <Link href={vilkår.lovdatalenke.href}>{vilkår.lovdatalenke.lenketekst}</Link>
                 <VilkårForm
+                    vilkår={vilkår}
                     vilkårskode={vilkårskode}
                     periode={periode}
                     initialAssessment={vurdering}
@@ -352,16 +362,18 @@ function finnDefaultVerdier(
 }
 
 interface VilkårFormProps {
+    vilkår: Vilkår;
     vilkårskode: string;
     periode: BeregnetPeriode;
     initialAssessment?: Automatisk | Manuell;
     versjon: number;
 }
 
-function VilkårForm({ vilkårskode, periode, initialAssessment, versjon }: VilkårFormProps) {
+function VilkårForm({ vilkår, vilkårskode, periode, initialAssessment, versjon }: VilkårFormProps) {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
     const vilkårUiInfo = saksbehandlerUiKodeverk.find((v) => v.vilkårskode === vilkårskode);
+    const [isEditing, setIsEditing] = useState(false);
     const postMutation = usePostVurderteInngangsvilkårForPerson({
         mutation: {
             onSuccess: () => {
@@ -371,6 +383,7 @@ function VilkårForm({ vilkårskode, periode, initialAssessment, versjon }: Vilk
                         periode.skjaeringstidspunkt,
                     ),
                 });
+                setIsEditing(false);
             },
         },
     });
@@ -438,6 +451,32 @@ function VilkårForm({ vilkårskode, periode, initialAssessment, versjon }: Vilk
 
     return (
         <FormProvider {...form}>
+            <HStack justify="space-between">
+                <Link href={vilkår.lovdatalenke.href}>{vilkår.lovdatalenke.lenketekst}</Link>
+
+                <Button
+                    type="button"
+                    variant="secondary"
+                    size="xsmall"
+                    className="w-20"
+                    icon={
+                        <>
+                            {!isEditing && <PersonPencilIcon aria-hidden />}
+                            {isEditing && <XMarkOctagonIcon aria-hidden />}
+                        </>
+                    }
+                    onClick={() => {
+                        if (isEditing) {
+                            form.reset();
+                            setIsEditing(false);
+                        } else {
+                            setIsEditing(true);
+                        }
+                    }}
+                >
+                    {isEditing ? 'Avbryt' : 'Endre'}
+                </Button>
+            </HStack>
             <VStack as="form" onSubmit={form.handleSubmit(handleSubmit)} gap="space-20" maxWidth="522px">
                 {vilkårUiInfo.underspørsmål.length > 0 ? (
                     <UnderspørsmålRadioGroup
@@ -445,9 +484,10 @@ function VilkårForm({ vilkårskode, periode, initialAssessment, versjon }: Vilk
                         vilkårskode={vilkårskode}
                         parentFieldName={`vilkår_${vilkårskode}`}
                         control={form.control}
+                        readOnly={!isEditing}
                     />
                 ) : (
-                    <RadioGroup legend="Er vilkåret oppfylt?" size="small">
+                    <RadioGroup legend="Er vilkåret oppfylt?" size="small" readOnly={!isEditing}>
                         <Radio value="ja">Ja</Radio>
                         <Radio value="nei">Nei</Radio>
                     </RadioGroup>
@@ -458,17 +498,34 @@ function VilkårForm({ vilkårskode, periode, initialAssessment, versjon }: Vilk
                     control={form.control}
                     render={({ field }) => (
                         <Textarea
+                            className="max-w-200"
                             label="Utvidet begrunnelse"
                             description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
+                            readOnly={!isEditing}
                             {...field}
                             value={field.value || ''}
                         />
                     )}
                 />
 
-                <Button type="submit" size="small" loading={postMutation.isPending}>
-                    Lagre vurdering
-                </Button>
+                {isEditing && (
+                    <HStack gap="space-8">
+                        <Button type="submit" size="small" loading={postMutation.isPending} className="align-self">
+                            Lagre vurdering
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            size="small"
+                            onClick={() => {
+                                form.reset();
+                                setIsEditing(false);
+                            }}
+                        >
+                            Avbryt
+                        </Button>
+                    </HStack>
+                )}
 
                 {postMutation.isError && (
                     <LocalAlert status="error" size="small">
