@@ -6,8 +6,8 @@ import {
     CheckmarkCircleFillIcon,
     ExclamationmarkTriangleFillIcon,
     PersonPencilIcon,
+    XMarkIcon,
     XMarkOctagonFillIcon,
-    XMarkOctagonIcon,
 } from '@navikt/aksel-icons';
 import {
     BodyShort,
@@ -456,13 +456,13 @@ function VilkårForm({ vilkår, vilkårskode, periode, initialAssessment, versjo
 
                 <Button
                     type="button"
-                    variant="secondary"
+                    variant={isEditing ? 'tertiary' : 'secondary'}
                     size="xsmall"
                     className="w-20"
                     icon={
                         <>
                             {!isEditing && <PersonPencilIcon aria-hidden />}
-                            {isEditing && <XMarkOctagonIcon aria-hidden />}
+                            {isEditing && <XMarkIcon aria-hidden />}
                         </>
                     }
                     onClick={() => {
@@ -510,12 +510,18 @@ function VilkårForm({ vilkår, vilkårskode, periode, initialAssessment, versjo
 
                 {isEditing && (
                     <HStack gap="space-8">
-                        <Button type="submit" size="small" loading={postMutation.isPending} className="align-self">
+                        <Button
+                            type="submit"
+                            size="small"
+                            variant="secondary"
+                            loading={postMutation.isPending}
+                            className="align-self"
+                        >
                             Lagre vurdering
                         </Button>
                         <Button
                             type="button"
-                            variant="secondary"
+                            variant="tertiary"
                             size="small"
                             onClick={() => {
                                 form.reset();
