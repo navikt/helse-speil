@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { logger } from '@navikt/next-logger';
 
 import { spesialistBackend } from '@/env';
-import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
+import { videresendSseTilSpesialist, videresendTilSpesialist } from '@app/api/spesialist/videresender';
 import { sleep } from '@spesialist-mock/constants';
 
 export const stubEllerVideresendTilSpesialist =
@@ -26,6 +26,6 @@ export const stubEllerVideresendSseTilSpesialist =
             logger.info(`Svarer på ${request.method} ${request.url} med stub`);
             return stub(request, params);
         } else {
-            return videresendTilSpesialist(request);
+            return videresendSseTilSpesialist(request);
         }
     };
