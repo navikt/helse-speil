@@ -7,7 +7,7 @@ import { logger } from '@navikt/next-logger';
 import { teamLogger } from '@navikt/next-logger/team-log';
 import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 
-import { spesialistBackend } from '@/env';
+import { getServerEnv, spesialistBackend } from '@/env';
 import { metrics } from '@observability/metrics';
 
 type TokenPayload = z.infer<typeof tokenPayloadSchema>;
@@ -78,15 +78,21 @@ export async function getTokenPayload(): Promise<TokenPayload> {
 }
 
 export async function byttTilOboToken(token: string, scope: string): Promise<ReturnType<typeof requestAzureOboToken>> {
-    if (spesialistBackend !== 'deployed') {
-        return {
-            ok: true,
-            token: 'fake-local-obo-token',
-        };
+    switch (spesialistBackend) {
+        case 'mock':
+            return {
+                ok: true,
+                token: 'fake-local-obo-token',
+            };
+        case 'lokal':
+            return await fetch(`${getServerEnv().SPESIALIST_BASEURL}/local-token`).then(async (res) => ({
+                ok: true,
+                token: await res.text(),
+            }));
+        case 'deployed':
+            metrics.oboCounter.inc({ target_client_id: scope }, 1);
+            return requestAzureOboToken(token, scope);
     }
-
-    metrics.oboCounter.inc({ target_client_id: scope }, 1);
-    return requestAzureOboToken(token, scope);
 }
 
 export const hentWonderwallToken = (req: Request | IncomingMessage | Headers): string | null => {
