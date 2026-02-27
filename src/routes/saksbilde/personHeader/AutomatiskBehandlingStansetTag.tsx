@@ -14,7 +14,7 @@ export function AutomatiskBehandlingStansetTag({
         <TagMedTooltip
             tooltipTekst="Saksbehandler har stanset automatisk behandling for denne personen"
             etikett="Automatisk behandling stanset"
-            variant="error"
+            dataColor="danger"
         />
     );
 }

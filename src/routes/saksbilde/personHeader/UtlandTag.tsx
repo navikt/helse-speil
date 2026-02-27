@@ -15,5 +15,7 @@ export const UtlandTag = ({ person }: UtlandTagProps): ReactElement | null => {
 
     const utlandVarsel = periodeTilGodkjenning.varsler.find((varsel) => varsel.kode === 'SB_EX_5');
 
-    return utlandVarsel ? <TagMedTooltip tooltipTekst={utlandVarsel.tittel} etikett="Utland" /> : null;
+    return utlandVarsel ? (
+        <TagMedTooltip tooltipTekst={utlandVarsel.tittel} etikett="Utland" dataColor="brand-magenta" />
+    ) : null;
 };

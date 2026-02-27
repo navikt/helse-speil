@@ -17,7 +17,7 @@ export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): ReactElement | n
 
     return (
         <AnonymizableContainer>
-            <Tag variant="neutral-filled" size="small">
+            <Tag variant="strong" data-color="neutral" size="small">
                 Dødsdato {dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}
             </Tag>
         </AnonymizableContainer>
