@@ -197,6 +197,7 @@ function Vilkår({
     versjon,
 }: VilkårProps & { vilkårskode: string; periode: BeregnetPeriode; versjon: number }) {
     const [erÅpen, setErÅpen] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
     return (
         <Table.ExpandableRow
             content={
@@ -206,10 +207,12 @@ function Vilkår({
                     vurdering={rawVurdering}
                     periode={periode}
                     versjon={versjon}
+                    isEditing={isEditing}
+                    setIsEditing={setIsEditing}
                 />
             }
             togglePlacement="right"
-            className={cn({ 'bg-ax-bg-accent-moderate': erÅpen })}
+            className={cn({ 'bg-ax-bg-accent-moderate': erÅpen, 'aktiv-redigering-venstrekant': isEditing })}
             contentGutter="none"
             expandOnRowClick
             onOpenChange={setErÅpen}
@@ -303,19 +306,23 @@ function VilkårContent({
     vurdering,
     periode,
     versjon,
+    isEditing,
+    setIsEditing,
 }: {
     vilkår: Vilkår;
     vilkårskode: string;
     vurdering: (Automatisk | Manuell) | undefined;
     periode: BeregnetPeriode;
     versjon: number;
+    isEditing: boolean;
+    setIsEditing: (value: boolean) => void;
 }) {
     return (
         <Box
             borderWidth="1 0 0"
             borderColor="neutral-subtle"
             background="accent-moderate"
-            className="-mt-4 -mr-2 -mb-4 -ml-2"
+            className={cn('-mt-4 -mr-2 -mb-4 -ml-2', { 'aktiv-redigering-venstrekant': isEditing })}
         >
             <VStack paddingInline="space-44" paddingBlock="space-12" gap="space-20">
                 <VilkårForm
@@ -324,6 +331,8 @@ function VilkårContent({
                     periode={periode}
                     initialAssessment={vurdering}
                     versjon={versjon}
+                    isEditing={isEditing}
+                    setIsEditing={setIsEditing}
                 />
                 <Endringslogg vilkårskode={vilkårskode} skjaeringstidspunkt={periode.skjaeringstidspunkt} />
             </VStack>
@@ -367,13 +376,22 @@ interface VilkårFormProps {
     periode: BeregnetPeriode;
     initialAssessment?: Automatisk | Manuell;
     versjon: number;
+    isEditing: boolean;
+    setIsEditing: (value: boolean) => void;
 }
 
-function VilkårForm({ vilkår, vilkårskode, periode, initialAssessment, versjon }: VilkårFormProps) {
+function VilkårForm({
+    vilkår,
+    vilkårskode,
+    periode,
+    initialAssessment,
+    versjon,
+    isEditing,
+    setIsEditing,
+}: VilkårFormProps) {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
     const vilkårUiInfo = saksbehandlerUiKodeverk.find((v) => v.vilkårskode === vilkårskode);
-    const [isEditing, setIsEditing] = useState(false);
     const postMutation = usePostVurderteInngangsvilkårForPerson({
         mutation: {
             onSuccess: () => {
@@ -508,30 +526,32 @@ function VilkårForm({ vilkår, vilkårskode, periode, initialAssessment, versjo
                     )}
                 />
 
-                {isEditing && (
-                    <HStack gap="space-8">
-                        <Button
-                            type="submit"
-                            size="small"
-                            variant="secondary"
-                            loading={postMutation.isPending}
-                            className="align-self"
-                        >
-                            Lagre vurdering
-                        </Button>
-                        <Button
-                            type="button"
-                            variant="tertiary"
-                            size="small"
-                            onClick={() => {
-                                form.reset();
-                                setIsEditing(false);
-                            }}
-                        >
-                            Avbryt
-                        </Button>
-                    </HStack>
-                )}
+                <HStack gap="space-8" className="h-6">
+                    {isEditing && (
+                        <>
+                            <Button
+                                type="submit"
+                                size="small"
+                                variant="secondary"
+                                loading={postMutation.isPending}
+                                className="align-self"
+                            >
+                                Lagre vurdering
+                            </Button>
+                            <Button
+                                type="button"
+                                variant="tertiary"
+                                size="small"
+                                onClick={() => {
+                                    form.reset();
+                                    setIsEditing(false);
+                                }}
+                            >
+                                Avbryt
+                            </Button>
+                        </>
+                    )}
+                </HStack>
 
                 {postMutation.isError && (
                     <LocalAlert status="error" size="small">

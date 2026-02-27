@@ -3,6 +3,10 @@
 
 @config '../../tailwind.config.ts';
 
+@utility aktiv-redigering-venstrekant {
+    box-shadow: inset 4px 0 0 var(--ax-border-accent);
+}
+
 #root {
     display: flex;
     flex-direction: column;
