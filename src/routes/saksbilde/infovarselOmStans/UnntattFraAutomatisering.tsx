@@ -2,10 +2,12 @@ import React, { FormEvent, useRef, useState } from 'react';
 
 import { Alert, BodyShort, Button, HStack, Textarea } from '@navikt/ds-react';
 
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { usePostOpphevStans } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
 import { getFormattedDatetimeString } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import styles from './UnntattFraAutomatisering.module.css';
 
@@ -43,7 +45,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
     };
 
     return (
-        <Alert variant="info" className={styles.unntatt}>
+        <Alert variant="info" className={cn(styles.unntatt, 'rounded-none')}>
             <BodyShort weight="semibold">Automatisk behandling stanset av veileder</BodyShort>
             <div className={styles.luft}>
                 <BodyShort>
@@ -57,11 +59,11 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                 <BodyShort>Se notat i Modia Sykefraværsoppfølging eller Gosys for mer info.</BodyShort>
             </div>
             {!åpen && (
-                <div>
+                <VisHvisSkrivetilgang>
                     <Button size="small" variant="primary" type="button" onClick={() => setÅpen(true)}>
                         Opphev stans
                     </Button>
-                </div>
+                </VisHvisSkrivetilgang>
             )}
             {åpen && (
                 <form onSubmit={submit}>
