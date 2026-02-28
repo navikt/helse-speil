@@ -1490,6 +1490,51 @@ export interface ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCod
     code?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode;
 }
 
+export type ApiPersonKjønn = (typeof ApiPersonKjønn)[keyof typeof ApiPersonKjønn];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPersonKjønn = {
+    KVINNE: 'KVINNE',
+    MANN: 'MANN',
+    UKJENT: 'UKJENT',
+} as const;
+
+export interface ApiPersonBoenhet {
+    enhetNr: string;
+}
+
+export interface ApiPerson {
+    identitetsnummer: string;
+    andreIdentitetsnumre: string[];
+    aktørId: string;
+    fornavn: string;
+    etternavn: string;
+    kjønn: ApiPersonKjønn;
+    alder: number;
+    boenhet: ApiPersonBoenhet;
+}
+
+export type ApiGetPersonErrorCode = (typeof ApiGetPersonErrorCode)[keyof typeof ApiGetPersonErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetPersonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetPersonErrorCodeCode = null | ApiGetPersonErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetPersonErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetPersonErrorCodeCode;
+}
+
 export interface ForsikringInnhold {
     gjelderFraDag: number;
     dekningsgrad: number;
