@@ -286,10 +286,14 @@ export interface ApiHttpProblemDetailsApiPostOpphevStansErrorCode {
     code?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode;
 }
 
+export type ApiStansRequestSaksbehandlerStans = null | boolean;
+
+export type ApiStansRequestVeilederStans = null | boolean;
+
 export interface ApiStansRequest {
     begrunnelse: string;
-    saksbehandlerStans: boolean;
-    veilederStans: boolean;
+    saksbehandlerStans?: ApiStansRequestSaksbehandlerStans;
+    veilederStans?: ApiStansRequestVeilederStans;
 }
 
 export type ApiPatchStansErrorCode = (typeof ApiPatchStansErrorCode)[keyof typeof ApiPatchStansErrorCode];
@@ -299,6 +303,7 @@ export const ApiPatchStansErrorCode = {
     PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     KAN_IKKE_OPPRETTE_VEILEDER_STANS: 'KAN_IKKE_OPPRETTE_VEILEDER_STANS',
+    REQUEST_MANGLER_STANSTYPE: 'REQUEST_MANGLER_STANSTYPE',
 } as const;
 
 export type ApiHttpProblemDetailsApiPatchStansErrorCodeDetail = null | string;
