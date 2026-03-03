@@ -9,8 +9,6 @@ import { cn } from '@utils/tw';
 
 import { Filter, FilterStatus, valgtSaksbehandlerAtom } from '../state/filter';
 
-import styles from './filterChips.module.css';
-
 interface FilterChipsProps {
     activeFilters: Filter[];
     toggleFilter: (label: string, status: FilterStatus) => void;
@@ -28,7 +26,7 @@ export const FilterChips = ({
     const erFiltrertPåSaksbehandler = valgtSaksbehandler && aktivTab === TabType.TilGodkjenning;
     if (activeFilters.length > 0 || erFiltrertPåSaksbehandler) {
         return (
-            <Chips className={cn(styles.filterChips)}>
+            <Chips className="mx-3 mt-1 mb-2">
                 {erFiltrertPåSaksbehandler && (
                     <Chips.Removable key="valgtsaksbehandler" onClick={() => setValgtSaksbehandler(null)}>
                         {lagOppslåttSaksbehandlerVisningsnavn(valgtSaksbehandler)}
@@ -36,7 +34,10 @@ export const FilterChips = ({
                 )}
                 {activeFilters.map((filter) => (
                     <Chips.Removable
-                        className={cn(filter.status === FilterStatus.MINUS && styles.filteredOut)}
+                        className={cn({
+                            'bg-ax-bg-danger-strong hover:bg-ax-bg-danger-strong-hover':
+                                filter.status === FilterStatus.MINUS,
+                        })}
                         key={filter.key}
                         onClick={() => toggleFilter(filter.key, FilterStatus.OFF)}
                     >
@@ -49,7 +50,7 @@ export const FilterChips = ({
                             setMultipleFilters(FilterStatus.OFF, ...activeFilters.map((filter) => filter.key));
                             setValgtSaksbehandler(null);
                         }}
-                        variant="neutral"
+                        data-color="neutral"
                     >
                         Nullstill alle
                     </Chips.Removable>
@@ -59,8 +60,8 @@ export const FilterChips = ({
     }
 
     return (
-        <Chips className={cn(styles.filterChips)}>
-            <Chips.Toggle className={styles.ingenValgteFilter} disabled>
+        <Chips className="mx-3 mt-1 mb-2">
+            <Chips.Toggle className="cursor-default" checkmark={false}>
                 Ingen aktive filter
             </Chips.Toggle>
         </Chips>
