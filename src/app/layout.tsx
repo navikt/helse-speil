@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { browserEnv, erDev, spesialistBackend } from '@/env';
+import { browserEnv, erDev, erProd, spesialistBackend } from '@/env';
 import { Preload } from '@app/preload';
 import { Providers } from '@app/providers';
 import { getTokenPayload } from '@auth/token';
@@ -39,10 +39,10 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                 defer
                 strategy="afterInteractive"
                 src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
-                data-host-url="https://umami.nav.no"
+                data-host-url={erProd ? 'https://umami.nav.no' : 'https://reops-event-proxy.ekstern.dev.nav.no/'}
                 data-website-id="79077f8d-4fe9-4ef1-82e1-dde6af454cd3"
                 data-auto-track="false"
-            ></Script>
+            />
         );
     }
 
