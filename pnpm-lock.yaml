@@ -21,17 +21,17 @@ importers:
         specifier: ^5.2.2
         version: 5.2.2(react-hook-form@7.68.0(react@19.2.3))
       '@navikt/aksel-icons':
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^8.6.0
+        version: 8.6.0
       '@navikt/ds-css':
-        specifier: ^8.0.0
-        version: 8.0.0
+        specifier: ^8.6.0
+        version: 8.6.0
       '@navikt/ds-react':
-        specifier: ^8.0.0
-        version: 8.0.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
+        specifier: ^8.6.0
+        version: 8.6.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@navikt/ds-tailwind':
-        specifier: ^8.2.2
-        version: 8.2.2
+        specifier: ^8.6.0
+        version: 8.6.0
       '@navikt/next-logger':
         specifier: ^4.5.1
         version: 4.5.1(next@16.1.5(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.94.2))(pino@10.3.0)
@@ -1236,24 +1236,24 @@ packages:
   '@napi-rs/wasm-runtime@0.2.12':
     resolution: {integrity: sha512-ZVWUcfwY4E/yPitQJl481FjFo3K22D6qF0DuFH6Y/nbnE11GY5uguDxZMGXPQ8WQ0128MXQD7TnfHyK4oWoIJQ==}
 
-  '@navikt/aksel-icons@8.0.0':
-    resolution: {integrity: sha512-ODo1iHDJFP8M8pOogxfGq31U/SftVyptO+KJoaris8r6H2F0Q9X+j0dQU+QxTCq459b1MfYhbLVD3JlSzj5FQA==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.0.0/2537878cf1d513ab91e67f269d35484202645bc7}
+  '@navikt/aksel-icons@8.6.0':
+    resolution: {integrity: sha512-e+evlFA6eq7vW1pZDg1Fc9V7L7h/Mp1Luubv7kTJUp4IrWQN7Is+nfVj65TLcrQqMm9fjkmc1eI5PcmuY9ibvQ==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.6.0/ff360cbe68f878b6e8deb59c19a23aa30eacab9e}
 
-  '@navikt/ds-css@8.0.0':
-    resolution: {integrity: sha512-jYiPEZUDht+52wvZU3a+5BLPvjc8PLnB9zdp1q1yO0jL3IYTNViOz4Vm285hMU3Eh93JmVWGzmL167XcQIEP7Q==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.0.0/fb21668cc5ebef3c04e2d98c4f823e07b95ba816}
+  '@navikt/ds-css@8.6.0':
+    resolution: {integrity: sha512-Rv39j5USosDDcOlcfNUG9uVOJ+ZgMjEvVRQdAN0QTVY3rBpceNlMbrBQEo1YzDlA6WpD9d8DyiGuDYYVpakoLw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.6.0/4c763d8f5f64587336bba5cba74b8a16ab379619}
 
-  '@navikt/ds-react@8.0.0':
-    resolution: {integrity: sha512-MQAMzRWZEoSVwJaKHMuckKm0ff30f+v0DFP84Cq0aeTenZtIcckb053u8I2u9lQV1Eq/T1IUAzAMe4KxcRLTwg==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.0.0/f34faa11cdef635284ab0b727fd3a8a5b143b53d}
+  '@navikt/ds-react@8.6.0':
+    resolution: {integrity: sha512-yAZAZT+Ii9exJFbxqVy1ONjJvb1k+iKH8KoIFgroPHS6k+QhiBnB52aas1LSoWR7eqHpgUNV6QMUsQt24kmT3A==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.6.0/484ac00ed4dbee8147f6a6cde76720bd7874b93b}
     peerDependencies:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
 
-  '@navikt/ds-tailwind@8.2.2':
-    resolution: {integrity: sha512-xLp2A2FBe7V5xbyWcXDjnOT/c/lpvXQSk1DIknJhgK5Rc7fPA2XKSvTHEsAeoiHoMfdVT4DGyEF4U3CHGa6v9g==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.2.2/7b7809fdbd7e2baa27519d4094116df9c340f76f}
+  '@navikt/ds-tailwind@8.6.0':
+    resolution: {integrity: sha512-+Juw/m7bH6ZkfF7EYZX6/bQMjBAsbJ/GbQbmhoLCSMiSmA1c8U6ImLQBxjDijFsLO4DvVYPgTY/cAiAaF3YR7w==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.6.0/f39a4c58d7eab94107bef172a5bf64ce8c248108}
 
-  '@navikt/ds-tokens@8.0.0':
-    resolution: {integrity: sha512-T4MZiW6N1uriRr5UIgWwdCd9yGraTth97G6S0TMMMRYN54tcVob26iYgY5eXSPI7CgLgO4Q8ewzlspLyt+FFiw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.0.0/8fe836ca49f219cd801243976f12a124c6bc0361}
+  '@navikt/ds-tokens@8.6.0':
+    resolution: {integrity: sha512-MdnPFvi7wPF0N5ms6psNqW0IevlHhoswUCOYFQl7hFwL+uRcqFna6rT8fm/co04z/HDUKKfadbrW0yodzDxj1w==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.6.0/acac1517c2bc4c4eda259f1bc591db24656f102f}
 
   '@navikt/next-logger@4.5.1':
     resolution: {integrity: sha512-qfiBT/kPK92sCVKGHlUeD2N9vDvJzEFpjn2qRVZiatQivD9IE+qRZwsdCpuvdU1Hylsc/fcF9/i03YQzXBf0iQ==, tarball: https://npm.pkg.github.com/download/@navikt/next-logger/4.5.1/e8c32873a7931396b0871c77b94673cbfb12d376}
@@ -2714,10 +2714,6 @@ packages:
   clone@1.0.4:
     resolution: {integrity: sha512-JQHZ2QMW6l3aH/j6xCqQThY/9OH4D/9ls34cgkUBiEeocRTU04tHfKPBsUK1PqZCUQM7GiA0IIXJSuXHI64Kbg==}
     engines: {node: '>=0.8'}
-
-  clsx@2.1.1:
-    resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
-    engines: {node: '>=6'}
 
   color-convert@2.0.1:
     resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
@@ -6685,26 +6681,25 @@ snapshots:
       '@tybys/wasm-util': 0.10.1
     optional: true
 
-  '@navikt/aksel-icons@8.0.0': {}
+  '@navikt/aksel-icons@8.6.0': {}
 
-  '@navikt/ds-css@8.0.0': {}
+  '@navikt/ds-css@8.6.0': {}
 
-  '@navikt/ds-react@8.0.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
+  '@navikt/ds-react@8.6.0(@types/react@19.2.7)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)':
     dependencies:
       '@floating-ui/react': 0.27.8(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@floating-ui/react-dom': 2.1.6(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
-      '@navikt/aksel-icons': 8.0.0
-      '@navikt/ds-tokens': 8.0.0
+      '@navikt/aksel-icons': 8.6.0
+      '@navikt/ds-tokens': 8.6.0
       '@types/react': 19.2.7
-      clsx: 2.1.1
       date-fns: 4.1.0
       react: 19.2.3
       react-day-picker: 9.7.0(react@19.2.3)
       react-dom: 19.2.3(react@19.2.3)
 
-  '@navikt/ds-tailwind@8.2.2': {}
+  '@navikt/ds-tailwind@8.6.0': {}
 
-  '@navikt/ds-tokens@8.0.0': {}
+  '@navikt/ds-tokens@8.6.0': {}
 
   '@navikt/next-logger@4.5.1(next@16.1.5(@babel/core@7.28.5)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@1.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(sass@1.94.2))(pino@10.3.0)':
     dependencies:
@@ -8300,8 +8295,6 @@ snapshots:
       wrap-ansi: 7.0.0
 
   clone@1.0.4: {}
-
-  clsx@2.1.1: {}
 
   color-convert@2.0.1:
     dependencies:
