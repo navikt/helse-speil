@@ -286,6 +286,33 @@ export interface ApiHttpProblemDetailsApiPostOpphevStansErrorCode {
     code?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode;
 }
 
+export interface ApiStansRequest {
+    begrunnelse: string;
+    saksbehandlerStans: boolean;
+    veilederStans: boolean;
+}
+
+export type ApiPatchStansErrorCode = (typeof ApiPatchStansErrorCode)[keyof typeof ApiPatchStansErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPatchStansErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    KAN_IKKE_OPPRETTE_VEILEDER_STANS: 'KAN_IKKE_OPPRETTE_VEILEDER_STANS',
+} as const;
+
+export type ApiHttpProblemDetailsApiPatchStansErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPatchStansErrorCodeCode = null | ApiPatchStansErrorCode;
+
+export interface ApiHttpProblemDetailsApiPatchStansErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPatchStansErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchStansErrorCodeCode;
+}
+
 export type ApiSoknadstype = (typeof ApiSoknadstype)[keyof typeof ApiSoknadstype];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
