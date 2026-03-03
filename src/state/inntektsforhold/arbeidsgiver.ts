@@ -7,6 +7,7 @@ import {
     PersonFragment,
 } from '@io/graphql';
 import {
+    finnAlleInntektsforhold,
     finnNteEllerNyesteBehandling,
     finnPeriodeTilGodkjenning,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
@@ -95,8 +96,8 @@ export const useLokaleRefusjonsopplysninger = (
 };
 
 export const erPeriodeIFørsteBehandling = (person: PersonFragment, period: Periode): boolean =>
-    !!person.arbeidsgivere.find((arbeidsgiver: Arbeidsgiver): Periode | undefined =>
-        arbeidsgiver.behandlinger[0]?.perioder.find((it) => it.id === period.id),
+    !!finnAlleInntektsforhold(person).find((inntektsforhold) =>
+        inntektsforhold.behandlinger[0]?.perioder.find((it) => it.id === period.id),
     );
 
 /**
