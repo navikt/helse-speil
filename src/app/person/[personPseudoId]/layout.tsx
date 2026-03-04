@@ -13,7 +13,7 @@ import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSak
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
-import { InfovarselOmStans } from '@saksbilde/infovarselOmStans/InfovarselOmStans';
+import { InfovarselOmVeilederStans } from '@saksbilde/infovarselOmStans/InfovarselOmVeilederStans';
 import { PersonHeader } from '@saksbilde/personHeader';
 import { Tidslinje } from '@saksbilde/tidslinje/Tidslinje';
 import { VarselOmFlerFødselsnumre } from '@saksbilde/varselOmFlerFødselsnumre/VarselOmFlerFødselsnumre';
@@ -52,7 +52,7 @@ const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {
             <div className={styles.Saksbilde}>
                 <VStack style={{ gridArea: 'unntatt' }}>
                     <VarselOmFlerFødselsnumre />
-                    <InfovarselOmStans />
+                    <InfovarselOmVeilederStans />
                 </VStack>
                 <PersonHeader />
                 <Tidslinje />

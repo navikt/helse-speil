@@ -10,7 +10,7 @@ import { UnntattFraAutomatisering } from './UnntattFraAutomatisering';
 
 import styles from '../personHeader/PersonHeader.module.css';
 
-const InfovarselOmStansContainer = (): ReactElement | null => {
+const InfovarselOmVeilederStansContainer = (): ReactElement | null => {
     const { data, loading } = useFetchPersonQuery();
 
     const currentPerson = data?.person;
@@ -33,7 +33,7 @@ const InfovarselOmStansContainer = (): ReactElement | null => {
     return null;
 };
 
-const InfovarselOmStansError = (): ReactElement => {
+const InfovarselOmVeilederStansError = (): ReactElement => {
     return (
         <div className={cn(styles.Error)}>
             <BodyShort>Det oppstod en feil. Kan ikke vise personinformasjon.</BodyShort>
@@ -41,10 +41,10 @@ const InfovarselOmStansError = (): ReactElement => {
     );
 };
 
-export const InfovarselOmStans = (): ReactElement => {
+export const InfovarselOmVeilederStans = (): ReactElement => {
     return (
-        <ErrorBoundary fallback={<InfovarselOmStansError />}>
-            <InfovarselOmStansContainer />
+        <ErrorBoundary fallback={<InfovarselOmVeilederStansError />}>
+            <InfovarselOmVeilederStansContainer />
         </ErrorBoundary>
     );
 };
