@@ -3,7 +3,7 @@ import { useParams } from 'next/navigation';
 import React, { useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { useApolloClient } from '@apollo/client';
@@ -16,9 +16,6 @@ import {
 } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
 import { ISO_TIDSPUNKTFORMAT, getFormattedDatetimeString } from '@utils/date';
-import { cn } from '@utils/tw';
-
-import styles from './UnntattFraAutomatisering.module.css';
 
 interface UnntattFraAutomatiseringProps {
     årsaker: string[];
@@ -80,19 +77,19 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
     }
 
     return (
-        <Alert variant="info" className={cn(styles.unntatt, 'rounded-none')}>
+        <Alert variant="info" style={{ borderRadius: 0 }} size="small">
             <BodyShort weight="semibold">Automatisk behandling stanset av veileder</BodyShort>
-            <div className={styles.luft}>
-                <BodyShort>
-                    <span style={{ fontWeight: 600 }}>Årsak til stans: </span>
-                    {årsakerSomTekst(årsaker)}
-                </BodyShort>
-                <BodyShort>
-                    <span style={{ fontWeight: 600 }}>Stansknappen ble trykket: </span>
-                    {getFormattedDatetimeString(tidspunkt)}
-                </BodyShort>
+            <VStack marginBlock="space-8">
+                <HStack gap="space-8">
+                    <BodyShort weight="semibold">Årsak til stans:</BodyShort>
+                    <BodyShort>{årsakerSomTekst(årsaker)}</BodyShort>
+                </HStack>
+                <HStack gap="space-8">
+                    <BodyShort weight="semibold">Stansknappen ble trykket:</BodyShort>
+                    <BodyShort>{getFormattedDatetimeString(tidspunkt)}</BodyShort>
+                </HStack>
                 <BodyShort>Se notat i Modia Sykefraværsoppfølging eller Gosys for mer info.</BodyShort>
-            </div>
+            </VStack>
             {!åpen && (
                 <VisHvisSkrivetilgang>
                     <Button size="small" variant="primary" type="button" onClick={() => setÅpen(true)}>
