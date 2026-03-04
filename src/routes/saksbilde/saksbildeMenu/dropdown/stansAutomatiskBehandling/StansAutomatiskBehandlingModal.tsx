@@ -1,16 +1,17 @@
-import React, { ReactElement } from 'react';
+import { useParams } from 'next/navigation';
+import React, { ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, Heading, Modal, Textarea } from '@navikt/ds-react';
+import { Button, ErrorMessage, Heading, Modal, Textarea } from '@navikt/ds-react';
 
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
-import { useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
+import type { ErrorType } from '@app/axios/orval-mutator';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FetchPersonDocument, StansAutomatiskBehandlingDocument } from '@io/graphql';
+import type { ApiHttpProblemDetailsApiPatchStansErrorCode } from '@io/rest/generated/spesialist.schemas';
+import { usePatchStans } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import { ToastObject, useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
-
-import styles from './StansAutomatiskBehandlingModal.module.css';
 
 interface StansAutomatiskBehandlingModalProps {
     fødselsnummer: string;
@@ -22,10 +23,11 @@ export function StansAutomatiskBehandlingModal({
     fødselsnummer,
     showModal,
     closeModal,
-}: StansAutomatiskBehandlingModalProps): ReactElement {
-    const [stansAutomatiskBehandlingMutation, { error }] = useMutation(StansAutomatiskBehandlingDocument, {
-        refetchQueries: [FetchPersonDocument],
-    });
+}: StansAutomatiskBehandlingModalProps): ReactElement | null {
+    const [loading, setLoading] = useState<boolean>(false);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { cache } = useApolloClient();
+    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStans();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
@@ -36,13 +38,35 @@ export function StansAutomatiskBehandlingModal({
     });
 
     async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        await stansAutomatiskBehandlingMutation({
-            variables: values,
-            awaitRefetchQueries: true,
-        }).then(() => {
-            closeModal();
-            addToast(stansAutomatiskBehandlingToast);
-        });
+        setLoading(true);
+        stansAutomatiskBehandlingMutation(
+            {
+                pseudoId: personPseudoId,
+                data: {
+                    begrunnelse: values.begrunnelse,
+                    saksbehandlerStans: true,
+                },
+            },
+            {
+                onSuccess: () => {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
+                        fields: {
+                            personinfo: (existing) => ({
+                                ...existing,
+                                automatiskBehandlingStansetAvSaksbehandler: true,
+                            }),
+                        },
+                    });
+                    setLoading(false);
+                    closeModal();
+                    addToast(stansAutomatiskBehandlingToast);
+                },
+                onError: () => {
+                    setLoading(false);
+                },
+            },
+        );
     }
 
     return (
@@ -76,24 +100,15 @@ export function StansAutomatiskBehandlingModal({
                         />
                     </form>
                 </FormProvider>
+                {error && <ErrorMessage showIcon>{somBackendfeil(error)}</ErrorMessage>}
             </Modal.Body>
             <Modal.Footer>
-                <Button
-                    variant="primary"
-                    type="submit"
-                    form="stans-automatisk-behandling-modal-form"
-                    loading={form.formState.isSubmitting}
-                >
+                <Button variant="primary" type="submit" form="stans-automatisk-behandling-modal-form" loading={loading}>
                     Stans automatisk behandling
                 </Button>
-                <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting} onClick={closeModal}>
+                <Button variant="tertiary" type="button" disabled={loading} onClick={closeModal}>
                     Avbryt
                 </Button>
-                {error && (
-                    <BodyShort className={styles.feilmelding}>
-                        Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.
-                    </BodyShort>
-                )}
             </Modal.Footer>
         </Modal>
     );
@@ -104,4 +119,20 @@ const stansAutomatiskBehandlingToast: ToastObject = {
     message: 'Automatisk behandling stanset',
     variant: 'success',
     timeToLiveMs: 5000,
+};
+
+const somBackendfeil = (error: ErrorType<ApiHttpProblemDetailsApiPatchStansErrorCode>): string => {
+    const problemDetailsCode = error.response?.data?.code;
+    if (!problemDetailsCode) return 'Feil ved oppretting av stans. Kontakt utviklerteamet.';
+
+    switch (problemDetailsCode) {
+        case 'PERSON_PSEUDO_ID_IKKE_FUNNET':
+            return 'Det skjedde en feil, hent personen på nytt og prøv igjen, kontakt utviklerteamet om feilen fortsetter.';
+        case 'KAN_IKKE_OPPRETTE_VEILEDER_STANS':
+            return 'Speil har sendt en ugyldig veilederstans, kontakt utviklerteamet.';
+        case 'REQUEST_MANGLER_STANSTYPE':
+            return 'Speil har sendt en ugyldig stans, kontakt utviklerteamet.';
+        case 'MANGLER_TILGANG_TIL_PERSON':
+            return 'Du har ikke tilgang til å gjøre endringer på denne personen.';
+    }
 };
