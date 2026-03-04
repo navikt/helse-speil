@@ -3,6 +3,8 @@
 import { createStore } from 'jotai';
 import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from 'react';
 
+import { VStack } from '@navikt/ds-react';
+
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useOppdaterPersondataEnGang } from '@hooks/useOppdaterPersondataEnGang';
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
@@ -48,8 +50,10 @@ const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {
     return (
         <PersonStoreContext.Provider value={personStore}>
             <div className={styles.Saksbilde}>
-                <InfovarselOmStans />
-                <VarselOmFlerFødselsnumre />
+                <VStack style={{ gridArea: 'unntatt' }}>
+                    <VarselOmFlerFødselsnumre />
+                    <InfovarselOmStans />
+                </VStack>
                 <PersonHeader />
                 <Tidslinje />
                 <VenterPåEndringProvider>{children}</VenterPåEndringProvider>
