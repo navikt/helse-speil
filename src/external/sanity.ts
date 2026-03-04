@@ -149,7 +149,8 @@ export function useDriftsmelding() {
         queryFn: async (): Promise<DriftsmeldingerQueryResult> =>
             (await customAxios.post<DriftsmeldingerQueryResult>(SANITY_URL, { query: `*[_type == "driftsmelding"]` }))
                 .data,
-        staleTime: Infinity,
+        staleTime: 60 * 1000,
+        refetchInterval: 60 * 1000,
         gcTime: 0,
     });
 
