@@ -17,6 +17,13 @@ export const stansAutomatiskBehandlingToast: ToastObject = {
     timeToLiveMs: 5000,
 };
 
+export const opphevStansAutomatiskBehandlingVeilederToast: ToastObject = {
+    key: generateId(),
+    message: 'Veileder stans opphevet',
+    variant: 'success',
+    timeToLiveMs: 5000,
+};
+
 export const somAutomatiskStansBackendfeil = (
     error: ErrorType<ApiHttpProblemDetailsApiPatchStansErrorCode>,
 ): string => {

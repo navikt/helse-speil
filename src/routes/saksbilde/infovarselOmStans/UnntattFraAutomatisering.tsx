@@ -1,12 +1,21 @@
-import React, { FormEvent, useRef, useState } from 'react';
+import dayjs from 'dayjs';
+import { useParams } from 'next/navigation';
+import React, { useState } from 'react';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { Alert, BodyShort, Button, HStack, Textarea } from '@navikt/ds-react';
+import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea } from '@navikt/ds-react';
 
+import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
+import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { usePostOpphevStans } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
-import { useFetchPersonQuery } from '@state/person';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { usePatchStans } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
+import {
+    opphevStansAutomatiskBehandlingVeilederToast,
+    somAutomatiskStansBackendfeil,
+} from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
-import { getFormattedDatetimeString } from '@utils/date';
+import { ISO_TIDSPUNKTFORMAT, getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
 import styles from './UnntattFraAutomatisering.module.css';
@@ -18,31 +27,57 @@ interface UnntattFraAutomatiseringProps {
 }
 
 export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }: UnntattFraAutomatiseringProps) => {
-    const { mutate: opphevStans, error, isPending: loading } = usePostOpphevStans();
-    const { refetch } = useFetchPersonQuery();
+    const [loading, setLoading] = useState<boolean>(false);
     const [åpen, setÅpen] = useState(false);
-    const [submitting, setSubmitting] = useState(false);
-    const textArea = useRef<HTMLTextAreaElement>(null);
+
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { cache } = useApolloClient();
+    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStans();
     const addToast = useAddToast();
 
-    const submit = async (event: FormEvent) => {
-        event.preventDefault();
-        setSubmitting(true);
-        opphevStans(
+    const form = useForm<StansAutomatiskBehandlingSchema>({
+        resolver: zodResolver(stansAutomatiskBehandlingSchema),
+        defaultValues: {
+            fodselsnummer: fødselsnummer,
+            begrunnelse: '',
+        },
+    });
+
+    async function onSubmit(values: StansAutomatiskBehandlingSchema) {
+        setLoading(true);
+        stansAutomatiskBehandlingMutation(
             {
+                pseudoId: personPseudoId,
                 data: {
-                    fodselsnummer: fødselsnummer,
-                    begrunnelse: textArea.current?.value ?? '',
+                    begrunnelse: values.begrunnelse,
+                    veilederStans: true,
                 },
             },
             {
                 onSuccess: () => {
-                    refetch();
-                    addToast({ key: 'opphevStans', message: 'Stans opphevet', timeToLiveMs: 3000 });
+                    cache.modify({
+                        id: cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
+                        fields: {
+                            personinfo: (existing) => ({
+                                ...existing,
+                                unntattFraAutomatisering: {
+                                    __typename: 'UnntattFraAutomatiskGodkjenning',
+                                    erUnntatt: false,
+                                    arsaker: [],
+                                    tidspunkt: dayjs().format(ISO_TIDSPUNKTFORMAT),
+                                },
+                            }),
+                        },
+                    });
+                    setLoading(false);
+                    addToast(opphevStansAutomatiskBehandlingVeilederToast);
+                },
+                onError: () => {
+                    setLoading(false);
                 },
             },
         );
-    };
+    }
 
     return (
         <Alert variant="info" className={cn(styles.unntatt, 'rounded-none')}>
@@ -66,26 +101,32 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                 </VisHvisSkrivetilgang>
             )}
             {åpen && (
-                <form onSubmit={submit}>
-                    <Textarea
-                        label="Begrunn oppheving av stans"
-                        description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn"
-                        ref={textArea}
-                    />
-                    <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                        <Button size="small" variant="primary" type="submit" loading={loading || submitting}>
-                            Opphev stans
-                        </Button>
-                        <Button size="small" variant="tertiary" type="button" onClick={() => setÅpen(false)}>
-                            Avbryt
-                        </Button>
-                    </HStack>
-                </form>
-            )}
-            {error && (
-                <BodyShort className={styles.feilmelding}>
-                    Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.
-                </BodyShort>
+                <FormProvider {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <Controller
+                            control={form.control}
+                            name="begrunnelse"
+                            render={({ field, fieldState }) => (
+                                <Textarea
+                                    {...field}
+                                    error={fieldState.error?.message}
+                                    label="Begrunnelse"
+                                    description="Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
+                                    maxLength={2000}
+                                />
+                            )}
+                        />
+                        {error && <ErrorMessage showIcon>{somAutomatiskStansBackendfeil(error)}</ErrorMessage>}
+                        <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
+                            <Button size="small" variant="primary" type="submit" loading={loading}>
+                                Opphev stans
+                            </Button>
+                            <Button size="small" variant="tertiary" type="button" onClick={() => setÅpen(false)}>
+                                Avbryt
+                            </Button>
+                        </HStack>
+                    </form>
+                </FormProvider>
             )}
         </Alert>
     );
