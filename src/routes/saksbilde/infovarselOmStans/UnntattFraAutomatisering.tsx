@@ -47,7 +47,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                 pseudoId: personPseudoId,
                 data: {
                     begrunnelse: values.begrunnelse,
-                    veilederStans: true,
+                    veilederStans: false,
                 },
             },
             {
