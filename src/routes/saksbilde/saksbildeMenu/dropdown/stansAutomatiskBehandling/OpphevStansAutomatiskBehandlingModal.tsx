@@ -1,16 +1,18 @@
-import React, { ReactElement } from 'react';
+import { useParams } from 'next/navigation';
+import React, { ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { BodyShort, Button, Heading, Modal, Textarea } from '@navikt/ds-react';
+import { Button, ErrorMessage, Heading, Modal, Textarea } from '@navikt/ds-react';
 
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
-import { useMutation } from '@apollo/client';
+import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FetchPersonDocument, OpphevStansAutomatiskBehandlingDocument } from '@io/graphql';
-import { ToastObject, useAddToast } from '@state/toasts';
-import { generateId } from '@utils/generateId';
-
-import styles from './StansAutomatiskBehandlingModal.module.css';
+import { usePatchStans } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
+import {
+    opphevStansAutomatiskBehandlingToast,
+    somAutomatiskStansBackendfeil,
+} from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
+import { useAddToast } from '@state/toasts';
 
 interface OpphevStansAutomatiskBehandlingModalProps {
     fødselsnummer: string;
@@ -23,9 +25,10 @@ export function OpphevStansAutomatiskBehandlingModal({
     showModal,
     closeModal,
 }: OpphevStansAutomatiskBehandlingModalProps): ReactElement {
-    const [opphevStansAutomatiskBehandlingMutation, { error }] = useMutation(OpphevStansAutomatiskBehandlingDocument, {
-        refetchQueries: [FetchPersonDocument],
-    });
+    const [loading, setLoading] = useState<boolean>(false);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { cache } = useApolloClient();
+    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStans();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
@@ -36,13 +39,35 @@ export function OpphevStansAutomatiskBehandlingModal({
     });
 
     async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        await opphevStansAutomatiskBehandlingMutation({
-            variables: values,
-            awaitRefetchQueries: true,
-        }).then(() => {
-            closeModal();
-            addToast(opphevStansAutomatiskBehandlingToast);
-        });
+        setLoading(true);
+        stansAutomatiskBehandlingMutation(
+            {
+                pseudoId: personPseudoId,
+                data: {
+                    begrunnelse: values.begrunnelse,
+                    saksbehandlerStans: false,
+                },
+            },
+            {
+                onSuccess: () => {
+                    cache.modify({
+                        id: cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
+                        fields: {
+                            personinfo: (existing) => ({
+                                ...existing,
+                                automatiskBehandlingStansetAvSaksbehandler: false,
+                            }),
+                        },
+                    });
+                    setLoading(false);
+                    closeModal();
+                    addToast(opphevStansAutomatiskBehandlingToast);
+                },
+                onError: () => {
+                    setLoading(false);
+                },
+            },
+        );
     }
 
     return (
@@ -76,32 +101,21 @@ export function OpphevStansAutomatiskBehandlingModal({
                         />
                     </form>
                 </FormProvider>
+                {error && <ErrorMessage showIcon>{somAutomatiskStansBackendfeil(error)}</ErrorMessage>}
             </Modal.Body>
             <Modal.Footer>
                 <Button
                     variant="primary"
                     type="submit"
                     form="opphev-stans-automatisk-behandling-modal-form"
-                    loading={form.formState.isSubmitting}
+                    loading={loading}
                 >
                     Opphev
                 </Button>
-                <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting} onClick={closeModal}>
+                <Button variant="tertiary" type="button" disabled={loading} onClick={closeModal}>
                     Avbryt
                 </Button>
-                {error && (
-                    <BodyShort className={styles.feilmelding}>
-                        Noe gikk galt. Prøv igjen senere eller kontakt en utvikler.
-                    </BodyShort>
-                )}
             </Modal.Footer>
         </Modal>
     );
 }
-
-const opphevStansAutomatiskBehandlingToast: ToastObject = {
-    key: generateId(),
-    message: 'Stans av automatisk behandling opphevet',
-    variant: 'success',
-    timeToLiveMs: 5000,
-};
