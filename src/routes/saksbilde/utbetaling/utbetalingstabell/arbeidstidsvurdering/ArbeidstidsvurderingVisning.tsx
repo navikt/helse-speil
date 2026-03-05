@@ -58,7 +58,7 @@ export const ArbeidstidsvurderingVisning = ({ oppkuttedePerioder, minimumSykdoms
             }
         >
             <Box maxWidth="650px" paddingBlock="space-8 space-16" paddingInline="space-16">
-                <Table size="small">
+                <Table size="small" zebraStripes>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell scope="col">Periode</Table.HeaderCell>
