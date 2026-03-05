@@ -127,11 +127,10 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
 };
 
 function dato(driftsmelding: Driftsmelding, erLøst: boolean): string {
-    const created = driftsmelding._createdAt.toString();
     const updated = driftsmelding._updatedAt.toString();
 
     if (erLøst) {
         return `(Løst: ${getFormattedDatetimeString(updated)})`;
     }
-    return `(Oppdatert: ${getFormattedDatetimeString(created)})`;
+    return `(Oppdatert: ${getFormattedDatetimeString(updated)})`;
 }
