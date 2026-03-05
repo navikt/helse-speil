@@ -33,8 +33,10 @@ export const AvOgPåKnapper = ({ filter }: AvOgPåKnapperProps): ReactElement =>
     return (
         <HStack gap="space-8">
             <BodyShort className={styles.label}>{filter.label}</BodyShort>
-            <PlussKnapp filterStatus={filter.status} toggleFilterOn={toggleFilterOn} />
-            <MinusKnapp filterStatus={filter.status} toggleFilterOut={toggleFilterOut} />
+            <HStack gap="space-8" wrap={false}>
+                <PlussKnapp filterStatus={filter.status} toggleFilterOn={toggleFilterOn} />
+                <MinusKnapp filterStatus={filter.status} toggleFilterOut={toggleFilterOut} />
+            </HStack>
         </HStack>
     );
 };

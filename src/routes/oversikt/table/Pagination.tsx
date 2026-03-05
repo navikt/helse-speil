@@ -1,6 +1,6 @@
 import React, { ReactElement, useEffect } from 'react';
 
-import { Pagination as NavPagination } from '@navikt/ds-react';
+import { BodyShort, Pagination as NavPagination } from '@navikt/ds-react';
 
 import { limit, useCurrentPageState } from '@oversikt/table/state/pagination';
 
@@ -38,9 +38,9 @@ export const Pagination = ({ antallOppgaver }: PaginationProps): ReactElement =>
                 prevNextTexts
             />
             {antallOppgaver > 0 && (
-                <p>
+                <BodyShort>
                     Viser {firstOnPage} til {lastOnPage} av {antallOppgaver} oppgaver
-                </p>
+                </BodyShort>
             )}
         </div>
     );
