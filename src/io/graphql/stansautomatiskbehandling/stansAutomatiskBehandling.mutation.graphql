@@ -1,3 +1,0 @@
-mutation StansAutomatiskBehandling($fodselsnummer: String!, $begrunnelse: String!) {
-    stansAutomatiskBehandling(fodselsnummer: $fodselsnummer, begrunnelse: $begrunnelse)
-}
