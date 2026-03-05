@@ -26,7 +26,7 @@ export const Delperiode = ({
     visHjelpetekst = false,
     erAktivPeriodeIkkeBestemmendeForDelperioden = false,
 }: Props) => (
-    <Table.Row key={delperiode.fom} className={styles.zebrarad}>
+    <Table.Row key={delperiode.fom}>
         <Table.DataCell scope="col">
             {somNorskDato(delperiode.fom)} – {somNorskDato(delperiode.tom)}
         </Table.DataCell>
