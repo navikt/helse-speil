@@ -260,32 +260,6 @@ export interface ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode {
     code?: ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeCode;
 }
 
-export interface ApiOpphevStansRequest {
-    fodselsnummer: string;
-    begrunnelse: string;
-}
-
-export type ApiPostOpphevStansErrorCode =
-    (typeof ApiPostOpphevStansErrorCode)[keyof typeof ApiPostOpphevStansErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostOpphevStansErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode = null | ApiPostOpphevStansErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostOpphevStansErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostOpphevStansErrorCodeCode;
-}
-
 export type ApiStansRequestSaksbehandlerStans = null | boolean;
 
 export type ApiStansRequestVeilederStans = null | boolean;

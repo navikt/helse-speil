@@ -6,87 +6,11 @@
  */
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type {
-    ApiHttpProblemDetailsApiPatchStansErrorCode,
-    ApiHttpProblemDetailsApiPostOpphevStansErrorCode,
-    ApiOpphevStansRequest,
-    ApiStansRequest,
-} from '../spesialist.schemas';
+import type { ApiHttpProblemDetailsApiPatchStansErrorCode, ApiStansRequest } from '../spesialist.schemas';
 
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 
-export const postOpphevStans = (apiOpphevStansRequest?: ApiOpphevStansRequest, signal?: AbortSignal) => {
-    return callCustomAxios<void>({
-        url: `/api/spesialist/opphevstans`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: apiOpphevStansRequest,
-        signal,
-    });
-};
-
-export const getPostOpphevStansMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostOpphevStansErrorCode>,
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postOpphevStans>>,
-        TError,
-        { data: ApiOpphevStansRequest },
-        TContext
-    >;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postOpphevStans>>,
-    TError,
-    { data: ApiOpphevStansRequest },
-    TContext
-> => {
-    const mutationKey = ['postOpphevStans'];
-    const { mutation: mutationOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey } };
-
-    const mutationFn: MutationFunction<Awaited<ReturnType<typeof postOpphevStans>>, { data: ApiOpphevStansRequest }> = (
-        props,
-    ) => {
-        const { data } = props ?? {};
-
-        return postOpphevStans(data);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostOpphevStansMutationResult = NonNullable<Awaited<ReturnType<typeof postOpphevStans>>>;
-export type PostOpphevStansMutationBody = ApiOpphevStansRequest;
-export type PostOpphevStansMutationError = ErrorType<ApiHttpProblemDetailsApiPostOpphevStansErrorCode>;
-
-export const usePostOpphevStans = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostOpphevStansErrorCode>,
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postOpphevStans>>,
-            TError,
-            { data: ApiOpphevStansRequest },
-            TContext
-        >;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postOpphevStans>>,
-    TError,
-    { data: ApiOpphevStansRequest },
-    TContext
-> => {
-    const mutationOptions = getPostOpphevStansMutationOptions(options);
-
-    return useMutation(mutationOptions, queryClient);
-};
 export const patchStans = (pseudoId: string, apiStansRequest?: ApiStansRequest) => {
     return callCustomAxios<void>({
         url: `/api/spesialist/personer/${pseudoId}/stans`,
