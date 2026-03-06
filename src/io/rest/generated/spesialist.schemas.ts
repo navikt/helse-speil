@@ -1496,6 +1496,35 @@ export interface ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCod
     code?: ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCodeCode;
 }
 
+export interface ApiBehandlendeEnhet {
+    enhetNr: string;
+    navn: string;
+    type: string;
+}
+
+export type ApiGetBehandlendeEnhetForPersonErrorCode =
+    (typeof ApiGetBehandlendeEnhetForPersonErrorCode)[keyof typeof ApiGetBehandlendeEnhetForPersonErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetBehandlendeEnhetForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    BEHANDLENDE_ENHET_IKKE_FUNNET: 'BEHANDLENDE_ENHET_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCodeCode =
+    null | ApiGetBehandlendeEnhetForPersonErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCodeCode;
+}
+
 export type ApiPersonKjønn = (typeof ApiPersonKjønn)[keyof typeof ApiPersonKjønn];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

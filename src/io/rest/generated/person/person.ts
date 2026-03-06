@@ -6,7 +6,12 @@
  */
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { ApiHttpProblemDetailsApiGetPersonErrorCode, ApiPerson } from '../spesialist.schemas';
+import type {
+    ApiBehandlendeEnhet,
+    ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetPersonErrorCode,
+    ApiPerson,
+} from '../spesialist.schemas';
 
 import { useQuery } from '@tanstack/react-query';
 import type {
@@ -20,6 +25,120 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
+
+export const getBehandlendeEnhetForPerson = (pseudoId: string, signal?: AbortSignal) => {
+    return callCustomAxios<ApiBehandlendeEnhet>({
+        url: `/api/spesialist/personer/${pseudoId}/behandlende-enhet`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetBehandlendeEnhetForPersonQueryKey = (pseudoId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/behandlende-enhet`] as const;
+};
+
+export const getGetBehandlendeEnhetForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>, TError, TData>>;
+    },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetBehandlendeEnhetForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>> = ({ signal }) =>
+        getBehandlendeEnhetForPerson(pseudoId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!pseudoId,
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetBehandlendeEnhetForPersonQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>
+>;
+export type GetBehandlendeEnhetForPersonQueryError =
+    ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>;
+
+export function useGetBehandlendeEnhetForPerson<
+    TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetBehandlendeEnhetForPerson<
+    TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetBehandlendeEnhetForPerson<
+    TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>, TError, TData>>;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetBehandlendeEnhetForPerson<
+    TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>, TError, TData>>;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetBehandlendeEnhetForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
 
 export const getPerson = (pseudoId: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiPerson>({ url: `/api/spesialist/personer/${pseudoId}`, method: 'GET', signal });
