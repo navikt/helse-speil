@@ -88,15 +88,15 @@ type NyhetModalSlide = {
     slideBeskrivelse: PortableTextBlock[];
 };
 
-type SkjønnsfastsettelseMalerQueryResult = {
+export type SkjønnsfastsettelseMalerQueryResult = {
     result: SkjønnsfastsettingMal[];
 };
 
-type DriftsmeldingerQueryResult = {
+export type DriftsmeldingerQueryResult = {
     result: Driftsmelding[];
 };
 
-type InformasjonsmeldingerQueryResult = {
+export type InformasjonsmeldingerQueryResult = {
     result: Informasjonsmelding[];
 };
 
@@ -104,11 +104,9 @@ export type ArsakerQueryResult = {
     result: Arsaker[];
 };
 
-type NyheterQueryResult = {
+export type NyheterQueryResult = {
     result: NyhetType[];
 };
-
-export const SANITY_URL = 'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/production';
 
 export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, harFlereArbeidsgivere: boolean) {
     const {
@@ -118,7 +116,7 @@ export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, har
     } = useQuery({
         queryKey: ['sanity', 'skjønnsfastsettelsesMaler'],
         queryFn: async (): Promise<SkjønnsfastsettelseMalerQueryResult> =>
-            (await customAxios.post(SANITY_URL, { query: `*[_type == "skjonnsfastsettelseMal"]` })).data,
+            (await customAxios.get('/api/sanity/skjonnsfastsettelse-maler')).data,
         staleTime: Infinity,
         gcTime: 0,
     });
@@ -147,8 +145,7 @@ export function useDriftsmelding() {
     } = useQuery({
         queryKey: ['sanity', 'driftsmeldinger'],
         queryFn: async (): Promise<DriftsmeldingerQueryResult> =>
-            (await customAxios.post<DriftsmeldingerQueryResult>(SANITY_URL, { query: `*[_type == "driftsmelding"]` }))
-                .data,
+            (await customAxios.get('/api/sanity/driftsmeldinger')).data,
         staleTime: 60 * 1000,
         refetchInterval: 60 * 1000,
         gcTime: 0,
@@ -181,7 +178,7 @@ export function useInformasjonsmelding() {
     } = useQuery({
         queryKey: ['sanity', 'informasjonsmeldinger'],
         queryFn: async (): Promise<InformasjonsmeldingerQueryResult> =>
-            (await customAxios.post(SANITY_URL, { query: `*[_type == "informasjonsmelding"]` })).data,
+            (await customAxios.get('/api/sanity/informasjonsmeldinger')).data,
         staleTime: Infinity,
         gcTime: 0,
     });
@@ -206,8 +203,7 @@ export function useArsaker(id: string) {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'årsaker', id],
-        queryFn: async (): Promise<ArsakerQueryResult> =>
-            (await customAxios.post(SANITY_URL, { query: `*[_type == "arsaker" && _id == "${id}"]` })).data,
+        queryFn: async (): Promise<ArsakerQueryResult> => (await customAxios.get(`/api/sanity/arsaker/${id}`)).data,
         staleTime: Infinity,
         gcTime: 0,
     });
@@ -226,46 +222,7 @@ export function useNyheter() {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'nyheter'],
-        queryFn: async (): Promise<NyheterQueryResult> =>
-            (
-                await customAxios.post(SANITY_URL, {
-                    query: `*[_type == "nyhet"]{
-                    _id,
-                    _createdAt,
-                    iProd,
-                    tittel,
-                    beskrivelse,
-                    dato,
-                    lenke {
-                        lenkeTekst,
-                        lenkeUrl
-                    },
-                    modal {
-                        antallSlides,
-                        tvungenModal,
-                        modalOverskrift,
-                        modalSlide1 {
-                            slideOverskrift,
-                            altTekst,
-                            "bildeUrl": slideBilde.asset->url,
-                            slideBeskrivelse
-                        },
-                        modalSlide2 {
-                            slideOverskrift,
-                            altTekst,
-                            "bildeUrl": slideBilde.asset->url,
-                            slideBeskrivelse
-                        },
-                        modalSlide3 {
-                            slideOverskrift,
-                            altTekst,
-                            "bildeUrl": slideBilde.asset->url,
-                            slideBeskrivelse
-                        }
-                    }
-                } | order(_createdAt desc)`,
-                })
-            ).data,
+        queryFn: async (): Promise<NyheterQueryResult> => (await customAxios.get('/api/sanity/nyheter')).data,
         staleTime: Infinity,
         gcTime: 0,
     });

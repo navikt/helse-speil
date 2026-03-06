@@ -3,7 +3,7 @@ import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { customAxios } from '@app/axios/axiosClient';
-import { ArsakerQueryResult, SANITY_URL } from '@external/sanity';
+import { ArsakerQueryResult } from '@external/sanity';
 import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { enBeregnetPeriode } from '@test-data/periode';
@@ -52,8 +52,8 @@ const stubbedeÅrsaker: ArsakerQueryResult = {
 describe('Annulleringsmodal', () => {
     beforeEach(() => {
         (useAddToast as Mock).mockReturnValue(addToastMock);
-        (customAxios.post as Mock).mockImplementation((url: string, { query }: { query: string }) => {
-            if (url === SANITY_URL && query.includes('_type == "arsaker"')) {
+        (customAxios.get as Mock).mockImplementation((url: string) => {
+            if (url.startsWith('/api/sanity/arsaker/')) {
                 return Promise.resolve({ data: stubbedeÅrsaker });
             }
             return Promise.reject();
