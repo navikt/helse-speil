@@ -1,12 +1,10 @@
 import { NextResponse } from 'next/server';
 
-import { sanityBaseUrl } from '@/env';
-import { customAxios } from '@app/axios/axiosClient';
+import { videresendTilSanity } from '@app/api/sanity/videresendTilSanity';
 import { NyheterQueryResult } from '@external/sanity';
 
 export const GET = async () => {
-    const response = await customAxios.post<NyheterQueryResult>(sanityBaseUrl(), {
-        query: `*[_type == "nyhet"]{
+    const response = await videresendTilSanity<NyheterQueryResult>(`*[_type == "nyhet"]{
                     _id,
                     _createdAt,
                     iProd,
@@ -40,7 +38,6 @@ export const GET = async () => {
                             slideBeskrivelse
                         }
                     }
-                } | order(_createdAt desc)`,
-    });
+                } | order(_createdAt desc)`);
     return NextResponse.json(response.data);
 };

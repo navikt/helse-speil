@@ -1,12 +1,9 @@
 import { NextResponse } from 'next/server';
 
-import { sanityBaseUrl } from '@/env';
-import { customAxios } from '@app/axios/axiosClient';
+import { videresendTilSanity } from '@app/api/sanity/videresendTilSanity';
 import { InformasjonsmeldingerQueryResult } from '@external/sanity';
 
 export const GET = async () => {
-    const response = await customAxios.post<InformasjonsmeldingerQueryResult>(sanityBaseUrl(), {
-        query: `*[_type == "informasjonsmelding"]`,
-    });
+    const response = await videresendTilSanity<InformasjonsmeldingerQueryResult>(`*[_type == "informasjonsmelding"]`);
     return NextResponse.json(response.data);
 };

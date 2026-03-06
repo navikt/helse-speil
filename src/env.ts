@@ -9,7 +9,8 @@ export const browserEnvSchema = z.object({
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
-    SANITY_DATASET: z.string(),
+    SANITY_DATASET: z.enum(['production', 'local-development']),
+    SANITY_READ_DATASETS_TOKEN: z.string(),
     FLEXJAR_SCOPE: z.string(),
     FLEXJAR_BASEURL: z.string(),
     MODIA_SCOPE: z.string(),
@@ -40,6 +41,7 @@ const getRawServerConfig = (): Partial<unknown> => {
     const spesialistBackend = spesialistBackendVariant();
     return {
         SANITY_DATASET: process.env.SANITY_DATASET,
+        SANITY_READ_DATASETS_TOKEN: process.env.SANITY_READ_DATASETS_TOKEN,
         FLEXJAR_SCOPE: process.env.CLIENT_ID_FLEXJAR,
         FLEXJAR_BASEURL: process.env.FLEXJAR_BASE_URL,
         MODIA_SCOPE: process.env.MODIA_API_SCOPE,
