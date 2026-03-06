@@ -16,6 +16,9 @@ export const videresendTilSanity = async <T>(query: string): Promise<AxiosRespon
         { query },
         {
             headers: headers,
+            params: {
+                perspective: 'published',
+            },
         },
     );
 };
