@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
                 protocol: 'https',
                 hostname: 'cdn.sanity.io',
                 port: '',
-                pathname: '/images/z9kr8ddn/production/**',
+                pathname: `/images/z9kr8ddn/${process.env.SANITY_DATASET}/**`,
                 search: '',
             },
         ],

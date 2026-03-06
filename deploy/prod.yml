@@ -87,6 +87,8 @@ spec:
       value: api://prod-gcp.tbd.spesialist/.default
     - name: SPESIALIST_BASE_URL
       value: http://spesialist
+    - name: SANITY_DATASET
+      value: production
     - name: SPARKEL_AAREG_SCOPE
       value: api://prod-gcp.tbd.sparkel-aareg/.default
     - name: SPARKEL_AAREG_BASEURL

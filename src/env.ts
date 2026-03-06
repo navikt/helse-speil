@@ -9,6 +9,7 @@ export const browserEnvSchema = z.object({
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
+    SANITY_DATASET: z.string(),
     FLEXJAR_SCOPE: z.string(),
     FLEXJAR_BASEURL: z.string(),
     MODIA_SCOPE: z.string(),
@@ -38,6 +39,7 @@ export const browserEnv = browserEnvSchema.parse({
 const getRawServerConfig = (): Partial<unknown> => {
     const spesialistBackend = spesialistBackendVariant();
     return {
+        SANITY_DATASET: process.env.SANITY_DATASET,
         FLEXJAR_SCOPE: process.env.CLIENT_ID_FLEXJAR,
         FLEXJAR_BASEURL: process.env.FLEXJAR_BASE_URL,
         MODIA_SCOPE: process.env.MODIA_API_SCOPE,
@@ -100,3 +102,5 @@ export const erDev = browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev';
 export const erProd = browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'prod';
 
 export const erUtvikling = spesialistBackend !== 'deployed' || erDev;
+export const sanityBaseUrl = () =>
+    'https://z9kr8ddn.api.sanity.io/v2023-08-01/data/query/' + getServerEnv().SANITY_DATASET;
