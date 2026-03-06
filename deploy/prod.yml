@@ -21,6 +21,12 @@ spec:
         - application: sparkel-aareg
           namespace: tbd
           cluster: prod-gcp
+    external:
+      - host: api.sanity.io
+      - host: z9kr8ddn.api.sanity.io
+      - host: apicdn.sanity.io
+      - host: z9kr8ddn.apicdn.sanity.io
+      - host: cdn.sanity.io
   image: {{image}}
   port: 3000
   ingresses:
@@ -80,6 +86,7 @@ spec:
           - id: 'c5f26254-c6fa-4942-b81b-5cdff847d3df' # 0000-CA-Speil_Lesetilgang
   envFrom:
     - secret: speil
+    - secret: sanity-read-datasets-token
   env:
     - name: LOG_LEVEL
       value: debug
