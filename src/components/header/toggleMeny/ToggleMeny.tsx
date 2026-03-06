@@ -28,6 +28,9 @@ export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
                         <Checkbox value="nyInngangsvilkår" onChange={toggle('nyInngangsvilkår')}>
                             Bruk ny versjon av inngangsvilkår
                         </Checkbox>
+                        <Checkbox value="nyBehandlendeEnhet" onChange={toggle('nyBehandlendeEnhet')}>
+                            Hent behandlende enhet fra REST-API
+                        </Checkbox>
                     </CheckboxGroup>
                 </form>
             </Modal.Body>
@@ -39,5 +42,6 @@ const toggleStateToCheckboxValue = (state: ToggleState): string[] => {
     const array: string[] = [];
     if (state.kanBeslutteEgne) array.push('kanBeslutteEgne');
     if (state.nyInngangsvilkår) array.push('nyInngangsvilkår');
+    if (state.nyBehandlendeEnhet) array.push('nyBehandlendeEnhet');
     return array;
 };
