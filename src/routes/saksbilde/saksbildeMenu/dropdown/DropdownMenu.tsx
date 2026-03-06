@@ -21,7 +21,6 @@ import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
-import { OppdaterPersondataButton } from './OppdaterPersondataButton';
 import { PåVentButton } from './PåVentButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
@@ -51,7 +50,6 @@ export function LitenMeny({ person }: { person?: PersonFragment | null }): React
                                 Stans automatisk behandling
                             </Dropdown.Menu.List.Item>
                         )}
-                        <OppdaterPersondataButton person={person} />
                     </Dropdown.Menu.List>
                 </Dropdown.Menu>
             </DropdownMenu>
@@ -150,7 +148,6 @@ export function StorMeny({
                                 Stans automatisk behandling
                             </Dropdown.Menu.List.Item>
                         )}
-                        <OppdaterPersondataButton person={person} />
                         {isBeregnetPeriode(activePeriod) && kanAnnulleres && inntektsforhold !== undefined && (
                             <AnnullerButton
                                 person={person}

@@ -18,7 +18,7 @@ class PersonoppdateringAlert extends SpeilError {
 
 const oppdatererPersondataMessage = (): ReactElement => (
     <>
-        Oppdaterer Infotrygd-historikk <Loader size="xsmall" variant="inverted" />
+        Oppdaterer visningen av Infotrygd-historikk <Loader size="xsmall" variant="inverted" />
     </>
 );
 
