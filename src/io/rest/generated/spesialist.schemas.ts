@@ -1534,19 +1534,33 @@ export const ApiPersonKjønn = {
     UKJENT: 'UKJENT',
 } as const;
 
-export interface ApiPersonBoenhet {
-    enhetNr: string;
-}
+export type ApiPersonAdressebeskyttelse =
+    (typeof ApiPersonAdressebeskyttelse)[keyof typeof ApiPersonAdressebeskyttelse];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPersonAdressebeskyttelse = {
+    UGRADERT: 'UGRADERT',
+    FORTROLIG: 'FORTROLIG',
+    STRENGT_FORTROLIG: 'STRENGT_FORTROLIG',
+    STRENGT_FORTROLIG_UTLAND: 'STRENGT_FORTROLIG_UTLAND',
+    UKJENT: 'UKJENT',
+} as const;
+
+export type ApiPersonMellomnavn = null | string;
+
+export type ApiPersonDødsdato = null | string;
 
 export interface ApiPerson {
     identitetsnummer: string;
     andreIdentitetsnumre: string[];
     aktørId: string;
     fornavn: string;
+    mellomnavn?: ApiPersonMellomnavn;
     etternavn: string;
+    fødselsdato: string;
+    dødsdato?: ApiPersonDødsdato;
     kjønn: ApiPersonKjønn;
-    alder: number;
-    boenhet: ApiPersonBoenhet;
+    adressebeskyttelse: ApiPersonAdressebeskyttelse;
 }
 
 export type ApiGetPersonErrorCode = (typeof ApiGetPersonErrorCode)[keyof typeof ApiGetPersonErrorCode];
@@ -1556,6 +1570,7 @@ export const ApiGetPersonErrorCode = {
     PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    AKTØRID_IKKE_FUNNET: 'AKTØRID_IKKE_FUNNET',
 } as const;
 
 export type ApiHttpProblemDetailsApiGetPersonErrorCodeDetail = null | string;
