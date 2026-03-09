@@ -1,12 +1,24 @@
+import { Mock } from 'vitest';
+
 import { Adressebeskyttelse, Kjonn } from '@io/graphql';
+import { useGetBehandlendeEnhetForPerson } from '@io/rest/generated/person/person';
 import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
 
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
 
+vi.mock('@io/rest/generated/person/person');
+
 describe('Personlinje', () => {
-    test('rendrer personinfo', () => {
+    test('rendrer personinfo', async () => {
+        (useGetBehandlendeEnhetForPerson as Mock).mockReturnValueOnce({
+            data: {
+                enhetNr: '1234',
+                navn: 'Nav Andeby',
+                type: 'LOKAL',
+            },
+        });
         render(
             <PersonHeaderWithContent
                 isAnonymous={false}
@@ -16,9 +28,9 @@ describe('Personlinje', () => {
                     enhet: { __typename: 'Enhet', id: '301' },
                     personinfo: {
                         __typename: 'Personinfo',
-                        fornavn: 'MARIUS',
-                        mellomnavn: 'BORG',
-                        etternavn: 'HØIBY',
+                        fornavn: 'KORNELIUS',
+                        mellomnavn: 'SA',
+                        etternavn: 'KVAKK',
                         adressebeskyttelse: Adressebeskyttelse.Ugradert,
                         kjonn: Kjonn.Mann,
                         fullmakt: null,
@@ -35,9 +47,9 @@ describe('Personlinje', () => {
                 })}
             />,
         );
-        expect(screen.getByText('Marius Borg Høiby', { exact: false })).toBeVisible();
-        expect(screen.getByText('123456 78910')).toBeVisible();
-        expect(screen.getByText('Aktør-ID: 123456789')).toBeVisible();
-        expect(screen.getByText('Boenhet: 301 (Oslo)')).toBeVisible();
+        expect(await screen.findByText('Kornelius Sa Kvakk', { exact: false })).toBeVisible();
+        expect(await screen.findByText('123456 78910')).toBeVisible();
+        expect(await screen.findByText('Aktør-ID: 123456789')).toBeVisible();
+        expect(await screen.findByText('1234 - Nav Andeby')).toBeVisible();
     });
 });
