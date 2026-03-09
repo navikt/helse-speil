@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, HStack, Skeleton } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { LoadingShimmer } from '@components/LoadingShimmer';
 import { Kjonn } from '@io/graphql';
 import { useIsAnonymous } from '@state/anonymization';
 import { useFetchPersonQuery } from '@state/person';
@@ -34,15 +33,16 @@ const PersonHeaderSkeleton = (): ReactElement => {
     return (
         <div className={styles.PersonHeader}>
             <GenderIcon gender={Kjonn.Ukjent} />
-            <LoadingShimmer />
+            <Skeleton variant="rectangle" width="200px" />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <LoadingShimmer />
+            <Skeleton variant="rectangle" width="200px" />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <LoadingShimmer />
+            <Skeleton variant="rectangle" width="200px" />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <LoadingShimmer />
-            <BodyShort className={styles.Separator}>/</BodyShort>
-            <LoadingShimmer />
+            <Skeleton variant="rectangle" width="200px" />
+            <HStack paddingInline="space-12 space-0" gap="space-12">
+                <Skeleton variant="rectangle" width="6rem" />
+            </HStack>
         </div>
     );
 };

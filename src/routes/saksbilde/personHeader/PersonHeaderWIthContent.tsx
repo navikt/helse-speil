@@ -35,7 +35,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
             <BodyShort className={styles.Separator}>/</BodyShort>
             <AktørId aktørId={person.aktorId} />
             <BodyShort className={styles.Separator}>/</BodyShort>
-            <BehandlendeEnhet enhetId={person.enhet.id} />
+            <BehandlendeEnhet />
             <HStack paddingInline="space-12 space-0" gap="space-12">
                 <AdressebeskyttelseTag adressebeskyttelse={personinfo.adressebeskyttelse} />
                 <ReservasjonTag />

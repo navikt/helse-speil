@@ -44,27 +44,3 @@
     background-color: var(--ax-border-focus);
     box-shadow: 0 0 0 2px var(--ax-border-focus);
 }
-
-@keyframes placeHolderShimmer {
-    0% {
-        background-position: -468px 0;
-    }
-    100% {
-        background-position: 468px 0;
-    }
-}
-
-.LoadingText {
-    animation-duration: 1.25s;
-    animation-fill-mode: forwards;
-    animation-iteration-count: infinite;
-    animation-name: placeHolderShimmer;
-    animation-timing-function: linear;
-    background: transparent;
-    background: linear-gradient(to right, transparent 0%, #eaeaea 16%, transparent 33%);
-    background-size: 800px 104px;
-    border-radius: 4px;
-    height: 22px;
-    width: 150px;
-    margin: 4px 0;
-}
