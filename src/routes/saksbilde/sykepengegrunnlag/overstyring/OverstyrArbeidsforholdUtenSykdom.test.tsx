@@ -1,3 +1,5 @@
+import { vi } from 'vitest';
+
 import { OverstyrArbeidsforholdMutationDocument, OverstyringArbeidsforholdInput } from '@io/graphql';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
@@ -9,6 +11,10 @@ import userEvent from '@testing-library/user-event';
 
 vi.mock('@io/sse/useAbonnerPåEndringer', () => ({
     useAbonnerPåEndringer: vi.fn(),
+}));
+
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useHarSkrivetilgang: () => true,
 }));
 
 describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
