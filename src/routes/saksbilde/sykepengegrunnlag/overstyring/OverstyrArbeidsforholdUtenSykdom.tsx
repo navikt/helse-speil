@@ -6,6 +6,7 @@ import { BodyShort, Button, ErrorMessage, ErrorSummary, HStack } from '@navikt/d
 
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { TimeoutModal } from '@components/TimeoutModal';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { PersonFragment } from '@io/graphql';
 import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
@@ -65,14 +66,16 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                             Avbryt
                         </Button>
                     ) : (
-                        <Button
-                            size="xsmall"
-                            variant="tertiary"
-                            icon={<XMarkOctagonIcon />}
-                            onClick={() => setEditingArbeidsforhold(true)}
-                        >
-                            Ikke bruk arbeidsforholdet i beregningen
-                        </Button>
+                        <VisHvisSkrivetilgang>
+                            <Button
+                                size="xsmall"
+                                variant="tertiary"
+                                icon={<XMarkOctagonIcon />}
+                                onClick={() => setEditingArbeidsforhold(true)}
+                            >
+                                Ikke bruk arbeidsforholdet i beregningen
+                            </Button>
+                        </VisHvisSkrivetilgang>
                     ))}
             </div>
             {editingArbeidsforhold && (
