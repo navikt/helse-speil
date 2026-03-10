@@ -3,6 +3,8 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
+import { SortState } from '@navikt/ds-react';
+
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
@@ -11,6 +13,7 @@ import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
+import { ListeTable } from '@oversikt/table/ListeTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
 import { useSorteringValue } from '@oversikt/table/state/sortation';
 import { useAntallOppgaver } from '@state/oppgaver';
@@ -20,6 +23,28 @@ import { TabType, useAktivTab } from './tabState';
 import { useFilters } from './table/state/filter';
 
 import styles from './Oversikt.module.css';
+
+interface TabContentProps {
+    aktivTab: TabType;
+    antallMineSaker: number;
+    antallPåVent: number;
+    sort: SortState;
+}
+
+const TabContent = dynamic(
+    () =>
+        Promise.resolve(({ aktivTab, antallMineSaker, antallPåVent, sort }: TabContentProps) => {
+            switch (aktivTab) {
+                case TabType.BehandletIdag:
+                    return <BehandletIdagTable />;
+                case TabType.Liste:
+                    return <ListeTable />;
+                default:
+                    return <OppgaverTable antallMineSaker={antallMineSaker} antallPåVent={antallPåVent} sort={sort} />;
+            }
+        }),
+    { ssr: false },
+);
 
 const Filtermeny = dynamic(() => import('./filtermeny/Filtermeny').then((mod) => mod.Filtermeny), {
     ssr: false,
@@ -47,11 +72,12 @@ export const Oversikt = (): ReactElement => {
             <div className={styles.fullHeight}>
                 <Filtermeny filters={allFilters} />
                 <section className={styles.Content}>
-                    {aktivTab === TabType.BehandletIdag ? (
-                        <BehandletIdagTable />
-                    ) : (
-                        <OppgaverTable antallMineSaker={antallMineSaker} antallPåVent={antallPåVent} sort={sort} />
-                    )}
+                    <TabContent
+                        aktivTab={aktivTab}
+                        antallMineSaker={antallMineSaker}
+                        antallPåVent={antallPåVent}
+                        sort={sort}
+                    />
                 </section>
                 <BehandlingsstatistikkView />
             </div>

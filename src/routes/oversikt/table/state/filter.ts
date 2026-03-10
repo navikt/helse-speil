@@ -225,6 +225,7 @@ const filtersPerTab = atomWithLocalStorage<FiltersPerTab>('filtersPerTab', {
     [TabType.Mine]: filters,
     [TabType.Ventende]: filters,
     [TabType.BehandletIdag]: filters,
+    [TabType.Liste]: filters,
 });
 
 export function hydrateFilters(): [WritableAtom<FiltersPerTab, [SetStateAction<FiltersPerTab>], void>, FiltersPerTab] {
@@ -255,6 +256,7 @@ export function hydrateFilters(): [WritableAtom<FiltersPerTab, [SetStateAction<F
             [TabType.Mine]: hentFiltreForTab(TabType.Mine, getDefaultFilters()),
             [TabType.Ventende]: hentFiltreForTab(TabType.Ventende, getDefaultFilters()),
             [TabType.BehandletIdag]: [],
+            [TabType.Liste]: [],
         },
     ];
 }

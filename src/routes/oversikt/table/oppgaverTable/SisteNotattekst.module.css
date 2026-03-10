@@ -2,6 +2,7 @@ p.SisteNotat {
     width: 14rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .NotattekstPopover {

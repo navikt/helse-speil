@@ -4,6 +4,7 @@ import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { cn } from '@utils/tw';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
@@ -49,6 +50,8 @@ const VentendeSakerTab = ({ antall }: SakerTabProps): ReactElement => (
 );
 
 const BehandletIdagTab = (): ReactElement => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet" />;
+
+const ListeTab = (): ReactElement => <OppgaveTab tag={TabType.Liste} label="Liste" />;
 
 const FilterButton = (): ReactElement => {
     const toggleFiltermeny = useToggleFiltermeny();
@@ -108,6 +111,8 @@ type TabProps = {
 };
 
 export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement => {
+    const harUtviklerRolle = useHarUtviklerRolle();
+
     return (
         <div className={styles.tabs}>
             <FilterButton />
@@ -117,6 +122,7 @@ export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement
                     <MineSakerTab antall={antallMineSaker} />
                     <VentendeSakerTab antall={antallPåVent} />
                     <BehandletIdagTab />
+                    {harUtviklerRolle && <ListeTab />}
                 </VisHvisSkrivetilgang>
             </span>
             <StatistikkButton />

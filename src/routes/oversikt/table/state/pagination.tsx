@@ -10,15 +10,18 @@ export const offset = (page: number) => limit * (page - 1);
 type TabPageState = { hash: string; page: number };
 type CurrentPagePerTab = { [key in TabType]: TabPageState };
 
+const defaultPageState: TabPageState = { hash: '', page: 1 };
+
 const currentPagePerTab = atomWithSessionStorage<CurrentPagePerTab>('currentPagePerTab', {
-    [TabType.TilGodkjenning]: { hash: '', page: 1 },
-    [TabType.Mine]: { hash: '', page: 1 },
-    [TabType.Ventende]: { hash: '', page: 1 },
-    [TabType.BehandletIdag]: { hash: '', page: 1 },
+    [TabType.TilGodkjenning]: defaultPageState,
+    [TabType.Mine]: defaultPageState,
+    [TabType.Ventende]: defaultPageState,
+    [TabType.BehandletIdag]: defaultPageState,
+    [TabType.Liste]: defaultPageState,
 });
 
 const pagination = atom(
-    (get) => get(currentPagePerTab)[get(tabState)],
+    (get) => get(currentPagePerTab)[get(tabState)] ?? defaultPageState,
     (get, set, newValue: TabPageState) =>
         set(currentPagePerTab, (prevState) => ({ ...prevState, [get(tabState)]: newValue })),
 );

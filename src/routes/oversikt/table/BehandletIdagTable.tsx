@@ -64,7 +64,7 @@ export const BehandletIdagTable = (): ReactElement => {
             </HStack>
             <VStack className={cn(styles.TableContainer, loading && styles.Loading)}>
                 <div className={styles.Content}>
-                    <div className={styles.Scrollble}>
+                    <div className={styles.Scrollable}>
                         <Table className={styles.Table} aria-label="Oppgaver behandlet av meg i dag" zebraStripes>
                             <Table.Header>
                                 <Table.Row>

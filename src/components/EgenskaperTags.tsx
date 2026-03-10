@@ -139,7 +139,13 @@ export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps): ReactElemen
         <>
             {getData(egenskaper).map((egenskap, index) => (
                 <Tooltip content={egenskap.tooltiptekst} key={index}>
-                    <Tag style={{ fontSize: 16 }} size="small" variant="outline" data-color={egenskap.dataColor}>
+                    <Tag
+                        style={{ fontSize: 16 }}
+                        size="small"
+                        variant="outline"
+                        data-color={egenskap.dataColor}
+                        className="whitespace-nowrap"
+                    >
                         {egenskap.tekst}
                     </Tag>
                 </Tooltip>
