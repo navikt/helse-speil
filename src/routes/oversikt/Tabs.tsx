@@ -122,8 +122,8 @@ export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement
                     <MineSakerTab antall={antallMineSaker} />
                     <VentendeSakerTab antall={antallPåVent} />
                     <BehandletIdagTab />
-                    {harUtviklerRolle && <ListeTab />}
                 </VisHvisSkrivetilgang>
+                {harUtviklerRolle && <ListeTab />}
             </span>
             <StatistikkButton />
         </div>
