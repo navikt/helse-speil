@@ -8,6 +8,7 @@ import { Tabs } from './Tabs';
 
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
+    useHarUtviklerRolle: () => true,
     useHarBeslutterrolle: () => true,
 }));
 
