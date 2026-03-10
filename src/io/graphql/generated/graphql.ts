@@ -67,11 +67,6 @@ export type Antall = {
     tilgjengelig: Scalars['Int']['output'];
 };
 
-export enum AntallArbeidsforhold {
-    EtArbeidsforhold = 'ET_ARBEIDSFORHOLD',
-    FlereArbeidsforhold = 'FLERE_ARBEIDSFORHOLD',
-}
-
 export type AntallOppgaver = {
     __typename: 'AntallOppgaver';
     antallMineSaker: Scalars['Int']['output'];
@@ -169,27 +164,6 @@ export enum Begrunnelse {
     SykepengedagerOppbruktOver_67 = 'SYKEPENGEDAGER_OPPBRUKT_OVER_67',
     Ukjent = 'UKJENT',
 }
-
-export type BehandledeOppgaver = {
-    __typename: 'BehandledeOppgaver';
-    oppgaver: Array<BehandletOppgave>;
-    totaltAntallOppgaver: Scalars['Int']['output'];
-};
-
-export type BehandletOppgave = {
-    __typename: 'BehandletOppgave';
-    aktorId: Scalars['String']['output'];
-    antallArbeidsforhold: AntallArbeidsforhold;
-    beslutter: Maybe<Scalars['String']['output']>;
-    ferdigstiltAv: Maybe<Scalars['String']['output']>;
-    ferdigstiltTidspunkt: Scalars['LocalDateTime']['output'];
-    id: Scalars['String']['output'];
-    oppgavetype: Oppgavetype;
-    periodetype: Periodetype;
-    personPseudoId: Scalars['UUID']['output'];
-    personnavn: Personnavn;
-    saksbehandler: Maybe<Scalars['String']['output']>;
-};
 
 export type Behandling = {
     __typename: 'Behandling';
@@ -647,18 +621,6 @@ export type Oppgaveegenskap = {
     kategori: Kategori;
 };
 
-export enum Oppgavetype {
-    DelvisRefusjon = 'DELVIS_REFUSJON',
-    FortroligAdresse = 'FORTROLIG_ADRESSE',
-    IngenUtbetaling = 'INGEN_UTBETALING',
-    Revurdering = 'REVURDERING',
-    RiskQa = 'RISK_QA',
-    Soknad = 'SOKNAD',
-    Stikkprove = 'STIKKPROVE',
-    UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
-    UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
-}
-
 export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
     dialogRef: Maybe<Scalars['Int']['output']>;
@@ -874,26 +836,11 @@ export type Personinfo = {
     unntattFraAutomatisering: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
-export type Personnavn = {
-    __typename: 'Personnavn';
-    etternavn: Scalars['String']['output'];
-    fornavn: Scalars['String']['output'];
-    mellomnavn: Maybe<Scalars['String']['output']>;
-};
-
 export type Query = {
     __typename: 'Query';
     antallOppgaver: AntallOppgaver;
-    behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     person: Maybe<Person>;
-};
-
-export type QueryBehandledeOppgaverFeedArgs = {
-    fom: Scalars['LocalDate']['input'];
-    limit: Scalars['Int']['input'];
-    offset: Scalars['Int']['input'];
-    tom: Scalars['LocalDate']['input'];
 };
 
 export type QueryPersonArgs = {
@@ -1390,35 +1337,6 @@ export type AntallOppgaverQueryVariables = Exact<{ [key: string]: never }>;
 export type AntallOppgaverQuery = {
     __typename: 'Query';
     antallOppgaver: { __typename: 'AntallOppgaver'; antallMineSaker: number; antallMineSakerPaVent: number };
-};
-
-export type BehandledeOppgaverFeedQueryVariables = Exact<{
-    offset: Scalars['Int']['input'];
-    limit: Scalars['Int']['input'];
-    fom: Scalars['LocalDate']['input'];
-    tom: Scalars['LocalDate']['input'];
-}>;
-
-export type BehandledeOppgaverFeedQuery = {
-    __typename: 'Query';
-    behandledeOppgaverFeed: {
-        __typename: 'BehandledeOppgaver';
-        totaltAntallOppgaver: number;
-        oppgaver: Array<{
-            __typename: 'BehandletOppgave';
-            id: string;
-            aktorId: string;
-            personPseudoId: string;
-            ferdigstiltAv: string | null;
-            beslutter: string | null;
-            saksbehandler: string | null;
-            ferdigstiltTidspunkt: string;
-            antallArbeidsforhold: AntallArbeidsforhold;
-            periodetype: Periodetype;
-            oppgavetype: Oppgavetype;
-            personnavn: { __typename: 'Personnavn'; fornavn: string; mellomnavn: string | null; etternavn: string };
-        }>;
-    };
 };
 
 export type AntallFragment = { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
@@ -10454,112 +10372,6 @@ export const AntallOppgaverDocument = {
         },
     ],
 } as unknown as DocumentNode<AntallOppgaverQuery, AntallOppgaverQueryVariables>;
-export const BehandledeOppgaverFeedDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'BehandledeOppgaverFeed' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'Int' } } },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'LocalDate' } },
-                    },
-                },
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'tom' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'LocalDate' } },
-                    },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'behandledeOppgaverFeed' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'offset' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'offset' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'limit' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'limit' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fom' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fom' } },
-                            },
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'tom' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'tom' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'oppgaver' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'aktorId' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'personPseudoId' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltAv' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'beslutter' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'saksbehandler' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'ferdigstiltTidspunkt' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'antallArbeidsforhold' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'periodetype' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'oppgavetype' } },
-                                            {
-                                                kind: 'Field',
-                                                name: { kind: 'Name', value: 'personnavn' },
-                                                selectionSet: {
-                                                    kind: 'SelectionSet',
-                                                    selections: [
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
-                                                        { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                                    ],
-                                                },
-                                            },
-                                        ],
-                                    },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'totaltAntallOppgaver' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<BehandledeOppgaverFeedQuery, BehandledeOppgaverFeedQueryVariables>;
 export const HentBehandlingsstatistikkDocument = {
     kind: 'Document',
     definitions: [

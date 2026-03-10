@@ -4,7 +4,8 @@ import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Loader } from '@navikt/ds-react';
 
 import { EndrePåVentModal } from '@components/påvent/PåVentModaler';
-import { BeregnetPeriodeFragment, PersonFragment, Personnavn } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useFjernPåVentFraSaksbilde } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
@@ -35,8 +36,7 @@ export const LagtPåVentDropdown = ({
 
     const tildeling = person.tildeling;
 
-    const navn: Personnavn = {
-        __typename: 'Personnavn',
+    const navn: ApiPersonnavn = {
         fornavn: person.personinfo.fornavn,
         mellomnavn: person.personinfo.mellomnavn,
         etternavn: person.personinfo.etternavn,

@@ -65,11 +65,6 @@ export type Antall = {
     tilgjengelig: Scalars['Int']['output'];
 };
 
-export enum AntallArbeidsforhold {
-    EtArbeidsforhold = 'ET_ARBEIDSFORHOLD',
-    FlereArbeidsforhold = 'FLERE_ARBEIDSFORHOLD',
-}
-
 export type AntallOppgaver = {
     __typename?: 'AntallOppgaver';
     antallMineSaker: Scalars['Int']['output'];
@@ -167,27 +162,6 @@ export enum Begrunnelse {
     SykepengedagerOppbruktOver_67 = 'SYKEPENGEDAGER_OPPBRUKT_OVER_67',
     Ukjent = 'UKJENT',
 }
-
-export type BehandledeOppgaver = {
-    __typename?: 'BehandledeOppgaver';
-    oppgaver: Array<BehandletOppgave>;
-    totaltAntallOppgaver: Scalars['Int']['output'];
-};
-
-export type BehandletOppgave = {
-    __typename?: 'BehandletOppgave';
-    aktorId: Scalars['String']['output'];
-    antallArbeidsforhold: AntallArbeidsforhold;
-    beslutter?: Maybe<Scalars['String']['output']>;
-    ferdigstiltAv?: Maybe<Scalars['String']['output']>;
-    ferdigstiltTidspunkt: Scalars['LocalDateTime']['output'];
-    id: Scalars['String']['output'];
-    oppgavetype: Oppgavetype;
-    periodetype: Periodetype;
-    personPseudoId: Scalars['UUID']['output'];
-    personnavn: Personnavn;
-    saksbehandler?: Maybe<Scalars['String']['output']>;
-};
 
 export type Behandling = {
     __typename?: 'Behandling';
@@ -645,18 +619,6 @@ export type Oppgaveegenskap = {
     kategori: Kategori;
 };
 
-export enum Oppgavetype {
-    DelvisRefusjon = 'DELVIS_REFUSJON',
-    FortroligAdresse = 'FORTROLIG_ADRESSE',
-    IngenUtbetaling = 'INGEN_UTBETALING',
-    Revurdering = 'REVURDERING',
-    RiskQa = 'RISK_QA',
-    Soknad = 'SOKNAD',
-    Stikkprove = 'STIKKPROVE',
-    UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
-    UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
-}
-
 export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
     __typename?: 'OpphevStansAutomatiskBehandlingSaksbehandler';
     dialogRef?: Maybe<Scalars['Int']['output']>;
@@ -872,26 +834,11 @@ export type Personinfo = {
     unntattFraAutomatisering?: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
-export type Personnavn = {
-    __typename?: 'Personnavn';
-    etternavn: Scalars['String']['output'];
-    fornavn: Scalars['String']['output'];
-    mellomnavn?: Maybe<Scalars['String']['output']>;
-};
-
 export type Query = {
     __typename?: 'Query';
     antallOppgaver: AntallOppgaver;
-    behandledeOppgaverFeed: BehandledeOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     person?: Maybe<Person>;
-};
-
-export type QueryBehandledeOppgaverFeedArgs = {
-    fom: Scalars['LocalDate']['input'];
-    limit: Scalars['Int']['input'];
-    offset: Scalars['Int']['input'];
-    tom: Scalars['LocalDate']['input'];
 };
 
 export type QueryPersonArgs = {

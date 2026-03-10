@@ -6,7 +6,8 @@ import { Dropdown } from '@navikt/ds-react';
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Periodetilstand, PersonFragment, Personnavn } from '@io/graphql';
+import { Periodetilstand, PersonFragment } from '@io/graphql';
+import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
 import { OpphevStansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingModal';
 import { StansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingModal';
@@ -112,8 +113,7 @@ export function StorMeny({
             activePeriod.periodetilstand === Periodetilstand.Utbetalt) &&
         !behandlingHarAnnullering;
 
-    const navn: Personnavn = {
-        __typename: 'Personnavn',
+    const navn: ApiPersonnavn = {
         fornavn: person.personinfo.fornavn,
         mellomnavn: person.personinfo.mellomnavn,
         etternavn: person.personinfo.etternavn,
