@@ -51,7 +51,7 @@ const VentendeSakerTab = ({ antall }: SakerTabProps): ReactElement => (
 
 const BehandletIdagTab = (): ReactElement => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet" />;
 
-const ListeTab = (): ReactElement => <OppgaveTab tag={TabType.Liste} label="Liste" />;
+const ListeTab = (): ReactElement => <OppgaveTab tag={TabType.Liste} label="Liste til NKS" />;
 
 const FilterButton = (): ReactElement => {
     const toggleFiltermeny = useToggleFiltermeny();
