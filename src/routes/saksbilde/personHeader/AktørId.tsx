@@ -11,7 +11,7 @@ interface AktørIdProps {
 export const AktørId = ({ aktørId }: AktørIdProps) => (
     <HStack gap="space-4">
         <AnonymizableText>Aktør-ID: {aktørId}</AnonymizableText>
-        <Tooltip content="Kopier aktør-ID">
+        <Tooltip content="Kopier aktør-ID" keys={['alt', 'a']}>
             <CopyButton copyText={aktørId} size="xsmall" />
         </Tooltip>
     </HStack>
