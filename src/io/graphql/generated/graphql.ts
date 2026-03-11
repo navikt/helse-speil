@@ -523,7 +523,6 @@ export type Mutation = {
     fjernTildeling: Scalars['Boolean']['output'];
     leggPaVent: Maybe<PaVent>;
     oppdaterPerson: Scalars['Boolean']['output'];
-    opphevStansAutomatiskBehandling: Scalars['Boolean']['output'];
     opprettTildeling: Maybe<Tildeling>;
     overstyrArbeidsforhold: Maybe<Scalars['Boolean']['output']>;
     overstyrDager: Maybe<Scalars['Boolean']['output']>;
@@ -531,7 +530,6 @@ export type Mutation = {
     sendIRetur: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2: Maybe<Scalars['Boolean']['output']>;
     skjonnsfastsettSykepengegrunnlag: Maybe<Scalars['Boolean']['output']>;
-    stansAutomatiskBehandling: Scalars['Boolean']['output'];
 };
 
 export type MutationEndrePaVentArgs = {
@@ -559,11 +557,6 @@ export type MutationLeggPaVentArgs = {
 };
 
 export type MutationOppdaterPersonArgs = {
-    fodselsnummer: Scalars['String']['input'];
-};
-
-export type MutationOpphevStansAutomatiskBehandlingArgs = {
-    begrunnelse: Scalars['String']['input'];
     fodselsnummer: Scalars['String']['input'];
 };
 
@@ -595,11 +588,6 @@ export type MutationSendTilGodkjenningV2Args = {
 
 export type MutationSkjonnsfastsettSykepengegrunnlagArgs = {
     skjonnsfastsettelse: SkjonnsfastsettelseInput;
-};
-
-export type MutationStansAutomatiskBehandlingArgs = {
-    begrunnelse: Scalars['String']['input'];
-    fodselsnummer: Scalars['String']['input'];
 };
 
 export type OmregnetArsinntekt = {
