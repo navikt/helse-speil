@@ -292,6 +292,54 @@ export interface ApiHttpProblemDetailsApiPatchStansErrorCode {
     code?: ApiHttpProblemDetailsApiPatchStansErrorCodeCode;
 }
 
+export interface ApiStansRequestV2 {
+    begrunnelse: string;
+    stans: boolean;
+}
+
+export type ApiPatchStansSaksbehandlerErrorCode =
+    (typeof ApiPatchStansSaksbehandlerErrorCode)[keyof typeof ApiPatchStansSaksbehandlerErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPatchStansSaksbehandlerErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCodeCode = null | ApiPatchStansSaksbehandlerErrorCode;
+
+export interface ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCodeCode;
+}
+
+export type ApiPatchVeilederStansErrorCode =
+    (typeof ApiPatchVeilederStansErrorCode)[keyof typeof ApiPatchVeilederStansErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPatchVeilederStansErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    KAN_IKKE_OPPRETTE_VEILEDER_STANS: 'KAN_IKKE_OPPRETTE_VEILEDER_STANS',
+} as const;
+
+export type ApiHttpProblemDetailsApiPatchVeilederStansErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPatchVeilederStansErrorCodeCode = null | ApiPatchVeilederStansErrorCode;
+
+export interface ApiHttpProblemDetailsApiPatchVeilederStansErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPatchVeilederStansErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchVeilederStansErrorCodeCode;
+}
+
 export type ApiSoknadstype = (typeof ApiSoknadstype)[keyof typeof ApiSoknadstype];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare

@@ -4,12 +4,18 @@
  * API
  * OpenAPI spec version: latest
  */
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
-import type { ApiHttpProblemDetailsApiPatchStansErrorCode, ApiStansRequest } from '../spesialist.schemas';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type {
+    ApiHttpProblemDetailsApiPatchStansErrorCode,
+    ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode,
+    ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
+    ApiStansRequest,
+    ApiStansRequestV2,
+} from '../spesialist.schemas';
 
-import { useMutation } from '@tanstack/react-query';
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
 export const patchStans = (pseudoId: string, apiStansRequest?: ApiStansRequest) => {
     return callCustomAxios<void>({
@@ -76,6 +82,148 @@ export const usePatchStans = <TError = ErrorType<ApiHttpProblemDetailsApiPatchSt
     TContext
 > => {
     const mutationOptions = getPatchStansMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const patchStansSaksbehandler = (pseudoId: string, apiStansRequestV2?: ApiStansRequestV2) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/personer/${pseudoId}/stans/saksbehandler`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiStansRequestV2,
+    });
+};
+
+export const getPatchStansSaksbehandlerMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof patchStansSaksbehandler>>,
+        TError,
+        { pseudoId: string; data: ApiStansRequestV2 },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof patchStansSaksbehandler>>,
+    TError,
+    { pseudoId: string; data: ApiStansRequestV2 },
+    TContext
+> => {
+    const mutationKey = ['patchStansSaksbehandler'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof patchStansSaksbehandler>>,
+        { pseudoId: string; data: ApiStansRequestV2 }
+    > = (props) => {
+        const { pseudoId, data } = props ?? {};
+
+        return patchStansSaksbehandler(pseudoId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PatchStansSaksbehandlerMutationResult = NonNullable<Awaited<ReturnType<typeof patchStansSaksbehandler>>>;
+export type PatchStansSaksbehandlerMutationBody = ApiStansRequestV2;
+export type PatchStansSaksbehandlerMutationError = ErrorType<ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode>;
+
+export const usePatchStansSaksbehandler = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof patchStansSaksbehandler>>,
+            TError,
+            { pseudoId: string; data: ApiStansRequestV2 },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof patchStansSaksbehandler>>,
+    TError,
+    { pseudoId: string; data: ApiStansRequestV2 },
+    TContext
+> => {
+    const mutationOptions = getPatchStansSaksbehandlerMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const patchStansVeileder = (pseudoId: string, apiStansRequestV2?: ApiStansRequestV2) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/personer/${pseudoId}/stans/veileder`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiStansRequestV2,
+    });
+};
+
+export const getPatchStansVeilederMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof patchStansVeileder>>,
+        TError,
+        { pseudoId: string; data: ApiStansRequestV2 },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof patchStansVeileder>>,
+    TError,
+    { pseudoId: string; data: ApiStansRequestV2 },
+    TContext
+> => {
+    const mutationKey = ['patchStansVeileder'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof patchStansVeileder>>,
+        { pseudoId: string; data: ApiStansRequestV2 }
+    > = (props) => {
+        const { pseudoId, data } = props ?? {};
+
+        return patchStansVeileder(pseudoId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PatchStansVeilederMutationResult = NonNullable<Awaited<ReturnType<typeof patchStansVeileder>>>;
+export type PatchStansVeilederMutationBody = ApiStansRequestV2;
+export type PatchStansVeilederMutationError = ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>;
+
+export const usePatchStansVeileder = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof patchStansVeileder>>,
+            TError,
+            { pseudoId: string; data: ApiStansRequestV2 },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof patchStansVeileder>>,
+    TError,
+    { pseudoId: string; data: ApiStansRequestV2 },
+    TContext
+> => {
+    const mutationOptions = getPatchStansVeilederMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };
