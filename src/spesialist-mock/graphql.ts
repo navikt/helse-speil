@@ -29,11 +29,9 @@ import {
     MutationFjernTildelingArgs,
     MutationLeggPaVentArgs,
     MutationOppdaterPersonArgs,
-    MutationOpphevStansAutomatiskBehandlingArgs,
     MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningV2Args,
-    MutationStansAutomatiskBehandlingArgs,
     PeriodehistorikkType,
     Person,
     Utbetaling,
@@ -43,8 +41,6 @@ import { OpphevStansMock } from './storage/opphevstans';
 import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
-
-type PersonMedPseudoId = Person & { personPseudoId: string };
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
@@ -84,14 +80,18 @@ const leggTilLagretData = (person: Person): void => {
         person.personinfo.unntattFraAutomatisering = lagretUnntattFraAutomatiskGodkjenning;
     }
 
-    const lagretStansAvSaksbehandler = StansAutomatiskBehandlingMock.getStansAutomatiskBehandling(person.fodselsnummer);
+    const pseudoId = PersonMock.findPersonPseudoId(person.fodselsnummer);
+    const lagretStansAvSaksbehandler = pseudoId
+        ? StansAutomatiskBehandlingMock.getStansAutomatiskBehandling(pseudoId)
+        : false;
+
     if (lagretStansAvSaksbehandler) {
         person.personinfo.automatiskBehandlingStansetAvSaksbehandler = lagretStansAvSaksbehandler;
     }
     person.tildeling = tildeling;
 };
 
-const lesTestpersoner = (): PersonMedPseudoId[] => {
+const lesTestpersoner = (): Person[] => {
     const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
     const filenames = fs.readdirSync(url);
     return filenames.map((filename) => {
@@ -255,33 +255,6 @@ const getResolvers = (): IResolvers => ({
             ServerSentEventsMock.pushEvent(fodselsnummer, ApiServerSentEventEvent.PERSONDATA_OPPDATERT);
             return true;
         },
-        stansAutomatiskBehandling: async (_, { fodselsnummer, begrunnelse }: MutationStansAutomatiskBehandlingArgs) => {
-            const oppgaveId = finnOppgaveId();
-            StansAutomatiskBehandlingMock.stansAutomatiskBehandling(fodselsnummer, true);
-            if (oppgaveId) {
-                HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
-                    type: PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler,
-                    notattekst: begrunnelse,
-                    dialogRef: DialogMock.addDialog(),
-                });
-            }
-            return true;
-        },
-        opphevStansAutomatiskBehandling: async (
-            _,
-            { fodselsnummer, begrunnelse }: MutationOpphevStansAutomatiskBehandlingArgs,
-        ) => {
-            const oppgaveId = finnOppgaveId();
-            StansAutomatiskBehandlingMock.stansAutomatiskBehandling(fodselsnummer, false);
-            if (oppgaveId) {
-                HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
-                    type: PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler,
-                    notattekst: begrunnelse,
-                    dialogRef: DialogMock.addDialog(),
-                });
-            }
-            return true;
-        },
     },
     Periode: {
         __resolveType: (periode: { utbetaling: Utbetaling; vilkarsgrunnlagId: string }) => {
@@ -358,7 +331,7 @@ const getResolvers = (): IResolvers => ({
     },
 });
 
-const finnOppgaveId = (): string | null => {
+export const finnOppgaveId = (): string | null => {
     if (!valgtPerson) return null;
     const periode = valgtPerson.arbeidsgivere
         .flatMap((a) => a.behandlinger.flatMap((g) => g.perioder))
