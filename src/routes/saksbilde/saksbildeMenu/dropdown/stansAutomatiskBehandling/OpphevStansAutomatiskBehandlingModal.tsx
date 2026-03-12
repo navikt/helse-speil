@@ -7,6 +7,7 @@ import { Button, ErrorMessage, Heading, Modal, Textarea } from '@navikt/ds-react
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { FetchPersonDocument } from '@io/graphql';
 import { usePatchStansSaksbehandler } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import {
     opphevStansAutomatiskBehandlingToast,
@@ -27,7 +28,7 @@ export function OpphevStansAutomatiskBehandlingModal({
 }: OpphevStansAutomatiskBehandlingModalProps): ReactElement {
     const [loading, setLoading] = useState<boolean>(false);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { cache, refetchQueries } = useApolloClient();
+    const apolloClient = useApolloClient();
     const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStansSaksbehandler();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
@@ -50,8 +51,8 @@ export function OpphevStansAutomatiskBehandlingModal({
             },
             {
                 onSuccess: () => {
-                    cache.modify({
-                        id: cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
+                    apolloClient.cache.modify({
+                        id: apolloClient.cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
                         fields: {
                             personinfo: (existing) => ({
                                 ...existing,
@@ -59,8 +60,8 @@ export function OpphevStansAutomatiskBehandlingModal({
                             }),
                         },
                     });
-                    refetchQueries({
-                        include: ['Person'],
+                    apolloClient.refetchQueries({
+                        include: [FetchPersonDocument],
                     });
                     setLoading(false);
                     closeModal();

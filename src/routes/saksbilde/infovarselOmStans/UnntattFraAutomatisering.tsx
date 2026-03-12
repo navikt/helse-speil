@@ -9,6 +9,7 @@ import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from
 import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { FetchPersonDocument } from '@io/graphql';
 import { usePatchStansVeileder } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import {
     opphevStansAutomatiskBehandlingVeilederToast,
@@ -28,7 +29,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
     const [åpen, setÅpen] = useState(false);
 
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { cache, refetchQueries } = useApolloClient();
+    const apolloClient = useApolloClient();
     const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStansVeileder();
     const addToast = useAddToast();
 
@@ -52,8 +53,8 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
             },
             {
                 onSuccess: () => {
-                    cache.modify({
-                        id: cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
+                    apolloClient.cache.modify({
+                        id: apolloClient.cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
                         fields: {
                             personinfo: (existing) => ({
                                 ...existing,
@@ -66,8 +67,8 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                             }),
                         },
                     });
-                    refetchQueries({
-                        include: ['Person'],
+                    apolloClient.refetchQueries({
+                        include: [FetchPersonDocument],
                     });
                     setLoading(false);
                     addToast(opphevStansAutomatiskBehandlingVeilederToast);
