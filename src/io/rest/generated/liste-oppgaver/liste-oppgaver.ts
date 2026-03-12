@@ -4,14 +4,14 @@
  * API
  * OpenAPI spec version: latest
  */
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
     ApiOppgaveProjeksjonSide,
     GetListeOppgaverParams,
 } from '../spesialist.schemas';
 
-import type { ErrorType } from '@app/axios/orval-mutator';
-import { callCustomAxios } from '@app/axios/orval-mutator';
 import type {
     DataTag,
     DefinedInitialDataOptions,

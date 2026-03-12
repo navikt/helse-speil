@@ -260,7 +260,7 @@ export interface ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode {
     code?: ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeCode;
 }
 
-export interface ApiStansRequestV2 {
+export interface ApiStansRequest {
     begrunnelse: string;
     stans: boolean;
 }

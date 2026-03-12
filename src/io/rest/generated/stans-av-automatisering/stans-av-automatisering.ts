@@ -4,23 +4,23 @@
  * API
  * OpenAPI spec version: latest
  */
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
     ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
-    ApiStansRequestV2,
+    ApiStansRequest,
 } from '../spesialist.schemas';
 
-import type { ErrorType } from '@app/axios/orval-mutator';
-import { callCustomAxios } from '@app/axios/orval-mutator';
 import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
 import { useMutation } from '@tanstack/react-query';
 
-export const patchStansSaksbehandler = (pseudoId: string, apiStansRequestV2?: ApiStansRequestV2) => {
+export const patchStansSaksbehandler = (pseudoId: string, apiStansRequest?: ApiStansRequest) => {
     return callCustomAxios<void>({
         url: `/api/spesialist/personer/${pseudoId}/stans/saksbehandler`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: apiStansRequestV2,
+        data: apiStansRequest,
     });
 };
 
@@ -31,13 +31,13 @@ export const getPatchStansSaksbehandlerMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof patchStansSaksbehandler>>,
         TError,
-        { pseudoId: string; data: ApiStansRequestV2 },
+        { pseudoId: string; data: ApiStansRequest },
         TContext
     >;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof patchStansSaksbehandler>>,
     TError,
-    { pseudoId: string; data: ApiStansRequestV2 },
+    { pseudoId: string; data: ApiStansRequest },
     TContext
 > => {
     const mutationKey = ['patchStansSaksbehandler'];
@@ -49,7 +49,7 @@ export const getPatchStansSaksbehandlerMutationOptions = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof patchStansSaksbehandler>>,
-        { pseudoId: string; data: ApiStansRequestV2 }
+        { pseudoId: string; data: ApiStansRequest }
     > = (props) => {
         const { pseudoId, data } = props ?? {};
 
@@ -60,7 +60,7 @@ export const getPatchStansSaksbehandlerMutationOptions = <
 };
 
 export type PatchStansSaksbehandlerMutationResult = NonNullable<Awaited<ReturnType<typeof patchStansSaksbehandler>>>;
-export type PatchStansSaksbehandlerMutationBody = ApiStansRequestV2;
+export type PatchStansSaksbehandlerMutationBody = ApiStansRequest;
 export type PatchStansSaksbehandlerMutationError = ErrorType<ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode>;
 
 export const usePatchStansSaksbehandler = <
@@ -71,7 +71,7 @@ export const usePatchStansSaksbehandler = <
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof patchStansSaksbehandler>>,
             TError,
-            { pseudoId: string; data: ApiStansRequestV2 },
+            { pseudoId: string; data: ApiStansRequest },
             TContext
         >;
     },
@@ -79,19 +79,19 @@ export const usePatchStansSaksbehandler = <
 ): UseMutationResult<
     Awaited<ReturnType<typeof patchStansSaksbehandler>>,
     TError,
-    { pseudoId: string; data: ApiStansRequestV2 },
+    { pseudoId: string; data: ApiStansRequest },
     TContext
 > => {
     const mutationOptions = getPatchStansSaksbehandlerMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };
-export const patchStansVeileder = (pseudoId: string, apiStansRequestV2?: ApiStansRequestV2) => {
+export const patchStansVeileder = (pseudoId: string, apiStansRequest?: ApiStansRequest) => {
     return callCustomAxios<void>({
         url: `/api/spesialist/personer/${pseudoId}/stans/veileder`,
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        data: apiStansRequestV2,
+        data: apiStansRequest,
     });
 };
 
@@ -102,13 +102,13 @@ export const getPatchStansVeilederMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof patchStansVeileder>>,
         TError,
-        { pseudoId: string; data: ApiStansRequestV2 },
+        { pseudoId: string; data: ApiStansRequest },
         TContext
     >;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof patchStansVeileder>>,
     TError,
-    { pseudoId: string; data: ApiStansRequestV2 },
+    { pseudoId: string; data: ApiStansRequest },
     TContext
 > => {
     const mutationKey = ['patchStansVeileder'];
@@ -120,7 +120,7 @@ export const getPatchStansVeilederMutationOptions = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof patchStansVeileder>>,
-        { pseudoId: string; data: ApiStansRequestV2 }
+        { pseudoId: string; data: ApiStansRequest }
     > = (props) => {
         const { pseudoId, data } = props ?? {};
 
@@ -131,7 +131,7 @@ export const getPatchStansVeilederMutationOptions = <
 };
 
 export type PatchStansVeilederMutationResult = NonNullable<Awaited<ReturnType<typeof patchStansVeileder>>>;
-export type PatchStansVeilederMutationBody = ApiStansRequestV2;
+export type PatchStansVeilederMutationBody = ApiStansRequest;
 export type PatchStansVeilederMutationError = ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>;
 
 export const usePatchStansVeileder = <
@@ -142,7 +142,7 @@ export const usePatchStansVeileder = <
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof patchStansVeileder>>,
             TError,
-            { pseudoId: string; data: ApiStansRequestV2 },
+            { pseudoId: string; data: ApiStansRequest },
             TContext
         >;
     },
@@ -150,7 +150,7 @@ export const usePatchStansVeileder = <
 ): UseMutationResult<
     Awaited<ReturnType<typeof patchStansVeileder>>,
     TError,
-    { pseudoId: string; data: ApiStansRequestV2 },
+    { pseudoId: string; data: ApiStansRequest },
     TContext
 > => {
     const mutationOptions = getPatchStansVeilederMutationOptions(options);
