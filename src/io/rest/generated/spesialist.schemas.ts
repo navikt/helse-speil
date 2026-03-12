@@ -1601,6 +1601,33 @@ export interface ApiHttpProblemDetailsApiGetPersonErrorCode {
     code?: ApiHttpProblemDetailsApiGetPersonErrorCodeCode;
 }
 
+export interface ApiNotatVedtaksperiodeId {
+    vedtaksperiodeId: string;
+    notattyper: ApiNotatType[];
+}
+
+export type ApiGetNotatVedtaksperiodeIderErrorCode =
+    (typeof ApiGetNotatVedtaksperiodeIderErrorCode)[keyof typeof ApiGetNotatVedtaksperiodeIderErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetNotatVedtaksperiodeIderErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeCode =
+    null | ApiGetNotatVedtaksperiodeIderErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeCode;
+}
+
 export interface ForsikringInnhold {
     gjelderFraDag: number;
     dekningsgrad: number;

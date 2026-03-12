@@ -7,6 +7,7 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
+    ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode,
     ApiHttpProblemDetailsApiPatchNotatErrorCode,
     ApiHttpProblemDetailsApiPostNotatErrorCode,
     ApiHttpProblemDetailsGetNotatErrorCode,
@@ -14,6 +15,7 @@ import type {
     ApiNotat,
     ApiNotatRequest,
     ApiNotatResponse,
+    ApiNotatVedtaksperiodeId,
     ApiPatchNotatRequest,
 } from '../spesialist.schemas';
 
@@ -366,3 +368,126 @@ export const usePostNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPostNota
 
     return useMutation(mutationOptions, queryClient);
 };
+export const getNotatVedtaksperiodeIderForPerson = (pseudoId: string, signal?: AbortSignal) => {
+    return callCustomAxios<ApiNotatVedtaksperiodeId[]>({
+        url: `/api/spesialist/personer/${pseudoId}/notat-vedtaksperiode-ider`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetNotatVedtaksperiodeIderForPersonQueryKey = (pseudoId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/notat-vedtaksperiode-ider`] as const;
+};
+
+export const getGetNotatVedtaksperiodeIderForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>, TError, TData>
+        >;
+    },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetNotatVedtaksperiodeIderForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>> = ({ signal }) =>
+        getNotatVedtaksperiodeIderForPerson(pseudoId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!pseudoId,
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetNotatVedtaksperiodeIderForPersonQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>
+>;
+export type GetNotatVedtaksperiodeIderForPersonQueryError =
+    ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>;
+
+export function useGetNotatVedtaksperiodeIderForPerson<
+    TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>, TError, TData>
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetNotatVedtaksperiodeIderForPerson<
+    TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>, TError, TData>
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetNotatVedtaksperiodeIderForPerson<
+    TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>, TError, TData>
+        >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetNotatVedtaksperiodeIderForPerson<
+    TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>, TError, TData>
+        >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetNotatVedtaksperiodeIderForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
