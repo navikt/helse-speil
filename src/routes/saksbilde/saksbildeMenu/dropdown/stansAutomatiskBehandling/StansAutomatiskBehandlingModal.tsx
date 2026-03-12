@@ -9,7 +9,7 @@ import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePatchStansSaksbehandler } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import {
-    somAutomatiskStansBackendfeil,
+    somSaksbehandlerBackendfeil,
     stansAutomatiskBehandlingToast,
 } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
@@ -104,7 +104,7 @@ export function StansAutomatiskBehandlingModal({
                         />
                     </form>
                 </FormProvider>
-                {error && <ErrorMessage showIcon>{somAutomatiskStansBackendfeil(error)}</ErrorMessage>}
+                {error && <ErrorMessage showIcon>{somSaksbehandlerBackendfeil(error)}</ErrorMessage>}
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" type="submit" form="stans-automatisk-behandling-modal-form" loading={loading}>

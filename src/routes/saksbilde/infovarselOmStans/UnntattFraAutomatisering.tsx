@@ -12,7 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { usePatchStansVeileder } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import {
     opphevStansAutomatiskBehandlingVeilederToast,
-    somAutomatiskStansBackendfeil,
+    somVeilederBackendfeil,
 } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
 import { ISO_TIDSPUNKTFORMAT, getFormattedDatetimeString } from '@utils/date';
@@ -116,7 +116,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                                 />
                             )}
                         />
-                        {error && <ErrorMessage showIcon>{somAutomatiskStansBackendfeil(error)}</ErrorMessage>}
+                        {error && <ErrorMessage showIcon>{somVeilederBackendfeil(error)}</ErrorMessage>}
                         <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                             <Button size="small" variant="primary" type="submit" loading={loading}>
                                 Opphev stans

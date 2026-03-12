@@ -10,7 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { usePatchStansSaksbehandler } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import {
     opphevStansAutomatiskBehandlingToast,
-    somAutomatiskStansBackendfeil,
+    somSaksbehandlerBackendfeil,
 } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
 
@@ -104,7 +104,7 @@ export function OpphevStansAutomatiskBehandlingModal({
                         />
                     </form>
                 </FormProvider>
-                {error && <ErrorMessage showIcon>{somAutomatiskStansBackendfeil(error)}</ErrorMessage>}
+                {error && <ErrorMessage showIcon>{somSaksbehandlerBackendfeil(error)}</ErrorMessage>}
             </Modal.Body>
             <Modal.Footer>
                 <Button
