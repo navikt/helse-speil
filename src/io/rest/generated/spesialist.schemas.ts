@@ -260,38 +260,6 @@ export interface ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode {
     code?: ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeCode;
 }
 
-export type ApiStansRequestSaksbehandlerStans = null | boolean;
-
-export type ApiStansRequestVeilederStans = null | boolean;
-
-export interface ApiStansRequest {
-    begrunnelse: string;
-    saksbehandlerStans?: ApiStansRequestSaksbehandlerStans;
-    veilederStans?: ApiStansRequestVeilederStans;
-}
-
-export type ApiPatchStansErrorCode = (typeof ApiPatchStansErrorCode)[keyof typeof ApiPatchStansErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPatchStansErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    KAN_IKKE_OPPRETTE_VEILEDER_STANS: 'KAN_IKKE_OPPRETTE_VEILEDER_STANS',
-    REQUEST_MANGLER_STANSTYPE: 'REQUEST_MANGLER_STANSTYPE',
-} as const;
-
-export type ApiHttpProblemDetailsApiPatchStansErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPatchStansErrorCodeCode = null | ApiPatchStansErrorCode;
-
-export interface ApiHttpProblemDetailsApiPatchStansErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPatchStansErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPatchStansErrorCodeCode;
-}
-
 export interface ApiStansRequestV2 {
     begrunnelse: string;
     stans: boolean;
