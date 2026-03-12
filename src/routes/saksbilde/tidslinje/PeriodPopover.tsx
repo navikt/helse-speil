@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useParams } from 'next/navigation';
 import React, { ReactElement, ReactNode } from 'react';
 
 import { BodyShort, HGrid } from '@navikt/ds-react';
@@ -6,8 +7,8 @@ import { BodyShort, HGrid } from '@navikt/ds-react';
 import { useForrigeBehandlingPeriodeMedPeriode } from '@hooks/useForrigeBehandlingPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
-import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
-import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
+import { useGetNotatVedtaksperiodeIderForPerson } from '@io/rest/generated/notater/notater';
+import { ApiNotatType, ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TidslinjeElement } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
@@ -285,6 +286,12 @@ function getDayTypesRender(dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
 }
 
 function useHarGenereltNotat(period: BeregnetPeriodeFragment) {
-    const { data } = useGetNotaterForVedtaksperiode(period.vedtaksperiodeId);
-    return data?.some((notat) => notat.type === 'Generelt') || false;
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data } = useGetNotatVedtaksperiodeIderForPerson(personPseudoId);
+
+    return (
+        data
+            ?.find((it) => it.vedtaksperiodeId == period.vedtaksperiodeId)
+            ?.notattyper?.includes(ApiNotatType.Generelt) || false
+    );
 }
