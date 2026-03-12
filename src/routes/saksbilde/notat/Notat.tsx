@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
@@ -7,7 +8,11 @@ import { BodyShort, Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 import { NotatFormFields } from '@/form-schemas/notatSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { getGetNotaterForVedtaksperiodeQueryKey, usePostNotat } from '@io/rest/generated/notater/notater';
+import {
+    getGetNotatVedtaksperiodeIderForPersonQueryKey,
+    getGetNotaterForVedtaksperiodeQueryKey,
+    usePostNotat,
+} from '@io/rest/generated/notater/notater';
 import { ApiNotatType } from '@io/rest/generated/spesialist.schemas';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useNotatkladd } from '@state/notater';
@@ -85,6 +90,7 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
 
 function useLeggTilNotat(vedtaksperiodeId: string, onSuccess: () => void) {
     const [loading, setLoading] = useState(false);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const { mutate: postNotat, error, reset } = usePostNotat();
     const queryClient = useQueryClient();
@@ -101,9 +107,14 @@ function useLeggTilNotat(vedtaksperiodeId: string, onSuccess: () => void) {
             },
             {
                 onSuccess: async () => {
-                    await queryClient.invalidateQueries({
-                        queryKey: getGetNotaterForVedtaksperiodeQueryKey(vedtaksperiodeId),
-                    });
+                    await Promise.all([
+                        queryClient.invalidateQueries({
+                            queryKey: getGetNotaterForVedtaksperiodeQueryKey(vedtaksperiodeId),
+                        }),
+                        queryClient.invalidateQueries({
+                            queryKey: getGetNotatVedtaksperiodeIderForPersonQueryKey(personPseudoId),
+                        }),
+                    ]);
                     notatkladd.fjernNotat(vedtaksperiodeId, ApiNotatType.Generelt);
                     onSuccess();
                     setLoading(false);

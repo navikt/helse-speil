@@ -58,6 +58,14 @@ class NotatMock {
         );
     };
 
+    getNotatVedtaksperiodeIderForPerson = (
+        _pseudoId: string,
+    ): { vedtaksperiodeId: string; notattyper: ApiNotatType[] }[] =>
+        Array.from(this.notater.entries()).map(([vedtaksperiodeId, notater]) => ({
+            vedtaksperiodeId,
+            notattyper: [...new Set(notater.map((n) => n.type))],
+        }));
+
     getNotaterForVedtaksperiode = (vedtaksperiodeId: string): ApiNotat[] => {
         return this.getNotater(vedtaksperiodeId).map((notat) => ({
             id: notat.id,

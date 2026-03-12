@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React from 'react';
 
 import { ArchiveIcon, BriefcaseIcon, SackKronerIcon } from '@navikt/aksel-icons';
@@ -6,11 +7,10 @@ import { capitalizeArbeidsgiver } from '@components/Inntektsforholdnavn';
 import { useOrganisasjonerQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { harUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { Arbeidsgiver, GhostPeriode, Periode, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
-import { getGetNotaterForVedtaksperiodeQueryOptions } from '@io/rest/generated/notater/notater';
+import { useGetNotatVedtaksperiodeIderForPerson } from '@io/rest/generated/notater/notater';
 import { ApiTilkommenInntekt, ApiTilkommenInntektskilde } from '@io/rest/generated/spesialist.schemas';
 import { PeriodPins } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useQueries } from '@tanstack/react-query';
 import { InfotrygdPeriod, PeriodCategory, getPeriodCategory } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -65,28 +65,20 @@ export function useTidslinjeRader(
     infotrygdPeriods: InfotrygdPeriod[],
     tilkomneInntektskilder: ApiTilkommenInntektskilde[],
 ) {
-    const allPerioder = inntektsforhold.flatMap((forhold) =>
-        forhold.behandlinger.flatMap((behandling) => behandling.perioder),
-    );
-    const uniqueVedtaksperiodeIds = [
-        ...new Set(allPerioder.map(getVedtaksperiodeId).filter((id): id is string => id !== undefined)),
-    ];
-
-    const notatQueries = useQueries({
-        queries: uniqueVedtaksperiodeIds.map((id) => getGetNotaterForVedtaksperiodeQueryOptions(id)),
-    });
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: notatVedtaksperiodeIder, isLoading: isLoadingNotater } =
+        useGetNotatVedtaksperiodeIderForPerson(personPseudoId);
 
     const vedtaksperiodeIdsWithNotat = new Set(
-        notatQueries
-            .map((q, index) => ({ data: q.data, vedtaksperiodeId: uniqueVedtaksperiodeIds[index] }))
-            .filter((q) => q.data?.some((notat) => notat.type === 'Generelt'))
-            .map((q) => q.vedtaksperiodeId),
+        notatVedtaksperiodeIder
+            ?.filter((entry) => entry.notattyper.includes('Generelt'))
+            .map((entry) => entry.vedtaksperiodeId) ?? [],
     );
 
     const orgnumre = tilkomneInntektskilder.map((k) => k.organisasjonsnummer);
     const { navnMap, isLoading: isLoadingOrgNames } = useOrganisasjonerQuery(orgnumre);
 
-    const isLoading = notatQueries.some((q) => q.isLoading) || isLoadingOrgNames;
+    const isLoading = isLoadingNotater || isLoadingOrgNames;
 
     const arbeidsgiverRader: TidslinjeRad[] = inntektsforhold.map((forhold, index) => {
         const behandlingElements: TidslinjeElement[] = forhold.behandlinger.flatMap((behandling, generasjonIndex) =>
