@@ -28,7 +28,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
     const [åpen, setÅpen] = useState(false);
 
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { cache } = useApolloClient();
+    const { cache, refetchQueries } = useApolloClient();
     const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStansVeileder();
     const addToast = useAddToast();
 
@@ -65,6 +65,9 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                                 },
                             }),
                         },
+                    });
+                    refetchQueries({
+                        include: ['Person'],
                     });
                     setLoading(false);
                     addToast(opphevStansAutomatiskBehandlingVeilederToast);

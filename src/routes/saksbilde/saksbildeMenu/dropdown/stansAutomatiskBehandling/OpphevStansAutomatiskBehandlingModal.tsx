@@ -27,7 +27,7 @@ export function OpphevStansAutomatiskBehandlingModal({
 }: OpphevStansAutomatiskBehandlingModalProps): ReactElement {
     const [loading, setLoading] = useState<boolean>(false);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { cache } = useApolloClient();
+    const { cache, refetchQueries } = useApolloClient();
     const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStansSaksbehandler();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
@@ -58,6 +58,9 @@ export function OpphevStansAutomatiskBehandlingModal({
                                 automatiskBehandlingStansetAvSaksbehandler: false,
                             }),
                         },
+                    });
+                    refetchQueries({
+                        include: ['Person'],
                     });
                     setLoading(false);
                     closeModal();
