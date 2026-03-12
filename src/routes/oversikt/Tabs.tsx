@@ -4,7 +4,6 @@ import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { cn } from '@utils/tw';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
@@ -111,8 +110,6 @@ type TabProps = {
 };
 
 export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement => {
-    const harUtviklerRolle = useHarUtviklerRolle();
-
     return (
         <div className={styles.tabs}>
             <FilterButton />
@@ -123,7 +120,7 @@ export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement
                     <VentendeSakerTab antall={antallPåVent} />
                     <BehandletIdagTab />
                 </VisHvisSkrivetilgang>
-                {harUtviklerRolle && <ListeTab />}
+                <ListeTab />
             </span>
             <StatistikkButton />
         </div>
