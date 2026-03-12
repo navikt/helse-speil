@@ -9,7 +9,7 @@ import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from
 import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { usePatchStans } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
+import { usePatchStansVeileder } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import {
     opphevStansAutomatiskBehandlingVeilederToast,
     somAutomatiskStansBackendfeil,
@@ -29,7 +29,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
 
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { cache } = useApolloClient();
-    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStans();
+    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStansVeileder();
     const addToast = useAddToast();
 
     const form = useForm<StansAutomatiskBehandlingSchema>({
@@ -47,7 +47,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
                 pseudoId: personPseudoId,
                 data: {
                     begrunnelse: values.begrunnelse,
-                    veilederStans: false,
+                    stans: false,
                 },
             },
             {

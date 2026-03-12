@@ -7,7 +7,7 @@ import { Button, ErrorMessage, Heading, Modal, Textarea } from '@navikt/ds-react
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { usePatchStans } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
+import { usePatchStansSaksbehandler } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
 import {
     somAutomatiskStansBackendfeil,
     stansAutomatiskBehandlingToast,
@@ -28,7 +28,7 @@ export function StansAutomatiskBehandlingModal({
     const [loading, setLoading] = useState<boolean>(false);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { cache } = useApolloClient();
-    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStans();
+    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStansSaksbehandler();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
@@ -45,7 +45,7 @@ export function StansAutomatiskBehandlingModal({
                 pseudoId: personPseudoId,
                 data: {
                     begrunnelse: values.begrunnelse,
-                    saksbehandlerStans: true,
+                    stans: true,
                 },
             },
             {
