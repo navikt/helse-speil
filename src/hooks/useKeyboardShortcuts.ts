@@ -110,6 +110,31 @@ const useCopyAktørId = (): (() => void) => {
     };
 };
 
+const useCopyBehandlingId = (): (() => void) => {
+    const { data } = useFetchPersonQuery();
+    const person = data?.person ?? null;
+    const periode = useActivePeriod(person);
+    const behandlingId = isBeregnetPeriode(periode) || isUberegnetPeriode(periode) ? periode.behandlingId : null;
+    const addToast = useAddToast();
+
+    return () => {
+        if (behandlingId) {
+            void copyString(behandlingId, false);
+            addToast({
+                key: 'kopierBehandlingIdToastKey',
+                message: `BehandlingId "${behandlingId}" er kopiert`,
+                timeToLiveMs: 3000,
+            });
+        } else {
+            addToast({
+                key: 'behandlingIdIkkeKopiert',
+                message: 'BehandlingId ble ikke kopiert',
+                timeToLiveMs: 3000,
+            });
+        }
+    };
+};
+
 const useOpenForeldrepenger = (): (() => void) => {
     const aktørId = useCurrentAktørId();
     const url = aktørId ? `https://fpsak.intern.nav.no/aktoer/${aktørId}` : 'https://fpsak.intern.nav.no';
@@ -151,6 +176,7 @@ export const useKeyboardActions = (): Action[] => {
     const copyVedtaksperiodeId = useCopyVedtaksperiodeId();
     const copyPersondata = useCopyPersondata();
     const copyAktørId = useCopyAktørId();
+    const copyBehandlingId = useCopyBehandlingId();
     const openForeldrepenger = useOpenForeldrepenger();
     const openGosys = useOpenGosys();
     const openModiaPersonoversikt = useModiaPersonoversikt();
@@ -388,6 +414,15 @@ export const useKeyboardActions = (): Action[] => {
                       visningstekst: 'Kopier persondata',
                       visningssnarvei: ['ALT', 'P'],
                       action: copyPersondata,
+                      ignoreIfModifiers: false,
+                      modifier: Key.Alt,
+                      utviklerOnly: true,
+                  },
+                  {
+                      key: Key.B,
+                      visningstekst: 'Kopier BehandlingId',
+                      visningssnarvei: ['ALT', 'B'],
+                      action: copyBehandlingId,
                       ignoreIfModifiers: false,
                       modifier: Key.Alt,
                       utviklerOnly: true,
