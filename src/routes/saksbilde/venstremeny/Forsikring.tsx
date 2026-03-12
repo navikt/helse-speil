@@ -7,7 +7,6 @@ import type { ErrorType } from '@app/axios/orval-mutator';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useGetForsikringForPerson } from '@io/rest/generated/forsikringer/forsikringer';
 import type { ApiHttpProblemDetailsApiForsikringErrorCode } from '@io/rest/generated/spesialist.schemas';
-import { BackendFeil } from '@saksbilde/venstremeny/utbetaling/UtbetalingModal';
 
 export const Forsikring = ({
     behandlingId,
@@ -38,7 +37,7 @@ export const Forsikring = ({
                     />
                     <BodyShort>Dekning</BodyShort>
                 </HStack>
-                <BodyShort>{somBackendfeil(error).message}</BodyShort>
+                <BodyShort>{somForsikringBackendfeil(error)}</BodyShort>
             </>
         );
     }
@@ -55,23 +54,16 @@ export const Forsikring = ({
     );
 };
 
-const somBackendfeil = (error: ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>): BackendFeil => {
+export const somForsikringBackendfeil = (error: ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>): string => {
     const problemDetailsCode = error.response?.data?.code;
-    if (!problemDetailsCode)
-        return {
-            message: 'Feil under visning av forsikring. Kontakt utviklerteamet.',
-        };
+    if (!problemDetailsCode) return 'Feil under visning av forsikring. Kontakt utviklerteamet.';
 
     switch (problemDetailsCode) {
         case 'MANGLER_TILGANG_TIL_PERSON':
-            return message('Du har ikke tilgang til å å se forsikring for denne personen');
+            return 'Du har ikke tilgang til å å se forsikring for denne personen';
         case 'FEIL_VED_VIDERE_KALL':
-            return message('Feil fra forsikringstjeneste');
+            return 'Feil fra forsikringstjeneste';
         case 'BEHANDLING_IKKE_FUNNET':
-            return message('Feil fra forsikringstjeneste');
+            return 'Feil fra forsikringstjeneste';
     }
 };
-
-const message = (message: string) => ({
-    message: message,
-});
