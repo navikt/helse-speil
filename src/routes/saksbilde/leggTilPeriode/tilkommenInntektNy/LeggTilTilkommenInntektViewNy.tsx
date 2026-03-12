@@ -5,7 +5,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import { usePostTilkomneInntekter } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
+import { usePostTilkomneInntekter } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
 import { TilkommenInntektSkjemaNy } from '@saksbilde/leggTilPeriode/tilkommenInntektNy/TilkommenInntektSkjemaNy';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';

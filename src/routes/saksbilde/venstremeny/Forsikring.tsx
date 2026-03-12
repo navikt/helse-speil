@@ -5,7 +5,7 @@ import { BodyShort, HStack } from '@navikt/ds-react';
 
 import type { ErrorType } from '@app/axios/orval-mutator';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { useGetForsikringForPerson } from '@io/rest/generated/forsikringer/forsikringer';
+import { useGetForsikringForPerson } from '@io/rest/generated/behandlinger/behandlinger';
 import type { ApiHttpProblemDetailsApiForsikringErrorCode } from '@io/rest/generated/spesialist.schemas';
 
 export const Forsikring = ({

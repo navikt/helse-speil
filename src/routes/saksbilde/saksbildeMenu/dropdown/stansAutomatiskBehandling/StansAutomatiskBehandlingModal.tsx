@@ -8,7 +8,7 @@ import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from
 import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
-import { usePatchStansSaksbehandler } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
+import { usePatchStansSaksbehandler } from '@io/rest/generated/personer/personer';
 import {
     somSaksbehandlerBackendfeil,
     stansAutomatiskBehandlingToast,

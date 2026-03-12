@@ -2,7 +2,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 
 import { ErrorType } from '@app/axios/orval-mutator';
-import { useGetBehandledeOppgaver } from '@io/rest/generated/behandlede-oppgaver/behandlede-oppgaver';
+import { useGetBehandledeOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiBehandletOppgaveProjeksjon,
     ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode,

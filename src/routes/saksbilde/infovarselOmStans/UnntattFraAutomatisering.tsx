@@ -10,7 +10,7 @@ import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
-import { usePatchStansVeileder } from '@io/rest/generated/stans-av-automatisering/stans-av-automatisering';
+import { usePatchStansVeileder } from '@io/rest/generated/personer/personer';
 import {
     opphevStansAutomatiskBehandlingVeilederToast,
     somVeilederBackendfeil,

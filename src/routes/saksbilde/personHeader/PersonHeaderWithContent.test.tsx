@@ -1,14 +1,18 @@
 import { Mock } from 'vitest';
 
 import { Adressebeskyttelse, Kjonn } from '@io/graphql';
-import { useGetBehandlendeEnhetForPerson } from '@io/rest/generated/person/person';
+import {
+    useGetBehandlendeEnhetForPerson,
+    useGetKrrRegistrertStatusForPerson,
+} from '@io/rest/generated/personer/personer';
+import { ApiKrrRegistrertStatus } from '@io/rest/generated/spesialist.schemas';
 import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
 
 import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
 
-vi.mock('@io/rest/generated/person/person');
+vi.mock('@io/rest/generated/personer/personer');
 
 describe('Personlinje', () => {
     test('rendrer personinfo', async () => {
@@ -18,6 +22,9 @@ describe('Personlinje', () => {
                 navn: 'Nav Andeby',
                 type: 'LOKAL',
             },
+        });
+        (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({
+            data: ApiKrrRegistrertStatus.RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING,
         });
         render(
             <PersonHeaderWithContent
@@ -51,5 +58,6 @@ describe('Personlinje', () => {
         expect(await screen.findByText('123456 78910')).toBeVisible();
         expect(await screen.findByText('Aktør-ID: 123456789')).toBeVisible();
         expect(await screen.findByText('1234 - Nav Andeby')).toBeVisible();
+        expect(await screen.findByText('Reservert KRR')).toBeVisible();
     });
 });

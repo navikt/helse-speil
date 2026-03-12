@@ -8,13 +8,28 @@ import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiForkastingRequest,
+    ApiForsikring,
+    ApiHttpProblemDetailsApiForsikringErrorCode,
     ApiHttpProblemDetailsApiPostForkastingErrorCode,
     ApiHttpProblemDetailsApiPostVedtakErrorCode,
     ApiVedtakRequest,
 } from '../spesialist.schemas';
 
-import { useMutation } from '@tanstack/react-query';
-import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import type {
+    DataTag,
+    DefinedInitialDataOptions,
+    DefinedUseQueryResult,
+    MutationFunction,
+    QueryClient,
+    QueryFunction,
+    QueryKey,
+    UndefinedInitialDataOptions,
+    UseMutationOptions,
+    UseMutationResult,
+    UseQueryOptions,
+    UseQueryResult,
+} from '@tanstack/react-query';
 
 export const postVedtak = (behandlingId: string, apiVedtakRequest?: ApiVedtakRequest, signal?: AbortSignal) => {
     return callCustomAxios<void>({
@@ -161,3 +176,107 @@ export const usePostForkasting = <
 
     return useMutation(mutationOptions, queryClient);
 };
+export const getForsikringForPerson = (behandlingId: string, signal?: AbortSignal) => {
+    return callCustomAxios<ApiForsikring>({
+        url: `/api/spesialist/behandlinger/${behandlingId}/forsikring`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetForsikringForPersonQueryKey = (behandlingId?: string) => {
+    return [`/api/spesialist/behandlinger/${behandlingId}/forsikring`] as const;
+};
+
+export const getGetForsikringForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getForsikringForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>,
+>(
+    behandlingId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getForsikringForPerson>>, TError, TData>> },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetForsikringForPersonQueryKey(behandlingId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getForsikringForPerson>>> = ({ signal }) =>
+        getForsikringForPerson(behandlingId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!behandlingId,
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getForsikringForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetForsikringForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getForsikringForPerson>>>;
+export type GetForsikringForPersonQueryError = ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>;
+
+export function useGetForsikringForPerson<
+    TData = Awaited<ReturnType<typeof getForsikringForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>,
+>(
+    behandlingId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getForsikringForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getForsikringForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getForsikringForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetForsikringForPerson<
+    TData = Awaited<ReturnType<typeof getForsikringForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>,
+>(
+    behandlingId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getForsikringForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getForsikringForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getForsikringForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetForsikringForPerson<
+    TData = Awaited<ReturnType<typeof getForsikringForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>,
+>(
+    behandlingId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getForsikringForPerson>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetForsikringForPerson<
+    TData = Awaited<ReturnType<typeof getForsikringForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>,
+>(
+    behandlingId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getForsikringForPerson>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetForsikringForPersonQueryOptions(behandlingId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}

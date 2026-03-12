@@ -1,5 +1,5 @@
 import { ErrorType } from '@app/axios/orval-mutator';
-import { useGetListeOppgaver } from '@io/rest/generated/liste-oppgaver/liste-oppgaver';
+import { useGetListeOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
     ApiOppgaveProjeksjon,

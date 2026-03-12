@@ -32,7 +32,7 @@ import {
     getGetVurderteInngangsvilkårForPersonQueryKey,
     useGetVurderteInngangsvilkårForPerson,
     usePostVurderteInngangsvilkårForPerson,
-} from '@io/rest/generated/vilkårsvurderinger/vilkårsvurderinger';
+} from '@io/rest/generated/vurderinger/vurderinger';
 import { useQueryClient } from '@tanstack/react-query';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { cn } from '@utils/tw';

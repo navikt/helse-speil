@@ -2,7 +2,7 @@ import {
     ApiTilkommenInntektEventEndringerListLocalDateEndring,
     ApiTilkommenInntektskilde,
 } from '@io/rest/generated/spesialist.schemas';
-import { useGetTilkomneInntektskilderForPerson } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
+import { useGetTilkomneInntektskilderForPerson } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
 import { DateString } from '@typer/shared';
 
 export const useHentTilkommenInntektQuery = (personPseudoId?: string) =>

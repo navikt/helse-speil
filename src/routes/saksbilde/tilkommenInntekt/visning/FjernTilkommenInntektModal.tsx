@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { BodyLong, Button, Modal, Textarea, VStack } from '@navikt/ds-react';
 
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import { usePatchTilkommenInntekt } from '@io/rest/generated/tilkommen-inntekt/tilkommen-inntekt';
+import { usePatchTilkommenInntekt } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 

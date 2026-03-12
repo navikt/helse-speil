@@ -8,7 +8,7 @@ import { teamLogger } from '@navikt/next-logger/team-log';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { validFødselsnummer } from '@io/graphql/common';
 import { BadRequestError, FetchError, NotFoundError } from '@io/graphql/errors';
-import { usePostPersonSok } from '@io/rest/generated/personsøk/personsøk';
+import { usePostPersonSok } from '@io/rest/generated/personer/personer';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
 import { usePersonKlargjøres } from '@state/personSomKlargjøres';

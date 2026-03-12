@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { useGetBehandlendeEnhetForPerson } from '@io/rest/generated/person/person';
+import { useGetBehandlendeEnhetForPerson } from '@io/rest/generated/personer/personer';
 
 export const BehandlendeEnhet = (): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();

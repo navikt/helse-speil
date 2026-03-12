@@ -7,7 +7,7 @@ import { Arsak } from '@external/sanity';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import type { ApiVedtaksperiodeAnnullerRequest } from '@io/rest/generated/spesialist.schemas';
-import { usePostVedtaksperiodeAnnuller } from '@io/rest/generated/vedtaksperiode/vedtaksperiode';
+import { usePostVedtaksperiodeAnnuller } from '@io/rest/generated/vedtaksperioder/vedtaksperioder';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 

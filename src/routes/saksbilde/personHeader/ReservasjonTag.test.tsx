@@ -1,13 +1,13 @@
 import React from 'react';
 import { Mock } from 'vitest';
 
-import { useGetKrrRegistrertStatusForPerson } from '@io/rest/generated/krr/krr';
+import { useGetKrrRegistrertStatusForPerson } from '@io/rest/generated/personer/personer';
 import { ApiKrrRegistrertStatus } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@testing-library/react';
 
 import { ReservasjonTag } from './ReservasjonTag';
 
-vi.mock('@io/rest/generated/krr/krr');
+vi.mock('@io/rest/generated/personer/personer');
 
 describe('ReservasjonTag', () => {
     it('rendrer tag når det feiler å hente status fra KRR', async () => {

@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { Skeleton, Tooltip } from '@navikt/ds-react';
 
-import { useGetKrrRegistrertStatusForPerson } from '@io/rest/generated/krr/krr';
+import { useGetKrrRegistrertStatusForPerson } from '@io/rest/generated/personer/personer';
 import { ApiKrrRegistrertStatus } from '@io/rest/generated/spesialist.schemas';
 
 import { TagMedTooltip } from './TagMedTooltip';
