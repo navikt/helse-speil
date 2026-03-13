@@ -1,6 +1,0 @@
-query AntallOppgaver {
-    antallOppgaver {
-        antallMineSaker
-        antallMineSakerPaVent
-    }
-}

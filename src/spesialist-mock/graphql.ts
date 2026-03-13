@@ -129,14 +129,6 @@ const getResolvers = (): IResolvers => ({
         behandlingsstatistikk: async () => {
             return behandlingsstatistikk;
         },
-        antallOppgaver: async () => {
-            const tildelinger = TildelingMock.getTildelingerFor('11111111-2222-3333-4444-555555555555');
-            const paVent = PaVentMock.getPåVentFor('11111111-2222-3333-4444-555555555555');
-            return {
-                antallMineSaker: tildelinger.length,
-                antallMineSakerPaVent: paVent.length,
-            };
-        },
     },
     Mutation: {
         opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {

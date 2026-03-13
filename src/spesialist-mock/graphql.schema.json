@@ -398,50 +398,6 @@
             },
             {
                 "kind": "OBJECT",
-                "name": "AntallOppgaver",
-                "description": null,
-                "isOneOf": null,
-                "fields": [
-                    {
-                        "name": "antallMineSaker",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Int",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
-                    {
-                        "name": "antallMineSakerPaVent",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "SCALAR",
-                                "name": "Int",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    }
-                ],
-                "inputFields": null,
-                "interfaces": [],
-                "enumValues": null,
-                "possibleTypes": null
-            },
-            {
-                "kind": "OBJECT",
                 "name": "Arbeidsforhold",
                 "description": null,
                 "isOneOf": null,
@@ -7740,22 +7696,6 @@
                 "description": null,
                 "isOneOf": null,
                 "fields": [
-                    {
-                        "name": "antallOppgaver",
-                        "description": null,
-                        "args": [],
-                        "type": {
-                            "kind": "NON_NULL",
-                            "name": null,
-                            "ofType": {
-                                "kind": "OBJECT",
-                                "name": "AntallOppgaver",
-                                "ofType": null
-                            }
-                        },
-                        "isDeprecated": false,
-                        "deprecationReason": null
-                    },
                     {
                         "name": "behandlingsstatistikk",
                         "description": null,

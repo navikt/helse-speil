@@ -67,12 +67,6 @@ export type Antall = {
     tilgjengelig: Scalars['Int']['output'];
 };
 
-export type AntallOppgaver = {
-    __typename: 'AntallOppgaver';
-    antallMineSaker: Scalars['Int']['output'];
-    antallMineSakerPaVent: Scalars['Int']['output'];
-};
-
 export type Arbeidsforhold = {
     __typename: 'Arbeidsforhold';
     sluttdato: Maybe<Scalars['LocalDate']['output']>;
@@ -826,7 +820,6 @@ export type Personinfo = {
 
 export type Query = {
     __typename: 'Query';
-    antallOppgaver: AntallOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     person: Maybe<Person>;
 };
@@ -1318,13 +1311,6 @@ export type Vurdering = {
     godkjent: Scalars['Boolean']['output'];
     ident: Scalars['String']['output'];
     tidsstempel: Scalars['LocalDateTime']['output'];
-};
-
-export type AntallOppgaverQueryVariables = Exact<{ [key: string]: never }>;
-
-export type AntallOppgaverQuery = {
-    __typename: 'Query';
-    antallOppgaver: { __typename: 'AntallOppgaver'; antallMineSaker: number; antallMineSakerPaVent: number };
 };
 
 export type AntallFragment = { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
@@ -10334,32 +10320,6 @@ export const TildelingFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<TildelingFragment, unknown>;
-export const AntallOppgaverDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'AntallOppgaver' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'antallOppgaver' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'antallMineSaker' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'antallMineSakerPaVent' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<AntallOppgaverQuery, AntallOppgaverQueryVariables>;
 export const HentBehandlingsstatistikkDocument = {
     kind: 'Document',
     definitions: [

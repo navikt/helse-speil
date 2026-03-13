@@ -65,12 +65,6 @@ export type Antall = {
     tilgjengelig: Scalars['Int']['output'];
 };
 
-export type AntallOppgaver = {
-    __typename?: 'AntallOppgaver';
-    antallMineSaker: Scalars['Int']['output'];
-    antallMineSakerPaVent: Scalars['Int']['output'];
-};
-
 export type Arbeidsforhold = {
     __typename?: 'Arbeidsforhold';
     sluttdato?: Maybe<Scalars['LocalDate']['output']>;
@@ -824,7 +818,6 @@ export type Personinfo = {
 
 export type Query = {
     __typename?: 'Query';
-    antallOppgaver: AntallOppgaver;
     behandlingsstatistikk: Behandlingsstatistikk;
     person?: Maybe<Person>;
 };
