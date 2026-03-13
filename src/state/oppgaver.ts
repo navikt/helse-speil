@@ -1,11 +1,10 @@
 import { useAtom } from 'jotai';
 import { useEffect, useMemo } from 'react';
 
-import { useQuery } from '@apollo/client';
 import { ErrorType } from '@app/axios/orval-mutator';
 import { useBruker } from '@auth/brukerContext';
-import { AntallOppgaverDocument, Kategori } from '@io/graphql';
-import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
+import { Kategori } from '@io/graphql';
+import { useGetAntallOppgaver, useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiEgenskap,
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
@@ -119,14 +118,11 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
 };
 
 export const useAntallOppgaver = () => {
-    const { data } = useQuery(AntallOppgaverDocument, {
-        initialFetchPolicy: 'network-only',
-        nextFetchPolicy: 'cache-first',
-    });
+    const { data } = useGetAntallOppgaver();
 
     return {
-        antallMineSaker: data?.antallOppgaver.antallMineSaker ?? 0,
-        antallPåVent: data?.antallOppgaver.antallMineSakerPaVent ?? 0,
+        antallMineSaker: data?.antallMineSaker ?? 0,
+        antallPåVent: data?.antallMineSakerPåVent ?? 0,
     };
 };
 

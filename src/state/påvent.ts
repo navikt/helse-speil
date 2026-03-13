@@ -1,6 +1,5 @@
 import { ApolloCache, FetchResult, InternalRefetchQueriesInclude, MutationResult, useMutation } from '@apollo/client';
 import {
-    AntallOppgaverDocument,
     Egenskap,
     EndrePaVentDocument,
     EndrePaVentMutation,
@@ -15,7 +14,7 @@ import {
     PaVentArsakInput,
     PaventFragment,
 } from '@io/graphql';
-import { getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
+import { getGetAntallOppgaverQueryKey, getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -52,7 +51,6 @@ export const useLeggPåVent = (
         arsaker: PaVentArsakInput[],
     ) =>
         leggPåVentMutation({
-            refetchQueries: [AntallOppgaverDocument],
             optimisticResponse: {
                 __typename: 'Mutation',
                 leggPaVent: { ...optimistiskPaVent, frist },
@@ -67,7 +65,10 @@ export const useLeggPåVent = (
             update: (cache, result) =>
                 oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, result.data?.leggPaVent ?? null),
         }).then(async (value) => {
-            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+            ]);
             return value;
         });
 
@@ -98,7 +99,6 @@ export const useEndrePåVent = (
         arsaker: PaVentArsakInput[],
     ) =>
         endrePåVentMutation({
-            refetchQueries: [AntallOppgaverDocument],
             optimisticResponse: {
                 __typename: 'Mutation',
                 endrePaVent: { ...optimistiskPaVent, frist },
@@ -113,7 +113,10 @@ export const useEndrePåVent = (
             update: (cache, result) =>
                 oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, result.data?.endrePaVent ?? null),
         }).then(async (value) => {
-            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+            ]);
             return value;
         });
 
@@ -128,7 +131,7 @@ export const useFjernPåVentFraSaksbilde = (
 export const useFjernPåVentFraOppgaveoversikt = (): [
     (oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>,
     MutationResult<FjernPaVentMutation>,
-] => useFjernPåVent([AntallOppgaverDocument]);
+] => useFjernPåVent([]);
 
 const useFjernPåVent = (
     refetchQueries: InternalRefetchQueriesInclude,
@@ -148,7 +151,10 @@ const useFjernPåVent = (
             },
             update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, null),
         }).then(async (value) => {
-            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+            ]);
             return value;
         });
 

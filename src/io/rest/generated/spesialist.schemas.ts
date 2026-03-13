@@ -222,6 +222,29 @@ export interface ApiHttpProblemDetailsApiGetOppgaverErrorCode {
     code?: ApiHttpProblemDetailsApiGetOppgaverErrorCodeCode;
 }
 
+export interface ApiAntallOppgaver {
+    antallMineSaker: number;
+    antallMineSakerPåVent: number;
+}
+
+export type ApiGetAntallOppgaverErrorCode =
+    (typeof ApiGetAntallOppgaverErrorCode)[keyof typeof ApiGetAntallOppgaverErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetAntallOppgaverErrorCode = {} as const;
+
+export type ApiHttpProblemDetailsApiGetAntallOppgaverErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetAntallOppgaverErrorCodeCode = null | ApiGetAntallOppgaverErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetAntallOppgaverErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetAntallOppgaverErrorCodeCode;
+}
+
 export type ApiBehandletOppgaveProjeksjonBeslutter = null | string;
 
 export type ApiBehandletOppgaveProjeksjonSaksbehandler = null | string;

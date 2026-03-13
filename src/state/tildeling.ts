@@ -1,6 +1,5 @@
 import { ApolloCache, FetchResult, MutationResult, useMutation } from '@apollo/client';
 import {
-    AntallOppgaverDocument,
     FjernTildelingDocument,
     FjernTildelingMutation,
     OpprettTildelingDocument,
@@ -8,7 +7,7 @@ import {
     Tildeling,
     TildelingFragment,
 } from '@io/graphql';
-import { getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
+import { getGetAntallOppgaverQueryKey, getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
@@ -55,7 +54,6 @@ export const useOpprettTildeling = (): [
     const fødselsnummer = useFødselsnummer();
     const optimistiskTildeling = useOptimistiskTildeling();
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
-        refetchQueries: [AntallOppgaverDocument],
         onCompleted: async () => {
             await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
         },
@@ -66,8 +64,10 @@ export const useOpprettTildeling = (): [
             } else {
                 leggTilTildelingsvarsel('Kunne ikke tildele sak.');
             }
-            data.client.refetchQueries({ include: [AntallOppgaverDocument] });
-            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+            ]);
         },
     });
 
@@ -100,13 +100,15 @@ export const useFjernTildeling = (): [
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
     const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument, {
-        refetchQueries: [AntallOppgaverDocument],
         onCompleted: async () => {
             await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
         },
         onError: async () => {
             leggTilTildelingsvarsel('Kunne ikke fjerne tildeling av sak.');
-            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+            ]);
         },
     });
 

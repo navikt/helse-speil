@@ -7,7 +7,9 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
+    ApiAntallOppgaver,
     ApiBehandletOppgaveProjeksjonSide,
+    ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode,
     ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode,
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
     ApiOppgaveProjeksjonSide,
@@ -119,6 +121,97 @@ export function useGetOppgaver<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = getGetOppgaverQueryOptions(params, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
+
+export const getAntallOppgaver = (signal?: AbortSignal) => {
+    return callCustomAxios<ApiAntallOppgaver>({ url: `/api/spesialist/antall-oppgaver`, method: 'GET', signal });
+};
+
+export const getGetAntallOppgaverQueryKey = () => {
+    return [`/api/spesialist/antall-oppgaver`] as const;
+};
+
+export const getGetAntallOppgaverQueryOptions = <
+    TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+>(options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>>;
+}) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetAntallOppgaverQueryKey();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAntallOppgaver>>> = ({ signal }) =>
+        getAntallOppgaver(signal);
+
+    return { queryKey, queryFn, staleTime: Infinity, gcTime: 0, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof getAntallOppgaver>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAntallOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getAntallOppgaver>>>;
+export type GetAntallOppgaverQueryError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>;
+
+export function useGetAntallOppgaver<
+    TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+>(
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getAntallOppgaver>>,
+                    TError,
+                    Awaited<ReturnType<typeof getAntallOppgaver>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetAntallOppgaver<
+    TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+>(
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getAntallOppgaver>>,
+                    TError,
+                    Awaited<ReturnType<typeof getAntallOppgaver>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetAntallOppgaver<
+    TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetAntallOppgaver<
+    TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetAntallOppgaverQueryOptions(options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
