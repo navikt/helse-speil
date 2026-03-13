@@ -55,7 +55,10 @@ export const useOpprettTildeling = (): [
     const optimistiskTildeling = useOptimistiskTildeling();
     const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
         onCompleted: async () => {
-            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+            ]);
         },
         onError: async (error) => {
             if (apolloErrorCode(error) === 409) {
@@ -101,7 +104,10 @@ export const useFjernTildeling = (): [
 
     const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument, {
         onCompleted: async () => {
-            await queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() });
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+            ]);
         },
         onError: async () => {
             leggTilTildelingsvarsel('Kunne ikke fjerne tildeling av sak.');
