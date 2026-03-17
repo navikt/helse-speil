@@ -9,7 +9,7 @@ type TimelineContextType = {
     width: number;
     dayLength: number;
     zoomLevel: ZoomLevel;
-    setZoomLevel: Dispatch<SetStateAction<ZoomLevel>>;
+    setZoomLevel: (level: ZoomLevel) => void;
     setZoomSpanInDays: Dispatch<SetStateAction<number>>;
 };
 

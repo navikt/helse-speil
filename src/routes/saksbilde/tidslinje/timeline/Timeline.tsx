@@ -6,12 +6,19 @@ import { TimelineRowLabels } from '@saksbilde/tidslinje/timeline/TimelineRowLabe
 import { TimelineScrollableRows } from '@saksbilde/tidslinje/timeline/TimelineScrollableRows';
 import { useParsedRows } from '@saksbilde/tidslinje/timeline/index';
 import { TimelineRow } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
-import { useExpandableRows, useScrollToActivePeriod, useTimelineState } from '@saksbilde/tidslinje/timeline/state';
+import {
+    TimelineZoomOptions,
+    useExpandableRows,
+    useScrollToActivePeriod,
+    useTimelineState,
+} from '@saksbilde/tidslinje/timeline/state';
 
 import { TimelineContext } from './context';
 import { ExpandedRowsContext, RowContext, ToggleRowContext } from './row/context';
 
-export function Timeline({ children }: PropsWithChildren): ReactElement {
+type TimelineProps = PropsWithChildren<TimelineZoomOptions>;
+
+export function Timeline({ children, zoomLevel, onZoomLevelChange, defaultZoomLevel }: TimelineProps): ReactElement {
     const { rowLabels, earliestDate, latestDate, parsedRows, zoomComponent, pins } = useParsedRows(children);
     const { expandedRows, toggleRowExpanded } = useExpandableRows();
     const {
@@ -19,13 +26,13 @@ export function Timeline({ children }: PropsWithChildren): ReactElement {
         endDate,
         width,
         dayLength,
-        zoomLevel,
+        zoomLevel: resolvedZoomLevel,
         setZoomLevel,
         setZoomSpanInDays,
         timelineScrollableContainerRef,
-    } = useTimelineState(earliestDate, latestDate);
+    } = useTimelineState(earliestDate, latestDate, { zoomLevel, onZoomLevelChange, defaultZoomLevel });
 
-    useScrollToActivePeriod(timelineScrollableContainerRef, width, zoomLevel);
+    useScrollToActivePeriod(timelineScrollableContainerRef, width, resolvedZoomLevel);
 
     return (
         <TimelineContext.Provider
@@ -34,7 +41,7 @@ export function Timeline({ children }: PropsWithChildren): ReactElement {
                 endDate,
                 width,
                 dayLength,
-                zoomLevel,
+                zoomLevel: resolvedZoomLevel,
                 setZoomLevel,
                 setZoomSpanInDays,
             }}

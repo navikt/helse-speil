@@ -4,9 +4,23 @@ import { RefObject, useEffect, useRef, useState } from 'react';
 import { getNumberOfDays } from '@saksbilde/tidslinje/timeline/index';
 import { ZoomLevel, zoomLevels } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
 
-export function useTimelineState(earliestDate: Dayjs, latestDate: Dayjs) {
+export interface TimelineZoomOptions {
+    zoomLevel?: ZoomLevel;
+    onZoomLevelChange?: (level: ZoomLevel) => void;
+    defaultZoomLevel?: ZoomLevel;
+}
+
+export function useTimelineState(earliestDate: Dayjs, latestDate: Dayjs, zoomOptions?: TimelineZoomOptions) {
     const timelineScrollableContainerRef = useRef<HTMLDivElement>(null);
-    const [zoomLevel, setZoomLevel] = useState<ZoomLevel>('6 mnd');
+
+    const [internalZoomLevel, setInternalZoomLevel] = useState<ZoomLevel>(zoomOptions?.defaultZoomLevel ?? '6 mnd');
+
+    const zoomLevel = zoomOptions?.zoomLevel ?? internalZoomLevel;
+    const setZoomLevel = (level: ZoomLevel) => {
+        if (zoomOptions?.zoomLevel === undefined) setInternalZoomLevel(level);
+        zoomOptions?.onZoomLevelChange?.(level);
+    };
+
     const [zoomSpanInDays, setZoomSpanInDays] = useState<number>(zoomLevels[zoomLevel]);
 
     const containerWidth = useResizeObserver(timelineScrollableContainerRef);

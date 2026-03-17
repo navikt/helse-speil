@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useAtom } from 'jotai';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
@@ -20,9 +21,10 @@ import { Timeline } from '@saksbilde/tidslinje/timeline/Timeline';
 import { TimelinePeriod, TimelineVariant } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { MaksdatoPin } from '@saksbilde/tidslinje/timeline/pin/pins/MaksdatoPin';
 import { TimelineRow } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
-import { TimelineZoom } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
+import { TimelineZoom, ZoomLevel } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
 import { useIsAnonymous } from '@state/anonymization';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { atomWithLocalStorage } from '@state/jotai';
 import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
@@ -37,6 +39,8 @@ interface TidslinjeProps {
     activePeriod: TimelinePeriodType | null;
     person: PersonFragment;
 }
+
+const zoomLevelAtom = atomWithLocalStorage<ZoomLevel>('tidslinje-zoom-level', '6 mnd');
 
 export function TidslinjeContent({
     inntektsforhold,
@@ -53,6 +57,7 @@ export function TidslinjeContent({
     const { data: tilkomneInntekter } = useHentTilkommenInntektQuery(personPseudoId);
     const activeTilkommenInntektId = useTilkommenInntektIdFraUrl();
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+    const [zoomLevel, setZoomLevel] = useAtom(zoomLevelAtom);
 
     const { arbeidsgiverRader, infotrygdRad, tilkommenRader } = useTidslinjeRader(
         inntektsforhold,
@@ -64,7 +69,7 @@ export function TidslinjeContent({
 
     return (
         <div className="relative [grid-area:timeline]">
-            <Timeline>
+            <Timeline zoomLevel={zoomLevel} onZoomLevelChange={setZoomLevel}>
                 <MaksdatoPin maksdato={maksdato} />
                 {arbeidsgiverRader.map((rad) => (
                     <TimelineRow
