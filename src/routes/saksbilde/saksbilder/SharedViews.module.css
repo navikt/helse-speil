@@ -7,17 +7,6 @@
     min-width: 0;
 }
 
-.Error {
-    display: flex;
-    flex-direction: column;
-    margin-top: 1rem;
-    margin-left: 1.5rem;
-
-    a {
-        margin-top: 0.5rem;
-    }
-}
-
 .Skeleton {
     display: flex;
     align-items: center;

@@ -1,4 +1,7 @@
+import NextLink from 'next/link';
 import React, { PropsWithChildren } from 'react';
+
+import { Link, LocalAlert, VStack } from '@navikt/ds-react';
 
 import { PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
@@ -30,7 +33,19 @@ export const Saksbilde = ({ children }: PropsWithChildren) => {
     }
 
     if (!aktivPeriode) {
-        return <PeriodeViewError />;
+        return (
+            <LocalAlert status="warning" className="m-8 [grid-area:content]">
+                <LocalAlert.Header>
+                    <LocalAlert.Title>Vi fant ingen arbeidsgiver for personen</LocalAlert.Title>
+                </LocalAlert.Header>
+                <VStack as={LocalAlert.Content}>
+                    Vi fant ingen arbeidsgiver for personen og har derfor ingenting å vise her.
+                    <Link as={NextLink} href="/">
+                        Klikk her for å gå tilbake til oppgaveoversikten
+                    </Link>
+                </VStack>
+            </LocalAlert>
+        );
     }
 
     const inntektsforhold = finnAlleInntektsforhold(person);
