@@ -24,7 +24,7 @@ function HistorikkWithContent(): ReactElement | null {
     const vedtaksperiodeId = (isGhostPeriode(aktivPeriode) ? undefined : aktivPeriode?.vedtaksperiodeId) ?? '';
     const {
         data: notatData,
-        isPending: notaterLoading,
+        isLoading: notaterLoading,
         isError: harNotatError,
     } = useGetNotaterForVedtaksperiode(vedtaksperiodeId);
     const historikk = useFilteredHistorikk(person, notatData ?? []);
