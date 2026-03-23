@@ -19,10 +19,14 @@ export const EasterEgg = (): ReactElement => (
     </div>
 );
 
-const Påskepynt = (): ReactElement | null =>
-    dayjs() < dayjs('2025-04-22', ISO_DATOFORMAT) ? (
+const Påskepynt = (): ReactElement | null => {
+    const now = dayjs();
+    const start = dayjs('2026-03-25', ISO_DATOFORMAT);
+    const end = dayjs('2026-04-06', ISO_DATOFORMAT);
+    return now >= start && now <= end ? (
         <Image style={{ margin: '-4px 0 -5px 1.5rem' }} priority={true} alt="Påskepynt" src={påskegurken} />
     ) : null;
+};
 
 const Julepynt = (): ReactElement | null =>
     dayjs().get('month') == 11 && dayjs().get('date') <= 30 ? (
