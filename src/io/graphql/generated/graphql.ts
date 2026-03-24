@@ -6023,12 +6023,6 @@ export type EndrePaVentMutation = {
     endrePaVent: { __typename: 'PaVent'; frist: string | null; oid: string } | null;
 };
 
-export type FjernPaVentMutationVariables = Exact<{
-    oppgaveId: Scalars['String']['input'];
-}>;
-
-export type FjernPaVentMutation = { __typename: 'Mutation'; fjernPaVent: boolean | null };
-
 export type LeggPaVentMutationVariables = Exact<{
     oppgaveId: Scalars['String']['input'];
     frist: Scalars['LocalDate']['input'];
@@ -12214,39 +12208,6 @@ export const EndrePaVentDocument = {
         },
     ],
 } as unknown as DocumentNode<EndrePaVentMutation, EndrePaVentMutationVariables>;
-export const FjernPaVentDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'FjernPaVent' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'fjernPaVent' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgaveId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FjernPaVentMutation, FjernPaVentMutationVariables>;
 export const LeggPaVentDocument = {
     kind: 'Document',
     definitions: [

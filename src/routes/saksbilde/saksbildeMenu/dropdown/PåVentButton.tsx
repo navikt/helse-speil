@@ -3,8 +3,9 @@ import React, { ReactElement } from 'react';
 import { ActionMenu, Loader } from '@navikt/ds-react';
 
 import { PersonFragment } from '@io/graphql';
+import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
-import { useFjernPåVentFraSaksbilde } from '@state/påvent';
+import { useFetchPersonQuery } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
 
 interface PåVentButtonProps {
@@ -14,21 +15,24 @@ interface PåVentButtonProps {
 
 export const PåVentButton = ({ person, showModal }: PåVentButtonProps): ReactElement | null => {
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
-    const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVentFraSaksbilde(
-        periodeTilGodkjenning?.behandlingId,
-    );
+    const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
+    const { refetch } = useFetchPersonQuery();
     const errorHandler = useOperationErrorHandler('Legg på vent');
     const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
     const erPåVent = periodeTilGodkjenning?.paVent;
 
     if (!periodeTilGodkjenning || oppgaveId === undefined) return null;
 
-    const fjernFraPåVent = async () => {
-        await fjernPåVent(oppgaveId);
-        if (fjernPåVentError) {
-            errorHandler(fjernPåVentError);
-        }
-    };
+    const fjernFraPåVent = async () =>
+        fjernPåVent(
+            {
+                oppgaveId: Number.parseInt(oppgaveId),
+            },
+            {
+                onSuccess: async () => refetch(),
+                onError: (error) => errorHandler(new Error(error.message)),
+            },
+        );
 
     return (
         <>

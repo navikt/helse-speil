@@ -5,8 +5,9 @@ import { ActionMenu, Button, Loader } from '@navikt/ds-react';
 
 import { EndrePåVentModal } from '@components/påvent/PåVentModaler';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
-import { useFjernPåVentFraSaksbilde } from '@state/påvent';
+import { useFetchPersonQuery } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
 
@@ -29,7 +30,9 @@ export const LagtPåVentDropdown = ({
 
     const oppgaveId = periode.oppgave?.id;
 
-    const [fjernPåVent, { loading, error: fjernPåVentError }] = useFjernPåVentFraSaksbilde(periode.behandlingId);
+    const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
+    const { refetch } = useFetchPersonQuery();
+
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
     if (oppgaveId === undefined) return null;
@@ -42,12 +45,16 @@ export const LagtPåVentDropdown = ({
         etternavn: person.personinfo.etternavn,
     };
 
-    const fjernFraPåVent = async () => {
-        await fjernPåVent(oppgaveId);
-        if (fjernPåVentError) {
-            errorHandler(fjernPåVentError);
-        }
-    };
+    const fjernFraPåVent = () =>
+        fjernPåVent(
+            {
+                oppgaveId: Number.parseInt(oppgaveId),
+            },
+            {
+                onSuccess: async () => refetch(),
+                onError: (error) => errorHandler(new Error(error.message)),
+            },
+        );
 
     return (
         <>

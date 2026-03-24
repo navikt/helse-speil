@@ -2,7 +2,12 @@ import React, { ReactElement } from 'react';
 
 import { Dropdown } from '@navikt/ds-react';
 
-import { useFjernPåVentFraOppgaveoversikt } from '@state/påvent';
+import {
+    getGetAntallOppgaverQueryKey,
+    getGetOppgaverQueryKey,
+    useDeletePåVent,
+} from '@io/rest/generated/oppgaver/oppgaver';
+import { useQueryClient } from '@tanstack/react-query';
 
 import styles from './OptionsCell.module.css';
 
@@ -13,10 +18,23 @@ interface PåVentMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 }
 
 export const PåVentMenuButton = ({ oppgavereferanse, erPåVent, showModal }: PåVentMenuButtonProps): ReactElement => {
-    const [fjernPåVent] = useFjernPåVentFraOppgaveoversikt();
+    const queryClient = useQueryClient();
+    const { mutate: fjernPåVent } = useDeletePåVent();
 
     const fjernFraPåVent = async () => {
-        await fjernPåVent(oppgavereferanse);
+        fjernPåVent(
+            {
+                oppgaveId: Number.parseInt(oppgavereferanse),
+            },
+            {
+                onSuccess: async () => {
+                    await Promise.all([
+                        queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                        queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+                    ]);
+                },
+            },
+        );
     };
 
     return (

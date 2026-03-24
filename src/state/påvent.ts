@@ -1,11 +1,8 @@
-import { ApolloCache, FetchResult, InternalRefetchQueriesInclude, MutationResult, useMutation } from '@apollo/client';
+import { ApolloCache, FetchResult, MutationResult, useMutation } from '@apollo/client';
 import {
     Egenskap,
     EndrePaVentDocument,
     EndrePaVentMutation,
-    FetchPersonDocument,
-    FjernPaVentDocument,
-    FjernPaVentMutation,
     Kategori,
     LeggPaVentDocument,
     LeggPaVentMutation,
@@ -121,44 +118,6 @@ export const useEndrePåVent = (
         });
 
     return [endrePåVent, data];
-};
-
-export const useFjernPåVentFraSaksbilde = (
-    behandlingId: string | undefined,
-): [(oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>, MutationResult<FjernPaVentMutation>] =>
-    useFjernPåVent([FetchPersonDocument], behandlingId);
-
-export const useFjernPåVentFraOppgaveoversikt = (): [
-    (oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>,
-    MutationResult<FjernPaVentMutation>,
-] => useFjernPåVent([]);
-
-const useFjernPåVent = (
-    refetchQueries: InternalRefetchQueriesInclude,
-    behandlingId?: string,
-): [(oppgavereferanse: string) => Promise<FetchResult<FjernPaVentMutation>>, MutationResult<FjernPaVentMutation>] => {
-    const queryClient = useQueryClient();
-    const [fjernPåVentMutation, data] = useMutation(FjernPaVentDocument, {
-        refetchQueries: refetchQueries,
-    });
-
-    const fjernPåVent = (oppgavereferanse: string) =>
-        fjernPåVentMutation({
-            variables: { oppgaveId: oppgavereferanse },
-            optimisticResponse: {
-                __typename: 'Mutation',
-                fjernPaVent: true,
-            },
-            update: (cache) => oppdaterPåVentICache(cache, oppgavereferanse, behandlingId ?? null, null),
-        }).then(async (value) => {
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
-                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
-            ]);
-            return value;
-        });
-
-    return [fjernPåVent, data];
 };
 
 const oppdaterPåVentICache = (
