@@ -15,11 +15,11 @@ import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/innte
 import {
     useAtomEditingForPersonOgSkjæringstidspunkt,
     useAtomSkjemaForPersonOgSkjæringstidspunkt,
-} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/atoms';
+} from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/atoms';
 import {
     SkjønnsfastsettingForm,
     useAktiveArbeidsgivere,
-} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
+} from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { cn } from '@utils/tw';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';

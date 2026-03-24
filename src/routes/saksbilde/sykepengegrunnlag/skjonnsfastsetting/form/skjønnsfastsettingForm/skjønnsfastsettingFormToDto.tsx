@@ -1,6 +1,6 @@
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
-import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@typer/overstyring';

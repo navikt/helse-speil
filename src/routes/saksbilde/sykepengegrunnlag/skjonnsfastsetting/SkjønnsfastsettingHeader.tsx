@@ -13,7 +13,7 @@ import {
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
-import { EndringsloggSkjønnsfastsettingButton } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/EndringsloggSkjønnsfastsettingButton';
+import { EndringsloggSkjønnsfastsettingButton } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/EndringsloggSkjønnsfastsettingButton';
 import {
     InntektsforholdReferanse,
     finnAlleInntektsforhold,

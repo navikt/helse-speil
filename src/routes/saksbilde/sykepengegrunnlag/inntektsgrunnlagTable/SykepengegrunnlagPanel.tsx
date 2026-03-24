@@ -11,9 +11,9 @@ import {
     Sykepengegrunnlagsgrense,
     VilkarsgrunnlagAvviksvurdering,
 } from '@io/graphql';
+import { SkjønnsfastsettingSykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 
-import { SkjønnsfastsettingSykepengegrunnlag } from '../skjønnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { InntektsgrunnlagTable } from './InntektsgrunnlagTable';
 import { InntektsgrunnlagoppsummeringTable } from './InntektsgrunnlagoppsummeringTable';
 

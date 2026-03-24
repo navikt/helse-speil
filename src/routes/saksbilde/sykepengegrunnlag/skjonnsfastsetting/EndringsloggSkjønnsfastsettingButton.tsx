@@ -4,7 +4,7 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
 import { EndringsloggSykepengegrunnlagskjønnsfastsetting } from '@components/endringslogg/EndringsloggSykepengegrunnlagskjønnsfastsetting';
-import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
+import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/SkjønnsfastsettingHeader';
 import { cn } from '@utils/tw';
 
 import styles from '../inntekt/EndringsloggButton.module.css';

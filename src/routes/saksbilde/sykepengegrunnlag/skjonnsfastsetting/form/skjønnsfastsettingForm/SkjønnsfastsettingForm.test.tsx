@@ -3,8 +3,8 @@ import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
-import { usePostSkjønnsfastsattSykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
+import { usePostSkjønnsfastsattSykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';

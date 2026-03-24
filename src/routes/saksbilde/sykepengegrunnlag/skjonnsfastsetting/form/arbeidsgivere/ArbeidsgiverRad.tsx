@@ -5,8 +5,8 @@ import { HStack, Table, TextField } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
-import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import styles from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
+import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { toKronerOgØre } from '@utils/locale';
 

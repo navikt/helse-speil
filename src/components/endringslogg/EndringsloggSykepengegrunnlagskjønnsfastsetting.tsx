@@ -5,7 +5,7 @@ import { BodyShort, Heading, Modal, Table } from '@navikt/ds-react';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
 import { getSkjønnsfastsettelseTypeTekst } from '@saksbilde/historikk/hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
-import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/SkjønnsfastsettingHeader';
+import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/SkjønnsfastsettingHeader';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 

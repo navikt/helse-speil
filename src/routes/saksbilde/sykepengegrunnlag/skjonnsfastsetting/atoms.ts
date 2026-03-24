@@ -1,7 +1,7 @@
 import { atom, useAtom } from 'jotai';
 import { atomFamily } from 'jotai/utils';
 
-import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
+import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { usePersonStore } from '@state/contexts/personStore';
 
 const skjemaFamily = atomFamily((_skjæringstidspunkt: string) => atom<SkjønnsfastsettingFormFields | null>(null));

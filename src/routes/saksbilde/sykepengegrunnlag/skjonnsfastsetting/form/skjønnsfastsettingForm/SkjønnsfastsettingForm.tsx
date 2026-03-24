@@ -16,14 +16,14 @@ import {
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
-import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
-import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingType';
-import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/SkjønnsfastsettingÅrsak';
-import { SkjønnsfastsettingArbeidsgivere } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
+import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
+import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingType';
+import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingÅrsak';
+import { SkjønnsfastsettingArbeidsgivere } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/arbeidsgivere/SkjønnsfastsettingArbeidsgivere';
 import {
     Skjønnsfastsettingstype,
     usePostSkjønnsfastsattSykepengegrunnlag,
-} from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+} from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 import { avrundetToDesimaler } from '@utils/tall';
 import { isBeregnetPeriode } from '@utils/typeguards';

@@ -4,7 +4,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
-import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
+import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 
 import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';
 

@@ -5,9 +5,9 @@ import { Detail, Fieldset, Label, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Arbeidsgiver, Sykepengegrunnlagsgrense } from '@io/graphql';
-import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
-import styles from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
-import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting';
+import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
+import styles from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
+import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { somPenger, somPengerUtenDesimaler } from '@utils/locale';
 import { avrundetToDesimaler } from '@utils/tall';

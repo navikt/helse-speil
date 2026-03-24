@@ -5,7 +5,7 @@ import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
 import { SkjønnsfastsettingMal } from '@external/sanity';
-import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjønnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
+import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 
 import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 
