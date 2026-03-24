@@ -1,7 +1,8 @@
 import NextLink from 'next/link';
 import React, { PropsWithChildren } from 'react';
 
-import { Link, LocalAlert, VStack } from '@navikt/ds-react';
+import { InformationSquareIcon } from '@navikt/aksel-icons';
+import { InfoCard, Link, VStack } from '@navikt/ds-react';
 
 import { PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
@@ -34,17 +35,17 @@ export const Saksbilde = ({ children }: PropsWithChildren) => {
 
     if (!aktivPeriode) {
         return (
-            <LocalAlert status="warning" className="m-8 [grid-area:content]">
-                <LocalAlert.Header>
-                    <LocalAlert.Title>Vi fant ingen vedtaksperioder for personen</LocalAlert.Title>
-                </LocalAlert.Header>
-                <VStack as={LocalAlert.Content}>
+            <InfoCard data-color="info" className="m-8 [grid-area:content]">
+                <InfoCard.Header icon={<InformationSquareIcon aria-hidden />}>
+                    <InfoCard.Title>Vi fant ingen vedtaksperioder for personen</InfoCard.Title>
+                </InfoCard.Header>
+                <VStack as={InfoCard.Content}>
                     Vi fant ingen vedtaksperioder for personen og har derfor ingenting å vise her.
                     <Link as={NextLink} href="/">
                         Klikk her for å gå tilbake til oppgaveoversikten
                     </Link>
                 </VStack>
-            </LocalAlert>
+            </InfoCard>
         );
     }
 
