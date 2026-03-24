@@ -66,7 +66,7 @@ export async function POST(request: NextRequest) {
 const Suksess = (personPseudoId: string) =>
     new Response(null, {
         status: 302,
-        headers: { Location: `/person/${personPseudoId}/dagoversikt` },
+        headers: { Location: `/person/${personPseudoId}` },
     });
 
 const IkkeAutentisert = new Response(

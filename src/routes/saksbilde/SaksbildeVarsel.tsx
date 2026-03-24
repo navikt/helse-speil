@@ -12,7 +12,6 @@ import {
     PersonFragment,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
-import styles from '@saksbilde/saksbilder/SharedViews.module.css';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
@@ -41,13 +40,13 @@ export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
 
     if (isAnnullertBeregnetPeriode(periode)) {
         return (
-            <Alert variant="info" className={styles.Varsel}>
+            <Alert variant="info" className="rounded-none border-x-0 border-t-0 py-2">
                 Utbetalingen er annullert
             </Alert>
         );
     } else if (isTilAnnulleringBeregnetPeriode(periode)) {
         return (
-            <Alert variant="info" className={styles.Varsel}>
+            <Alert variant="info" className="rounded-none border-x-0 border-t-0 py-2">
                 Utbetalingen er sendt til annullering
             </Alert>
         );

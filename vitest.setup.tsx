@@ -9,14 +9,7 @@ import '@utils/dayjs.setup';
 process.env.RUNTIME_ENVIRONMENT = 'test';
 
 mockRouter.default.useParser(
-    createDynamicRouteParser([
-        '/',
-        '/person/[personPseudoId]/dagoversikt',
-        '/person/[personPseudoId]/inngangsvilkår',
-        '/person/[personPseudoId]/sykepengegrunnlag',
-        '/person/[personPseudoId]/vurderingsmomenter',
-        '/person/[personPseudoId]/tilkommen-inntekt',
-    ]),
+    createDynamicRouteParser(['/', '/person/[personPseudoId]', '/person/[personPseudoId]/tilkommen-inntekt']),
 );
 
 const useRouter = mockRouter.useRouter;

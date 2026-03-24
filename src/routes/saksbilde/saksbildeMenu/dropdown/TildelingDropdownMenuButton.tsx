@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Dropdown, Loader } from '@navikt/ds-react';
+import { ActionMenu, Loader } from '@navikt/ds-react';
 
 import { Tildeling } from '@io/graphql';
 import { useFjernTildeling, useOpprettTildeling } from '@state/tildeling';
@@ -44,8 +44,8 @@ interface TildelingsknappProps {
 }
 
 const Tildelingsknapp = ({ knappetekst, onClick, isFetching }: TildelingsknappProps) => (
-    <Dropdown.Menu.List.Item disabled={isFetching} onClick={onClick}>
+    <ActionMenu.Item disabled={isFetching} onSelect={onClick} className="text-ax-large">
         {knappetekst}
         {isFetching && <Loader size="xsmall" />}
-    </Dropdown.Menu.List.Item>
+    </ActionMenu.Item>
 );

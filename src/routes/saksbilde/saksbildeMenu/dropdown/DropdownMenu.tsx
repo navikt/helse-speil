@@ -1,10 +1,9 @@
-import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
-import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
-import { Dropdown } from '@navikt/ds-react';
+import { ChevronDownIcon } from '@navikt/aksel-icons';
+import { ActionMenu, HStack } from '@navikt/ds-react';
 
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
-import { useInteractOutside } from '@hooks/useInteractOutside';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
@@ -25,7 +24,21 @@ import { AnnullerButton } from './AnnullerButton';
 import { PåVentButton } from './PåVentButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
-import styles from './DropdownMenu.module.scss';
+const MenyTrigger = () => (
+    <ActionMenu.Trigger>
+        <HStack
+            as="button"
+            align="center"
+            justify="center"
+            wrap={false}
+            gap="space-8"
+            className="cursor-pointer px-4 py-3 leading-6 font-semibold text-ax-text-accent-subtle inset-shadow-ax-border-neutral-subtleA transition-shadow duration-200 ease-[cubic-bezier(.2,0,0,1)] hover:inset-shadow-[0px_-4px]"
+        >
+            <span>Meny</span>
+            <ChevronDownIcon aria-hidden fontSize="1.25rem" />
+        </HStack>
+    </ActionMenu.Trigger>
+);
 
 export function LitenMeny({ person }: { person?: PersonFragment | null }): ReactElement | null {
     const [showStansAutomatiskBehandlingModal, setShowStansAutomatiskBehandlingModal] = useState(false);
@@ -39,21 +52,22 @@ export function LitenMeny({ person }: { person?: PersonFragment | null }): React
 
     return (
         <>
-            <DropdownMenu>
-                <Dropdown.Menu placement="bottom-start" className={styles.dropdown}>
-                    <Dropdown.Menu.List>
+            <ActionMenu>
+                <MenyTrigger />
+                <ActionMenu.Content>
+                    <ActionMenu.Group aria-label="Automatisk behandling">
                         {automatiskBehandlingStansetAvSaksbehandler ? (
-                            <Dropdown.Menu.List.Item onClick={() => setShowOpphevStansAutomatiskBehandlingModal(true)}>
+                            <ActionMenu.Item onSelect={() => setShowOpphevStansAutomatiskBehandlingModal(true)}>
                                 Opphev stans av automatisk behandling
-                            </Dropdown.Menu.List.Item>
+                            </ActionMenu.Item>
                         ) : (
-                            <Dropdown.Menu.List.Item onClick={() => setShowStansAutomatiskBehandlingModal(true)}>
+                            <ActionMenu.Item onSelect={() => setShowStansAutomatiskBehandlingModal(true)}>
                                 Stans automatisk behandling
-                            </Dropdown.Menu.List.Item>
+                            </ActionMenu.Item>
                         )}
-                    </Dropdown.Menu.List>
-                </Dropdown.Menu>
-            </DropdownMenu>
+                    </ActionMenu.Group>
+                </ActionMenu.Content>
+            </ActionMenu>
             {showStansAutomatiskBehandlingModal && (
                 <StansAutomatiskBehandlingModal
                     closeModal={() => setShowStansAutomatiskBehandlingModal(false)}
@@ -121,32 +135,37 @@ export function StorMeny({
 
     return (
         <>
-            <DropdownMenu>
-                <Dropdown.Menu placement="bottom-start" className={styles.dropdown}>
+            <ActionMenu>
+                <MenyTrigger />
+                <ActionMenu.Content>
                     {isBeregnetPeriode(activePeriod) && activePeriod.oppgave?.id && !readOnly && (
                         <>
-                            <Dropdown.Menu.List>
-                                <>
-                                    <TildelingDropdownMenuButton
-                                        oppgavereferanse={activePeriod.oppgave.id}
-                                        erTildeltInnloggetBruker={personIsAssignedUser}
-                                        tildeling={person?.tildeling}
-                                    />
-                                    <PåVentButton person={person} showModal={() => setShowLeggPåVentModal(true)} />
-                                </>
-                            </Dropdown.Menu.List>
-                            <Dropdown.Menu.Divider />
+                            <ActionMenu.Group aria-label="Oppgave">
+                                <TildelingDropdownMenuButton
+                                    oppgavereferanse={activePeriod.oppgave.id}
+                                    erTildeltInnloggetBruker={personIsAssignedUser}
+                                    tildeling={person?.tildeling}
+                                />
+                                <PåVentButton person={person} showModal={() => setShowLeggPåVentModal(true)} />
+                            </ActionMenu.Group>
+                            <ActionMenu.Divider />
                         </>
                     )}
-                    <Dropdown.Menu.List>
+                    <ActionMenu.Group aria-label="Handlinger">
                         {automatiskBehandlingStansetAvSaksbehandler ? (
-                            <Dropdown.Menu.List.Item onClick={() => setShowOpphevStansAutomatiskBehandlingModal(true)}>
+                            <ActionMenu.Item
+                                onSelect={() => setShowOpphevStansAutomatiskBehandlingModal(true)}
+                                className="text-ax-large"
+                            >
                                 Opphev stans av automatisk behandling
-                            </Dropdown.Menu.List.Item>
+                            </ActionMenu.Item>
                         ) : (
-                            <Dropdown.Menu.List.Item onClick={() => setShowStansAutomatiskBehandlingModal(true)}>
+                            <ActionMenu.Item
+                                onSelect={() => setShowStansAutomatiskBehandlingModal(true)}
+                                className="text-ax-large"
+                            >
                                 Stans automatisk behandling
-                            </Dropdown.Menu.List.Item>
+                            </ActionMenu.Item>
                         )}
                         {isBeregnetPeriode(activePeriod) && kanAnnulleres && inntektsforhold !== undefined && (
                             <AnnullerButton
@@ -156,9 +175,9 @@ export function StorMeny({
                                 showModal={() => setShowAnnulleringModal(true)}
                             />
                         )}
-                    </Dropdown.Menu.List>
-                </Dropdown.Menu>
-            </DropdownMenu>
+                    </ActionMenu.Group>
+                </ActionMenu.Content>
+            </ActionMenu>
             {showLeggPåVentModal && periodeTilGodkjenning && oppgaveId && (
                 <LeggPåVentModal
                     oppgaveId={oppgaveId}
@@ -200,38 +219,3 @@ export function StorMeny({
         </>
     );
 }
-
-const DropdownMenu = ({ children }: PropsWithChildren): ReactElement => {
-    const [open, setOpen] = useState(false);
-    const content = useRef<HTMLSpanElement>(null);
-
-    const toggleDropdown = () => {
-        setOpen((prevState) => !prevState);
-    };
-
-    const closeDropdown = () => {
-        setOpen(false);
-    };
-
-    useInteractOutside({
-        ref: content,
-        onInteractOutside: closeDropdown,
-        active: open,
-    });
-
-    return (
-        <span ref={content}>
-            <Dropdown onSelect={closeDropdown}>
-                <Dropdown.Toggle className={styles.menu} onClick={toggleDropdown}>
-                    Meny{' '}
-                    {open ? (
-                        <ChevronUpIcon title="lukke" fontSize="1.25rem" />
-                    ) : (
-                        <ChevronDownIcon title="åpne" fontSize="1.25rem" />
-                    )}
-                </Dropdown.Toggle>
-                {children}
-            </Dropdown>
-        </span>
-    );
-};

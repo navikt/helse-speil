@@ -93,7 +93,7 @@ export function TidslinjeContent({
                                             setActivePeriodId(id);
                                             const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
                                             if (erPåTilkommenInntektSide) {
-                                                router.push(`/person/${personPseudoId}/dagoversikt`);
+                                                router.push(`/person/${personPseudoId}`);
                                             }
                                         }
                                     }}

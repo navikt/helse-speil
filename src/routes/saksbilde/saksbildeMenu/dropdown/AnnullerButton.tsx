@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Dropdown } from '@navikt/ds-react';
+import { ActionMenu } from '@navikt/ds-react';
 
 import { BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
@@ -40,5 +40,9 @@ export const AnnullerButton = ({
         return null;
     }
 
-    return <Dropdown.Menu.List.Item onClick={showModal}>Annuller</Dropdown.Menu.List.Item>;
+    return (
+        <ActionMenu.Item onSelect={showModal} className="text-ax-large">
+            Annuller
+        </ActionMenu.Item>
+    );
 };

@@ -1,7 +1,7 @@
 import { useParams, usePathname, useRouter } from 'next/navigation';
 
-import { Fane, useNavigation } from '@hooks/useNavigation';
 import { useSetActivePeriodIdUtenPerson } from '@state/periode';
+import { useSetSaksbildeTab } from '@state/tab';
 
 export const useNavigerTilTilkommenInntekt = () => {
     const { personPseudoId } = useParams<{ personPseudoId?: string }>();
@@ -14,14 +14,17 @@ export const useNavigerTilTilkommenInntekt = () => {
 
 export const useNavigerTilPeriode = () => {
     const pathname = usePathname();
-    const { navigateTo } = useNavigation();
+    const router = useRouter();
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const setTab = useSetSaksbildeTab();
     const setActivePeriodId = useSetActivePeriodIdUtenPerson();
 
     return (periodeId: string) => {
         setActivePeriodId(periodeId);
         const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
         if (erPåTilkommenInntektSide) {
-            navigateTo(Fane.Utbetaling);
+            setTab('dagoversikt');
+            router.push(`/person/${personPseudoId}`);
         }
     };
 };

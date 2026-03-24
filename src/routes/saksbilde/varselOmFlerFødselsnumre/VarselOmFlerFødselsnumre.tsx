@@ -20,11 +20,7 @@ export function VarselOmFlerFødselsnumre(): ReactElement | null {
                 <BodyShort>Personen har også andre fødselsnumre:</BodyShort>
                 {andreFødselsnumre.map((value, index) => (
                     <HStack key={index}>
-                        <Link
-                            as={NextLink}
-                            key={value.fodselsnummer}
-                            href={`/person/${value.personPseudoId}/dagoversikt`}
-                        >
+                        <Link as={NextLink} key={value.fodselsnummer} href={`/person/${value.personPseudoId}`}>
                             <AnonymizableText>{getFormattedFødselsnummer(value.fodselsnummer)}</AnonymizableText>
                         </Link>
                     </HStack>

@@ -22,7 +22,7 @@ export const LinkRow = ({ personPseudoId, children, ...rest }: LinkRowProps): Re
     const router = useRouter();
 
     const navigate = (event: React.SyntheticEvent) => {
-        const destinationUrl = `/person/${personPseudoId}/dagoversikt`;
+        const destinationUrl = `/person/${personPseudoId}`;
         if (shouldOpenInNewTab(event)) {
             window.open(destinationUrl, '_blank');
         } else {

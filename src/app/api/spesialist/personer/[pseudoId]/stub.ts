@@ -52,4 +52,3 @@ function toApiPersonAdressebeskyttelse(adressebeskyttelse: Adressebeskyttelse): 
             return ApiPersonAdressebeskyttelse.UKJENT;
     }
 }
-

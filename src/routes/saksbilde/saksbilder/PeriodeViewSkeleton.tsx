@@ -1,13 +1,11 @@
 import React, { ReactElement } from 'react';
 
-import { Box, Button, HStack, Heading, Skeleton } from '@navikt/ds-react';
+import { Box, Button, HStack, Heading, Skeleton, VStack } from '@navikt/ds-react';
 
 import { SaksbildemenySkeleton } from '@saksbilde/saksbildeMenu/SaksbildeMenu';
 
-import styles from './SharedViews.module.css';
-
 export const PeriodeViewSkeleton = (): ReactElement => (
-    <div className={styles.Content}>
+    <VStack className="h-full min-w-0 flex-1 [grid-area:content]">
         <SaksbildemenySkeleton />
         <Box marginInline="space-16" marginBlock="space-24">
             <HStack gap="space-8" marginBlock="space-0 space-16">
@@ -20,5 +18,5 @@ export const PeriodeViewSkeleton = (): ReactElement => (
             </HStack>
             <Skeleton variant="rounded" height={400} />
         </Box>
-    </div>
+    </VStack>
 );

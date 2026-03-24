@@ -1,15 +1,32 @@
 import React, { PropsWithChildren } from 'react';
 
-import { Box } from '@navikt/ds-react';
+import { Box, HStack, Tabs, VStack } from '@navikt/ds-react';
 
-import styles from '@saksbilde/saksbilder/SharedViews.module.css';
-import { TilkommenInntektSaksbildeMenu } from '@saksbilde/tilkommenInntekt/saksbilde/TilkommenInntektSaksbildeMenu';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { LitenMeny } from '@saksbilde/saksbildeMenu/dropdown/DropdownMenu';
+import { useFetchPersonQuery } from '@state/person';
 
 export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
+    const { data: personData } = useFetchPersonQuery();
+
     return (
-        <div className={styles.Content}>
-            <TilkommenInntektSaksbildeMenu />
-            <Box overflowX="auto">{children}</Box>
-        </div>
+        <VStack className="h-full min-w-0 flex-1 [grid-area:content]">
+            <Tabs defaultValue="tilkommen-inntekt" size="medium">
+                <HStack
+                    wrap={false}
+                    className="w-full inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA [&>*:first-child]:w-fit [&>*:first-child]:inset-shadow-none"
+                >
+                    <Tabs.List>
+                        <Tabs.Tab value="tilkommen-inntekt" label="Tilkommen inntekt" />
+                    </Tabs.List>
+                    <VisHvisSkrivetilgang>
+                        <LitenMeny person={personData?.person} />
+                    </VisHvisSkrivetilgang>
+                </HStack>
+                <Box overflowX="auto">
+                    <Tabs.Panel value="tilkommen-inntekt">{children}</Tabs.Panel>
+                </Box>
+            </Tabs>
+        </VStack>
     );
 };

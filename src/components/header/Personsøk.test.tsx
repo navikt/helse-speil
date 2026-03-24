@@ -14,7 +14,7 @@ import { Personsøk } from './Personsøk';
 vi.mock('@state/person');
 
 describe('Personsøk', () => {
-    it('finds a personPseudoId and redirects to dagoversikt', async () => {
+    it('finds a personPseudoId and redirects to person page', async () => {
         (customAxios as unknown as Mock).mockResolvedValue({
             data: {
                 klarForVisning: true,
@@ -29,7 +29,7 @@ describe('Personsøk', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Søk' }));
 
         await waitFor(() => {
-            expect(mockRouter.pathname).toEqual('/person/[personPseudoId]/dagoversikt');
+            expect(mockRouter.pathname).toEqual('/person/[personPseudoId]');
         });
     });
 

@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Dropdown, Loader } from '@navikt/ds-react';
+import { ActionMenu, Loader } from '@navikt/ds-react';
 
 import { PersonFragment } from '@io/graphql';
 import { finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
@@ -33,12 +33,14 @@ export const PåVentButton = ({ person, showModal }: PåVentButtonProps): ReactE
     return (
         <>
             {erPåVent ? (
-                <Dropdown.Menu.List.Item onClick={fjernFraPåVent}>
+                <ActionMenu.Item onSelect={fjernFraPåVent} className="text-ax-large">
                     Fjern fra på vent
                     {loading && <Loader size="xsmall" />}
-                </Dropdown.Menu.List.Item>
+                </ActionMenu.Item>
             ) : (
-                <Dropdown.Menu.List.Item onClick={showModal}>Legg på vent</Dropdown.Menu.List.Item>
+                <ActionMenu.Item onSelect={showModal} className="text-ax-large">
+                    Legg på vent
+                </ActionMenu.Item>
             )}
         </>
     );

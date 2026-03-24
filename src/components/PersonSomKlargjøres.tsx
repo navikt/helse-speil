@@ -37,7 +37,7 @@ function PersonKlargjortAlert({
     return (
         <Alert variant="info" size="small" onClose={nullstill} closeButton={true}>
             Personen er klar til visning.{' '}
-            <Link href={`/person/${personPseudoId}/dagoversikt`} onClick={nullstill}>
+            <Link href={`/person/${personPseudoId}`} onClick={nullstill}>
                 Klikk her for å navigere til saksbildet.
             </Link>
         </Alert>

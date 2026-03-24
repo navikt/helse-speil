@@ -43,7 +43,7 @@ export const Personsøk = (): ReactElement => {
             addVarsel(new BadRequestError(personId));
         } else {
             if (validate(personId)) {
-                router.push(`/person/${personId}/dagoversikt`);
+                router.push(`/person/${personId}`);
                 return;
             }
             const personsøkVariables: ApiPersonSokRequest = validFødselsnummer(personId)
@@ -57,7 +57,7 @@ export const Personsøk = (): ReactElement => {
                         if (!data.klarForVisning) {
                             venterPåKlargjøring(data.personPseudoId);
                         } else {
-                            router.push(`/person/${data.personPseudoId}/dagoversikt`);
+                            router.push(`/person/${data.personPseudoId}`);
                         }
                     },
                     onError: (error) => {
