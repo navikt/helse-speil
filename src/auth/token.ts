@@ -20,60 +20,63 @@ const tokenPayloadSchema = z.object({
 });
 
 export async function getTokenPayload(): Promise<TokenPayload> {
-    if (spesialistBackend !== 'deployed') {
-        return {
-            oid: '11111111-2222-3333-4444-555555555555',
-            preferred_username: 'local-username',
-            name: 'Utvikler, Lokal',
-            NAVident: 'A123456',
-            groups: ['local-group'],
-        };
-    }
+    switch (spesialistBackend) {
+        case 'mock':
+            return {
+                oid: '11111111-2222-3333-4444-555555555555',
+                preferred_username: 'local-username',
+                name: 'Utvikler, Lokal',
+                NAVident: 'A123456',
+                groups: ['local-group'],
+            };
+        case 'lokal':
+            return await fetch(getServerEnv().SPESIALIST_BASEURL + '/bruker').then((res) => res.json());
+        case 'deployed':
+            const token = hentWonderwallToken(await headers());
+            if (!token) {
+                // Wonderwall sin autoLogin: true gjør denne casen egentlig umulig
+                redirect('/oauth2/login');
+            }
 
-    const token = hentWonderwallToken(await headers());
-    if (!token) {
-        // Wonderwall sin autoLogin: true gjør denne casen egentlig umulig
-        redirect('/oauth2/login');
-    }
+            const validationResult = await validateAzureToken(token);
+            if (!validationResult.ok) {
+                if (validationResult.errorType === 'token expired') {
+                    redirect('/oauth2/login');
+                }
 
-    const validationResult = await validateAzureToken(token);
-    if (!validationResult.ok) {
-        if (validationResult.errorType === 'token expired') {
-            redirect('/oauth2/login');
-        }
+                metrics.authErrorCounter.inc({ type: 'invalid-jwt' }, 1);
+                throw new Error(`JWT invalid, validation failed: ${validationResult.error.message}`, {
+                    cause: validationResult.error,
+                });
+            }
 
-        metrics.authErrorCounter.inc({ type: 'invalid-jwt' }, 1);
-        throw new Error(`JWT invalid, validation failed: ${validationResult.error.message}`, {
-            cause: validationResult.error,
-        });
-    }
+            try {
+                return tokenPayloadSchema.parse({
+                    oid: validationResult.payload.oid,
+                    preferred_username: validationResult.payload.preferred_username,
+                    name: validationResult.payload.name,
+                    NAVident: validationResult.payload.NAVident,
+                    groups: validationResult.payload.groups,
+                } satisfies Record<keyof TokenPayload, unknown>);
+            } catch (e) {
+                metrics.authErrorCounter.inc({ type: 'parse-error' }, 1);
 
-    try {
-        return tokenPayloadSchema.parse({
-            oid: validationResult.payload.oid,
-            preferred_username: validationResult.payload.preferred_username,
-            name: validationResult.payload.name,
-            NAVident: validationResult.payload.NAVident,
-            groups: validationResult.payload.groups,
-        } satisfies Record<keyof TokenPayload, unknown>);
-    } catch (e) {
-        metrics.authErrorCounter.inc({ type: 'parse-error' }, 1);
+                if (e instanceof ZodError) {
+                    teamLogger.error(
+                        `Klarte ikke å parse payloaden fra tokenet til ${validationResult.payload.preferred_username}\n\n${`The following envs are missing: ${
+                            e.issues
+                                .filter((it) => it.message === 'Required')
+                                .map((it) => it.path.join('.'))
+                                .join(', ') || 'None are missing, but zod is not happy. Look at cause'
+                        }`}`,
+                    );
+                    logger.error(e, 'Failed to parse token payload');
+                } else {
+                    logger.error(e, 'Unknown error: Failed to parse token payload');
+                }
 
-        if (e instanceof ZodError) {
-            teamLogger.error(
-                `Klarte ikke å parse payloaden fra tokenet til ${validationResult.payload.preferred_username}\n\n${`The following envs are missing: ${
-                    e.issues
-                        .filter((it) => it.message === 'Required')
-                        .map((it) => it.path.join('.'))
-                        .join(', ') || 'None are missing, but zod is not happy. Look at cause'
-                }`}`,
-            );
-            logger.error(e, 'Failed to parse token payload');
-        } else {
-            logger.error(e, 'Unknown error: Failed to parse token payload');
-        }
-
-        throw e;
+                throw e;
+            }
     }
 }
 
