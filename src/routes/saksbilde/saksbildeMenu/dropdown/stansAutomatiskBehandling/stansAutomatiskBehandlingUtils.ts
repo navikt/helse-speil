@@ -1,6 +1,6 @@
 import type { ErrorType } from '@app/axios/orval-mutator';
 import {
-    ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode,
+    ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
 } from '@io/rest/generated/spesialist.schemas';
 import { ToastObject } from '@state/toasts';
@@ -44,7 +44,7 @@ export const somVeilederBackendfeil = (
 };
 
 export const somSaksbehandlerBackendfeil = (
-    error: ErrorType<ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode>,
+    error: ErrorType<ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode>,
 ): string => {
     const problemDetailsCode = error.response?.data?.code;
     if (!problemDetailsCode) return 'Feil ved oppretting av stans. Kontakt utviklerteamet.';

@@ -10,7 +10,7 @@ import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
-import { usePatchStansVeileder } from '@io/rest/generated/personer/personer';
+import { usePatchVeilederStans } from '@io/rest/generated/personer/personer';
 import {
     opphevStansAutomatiskBehandlingVeilederToast,
     somVeilederBackendfeil,
@@ -30,7 +30,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
 
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const apolloClient = useApolloClient();
-    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStansVeileder();
+    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchVeilederStans();
     const addToast = useAddToast();
 
     const form = useForm<StansAutomatiskBehandlingSchema>({

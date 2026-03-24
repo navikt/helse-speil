@@ -9,24 +9,30 @@ import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiAntallOppgaver,
     ApiBehandletOppgaveProjeksjonSide,
+    ApiHttpProblemDetailsApiDeletePåVentErrorCode,
     ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode,
     ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode,
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
+    ApiHttpProblemDetailsApiPutPåVentErrorCode,
     ApiOppgaveProjeksjonSide,
+    ApiPutPåVentRequest,
     GetBehandledeOppgaverParams,
     GetListeOppgaverParams,
     GetOppgaverParams,
 } from '../spesialist.schemas';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
+    MutationFunction,
     QueryClient,
     QueryFunction,
     QueryKey,
     UndefinedInitialDataOptions,
+    UseMutationOptions,
+    UseMutationResult,
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
@@ -423,3 +429,117 @@ export function useGetListeOppgaver<
 
     return query;
 }
+
+export const putPåVent = (oppgaveId: number, apiPutPåVentRequest?: ApiPutPåVentRequest) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/oppgaver/${oppgaveId}/pa-vent`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiPutPåVentRequest,
+    });
+};
+
+export const getPutPåVentMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPutPåVentErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof putPåVent>>,
+        TError,
+        { oppgaveId: number; data: ApiPutPåVentRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof putPåVent>>,
+    TError,
+    { oppgaveId: number; data: ApiPutPåVentRequest },
+    TContext
+> => {
+    const mutationKey = ['putPåVent'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof putPåVent>>,
+        { oppgaveId: number; data: ApiPutPåVentRequest }
+    > = (props) => {
+        const { oppgaveId, data } = props ?? {};
+
+        return putPåVent(oppgaveId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PutPåVentMutationResult = NonNullable<Awaited<ReturnType<typeof putPåVent>>>;
+export type PutPåVentMutationBody = ApiPutPåVentRequest;
+export type PutPåVentMutationError = ErrorType<ApiHttpProblemDetailsApiPutPåVentErrorCode>;
+
+export const usePutPåVent = <TError = ErrorType<ApiHttpProblemDetailsApiPutPåVentErrorCode>, TContext = unknown>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof putPåVent>>,
+            TError,
+            { oppgaveId: number; data: ApiPutPåVentRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof putPåVent>>,
+    TError,
+    { oppgaveId: number; data: ApiPutPåVentRequest },
+    TContext
+> => {
+    const mutationOptions = getPutPåVentMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const deletePåVent = (oppgaveId: number) => {
+    return callCustomAxios<void>({ url: `/api/spesialist/oppgaver/${oppgaveId}/pa-vent`, method: 'DELETE' });
+};
+
+export const getDeletePåVentMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiDeletePåVentErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<Awaited<ReturnType<typeof deletePåVent>>, TError, { oppgaveId: number }, TContext>;
+}): UseMutationOptions<Awaited<ReturnType<typeof deletePåVent>>, TError, { oppgaveId: number }, TContext> => {
+    const mutationKey = ['deletePåVent'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<Awaited<ReturnType<typeof deletePåVent>>, { oppgaveId: number }> = (props) => {
+        const { oppgaveId } = props ?? {};
+
+        return deletePåVent(oppgaveId);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type DeletePåVentMutationResult = NonNullable<Awaited<ReturnType<typeof deletePåVent>>>;
+
+export type DeletePåVentMutationError = ErrorType<ApiHttpProblemDetailsApiDeletePåVentErrorCode>;
+
+export const useDeletePåVent = <TError = ErrorType<ApiHttpProblemDetailsApiDeletePåVentErrorCode>, TContext = unknown>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof deletePåVent>>,
+            TError,
+            { oppgaveId: number },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<Awaited<ReturnType<typeof deletePåVent>>, TError, { oppgaveId: number }, TContext> => {
+    const mutationOptions = getDeletePåVentMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};

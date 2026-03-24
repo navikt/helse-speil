@@ -283,30 +283,84 @@ export interface ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode {
     code?: ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeCode;
 }
 
+export interface ApiPåVentÅrsak {
+    key: string;
+    årsak: string;
+}
+
+export type ApiPutPåVentRequestNotattekst = null | string;
+
+export interface ApiPutPåVentRequest {
+    frist: string;
+    skalTildeles: boolean;
+    notattekst?: ApiPutPåVentRequestNotattekst;
+    årsaker: ApiPåVentÅrsak[];
+}
+
+export type ApiPutPåVentErrorCode = (typeof ApiPutPåVentErrorCode)[keyof typeof ApiPutPåVentErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPutPåVentErrorCode = {
+    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiPutPåVentErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPutPåVentErrorCodeCode = null | ApiPutPåVentErrorCode;
+
+export interface ApiHttpProblemDetailsApiPutPåVentErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPutPåVentErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPutPåVentErrorCodeCode;
+}
+
+export type ApiDeletePåVentErrorCode = (typeof ApiDeletePåVentErrorCode)[keyof typeof ApiDeletePåVentErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiDeletePåVentErrorCode = {
+    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiDeletePåVentErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiDeletePåVentErrorCodeCode = null | ApiDeletePåVentErrorCode;
+
+export interface ApiHttpProblemDetailsApiDeletePåVentErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiDeletePåVentErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiDeletePåVentErrorCodeCode;
+}
+
 export interface ApiStansRequest {
     begrunnelse: string;
     stans: boolean;
 }
 
-export type ApiPatchStansSaksbehandlerErrorCode =
-    (typeof ApiPatchStansSaksbehandlerErrorCode)[keyof typeof ApiPatchStansSaksbehandlerErrorCode];
+export type ApiPatchSaksbehandlerStansErrorCode =
+    (typeof ApiPatchSaksbehandlerStansErrorCode)[keyof typeof ApiPatchSaksbehandlerStansErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPatchStansSaksbehandlerErrorCode = {
+export const ApiPatchSaksbehandlerStansErrorCode = {
     PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
-export type ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCodeCode = null | ApiPatchStansSaksbehandlerErrorCode;
+export type ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeCode = null | ApiPatchSaksbehandlerStansErrorCode;
 
-export interface ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCode {
+export interface ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPatchStansSaksbehandlerErrorCodeCode;
+    detail?: ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeCode;
 }
 
 export type ApiPatchVeilederStansErrorCode =

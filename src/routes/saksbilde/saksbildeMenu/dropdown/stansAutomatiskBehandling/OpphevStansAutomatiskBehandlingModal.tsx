@@ -8,7 +8,7 @@ import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from
 import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
-import { usePatchStansSaksbehandler } from '@io/rest/generated/personer/personer';
+import { usePatchSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import {
     opphevStansAutomatiskBehandlingToast,
     somSaksbehandlerBackendfeil,
@@ -29,7 +29,7 @@ export function OpphevStansAutomatiskBehandlingModal({
     const [loading, setLoading] = useState<boolean>(false);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const apolloClient = useApolloClient();
-    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchStansSaksbehandler();
+    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchSaksbehandlerStans();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
