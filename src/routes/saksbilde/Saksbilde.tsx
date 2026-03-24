@@ -36,10 +36,10 @@ export const Saksbilde = ({ children }: PropsWithChildren) => {
         return (
             <LocalAlert status="warning" className="m-8 [grid-area:content]">
                 <LocalAlert.Header>
-                    <LocalAlert.Title>Vi fant ingen arbeidsgiver for personen</LocalAlert.Title>
+                    <LocalAlert.Title>Vi fant ingen vedtaksperioder for personen</LocalAlert.Title>
                 </LocalAlert.Header>
                 <VStack as={LocalAlert.Content}>
-                    Vi fant ingen arbeidsgiver for personen og har derfor ingenting å vise her.
+                    Vi fant ingen vedtaksperioder for personen og har derfor ingenting å vise her.
                     <Link as={NextLink} href="/">
                         Klikk her for å gå tilbake til oppgaveoversikten
                     </Link>
