@@ -16,7 +16,7 @@ import { render, screen } from '@test-utils';
 import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-vi.mock('@saksbilde/sykepengegrunnlag/skjønnsfastsetting/skjønnsfastsetting');
+vi.mock('@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting');
 
 describe('SkjønnsfastsettingForm', () => {
     const periode = enBeregnetPeriode();
