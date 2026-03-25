@@ -27,79 +27,31 @@ import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 import { AnnullerButton } from './AnnullerButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
-const MenyTrigger = () => (
-    <ActionMenu.Trigger>
-        <HStack
-            as="button"
-            align="center"
-            justify="center"
-            wrap={false}
-            gap="space-8"
-            className="cursor-pointer px-4 py-3 leading-6 font-semibold text-ax-text-accent-subtle inset-shadow-ax-border-neutral-subtleA transition-shadow duration-200 ease-[cubic-bezier(.2,0,0,1)] hover:inset-shadow-[0px_-4px]"
-        >
-            <span>Meny</span>
-            <ChevronDownIcon aria-hidden fontSize="1.25rem" />
-        </HStack>
-    </ActionMenu.Trigger>
-);
-
-export function LitenMeny({ person }: { person?: PersonFragment | null }): ReactElement | null {
-    const [showStansAutomatiskBehandlingModal, setShowStansAutomatiskBehandlingModal] = useState(false);
-    const [showOpphevStansAutomatiskBehandlingModal, setShowOpphevStansAutomatiskBehandlingModal] = useState(false);
+export function SaksbildeDropdownMenu({
+    person,
+    activePeriod,
+}: {
+    person?: PersonFragment | null;
+    activePeriod?: ActivePeriod;
+}): ReactElement | null {
     if (!isPerson(person)) {
         return null;
     }
-
-    const automatiskBehandlingStansetAvSaksbehandler =
-        person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
-
-    return (
-        <>
-            <ActionMenu>
-                <MenyTrigger />
-                <ActionMenu.Content>
-                    <ActionMenu.Group aria-label="Automatisk behandling">
-                        {automatiskBehandlingStansetAvSaksbehandler ? (
-                            <ActionMenu.Item onSelect={() => setShowOpphevStansAutomatiskBehandlingModal(true)}>
-                                Opphev stans av automatisk behandling
-                            </ActionMenu.Item>
-                        ) : (
-                            <ActionMenu.Item onSelect={() => setShowStansAutomatiskBehandlingModal(true)}>
-                                Stans automatisk behandling
-                            </ActionMenu.Item>
-                        )}
-                    </ActionMenu.Group>
-                </ActionMenu.Content>
-            </ActionMenu>
-            {showStansAutomatiskBehandlingModal && (
-                <StansAutomatiskBehandlingModal
-                    closeModal={() => setShowStansAutomatiskBehandlingModal(false)}
-                    showModal={showStansAutomatiskBehandlingModal}
-                    fødselsnummer={person.fodselsnummer}
-                />
-            )}
-            {showOpphevStansAutomatiskBehandlingModal && (
-                <OpphevStansAutomatiskBehandlingModal
-                    closeModal={() => setShowOpphevStansAutomatiskBehandlingModal(false)}
-                    showModal={showOpphevStansAutomatiskBehandlingModal}
-                    fødselsnummer={person.fodselsnummer}
-                />
-            )}
-        </>
-    );
+    return <SaksbildeDropdownMenuContent person={person} activePeriod={activePeriod} />;
 }
 
-export function StorMeny({
+function SaksbildeDropdownMenuContent({
     person,
     activePeriod,
 }: {
     person: PersonFragment;
-    activePeriod: ActivePeriod;
+    activePeriod?: ActivePeriod;
 }): ReactElement {
     const [showLeggPåVentModal, setShowLeggPåVentModal] = useState(false);
     const [showAnnulleringModal, setShowAnnulleringModal] = useState(false);
-    const [showStansAutomatiskBehandlingModal, setShowStansAutomatiskBehandlingModal] = useState(false);
-    const [showOpphevStansAutomatiskBehandlingModal, setShowOpphevStansAutomatiskBehandlingModal] = useState(false);
+    const [showStansModal, setShowStansModal] = useState(false);
+    const [showOpphevStansModal, setShowOpphevStansModal] = useState(false);
+
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const user = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave(person);
@@ -108,28 +60,16 @@ export function StorMeny({
     const erPåVent = periodeTilGodkjenning?.paVent;
 
     const router = useRouter();
-
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
-    const personIsAssignedUser = (person?.tildeling && person?.tildeling?.oid === user.oid) ?? false;
+    const personIsAssignedUser = person.tildeling?.oid === user.oid;
 
     const automatiskBehandlingStansetAvSaksbehandler =
         person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
 
-    const behandlingHarAnnullering = finnAlleInntektsforhold(person).some((ag) =>
-        ag.behandlinger.some((behandling) =>
-            behandling.perioder.some(
-                (periode) =>
-                    isBeregnetPeriode(activePeriod) &&
-                    periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId &&
-                    (periode.periodetilstand === Periodetilstand.Annullert ||
-                        periode.periodetilstand === Periodetilstand.TilAnnullering ||
-                        periode.periodetilstand === Periodetilstand.AvventerAnnullering),
-            ),
-        ),
-    );
+    const behandlingHarAnnullering = harAnnulleringForPeriode(person, activePeriod);
 
     const kanAnnulleres =
         isBeregnetPeriode(activePeriod) &&
@@ -146,9 +86,7 @@ export function StorMeny({
     const fjernFraPåVent = () => {
         if (!oppgaveId) return;
         fjernPåVent(
-            {
-                oppgaveId: Number.parseInt(oppgaveId),
-            },
+            { oppgaveId: Number.parseInt(oppgaveId) },
             {
                 onSuccess: () => refetch(),
                 onError: (error) => errorHandler(new Error(error.message)),
@@ -159,7 +97,19 @@ export function StorMeny({
     return (
         <>
             <ActionMenu>
-                <MenyTrigger />
+                <ActionMenu.Trigger>
+                    <HStack
+                        as="button"
+                        align="center"
+                        justify="center"
+                        wrap={false}
+                        gap="space-8"
+                        className="cursor-pointer px-4 py-3 leading-6 font-semibold text-ax-text-accent-subtle inset-shadow-ax-border-neutral-subtleA transition-shadow duration-200 ease-[cubic-bezier(.2,0,0,1)] hover:inset-shadow-[0px_-4px]"
+                    >
+                        <span>Meny</span>
+                        <ChevronDownIcon aria-hidden fontSize="1.25rem" />
+                    </HStack>
+                </ActionMenu.Trigger>
                 <ActionMenu.Content>
                     {isBeregnetPeriode(activePeriod) && activePeriod.oppgave?.id && !readOnly && (
                         <>
@@ -167,7 +117,7 @@ export function StorMeny({
                                 <TildelingDropdownMenuButton
                                     oppgavereferanse={activePeriod.oppgave.id}
                                     erTildeltInnloggetBruker={personIsAssignedUser}
-                                    tildeling={person?.tildeling}
+                                    tildeling={person.tildeling}
                                 />
                                 {erPåVent ? (
                                     <ActionMenu.Item onSelect={fjernFraPåVent} className="text-ax-large">
@@ -186,19 +136,13 @@ export function StorMeny({
                             <ActionMenu.Divider />
                         </>
                     )}
-                    <ActionMenu.Group aria-label="Handlinger">
+                    <ActionMenu.Group aria-label={activePeriod ? 'Handlinger' : 'Automatisk behandling'}>
                         {automatiskBehandlingStansetAvSaksbehandler ? (
-                            <ActionMenu.Item
-                                onSelect={() => setShowOpphevStansAutomatiskBehandlingModal(true)}
-                                className="text-ax-large"
-                            >
+                            <ActionMenu.Item onSelect={() => setShowOpphevStansModal(true)} className="text-ax-large">
                                 Opphev stans av automatisk behandling
                             </ActionMenu.Item>
                         ) : (
-                            <ActionMenu.Item
-                                onSelect={() => setShowStansAutomatiskBehandlingModal(true)}
-                                className="text-ax-large"
-                            >
+                            <ActionMenu.Item onSelect={() => setShowStansModal(true)} className="text-ax-large">
                                 Stans automatisk behandling
                             </ActionMenu.Item>
                         )}
@@ -239,18 +183,60 @@ export function StorMeny({
                         />
                     </Dialog>
                 )}
-            {showStansAutomatiskBehandlingModal && (
+            <StansAutomatiskBehandlingSection
+                fødselsnummer={person.fodselsnummer}
+                showStansModal={showStansModal}
+                closeStansModal={() => setShowStansModal(false)}
+                showOpphevStansModal={showOpphevStansModal}
+                closeOpphevStansModal={() => setShowOpphevStansModal(false)}
+            />
+        </>
+    );
+}
+
+function harAnnulleringForPeriode(person: PersonFragment, activePeriod?: ActivePeriod): boolean {
+    if (!isBeregnetPeriode(activePeriod)) return false;
+
+    return finnAlleInntektsforhold(person).some((ag) =>
+        ag.behandlinger.some((behandling) =>
+            behandling.perioder.some(
+                (periode) =>
+                    periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId &&
+                    (periode.periodetilstand === Periodetilstand.Annullert ||
+                        periode.periodetilstand === Periodetilstand.TilAnnullering ||
+                        periode.periodetilstand === Periodetilstand.AvventerAnnullering),
+            ),
+        ),
+    );
+}
+
+function StansAutomatiskBehandlingSection({
+    fødselsnummer,
+    showStansModal,
+    closeStansModal,
+    showOpphevStansModal,
+    closeOpphevStansModal,
+}: {
+    fødselsnummer: string;
+    showStansModal: boolean;
+    closeStansModal: () => void;
+    showOpphevStansModal: boolean;
+    closeOpphevStansModal: () => void;
+}): ReactElement | null {
+    return (
+        <>
+            {showStansModal && (
                 <StansAutomatiskBehandlingModal
-                    closeModal={() => setShowStansAutomatiskBehandlingModal(false)}
-                    showModal={showStansAutomatiskBehandlingModal}
-                    fødselsnummer={person.fodselsnummer}
+                    closeModal={closeStansModal}
+                    showModal={showStansModal}
+                    fødselsnummer={fødselsnummer}
                 />
             )}
-            {showOpphevStansAutomatiskBehandlingModal && (
+            {showOpphevStansModal && (
                 <OpphevStansAutomatiskBehandlingModal
-                    closeModal={() => setShowOpphevStansAutomatiskBehandlingModal(false)}
-                    showModal={showOpphevStansAutomatiskBehandlingModal}
-                    fødselsnummer={person.fodselsnummer}
+                    closeModal={closeOpphevStansModal}
+                    showModal={showOpphevStansModal}
+                    fødselsnummer={fødselsnummer}
                 />
             )}
         </>

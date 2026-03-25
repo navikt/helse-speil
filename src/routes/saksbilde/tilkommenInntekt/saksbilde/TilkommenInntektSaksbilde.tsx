@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from 'react';
 import { Box, HStack, Tabs, VStack } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { LitenMeny } from '@saksbilde/saksbildeMenu/dropdown/DropdownMenu';
+import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { useFetchPersonQuery } from '@state/person';
 
 export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
@@ -20,7 +20,7 @@ export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
                         <Tabs.Tab value="tilkommen-inntekt" label="Tilkommen inntekt" />
                     </Tabs.List>
                     <VisHvisSkrivetilgang>
-                        <LitenMeny person={personData?.person} />
+                        <SaksbildeDropdownMenu person={personData?.person} />
                     </VisHvisSkrivetilgang>
                 </HStack>
                 <Box overflowX="auto">

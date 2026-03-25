@@ -7,7 +7,7 @@ import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
-import { StorMeny } from '@saksbilde/saksbildeMenu/dropdown/DropdownMenu';
+import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
@@ -129,7 +129,7 @@ export const Saksbilde = () => {
                         ))}
                     </Tabs.List>
                     <VisHvisSkrivetilgang>
-                        <StorMeny person={person} activePeriod={aktivPeriode} />
+                        <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
                     </VisHvisSkrivetilgang>
                 </HStack>
                 <Box overflowX="auto">
