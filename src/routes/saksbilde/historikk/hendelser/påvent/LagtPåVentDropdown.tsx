@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
@@ -32,6 +33,7 @@ export const LagtPåVentDropdown = ({
 
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();
+    const router = useRouter();
 
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
@@ -86,6 +88,7 @@ export const LagtPåVentDropdown = ({
                     utgangspunktFrist={frist!}
                     utgangspunktTildeling={tildeling}
                     onClose={() => setShowEndreModal(false)}
+                    onLeggPåVentSuccess={() => router.push('/')}
                 />
             )}
         </>

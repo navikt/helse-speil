@@ -1,18 +1,16 @@
 import dayjs from 'dayjs';
-import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Button, Checkbox, CheckboxGroup, ErrorMessage, Heading, Modal } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { Arsak, useArsaker } from '@external/sanity';
+import { useArsaker } from '@external/sanity';
+import { usePutPåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn, ApiTildeling } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useEndrePåVent, useLeggPåVent } from '@state/påvent';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
-import { apolloErrorCode } from '@utils/error';
 import { getFormatertNavn } from '@utils/string';
 
 import { Frist } from './Frist';
@@ -21,45 +19,22 @@ import { Årsaker } from './Årsaker';
 
 import styles from './PåVentModaler.module.scss';
 
-type SubmitError = { message: string };
-type SubmitResult = 'Success' | SubmitError;
-
 interface LeggPåVentModalProps {
     oppgaveId: string;
     behandlingId?: string;
     navn: ApiPersonnavn;
     utgangspunktTildeling: ApiTildeling | null;
     onClose: () => void;
+    onLeggPåVentSuccess: () => void;
 }
 
 export const LeggPåVentModal = ({
     oppgaveId,
-    behandlingId,
     navn,
     utgangspunktTildeling,
     onClose,
+    onLeggPåVentSuccess,
 }: LeggPåVentModalProps): ReactElement => {
-    const [leggPåVent, { loading: leggPåVentLoading, error: leggPåVentError }] = useLeggPåVent(behandlingId);
-    const leggPåVentErrorHandler = useOperationErrorHandler('Legg på vent');
-
-    const onSubmit = async (
-        årsaker: Arsak[],
-        notattekst: string | null,
-        frist: DateString,
-        tildelSaksbehandler: boolean,
-    ): Promise<SubmitResult> => {
-        await leggPåVent(oppgaveId, frist, tildelSaksbehandler, notattekst, årsaker);
-        if (leggPåVentError) {
-            leggPåVentErrorHandler(leggPåVentError);
-            return {
-                message:
-                    apolloErrorCode(leggPåVentError) === 401 ? 'Du har blitt logget ut' : 'Kunne ikke legge på vent',
-            };
-        } else {
-            return 'Success';
-        }
-    };
-
     return (
         <FellesPåVentModal
             tittel="Legg på vent"
@@ -70,8 +45,8 @@ export const LeggPåVentModal = ({
             utgangspunktTildeling={utgangspunktTildeling}
             closeModal={onClose}
             submitKnappTekst="Legg på vent"
-            onSubmit={onSubmit}
-            submitInProgress={leggPåVentLoading}
+            onLeggPåVentSuccess={onLeggPåVentSuccess}
+            oppgaveId={oppgaveId}
         />
     );
 };
@@ -85,41 +60,19 @@ interface EndrePåVentModalProps {
     utgangspunktFrist: DateString;
     utgangspunktTildeling: ApiTildeling | null;
     onClose: () => void;
+    onLeggPåVentSuccess: () => void;
 }
 
 export const EndrePåVentModal = ({
     oppgaveId,
-    behandlingId,
     navn,
     utgangspunktÅrsaker,
     utgangspunktNotattekst,
     utgangspunktFrist,
     utgangspunktTildeling,
     onClose,
+    onLeggPåVentSuccess,
 }: EndrePåVentModalProps): ReactElement => {
-    const [endrePåVent, { loading: endrePåVentLoading, error: endrePåVentError }] = useEndrePåVent(behandlingId);
-    const endrePåVentErrorHandler = useOperationErrorHandler('Endre på vent');
-
-    const onSubmit = async (
-        årsaker: Arsak[],
-        notattekst: string | null,
-        frist: DateString,
-        tildelSaksbehandler: boolean,
-    ): Promise<SubmitResult> => {
-        await endrePåVent(oppgaveId, frist, tildelSaksbehandler, notattekst, årsaker);
-        if (endrePåVentError) {
-            endrePåVentErrorHandler(endrePåVentError);
-            return {
-                message:
-                    apolloErrorCode(endrePåVentError) === 401
-                        ? 'Du har blitt logget ut'
-                        : 'Endringene kunne ikke lagres',
-            };
-        } else {
-            return 'Success';
-        }
-    };
-
     return (
         <FellesPåVentModal
             tittel="Legg på vent &ndash; endre"
@@ -130,8 +83,8 @@ export const EndrePåVentModal = ({
             utgangspunktTildeling={utgangspunktTildeling}
             closeModal={onClose}
             submitKnappTekst="Endre"
-            onSubmit={onSubmit}
-            submitInProgress={endrePåVentLoading}
+            oppgaveId={oppgaveId}
+            onLeggPåVentSuccess={onLeggPåVentSuccess}
         />
     );
 };
@@ -139,35 +92,29 @@ export const EndrePåVentModal = ({
 interface FellesPåVentModalProps {
     tittel: string;
     navn: ApiPersonnavn;
+    oppgaveId: string;
     utgangspunktÅrsaker: string[];
     utgangspunktNotattekst: string | null;
     utgangspunktFrist: DateString | null;
     utgangspunktTildeling: ApiTildeling | null;
     submitKnappTekst: string;
-    onSubmit: (
-        årsaker: Arsak[],
-        notattekst: string | null,
-        frist: DateString,
-        tildelSaksbehandler: boolean,
-    ) => Promise<SubmitResult>;
-    submitInProgress: boolean;
     closeModal: () => void;
+    onLeggPåVentSuccess: () => void;
 }
 
 const FellesPåVentModal = ({
     tittel,
     navn,
+    oppgaveId,
     utgangspunktÅrsaker,
     utgangspunktNotattekst,
     utgangspunktFrist,
     utgangspunktTildeling,
     submitKnappTekst,
-    onSubmit,
-    submitInProgress,
     closeModal,
+    onLeggPåVentSuccess,
 }: FellesPåVentModalProps): ReactElement => {
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
-    const router = useRouter();
     const saksbehandler = useInnloggetSaksbehandler();
     const { arsaker: årsaker, loading: årsakerLoading } = useArsaker('paventarsaker');
 
@@ -185,6 +132,39 @@ const FellesPåVentModal = ({
     const opprinneligTildeltSaksbehandler = utgangspunktTildeling
         ? utgangspunktTildeling.oid === saksbehandler.oid
         : false;
+
+    const { mutate: leggPåVent, isPending: leggPåVentLoading } = usePutPåVent();
+    const leggPåVentErrorHandler = useOperationErrorHandler('Legg/endre på vent');
+
+    const onSubmit = async () => {
+        const error = validate();
+        if (error) {
+            return;
+        }
+        const filteredÅrsaker = årsaker[0]!.arsaker!.filter((it) => valgteÅrsaker.includes(it.arsak));
+        leggPåVent(
+            {
+                oppgaveId: Number.parseInt(oppgaveId),
+                data: {
+                    frist: dayjs(fristDato).format(ISO_DATOFORMAT),
+                    skalTildeles: tildelSaksbehandler,
+                    notattekst,
+                    årsaker: filteredÅrsaker.map((arsak) => ({ key: arsak._key, årsak: arsak.arsak })),
+                },
+            },
+            {
+                onSuccess: () => {
+                    onLeggPåVentSuccess();
+                    closeModal();
+                },
+                onError: (error) => {
+                    setErrorMessage(error.status === 401 ? 'Du har blitt logget ut' : 'Kunne ikke legge på vent');
+                    leggPåVentErrorHandler(new Error(error.message));
+                    return;
+                },
+            },
+        );
+    };
 
     const validateNotat = (notattekst: string | null, valgteÅrsaker: string[]) => {
         let error = false;
@@ -228,25 +208,6 @@ const FellesPåVentModal = ({
         const notatInvalid = validateNotat(notattekst, valgteÅrsaker);
         const fristInvalid = validateFrist();
         return årsakerInvalid || notatInvalid || fristInvalid;
-    };
-
-    const submit = async () => {
-        const error = validate();
-        if (error) {
-            return;
-        }
-        const result = await onSubmit(
-            årsaker[0]!.arsaker!.filter((it) => valgteÅrsaker.includes(it.arsak)),
-            notattekst,
-            dayjs(fristDato).format(ISO_DATOFORMAT),
-            tildelSaksbehandler,
-        );
-        if (result === 'Success') {
-            router.push('/');
-        } else {
-            setErrorMessage(result.message);
-        }
-        closeModal();
     };
 
     const årsakAnnetErValgt = (valgteÅrsaker: string[]) => valgteÅrsaker.includes('Annet');
@@ -304,7 +265,7 @@ const FellesPåVentModal = ({
                 {!tildelSaksbehandler && <BodyShort>Uten tildeling vil oppgaven kunne bli automatisert</BodyShort>}
             </Modal.Body>
             <Modal.Footer>
-                <Button variant="primary" type="button" loading={submitInProgress} onClick={submit}>
+                <Button variant="primary" type="button" loading={leggPåVentLoading} onClick={onSubmit}>
                     {submitKnappTekst}
                 </Button>
                 <Button variant="tertiary" type="button" onClick={closeModal}>

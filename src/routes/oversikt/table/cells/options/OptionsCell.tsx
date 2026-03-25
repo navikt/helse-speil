@@ -5,8 +5,10 @@ import { Button, Dropdown, Table } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
+import { getGetAntallOppgaverQueryKey, getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useQueryClient } from '@tanstack/react-query';
 
 import { MeldAvMenuButton } from './MeldAvMenuButton';
 import { PåVentMenuButton } from './PåVentMenuButton';
@@ -28,6 +30,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
     const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const erTildeltInnloggetBruker = erLike(oppgave.tildeling?.oid, innloggetSaksbehandler.oid);
     const erTildelt = !!oppgave.tildeling?.oid;
+    const queryClient = useQueryClient();
     const erPåVent = oppgave.egenskaper.filter((it) => it === ApiEgenskap.PA_VENT).length !== 0;
 
     return (
@@ -68,6 +71,12 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                         navn={navn}
                         utgangspunktTildeling={oppgave?.tildeling ?? null}
                         onClose={() => setShowModal(false)}
+                        onLeggPåVentSuccess={async () => {
+                            await Promise.all([
+                                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+                            ]);
+                        }}
                     />
                 )}
             </span>

@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
@@ -105,6 +106,8 @@ export function StorMeny({
     const inntektsforhold = useAktivtInntektsforhold(person);
     const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
     const erPåVent = periodeTilGodkjenning?.paVent;
+
+    const router = useRouter();
 
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();
@@ -217,6 +220,7 @@ export function StorMeny({
                     navn={navn}
                     utgangspunktTildeling={person.tildeling}
                     onClose={() => setShowLeggPåVentModal(false)}
+                    onLeggPåVentSuccess={() => router.push('/')}
                 />
             )}
             {showAnnulleringModal &&
