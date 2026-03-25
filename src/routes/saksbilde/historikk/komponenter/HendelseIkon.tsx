@@ -5,6 +5,7 @@ import {
     ArrowsSquarepathIcon,
     ChatIcon,
     CheckmarkCircleIcon,
+    HourglassTopFilledIcon,
     PaperplaneIcon,
     PersonPencilFillIcon,
     TimerPauseIcon,
@@ -27,6 +28,8 @@ export const HistorikkCheckmarkCircleIkon = (): ReactElement => <CheckmarkCircle
 export const HistorikkPaperplaneIkon = (): ReactElement => <PaperplaneIcon className={styles.ikon} />;
 
 export const HistorikkTimerPauseIkon = (): ReactElement => <TimerPauseIcon className={styles.ikon} />;
+
+export const HistorikkHourglassTopFilledIkon = (): ReactElement => <HourglassTopFilledIcon className={styles.ikon} />;
 
 export const HistorikkXMarkOctagonIkon = (): ReactElement => <XMarkOctagonIcon className={styles.ikon} />;
 

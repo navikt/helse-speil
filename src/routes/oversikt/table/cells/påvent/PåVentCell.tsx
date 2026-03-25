@@ -1,15 +1,12 @@
 import React, { ReactElement, useState } from 'react';
 
-import { TimerPauseIcon } from '@navikt/aksel-icons';
+import { HourglassBottomFilledIcon, HourglassTopFilledIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Table, Tooltip } from '@navikt/ds-react';
 
 import { ApiOppgaveProjeksjonPaaVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
-import { cn } from '@utils/tw';
 
 import { PåVentListeModal } from './PåVentListeModal';
-
-import styles from './PåVentCell.module.css';
 
 interface PåVentCellProps {
     navn: ApiPersonnavn;
@@ -19,9 +16,9 @@ interface PåVentCellProps {
 
 export const PåVentCell = ({ navn, utgåttFrist, påVentInfo }: PåVentCellProps): ReactElement => {
     return (
-        <Table.DataCell onClick={(event) => event.stopPropagation()} className={styles.PåVentCell}>
+        <Table.DataCell onClick={(event) => event.stopPropagation()} className="w-3xs">
             {!!påVentInfo && (
-                <HStack gap="space-8" wrap={false}>
+                <HStack gap="space-8" wrap={false} className="items-center">
                     <PåVentKnapp navn={navn} utgåttFrist={utgåttFrist} påVentInfo={påVentInfo} />
                     <SisteNotattekst påVentInfo={påVentInfo} />
                 </HStack>
@@ -51,10 +48,19 @@ const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): R
                 <Button
                     variant="tertiary-neutral"
                     size="xsmall"
-                    className={cn(styles.NotatButton, utgåttFrist && styles.utgåttFrist)}
                     onClick={toggleModal}
                     onKeyUp={toggleModal}
-                    icon={<TimerPauseIcon fontSize="1.5rem" aria-hidden />}
+                    icon={
+                        utgåttFrist ? (
+                            <HourglassBottomFilledIcon
+                                fontSize="1.5rem"
+                                className="text-ax-text-danger-subtle"
+                                aria-hidden
+                            />
+                        ) : (
+                            <HourglassTopFilledIcon fontSize="1.5rem" aria-hidden />
+                        )
+                    }
                 />
             </Tooltip>
             {showModal && (

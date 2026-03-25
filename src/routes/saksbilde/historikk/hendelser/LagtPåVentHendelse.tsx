@@ -7,7 +7,7 @@ import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
 import { LagtPåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentDropdown';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
-import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
+import { HistorikkHourglassTopFilledIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { HendelseKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarSeksjon';
 import { HendelseKommentarer } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarer';
@@ -26,7 +26,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
     const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
     return (
         <Historikkhendelse
-            icon={<HistorikkTimerPauseIkon />}
+            icon={<HistorikkHourglassTopFilledIkon />}
             title={`Lagt på vent${hendelse.historikktype === PeriodehistorikkType.EndrePaVent ? ' – endret' : ''}`}
             timestamp={hendelse.timestamp}
             saksbehandler={hendelse.saksbehandler ?? undefined}

@@ -1,8 +1,0 @@
-.PåVentCell {
-    width: 16rem;
-}
-
-.utgåttFrist,
-.utgåttFrist svg {
-    color: var(--ax-text-danger-subtle);
-}
