@@ -183,13 +183,20 @@ function SaksbildeDropdownMenuContent({
                         />
                     </Dialog>
                 )}
-            <StansAutomatiskBehandlingSection
-                fødselsnummer={person.fodselsnummer}
-                showStansModal={showStansModal}
-                closeStansModal={() => setShowStansModal(false)}
-                showOpphevStansModal={showOpphevStansModal}
-                closeOpphevStansModal={() => setShowOpphevStansModal(false)}
-            />
+            {showStansModal && (
+                <StansAutomatiskBehandlingModal
+                    closeModal={() => setShowStansModal(false)}
+                    showModal={showStansModal}
+                    fødselsnummer={person.fodselsnummer}
+                />
+            )}
+            {showOpphevStansModal && (
+                <OpphevStansAutomatiskBehandlingModal
+                    closeModal={() => setShowOpphevStansModal(false)}
+                    showModal={showOpphevStansModal}
+                    fødselsnummer={person.fodselsnummer}
+                />
+            )}
         </>
     );
 }
@@ -207,38 +214,5 @@ function harAnnulleringForPeriode(person: PersonFragment, activePeriod?: ActiveP
                         periode.periodetilstand === Periodetilstand.AvventerAnnullering),
             ),
         ),
-    );
-}
-
-function StansAutomatiskBehandlingSection({
-    fødselsnummer,
-    showStansModal,
-    closeStansModal,
-    showOpphevStansModal,
-    closeOpphevStansModal,
-}: {
-    fødselsnummer: string;
-    showStansModal: boolean;
-    closeStansModal: () => void;
-    showOpphevStansModal: boolean;
-    closeOpphevStansModal: () => void;
-}): ReactElement | null {
-    return (
-        <>
-            {showStansModal && (
-                <StansAutomatiskBehandlingModal
-                    closeModal={closeStansModal}
-                    showModal={showStansModal}
-                    fødselsnummer={fødselsnummer}
-                />
-            )}
-            {showOpphevStansModal && (
-                <OpphevStansAutomatiskBehandlingModal
-                    closeModal={closeOpphevStansModal}
-                    showModal={showOpphevStansModal}
-                    fødselsnummer={fødselsnummer}
-                />
-            )}
-        </>
     );
 }
