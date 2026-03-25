@@ -45,16 +45,17 @@ export const LagtPåVentDropdown = ({
         etternavn: person.personinfo.etternavn,
     };
 
-    const fjernFraPåVent = () =>
+    const fjernFraPåVent = () => {
         fjernPåVent(
             {
                 oppgaveId: Number.parseInt(oppgaveId),
             },
             {
-                onSuccess: async () => refetch(),
+                onSuccess: () => refetch(),
                 onError: (error) => errorHandler(new Error(error.message)),
             },
         );
+    };
 
     return (
         <>

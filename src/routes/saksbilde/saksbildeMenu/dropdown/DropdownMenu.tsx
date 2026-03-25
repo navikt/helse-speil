@@ -1,11 +1,12 @@
 import React, { ReactElement, useState } from 'react';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { ActionMenu, HStack } from '@navikt/ds-react';
+import { ActionMenu, HStack, Loader } from '@navikt/ds-react';
 
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
+import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
 import { OpphevStansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingModal';
@@ -17,11 +18,12 @@ import {
     tilReferanse,
     useAktivtInntektsforhold,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useFetchPersonQuery } from '@state/person';
+import { useOperationErrorHandler } from '@state/varsler';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
-import { PåVentButton } from './PåVentButton';
 import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
 const MenyTrigger = () => (
@@ -102,6 +104,11 @@ export function StorMeny({
     const readOnly = useIsReadOnlyOppgave(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
     const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
+    const erPåVent = periodeTilGodkjenning?.paVent;
+
+    const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
+    const { refetch } = useFetchPersonQuery();
+    const errorHandler = useOperationErrorHandler('Legg på vent');
 
     const personIsAssignedUser = (person?.tildeling && person?.tildeling?.oid === user.oid) ?? false;
 
@@ -133,6 +140,19 @@ export function StorMeny({
         etternavn: person.personinfo.etternavn,
     };
 
+    const fjernFraPåVent = () => {
+        if (!oppgaveId) return;
+        fjernPåVent(
+            {
+                oppgaveId: Number.parseInt(oppgaveId),
+            },
+            {
+                onSuccess: () => refetch(),
+                onError: (error) => errorHandler(new Error(error.message)),
+            },
+        );
+    };
+
     return (
         <>
             <ActionMenu>
@@ -146,7 +166,19 @@ export function StorMeny({
                                     erTildeltInnloggetBruker={personIsAssignedUser}
                                     tildeling={person?.tildeling}
                                 />
-                                <PåVentButton person={person} showModal={() => setShowLeggPåVentModal(true)} />
+                                {erPåVent ? (
+                                    <ActionMenu.Item onSelect={fjernFraPåVent} className="text-ax-large">
+                                        Fjern fra på vent
+                                        {loading && <Loader size="xsmall" />}
+                                    </ActionMenu.Item>
+                                ) : (
+                                    <ActionMenu.Item
+                                        onSelect={() => setShowLeggPåVentModal(true)}
+                                        className="text-ax-large"
+                                    >
+                                        Legg på vent
+                                    </ActionMenu.Item>
+                                )}
                             </ActionMenu.Group>
                             <ActionMenu.Divider />
                         </>
