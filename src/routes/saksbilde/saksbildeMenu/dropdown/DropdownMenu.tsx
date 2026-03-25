@@ -2,14 +2,14 @@ import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
-import { ActionMenu, HStack, Loader } from '@navikt/ds-react';
+import { ActionMenu, Dialog, HStack, Loader } from '@navikt/ds-react';
 
 import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
-import { AnnulleringsModal } from '@saksbilde/annullering/AnnulleringsModal';
+import { AnnulleringsDialogInnhold } from '@saksbilde/annullering/AnnulleringsDialogInnhold';
 import { OpphevStansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingModal';
 import { StansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingModal';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -227,16 +227,17 @@ export function StorMeny({
                 isBeregnetPeriode(activePeriod) &&
                 kanAnnulleres &&
                 inntektsforhold !== undefined && (
-                    <AnnulleringsModal
-                        closeModal={() => setShowAnnulleringModal(false)}
-                        showModal={showAnnulleringModal}
-                        inntektsforholdReferanse={tilReferanse(inntektsforhold)}
-                        vedtaksperiodeId={activePeriod.vedtaksperiodeId}
-                        arbeidsgiverFagsystemId={activePeriod.utbetaling.arbeidsgiverFagsystemId}
-                        personFagsystemId={activePeriod.utbetaling.personFagsystemId}
-                        person={person}
-                        periode={activePeriod}
-                    />
+                    <Dialog open={showAnnulleringModal} onOpenChange={(nextOpen) => setShowAnnulleringModal(nextOpen)}>
+                        <AnnulleringsDialogInnhold
+                            inntektsforholdReferanse={tilReferanse(inntektsforhold)}
+                            vedtaksperiodeId={activePeriod.vedtaksperiodeId}
+                            arbeidsgiverFagsystemId={activePeriod.utbetaling.arbeidsgiverFagsystemId}
+                            personFagsystemId={activePeriod.utbetaling.personFagsystemId}
+                            person={person}
+                            periode={activePeriod}
+                            onSuccess={() => setShowAnnulleringModal(false)}
+                        />
+                    </Dialog>
                 )}
             {showStansAutomatiskBehandlingModal && (
                 <StansAutomatiskBehandlingModal

@@ -99,6 +99,7 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                 </FormProvider>
             </Dialog.Body>
             <Dialog.Footer>
+                {error && <ErrorMessage className="mr-auto self-center">En feil har oppstått</ErrorMessage>}
                 <Dialog.CloseTrigger>
                     <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting}>
                         Avbryt
@@ -107,7 +108,6 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                 <Button variant="primary" type="submit" form="avvisning-skjema" loading={form.formState.isSubmitting}>
                     Kan ikke behandles her
                 </Button>
-                {error && <ErrorMessage className="self-center">En feil har oppstått</ErrorMessage>}
             </Dialog.Footer>
         </>
     );

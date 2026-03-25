@@ -2,6 +2,8 @@ import { defaultAxiosResponse } from '../../../../vitest.setup';
 import React from 'react';
 import { Mock, vi } from 'vitest';
 
+import { Dialog } from '@navikt/ds-react';
+
 import { customAxios } from '@app/axios/axiosClient';
 import { ArsakerQueryResult } from '@external/sanity';
 import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
@@ -12,7 +14,7 @@ import { render, screen, within } from '@test-utils';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { AnnulleringsModal } from './AnnulleringsModal';
+import { AnnulleringsDialogInnhold } from './AnnulleringsDialogInnhold';
 
 vi.mock('@state/toasts');
 
@@ -22,8 +24,6 @@ const enArbeidsgiverReferanse = (): ArbeidsgiverReferanse => ({
 });
 
 const defaultProps = {
-    closeModal: () => null,
-    showModal: true,
     inntektsforholdReferanse: enArbeidsgiverReferanse(),
     vedtaksperiodeId: 'EN-VEDTAKSPERIODEID',
     arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
@@ -33,6 +33,7 @@ const defaultProps = {
         aktorId: '12345678910',
     }),
     periode: enBeregnetPeriode(),
+    onSuccess: () => null,
 };
 
 const addToastMock = vi.fn();
@@ -60,7 +61,11 @@ describe('Annulleringsmodal', () => {
         });
     });
     it('viser feilmelding ved manglende årsak', async () => {
-        render(<AnnulleringsModal {...defaultProps} />);
+        render(
+            <Dialog defaultOpen>
+                <AnnulleringsDialogInnhold {...defaultProps} />
+            </Dialog>,
+        );
 
         await userEvent.click(screen.getByText('Annuller'));
 
@@ -68,7 +73,11 @@ describe('Annulleringsmodal', () => {
     });
 
     test('viser feilmelding ved manglende kommentar', async () => {
-        render(<AnnulleringsModal {...defaultProps} />);
+        render(
+            <Dialog defaultOpen>
+                <AnnulleringsDialogInnhold {...defaultProps} />
+            </Dialog>,
+        );
 
         const kanIkkeRevurderesSection = within(
             screen.getByRole('group', {
@@ -82,7 +91,12 @@ describe('Annulleringsmodal', () => {
     });
 
     test('gjør annulleringsmutation på annuller', async () => {
-        render(<AnnulleringsModal {...defaultProps} />);
+        (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
+        render(
+            <Dialog defaultOpen>
+                <AnnulleringsDialogInnhold {...defaultProps} />
+            </Dialog>,
+        );
 
         await userEvent.click(await screen.findByRole('checkbox', { name: 'Ferie' }));
         await userEvent.click(await screen.findByRole('button', { name: 'Annuller' }));
@@ -103,7 +117,11 @@ describe('Annulleringsmodal', () => {
 
     test('viser toast etter at annullering-kallet er gjort', async () => {
         (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
-        render(<AnnulleringsModal {...defaultProps} />);
+        render(
+            <Dialog defaultOpen>
+                <AnnulleringsDialogInnhold {...defaultProps} />
+            </Dialog>,
+        );
 
         await userEvent.click(await screen.findByRole('checkbox', { name: 'Ferie' }));
         await userEvent.click(await screen.findByRole('button', { name: 'Annuller' }));
