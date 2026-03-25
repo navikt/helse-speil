@@ -1,5 +1,4 @@
 import spesialistSchema from './graphql.schema.json';
-import dayjs from 'dayjs';
 import fs from 'fs';
 import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
@@ -25,9 +24,7 @@ import {
     BeregnetPeriode,
     Egenskap,
     Historikkinnslag,
-    MutationFjernPaVentArgs,
     MutationFjernTildelingArgs,
-    MutationLeggPaVentArgs,
     MutationOppdaterPersonArgs,
     MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
@@ -160,34 +157,6 @@ const getResolvers = (): IResolvers => ({
             } else {
                 return false;
             }
-        },
-        leggPaVent: async (_, { oppgaveId, notatTekst, frist, tildeling, arsaker }: MutationLeggPaVentArgs) => {
-            if (tildeling) {
-                TildelingMock.setTildeling(oppgaveId, {
-                    epost: 'epost@nav.no',
-                    navn: 'Utvikler, Lokal',
-                    oid: '11111111-2222-3333-4444-555555555555',
-                });
-            }
-            HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
-                notattekst: notatTekst,
-                frist: frist,
-                arsaker: arsaker ? arsaker.map((arsak) => arsak.arsak) : [],
-                type: PeriodehistorikkType.LeggPaVent,
-                dialogRef: DialogMock.addDialog(),
-            });
-            PaVentMock.setPåVent(oppgaveId, {
-                frist: dayjs().format('YYYY-MM-DD'),
-                oid: '11111111-2222-3333-4444-555555555555',
-            });
-            return PaVentMock.getPåVent(oppgaveId);
-        },
-        fjernPaVent: async (_, { oppgaveId }: MutationFjernPaVentArgs) => {
-            HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
-                type: PeriodehistorikkType.FjernFraPaVent,
-            });
-            PaVentMock.fjernPåVent(oppgaveId);
-            return true;
         },
         overstyrDager: async () => {
             return true;

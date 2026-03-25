@@ -510,10 +510,7 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 
 export type Mutation = {
     __typename?: 'Mutation';
-    endrePaVent?: Maybe<PaVent>;
-    fjernPaVent?: Maybe<Scalars['Boolean']['output']>;
     fjernTildeling: Scalars['Boolean']['output'];
-    leggPaVent?: Maybe<PaVent>;
     oppdaterPerson: Scalars['Boolean']['output'];
     opprettTildeling?: Maybe<Tildeling>;
     overstyrArbeidsforhold?: Maybe<Scalars['Boolean']['output']>;
@@ -524,28 +521,8 @@ export type Mutation = {
     skjonnsfastsettSykepengegrunnlag?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type MutationEndrePaVentArgs = {
-    arsaker: Array<PaVentArsakInput>;
-    frist: Scalars['LocalDate']['input'];
-    notatTekst?: InputMaybe<Scalars['String']['input']>;
-    oppgaveId: Scalars['String']['input'];
-    tildeling: Scalars['Boolean']['input'];
-};
-
-export type MutationFjernPaVentArgs = {
-    oppgaveId: Scalars['String']['input'];
-};
-
 export type MutationFjernTildelingArgs = {
     oppgaveId: Scalars['String']['input'];
-};
-
-export type MutationLeggPaVentArgs = {
-    arsaker?: InputMaybe<Array<PaVentArsakInput>>;
-    frist: Scalars['LocalDate']['input'];
-    notatTekst?: InputMaybe<Scalars['String']['input']>;
-    oppgaveId: Scalars['String']['input'];
-    tildeling: Scalars['Boolean']['input'];
 };
 
 export type MutationOppdaterPersonArgs = {
@@ -695,11 +672,6 @@ export type PaVent = {
     __typename?: 'PaVent';
     frist?: Maybe<Scalars['LocalDate']['output']>;
     oid: Scalars['UUID']['output'];
-};
-
-export type PaVentArsakInput = {
-    _key: Scalars['String']['input'];
-    arsak: Scalars['String']['input'];
 };
 
 export type PensjonsgivendeInntekt = {
