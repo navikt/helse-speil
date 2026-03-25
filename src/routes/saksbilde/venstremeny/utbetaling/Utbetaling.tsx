@@ -171,7 +171,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                         {!isRevurdering &&
                             !period.totrinnsvurdering?.erBeslutteroppgave &&
                             !harNyereUtbetaltPeriodePåPerson(period, person) && (
-                                <AvvisningButton size="small" disabled={periodenErSendt} activePeriod={period} />
+                                <AvvisningButton disabled={periodenErSendt} activePeriod={period} />
                             )}
                     </VisHvisSkrivetilgang>
                     {erBeslutteroppgaveOgHarTilgang && (

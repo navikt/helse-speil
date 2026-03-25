@@ -1,46 +1,29 @@
 import React, { ReactElement, useState } from 'react';
 
-import { Button } from '@navikt/ds-react';
+import { Button, Dialog } from '@navikt/ds-react';
 
 import { BeregnetPeriodeFragment } from '@io/graphql';
 
-import { AvvisningModal } from './AvvisningModal';
+import { AvvisningDialogInnhold } from './AvvisningDialogInnhold';
 
-interface AvvisningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'onError' | 'children'> {
+interface AvvisningButtonProps {
     activePeriod: BeregnetPeriodeFragment;
     disabled: boolean;
-    size: 'small' | 'medium';
 }
 
-export const AvvisningButton = ({
-    activePeriod,
-    disabled = false,
-    size,
-    ...buttonProps
-}: AvvisningButtonProps): ReactElement => {
-    const [showModal, setShowModal] = useState(false);
+export const AvvisningButton = ({ activePeriod, disabled = false }: AvvisningButtonProps): ReactElement => {
+    const [open, setOpen] = useState(false);
 
     return (
-        <>
-            <Button
-                disabled={disabled}
-                variant="secondary"
-                size={size}
-                data-testid="avvisning-button"
-                onClick={() => {
-                    setShowModal(true);
-                }}
-                {...buttonProps}
-            >
-                Kan ikke behandles her
-            </Button>
-            {showModal && (
-                <AvvisningModal
-                    closeModal={() => setShowModal(false)}
-                    showModal={showModal}
-                    activePeriod={activePeriod}
-                />
-            )}
-        </>
+        <Dialog open={open} onOpenChange={(nextOpen) => setOpen(nextOpen)}>
+            <Dialog.Trigger>
+                <Button disabled={disabled} variant="secondary" size="small" data-testid="avvisning-button">
+                    Kan ikke behandles her
+                </Button>
+            </Dialog.Trigger>
+            <Dialog.Popup>
+                <AvvisningDialogInnhold activePeriod={activePeriod} onSuccess={() => setOpen(false)} />
+            </Dialog.Popup>
+        </Dialog>
     );
 };
