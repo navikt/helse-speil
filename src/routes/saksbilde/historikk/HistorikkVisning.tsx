@@ -52,7 +52,13 @@ export function HistorikkVisning({
                     }}
                     style={{ overflow: 'hidden' }}
                 >
-                    {harNotatError && <LocalAlert status="error">Kunne ikke hente notater</LocalAlert>}
+                    {harNotatError && (
+                        <LocalAlert status="error" size="small" as="div" className="m-2">
+                            <LocalAlert.Header>
+                                <LocalAlert.Title>Kunne ikke hente notater</LocalAlert.Title>
+                            </LocalAlert.Header>
+                        </LocalAlert>
+                    )}
                     <VStack>
                         <HStack padding="space-16" justify="space-between" align="center">
                             <BodyShort size="small">{getHistorikkTitle(filter)}</BodyShort>
