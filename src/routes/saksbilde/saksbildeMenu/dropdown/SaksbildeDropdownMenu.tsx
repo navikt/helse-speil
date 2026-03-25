@@ -10,8 +10,8 @@ import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { AnnulleringsDialogInnhold } from '@saksbilde/annullering/AnnulleringsDialogInnhold';
-import { OpphevStansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingModal';
-import { StansAutomatiskBehandlingModal } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingModal';
+import { OpphevStansAutomatiskBehandlingDialogInnhold } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingDialogInnhold';
+import { StansAutomatiskBehandlingDialogInnhold } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingDialogInnhold';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import {
     finnAlleInntektsforhold,
@@ -184,18 +184,20 @@ function SaksbildeDropdownMenuContent({
                     </Dialog>
                 )}
             {showStansModal && (
-                <StansAutomatiskBehandlingModal
-                    closeModal={() => setShowStansModal(false)}
-                    showModal={showStansModal}
-                    fødselsnummer={person.fodselsnummer}
-                />
+                <Dialog open={showStansModal} onOpenChange={(nextOpen) => setShowStansModal(nextOpen)}>
+                    <StansAutomatiskBehandlingDialogInnhold
+                        fødselsnummer={person.fodselsnummer}
+                        onSuccess={() => setShowStansModal(false)}
+                    />
+                </Dialog>
             )}
             {showOpphevStansModal && (
-                <OpphevStansAutomatiskBehandlingModal
-                    closeModal={() => setShowOpphevStansModal(false)}
-                    showModal={showOpphevStansModal}
-                    fødselsnummer={person.fodselsnummer}
-                />
+                <Dialog open={showOpphevStansModal} onOpenChange={(nextOpen) => setShowOpphevStansModal(nextOpen)}>
+                    <OpphevStansAutomatiskBehandlingDialogInnhold
+                        fødselsnummer={person.fodselsnummer}
+                        onSuccess={() => setShowOpphevStansModal(false)}
+                    />
+                </Dialog>
             )}
         </>
     );

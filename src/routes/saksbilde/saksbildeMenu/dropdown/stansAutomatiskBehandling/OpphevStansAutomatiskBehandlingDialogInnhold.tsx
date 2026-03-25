@@ -1,8 +1,8 @@
 import { useParams } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
-import { Button, ErrorMessage, Heading, Modal, Textarea } from '@navikt/ds-react';
+import { Button, Dialog, ErrorMessage, Textarea } from '@navikt/ds-react';
 
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { useApolloClient } from '@apollo/client';
@@ -10,26 +10,23 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
 import { usePatchSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import {
+    opphevStansAutomatiskBehandlingToast,
     somSaksbehandlerBackendfeil,
-    stansAutomatiskBehandlingToast,
 } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
 
-interface StansAutomatiskBehandlingModalProps {
+interface OpphevStansAutomatiskBehandlingDialogInnholdProps {
     fødselsnummer: string;
-    closeModal: () => void;
-    showModal: boolean;
+    onSuccess: () => void;
 }
 
-export function StansAutomatiskBehandlingModal({
+export function OpphevStansAutomatiskBehandlingDialogInnhold({
     fødselsnummer,
-    showModal,
-    closeModal,
-}: StansAutomatiskBehandlingModalProps): ReactElement | null {
-    const [loading, setLoading] = useState<boolean>(false);
+    onSuccess,
+}: OpphevStansAutomatiskBehandlingDialogInnholdProps): ReactElement {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const apolloClient = useApolloClient();
-    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchSaksbehandlerStans();
+    const { mutateAsync, error } = usePatchSaksbehandlerStans();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
@@ -40,13 +37,12 @@ export function StansAutomatiskBehandlingModal({
     });
 
     async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        setLoading(true);
-        stansAutomatiskBehandlingMutation(
+        await mutateAsync(
             {
                 pseudoId: personPseudoId,
                 data: {
                     begrunnelse: values.begrunnelse,
-                    stans: true,
+                    stans: false,
                 },
             },
             {
@@ -56,40 +52,28 @@ export function StansAutomatiskBehandlingModal({
                         fields: {
                             personinfo: (existing) => ({
                                 ...existing,
-                                automatiskBehandlingStansetAvSaksbehandler: true,
+                                automatiskBehandlingStansetAvSaksbehandler: false,
                             }),
                         },
                     });
                     apolloClient.refetchQueries({
                         include: [FetchPersonDocument],
                     });
-                    setLoading(false);
-                    closeModal();
-                    addToast(stansAutomatiskBehandlingToast);
-                },
-                onError: () => {
-                    setLoading(false);
+                    onSuccess();
+                    addToast(opphevStansAutomatiskBehandlingToast);
                 },
             },
         );
     }
 
     return (
-        <Modal
-            aria-label="Stansautomatiskbehandlingmodal"
-            closeOnBackdropClick
-            open={showModal}
-            onClose={closeModal}
-            width="850px"
-        >
-            <Modal.Header>
-                <Heading level="1" size="medium">
-                    Stans automatisk behandling av sykepenger
-                </Heading>
-            </Modal.Header>
-            <Modal.Body>
+        <Dialog.Popup width="large">
+            <Dialog.Header>
+                <Dialog.Title>Opphev stans av automatisk behandling</Dialog.Title>
+            </Dialog.Header>
+            <Dialog.Body>
                 <FormProvider {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} id="stans-automatisk-behandling-modal-form">
+                    <form onSubmit={form.handleSubmit(onSubmit)} id="opphev-stans-automatisk-behandling-form">
                         <Controller
                             control={form.control}
                             name="begrunnelse"
@@ -106,15 +90,22 @@ export function StansAutomatiskBehandlingModal({
                     </form>
                 </FormProvider>
                 {error && <ErrorMessage showIcon>{somSaksbehandlerBackendfeil(error)}</ErrorMessage>}
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="primary" type="submit" form="stans-automatisk-behandling-modal-form" loading={loading}>
-                    Stans automatisk behandling
+            </Dialog.Body>
+            <Dialog.Footer>
+                <Dialog.CloseTrigger>
+                    <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting}>
+                        Avbryt
+                    </Button>
+                </Dialog.CloseTrigger>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    form="opphev-stans-automatisk-behandling-form"
+                    loading={form.formState.isSubmitting}
+                >
+                    Opphev
                 </Button>
-                <Button variant="tertiary" type="button" disabled={loading} onClick={closeModal}>
-                    Avbryt
-                </Button>
-            </Modal.Footer>
-        </Modal>
+            </Dialog.Footer>
+        </Dialog.Popup>
     );
 }
