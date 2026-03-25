@@ -4,7 +4,7 @@ import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { Button, Dropdown, Table } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
+import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
 import { getGetAntallOppgaverQueryKey, getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
@@ -66,7 +66,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                     </Dropdown>
                 </VisHvisSkrivetilgang>
                 {showModal && (
-                    <LeggPåVentModal
+                    <LeggPåVentDialog
                         oppgaveId={oppgave.id}
                         navn={navn}
                         utgangspunktTildeling={oppgave?.tildeling ?? null}

@@ -1,30 +1,23 @@
-import React, { Dispatch, ReactElement, SetStateAction } from 'react';
+import React, { ReactElement } from 'react';
+import { useController, useFormContext } from 'react-hook-form';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
+import { PåVentSkjema } from '@/form-schemas/påVentSkjema';
 import { plussEttÅr } from '@utils/date';
 
-interface FristProps {
-    fristDato: Date | null;
-    setFristDato: Dispatch<SetStateAction<Date | null>>;
-    error: string | null;
-    setError: Dispatch<SetStateAction<string | null>>;
-}
-
-export const Frist = ({ fristDato, setFristDato, error, setError }: FristProps): ReactElement => {
+export const Frist = (): ReactElement => {
+    const { control } = useFormContext<PåVentSkjema>();
+    const { field, fieldState } = useController({ name: 'frist', control });
     const idag = new Date();
+
     const { datepickerProps, inputProps } = useDatepicker({
-        required: true,
-        defaultSelected: fristDato ?? undefined,
-        onDateChange: (dato: Date | undefined) => setFristDato(dato ?? null),
+        defaultSelected: field.value ?? undefined,
+        onDateChange: (date) => {
+            field.onChange(date ?? null);
+        },
         fromDate: idag,
         toDate: plussEttÅr(idag),
-        onValidate: (val) => {
-            if (val.isEmpty) setError('Oppfølgingsdato må være satt');
-            else if (val.isBefore) setError('Oppfølgingsdato kan ikke være bakover i tid');
-            else if (!val.isValidDate) setError('Ugyldig dato');
-            else setError(null);
-        },
     });
 
     return (
@@ -33,7 +26,8 @@ export const Frist = ({ fristDato, setFristDato, error, setError }: FristProps):
                 {...inputProps}
                 label="Oppfølgingsdato"
                 description="Datoen du tror oppgaven kan behandles videre"
-                error={error}
+                onBlur={field.onBlur}
+                error={fieldState.error?.message}
             />
         </DatePicker>
     );

@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Dialog, HStack, Loader } from '@navikt/ds-react';
 
-import { LeggPåVentModal } from '@components/påvent/PåVentModaler';
+import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
@@ -158,9 +158,8 @@ function SaksbildeDropdownMenuContent({
                 </ActionMenu.Content>
             </ActionMenu>
             {showLeggPåVentModal && periodeTilGodkjenning && oppgaveId && (
-                <LeggPåVentModal
+                <LeggPåVentDialog
                     oppgaveId={oppgaveId}
-                    behandlingId={periodeTilGodkjenning.behandlingId}
                     navn={navn}
                     utgangspunktTildeling={person.tildeling}
                     onClose={() => setShowLeggPåVentModal(false)}

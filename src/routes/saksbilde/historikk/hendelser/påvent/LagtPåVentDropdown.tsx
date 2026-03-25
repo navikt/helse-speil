@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Loader } from '@navikt/ds-react';
 
-import { EndrePåVentModal } from '@components/påvent/PåVentModaler';
+import { EndrePåVentDialog } from '@components/påvent/PåVentDialoger';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
@@ -79,9 +79,8 @@ export const LagtPåVentDropdown = ({
                 </ActionMenu.Content>
             </ActionMenu>
             {showEndreModal && (
-                <EndrePåVentModal
+                <EndrePåVentDialog
                     oppgaveId={oppgaveId!}
-                    behandlingId={periode.behandlingId}
                     navn={navn}
                     utgangspunktÅrsaker={årsaker}
                     utgangspunktNotattekst={notattekst}

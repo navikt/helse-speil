@@ -1,26 +1,30 @@
 import React, { ReactElement } from 'react';
+import { Controller, useFormContext } from 'react-hook-form';
 
 import { Textarea } from '@navikt/ds-react';
 
-import styles from './PåVentModaler.module.scss';
+import { PåVentSkjema } from '@/form-schemas/påVentSkjema';
 
 interface NotatProps {
-    notattekst: string | null;
-    setNotattekst: (notattekst: string | null) => void;
     valgfri: boolean;
-    error: string | null;
 }
 
-export const Notat = ({ notattekst, setNotattekst, valgfri, error }: NotatProps): ReactElement => {
+export const Notat = ({ valgfri }: NotatProps): ReactElement => {
+    const { control } = useFormContext<PåVentSkjema>();
     return (
-        <Textarea
-            className={styles.textarea}
-            error={error}
-            value={notattekst ?? ''}
-            onChange={(event) => setNotattekst(event.target.value)}
-            label={`Notat${valgfri ? ' (valgfri)' : ''}`}
-            description="Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn"
-            maxLength={1_000}
+        <Controller
+            control={control}
+            name="notattekst"
+            render={({ field, fieldState }) => (
+                <Textarea
+                    {...field}
+                    className="mt-4 mb-4 whitespace-pre-line"
+                    error={fieldState.error?.message}
+                    label={`Notat${valgfri ? ' (valgfri)' : ''}`}
+                    description="Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn"
+                    maxLength={2_000}
+                />
+            )}
         />
     );
 };
