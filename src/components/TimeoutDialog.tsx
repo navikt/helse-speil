@@ -20,13 +20,13 @@ export function TimeoutDialog({ open, onOpenChange }: TimeoutDialogProps): React
                 </Dialog.Body>
                 <Dialog.Footer>
                     <Dialog.CloseTrigger>
-                        <Button as={NextLink} variant="secondary" href="/">
-                            Tilbake til oversikten
+                        <Button variant="tertiary" type="button">
+                            Det er greit
                         </Button>
                     </Dialog.CloseTrigger>
                     <Dialog.CloseTrigger>
-                        <Button variant="tertiary" type="button">
-                            Det er greit
+                        <Button as={NextLink} variant="secondary" href="/">
+                            Tilbake til oversikten
                         </Button>
                     </Dialog.CloseTrigger>
                 </Dialog.Footer>
