@@ -21,6 +21,12 @@ export function ToggleMeny(): ReactElement {
                         <Checkbox value="nyInngangsvilkår" onChange={toggle('nyInngangsvilkår')}>
                             Bruk ny versjon av inngangsvilkår
                         </Checkbox>
+                        <Checkbox
+                            value="brukRestForInfotrygdperioder"
+                            onChange={toggle('brukRestForInfotrygdperioder')}
+                        >
+                            Bruk REST-operasjon for å hente Infotrygd-perioder
+                        </Checkbox>
                     </CheckboxGroup>
                 </form>
             </Dialog.Body>
@@ -32,5 +38,6 @@ const toggleStateToCheckboxValue = (state: ToggleState): string[] => {
     const array: string[] = [];
     if (state.kanBeslutteEgne) array.push('kanBeslutteEgne');
     if (state.nyInngangsvilkår) array.push('nyInngangsvilkår');
+    if (state.brukRestForInfotrygdperioder) array.push('brukRestForInfotrygdperioder');
     return array;
 };

@@ -4,8 +4,10 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ArchiveIcon } from '@navikt/aksel-icons';
+import { Skeleton } from '@navikt/ds-react';
 
 import { PersonFragment } from '@io/graphql';
+import { useGetInfotrygdperioderForPerson } from '@io/rest/generated/personer/personer';
 import { InfotrygdPopover, PeriodPopover, TilkommenInntektPopover } from '@saksbilde/tidslinje/PeriodPopover';
 import { TilkommenInntektKnapp } from '@saksbilde/tidslinje/TilkommenInntektKnapp';
 import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
@@ -30,6 +32,7 @@ import { atomWithLocalStorage } from '@state/jotai';
 import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useBrukRestForInfotrygdperioder } from '@state/toggles';
 import { PeriodCategory } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
 import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
@@ -49,7 +52,15 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const isAnonymous = useIsAnonymous();
     const setActivePeriodId = useSetActivePeriodId(person);
-    const infotrygdPerioder = useInfotrygdPerioder(person.infotrygdutbetalinger ?? []);
+    const brukRestForInfotrygdperioder = useBrukRestForInfotrygdperioder();
+    const infotrygdPerioderFraGraphQL = useInfotrygdPerioder(person.infotrygdutbetalinger ?? []);
+    const { data: infotrygdPerioderFraREST, isLoading: isLoadingInfotrygdperioder } = useGetInfotrygdperioderForPerson(
+        personPseudoId,
+        { query: { enabled: brukRestForInfotrygdperioder } },
+    );
+    const infotrygdPerioder = brukRestForInfotrygdperioder
+        ? (infotrygdPerioderFraREST ?? [])
+        : infotrygdPerioderFraGraphQL;
     const { data: tilkomneInntekter } = useHentTilkommenInntektQuery(personPseudoId);
     const activeTilkommenInntektId = useTilkommenInntektIdFraUrl();
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
@@ -129,23 +140,32 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                         ))}
                     </TimelineRow>
                 ))}
-                {infotrygdPerioder.length > 0 && (
+                {brukRestForInfotrygdperioder && isLoadingInfotrygdperioder ? (
                     <TimelineRow
                         label="Infotrygd"
                         icon={<ArchiveIcon aria-hidden className="text-ax-text-neutral" fontSize="1.5rem" />}
                     >
-                        {infotrygdPerioder.map((periode) => (
-                            <TimelinePeriod
-                                key={periode.fom + periode.tom}
-                                startDate={dayjs(periode.fom)}
-                                endDate={dayjs(periode.tom)}
-                                icon={<CheckIcon />}
-                                variant="infotrygd"
-                            >
-                                <InfotrygdPopover fom={periode.fom} tom={periode.tom} />
-                            </TimelinePeriod>
-                        ))}
+                        <Skeleton height={40} className="grow" />
                     </TimelineRow>
+                ) : (
+                    infotrygdPerioder.length > 0 && (
+                        <TimelineRow
+                            label="Infotrygd"
+                            icon={<ArchiveIcon aria-hidden className="text-ax-text-neutral" fontSize="1.5rem" />}
+                        >
+                            {infotrygdPerioder.map((periode) => (
+                                <TimelinePeriod
+                                    key={periode.fom + periode.tom}
+                                    startDate={dayjs(periode.fom)}
+                                    endDate={dayjs(periode.tom)}
+                                    icon={<CheckIcon />}
+                                    variant="infotrygd"
+                                >
+                                    <InfotrygdPopover fom={periode.fom} tom={periode.tom} />
+                                </TimelinePeriod>
+                            ))}
+                        </TimelineRow>
+                    )
                 )}
                 <TimelineZoom />
             </Timeline>
