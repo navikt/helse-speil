@@ -1,25 +1,18 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 
-import { Checkbox, CheckboxGroup, Heading, Modal } from '@navikt/ds-react';
+import { Checkbox, CheckboxGroup, Dialog } from '@navikt/ds-react';
 
 import { ToggleState, useToggle } from '@state/toggles';
 
-type ToggleMenyProps = {
-    closeModal: () => void;
-    showModal: boolean;
-};
-
-export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
+export function ToggleMeny(): ReactElement {
     const { value, toggle } = useToggle();
 
     return (
-        <Modal aria-label="Toggle meny modal" closeOnBackdropClick open={showModal} onClose={closeModal}>
-            <Modal.Header>
-                <Heading level="1" size="medium">
-                    Toggles
-                </Heading>
-            </Modal.Header>
-            <Modal.Body>
+        <Dialog.Popup width="small">
+            <Dialog.Header>
+                <Dialog.Title>Toggles</Dialog.Title>
+            </Dialog.Header>
+            <Dialog.Body>
                 <form>
                     <CheckboxGroup legend="Toggles" hideLegend value={toggleStateToCheckboxValue(value)}>
                         <Checkbox value="kanBeslutteEgne" onChange={toggle('kanBeslutteEgne')}>
@@ -30,10 +23,10 @@ export const ToggleMeny = ({ closeModal, showModal }: ToggleMenyProps) => {
                         </Checkbox>
                     </CheckboxGroup>
                 </form>
-            </Modal.Body>
-        </Modal>
+            </Dialog.Body>
+        </Dialog.Popup>
     );
-};
+}
 
 const toggleStateToCheckboxValue = (state: ToggleState): string[] => {
     const array: string[] = [];
