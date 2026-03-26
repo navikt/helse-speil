@@ -7,6 +7,7 @@ import React, { ReactElement } from 'react';
 import { InternalHeader } from '@navikt/ds-react';
 
 import { erDev, erUtvikling, spesialistBackend } from '@/env';
+import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';
 import { EasterEgg } from '@components/header/EasterEgg';
@@ -19,6 +20,7 @@ import styles from './Header.module.css';
 const cx = classNames.bind(styles);
 
 export const Header = (): ReactElement => {
+    const harUtviklerRolle = useHarUtviklerRolle();
     return (
         <InternalHeader
             className={cx(styles.header, {
@@ -31,7 +33,7 @@ export const Header = (): ReactElement => {
             </InternalHeader.Title>
             <Personsøk />
             <EasterEgg />
-            {erUtvikling && <ToggleMenyButton />}
+            {(erUtvikling || harUtviklerRolle) && <ToggleMenyButton />}
             <Nyheter />
             <SystemMenu />
             <UserMenu />
