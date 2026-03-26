@@ -1,9 +1,11 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
+import { Dialog } from '@navikt/ds-react';
+
 import { useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
-import { BegrunnelseModal } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseModal';
+import { BegrunnelseDialog } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseDialog';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
 interface BegrunnelseVedtakProps {
@@ -28,9 +30,6 @@ export const IndividuellBegrunnelse = ({
 
     const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
 
-    const åpneModal = () => setModalÅpen(true);
-    const lukkModal = () => setModalÅpen(false);
-
     return (
         <>
             <IndividuellBegrunnelseContent
@@ -39,17 +38,14 @@ export const IndividuellBegrunnelse = ({
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 defaultÅpen={defaultÅpen}
-                åpneModal={åpneModal}
+                åpneModal={() => setModalÅpen(true)}
             />
-
-            {modalÅpen && (
-                <BegrunnelseModal
-                    modalÅpen={modalÅpen}
-                    lukkModal={lukkModal}
+            <Dialog open={modalÅpen} onOpenChange={setModalÅpen}>
+                <BegrunnelseDialog
                     vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                     setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 />
-            )}
+            </Dialog>
         </>
     );
 };

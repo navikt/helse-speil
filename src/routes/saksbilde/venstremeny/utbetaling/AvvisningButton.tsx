@@ -15,7 +15,7 @@ export const AvvisningButton = ({ activePeriod, disabled = false }: AvvisningBut
     const [open, setOpen] = useState(false);
 
     return (
-        <Dialog open={open} onOpenChange={(nextOpen) => setOpen(nextOpen)}>
+        <Dialog open={open} onOpenChange={setOpen}>
             <Dialog.Trigger>
                 <Button disabled={disabled} variant="secondary" size="small" data-testid="avvisning-button">
                     Kan ikke behandles her

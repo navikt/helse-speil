@@ -170,7 +170,7 @@ function SaksbildeDropdownMenuContent({
                 isBeregnetPeriode(activePeriod) &&
                 kanAnnulleres &&
                 inntektsforhold !== undefined && (
-                    <Dialog open={showAnnulleringModal} onOpenChange={(nextOpen) => setShowAnnulleringModal(nextOpen)}>
+                    <Dialog open={showAnnulleringModal} onOpenChange={setShowAnnulleringModal}>
                         <AnnulleringsDialogInnhold
                             inntektsforholdReferanse={tilReferanse(inntektsforhold)}
                             vedtaksperiodeId={activePeriod.vedtaksperiodeId}
@@ -183,7 +183,7 @@ function SaksbildeDropdownMenuContent({
                     </Dialog>
                 )}
             {showStansModal && (
-                <Dialog open={showStansModal} onOpenChange={(nextOpen) => setShowStansModal(nextOpen)}>
+                <Dialog open={showStansModal} onOpenChange={setShowStansModal}>
                     <StansAutomatiskBehandlingDialogInnhold
                         fødselsnummer={person.fodselsnummer}
                         onSuccess={() => setShowStansModal(false)}
@@ -191,7 +191,7 @@ function SaksbildeDropdownMenuContent({
                 </Dialog>
             )}
             {showOpphevStansModal && (
-                <Dialog open={showOpphevStansModal} onOpenChange={(nextOpen) => setShowOpphevStansModal(nextOpen)}>
+                <Dialog open={showOpphevStansModal} onOpenChange={setShowOpphevStansModal}>
                     <OpphevStansAutomatiskBehandlingDialogInnhold
                         fødselsnummer={person.fodselsnummer}
                         onSuccess={() => setShowOpphevStansModal(false)}
