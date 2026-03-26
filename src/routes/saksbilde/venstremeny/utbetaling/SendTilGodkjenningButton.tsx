@@ -10,7 +10,7 @@ import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
 import { generateId } from '@utils/generateId';
 
-import { BackendFeil, UtbetalingModal } from './UtbetalingModal';
+import { BackendFeil, UtbetalingDialog } from './UtbetalingDialog';
 
 const useAddSendtTilGodkjenningtoast = () => {
     const addToast = useAddToast();
@@ -87,19 +87,17 @@ export const SendTilGodkjenningButton = ({
             >
                 {children}
             </Button>
-            {showModal && (
-                <UtbetalingModal
-                    showModal={showModal}
-                    utbetaling={utbetaling}
-                    inntektsforholdReferanse={inntektsforholdReferanse}
-                    personinfo={personinfo}
-                    closeModal={() => setShowModal(false)}
-                    onApprove={sendTilGodkjenning}
-                    error={(error && somBackendfeil(error)) ?? null}
-                    isSending={loading}
-                    totrinnsvurdering={true}
-                />
-            )}
+            <UtbetalingDialog
+                open={showModal}
+                utbetaling={utbetaling}
+                inntektsforholdReferanse={inntektsforholdReferanse}
+                personinfo={personinfo}
+                onOpenChange={setShowModal}
+                onApprove={sendTilGodkjenning}
+                error={(error && somBackendfeil(error)) ?? null}
+                isSending={loading}
+                totrinnsvurdering={true}
+            />
         </>
     );
 };

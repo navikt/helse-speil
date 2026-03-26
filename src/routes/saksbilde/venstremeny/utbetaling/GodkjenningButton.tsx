@@ -9,7 +9,7 @@ import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
-import { BackendFeil, UtbetalingModal } from './UtbetalingModal';
+import { BackendFeil, UtbetalingDialog } from './UtbetalingDialog';
 
 const useAddUtbetalingstoast = () => {
     const addToast = useAddToast();
@@ -84,22 +84,22 @@ export const GodkjenningButton = ({
             >
                 {children}
             </Button>
-            {showModal && (
-                <UtbetalingModal
-                    showModal={showModal}
-                    utbetaling={utbetaling}
-                    inntektsforholdReferanse={inntektsforholdReferanse}
-                    personinfo={personinfo}
-                    closeModal={() => {
+            <UtbetalingDialog
+                open={showModal}
+                utbetaling={utbetaling}
+                inntektsforholdReferanse={inntektsforholdReferanse}
+                personinfo={personinfo}
+                onOpenChange={(open) => {
+                    if (!open) {
                         resetFattVedtakMutation();
                         setShowModal(false);
-                    }}
-                    onApprove={godkjennUtbetaling}
-                    error={error && somBackendfeil(error)}
-                    isSending={loading}
-                    totrinnsvurdering={false}
-                />
-            )}
+                    }
+                }}
+                onApprove={godkjennUtbetaling}
+                error={error && somBackendfeil(error)}
+                isSending={loading}
+                totrinnsvurdering={false}
+            />
         </>
     );
 };
