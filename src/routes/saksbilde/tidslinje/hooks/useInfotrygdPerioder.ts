@@ -1,10 +1,8 @@
 import { useMemo } from 'react';
 
 import { Infotrygdutbetaling } from '@io/graphql';
-import { TidslinjeElement } from '@saksbilde/tidslinje/groupTidslinjedata';
-import { getPeriodCategory } from '@typer/shared';
+import { DatePeriod } from '@typer/shared';
 import { somDato } from '@utils/date';
-import { getPeriodState } from '@utils/mapping';
 
 const dateAscending = (d1: string, d2: string): number => (somDato(d1).isBefore(somDato(d2)) ? -1 : 1);
 const dateDecending = (d1: string, d2: string): number => dateAscending(d1, d2) * -1;
@@ -13,7 +11,7 @@ const utbetalingUtenGapTilDato = (utbetaling: Infotrygdutbetaling, dato: string)
     somDato(utbetaling.fom).isSameOrBefore(somDato(dato)) ||
     somDato(utbetaling.fom).isSame(somDato(dato).add(1, 'day'));
 
-export const useInfotrygdTidslinje = (infotrygdutbetalinger: Infotrygdutbetaling[]): TidslinjeElement[] =>
+export const useInfotrygdPerioder = (infotrygdutbetalinger: Infotrygdutbetaling[]): DatePeriod[] =>
     useMemo(() => {
         const utbetalinger = infotrygdutbetalinger
             .filter((it) => !['Tilbakeført', 'Ukjent..'].includes(it.typetekst))
@@ -52,8 +50,5 @@ export const useInfotrygdTidslinje = (infotrygdutbetalinger: Infotrygdutbetaling
         return sammenslåtteUtbetalingsperioder.map((periode) => ({
             fom: periode.fom,
             tom: periode.tom,
-            status: getPeriodCategory(getPeriodState(periode)) ?? 'ukjent',
-            infotrygdPeriode: periode,
-            generasjonIndex: 0,
         }));
     }, [infotrygdutbetalinger]);

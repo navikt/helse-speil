@@ -6,10 +6,10 @@ import React, { ReactElement } from 'react';
 import { ArchiveIcon } from '@navikt/aksel-icons';
 
 import { PersonFragment } from '@io/graphql';
-import { PeriodPopover, TilkommenInntektPopover } from '@saksbilde/tidslinje/PeriodPopover';
+import { InfotrygdPopover, PeriodPopover, TilkommenInntektPopover } from '@saksbilde/tidslinje/PeriodPopover';
 import { TilkommenInntektKnapp } from '@saksbilde/tidslinje/TilkommenInntektKnapp';
 import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
-import { useInfotrygdTidslinje } from '@saksbilde/tidslinje/hooks/useInfotrygdTidslinje';
+import { useInfotrygdPerioder } from '@saksbilde/tidslinje/hooks/useInfotrygdPerioder';
 import { useMaksdato } from '@saksbilde/tidslinje/hooks/useMaksdato';
 import {
     BlankIcon,
@@ -49,7 +49,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const isAnonymous = useIsAnonymous();
     const setActivePeriodId = useSetActivePeriodId(person);
-    const infotrygdElementer = useInfotrygdTidslinje(person.infotrygdutbetalinger ?? []);
+    const infotrygdPerioder = useInfotrygdPerioder(person.infotrygdutbetalinger ?? []);
     const { data: tilkomneInntekter } = useHentTilkommenInntektQuery(personPseudoId);
     const activeTilkommenInntektId = useTilkommenInntektIdFraUrl();
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
@@ -129,20 +129,20 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                         ))}
                     </TimelineRow>
                 ))}
-                {infotrygdElementer.length > 0 && (
+                {infotrygdPerioder.length > 0 && (
                     <TimelineRow
                         label="Infotrygd"
                         icon={<ArchiveIcon aria-hidden className="text-ax-text-neutral" fontSize="1.5rem" />}
                     >
-                        {infotrygdElementer.map((element) => (
+                        {infotrygdPerioder.map((periode) => (
                             <TimelinePeriod
-                                key={element.fom + element.tom}
-                                startDate={dayjs(element.fom)}
-                                endDate={dayjs(element.tom)}
+                                key={periode.fom + periode.tom}
+                                startDate={dayjs(periode.fom)}
+                                endDate={dayjs(periode.tom)}
                                 icon={<CheckIcon />}
                                 variant="infotrygd"
                             >
-                                <PeriodPopover element={element} person={person} />
+                                <InfotrygdPopover fom={periode.fom} tom={periode.tom} />
                             </TimelinePeriod>
                         ))}
                     </TimelineRow>

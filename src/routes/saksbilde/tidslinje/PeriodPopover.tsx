@@ -15,7 +15,7 @@ import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodState, getPeriodStateText } from '@utils/mapping';
 import { cn } from '@utils/tw';
-import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 interface PeriodPopoverProps {
     element: TidslinjeElement;
@@ -24,16 +24,14 @@ interface PeriodPopoverProps {
 }
 
 export function PeriodPopover({ element, person, erSelvstendigNæring = false }: PeriodPopoverProps): ReactElement {
-    const period = element.periode ?? element.ghostPeriode ?? element.infotrygdPeriode;
+    const period = element.periode ?? element.ghostPeriode;
     const fom = somNorskDato(element.fom) ?? '-';
     const tom = somNorskDato(element.tom) ?? '-';
     const state = getPeriodState(period);
 
     return (
         <HGrid columns={2} gap="space-4 space-24">
-            {isInfotrygdPeriod(period) ? (
-                <InfotrygdPopover fom={fom} tom={tom} />
-            ) : isBeregnetPeriode(period) ? (
+            {isBeregnetPeriode(period) ? (
                 <BeregnetPopover
                     period={period}
                     state={state}
@@ -74,17 +72,19 @@ export function TilkommenInntektPopover({ tilkommenInntekt, element }: Tilkommen
     );
 }
 
-function InfotrygdPopover({ fom, tom }: DatePeriod): ReactElement {
+export function InfotrygdPopover({ fom, tom }: DatePeriod): ReactElement {
+    const fomFormatert = somNorskDato(fom) ?? '-';
+    const tomFormatert = somNorskDato(tom) ?? '-';
     return (
-        <>
+        <HGrid columns={2} gap="space-4 space-24">
             <BodyShort size="small" className="col-span-2" weight="semibold">
                 Behandlet i Infotrygd
             </BodyShort>
             <BodyShort size="small">Sykepenger</BodyShort>
             <BodyShort size="small">
-                ({fom} - {tom})
+                ({fomFormatert} - {tomFormatert})
             </BodyShort>
-        </>
+        </HGrid>
     );
 }
 
