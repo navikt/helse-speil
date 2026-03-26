@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Heading, Link, VStack } from '@navikt/ds-react';
 
-import { NyhetModal } from '@components/header/nyheter/NyhetModal';
+import { NyhetDialog } from '@components/header/nyheter/NyhetModal';
 import { NyhetType } from '@external/sanity';
 import { PortableText, PortableTextComponents } from '@portabletext/react';
 import { getFormattedDateString } from '@utils/date';
@@ -48,15 +48,17 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
                 )}
             </HStack>
             {skalViseModal(showModal, nyhet, nyhetIderForLukkedeTvungeneModaler) && (
-                <NyhetModal
+                <NyhetDialog
                     nyhetModal={nyhet.modal}
-                    closeModal={() => {
-                        setShowModal(false);
-                        if (nyhet.modal.tvungenModal) {
-                            lagreTvungenModalLukket(nyhet._id);
+                    open={skalViseModal(showModal, nyhet, nyhetIderForLukkedeTvungeneModaler)}
+                    onOpenChange={(nextOpen) => {
+                        if (!nextOpen) {
+                            setShowModal(false);
+                            if (nyhet.modal.tvungenModal) {
+                                lagreTvungenModalLukket(nyhet._id);
+                            }
                         }
                     }}
-                    showModal={skalViseModal(showModal, nyhet, nyhetIderForLukkedeTvungeneModaler)}
                 />
             )}
         </VStack>
