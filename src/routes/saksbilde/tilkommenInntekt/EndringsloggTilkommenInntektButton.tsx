@@ -1,39 +1,20 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
-import { PersonPencilFillIcon } from '@navikt/aksel-icons';
-
-import { Kilde } from '@components/Kilde';
+import { EndringsloggKildeButton } from '@components/endringslogg/EndringsloggKildeButton';
 import { EndringsloggTilkommenInntekt } from '@components/endringslogg/EndringsloggTilkommenInntekt';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import styles from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton.module.css';
-import { cn } from '@utils/tw';
 
-export const EndringsloggTilkommenInntektButton = ({
+export function EndringsloggTilkommenInntektButton({
     tilkommenInntekt,
 }: {
     tilkommenInntekt: ApiTilkommenInntekt;
-}): ReactElement => {
-    const [visEndringslogg, setVisEndringslogg] = useState(false);
-
+}): ReactElement {
     return (
-        <>
-            <button
-                className={cn(styles.button)}
-                style={{ marginLeft: 'var(--ax-space-8)' }}
-                type="button"
-                onClick={() => setVisEndringslogg(true)}
-            >
-                <Kilde type="Saksbehandler">
-                    <PersonPencilFillIcon title="Vis endringslogg" />
-                </Kilde>
-            </button>
-            {visEndringslogg && (
-                <EndringsloggTilkommenInntekt
-                    tilkommenInntekt={tilkommenInntekt}
-                    closeModal={() => setVisEndringslogg(false)}
-                    showModal={visEndringslogg}
-                />
+        <EndringsloggKildeButton
+            className="ml-2"
+            renderEndringslogg={(onOpenChange) => (
+                <EndringsloggTilkommenInntekt tilkommenInntekt={tilkommenInntekt} onOpenChange={onOpenChange} />
             )}
-        </>
+        />
     );
-};
+}

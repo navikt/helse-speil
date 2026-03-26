@@ -1,68 +1,40 @@
-import React, { ReactElement, useRef, useState } from 'react';
+import React, { ReactElement } from 'react';
 
-import { PersonPencilFillIcon } from '@navikt/aksel-icons';
-
-import { Kilde } from '@components/Kilde';
 import { EndringsloggArbeidsforhold } from '@components/endringslogg/EndringsloggArbeidsforhold';
 import { EndringsloggDager } from '@components/endringslogg/EndringsloggDager';
 import { EndringsloggInntekt } from '@components/endringslogg/EndringsloggInntekt';
+import { EndringsloggKildeButton } from '@components/endringslogg/EndringsloggKildeButton';
 import { OverstyringFragment } from '@io/graphql';
-import { cn } from '@utils/tw';
 import { isArbeidsforholdoverstyringer, isInntektoverstyringer, isOverstyringerPrDag } from '@utils/typeguards';
-
-import styles from './EndringsloggButton.module.css';
 
 interface EndringsloggButtonProps<T extends OverstyringFragment> extends React.HTMLAttributes<HTMLButtonElement> {
     endringer: T[];
 }
 
-export const EndringsloggButton = <T extends OverstyringFragment>({
+export function EndringsloggButton<T extends OverstyringFragment>({
     endringer,
-    className,
     ...buttonProps
-}: EndringsloggButtonProps<T>): ReactElement | null => {
-    const [visEndringslogg, setVisEndringslogg] = useState(false);
-
-    const buttonRef = useRef<HTMLButtonElement>(null);
-
+}: EndringsloggButtonProps<T>): ReactElement | null {
     if (endringer.length === 0) {
         return null;
     }
 
     return (
-        <>
-            <button
-                className={cn(styles.button, className)}
-                type="button"
-                ref={buttonRef}
-                {...buttonProps}
-                onClick={() => setVisEndringslogg(true)}
-            >
-                <Kilde type="Saksbehandler">
-                    <PersonPencilFillIcon title="Saksbehandler ikon" />
-                </Kilde>
-            </button>
-            {visEndringslogg && isArbeidsforholdoverstyringer(endringer) && (
-                <EndringsloggArbeidsforhold
-                    endringer={endringer}
-                    closeModal={() => setVisEndringslogg(false)}
-                    showModal={visEndringslogg}
-                />
+        <EndringsloggKildeButton
+            {...buttonProps}
+            renderEndringslogg={(onOpenChange) => (
+                <>
+                    {isArbeidsforholdoverstyringer(endringer) && (
+                        <EndringsloggArbeidsforhold endringer={endringer} onOpenChange={onOpenChange} />
+                    )}
+                    {isInntektoverstyringer(endringer) && (
+                        <EndringsloggInntekt endringer={endringer} onOpenChange={onOpenChange} />
+                    )}
+                    {isOverstyringerPrDag(endringer) && (
+                        <EndringsloggDager endringer={endringer} onOpenChange={onOpenChange} />
+                    )}
+                </>
             )}
-            {visEndringslogg && isInntektoverstyringer(endringer) && (
-                <EndringsloggInntekt
-                    endringer={endringer}
-                    closeModal={() => setVisEndringslogg(false)}
-                    showModal={visEndringslogg}
-                />
-            )}
-            {visEndringslogg && isOverstyringerPrDag(endringer) && (
-                <EndringsloggDager
-                    endringer={endringer}
-                    closeModal={() => setVisEndringslogg(false)}
-                    showModal={visEndringslogg}
-                />
-            )}
-        </>
+        />
     );
-};
+}
