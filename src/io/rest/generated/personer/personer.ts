@@ -8,18 +8,23 @@ import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiBehandlendeEnhet,
+    ApiHttpProblemDetailsApiDeleteTildelingErrorCode,
     ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
     ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
     ApiHttpProblemDetailsApiPostPersonSokErrorCode,
+    ApiHttpProblemDetailsApiPutTildelingErrorCode,
+    ApiInfotrygdperiode,
     ApiKrrRegistrertStatus,
     ApiPerson,
     ApiPersonSokRequest,
     ApiPersonSokResponse,
     ApiServerSentEvent,
     ApiStansRequest,
+    ApiTildelingRequest,
 } from '../spesialist.schemas';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -165,6 +170,122 @@ export function useGetApiSpesialistPersonerPersonPseudoIdSse<
     return query;
 }
 
+export const putTildeling = (pseudoId: string, apiTildelingRequest?: ApiTildelingRequest) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/personer/${pseudoId}/tildeling`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiTildelingRequest,
+    });
+};
+
+export const getPutTildelingMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPutTildelingErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof putTildeling>>,
+        TError,
+        { pseudoId: string; data: ApiTildelingRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof putTildeling>>,
+    TError,
+    { pseudoId: string; data: ApiTildelingRequest },
+    TContext
+> => {
+    const mutationKey = ['putTildeling'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof putTildeling>>,
+        { pseudoId: string; data: ApiTildelingRequest }
+    > = (props) => {
+        const { pseudoId, data } = props ?? {};
+
+        return putTildeling(pseudoId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PutTildelingMutationResult = NonNullable<Awaited<ReturnType<typeof putTildeling>>>;
+export type PutTildelingMutationBody = ApiTildelingRequest;
+export type PutTildelingMutationError = ErrorType<ApiHttpProblemDetailsApiPutTildelingErrorCode>;
+
+export const usePutTildeling = <TError = ErrorType<ApiHttpProblemDetailsApiPutTildelingErrorCode>, TContext = unknown>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof putTildeling>>,
+            TError,
+            { pseudoId: string; data: ApiTildelingRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof putTildeling>>,
+    TError,
+    { pseudoId: string; data: ApiTildelingRequest },
+    TContext
+> => {
+    const mutationOptions = getPutTildelingMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const deleteTildeling = (pseudoId: string) => {
+    return callCustomAxios<void>({ url: `/api/spesialist/personer/${pseudoId}/tildeling`, method: 'DELETE' });
+};
+
+export const getDeleteTildelingMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiDeleteTildelingErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteTildeling>>, TError, { pseudoId: string }, TContext>;
+}): UseMutationOptions<Awaited<ReturnType<typeof deleteTildeling>>, TError, { pseudoId: string }, TContext> => {
+    const mutationKey = ['deleteTildeling'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<Awaited<ReturnType<typeof deleteTildeling>>, { pseudoId: string }> = (props) => {
+        const { pseudoId } = props ?? {};
+
+        return deleteTildeling(pseudoId);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type DeleteTildelingMutationResult = NonNullable<Awaited<ReturnType<typeof deleteTildeling>>>;
+
+export type DeleteTildelingMutationError = ErrorType<ApiHttpProblemDetailsApiDeleteTildelingErrorCode>;
+
+export const useDeleteTildeling = <
+    TError = ErrorType<ApiHttpProblemDetailsApiDeleteTildelingErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof deleteTildeling>>,
+            TError,
+            { pseudoId: string },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<Awaited<ReturnType<typeof deleteTildeling>>, TError, { pseudoId: string }, TContext> => {
+    const mutationOptions = getDeleteTildelingMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
 export const patchSaksbehandlerStans = (pseudoId: string, apiStansRequest?: ApiStansRequest) => {
     return callCustomAxios<void>({
         url: `/api/spesialist/personer/${pseudoId}/stans/saksbehandler`,
@@ -686,6 +807,120 @@ export function useGetPerson<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = getGetPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
+
+export const getInfotrygdperioderForPerson = (pseudoId: string, signal?: AbortSignal) => {
+    return callCustomAxios<ApiInfotrygdperiode[]>({
+        url: `/api/spesialist/personer/${pseudoId}/infotrygdperioder`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetInfotrygdperioderForPersonQueryKey = (pseudoId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/infotrygdperioder`] as const;
+};
+
+export const getGetInfotrygdperioderForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>, TError, TData>>;
+    },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetInfotrygdperioderForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>> = ({ signal }) =>
+        getInfotrygdperioderForPerson(pseudoId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!pseudoId,
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetInfotrygdperioderForPersonQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>
+>;
+export type GetInfotrygdperioderForPersonQueryError =
+    ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>;
+
+export function useGetInfotrygdperioderForPerson<
+    TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetInfotrygdperioderForPerson<
+    TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetInfotrygdperioderForPerson<
+    TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>, TError, TData>>;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetInfotrygdperioderForPerson<
+    TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>, TError, TData>>;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetInfotrygdperioderForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

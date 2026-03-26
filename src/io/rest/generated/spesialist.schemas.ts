@@ -337,6 +337,53 @@ export interface ApiHttpProblemDetailsApiDeletePåVentErrorCode {
     code?: ApiHttpProblemDetailsApiDeletePåVentErrorCodeCode;
 }
 
+export interface ApiTildelingRequest {
+    navident: string;
+}
+
+export type ApiPutTildelingErrorCode = (typeof ApiPutTildelingErrorCode)[keyof typeof ApiPutTildelingErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPutTildelingErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    MANGLER_TILGANG_TIL_OPPGAVE: 'MANGLER_TILGANG_TIL_OPPGAVE',
+    OPPGAVE_TILDELT_ANNEN_SAKSBEHANDLER: 'OPPGAVE_TILDELT_ANNEN_SAKSBEHANDLER',
+} as const;
+
+export type ApiHttpProblemDetailsApiPutTildelingErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPutTildelingErrorCodeCode = null | ApiPutTildelingErrorCode;
+
+export interface ApiHttpProblemDetailsApiPutTildelingErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPutTildelingErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPutTildelingErrorCodeCode;
+}
+
+export type ApiDeleteTildelingErrorCode =
+    (typeof ApiDeleteTildelingErrorCode)[keyof typeof ApiDeleteTildelingErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiDeleteTildelingErrorCode = {
+    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiDeleteTildelingErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiDeleteTildelingErrorCodeCode = null | ApiDeleteTildelingErrorCode;
+
+export interface ApiHttpProblemDetailsApiDeleteTildelingErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiDeleteTildelingErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiDeleteTildelingErrorCodeCode;
+}
+
 export interface ApiStansRequest {
     begrunnelse: string;
     stans: boolean;
@@ -1703,6 +1750,33 @@ export interface ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode {
     title: string;
     detail?: ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeCode;
+}
+
+export interface ApiInfotrygdperiode {
+    fom: string;
+    tom: string;
+}
+
+export type ApiGetInfotrygdperioderForPersonErrorCode =
+    (typeof ApiGetInfotrygdperioderForPersonErrorCode)[keyof typeof ApiGetInfotrygdperioderForPersonErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetInfotrygdperioderForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeCode =
+    null | ApiGetInfotrygdperioderForPersonErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeCode;
 }
 
 export interface ForsikringInnhold {
