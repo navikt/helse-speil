@@ -9,7 +9,7 @@ import { Box } from '@navikt/ds-react/Box';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { EndringsloggTilkommenInntektButton } from '@saksbilde/tilkommenInntekt/EndringsloggTilkommenInntektButton';
 import { beregnInntektPerDag } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-import { FjernTilkommenInntektModal } from '@saksbilde/tilkommenInntekt/visning/FjernTilkommenInntektModal';
+import { FjernTilkommenInntektDialog } from '@saksbilde/tilkommenInntekt/visning/FjernTilkommenInntektDialog';
 import { TilkommenInntektArbeidsgivernavn } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektArbeidsgivernavn';
 import { TilkommenInntektDagoversikt } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektDagoversikt';
 import { TilkommenInntektFjernetAlert } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektFjernetAlert';
@@ -141,13 +141,12 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                     </VStack>
                 </HStack>
             </Box>
-            {showFjernModal && (
-                <FjernTilkommenInntektModal
-                    tilkommenInntekt={tilkommenInntekt}
-                    personPseudoId={personPseudoId}
-                    onClose={() => setShowFjernModal(false)}
-                />
-            )}
+            <FjernTilkommenInntektDialog
+                open={showFjernModal}
+                onOpenChange={setShowFjernModal}
+                tilkommenInntekt={tilkommenInntekt}
+                personPseudoId={personPseudoId}
+            />
         </>
     );
 };
