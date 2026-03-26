@@ -512,9 +512,7 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 
 export type Mutation = {
     __typename: 'Mutation';
-    fjernTildeling: Scalars['Boolean']['output'];
     oppdaterPerson: Scalars['Boolean']['output'];
-    opprettTildeling: Maybe<Tildeling>;
     overstyrArbeidsforhold: Maybe<Scalars['Boolean']['output']>;
     overstyrDager: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon: Maybe<Scalars['Boolean']['output']>;
@@ -523,16 +521,8 @@ export type Mutation = {
     skjonnsfastsettSykepengegrunnlag: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type MutationFjernTildelingArgs = {
-    oppgaveId: Scalars['String']['input'];
-};
-
 export type MutationOppdaterPersonArgs = {
     fodselsnummer: Scalars['String']['input'];
-};
-
-export type MutationOpprettTildelingArgs = {
-    oppgaveId: Scalars['String']['input'];
 };
 
 export type MutationOverstyrArbeidsforholdArgs = {
@@ -5991,21 +5981,6 @@ export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
 export type SkjonnsfastsettelseMutationMutation = {
     __typename: 'Mutation';
     skjonnsfastsettSykepengegrunnlag: boolean | null;
-};
-
-export type FjernTildelingMutationVariables = Exact<{
-    oppgaveId: Scalars['String']['input'];
-}>;
-
-export type FjernTildelingMutation = { __typename: 'Mutation'; fjernTildeling: boolean };
-
-export type OpprettTildelingMutationVariables = Exact<{
-    oppgaveId: Scalars['String']['input'];
-}>;
-
-export type OpprettTildelingMutation = {
-    __typename: 'Mutation';
-    opprettTildeling: { __typename: 'Tildeling'; navn: string; oid: string; epost: string } | null;
 };
 
 export type TildelingFragment = { __typename: 'Tildeling'; navn: string; oid: string; epost: string };
@@ -12086,89 +12061,6 @@ export const SkjonnsfastsettelseMutationDocument = {
         },
     ],
 } as unknown as DocumentNode<SkjonnsfastsettelseMutationMutation, SkjonnsfastsettelseMutationMutationVariables>;
-export const FjernTildelingDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'FjernTildeling' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'fjernTildeling' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgaveId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<FjernTildelingMutation, FjernTildelingMutationVariables>;
-export const OpprettTildelingDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'OpprettTildeling' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'opprettTildeling' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'oppgaveId' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'oppgaveId' } },
-                            },
-                        ],
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'FragmentSpread', name: { kind: 'Name', value: 'tildeling' } }],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'tildeling' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tildeling' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<OpprettTildelingMutation, OpprettTildelingMutationVariables>;
 export const SendIReturDocument = {
     kind: 'Document',
     definitions: [

@@ -510,9 +510,7 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 
 export type Mutation = {
     __typename?: 'Mutation';
-    fjernTildeling: Scalars['Boolean']['output'];
     oppdaterPerson: Scalars['Boolean']['output'];
-    opprettTildeling?: Maybe<Tildeling>;
     overstyrArbeidsforhold?: Maybe<Scalars['Boolean']['output']>;
     overstyrDager?: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon?: Maybe<Scalars['Boolean']['output']>;
@@ -521,16 +519,8 @@ export type Mutation = {
     skjonnsfastsettSykepengegrunnlag?: Maybe<Scalars['Boolean']['output']>;
 };
 
-export type MutationFjernTildelingArgs = {
-    oppgaveId: Scalars['String']['input'];
-};
-
 export type MutationOppdaterPersonArgs = {
     fodselsnummer: Scalars['String']['input'];
-};
-
-export type MutationOpprettTildelingArgs = {
-    oppgaveId: Scalars['String']['input'];
 };
 
 export type MutationOverstyrArbeidsforholdArgs = {
