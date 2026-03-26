@@ -1,7 +1,7 @@
 import { useParams } from 'next/navigation';
 import React from 'react';
 
-import { ArchiveIcon, BriefcaseIcon, SackKronerIcon } from '@navikt/aksel-icons';
+import { BriefcaseIcon, SackKronerIcon } from '@navikt/aksel-icons';
 
 import { capitalizeArbeidsgiver } from '@components/Inntektsforholdnavn';
 import { useOrganisasjonerQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
@@ -62,7 +62,6 @@ const getPeriodPins = (periode: Periode, harNotat: boolean): PeriodPins[] => {
 
 export function useTidslinjeRader(
     inntektsforhold: Inntektsforhold[],
-    infotrygdPeriods: InfotrygdPeriod[],
     tilkomneInntektskilder: ApiTilkommenInntektskilde[],
 ) {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
@@ -121,19 +120,6 @@ export function useTidslinjeRader(
         };
     });
 
-    const infotrygdRad: TidslinjeRad = {
-        id: 'infotrygd',
-        navn: 'Infotrygd',
-        icon: <ArchiveIcon aria-hidden className="text-ax-text-neutral" fontSize="1.5rem" />,
-        tidslinjeElementer: infotrygdPeriods.map((periode) => ({
-            fom: periode.fom,
-            tom: periode.tom,
-            status: getPeriodCategory(getPeriodState(periode)) ?? 'ukjent',
-            infotrygdPeriode: periode,
-            generasjonIndex: 0,
-        })),
-    };
-
     const tilkommenRader: TidslinjeRad[] = tilkomneInntektskilder.map((inntektskilde) => ({
         id: inntektskilde.organisasjonsnummer,
         navn: capitalizeArbeidsgiver(
@@ -151,5 +137,5 @@ export function useTidslinjeRader(
             .sort((a, b) => a.fom.localeCompare(b.fom)),
     }));
 
-    return { arbeidsgiverRader, infotrygdRad, tilkommenRader, isLoading };
+    return { arbeidsgiverRader, tilkommenRader, isLoading };
 }

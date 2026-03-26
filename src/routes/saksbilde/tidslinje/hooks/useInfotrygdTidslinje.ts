@@ -1,10 +1,19 @@
 import { useMemo } from 'react';
 
 import { Infotrygdutbetaling } from '@io/graphql';
-import { InfotrygdPeriod } from '@typer/shared';
+import { TidslinjeElement } from '@saksbilde/tidslinje/groupTidslinjedata';
+import { getPeriodCategory } from '@typer/shared';
 import { somDato } from '@utils/date';
+import { getPeriodState } from '@utils/mapping';
 
-export const useInfotrygdPeriods = (infotrygdutbetalinger: Infotrygdutbetaling[]): InfotrygdPeriod[] =>
+const dateAscending = (d1: string, d2: string): number => (somDato(d1).isBefore(somDato(d2)) ? -1 : 1);
+const dateDecending = (d1: string, d2: string): number => dateAscending(d1, d2) * -1;
+
+const utbetalingUtenGapTilDato = (utbetaling: Infotrygdutbetaling, dato: string): boolean =>
+    somDato(utbetaling.fom).isSameOrBefore(somDato(dato)) ||
+    somDato(utbetaling.fom).isSame(somDato(dato).add(1, 'day'));
+
+export const useInfotrygdTidslinje = (infotrygdutbetalinger: Infotrygdutbetaling[]): TidslinjeElement[] =>
     useMemo(() => {
         const utbetalinger = infotrygdutbetalinger
             .filter((it) => !['Tilbakeført', 'Ukjent..'].includes(it.typetekst))
@@ -33,23 +42,18 @@ export const useInfotrygdPeriods = (infotrygdutbetalinger: Infotrygdutbetaling[]
                 }
             }
 
-            const sammenslåttUtbetalingsperiode = { ...utbetaling, tom: tom };
-            sammenslåtteUtbetalingsperioder.push(sammenslåttUtbetalingsperiode);
+            sammenslåtteUtbetalingsperioder.push({ ...utbetaling, tom });
 
             utbetaling = utbetalinger
                 .filter((it) => somDato(it.fom).isAfter(somDato(tom).add(1, 'day')))
                 .sort((a, b) => dateAscending(a.fom, b.fom))[0];
         }
 
-        return sammenslåtteUtbetalingsperioder;
+        return sammenslåtteUtbetalingsperioder.map((periode) => ({
+            fom: periode.fom,
+            tom: periode.tom,
+            status: getPeriodCategory(getPeriodState(periode)) ?? 'ukjent',
+            infotrygdPeriode: periode,
+            generasjonIndex: 0,
+        }));
     }, [infotrygdutbetalinger]);
-
-const dateAscending = (d1: string, d2: string): number => (somDato(d1).isBefore(somDato(d2)) ? -1 : 1);
-const dateDecending = (d1: string, d2: string): number => dateAscending(d1, d2) * -1;
-
-const utbetalingUtenGapTilDato = (utbetaling: Infotrygdutbetaling, dato: string): boolean => {
-    return (
-        somDato(utbetaling.fom).isSameOrBefore(somDato(dato)) ||
-        somDato(utbetaling.fom).isSame(somDato(dato).add(1, 'day'))
-    );
-};

@@ -3,11 +3,13 @@ import { useAtom } from 'jotai';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { Infotrygdutbetaling, PersonFragment } from '@io/graphql';
+import { ArchiveIcon } from '@navikt/aksel-icons';
+
+import { PersonFragment } from '@io/graphql';
 import { PeriodPopover, TilkommenInntektPopover } from '@saksbilde/tidslinje/PeriodPopover';
 import { TilkommenInntektKnapp } from '@saksbilde/tidslinje/TilkommenInntektKnapp';
 import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
-import { useInfotrygdPeriods } from '@saksbilde/tidslinje/hooks/useInfotrygdPeriods';
+import { useInfotrygdTidslinje } from '@saksbilde/tidslinje/hooks/useInfotrygdTidslinje';
 import { useMaksdato } from '@saksbilde/tidslinje/hooks/useMaksdato';
 import {
     BlankIcon,
@@ -35,35 +37,25 @@ import { isSelvstendigNaering } from '@utils/typeguards';
 
 interface TidslinjeProps {
     inntektsforhold: Inntektsforhold[];
-    infotrygdutbetalinger: Infotrygdutbetaling[];
     activePeriod: TimelinePeriodType | null;
     person: PersonFragment;
 }
 
 const zoomLevelAtom = atomWithLocalStorage<ZoomLevel>('tidslinje-zoom-level', '6 mnd');
 
-export function TidslinjeContent({
-    inntektsforhold,
-    infotrygdutbetalinger,
-    activePeriod,
-    person,
-}: TidslinjeProps): ReactElement {
+export function TidslinjeContent({ inntektsforhold, activePeriod, person }: TidslinjeProps): ReactElement {
     const pathname = usePathname();
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const isAnonymous = useIsAnonymous();
     const setActivePeriodId = useSetActivePeriodId(person);
-    const infotrygdPeriods = useInfotrygdPeriods(infotrygdutbetalinger);
+    const infotrygdElementer = useInfotrygdTidslinje(person.infotrygdutbetalinger ?? []);
     const { data: tilkomneInntekter } = useHentTilkommenInntektQuery(personPseudoId);
     const activeTilkommenInntektId = useTilkommenInntektIdFraUrl();
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const [zoomLevel, setZoomLevel] = useAtom(zoomLevelAtom);
 
-    const { arbeidsgiverRader, infotrygdRad, tilkommenRader } = useTidslinjeRader(
-        inntektsforhold,
-        infotrygdPeriods,
-        tilkomneInntekter ?? [],
-    );
+    const { arbeidsgiverRader, tilkommenRader } = useTidslinjeRader(inntektsforhold, tilkomneInntekter ?? []);
 
     const maksdato = useMaksdato(inntektsforhold);
 
@@ -137,9 +129,12 @@ export function TidslinjeContent({
                         ))}
                     </TimelineRow>
                 ))}
-                {infotrygdRad.tidslinjeElementer.length > 0 && (
-                    <TimelineRow label={infotrygdRad.navn} icon={infotrygdRad.icon}>
-                        {infotrygdRad.tidslinjeElementer.map((element) => (
+                {infotrygdElementer.length > 0 && (
+                    <TimelineRow
+                        label="Infotrygd"
+                        icon={<ArchiveIcon aria-hidden className="text-ax-text-neutral" fontSize="1.5rem" />}
+                    >
+                        {infotrygdElementer.map((element) => (
                             <TimelinePeriod
                                 key={element.fom + element.tom}
                                 startDate={dayjs(element.fom)}

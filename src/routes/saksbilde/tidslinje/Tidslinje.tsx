@@ -29,16 +29,8 @@ function TidslinjeContainer(): ReactElement | null {
     }
 
     const inntektsforhold = finnAlleInntektsforhold(person);
-    const infotrygdutbetalinger = person.infotrygdutbetalinger;
 
-    return (
-        <TidslinjeContent
-            person={person}
-            inntektsforhold={inntektsforhold}
-            infotrygdutbetalinger={infotrygdutbetalinger ?? []}
-            activePeriod={activePeriod}
-        />
-    );
+    return <TidslinjeContent person={person} inntektsforhold={inntektsforhold} activePeriod={activePeriod} />;
 }
 
 function TimelineSkeleton(): ReactElement {
