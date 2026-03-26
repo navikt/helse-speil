@@ -50,7 +50,10 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                         <Dropdown.Menu>
                             <Dropdown.Menu.List>
                                 {!erTildeltInnloggetBruker && !erTildelt && (
-                                    <TildelMenuButton oppgavereferanse={oppgave.id} tildeling={oppgave.tildeling} />
+                                    <TildelMenuButton
+                                        personPseudoId={oppgave.personPseudoId}
+                                        tildeling={oppgave.tildeling}
+                                    />
                                 )}
                                 <PåVentMenuButton
                                     oppgavereferanse={oppgave.id}
@@ -58,7 +61,7 @@ export const OptionsCell = ({ oppgave, navn }: OptionsButtonProps): ReactElement
                                     showModal={() => setShowModal(true)}
                                 />
                                 <MeldAvMenuButton
-                                    oppgavereferanse={oppgave.id}
+                                    personPseudoId={oppgave.personPseudoId}
                                     erTildeltInnloggetBruker={erTildeltInnloggetBruker}
                                 />
                             </Dropdown.Menu.List>

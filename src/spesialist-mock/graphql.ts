@@ -1,6 +1,6 @@
 import spesialistSchema from './graphql.schema.json';
 import fs from 'fs';
-import { GraphQLError, GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
+import { GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 import path from 'path';
 import { cwd } from 'process';
 
@@ -24,9 +24,7 @@ import {
     BeregnetPeriode,
     Egenskap,
     Historikkinnslag,
-    MutationFjernTildelingArgs,
     MutationOppdaterPersonArgs,
-    MutationOpprettTildelingArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningV2Args,
     PeriodehistorikkType,
@@ -41,12 +39,13 @@ import { VarselMock } from './storage/varsel';
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
+    const pseudoId = PersonMock.findPersonPseudoId(person.fodselsnummer)!;
 
     for (const arbeidsgiver of person.arbeidsgivere) {
         for (const behandling of arbeidsgiver.behandlinger) {
             for (const periode of behandling.perioder as BeregnetPeriode[]) {
-                if (periode.oppgave?.id && TildelingMock.harTildeling(periode.oppgave.id)) {
-                    tildeling = TildelingMock.getTildeling(periode.oppgave.id);
+                if (periode.oppgave?.id && TildelingMock.harTildeling(pseudoId)) {
+                    tildeling = TildelingMock.getTildeling(pseudoId);
                 }
 
                 if (periode.oppgave?.id && PaVentMock.finnesIMock(periode.oppgave.id)) {
@@ -77,7 +76,6 @@ const leggTilLagretData = (person: Person): void => {
         person.personinfo.unntattFraAutomatisering = lagretUnntattFraAutomatiskGodkjenning;
     }
 
-    const pseudoId = PersonMock.findPersonPseudoId(person.fodselsnummer);
     const lagretStansAvSaksbehandler = pseudoId
         ? StansAutomatiskBehandlingMock.getStansAutomatiskBehandling(pseudoId)
         : false;
@@ -128,36 +126,6 @@ const getResolvers = (): IResolvers => ({
         },
     },
     Mutation: {
-        opprettTildeling: async (_, { oppgaveId }: MutationOpprettTildelingArgs) => {
-            if (TildelingMock.harTildeling(oppgaveId)) {
-                return new GraphQLError('Oppgave allerede tildelt', {
-                    extensions: {
-                        code: 409,
-                        tildeling: TildelingMock.getTildeling(oppgaveId),
-                    },
-                });
-            }
-            if (Math.random() > 0.95) {
-                return new GraphQLError(`Kunne ikke tildele oppgave med oppgaveId=${oppgaveId}`, {
-                    extensions: { code: 500 },
-                });
-            }
-            TildelingMock.setTildeling(oppgaveId, {
-                epost: 'epost@nav.no',
-                navn: 'Utvikler, Lokal',
-                oid: '11111111-2222-3333-4444-555555555555',
-            });
-
-            return TildelingMock.getTildeling(oppgaveId);
-        },
-        fjernTildeling: (_, { oppgaveId }: MutationFjernTildelingArgs) => {
-            if (TildelingMock.harTildeling(oppgaveId)) {
-                TildelingMock.fjernTildeling(oppgaveId);
-                return true;
-            } else {
-                return false;
-            }
-        },
         overstyrDager: async () => {
             return true;
         },

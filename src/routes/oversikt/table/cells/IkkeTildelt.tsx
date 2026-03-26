@@ -3,23 +3,31 @@ import React, { ReactElement } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { getGetAntallOppgaverQueryKey, getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useOpprettTildeling } from '@state/tildeling';
+import { useTildel } from '@state/tildeling';
+import { useQueryClient } from '@tanstack/react-query';
 
 import styles from './IkkeTildelt.module.css';
 
 interface IkkeTildeltProps {
-    oppgavereferanse: string;
+    personPseudoId: string;
     width: number;
 }
 
-export const IkkeTildelt = ({ oppgavereferanse, width }: IkkeTildeltProps): ReactElement => {
+export const IkkeTildelt = ({ personPseudoId, width }: IkkeTildeltProps): ReactElement => {
+    const queryClient = useQueryClient();
     const saksbehandler = useInnloggetSaksbehandler();
-    const [tildelOppgave, { loading }] = useOpprettTildeling();
+    const [tildelOppgave, { loading }] = useTildel();
 
-    const tildel = (event: React.MouseEvent) => {
+    const tildel = async (event: React.MouseEvent) => {
         event.stopPropagation();
-        void tildelOppgave(oppgavereferanse);
+        await tildelOppgave(personPseudoId, async () => {
+            await Promise.all([
+                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+            ]);
+        });
     };
 
     return (

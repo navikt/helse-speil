@@ -202,8 +202,12 @@ const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
         const personPseudoId = PersonMock.findPersonPseudoId(oppgave.aktorId);
         if (personPseudoId != null) oppgave.personPseudoId = personPseudoId;
         else logger.error(`Fant ikke personPseudoId for oppgave med aktørId ${oppgave.aktorId}`);
-        if (oppgave.tildeling !== undefined && oppgave.tildeling !== null && !TildelingMock.harTildeling(oppgave.id)) {
-            TildelingMock.setTildeling(oppgave.id, oppgave.tildeling);
+        if (
+            oppgave.tildeling !== undefined &&
+            oppgave.tildeling !== null &&
+            !TildelingMock.harTildeling(oppgave.personPseudoId)
+        ) {
+            TildelingMock.setTildeling(oppgave.personPseudoId, oppgave.tildeling);
         }
 
         let paVentInfo: ApiOppgaveProjeksjonPaaVentInfo | null = oppgave.paVentInfo ?? null;
@@ -249,7 +253,7 @@ const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
 
         return {
             ...oppgave,
-            tildeling: TildelingMock.getTildeling(oppgave.id),
+            tildeling: TildelingMock.getTildeling(oppgave.personPseudoId),
             egenskaper: egenskaper,
             paVentInfo: paVentInfo,
         } as ApiOppgaveProjeksjon;

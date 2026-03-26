@@ -21,7 +21,7 @@ export const TildelingCell = ({ oppgave }: TildelingProps): ReactElement => (
         {oppgave.tildeling ? (
             <Tildelt width={180} name={oppgave.tildeling.navn} />
         ) : (
-            <IkkeTildelt width={128} oppgavereferanse={oppgave.id} />
+            <IkkeTildelt width={128} personPseudoId={oppgave.personPseudoId} />
         )}
     </Table.DataCell>
 );

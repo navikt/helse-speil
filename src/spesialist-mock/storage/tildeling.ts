@@ -6,12 +6,13 @@ export class TildelingMock {
     static getTildelingerFor = (oid: string): Tildeling[] =>
         Array.from(TildelingMock.tildelinger.values()).filter((tildeling) => tildeling.oid === oid);
 
-    static getTildeling = (oppgaveId: string): Tildeling | undefined => TildelingMock.tildelinger.get(oppgaveId);
+    static getTildeling = (personPseudoId: string): Tildeling | undefined =>
+        TildelingMock.tildelinger.get(personPseudoId);
 
-    static harTildeling = (oppgaveId: string): boolean => TildelingMock.tildelinger.has(oppgaveId);
+    static harTildeling = (personPseudoId: string): boolean => TildelingMock.tildelinger.has(personPseudoId);
 
-    static setTildeling = (oppgaveId: string, tildeling: Tildeling) =>
-        TildelingMock.tildelinger.set(oppgaveId, tildeling);
+    static setTildeling = (personPseudoId: string, tildeling: Tildeling) =>
+        TildelingMock.tildelinger.set(personPseudoId, tildeling);
 
-    static fjernTildeling = (oppgaveId: string) => TildelingMock.tildelinger.delete(oppgaveId);
+    static fjernTildeling = (personPseudoId: string) => TildelingMock.tildelinger.delete(personPseudoId);
 }

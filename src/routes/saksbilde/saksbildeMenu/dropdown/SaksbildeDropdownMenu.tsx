@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
@@ -20,12 +20,12 @@ import {
     useAktivtInntektsforhold,
 } from '@state/inntektsforhold/inntektsforhold';
 import { useFetchPersonQuery } from '@state/person';
+import { useAvmeld, useTildel } from '@state/tildeling';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
 
 import { AnnullerButton } from './AnnullerButton';
-import { TildelingDropdownMenuButton } from './TildelingDropdownMenuButton';
 
 export function SaksbildeDropdownMenu({
     person,
@@ -58,6 +58,7 @@ function SaksbildeDropdownMenuContent({
     const inntektsforhold = useAktivtInntektsforhold(person);
     const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
     const erPåVent = periodeTilGodkjenning?.paVent;
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const router = useRouter();
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
@@ -94,6 +95,17 @@ function SaksbildeDropdownMenuContent({
         );
     };
 
+    const [tildelOppgave, { loading: loadingOpprett }] = useTildel();
+    const [avmeldOppgave, { loading: loadingFjern }] = useAvmeld();
+
+    const tildel = async () => {
+        await tildelOppgave(personPseudoId, () => refetch());
+    };
+
+    const avmeld = async () => {
+        await avmeldOppgave(personPseudoId, () => refetch());
+    };
+
     return (
         <>
             <ActionMenu>
@@ -114,11 +126,25 @@ function SaksbildeDropdownMenuContent({
                     {isBeregnetPeriode(activePeriod) && activePeriod.oppgave?.id && !readOnly && (
                         <>
                             <ActionMenu.Group aria-label="Oppgave">
-                                <TildelingDropdownMenuButton
-                                    oppgavereferanse={activePeriod.oppgave.id}
-                                    erTildeltInnloggetBruker={personIsAssignedUser}
-                                    tildeling={person.tildeling}
-                                />
+                                {personIsAssignedUser || person.tildeling ? (
+                                    <ActionMenu.Item
+                                        disabled={loadingFjern}
+                                        onSelect={() => avmeld()}
+                                        className="text-ax-large"
+                                    >
+                                        {personIsAssignedUser ? 'Meld av' : 'Frigi oppgave'}
+                                        {loadingFjern && <Loader size="xsmall" />}
+                                    </ActionMenu.Item>
+                                ) : (
+                                    <ActionMenu.Item
+                                        disabled={loadingOpprett}
+                                        onSelect={() => tildel()}
+                                        className="text-ax-large"
+                                    >
+                                        Tildel meg
+                                        {loadingOpprett && <Loader size="xsmall" />}
+                                    </ActionMenu.Item>
+                                )}
                                 {erPåVent ? (
                                     <ActionMenu.Item onSelect={fjernFraPåVent} className="text-ax-large">
                                         Fjern fra på vent

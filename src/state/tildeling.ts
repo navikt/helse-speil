@@ -1,19 +1,7 @@
-import { ApolloCache, FetchResult, MutationResult, useMutation } from '@apollo/client';
-import {
-    FjernTildelingDocument,
-    FjernTildelingMutation,
-    OpprettTildelingDocument,
-    OpprettTildelingMutation,
-    Tildeling,
-    TildelingFragment,
-} from '@io/graphql';
-import { getGetAntallOppgaverQueryKey, getGetOppgaverQueryKey } from '@io/rest/generated/oppgaver/oppgaver';
+import { useDeleteTildeling, usePutTildeling } from '@io/rest/generated/personer/personer';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-import { useFetchPersonQuery } from '@state/person';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
-import { useQueryClient } from '@tanstack/react-query';
-import { InfoAlert, apolloErrorCode, apolloExtensionValue } from '@utils/error';
-import { isNotNullOrUndefined } from '@utils/typeguards';
+import { InfoAlert } from '@utils/error';
 
 class TildelingAlert extends InfoAlert {
     name = 'tildeling';
@@ -29,124 +17,74 @@ const useLeggTilTildelingsvarsel = () => {
     return (message: string) => addVarsel(new TildelingAlert(message));
 };
 
-const useFødselsnummer = (): string | undefined => {
-    const { data } = useFetchPersonQuery();
-    return data?.person?.fodselsnummer;
-};
-
-const useOptimistiskTildeling = (): TildelingFragment => {
+export const useTildel = (): [
+    (personPseudoId: string, onUtført: () => void) => Promise<void>,
+    { loading: boolean },
+] => {
+    const { mutate, isPending } = usePutTildeling();
     const saksbehandler = useInnloggetSaksbehandler();
-    return {
-        __typename: 'Tildeling',
-        navn: saksbehandler.navn,
-        oid: saksbehandler.oid,
-        epost: saksbehandler.epost,
-    };
-};
-
-export const useOpprettTildeling = (): [
-    (oppgavereferanse: string) => Promise<FetchResult<OpprettTildelingMutation>>,
-    MutationResult<OpprettTildelingMutation>,
-] => {
-    const queryClient = useQueryClient();
-    const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
-    const fjernTildelingsvarsel = useFjernTildelingsvarsel();
-    const fødselsnummer = useFødselsnummer();
-    const optimistiskTildeling = useOptimistiskTildeling();
-    const [opprettTildelingMutation, data] = useMutation(OpprettTildelingDocument, {
-        onCompleted: async () => {
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
-                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
-            ]);
-        },
-        onError: async (error) => {
-            if (apolloErrorCode(error) === 409) {
-                const tildeling: Tildeling | null = apolloExtensionValue(error, 'tildeling');
-                leggTilTildelingsvarsel(`${tildeling?.navn} har allerede tildelt seg oppgaven.`);
-            } else {
-                leggTilTildelingsvarsel('Kunne ikke tildele sak.');
-            }
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
-                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
-            ]);
-        },
-    });
-
-    const opprettTildeling = async (oppgavereferanse: string) => {
-        fjernTildelingsvarsel();
-        return opprettTildelingMutation({
-            variables: { oppgaveId: oppgavereferanse },
-            optimisticResponse: {
-                __typename: 'Mutation',
-                opprettTildeling: optimistiskTildeling,
-            },
-            update: (cache, result) =>
-                oppdaterTildelingICache(
-                    cache,
-                    oppgavereferanse,
-                    fødselsnummer,
-                    () => result.data?.opprettTildeling ?? null,
-                ),
-        });
-    };
-    return [opprettTildeling, data];
-};
-export const useFjernTildeling = (): [
-    (oppgavereferanse: string) => Promise<FetchResult<FjernTildelingMutation>>,
-    MutationResult<FjernTildelingMutation>,
-] => {
-    const queryClient = useQueryClient();
-    const fødselsnummer = useFødselsnummer();
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
 
-    const [fjernTildelingMutation, data] = useMutation(FjernTildelingDocument, {
-        onCompleted: async () => {
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
-                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
-            ]);
-        },
-        onError: async () => {
-            leggTilTildelingsvarsel('Kunne ikke fjerne tildeling av sak.');
-            await Promise.all([
-                queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
-                queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
-            ]);
-        },
-    });
-
-    const fjernTildeling = async (oppgavereferanse: string) => {
+    const tildel = async (personPseudoId: string, onUtført: () => void) => {
         fjernTildelingsvarsel();
-        return fjernTildelingMutation({
-            variables: { oppgaveId: oppgavereferanse },
-            optimisticResponse: { __typename: 'Mutation', fjernTildeling: true },
-            update: (cache) => oppdaterTildelingICache(cache, oppgavereferanse, fødselsnummer, () => null),
-        });
-    };
-    return [fjernTildeling, data];
-};
-
-const oppdaterTildelingICache = (
-    cache: ApolloCache<unknown>,
-    oppgavereferanse: string,
-    fødselsnummer: string | undefined,
-    tildeling: (tildeling: Tildeling) => Tildeling | null,
-) => {
-    cache.modify({
-        id: cache.identify({ __typename: 'OppgaveTilBehandling', id: oppgavereferanse }),
-        fields: {
-            tildeling: (value) => tildeling(value),
-        },
-    });
-    if (isNotNullOrUndefined(fødselsnummer)) {
-        cache.modify({
-            id: cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
-            fields: {
-                tildeling: (value) => tildeling(value),
+        return mutate(
+            {
+                pseudoId: personPseudoId,
+                data: {
+                    navident: saksbehandler.ident,
+                },
             },
-        });
-    }
+            {
+                onError: (error) => {
+                    const code = error.response.data.code;
+                    if (code === 'OPPGAVE_TILDELT_ANNEN_SAKSBEHANDLER') {
+                        leggTilTildelingsvarsel(`Oppgaven er allerede tildelt en annen saksbehandler.`);
+                    } else if (code === 'MANGLER_TILGANG_TIL_PERSON') {
+                        leggTilTildelingsvarsel(`Du har ikke tilgang til personen.`);
+                    } else if (code === 'MANGLER_TILGANG_TIL_OPPGAVE') {
+                        leggTilTildelingsvarsel(`Du har ikke tilgang til oppgaven.`);
+                    } else if (code === 'PERSON_PSEUDO_ID_IKKE_FUNNET') {
+                        leggTilTildelingsvarsel(`Systemet fant ikke personen du prøver å tildele oppgave for.`);
+                    } else {
+                        leggTilTildelingsvarsel('Kunne ikke tildele oppgave.');
+                    }
+                },
+                onSettled: onUtført,
+            },
+        );
+    };
+    return [tildel, { loading: isPending }];
+};
+export const useAvmeld = (): [
+    (personPseudoId: string, onUtført: () => void) => Promise<void>,
+    { loading: boolean },
+] => {
+    const { mutate, isPending } = useDeleteTildeling();
+
+    const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
+    const fjernTildelingsvarsel = useFjernTildelingsvarsel();
+
+    const avmeld = async (personPseudoId: string, onUtført: () => void) => {
+        fjernTildelingsvarsel();
+        return mutate(
+            {
+                pseudoId: personPseudoId,
+            },
+            {
+                onError: (error) => {
+                    const code = error.response.data.code;
+                    if (code === 'MANGLER_TILGANG_TIL_PERSON') {
+                        leggTilTildelingsvarsel(`Du har ikke tilgang til personen.`);
+                    } else if (code === 'OPPGAVE_IKKE_FUNNET') {
+                        leggTilTildelingsvarsel(`Systemet fant ikke oppgaven du forsøkte å avmelde`);
+                    } else {
+                        leggTilTildelingsvarsel('Kunne ikke avmelde oppgave.');
+                    }
+                },
+                onSettled: onUtført,
+            },
+        );
+    };
+    return [avmeld, { loading: isPending }];
 };
