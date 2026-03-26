@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { ArrowUndoIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { TimeoutModal } from '@components/TimeoutModal';
+import { TimeoutDialog } from '@components/TimeoutDialog';
 import { PersonFragment } from '@io/graphql';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
@@ -48,7 +48,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
             >
                 Bruk arbeidsforholdet i beregningen likevel
             </Button>
-            {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
+            <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
         </>
     );
 };

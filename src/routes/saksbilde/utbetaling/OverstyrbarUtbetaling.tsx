@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { TimeoutModal } from '@components/TimeoutModal';
+import { TimeoutDialog } from '@components/TimeoutDialog';
 import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbetalingstatus } from '@io/graphql';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
@@ -329,7 +329,7 @@ export const OverstyrbarUtbetaling = ({
                     </>
                 )}
             </div>
-            {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
+            <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
         </article>
     );
 };

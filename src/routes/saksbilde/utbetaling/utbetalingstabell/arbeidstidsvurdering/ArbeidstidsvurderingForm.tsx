@@ -14,7 +14,7 @@ import { XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
-import { TimeoutModal } from '@components/TimeoutModal';
+import { TimeoutDialog } from '@components/TimeoutDialog';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
@@ -136,7 +136,7 @@ export const ArbeidstidsvurderingForm = ({
                         </Button>
                     </HStack>
                     {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
-                    {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
+                    <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
                 </form>
             </FormProvider>
         </Box>

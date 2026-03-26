@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
-import { TimeoutModal } from '@components/TimeoutModal';
+import { TimeoutDialog } from '@components/TimeoutDialog';
 import { useCalculatingValue } from '@state/calculating';
 import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
@@ -55,7 +55,7 @@ export const KalkulerEndringerVarsel = ({
                 </HStack>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </Alert>
-            {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
+            <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
             {showModal && (
                 <SlettLokaleEndringerModal
                     heading="Er du sikker på at du vil forkaste endringene?"

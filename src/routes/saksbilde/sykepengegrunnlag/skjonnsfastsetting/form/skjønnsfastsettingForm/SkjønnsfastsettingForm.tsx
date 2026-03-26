@@ -4,7 +4,7 @@ import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatc
 import { Button, ErrorMessage, HStack, HelpText } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
-import { TimeoutModal } from '@components/TimeoutModal';
+import { TimeoutDialog } from '@components/TimeoutDialog';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
     Arbeidsgiver,
@@ -204,7 +204,7 @@ export const SkjønnsfastsettingForm = ({
                         </>
                     )}
                     {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
-                    {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
+                    <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
                 </div>
             </form>
         </FormProvider>

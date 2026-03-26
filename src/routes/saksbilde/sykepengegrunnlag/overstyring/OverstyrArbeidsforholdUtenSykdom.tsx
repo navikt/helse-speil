@@ -5,7 +5,7 @@ import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage, ErrorSummary, HStack } from '@navikt/ds-react';
 
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { TimeoutModal } from '@components/TimeoutModal';
+import { TimeoutDialog } from '@components/TimeoutDialog';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { PersonFragment } from '@io/graphql';
 import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
@@ -161,7 +161,7 @@ const OverstyrArbeidsforholdSkjema = ({
                         </Button>
                     </HStack>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    {timedOut && <TimeoutModal showModal={timedOut} closeModal={() => setTimedOut(false)} />}
+                    <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
                 </div>
             </form>
         </FormProvider>
