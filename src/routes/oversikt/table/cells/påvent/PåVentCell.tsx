@@ -6,7 +6,7 @@ import { Button, HStack, Table, Tooltip } from '@navikt/ds-react';
 import { ApiOppgaveProjeksjonPaaVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
 
-import { PåVentListeModal } from './PåVentListeModal';
+import { PåVentListeDialog } from './PåVentListeDialog';
 
 interface PåVentCellProps {
     navn: ApiPersonnavn;
@@ -63,14 +63,7 @@ const PåVentKnapp = ({ navn, utgåttFrist, påVentInfo }: PåVentKnappProps): R
                     }
                 />
             </Tooltip>
-            {showModal && (
-                <PåVentListeModal
-                    closeModal={() => setShowModal(false)}
-                    showModal={showModal}
-                    påVentInfo={påVentInfo}
-                    navn={navn}
-                />
-            )}
+            <PåVentListeDialog open={showModal} onOpenChange={setShowModal} påVentInfo={påVentInfo} navn={navn} />
         </>
     );
 };
