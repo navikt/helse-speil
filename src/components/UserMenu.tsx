@@ -7,18 +7,12 @@ import { ActionMenu, BodyShort, HStack, Tag, Theme, VStack } from '@navikt/ds-re
 import { InternalHeaderUserButton } from '@navikt/ds-react/InternalHeader';
 
 import { DarkModeToggle } from '@components/DarkModeToggle';
-import { TastaturModal } from '@components/TastaturModal';
-import { Key, useKeyboard } from '@hooks/useKeyboard';
+import { TastaturDialog } from '@components/TastaturDialog';
 import { useMounted } from '@hooks/useMounted';
 import { useGetBruker } from '@io/rest/generated/saksbehandlere/saksbehandlere';
 import { ApiBrukerrolle, ApiTilgang } from '@io/rest/generated/spesialist.schemas';
 import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 import { useInnloggetSaksbehandler } from '@state/authentication';
-
-const useBrukerinfo = () => {
-    const { navn, ident } = useInnloggetSaksbehandler();
-    return { navn, ident: ident ?? '' };
-};
 
 export const UserMenu = (): ReactElement => {
     const { navn, ident } = useBrukerinfo();
@@ -30,13 +24,6 @@ export const UserMenu = (): ReactElement => {
 
     const { data } = useGetBruker();
     const harRoller = (data?.brukerroller?.length ?? 0) > 0;
-    useKeyboard([
-        {
-            key: Key.F1,
-            action: () => setVisTastatursnarveier(!visTastatursnarveier),
-            ignoreIfModifiers: false,
-        },
-    ]);
 
     return (
         <>
@@ -90,9 +77,7 @@ export const UserMenu = (): ReactElement => {
                     </Theme>
                 )}
             </ActionMenu>
-            {visTastatursnarveier && (
-                <TastaturModal closeModal={() => setVisTastatursnarveier(false)} showModal={visTastatursnarveier} />
-            )}
+            <TastaturDialog open={visTastatursnarveier} onOpenChange={setVisTastatursnarveier} />
         </>
     );
 };
@@ -105,6 +90,11 @@ const BRUKERROLLE_REKKEFØLGE: ApiBrukerrolle[] = [
     ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA,
     ApiBrukerrolle.UTVIKLER,
 ];
+
+const useBrukerinfo = () => {
+    const { navn, ident } = useInnloggetSaksbehandler();
+    return { navn, ident: ident ?? '' };
+};
 
 function sorterBrukerroller(roller: ApiBrukerrolle[]): ApiBrukerrolle[] {
     return [...roller].sort((a, b) => {

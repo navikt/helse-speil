@@ -225,40 +225,6 @@ export const useKeyboardActions = (): Action[] => {
             modifier: undefined,
         },
         {
-            // Minus er pluss og slash er minus selvfølgelig, se https://www.toptal.com/developers/keycode
-            key: Key.Minus,
-            visningstekst: 'Bla fremover i tidslinjen',
-            visningssnarvei: ['ALT', '+'],
-            action: () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-        {
-            key: Key.NumpadAdd,
-            visningstekst: 'Bla fremover i tidslinjen',
-            visningssnarvei: undefined,
-            action: () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-        {
-            // Minus er pluss og slash er minus på norsk tastatur selvfølgelig, se https://www.toptal.com/developers/keycode
-            key: Key.Slash,
-            visningstekst: 'Bla bakover i tidslinjen',
-            visningssnarvei: ['ALT', '-'],
-            action: () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-        {
-            key: Key.NumpadSubtract,
-            visningstekst: 'Bla bakover i tidslinjen',
-            visningssnarvei: undefined,
-            action: () => {},
-            ignoreIfModifiers: false,
-            modifier: Key.Alt,
-        },
-        {
             key: Key.A,
             visningstekst: 'Kopier aktør-ID',
             visningssnarvei: ['ALT', 'A'],
