@@ -15,7 +15,7 @@ interface KommentarVisningProps {
     loading: boolean;
     hasError: boolean;
     feilregistrerKommentar: () => void;
-    innloggetSaksbehandlerIdent?: string;
+    innloggetSaksbehandlerIdent: string;
 }
 
 export function KommentarVisning({

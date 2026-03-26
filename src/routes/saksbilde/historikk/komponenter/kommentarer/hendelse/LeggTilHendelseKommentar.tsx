@@ -81,57 +81,55 @@ function useLeggTilKommentar(
     const apolloClient = useApolloClient();
 
     const leggTilKommentar: SubmitHandler<KommentarFormFields> = async ({ tekst }) => {
-        if (saksbehandlerident) {
-            setIsLoading(true);
-            mutate(
-                {
-                    dialogId: dialogRef,
-                    data: {
-                        tekst,
-                    },
+        setIsLoading(true);
+        mutate(
+            {
+                dialogId: dialogRef,
+                data: {
+                    tekst,
                 },
-                {
-                    onSuccess: async ({ id }) => {
-                        apolloClient.writeFragment({
-                            id: `Kommentar:{"id":${id}}`,
-                            fragment: KommentarFragmentDoc,
-                            data: {
-                                id: id,
-                                tekst: tekst,
-                                opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                                saksbehandlerident: saksbehandlerident,
-                                feilregistrert_tidspunkt: null,
-                                __typename: 'Kommentar',
+            },
+            {
+                onSuccess: async ({ id }) => {
+                    apolloClient.writeFragment({
+                        id: `Kommentar:{"id":${id}}`,
+                        fragment: KommentarFragmentDoc,
+                        data: {
+                            id: id,
+                            tekst: tekst,
+                            opprettet: dayjs().format(ISO_TIDSPUNKTFORMAT),
+                            saksbehandlerident: saksbehandlerident,
+                            feilregistrert_tidspunkt: null,
+                            __typename: 'Kommentar',
+                        },
+                    });
+                    apolloClient.cache.modify({
+                        id: apolloClient.cache.identify({
+                            __typename: finnKommentertElementType(historikktype),
+                            id: historikkinnslagId,
+                        }),
+                        fields: {
+                            kommentarer(eksisterendeKommentarer) {
+                                return [
+                                    ...eksisterendeKommentarer,
+                                    {
+                                        __ref: apolloClient.cache.identify({
+                                            __typename: 'Kommentar',
+                                            id: id,
+                                        }),
+                                    },
+                                ];
                             },
-                        });
-                        apolloClient.cache.modify({
-                            id: apolloClient.cache.identify({
-                                __typename: finnKommentertElementType(historikktype),
-                                id: historikkinnslagId,
-                            }),
-                            fields: {
-                                kommentarer(eksisterendeKommentarer) {
-                                    return [
-                                        ...eksisterendeKommentarer,
-                                        {
-                                            __ref: apolloClient.cache.identify({
-                                                __typename: 'Kommentar',
-                                                id: id,
-                                            }),
-                                        },
-                                    ];
-                                },
-                            },
-                        });
-                        setIsLoading(false);
-                        onSuccess();
-                    },
-                    onError: () => {
-                        setIsLoading(false);
-                    },
+                        },
+                    });
+                    setIsLoading(false);
+                    onSuccess();
                 },
-            );
-        }
+                onError: () => {
+                    setIsLoading(false);
+                },
+            },
+        );
     };
 
     return {

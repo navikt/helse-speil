@@ -93,7 +93,7 @@ const BRUKERROLLE_REKKEFØLGE: ApiBrukerrolle[] = [
 
 const useBrukerinfo = () => {
     const { navn, ident } = useInnloggetSaksbehandler();
-    return { navn, ident: ident ?? '' };
+    return { navn, ident };
 };
 
 function sorterBrukerroller(roller: ApiBrukerrolle[]): ApiBrukerrolle[] {

@@ -5,7 +5,6 @@ import { BodyShort, Loader } from '@navikt/ds-react';
 import { useApolloClient } from '@apollo/client';
 import { VarselDto, Varselstatus } from '@io/graphql';
 import { getVarsel, useDeleteVarselvurdering, usePutVarselvurdering } from '@io/rest/generated/varsler/varsler';
-import { useInnloggetSaksbehandler } from '@state/authentication';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -33,7 +32,6 @@ const getErrorMessage = (errorCode: number): string => {
 
 export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement => {
     const [isLoading, setIsLoading] = React.useState(false);
-    const innloggetSaksbehandler = useInnloggetSaksbehandler();
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
     const apolloClient = useApolloClient();
@@ -64,10 +62,6 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
     };
 
     const settVarselstatusVurdert = async () => {
-        const ident = innloggetSaksbehandler.ident;
-        if (ident === undefined || ident === null) {
-            return;
-        }
         setIsLoading(true);
 
         putVurdering(
@@ -84,10 +78,6 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
         );
     };
     const settVarselstatusAktiv = async () => {
-        const ident = innloggetSaksbehandler.ident;
-        if (ident === undefined || ident === null) {
-            return;
-        }
         setIsLoading(true);
 
         deleteVurdering(
