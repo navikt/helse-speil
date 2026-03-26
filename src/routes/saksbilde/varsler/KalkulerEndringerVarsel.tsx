@@ -2,7 +2,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
-import { SlettLokaleEndringerModal } from '@components/SlettLokaleEndringerModal';
+import { SlettLokaleEndringerDialog } from '@components/SlettLokaleEndringerDialog';
 import { TimeoutDialog } from '@components/TimeoutDialog';
 import { useCalculatingValue } from '@state/calculating';
 import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
@@ -56,21 +56,16 @@ export const KalkulerEndringerVarsel = ({
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </Alert>
             <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
-            {showModal && (
-                <SlettLokaleEndringerModal
-                    heading="Er du sikker på at du vil forkaste endringene?"
-                    showModal={showModal}
-                    onApprove={() => {
-                        slettLokaleOverstyringer();
-                        setShowModal(false);
-                    }}
-                    closeModal={() => setShowModal(false)}
-                >
-                    <BodyShort>
-                        Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil endringene ikke bli lagret.
-                    </BodyShort>
-                </SlettLokaleEndringerModal>
-            )}
+            <SlettLokaleEndringerDialog
+                heading="Er du sikker på at du vil forkaste endringene?"
+                open={showModal}
+                onOpenChange={setShowModal}
+                onApprove={slettLokaleOverstyringer}
+            >
+                <BodyShort>
+                    Ved å trykke <span style={{ fontWeight: 'bold' }}>Ja</span> vil endringene ikke bli lagret.
+                </BodyShort>
+            </SlettLokaleEndringerDialog>
         </>
     );
 };

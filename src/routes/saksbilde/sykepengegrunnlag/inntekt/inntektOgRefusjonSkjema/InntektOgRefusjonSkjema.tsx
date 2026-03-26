@@ -37,7 +37,7 @@ import { avrundetToDesimaler } from '@utils/tall';
 import { isGhostPeriode } from '@utils/typeguards';
 
 import { Begrunnelser } from '../Begrunnelser';
-import { SlettLokaleOverstyringerModal } from './SlettLokaleOverstyringerModal';
+import { SlettLokaleOverstyringerDialog } from './SlettLokaleOverstyringerDialog';
 import { RefusjonSkjema } from './refusjon/RefusjonSkjema/RefusjonSkjema';
 import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
 
@@ -237,18 +237,13 @@ export const InntektOgRefusjonSkjema = ({
                             Avbryt
                         </Button>
                     </HStack>
-                    {showSlettLokaleOverstyringerModal && (
-                        <SlettLokaleOverstyringerModal
-                            showModal={showSlettLokaleOverstyringerModal}
-                            onApprove={() => {
-                                form.handleSubmit(confirmChanges);
-                                setShowSlettLokaleOverstyringerModal(false);
-                            }}
-                            onClose={() => setShowSlettLokaleOverstyringerModal(false)}
-                            overstyrtSkjæringstidspunkt={lokaleInntektoverstyringer.skjæringstidspunkt}
-                            skjæringstidspunkt={skjæringstidspunkt}
-                        />
-                    )}
+                    <SlettLokaleOverstyringerDialog
+                        open={showSlettLokaleOverstyringerModal}
+                        onOpenChange={setShowSlettLokaleOverstyringerModal}
+                        onApprove={() => form.handleSubmit(confirmChanges)}
+                        overstyrtSkjæringstidspunkt={lokaleInntektoverstyringer.skjæringstidspunkt}
+                        skjæringstidspunkt={skjæringstidspunkt}
+                    />
                 </div>
             </form>
         </FormProvider>
