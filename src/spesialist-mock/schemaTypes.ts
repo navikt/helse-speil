@@ -373,16 +373,6 @@ export type Historikkinnslag = {
     type: PeriodehistorikkType;
 };
 
-export type Infotrygdutbetaling = {
-    __typename?: 'Infotrygdutbetaling';
-    dagsats: Scalars['Float']['output'];
-    fom: Scalars['String']['output'];
-    grad: Scalars['String']['output'];
-    organisasjonsnummer: Scalars['String']['output'];
-    tom: Scalars['String']['output'];
-    typetekst: Scalars['String']['output'];
-};
-
 export type InntektFraAOrdningen = {
     __typename?: 'InntektFraAOrdningen';
     maned: Scalars['YearMonth']['output'];
@@ -510,17 +500,12 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 
 export type Mutation = {
     __typename?: 'Mutation';
-    oppdaterPerson: Scalars['Boolean']['output'];
     overstyrArbeidsforhold?: Maybe<Scalars['Boolean']['output']>;
     overstyrDager?: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon?: Maybe<Scalars['Boolean']['output']>;
     sendIRetur?: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2?: Maybe<Scalars['Boolean']['output']>;
     skjonnsfastsettSykepengegrunnlag?: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type MutationOppdaterPersonArgs = {
-    fodselsnummer: Scalars['String']['input'];
 };
 
 export type MutationOverstyrArbeidsforholdArgs = {
@@ -756,7 +741,6 @@ export type Person = {
     dodsdato?: Maybe<Scalars['LocalDate']['output']>;
     enhet: Enhet;
     fodselsnummer: Scalars['String']['output'];
-    infotrygdutbetalinger?: Maybe<Array<Infotrygdutbetaling>>;
     personinfo: Personinfo;
     selvstendigNaering?: Maybe<SelvstendigNaering>;
     tildeling?: Maybe<Tildeling>;

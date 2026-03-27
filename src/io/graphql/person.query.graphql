@@ -498,14 +498,6 @@ fragment person on Person {
     enhet {
         id
     }
-    infotrygdutbetalinger {
-        organisasjonsnummer
-        dagsats
-        fom
-        tom
-        grad
-        typetekst
-    }
     personinfo {
         fornavn
         mellomnavn

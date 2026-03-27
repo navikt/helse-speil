@@ -9,7 +9,6 @@
                 "navn": "Søndre Nordstrand",
                 "__typename": "Enhet"
             },
-            "infotrygdutbetalinger": [],
             "personinfo": {
                 "fornavn": "SINDIG",
                 "mellomnavn": null,

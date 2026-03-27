@@ -375,16 +375,6 @@ export type Historikkinnslag = {
     type: PeriodehistorikkType;
 };
 
-export type Infotrygdutbetaling = {
-    __typename: 'Infotrygdutbetaling';
-    dagsats: Scalars['Float']['output'];
-    fom: Scalars['String']['output'];
-    grad: Scalars['String']['output'];
-    organisasjonsnummer: Scalars['String']['output'];
-    tom: Scalars['String']['output'];
-    typetekst: Scalars['String']['output'];
-};
-
 export type InntektFraAOrdningen = {
     __typename: 'InntektFraAOrdningen';
     maned: Scalars['YearMonth']['output'];
@@ -512,17 +502,12 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
 
 export type Mutation = {
     __typename: 'Mutation';
-    oppdaterPerson: Scalars['Boolean']['output'];
     overstyrArbeidsforhold: Maybe<Scalars['Boolean']['output']>;
     overstyrDager: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon: Maybe<Scalars['Boolean']['output']>;
     sendIRetur: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2: Maybe<Scalars['Boolean']['output']>;
     skjonnsfastsettSykepengegrunnlag: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type MutationOppdaterPersonArgs = {
-    fodselsnummer: Scalars['String']['input'];
 };
 
 export type MutationOverstyrArbeidsforholdArgs = {
@@ -758,7 +743,6 @@ export type Person = {
     dodsdato: Maybe<Scalars['LocalDate']['output']>;
     enhet: Enhet;
     fodselsnummer: Scalars['String']['output'];
-    infotrygdutbetalinger: Maybe<Array<Infotrygdutbetaling>>;
     personinfo: Personinfo;
     selvstendigNaering: Maybe<SelvstendigNaering>;
     tildeling: Maybe<Tildeling>;
@@ -2997,15 +2981,6 @@ export type PersonFragment = {
     aktorId: string;
     andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
     enhet: { __typename: 'Enhet'; id: string };
-    infotrygdutbetalinger: Array<{
-        __typename: 'Infotrygdutbetaling';
-        organisasjonsnummer: string;
-        dagsats: number;
-        fom: string;
-        tom: string;
-        grad: string;
-        typetekst: string;
-    }> | null;
     personinfo: {
         __typename: 'Personinfo';
         fornavn: string;
@@ -4484,15 +4459,6 @@ export type FetchPersonQuery = {
         aktorId: string;
         andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
         enhet: { __typename: 'Enhet'; id: string };
-        infotrygdutbetalinger: Array<{
-            __typename: 'Infotrygdutbetaling';
-            organisasjonsnummer: string;
-            dagsats: number;
-            fom: string;
-            tom: string;
-            grad: string;
-            typetekst: string;
-        }> | null;
         personinfo: {
             __typename: 'Personinfo';
             fornavn: string;
@@ -5965,12 +5931,6 @@ export type FetchPersonQuery = {
         }>;
     } | null;
 };
-
-export type OppdaterPersonMutationVariables = Exact<{
-    fodselsnummer: Scalars['String']['input'];
-}>;
-
-export type OppdaterPersonMutation = { __typename: 'Mutation'; oppdaterPerson: boolean };
 
 export type PaventFragment = { __typename: 'PaVent'; frist: string | null; oid: string };
 
@@ -8797,21 +8757,6 @@ export const PersonFragmentDoc = {
                         selectionSet: {
                             kind: 'SelectionSet',
                             selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-                        },
-                    },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'infotrygdutbetalinger' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'typetekst' } },
-                            ],
                         },
                     },
                     {
@@ -11821,21 +11766,6 @@ export const FetchPersonDocument = {
                     },
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'infotrygdutbetalinger' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'organisasjonsnummer' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'dagsats' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'fom' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'tom' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'grad' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'typetekst' } },
-                            ],
-                        },
-                    },
-                    {
-                        kind: 'Field',
                         name: { kind: 'Name', value: 'personinfo' },
                         selectionSet: {
                             kind: 'SelectionSet',
@@ -11992,39 +11922,6 @@ export const FetchPersonDocument = {
         },
     ],
 } as unknown as DocumentNode<FetchPersonQuery, FetchPersonQueryVariables>;
-export const OppdaterPersonDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'OppdaterPerson' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
-                    type: { kind: 'NonNullType', type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } } },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'oppdaterPerson' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'fodselsnummer' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'fodselsnummer' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<OppdaterPersonMutation, OppdaterPersonMutationVariables>;
 export const SkjonnsfastsettelseMutationDocument = {
     kind: 'Document',
     definitions: [

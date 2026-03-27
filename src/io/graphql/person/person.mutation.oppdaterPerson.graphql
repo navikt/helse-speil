@@ -1,3 +1,0 @@
-mutation OppdaterPerson($fodselsnummer: String!) {
-    oppdaterPerson(fodselsnummer: $fodselsnummer)
-}

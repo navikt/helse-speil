@@ -8,56 +8,6 @@
                 "id": "0806",
                 "navn": "Skien"
             },
-            "infotrygdutbetalinger": [
-                {
-                    "organisasjonsnummer": "815493000",
-                    "dagsats": 1744,
-                    "fom": "2021-03-08",
-                    "tom": "2021-04-04",
-                    "grad": "100",
-                    "typetekst": "ArbRef"
-                },
-                {
-                    "organisasjonsnummer": "815493000",
-                    "dagsats": 1744,
-                    "fom": "2020-12-09",
-                    "tom": "2020-12-13",
-                    "grad": "100",
-                    "typetekst": "ArbRef"
-                },
-                {
-                    "organisasjonsnummer": "815493000",
-                    "dagsats": 1716,
-                    "fom": "2020-04-16",
-                    "tom": "2020-04-26",
-                    "grad": "100",
-                    "typetekst": "ArbRef"
-                },
-                {
-                    "organisasjonsnummer": "815493000",
-                    "dagsats": 1716,
-                    "fom": "2020-04-06",
-                    "tom": "2020-04-15",
-                    "grad": "100",
-                    "typetekst": "ArbRef"
-                },
-                {
-                    "organisasjonsnummer": "815493000",
-                    "dagsats": 1716,
-                    "fom": "2020-03-23",
-                    "tom": "2020-04-05",
-                    "grad": "100",
-                    "typetekst": "ArbRef"
-                },
-                {
-                    "organisasjonsnummer": "815493000",
-                    "dagsats": 1716,
-                    "fom": "2020-03-19",
-                    "tom": "2020-03-22",
-                    "grad": "100",
-                    "typetekst": "ArbRef"
-                }
-            ],
             "personinfo": {
                 "fornavn": "OPTIMISTISK",
                 "mellomnavn": null,

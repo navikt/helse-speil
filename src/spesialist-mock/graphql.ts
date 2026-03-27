@@ -6,10 +6,7 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
-import { ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
-import { sleep } from '@spesialist-mock/constants';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
-import { ServerSentEventsMock } from '@spesialist-mock/storage/events';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { PersonMock } from '@spesialist-mock/storage/person';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
@@ -24,7 +21,6 @@ import {
     BeregnetPeriode,
     Egenskap,
     Historikkinnslag,
-    MutationOppdaterPersonArgs,
     MutationSendIReturArgs,
     MutationSendTilGodkjenningV2Args,
     PeriodehistorikkType,
@@ -177,11 +173,6 @@ const getResolvers = (): IResolvers => ({
                 notattekst: notatTekst,
                 dialogRef: DialogMock.addDialog(),
             });
-            return true;
-        },
-        oppdaterPerson: async (_, { fodselsnummer }: MutationOppdaterPersonArgs) => {
-            await sleep(800);
-            ServerSentEventsMock.pushEvent(fodselsnummer, ApiServerSentEventEvent.PERSONDATA_OPPDATERT);
             return true;
         },
     },

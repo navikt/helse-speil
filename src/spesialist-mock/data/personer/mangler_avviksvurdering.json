@@ -10,7 +10,6 @@
                 "id": "0312",
                 "navn": "Uranienborg-Majorstuen"
             },
-            "infotrygdutbetalinger": [],
             "personinfo": {
                 "__typename": "Personinfo",
                 "fornavn": "USEDVANLIG",

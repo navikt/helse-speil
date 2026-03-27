@@ -10,7 +10,6 @@
                 "id": "1165",
                 "navn": "Stavanger - Madla"
             },
-            "infotrygdutbetalinger": [],
             "personinfo": {
                 "__typename": "Personinfo",
                 "fornavn": "KVART",

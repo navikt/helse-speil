@@ -6,7 +6,6 @@ import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from
 import { VStack } from '@navikt/ds-react';
 
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
-import { useOppdaterPersondataEnGang } from '@hooks/useOppdaterPersondataEnGang';
 import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { useRefreshPersonVedEvent } from '@hooks/useRefreshPersonVedEvent';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
@@ -34,7 +33,6 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     }, []);
 
     useRefreshPersonVedEvent();
-    useOppdaterPersondataEnGang();
     useVarselOmSakErTildeltAnnenSaksbehandler();
     useAbonnerPåEndringer(personPseudoId);
     useKeyboardShortcuts();

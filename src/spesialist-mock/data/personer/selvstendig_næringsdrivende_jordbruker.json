@@ -10,7 +10,6 @@
                 "id": "0101",
                 "navn": "Halden"
             },
-            "infotrygdutbetalinger": [],
             "personinfo": {
                 "__typename": "Personinfo",
                 "fornavn": "NYSGJERRIG",
