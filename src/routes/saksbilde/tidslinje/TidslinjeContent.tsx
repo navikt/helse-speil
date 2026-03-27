@@ -11,7 +11,6 @@ import { useGetInfotrygdperioderForPerson } from '@io/rest/generated/personer/pe
 import { InfotrygdPopover, PeriodPopover, TilkommenInntektPopover } from '@saksbilde/tidslinje/PeriodPopover';
 import { TilkommenInntektKnapp } from '@saksbilde/tidslinje/TilkommenInntektKnapp';
 import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
-import { useInfotrygdPerioder } from '@saksbilde/tidslinje/hooks/useInfotrygdPerioder';
 import { useMaksdato } from '@saksbilde/tidslinje/hooks/useMaksdato';
 import {
     BlankIcon,
@@ -32,7 +31,6 @@ import { atomWithLocalStorage } from '@state/jotai';
 import { useSetActivePeriodId } from '@state/periode';
 import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { useBrukRestForInfotrygdperioder } from '@state/toggles';
 import { PeriodCategory } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
 import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
@@ -52,15 +50,8 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const isAnonymous = useIsAnonymous();
     const setActivePeriodId = useSetActivePeriodId(person);
-    const brukRestForInfotrygdperioder = useBrukRestForInfotrygdperioder();
-    const infotrygdPerioderFraGraphQL = useInfotrygdPerioder(person.infotrygdutbetalinger ?? []);
-    const { data: infotrygdPerioderFraREST, isLoading: isLoadingInfotrygdperioder } = useGetInfotrygdperioderForPerson(
-        personPseudoId,
-        { query: { enabled: brukRestForInfotrygdperioder } },
-    );
-    const infotrygdPerioder = brukRestForInfotrygdperioder
-        ? (infotrygdPerioderFraREST ?? [])
-        : infotrygdPerioderFraGraphQL;
+    const { data: infotrygdperioder, isLoading: infotrygdperioderLoading } =
+        useGetInfotrygdperioderForPerson(personPseudoId);
     const { data: tilkomneInntekter } = useHentTilkommenInntektQuery(personPseudoId);
     const activeTilkommenInntektId = useTilkommenInntektIdFraUrl();
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
@@ -140,7 +131,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                         ))}
                     </TimelineRow>
                 ))}
-                {brukRestForInfotrygdperioder && isLoadingInfotrygdperioder ? (
+                {infotrygdperioderLoading ? (
                     <TimelineRow
                         label="Infotrygd"
                         icon={<ArchiveIcon aria-hidden className="text-ax-text-neutral" fontSize="1.5rem" />}
@@ -148,12 +139,13 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                         <Skeleton height={40} className="grow" />
                     </TimelineRow>
                 ) : (
-                    infotrygdPerioder.length > 0 && (
+                    infotrygdperioder &&
+                    infotrygdperioder.length > 0 && (
                         <TimelineRow
                             label="Infotrygd"
                             icon={<ArchiveIcon aria-hidden className="text-ax-text-neutral" fontSize="1.5rem" />}
                         >
-                            {infotrygdPerioder.map((periode) => (
+                            {infotrygdperioder.map((periode) => (
                                 <TimelinePeriod
                                     key={periode.fom + periode.tom}
                                     startDate={dayjs(periode.fom)}
