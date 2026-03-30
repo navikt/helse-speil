@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { erProd, erUtvikling, spesialistBackend } from '@/env';
+import { erProd, erUtvikling } from '@/env';
 import { customAxios } from '@app/axios/axiosClient';
 import { PortableTextBlock } from '@portabletext/react';
 import { useQuery } from '@tanstack/react-query';
@@ -227,10 +227,7 @@ export function useNyheter() {
         gcTime: 0,
     });
 
-    const nyheter =
-        data?.result
-            .filter((it: NyhetType) => (erProd ? it.iProd : true))
-            .filter((it: NyhetType) => (spesialistBackend !== 'deployed' ? !it.modal?.tvungenModal : true)) ?? [];
+    const nyheter = data?.result.filter((it: NyhetType) => (erProd ? it.iProd : true)) ?? [];
 
     return {
         nyheter,

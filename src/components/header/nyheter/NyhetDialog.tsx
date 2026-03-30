@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { Button, Dialog, HStack, Heading } from '@navikt/ds-react';
 
-import { components } from '@components/header/nyheter/Nyhet';
+import { portableTextComponents } from '@components/header/nyheter/portableTextComponents';
 import { NyhetModalType } from '@external/sanity';
 import { PortableText } from '@portabletext/react';
 import { cn } from '@utils/tw';
@@ -32,7 +32,10 @@ export function NyhetDialog({ open, onOpenChange, nyhetModal }: NyhetDialogProps
                         {slides[slideIndex]?.slideOverskrift}
                     </Heading>
                     {slides[slideIndex]?.slideBeskrivelse && (
-                        <PortableText value={slides[slideIndex]?.slideBeskrivelse} components={components} />
+                        <PortableText
+                            value={slides[slideIndex]?.slideBeskrivelse}
+                            components={portableTextComponents}
+                        />
                     )}
                     {slides[slideIndex]?.bildeUrl && (
                         <div className="flex max-h-87.5 w-full justify-center overflow-hidden">

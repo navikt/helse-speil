@@ -2,46 +2,59 @@
 
 import dayjs from 'dayjs';
 import { useTheme } from 'next-themes';
-import React, { PropsWithChildren, useRef } from 'react';
+import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
 
 import { BellFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Dropdown, HStack, InternalHeader as Header, Theme } from '@navikt/ds-react';
+import { BodyShort, HStack, Heading, InternalHeader, Popover, Theme } from '@navikt/ds-react';
 
 import { Nyhet } from '@components/header/nyheter/Nyhet';
 import { BjelleDottIkon } from '@components/ikoner/BjelleDottIkon';
 import { useNyheter } from '@external/sanity';
 import { useMounted } from '@hooks/useMounted';
 
-import styles from './Nyheter.module.scss';
+const SISTE_NYHET_OPPRETTET_KEY = 'sisteNyhetOpprettet';
 
-export const Nyheter = () => {
+export function Nyheter(): ReactElement {
     const { nyheter, loading } = useNyheter();
     const { resolvedTheme } = useTheme();
     const mounted = useMounted();
     const sisteNyhet = nyheter[0];
     const harBlittÅpnet = useRef(false);
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const [open, setOpen] = useState(false);
 
     const skalViseIkonMedPrikk = !loading && !harBlittÅpnet.current && harNyNyhet(sisteNyhet?._createdAt);
 
-    const handleOpenChange = (open: boolean) => {
-        if (open) {
+    const handleToggle = () => {
+        const nextOpen = !open;
+        setOpen(nextOpen);
+        if (nextOpen) {
             harBlittÅpnet.current = true;
-            localStorage.setItem('sisteNyhetOpprettet', JSON.stringify(sisteNyhet?._createdAt));
+            localStorage.setItem(SISTE_NYHET_OPPRETTET_KEY, JSON.stringify(sisteNyhet?._createdAt));
         }
     };
 
     return (
-        <Dropdown onOpenChange={handleOpenChange}>
-            <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
+        <>
+            <InternalHeader.Button ref={buttonRef} aria-label="Nyheter i Speil" onClick={handleToggle}>
                 {skalViseIkonMedPrikk ? <BjelleDottIkon /> : <BellFillIcon title="nyheter i speil" fontSize="26px" />}
-            </Header.Button>
+            </InternalHeader.Button>
             {mounted && (
                 <Theme theme={resolvedTheme as 'light' | 'dark'}>
-                    <Dropdown.Menu className={styles.menu}>
-                        <Dropdown.Menu.GroupedList className={styles.list}>
-                            <Dropdown.Menu.GroupedList.Heading className={styles.heading}>
+                    <Popover
+                        anchorEl={buttonRef.current}
+                        open={open}
+                        onClose={() => setOpen(false)}
+                        placement="bottom-end"
+                    >
+                        <Popover.Content className="max-h-184 w-100 overflow-y-hidden p-0">
+                            <Heading
+                                level="2"
+                                size="xsmall"
+                                className="rounded-tl-xl rounded-tr-xl bg-ax-bg-accent-strong px-4 py-3 text-ax-text-neutral-contrast"
+                            >
                                 Nytt i Speil
-                            </Dropdown.Menu.GroupedList.Heading>
+                            </Heading>
                             {nyheter.length > 0 ? (
                                 <ScrollableContainer>
                                     {nyheter.map((nyhet) => (
@@ -53,23 +66,28 @@ export const Nyheter = () => {
                                     <BodyShort>Ingen nyheter</BodyShort>
                                 </HStack>
                             )}
-                        </Dropdown.Menu.GroupedList>
-                    </Dropdown.Menu>
+                        </Popover.Content>
+                    </Popover>
                 </Theme>
             )}
-        </Dropdown>
+        </>
     );
-};
+}
 
 const ScrollableContainer = ({ children }: PropsWithChildren) => {
-    return <ul className={styles.scrollablecontainer}>{children}</ul>;
+    return (
+        <ul className="m-0 max-h-[566px] w-full list-none divide-y divide-ax-border-neutral overflow-y-auto px-4">
+            {children}
+        </ul>
+    );
 };
 
 const harNyNyhet = (sisteNyhetOpprettet: string | undefined): boolean => {
     if (typeof window === 'undefined') return false;
-    const lagretSisteNyhetOpprettet = localStorage.getItem('sisteNyhetOpprettet');
+    if (!sisteNyhetOpprettet) return false;
+    const lagretSisteNyhetOpprettet = localStorage.getItem(SISTE_NYHET_OPPRETTET_KEY);
 
-    if (lagretSisteNyhetOpprettet === null && sisteNyhetOpprettet !== undefined) return true;
+    if (lagretSisteNyhetOpprettet === null) return true;
 
-    return dayjs(sisteNyhetOpprettet).isAfter(JSON.parse(lagretSisteNyhetOpprettet!));
+    return dayjs(sisteNyhetOpprettet).isAfter(JSON.parse(lagretSisteNyhetOpprettet));
 };

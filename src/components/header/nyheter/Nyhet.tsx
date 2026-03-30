@@ -1,42 +1,42 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Heading, Link, VStack } from '@navikt/ds-react';
 
-import { NyhetDialog } from '@components/header/nyheter/NyhetModal';
+import { NyhetDialog } from '@components/header/nyheter/NyhetDialog';
+import { portableTextComponents } from '@components/header/nyheter/portableTextComponents';
 import { NyhetType } from '@external/sanity';
-import { PortableText, PortableTextComponents } from '@portabletext/react';
+import { PortableText } from '@portabletext/react';
 import { getFormattedDateString } from '@utils/date';
-import { cn } from '@utils/tw';
 
-import styles from './Nyhet.module.scss';
+const LUKKEDE_TVUNGNE_MODALER_KEY = 'nyhetIderForLukkedeTvungneModaler';
 
 interface NyhetProps {
     nyhet: NyhetType;
 }
 
-export const Nyhet = ({ nyhet }: NyhetProps) => {
+export function Nyhet({ nyhet }: NyhetProps): ReactElement {
     const [showModal, setShowModal] = useState(false);
-    const nyhetIderForLukkedeTvungeneModaler = localStorage.getItem('nyhetIderForLukkedeTvungeneModaler');
-    ryddOppLocalStorage(nyhet, nyhetIderForLukkedeTvungeneModaler);
+    const [tvungenModalLukket, setTvungenModalLukket] = useState(false);
+
+    useEffect(() => {
+        ryddOppLocalStorage(nyhet);
+    }, [nyhet]);
+
+    const visModal = showModal || (!tvungenModalLukket && skalViseTvungenModal(nyhet));
 
     return (
-        <VStack className={styles.nyhet} as="li" gap="space-8">
-            <BodyShort className={styles.dato} size="small">
+        <VStack className="py-4" as="li" gap="space-8">
+            <BodyShort className="text-ax-text-neutral-subtle" size="small">
                 {getFormattedDateString(nyhet.dato)}
             </BodyShort>
             <Heading level="2" size="xsmall">
                 {nyhet.tittel}
             </Heading>
-            <PortableText value={nyhet.beskrivelse} components={components} />
+            <PortableText value={nyhet.beskrivelse} components={portableTextComponents} />
             <HStack justify="space-between" gap="space-12 space-0">
                 {nyhet.modal.antallSlides > 0 && (
-                    <Button
-                        className={styles.button}
-                        variant="secondary"
-                        size="small"
-                        onClick={() => setShowModal(true)}
-                    >
+                    <Button variant="secondary" size="small" onClick={() => setShowModal(true)}>
                         Se hvordan
                     </Button>
                 )}
@@ -47,14 +47,15 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
                     </Link>
                 )}
             </HStack>
-            {skalViseModal(showModal, nyhet, nyhetIderForLukkedeTvungeneModaler) && (
+            {visModal && (
                 <NyhetDialog
                     nyhetModal={nyhet.modal}
-                    open={skalViseModal(showModal, nyhet, nyhetIderForLukkedeTvungeneModaler)}
+                    open
                     onOpenChange={(nextOpen) => {
                         if (!nextOpen) {
                             setShowModal(false);
                             if (nyhet.modal.tvungenModal) {
+                                setTvungenModalLukket(true);
                                 lagreTvungenModalLukket(nyhet._id);
                             }
                         }
@@ -63,49 +64,31 @@ export const Nyhet = ({ nyhet }: NyhetProps) => {
             )}
         </VStack>
     );
+}
+
+const hentLukkedeModalIder = (): string[] => {
+    const raw = localStorage.getItem(LUKKEDE_TVUNGNE_MODALER_KEY);
+    return raw ? JSON.parse(raw) : [];
 };
 
-const skalViseModal = (showModal: boolean, nyhet: NyhetType, ider: string | null): boolean => {
-    if (showModal) return true;
-    if (ider) {
-        const idListe: string[] = JSON.parse(ider);
-        if (idListe.includes(nyhet._id)) return false;
-    }
-    return nyhet.modal.tvungenModal;
+const skalViseTvungenModal = (nyhet: NyhetType): boolean => {
+    if (!nyhet.modal.tvungenModal) return false;
+    const lagrede = hentLukkedeModalIder();
+    return !lagrede.includes(nyhet._id);
 };
 
 const lagreTvungenModalLukket = (id: string): void => {
-    const ting = localStorage.getItem('nyhetIderForLukkedeTvungeneModaler');
-    if (ting) {
-        localStorage.setItem('nyhetIderForLukkedeTvungeneModaler', JSON.stringify([...JSON.parse(ting), id]));
-    } else {
-        localStorage.setItem('nyhetIderForLukkedeTvungeneModaler', JSON.stringify([id]));
-    }
+    const eksisterende = hentLukkedeModalIder();
+    localStorage.setItem(LUKKEDE_TVUNGNE_MODALER_KEY, JSON.stringify([...eksisterende, id]));
 };
 
-const ryddOppLocalStorage = (nyhet: NyhetType, iderFraLocalStorage: string | null) => {
-    if (iderFraLocalStorage && !nyhet.modal.tvungenModal) {
-        const idListe: string[] = JSON.parse(iderFraLocalStorage);
+const ryddOppLocalStorage = (nyhet: NyhetType) => {
+    if (nyhet.modal.tvungenModal) return;
+    const eksisterende = hentLukkedeModalIder();
+    if (eksisterende.includes(nyhet._id)) {
         localStorage.setItem(
-            'nyhetIderForLukkedeTvungeneModaler',
-            JSON.stringify(idListe.filter((id) => id !== nyhet._id)),
+            LUKKEDE_TVUNGNE_MODALER_KEY,
+            JSON.stringify(eksisterende.filter((id) => id !== nyhet._id)),
         );
     }
-};
-
-export const components: PortableTextComponents = {
-    block: {
-        normal: ({ children }) => <BodyShort>{children}</BodyShort>,
-    },
-    list: {
-        bullet: ({ children }) => <ul className={cn(styles.list, styles.unorderedlist)}>{children}</ul>,
-        number: ({ children }) => <ol className={styles.list}>{children}</ol>,
-    },
-    marks: {
-        link: ({ value, children }) => (
-            <a href={value?.href} target="_blank" rel="noopener noreferrer">
-                {children}
-            </a>
-        ),
-    },
 };
