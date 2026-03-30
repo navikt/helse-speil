@@ -4,12 +4,10 @@ import { useTheme } from 'next-themes';
 import React, { ReactElement } from 'react';
 
 import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
-import { Dropdown, InternalHeader as Header, Theme } from '@navikt/ds-react';
+import { ActionMenu, InternalHeader, Theme } from '@navikt/ds-react';
 
 import { useMounted } from '@hooks/useMounted';
 import { useFetchPersonQuery } from '@state/person';
-
-import styles from './SystemMenu.module.css';
 
 export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer: string | null) => {
     if (!fødselsnummer) {
@@ -67,34 +65,6 @@ export const hoppTilModia = async (url: string, fødselsnummer: string | null) =
 type CommonLinkProps = { tekst: string; snarveibokstav: string };
 type ButtonLink = CommonLinkProps & { action: () => void };
 type HrefLink = CommonLinkProps & { href: string };
-
-const Link = ({ tekst, href, snarveibokstav }: HrefLink): ReactElement => (
-    <Dropdown.Menu.GroupedList.Item key={tekst} as="a" href={href} target="_blank" className={styles.ExternalLink}>
-        <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
-    </Dropdown.Menu.GroupedList.Item>
-);
-
-const Button = ({ tekst, action, snarveibokstav }: ButtonLink): ReactElement => (
-    <Dropdown.Menu.GroupedList.Item key={tekst} as="button" className={styles.ExternalLink} onClick={action}>
-        <Lenkeinnhold tekst={tekst} snarveibokstav={snarveibokstav} />
-    </Dropdown.Menu.GroupedList.Item>
-);
-
-type LenkeinnholdProps = {
-    tekst: string;
-    snarveibokstav: string;
-};
-
-const Lenkeinnhold = ({ tekst, snarveibokstav }: LenkeinnholdProps): ReactElement => (
-    <>
-        {tekst}
-        <ExternalLinkIcon fontSize="1.1rem" title="Åpne ekstern lenke" />
-        <span className={styles.snarvei}>
-            <span className={styles.tast}>⇧</span>
-            <span className={styles.tast}>{snarveibokstav}</span>
-        </span>
-    </>
-);
 
 const createLinks = (maybeFnr: string | null, maybeAktoerId: string | null): (HrefLink | ButtonLink)[] => [
     {
@@ -167,23 +137,22 @@ export const SystemMenu = (): ReactElement => {
     const mounted = useMounted();
 
     return (
-        <Dropdown>
-            <Header.Button as={Dropdown.Toggle} aria-label="Toggle dropdown">
-                <MenuGridIcon title="Systemmeny" fontSize="2.25rem" />
-            </Header.Button>
+        <ActionMenu>
+            <ActionMenu.Trigger>
+                <InternalHeader.Button aria-label="Systemmeny">
+                    <MenuGridIcon title="Systemmeny" fontSize="2.25rem" />
+                </InternalHeader.Button>
+            </ActionMenu.Trigger>
             {mounted && (
                 <Theme theme={resolvedTheme as 'light' | 'dark'}>
-                    <Dropdown.Menu className={styles.DropdownContent}>
-                        <Dropdown.Menu.GroupedList>
-                            <Dropdown.Menu.GroupedList.Heading>
-                                Systemer og oppslagsverk
-                            </Dropdown.Menu.GroupedList.Heading>
+                    <ActionMenu.Content>
+                        <ActionMenu.Group label="Systemer og oppslagsverk">
                             <SystemMenuLinks />
-                        </Dropdown.Menu.GroupedList>
-                    </Dropdown.Menu>
+                        </ActionMenu.Group>
+                    </ActionMenu.Content>
                 </Theme>
             )}
-        </Dropdown>
+        </ActionMenu>
     );
 };
 
@@ -194,9 +163,25 @@ function SystemMenuLinks(): ReactElement[] {
 
     return createLinks(maybeFnr, maybeAktoerId).map((link) =>
         'href' in link ? (
-            <Link key={link.tekst} tekst={link.tekst} href={link.href} snarveibokstav={link.snarveibokstav} />
+            <ActionMenu.Item
+                key={link.tekst}
+                as="a"
+                href={link.href}
+                target="_blank"
+                shortcut={`⇧+${link.snarveibokstav}`}
+                icon={<ExternalLinkIcon aria-hidden />}
+            >
+                {link.tekst}
+            </ActionMenu.Item>
         ) : (
-            <Button key={link.tekst} tekst={link.tekst} action={link.action} snarveibokstav={link.snarveibokstav} />
+            <ActionMenu.Item
+                key={link.tekst}
+                onSelect={link.action}
+                shortcut={`⇧+${link.snarveibokstav}`}
+                icon={<ExternalLinkIcon aria-hidden />}
+            >
+                {link.tekst}
+            </ActionMenu.Item>
         ),
     );
 }

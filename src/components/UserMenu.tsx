@@ -3,6 +3,7 @@
 import { useTheme } from 'next-themes';
 import React, { ReactElement, useState } from 'react';
 
+import { LeaveIcon } from '@navikt/aksel-icons';
 import { ActionMenu, BodyShort, HStack, Tag, Theme, VStack } from '@navikt/ds-react';
 import { InternalHeaderUserButton } from '@navikt/ds-react/InternalHeader';
 
@@ -70,7 +71,7 @@ export const UserMenu = (): ReactElement => {
                             <ActionMenu.Divider />
                             <DarkModeToggle />
                             <ActionMenu.Divider />
-                            <ActionMenu.Item as="a" href="/oauth2/logout">
+                            <ActionMenu.Item as="a" href="/oauth2/logout" icon={<LeaveIcon aria-hidden />}>
                                 Logg ut
                             </ActionMenu.Item>
                         </ActionMenu.Content>
