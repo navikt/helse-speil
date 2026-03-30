@@ -129,7 +129,7 @@ function SaksbildeDropdownMenuContent({
                                 {personIsAssignedUser || person.tildeling ? (
                                     <ActionMenu.Item
                                         disabled={loadingFjern}
-                                        onSelect={() => avmeld()}
+                                        onSelect={avmeld}
                                         className="text-ax-large"
                                     >
                                         {personIsAssignedUser ? 'Meld av' : 'Frigi oppgave'}
@@ -138,7 +138,7 @@ function SaksbildeDropdownMenuContent({
                                 ) : (
                                     <ActionMenu.Item
                                         disabled={loadingOpprett}
-                                        onSelect={() => tildel()}
+                                        onSelect={tildel}
                                         className="text-ax-large"
                                     >
                                         Tildel meg
