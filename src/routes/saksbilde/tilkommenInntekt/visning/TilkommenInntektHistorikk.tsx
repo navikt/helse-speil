@@ -17,6 +17,8 @@ import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 
+import { TilkommenInntektHistorikkmeny } from './TilkommenInntektHistorikkmeny';
+
 const TilkommenInntektHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
     const person = fetchPersonData?.person ?? null;
@@ -74,6 +76,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
                 </motion.div>
             </JusterbarSidemeny>
             {person && showHøyremeny && <OpenedDokument person={person} />}
+            <TilkommenInntektHistorikkmeny />
         </HStack>
     );
 };
