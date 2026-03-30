@@ -10,11 +10,11 @@ export const TilkommenInntektHistorikkmeny = (): ReactElement => {
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, setShowHøyremeny] = useShowHøyremenyState();
 
-    const toggleHistorikk = () => {
+    function toggleHistorikk() {
         const next = !(showHistorikk && showHøyremeny);
         setShowHistorikk(next);
         setShowHøyremeny(next);
-    };
+    }
 
     return (
         <VStack align="center" className="z-1 ml-auto w-[58px] border-l border-ax-border-neutral-subtle">
