@@ -90,21 +90,20 @@ export interface SkjønnsfastsattSykepengegrunnlagDTO {
     aktørId: string;
     fødselsnummer: string;
     skjæringstidspunkt: string;
-    arbeidsgivere: SkjønnsfastsattArbeidsgiver[];
-    vedtaksperiodeId: string;
-}
-
-export interface SkjønnsfastsattArbeidsgiver {
-    organisasjonsnummer: string;
-    årlig: number;
-    fraÅrlig: number;
     årsak: string;
     type: SkjønnsfastsettingstypeDTO;
     begrunnelseMal?: string;
     begrunnelseFritekst?: string;
     begrunnelseKonklusjon?: string;
     lovhjemmel?: Lovhjemmel;
-    initierendeVedtaksperiodeId: string | null;
+    vedtaksperiodeId: string;
+    arbeidsgivere: SkjønnsfastsattArbeidsgiver[];
+}
+
+export interface SkjønnsfastsattArbeidsgiver {
+    organisasjonsnummer: string;
+    årlig: number;
+    fraÅrlig: number;
 }
 
 export enum SkjønnsfastsettingstypeDTO {

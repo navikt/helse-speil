@@ -16,6 +16,7 @@ import type {
     ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
     ApiHttpProblemDetailsApiPostPersonSokErrorCode,
+    ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode,
     ApiHttpProblemDetailsApiPutTildelingErrorCode,
     ApiInfotrygdperiode,
     ApiKrrRegistrertStatus,
@@ -24,6 +25,7 @@ import type {
     ApiPersonSokResponse,
     ApiServerSentEvent,
     ApiStansRequest,
+    ApiSykepengegrunnlagRequest,
     ApiTildelingRequest,
 } from '../spesialist.schemas';
 
@@ -425,6 +427,83 @@ export const usePatchVeilederStans = <
     TContext
 > => {
     const mutationOptions = getPatchVeilederStansMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const postSykepengegrunnlag = (
+    pseudoId: string,
+    skjaeringstidspunkt: string,
+    apiSykepengegrunnlagRequest?: ApiSykepengegrunnlagRequest,
+    signal?: AbortSignal,
+) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/personer/${pseudoId}/sykefravaerstilfeller/${skjaeringstidspunkt}/sykepengegrunnlag`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiSykepengegrunnlagRequest,
+        signal,
+    });
+};
+
+export const getPostSykepengegrunnlagMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postSykepengegrunnlag>>,
+        TError,
+        { pseudoId: string; skjaeringstidspunkt: string; data: ApiSykepengegrunnlagRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postSykepengegrunnlag>>,
+    TError,
+    { pseudoId: string; skjaeringstidspunkt: string; data: ApiSykepengegrunnlagRequest },
+    TContext
+> => {
+    const mutationKey = ['postSykepengegrunnlag'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postSykepengegrunnlag>>,
+        { pseudoId: string; skjaeringstidspunkt: string; data: ApiSykepengegrunnlagRequest }
+    > = (props) => {
+        const { pseudoId, skjaeringstidspunkt, data } = props ?? {};
+
+        return postSykepengegrunnlag(pseudoId, skjaeringstidspunkt, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostSykepengegrunnlagMutationResult = NonNullable<Awaited<ReturnType<typeof postSykepengegrunnlag>>>;
+export type PostSykepengegrunnlagMutationBody = ApiSykepengegrunnlagRequest;
+export type PostSykepengegrunnlagMutationError = ErrorType<ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode>;
+
+export const usePostSykepengegrunnlag = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postSykepengegrunnlag>>,
+            TError,
+            { pseudoId: string; skjaeringstidspunkt: string; data: ApiSykepengegrunnlagRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postSykepengegrunnlag>>,
+    TError,
+    { pseudoId: string; skjaeringstidspunkt: string; data: ApiSykepengegrunnlagRequest },
+    TContext
+> => {
+    const mutationOptions = getPostSykepengegrunnlagMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

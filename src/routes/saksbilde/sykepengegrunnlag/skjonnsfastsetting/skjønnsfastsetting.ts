@@ -1,22 +1,18 @@
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
-import { useMutation } from '@apollo/client';
 import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
-import {
-    SkjonnsfastsettelseArbeidsgiverInput,
-    SkjonnsfastsettelseInput,
-    SkjonnsfastsettelseMutationDocument,
-    SkjonnsfastsettelseType,
-} from '@io/graphql';
+import { usePostSykepengegrunnlag } from '@io/rest/generated/personer/personer';
 import { useCalculatingState } from '@state/calculating';
-import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
+import {
+    kalkulererFerdigToastKey,
+    kalkulererToast,
+    kalkulererToastKey,
+    kalkuleringFerdigToast,
+} from '@state/kalkuleringstoasts';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import {
-    SkjønnsfastsattArbeidsgiver,
-    SkjønnsfastsattSykepengegrunnlagDTO,
-    SkjønnsfastsettingstypeDTO,
-} from '@typer/overstyring';
+import { SkjønnsfastsattSykepengegrunnlagDTO } from '@typer/overstyring';
 
 export enum Skjønnsfastsettingstype {
     OMREGNET_ÅRSINNTEKT = 'OMREGNET_ÅRSINNTEKT',
@@ -29,8 +25,9 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
     const removeToast = useRemoveToast();
     const [calculating, setCalculating] = useCalculatingState();
     const [timedOut, setTimedOut] = useState(false);
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
-    const [overstyrMutation, { error, loading }] = useMutation(SkjonnsfastsettelseMutationDocument);
+    const { mutate, error, isPending: loading } = usePostSykepengegrunnlag();
 
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && calculating) {
@@ -49,48 +46,38 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
         setTimedOut,
         postSkjønnsfastsetting: (skjønnsfastsattSykepengegrunnlag?: SkjønnsfastsattSykepengegrunnlagDTO) => {
             if (skjønnsfastsattSykepengegrunnlag === undefined) return;
-            const skjønnsfastsettelse: SkjonnsfastsettelseInput = {
-                aktorId: skjønnsfastsattSykepengegrunnlag.aktørId,
-                arbeidsgivere: skjønnsfastsattSykepengegrunnlag.arbeidsgivere.map(
-                    (arbeidsgiver: SkjønnsfastsattArbeidsgiver): SkjonnsfastsettelseArbeidsgiverInput => ({
-                        arlig: arbeidsgiver.årlig,
-                        arsak: arbeidsgiver.årsak,
-                        lovhjemmel:
-                            arbeidsgiver.lovhjemmel !== undefined
-                                ? {
-                                      bokstav: arbeidsgiver.lovhjemmel.bokstav,
-                                      ledd: arbeidsgiver.lovhjemmel.ledd,
-                                      paragraf: arbeidsgiver.lovhjemmel.paragraf,
-                                      lovverk: arbeidsgiver.lovhjemmel.lovverk,
-                                      lovverksversjon: arbeidsgiver.lovhjemmel.lovverksversjon,
-                                  }
-                                : undefined,
-                        begrunnelseFritekst: arbeidsgiver.begrunnelseFritekst,
-                        begrunnelseKonklusjon: arbeidsgiver.begrunnelseKonklusjon,
-                        begrunnelseMal: arbeidsgiver.begrunnelseMal,
-                        fraArlig: arbeidsgiver.fraÅrlig,
-                        initierendeVedtaksperiodeId: arbeidsgiver.initierendeVedtaksperiodeId,
-                        organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-                        type:
-                            arbeidsgiver.type === SkjønnsfastsettingstypeDTO.OMREGNET_ÅRSINNTEKT
-                                ? SkjonnsfastsettelseType.OmregnetArsinntekt
-                                : arbeidsgiver.type === SkjønnsfastsettingstypeDTO.RAPPORTERT_ÅRSINNTEKT
-                                  ? SkjonnsfastsettelseType.RapportertArsinntekt
-                                  : SkjonnsfastsettelseType.Annet,
-                    }),
-                ),
-                fodselsnummer: skjønnsfastsattSykepengegrunnlag.fødselsnummer,
-                skjaringstidspunkt: skjønnsfastsattSykepengegrunnlag.skjæringstidspunkt,
-                vedtaksperiodeId: skjønnsfastsattSykepengegrunnlag.vedtaksperiodeId,
-            };
+            setCalculating(true);
+            addToast(kalkulererToast({}));
 
-            void overstyrMutation({
-                variables: { skjonnsfastsettelse: skjønnsfastsettelse },
-                onCompleted: () => {
-                    setCalculating(true);
-                    addToast(kalkulererToast({}));
+            void mutate(
+                {
+                    pseudoId: personPseudoId,
+                    skjaeringstidspunkt: skjønnsfastsattSykepengegrunnlag.skjæringstidspunkt,
+                    data: {
+                        sykepengegrunnlagstype: {
+                            discriminatorType: 'ApiSkjønnsfastsatt',
+                            skjønnsfastsettelsestype: skjønnsfastsattSykepengegrunnlag.type,
+                            skjønnsfastsatteInntekter: skjønnsfastsattSykepengegrunnlag.arbeidsgivere.map((ag) => ({
+                                organisasjonsnummer: ag.organisasjonsnummer,
+                                fraÅrlig: ag.fraÅrlig,
+                                årlig: ag.årlig,
+                            })),
+                            lovverksreferanse: skjønnsfastsattSykepengegrunnlag.lovhjemmel!,
+                        },
+                        årsak: skjønnsfastsattSykepengegrunnlag.årsak,
+                        intierendeVedtaksperiodeId: skjønnsfastsattSykepengegrunnlag.vedtaksperiodeId,
+                        begrunnelseMal: skjønnsfastsattSykepengegrunnlag.begrunnelseMal,
+                        begrunnelseFritekst: skjønnsfastsattSykepengegrunnlag.begrunnelseFritekst,
+                        begrunnelseKonklusjon: skjønnsfastsattSykepengegrunnlag.begrunnelseKonklusjon,
+                    },
                 },
-            });
+                {
+                    onError: () => {
+                        setCalculating(false);
+                        removeToast(kalkulererToastKey);
+                    },
+                },
+            );
         },
     };
 };

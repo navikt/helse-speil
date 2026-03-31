@@ -1143,6 +1143,87 @@ export interface ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode {
     code?: ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeCode;
 }
 
+export type ApiSykepengegrunnlagRequestApiSykepengegrunnlagtype = ApiSkjønnsfastsatt;
+
+export type ApiSkjønnsfastsattDiscriminatorType =
+    (typeof ApiSkjønnsfastsattDiscriminatorType)[keyof typeof ApiSkjønnsfastsattDiscriminatorType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiSkjønnsfastsattDiscriminatorType = {
+    ApiSkjønnsfastsatt: 'ApiSkjønnsfastsatt',
+} as const;
+
+export interface ApiSkjønnsfastsatt {
+    skjønnsfastsettelsestype: ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype;
+    skjønnsfastsatteInntekter: ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsattInntekt[];
+    lovverksreferanse: ApiLovverksreferanse;
+    discriminatorType: ApiSkjønnsfastsattDiscriminatorType;
+}
+
+export type ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype =
+    (typeof ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype)[keyof typeof ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype = {
+    OMREGNET_ÅRSINNTEKT: 'OMREGNET_ÅRSINNTEKT',
+    RAPPORTERT_ÅRSINNTEKT: 'RAPPORTERT_ÅRSINNTEKT',
+    ANNET: 'ANNET',
+} as const;
+
+export interface ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsattInntekt {
+    organisasjonsnummer: string;
+    årlig: number;
+    fraÅrlig: number;
+}
+
+export type ApiLovverksreferanseLedd = null | string;
+
+export type ApiLovverksreferanseBokstav = null | string;
+
+export interface ApiLovverksreferanse {
+    paragraf: string;
+    ledd?: ApiLovverksreferanseLedd;
+    bokstav?: ApiLovverksreferanseBokstav;
+    lovverk: string;
+    lovverksversjon: string;
+}
+
+export type ApiSykepengegrunnlagRequestBegrunnelseMal = null | string;
+
+export type ApiSykepengegrunnlagRequestBegrunnelseFritekst = null | string;
+
+export type ApiSykepengegrunnlagRequestBegrunnelseKonklusjon = null | string;
+
+export interface ApiSykepengegrunnlagRequest {
+    årsak: string;
+    sykepengegrunnlagstype: ApiSykepengegrunnlagRequestApiSykepengegrunnlagtype;
+    begrunnelseMal?: ApiSykepengegrunnlagRequestBegrunnelseMal;
+    begrunnelseFritekst?: ApiSykepengegrunnlagRequestBegrunnelseFritekst;
+    begrunnelseKonklusjon?: ApiSykepengegrunnlagRequestBegrunnelseKonklusjon;
+    intierendeVedtaksperiodeId: string;
+}
+
+export type ApiPostSykepengegrunnlagErrorCode =
+    (typeof ApiPostSykepengegrunnlagErrorCode)[keyof typeof ApiPostSykepengegrunnlagErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostSykepengegrunnlagErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCodeCode = null | ApiPostSykepengegrunnlagErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCodeCode;
+}
+
 export type ApiVedtakRequestBegrunnelse = null | string;
 
 export interface ApiVedtakRequest {
