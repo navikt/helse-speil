@@ -5,7 +5,7 @@ engineStrict: true # Krever at alle pakker vi installerer skal ha støtte for no
 
 minimumReleaseAge: 10080  # 7 dager i minutter. Matcher vår dependanbot-config
 
-# trustPolicy: no-downgrade # Ikke tillat å oppdatere en pakke om "trust level" er lavere på ny versjon enn gammel
+trustPolicy: no-downgrade # Ikke tillat å oppdatere en pakke om "trust level" er lavere på ny versjon enn gammel
 
 # Disse er true by default, men vi setter dem eksplisitt for tydelighetens skyld
 lockfile: true

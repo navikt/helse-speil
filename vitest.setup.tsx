@@ -14,7 +14,7 @@ mockRouter.default.useParser(
 
 const useRouter = mockRouter.useRouter;
 
-export const MockNextNavigation = {
+const MockNextNavigation = {
     ...mockRouter,
     notFound: vi.fn(),
     redirect: vi.fn().mockImplementation((url: string) => {
@@ -39,21 +39,8 @@ export const MockNextNavigation = {
 vi.mock('next/navigation', () => MockNextNavigation);
 
 vi.mock('next/image', () => ({
-    default: ({
-        src,
-        alt,
-        priority,
-        unoptimized,
-        fill,
-        ...rest
-    }: {
-        src: string;
-        alt: string;
-        priority?: boolean;
-        unoptimized?: boolean;
-        fill?: boolean;
-        [_: string]: unknown;
-    }) => {
+    default: ({ src, alt, ...rest }: { src: string; alt: string; [_: string]: unknown }) => {
+        // eslint-disable-next-line @next/next/no-img-element
         return <img src={src} alt={alt} {...rest} />;
     },
 }));
@@ -67,9 +54,8 @@ export const defaultAxiosResponse = {
     config: { headers: {} },
 };
 
-// Type for the custom axios mock that includes HTTP method properties
 type MockFn = ReturnType<typeof vi.fn>;
-interface CustomAxiosMock extends MockFn {
+type CustomAxiosMock = MockFn & {
     get: MockFn;
     delete: MockFn;
     head: MockFn;
@@ -77,11 +63,10 @@ interface CustomAxiosMock extends MockFn {
     post: MockFn;
     put: MockFn;
     patch: MockFn;
-}
+};
 
-// Custom mock function that maintains default implementations
-const createCustomAxiosMock = (): CustomAxiosMock => {
-    const mockFn = vi.fn() as CustomAxiosMock;
+function createCustomAxiosMock(): CustomAxiosMock {
+    const mockFn = vi.fn() as unknown as CustomAxiosMock;
     mockFn.get = vi.fn();
     mockFn.delete = vi.fn();
     mockFn.head = vi.fn();
@@ -90,7 +75,7 @@ const createCustomAxiosMock = (): CustomAxiosMock => {
     mockFn.put = vi.fn();
     mockFn.patch = vi.fn();
     return mockFn;
-};
+}
 
 const customAxiosMock = createCustomAxiosMock();
 
@@ -99,15 +84,15 @@ vi.mock('@app/axios/axiosClient', () => ({
 }));
 
 beforeEach(() => {
-    vi.resetAllMocks();
-    // Re-apply default implementations after reset
+    vi.clearAllMocks();
 });
 
-// Suppress known console warnings/errors that are not relevant to tests
+// TODO: Remove when Apollo/GraphQL is fully phased out
+// eslint-disable-next-line no-console
 const originalConsoleError = console.error;
+// eslint-disable-next-line no-console
 console.error = (...args: unknown[]) => {
     const message = typeof args[0] === 'string' ? args[0] : '';
-    // Suppress Apollo Client canonizeResults deprecation warning
     if (message.includes('canonizeResults') || message.includes('go.apollo.dev')) {
         return;
     }
