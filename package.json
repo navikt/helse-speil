@@ -136,6 +136,7 @@
         "vitest": "^4.1.3"
     },
     "overrides": {
-        "@asyncapi/specs": "6.10.0"
+        "@asyncapi/specs": "6.10.0",
+        "vite": ">=7.3.2"
     }
 }
