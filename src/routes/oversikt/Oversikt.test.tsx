@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mock, vi } from 'vitest';
-import { axe } from 'vitest-axe';
 
+import { axe } from '@/test/axe';
 import { HentBehandlingsstatistikkDocument } from '@io/graphql';
 import { useAntallOppgaver, useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
@@ -52,7 +52,7 @@ describe('Oversikt', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     }, 10_000);
 });
 

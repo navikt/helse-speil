@@ -1,6 +1,6 @@
 import React from 'react';
-import { axe } from 'vitest-axe';
 
+import { axe } from '@/test/axe';
 import { render } from '@testing-library/react';
 
 import { IkkeLoggetInn } from './IkkeLoggetInn';
@@ -11,6 +11,6 @@ describe('IkkeLoggetInn', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     });
 });

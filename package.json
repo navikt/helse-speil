@@ -111,6 +111,7 @@
         "@types/react-dom": "^19.2.3",
         "@typescript-eslint/eslint-plugin": "^8.46.1",
         "@typescript-eslint/parser": "^8.53.1",
+        "axe-core": "^4.11.2",
         "babel-plugin-react-compiler": "^1.0.0",
         "eslint": "^9.37.0",
         "eslint-config-next": "^16.0.7",
@@ -132,8 +133,7 @@
         "tailwindcss": "^4.1.18",
         "ts-node": "^10.9.2",
         "typescript": "^5.9.3",
-        "vitest": "^4.1.2",
-        "vitest-axe": "^1.0.0-pre.3"
+        "vitest": "^4.1.2"
     },
     "overrides": {
         "@asyncapi/specs": "6.10.0"

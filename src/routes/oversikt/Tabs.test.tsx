@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
-import { axe } from 'vitest-axe';
 
+import { axe } from '@/test/axe';
 import { render } from '@test-utils';
 import { screen, within } from '@testing-library/react';
 
@@ -22,7 +22,7 @@ describe('Tabs', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     });
 
     it('rendrer antall oppgaver', async () => {

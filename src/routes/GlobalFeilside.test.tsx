@@ -1,6 +1,6 @@
 import React from 'react';
-import { axe } from 'vitest-axe';
 
+import { axe } from '@/test/axe';
 import { render, screen } from '@testing-library/react';
 
 import { GlobalFeilside } from './GlobalFeilside';
@@ -11,7 +11,7 @@ describe('GlobalFeilside', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     });
 
     it('rendrer feilmelding', () => {

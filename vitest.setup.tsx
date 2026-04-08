@@ -1,7 +1,6 @@
 import * as mockRouter from 'next-router-mock';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 import { beforeEach, vi } from 'vitest';
-import 'vitest-axe/extend-expect';
 
 import '@testing-library/jest-dom/vitest';
 import '@utils/dayjs.setup';

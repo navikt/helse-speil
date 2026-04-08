@@ -1,9 +1,9 @@
 import React from 'react';
 import { Mock, vi } from 'vitest';
-import { axe } from 'vitest-axe';
 
 import { SortState } from '@navikt/ds-react';
 
+import { axe } from '@/test/axe';
 import { useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@test-utils';
@@ -36,7 +36,7 @@ describe('OppgaverTable', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     });
 
     it('rendrer alle headere', () => {

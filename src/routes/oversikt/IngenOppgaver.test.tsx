@@ -1,6 +1,6 @@
 import React from 'react';
-import { axe } from 'vitest-axe';
 
+import { axe } from '@/test/axe';
 import { render } from '@test-utils';
 
 import { IngenOppgaver } from './IngenOppgaver';
@@ -12,7 +12,7 @@ describe('Ingen oppgaver', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     });
 
     it('rendrer behandlet idag uten violations', async () => {
@@ -20,7 +20,7 @@ describe('Ingen oppgaver', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     });
 
     it('rendrer mine oppgaver uten violations', async () => {
@@ -28,7 +28,7 @@ describe('Ingen oppgaver', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     });
 
     it('rendrer ventende oppgaver uten violations', async () => {
@@ -36,6 +36,6 @@ describe('Ingen oppgaver', () => {
 
         const result = await axe(container);
 
-        expect(result).toHaveNoViolations();
+        expect(result.violations).toEqual([]);
     });
 });
