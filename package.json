@@ -139,7 +139,8 @@
     "pnpm": {
         "overrides": {
             "@asyncapi/specs": "6.10.0",
-            "picomatch": ">=4.0.4"
+            "picomatch": ">=4.0.4",
+            "minimatch": ">=3.1.3"
         }
     }
 }
