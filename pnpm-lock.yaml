@@ -126,8 +126,8 @@ importers:
         version: 4.1.13
     devDependencies:
       '@eslint/js':
-        specifier: ^9.37.0
-        version: 9.39.1
+        specifier: ^9.39.4
+        version: 9.39.4
       '@graphiql/toolkit':
         specifier: ^0.11.3
         version: 0.11.3(@types/node@24.10.1)(graphql-ws@6.0.6(graphql@16.12.0)(ws@8.20.0))(graphql@16.12.0)
@@ -722,6 +722,10 @@ packages:
 
   '@eslint/js@9.39.1':
     resolution: {integrity: sha512-S26Stp4zCy88tH94QbBv3XCuzRQiZ9yXofEILmglYTh/Ug/a9/umqvgFtYBAo3Lp0nsI/5/qH1CCrbdK3AP1Tw==}
+    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  '@eslint/js@9.39.4':
+    resolution: {integrity: sha512-nE7DEIchvtiFTwBw4Lfbu59PG+kCofhjsKaCWzxTpt4lfRjRMqG6uMBzKXuEcyXhOHoUp9riAm7/aWYGhXZ9cw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
   '@eslint/object-schema@2.1.7':
@@ -1428,9 +1432,6 @@ packages:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
 
   '@navikt/ds-tailwind@8.8.0':
     resolution: {integrity: sha512-dwBVPghsK5tS5qHSIhlB8prDvm8xpZqNo1hUyagbZuFiGa4tKP2iyIWxaewTtt4AQE2NlzJsvZ9deGD3Vjpnww==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.8.0/5f4bd2a1773ace915d72a7f2626f2a56b2aebff8}
@@ -6039,6 +6040,8 @@ snapshots:
 
   '@eslint/js@9.39.1': {}
 
+  '@eslint/js@9.39.4': {}
+
   '@eslint/object-schema@2.1.7': {}
 
   '@eslint/plugin-kit@0.4.1':
@@ -6883,12 +6886,11 @@ snapshots:
       '@floating-ui/react-dom': 2.1.8(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       '@navikt/aksel-icons': 8.8.0
       '@navikt/ds-tokens': 8.8.0
+      '@types/react': 19.2.7
       date-fns: 4.1.0
       react: 19.2.3
       react-day-picker: 9.7.0(react@19.2.3)
       react-dom: 19.2.3(react@19.2.3)
-    optionalDependencies:
-      '@types/react': 19.2.7
 
   '@navikt/ds-tailwind@8.8.0': {}
 
