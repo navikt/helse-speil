@@ -34,23 +34,11 @@ function InfovarselOmVeilederStansContainer(): ReactElement | null {
         );
     }
 
-    const { unntattFraAutomatisering } = currentPerson.personinfo;
-
     if (veilederStans?.erStanset) {
         return (
             <UnntattFraAutomatisering
                 årsaker={veilederStans.årsaker}
                 tidspunkt={veilederStans.tidspunkt!}
-                fødselsnummer={currentPerson.fodselsnummer}
-            />
-        );
-    }
-
-    if (unntattFraAutomatisering?.erUnntatt) {
-        return (
-            <UnntattFraAutomatisering
-                årsaker={unntattFraAutomatisering.arsaker}
-                tidspunkt={unntattFraAutomatisering.tidspunkt!}
                 fødselsnummer={currentPerson.fodselsnummer}
             />
         );
