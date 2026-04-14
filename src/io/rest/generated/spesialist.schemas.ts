@@ -410,6 +410,45 @@ export interface ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode {
     code?: ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeCode;
 }
 
+export type ApiVeilederStansÅrsak = (typeof ApiVeilederStansÅrsak)[keyof typeof ApiVeilederStansÅrsak];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiVeilederStansÅrsak = {
+    MEDISINSK_VILKAR: 'MEDISINSK_VILKAR',
+    AKTIVITETSKRAV: 'AKTIVITETSKRAV',
+    MANGLENDE_MEDVIRKING: 'MANGLENDE_MEDVIRKING',
+    BESTRIDELSE_SYKMELDING: 'BESTRIDELSE_SYKMELDING',
+} as const;
+
+export type ApiVeilederStansTidspunkt = null | string;
+
+export interface ApiVeilederStans {
+    erStanset: boolean;
+    årsaker: ApiVeilederStansÅrsak[];
+    tidspunkt?: ApiVeilederStansTidspunkt;
+}
+
+export type ApiGetVeilederStansErrorCode =
+    (typeof ApiGetVeilederStansErrorCode)[keyof typeof ApiGetVeilederStansErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetVeilederStansErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetVeilederStansErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetVeilederStansErrorCodeCode = null | ApiGetVeilederStansErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetVeilederStansErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetVeilederStansErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetVeilederStansErrorCodeCode;
+}
+
 export type ApiPatchVeilederStansErrorCode =
     (typeof ApiPatchVeilederStansErrorCode)[keyof typeof ApiPatchVeilederStansErrorCode];
 

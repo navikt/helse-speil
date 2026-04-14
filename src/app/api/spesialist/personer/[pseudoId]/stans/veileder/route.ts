@@ -1,4 +1,5 @@
 import { stubEllerVideresendTilSpesialist } from '@app/api/spesialist/common';
-import { stub } from '@app/api/spesialist/personer/[pseudoId]/stans/veileder/stub';
+import { getStub, patchStub } from '@app/api/spesialist/personer/[pseudoId]/stans/veileder/stub';
 
-export const PATCH = stubEllerVideresendTilSpesialist<{ pseudoId: string }>(stub);
+export const GET = stubEllerVideresendTilSpesialist<{ pseudoId: string }>(getStub);
+export const PATCH = stubEllerVideresendTilSpesialist<{ pseudoId: string }>(patchStub);

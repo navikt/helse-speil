@@ -4,8 +4,8 @@
  * API
  * OpenAPI spec version: latest
  */
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
     ApiBehandlendeEnhet,
     ApiHttpProblemDetailsApiDeleteTildelingErrorCode,
@@ -13,6 +13,7 @@ import type {
     ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
+    ApiHttpProblemDetailsApiGetVeilederStansErrorCode,
     ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
     ApiHttpProblemDetailsApiPostPersonSokErrorCode,
@@ -27,9 +28,9 @@ import type {
     ApiStansRequest,
     ApiSykepengegrunnlagRequest,
     ApiTildelingRequest,
+    ApiVeilederStans,
 } from '../spesialist.schemas';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -44,6 +45,7 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
  * Operasjon for Server Sent Events. NB: Gir en strøm av elementer. Ikke ment for bruk som normal GET-operasjon med f. eks. autogenerert Tanstack Query-hook!
@@ -359,6 +361,111 @@ export const usePatchSaksbehandlerStans = <
 
     return useMutation(mutationOptions, queryClient);
 };
+export const getVeilederStans = (pseudoId: string, signal?: AbortSignal) => {
+    return callCustomAxios<ApiVeilederStans>({
+        url: `/api/spesialist/personer/${pseudoId}/stans/veileder`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetVeilederStansQueryKey = (pseudoId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/stans/veileder`] as const;
+};
+
+export const getGetVeilederStansQueryOptions = <
+    TData = Awaited<ReturnType<typeof getVeilederStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+>(
+    pseudoId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData>> },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetVeilederStansQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getVeilederStans>>> = ({ signal }) =>
+        getVeilederStans(pseudoId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!pseudoId,
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetVeilederStansQueryResult = NonNullable<Awaited<ReturnType<typeof getVeilederStans>>>;
+export type GetVeilederStansQueryError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>;
+
+export function useGetVeilederStans<
+    TData = Awaited<ReturnType<typeof getVeilederStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getVeilederStans>>,
+                    TError,
+                    Awaited<ReturnType<typeof getVeilederStans>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetVeilederStans<
+    TData = Awaited<ReturnType<typeof getVeilederStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getVeilederStans>>,
+                    TError,
+                    Awaited<ReturnType<typeof getVeilederStans>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetVeilederStans<
+    TData = Awaited<ReturnType<typeof getVeilederStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+>(
+    pseudoId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetVeilederStans<
+    TData = Awaited<ReturnType<typeof getVeilederStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+>(
+    pseudoId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetVeilederStansQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
+
 export const patchVeilederStans = (pseudoId: string, apiStansRequest?: ApiStansRequest) => {
     return callCustomAxios<void>({
         url: `/api/spesialist/personer/${pseudoId}/stans/veileder`,

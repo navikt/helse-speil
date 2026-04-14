@@ -1,26 +1,52 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
+import { BodyShort, Button, HStack, InfoCard } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useGetVeilederStans } from '@io/rest/generated/personer/personer';
 import { useFetchPersonQuery } from '@state/person';
-import { cn } from '@utils/tw';
 
 import { UnntattFraAutomatisering } from './UnntattFraAutomatisering';
 
-import styles from '../personHeader/PersonHeader.module.css';
-
-const InfovarselOmVeilederStansContainer = (): ReactElement | null => {
+function InfovarselOmVeilederStansContainer(): ReactElement | null {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data, loading } = useFetchPersonQuery();
+    const { data: veilederStans, isLoading, error, refetch } = useGetVeilederStans(personPseudoId);
 
     const currentPerson = data?.person;
-    if (loading || currentPerson == null) {
+    if (loading || isLoading || currentPerson == null) {
         return null;
     }
 
-    const unntattFraAutomatisering = currentPerson.personinfo.unntattFraAutomatisering;
+    if (error) {
+        return (
+            <InfoCard data-color="danger" className="rounded-none">
+                <InfoCard.Header>
+                    <HStack gap="space-8" wrap={false} className="p-1">
+                        <BodyShort>Kunne ikke hente veilederstans.</BodyShort>
+                        <Button size="xsmall" onClick={() => refetch()}>
+                            Prøv igjen
+                        </Button>
+                    </HStack>
+                </InfoCard.Header>
+            </InfoCard>
+        );
+    }
 
-    if (unntattFraAutomatisering && unntattFraAutomatisering.erUnntatt) {
+    const { unntattFraAutomatisering } = currentPerson.personinfo;
+
+    if (veilederStans?.erStanset) {
+        return (
+            <UnntattFraAutomatisering
+                årsaker={veilederStans.årsaker}
+                tidspunkt={veilederStans.tidspunkt!}
+                fødselsnummer={currentPerson.fodselsnummer}
+            />
+        );
+    }
+
+    if (unntattFraAutomatisering?.erUnntatt) {
         return (
             <UnntattFraAutomatisering
                 årsaker={unntattFraAutomatisering.arsaker}
@@ -31,20 +57,18 @@ const InfovarselOmVeilederStansContainer = (): ReactElement | null => {
     }
 
     return null;
-};
+}
 
-const InfovarselOmVeilederStansError = (): ReactElement => {
+export function InfovarselOmVeilederStans(): ReactElement {
     return (
-        <div className={cn(styles.Error)}>
-            <BodyShort>Det oppstod en feil. Kan ikke vise personinformasjon.</BodyShort>
-        </div>
-    );
-};
-
-export const InfovarselOmVeilederStans = (): ReactElement => {
-    return (
-        <ErrorBoundary fallback={<InfovarselOmVeilederStansError />}>
+        <ErrorBoundary
+            fallback={
+                <BodyShort className="bg-ax-bg-danger-soft p-2">
+                    Det oppstod en feil. Kan ikke vise personinformasjon.
+                </BodyShort>
+            }
+        >
             <InfovarselOmVeilederStansContainer />
         </ErrorBoundary>
     );
-};
+}

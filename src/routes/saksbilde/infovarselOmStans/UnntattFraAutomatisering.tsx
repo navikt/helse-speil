@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
@@ -24,7 +24,11 @@ interface UnntattFraAutomatiseringProps {
     fødselsnummer: string;
 }
 
-export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }: UnntattFraAutomatiseringProps) => {
+export function UnntattFraAutomatisering({
+    årsaker,
+    tidspunkt,
+    fødselsnummer,
+}: UnntattFraAutomatiseringProps): ReactElement {
     const [loading, setLoading] = useState<boolean>(false);
     const [åpen, setÅpen] = useState(false);
 
@@ -131,7 +135,7 @@ export const UnntattFraAutomatisering = ({ årsaker, tidspunkt, fødselsnummer }
             )}
         </Alert>
     );
-};
+}
 
 const årsakerSomTekst = (årsaker: string[]) => {
     const alle = årsaker.map(årsakSomTekst).join(', ');
@@ -143,7 +147,7 @@ const årsakSomTekst = (årsak: string) => årsaktekster[årsak] ?? 'ukjent års
 const årsaktekster: { [key: string]: string } = {
     MEDISINSK_VILKAR: 'medisinsk vilkår',
     AKTIVITETSKRAV: 'aktivitetskrav',
-    MANGLENDE_MEDVIRKNING: 'manglende medvirkning',
+    MANGLENDE_MEDVIRKING: 'manglende medvirkning',
     // Årsakene under er avviklet hos iSyfo, men siden vi skal lese inn gamle stoppknapp-meldinger kan
     // vi få inn noen med disse årsakene også
     BESTRIDELSE_SYKMELDING: 'bestridelse sykmelding',
