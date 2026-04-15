@@ -20,12 +20,6 @@
                 "kjonn": "Kvinne",
                 "fullmakt": null,
                 "reservasjon": null,
-                "unntattFraAutomatisering": {
-                    "__typename": "UnntattFraAutomatiskGodkjenning",
-                    "erUnntatt": false,
-                    "arsaker": [],
-                    "tidspunkt": null
-                },
                 "automatiskBehandlingStansetAvSaksbehandler": false
             },
             "tildeling": null,

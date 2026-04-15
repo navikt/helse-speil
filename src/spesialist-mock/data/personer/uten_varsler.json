@@ -15,12 +15,7 @@
                 "adressebeskyttelse": "Ugradert",
                 "fodselsdato": "1991-01-17",
                 "kjonn": "Mann",
-                "reservasjon": null,
-                "unntattFraAutomatisering": {
-                    "erUnntatt": false,
-                    "arsaker": [],
-                    "tidspunkt": null
-                }
+                "reservasjon": null
             },
             "tildeling": null,
             "versjon": 48,

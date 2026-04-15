@@ -759,7 +759,6 @@ export type Personinfo = {
     fullmakt?: Maybe<Scalars['Boolean']['output']>;
     kjonn: Kjonn;
     mellomnavn?: Maybe<Scalars['String']['output']>;
-    unntattFraAutomatisering?: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
 export type Query = {
@@ -1089,13 +1088,6 @@ export type UberegnetPeriode = Periode & {
     tom: Scalars['LocalDate']['output'];
     varsler: Array<VarselDto>;
     vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type UnntattFraAutomatiskGodkjenning = {
-    __typename?: 'UnntattFraAutomatiskGodkjenning';
-    arsaker: Array<Scalars['String']['output']>;
-    erUnntatt: Scalars['Boolean']['output'];
-    tidspunkt?: Maybe<Scalars['LocalDateTime']['output']>;
 };
 
 export type Utbetaling = {

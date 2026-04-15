@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -6,17 +5,15 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
-import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FetchPersonDocument } from '@io/graphql';
 import { usePatchVeilederStans } from '@io/rest/generated/personer/personer';
 import {
     opphevStansAutomatiskBehandlingVeilederToast,
     somVeilederBackendfeil,
 } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
-import { ISO_TIDSPUNKTFORMAT, getFormattedDatetimeString } from '@utils/date';
+import { getFormattedDatetimeString } from '@utils/date';
 
 interface UnntattFraAutomatiseringProps {
     årsaker: string[];
@@ -29,12 +26,10 @@ export function UnntattFraAutomatisering({
     tidspunkt,
     fødselsnummer,
 }: UnntattFraAutomatiseringProps): ReactElement {
-    const [loading, setLoading] = useState<boolean>(false);
     const [åpen, setÅpen] = useState(false);
 
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const apolloClient = useApolloClient();
-    const { mutate: stansAutomatiskBehandlingMutation, error } = usePatchVeilederStans();
+    const { mutateAsync: stansAutomatiskBehandlingMutation, error } = usePatchVeilederStans();
     const addToast = useAddToast();
 
     const form = useForm<StansAutomatiskBehandlingSchema>({
@@ -46,8 +41,7 @@ export function UnntattFraAutomatisering({
     });
 
     async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        setLoading(true);
-        stansAutomatiskBehandlingMutation(
+        await stansAutomatiskBehandlingMutation(
             {
                 pseudoId: personPseudoId,
                 data: {
@@ -57,28 +51,7 @@ export function UnntattFraAutomatisering({
             },
             {
                 onSuccess: () => {
-                    apolloClient.cache.modify({
-                        id: apolloClient.cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
-                        fields: {
-                            personinfo: (existing) => ({
-                                ...existing,
-                                unntattFraAutomatisering: {
-                                    __typename: 'UnntattFraAutomatiskGodkjenning',
-                                    erUnntatt: false,
-                                    arsaker: [],
-                                    tidspunkt: dayjs().format(ISO_TIDSPUNKTFORMAT),
-                                },
-                            }),
-                        },
-                    });
-                    apolloClient.refetchQueries({
-                        include: [FetchPersonDocument],
-                    });
-                    setLoading(false);
                     addToast(opphevStansAutomatiskBehandlingVeilederToast);
-                },
-                onError: () => {
-                    setLoading(false);
                 },
             },
         );
@@ -123,10 +96,16 @@ export function UnntattFraAutomatisering({
                         />
                         {error && <ErrorMessage showIcon>{somVeilederBackendfeil(error)}</ErrorMessage>}
                         <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                            <Button size="small" variant="primary" type="submit" loading={loading}>
+                            <Button size="small" variant="primary" type="submit" loading={form.formState.isSubmitting}>
                                 Opphev stans
                             </Button>
-                            <Button size="small" variant="tertiary" type="button" onClick={() => setÅpen(false)}>
+                            <Button
+                                size="small"
+                                variant="tertiary"
+                                type="button"
+                                onClick={() => setÅpen(false)}
+                                disabled={form.formState.isSubmitting}
+                            >
                                 Avbryt
                             </Button>
                         </HStack>

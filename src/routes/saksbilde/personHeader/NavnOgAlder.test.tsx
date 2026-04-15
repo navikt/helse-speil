@@ -36,12 +36,6 @@ const defaultPersoninfo: Personinfo = {
     adressebeskyttelse: Adressebeskyttelse.Ugradert,
     kjonn: Kjonn.Mann,
     fullmakt: null,
-    unntattFraAutomatisering: {
-        __typename: 'UnntattFraAutomatiskGodkjenning',
-        erUnntatt: false,
-        arsaker: [],
-        tidspunkt: null,
-    },
     fodselsdato: '1976-02-06',
     automatiskBehandlingStansetAvSaksbehandler: false,
 };

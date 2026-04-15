@@ -41,12 +41,6 @@ describe('Personlinje', () => {
                         adressebeskyttelse: Adressebeskyttelse.Ugradert,
                         kjonn: Kjonn.Mann,
                         fullmakt: null,
-                        unntattFraAutomatisering: {
-                            __typename: 'UnntattFraAutomatiskGodkjenning',
-                            erUnntatt: false,
-                            arsaker: [],
-                            tidspunkt: null,
-                        },
                         fodselsdato: '1986-02-06',
                         automatiskBehandlingStansetAvSaksbehandler: false,
                     },

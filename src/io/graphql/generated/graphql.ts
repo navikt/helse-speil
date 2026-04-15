@@ -761,7 +761,6 @@ export type Personinfo = {
     fullmakt: Maybe<Scalars['Boolean']['output']>;
     kjonn: Kjonn;
     mellomnavn: Maybe<Scalars['String']['output']>;
-    unntattFraAutomatisering: Maybe<UnntattFraAutomatiskGodkjenning>;
 };
 
 export type Query = {
@@ -1091,13 +1090,6 @@ export type UberegnetPeriode = Periode & {
     tom: Scalars['LocalDate']['output'];
     varsler: Array<VarselDto>;
     vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type UnntattFraAutomatiskGodkjenning = {
-    __typename: 'UnntattFraAutomatiskGodkjenning';
-    arsaker: Array<Scalars['String']['output']>;
-    erUnntatt: Scalars['Boolean']['output'];
-    tidspunkt: Maybe<Scalars['LocalDateTime']['output']>;
 };
 
 export type Utbetaling = {
@@ -2991,12 +2983,6 @@ export type PersonFragment = {
         kjonn: Kjonn;
         fullmakt: boolean | null;
         automatiskBehandlingStansetAvSaksbehandler: boolean | null;
-        unntattFraAutomatisering: {
-            __typename: 'UnntattFraAutomatiskGodkjenning';
-            erUnntatt: boolean;
-            arsaker: Array<string>;
-            tidspunkt: string | null;
-        } | null;
     };
     selvstendigNaering: {
         __typename: 'SelvstendigNaering';
@@ -4469,12 +4455,6 @@ export type FetchPersonQuery = {
             kjonn: Kjonn;
             fullmakt: boolean | null;
             automatiskBehandlingStansetAvSaksbehandler: boolean | null;
-            unntattFraAutomatisering: {
-                __typename: 'UnntattFraAutomatiskGodkjenning';
-                erUnntatt: boolean;
-                arsaker: Array<string>;
-                tidspunkt: string | null;
-            } | null;
         };
         selvstendigNaering: {
             __typename: 'SelvstendigNaering';
@@ -8774,18 +8754,6 @@ export const PersonFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'fullmakt' } },
                                 {
                                     kind: 'Field',
-                                    name: { kind: 'Name', value: 'unntattFraAutomatisering' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'erUnntatt' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
                                     name: { kind: 'Name', value: 'automatiskBehandlingStansetAvSaksbehandler' },
                                 },
                             ],
@@ -11777,18 +11745,6 @@ export const FetchPersonDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'fullmakt' } },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'unntattFraAutomatisering' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'Field', name: { kind: 'Name', value: 'erUnntatt' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
-                                            { kind: 'Field', name: { kind: 'Name', value: 'tidspunkt' } },
-                                        ],
-                                    },
-                                },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'automatiskBehandlingStansetAvSaksbehandler' },

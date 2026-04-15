@@ -35,12 +35,6 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
             kjonn: Kjonn.Kvinne,
             fullmakt: null,
             adressebeskyttelse: Adressebeskyttelse.Ugradert,
-            unntattFraAutomatisering: {
-                __typename: 'UnntattFraAutomatiskGodkjenning',
-                erUnntatt: false,
-                arsaker: [],
-                tidspunkt: null,
-            },
             fodselsdato: '1986-02-06',
             reservasjon: null,
             automatiskBehandlingStansetAvSaksbehandler: false,

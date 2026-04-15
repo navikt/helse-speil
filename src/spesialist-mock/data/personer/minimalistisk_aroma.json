@@ -15,12 +15,7 @@
                 "adressebeskyttelse": "Ugradert",
                 "fodselsdato": "1992-08-07",
                 "kjonn": "Kvinne",
-                "reservasjon": null,
-                "unntattFraAutomatisering": {
-                    "erUnntatt": false,
-                    "arsaker": [],
-                    "tidspunkt": null
-                }
+                "reservasjon": null
             },
             "tildeling": null,
             "versjon": 48,
