@@ -23,3 +23,6 @@ export const useMottaServerSentEvents = () => {
 };
 export const erNyOppgaveEvent = (event: ApiServerSentEvent): boolean =>
     event.event === 'NY_SAKSBEHANDLEROPPGAVE' || event.event === 'REVURDERING_FERDIGBEHANDLET';
+
+export const erPersondataOppdatertEvent = (event: ApiServerSentEvent): boolean =>
+    event.event === 'PERSONDATA_OPPDATERT';

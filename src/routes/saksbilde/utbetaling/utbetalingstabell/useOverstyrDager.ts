@@ -7,7 +7,7 @@ import { OverstyrDagerMutationDocument, OverstyrDagerMutationMutation, PersonFra
 import { useCalculatingState } from '@state/calculating';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
-import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
+import { erNyOppgaveEvent, erPersondataOppdatertEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -41,6 +41,10 @@ export const useOverstyrDager = (
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && calculating) {
             addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
+            setCalculating(false);
+            setTimedOut(false);
+            setDone(true);
+        } else if (erPersondataOppdatertEvent(event) && calculating) {
             setCalculating(false);
             setTimedOut(false);
             setDone(true);
