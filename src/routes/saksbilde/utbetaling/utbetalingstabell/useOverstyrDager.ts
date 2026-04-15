@@ -59,8 +59,11 @@ export const useOverstyrDager = (
         begrunnelse: string,
         vedtaksperiodeId: string,
         callback?: () => void,
-    ): Promise<void | FetchResult<OverstyrDagerMutationMutation>> =>
-        overstyrMutation({
+    ): Promise<void | FetchResult<OverstyrDagerMutationMutation>> => {
+        setDone(false);
+        addToast(kalkulererToast({}));
+        setCalculating(true);
+        return overstyrMutation({
             variables: {
                 overstyring: {
                     aktorId: person.aktorId,
@@ -74,12 +77,11 @@ export const useOverstyrDager = (
                 },
             },
             onCompleted: () => {
-                setDone(false);
-                addToast(kalkulererToast({}));
-                setCalculating(true);
                 callback?.();
             },
         }).catch(() => Promise.resolve());
+    };
+
     return {
         postOverstyring: overstyrDager,
         error: overstyringError && 'Feil under sending av overstyring. Prøv igjen senere.',
