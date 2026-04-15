@@ -24,7 +24,7 @@ export const kalkulererToast = ({
 });
 
 export const kalkuleringFerdigToast = ({
-    message = 'Oppgaven er ferdig kalkulert',
+    message = 'Endringen er ferdig kalkulert',
     timeToLiveMs = 5000,
     callback,
 }: Partial<ToastObject>): ToastObject => ({
