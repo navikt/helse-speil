@@ -8,13 +8,12 @@ import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from
 import { useApolloClient } from '@apollo/client';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
-import { getGetSaksbehandlerStansQueryKey, usePatchSaksbehandlerStans } from '@io/rest/generated/personer/personer';
+import { usePatchSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import {
     somSaksbehandlerBackendfeil,
     stansAutomatiskBehandlingToast,
 } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface StansAutomatiskBehandlingDialogInnholdProps {
     fødselsnummer: string;
@@ -26,7 +25,6 @@ export function StansAutomatiskBehandlingDialogInnhold({
     onSuccess,
 }: StansAutomatiskBehandlingDialogInnholdProps): ReactElement {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const queryClient = useQueryClient();
     const apolloClient = useApolloClient();
     const { mutateAsync, error } = usePatchSaksbehandlerStans();
     const addToast = useAddToast();
@@ -49,7 +47,15 @@ export function StansAutomatiskBehandlingDialogInnhold({
             },
             {
                 onSuccess: () => {
-                    void queryClient.invalidateQueries({ queryKey: getGetSaksbehandlerStansQueryKey(personPseudoId) });
+                    apolloClient.cache.modify({
+                        id: apolloClient.cache.identify({ __typename: 'Person', fodselsnummer: fødselsnummer }),
+                        fields: {
+                            personinfo: (existing) => ({
+                                ...existing,
+                                automatiskBehandlingStansetAvSaksbehandler: true,
+                            }),
+                        },
+                    });
                     apolloClient.refetchQueries({
                         include: [FetchPersonDocument],
                     });
