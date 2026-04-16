@@ -1,8 +1,10 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { Kjonn, PersonFragment } from '@io/graphql';
+import { useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import { AktørId } from '@saksbilde/personHeader/AktørId';
 import { AutomatiskBehandlingStansetTag } from '@saksbilde/personHeader/AutomatiskBehandlingStansetTag';
 import { FullmaktTag } from '@saksbilde/personHeader/FullmaktTag';
@@ -25,7 +27,11 @@ interface PersonHeaderWithContentProps {
 }
 
 export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWithContentProps): ReactElement => {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data, isPending } = useGetSaksbehandlerStans(personPseudoId);
+
     const personinfo = person.personinfo;
+
     return (
         <div className={styles.PersonHeader}>
             <GenderIcon gender={isAnonymous ? Kjonn.Ukjent : personinfo.kjonn} />
@@ -43,9 +49,12 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
                 <FullmaktTag person={person} />
                 <UtlandTag person={person} />
                 <DødsdatoTag dødsdato={person.dodsdato} />
-                <AutomatiskBehandlingStansetTag
-                    erStanset={person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false}
-                />
+                {!isPending && data && data.erStanset && (
+                    <AutomatiskBehandlingStansetTag
+                        erStanset={data.erStanset}
+                        dato={data.opprettetTidspunkt as string}
+                    />
+                )}
             </HStack>
         </div>
     );

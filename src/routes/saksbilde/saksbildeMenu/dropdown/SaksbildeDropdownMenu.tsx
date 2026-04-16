@@ -8,6 +8,7 @@ import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
+import { useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { AnnulleringsDialogInnhold } from '@saksbilde/annullering/AnnulleringsDialogInnhold';
 import { OpphevStansAutomatiskBehandlingDialogInnhold } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingDialogInnhold';
@@ -60,6 +61,8 @@ function SaksbildeDropdownMenuContent({
     const erPåVent = periodeTilGodkjenning?.paVent;
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
+    const { data: saksbehandlerStans } = useGetSaksbehandlerStans(personPseudoId);
+
     const router = useRouter();
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();
@@ -67,8 +70,7 @@ function SaksbildeDropdownMenuContent({
 
     const personIsAssignedUser = person.tildeling?.oid === user.oid;
 
-    const automatiskBehandlingStansetAvSaksbehandler =
-        person.personinfo.automatiskBehandlingStansetAvSaksbehandler ?? false;
+    const automatiskBehandlingStansetAvSaksbehandler = saksbehandlerStans?.erStanset;
 
     const behandlingHarAnnullering = harAnnulleringForPeriode(person, activePeriod);
 

@@ -10,6 +10,7 @@ import type {
     ApiBehandlendeEnhet,
     ApiHttpProblemDetailsApiDeleteTildelingErrorCode,
     ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode,
     ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
@@ -24,6 +25,7 @@ import type {
     ApiPerson,
     ApiPersonSokRequest,
     ApiPersonSokResponse,
+    ApiSaksbehandlerStans,
     ApiServerSentEvent,
     ApiStansRequest,
     ApiSykepengegrunnlagRequest,
@@ -290,6 +292,111 @@ export const useDeleteTildeling = <
 
     return useMutation(mutationOptions, queryClient);
 };
+export const getSaksbehandlerStans = (pseudoId: string, signal?: AbortSignal) => {
+    return callCustomAxios<ApiSaksbehandlerStans>({
+        url: `/api/spesialist/personer/${pseudoId}/stans/saksbehandler`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetSaksbehandlerStansQueryKey = (pseudoId?: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/stans/saksbehandler`] as const;
+};
+
+export const getGetSaksbehandlerStansQueryOptions = <
+    TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+>(
+    pseudoId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData>> },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetSaksbehandlerStansQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSaksbehandlerStans>>> = ({ signal }) =>
+        getSaksbehandlerStans(pseudoId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!pseudoId,
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetSaksbehandlerStansQueryResult = NonNullable<Awaited<ReturnType<typeof getSaksbehandlerStans>>>;
+export type GetSaksbehandlerStansQueryError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>;
+
+export function useGetSaksbehandlerStans<
+    TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getSaksbehandlerStans>>,
+                    TError,
+                    Awaited<ReturnType<typeof getSaksbehandlerStans>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetSaksbehandlerStans<
+    TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getSaksbehandlerStans>>,
+                    TError,
+                    Awaited<ReturnType<typeof getSaksbehandlerStans>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetSaksbehandlerStans<
+    TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+>(
+    pseudoId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetSaksbehandlerStans<
+    TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
+    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+>(
+    pseudoId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetSaksbehandlerStansQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
+
 export const patchSaksbehandlerStans = (pseudoId: string, apiStansRequest?: ApiStansRequest) => {
     return callCustomAxios<void>({
         url: `/api/spesialist/personer/${pseudoId}/stans/saksbehandler`,

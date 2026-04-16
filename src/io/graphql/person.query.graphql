@@ -506,7 +506,6 @@ fragment person on Person {
         fodselsdato
         kjonn
         fullmakt
-        automatiskBehandlingStansetAvSaksbehandler
     }
     selvstendigNaering {
         behandlinger {
