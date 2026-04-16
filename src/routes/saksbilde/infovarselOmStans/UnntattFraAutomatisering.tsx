@@ -5,14 +5,17 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
+import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { usePatchVeilederStans } from '@io/rest/generated/personer/personer';
+import { FetchPersonDocument } from '@io/graphql';
+import { getGetVeilederStansQueryKey, usePatchVeilederStans } from '@io/rest/generated/personer/personer';
 import {
     opphevStansAutomatiskBehandlingVeilederToast,
     somVeilederBackendfeil,
 } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/stansAutomatiskBehandlingUtils';
 import { useAddToast } from '@state/toasts';
+import { useQueryClient } from '@tanstack/react-query';
 import { getFormattedDatetimeString } from '@utils/date';
 
 interface UnntattFraAutomatiseringProps {
@@ -29,7 +32,9 @@ export function UnntattFraAutomatisering({
     const [åpen, setÅpen] = useState(false);
 
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { mutateAsync: stansAutomatiskBehandlingMutation, error } = usePatchVeilederStans();
+    const { mutate, isPending, error } = usePatchVeilederStans();
+    const queryClient = useQueryClient();
+    const apolloClient = useApolloClient();
     const addToast = useAddToast();
 
     const form = useForm<StansAutomatiskBehandlingSchema>({
@@ -40,8 +45,8 @@ export function UnntattFraAutomatisering({
         },
     });
 
-    async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        await stansAutomatiskBehandlingMutation(
+    function onSubmit(values: StansAutomatiskBehandlingSchema) {
+        mutate(
             {
                 pseudoId: personPseudoId,
                 data: {
@@ -51,6 +56,14 @@ export function UnntattFraAutomatisering({
             },
             {
                 onSuccess: () => {
+                    queryClient.setQueryData(getGetVeilederStansQueryKey(personPseudoId), {
+                        erStanset: false,
+                        årsaker: [],
+                        tidspunkt: null,
+                    });
+                    apolloClient.refetchQueries({
+                        include: [FetchPersonDocument],
+                    });
                     addToast(opphevStansAutomatiskBehandlingVeilederToast);
                 },
             },
@@ -96,7 +109,7 @@ export function UnntattFraAutomatisering({
                         />
                         {error && <ErrorMessage showIcon>{somVeilederBackendfeil(error)}</ErrorMessage>}
                         <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                            <Button size="small" variant="primary" type="submit" loading={form.formState.isSubmitting}>
+                            <Button size="small" variant="primary" type="submit" loading={isPending}>
                                 Opphev stans
                             </Button>
                             <Button
@@ -104,7 +117,7 @@ export function UnntattFraAutomatisering({
                                 variant="tertiary"
                                 type="button"
                                 onClick={() => setÅpen(false)}
-                                disabled={form.formState.isSubmitting}
+                                disabled={isPending}
                             >
                                 Avbryt
                             </Button>
