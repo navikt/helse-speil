@@ -10,11 +10,11 @@ import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveO
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { harUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
-import { useCalculatingValue } from '@state/calculating';
 import { usePersonStore } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
+import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -50,7 +50,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     const router = useRouter();
     const erBeslutteroppgaveOgHarTilgang = useErBeslutteroppgaveOgHarTilgang(person);
     const harUvurderteVarslerPåUtbetaling = harUvurderteVarslerPåEllerFør(period, finnAlleInntektsforhold(person));
-    const calculating = useCalculatingValue();
+    const visningenOppdateres = useVisningenOppdateresValue();
 
     const onGodkjennUtbetaling = () => {
         setGodkjentPeriode(period.vedtaksperiodeId);
@@ -111,7 +111,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                 personinfo={person.personinfo}
                                 oppgavereferanse={period.oppgave?.id ?? ''}
                                 disabled={
-                                    calculating ||
+                                    visningenOppdateres ||
                                     periodenErSendt ||
                                     harUvurderteVarslerPåUtbetaling ||
                                     lokaleInntektoverstyringer.aktørId !== null
@@ -133,7 +133,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                     inntektsforholdReferanse={inntektsforholdReferanse}
                                     personinfo={person.personinfo}
                                     disabled={
-                                        calculating ||
+                                        visningenOppdateres ||
                                         periodenErSendt ||
                                         harUvurderteVarslerPåUtbetaling ||
                                         lokaleInntektoverstyringer.aktørId !== null
@@ -153,7 +153,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                         inntektsforholdReferanse={inntektsforholdReferanse}
                                         personinfo={person.personinfo}
                                         disabled={
-                                            calculating ||
+                                            visningenOppdateres ||
                                             periodenErSendt ||
                                             harUvurderteVarslerPåUtbetaling ||
                                             lokaleInntektoverstyringer.aktørId !== null

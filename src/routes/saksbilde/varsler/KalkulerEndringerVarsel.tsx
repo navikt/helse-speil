@@ -4,8 +4,8 @@ import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react
 
 import { SlettLokaleEndringerDialog } from '@components/SlettLokaleEndringerDialog';
 import { TimeoutDialog } from '@components/TimeoutDialog';
-import { useCalculatingValue } from '@state/calculating';
 import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
+import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
@@ -23,7 +23,7 @@ export const KalkulerEndringerVarsel = ({
     const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();
     const [showModal, setShowModal] = useState(false);
     const antallRedigerteArbeidsgivere = lokaleInntektoverstyringer?.arbeidsgivere.length ?? 0;
-    const calculating = useCalculatingValue();
+    const visningenOppdateres = useVisningenOppdateresValue();
 
     return (
         <>
@@ -47,7 +47,7 @@ export const KalkulerEndringerVarsel = ({
                         variant="tertiary"
                         type="button"
                         data-testid="kalkuler-avbryt-button"
-                        disabled={calculating}
+                        disabled={visningenOppdateres}
                         onClick={() => setShowModal(true)}
                     >
                         Forkast endringer ({antallRedigerteArbeidsgivere})

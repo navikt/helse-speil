@@ -3,41 +3,45 @@ import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useState } from 'react';
 import * as R from 'remeda';
 
-import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
+import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import { ArbeidsgiverFragment, PeriodeFragment, PersonFragment } from '@io/graphql';
 import { ApiArbeidstidsvurderingRequest } from '@io/rest/generated/spesialist.schemas';
 import { usePostArbeidstidsvurdering } from '@io/rest/generated/vurderinger/vurderinger';
-import { useCalculatingState } from '@state/calculating';
 import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
+import {
+    visningenErOppdatertToast,
+    visningenErOppdatertToastKey,
+    visningenOppdateresToast,
+} from '@state/oppdateringToasts';
 import { overlapper } from '@state/selectors/period';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, erEtter, erFør, erIPeriode, minusEnDag, plussEnDag } from '@utils/date';
 import { isBeregnetPeriode, isNotNullOrUndefined, isUberegnetPeriode } from '@utils/typeguards';
 
-export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onFerdigKalkulert: () => void) => {
+export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onVisningOppdatert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const [calculating, setCalculating] = useCalculatingState();
+    const [oppdaterer, setOppdaterer] = useVisningenOppdateresState();
     const [timedOut, setTimedOut] = useState(false);
 
     const { mutate: overstyrMutation, error, isPending: loading } = usePostArbeidstidsvurdering();
     const fjernNotat = useFjernNotat();
 
     useHåndterNyttEvent((event) => {
-        if (erNyOppgaveEvent(event) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
-            onFerdigKalkulert();
+        if (erNyOppgaveEvent(event) && oppdaterer) {
+            addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
+            setOppdaterer(false);
+            onVisningOppdatert();
         }
     });
 
-    useFjernKalkulerToast(calculating, () => setTimedOut(true));
+    useFjernOppdatererToast(oppdaterer, () => setTimedOut(true));
 
     return {
-        isLoading: loading || calculating,
+        isLoading: loading || oppdaterer,
         error: error && 'Kunne ikke vurdere arbeidstid. Prøv igjen senere.',
         timedOut,
         setTimedOut,
@@ -51,8 +55,8 @@ export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onFe
                 },
                 {
                     onSuccess: () => {
-                        setCalculating(true);
-                        addToast(kalkulererToast({}));
+                        setOppdaterer(true);
+                        addToast(visningenOppdateresToast({}));
                         fjernNotat(arbeidstidsvurderingRequest.initierendeVedtaksperiodeId);
                     },
                 },

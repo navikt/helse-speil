@@ -1,17 +1,17 @@
 import { act } from 'react';
 import { Mock, vi } from 'vitest';
 
-import { kalkulererToastKey } from '@state/kalkuleringstoasts';
+import { visningenOppdateresToastKey } from '@state/oppdateringToasts';
 import { useRemoveToast } from '@state/toasts';
 import { renderHook } from '@testing-library/react';
 
-import { useFjernKalkulerToast } from './useFjernKalkulererToast';
+import { useFjernOppdatererToast } from './useFjernOppdatererToast';
 
 vi.mock('@state/toasts', () => ({
     useRemoveToast: vi.fn(),
 }));
 
-describe('useFjernKalkulerToast', () => {
+describe('useFjernOppdateringToast', () => {
     const removeToastMock = vi.fn();
 
     beforeEach(() => {
@@ -27,7 +27,7 @@ describe('useFjernKalkulerToast', () => {
     it('skal kalle setHasTimedOut etter 15 sekunder når calculating er true', () => {
         const setHasTimedOut = vi.fn();
 
-        renderHook(() => useFjernKalkulerToast(true, setHasTimedOut));
+        renderHook(() => useFjernOppdatererToast(true, setHasTimedOut));
 
         expect(setHasTimedOut).not.toHaveBeenCalled();
 
@@ -41,7 +41,7 @@ describe('useFjernKalkulerToast', () => {
     it('skal not kalle setHasTimedOut når calculating er false', () => {
         const setHasTimedOut = vi.fn();
 
-        renderHook(() => useFjernKalkulerToast(false, setHasTimedOut));
+        renderHook(() => useFjernOppdatererToast(false, setHasTimedOut));
 
         act(() => {
             vi.advanceTimersByTime(15000);
@@ -50,32 +50,38 @@ describe('useFjernKalkulerToast', () => {
         expect(setHasTimedOut).not.toHaveBeenCalled();
     });
 
-    it('skal kalle removeToast med kalkulererToastKey når calculating endrer fra true til false', () => {
+    it('skal kalle removeToast med visningenOppdateresToastKey når calculating endrer fra true til false', () => {
         const setHasTimedOut = vi.fn();
 
-        const { rerender } = renderHook(({ calculating }) => useFjernKalkulerToast(calculating, setHasTimedOut), {
-            initialProps: { calculating: true },
-        });
+        const { rerender } = renderHook(
+            ({ visningenOppdateres }) => useFjernOppdatererToast(visningenOppdateres, setHasTimedOut),
+            {
+                initialProps: { visningenOppdateres: true },
+            },
+        );
 
         expect(removeToastMock).not.toHaveBeenCalled();
 
-        rerender({ calculating: false });
+        rerender({ visningenOppdateres: false });
 
-        expect(removeToastMock).toHaveBeenCalledWith(kalkulererToastKey);
+        expect(removeToastMock).toHaveBeenCalledWith(visningenOppdateresToastKey);
     });
 
     it('skal fjerne timeout når calculating endrer fra true til false før timeout kjører', () => {
         const setHasTimedOut = vi.fn();
 
-        const { rerender } = renderHook(({ calculating }) => useFjernKalkulerToast(calculating, setHasTimedOut), {
-            initialProps: { calculating: true },
-        });
+        const { rerender } = renderHook(
+            ({ visningenOppdateres }) => useFjernOppdatererToast(visningenOppdateres, setHasTimedOut),
+            {
+                initialProps: { visningenOppdateres: true },
+            },
+        );
 
         act(() => {
             vi.advanceTimersByTime(10000);
         });
 
-        rerender({ calculating: false });
+        rerender({ visningenOppdateres: false });
 
         act(() => {
             vi.advanceTimersByTime(10000);
@@ -88,7 +94,7 @@ describe('useFjernKalkulerToast', () => {
         const setHasTimedOut1 = vi.fn();
         const setHasTimedOut2 = vi.fn();
 
-        const { rerender } = renderHook(({ setHasTimedOut }) => useFjernKalkulerToast(true, setHasTimedOut), {
+        const { rerender } = renderHook(({ setHasTimedOut }) => useFjernOppdatererToast(true, setHasTimedOut), {
             initialProps: { setHasTimedOut: setHasTimedOut1 },
         });
 

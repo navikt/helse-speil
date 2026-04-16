@@ -1,19 +1,23 @@
 import { useState } from 'react';
 
 import { useMutation } from '@apollo/client';
-import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
+import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import {
     ArbeidsforholdOverstyringHandlingInput,
     OverstyrArbeidsforholdMutationDocument,
     OverstyringArbeidsforholdInput,
     PersonFragment,
 } from '@io/graphql';
-import { useCalculatingState } from '@state/calculating';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
+import {
+    visningenErOppdatertToast,
+    visningenErOppdatertToastKey,
+    visningenOppdateresToast,
+} from '@state/oppdateringToasts';
 import { useActivePeriodWithPerson } from '@state/periode';
 import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
@@ -51,27 +55,27 @@ export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): Overstyrt
     });
 };
 
-export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkulert?: () => void) => {
+export const usePostOverstyrtArbeidsforhold = (aktørId: string, onVisningOppdatert?: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
 
-    const [calculating, setCalculating] = useCalculatingState();
+    const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(OverstyrArbeidsforholdMutationDocument);
 
     useHåndterNyttEvent((event) => {
-        if (calculating && event.event === 'NY_SAKSBEHANDLEROPPGAVE') {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
-            if (onFerdigKalkulert) onFerdigKalkulert();
+        if (visningenOppdateres && event.event === 'NY_SAKSBEHANDLEROPPGAVE') {
+            addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
+            setVisningenOppdateres(false);
+            if (onVisningOppdatert) onVisningOppdatert();
         }
     });
 
-    useFjernKalkulerToast(calculating, () => setTimedOut(true));
+    useFjernOppdatererToast(visningenOppdateres, () => setTimedOut(true));
 
     return {
-        isLoading: loading || calculating,
+        isLoading: loading || visningenOppdateres,
         error: error && 'Kunne ikke overstyre arbeidsforhold. Prøv igjen senere.',
         timedOut,
         setTimedOut,
@@ -96,8 +100,8 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onFerdigKalkule
                 variables: { overstyring: overstyring },
                 onCompleted: () => {
                     if (aktørId) {
-                        setCalculating(true);
-                        addToast(kalkulererToast({}));
+                        setVisningenOppdateres(true);
+                        addToast(visningenOppdateresToast({}));
                     }
                 },
             });

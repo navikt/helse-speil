@@ -1,9 +1,9 @@
 import { useEffect, useRef } from 'react';
 
-import { kalkulererToastKey } from '@state/kalkuleringstoasts';
+import { visningenOppdateresToastKey } from '@state/oppdateringToasts';
 import { useRemoveToast } from '@state/toasts';
 
-export const useFjernKalkulerToast = (calculating: boolean, setHasTimedOut: () => void) => {
+export const useFjernOppdatererToast = (visningenOppdateres: boolean, setHasTimedOut: () => void) => {
     const removeToast = useRemoveToast();
 
     const setHasTimedOutRef = useRef(setHasTimedOut);
@@ -13,14 +13,14 @@ export const useFjernKalkulerToast = (calculating: boolean, setHasTimedOut: () =
     removeToastRef.current = removeToast;
 
     useEffect(() => {
-        if (calculating) {
+        if (visningenOppdateres) {
             const timeout = setTimeout(() => {
                 setHasTimedOutRef.current();
             }, 15000);
             return () => {
-                removeToastRef.current(kalkulererToastKey);
+                removeToastRef.current(visningenOppdateresToastKey);
                 clearTimeout(timeout);
             };
         }
-    }, [calculating]);
+    }, [visningenOppdateres]);
 };

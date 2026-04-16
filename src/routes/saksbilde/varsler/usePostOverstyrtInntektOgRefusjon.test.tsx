@@ -2,7 +2,7 @@ import { Mock, vi } from 'vitest';
 
 import { OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
 import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
-import { kalkulererFerdigToastKey, kalkulererToastKey } from '@state/kalkuleringstoasts';
+import { visningenErOppdatertToastKey, visningenOppdateresToastKey } from '@state/oppdateringToasts';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
 import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
@@ -73,7 +73,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
         await waitFor(() =>
             expect(addToastMock).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    key: kalkulererToastKey,
+                    key: visningenOppdateresToastKey,
                 }),
             ),
         );
@@ -115,7 +115,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
         await waitFor(() =>
             expect(addToastMock).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    key: kalkulererFerdigToastKey,
+                    key: visningenErOppdatertToastKey,
                 }),
             ),
         );
@@ -190,7 +190,7 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
         await waitFor(() =>
             expect(addToastMock).toHaveBeenCalledWith(
                 expect.objectContaining({
-                    key: kalkulererFerdigToastKey,
+                    key: visningenErOppdatertToastKey,
                 }),
             ),
         );

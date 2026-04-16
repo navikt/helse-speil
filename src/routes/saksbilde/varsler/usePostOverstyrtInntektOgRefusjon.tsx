@@ -1,17 +1,21 @@
 import { useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
-import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
+import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import {
     OverstyrInntektOgRefusjonMutationDocument,
     OverstyrInntektOgRefusjonMutationMutation,
     OverstyringArbeidsgiverInput,
 } from '@io/graphql';
-import { useCalculatingState } from '@state/calculating';
-import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
+import {
+    visningenErOppdatertToast,
+    visningenErOppdatertToastKey,
+    visningenOppdateresToast,
+} from '@state/oppdateringToasts';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
 interface PostOverstyrtInntektOgRefusjonResponse {
@@ -28,20 +32,20 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const resetLokaleOverstyringer = useSlettLokaleOverstyringer();
-    const [calculating, setCalculating] = useCalculatingState();
+    const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
     const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
 
     useHåndterNyttEvent((event) => {
-        if (erNyOppgaveEvent(event) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
+        if (erNyOppgaveEvent(event) && visningenOppdateres) {
+            addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
+            setVisningenOppdateres(false);
             resetLokaleOverstyringer();
         }
     });
 
-    useFjernKalkulerToast(calculating, () => setTimedOut(true));
+    useFjernOppdatererToast(visningenOppdateres, () => setTimedOut(true));
 
     const overstyrInntektOgRefusjon = async (
         overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,
@@ -87,14 +91,14 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
                 },
             },
             onCompleted: () => {
-                setCalculating(true);
-                addToast(kalkulererToast({}));
+                setVisningenOppdateres(true);
+                addToast(visningenOppdateresToast({}));
             },
         }).catch(() => Promise.resolve());
 
     return {
         postOverstyring: overstyrInntektOgRefusjon,
-        isLoading: loading || calculating,
+        isLoading: loading || visningenOppdateres,
         error: error && 'Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.',
         timedOut,
         setTimedOut,

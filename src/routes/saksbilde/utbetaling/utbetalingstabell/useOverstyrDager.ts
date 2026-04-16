@@ -2,13 +2,17 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 
 import { FetchResult, useMutation } from '@apollo/client';
-import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
+import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import { OverstyrDagerMutationDocument, OverstyrDagerMutationMutation, PersonFragment } from '@io/graphql';
-import { useCalculatingState } from '@state/calculating';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { kalkulererFerdigToastKey, kalkulererToast, kalkuleringFerdigToast } from '@state/kalkuleringstoasts';
+import {
+    visningenErOppdatertToast,
+    visningenErOppdatertToastKey,
+    visningenOppdateresToast,
+} from '@state/oppdateringToasts';
 import { erNyOppgaveEvent, erPersondataOppdatertEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { isArbeidsgiver } from '@utils/typeguards';
@@ -34,24 +38,25 @@ export const useOverstyrDager = (
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
-    const [calculating, setCalculating] = useCalculatingState();
+    const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
     const [timedOut, setTimedOut] = useState(false);
     const [done, setDone] = useState(false);
 
     useHåndterNyttEvent((event) => {
-        if (erNyOppgaveEvent(event) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
+        if (erNyOppgaveEvent(event) && visningenOppdateres) {
+            addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
+            setVisningenOppdateres(false);
             setTimedOut(false);
             setDone(true);
-        } else if (erPersondataOppdatertEvent(event) && calculating) {
-            setCalculating(false);
+        } else if (erPersondataOppdatertEvent(event) && visningenOppdateres) {
+            addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
+            setVisningenOppdateres(false);
             setTimedOut(false);
             setDone(true);
         }
     });
 
-    useFjernKalkulerToast(calculating, () => setTimedOut(true));
+    useFjernOppdatererToast(visningenOppdateres, () => setTimedOut(true));
 
     const overstyrDager = async (
         dager: Utbetalingstabelldag[],
@@ -61,8 +66,8 @@ export const useOverstyrDager = (
         callback?: () => void,
     ): Promise<void | FetchResult<OverstyrDagerMutationMutation>> => {
         setDone(false);
-        addToast(kalkulererToast({}));
-        setCalculating(true);
+        addToast(visningenOppdateresToast({}));
+        setVisningenOppdateres(true);
         return overstyrMutation({
             variables: {
                 overstyring: {

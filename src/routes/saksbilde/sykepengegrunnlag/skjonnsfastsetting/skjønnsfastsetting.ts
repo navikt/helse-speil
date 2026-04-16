@@ -1,17 +1,17 @@
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
-import { useFjernKalkulerToast } from '@hooks/useFjernKalkulererToast';
+import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import { usePostSykepengegrunnlag } from '@io/rest/generated/personer/personer';
-import { useCalculatingState } from '@state/calculating';
 import {
-    kalkulererFerdigToastKey,
-    kalkulererToast,
-    kalkulererToastKey,
-    kalkuleringFerdigToast,
-} from '@state/kalkuleringstoasts';
+    visningenErOppdatertToast,
+    visningenErOppdatertToastKey,
+    visningenOppdateresToast,
+    visningenOppdateresToastKey,
+} from '@state/oppdateringToasts';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
+import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { SkjønnsfastsattSykepengegrunnlagDTO } from '@typer/overstyring';
 
 export enum Skjønnsfastsettingstype {
@@ -20,34 +20,34 @@ export enum Skjønnsfastsettingstype {
     ANNET = 'ANNET',
 }
 
-export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () => void) => {
+export const usePostSkjønnsfastsattSykepengegrunnlag = (onVisningOppdatert: () => void) => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const [calculating, setCalculating] = useCalculatingState();
+    const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
     const [timedOut, setTimedOut] = useState(false);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const { mutate, error, isPending: loading } = usePostSykepengegrunnlag();
 
     useHåndterNyttEvent((event) => {
-        if (erNyOppgaveEvent(event) && calculating) {
-            addToast(kalkuleringFerdigToast({ callback: () => removeToast(kalkulererFerdigToastKey) }));
-            setCalculating(false);
-            onFerdigKalkulert();
+        if (erNyOppgaveEvent(event) && visningenOppdateres) {
+            addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
+            setVisningenOppdateres(false);
+            onVisningOppdatert();
         }
     });
 
-    useFjernKalkulerToast(calculating, () => setTimedOut(true));
+    useFjernOppdatererToast(visningenOppdateres, () => setTimedOut(true));
 
     return {
-        isLoading: loading || calculating,
+        isLoading: loading || visningenOppdateres,
         error: error && 'Kunne ikke skjønnsfastsette sykepengegrunnlaget. Prøv igjen senere.',
         timedOut,
         setTimedOut,
         postSkjønnsfastsetting: (skjønnsfastsattSykepengegrunnlag?: SkjønnsfastsattSykepengegrunnlagDTO) => {
             if (skjønnsfastsattSykepengegrunnlag === undefined) return;
-            setCalculating(true);
-            addToast(kalkulererToast({}));
+            setVisningenOppdateres(true);
+            addToast(visningenOppdateresToast({}));
 
             void mutate(
                 {
@@ -73,8 +73,8 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onFerdigKalkulert: () =
                 },
                 {
                     onError: () => {
-                        setCalculating(false);
-                        removeToast(kalkulererToastKey);
+                        setVisningenOppdateres(false);
+                        removeToast(visningenOppdateresToastKey);
                     },
                 },
             );
