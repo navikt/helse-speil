@@ -37,5 +37,4 @@ const defaultPersoninfo: Personinfo = {
     kjonn: Kjonn.Mann,
     fullmakt: null,
     fodselsdato: '1976-02-06',
-    automatiskBehandlingStansetAvSaksbehandler: false,
 };

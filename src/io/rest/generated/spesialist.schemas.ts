@@ -384,6 +384,40 @@ export interface ApiHttpProblemDetailsApiDeleteTildelingErrorCode {
     code?: ApiHttpProblemDetailsApiDeleteTildelingErrorCodeCode;
 }
 
+export type ApiSaksbehandlerStansUtførtAv = null | string;
+
+export type ApiSaksbehandlerStansBegrunnelse = null | string;
+
+export type ApiSaksbehandlerStansOpprettetTidspunkt = null | string;
+
+export interface ApiSaksbehandlerStans {
+    erStanset: boolean;
+    utførtAv?: ApiSaksbehandlerStansUtførtAv;
+    begrunnelse?: ApiSaksbehandlerStansBegrunnelse;
+    opprettetTidspunkt?: ApiSaksbehandlerStansOpprettetTidspunkt;
+}
+
+export type ApiGetBehandlerdlerStansErrorCode =
+    (typeof ApiGetBehandlerdlerStansErrorCode)[keyof typeof ApiGetBehandlerdlerStansErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetBehandlerdlerStansErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCodeCode = null | ApiGetBehandlerdlerStansErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCodeCode;
+}
+
 export interface ApiStansRequest {
     begrunnelse: string;
     stans: boolean;

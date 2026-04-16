@@ -9,7 +9,6 @@ import type { IResolvers } from '@graphql-tools/utils';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { PersonMock } from '@spesialist-mock/storage/person';
-import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
@@ -64,13 +63,6 @@ const leggTilLagretData = (person: Person): void => {
         }
     }
 
-    const lagretStansAvSaksbehandler = pseudoId
-        ? StansAutomatiskBehandlingMock.getStansAutomatiskBehandling(pseudoId)
-        : false;
-
-    if (lagretStansAvSaksbehandler) {
-        person.personinfo.automatiskBehandlingStansetAvSaksbehandler = lagretStansAvSaksbehandler;
-    }
     person.tildeling = tildeling;
 };
 

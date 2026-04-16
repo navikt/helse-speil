@@ -2,15 +2,20 @@ import { finnOppgaveId } from '@spesialist-mock/graphql';
 import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
-import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
+import { SaksbehandlerStansMock } from '@spesialist-mock/storage/saksbehandlerstans';
 
-export const stub = async (_request: Request, params: Promise<{ pseudoId: string }>) => {
+export async function patchStub(_request: Request, params: Promise<{ pseudoId: string }>) {
     const { pseudoId } = await params;
     const { begrunnelse, stans } = await _request.json();
 
     const oppgaveId = finnOppgaveId();
 
-    StansAutomatiskBehandlingMock.stansAutomatiskBehandling(pseudoId, stans);
+    if (stans) {
+        SaksbehandlerStansMock.opprettStans(pseudoId, begrunnelse, 'A123456');
+    } else {
+        SaksbehandlerStansMock.opphevStans(pseudoId);
+    }
+
     if (oppgaveId) {
         HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
             type: stans
@@ -22,4 +27,10 @@ export const stub = async (_request: Request, params: Promise<{ pseudoId: string
     }
 
     return Response.json({ status: 200 });
-};
+}
+
+export async function getStub(_request: Request, params: Promise<{ pseudoId: string }>) {
+    const { pseudoId } = await params;
+
+    return Response.json(SaksbehandlerStansMock.getStans(pseudoId));
+}

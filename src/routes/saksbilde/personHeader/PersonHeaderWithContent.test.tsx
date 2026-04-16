@@ -4,6 +4,7 @@ import { Adressebeskyttelse, Kjonn } from '@io/graphql';
 import {
     useGetBehandlendeEnhetForPerson,
     useGetKrrRegistrertStatusForPerson,
+    useGetSaksbehandlerStans,
 } from '@io/rest/generated/personer/personer';
 import { ApiKrrRegistrertStatus } from '@io/rest/generated/spesialist.schemas';
 import { enPerson } from '@test-data/person';
@@ -21,6 +22,11 @@ describe('Personlinje', () => {
                 enhetNr: '1234',
                 navn: 'Nav Andeby',
                 type: 'LOKAL',
+            },
+        });
+        (useGetSaksbehandlerStans as Mock).mockReturnValueOnce({
+            data: {
+                erStanset: false,
             },
         });
         (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({
@@ -42,7 +48,6 @@ describe('Personlinje', () => {
                         kjonn: Kjonn.Mann,
                         fullmakt: null,
                         fodselsdato: '1986-02-06',
-                        automatiskBehandlingStansetAvSaksbehandler: false,
                     },
                     dodsdato: null,
                 })}
