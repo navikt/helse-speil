@@ -5,7 +5,6 @@ import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage, ErrorSummary, HStack } from '@navikt/ds-react';
 
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
-import { TimeoutDialog } from '@components/TimeoutDialog';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { PersonFragment } from '@io/graphql';
 import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
@@ -110,10 +109,7 @@ const OverstyrArbeidsforholdSkjema = ({
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
 
-    const { isLoading, error, timedOut, setTimedOut, postOverstyring } = usePostOverstyrtArbeidsforhold(
-        person.aktorId,
-        onClose,
-    );
+    const { isLoading, error, postOverstyring } = usePostOverstyrtArbeidsforhold(person.aktorId, onClose);
 
     const confirmChanges = () => {
         const { begrunnelseId, forklaring } = form.getValues();
@@ -161,7 +157,6 @@ const OverstyrArbeidsforholdSkjema = ({
                         </Button>
                     </HStack>
                     {error && <ErrorMessage>{error}</ErrorMessage>}
-                    <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
                 </div>
             </form>
         </FormProvider>

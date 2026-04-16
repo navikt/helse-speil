@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { useMutation } from '@apollo/client';
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import {
@@ -60,7 +58,6 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onVisningOppdat
     const removeToast = useRemoveToast();
 
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
-    const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { error, loading }] = useMutation(OverstyrArbeidsforholdMutationDocument);
 
@@ -72,13 +69,11 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onVisningOppdat
         }
     });
 
-    useFjernOppdatererToast(visningenOppdateres, () => setTimedOut(true));
+    useFjernOppdatererToast(visningenOppdateres);
 
     return {
         isLoading: loading || visningenOppdateres,
         error: error && 'Kunne ikke overstyre arbeidsforhold. Prøv igjen senere.',
-        timedOut,
-        setTimedOut,
         postOverstyring: (overstyrtArbeidsforhold: OverstyrtArbeidsforholdDTO) => {
             const overstyring: ArbeidsforholdOverstyringHandlingInput = {
                 aktorId: overstyrtArbeidsforhold.aktørId,

@@ -26,8 +26,6 @@ type UsePostOverstyringResult = {
         callback?: () => void,
     ) => Promise<void | FetchResult<OverstyrDagerMutationMutation>>;
     error?: string;
-    setTimedOut: (value: boolean) => void;
-    timedOut: boolean;
     done: boolean;
 };
 
@@ -39,24 +37,21 @@ export const useOverstyrDager = (
     const removeToast = useRemoveToast();
     const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
-    const [timedOut, setTimedOut] = useState(false);
     const [done, setDone] = useState(false);
 
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && visningenOppdateres) {
             addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
             setVisningenOppdateres(false);
-            setTimedOut(false);
             setDone(true);
         } else if (erPersondataOppdatertEvent(event) && visningenOppdateres) {
             addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
             setVisningenOppdateres(false);
-            setTimedOut(false);
             setDone(true);
         }
     });
 
-    useFjernOppdatererToast(visningenOppdateres, () => setTimedOut(true));
+    useFjernOppdatererToast(visningenOppdateres);
 
     const overstyrDager = async (
         dager: Utbetalingstabelldag[],
@@ -90,8 +85,6 @@ export const useOverstyrDager = (
     return {
         postOverstyring: overstyrDager,
         error: overstyringError && 'Feil under sending av overstyring. Prøv igjen senere.',
-        setTimedOut,
-        timedOut,
         done,
     };
 };

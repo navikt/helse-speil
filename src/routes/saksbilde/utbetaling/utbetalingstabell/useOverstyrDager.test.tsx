@@ -42,7 +42,6 @@ describe('useOverstyrDager', () => {
             initialProps: person,
         });
         expect(result.current.error).toBe(undefined);
-        expect(result.current.timedOut).toBe(false);
         expect(result.current.done).toBe(false);
     });
 

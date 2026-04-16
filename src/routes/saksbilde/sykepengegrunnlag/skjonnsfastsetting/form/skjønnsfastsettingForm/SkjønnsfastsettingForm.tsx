@@ -4,7 +4,6 @@ import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatc
 import { Button, ErrorMessage, HStack, HelpText } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
-import { TimeoutDialog } from '@components/TimeoutDialog';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
     Arbeidsgiver,
@@ -73,8 +72,7 @@ export const SkjønnsfastsettingForm = ({
     const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
-    const { isLoading, error, postSkjønnsfastsetting, timedOut, setTimedOut } =
-        usePostSkjønnsfastsattSykepengegrunnlag(closeAndResetForm);
+    const { isLoading, error, postSkjønnsfastsetting } = usePostSkjønnsfastsattSykepengegrunnlag(closeAndResetForm);
 
     const form = useForm<SkjønnsfastsettingFormFields>({
         shouldFocusError: false,
@@ -204,7 +202,6 @@ export const SkjønnsfastsettingForm = ({
                         </>
                     )}
                     {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
-                    <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
                 </div>
             </form>
         </FormProvider>

@@ -37,10 +37,9 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
 
     it('skal ha initial state ved oppstart', () => {
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon, { mocks });
-        const { isLoading, error, timedOut } = result.current;
+        const { isLoading, error } = result.current;
         expect(isLoading).toBeFalsy();
         expect(error).toBeUndefined();
-        expect(timedOut).toBeFalsy();
     });
 
     it('skal poste overstyring', async () => {

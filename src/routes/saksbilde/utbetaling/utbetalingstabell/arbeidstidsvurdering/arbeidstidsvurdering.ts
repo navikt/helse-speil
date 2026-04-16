@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
-import { useState } from 'react';
 import * as R from 'remeda';
 
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
@@ -25,7 +24,6 @@ export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onVi
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const [oppdaterer, setOppdaterer] = useVisningenOppdateresState();
-    const [timedOut, setTimedOut] = useState(false);
 
     const { mutate: overstyrMutation, error, isPending: loading } = usePostArbeidstidsvurdering();
     const fjernNotat = useFjernNotat();
@@ -38,13 +36,11 @@ export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onVi
         }
     });
 
-    useFjernOppdatererToast(oppdaterer, () => setTimedOut(true));
+    useFjernOppdatererToast(oppdaterer);
 
     return {
         isLoading: loading || oppdaterer,
         error: error && 'Kunne ikke vurdere arbeidstid. Prøv igjen senere.',
-        timedOut,
-        setTimedOut,
         postArbeidstidsvurdering: (arbeidstidsvurderingRequest?: ApiArbeidstidsvurderingRequest) => {
             if (arbeidstidsvurderingRequest === undefined) return;
 

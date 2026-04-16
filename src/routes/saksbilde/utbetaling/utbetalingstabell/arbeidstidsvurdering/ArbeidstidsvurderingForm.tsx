@@ -14,7 +14,6 @@ import { XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
-import { TimeoutDialog } from '@components/TimeoutDialog';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
@@ -47,9 +46,8 @@ export const ArbeidstidsvurderingForm = ({
     setVurdererArbeidstid,
 }: ArbeidstidsvurderingFormProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { isLoading, error, postArbeidstidsvurdering, timedOut, setTimedOut } = usePostArbeidstidsvurderingMedToast(
-        personPseudoId,
-        () => setVurdererArbeidstid(false),
+    const { isLoading, error, postArbeidstidsvurdering } = usePostArbeidstidsvurderingMedToast(personPseudoId, () =>
+        setVurdererArbeidstid(false),
     );
     const form = useForm<ArbeidstidsvurderingFormFields>();
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
@@ -136,7 +134,6 @@ export const ArbeidstidsvurderingForm = ({
                         </Button>
                     </HStack>
                     {error && <ErrorMessage className={styles.error}>{error}</ErrorMessage>}
-                    <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
                 </form>
             </FormProvider>
         </Box>

@@ -1,5 +1,4 @@
 import { useParams } from 'next/navigation';
-import { useState } from 'react';
 
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import { usePostSykepengegrunnlag } from '@io/rest/generated/personer/personer';
@@ -24,7 +23,6 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onVisningOppdatert: () 
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
-    const [timedOut, setTimedOut] = useState(false);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const { mutate, error, isPending: loading } = usePostSykepengegrunnlag();
@@ -37,13 +35,11 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onVisningOppdatert: () 
         }
     });
 
-    useFjernOppdatererToast(visningenOppdateres, () => setTimedOut(true));
+    useFjernOppdatererToast(visningenOppdateres);
 
     return {
         isLoading: loading || visningenOppdateres,
         error: error && 'Kunne ikke skjønnsfastsette sykepengegrunnlaget. Prøv igjen senere.',
-        timedOut,
-        setTimedOut,
         postSkjønnsfastsetting: (skjønnsfastsattSykepengegrunnlag?: SkjønnsfastsattSykepengegrunnlagDTO) => {
             if (skjønnsfastsattSykepengegrunnlag === undefined) return;
             setVisningenOppdateres(true);

@@ -3,7 +3,6 @@ import React, { ReactElement, useState } from 'react';
 import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { SlettLokaleEndringerDialog } from '@components/SlettLokaleEndringerDialog';
-import { TimeoutDialog } from '@components/TimeoutDialog';
 import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
@@ -20,7 +19,7 @@ export const KalkulerEndringerVarsel = ({
     lokaleInntektoverstyringer,
 }: KalkulerEndringerVarselProps): ReactElement | null => {
     const slettLokaleOverstyringer = useSlettLokaleOverstyringer();
-    const { isLoading, error, postOverstyring, timedOut, setTimedOut } = usePostOverstyrtInntektOgRefusjon();
+    const { isLoading, error, postOverstyring } = usePostOverstyrtInntektOgRefusjon();
     const [showModal, setShowModal] = useState(false);
     const antallRedigerteArbeidsgivere = lokaleInntektoverstyringer?.arbeidsgivere.length ?? 0;
     const visningenOppdateres = useVisningenOppdateresValue();
@@ -55,7 +54,6 @@ export const KalkulerEndringerVarsel = ({
                 </HStack>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
             </Alert>
-            <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
             <SlettLokaleEndringerDialog
                 heading="Er du sikker på at du vil forkaste endringene?"
                 open={showModal}

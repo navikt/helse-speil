@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { ArrowUndoIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { TimeoutDialog } from '@components/TimeoutDialog';
 import { PersonFragment } from '@io/graphql';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
@@ -23,7 +22,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     onClick,
 }: AngreOverstyrArbeidsforholdUtenSykdomProps): ReactElement => {
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
-    const { postOverstyring, timedOut, setTimedOut } = usePostOverstyrtArbeidsforhold(person.aktorId);
+    const { postOverstyring } = usePostOverstyrtArbeidsforhold(person.aktorId);
     const begrunnelse: BegrunnelseForOverstyring = {
         id: '',
         forklaring: 'Angret å ikke bruke det i beregningen',
@@ -48,7 +47,6 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
             >
                 Bruk arbeidsforholdet i beregningen likevel
             </Button>
-            <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
         </>
     );
 };

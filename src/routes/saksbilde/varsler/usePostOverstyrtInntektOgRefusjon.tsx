@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import {
@@ -21,8 +19,6 @@ import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 interface PostOverstyrtInntektOgRefusjonResponse {
     isLoading: boolean;
     error: string | undefined;
-    timedOut: boolean;
-    setTimedOut: (nyTimedOut: boolean) => void;
     postOverstyring: (
         overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,
     ) => Promise<void | FetchResult<OverstyrInntektOgRefusjonMutationMutation>>;
@@ -33,7 +29,6 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
     const removeToast = useRemoveToast();
     const resetLokaleOverstyringer = useSlettLokaleOverstyringer();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
-    const [timedOut, setTimedOut] = useState(false);
 
     const [overstyrMutation, { loading, error }] = useMutation(OverstyrInntektOgRefusjonMutationDocument);
 
@@ -45,7 +40,7 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
         }
     });
 
-    useFjernOppdatererToast(visningenOppdateres, () => setTimedOut(true));
+    useFjernOppdatererToast(visningenOppdateres);
 
     const overstyrInntektOgRefusjon = async (
         overstyrtInntekt: OverstyrtInntektOgRefusjonDTO,
@@ -100,7 +95,5 @@ export const usePostOverstyrtInntektOgRefusjon = (): PostOverstyrtInntektOgRefus
         postOverstyring: overstyrInntektOgRefusjon,
         isLoading: loading || visningenOppdateres,
         error: error && 'Kunne ikke overstyre inntekt og/eller refusjon. Prøv igjen senere.',
-        timedOut,
-        setTimedOut,
     };
 };

@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { TimeoutDialog } from '@components/TimeoutDialog';
 import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbetalingstatus } from '@io/graphql';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
@@ -188,7 +187,7 @@ export const OverstyrbarUtbetaling = ({
 
     const [overstyrer, setOverstyrer] = useState(false);
 
-    const { postOverstyring, error, timedOut, setTimedOut, done } = useOverstyrDager(person, inntektsforhold);
+    const { postOverstyring, error, done } = useOverstyrDager(person, inntektsforhold);
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 
@@ -329,7 +328,6 @@ export const OverstyrbarUtbetaling = ({
                     </>
                 )}
             </div>
-            <TimeoutDialog open={timedOut} onOpenChange={setTimedOut} />
         </article>
     );
 };
