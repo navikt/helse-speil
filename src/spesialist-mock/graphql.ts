@@ -6,11 +6,9 @@ import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
-import { ApiVeilederStans } from '@io/rest/generated/spesialist.schemas';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { PersonMock } from '@spesialist-mock/storage/person';
-import { VeilederStansMock } from '@spesialist-mock/storage/veilederstans';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
@@ -32,13 +30,6 @@ import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
 import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
-
-type TestpersonData = {
-    person: Person;
-    veilederStans?: ApiVeilederStans;
-};
-
-let harSeedetVeilederStansFraTestpersoner = false;
 
 const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
@@ -75,21 +66,17 @@ const leggTilLagretData = (person: Person): void => {
     person.tildeling = tildeling;
 };
 
-const lesTestpersoner = (): TestpersonData[] => {
+const lesTestpersoner = (): Person[] => {
     const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
     const filenames = fs.readdirSync(url);
     return filenames.map((filename) => {
         const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
-        return JSON.parse(raw).data;
+        return JSON.parse(raw).data.person;
     });
 };
 
-const hentPersonerFraTestpersoner = (): Person[] => {
-    return lesTestpersoner().map(({ person }) => person);
-};
-
 export const fetchPersondata = (): Record<string, Person> => {
-    const personer = hentPersonerFraTestpersoner();
+    const personer = lesTestpersoner();
 
     return personer.reduce((data: Record<string, Person>, person) => {
         leggTilLagretData(person);
@@ -258,7 +245,7 @@ export const finnOppgaveId = (): string | null => {
 };
 
 const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
-    const personer = hentPersonerFraTestpersoner();
+    const personer = lesTestpersoner();
 
     personer.forEach((person) => {
         const vedtaksperiodeHistorikkinnslag = new Map<UUID, Historikkinnslag[]>();
@@ -293,32 +280,7 @@ const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
     });
 };
 
-const seedVeilederStansFraTestpersonerIMock = (): void => {
-    if (harSeedetVeilederStansFraTestpersoner) {
-        return;
-    }
-
-    const testpersoner = lesTestpersoner();
-
-    testpersoner.forEach(({ person, veilederStans }) => {
-        if (!veilederStans) {
-            return;
-        }
-
-        const pseudoId = PersonMock.findPersonPseudoId(person.fodselsnummer);
-
-        if (!pseudoId) {
-            return;
-        }
-
-        VeilederStansMock.seedVeilederStans(pseudoId, veilederStans);
-    });
-
-    harSeedetVeilederStansFraTestpersoner = true;
-};
-
 export const buildSchema = (): GraphQLSchema => {
-    seedVeilederStansFraTestpersonerIMock();
     puttHistorikkinnslagFraTestpersonerIMock();
     return makeExecutableSchema({
         typeDefs: buildClientSchema(spesialistSchema as unknown as IntrospectionQuery),

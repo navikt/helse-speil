@@ -1,0 +1,10 @@
+{
+    "fodselsnummer": "07518405122",
+    "data": {
+        "veilederStans": {
+            "erStanset": true,
+            "årsaker": ["MANGLENDE_MEDVIRKING"],
+            "tidspunkt": "2024-06-15T10:30:00.000Z"
+        }
+    }
+}
