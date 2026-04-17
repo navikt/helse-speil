@@ -28,7 +28,7 @@ export function StansAutomatiskBehandlingDialogInnhold({
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
     const apolloClient = useApolloClient();
-    const { mutateAsync, error } = usePatchSaksbehandlerStans();
+    const { mutate, isPending, error } = usePatchSaksbehandlerStans();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
@@ -38,8 +38,8 @@ export function StansAutomatiskBehandlingDialogInnhold({
         },
     });
 
-    async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        await mutateAsync(
+    function onSubmit(values: StansAutomatiskBehandlingSchema) {
+        mutate(
             {
                 pseudoId: personPseudoId,
                 data: {
@@ -87,16 +87,11 @@ export function StansAutomatiskBehandlingDialogInnhold({
             </Dialog.Body>
             <Dialog.Footer>
                 <Dialog.CloseTrigger>
-                    <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting}>
+                    <Button variant="tertiary" type="button" disabled={isPending}>
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button
-                    variant="primary"
-                    type="submit"
-                    form="stans-automatisk-behandling-form"
-                    loading={form.formState.isSubmitting}
-                >
+                <Button variant="primary" type="submit" form="stans-automatisk-behandling-form" loading={isPending}>
                     Stans automatisk behandling
                 </Button>
             </Dialog.Footer>

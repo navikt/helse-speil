@@ -19,7 +19,7 @@ type AvvisningDialogInnholdProps = {
 
 export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDialogInnholdProps) => {
     const router = useRouter();
-    const { mutateAsync, error } = usePostForkasting();
+    const { mutate, isPending, error } = usePostForkasting();
     const addToast = useAddToast();
     const form = useForm<AvvisningSkjema>({
         resolver: zodResolver(avvisningSkjema),
@@ -34,8 +34,8 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
     const annet = begrunnelser.includes(Begrunnelse.Annet);
     const begrunnelseValg = hentBegrunnelseValg(activePeriod);
 
-    async function onSubmit(values: AvvisningSkjema) {
-        await mutateAsync(
+    function onSubmit(values: AvvisningSkjema) {
+        mutate(
             {
                 behandlingId: activePeriod.behandlingId,
                 data: values,
@@ -101,11 +101,11 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
             <Dialog.Footer>
                 {error && <ErrorMessage className="mr-auto self-center">En feil har oppstått</ErrorMessage>}
                 <Dialog.CloseTrigger>
-                    <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting}>
+                    <Button variant="tertiary" type="button" disabled={isPending}>
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button variant="primary" type="submit" form="avvisning-skjema" loading={form.formState.isSubmitting}>
+                <Button variant="primary" type="submit" form="avvisning-skjema" loading={isPending}>
                     Kan ikke behandles her
                 </Button>
             </Dialog.Footer>

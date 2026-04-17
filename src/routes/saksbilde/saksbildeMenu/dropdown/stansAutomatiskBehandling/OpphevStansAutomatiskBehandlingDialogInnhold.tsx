@@ -28,7 +28,7 @@ export function OpphevStansAutomatiskBehandlingDialogInnhold({
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
     const apolloClient = useApolloClient();
-    const { mutateAsync, error } = usePatchSaksbehandlerStans();
+    const { mutate, isPending, error } = usePatchSaksbehandlerStans();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
         resolver: zodResolver(stansAutomatiskBehandlingSchema),
@@ -38,8 +38,8 @@ export function OpphevStansAutomatiskBehandlingDialogInnhold({
         },
     });
 
-    async function onSubmit(values: StansAutomatiskBehandlingSchema) {
-        await mutateAsync(
+    function onSubmit(values: StansAutomatiskBehandlingSchema) {
+        mutate(
             {
                 pseudoId: personPseudoId,
                 data: {
@@ -87,7 +87,7 @@ export function OpphevStansAutomatiskBehandlingDialogInnhold({
             </Dialog.Body>
             <Dialog.Footer>
                 <Dialog.CloseTrigger>
-                    <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting}>
+                    <Button variant="tertiary" type="button" disabled={isPending}>
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
@@ -95,7 +95,7 @@ export function OpphevStansAutomatiskBehandlingDialogInnhold({
                     variant="primary"
                     type="submit"
                     form="opphev-stans-automatisk-behandling-form"
-                    loading={form.formState.isSubmitting}
+                    loading={isPending}
                 >
                     Opphev
                 </Button>

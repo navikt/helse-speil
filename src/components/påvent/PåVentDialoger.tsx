@@ -131,7 +131,7 @@ const PåVentDialogInnhold = ({
     const søkernavn = navn ? getFormatertNavn(navn, ['E', ',', 'F', 'M']) : undefined;
     const saksbehandler = useInnloggetSaksbehandler();
     const { arsaker: årsaker, loading: årsakerLoading } = useArsaker('paventarsaker');
-    const { mutateAsync, error } = usePutPåVent();
+    const { mutate, isPending, error } = usePutPåVent();
 
     const opprinneligTildeltSaksbehandler = utgangspunktTildeling
         ? utgangspunktTildeling.oid === saksbehandler.oid
@@ -150,11 +150,11 @@ const PåVentDialogInnhold = ({
     const valgteÅrsaker = useWatch({ name: 'årsaker', control: form.control });
     const skalTildeles = useWatch({ name: 'skalTildeles', control: form.control });
 
-    async function onSubmit(values: PåVentSkjema) {
+    function onSubmit(values: PåVentSkjema) {
         const sanityÅrsaker = årsaker?.[0]?.arsaker ?? [];
         const filteredÅrsaker = sanityÅrsaker.filter((it) => values.årsaker.includes(it.arsak));
 
-        await mutateAsync(
+        mutate(
             {
                 oppgaveId: Number.parseInt(oppgaveId),
                 data: {
@@ -208,11 +208,11 @@ const PåVentDialogInnhold = ({
                     </ErrorMessage>
                 )}
                 <Dialog.CloseTrigger>
-                    <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting}>
+                    <Button variant="tertiary" type="button" disabled={isPending}>
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button variant="primary" type="submit" form="på-vent-form" loading={form.formState.isSubmitting}>
+                <Button variant="primary" type="submit" form="på-vent-form" loading={isPending}>
                     {submitKnappTekst}
                 </Button>
             </Dialog.Footer>

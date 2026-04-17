@@ -23,7 +23,7 @@ export function FjernTilkommenInntektDialog({
     tilkommenInntekt,
     personPseudoId,
 }: FjernTilkommenInntektDialogProps): ReactElement {
-    const { mutateAsync, error: mutationError } = usePatchTilkommenInntekt();
+    const { mutate, isPending, error: mutationError } = usePatchTilkommenInntekt();
     const { tilkommenInntektRefetch } = useTilkommenInntektMedOrganisasjonsnummer(
         tilkommenInntekt.tilkommenInntektId,
         personPseudoId,
@@ -36,8 +36,8 @@ export function FjernTilkommenInntektDialog({
         },
     });
 
-    async function onSubmit(values: FjernTilkommenInntektSkjema) {
-        await mutateAsync(
+    function onSubmit(values: FjernTilkommenInntektSkjema) {
+        mutate(
             {
                 tilkommenInntektId: tilkommenInntekt.tilkommenInntektId,
                 data: {
@@ -91,11 +91,11 @@ export function FjernTilkommenInntektDialog({
                 </Dialog.Body>
                 <Dialog.Footer>
                     <Dialog.CloseTrigger>
-                        <Button type="button" variant="secondary" disabled={form.formState.isSubmitting}>
+                        <Button type="button" variant="secondary" disabled={isPending}>
                             Nei
                         </Button>
                     </Dialog.CloseTrigger>
-                    <Button type="submit" form="fjern-tilkommen-inntekt-form" loading={form.formState.isSubmitting}>
+                    <Button type="submit" form="fjern-tilkommen-inntekt-form" loading={isPending}>
                         Ja
                     </Button>
                 </Dialog.Footer>

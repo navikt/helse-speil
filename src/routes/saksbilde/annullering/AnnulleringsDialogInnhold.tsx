@@ -51,7 +51,7 @@ export function AnnulleringsDialogInnhold({
     periode,
     onSuccess,
 }: AnnulleringsDialogInnholdProps): ReactElement {
-    const { mutateAsync, error } = usePostVedtaksperiodeAnnuller();
+    const { mutate, isPending, error } = usePostVedtaksperiodeAnnuller();
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const addToast = useAddToast();
     const { arsaker, loading: arsakerLoading } = useArsaker('annulleringsarsaker');
@@ -69,9 +69,9 @@ export function AnnulleringsDialogInnhold({
     const arsakerValue = useWatch({ name: 'arsaker', control: form.control });
     const harValgtAnnet = arsakerValue.some((it) => JSON.parse(it).arsak === 'Annet');
 
-    async function onSubmit(values: AnnulleringSkjema) {
+    function onSubmit(values: AnnulleringSkjema) {
         const parsedArsaker: Arsak[] = values.arsaker.map((it) => JSON.parse(it));
-        await mutateAsync(
+        mutate(
             {
                 vedtaksperiodeId,
                 data: {
@@ -173,16 +173,11 @@ export function AnnulleringsDialogInnhold({
                     </ErrorMessage>
                 )}
                 <Dialog.CloseTrigger>
-                    <Button variant="tertiary" type="button" disabled={form.formState.isSubmitting}>
+                    <Button variant="tertiary" type="button" disabled={isPending}>
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button
-                    variant="primary"
-                    type="submit"
-                    form="annullerings-skjema"
-                    loading={form.formState.isSubmitting}
-                >
+                <Button variant="primary" type="submit" form="annullerings-skjema" loading={isPending}>
                     Annuller
                 </Button>
             </Dialog.Footer>
