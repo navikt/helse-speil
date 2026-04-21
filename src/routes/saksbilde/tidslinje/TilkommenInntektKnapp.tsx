@@ -7,7 +7,6 @@ import { Button } from '@navikt/ds-react';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
-import { kanSeAndreYtelser } from '@utils/featureToggles';
 
 interface TilkommenInntektKnappProps {
     person: PersonFragment;
@@ -31,11 +30,7 @@ export function TilkommenInntektKnapp({
                         size="small"
                         style={{ marginLeft: '-0.5rem' }}
                         icon={<PlusIcon title="Legg til tilkommen inntekt" />}
-                        href={
-                            kanSeAndreYtelser
-                                ? `/person/${personPseudoId}/leggtilperiode`
-                                : `/person/${personPseudoId}/tilkommeninntekt/ny`
-                        }
+                        href={`/person/${personPseudoId}/tilkommeninntekt/ny`}
                     >
                         Legg til tilkommen inntekt/periode
                     </Button>
