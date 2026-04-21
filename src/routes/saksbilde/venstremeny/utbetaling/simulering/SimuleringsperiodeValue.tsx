@@ -7,15 +7,17 @@ import { cn } from '@utils/tw';
 
 import styles from './SimuleringsperiodeView.module.css';
 
-interface SimuleringsperiodeValueProps {
+interface SimuleringsperiodeValueProps extends React.HTMLAttributes<HTMLElement> {
     label: string;
     value: string | number;
 }
 
-export const SimuleringsperiodeValue = ({ label, value }: SimuleringsperiodeValueProps): ReactElement => {
+export const SimuleringsperiodeValue = ({ label, value, ...props }: SimuleringsperiodeValueProps): ReactElement => {
     return (
         <>
-            <BodyShort size="small">{label}</BodyShort>
+            <BodyShort size="small" {...props}>
+                {label}
+            </BodyShort>
             <BodyShort
                 size="small"
                 className={cn(styles.Bold, typeof value === 'number' && value < 0 && styles.NegativtBeløp)}

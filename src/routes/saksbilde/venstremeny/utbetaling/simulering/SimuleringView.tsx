@@ -6,6 +6,7 @@ import { AnonymizableContainer } from '@components/anonymizable/AnonymizableCont
 import { Simulering } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 import { cn } from '@utils/tw';
+import { isNumber } from '@utils/typeguards';
 
 import { SimuleringsperiodeView } from './SimuleringsperiodeView';
 
@@ -42,7 +43,9 @@ export const SimuleringView = ({ simulering, utbetalingId }: SimuleringViewProps
         <article className={styles.SimuleringView}>
             <Heading size="large">Simulering</Heading>
             <div className={styles.SimuleringValueContainer}>
-                {simulering.totalbelop && <SimuleringValue label="Totalbeløp" value={simulering.totalbelop} />}
+                {isNumber(simulering.totalbelop) && (
+                    <SimuleringValue label="Totalbeløp" value={simulering.totalbelop} />
+                )}
                 {utbetalesTil && (
                     <AnonymizableContainer>
                         <SimuleringValue label="Utbetales til" value={utbetalesTil} />

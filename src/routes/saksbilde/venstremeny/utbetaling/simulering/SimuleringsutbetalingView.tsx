@@ -5,6 +5,8 @@ import { getFormattedDateString } from '@utils/date';
 
 import { SimuleringsperiodeValue } from './SimuleringsperiodeValue';
 
+import styles from './SimuleringsperiodeView.module.css';
+
 interface SimuleringsutbetalingViewProps {
     utbetaling: Simuleringsutbetaling;
 }
@@ -23,13 +25,17 @@ export const SimuleringsutbetalingView = ({ utbetaling }: SimuleringsutbetalingV
                     <SimuleringsperiodeValue label="Sats" value={detalj.sats} />
                     <SimuleringsperiodeValue label="Antall dager" value={String(detalj.antallSats)} />
                     <SimuleringsperiodeValue label="Beløp" value={detalj.belop} />
+                    <SimuleringsperiodeValue label="Tilbakeføring" value={detalj.tilbakeforing ? 'Ja' : 'Nei'} />
                     <SimuleringsperiodeValue label="Konto" value={detalj.konto} />
                     <SimuleringsperiodeValue label="Klassekode" value={detalj.klassekode} />
                     <SimuleringsperiodeValue label="Klassekodebeskrivelse" value={detalj.klassekodebeskrivelse} />
                     <SimuleringsperiodeValue label="Uføregrad" value={`${detalj.uforegrad} %`} />
                     <SimuleringsperiodeValue label="Utbetalingstype" value={detalj.utbetalingstype} />
-                    <SimuleringsperiodeValue label="Refunderes orgnummer" value={detalj.refunderesOrgNr} />
-                    <SimuleringsperiodeValue label="Tilbakeføring" value={detalj.tilbakeforing ? 'Ja' : 'Nei'} />
+                    <SimuleringsperiodeValue
+                        className={styles.SisteDetaljerrad}
+                        label="Refunderes orgnummer"
+                        value={detalj.refunderesOrgNr}
+                    />
                 </React.Fragment>
             ))}
         </>
