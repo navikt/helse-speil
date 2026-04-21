@@ -102,14 +102,14 @@ export const Saksbilde = () => {
 
     if (erAnnullert) {
         return (
-            <VStack className="h-full min-w-0 flex-1 [grid-area:content]">
+            <VStack className="h-full min-w-0 flex-1 overflow-hidden [grid-area:content]">
                 <SaksbildeVarsel person={person} periode={aktivPeriode} />
             </VStack>
         );
     }
 
     return (
-        <VStack className="h-full min-w-0 flex-1 [grid-area:content]">
+        <VStack className="h-full min-w-0 flex-1 overflow-hidden [grid-area:content]">
             {periodeHarDatoerMedUnder20ProsentTotalGrad && initierendeVedtaksperiodeId && (
                 <Verktøylinje
                     person={person}
