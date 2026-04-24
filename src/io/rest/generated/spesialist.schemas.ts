@@ -1401,6 +1401,35 @@ export interface ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode {
     code?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode;
 }
 
+export interface ApiAnmodOmForkastingRequest {
+    fødselsnummer: string;
+    vedtaksperiodeId: string;
+    organisasjonsnummer: string;
+    yrkesaktivitetstype: string;
+}
+
+export type ApiPostAnmodOmForkastingErrorCode =
+    (typeof ApiPostAnmodOmForkastingErrorCode)[keyof typeof ApiPostAnmodOmForkastingErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostAnmodOmForkastingErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCodeCode = null | ApiPostAnmodOmForkastingErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCodeCode;
+}
+
 export interface ApiArbeidstidsvurderingRequestArbeidsgiver {
     organisasjonsnummer: string;
     berørtVedtaksperiodeId: string;
