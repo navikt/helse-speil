@@ -54,6 +54,7 @@ const VenstremenyContainer = (): ReactElement | null => {
     if (isUberegnetPeriode(activePeriod)) {
         return (
             <VenstremenyUberegnetPeriode
+                key={activePeriod.vedtaksperiodeId}
                 activePeriod={activePeriod}
                 inntektsforhold={inntektsforhold}
                 currentPerson={currentPerson}
