@@ -8,11 +8,13 @@ import { atomWithSessionStorage } from '@state/jotai';
 export type ToggleState = {
     kanBeslutteEgne: boolean;
     nyInngangsvilkår: boolean;
+    dialogmelding: boolean;
 };
 
 const defaultToggleState: ToggleState = {
     kanBeslutteEgne: false,
     nyInngangsvilkår: false,
+    dialogmelding: false,
 };
 
 const toggleState = atomWithSessionStorage<ToggleState>('toggleState', defaultToggleState);
@@ -42,3 +44,5 @@ export const useToggle = (): { value: ToggleState; toggle: (property: keyof Togg
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
 
 export const useKanSeNyInngangsvilkår = (): boolean => useAtomValue(toggleState).nyInngangsvilkår;
+
+export const useKanSeNyDialogmelding = (): boolean => useAtomValue(toggleState).dialogmelding;

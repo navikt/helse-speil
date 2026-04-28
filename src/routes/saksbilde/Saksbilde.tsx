@@ -1,3 +1,5 @@
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 import { InformationSquareIcon } from '@navikt/aksel-icons';
@@ -21,7 +23,7 @@ import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold'
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { SaksbildeTab, useSaksbildeTab } from '@state/tab';
-import { useKanSeNyInngangsvilkår } from '@state/toggles';
+import { useKanSeNyDialogmelding, useKanSeNyInngangsvilkår } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -55,6 +57,8 @@ export const Saksbilde = () => {
     const { loading, data, error } = useFetchPersonQuery();
     const [tab, setTab] = useSaksbildeTab();
     const visNyInngangsvilkår = useKanSeNyInngangsvilkår();
+    const visNyDialogmelding = useKanSeNyDialogmelding();
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
 
     const person: PersonFragment | null = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
@@ -128,6 +132,7 @@ export const Saksbilde = () => {
                             <Tabs.Tab key={t.value} value={t.value} label={t.label} />
                         ))}
                     </Tabs.List>
+                    {visNyDialogmelding && <Link href={`/person/${personPseudoId}/dialogmelding`}>Dialogmelding</Link>}
                     <VisHvisSkrivetilgang>
                         <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
                     </VisHvisSkrivetilgang>

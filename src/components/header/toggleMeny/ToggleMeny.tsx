@@ -21,6 +21,9 @@ export function ToggleMeny(): ReactElement {
                         <Checkbox value="nyInngangsvilkår" onChange={toggle('nyInngangsvilkår')}>
                             Bruk ny versjon av inngangsvilkår
                         </Checkbox>
+                        <Checkbox value="dialogmelding" onChange={toggle('dialogmelding')}>
+                            Bruk dialogmelding
+                        </Checkbox>
                     </CheckboxGroup>
                 </form>
             </Dialog.Body>
@@ -32,5 +35,6 @@ const toggleStateToCheckboxValue = (state: ToggleState): string[] => {
     const array: string[] = [];
     if (state.kanBeslutteEgne) array.push('kanBeslutteEgne');
     if (state.nyInngangsvilkår) array.push('nyInngangsvilkår');
+    if (state.dialogmelding) array.push('dialogmelding');
     return array;
 };
