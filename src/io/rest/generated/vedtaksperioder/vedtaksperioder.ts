@@ -101,7 +101,7 @@ export const postAnmodOmForkasting = (
     signal?: AbortSignal,
 ) => {
     return callCustomAxios<void>({
-        url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/anmod_om_forkasting`,
+        url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/anmod-om-forkasting`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: apiAnmodOmForkastingRequest,
