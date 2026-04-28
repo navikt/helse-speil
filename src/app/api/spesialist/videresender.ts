@@ -16,18 +16,12 @@ function filterHeadersExcept(original: Headers, exceptNames: string[]) {
 }
 
 export const videresendTilSpesialist = async (request: Request): Promise<Response> => {
-    const result = await buildHeaders(request);
-    if (result instanceof Response) {
-        return result;
+    const headersResult = await buildHeaders(request);
+    if (headersResult instanceof Response) {
+        return headersResult;
     }
 
-    return fetch(spesialistUrl(request), {
-        method: request.method,
-        headers: result,
-        body: request.body,
-        // @ts-expect-error Duplex property is missing in types
-        duplex: 'half',
-    });
+    return fetch(spesialistUrl(request), buildBody(request, headersResult));
 };
 
 export const videresendSseTilSpesialist = async (request: Request): Promise<Response> => {
@@ -63,6 +57,15 @@ const buildHeaders = async (request: Request): Promise<Response | Headers> => {
     headers.set('Authorization', `Bearer ${oboResult.token}`);
     return headers;
 };
+
+function buildBody(request: Request, headers: Headers) {
+    const base = {
+        method: request.method,
+        headers,
+        duplex: 'half',
+    };
+    return request.body == undefined ? base : { ...base, body: request.body };
+}
 
 const spesialistUrl = (request: Request) => {
     const spesialistRelativeUrl = `/api/${substringAfter(request.url, '/api/spesialist/')}`;
