@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { erUtvikling } from '@/env';
+import { useHarBetabrukerrolle } from '@hooks/brukerrolleHooks';
 import { PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
@@ -22,12 +23,13 @@ export const VenstremenyUberegnetPeriode = ({
     inntektsforhold,
     currentPerson,
 }: VenstremenyUberegnetPeriodeProps): ReactElement => {
+    const harBetabrukerrolle = useHarBetabrukerrolle();
     return (
         <section className={styles.Venstremeny}>
             <PeriodeCard.Uberegnet periode={activePeriod} inntektsforhold={inntektsforhold} />
             <HarVurderbareVarsler person={currentPerson} />
             <HarBeslutteroppgaver person={currentPerson} />
-            {erUtvikling && <ForkastFraUberegnetButton activePeriod={activePeriod} />}
+            {(erUtvikling || harBetabrukerrolle) && <ForkastFraUberegnetButton activePeriod={activePeriod} />}
         </section>
     );
 };

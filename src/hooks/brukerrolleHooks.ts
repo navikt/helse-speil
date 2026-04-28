@@ -17,3 +17,7 @@ export const useHarSkrivetilgang = () => {
     const { data: bruker } = useGetBruker();
     return bruker?.tilganger?.includes(ApiTilgang.SKRIV) ?? false;
 };
+
+export const useHarBetabrukerrolle = () => {
+    return useErBrukerrolle(ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA);
+};
