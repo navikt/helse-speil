@@ -17,12 +17,6 @@ export const ForkastFraUberegnetButton = ({ activePeriod }: ForkastFraUberegnetB
         mutate(
             {
                 vedtaksperiodeId: activePeriod.vedtaksperiodeId,
-                data: {
-                    fødselsnummer: 'dummy',
-                    vedtaksperiodeId: activePeriod.vedtaksperiodeId,
-                    organisasjonsnummer: 'dummy',
-                    yrkesaktivitetstype: 'dummy',
-                },
             },
             {
                 onSuccess: () => {

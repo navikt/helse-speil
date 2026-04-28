@@ -7,7 +7,6 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
-    ApiAnmodOmForkastingRequest,
     ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode,
     ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode,
     ApiVedtaksperiodeAnnullerRequest,
@@ -95,16 +94,10 @@ export const usePostVedtaksperiodeAnnuller = <
 
     return useMutation(mutationOptions, queryClient);
 };
-export const postAnmodOmForkasting = (
-    vedtaksperiodeId: string,
-    apiAnmodOmForkastingRequest?: ApiAnmodOmForkastingRequest,
-    signal?: AbortSignal,
-) => {
+export const postAnmodOmForkasting = (vedtaksperiodeId: string, signal?: AbortSignal) => {
     return callCustomAxios<void>({
         url: `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/anmod-om-forkasting`,
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: apiAnmodOmForkastingRequest,
         signal,
     });
 };
@@ -116,13 +109,13 @@ export const getPostAnmodOmForkastingMutationOptions = <
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postAnmodOmForkasting>>,
         TError,
-        { vedtaksperiodeId: string; data: ApiAnmodOmForkastingRequest },
+        { vedtaksperiodeId: string },
         TContext
     >;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof postAnmodOmForkasting>>,
     TError,
-    { vedtaksperiodeId: string; data: ApiAnmodOmForkastingRequest },
+    { vedtaksperiodeId: string },
     TContext
 > => {
     const mutationKey = ['postAnmodOmForkasting'];
@@ -134,18 +127,18 @@ export const getPostAnmodOmForkastingMutationOptions = <
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof postAnmodOmForkasting>>,
-        { vedtaksperiodeId: string; data: ApiAnmodOmForkastingRequest }
+        { vedtaksperiodeId: string }
     > = (props) => {
-        const { vedtaksperiodeId, data } = props ?? {};
+        const { vedtaksperiodeId } = props ?? {};
 
-        return postAnmodOmForkasting(vedtaksperiodeId, data);
+        return postAnmodOmForkasting(vedtaksperiodeId);
     };
 
     return { mutationFn, ...mutationOptions };
 };
 
 export type PostAnmodOmForkastingMutationResult = NonNullable<Awaited<ReturnType<typeof postAnmodOmForkasting>>>;
-export type PostAnmodOmForkastingMutationBody = ApiAnmodOmForkastingRequest;
+
 export type PostAnmodOmForkastingMutationError = ErrorType<ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode>;
 
 export const usePostAnmodOmForkasting = <
@@ -156,7 +149,7 @@ export const usePostAnmodOmForkasting = <
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postAnmodOmForkasting>>,
             TError,
-            { vedtaksperiodeId: string; data: ApiAnmodOmForkastingRequest },
+            { vedtaksperiodeId: string },
             TContext
         >;
     },
@@ -164,7 +157,7 @@ export const usePostAnmodOmForkasting = <
 ): UseMutationResult<
     Awaited<ReturnType<typeof postAnmodOmForkasting>>,
     TError,
-    { vedtaksperiodeId: string; data: ApiAnmodOmForkastingRequest },
+    { vedtaksperiodeId: string },
     TContext
 > => {
     const mutationOptions = getPostAnmodOmForkastingMutationOptions(options);

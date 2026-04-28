@@ -1401,13 +1401,6 @@ export interface ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode {
     code?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode;
 }
 
-export interface ApiAnmodOmForkastingRequest {
-    fødselsnummer: string;
-    vedtaksperiodeId: string;
-    organisasjonsnummer: string;
-    yrkesaktivitetstype: string;
-}
-
 export type ApiPostAnmodOmForkastingErrorCode =
     (typeof ApiPostAnmodOmForkastingErrorCode)[keyof typeof ApiPostAnmodOmForkastingErrorCode];
 
