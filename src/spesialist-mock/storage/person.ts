@@ -3,6 +3,7 @@ import path from 'path';
 import { cwd } from 'process';
 import { v5 as uuidv5 } from 'uuid';
 
+import { Person } from '@io/graphql';
 import { UUID } from '@typer/spesialist-mock';
 
 type PersonIdentifikatorer = {
@@ -11,7 +12,7 @@ type PersonIdentifikatorer = {
     personPseudoId: UUID;
 };
 
-const lesPersoner = () => {
+const lesPersoner = (): Person[] => {
     const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
     const filenames = fs.readdirSync(url);
     return filenames.map((filename) => {
@@ -54,3 +55,12 @@ export class PersonMock {
         );
     };
 }
+
+export const finnFødselsnummerForVedtaksperiodeId = (vedtaksperiodeId: string) =>
+    lesPersoner().find((person) => {
+        return person.arbeidsgivere.some((arbeidsgiver) =>
+            arbeidsgiver.behandlinger.some((behandling) =>
+                behandling.perioder.some((periode) => periode.vedtaksperiodeId === vedtaksperiodeId),
+            ),
+        );
+    })?.['fodselsnummer'];

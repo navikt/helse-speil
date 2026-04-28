@@ -1,5 +1,7 @@
 import { NextRequest } from 'next/server';
 
+import { logger } from '@navikt/next-logger';
+
 import { ServerSentEventsMock } from '@spesialist-mock/storage/events';
 
 export async function stub(_request: NextRequest, params: Promise<{ pseudoId: string }>) {
@@ -10,6 +12,7 @@ export async function stub(_request: NextRequest, params: Promise<{ pseudoId: st
 
     const stream = new ReadableStream({
         start(controller) {
+            logger.info(`Stream started - personPseudoId: ${pseudoId}`);
             const events = ServerSentEventsMock.hentEventsFor(pseudoId);
 
             events.forEach((event, i) => {
@@ -17,9 +20,10 @@ export async function stub(_request: NextRequest, params: Promise<{ pseudoId: st
                 const timeout = setTimeout(
                     () => {
                         try {
+                            logger.info(`Sender ${data}`);
                             controller.enqueue(encoder.encode(data));
                         } catch {
-                            // Controller is already closed, ignore
+                            logger.info('Controller is closed');
                         }
                     },
                     (i + 1) * 2000,
