@@ -11,8 +11,8 @@ export const stubEllerVideresendTilSpesialist =
     async (request: NextRequest, { params }: { params: Promise<Params> }) => {
         if (spesialistBackend === 'mock') {
             logger.info(`Svarer på ${request.method} ${request.url} med stub`);
-            // Delay på 500-1000ms for å se skeletons og loading-logikk i tilfeldig rekkefølge
-            await sleep(500 + Math.random() * 500);
+            // Delay på 50-550ms for å se skeletons og loading-logikk i tilfeldig rekkefølge
+            await sleep(50 + Math.random() * 500);
             return stub(request, params);
         } else {
             return videresendTilSpesialist(request);
