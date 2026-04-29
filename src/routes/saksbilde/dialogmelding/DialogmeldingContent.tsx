@@ -140,7 +140,7 @@ export function DialogmeldingContent(): ReactElement {
 
     return (
         <Box as="section" padding="space-16" className="[grid-area:content]">
-            <VStack gap="space-12">
+            <VStack gap="space-16">
                 <VStack gap="space-8">
                     <Heading level="2" size="medium">
                         Dialogmelding
@@ -149,7 +149,7 @@ export function DialogmeldingContent(): ReactElement {
                         {valgtDialog.tittel}
                     </Heading>
                 </VStack>
-                <VStack gap="space-8">
+                <VStack gap="space-16">
                     {valgtDialog.dialogmeldinger.map((melding, index) => (
                         <DialogmeldingKort key={index} melding={melding} />
                     ))}
