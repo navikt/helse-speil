@@ -132,7 +132,14 @@ export const Saksbilde = () => {
                             <Tabs.Tab key={t.value} value={t.value} label={t.label} />
                         ))}
                     </Tabs.List>
-                    {visNyDialogmelding && <Link href={`/person/${personPseudoId}/dialogmelding`}>Dialogmelding</Link>}
+                    {visNyDialogmelding && (
+                        <Link
+                            href={`/person/${personPseudoId}/dialogmelding`}
+                            className="flex items-center px-4 py-3 leading-6 no-underline inset-shadow-ax-border-neutral-subtleA transition-shadow duration-200 ease-[cubic-bezier(.2,0,0,1)] hover:inset-shadow-[0px_-4px]"
+                        >
+                            Dialogmelding
+                        </Link>
+                    )}
                     <VisHvisSkrivetilgang>
                         <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
                     </VisHvisSkrivetilgang>

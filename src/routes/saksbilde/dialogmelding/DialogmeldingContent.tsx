@@ -125,14 +125,14 @@ export function DialogmeldingContent(): ReactElement {
 
     if (!valgtDialog) {
         return (
-            <Box as="section" padding="space-16">
+            <Box as="section" padding="space-16" className="[grid-area:content]">
                 <BodyShort className="text-(--ax-text-subtle)">Velg en dialog i menyen til venstre.</BodyShort>
             </Box>
         );
     }
 
     return (
-        <Box as="section" padding="space-16">
+        <Box as="section" padding="space-16" className="[grid-area:content]">
             <VStack gap="space-12">
                 <VStack gap="space-2">
                     <Heading size="medium">Dialogmelding</Heading>

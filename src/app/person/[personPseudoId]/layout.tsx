@@ -10,15 +10,11 @@ import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { useRefreshPersonVedEvent } from '@hooks/useRefreshPersonVedEvent';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
-import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { InfovarselOmVeilederStans } from '@saksbilde/infovarselOmStans/InfovarselOmVeilederStans';
 import { PersonHeader } from '@saksbilde/personHeader';
-import { Tidslinje } from '@saksbilde/tidslinje/Tidslinje';
 import { VarselOmFlerFødselsnumre } from '@saksbilde/varselOmFlerFødselsnumre/VarselOmFlerFødselsnumre';
 import { PersonStoreContext } from '@state/contexts/personStore';
-
-import styles from './layout.module.css';
 
 type LayoutProps = {
     params: Promise<{ personPseudoId: string }>;
@@ -47,14 +43,13 @@ const AktorScopedLayout = ({ children }: PropsWithChildren): ReactElement => {
 
     return (
         <PersonStoreContext.Provider value={personStore}>
-            <div className={styles.Saksbilde}>
-                <VStack style={{ gridArea: 'unntatt' }}>
+            <div className="saksbilde-grid">
+                <VStack className="[grid-area:unntatt]">
                     <VarselOmFlerFødselsnumre />
                     <InfovarselOmVeilederStans />
                 </VStack>
                 <PersonHeader />
-                <Tidslinje />
-                <VenterPåEndringProvider>{children}</VenterPåEndringProvider>
+                {children}
             </div>
         </PersonStoreContext.Provider>
     );
