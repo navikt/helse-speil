@@ -2,8 +2,8 @@ import cn from 'classnames';
 import { useAtom } from 'jotai';
 import React, { ReactElement, useEffect } from 'react';
 
-import { ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Label } from '@navikt/ds-react';
+import { ChatIcon, ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
 import { BehandlerDialoger, Dialog, valgtDialogAtom } from '../types';
 
@@ -30,8 +30,14 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
     });
 
     return (
-        <section className="flex w-91.5 flex-col gap-8 border-r border-r-(--ax-border-neutral-subtle) px-4 py-8 [grid-area:venstremeny]">
-            <Button variant="primary" size="small" className="self-start">
+        <VStack
+            as="section"
+            gap="space-32"
+            paddingInline="space-16"
+            paddingBlock="space-16"
+            className="w-[366px] border-r border-r-ax-border-neutral-subtle [grid-area:venstremeny]"
+        >
+            <Button variant="primary" size="small" className="self-start" icon={<ChatIcon />}>
                 Ny dialogmelding
             </Button>
             <ul className="flex flex-col gap-6">
@@ -78,6 +84,6 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
                     </li>
                 ))}
             </ul>
-        </section>
+        </VStack>
     );
 }
