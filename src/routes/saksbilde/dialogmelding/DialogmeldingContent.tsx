@@ -5,6 +5,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { FilePdfIcon, PaperclipIcon, PaperplaneIcon } from '@navikt/aksel-icons';
 import {
+    Bleed,
     BodyShort,
     Box,
     Button,
@@ -33,7 +34,7 @@ function DialogmeldingKort({ melding }: { melding: Dialogmelding }): ReactElemen
             <VStack gap="space-8">
                 <HStack justify="space-between" gap="space-8">
                     <HStack gap="space-4" align="center">
-                        <Tag variant={melding.fraNav ? 'alt3' : 'neutral'} size="small">
+                        <Tag data-color={melding.fraNav ? 'meta-purple' : 'info'} size="small">
                             {melding.fraNav ? 'Fra Nav' : 'Fra behandler'}
                         </Tag>
                         {!melding.fraNav && melding.vedlegg.length > 0 && (
@@ -82,20 +83,26 @@ function SvarPåMelding(): ReactElement {
     };
 
     return (
-        <Box paddingBlock="space-12 space-0" borderWidth="1 0 0 0" borderColor="neutral-subtle">
-            <VStack gap="space-8">
+        <Box
+            paddingBlock="space-16 space-32"
+            paddingInline="space-16"
+            borderWidth="1 0 0 0"
+            borderColor="neutral-subtle"
+            background="neutral-soft"
+        >
+            <VStack gap="space-16">
                 <Heading size="small">Svar på melding</Heading>
                 <Textarea
                     label="Send melding til behandler"
                     value={melding}
                     onChange={(e) => setMelding(e.target.value)}
-                    minRows={3}
+                    minRows={4}
                 />
                 <CheckboxGroup legend="Takst" value={takst} onChange={setTakst}>
                     <Checkbox value="L-8">L-8</Checkbox>
                     <Checkbox value="L-40">L-40</Checkbox>
                 </CheckboxGroup>
-                <VStack gap="space-4">
+                <VStack gap="space-8" className="mb-3">
                     <Heading size="xsmall">Vedlegg</Heading>
                     <Button
                         variant="secondary"
@@ -147,7 +154,9 @@ export function DialogmeldingContent(): ReactElement {
                         <DialogmeldingKort key={index} melding={melding} />
                     ))}
                 </VStack>
-                <SvarPåMelding />
+                <Bleed marginInline="space-16" marginBlock="space-0 space-16">
+                    <SvarPåMelding />
+                </Bleed>
             </VStack>
         </Box>
     );
