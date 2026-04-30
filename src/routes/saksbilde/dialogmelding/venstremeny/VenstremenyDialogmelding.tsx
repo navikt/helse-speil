@@ -1,33 +1,21 @@
 import cn from 'classnames';
-import { useAtom } from 'jotai';
-import React, { ReactElement, useEffect } from 'react';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
+import React, { ReactElement } from 'react';
 
 import { ChatIcon, ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
 
-import { BehandlerDialoger, Dialog, valgtDialogAtom } from '../types';
+import { getFormattedDatetimeString } from '@utils/date';
+
+import { BehandlerDialoger, Dialog } from '../types';
 
 type Props = {
     behandlere: BehandlerDialoger[];
 };
 
-function formaterDatoTid(dato: Date): string {
-    return (
-        dato.toLocaleDateString('nb-NO', { day: '2-digit', month: '2-digit', year: '2-digit' }) +
-        ' kl. ' +
-        dato.toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit' })
-    );
-}
-
 export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
-    const [valgtDialog, setValgtDialog] = useAtom(valgtDialogAtom);
-
-    useEffect(() => {
-        if (valgtDialog === null) {
-            const førsteDialog = behandlere[0]?.dialoger[0] ?? null;
-            setValgtDialog(førsteDialog);
-        }
-    });
+    const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId?: string }>();
 
     return (
         <VStack
@@ -37,7 +25,14 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
             paddingBlock="space-16"
             className="w-[366px] border-r border-r-ax-border-neutral-subtle [grid-area:venstremeny]"
         >
-            <Button variant="primary" size="small" className="self-start" icon={<ChatIcon />}>
+            <Button
+                as={Link}
+                href={`/person/${personPseudoId}/dialogmelding/ny`}
+                variant="primary"
+                size="small"
+                className="self-start"
+                icon={<ChatIcon />}
+            >
                 Ny dialogmelding
             </Button>
             <ul className="flex flex-col gap-6">
@@ -47,16 +42,17 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
                             {behandler.behandlernavn}
                         </Label>
                         <ul className="flex flex-col">
-                            {behandler.dialoger.map((dialog: Dialog, dialogIndex: number) => {
+                            {behandler.dialoger.map((dialog: Dialog) => {
                                 const harVedlegg = dialog.dialogmeldinger.some((m) => m.vedlegg.length > 0);
+                                const erAktiv = dialog.id === dialogId;
                                 return (
-                                    <li key={dialogIndex}>
-                                        <button
+                                    <li key={dialog.id}>
+                                        <Link
+                                            href={`/person/${personPseudoId}/dialogmelding/${dialog.id}`}
                                             className={cn(
-                                                'flex w-full items-center justify-between gap-2 rounded px-2 py-2 text-left hover:bg-(--ax-bg-neutral-moderate-hover)',
-                                                dialog === valgtDialog && 'bg-(--ax-bg-neutral-moderate) font-semibold',
+                                                'flex w-full items-center justify-between gap-2 rounded px-2 py-2 text-left no-underline hover:bg-(--ax-bg-neutral-moderate-hover)',
+                                                erAktiv && 'bg-(--ax-bg-neutral-moderate) font-semibold',
                                             )}
-                                            onClick={() => setValgtDialog(dialog)}
                                         >
                                             <div className="flex flex-col">
                                                 <div className="flex items-center gap-1">
@@ -72,11 +68,11 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
                                                     )}
                                                 </div>
                                                 <BodyShort size="small" className="text-(--ax-text-subtle)">
-                                                    {formaterDatoTid(dialog.tid)}
+                                                    {getFormattedDatetimeString(dialog.tid)}
                                                 </BodyShort>
                                             </div>
                                             <ChevronRightIcon aria-hidden className="shrink-0" />
-                                        </button>
+                                        </Link>
                                     </li>
                                 );
                             })}

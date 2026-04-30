@@ -1,6 +1,5 @@
 'use client';
 
-import { useAtomValue } from 'jotai';
 import React, { ReactElement, useState } from 'react';
 
 import { FilePdfIcon, PaperclipIcon, PaperplaneIcon } from '@navikt/aksel-icons';
@@ -18,15 +17,9 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
-import { Dialogmelding, valgtDialogAtom } from './types';
+import { getFormattedDatetimeString } from '@utils/date';
 
-function formaterDatoTid(dato: Date): string {
-    return (
-        dato.toLocaleDateString('nb-NO', { day: '2-digit', month: '2-digit', year: '2-digit' }) +
-        ' kl. ' +
-        dato.toLocaleTimeString('nb-NO', { hour: '2-digit', minute: '2-digit' })
-    );
-}
+import { Dialog, Dialogmelding } from './types';
 
 function DialogmeldingKort({ melding }: { melding: Dialogmelding }): ReactElement {
     return (
@@ -45,7 +38,7 @@ function DialogmeldingKort({ melding }: { melding: Dialogmelding }): ReactElemen
                         )}
                     </HStack>
                     <BodyShort size="small" className="shrink-0 text-(--ax-text-action)">
-                        {formaterDatoTid(melding.tid)}
+                        {getFormattedDatetimeString(melding.tid)}
                     </BodyShort>
                 </HStack>
                 <BodyShort size="small">{melding.innehold}</BodyShort>
@@ -97,6 +90,7 @@ function SvarPåMelding(): ReactElement {
                     value={melding}
                     onChange={(e) => setMelding(e.target.value)}
                     minRows={4}
+                    className="max-w-250"
                 />
                 <CheckboxGroup legend="Takst" value={takst} onChange={setTakst}>
                     <Checkbox value="L-8">L-8</Checkbox>
@@ -127,17 +121,11 @@ function SvarPåMelding(): ReactElement {
     );
 }
 
-export function DialogmeldingContent(): ReactElement {
-    const valgtDialog = useAtomValue(valgtDialogAtom);
+interface DialogmeldingContentProps {
+    dialog: Dialog;
+}
 
-    if (!valgtDialog) {
-        return (
-            <Box as="section" padding="space-16" className="[grid-area:content]">
-                <BodyShort className="text-(--ax-text-subtle)">Velg en dialog i menyen til venstre.</BodyShort>
-            </Box>
-        );
-    }
-
+export function DialogmeldingContent({ dialog }: DialogmeldingContentProps): ReactElement {
     return (
         <Box as="section" padding="space-16" className="[grid-area:content]">
             <VStack gap="space-16">
@@ -146,11 +134,11 @@ export function DialogmeldingContent(): ReactElement {
                         Dialogmelding
                     </Heading>
                     <Heading level="3" size="xsmall">
-                        {valgtDialog.tittel}
+                        {dialog.tittel}
                     </Heading>
                 </VStack>
                 <VStack gap="space-16">
-                    {valgtDialog.dialogmeldinger.map((melding, index) => (
+                    {dialog.dialogmeldinger.map((melding, index) => (
                         <DialogmeldingKort key={index} melding={melding} />
                     ))}
                 </VStack>

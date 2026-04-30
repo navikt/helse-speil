@@ -1,13 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import { Box, Button } from '@navikt/ds-react';
 
 export function DialogmeldingHeader(): ReactElement {
-    const router = useRouter();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
     return (
         <Box
             paddingInline="space-16"
@@ -16,7 +17,13 @@ export function DialogmeldingHeader(): ReactElement {
             borderColor="neutral-subtle"
             className="[grid-area:timeline]"
         >
-            <Button variant="tertiary" size="small" icon={<ArrowLeftIcon aria-hidden />} onClick={() => router.back()}>
+            <Button
+                as={Link}
+                href={`/person/${personPseudoId}`}
+                variant="tertiary"
+                size="small"
+                icon={<ArrowLeftIcon aria-hidden />}
+            >
                 Tilbake til behandling av person
             </Button>
         </Box>

@@ -1,7 +1,3 @@
-import { atom } from 'jotai';
-
-export const valgtDialogAtom = atom<Dialog | null>(null);
-
 export type Vedlegg = {
     navn: string;
     url: string;
@@ -10,14 +6,15 @@ export type Vedlegg = {
 export type Dialogmelding = {
     tittel: string;
     innehold: string;
-    tid: Date;
+    tid: string;
     fraNav: boolean;
     vedlegg: Vedlegg[];
 };
 
 export type Dialog = {
+    id: string;
     tittel: string;
-    tid: Date;
+    tid: string;
     dialogmeldinger: Dialogmelding[];
 };
 
