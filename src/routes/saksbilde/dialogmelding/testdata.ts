@@ -2,10 +2,10 @@ import { BehandlerDialoger } from './types';
 
 export const testBehandlere: BehandlerDialoger[] = [
     {
-        behandlernavn: 'Linus',
+        behandlernavn: 'Dialog med Linus Lege',
         dialoger: [
             {
-                id: 'linus-1',
+                id: 'dialogId-1',
                 tittel: 'Forespørsel om dokumentasjon',
                 tid: '2026-04-24T14:36:00',
                 dialogmeldinger: [
@@ -40,7 +40,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                 ],
             },
             {
-                id: 'linus-2',
+                id: 'dialogId-2',
                 tittel: 'Oppfølging etter sykmelding',
                 tid: '2026-04-20T08:30:00',
                 dialogmeldinger: [
@@ -57,10 +57,10 @@ export const testBehandlere: BehandlerDialoger[] = [
         ],
     },
     {
-        behandlernavn: 'Solveig',
+        behandlernavn: 'Dialog med Solveig Lege',
         dialoger: [
             {
-                id: 'solveig-1',
+                id: 'dialogId-3',
                 tittel: 'Forespørsel om dokumentasjon',
                 tid: '2026-04-24T14:36:00',
                 dialogmeldinger: [
@@ -83,10 +83,10 @@ export const testBehandlere: BehandlerDialoger[] = [
         ],
     },
     {
-        behandlernavn: 'Christian',
+        behandlernavn: 'Dialog med Christian Lege',
         dialoger: [
             {
-                id: 'christian-1',
+                id: 'dialogId-4',
                 tittel: 'Sykmeldingsopplysninger',
                 tid: '2026-04-10T09:00:00',
                 dialogmeldinger: [
@@ -108,7 +108,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                 ],
             },
             {
-                id: 'christian-2',
+                id: 'dialogId-5',
                 tittel: 'Vurdering av arbeidsevne',
                 tid: '2026-04-05T11:00:00',
                 dialogmeldinger: [
@@ -131,7 +131,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                 ],
             },
             {
-                id: 'christian-3',
+                id: 'dialogId-6',
                 tittel: 'Bekreftelse på behandlingsplan',
                 tid: '2026-03-28T14:00:00',
                 dialogmeldinger: [

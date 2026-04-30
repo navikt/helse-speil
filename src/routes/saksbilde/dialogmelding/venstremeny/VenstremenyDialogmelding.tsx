@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ChatIcon, ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Label, VStack } from '@navikt/ds-react';
+import { Bleed, BodyShort, Button, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { getFormattedDatetimeString } from '@utils/date';
 
@@ -35,51 +35,45 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
             >
                 Ny dialogmelding
             </Button>
-            <ul className="flex flex-col gap-6">
+            <VStack as="ul" gap="space-24">
                 {behandlere.map((behandler) => (
                     <li key={behandler.behandlernavn}>
-                        <Label size="small" className="px-2 text-(--ax-text-subtle)">
-                            {behandler.behandlernavn}
-                        </Label>
-                        <ul className="flex flex-col">
+                        <Label>{behandler.behandlernavn}</Label>
+                        <VStack as="ul">
                             {behandler.dialoger.map((dialog: Dialog) => {
                                 const harVedlegg = dialog.dialogmeldinger.some((m) => m.vedlegg.length > 0);
                                 const erAktiv = dialog.id === dialogId;
                                 return (
-                                    <li key={dialog.id}>
-                                        <Link
-                                            href={`/person/${personPseudoId}/dialogmelding/${dialog.id}`}
-                                            className={cn(
-                                                'flex w-full items-center justify-between gap-2 rounded px-2 py-2 text-left no-underline hover:bg-(--ax-bg-neutral-moderate-hover)',
-                                                erAktiv && 'bg-(--ax-bg-neutral-moderate) font-semibold',
-                                            )}
-                                        >
-                                            <div className="flex flex-col">
-                                                <div className="flex items-center gap-1">
-                                                    <BodyShort size="small" weight="semibold">
-                                                        {dialog.tittel}
+                                    <Bleed key={dialog.id} marginInline="space-16" asChild>
+                                        <li>
+                                            <Link
+                                                href={`/person/${personPseudoId}/dialogmelding/${dialog.id}`}
+                                                className={cn(
+                                                    'flex w-full items-center justify-between gap-2 border-b border-b-ax-border-neutral-subtle py-2 pr-4 pl-8 text-left hover:bg-ax-bg-accent-moderate-hover',
+                                                    erAktiv && 'bg-ax-bg-accent-soft',
+                                                )}
+                                            >
+                                                <VStack>
+                                                    <HStack align="center" gap="space-4">
+                                                        <BodyShort weight="semibold">{dialog.tittel}</BodyShort>
+                                                        {harVedlegg && (
+                                                            <PaperclipIcon aria-label="Har vedlegg" fontSize="1rem" />
+                                                        )}
+                                                    </HStack>
+                                                    <BodyShort size="small" className="text-ax-text-neutral-subtle">
+                                                        {getFormattedDatetimeString(dialog.tid)}
                                                     </BodyShort>
-                                                    {harVedlegg && (
-                                                        <PaperclipIcon
-                                                            aria-label="Har vedlegg"
-                                                            className="shrink-0 text-(--ax-text-subtle)"
-                                                            fontSize="1rem"
-                                                        />
-                                                    )}
-                                                </div>
-                                                <BodyShort size="small" className="text-(--ax-text-subtle)">
-                                                    {getFormattedDatetimeString(dialog.tid)}
-                                                </BodyShort>
-                                            </div>
-                                            <ChevronRightIcon aria-hidden className="shrink-0" />
-                                        </Link>
-                                    </li>
+                                                </VStack>
+                                                <ChevronRightIcon aria-hidden />
+                                            </Link>
+                                        </li>
+                                    </Bleed>
                                 );
                             })}
-                        </ul>
+                        </VStack>
                     </li>
                 ))}
-            </ul>
+            </VStack>
         </VStack>
     );
 }

@@ -76,48 +76,44 @@ function SvarPåMelding(): ReactElement {
     };
 
     return (
-        <Box
-            paddingBlock="space-16 space-32"
-            paddingInline="space-16"
-            borderWidth="1 0 0 0"
-            borderColor="neutral-subtle"
-            background="neutral-soft"
-        >
-            <VStack gap="space-16">
-                <Heading size="small">Svar på melding</Heading>
-                <Textarea
-                    label="Send melding til behandler"
-                    value={melding}
-                    onChange={(e) => setMelding(e.target.value)}
-                    minRows={4}
-                    className="max-w-250"
-                />
-                <CheckboxGroup legend="Takst" value={takst} onChange={setTakst}>
-                    <Checkbox value="L-8">L-8</Checkbox>
-                    <Checkbox value="L-40">L-40</Checkbox>
-                </CheckboxGroup>
-                <VStack gap="space-8" className="mb-3">
-                    <Heading size="xsmall">Vedlegg</Heading>
+        <Bleed marginInline="space-16" marginBlock="space-0 space-16" reflectivePadding asChild>
+            <Box borderWidth="1 0 0 0" borderColor="neutral-subtle" background="neutral-soft">
+                <VStack gap="space-16" className="pt-4">
+                    <Heading size="small">Svar på melding</Heading>
+                    <Textarea
+                        label="Send melding til behandler"
+                        value={melding}
+                        onChange={(e) => setMelding(e.target.value)}
+                        minRows={4}
+                        className="max-w-250"
+                    />
+                    <CheckboxGroup legend="Takst" value={takst} onChange={setTakst}>
+                        <Checkbox value="L-8">L-8</Checkbox>
+                        <Checkbox value="L-40">L-40</Checkbox>
+                    </CheckboxGroup>
+                    <VStack gap="space-8" className="mb-3">
+                        <Heading size="xsmall">Vedlegg</Heading>
+                        <Button
+                            variant="secondary"
+                            size="small"
+                            icon={<PaperclipIcon aria-hidden />}
+                            className="self-start"
+                        >
+                            Legg til vedlegg
+                        </Button>
+                    </VStack>
                     <Button
-                        variant="secondary"
+                        variant="primary"
                         size="small"
-                        icon={<PaperclipIcon aria-hidden />}
+                        icon={<PaperplaneIcon aria-hidden />}
+                        onClick={handleSend}
                         className="self-start"
                     >
-                        Legg til vedlegg
+                        Send svar
                     </Button>
                 </VStack>
-                <Button
-                    variant="primary"
-                    size="small"
-                    icon={<PaperplaneIcon aria-hidden />}
-                    onClick={handleSend}
-                    className="self-start"
-                >
-                    Send svar
-                </Button>
-            </VStack>
-        </Box>
+            </Box>
+        </Bleed>
     );
 }
 
@@ -142,9 +138,7 @@ export function DialogmeldingContent({ dialog }: DialogmeldingContentProps): Rea
                         <DialogmeldingKort key={index} melding={melding} />
                     ))}
                 </VStack>
-                <Bleed marginInline="space-16" marginBlock="space-0 space-16">
-                    <SvarPåMelding />
-                </Bleed>
+                <SvarPåMelding />
             </VStack>
         </Box>
     );
