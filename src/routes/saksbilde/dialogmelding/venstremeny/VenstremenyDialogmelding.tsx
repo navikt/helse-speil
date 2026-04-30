@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { ChatIcon, ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
+import { ChevronRightIcon, NotePencilIcon, PaperclipIcon } from '@navikt/aksel-icons';
 import { Bleed, BodyShort, Button, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { getFormattedDatetimeString } from '@utils/date';
@@ -20,7 +20,7 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
     return (
         <VStack
             as="section"
-            gap="space-32"
+            gap="space-16"
             paddingInline="space-16"
             paddingBlock="space-16"
             className="w-[366px] border-r border-r-ax-border-neutral-subtle [grid-area:venstremeny]"
@@ -30,8 +30,7 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
                 href={`/person/${personPseudoId}/dialogmelding/ny`}
                 variant="primary"
                 size="small"
-                className="self-start"
-                icon={<ChatIcon />}
+                icon={<NotePencilIcon />}
             >
                 Ny dialogmelding
             </Button>

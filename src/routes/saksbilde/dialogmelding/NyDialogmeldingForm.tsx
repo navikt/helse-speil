@@ -102,11 +102,17 @@ export function NyDialogmeldingForm(): ReactElement {
                         )}
                     />
                     <HStack gap="space-16">
-                        <Button variant="tertiary" type="button" onClick={() => router.back()} icon={<TrashIcon />}>
-                            Avbryt
-                        </Button>
-                        <Button variant="primary" type="submit" icon={<PaperplaneIcon />}>
+                        <Button size="small" variant="primary" type="submit" icon={<PaperplaneIcon />}>
                             Send melding
+                        </Button>
+                        <Button
+                            size="small"
+                            variant="tertiary"
+                            type="button"
+                            onClick={() => router.back()}
+                            icon={<TrashIcon />}
+                        >
+                            Avbryt
                         </Button>
                     </HStack>
                 </VStack>
