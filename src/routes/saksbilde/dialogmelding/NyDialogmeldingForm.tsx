@@ -23,7 +23,7 @@ export function NyDialogmeldingForm(): ReactElement {
         resolver: zodResolver(nyDialogmeldingSchema),
         defaultValues: {
             behandler: '',
-            type: 'Legeerklæring',
+            type: '',
             melding: '',
         },
     });
@@ -73,17 +73,10 @@ export function NyDialogmeldingForm(): ReactElement {
                         control={form.control}
                         name="type"
                         render={({ field, fieldState }) => (
-                            <Select
-                                {...field}
-                                label="Type melding"
-                                description="Velg type melding"
-                                error={fieldState.error?.message}
-                            >
-                                {meldingType.map((type) => (
-                                    <option key={type} value={type}>
-                                        {type}
-                                    </option>
-                                ))}
+                            <Select {...field} label="Type melding" error={fieldState.error?.message}>
+                                <option value="">Velg type</option>
+                                <option value="l8">Tilleggsopplysninger (L8)</option>
+                                <option value="l40">Legeerklæring (L40)</option>
                             </Select>
                         )}
                     />
@@ -120,5 +113,3 @@ export function NyDialogmeldingForm(): ReactElement {
         </VStack>
     );
 }
-
-const meldingType = ['Legeerklæring', 'Annen type', 'Tredje type'];
