@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
-import { getServerEnv, spesialistBackend } from '@/env';
+import { backend, getServerEnv } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
@@ -14,12 +14,12 @@ export async function POST(request: NextRequest) {
     const identitetsnummer = formData.get('identitetsnummer')?.toString();
     const aktørId = formData.get('aktørId')?.toString();
 
-    if (spesialistBackend === 'mock') {
+    if (backend === 'mock') {
         personPseudoId = PersonMock.findPersonPseudoId(identitetsnummer ?? aktørId ?? '');
     } else {
         const spesialistBaseUrl = getServerEnv().SPESIALIST_BASEURL;
         let token: string;
-        if (spesialistBackend === 'lokal') {
+        if (backend === 'lokal') {
             const res = await fetch(`${spesialistBaseUrl}/local-token`);
             if (!res.ok) {
                 throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);

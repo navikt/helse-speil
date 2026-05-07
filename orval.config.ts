@@ -1,6 +1,32 @@
 // noinspection ES6PreferShortImport
-import { spesialistOpenAPITransformer } from './src/io/rest/spesialist-openapi-transformer';
+import { spesialistOpenAPITransformer, sporhundOpenAPITransformer } from './src/io/rest/spesialist-openapi-transformer';
 import { defineConfig } from 'orval';
+
+const sharedOutput = {
+    mode: 'tags-split',
+    client: 'react-query',
+    override: {
+        query: {
+            // Oppførselen vi er vant med fra Apollo-cachen - caches uendelig når man gjør samme kall,
+            // frem til man rendrer uten kallet, eller frem til man refetcher eller evicter
+            options: {
+                staleTime: Infinity,
+                gcTime: 0,
+            },
+        },
+        mutator: {
+            // Overstyring for å sørge for at arrayer i queryparametere blir riktig
+            path: 'src/app/axios/orval-mutator.ts',
+            name: 'callCustomAxios',
+        },
+    },
+    mock: false,
+} as const;
+
+const sharedHooks = {
+    // Kjør prettier på alle genererte filer etter generering
+    afterAllFilesWrite: 'prettier --write',
+};
 
 export default defineConfig({
     spesialist: {
@@ -11,29 +37,22 @@ export default defineConfig({
             },
         },
         output: {
-            mode: 'tags-split',
+            ...sharedOutput,
             target: 'src/io/rest/generated/spesialist.ts',
-            client: 'react-query',
+        },
+        hooks: sharedHooks,
+    },
+    sporhund: {
+        input: {
+            target: 'http://localhost:8282/api/openapi.json',
             override: {
-                query: {
-                    // Oppførselen vi er vant med fra Apollo-cachen - caches uendelig når man gjør samme kall,
-                    // frem til man rendrer uten kallet, eller frem til man refetcher eller evicter
-                    options: {
-                        staleTime: Infinity,
-                        gcTime: 0,
-                    },
-                },
-                mutator: {
-                    // Overstyring for å sørge for at arrayer i queryparametere blir riktig
-                    path: 'src/app/axios/orval-mutator.ts',
-                    name: 'callCustomAxios',
-                },
+                transformer: sporhundOpenAPITransformer,
             },
-            mock: false,
         },
-        hooks: {
-            // Kjør prettier på alle genererte filer etter generering
-            afterAllFilesWrite: 'prettier --write',
+        output: {
+            ...sharedOutput,
+            target: 'src/io/rest/generated/sporhund.ts',
         },
+        hooks: sharedHooks,
     },
 });

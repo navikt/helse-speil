@@ -12,6 +12,9 @@ spec:
         - application: spesialist
           cluster: dev-gcp
           namespace: tbd
+        - application: sporhund
+          cluster: dev-gcp
+          namespace: tbd
         - application: flexjar-backend
           cluster: dev-gcp
           namespace: flex
@@ -87,6 +90,10 @@ spec:
       value: api://dev-gcp.tbd.spesialist/.default
     - name: SPESIALIST_BASE_URL
       value: http://spesialist
+    - name: CLIENT_ID_SPORHUND
+      value: api://dev-gcp.tbd.sporhund/.default
+    - name: SPORHUND_BASE_URL
+      value: http://sporhund
     - name: SANITY_DATASET
       value: production
     - name: SPARKEL_AAREG_SCOPE

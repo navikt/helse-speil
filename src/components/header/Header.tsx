@@ -6,7 +6,7 @@ import React, { ReactElement } from 'react';
 
 import { InternalHeader } from '@navikt/ds-react';
 
-import { erDev, erUtvikling, spesialistBackend } from '@/env';
+import { backend, erDev, erUtvikling } from '@/env';
 import { SystemMenu } from '@components/SystemMenu';
 import { UserMenu } from '@components/UserMenu';
 import { EasterEgg } from '@components/header/EasterEgg';
@@ -24,7 +24,7 @@ export const Header = (): ReactElement => {
     return (
         <InternalHeader
             className={cx(styles.header, {
-                localhostHeader: spesialistBackend !== 'deployed',
+                localhostHeader: backend !== 'deployed',
                 devHeader: erDev,
             })}
         >

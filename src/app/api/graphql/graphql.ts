@@ -2,7 +2,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { logger } from '@navikt/next-logger';
 
-import { getServerEnv, spesialistBackend } from '@/env';
+import { backend, getServerEnv } from '@/env';
 import { byttTilOboToken } from '@auth/token';
 import { metrics } from '@observability/metrics';
 
@@ -12,7 +12,7 @@ export const postGraphQLQuery = async (wonderwallToken: string, data: string): P
     let token: string;
     const baseUrl = getServerEnv().SPESIALIST_BASEURL;
 
-    if (spesialistBackend === 'lokal') {
+    if (backend === 'lokal' || backend === 'lokal-spesialist') {
         const res = await fetch(`${baseUrl}/local-token`);
         if (!res.ok) {
             throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);

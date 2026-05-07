@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { browserEnv, erDev, erProd, spesialistBackend } from '@/env';
+import { backend, browserEnv, erDev, erProd } from '@/env';
 import { Preload } from '@app/preload';
 import { Providers } from '@app/providers';
 import { getTokenPayload } from '@auth/token';
@@ -15,10 +15,10 @@ import { Driftsmeldinger } from '@components/driftsmeldinger/Driftsmeldinger';
 import { Header } from '@components/header/Header';
 
 export const metadata: Metadata = {
-    title: `Speil ${spesialistBackend !== 'deployed' ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,
+    title: `Speil ${backend !== 'deployed' ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,
     icons: {
         icon: `/favicons/${
-            spesialistBackend !== 'deployed'
+            backend !== 'deployed'
                 ? 'favicon-local.ico'
                 : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev'
                   ? 'favicon-dev.ico'

@@ -1,4 +1,4 @@
-import { spesialistBackend } from '@/env';
+import { backend } from '@/env';
 import {
     ApolloClient,
     HttpLink,
@@ -111,7 +111,9 @@ export const createApolloClient = (): ApolloClient<NormalizedCacheObject> =>
             new RetryLink({
                 attempts: { max: 5 },
             }),
-            new HttpLink({ uri: spesialistBackend === 'mock' ? '/api/spesialist' : `/api/graphql` }),
+            new HttpLink({
+                uri: backend === 'mock' || backend === 'lokal-sporhund' ? '/api/spesialist' : `/api/graphql`,
+            }),
         ]),
         cache: new InMemoryCache(apolloCacheConfig),
     });

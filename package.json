@@ -17,7 +17,9 @@
     "packageManager": "pnpm@10.33.0",
     "scripts": {
         "dev": "NEXT_PUBLIC_RUNTIME_ENV=mock PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
-        "lokal-spesialist": "NEXT_PUBLIC_RUNTIME_ENV=lokal PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
+        "lokal-backend": "NEXT_PUBLIC_RUNTIME_ENV=lokal PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
+        "lokal-spesialist": "NEXT_PUBLIC_RUNTIME_ENV=lokal-spesialist PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
+        "lokal-sporhund": "NEXT_PUBLIC_RUNTIME_ENV=lokal-sporhund PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "import-testperson": "dev/importer-testdata.sh",
         "prebuild": "next telemetry disable",
         "preinstall": "npx only-allow pnpm",
@@ -29,6 +31,8 @@
         "test:watch": "vitest",
         "tsc": "tsc",
         "generate-rest": "orval",
+        "generate-rest:spesialist": "orval --project spesialist",
+        "generate-rest:sporhund": "orval --project sporhund",
         "generate-graphql": "BEARER_TOKEN=$(curl http://localhost:8080/local-token) graphql-codegen --config graphql-codegen.yml",
         "prepare": "husky",
         "lint-staged": "lint-staged"

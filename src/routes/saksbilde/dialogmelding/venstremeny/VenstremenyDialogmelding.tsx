@@ -6,16 +6,18 @@ import React, { ReactElement } from 'react';
 import { ChevronRightIcon, NotePencilIcon, PaperclipIcon } from '@navikt/aksel-icons';
 import { Bleed, BodyShort, Button, HStack, Label, VStack } from '@navikt/ds-react';
 
+import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
 import { getFormattedDatetimeString } from '@utils/date';
 
-import { BehandlerDialoger, Dialog } from '../types';
+import { Dialog } from '../types';
 
-type Props = {
-    behandlere: BehandlerDialoger[];
-};
-
-export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
+export function VenstremenyDialogmelding(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId?: string }>();
+    const { data, isPending } = useGetDialogmeldinger(personPseudoId);
+
+    if (isPending || data === undefined) {
+        return <div>skeleton</div>;
+    }
 
     return (
         <VStack
@@ -35,7 +37,7 @@ export function VenstremenyDialogmelding({ behandlere }: Props): ReactElement {
                 Ny dialogmelding
             </Button>
             <VStack as="ul" gap="space-24">
-                {behandlere.map((behandler) => (
+                {data.map((behandler) => (
                     <li key={behandler.behandlernavn}>
                         <Label>{behandler.behandlernavn}</Label>
                         <VStack as="ul">
