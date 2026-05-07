@@ -1,22 +1,14 @@
-import cn from 'classnames';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { ChevronRightIcon, NotePencilIcon, PaperclipIcon } from '@navikt/aksel-icons';
-import { Bleed, BodyShort, Button, HStack, Label, VStack } from '@navikt/ds-react';
+import { NotePencilIcon } from '@navikt/aksel-icons';
+import { Button, VStack } from '@navikt/ds-react';
 
-import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
-import { ApiDialogOppsummering } from '@io/rest/generated/sporhund.schemas';
-import { getFormattedDatetimeString } from '@utils/date';
+import { DialogmeldingListe } from '@saksbilde/dialogmelding/venstremeny/DialogmeldingListe';
 
 export function VenstremenyDialogmelding(): ReactElement {
-    const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId?: string }>();
-    const { data, isPending } = useGetDialogmeldinger(personPseudoId);
-
-    if (isPending || data === undefined) {
-        return <div>skeleton</div>;
-    }
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     return (
         <VStack
@@ -35,45 +27,7 @@ export function VenstremenyDialogmelding(): ReactElement {
             >
                 Ny dialogmelding
             </Button>
-            <VStack as="ul" gap="space-24">
-                {data.map((behandler) => (
-                    <li key={behandler.behandlernavn}>
-                        <Label>Dialog med {behandler.behandlernavn}</Label>
-                        <VStack as="ul">
-                            {behandler.dialoger.map((dialog: ApiDialogOppsummering) => {
-                                const harVedlegg = dialog.antallVedlegg > 0;
-                                const erAktiv = dialog.id === dialogId;
-                                return (
-                                    <Bleed key={dialog.id} marginInline="space-16" asChild>
-                                        <li>
-                                            <Link
-                                                href={`/person/${personPseudoId}/dialogmelding/${dialog.id}`}
-                                                className={cn(
-                                                    'flex w-full items-center justify-between gap-2 border-b border-b-ax-border-neutral-subtle py-2 pr-4 pl-8 text-left hover:bg-ax-bg-accent-moderate-hover',
-                                                    erAktiv && 'bg-ax-bg-accent-soft',
-                                                )}
-                                            >
-                                                <VStack>
-                                                    <HStack align="center" gap="space-4">
-                                                        <BodyShort weight="semibold">{dialog.tittel}</BodyShort>
-                                                        {harVedlegg && (
-                                                            <PaperclipIcon aria-label="Har vedlegg" fontSize="1rem" />
-                                                        )}
-                                                    </HStack>
-                                                    <BodyShort size="small" className="text-ax-text-neutral-subtle">
-                                                        {getFormattedDatetimeString(dialog.tid)}
-                                                    </BodyShort>
-                                                </VStack>
-                                                <ChevronRightIcon aria-hidden />
-                                            </Link>
-                                        </li>
-                                    </Bleed>
-                                );
-                            })}
-                        </VStack>
-                    </li>
-                ))}
-            </VStack>
+            <DialogmeldingListe />
         </VStack>
     );
 }
