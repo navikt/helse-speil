@@ -1,35 +1,50 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { z } from 'zod/v4';
 
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, HStack, Heading, Select, TextField, Textarea, VStack } from '@navikt/ds-react';
+import { Button, HStack, Heading, Select, Textarea, VStack } from '@navikt/ds-react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getGetDialogmeldingerQueryKey, usePostDialogmelding } from '@io/rest/generated/default/default';
+import { testBehandlere } from '@saksbilde/dialogmelding/testdata';
+import { useQueryClient } from '@tanstack/react-query';
+
+import { BehandlerSearch } from './BehandlerSearch';
 
 export type NyDialogmeldingSchema = z.infer<typeof nyDialogmeldingSchema>;
 export const nyDialogmeldingSchema = z.object({
-    behandler: z.string().min(1, { error: 'Fyll inn behandler' }),
-    type: z.string().min(1, { error: 'Velg type' }),
+    behandlerId: z.string().min(1, { error: 'Velg en behandler' }),
+    type: z.enum(['L8', 'L40'], { error: 'Velg type' }),
     melding: z.string().min(1, { error: 'Fyll inn begrunnelse' }),
 });
 
 export function NyDialogmeldingForm(): ReactElement {
     const router = useRouter();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = usePostDialogmelding({
+        mutation: {
+            onSuccess: () => {
+                queryClient.invalidateQueries({ queryKey: getGetDialogmeldingerQueryKey(personPseudoId) });
+            },
+        },
+    });
     const form = useForm<NyDialogmeldingSchema>({
         resolver: zodResolver(nyDialogmeldingSchema),
         defaultValues: {
-            behandler: '',
-            type: '',
+            behandlerId: '',
+            type: undefined,
             melding: '',
         },
     });
 
-    function onSubmit(values: NyDialogmeldingSchema) {
-        console.log(values);
+    async function onSubmit(values: NyDialogmeldingSchema) {
+        const behandlernavn = testBehandlere.find((b) => b.behandlerId === values.behandlerId)?.behandlernavn ?? '';
+        await mutateAsync({ pseudoId: personPseudoId, data: { ...values, behandlernavn } });
     }
 
     return (
@@ -57,26 +72,15 @@ export function NyDialogmeldingForm(): ReactElement {
                     id="ny-dialogmelding-form"
                 >
                     {/* Må byttes til combobox elns */}
-                    <Controller
-                        control={form.control}
-                        name="behandler"
-                        render={({ field, fieldState }) => (
-                            <TextField
-                                {...field}
-                                label="Behandler"
-                                description="Velg behandler som skal motta meldingen"
-                                error={fieldState.error?.message}
-                            />
-                        )}
-                    />
+                    <BehandlerSearch />
                     <Controller
                         control={form.control}
                         name="type"
                         render={({ field, fieldState }) => (
                             <Select {...field} label="Type melding" error={fieldState.error?.message}>
                                 <option value="">Velg type</option>
-                                <option value="l8">Tilleggsopplysninger (L8)</option>
-                                <option value="l40">Legeerklæring (L40)</option>
+                                <option value="L8">Tilleggsopplysninger (L8)</option>
+                                <option value="L40">Legeerklæring (L40)</option>
                             </Select>
                         )}
                     />
@@ -95,7 +99,13 @@ export function NyDialogmeldingForm(): ReactElement {
                         )}
                     />
                     <HStack gap="space-16">
-                        <Button size="small" variant="primary" type="submit" icon={<PaperplaneIcon />}>
+                        <Button
+                            size="small"
+                            variant="primary"
+                            type="submit"
+                            icon={<PaperplaneIcon />}
+                            loading={isPending}
+                        >
                             Send melding
                         </Button>
                         <Button
@@ -104,6 +114,7 @@ export function NyDialogmeldingForm(): ReactElement {
                             type="button"
                             onClick={() => router.back()}
                             icon={<TrashIcon />}
+                            disabled={isPending}
                         >
                             Avbryt
                         </Button>

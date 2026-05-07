@@ -30,9 +30,17 @@ export interface ApiVedlegg {
     url: string;
 }
 
+export type DialogmeldingType = (typeof DialogmeldingType)[keyof typeof DialogmeldingType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const DialogmeldingType = {
+    L8: 'L8',
+    L40: 'L40',
+} as const;
+
 export interface ApiNyDialogmelding {
     behandlerId: string;
     behandlernavn: string;
     melding: string;
-    type: string;
+    type: DialogmeldingType;
 }
