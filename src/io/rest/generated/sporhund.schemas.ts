@@ -4,14 +4,15 @@
  * API
  * OpenAPI spec version: latest
  */
-export interface ApiBehandlerDialog {
+export interface ApiBehandlerMedDialoger {
     behandlerId: string;
     behandlernavn: string;
-    dialoger: ApiDialog[];
+    dialoger: ApiDialogOppsummering[];
 }
 
-export interface ApiDialog {
-    dialogmeldinger: ApiDialogmelding[];
+export interface ApiDialogOppsummering {
+    antallMeldinger: number;
+    antallVedlegg: number;
     id: string;
     tid: string;
     tittel: string;
@@ -28,6 +29,15 @@ export interface ApiDialogmelding {
 export interface ApiVedlegg {
     navn: string;
     url: string;
+}
+
+export interface ApiDialogDetails {
+    behandlerId: string;
+    behandlernavn: string;
+    dialogmeldinger: ApiDialogmelding[];
+    id: string;
+    tid: string;
+    tittel: string;
 }
 
 export type DialogmeldingType = (typeof DialogmeldingType)[keyof typeof DialogmeldingType];

@@ -1,4 +1,4 @@
-import { ApiBehandlerDialog } from '@io/rest/generated/sporhund.schemas';
+import { ApiBehandlerMedDialoger } from '@io/rest/generated/sporhund.schemas';
 
 export const testBehandlere = [
     { behandlernavn: 'Linus Lege', behandlerId: 'behandlerId-1' },
@@ -6,14 +6,6 @@ export const testBehandlere = [
     { behandlernavn: 'Christian Lege', behandlerId: 'behandlerId-3' },
 ];
 
-export function finnDialog(behandlerDialoger: ApiBehandlerDialog[], dialogId: string) {
-    for (const behandlerDialog of behandlerDialoger) {
-        const dialog = behandlerDialog.dialoger.find((d) => d.id === dialogId);
-        if (dialog) return dialog;
-    }
-    return null;
-}
-
-export function finnNyesteDialog(behandlerDialoger: ApiBehandlerDialog[]) {
+export function finnNyesteDialog(behandlerDialoger: ApiBehandlerMedDialoger[]) {
     return behandlerDialoger.flatMap((b) => b.dialoger).sort((a, b) => b.tid.localeCompare(a.tid))[0] ?? null;
 }

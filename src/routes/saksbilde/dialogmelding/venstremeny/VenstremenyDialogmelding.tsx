@@ -7,7 +7,7 @@ import { ChevronRightIcon, NotePencilIcon, PaperclipIcon } from '@navikt/aksel-i
 import { Bleed, BodyShort, Button, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
-import { ApiDialog } from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogOppsummering } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 
 export function VenstremenyDialogmelding(): ReactElement {
@@ -40,8 +40,8 @@ export function VenstremenyDialogmelding(): ReactElement {
                     <li key={behandler.behandlernavn}>
                         <Label>Dialog med {behandler.behandlernavn}</Label>
                         <VStack as="ul">
-                            {behandler.dialoger.map((dialog: ApiDialog) => {
-                                const harVedlegg = dialog.dialogmeldinger.some((m) => m.vedlegg.length > 0);
+                            {behandler.dialoger.map((dialog: ApiDialogOppsummering) => {
+                                const harVedlegg = dialog.antallVedlegg > 0;
                                 const erAktiv = dialog.id === dialogId;
                                 return (
                                     <Bleed key={dialog.id} marginInline="space-16" asChild>

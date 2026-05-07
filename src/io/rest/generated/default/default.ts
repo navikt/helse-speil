@@ -6,7 +6,7 @@
  */
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ApiBehandlerDialog, ApiNyDialogmelding } from '../sporhund.schemas';
+import type { ApiBehandlerMedDialoger, ApiDialogDetails, ApiNyDialogmelding } from '../sporhund.schemas';
 
 import type {
     DataTag,
@@ -25,10 +25,10 @@ import type {
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
- * Hent alle dialogmeldinger for en gitt person
+ * Hent oversikt over alle dialoger gruppert per behandler
  */
 export const getDialogmeldinger = (pseudoId: string, signal?: AbortSignal) => {
-    return callCustomAxios<ApiBehandlerDialog[]>({
+    return callCustomAxios<ApiBehandlerMedDialoger[]>({
         url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger`,
         method: 'GET',
         signal,
@@ -133,10 +133,111 @@ export function useGetDialogmeldinger<
 }
 
 /**
+ * Hent en enkelt dialog med alle meldinger
+ */
+export const getDialogmelding = (pseudoId: string, dialogId: string, signal?: AbortSignal) => {
+    return callCustomAxios<ApiDialogDetails>({
+        url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger/${dialogId}`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetDialogmeldingQueryKey = (pseudoId?: string, dialogId?: string) => {
+    return [`/api/sporhund/personer/${pseudoId}/dialogmeldinger/${dialogId}`] as const;
+};
+
+export const getGetDialogmeldingQueryOptions = <
+    TData = Awaited<ReturnType<typeof getDialogmelding>>,
+    TError = ErrorType<void>,
+>(
+    pseudoId: string,
+    dialogId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetDialogmeldingQueryKey(pseudoId, dialogId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDialogmelding>>> = ({ signal }) =>
+        getDialogmelding(pseudoId, dialogId, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(pseudoId && dialogId),
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetDialogmeldingQueryResult = NonNullable<Awaited<ReturnType<typeof getDialogmelding>>>;
+export type GetDialogmeldingQueryError = ErrorType<void>;
+
+export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogmelding>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    dialogId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getDialogmelding>>,
+                    TError,
+                    Awaited<ReturnType<typeof getDialogmelding>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogmelding>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    dialogId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getDialogmelding>>,
+                    TError,
+                    Awaited<ReturnType<typeof getDialogmelding>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogmelding>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    dialogId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogmelding>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    dialogId: string,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetDialogmeldingQueryOptions(pseudoId, dialogId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
+
+/**
  * Send ny dialogmelding
  */
 export const postDialogmelding = (pseudoId: string, apiNyDialogmelding?: ApiNyDialogmelding, signal?: AbortSignal) => {
-    return callCustomAxios<ApiBehandlerDialog>({
+    return callCustomAxios<ApiDialogDetails>({
         url: `/api/sporhund/personer/${pseudoId}/dialogmelding`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

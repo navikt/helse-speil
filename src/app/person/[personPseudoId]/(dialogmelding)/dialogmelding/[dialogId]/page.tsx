@@ -3,9 +3,8 @@
 import { notFound } from 'next/navigation';
 import React, { ReactElement, use } from 'react';
 
-import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
+import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { DialogmeldingContent } from '@saksbilde/dialogmelding/DialogmeldingContent';
-import { finnDialog } from '@saksbilde/dialogmelding/testdata';
 
 type DialogPageProps = {
     params: Promise<{ personPseudoId: string; dialogId: string }>;
@@ -13,17 +12,17 @@ type DialogPageProps = {
 
 export default function Page({ params }: DialogPageProps): ReactElement {
     const { personPseudoId, dialogId } = use(params);
-    const { data, isPending } = useGetDialogmeldinger(personPseudoId);
+    const { data, isPending } = useGetDialogmelding(personPseudoId, dialogId, {
+        query: { gcTime: 2 * 60 * 1000 },
+    });
 
     if (isPending || data === undefined) {
         return <div>skeleton</div>;
     }
 
-    const dialog = finnDialog(data, dialogId);
-
-    if (!dialog) {
+    if (!data) {
         notFound();
     }
 
-    return <DialogmeldingContent dialog={dialog} />;
+    return <DialogmeldingContent dialog={data} />;
 }

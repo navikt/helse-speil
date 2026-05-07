@@ -17,7 +17,7 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
-import { ApiDialog, ApiDialogmelding } from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogDetails, ApiDialogmelding } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 
 function DialogmeldingKort({ melding }: { melding: ApiDialogmelding }): ReactElement {
@@ -117,7 +117,7 @@ function SvarPåMelding(): ReactElement {
 }
 
 interface DialogmeldingContentProps {
-    dialog: ApiDialog;
+    dialog: ApiDialogDetails;
 }
 
 export function DialogmeldingContent({ dialog }: DialogmeldingContentProps): ReactElement {
