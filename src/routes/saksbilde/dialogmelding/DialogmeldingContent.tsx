@@ -17,11 +17,10 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
+import { ApiDialog, ApiDialogmelding } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 
-import { Dialog, Dialogmelding } from './types';
-
-function DialogmeldingKort({ melding }: { melding: Dialogmelding }): ReactElement {
+function DialogmeldingKort({ melding }: { melding: ApiDialogmelding }): ReactElement {
     return (
         <Box padding="space-12" borderWidth="1" borderRadius="8" borderColor="neutral-subtle">
             <VStack gap="space-8">
@@ -41,7 +40,7 @@ function DialogmeldingKort({ melding }: { melding: Dialogmelding }): ReactElemen
                         {getFormattedDatetimeString(melding.tid)}
                     </BodyShort>
                 </HStack>
-                <BodyShort size="small">{melding.innehold}</BodyShort>
+                <BodyShort size="small">{melding.melding}</BodyShort>
                 {melding.vedlegg.length > 0 && (
                     <VStack as="ul" gap="space-4">
                         {melding.vedlegg.map((vedlegg, index) => (
@@ -118,7 +117,7 @@ function SvarPåMelding(): ReactElement {
 }
 
 interface DialogmeldingContentProps {
-    dialog: Dialog;
+    dialog: ApiDialog;
 }
 
 export function DialogmeldingContent({ dialog }: DialogmeldingContentProps): ReactElement {

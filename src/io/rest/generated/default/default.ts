@@ -6,26 +6,29 @@
  */
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ApiBehandlerDialoger } from '../sporhund.schemas';
+import type { ApiBehandlerDialog, ApiNyDialogmelding } from '../sporhund.schemas';
 
 import type {
     DataTag,
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
+    MutationFunction,
     QueryClient,
     QueryFunction,
     QueryKey,
     UndefinedInitialDataOptions,
+    UseMutationOptions,
+    UseMutationResult,
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
  * Hent alle dialogmeldinger for en gitt person
  */
 export const getDialogmeldinger = (pseudoId: string, signal?: AbortSignal) => {
-    return callCustomAxios<ApiBehandlerDialoger[]>({
+    return callCustomAxios<ApiBehandlerDialog[]>({
         url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger`,
         method: 'GET',
         signal,
@@ -128,3 +131,73 @@ export function useGetDialogmeldinger<
 
     return query;
 }
+
+/**
+ * Send ny dialogmelding
+ */
+export const postDialogmelding = (pseudoId: string, apiNyDialogmelding?: ApiNyDialogmelding, signal?: AbortSignal) => {
+    return callCustomAxios<ApiBehandlerDialog>({
+        url: `/api/sporhund/personer/${pseudoId}/dialogmelding`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiNyDialogmelding,
+        signal,
+    });
+};
+
+export const getPostDialogmeldingMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postDialogmelding>>,
+        TError,
+        { pseudoId: string; data: ApiNyDialogmelding },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postDialogmelding>>,
+    TError,
+    { pseudoId: string; data: ApiNyDialogmelding },
+    TContext
+> => {
+    const mutationKey = ['postDialogmelding'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postDialogmelding>>,
+        { pseudoId: string; data: ApiNyDialogmelding }
+    > = (props) => {
+        const { pseudoId, data } = props ?? {};
+
+        return postDialogmelding(pseudoId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostDialogmeldingMutationResult = NonNullable<Awaited<ReturnType<typeof postDialogmelding>>>;
+export type PostDialogmeldingMutationBody = ApiNyDialogmelding;
+export type PostDialogmeldingMutationError = ErrorType<unknown>;
+
+export const usePostDialogmelding = <TError = ErrorType<unknown>, TContext = unknown>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postDialogmelding>>,
+            TError,
+            { pseudoId: string; data: ApiNyDialogmelding },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postDialogmelding>>,
+    TError,
+    { pseudoId: string; data: ApiNyDialogmelding },
+    TContext
+> => {
+    const mutationOptions = getPostDialogmeldingMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};

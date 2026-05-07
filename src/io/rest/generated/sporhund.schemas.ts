@@ -4,7 +4,8 @@
  * API
  * OpenAPI spec version: latest
  */
-export interface ApiBehandlerDialoger {
+export interface ApiBehandlerDialog {
+    behandlerId: string;
     behandlernavn: string;
     dialoger: ApiDialog[];
 }
@@ -18,7 +19,7 @@ export interface ApiDialog {
 
 export interface ApiDialogmelding {
     fraNav: boolean;
-    innehold: string;
+    melding: string;
     tid: string;
     tittel: string;
     vedlegg: ApiVedlegg[];
@@ -27,4 +28,11 @@ export interface ApiDialogmelding {
 export interface ApiVedlegg {
     navn: string;
     url: string;
+}
+
+export interface ApiNyDialogmelding {
+    behandlerId: string;
+    behandlernavn: string;
+    melding: string;
+    type: string;
 }

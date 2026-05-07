@@ -1,8 +1,9 @@
-import { BehandlerDialoger } from './types';
+import { ApiBehandlerDialog } from '@io/rest/generated/sporhund.schemas';
 
-export const testBehandlere: BehandlerDialoger[] = [
+export const testBehandlere: ApiBehandlerDialog[] = [
     {
-        behandlernavn: 'Dialog med Linus Lege',
+        behandlernavn: 'Linus Lege',
+        behandlerId: 'behandlerId-1',
         dialoger: [
             {
                 id: 'dialogId-1',
@@ -11,7 +12,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                 dialogmeldinger: [
                     {
                         tittel: 'Forespørsel om dokumentasjon',
-                        innehold:
+                        melding:
                             'Takk for tilsendt dokumentasjon. Vi trenger noen tilleggsopplysninger om pasientens funksjonsnivå og eventuelle tilretteleggingsmuligheter på arbeidsplassen. Kan dere gi en nærmere vurdering av dette?',
                         tid: '2026-04-24T14:36:00',
                         fraNav: true,
@@ -19,7 +20,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                     },
                     {
                         tittel: 'Svar på forespørsel',
-                        innehold:
+                        melding:
                             'Hei, vedlagt finner dere den forespurte dokumentasjonen. Jeg har lagt ved relevant journaldokumentasjon og vurdering av pasientens tilstand. Ta gjerne kontakt dersom dere trenger ytterligere opplysninger.',
                         tid: '2026-04-22T07:21:00',
                         fraNav: false,
@@ -31,7 +32,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                     },
                     {
                         tittel: 'Ytterligere dokumentasjon',
-                        innehold:
+                        melding:
                             'Hei, vi behandler saken til Mia Cathrine Svendsen og trenger ytterligere dokumentasjon for å kunne fatte et vedtak. Kan dere sende over relevant dokumentasjon som belyser pasientens tilstand og arbeidsevne?',
                         tid: '2026-04-20T09:15:00',
                         fraNav: true,
@@ -46,7 +47,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                 dialogmeldinger: [
                     {
                         tittel: 'Oppfølging etter sykmelding',
-                        innehold:
+                        melding:
                             'Vi ønsker en oppdatering på pasientens tilstand og forventet varighet på sykmeldingen.',
                         tid: '2026-04-20T08:30:00',
                         fraNav: true,
@@ -57,7 +58,8 @@ export const testBehandlere: BehandlerDialoger[] = [
         ],
     },
     {
-        behandlernavn: 'Dialog med Solveig Lege',
+        behandlernavn: 'Solveig Lege',
+        behandlerId: 'behandlerId-2',
         dialoger: [
             {
                 id: 'dialogId-3',
@@ -66,14 +68,14 @@ export const testBehandlere: BehandlerDialoger[] = [
                 dialogmeldinger: [
                     {
                         tittel: 'Forespørsel om dokumentasjon',
-                        innehold: 'Vi ber om dokumentasjon knyttet til pasientens diagnose og behandlingsplan.',
+                        melding: 'Vi ber om dokumentasjon knyttet til pasientens diagnose og behandlingsplan.',
                         tid: '2026-04-24T14:36:00',
                         fraNav: true,
                         vedlegg: [],
                     },
                     {
                         tittel: 'Svar med vedlegg',
-                        innehold: 'Vedlagt sender jeg etterspurt dokumentasjon.',
+                        melding: 'Vedlagt sender jeg etterspurt dokumentasjon.',
                         tid: '2026-04-23T10:49:00',
                         fraNav: false,
                         vedlegg: [{ navn: 'Dokumentasjon.pdf', url: '#' }],
@@ -83,7 +85,8 @@ export const testBehandlere: BehandlerDialoger[] = [
         ],
     },
     {
-        behandlernavn: 'Dialog med Christian Lege',
+        behandlernavn: 'Christian Lege',
+        behandlerId: 'behandlerId-3',
         dialoger: [
             {
                 id: 'dialogId-4',
@@ -92,14 +95,14 @@ export const testBehandlere: BehandlerDialoger[] = [
                 dialogmeldinger: [
                     {
                         tittel: 'Sykmeldingsopplysninger',
-                        innehold: 'Vi ønsker mer informasjon om diagnosen og prognosen for tilbakekomst til arbeid.',
+                        melding: 'Vi ønsker mer informasjon om diagnosen og prognosen for tilbakekomst til arbeid.',
                         tid: '2026-04-10T09:00:00',
                         fraNav: true,
                         vedlegg: [],
                     },
                     {
                         tittel: 'Svar',
-                        innehold:
+                        melding:
                             'Pasienten er sykmeldt grunnet rygglidelse. Prognosen er god, forventet tilbakekomst om 6–8 uker.',
                         tid: '2026-04-08T13:15:00',
                         fraNav: false,
@@ -114,7 +117,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                 dialogmeldinger: [
                     {
                         tittel: 'Vurdering av arbeidsevne',
-                        innehold:
+                        melding:
                             'Kan dere gi en vurdering av pasientens nåværende arbeidsevne og muligheter for gradert sykmelding?',
                         tid: '2026-04-05T11:00:00',
                         fraNav: true,
@@ -122,7 +125,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                     },
                     {
                         tittel: 'Svar på vurdering',
-                        innehold:
+                        melding:
                             'Pasienten kan på det nåværende tidspunkt ikke benytte seg av gradert sykmelding, men vi vil revurdere dette om 2 uker.',
                         tid: '2026-04-04T10:00:00',
                         fraNav: false,
@@ -137,7 +140,7 @@ export const testBehandlere: BehandlerDialoger[] = [
                 dialogmeldinger: [
                     {
                         tittel: 'Bekreftelse på behandlingsplan',
-                        innehold: 'Vi ber om bekreftelse på at behandlingsplanen er iverksatt.',
+                        melding: 'Vi ber om bekreftelse på at behandlingsplanen er iverksatt.',
                         tid: '2026-03-28T14:00:00',
                         fraNav: true,
                         vedlegg: [],
@@ -148,7 +151,7 @@ export const testBehandlere: BehandlerDialoger[] = [
     },
 ];
 
-export function finnDialog(behandlere: BehandlerDialoger[], dialogId: string) {
+export function finnDialog(behandlere: ApiBehandlerDialog[], dialogId: string) {
     for (const behandler of behandlere) {
         const dialog = behandler.dialoger.find((d) => d.id === dialogId);
         if (dialog) return dialog;
@@ -156,6 +159,6 @@ export function finnDialog(behandlere: BehandlerDialoger[], dialogId: string) {
     return null;
 }
 
-export function finnNyesteDialog(behandlere: BehandlerDialoger[]) {
+export function finnNyesteDialog(behandlere: ApiBehandlerDialog[]) {
     return behandlere.flatMap((b) => b.dialoger).sort((a, b) => b.tid.localeCompare(a.tid))[0] ?? null;
 }

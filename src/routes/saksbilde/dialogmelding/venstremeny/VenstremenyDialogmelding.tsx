@@ -7,9 +7,8 @@ import { ChevronRightIcon, NotePencilIcon, PaperclipIcon } from '@navikt/aksel-i
 import { Bleed, BodyShort, Button, HStack, Label, VStack } from '@navikt/ds-react';
 
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
+import { ApiDialog } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
-
-import { Dialog } from '../types';
 
 export function VenstremenyDialogmelding(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId?: string }>();
@@ -39,9 +38,9 @@ export function VenstremenyDialogmelding(): ReactElement {
             <VStack as="ul" gap="space-24">
                 {data.map((behandler) => (
                     <li key={behandler.behandlernavn}>
-                        <Label>{behandler.behandlernavn}</Label>
+                        <Label>Dialog med {behandler.behandlernavn}</Label>
                         <VStack as="ul">
-                            {behandler.dialoger.map((dialog: Dialog) => {
+                            {behandler.dialoger.map((dialog: ApiDialog) => {
                                 const harVedlegg = dialog.dialogmeldinger.some((m) => m.vedlegg.length > 0);
                                 const erAktiv = dialog.id === dialogId;
                                 return (
