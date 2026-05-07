@@ -4,8 +4,9 @@ import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
-import { Bleed, BodyShort, Button, HStack, Label, VStack } from '@navikt/ds-react';
+import { Bleed, BodyShort, HStack, Label, VStack } from '@navikt/ds-react';
 
+import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
 import { ApiDialogOppsummering } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -21,14 +22,7 @@ export function DialogmeldingListe(): ReactElement {
     }
 
     if (isError || data === undefined) {
-        return (
-            <VStack gap="space-8" align="start">
-                <BodyShort>Kunne ikke hente dialogmeldinger</BodyShort>
-                <Button variant="secondary" size="small" onClick={() => refetch()}>
-                    Prøv igjen
-                </Button>
-            </VStack>
-        );
+        return <ErrorMessageWithRefetch errorMessage="Kunne ikke hente dialogmeldinger." refetch={refetch} />;
     }
 
     if (data.length === 0) {

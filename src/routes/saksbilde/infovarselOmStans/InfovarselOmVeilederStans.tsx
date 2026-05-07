@@ -1,9 +1,10 @@
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Button, HStack, InfoCard } from '@navikt/ds-react';
+import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetVeilederStans } from '@io/rest/generated/personer/personer';
 import { useFetchPersonQuery } from '@state/person';
 
@@ -20,18 +21,7 @@ function InfovarselOmVeilederStansContainer(): ReactElement | null {
     }
 
     if (error) {
-        return (
-            <InfoCard data-color="danger" className="rounded-none">
-                <InfoCard.Header>
-                    <HStack gap="space-8" wrap={false} className="p-1">
-                        <BodyShort>Kunne ikke hente veilederstans.</BodyShort>
-                        <Button size="xsmall" onClick={() => refetch()}>
-                            Prøv igjen
-                        </Button>
-                    </HStack>
-                </InfoCard.Header>
-            </InfoCard>
-        );
+        return <ErrorMessageWithRefetch errorMessage="Kunne ikke hente veilederstans." refetch={refetch} />;
     }
 
     if (veilederStans?.erStanset) {

@@ -3,7 +3,7 @@ import { NextRequest } from 'next/server';
 import { stubEllerVideresendTilSporhund } from '@app/api/sporhund/common';
 import { DialogmeldingMock } from '@spesialist-mock/storage/dialogmelding';
 
-const stub = async (_request: NextRequest, params: Promise<{ dialogId: string }>): Promise<Response> => {
+async function stub(_request: NextRequest, params: Promise<{ dialogId: string }>): Promise<Response> {
     const { dialogId } = await params;
     const dialog = DialogmeldingMock.getById(dialogId);
 
@@ -12,7 +12,7 @@ const stub = async (_request: NextRequest, params: Promise<{ dialogId: string }>
     }
 
     return Response.json(dialog);
-};
+}
 
 export const dynamic = 'force-dynamic';
 
