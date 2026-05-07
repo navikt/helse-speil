@@ -10,7 +10,7 @@ import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { DialogmeldingContentError } from './DialogmeldingContentError';
 import { DialogmeldingContentSkeleton } from './DialogmeldingContentSkeleton';
 import { DialogmeldingKort } from './DialogmeldingKort';
-import { SvarPåMelding } from './SvarPåMelding';
+import { SvarPåDialogForm } from './SvarPåDialogForm';
 
 export function DialogmeldingContent(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId: string }>();
@@ -42,7 +42,7 @@ export function DialogmeldingContent(): ReactElement {
                         <DialogmeldingKort key={index} melding={melding} />
                     ))}
                 </VStack>
-                <SvarPåMelding />
+                <SvarPåDialogForm />
             </VStack>
         </Box>
     );

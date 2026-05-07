@@ -54,3 +54,7 @@ export interface ApiNyDialogmelding {
     melding: string;
     type: DialogmeldingType;
 }
+
+export interface ApiSvarPaDialog {
+    melding: string;
+}

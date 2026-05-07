@@ -5,6 +5,7 @@ import {
     ApiDialogDetails,
     ApiDialogmelding,
     ApiNyDialogmelding,
+    ApiSvarPaDialog,
 } from '@io/rest/generated/sporhund.schemas';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
@@ -225,6 +226,30 @@ export class DialogmeldingMock {
         };
 
         DialogmeldingMock.dialoger.unshift(dialog);
+
+        return {
+            id: dialog.id,
+            behandlerId: dialog.behandlerId,
+            behandlernavn: dialog.behandlernavn,
+            tittel: dialog.tittel,
+            tid: dialog.tid,
+            dialogmeldinger: dialog.dialogmeldinger,
+        };
+    };
+
+    static addSvar = (dialogId: string, data: ApiSvarPaDialog): ApiDialogDetails | null => {
+        const dialog = DialogmeldingMock.dialoger.find((d) => d.id === dialogId);
+        if (!dialog) return null;
+
+        const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
+        dialog.dialogmeldinger.unshift({
+            tittel: 'Svar fra Nav',
+            melding: data.melding,
+            tid,
+            fraNav: true,
+            vedlegg: [],
+        });
+        dialog.tid = tid;
 
         return {
             id: dialog.id,

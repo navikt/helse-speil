@@ -6,7 +6,12 @@
  */
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ApiBehandlerMedDialoger, ApiDialogDetails, ApiNyDialogmelding } from '../sporhund.schemas';
+import type {
+    ApiBehandlerMedDialoger,
+    ApiDialogDetails,
+    ApiNyDialogmelding,
+    ApiSvarPaDialog,
+} from '../sporhund.schemas';
 
 import type {
     DataTag,
@@ -299,6 +304,80 @@ export const usePostDialogmelding = <TError = ErrorType<unknown>, TContext = unk
     TContext
 > => {
     const mutationOptions = getPostDialogmeldingMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Svar på en eksisterende dialog
+ */
+export const postSvarPaDialog = (
+    pseudoId: string,
+    dialogId: string,
+    apiSvarPaDialog?: ApiSvarPaDialog,
+    signal?: AbortSignal,
+) => {
+    return callCustomAxios<ApiDialogDetails>({
+        url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger/${dialogId}/svar`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiSvarPaDialog,
+        signal,
+    });
+};
+
+export const getPostSvarPaDialogMutationOptions = <TError = ErrorType<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postSvarPaDialog>>,
+        TError,
+        { pseudoId: string; dialogId: string; data: ApiSvarPaDialog },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postSvarPaDialog>>,
+    TError,
+    { pseudoId: string; dialogId: string; data: ApiSvarPaDialog },
+    TContext
+> => {
+    const mutationKey = ['postSvarPaDialog'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postSvarPaDialog>>,
+        { pseudoId: string; dialogId: string; data: ApiSvarPaDialog }
+    > = (props) => {
+        const { pseudoId, dialogId, data } = props ?? {};
+
+        return postSvarPaDialog(pseudoId, dialogId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostSvarPaDialogMutationResult = NonNullable<Awaited<ReturnType<typeof postSvarPaDialog>>>;
+export type PostSvarPaDialogMutationBody = ApiSvarPaDialog;
+export type PostSvarPaDialogMutationError = ErrorType<void>;
+
+export const usePostSvarPaDialog = <TError = ErrorType<void>, TContext = unknown>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postSvarPaDialog>>,
+            TError,
+            { pseudoId: string; dialogId: string; data: ApiSvarPaDialog },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postSvarPaDialog>>,
+    TError,
+    { pseudoId: string; dialogId: string; data: ApiSvarPaDialog },
+    TContext
+> => {
+    const mutationOptions = getPostSvarPaDialogMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };
