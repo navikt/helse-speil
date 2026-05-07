@@ -1,10 +1,10 @@
 import { NextRequest } from 'next/server';
 
 import { stubEllerVideresendTilSporhund } from '@app/api/sporhund/common';
-import { testBehandlere } from '@saksbilde/dialogmelding/testdata';
+import { DialogmeldingMock } from '@spesialist-mock/storage/dialogmelding';
 
 const stub = async (_request: NextRequest): Promise<Response> => {
-    return Response.json(testBehandlere);
+    return Response.json(DialogmeldingMock.getAll());
 };
 
 export const dynamic = 'force-dynamic';

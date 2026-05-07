@@ -4,11 +4,18 @@ import { redirect, useParams } from 'next/navigation';
 
 import { BodyShort, Box } from '@navikt/ds-react';
 
-import { finnNyesteDialog, testBehandlere } from '@saksbilde/dialogmelding/testdata';
+import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
+import { finnNyesteDialog } from '@saksbilde/dialogmelding/testdata';
 
 export default function Page() {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const nyesteDialog = finnNyesteDialog(testBehandlere);
+    const { data, isPending } = useGetDialogmeldinger(personPseudoId);
+
+    if (isPending || data === undefined) {
+        return <div>skeleton</div>;
+    }
+
+    const nyesteDialog = finnNyesteDialog(data);
 
     if (nyesteDialog) {
         redirect(`/person/${personPseudoId}/dialogmelding/${nyesteDialog.id}`);

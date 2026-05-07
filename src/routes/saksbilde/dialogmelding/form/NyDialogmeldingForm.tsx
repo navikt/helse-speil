@@ -44,7 +44,11 @@ export function NyDialogmeldingForm(): ReactElement {
 
     async function onSubmit(values: NyDialogmeldingSchema) {
         const behandlernavn = testBehandlere.find((b) => b.behandlerId === values.behandlerId)?.behandlernavn ?? '';
-        await mutateAsync({ pseudoId: personPseudoId, data: { ...values, behandlernavn } });
+        const result = await mutateAsync({ pseudoId: personPseudoId, data: { ...values, behandlernavn } });
+        const nyDialog = result.dialoger[0];
+        if (nyDialog) {
+            router.push(`/person/${personPseudoId}/dialogmelding/${nyDialog.id}`);
+        }
     }
 
     return (
