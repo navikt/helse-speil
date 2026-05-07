@@ -3,24 +3,17 @@
 import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import z from 'zod/v4';
 
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, Select, Textarea, VStack } from '@navikt/ds-react';
 
+import { NyDialogmeldingSchema, nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostDialogmelding } from '@io/rest/generated/default/default';
 import { testBehandlere } from '@saksbilde/dialogmelding/testdata';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { BehandlerSearch } from './BehandlerSearch';
-
-export type NyDialogmeldingSchema = z.infer<typeof nyDialogmeldingSchema>;
-export const nyDialogmeldingSchema = z.object({
-    behandlerId: z.string().min(1, { error: 'Velg en behandler' }),
-    type: z.enum(['L8', 'L40'], { error: 'Velg type' }),
-    melding: z.string().min(1, { error: 'Fyll inn melding' }),
-});
 
 export function NyDialogmeldingForm(): ReactElement {
     const router = useRouter();

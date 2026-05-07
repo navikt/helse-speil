@@ -7,9 +7,8 @@ import { UNSAFE_Combobox } from '@navikt/ds-react';
 // @ts-expect-error TS klager på at den ikke finner modulen med combobox-typen selv om den resolver
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
+import { NyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
 import { testBehandlere } from '@saksbilde/dialogmelding/testdata';
-
-import { NyDialogmeldingSchema } from './NyDialogmeldingForm';
 
 const options: ComboboxOption[] = testBehandlere.map((b) => ({
     label: b.behandlernavn,
