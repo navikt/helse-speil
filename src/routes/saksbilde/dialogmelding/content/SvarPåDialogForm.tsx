@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
-import { PaperclipIcon, PaperplaneIcon } from '@navikt/aksel-icons';
+import { PaperplaneIcon } from '@navikt/aksel-icons';
 import { Bleed, Box, Button, Heading, Textarea, VStack } from '@navikt/ds-react';
 
 import { SvarPåDialogSchema, svarPåDialogSchema } from '@/form-schemas/svarPåDialogSkjema';
@@ -50,18 +50,6 @@ export function SvarPåDialogForm(): ReactElement {
                             />
                         )}
                     />
-                    <VStack gap="space-8" className="mb-3">
-                        <Heading size="xsmall">Vedlegg</Heading>
-                        <Button
-                            variant="secondary"
-                            size="small"
-                            icon={<PaperclipIcon aria-hidden />}
-                            className="self-start"
-                            type="button"
-                        >
-                            Legg til vedlegg
-                        </Button>
-                    </VStack>
                     <Button
                         variant="primary"
                         size="small"
