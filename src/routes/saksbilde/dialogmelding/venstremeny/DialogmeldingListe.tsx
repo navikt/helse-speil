@@ -30,7 +30,7 @@ export function DialogmeldingListe(): ReactElement {
     }
 
     return (
-        <VStack as="ul" gap="space-24">
+        <VStack as="ul" gap="space-32">
             {data.map((behandler) => (
                 <li key={behandler.behandlernavn}>
                     <Label>Dialog med {behandler.behandlernavn}</Label>
