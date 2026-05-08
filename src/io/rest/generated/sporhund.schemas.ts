@@ -40,19 +40,21 @@ export interface ApiDialogDetails {
     tittel: string;
 }
 
-export type DialogmeldingType = (typeof DialogmeldingType)[keyof typeof DialogmeldingType];
+export type ApiFagomrade = (typeof ApiFagomrade)[keyof typeof ApiFagomrade];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const DialogmeldingType = {
-    L8: 'L8',
-    L40: 'L40',
+export const ApiFagomrade = {
+    ENKELTSTAENDE_BEHANDLINGSDAGER: 'ENKELTSTAENDE_BEHANDLINGSDAGER',
+    TILBAKEDATERING: 'TILBAKEDATERING',
+    YRKESSKADE: 'YRKESSKADE',
+    BESTRIDELSE: 'BESTRIDELSE',
 } as const;
 
 export interface ApiNyDialogmelding {
     behandlerId: string;
     behandlernavn: string;
+    fagomrade: ApiFagomrade;
     melding: string;
-    type: DialogmeldingType;
 }
 
 export interface ApiSvarPaDialog {

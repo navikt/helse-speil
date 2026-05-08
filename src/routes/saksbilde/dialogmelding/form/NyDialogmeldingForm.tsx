@@ -7,7 +7,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, Select, Textarea, VStack } from '@navikt/ds-react';
 
-import { NyDialogmeldingSchema, nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
+import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostDialogmelding } from '@io/rest/generated/default/default';
 import { testBehandlere } from '@saksbilde/dialogmelding/testdata';
@@ -30,7 +30,7 @@ export function NyDialogmeldingForm(): ReactElement {
         resolver: zodResolver(nyDialogmeldingSchema),
         defaultValues: {
             behandlerId: '',
-            type: undefined,
+            fagomrade: undefined,
             melding: '',
         },
     });
@@ -67,16 +67,18 @@ export function NyDialogmeldingForm(): ReactElement {
                     className="max-w-250"
                     id="ny-dialogmelding-form"
                 >
-                    {/* Må byttes til combobox elns */}
                     <BehandlerSearch />
                     <Controller
                         control={form.control}
-                        name="type"
+                        name="fagomrade"
                         render={({ field, fieldState }) => (
-                            <Select {...field} label="Type melding" error={fieldState.error?.message}>
-                                <option value="">Velg type</option>
-                                <option value="L8">Tilleggsopplysninger (L8)</option>
-                                <option value="L40">Legeerklæring (L40)</option>
+                            <Select {...field} label="Fagområde" error={fieldState.error?.message}>
+                                <option value="">Velg fagområde</option>
+                                {Object.entries(fagomradeLabels).map(([value, label]) => (
+                                    <option key={value} value={value}>
+                                        {label}
+                                    </option>
+                                ))}
                             </Select>
                         )}
                     />

@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 
+import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import {
     ApiBehandlerMedDialoger,
     ApiDialogDetails,
@@ -205,7 +206,7 @@ export class DialogmeldingMock {
 
     static addDialogmelding = (data: ApiNyDialogmelding): ApiDialogDetails => {
         const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
-        const tittel = data.type === 'L8' ? 'Tilleggsopplysninger (L8)' : 'Legeerklæring (L40)';
+        const tittel = fagomradeLabels[data.fagomrade];
         const id = crypto.randomUUID();
 
         const dialog: InternalDialog = {
