@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { PaperclipIcon, PaperplaneIcon } from '@navikt/aksel-icons';
-import { Bleed, Box, Button, Checkbox, CheckboxGroup, Heading, Textarea, VStack } from '@navikt/ds-react';
+import { Bleed, Box, Button, Heading, Textarea, VStack } from '@navikt/ds-react';
 
 import { SvarPåDialogSchema, svarPåDialogSchema } from '@/form-schemas/svarPåDialogSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -50,10 +50,6 @@ export function SvarPåDialogForm(): ReactElement {
                             />
                         )}
                     />
-                    <CheckboxGroup legend="Takst" value={[]} onChange={() => {}}>
-                        <Checkbox value="L-8">L-8</Checkbox>
-                        <Checkbox value="L-40">L-40</Checkbox>
-                    </CheckboxGroup>
                     <VStack gap="space-8" className="mb-3">
                         <Heading size="xsmall">Vedlegg</Heading>
                         <Button
