@@ -1,9 +1,13 @@
 import React, { ReactElement } from 'react';
 
+import { Heading, VStack } from '@navikt/ds-react';
+
 export function Dokumentvisning(): ReactElement {
     return (
-        <section className="flex w-91.5 flex-col gap-8 border-l border-l-(--ax-border-neutral-subtle) px-4 py-8 [grid-area:høyremeny]">
-            <span>Linus</span>
-        </section>
+        <VStack as="section" className="w-91.5 border-l border-l-ax-border-neutral-subtle p-4 [grid-area:høyremeny]">
+            <Heading level="3" size="xsmall">
+                Dokumentvisning
+            </Heading>
+        </VStack>
     );
 }
