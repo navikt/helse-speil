@@ -4,7 +4,9 @@ on:
   push:
     branches:
       - main
-
+  schedule:
+    - cron: '0 4 * * 3'
+      timezone: 'Europe/Oslo'
 env:
   APP: speil
   TEAM: tbd
