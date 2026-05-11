@@ -29,14 +29,20 @@ export async function POST(req: Request) {
     if (!wonderwallToken) {
         return new Response(null, { status: 401 });
     }
-    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SYFO_SCOPE);
+
+    const { SYFO_SCOPE, SYFO_BASEURL } = getServerEnv();
+    if (!SYFO_SCOPE || !SYFO_BASEURL) {
+        return new Response('isyfo er ikke konfigurert i dette miljøet', { status: 501 });
+    }
+
+    const oboResult = await byttTilOboToken(wonderwallToken, SYFO_SCOPE);
 
     if (!oboResult.ok) {
         throw new Error(`Feil ved henting av OBO-token for isyfo: ${oboResult.error.message}`);
     }
 
     const body = await req.text();
-    return await fetch(`${getServerEnv().SYFO_BASEURL}/api/v1/behandler/search`, {
+    return await fetch(`${SYFO_BASEURL}/api/v1/behandler/search`, {
         method: 'POST',
         headers: {
             Authorization: `Bearer ${oboResult.token}`,
