@@ -1,22 +1,23 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useDebounce } from 'use-debounce';
 
 import { UNSAFE_Combobox } from '@navikt/ds-react';
 // @ts-expect-error TS klager på at den ikke finner modulen med combobox-typen selv om den resolver
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
 import { NyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
-import { testBehandlere } from '@saksbilde/dialogmelding/testdata';
-
-const options: ComboboxOption[] = testBehandlere.map((b) => ({
-    label: b.behandlernavn,
-    value: b.behandlerId,
-}));
+import { IsyfoBehandler, useBehandlerSearch } from '@external/isyfo/useBehandlerSearch';
 
 export function BehandlerSearch(): ReactElement {
     const { control } = useFormContext<NyDialogmeldingSchema>();
+    const [searchTerm, setSearchTerm] = useState('');
+    const [debouncedSearchTerm] = useDebounce(searchTerm, 300);
+    const { data: behandlere, isFetching } = useBehandlerSearch(debouncedSearchTerm);
+
+    const options: ComboboxOption[] = (behandlere ?? []).map(behandlerTilOption);
 
     return (
         <Controller
@@ -31,10 +32,18 @@ export function BehandlerSearch(): ReactElement {
                     onToggleSelected={(value, isSelected) => {
                         field.onChange(isSelected ? value : '');
                     }}
+                    onChange={(value) => setSearchTerm(value)}
+                    isLoading={isFetching}
                     shouldAutocomplete
                     error={fieldState.error?.message}
                 />
             )}
         />
     );
+}
+
+function behandlerTilOption(behandler: IsyfoBehandler): ComboboxOption {
+    const navn = [behandler.fornavn, behandler.mellomnavn, behandler.etternavn].filter(Boolean).join(' ');
+    const label = behandler.kontor ? `${navn} — ${behandler.kontor}` : navn;
+    return { label, value: behandler.behandlerRef };
 }

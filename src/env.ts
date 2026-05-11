@@ -21,6 +21,8 @@ export const serverEnvSchema = z.object({
     SPESIALIST_BASEURL: z.string(),
     SPORHUND_SCOPE: z.string(),
     SPORHUND_BASEURL: z.string(),
+    SYFO_SCOPE: z.string(),
+    SYFO_BASEURL: z.string(),
     AZURE_APP_CLIENT_ID: z.string(),
     AZURE_APP_CLIENT_SECRET: z.string(),
     AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: z.string(),
@@ -65,6 +67,8 @@ const getRawServerConfig = (): Partial<unknown> => {
                 : backend === 'lokal' || backend === 'lokal-sporhund'
                   ? 'http://localhost:8282'
                   : 'http://localhost:8282',
+        SYFO_SCOPE: process.env.SYFO_SCOPE,
+        SYFO_BASEURL: process.env.SYFO_BASE_URL,
         // Provided by nais
         AZURE_APP_CLIENT_ID: process.env.AZURE_APP_CLIENT_ID,
         AZURE_APP_CLIENT_SECRET: process.env.AZURE_APP_CLIENT_SECRET,
