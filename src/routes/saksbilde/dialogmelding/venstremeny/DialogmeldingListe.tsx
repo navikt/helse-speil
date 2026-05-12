@@ -8,9 +8,9 @@ import { Bleed, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
+import { formatBehandlerNavn } from '@utils/behandlerUtils';
 import { getFormattedDatetimeString } from '@utils/date';
 
-import { formatBehandlerNavn } from '../formatBehandlerNavn';
 import { DialogmeldingListeSkeleton } from './DialogmeldingListeSkeleton';
 
 export function DialogmeldingListe(): ReactElement {
