@@ -4,19 +4,68 @@
  * API
  * OpenAPI spec version: latest
  */
-export interface ApiBehandlerMedDialoger {
-    behandlerId: string;
-    behandlernavn: string;
-    dialoger: ApiDialogOppsummering[];
-}
-
 export interface ApiDialogOppsummering {
     antallMeldinger: number;
     antallVedlegg: number;
+    behandler: ApiBehandler;
     id: string;
     tid: string;
     tittel: string;
 }
+
+export type ApiBehandlerTelefonnummer = null | string;
+
+export type ApiBehandlerTypeProperty = null | ApiBehandlerType;
+
+export interface ApiBehandler {
+    id: string;
+    kategori: ApiBehandlerKategori;
+    legekontor: ApiLegekontor;
+    navn: ApiBehandlerNavn;
+    telefonnummer?: ApiBehandlerTelefonnummer;
+    type?: ApiBehandlerTypeProperty;
+}
+
+export type ApiBehandlerKategori = (typeof ApiBehandlerKategori)[keyof typeof ApiBehandlerKategori];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiBehandlerKategori = {
+    LEGE: 'LEGE',
+    FYSIOTERAPEUT: 'FYSIOTERAPEUT',
+    KIROPRAKTOR: 'KIROPRAKTOR',
+    MANUELLTERAPEUT: 'MANUELLTERAPEUT',
+    TANNLEGE: 'TANNLEGE',
+    PSYKOLOG: 'PSYKOLOG',
+} as const;
+
+export type ApiLegekontorAdresse = null | string;
+
+export type ApiLegekontorKontor = null | string;
+
+export type ApiLegekontorOrgnummer = null | string;
+
+export interface ApiLegekontor {
+    adresse?: ApiLegekontorAdresse;
+    kontor?: ApiLegekontorKontor;
+    orgnummer?: ApiLegekontorOrgnummer;
+}
+
+export type ApiBehandlerNavnMellomnavn = null | string;
+
+export interface ApiBehandlerNavn {
+    etternavn: string;
+    fornavn: string;
+    mellomnavn?: ApiBehandlerNavnMellomnavn;
+}
+
+export type ApiBehandlerType = (typeof ApiBehandlerType)[keyof typeof ApiBehandlerType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiBehandlerType = {
+    FASTLEGE: 'FASTLEGE',
+    FASTLEGEVIKAR: 'FASTLEGEVIKAR',
+    SYKMELDER: 'SYKMELDER',
+} as const;
 
 export interface ApiDialogmelding {
     fraNav: boolean;
@@ -32,8 +81,7 @@ export interface ApiVedlegg {
 }
 
 export interface ApiDialogDetails {
-    behandlerId: string;
-    behandlernavn: string;
+    behandler: ApiBehandler;
     dialogmeldinger: ApiDialogmelding[];
     id: string;
     tid: string;
@@ -51,8 +99,7 @@ export const ApiFagomrade = {
 } as const;
 
 export interface ApiNyDialogmelding {
-    behandlerId: string;
-    behandlernavn: string;
+    behandler: ApiBehandler;
     fagomrade: ApiFagomrade;
     melding: string;
 }

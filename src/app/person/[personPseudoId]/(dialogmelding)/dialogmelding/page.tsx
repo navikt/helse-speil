@@ -6,7 +6,7 @@ import React, { ReactElement, use } from 'react';
 import { BodyShort, Box, Heading, VStack } from '@navikt/ds-react';
 
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
-import { ApiBehandlerMedDialoger } from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogOppsummering } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingContentSkeleton } from '@saksbilde/dialogmelding/content/DialogmeldingContentSkeleton';
 
 export default function Page({ params }: { params: Promise<{ personPseudoId: string }> }): ReactElement {
@@ -35,6 +35,6 @@ export default function Page({ params }: { params: Promise<{ personPseudoId: str
     );
 }
 
-function finnNyesteDialog(behandlerDialoger: ApiBehandlerMedDialoger[]) {
-    return behandlerDialoger.flatMap((b) => b.dialoger).sort((a, b) => b.tid.localeCompare(a.tid))[0] ?? null;
+function finnNyesteDialog(dialoger: ApiDialogOppsummering[]) {
+    return dialoger.toSorted((a, b) => b.tid.localeCompare(a.tid))[0] ?? null;
 }

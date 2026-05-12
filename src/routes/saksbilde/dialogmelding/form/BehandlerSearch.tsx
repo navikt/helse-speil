@@ -9,6 +9,7 @@ import { UNSAFE_Combobox } from '@navikt/ds-react';
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
 import { NyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
+import { isyfoBehandlerToApiBehandler } from '@external/isyfo/isyfoBehandlerToApiBehandler';
 import { IsyfoBehandler, useBehandlerSearch } from '@external/isyfo/useBehandlerSearch';
 
 export function BehandlerSearch(): ReactElement {
@@ -22,15 +23,22 @@ export function BehandlerSearch(): ReactElement {
     return (
         <Controller
             control={control}
-            name="behandlerId"
+            name="behandler"
             render={({ field, fieldState }) => (
                 <UNSAFE_Combobox
                     label="Behandler"
                     description="Søk etter behandler som skal motta meldingen"
                     options={options}
-                    selectedOptions={options.filter((o) => o.value === field.value)}
+                    selectedOptions={options.filter((o) => o.value === field.value?.id)}
                     onToggleSelected={(value, isSelected) => {
-                        field.onChange(isSelected ? value : '');
+                        if (isSelected) {
+                            const selected = behandlere?.find((b) => b.behandlerRef === value);
+                            if (selected) {
+                                field.onChange(isyfoBehandlerToApiBehandler(selected));
+                            }
+                        } else {
+                            field.onChange(undefined);
+                        }
                     }}
                     onChange={(value) => setSearchTerm(value)}
                     isLoading={isFetching}

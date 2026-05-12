@@ -2,8 +2,10 @@ import dayjs from 'dayjs';
 
 import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import {
-    ApiBehandlerMedDialoger,
+    ApiBehandler,
+    ApiBehandlerKategori,
     ApiDialogDetails,
+    ApiDialogOppsummering,
     ApiDialogmelding,
     ApiNyDialogmelding,
     ApiSvarPaDialog,
@@ -12,18 +14,37 @@ import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 interface InternalDialog {
     id: string;
-    behandlerId: string;
-    behandlernavn: string;
+    behandler: ApiBehandler;
     tittel: string;
     tid: string;
     dialogmeldinger: ApiDialogmelding[];
 }
 
+const mockBehandler1: ApiBehandler = {
+    id: 'behandlerId-1',
+    kategori: ApiBehandlerKategori.LEGE,
+    navn: { fornavn: 'Linus', etternavn: 'Lege', mellomnavn: null },
+    legekontor: { kontor: 'Legesenteret', orgnummer: null, adresse: null },
+};
+
+const mockBehandler2: ApiBehandler = {
+    id: 'behandlerId-2',
+    kategori: ApiBehandlerKategori.LEGE,
+    navn: { fornavn: 'Solveig', etternavn: 'Lege', mellomnavn: null },
+    legekontor: { kontor: 'Legesenteret', orgnummer: null, adresse: null },
+};
+
+const mockBehandler3: ApiBehandler = {
+    id: 'behandlerId-3',
+    kategori: ApiBehandlerKategori.LEGE,
+    navn: { fornavn: 'Christian', etternavn: 'Lege', mellomnavn: null },
+    legekontor: { kontor: 'Legesenteret', orgnummer: null, adresse: null },
+};
+
 const initialDialoger: InternalDialog[] = [
     {
         id: 'dialogId-1',
-        behandlerId: 'behandlerId-1',
-        behandlernavn: 'Linus Lege',
+        behandler: mockBehandler1,
         tittel: 'Forespørsel om dokumentasjon',
         tid: '2026-04-24T14:36:00',
         dialogmeldinger: [
@@ -59,8 +80,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         id: 'dialogId-2',
-        behandlerId: 'behandlerId-1',
-        behandlernavn: 'Linus Lege',
+        behandler: mockBehandler1,
         tittel: 'Oppfølging etter sykmelding',
         tid: '2026-04-20T08:30:00',
         dialogmeldinger: [
@@ -75,8 +95,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         id: 'dialogId-3',
-        behandlerId: 'behandlerId-2',
-        behandlernavn: 'Solveig Lege',
+        behandler: mockBehandler2,
         tittel: 'Forespørsel om dokumentasjon',
         tid: '2026-04-24T14:36:00',
         dialogmeldinger: [
@@ -98,8 +117,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         id: 'dialogId-4',
-        behandlerId: 'behandlerId-3',
-        behandlernavn: 'Christian Lege',
+        behandler: mockBehandler3,
         tittel: 'Sykmeldingsopplysninger',
         tid: '2026-04-10T09:00:00',
         dialogmeldinger: [
@@ -122,8 +140,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         id: 'dialogId-5',
-        behandlerId: 'behandlerId-3',
-        behandlernavn: 'Christian Lege',
+        behandler: mockBehandler3,
         tittel: 'Vurdering av arbeidsevne',
         tid: '2026-04-05T11:00:00',
         dialogmeldinger: [
@@ -147,8 +164,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         id: 'dialogId-6',
-        behandlerId: 'behandlerId-3',
-        behandlernavn: 'Christian Lege',
+        behandler: mockBehandler3,
         tittel: 'Bekreftelse på behandlingsplan',
         tid: '2026-03-28T14:00:00',
         dialogmeldinger: [
@@ -166,29 +182,15 @@ const initialDialoger: InternalDialog[] = [
 export class DialogmeldingMock {
     private static dialoger: InternalDialog[] = structuredClone(initialDialoger);
 
-    static getAll = (): ApiBehandlerMedDialoger[] => {
-        const grouped = new Map<string, ApiBehandlerMedDialoger>();
-
-        for (const dialog of DialogmeldingMock.dialoger) {
-            let behandler = grouped.get(dialog.behandlerId);
-            if (!behandler) {
-                behandler = {
-                    behandlerId: dialog.behandlerId,
-                    behandlernavn: dialog.behandlernavn,
-                    dialoger: [],
-                };
-                grouped.set(dialog.behandlerId, behandler);
-            }
-            behandler.dialoger.push({
-                id: dialog.id,
-                tittel: dialog.tittel,
-                tid: dialog.tid,
-                antallMeldinger: dialog.dialogmeldinger.length,
-                antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
-            });
-        }
-
-        return [...grouped.values()];
+    static getAll = (): ApiDialogOppsummering[] => {
+        return DialogmeldingMock.dialoger.map((dialog) => ({
+            id: dialog.id,
+            behandler: dialog.behandler,
+            tittel: dialog.tittel,
+            tid: dialog.tid,
+            antallMeldinger: dialog.dialogmeldinger.length,
+            antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
+        }));
     };
 
     static getById = (dialogId: string): ApiDialogDetails | null => {
@@ -196,8 +198,7 @@ export class DialogmeldingMock {
         if (!dialog) return null;
         return {
             id: dialog.id,
-            behandlerId: dialog.behandlerId,
-            behandlernavn: dialog.behandlernavn,
+            behandler: dialog.behandler,
             tittel: dialog.tittel,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,
@@ -211,8 +212,7 @@ export class DialogmeldingMock {
 
         const dialog: InternalDialog = {
             id,
-            behandlerId: data.behandlerId,
-            behandlernavn: data.behandlernavn,
+            behandler: data.behandler,
             tittel,
             tid,
             dialogmeldinger: [
@@ -230,8 +230,7 @@ export class DialogmeldingMock {
 
         return {
             id: dialog.id,
-            behandlerId: dialog.behandlerId,
-            behandlernavn: dialog.behandlernavn,
+            behandler: dialog.behandler,
             tittel: dialog.tittel,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,
@@ -254,8 +253,7 @@ export class DialogmeldingMock {
 
         return {
             id: dialog.id,
-            behandlerId: dialog.behandlerId,
-            behandlernavn: dialog.behandlernavn,
+            behandler: dialog.behandler,
             tittel: dialog.tittel,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,

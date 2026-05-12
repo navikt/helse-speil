@@ -10,7 +10,6 @@ import { Button, HStack, Heading, Select, Textarea, VStack } from '@navikt/ds-re
 import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostDialogmelding } from '@io/rest/generated/default/default';
-import { testBehandlere } from '@saksbilde/dialogmelding/testdata';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { BehandlerSearch } from './BehandlerSearch';
@@ -29,15 +28,14 @@ export function NyDialogmeldingForm(): ReactElement {
     const form = useForm<NyDialogmeldingSchema>({
         resolver: zodResolver(nyDialogmeldingSchema),
         defaultValues: {
-            behandlerId: '',
+            behandler: undefined,
             fagomrade: undefined,
             melding: '',
         },
     });
 
     async function onSubmit(values: NyDialogmeldingSchema) {
-        const behandlernavn = testBehandlere.find((b) => b.behandlerId === values.behandlerId)?.behandlernavn ?? '';
-        const result = await mutateAsync({ pseudoId: personPseudoId, data: { ...values, behandlernavn } });
+        const result = await mutateAsync({ pseudoId: personPseudoId, data: values });
         if (result) {
             router.push(`/person/${personPseudoId}/dialogmelding/${result.id}`);
         }

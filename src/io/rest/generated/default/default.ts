@@ -6,12 +6,7 @@
  */
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type {
-    ApiBehandlerMedDialoger,
-    ApiDialogDetails,
-    ApiNyDialogmelding,
-    ApiSvarPaDialog,
-} from '../sporhund.schemas';
+import type { ApiDialogDetails, ApiDialogOppsummering, ApiNyDialogmelding, ApiSvarPaDialog } from '../sporhund.schemas';
 
 import type {
     DataTag,
@@ -30,10 +25,10 @@ import type {
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
- * Hent oversikt over alle dialoger gruppert per behandler
+ * Hent oversikt over alle dialoger
  */
 export const getDialogmeldinger = (pseudoId: string, signal?: AbortSignal) => {
-    return callCustomAxios<ApiBehandlerMedDialoger[]>({
+    return callCustomAxios<ApiDialogOppsummering[]>({
         url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger`,
         method: 'GET',
         signal,
