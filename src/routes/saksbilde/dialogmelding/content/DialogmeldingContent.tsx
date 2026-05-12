@@ -27,8 +27,9 @@ export function DialogmeldingContent(): ReactElement {
         return <DialogmeldingContentError refetch={refetch} />;
     }
 
-    const { behandler } = data;
+    const { behandler, dialogmeldinger } = data;
     const adresse = formatLegekontorAdresse(behandler.legekontor);
+    const sortert = dialogmeldinger.sort((a, b) => b.tid.localeCompare(a.tid));
 
     return (
         <Box as="section" padding="space-16" className="[grid-area:content]">
@@ -51,7 +52,7 @@ export function DialogmeldingContent(): ReactElement {
                     </HStack>
                 </VStack>
                 <VStack gap="space-16">
-                    {data.dialogmeldinger.map((melding, index) => (
+                    {sortert.map((melding, index) => (
                         <DialogmeldingKort key={index} melding={melding} />
                     ))}
                 </VStack>
