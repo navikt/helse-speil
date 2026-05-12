@@ -8,6 +8,7 @@ import { Bleed, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
+import { ApiBehandlerNavn } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 
 import { DialogmeldingListeSkeleton } from './DialogmeldingListeSkeleton';
@@ -39,15 +40,21 @@ export function DialogmeldingListe(): ReactElement {
                             <Link
                                 href={`/person/${personPseudoId}/dialogmelding/${dialog.id}`}
                                 className={cn(
-                                    'flex w-full items-center justify-between gap-2 border-b border-b-ax-border-neutral-subtle py-2 pr-4 pl-8 text-left hover:bg-ax-bg-accent-moderate-hover',
-                                    erAktiv && 'bg-ax-bg-accent-soft',
+                                    'flex w-full items-center justify-between gap-2 border-b border-b-ax-border-neutral-subtle px-6 py-2 text-left hover:bg-ax-bg-accent-moderate-hover',
+                                    erAktiv &&
+                                        'bg-ax-bg-accent-soft shadow-[inset_4px_0_0_0] shadow-ax-border-accent-strong',
                                 )}
                             >
                                 <VStack>
-                                    <HStack align="center" gap="space-4">
-                                        <BodyShort weight="semibold">{dialog.tittel}</BodyShort>
+                                    <HStack align="center" gap="space-4" marginBlock="space-0 space-2">
+                                        <BodyShort weight={erAktiv ? 'semibold' : 'regular'}>{dialog.tittel}</BodyShort>
                                         {harVedlegg && <PaperclipIcon aria-label="Har vedlegg" fontSize="1rem" />}
                                     </HStack>
+                                    <BodyShort size="small" className="text-ax-text-neutral-subtle">
+                                        {formatBehandlerNavn(dialog.behandler.navn)}
+                                        {dialog.behandler.legekontor.kontor &&
+                                            `, ${dialog.behandler.legekontor.kontor}`}
+                                    </BodyShort>
                                     <BodyShort size="small" className="text-ax-text-neutral-subtle">
                                         {getFormattedDatetimeString(dialog.tid)}
                                     </BodyShort>
@@ -60,4 +67,8 @@ export function DialogmeldingListe(): ReactElement {
             })}
         </VStack>
     );
+}
+
+function formatBehandlerNavn(navn: ApiBehandlerNavn): string {
+    return [navn.fornavn, navn.mellomnavn, navn.etternavn].filter(Boolean).join(' ');
 }
