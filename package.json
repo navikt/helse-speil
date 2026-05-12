@@ -148,7 +148,7 @@
             "minimatch@6": ">=6.2.1",
             "minimatch@9": ">=9.0.7",
             "flatted": ">=3.3.4",
-            "protobufjs": ">=8.0.1"
+            "protobufjs": ">=8.2.0"
         }
     }
 }
