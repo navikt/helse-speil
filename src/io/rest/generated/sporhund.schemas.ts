@@ -44,10 +44,16 @@ export type ApiLegekontorKontor = null | string;
 
 export type ApiLegekontorOrgnummer = null | string;
 
+export type ApiLegekontorPostnummer = null | string;
+
+export type ApiLegekontorPoststed = null | string;
+
 export interface ApiLegekontor {
     adresse?: ApiLegekontorAdresse;
     kontor?: ApiLegekontorKontor;
     orgnummer?: ApiLegekontorOrgnummer;
+    postnummer?: ApiLegekontorPostnummer;
+    poststed?: ApiLegekontorPoststed;
 }
 
 export type ApiBehandlerNavnMellomnavn = null | string;

@@ -23,22 +23,34 @@ interface InternalDialog {
 const mockBehandler1: ApiBehandler = {
     id: 'behandlerId-1',
     kategori: ApiBehandlerKategori.LEGE,
-    navn: { fornavn: 'Linus', etternavn: 'Lege', mellomnavn: null },
-    legekontor: { kontor: 'Legesenteret', orgnummer: null, adresse: null },
+    navn: { fornavn: 'Linus', etternavn: 'Haugen', mellomnavn: null },
+    legekontor: {
+        kontor: 'Legesenteret',
+        orgnummer: '123456789',
+        adresse: 'Storgata 1',
+        postnummer: '0182',
+        poststed: 'Oslo',
+    },
 };
 
 const mockBehandler2: ApiBehandler = {
     id: 'behandlerId-2',
     kategori: ApiBehandlerKategori.LEGE,
-    navn: { fornavn: 'Solveig', etternavn: 'Lege', mellomnavn: null },
-    legekontor: { kontor: 'Legesenteret', orgnummer: null, adresse: null },
+    navn: { fornavn: 'Solveig', etternavn: 'Bakke', mellomnavn: null },
+    legekontor: { kontor: 'Legesenteret', orgnummer: null, adresse: null, postnummer: null, poststed: null },
 };
 
 const mockBehandler3: ApiBehandler = {
     id: 'behandlerId-3',
     kategori: ApiBehandlerKategori.LEGE,
-    navn: { fornavn: 'Christian', etternavn: 'Lege', mellomnavn: null },
-    legekontor: { kontor: 'Legesenteret', orgnummer: null, adresse: null },
+    navn: { fornavn: 'Christian', etternavn: 'Strand', mellomnavn: null },
+    legekontor: {
+        kontor: 'Legesenteret',
+        orgnummer: null,
+        adresse: 'Kirkegata 12',
+        postnummer: '7030',
+        poststed: 'Trondheim',
+    },
 };
 
 const initialDialoger: InternalDialog[] = [

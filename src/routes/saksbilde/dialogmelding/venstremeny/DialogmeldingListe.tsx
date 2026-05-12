@@ -8,9 +8,9 @@ import { Bleed, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
-import { ApiBehandlerNavn } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 
+import { formatBehandlerNavn } from '../formatBehandlerNavn';
 import { DialogmeldingListeSkeleton } from './DialogmeldingListeSkeleton';
 
 export function DialogmeldingListe(): ReactElement {
@@ -67,8 +67,4 @@ export function DialogmeldingListe(): ReactElement {
             })}
         </VStack>
     );
-}
-
-function formatBehandlerNavn(navn: ApiBehandlerNavn): string {
-    return [navn.fornavn, navn.mellomnavn, navn.etternavn].filter(Boolean).join(' ');
 }

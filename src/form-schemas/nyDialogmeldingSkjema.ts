@@ -18,6 +18,8 @@ const behandlerSchema = z.object({
         kontor: z.string().nullable().optional(),
         orgnummer: z.string().nullable().optional(),
         adresse: z.string().nullable().optional(),
+        postnummer: z.string().nullable().optional(),
+        poststed: z.string().nullable().optional(),
     }),
     telefonnummer: z.string().nullable().optional(),
     type: z.enum(typeValues).nullable().optional(),

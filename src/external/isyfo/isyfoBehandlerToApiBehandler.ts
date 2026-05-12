@@ -33,6 +33,8 @@ export function isyfoBehandlerToApiBehandler(b: IsyfoBehandler): ApiBehandler {
             kontor: b.kontor,
             orgnummer: b.orgnummer,
             adresse: b.adresse,
+            postnummer: b.postnummer,
+            poststed: b.poststed,
         },
         telefonnummer: b.telefon,
         type: castType(b.type),
