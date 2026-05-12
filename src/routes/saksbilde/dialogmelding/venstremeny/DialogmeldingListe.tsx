@@ -29,9 +29,11 @@ export function DialogmeldingListe(): ReactElement {
         return <BodyShort>Ingen dialogmeldinger</BodyShort>;
     }
 
+    const sortert = [...data].sort((a, b) => b.tid.localeCompare(a.tid));
+
     return (
         <VStack as="ul">
-            {data.map((dialog) => {
+            {sortert.map((dialog) => {
                 const harVedlegg = dialog.antallVedlegg > 0;
                 const erAktiv = dialog.id === dialogId;
                 return (
