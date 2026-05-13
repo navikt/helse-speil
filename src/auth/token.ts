@@ -103,10 +103,10 @@ export async function byttTilOboToken(token: string, scope: string): Promise<Ret
                 token: await res.text(),
             }));
         case 'lokal-sporhund':
-            return {
+            return await fetch(`${getServerEnv().SPORHUND_BASEURL}/local-token`).then(async (res) => ({
                 ok: true,
-                token: 'fake-local-obo-token',
-            };
+                token: await res.text(),
+            }));
         case 'deployed':
             metrics.oboCounter.inc({ target_client_id: scope }, 1);
             return requestAzureOboToken(token, scope);

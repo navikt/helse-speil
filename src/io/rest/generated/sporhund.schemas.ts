@@ -4,6 +4,37 @@
  * API
  * OpenAPI spec version: latest
  */
+export interface ApiDialogmeldingOppgave {
+    dato: string;
+    fagomrade: ApiFagomrade;
+    frist: string;
+    id: string;
+    meldingstype: string;
+    personPseudoId: string;
+    soker: string;
+    status: ApiDialogmeldingStatus;
+}
+
+export type ApiFagomrade = (typeof ApiFagomrade)[keyof typeof ApiFagomrade];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiFagomrade = {
+    ENKELTSTAENDE_BEHANDLINGSDAGER: 'ENKELTSTAENDE_BEHANDLINGSDAGER',
+    TILBAKEDATERING: 'TILBAKEDATERING',
+    YRKESSKADE: 'YRKESSKADE',
+    BESTRIDELSE: 'BESTRIDELSE',
+} as const;
+
+export type ApiDialogmeldingStatus = (typeof ApiDialogmeldingStatus)[keyof typeof ApiDialogmeldingStatus];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiDialogmeldingStatus = {
+    SENDT: 'SENDT',
+    PURRING_SENDT: 'PURRING_SENDT',
+    MOTTATT: 'MOTTATT',
+    FERDIGSTILT: 'FERDIGSTILT',
+} as const;
+
 export interface ApiDialogOppsummering {
     antallMeldinger: number;
     antallVedlegg: number;
@@ -93,16 +124,6 @@ export interface ApiDialogDetails {
     tid: string;
     tittel: string;
 }
-
-export type ApiFagomrade = (typeof ApiFagomrade)[keyof typeof ApiFagomrade];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiFagomrade = {
-    ENKELTSTAENDE_BEHANDLINGSDAGER: 'ENKELTSTAENDE_BEHANDLINGSDAGER',
-    TILBAKEDATERING: 'TILBAKEDATERING',
-    YRKESSKADE: 'YRKESSKADE',
-    BESTRIDELSE: 'BESTRIDELSE',
-} as const;
 
 export interface ApiNyDialogmelding {
     behandler: ApiBehandler;

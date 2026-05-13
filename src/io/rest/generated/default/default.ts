@@ -6,7 +6,13 @@
  */
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
-import type { ApiDialogDetails, ApiDialogOppsummering, ApiNyDialogmelding, ApiSvarPaDialog } from '../sporhund.schemas';
+import type {
+    ApiDialogDetails,
+    ApiDialogOppsummering,
+    ApiDialogmeldingOppgave,
+    ApiNyDialogmelding,
+    ApiSvarPaDialog,
+} from '../sporhund.schemas';
 
 import type {
     DataTag,
@@ -23,6 +29,104 @@ import type {
     UseQueryResult,
 } from '@tanstack/react-query';
 import { useMutation, useQuery } from '@tanstack/react-query';
+
+/**
+ * Hent dialogmelding-oppgaver
+ */
+export const getDialogmeldingOppgaver = (signal?: AbortSignal) => {
+    return callCustomAxios<ApiDialogmeldingOppgave[]>({
+        url: `/api/sporhund/dialogmelding-oppgaver`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetDialogmeldingOppgaverQueryKey = () => {
+    return [`/api/sporhund/dialogmelding-oppgaver`] as const;
+};
+
+export const getGetDialogmeldingOppgaverQueryOptions = <
+    TData = Awaited<ReturnType<typeof getDialogmeldingOppgaver>>,
+    TError = ErrorType<unknown>,
+>(options?: {
+    query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmeldingOppgaver>>, TError, TData>>;
+}) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetDialogmeldingOppgaverQueryKey();
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getDialogmeldingOppgaver>>> = ({ signal }) =>
+        getDialogmeldingOppgaver(signal);
+
+    return { queryKey, queryFn, staleTime: Infinity, gcTime: 0, ...queryOptions } as UseQueryOptions<
+        Awaited<ReturnType<typeof getDialogmeldingOppgaver>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetDialogmeldingOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getDialogmeldingOppgaver>>>;
+export type GetDialogmeldingOppgaverQueryError = ErrorType<unknown>;
+
+export function useGetDialogmeldingOppgaver<
+    TData = Awaited<ReturnType<typeof getDialogmeldingOppgaver>>,
+    TError = ErrorType<unknown>,
+>(
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmeldingOppgaver>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getDialogmeldingOppgaver>>,
+                    TError,
+                    Awaited<ReturnType<typeof getDialogmeldingOppgaver>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetDialogmeldingOppgaver<
+    TData = Awaited<ReturnType<typeof getDialogmeldingOppgaver>>,
+    TError = ErrorType<unknown>,
+>(
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmeldingOppgaver>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getDialogmeldingOppgaver>>,
+                    TError,
+                    Awaited<ReturnType<typeof getDialogmeldingOppgaver>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetDialogmeldingOppgaver<
+    TData = Awaited<ReturnType<typeof getDialogmeldingOppgaver>>,
+    TError = ErrorType<unknown>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmeldingOppgaver>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetDialogmeldingOppgaver<
+    TData = Awaited<ReturnType<typeof getDialogmeldingOppgaver>>,
+    TError = ErrorType<unknown>,
+>(
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmeldingOppgaver>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetDialogmeldingOppgaverQueryOptions(options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}
 
 /**
  * Hent oversikt over alle dialoger

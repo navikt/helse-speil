@@ -1,7 +1,7 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
 import { SetStateAction } from 'react';
 
-import { ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogmeldingStatus, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
 import { atomWithLocalStorage } from '@state/jotai';
 
 import { Filter, FilterStatus } from './filter';
@@ -40,39 +40,33 @@ const dialogmeldingFilters: Filter[] = [
     },
     // Meldingstype (placeholder values)
     {
-        key: 'FORESPORSEL',
-        label: 'Forespørsel',
+        key: 'SPØRSMÅL_OM_TILLEGGSOPPLYSNINGER',
+        label: 'En eller annen type (venter på svar fra Liz)',
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.MELDINGSTYPE,
     },
+    // Status
     {
-        key: 'SVAR',
-        label: 'Svar',
-        status: FilterStatus.OFF,
-        column: DialogmeldingKolonne.MELDINGSTYPE,
-    },
-    {
-        key: 'NOTAT',
-        label: 'Notat',
-        status: FilterStatus.OFF,
-        column: DialogmeldingKolonne.MELDINGSTYPE,
-    },
-    // Status (placeholder values)
-    {
-        key: 'UBEHANDLET',
-        label: 'Ubehandlet',
+        key: ApiDialogmeldingStatus.SENDT,
+        label: 'Sendt',
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.STATUS,
     },
     {
-        key: 'UNDER_BEHANDLING',
-        label: 'Under behandling',
+        key: ApiDialogmeldingStatus.PURRING_SENDT,
+        label: 'Purring sendt',
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.STATUS,
     },
     {
-        key: 'FERDIG',
-        label: 'Ferdig',
+        key: ApiDialogmeldingStatus.MOTTATT,
+        label: 'Mottatt',
+        status: FilterStatus.OFF,
+        column: DialogmeldingKolonne.STATUS,
+    },
+    {
+        key: ApiDialogmeldingStatus.FERDIGSTILT,
+        label: 'Ferdigstilt',
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.STATUS,
     },

@@ -1,13 +1,13 @@
 import { NextRequest } from 'next/server';
 
 import { stubEllerVideresendTilSporhund } from '@app/api/sporhund/common';
-import type { DialogmeldingOppgave } from '@oversikt/table/dialogmelding/types';
+import { ApiDialogmeldingOppgave, ApiDialogmeldingStatus, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingMock } from '@spesialist-mock/storage/dialogmelding';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
-const fagomrader = ['TILBAKEDATERING', 'YRKESSKADE', 'BESTRIDELSE', 'ENKELTSTAENDE_BEHANDLINGSDAGER'] as const;
+const fagomrader = Object.values(ApiFagomrade);
 const meldingstyper = ['FORESPORSEL', 'SVAR', 'NOTAT'] as const;
-const statuser = ['UBEHANDLET', 'UNDER_BEHANDLING', 'FERDIG'] as const;
+const statuser = Object.values(ApiDialogmeldingStatus);
 
 const sokerNavn = ['Slapp Appelsin', 'Optimistisk Banan', 'Skeptisk Service', 'Punktlig Jakke', 'Minimalistisk Aroma'];
 
@@ -18,7 +18,7 @@ async function stub(_request: NextRequest): Promise<Response> {
     const dialoger = DialogmeldingMock.getAll();
     const personPseudoId = PersonMock.findPersonPseudoId(MOCK_AKTOR_ID) ?? 'unknown';
 
-    const oppgaver: DialogmeldingOppgave[] = dialoger.map((dialog, index) => ({
+    const oppgaver: ApiDialogmeldingOppgave[] = dialoger.map((dialog, index) => ({
         id: dialog.id,
         personPseudoId,
         dato: dialog.tid.split('T')[0]!,

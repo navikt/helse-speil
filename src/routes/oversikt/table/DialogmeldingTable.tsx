@@ -4,12 +4,12 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Chips, Pagination as NavPagination, SortState, Table, VStack } from '@navikt/ds-react';
 
+import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
+import { ApiDialogmeldingOppgave } from '@io/rest/generated/sporhund.schemas';
 import { FilterStatus } from '@oversikt/table/state/filter';
 import { cn } from '@utils/tw';
 
 import { LinkRow } from './LinkRow';
-import type { DialogmeldingOppgave } from './dialogmelding/types';
-import { usePlaceholderDialogmeldingOppgaver } from './dialogmelding/usePlaceholderDialogmeldingOppgaver';
 import {
     DialogmeldingKolonne,
     useDialogmeldingFilters,
@@ -22,7 +22,7 @@ import styles from './table.module.css';
 
 type DialogmeldingSortKey = 'dato' | 'frist' | 'fagomrade' | 'soker' | 'meldingstype' | 'status';
 
-function sortOppgaver(oppgaver: DialogmeldingOppgave[], sort: SortState): DialogmeldingOppgave[] {
+function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): ApiDialogmeldingOppgave[] {
     const key = sort.orderBy as DialogmeldingSortKey;
     const direction = sort.direction === 'ascending' ? 1 : -1;
 
@@ -34,12 +34,12 @@ function sortOppgaver(oppgaver: DialogmeldingOppgave[], sort: SortState): Dialog
 }
 
 function filterOppgaver(
-    oppgaver: DialogmeldingOppgave[],
+    oppgaver: ApiDialogmeldingOppgave[],
     activeFilters: { key: string; status: FilterStatus; column: string }[],
-): DialogmeldingOppgave[] {
+): ApiDialogmeldingOppgave[] {
     if (activeFilters.length === 0) return oppgaver;
 
-    const columnMapping: Record<string, keyof DialogmeldingOppgave> = {
+    const columnMapping: Record<string, keyof ApiDialogmeldingOppgave> = {
         [DialogmeldingKolonne.FAGOMRADE]: 'fagomrade',
         [DialogmeldingKolonne.MELDINGSTYPE]: 'meldingstype',
         [DialogmeldingKolonne.STATUS]: 'status',
@@ -72,8 +72,7 @@ export function DialogmeldingTable(): ReactElement {
     const setMultipleFilters = useSetMultipleDialogmeldingFilters();
     const [currentPage, setCurrentPage] = useDialogmeldingPageState();
 
-    // TODO: Replace with generated React Query hook when endpoint is available
-    const { data: oppgaver = [] } = usePlaceholderDialogmeldingOppgaver();
+    const { data: oppgaver = [] } = useGetDialogmeldingOppgaver();
 
     const filtered = filterOppgaver(oppgaver, activeFilters);
     const sorted = sortOppgaver(filtered, sort);
