@@ -29,6 +29,7 @@ const sorteringPerTab = atomWithLocalStorage<SorteringPerTab>('sorteringPerTab',
     [TabType.Ventende]: { orderBy: SortKey.Tidsfrist, direction: 'ascending' },
     [TabType.BehandletIdag]: defaultSortering,
     [TabType.Liste]: defaultSortering,
+    [TabType.Dialogmelding]: defaultSortering,
 });
 
 const defaultDatoSortKey: Record<TabType, SortKey> = {
@@ -37,6 +38,7 @@ const defaultDatoSortKey: Record<TabType, SortKey> = {
     [TabType.Ventende]: SortKey.Tidsfrist,
     [TabType.BehandletIdag]: SortKey.Opprettet,
     [TabType.Liste]: SortKey.Opprettet,
+    [TabType.Dialogmelding]: SortKey.Opprettet,
 };
 
 type DatoSortKeyPerTab = { [key in TabType]: SortKey };
@@ -47,6 +49,7 @@ const datoSortKeyPerTab = atomWithLocalStorage<DatoSortKeyPerTab>('dateSortKeyPe
     [TabType.Ventende]: SortKey.Tidsfrist,
     [TabType.BehandletIdag]: SortKey.Opprettet,
     [TabType.Liste]: SortKey.Opprettet,
+    [TabType.Dialogmelding]: SortKey.Opprettet,
 });
 
 const sortering = atom((get) => {

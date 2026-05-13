@@ -17,6 +17,7 @@ import { Bruker, BrukerContext } from '@auth/brukerContext';
 import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { initInstrumentation } from '@observability/faro';
+import { hydrateDialogmeldingFilters } from '@oversikt/table/state/dialogmeldingFilter';
 import { hydrateFilters } from '@oversikt/table/state/filter';
 import { useFetchPersonQuery } from '@state/person';
 import { hydrateToggleState } from '@state/toggles';
@@ -56,7 +57,7 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
 };
 
 function getAtomValues() {
-    return typeof window !== 'undefined' ? [hydrateToggleState(), hydrateFilters()] : [];
+    return typeof window !== 'undefined' ? [hydrateToggleState(), hydrateFilters(), hydrateDialogmeldingFilters()] : [];
 }
 
 function AtomsHydrator({

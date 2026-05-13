@@ -4,6 +4,7 @@ import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { useKanSeNyDialogmelding } from '@state/toggles';
 import { cn } from '@utils/tw';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
@@ -51,6 +52,8 @@ const VentendeSakerTab = ({ antall }: SakerTabProps): ReactElement => (
 const BehandletIdagTab = (): ReactElement => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet" />;
 
 const ListeTab = (): ReactElement => <OppgaveTab tag={TabType.Liste} label="Liste til NKS" />;
+
+const DialogmeldingTab = (): ReactElement => <OppgaveTab tag={TabType.Dialogmelding} label="Dialogmelding" />;
 
 const FilterButton = (): ReactElement => {
     const toggleFiltermeny = useToggleFiltermeny();
@@ -110,6 +113,8 @@ type TabProps = {
 };
 
 export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement => {
+    const kanSeDialogmelding = useKanSeNyDialogmelding();
+
     return (
         <div className={styles.tabs}>
             <FilterButton />
@@ -121,6 +126,7 @@ export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement
                     <BehandletIdagTab />
                 </VisHvisSkrivetilgang>
                 <ListeTab />
+                {kanSeDialogmelding && <DialogmeldingTab />}
             </span>
             <StatistikkButton />
         </div>

@@ -180,7 +180,7 @@ export const kategoriForEgenskap = (egenskap: ApiEgenskap): Kategori => {
     }
 };
 
-export const finnKategori = (kolonne: Oppgaveoversiktkolonne) => {
+export const finnKategori = (kolonne: string) => {
     switch (kolonne) {
         case Oppgaveoversiktkolonne.PERIODETYPE:
             return Kategori.Periodetype;

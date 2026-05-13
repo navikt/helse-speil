@@ -9,6 +9,7 @@ import { cn } from '@utils/tw';
 
 import { TabType, useAktivTab } from '../tabState';
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
+import { DialogmeldingFiltermeny } from './DialogmeldingFiltermeny';
 import { FilterList } from './FilterList';
 import { useSetFiltermenyWidth, useShowFiltermeny } from './state';
 
@@ -32,47 +33,53 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
             onChangeBredde={(width) => settBredde(width)}
         >
             <section className={cn(styles.filtermeny)}>
-                {aktivTab === TabType.TilGodkjenning && <SøkefeltSaksbehandlere />}
-                {aktivTab === TabType.TilGodkjenning && (
-                    <FilterList
-                        filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
-                        text="Tildelt"
-                    />
+                {aktivTab === TabType.Dialogmelding ? (
+                    <DialogmeldingFiltermeny />
+                ) : (
+                    <>
+                        {aktivTab === TabType.TilGodkjenning && <SøkefeltSaksbehandlere />}
+                        {aktivTab === TabType.TilGodkjenning && (
+                            <FilterList
+                                filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
+                                text="Tildelt"
+                            />
+                        )}
+                        {aktivTab === TabType.TilGodkjenning && (
+                            <FilterList
+                                filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
+                                text="På vent"
+                            />
+                        )}
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.STATUS)}
+                            text="Status"
+                        />
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PERIODETYPE)}
+                            text="Periodetype"
+                        />
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.OPPGAVETYPE)}
+                            text="Oppgavetype"
+                        />
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.MOTTAKER)}
+                            text="Mottaker"
+                        />
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.EGENSKAPER)}
+                            text="Egenskaper"
+                        />
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.INNTEKTSFORHOLD)}
+                            text="Inntektsforhold"
+                        />
+                        <FilterList
+                            filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD)}
+                            text="Antall inntektsforhold"
+                        />
+                    </>
                 )}
-                {aktivTab === TabType.TilGodkjenning && (
-                    <FilterList
-                        filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PÅVENT)}
-                        text="På vent"
-                    />
-                )}
-                <FilterList
-                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.STATUS)}
-                    text="Status"
-                />
-                <FilterList
-                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.PERIODETYPE)}
-                    text="Periodetype"
-                />
-                <FilterList
-                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.OPPGAVETYPE)}
-                    text="Oppgavetype"
-                />
-                <FilterList
-                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.MOTTAKER)}
-                    text="Mottaker"
-                />
-                <FilterList
-                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.EGENSKAPER)}
-                    text="Egenskaper"
-                />
-                <FilterList
-                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.INNTEKTSFORHOLD)}
-                    text="Inntektsforhold"
-                />
-                <FilterList
-                    filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD)}
-                    text="Antall inntektsforhold"
-                />
             </section>
         </JusterbarSidemeny>
     );

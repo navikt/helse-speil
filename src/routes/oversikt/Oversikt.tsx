@@ -13,6 +13,7 @@ import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
+import { DialogmeldingTable } from '@oversikt/table/DialogmeldingTable';
 import { ListeTable } from '@oversikt/table/ListeTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
 import { useSorteringValue } from '@oversikt/table/state/sortation';
@@ -39,6 +40,8 @@ const TabContent = dynamic(
                     return <BehandletIdagTable />;
                 case TabType.Liste:
                     return <ListeTable />;
+                case TabType.Dialogmelding:
+                    return <DialogmeldingTable />;
                 default:
                     return <OppgaverTable antallMineSaker={antallMineSaker} antallPåVent={antallPåVent} sort={sort} />;
             }
