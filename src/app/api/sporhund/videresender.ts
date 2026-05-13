@@ -1,6 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 
 import { getServerEnv } from '@/env';
+import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 
 const substringAfter = (url: string, searchString: string) =>
     url.substring(url.indexOf(searchString) + searchString.length);
@@ -28,17 +29,16 @@ const buildHeaders = async (request: Request): Promise<Response | Headers> => {
 
     headers.set('X-Request-Id', uuidv4());
 
-    // TODO kommenter inn igjen
-    // const wonderwallToken = hentWonderwallToken(request);
-    // if (!wonderwallToken) {
-    //     return new Response(null, { status: 401 });
-    // }
-    //
-    // const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPORHUND_SCOPE);
-    // if (!oboResult.ok) {
-    //     throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
-    // }
-    // headers.set('Authorization', `Bearer ${oboResult.token}`);
+    const wonderwallToken = hentWonderwallToken(request);
+    if (!wonderwallToken) {
+        return new Response(null, { status: 401 });
+    }
+
+    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPORHUND_SCOPE);
+    if (!oboResult.ok) {
+        throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
+    }
+    headers.set('Authorization', `Bearer ${oboResult.token}`);
     return headers;
 };
 
