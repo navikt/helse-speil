@@ -32,6 +32,6 @@ describe('Tabs', () => {
         expect(within(mineSaker).getByText('(2)')).toBeVisible();
 
         const påVent = screen.getByText('På vent');
-        expect(within(påVent).getByText('(1)')).toBeVisible();
+        expect(within(påVent).getByText('1')).toBeVisible();
     });
 });
