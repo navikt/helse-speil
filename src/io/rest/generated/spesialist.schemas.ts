@@ -225,6 +225,7 @@ export interface ApiHttpProblemDetailsApiGetOppgaverErrorCode {
 export interface ApiAntallOppgaver {
     antallMineSaker: number;
     antallMineSakerPåVent: number;
+    antallMineSakerPåVentNåddFrist: number;
 }
 
 export type ApiGetAntallOppgaverErrorCode =

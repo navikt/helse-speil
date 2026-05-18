@@ -1,4 +1,9 @@
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
+
 import { PaVent } from '../schemaTypes';
+
+dayjs.extend(isSameOrBefore);
 
 export class PaVentMock {
     private static lagtPåVent: Map<string, PaVent | null> = new Map();
@@ -7,6 +12,12 @@ export class PaVentMock {
         Array.from(PaVentMock.lagtPåVent.values())
             .filter((påVent) => påVent !== null)
             .filter((påVent) => påVent.oid === oid);
+
+    static getPåVentNåddFristFor = (oid: string): PaVent[] =>
+        Array.from(PaVentMock.lagtPåVent.values())
+            .filter((påVent) => påVent !== null)
+            .filter((påVent) => påVent.oid === oid)
+            .filter((påVent) => påVent.frist != null && dayjs(påVent.frist).isSameOrBefore(dayjs()));
 
     static getPåVent = (oppgaveId: string): PaVent | null | undefined => PaVentMock.lagtPåVent.get(oppgaveId);
 

@@ -45,9 +45,25 @@ const MineSakerTab = ({ antall }: SakerTabProps): ReactElement => (
     <OppgaveTab tag={TabType.Mine} label="Mine oppgaver" numberOfTasks={antall} />
 );
 
-const VentendeSakerTab = ({ antall }: SakerTabProps): ReactElement => (
-    <OppgaveTab tag={TabType.Ventende} label="På vent" numberOfTasks={antall} />
-);
+const VentendeSakerTab = ({ antall }: SakerTabProps): ReactElement => {
+    const [aktivTab, setAktivTab] = useTabState();
+
+    return (
+        <button
+            className={cn(styles.tab, aktivTab === TabType.Ventende && styles.active)}
+            role="tab"
+            aria-selected={aktivTab === TabType.Ventende}
+            onClick={() => setAktivTab(TabType.Ventende)}
+        >
+            På vent
+            {antall > 0 && (
+                <span className="ml-1 inline-flex h-6 w-6 items-center justify-center rounded-full bg-ax-bg-danger-moderate font-bold!">
+                    {antall}
+                </span>
+            )}
+        </button>
+    );
+};
 
 const BehandletIdagTab = (): ReactElement => <OppgaveTab tag={TabType.BehandletIdag} label="Behandlet" />;
 
@@ -109,10 +125,10 @@ const StatistikkButton = (): ReactElement => {
 
 type TabProps = {
     antallMineSaker: number;
-    antallPåVent: number;
+    antallPåVentNåddFrist: number;
 };
 
-export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement => {
+export const Tabs = ({ antallMineSaker, antallPåVentNåddFrist }: TabProps): ReactElement => {
     const kanSeDialogmelding = useKanSeNyDialogmelding();
 
     return (
@@ -122,7 +138,7 @@ export const Tabs = ({ antallMineSaker, antallPåVent }: TabProps): ReactElement
                 <AlleSakerTab />
                 <VisHvisSkrivetilgang>
                     <MineSakerTab antall={antallMineSaker} />
-                    <VentendeSakerTab antall={antallPåVent} />
+                    <VentendeSakerTab antall={antallPåVentNåddFrist} />
                     <BehandletIdagTab />
                 </VisHvisSkrivetilgang>
                 <ListeTab />

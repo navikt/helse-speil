@@ -60,7 +60,7 @@ const Tabs = dynamic(() => import('./Tabs').then((mod) => mod.Tabs), {
 });
 
 export const Oversikt = (): ReactElement => {
-    const { antallMineSaker, antallPåVent } = useAntallOppgaver();
+    const { antallMineSaker, antallPåVent, antallPåVentNåddFrist } = useAntallOppgaver();
     const aktivTab = useAktivTab();
     const { allFilters } = useFilters();
     const sort = useSorteringValue();
@@ -71,7 +71,7 @@ export const Oversikt = (): ReactElement => {
 
     return (
         <main className={styles.Oversikt}>
-            <Tabs antallMineSaker={antallMineSaker} antallPåVent={antallPåVent} />
+            <Tabs antallMineSaker={antallMineSaker} antallPåVentNåddFrist={antallPåVentNåddFrist} />
             <div className={styles.fullHeight}>
                 <Filtermeny filters={allFilters} />
                 <section className={styles.Content}>

@@ -123,6 +123,7 @@ export const useAntallOppgaver = () => {
     return {
         antallMineSaker: data?.antallMineSaker ?? 0,
         antallPåVent: data?.antallMineSakerPåVent ?? 0,
+        antallPåVentNåddFrist: data?.antallMineSakerPåVentNåddFrist ?? 0,
     };
 };
 

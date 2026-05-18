@@ -18,7 +18,7 @@ describe('Tabs', () => {
     });
 
     it('rendrer uten violations', async () => {
-        const { container } = render(<Tabs antallMineSaker={0} antallPåVent={0} />);
+        const { container } = render(<Tabs antallMineSaker={0} antallPåVentNåddFrist={0} />);
 
         const result = await axe(container);
 
@@ -26,7 +26,7 @@ describe('Tabs', () => {
     });
 
     it('rendrer antall oppgaver', async () => {
-        render(<Tabs antallMineSaker={2} antallPåVent={1} />);
+        render(<Tabs antallMineSaker={2} antallPåVentNåddFrist={1} />);
 
         const mineSaker = screen.getByText('Mine oppgaver');
         expect(within(mineSaker).getByText('(2)')).toBeVisible();
