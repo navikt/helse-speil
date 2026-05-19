@@ -130,10 +130,12 @@ type TabProps = {
 
 export const Tabs = ({ antallMineSaker, antallPåVentNåddFrist }: TabProps): ReactElement => {
     const kanSeDialogmelding = useKanSeNyDialogmelding();
+    const [aktivTab] = useTabState();
+    const visFilterButton = aktivTab !== TabType.BehandletIdag && aktivTab !== TabType.Liste;
 
     return (
         <div className={styles.tabs}>
-            <FilterButton />
+            {visFilterButton && <FilterButton />}
             <span role="tablist">
                 <AlleSakerTab />
                 <VisHvisSkrivetilgang>

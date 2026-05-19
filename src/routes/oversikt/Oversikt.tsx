@@ -73,7 +73,9 @@ export const Oversikt = (): ReactElement => {
         <main className={styles.Oversikt}>
             <Tabs antallMineSaker={antallMineSaker} antallPåVentNåddFrist={antallPåVentNåddFrist} />
             <div className={styles.fullHeight}>
-                <Filtermeny filters={allFilters} />
+                {aktivTab !== TabType.BehandletIdag && aktivTab !== TabType.Liste && (
+                    <Filtermeny filters={allFilters} />
+                )}
                 <section className={styles.Content}>
                     <TabContent
                         aktivTab={aktivTab}
