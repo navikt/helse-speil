@@ -5,6 +5,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
+import { fagomradeLabels, meldingstypeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { behandlerKategoriLabels, formatBehandlerNavn, formatLegekontorAdresse } from '@utils/behandlerUtils';
 
@@ -28,6 +29,7 @@ export function DialogmeldingContent(): ReactElement {
     }
 
     const { behandler, dialogmeldinger } = data;
+    const firstMelding = dialogmeldinger[0]!;
     const adresse = formatLegekontorAdresse(behandler.legekontor);
     const sortert = dialogmeldinger.sort((a, b) => b.tid.localeCompare(a.tid));
 
@@ -36,7 +38,7 @@ export function DialogmeldingContent(): ReactElement {
             <VStack gap="space-16">
                 <VStack gap="space-8">
                     <Heading level="2" size="medium">
-                        {data.tittel}
+                        {`${fagomradeLabels[firstMelding.fagomrade]} - ${meldingstypeLabels[firstMelding.meldingstype]}`}
                     </Heading>
                     <HStack gap="space-24" wrap>
                         <BodyShort size="small">

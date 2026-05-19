@@ -6,6 +6,7 @@ import React, { ReactElement } from 'react';
 import { ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
 import { Bleed, BodyShort, HStack, VStack } from '@navikt/ds-react';
 
+import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
 import { formatBehandlerNavn } from '@utils/behandlerUtils';
@@ -49,7 +50,9 @@ export function DialogmeldingListe(): ReactElement {
                             >
                                 <VStack>
                                     <HStack align="center" gap="space-4" marginBlock="space-0 space-2">
-                                        <BodyShort weight={erAktiv ? 'semibold' : 'regular'}>{dialog.tittel}</BodyShort>
+                                        <BodyShort weight={erAktiv ? 'semibold' : 'regular'}>
+                                            {fagomradeLabels[dialog.fagomrade]}
+                                        </BodyShort>
                                         {harVedlegg && <PaperclipIcon aria-label="Har vedlegg" fontSize="1rem" />}
                                     </HStack>
                                     <BodyShort size="small" className="text-ax-text-neutral-subtle">

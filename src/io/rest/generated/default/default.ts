@@ -239,16 +239,16 @@ export function useGetDialogmeldinger<
 /**
  * Hent en enkelt dialog med alle meldinger
  */
-export const getDialogmelding = (pseudoId: string, dialogId: string, signal?: AbortSignal) => {
+export const getDialogmelding = (pseudoId: string, conversationRef: string, signal?: AbortSignal) => {
     return callCustomAxios<ApiDialogDetails>({
-        url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger/${dialogId}`,
+        url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger/${conversationRef}`,
         method: 'GET',
         signal,
     });
 };
 
-export const getGetDialogmeldingQueryKey = (pseudoId?: string, dialogId?: string) => {
-    return [`/api/sporhund/personer/${pseudoId}/dialogmeldinger/${dialogId}`] as const;
+export const getGetDialogmeldingQueryKey = (pseudoId?: string, conversationRef?: string) => {
+    return [`/api/sporhund/personer/${pseudoId}/dialogmeldinger/${conversationRef}`] as const;
 };
 
 export const getGetDialogmeldingQueryOptions = <
@@ -256,20 +256,20 @@ export const getGetDialogmeldingQueryOptions = <
     TError = ErrorType<void>,
 >(
     pseudoId: string,
-    dialogId: string,
+    conversationRef: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> },
 ) => {
     const { query: queryOptions } = options ?? {};
 
-    const queryKey = queryOptions?.queryKey ?? getGetDialogmeldingQueryKey(pseudoId, dialogId);
+    const queryKey = queryOptions?.queryKey ?? getGetDialogmeldingQueryKey(pseudoId, conversationRef);
 
     const queryFn: QueryFunction<Awaited<ReturnType<typeof getDialogmelding>>> = ({ signal }) =>
-        getDialogmelding(pseudoId, dialogId, signal);
+        getDialogmelding(pseudoId, conversationRef, signal);
 
     return {
         queryKey,
         queryFn,
-        enabled: !!(pseudoId && dialogId),
+        enabled: !!(pseudoId && conversationRef),
         staleTime: Infinity,
         gcTime: 0,
         ...queryOptions,
@@ -283,7 +283,7 @@ export type GetDialogmeldingQueryError = ErrorType<void>;
 
 export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogmelding>>, TError = ErrorType<void>>(
     pseudoId: string,
-    dialogId: string,
+    conversationRef: string,
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> &
             Pick<
@@ -299,7 +299,7 @@ export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogm
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogmelding>>, TError = ErrorType<void>>(
     pseudoId: string,
-    dialogId: string,
+    conversationRef: string,
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> &
             Pick<
@@ -315,18 +315,18 @@ export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogm
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogmelding>>, TError = ErrorType<void>>(
     pseudoId: string,
-    dialogId: string,
+    conversationRef: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
 export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogmelding>>, TError = ErrorType<void>>(
     pseudoId: string,
-    dialogId: string,
+    conversationRef: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getDialogmelding>>, TError, TData>> },
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetDialogmeldingQueryOptions(pseudoId, dialogId, options);
+    const queryOptions = getGetDialogmeldingQueryOptions(pseudoId, conversationRef, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
@@ -411,12 +411,12 @@ export const usePostDialogmelding = <TError = ErrorType<unknown>, TContext = unk
  */
 export const postSvarPaDialog = (
     pseudoId: string,
-    dialogId: string,
+    conversationRef: string,
     apiSvarPaDialog?: ApiSvarPaDialog,
     signal?: AbortSignal,
 ) => {
     return callCustomAxios<ApiDialogDetails>({
-        url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger/${dialogId}/svar`,
+        url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger/${conversationRef}/svar`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         data: apiSvarPaDialog,
@@ -428,13 +428,13 @@ export const getPostSvarPaDialogMutationOptions = <TError = ErrorType<void>, TCo
     mutation?: UseMutationOptions<
         Awaited<ReturnType<typeof postSvarPaDialog>>,
         TError,
-        { pseudoId: string; dialogId: string; data: ApiSvarPaDialog },
+        { pseudoId: string; conversationRef: string; data: ApiSvarPaDialog },
         TContext
     >;
 }): UseMutationOptions<
     Awaited<ReturnType<typeof postSvarPaDialog>>,
     TError,
-    { pseudoId: string; dialogId: string; data: ApiSvarPaDialog },
+    { pseudoId: string; conversationRef: string; data: ApiSvarPaDialog },
     TContext
 > => {
     const mutationKey = ['postSvarPaDialog'];
@@ -446,11 +446,11 @@ export const getPostSvarPaDialogMutationOptions = <TError = ErrorType<void>, TCo
 
     const mutationFn: MutationFunction<
         Awaited<ReturnType<typeof postSvarPaDialog>>,
-        { pseudoId: string; dialogId: string; data: ApiSvarPaDialog }
+        { pseudoId: string; conversationRef: string; data: ApiSvarPaDialog }
     > = (props) => {
-        const { pseudoId, dialogId, data } = props ?? {};
+        const { pseudoId, conversationRef, data } = props ?? {};
 
-        return postSvarPaDialog(pseudoId, dialogId, data);
+        return postSvarPaDialog(pseudoId, conversationRef, data);
     };
 
     return { mutationFn, ...mutationOptions };
@@ -465,7 +465,7 @@ export const usePostSvarPaDialog = <TError = ErrorType<void>, TContext = unknown
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postSvarPaDialog>>,
             TError,
-            { pseudoId: string; dialogId: string; data: ApiSvarPaDialog },
+            { pseudoId: string; conversationRef: string; data: ApiSvarPaDialog },
             TContext
         >;
     },
@@ -473,7 +473,7 @@ export const usePostSvarPaDialog = <TError = ErrorType<void>, TContext = unknown
 ): UseMutationResult<
     Awaited<ReturnType<typeof postSvarPaDialog>>,
     TError,
-    { pseudoId: string; dialogId: string; data: ApiSvarPaDialog },
+    { pseudoId: string; conversationRef: string; data: ApiSvarPaDialog },
     TContext
 > => {
     const mutationOptions = getPostSvarPaDialogMutationOptions(options);

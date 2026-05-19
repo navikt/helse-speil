@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
 
-import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import {
     ApiBehandler,
     ApiBehandlerKategori,
     ApiDialogDetails,
     ApiDialogOppsummering,
     ApiDialogmelding,
+    ApiDialogmeldingType,
+    ApiFagomrade,
     ApiNyDialogmelding,
     ApiSvarPaDialog,
 } from '@io/rest/generated/sporhund.schemas';
@@ -15,7 +16,6 @@ import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 interface InternalDialog {
     id: string;
     behandler: ApiBehandler;
-    tittel: string;
     tid: string;
     dialogmeldinger: ApiDialogmelding[];
 }
@@ -57,11 +57,11 @@ const initialDialoger: InternalDialog[] = [
     {
         id: 'dialogId-1',
         behandler: mockBehandler1,
-        tittel: 'Forespørsel om dokumentasjon',
         tid: '2026-04-24T14:36:00',
         dialogmeldinger: [
             {
-                tittel: 'Forespørsel om dokumentasjon',
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                meldingstype: ApiDialogmeldingType.TILLEGGSOPPLYSNINGER,
                 melding:
                     'Takk for tilsendt dokumentasjon. Vi trenger noen tilleggsopplysninger om pasientens funksjonsnivå og eventuelle tilretteleggingsmuligheter på arbeidsplassen. Kan dere gi en nærmere vurdering av dette?',
                 tid: '2026-04-24T14:36:00',
@@ -69,7 +69,8 @@ const initialDialoger: InternalDialog[] = [
                 vedlegg: [],
             },
             {
-                tittel: 'Svar på forespørsel',
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                meldingstype: ApiDialogmeldingType.TILLEGGSOPPLYSNINGER,
                 melding:
                     'Hei, vedlagt finner dere den forespurte dokumentasjonen. Jeg har lagt ved relevant journaldokumentasjon og vurdering av pasientens tilstand. Ta gjerne kontakt dersom dere trenger ytterligere opplysninger.',
                 tid: '2026-04-22T07:21:00',
@@ -81,7 +82,8 @@ const initialDialoger: InternalDialog[] = [
                 ],
             },
             {
-                tittel: 'Ytterligere dokumentasjon',
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                meldingstype: ApiDialogmeldingType.TILLEGGSOPPLYSNINGER,
                 melding:
                     'Hei, vi behandler saken til Mia Cathrine Svendsen og trenger ytterligere dokumentasjon for å kunne fatte et vedtak. Kan dere sende over relevant dokumentasjon som belyser pasientens tilstand og arbeidsevne?',
                 tid: '2026-04-20T09:15:00',
@@ -93,11 +95,11 @@ const initialDialoger: InternalDialog[] = [
     {
         id: 'dialogId-2',
         behandler: mockBehandler1,
-        tittel: 'Oppfølging etter sykmelding',
         tid: '2026-04-20T08:30:00',
         dialogmeldinger: [
             {
-                tittel: 'Oppfølging etter sykmelding',
+                fagomrade: ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER,
+                meldingstype: ApiDialogmeldingType.GJELDER_PASIENT,
                 melding: 'Vi ønsker en oppdatering på pasientens tilstand og forventet varighet på sykmeldingen.',
                 tid: '2026-04-20T08:30:00',
                 fraNav: true,
@@ -108,18 +110,19 @@ const initialDialoger: InternalDialog[] = [
     {
         id: 'dialogId-3',
         behandler: mockBehandler2,
-        tittel: 'Forespørsel om dokumentasjon',
         tid: '2026-04-24T14:36:00',
         dialogmeldinger: [
             {
-                tittel: 'Forespørsel om dokumentasjon',
+                fagomrade: ApiFagomrade.BESTRIDELSE,
+                meldingstype: ApiDialogmeldingType.TILLEGGSOPPLYSNINGER,
                 melding: 'Vi ber om dokumentasjon knyttet til pasientens diagnose og behandlingsplan.',
                 tid: '2026-04-24T14:36:00',
                 fraNav: true,
                 vedlegg: [],
             },
             {
-                tittel: 'Svar med vedlegg',
+                fagomrade: ApiFagomrade.BESTRIDELSE,
+                meldingstype: ApiDialogmeldingType.TILLEGGSOPPLYSNINGER,
                 melding: 'Vedlagt sender jeg etterspurt dokumentasjon.',
                 tid: '2026-04-23T10:49:00',
                 fraNav: false,
@@ -130,18 +133,19 @@ const initialDialoger: InternalDialog[] = [
     {
         id: 'dialogId-4',
         behandler: mockBehandler3,
-        tittel: 'Sykmeldingsopplysninger',
         tid: '2026-04-10T09:00:00',
         dialogmeldinger: [
             {
-                tittel: 'Sykmeldingsopplysninger',
+                fagomrade: ApiFagomrade.YRKESSKADE,
+                meldingstype: ApiDialogmeldingType.SPESIALISTERKLAERING,
                 melding: 'Vi ønsker mer informasjon om diagnosen og prognosen for tilbakekomst til arbeid.',
                 tid: '2026-04-10T09:00:00',
                 fraNav: true,
                 vedlegg: [],
             },
             {
-                tittel: 'Svar',
+                fagomrade: ApiFagomrade.YRKESSKADE,
+                meldingstype: ApiDialogmeldingType.SPESIALISTERKLAERING,
                 melding:
                     'Pasienten er sykmeldt grunnet rygglidelse. Prognosen er god, forventet tilbakekomst om 6–8 uker.',
                 tid: '2026-04-08T13:15:00',
@@ -153,11 +157,11 @@ const initialDialoger: InternalDialog[] = [
     {
         id: 'dialogId-5',
         behandler: mockBehandler3,
-        tittel: 'Vurdering av arbeidsevne',
         tid: '2026-04-05T11:00:00',
         dialogmeldinger: [
             {
-                tittel: 'Vurdering av arbeidsevne',
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                meldingstype: ApiDialogmeldingType.GJELDER_PASIENT,
                 melding:
                     'Kan dere gi en vurdering av pasientens nåværende arbeidsevne og muligheter for gradert sykmelding?',
                 tid: '2026-04-05T11:00:00',
@@ -165,7 +169,8 @@ const initialDialoger: InternalDialog[] = [
                 vedlegg: [],
             },
             {
-                tittel: 'Svar på vurdering',
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                meldingstype: ApiDialogmeldingType.GJELDER_PASIENT,
                 melding:
                     'Pasienten kan på det nåværende tidspunkt ikke benytte seg av gradert sykmelding, men vi vil revurdere dette om 2 uker.',
                 tid: '2026-04-04T10:00:00',
@@ -177,11 +182,11 @@ const initialDialoger: InternalDialog[] = [
     {
         id: 'dialogId-6',
         behandler: mockBehandler3,
-        tittel: 'Bekreftelse på behandlingsplan',
         tid: '2026-03-28T14:00:00',
         dialogmeldinger: [
             {
-                tittel: 'Bekreftelse på behandlingsplan',
+                fagomrade: ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER,
+                meldingstype: ApiDialogmeldingType.SPESIALISTERKLAERING,
                 melding: 'Vi ber om bekreftelse på at behandlingsplanen er iverksatt.',
                 tid: '2026-03-28T14:00:00',
                 fraNav: true,
@@ -195,14 +200,18 @@ export class DialogmeldingMock {
     private static dialoger: InternalDialog[] = structuredClone(initialDialoger);
 
     static getAll = (): ApiDialogOppsummering[] => {
-        return DialogmeldingMock.dialoger.map((dialog) => ({
-            id: dialog.id,
-            behandler: dialog.behandler,
-            tittel: dialog.tittel,
-            tid: dialog.tid,
-            antallMeldinger: dialog.dialogmeldinger.length,
-            antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
-        }));
+        return DialogmeldingMock.dialoger.map((dialog) => {
+            const first = dialog.dialogmeldinger[0]!;
+            return {
+                id: dialog.id,
+                behandler: dialog.behandler,
+                fagomrade: first.fagomrade,
+                meldingstype: first.meldingstype,
+                tid: dialog.tid,
+                antallMeldinger: dialog.dialogmeldinger.length,
+                antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
+            };
+        });
     };
 
     static getById = (dialogId: string): ApiDialogDetails | null => {
@@ -211,7 +220,6 @@ export class DialogmeldingMock {
         return {
             id: dialog.id,
             behandler: dialog.behandler,
-            tittel: dialog.tittel,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,
         };
@@ -219,17 +227,16 @@ export class DialogmeldingMock {
 
     static addDialogmelding = (data: ApiNyDialogmelding): ApiDialogDetails => {
         const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
-        const tittel = fagomradeLabels[data.fagomrade];
         const id = crypto.randomUUID();
 
         const dialog: InternalDialog = {
             id,
             behandler: data.behandler,
-            tittel,
             tid,
             dialogmeldinger: [
                 {
-                    tittel,
+                    fagomrade: data.fagomrade,
+                    meldingstype: data.meldingstype,
                     melding: data.melding,
                     tid,
                     fraNav: true,
@@ -243,7 +250,6 @@ export class DialogmeldingMock {
         return {
             id: dialog.id,
             behandler: dialog.behandler,
-            tittel: dialog.tittel,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,
         };
@@ -254,8 +260,10 @@ export class DialogmeldingMock {
         if (!dialog) return null;
 
         const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
+        const first = dialog.dialogmeldinger[0]!;
         dialog.dialogmeldinger.unshift({
-            tittel: 'Svar fra Nav',
+            fagomrade: first.fagomrade,
+            meldingstype: first.meldingstype,
             melding: data.melding,
             tid,
             fraNav: true,
@@ -266,7 +274,6 @@ export class DialogmeldingMock {
         return {
             id: dialog.id,
             behandler: dialog.behandler,
-            tittel: dialog.tittel,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,
         };

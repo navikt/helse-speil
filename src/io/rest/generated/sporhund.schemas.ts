@@ -9,7 +9,7 @@ export interface ApiDialogmeldingOppgave {
     fagomrade: ApiFagomrade;
     frist: string;
     id: string;
-    meldingstype: string;
+    meldingstype: ApiDialogmeldingType;
     personPseudoId: string;
     soker: string;
     status: ApiDialogmeldingStatus;
@@ -23,6 +23,15 @@ export const ApiFagomrade = {
     TILBAKEDATERING: 'TILBAKEDATERING',
     YRKESSKADE: 'YRKESSKADE',
     BESTRIDELSE: 'BESTRIDELSE',
+} as const;
+
+export type ApiDialogmeldingType = (typeof ApiDialogmeldingType)[keyof typeof ApiDialogmeldingType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiDialogmeldingType = {
+    TILLEGGSOPPLYSNINGER: 'TILLEGGSOPPLYSNINGER',
+    SPESIALISTERKLAERING: 'SPESIALISTERKLAERING',
+    GJELDER_PASIENT: 'GJELDER_PASIENT',
 } as const;
 
 export type ApiDialogmeldingStatus = (typeof ApiDialogmeldingStatus)[keyof typeof ApiDialogmeldingStatus];
@@ -39,9 +48,10 @@ export interface ApiDialogOppsummering {
     antallMeldinger: number;
     antallVedlegg: number;
     behandler: ApiBehandler;
+    fagomrade: ApiFagomrade;
     id: string;
+    meldingstype: ApiDialogmeldingType;
     tid: string;
-    tittel: string;
 }
 
 export type ApiBehandlerTelefonnummer = null | string;
@@ -105,10 +115,11 @@ export const ApiBehandlerType = {
 } as const;
 
 export interface ApiDialogmelding {
+    fagomrade: ApiFagomrade;
     fraNav: boolean;
     melding: string;
+    meldingstype: ApiDialogmeldingType;
     tid: string;
-    tittel: string;
     vedlegg: ApiVedlegg[];
 }
 
@@ -122,13 +133,13 @@ export interface ApiDialogDetails {
     dialogmeldinger: ApiDialogmelding[];
     id: string;
     tid: string;
-    tittel: string;
 }
 
 export interface ApiNyDialogmelding {
     behandler: ApiBehandler;
     fagomrade: ApiFagomrade;
     melding: string;
+    meldingstype: ApiDialogmeldingType;
 }
 
 export interface ApiSvarPaDialog {

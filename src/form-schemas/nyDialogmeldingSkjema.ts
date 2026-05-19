@@ -4,10 +4,12 @@ import {
     ApiBehandlerKategori,
     ApiBehandlerType,
     ApiDialogmeldingStatus,
+    ApiDialogmeldingType,
     ApiFagomrade,
 } from '@io/rest/generated/sporhund.schemas';
 
 const fagomradeValues = Object.values(ApiFagomrade) as [ApiFagomrade, ...ApiFagomrade[]];
+const meldingstypeValues = Object.values(ApiDialogmeldingType) as [ApiDialogmeldingType, ...ApiDialogmeldingType[]];
 const kategoriValues = Object.values(ApiBehandlerKategori) as [ApiBehandlerKategori, ...ApiBehandlerKategori[]];
 const typeValues = Object.values(ApiBehandlerType) as [ApiBehandlerType, ...ApiBehandlerType[]];
 
@@ -34,6 +36,7 @@ export type NyDialogmeldingSchema = z.infer<typeof nyDialogmeldingSchema>;
 export const nyDialogmeldingSchema = z.object({
     behandler: behandlerSchema.refine((val) => val.id.length > 0, { error: 'Velg en behandler' }),
     fagomrade: z.enum(fagomradeValues, { error: 'Velg type' }),
+    meldingstype: z.enum(meldingstypeValues, { error: 'Velg type' }),
     melding: z.string().min(1, { error: 'Fyll inn melding' }),
 });
 
@@ -49,4 +52,10 @@ export const statusLabels: Record<ApiDialogmeldingStatus, string> = {
     [ApiDialogmeldingStatus.PURRING_SENDT]: 'Purring sendt',
     [ApiDialogmeldingStatus.MOTTATT]: 'Mottatt',
     [ApiDialogmeldingStatus.FERDIGSTILT]: 'Ferdigstilt',
+};
+
+export const meldingstypeLabels: Record<ApiDialogmeldingType, string> = {
+    [ApiDialogmeldingType.TILLEGGSOPPLYSNINGER]: 'Spørsmål om tilleggsopplysninger',
+    [ApiDialogmeldingType.SPESIALISTERKLAERING]: 'Forespørsel om spesialisterklæring',
+    [ApiDialogmeldingType.GJELDER_PASIENT]: 'Gjelder pasient',
 };

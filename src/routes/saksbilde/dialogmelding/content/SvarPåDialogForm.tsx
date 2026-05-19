@@ -29,7 +29,7 @@ export function SvarPåDialogForm(): ReactElement {
     });
 
     function onSubmit({ melding }: SvarPåDialogSchema) {
-        mutate({ pseudoId: personPseudoId, dialogId, data: { melding } });
+        mutate({ pseudoId: personPseudoId, conversationRef: dialogId, data: { melding } });
     }
 
     return (

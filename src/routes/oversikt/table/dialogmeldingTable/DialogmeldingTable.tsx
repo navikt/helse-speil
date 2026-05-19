@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, VStack } from '@navikt/ds-react';
 
-import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
+import { fagomradeLabels, meldingstypeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingOppgave } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingFilterChips } from '@oversikt/table/dialogmeldingTable/DialogmeldingFilterChips';
@@ -96,7 +96,7 @@ export function DialogmeldingTable(): ReactElement {
                                         <Table.DataCell>{getFormattedDatetimeString(oppgave.frist)}</Table.DataCell>
                                         <Table.DataCell>{fagomradeLabels[oppgave.fagomrade]}</Table.DataCell>
                                         <Table.DataCell>{oppgave.soker}</Table.DataCell>
-                                        <Table.DataCell>{oppgave.meldingstype}</Table.DataCell>
+                                        <Table.DataCell>{meldingstypeLabels[oppgave.meldingstype]}</Table.DataCell>
                                         <Table.DataCell>{statusLabels[oppgave.status]}</Table.DataCell>
                                     </LinkRow>
                                 ))

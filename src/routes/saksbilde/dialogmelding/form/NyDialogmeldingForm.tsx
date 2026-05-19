@@ -5,11 +5,17 @@ import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, HStack, Heading, Select, Textarea, VStack } from '@navikt/ds-react';
+import { Button, HStack, Heading, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
+import {
+    NyDialogmeldingSchema,
+    fagomradeLabels,
+    meldingstypeLabels,
+    nyDialogmeldingSchema,
+} from '@/form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostDialogmelding } from '@io/rest/generated/default/default';
+import { ApiDialogmeldingType, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { BehandlerSearch } from './BehandlerSearch';
@@ -29,7 +35,8 @@ export function NyDialogmeldingForm(): ReactElement {
         resolver: zodResolver(nyDialogmeldingSchema),
         defaultValues: {
             behandler: undefined,
-            fagomrade: undefined,
+            fagomrade: Object.values(ApiFagomrade)[0],
+            meldingstype: Object.values(ApiDialogmeldingType)[0],
             melding: '',
         },
     });
@@ -70,14 +77,36 @@ export function NyDialogmeldingForm(): ReactElement {
                         control={form.control}
                         name="fagomrade"
                         render={({ field, fieldState }) => (
-                            <Select {...field} label="Fagområde" error={fieldState.error?.message}>
-                                <option value="">Velg fagområde</option>
+                            <RadioGroup
+                                legend="Fagområde"
+                                value={field.value}
+                                onChange={field.onChange}
+                                error={fieldState.error?.message}
+                            >
                                 {Object.entries(fagomradeLabels).map(([value, label]) => (
-                                    <option key={value} value={value}>
+                                    <Radio key={value} value={value}>
                                         {label}
-                                    </option>
+                                    </Radio>
                                 ))}
-                            </Select>
+                            </RadioGroup>
+                        )}
+                    />
+                    <Controller
+                        control={form.control}
+                        name="meldingstype"
+                        render={({ field, fieldState }) => (
+                            <RadioGroup
+                                legend="Meldingstype"
+                                value={field.value}
+                                onChange={field.onChange}
+                                error={fieldState.error?.message}
+                            >
+                                {Object.entries(meldingstypeLabels).map(([value, label]) => (
+                                    <Radio key={value} value={value}>
+                                        {label}
+                                    </Radio>
+                                ))}
+                            </RadioGroup>
                         )}
                     />
                     <Controller
