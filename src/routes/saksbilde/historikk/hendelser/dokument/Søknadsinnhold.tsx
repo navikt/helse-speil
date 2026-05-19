@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { useGetSoknad } from '@io/rest/generated/dokumenter/dokumenter';
+import { ApiSoknad } from '@io/rest/generated/spesialist.schemas';
 import { NORSK_DATOFORMAT, NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -17,6 +18,15 @@ type SøknadsinnholdProps = {
     dokumentId: string;
     personPseudoId: string;
 };
+
+function mapMeldingTilNavDager(data: ApiSoknad) {
+    return data.selvstendigNaringsdrivende?.meldingTilNavDager
+        ?.map((it) => ({
+            fom: somNorskDato(it.fom),
+            tom: somNorskDato(it.tom),
+        }))
+        .sort((a, b) => (dayjs(a.fom, NORSK_DATOFORMAT).isAfter(dayjs(b.fom, NORSK_DATOFORMAT)) ? 1 : -1));
+}
 
 export const Søknadsinnhold = ({ dokumentId, personPseudoId }: SøknadsinnholdProps): ReactElement => {
     const { data, isLoading, error } = useGetSoknad(personPseudoId, dokumentId);
@@ -98,6 +108,15 @@ export const Søknadsinnhold = ({ dokumentId, personPseudoId }: SøknadsinnholdP
                                     </VStack>
                                 ))}
                             </VStack>
+                            {data.selvstendigNaringsdrivende.meldingTilNavDager != null &&
+                                data.selvstendigNaringsdrivende.meldingTilNavDager.length > 0 && (
+                                    <VStack as="ul" marginBlock="space-8">
+                                        <BodyShort weight="semibold">Melding til Nav-dager</BodyShort>
+                                        <BodyShort>
+                                            {mapMeldingTilNavDager(data)?.map((it) => `${it.fom} - ${it.tom}`)}
+                                        </BodyShort>
+                                    </VStack>
+                                )}
                         </>
                     )}
                     {data.sporsmal && <Spørsmål spørsmål={data.sporsmal} />}

@@ -610,8 +610,11 @@ export const ApiVisningskriterium = {
     UKJENT: 'UKJENT',
 } as const;
 
+export type ApiSoknadSelvstendigNaringsdrivendeMeldingTilNavDager = null | ApiDatoPeriode[];
+
 export interface ApiSoknadSelvstendigNaringsdrivende {
     inntekt: ApiSoknadSelvstendigNaringsdrivendeApiInntektsar[];
+    meldingTilNavDager?: ApiSoknadSelvstendigNaringsdrivendeMeldingTilNavDager;
 }
 
 export interface ApiSoknadSelvstendigNaringsdrivendeApiInntektsar {
@@ -621,6 +624,11 @@ export interface ApiSoknadSelvstendigNaringsdrivendeApiInntektsar {
     pensjonsgivendeInntektAvNaringsinntekt: number;
     pensjonsgivendeInntektAvNaringsinntektFraFiskeFangstEllerFamiliebarnehage: number;
     erFerdigLignet: boolean;
+}
+
+export interface ApiDatoPeriode {
+    fom: string;
+    tom: string;
 }
 
 export type ApiSoknadType = null | ApiSoknadstype;
@@ -858,11 +866,6 @@ export interface ApiTilkommenInntekt {
     fjernet: boolean;
     erDelAvAktivTotrinnsvurdering: boolean;
     events: ApiTilkommenInntektEvent[];
-}
-
-export interface ApiDatoPeriode {
-    fom: string;
-    tom: string;
 }
 
 export type ApiTilkommenInntektEvent =

@@ -46,6 +46,12 @@ const mockedSøknad: ApiSoknad = {
                 erFerdigLignet: true,
             },
         ],
+        meldingTilNavDager: [
+            {
+                fom: '2025-01-01',
+                tom: '2025-01-11',
+            },
+        ],
     },
     sporsmal: [
         {
