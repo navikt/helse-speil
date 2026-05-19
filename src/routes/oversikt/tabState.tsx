@@ -9,6 +9,7 @@ export enum TabType {
     BehandletIdag = 'behandletIdag',
     Liste = 'liste',
     Dialogmelding = 'dialogmelding',
+    Oppgavelister = 'oppgavelister',
 }
 
 export const tabState = atomWithSessionStorage<TabType>('tabState', TabType.TilGodkjenning);

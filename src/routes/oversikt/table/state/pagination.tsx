@@ -19,6 +19,7 @@ const currentPagePerTab = atomWithSessionStorage<CurrentPagePerTab>('currentPage
     [TabType.BehandletIdag]: defaultPageState,
     [TabType.Liste]: defaultPageState,
     [TabType.Dialogmelding]: defaultPageState,
+    [TabType.Oppgavelister]: defaultPageState,
 });
 
 const pagination = atom(

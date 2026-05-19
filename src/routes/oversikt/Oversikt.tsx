@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { SortState } from '@navikt/ds-react';
 
@@ -14,6 +14,7 @@ import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/Behan
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
 import { ListeTable } from '@oversikt/table/ListeTable';
+import { OppgavelisterTable } from '@oversikt/table/OppgavelisterTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
 import { useSorteringValue } from '@oversikt/table/state/sortation';
 import { useAntallOppgaver } from '@state/oppgaver';
@@ -42,6 +43,8 @@ const TabContent = dynamic(
                     return <ListeTable />;
                 case TabType.Dialogmelding:
                     return <DialogmeldingTable />;
+                case TabType.Oppgavelister:
+                    return <OppgavelisterTable />;
                 default:
                     return <OppgaverTable antallMineSaker={antallMineSaker} antallPåVent={antallPåVent} sort={sort} />;
             }
@@ -73,9 +76,9 @@ export const Oversikt = (): ReactElement => {
         <main className={styles.Oversikt}>
             <Tabs antallMineSaker={antallMineSaker} antallPåVentNåddFrist={antallPåVentNåddFrist} />
             <div className={styles.fullHeight}>
-                {aktivTab !== TabType.BehandletIdag && aktivTab !== TabType.Liste && (
-                    <Filtermeny filters={allFilters} />
-                )}
+                {aktivTab !== TabType.BehandletIdag &&
+                    aktivTab !== TabType.Liste &&
+                    aktivTab !== TabType.Oppgavelister && <Filtermeny filters={allFilters} />}
                 <section className={styles.Content}>
                     <TabContent
                         aktivTab={aktivTab}

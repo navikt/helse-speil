@@ -4,6 +4,7 @@ import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { useKanSeNyDialogmelding } from '@state/toggles';
 import { cn } from '@utils/tw';
 
@@ -69,6 +70,8 @@ const BehandletIdagTab = (): ReactElement => <OppgaveTab tag={TabType.BehandletI
 
 const ListeTab = (): ReactElement => <OppgaveTab tag={TabType.Liste} label="Liste til NKS" />;
 
+const OppgavelisterTab = (): ReactElement => <OppgaveTab tag={TabType.Oppgavelister} label="Oppgavelister" />;
+
 const DialogmeldingTab = (): ReactElement => <OppgaveTab tag={TabType.Dialogmelding} label="Dialogmelding" />;
 
 const FilterButton = (): ReactElement => {
@@ -131,7 +134,9 @@ type TabProps = {
 export const Tabs = ({ antallMineSaker, antallPåVentNåddFrist }: TabProps): ReactElement => {
     const kanSeDialogmelding = useKanSeNyDialogmelding();
     const [aktivTab] = useTabState();
-    const visFilterButton = aktivTab !== TabType.BehandletIdag && aktivTab !== TabType.Liste;
+    const visFilterButton =
+        aktivTab !== TabType.BehandletIdag && aktivTab !== TabType.Liste && aktivTab !== TabType.Oppgavelister;
+    const erUtvikler = useHarUtviklerRolle();
 
     return (
         <div className={styles.tabs}>
@@ -145,6 +150,7 @@ export const Tabs = ({ antallMineSaker, antallPåVentNåddFrist }: TabProps): Re
                 </VisHvisSkrivetilgang>
                 <ListeTab />
                 {kanSeDialogmelding && <DialogmeldingTab />}
+                {erUtvikler && <OppgavelisterTab />}
             </span>
             <StatistikkButton />
         </div>

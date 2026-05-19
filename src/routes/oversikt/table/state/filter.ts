@@ -227,6 +227,7 @@ const filtersPerTab = atomWithLocalStorage<FiltersPerTab>('filtersPerTab', {
     [TabType.BehandletIdag]: filters,
     [TabType.Liste]: filters,
     [TabType.Dialogmelding]: [],
+    [TabType.Oppgavelister]: [],
 });
 
 export function hydrateFilters(): [WritableAtom<FiltersPerTab, [SetStateAction<FiltersPerTab>], void>, FiltersPerTab] {
@@ -259,6 +260,7 @@ export function hydrateFilters(): [WritableAtom<FiltersPerTab, [SetStateAction<F
             [TabType.BehandletIdag]: [],
             [TabType.Liste]: [],
             [TabType.Dialogmelding]: [],
+            [TabType.Oppgavelister]: [],
         },
     ];
 }
