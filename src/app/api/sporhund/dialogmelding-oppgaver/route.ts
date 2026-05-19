@@ -24,7 +24,7 @@ async function stub(_request: NextRequest): Promise<Response> {
     const personPseudoId = PersonMock.findPersonPseudoId(MOCK_AKTOR_ID) ?? 'unknown';
 
     const oppgaver: ApiDialogmeldingOppgave[] = dialoger.map((dialog, index) => ({
-        id: dialog.id,
+        conversationRef: dialog.conversationRef,
         personPseudoId,
         dato: dialog.tid,
         frist: getFrist(dialog.tid),

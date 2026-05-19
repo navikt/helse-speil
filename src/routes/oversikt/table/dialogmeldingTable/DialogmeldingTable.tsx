@@ -88,9 +88,9 @@ export function DialogmeldingTable(): ReactElement {
                             {paginated.length > 0 ? (
                                 paginated.map((oppgave) => (
                                     <LinkRow
-                                        key={oppgave.id}
+                                        key={oppgave.conversationRef}
                                         personPseudoId={oppgave.personPseudoId}
-                                        subPath={`dialogmelding/${oppgave.id}`}
+                                        subPath={`dialogmelding/${oppgave.conversationRef}`}
                                     >
                                         <Table.DataCell>{getFormattedDatetimeString(oppgave.dato)}</Table.DataCell>
                                         <Table.DataCell>{getFormattedDatetimeString(oppgave.frist)}</Table.DataCell>

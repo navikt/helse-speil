@@ -14,7 +14,7 @@ import {
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 interface InternalDialog {
-    id: string;
+    conversationRef: string;
     behandler: ApiBehandler;
     tid: string;
     dialogmeldinger: ApiDialogmelding[];
@@ -55,7 +55,7 @@ const mockBehandler3: ApiBehandler = {
 
 const initialDialoger: InternalDialog[] = [
     {
-        id: 'dialogId-1',
+        conversationRef: '550e8400-e29b-41d4-a716-446655440001',
         behandler: mockBehandler1,
         tid: '2026-04-24T14:36:00',
         dialogmeldinger: [
@@ -93,7 +93,7 @@ const initialDialoger: InternalDialog[] = [
         ],
     },
     {
-        id: 'dialogId-2',
+        conversationRef: '550e8400-e29b-41d4-a716-446655440002',
         behandler: mockBehandler1,
         tid: '2026-04-20T08:30:00',
         dialogmeldinger: [
@@ -108,7 +108,7 @@ const initialDialoger: InternalDialog[] = [
         ],
     },
     {
-        id: 'dialogId-3',
+        conversationRef: '550e8400-e29b-41d4-a716-446655440003',
         behandler: mockBehandler2,
         tid: '2026-04-24T14:36:00',
         dialogmeldinger: [
@@ -131,7 +131,7 @@ const initialDialoger: InternalDialog[] = [
         ],
     },
     {
-        id: 'dialogId-4',
+        conversationRef: '550e8400-e29b-41d4-a716-446655440004',
         behandler: mockBehandler3,
         tid: '2026-04-10T09:00:00',
         dialogmeldinger: [
@@ -155,7 +155,7 @@ const initialDialoger: InternalDialog[] = [
         ],
     },
     {
-        id: 'dialogId-5',
+        conversationRef: '550e8400-e29b-41d4-a716-446655440005',
         behandler: mockBehandler3,
         tid: '2026-04-05T11:00:00',
         dialogmeldinger: [
@@ -180,7 +180,7 @@ const initialDialoger: InternalDialog[] = [
         ],
     },
     {
-        id: 'dialogId-6',
+        conversationRef: '550e8400-e29b-41d4-a716-446655440006',
         behandler: mockBehandler3,
         tid: '2026-03-28T14:00:00',
         dialogmeldinger: [
@@ -203,7 +203,7 @@ export class DialogmeldingMock {
         return DialogmeldingMock.dialoger.map((dialog) => {
             const first = dialog.dialogmeldinger[0]!;
             return {
-                id: dialog.id,
+                conversationRef: dialog.conversationRef,
                 behandler: dialog.behandler,
                 fagomrade: first.fagomrade,
                 meldingstype: first.meldingstype,
@@ -215,10 +215,10 @@ export class DialogmeldingMock {
     };
 
     static getById = (dialogId: string): ApiDialogDetails | null => {
-        const dialog = DialogmeldingMock.dialoger.find((d) => d.id === dialogId);
+        const dialog = DialogmeldingMock.dialoger.find((d) => d.conversationRef === dialogId);
         if (!dialog) return null;
         return {
-            id: dialog.id,
+            conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,
@@ -227,10 +227,10 @@ export class DialogmeldingMock {
 
     static addDialogmelding = (data: ApiNyDialogmelding): ApiDialogDetails => {
         const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
-        const id = crypto.randomUUID();
+        const conversationRef = crypto.randomUUID();
 
         const dialog: InternalDialog = {
-            id,
+            conversationRef,
             behandler: data.behandler,
             tid,
             dialogmeldinger: [
@@ -248,7 +248,7 @@ export class DialogmeldingMock {
         DialogmeldingMock.dialoger.unshift(dialog);
 
         return {
-            id: dialog.id,
+            conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,
@@ -256,7 +256,7 @@ export class DialogmeldingMock {
     };
 
     static addSvar = (dialogId: string, data: ApiSvarPaDialog): ApiDialogDetails | null => {
-        const dialog = DialogmeldingMock.dialoger.find((d) => d.id === dialogId);
+        const dialog = DialogmeldingMock.dialoger.find((d) => d.conversationRef === dialogId);
         if (!dialog) return null;
 
         const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
@@ -272,7 +272,7 @@ export class DialogmeldingMock {
         dialog.tid = tid;
 
         return {
-            id: dialog.id,
+            conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
             tid: dialog.tid,
             dialogmeldinger: dialog.dialogmeldinger,

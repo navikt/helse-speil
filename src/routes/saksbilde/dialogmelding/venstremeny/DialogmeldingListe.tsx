@@ -36,12 +36,12 @@ export function DialogmeldingListe(): ReactElement {
         <VStack as="ul">
             {sortert.map((dialog) => {
                 const harVedlegg = dialog.antallVedlegg > 0;
-                const erAktiv = dialog.id === dialogId;
+                const erAktiv = dialog.conversationRef === dialogId;
                 return (
-                    <Bleed key={dialog.id} marginInline="space-16" asChild>
+                    <Bleed key={dialog.conversationRef} marginInline="space-16" asChild>
                         <li>
                             <Link
-                                href={`/person/${personPseudoId}/dialogmelding/${dialog.id}`}
+                                href={`/person/${personPseudoId}/dialogmelding/${dialog.conversationRef}`}
                                 className={cn(
                                     'flex w-full items-center justify-between gap-2 border-b border-b-ax-border-neutral-subtle px-6 py-2 text-left hover:bg-ax-bg-accent-moderate-hover',
                                     erAktiv &&

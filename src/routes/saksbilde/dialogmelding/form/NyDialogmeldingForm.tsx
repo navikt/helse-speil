@@ -44,7 +44,7 @@ export function NyDialogmeldingForm(): ReactElement {
     async function onSubmit(values: NyDialogmeldingSchema) {
         const result = await mutateAsync({ pseudoId: personPseudoId, data: values });
         if (result) {
-            router.push(`/person/${personPseudoId}/dialogmelding/${result.id}`);
+            router.push(`/person/${personPseudoId}/dialogmelding/${result.conversationRef}`);
         }
     }
 

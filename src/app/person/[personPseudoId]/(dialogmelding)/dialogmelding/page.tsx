@@ -20,7 +20,7 @@ export default function Page({ params }: { params: Promise<{ personPseudoId: str
     const nyesteDialog = finnNyesteDialog(data);
 
     if (nyesteDialog) {
-        redirect(`/person/${personPseudoId}/dialogmelding/${nyesteDialog.id}`);
+        redirect(`/person/${personPseudoId}/dialogmelding/${nyesteDialog.conversationRef}`);
     }
 
     return (

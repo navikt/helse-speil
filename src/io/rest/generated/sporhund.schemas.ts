@@ -5,10 +5,10 @@
  * OpenAPI spec version: latest
  */
 export interface ApiDialogmeldingOppgave {
+    conversationRef: string;
     dato: string;
     fagomrade: ApiFagomrade;
     frist: string;
-    id: string;
     meldingstype: ApiDialogmeldingType;
     personPseudoId: string;
     soker: string;
@@ -48,8 +48,8 @@ export interface ApiDialogOppsummering {
     antallMeldinger: number;
     antallVedlegg: number;
     behandler: ApiBehandler;
+    conversationRef: string;
     fagomrade: ApiFagomrade;
-    id: string;
     meldingstype: ApiDialogmeldingType;
     tid: string;
 }
@@ -130,8 +130,8 @@ export interface ApiVedlegg {
 
 export interface ApiDialogDetails {
     behandler: ApiBehandler;
+    conversationRef: string;
     dialogmeldinger: ApiDialogmelding[];
-    id: string;
     tid: string;
 }
 
