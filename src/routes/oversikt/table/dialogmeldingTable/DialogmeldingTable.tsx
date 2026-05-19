@@ -2,68 +2,28 @@
 
 import React, { ReactElement, useState } from 'react';
 
-import { BodyShort, Chips, Pagination as NavPagination, SortState, Table, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, VStack } from '@navikt/ds-react';
 
+import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingOppgave } from '@io/rest/generated/sporhund.schemas';
+import { DialogmeldingFilterChips } from '@oversikt/table/dialogmeldingTable/DialogmeldingFilterChips';
 import { FilterStatus } from '@oversikt/table/state/filter';
-import { cn } from '@utils/tw';
+import { getFormattedDatetimeString } from '@utils/date';
 
-import { LinkRow } from './LinkRow';
+import { LinkRow } from '../LinkRow';
 import {
     DialogmeldingKolonne,
     useDialogmeldingFilters,
     useSetMultipleDialogmeldingFilters,
     useToggleDialogmeldingFilter,
-} from './state/dialogmeldingFilter';
-import { dialogmeldingLimit, useDialogmeldingPageState } from './state/dialogmeldingPagination';
+} from '../state/dialogmeldingFilter';
+import { dialogmeldingLimit, useDialogmeldingPageState } from '../state/dialogmeldingPagination';
 
-import styles from './table.module.css';
+import paginationStyles from '../Pagination.module.css';
+import styles from '../table.module.css';
 
 type DialogmeldingSortKey = 'dato' | 'frist' | 'fagomrade' | 'soker' | 'meldingstype' | 'status';
-
-function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): ApiDialogmeldingOppgave[] {
-    const key = sort.orderBy as DialogmeldingSortKey;
-    const direction = sort.direction === 'ascending' ? 1 : -1;
-
-    return [...oppgaver].sort((a, b) => {
-        const aVal = a[key];
-        const bVal = b[key];
-        return aVal < bVal ? -direction : aVal > bVal ? direction : 0;
-    });
-}
-
-function filterOppgaver(
-    oppgaver: ApiDialogmeldingOppgave[],
-    activeFilters: { key: string; status: FilterStatus; column: string }[],
-): ApiDialogmeldingOppgave[] {
-    if (activeFilters.length === 0) return oppgaver;
-
-    const columnMapping: Record<string, keyof ApiDialogmeldingOppgave> = {
-        [DialogmeldingKolonne.FAGOMRADE]: 'fagomrade',
-        [DialogmeldingKolonne.MELDINGSTYPE]: 'meldingstype',
-        [DialogmeldingKolonne.STATUS]: 'status',
-    };
-
-    const plusFilters = activeFilters.filter((f) => f.status === FilterStatus.PLUS);
-    const minusFilters = activeFilters.filter((f) => f.status === FilterStatus.MINUS);
-
-    return oppgaver.filter((oppgave) => {
-        const matchesPlus =
-            plusFilters.length === 0 ||
-            plusFilters.some((f) => {
-                const field = columnMapping[f.column];
-                return field && oppgave[field] === f.key;
-            });
-
-        const matchesMinus = minusFilters.every((f) => {
-            const field = columnMapping[f.column];
-            return field && oppgave[field] !== f.key;
-        });
-
-        return matchesPlus && matchesMinus;
-    });
-}
 
 export function DialogmeldingTable(): ReactElement {
     const [sort, setSort] = useState<SortState>({ orderBy: 'dato', direction: 'descending' });
@@ -132,12 +92,12 @@ export function DialogmeldingTable(): ReactElement {
                                         personPseudoId={oppgave.personPseudoId}
                                         subPath={`dialogmelding/${oppgave.id}`}
                                     >
-                                        <Table.DataCell>{oppgave.dato}</Table.DataCell>
-                                        <Table.DataCell>{oppgave.frist}</Table.DataCell>
-                                        <Table.DataCell>{oppgave.fagomrade}</Table.DataCell>
+                                        <Table.DataCell>{getFormattedDatetimeString(oppgave.dato)}</Table.DataCell>
+                                        <Table.DataCell>{getFormattedDatetimeString(oppgave.frist)}</Table.DataCell>
+                                        <Table.DataCell>{fagomradeLabels[oppgave.fagomrade]}</Table.DataCell>
                                         <Table.DataCell>{oppgave.soker}</Table.DataCell>
                                         <Table.DataCell>{oppgave.meldingstype}</Table.DataCell>
-                                        <Table.DataCell>{oppgave.status}</Table.DataCell>
+                                        <Table.DataCell>{statusLabels[oppgave.status]}</Table.DataCell>
                                     </LinkRow>
                                 ))
                             ) : (
@@ -149,7 +109,7 @@ export function DialogmeldingTable(): ReactElement {
                     </Table>
                 </div>
             </div>
-            <div className={styles.Pagination}>
+            <HStack className={paginationStyles.Pagination}>
                 <NavPagination
                     page={currentPage}
                     onPageChange={setCurrentPage}
@@ -163,52 +123,50 @@ export function DialogmeldingTable(): ReactElement {
                         {Math.min(currentPage * dialogmeldingLimit, antallOppgaver)} av {antallOppgaver} oppgaver
                     </BodyShort>
                 )}
-            </div>
+            </HStack>
         </VStack>
     );
 }
 
-interface DialogmeldingFilterChipsProps {
-    activeFilters: { key: string; label: string; status: FilterStatus }[];
-    toggleFilter: (key: string, status: FilterStatus) => void;
-    setMultipleFilters: (filterStatus: FilterStatus, ...keys: string[]) => void;
+function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): ApiDialogmeldingOppgave[] {
+    const key = sort.orderBy as DialogmeldingSortKey;
+    const direction = sort.direction === 'ascending' ? 1 : -1;
+
+    return [...oppgaver].sort((a, b) => {
+        const aVal = a[key];
+        const bVal = b[key];
+        return aVal < bVal ? -direction : aVal > bVal ? direction : 0;
+    });
 }
 
-const DialogmeldingFilterChips = ({
-    activeFilters,
-    toggleFilter,
-    setMultipleFilters,
-}: DialogmeldingFilterChipsProps): ReactElement => {
-    if (activeFilters.length > 0) {
-        return (
-            <Chips className="mx-3 mt-1 mb-2">
-                {activeFilters.map((filter) => (
-                    <Chips.Removable
-                        className={cn({
-                            'bg-ax-bg-danger-strong hover:bg-ax-bg-danger-strong-hover':
-                                filter.status === FilterStatus.MINUS,
-                        })}
-                        key={filter.key}
-                        onClick={() => toggleFilter(filter.key, FilterStatus.OFF)}
-                    >
-                        {filter.label}
-                    </Chips.Removable>
-                ))}
-                <Chips.Removable
-                    onClick={() => setMultipleFilters(FilterStatus.OFF, ...activeFilters.map((f) => f.key))}
-                    data-color="neutral"
-                >
-                    Nullstill alle
-                </Chips.Removable>
-            </Chips>
-        );
-    }
+function filterOppgaver(
+    oppgaver: ApiDialogmeldingOppgave[],
+    activeFilters: { key: string; status: FilterStatus; column: string }[],
+): ApiDialogmeldingOppgave[] {
+    if (activeFilters.length === 0) return oppgaver;
 
-    return (
-        <Chips className="mx-3 mt-1 mb-2">
-            <Chips.Toggle className="cursor-default" checkmark={false}>
-                Ingen aktive filter
-            </Chips.Toggle>
-        </Chips>
-    );
-};
+    const columnMapping: Record<string, keyof ApiDialogmeldingOppgave> = {
+        [DialogmeldingKolonne.FAGOMRADE]: 'fagomrade',
+        [DialogmeldingKolonne.MELDINGSTYPE]: 'meldingstype',
+        [DialogmeldingKolonne.STATUS]: 'status',
+    };
+
+    const plusFilters = activeFilters.filter((f) => f.status === FilterStatus.PLUS);
+    const minusFilters = activeFilters.filter((f) => f.status === FilterStatus.MINUS);
+
+    return oppgaver.filter((oppgave) => {
+        const matchesPlus =
+            plusFilters.length === 0 ||
+            plusFilters.some((f) => {
+                const field = columnMapping[f.column];
+                return field && oppgave[field] === f.key;
+            });
+
+        const matchesMinus = minusFilters.every((f) => {
+            const field = columnMapping[f.column];
+            return field && oppgave[field] !== f.key;
+        });
+
+        return matchesPlus && matchesMinus;
+    });
+}

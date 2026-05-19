@@ -1,6 +1,11 @@
 import z from 'zod/v4';
 
-import { ApiBehandlerKategori, ApiBehandlerType, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
+import {
+    ApiBehandlerKategori,
+    ApiBehandlerType,
+    ApiDialogmeldingStatus,
+    ApiFagomrade,
+} from '@io/rest/generated/sporhund.schemas';
 
 const fagomradeValues = Object.values(ApiFagomrade) as [ApiFagomrade, ...ApiFagomrade[]];
 const kategoriValues = Object.values(ApiBehandlerKategori) as [ApiBehandlerKategori, ...ApiBehandlerKategori[]];
@@ -37,4 +42,11 @@ export const fagomradeLabels: Record<ApiFagomrade, string> = {
     [ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER]: 'Enkeltstående behandlingsdager',
     [ApiFagomrade.TILBAKEDATERING]: 'Tilbakedatering',
     [ApiFagomrade.YRKESSKADE]: 'Yrkesskade',
+};
+
+export const statusLabels: Record<ApiDialogmeldingStatus, string> = {
+    [ApiDialogmeldingStatus.SENDT]: 'Sendt',
+    [ApiDialogmeldingStatus.PURRING_SENDT]: 'Purring sendt',
+    [ApiDialogmeldingStatus.MOTTATT]: 'Mottatt',
+    [ApiDialogmeldingStatus.FERDIGSTILT]: 'Ferdigstilt',
 };

@@ -13,7 +13,6 @@ import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
-import { DialogmeldingTable } from '@oversikt/table/DialogmeldingTable';
 import { ListeTable } from '@oversikt/table/ListeTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
 import { useSorteringValue } from '@oversikt/table/state/sortation';
@@ -21,6 +20,7 @@ import { useAntallOppgaver } from '@state/oppgaver';
 
 import { TabsSkeleton } from './Tabs';
 import { TabType, useAktivTab } from './tabState';
+import { DialogmeldingTable } from './table/dialogmeldingTable/DialogmeldingTable';
 import { useFilters } from './table/state/filter';
 
 import styles from './Oversikt.module.css';

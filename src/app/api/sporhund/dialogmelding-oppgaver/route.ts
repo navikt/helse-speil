@@ -21,7 +21,7 @@ async function stub(_request: NextRequest): Promise<Response> {
     const oppgaver: ApiDialogmeldingOppgave[] = dialoger.map((dialog, index) => ({
         id: dialog.id,
         personPseudoId,
-        dato: dialog.tid.split('T')[0]!,
+        dato: dialog.tid,
         frist: getFrist(dialog.tid),
         fagomrade: fagomrader[index % fagomrader.length]!,
         soker: sokerNavn[index % sokerNavn.length]!,
@@ -35,7 +35,7 @@ async function stub(_request: NextRequest): Promise<Response> {
 function getFrist(dato: string): string {
     const d = new Date(dato);
     d.setDate(d.getDate() + 21);
-    return d.toISOString().split('T')[0]!;
+    return d.toISOString();
 }
 
 export const dynamic = 'force-dynamic';
