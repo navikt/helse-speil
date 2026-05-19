@@ -14,7 +14,7 @@ import {
     nyDialogmeldingSchema,
 } from '@/form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getGetDialogmeldingerQueryKey, usePostDialogmelding } from '@io/rest/generated/default/default';
+import { getGetDialogmeldingerQueryKey, usePostNyDialogmelding } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingType, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -24,7 +24,7 @@ export function NyDialogmeldingForm(): ReactElement {
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
-    const { mutateAsync, isPending } = usePostDialogmelding({
+    const { mutateAsync, isPending } = usePostNyDialogmelding({
         mutation: {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: getGetDialogmeldingerQueryKey(personPseudoId) });

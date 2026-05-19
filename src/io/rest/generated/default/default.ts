@@ -340,7 +340,11 @@ export function useGetDialogmelding<TData = Awaited<ReturnType<typeof getDialogm
 /**
  * Send ny dialogmelding
  */
-export const postDialogmelding = (pseudoId: string, apiNyDialogmelding?: ApiNyDialogmelding, signal?: AbortSignal) => {
+export const postNyDialogmelding = (
+    pseudoId: string,
+    apiNyDialogmelding?: ApiNyDialogmelding,
+    signal?: AbortSignal,
+) => {
     return callCustomAxios<ApiDialogDetails>({
         url: `/api/sporhund/personer/${pseudoId}/dialogmelding`,
         method: 'POST',
@@ -350,20 +354,20 @@ export const postDialogmelding = (pseudoId: string, apiNyDialogmelding?: ApiNyDi
     });
 };
 
-export const getPostDialogmeldingMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
+export const getPostNyDialogmeldingMutationOptions = <TError = ErrorType<unknown>, TContext = unknown>(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postDialogmelding>>,
+        Awaited<ReturnType<typeof postNyDialogmelding>>,
         TError,
         { pseudoId: string; data: ApiNyDialogmelding },
         TContext
     >;
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof postDialogmelding>>,
+    Awaited<ReturnType<typeof postNyDialogmelding>>,
     TError,
     { pseudoId: string; data: ApiNyDialogmelding },
     TContext
 > => {
-    const mutationKey = ['postDialogmelding'];
+    const mutationKey = ['postNyDialogmelding'];
     const { mutation: mutationOptions } = options
         ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
             ? options
@@ -371,25 +375,25 @@ export const getPostDialogmeldingMutationOptions = <TError = ErrorType<unknown>,
         : { mutation: { mutationKey } };
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postDialogmelding>>,
+        Awaited<ReturnType<typeof postNyDialogmelding>>,
         { pseudoId: string; data: ApiNyDialogmelding }
     > = (props) => {
         const { pseudoId, data } = props ?? {};
 
-        return postDialogmelding(pseudoId, data);
+        return postNyDialogmelding(pseudoId, data);
     };
 
     return { mutationFn, ...mutationOptions };
 };
 
-export type PostDialogmeldingMutationResult = NonNullable<Awaited<ReturnType<typeof postDialogmelding>>>;
-export type PostDialogmeldingMutationBody = ApiNyDialogmelding;
-export type PostDialogmeldingMutationError = ErrorType<unknown>;
+export type PostNyDialogmeldingMutationResult = NonNullable<Awaited<ReturnType<typeof postNyDialogmelding>>>;
+export type PostNyDialogmeldingMutationBody = ApiNyDialogmelding;
+export type PostNyDialogmeldingMutationError = ErrorType<unknown>;
 
-export const usePostDialogmelding = <TError = ErrorType<unknown>, TContext = unknown>(
+export const usePostNyDialogmelding = <TError = ErrorType<unknown>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postDialogmelding>>,
+            Awaited<ReturnType<typeof postNyDialogmelding>>,
             TError,
             { pseudoId: string; data: ApiNyDialogmelding },
             TContext
@@ -397,12 +401,12 @@ export const usePostDialogmelding = <TError = ErrorType<unknown>, TContext = unk
     },
     queryClient?: QueryClient,
 ): UseMutationResult<
-    Awaited<ReturnType<typeof postDialogmelding>>,
+    Awaited<ReturnType<typeof postNyDialogmelding>>,
     TError,
     { pseudoId: string; data: ApiNyDialogmelding },
     TContext
 > => {
-    const mutationOptions = getPostDialogmeldingMutationOptions(options);
+    const mutationOptions = getPostNyDialogmeldingMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };
