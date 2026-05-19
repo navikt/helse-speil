@@ -149,8 +149,8 @@ export const Tabs = ({ antallMineSaker, antallPåVentNåddFrist }: TabProps): Re
                     <BehandletIdagTab />
                 </VisHvisSkrivetilgang>
                 <ListeTab />
-                {kanSeDialogmelding && <DialogmeldingTab />}
                 {erUtvikler && <OppgavelisterTab />}
+                {kanSeDialogmelding && <DialogmeldingTab />}
             </span>
             <StatistikkButton />
         </div>
