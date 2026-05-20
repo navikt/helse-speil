@@ -34,7 +34,7 @@ export function DialogmeldingListe(): ReactElement {
 
     return (
         <VStack as="ul">
-            {sortert.map((dialog) => {
+            {sortert.map((dialog, index) => {
                 const harVedlegg = dialog.antallVedlegg > 0;
                 const erAktiv = dialog.conversationRef === dialogId;
                 return (
@@ -44,8 +44,9 @@ export function DialogmeldingListe(): ReactElement {
                                 href={`/person/${personPseudoId}/dialogmelding/${dialog.conversationRef}`}
                                 className={cn(
                                     'flex w-full items-center justify-between gap-2 border-b border-b-ax-border-neutral-subtle px-6 py-2 text-left hover:bg-ax-bg-accent-moderate-hover',
+                                    index === 0 && 'border-t border-t-ax-border-neutral-subtle',
                                     erAktiv &&
-                                        'bg-ax-bg-accent-soft shadow-[inset_4px_0_0_0] shadow-ax-border-accent-strong',
+                                        'bg-ax-bg-accent-soft shadow-[inset_5px_0_0_0] shadow-ax-border-accent-strong',
                                 )}
                             >
                                 <VStack>

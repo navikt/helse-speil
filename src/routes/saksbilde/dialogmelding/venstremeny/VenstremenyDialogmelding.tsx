@@ -23,6 +23,7 @@ export function VenstremenyDialogmelding(): ReactElement {
                 href={`/person/${personPseudoId}/dialogmelding/ny`}
                 variant="primary"
                 size="small"
+                className="self-start"
                 icon={<NotePencilIcon />}
             >
                 Ny dialogmelding
