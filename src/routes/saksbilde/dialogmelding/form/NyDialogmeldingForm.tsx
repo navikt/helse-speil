@@ -68,7 +68,7 @@ export function NyDialogmeldingForm(): ReactElement {
                 <VStack
                     as="form"
                     onSubmit={form.handleSubmit(onSubmit)}
-                    gap="space-16"
+                    gap="space-32"
                     className="max-w-250"
                     id="ny-dialogmelding-form"
                 >
@@ -82,10 +82,11 @@ export function NyDialogmeldingForm(): ReactElement {
                                 value={field.value}
                                 onChange={field.onChange}
                                 error={fieldState.error?.message}
+                                size="small"
                             >
                                 {Object.entries(fagomradeLabels).map(([value, label]) => (
                                     <Radio key={value} value={value}>
-                                        {label}
+                                        <span className="text-ax-large">{label}</span>
                                     </Radio>
                                 ))}
                             </RadioGroup>
@@ -100,10 +101,11 @@ export function NyDialogmeldingForm(): ReactElement {
                                 value={field.value}
                                 onChange={field.onChange}
                                 error={fieldState.error?.message}
+                                size="small"
                             >
                                 {Object.entries(meldingstypeLabels).map(([value, label]) => (
                                     <Radio key={value} value={value}>
-                                        {label}
+                                        <span className="text-ax-large">{label}</span>
                                     </Radio>
                                 ))}
                             </RadioGroup>

@@ -29,9 +29,11 @@ export type ApiDialogmeldingType = (typeof ApiDialogmeldingType)[keyof typeof Ap
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiDialogmeldingType = {
-    TILLEGGSOPPLYSNINGER: 'TILLEGGSOPPLYSNINGER',
+    JOURNALNOTAT: 'JOURNALNOTAT',
+    MEDISINSKE_OPPLYSNINGER: 'MEDISINSKE_OPPLYSNINGER',
+    EKSTRA_UTTALELSER_FRA_LEGE: 'EKSTRA_UTTALELSER_FRA_LEGE',
     SPESIALISTERKLAERING: 'SPESIALISTERKLAERING',
-    GJELDER_PASIENT: 'GJELDER_PASIENT',
+    UTVIDET_SPESIALISTERKLAERING: 'UTVIDET_SPESIALISTERKLAERING',
 } as const;
 
 export type ApiDialogmeldingStatus = (typeof ApiDialogmeldingStatus)[keyof typeof ApiDialogmeldingStatus];

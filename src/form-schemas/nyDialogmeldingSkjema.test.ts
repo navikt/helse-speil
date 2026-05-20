@@ -28,7 +28,7 @@ const gyldigSkjema: ApiNyDialogmelding = {
         type: null,
     },
     fagomrade: ApiFagomrade.TILBAKEDATERING,
-    meldingstype: ApiDialogmeldingType.TILLEGGSOPPLYSNINGER,
+    meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
     melding: 'Hei',
 };
 

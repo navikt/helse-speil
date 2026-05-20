@@ -55,7 +55,9 @@ export const statusLabels: Record<ApiDialogmeldingStatus, string> = {
 };
 
 export const meldingstypeLabels: Record<ApiDialogmeldingType, string> = {
-    [ApiDialogmeldingType.TILLEGGSOPPLYSNINGER]: 'Spørsmål om tilleggsopplysninger',
+    [ApiDialogmeldingType.JOURNALNOTAT]: 'Journalnotat',
+    [ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER]: 'Medisinske opplysninger',
+    [ApiDialogmeldingType.EKSTRA_UTTALELSER_FRA_LEGE]: 'Ekstra uttalelser fra lege',
     [ApiDialogmeldingType.SPESIALISTERKLAERING]: 'Forespørsel om spesialisterklæring',
-    [ApiDialogmeldingType.GJELDER_PASIENT]: 'Gjelder pasient',
+    [ApiDialogmeldingType.UTVIDET_SPESIALISTERKLAERING]: 'Forespørsel om utvidet spesialisterklæring',
 };
