@@ -7,6 +7,7 @@ import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { fagomradeLabels, meldingstypeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
+import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { behandlerKategoriLabels, formatLegekontorAdresse } from '@utils/behandlerUtils';
 import { formatNavn } from '@utils/navnUtils';
 
@@ -56,7 +57,7 @@ export function DialogmeldingContent(): ReactElement {
                     <DialogFerdigstiltSwitch
                         personPseudoId={personPseudoId}
                         dialogId={dialogId}
-                        initialFerdigstilt={status === 'FERDIGSTILT'}
+                        initialFerdigstilt={status === ApiDialogmeldingStatus.FERDIGSTILT}
                     />
                 </VStack>
                 <VStack gap="space-16">
@@ -64,7 +65,7 @@ export function DialogmeldingContent(): ReactElement {
                         <DialogmeldingKort key={index} melding={melding} />
                     ))}
                 </VStack>
-                <SvarPåDialogForm />
+                {status !== ApiDialogmeldingStatus.FERDIGSTILT && <SvarPåDialogForm />}
             </VStack>
         </Box>
     );

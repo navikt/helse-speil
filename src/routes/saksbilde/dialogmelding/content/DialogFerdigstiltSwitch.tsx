@@ -5,6 +5,7 @@ import React, { ReactElement, useState } from 'react';
 import { Alert, Switch } from '@navikt/ds-react';
 
 import { getGetDialogmeldingQueryKey, usePatchDialogstatus } from '@io/rest/generated/default/default';
+import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface DialogFerdigstiltSwitchProps {
@@ -24,7 +25,7 @@ export function DialogFerdigstiltSwitch({
     const { mutate, isPending, isError } = usePatchDialogstatus({
         mutation: {
             onSuccess: (data) => {
-                setChecked(data.status === 'FERDIGSTILT');
+                setChecked(data.status === ApiDialogmeldingStatus.FERDIGSTILT);
                 queryClient.invalidateQueries({
                     queryKey: getGetDialogmeldingQueryKey(personPseudoId, dialogId),
                 });
