@@ -135,6 +135,7 @@ export interface ApiDialogDetails {
     conversationRef: string;
     dialogmeldinger: ApiDialogmelding[];
     opprettetTidspunkt: string;
+    status: ApiDialogmeldingStatus;
 }
 
 export interface ApiNyDialogmelding {
@@ -147,4 +148,8 @@ export interface ApiNyDialogmelding {
 
 export interface ApiSvarPaDialog {
     melding: string;
+}
+
+export interface ApiOppdaterDialogStatus {
+    ferdigstilt: boolean;
 }

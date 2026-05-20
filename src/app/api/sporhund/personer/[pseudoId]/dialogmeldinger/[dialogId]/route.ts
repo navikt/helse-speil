@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 
 import { stubEllerVideresendTilSporhund } from '@app/api/sporhund/common';
+import { ApiOppdaterDialogStatus } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingMock } from '@spesialist-mock/storage/dialogmelding';
 
 async function getStub(
@@ -32,7 +33,23 @@ async function postStub(
     return Response.json(result);
 }
 
+async function patchStub(
+    request: NextRequest,
+    params: Promise<{ pseudoId: string; dialogId: string }>,
+): Promise<Response> {
+    const { pseudoId, dialogId } = await params;
+    const data: ApiOppdaterDialogStatus = await request.json();
+    const result = DialogmeldingMock.updateStatus(pseudoId, dialogId, data);
+
+    if (!result) {
+        return new Response(null, { status: 404 });
+    }
+
+    return Response.json(result);
+}
+
 export const dynamic = 'force-dynamic';
 
 export const GET = stubEllerVideresendTilSporhund(getStub);
 export const POST = stubEllerVideresendTilSporhund(postStub);
+export const PATCH = stubEllerVideresendTilSporhund(patchStub);

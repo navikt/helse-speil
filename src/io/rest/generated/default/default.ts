@@ -4,17 +4,17 @@
  * API
  * OpenAPI spec version: latest
  */
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
     ApiDialogDetails,
     ApiDialogOppsummering,
     ApiDialogmeldingOppgave,
     ApiNyDialogmelding,
+    ApiOppdaterDialogStatus,
     ApiSvarPaDialog,
 } from '../sporhund.schemas';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -29,6 +29,7 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
  * Hent dialogmelding-oppgaver
@@ -408,6 +409,78 @@ export const usePostSvarPaDialog = <TError = ErrorType<void>, TContext = unknown
     TContext
 > => {
     const mutationOptions = getPostSvarPaDialogMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+/**
+ * Oppdater status for en eksisterende dialog
+ */
+export const patchDialogstatus = (
+    pseudoId: string,
+    conversationRef: string,
+    apiOppdaterDialogStatus?: ApiOppdaterDialogStatus,
+) => {
+    return callCustomAxios<ApiDialogDetails>({
+        url: `/api/sporhund/personer/${pseudoId}/dialogmeldinger/${conversationRef}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiOppdaterDialogStatus,
+    });
+};
+
+export const getPatchDialogstatusMutationOptions = <TError = ErrorType<void>, TContext = unknown>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof patchDialogstatus>>,
+        TError,
+        { pseudoId: string; conversationRef: string; data: ApiOppdaterDialogStatus },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof patchDialogstatus>>,
+    TError,
+    { pseudoId: string; conversationRef: string; data: ApiOppdaterDialogStatus },
+    TContext
+> => {
+    const mutationKey = ['patchDialogstatus'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof patchDialogstatus>>,
+        { pseudoId: string; conversationRef: string; data: ApiOppdaterDialogStatus }
+    > = (props) => {
+        const { pseudoId, conversationRef, data } = props ?? {};
+
+        return patchDialogstatus(pseudoId, conversationRef, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PatchDialogstatusMutationResult = NonNullable<Awaited<ReturnType<typeof patchDialogstatus>>>;
+export type PatchDialogstatusMutationBody = ApiOppdaterDialogStatus;
+export type PatchDialogstatusMutationError = ErrorType<void>;
+
+export const usePatchDialogstatus = <TError = ErrorType<void>, TContext = unknown>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof patchDialogstatus>>,
+            TError,
+            { pseudoId: string; conversationRef: string; data: ApiOppdaterDialogStatus },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof patchDialogstatus>>,
+    TError,
+    { pseudoId: string; conversationRef: string; data: ApiOppdaterDialogStatus },
+    TContext
+> => {
+    const mutationOptions = getPatchDialogstatusMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

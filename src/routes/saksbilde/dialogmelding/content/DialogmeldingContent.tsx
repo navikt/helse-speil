@@ -8,12 +8,13 @@ import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 import { fagomradeLabels, meldingstypeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { behandlerKategoriLabels, formatLegekontorAdresse } from '@utils/behandlerUtils';
+import { formatNavn } from '@utils/navnUtils';
 
+import { DialogFerdigstiltSwitch } from './DialogFerdigstiltSwitch';
 import { DialogmeldingContentError } from './DialogmeldingContentError';
 import { DialogmeldingContentSkeleton } from './DialogmeldingContentSkeleton';
 import { DialogmeldingKort } from './DialogmeldingKort';
 import { SvarPåDialogForm } from './SvarPåDialogForm';
-import { formatNavn } from '@utils/navnUtils';
 
 export function DialogmeldingContent(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId: string }>();
@@ -29,7 +30,7 @@ export function DialogmeldingContent(): ReactElement {
         return <DialogmeldingContentError refetch={refetch} />;
     }
 
-    const { behandler, dialogmeldinger } = data;
+    const { behandler, dialogmeldinger, status } = data;
     const firstMelding = dialogmeldinger[0]!;
     const adresse = formatLegekontorAdresse(behandler.legekontor);
     const sortert = dialogmeldinger.sort((a, b) => b.sendtTidspunkt.localeCompare(a.sendtTidspunkt));
@@ -43,8 +44,7 @@ export function DialogmeldingContent(): ReactElement {
                     </Heading>
                     <HStack gap="space-24" wrap>
                         <BodyShort size="small">
-                            {formatNavn(behandler.navn) || '-'},{' '}
-                            {behandlerKategoriLabels[behandler.kategori] || '-'}
+                            {formatNavn(behandler.navn) || '-'}, {behandlerKategoriLabels[behandler.kategori] || '-'}
                         </BodyShort>
                         <BodyShort size="small">
                             {behandler.legekontor.kontor || '-'}
@@ -53,6 +53,11 @@ export function DialogmeldingContent(): ReactElement {
                         <BodyShort size="small">Org.nr.: {behandler.legekontor.orgnummer || '-'}</BodyShort>
                         <BodyShort size="small">Tlf: {behandler.telefonnummer || '-'}</BodyShort>
                     </HStack>
+                    <DialogFerdigstiltSwitch
+                        personPseudoId={personPseudoId}
+                        dialogId={dialogId}
+                        initialFerdigstilt={status === 'FERDIGSTILT'}
+                    />
                 </VStack>
                 <VStack gap="space-16">
                     {sortert.map((melding, index) => (

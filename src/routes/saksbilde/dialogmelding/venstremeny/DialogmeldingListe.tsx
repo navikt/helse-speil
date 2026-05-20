@@ -10,9 +10,9 @@ import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
 import { getFormattedDatetimeString } from '@utils/date';
+import { formatNavn } from '@utils/navnUtils';
 
 import { DialogmeldingListeSkeleton } from './DialogmeldingListeSkeleton';
-import { formatNavn } from '@utils/navnUtils';
 
 export function DialogmeldingListe(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId?: string }>();

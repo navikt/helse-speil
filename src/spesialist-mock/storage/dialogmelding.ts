@@ -12,6 +12,7 @@ import {
     ApiFagomrade,
     ApiNavn,
     ApiNyDialogmelding,
+    ApiOppdaterDialogStatus,
     ApiSvarPaDialog,
 } from '@io/rest/generated/sporhund.schemas';
 import { PersonMock } from '@spesialist-mock/storage/person';
@@ -262,6 +263,7 @@ export class DialogmeldingMock {
             conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
             opprettetTidspunkt: dialog.opprettetTidspunkt,
+            status: dialog.status,
             dialogmeldinger: dialog.dialogmeldinger,
         };
     };
@@ -314,6 +316,7 @@ export class DialogmeldingMock {
             conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
             opprettetTidspunkt: dialog.opprettetTidspunkt,
+            status: dialog.status,
             dialogmeldinger: dialog.dialogmeldinger,
         };
     };
@@ -343,6 +346,26 @@ export class DialogmeldingMock {
             conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
             opprettetTidspunkt: dialog.opprettetTidspunkt,
+            status: dialog.status,
+            dialogmeldinger: dialog.dialogmeldinger,
+        };
+    };
+
+    static updateStatus = (
+        personPseudoId: string,
+        dialogId: string,
+        data: ApiOppdaterDialogStatus,
+    ): ApiDialogDetails | null => {
+        const dialog = DialogmeldingMock.getDialogForPerson(personPseudoId, dialogId);
+        if (!dialog) return null;
+
+        dialog.status = data.ferdigstilt ? ApiDialogmeldingStatus.FERDIGSTILT : ApiDialogmeldingStatus.MOTTATT;
+
+        return {
+            conversationRef: dialog.conversationRef,
+            behandler: dialog.behandler,
+            opprettetTidspunkt: dialog.opprettetTidspunkt,
+            status: dialog.status,
             dialogmeldinger: dialog.dialogmeldinger,
         };
     };
