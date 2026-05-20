@@ -10,13 +10,20 @@ import {
     ApiDialogmeldingStatus,
     ApiDialogmeldingType,
     ApiFagomrade,
+    ApiNavn,
     ApiNyDialogmelding,
     ApiSvarPaDialog,
 } from '@io/rest/generated/sporhund.schemas';
 import { PersonMock } from '@spesialist-mock/storage/person';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
-const sokerNavn = ['Slapp Appelsin', 'Optimistisk Banan', 'Skeptisk Service', 'Punktlig Jakke', 'Minimalistisk Aroma'];
+const sokerNavn: ApiNavn[] = [
+    { fornavn: 'Slapp', mellomnavn: null, etternavn: 'Appelsin' },
+    { fornavn: 'Optimistisk', mellomnavn: null, etternavn: 'Banan' },
+    { fornavn: 'Skeptisk', mellomnavn: null, etternavn: 'Service' },
+    { fornavn: 'Punktlig', mellomnavn: null, etternavn: 'Jakke' },
+    { fornavn: 'Minimalistisk', mellomnavn: null, etternavn: 'Aroma' },
+];
 
 // aktorId for SLAPP APPELSIN from mock oppgaver
 const MOCK_AKTOR_ID = '2564094783926';

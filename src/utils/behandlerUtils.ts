@@ -1,4 +1,10 @@
-import { ApiBehandlerKategori, ApiLegekontor, ApiNavn } from '@io/rest/generated/sporhund.schemas';
+import { ApiBehandlerKategori, ApiLegekontor } from '@io/rest/generated/sporhund.schemas';
+
+
+
+
+
+
 
 export const behandlerKategoriLabels: Record<ApiBehandlerKategori, string> = {
     [ApiBehandlerKategori.LEGE]: 'lege',
@@ -8,10 +14,6 @@ export const behandlerKategoriLabels: Record<ApiBehandlerKategori, string> = {
     [ApiBehandlerKategori.TANNLEGE]: 'tannlege',
     [ApiBehandlerKategori.PSYKOLOG]: 'psykolog',
 };
-
-export function formatBehandlerNavn(navn: ApiNavn): string {
-    return [navn.fornavn, navn.mellomnavn, navn.etternavn].filter(Boolean).join(' ');
-}
 
 export function formatLegekontorAdresse(legekontor: ApiLegekontor): string | null {
     const poststed = [legekontor.postnummer, legekontor.poststed].filter(Boolean).join(' ');

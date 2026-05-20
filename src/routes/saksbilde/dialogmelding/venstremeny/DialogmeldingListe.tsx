@@ -9,10 +9,10 @@ import { Bleed, BodyShort, HStack, VStack } from '@navikt/ds-react';
 import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
-import { formatBehandlerNavn } from '@utils/behandlerUtils';
 import { getFormattedDatetimeString } from '@utils/date';
 
 import { DialogmeldingListeSkeleton } from './DialogmeldingListeSkeleton';
+import { formatNavn } from '@utils/navnUtils';
 
 export function DialogmeldingListe(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId?: string }>();
@@ -57,7 +57,7 @@ export function DialogmeldingListe(): ReactElement {
                                         {harVedlegg && <PaperclipIcon aria-label="Har vedlegg" fontSize="1rem" />}
                                     </HStack>
                                     <BodyShort size="small" className="text-ax-text-neutral-subtle">
-                                        {formatBehandlerNavn(dialog.behandler.navn)}
+                                        {formatNavn(dialog.behandler.navn)}
                                         {dialog.behandler.legekontor.kontor &&
                                             `, ${dialog.behandler.legekontor.kontor}`}
                                     </BodyShort>

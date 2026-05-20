@@ -7,12 +7,13 @@ import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { fagomradeLabels, meldingstypeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
-import { behandlerKategoriLabels, formatBehandlerNavn, formatLegekontorAdresse } from '@utils/behandlerUtils';
+import { behandlerKategoriLabels, formatLegekontorAdresse } from '@utils/behandlerUtils';
 
 import { DialogmeldingContentError } from './DialogmeldingContentError';
 import { DialogmeldingContentSkeleton } from './DialogmeldingContentSkeleton';
 import { DialogmeldingKort } from './DialogmeldingKort';
 import { SvarPåDialogForm } from './SvarPåDialogForm';
+import { formatNavn } from '@utils/navnUtils';
 
 export function DialogmeldingContent(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId: string }>();
@@ -42,7 +43,7 @@ export function DialogmeldingContent(): ReactElement {
                     </Heading>
                     <HStack gap="space-24" wrap>
                         <BodyShort size="small">
-                            {formatBehandlerNavn(behandler.navn) || '-'},{' '}
+                            {formatNavn(behandler.navn) || '-'},{' '}
                             {behandlerKategoriLabels[behandler.kategori] || '-'}
                         </BodyShort>
                         <BodyShort size="small">

@@ -11,7 +11,7 @@ export interface ApiDialogmeldingOppgave {
     meldingstype: ApiDialogmeldingType;
     personPseudoId: string;
     sisteAktivitetTidspunkt: string;
-    soker: string;
+    soker: ApiNavn;
     status: ApiDialogmeldingStatus;
 }
 
@@ -35,6 +35,14 @@ export const ApiDialogmeldingType = {
     SPESIALISTERKLAERING: 'SPESIALISTERKLAERING',
     UTVIDET_SPESIALISTERKLAERING: 'UTVIDET_SPESIALISTERKLAERING',
 } as const;
+
+export type ApiNavnMellomnavn = null | string;
+
+export interface ApiNavn {
+    etternavn: string;
+    fornavn: string;
+    mellomnavn?: ApiNavnMellomnavn;
+}
 
 export type ApiDialogmeldingStatus = (typeof ApiDialogmeldingStatus)[keyof typeof ApiDialogmeldingStatus];
 
@@ -97,14 +105,6 @@ export interface ApiLegekontor {
     orgnummer?: ApiLegekontorOrgnummer;
     postnummer?: ApiLegekontorPostnummer;
     poststed?: ApiLegekontorPoststed;
-}
-
-export type ApiNavnMellomnavn = null | string;
-
-export interface ApiNavn {
-    etternavn: string;
-    fornavn: string;
-    mellomnavn?: ApiNavnMellomnavn;
 }
 
 export type ApiBehandlerType = (typeof ApiBehandlerType)[keyof typeof ApiBehandlerType];
