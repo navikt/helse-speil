@@ -30,6 +30,11 @@ const gyldigSkjema: ApiNyDialogmelding = {
     fagomrade: ApiFagomrade.TILBAKEDATERING,
     meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
     melding: 'Hei',
+    sokernavn: {
+        fornavn: 'Kari',
+        etternavn: 'Hansen',
+        mellomnavn: null,
+    },
 };
 
 describe('nyDialogmeldingSchema', () => {

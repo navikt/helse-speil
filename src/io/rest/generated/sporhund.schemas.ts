@@ -64,7 +64,7 @@ export interface ApiBehandler {
     id: string;
     kategori: ApiBehandlerKategori;
     legekontor: ApiLegekontor;
-    navn: ApiBehandlerNavn;
+    navn: ApiNavn;
     telefonnummer?: ApiBehandlerTelefonnummer;
     type?: ApiBehandlerTypeProperty;
 }
@@ -99,12 +99,12 @@ export interface ApiLegekontor {
     poststed?: ApiLegekontorPoststed;
 }
 
-export type ApiBehandlerNavnMellomnavn = null | string;
+export type ApiNavnMellomnavn = null | string;
 
-export interface ApiBehandlerNavn {
+export interface ApiNavn {
     etternavn: string;
     fornavn: string;
-    mellomnavn?: ApiBehandlerNavnMellomnavn;
+    mellomnavn?: ApiNavnMellomnavn;
 }
 
 export type ApiBehandlerType = (typeof ApiBehandlerType)[keyof typeof ApiBehandlerType];
@@ -142,6 +142,7 @@ export interface ApiNyDialogmelding {
     fagomrade: ApiFagomrade;
     melding: string;
     meldingstype: ApiDialogmeldingType;
+    sokernavn: ApiNavn;
 }
 
 export interface ApiSvarPaDialog {

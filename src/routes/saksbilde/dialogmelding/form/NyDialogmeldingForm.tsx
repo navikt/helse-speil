@@ -16,6 +16,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostNyDialogmelding } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingType, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
+import { useFetchPersonQuery } from '@state/person';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { BehandlerSearch } from './BehandlerSearch';
@@ -24,6 +25,8 @@ export function NyDialogmeldingForm(): ReactElement {
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
+    const { data: personData } = useFetchPersonQuery();
+    const personinfo = personData?.person?.personinfo;
     const { mutateAsync, isPending } = usePostNyDialogmelding({
         mutation: {
             onSuccess: () => {
@@ -42,7 +45,14 @@ export function NyDialogmeldingForm(): ReactElement {
     });
 
     async function onSubmit(values: NyDialogmeldingSchema) {
-        const result = await mutateAsync({ pseudoId: personPseudoId, data: values });
+        if (!personinfo) return;
+
+        const sokernavn = {
+            fornavn: personinfo.fornavn,
+            etternavn: personinfo.etternavn,
+            mellomnavn: personinfo.mellomnavn,
+        };
+        const result = await mutateAsync({ pseudoId: personPseudoId, data: { ...values, sokernavn } });
         if (result) {
             router.push(`/person/${personPseudoId}/dialogmelding/${result.conversationRef}`);
         }
@@ -138,6 +148,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                 type="submit"
                                 icon={<PaperplaneIcon />}
                                 loading={isPending}
+                                disabled={!personinfo}
                             >
                                 Send melding
                             </Button>
