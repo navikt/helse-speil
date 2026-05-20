@@ -2,53 +2,27 @@
 
 import React, { ReactElement, useState } from 'react';
 
-
-
 import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, VStack } from '@navikt/ds-react';
-
-
 
 import { fagomradeLabels, meldingstypeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
-import { ApiDialogmeldingOppgave } from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogmeldingOppgave, ApiNavn } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingFilterChips } from '@oversikt/table/dialogmeldingTable/DialogmeldingFilterChips';
 import { FilterStatus } from '@oversikt/table/state/filter';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
-import { formatNavn } from '@utils/navnUtils';
-
-
+import { capitalizeName } from '@utils/locale';
 
 import { LinkRow } from '../LinkRow';
-import { DialogmeldingKolonne, useDialogmeldingFilters, useSetMultipleDialogmeldingFilters, useToggleDialogmeldingFilter } from '../state/dialogmeldingFilter';
+import {
+    DialogmeldingKolonne,
+    useDialogmeldingFilters,
+    useSetMultipleDialogmeldingFilters,
+    useToggleDialogmeldingFilter,
+} from '../state/dialogmeldingFilter';
 import { dialogmeldingLimit, useDialogmeldingPageState } from '../state/dialogmeldingPagination';
-
-
 
 import paginationStyles from '../Pagination.module.css';
 import styles from '../table.module.css';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 type DialogmeldingSortKey = 'sisteAktivitet' | 'frist' | 'fagomrade' | 'soker' | 'meldingstype' | 'status';
 
@@ -126,7 +100,7 @@ export function DialogmeldingTable(): ReactElement {
                                             {getFormattedDateString(oppgave.fristTidspunkt)}
                                         </Table.DataCell>
                                         <Table.DataCell>{fagomradeLabels[oppgave.fagomrade]}</Table.DataCell>
-                                        <Table.DataCell>{formatNavn(oppgave.soker)}</Table.DataCell>
+                                        <Table.DataCell>{formatSøkernavn(oppgave.soker)}</Table.DataCell>
                                         <Table.DataCell>{meldingstypeLabels[oppgave.meldingstype]}</Table.DataCell>
                                         <Table.DataCell>{statusLabels[oppgave.status]}</Table.DataCell>
                                     </LinkRow>
@@ -166,7 +140,7 @@ function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): Api
         sisteAktivitet: (oppgave) => oppgave.sisteAktivitetTidspunkt,
         frist: (oppgave) => oppgave.fristTidspunkt,
         fagomrade: (oppgave) => oppgave.fagomrade,
-        soker: (oppgave) => formatNavn(oppgave.soker),
+        soker: (oppgave) => formatSøkernavn(oppgave.soker),
         meldingstype: (oppgave) => oppgave.meldingstype,
         status: (oppgave) => oppgave.status,
     };
@@ -208,4 +182,8 @@ function filterOppgaver(
 
         return matchesPlus && matchesMinus;
     });
+}
+
+function formatSøkernavn({ fornavn, mellomnavn, etternavn }: ApiNavn): string {
+    return capitalizeName(`${etternavn}, ${fornavn}${mellomnavn ? ` ${mellomnavn}` : ''}`);
 }

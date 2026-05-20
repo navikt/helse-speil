@@ -17,23 +17,13 @@ import {
 import { PersonMock } from '@spesialist-mock/storage/person';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
-const sokerNavn: ApiNavn[] = [
-    { fornavn: 'Slapp', mellomnavn: null, etternavn: 'Appelsin' },
-    { fornavn: 'Optimistisk', mellomnavn: null, etternavn: 'Banan' },
-    { fornavn: 'Skeptisk', mellomnavn: null, etternavn: 'Service' },
-    { fornavn: 'Punktlig', mellomnavn: null, etternavn: 'Jakke' },
-    { fornavn: 'Minimalistisk', mellomnavn: null, etternavn: 'Aroma' },
-];
-
-// aktorId for SLAPP APPELSIN from mock oppgaver
-const MOCK_AKTOR_ID = '2564094783926';
-
 interface InternalDialog {
     conversationRef: string;
     aktorId: string;
     behandler: ApiBehandler;
     opprettetTidspunkt: string;
     status: ApiDialogmeldingStatus;
+    sokernavn: ApiNavn;
     dialogmeldinger: ApiDialogmelding[];
 }
 
@@ -73,10 +63,11 @@ const mockBehandler3: ApiBehandler = {
 const initialDialoger: InternalDialog[] = [
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440001',
-        aktorId: MOCK_AKTOR_ID,
+        aktorId: '2564094783926',
         behandler: mockBehandler1,
         opprettetTidspunkt: '2026-04-24T14:36:00',
         status: ApiDialogmeldingStatus.SENDT,
+        sokernavn: { fornavn: 'Slapp', etternavn: 'Appelsin', mellomnavn: null },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
@@ -113,10 +104,11 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440002',
-        aktorId: MOCK_AKTOR_ID,
+        aktorId: '1000001337420',
         behandler: mockBehandler1,
         opprettetTidspunkt: '2026-04-20T08:30:00',
         status: ApiDialogmeldingStatus.PURRING_SENDT,
+        sokernavn: { fornavn: 'Optimistisk', etternavn: 'Banan', mellomnavn: null },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER,
@@ -130,10 +122,11 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440003',
-        aktorId: MOCK_AKTOR_ID,
+        aktorId: '2117136462117',
         behandler: mockBehandler2,
         opprettetTidspunkt: '2026-04-24T14:36:00',
         status: ApiDialogmeldingStatus.MOTTATT,
+        sokernavn: { fornavn: 'Sindig', etternavn: 'Globus', mellomnavn: null },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.BESTRIDELSE,
@@ -155,10 +148,11 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440004',
-        aktorId: MOCK_AKTOR_ID,
+        aktorId: '2805594640665',
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-04-10T09:00:00',
         status: ApiDialogmeldingStatus.FERDIGSTILT,
+        sokernavn: { fornavn: 'Punktlig', etternavn: 'Jakke', mellomnavn: null },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.YRKESSKADE,
@@ -181,10 +175,11 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440005',
-        aktorId: MOCK_AKTOR_ID,
+        aktorId: '2407074650987',
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-04-05T11:00:00',
         status: ApiDialogmeldingStatus.SENDT,
+        sokernavn: { fornavn: 'Minimalistisk', etternavn: 'Aroma', mellomnavn: null },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
@@ -208,10 +203,11 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440006',
-        aktorId: MOCK_AKTOR_ID,
+        aktorId: '2564094783926',
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-03-28T14:00:00',
         status: ApiDialogmeldingStatus.PURRING_SENDT,
+        sokernavn: { fornavn: 'Slapp', etternavn: 'Appelsin', mellomnavn: null },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER,
@@ -271,7 +267,7 @@ export class DialogmeldingMock {
     };
 
     static getAllForOppgaver = (): ApiDialogmeldingOppgave[] => {
-        return DialogmeldingMock.dialoger.map((dialog, index) => {
+        return DialogmeldingMock.dialoger.map((dialog) => {
             const personPseudoId = DialogmeldingMock.tilPersonPseudoId(dialog) ?? 'unknown';
             const first = dialog.dialogmeldinger[0]!;
             const sisteAktivitetTidspunkt = dialog.opprettetTidspunkt;
@@ -283,7 +279,7 @@ export class DialogmeldingMock {
                 sisteAktivitetTidspunkt,
                 fristTidspunkt: getFrist(sisteAktivitetTidspunkt),
                 personPseudoId,
-                soker: sokerNavn[index % sokerNavn.length]!,
+                soker: dialog.sokernavn,
             };
         });
     };
@@ -291,7 +287,7 @@ export class DialogmeldingMock {
     static addDialogmelding = (personPseudoId: string, data: ApiNyDialogmelding): ApiDialogDetails => {
         const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
         const conversationRef = crypto.randomUUID();
-        const aktorId = PersonMock.findAktørIdForPersonPseudoId(personPseudoId) ?? MOCK_AKTOR_ID;
+        const aktorId = PersonMock.findAktørIdForPersonPseudoId(personPseudoId) ?? '2564094783926';
 
         const dialog: InternalDialog = {
             conversationRef,
@@ -299,6 +295,7 @@ export class DialogmeldingMock {
             behandler: data.behandler,
             opprettetTidspunkt: tid,
             status: ApiDialogmeldingStatus.SENDT,
+            sokernavn: data.sokernavn,
             dialogmeldinger: [
                 {
                     fagomrade: data.fagomrade,

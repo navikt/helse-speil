@@ -185,9 +185,9 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         opprettetTidspunkt: '2023-07-02T11:08:58',
         behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
         navn: {
-            fornavn: 'SKEPTISK',
+            fornavn: 'SINDIG',
             mellomnavn: null,
-            etternavn: 'SERVICE',
+            etternavn: 'GLOBUS',
         },
         egenskaper: [
             ApiEgenskap.FORSTEGANGSBEHANDLING,
