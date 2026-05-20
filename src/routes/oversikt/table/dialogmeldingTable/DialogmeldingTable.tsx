@@ -9,7 +9,7 @@ import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default'
 import { ApiDialogmeldingOppgave } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingFilterChips } from '@oversikt/table/dialogmeldingTable/DialogmeldingFilterChips';
 import { FilterStatus } from '@oversikt/table/state/filter';
-import { getFormattedDatetimeString } from '@utils/date';
+import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 
 import { LinkRow } from '../LinkRow';
 import {
@@ -23,10 +23,10 @@ import { dialogmeldingLimit, useDialogmeldingPageState } from '../state/dialogme
 import paginationStyles from '../Pagination.module.css';
 import styles from '../table.module.css';
 
-type DialogmeldingSortKey = 'dato' | 'frist' | 'fagomrade' | 'soker' | 'meldingstype' | 'status';
+type DialogmeldingSortKey = 'sisteAktivitet' | 'frist' | 'fagomrade' | 'soker' | 'meldingstype' | 'status';
 
 export function DialogmeldingTable(): ReactElement {
-    const [sort, setSort] = useState<SortState>({ orderBy: 'dato', direction: 'descending' });
+    const [sort, setSort] = useState<SortState>({ orderBy: 'sisteAktivitet', direction: 'descending' });
     const { activeFilters } = useDialogmeldingFilters();
     const toggleFilter = useToggleDialogmeldingFilter();
     const setMultipleFilters = useSetMultipleDialogmeldingFilters();
@@ -64,8 +64,8 @@ export function DialogmeldingTable(): ReactElement {
                     >
                         <Table.Header>
                             <Table.Row>
-                                <Table.ColumnHeader sortKey="dato" sortable>
-                                    Dato
+                                <Table.ColumnHeader sortKey="sisteAktivitet" sortable>
+                                    Siste aktivitet
                                 </Table.ColumnHeader>
                                 <Table.ColumnHeader sortKey="frist" sortable>
                                     Frist
@@ -96,7 +96,7 @@ export function DialogmeldingTable(): ReactElement {
                                             {getFormattedDatetimeString(oppgave.sisteAktivitetTidspunkt)}
                                         </Table.DataCell>
                                         <Table.DataCell>
-                                            {getFormattedDatetimeString(oppgave.fristTidspunkt)}
+                                            {getFormattedDateString(oppgave.fristTidspunkt)}
                                         </Table.DataCell>
                                         <Table.DataCell>{fagomradeLabels[oppgave.fagomrade]}</Table.DataCell>
                                         <Table.DataCell>{oppgave.soker}</Table.DataCell>
@@ -136,7 +136,7 @@ function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): Api
     const key = sort.orderBy as DialogmeldingSortKey;
     const direction = sort.direction === 'ascending' ? 1 : -1;
     const sortValueGetters: Record<DialogmeldingSortKey, (oppgave: ApiDialogmeldingOppgave) => string> = {
-        dato: (oppgave) => oppgave.sisteAktivitetTidspunkt,
+        sisteAktivitet: (oppgave) => oppgave.sisteAktivitetTidspunkt,
         frist: (oppgave) => oppgave.fristTidspunkt,
         fagomrade: (oppgave) => oppgave.fagomrade,
         soker: (oppgave) => oppgave.soker,

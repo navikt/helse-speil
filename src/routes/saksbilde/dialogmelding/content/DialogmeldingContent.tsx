@@ -31,7 +31,7 @@ export function DialogmeldingContent(): ReactElement {
     const { behandler, dialogmeldinger } = data;
     const firstMelding = dialogmeldinger[0]!;
     const adresse = formatLegekontorAdresse(behandler.legekontor);
-    const sortert = dialogmeldinger.sort((a, b) => b.tid.localeCompare(a.tid));
+    const sortert = dialogmeldinger.sort((a, b) => b.sendtTidspunkt.localeCompare(a.sendtTidspunkt));
 
     return (
         <Box as="section" padding="space-16" className="[grid-area:content]">

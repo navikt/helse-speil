@@ -23,7 +23,7 @@ export function DialogmeldingKort({ melding }: { melding: ApiDialogmelding }): R
                         )}
                     </HStack>
                     <BodyShort size="small" className="shrink-0 text-(--ax-text-action)">
-                        {getFormattedDatetimeString(melding.tid)}
+                        {getFormattedDatetimeString(melding.sendtTidspunkt)}
                     </BodyShort>
                 </HStack>
                 <BodyShort size="small">{melding.melding}</BodyShort>

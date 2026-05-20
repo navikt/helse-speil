@@ -53,7 +53,7 @@ export interface ApiDialogOppsummering {
     conversationRef: string;
     fagomrade: ApiFagomrade;
     meldingstype: ApiDialogmeldingType;
-    tid: string;
+    opprettetTidspunkt: string;
 }
 
 export type ApiBehandlerTelefonnummer = null | string;
@@ -121,7 +121,7 @@ export interface ApiDialogmelding {
     fraNav: boolean;
     melding: string;
     meldingstype: ApiDialogmeldingType;
-    tid: string;
+    sendtTidspunkt: string;
     vedlegg: ApiVedlegg[];
 }
 
@@ -134,7 +134,7 @@ export interface ApiDialogDetails {
     behandler: ApiBehandler;
     conversationRef: string;
     dialogmeldinger: ApiDialogmelding[];
-    tid: string;
+    opprettetTidspunkt: string;
 }
 
 export interface ApiNyDialogmelding {
