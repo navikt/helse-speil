@@ -1,17 +1,10 @@
 import { NextRequest } from 'next/server';
 
 import { stubEllerVideresendTilSporhund } from '@app/api/sporhund/common';
-import {
-    ApiDialogmeldingOppgave,
-    ApiDialogmeldingStatus,
-    ApiDialogmeldingType,
-    ApiFagomrade,
-} from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogmeldingOppgave, ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingMock } from '@spesialist-mock/storage/dialogmelding';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
-const fagomrader = Object.values(ApiFagomrade);
-const meldingstyper = Object.values(ApiDialogmeldingType);
 const statuser = Object.values(ApiDialogmeldingStatus);
 
 const sokerNavn = ['Slapp Appelsin', 'Optimistisk Banan', 'Skeptisk Service', 'Punktlig Jakke', 'Minimalistisk Aroma'];
@@ -26,11 +19,11 @@ async function stub(_request: NextRequest): Promise<Response> {
     const oppgaver: ApiDialogmeldingOppgave[] = dialoger.map((dialog, index) => ({
         conversationRef: dialog.conversationRef,
         personPseudoId,
-        dato: dialog.tid,
-        frist: getFrist(dialog.tid),
-        fagomrade: fagomrader[index % fagomrader.length]!,
+        sisteAktivitetTidspunkt: dialog.tid,
+        fristTidspunkt: getFrist(dialog.tid),
+        fagomrade: dialog.fagomrade,
         soker: sokerNavn[index % sokerNavn.length]!,
-        meldingstype: meldingstyper[index % meldingstyper.length]!,
+        meldingstype: dialog.meldingstype,
         status: statuser[index % statuser.length]!,
     }));
 

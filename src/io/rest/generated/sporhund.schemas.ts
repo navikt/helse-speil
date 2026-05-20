@@ -6,11 +6,11 @@
  */
 export interface ApiDialogmeldingOppgave {
     conversationRef: string;
-    dato: string;
     fagomrade: ApiFagomrade;
-    frist: string;
+    fristTidspunkt: string;
     meldingstype: ApiDialogmeldingType;
     personPseudoId: string;
+    sisteAktivitetTidspunkt: string;
     soker: string;
     status: ApiDialogmeldingStatus;
 }

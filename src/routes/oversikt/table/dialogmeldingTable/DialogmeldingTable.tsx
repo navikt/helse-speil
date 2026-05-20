@@ -92,8 +92,12 @@ export function DialogmeldingTable(): ReactElement {
                                         personPseudoId={oppgave.personPseudoId}
                                         subPath={`dialogmelding/${oppgave.conversationRef}`}
                                     >
-                                        <Table.DataCell>{getFormattedDatetimeString(oppgave.dato)}</Table.DataCell>
-                                        <Table.DataCell>{getFormattedDatetimeString(oppgave.frist)}</Table.DataCell>
+                                        <Table.DataCell>
+                                            {getFormattedDatetimeString(oppgave.sisteAktivitetTidspunkt)}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {getFormattedDatetimeString(oppgave.fristTidspunkt)}
+                                        </Table.DataCell>
                                         <Table.DataCell>{fagomradeLabels[oppgave.fagomrade]}</Table.DataCell>
                                         <Table.DataCell>{oppgave.soker}</Table.DataCell>
                                         <Table.DataCell>{meldingstypeLabels[oppgave.meldingstype]}</Table.DataCell>
@@ -131,10 +135,18 @@ export function DialogmeldingTable(): ReactElement {
 function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): ApiDialogmeldingOppgave[] {
     const key = sort.orderBy as DialogmeldingSortKey;
     const direction = sort.direction === 'ascending' ? 1 : -1;
+    const sortValueGetters: Record<DialogmeldingSortKey, (oppgave: ApiDialogmeldingOppgave) => string> = {
+        dato: (oppgave) => oppgave.sisteAktivitetTidspunkt,
+        frist: (oppgave) => oppgave.fristTidspunkt,
+        fagomrade: (oppgave) => oppgave.fagomrade,
+        soker: (oppgave) => oppgave.soker,
+        meldingstype: (oppgave) => oppgave.meldingstype,
+        status: (oppgave) => oppgave.status,
+    };
 
     return [...oppgaver].sort((a, b) => {
-        const aVal = a[key];
-        const bVal = b[key];
+        const aVal = sortValueGetters[key](a);
+        const bVal = sortValueGetters[key](b);
         return aVal < bVal ? -direction : aVal > bVal ? direction : 0;
     });
 }
