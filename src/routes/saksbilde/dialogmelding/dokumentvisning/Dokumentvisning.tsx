@@ -8,7 +8,7 @@ export function Dokumentvisning(): ReactElement {
         <VStack
             as="section"
             gap="space-8"
-            className="w-120 border-l border-l-ax-border-neutral-subtle [grid-area:høyremeny]"
+            className="w-150 border-l border-l-ax-border-neutral-subtle [grid-area:høyremeny]"
         >
             <div className="border-b border-b-ax-border-neutral-subtle p-4">
                 <Heading level="3" size="xsmall">

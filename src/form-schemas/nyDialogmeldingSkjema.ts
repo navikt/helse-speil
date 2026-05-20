@@ -41,10 +41,10 @@ export const nyDialogmeldingSchema = z.object({
 });
 
 export const fagomradeLabels: Record<ApiFagomrade, string> = {
-    [ApiFagomrade.BESTRIDELSE]: 'Bestridelse',
     [ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER]: 'Enkeltstående behandlingsdager',
     [ApiFagomrade.TILBAKEDATERING]: 'Tilbakedatering',
     [ApiFagomrade.YRKESSKADE]: 'Yrkesskade',
+    [ApiFagomrade.BESTRIDELSE]: 'Bestridelse',
 };
 
 export const statusLabels: Record<ApiDialogmeldingStatus, string> = {

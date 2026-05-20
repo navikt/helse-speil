@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Button, HStack, Heading, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
+import { Box, Button, HStack, Heading, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import {
     NyDialogmeldingSchema,
@@ -49,105 +49,112 @@ export function NyDialogmeldingForm(): ReactElement {
     }
 
     return (
-        <VStack
-            as="section"
-            paddingInline="space-16"
-            paddingBlock="space-16"
-            gap="space-16"
-            className="[grid-area:content]"
-        >
-            <HStack justify="space-between" align="center">
-                <Heading level="2" size="medium">
-                    Ny dialogmelding
-                </Heading>
-                <Button variant="tertiary" size="small" onClick={() => router.back()}>
-                    Avbryt
-                </Button>
-            </HStack>
-            <FormProvider {...form}>
-                <VStack
-                    as="form"
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    gap="space-32"
-                    className="max-w-250"
-                    id="ny-dialogmelding-form"
-                >
-                    <BehandlerSearch />
-                    <Controller
-                        control={form.control}
-                        name="fagomrade"
-                        render={({ field, fieldState }) => (
-                            <RadioGroup
-                                legend="Fagområde"
-                                value={field.value}
-                                onChange={field.onChange}
-                                error={fieldState.error?.message}
+        <section className="p-6 [grid-area:content]">
+            <VStack
+                as={Box}
+                gap="space-24"
+                borderWidth="1"
+                borderColor="neutral-strong"
+                background="neutral-soft"
+                borderRadius="8"
+                padding="space-24"
+                maxWidth="800px"
+            >
+                <HStack justify="space-between" align="center">
+                    <Heading level="2" size="medium">
+                        Ny dialogmelding
+                    </Heading>
+                    <Button variant="tertiary" size="small" onClick={() => router.back()}>
+                        Avbryt
+                    </Button>
+                </HStack>
+                <FormProvider {...form}>
+                    <VStack
+                        as="form"
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        gap="space-32"
+                        className="max-w-250"
+                        id="ny-dialogmelding-form"
+                    >
+                        <BehandlerSearch />
+                        <Controller
+                            control={form.control}
+                            name="fagomrade"
+                            render={({ field, fieldState }) => (
+                                <RadioGroup
+                                    legend="Fagområde"
+                                    className="[&_legend]:text-ax-large"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    error={fieldState.error?.message}
+                                    size="small"
+                                >
+                                    {Object.entries(fagomradeLabels).map(([value, label]) => (
+                                        <Radio key={value} value={value}>
+                                            <span className="text-ax-large">{label}</span>
+                                        </Radio>
+                                    ))}
+                                </RadioGroup>
+                            )}
+                        />
+                        <Controller
+                            control={form.control}
+                            name="meldingstype"
+                            render={({ field, fieldState }) => (
+                                <RadioGroup
+                                    legend="Meldingstype"
+                                    className="[&_legend]:text-ax-large"
+                                    value={field.value}
+                                    onChange={field.onChange}
+                                    error={fieldState.error?.message}
+                                    size="small"
+                                >
+                                    {Object.entries(meldingstypeLabels).map(([value, label]) => (
+                                        <Radio key={value} value={value}>
+                                            <span className="text-ax-large">{label}</span>
+                                        </Radio>
+                                    ))}
+                                </RadioGroup>
+                            )}
+                        />
+                        <Controller
+                            control={form.control}
+                            name="melding"
+                            render={({ field, fieldState }) => (
+                                <Textarea
+                                    {...field}
+                                    className="whitespace-pre-line"
+                                    label="Melding"
+                                    description="Skriv din melding til behandler"
+                                    minRows={6}
+                                    error={fieldState.error?.message}
+                                />
+                            )}
+                        />
+                        <HStack gap="space-16">
+                            <Button
                                 size="small"
+                                variant="primary"
+                                type="submit"
+                                icon={<PaperplaneIcon />}
+                                loading={isPending}
                             >
-                                {Object.entries(fagomradeLabels).map(([value, label]) => (
-                                    <Radio key={value} value={value}>
-                                        <span className="text-ax-large">{label}</span>
-                                    </Radio>
-                                ))}
-                            </RadioGroup>
-                        )}
-                    />
-                    <Controller
-                        control={form.control}
-                        name="meldingstype"
-                        render={({ field, fieldState }) => (
-                            <RadioGroup
-                                legend="Meldingstype"
-                                value={field.value}
-                                onChange={field.onChange}
-                                error={fieldState.error?.message}
+                                Send melding
+                            </Button>
+                            <Button
                                 size="small"
+                                variant="tertiary"
+                                type="button"
+                                onClick={() => router.back()}
+                                icon={<TrashIcon />}
+                                disabled={isPending}
                             >
-                                {Object.entries(meldingstypeLabels).map(([value, label]) => (
-                                    <Radio key={value} value={value}>
-                                        <span className="text-ax-large">{label}</span>
-                                    </Radio>
-                                ))}
-                            </RadioGroup>
-                        )}
-                    />
-                    <Controller
-                        control={form.control}
-                        name="melding"
-                        render={({ field, fieldState }) => (
-                            <Textarea
-                                {...field}
-                                className="whitespace-pre-line"
-                                label="Melding"
-                                description="Skriv din melding til behandler"
-                                minRows={6}
-                                error={fieldState.error?.message}
-                            />
-                        )}
-                    />
-                    <HStack gap="space-16">
-                        <Button
-                            size="small"
-                            variant="primary"
-                            type="submit"
-                            icon={<PaperplaneIcon />}
-                            loading={isPending}
-                        >
-                            Send melding
-                        </Button>
-                        <Button
-                            size="small"
-                            variant="tertiary"
-                            type="button"
-                            onClick={() => router.back()}
-                            icon={<TrashIcon />}
-                            disabled={isPending}
-                        >
-                            Avbryt
-                        </Button>
-                    </HStack>
-                </VStack>
-            </FormProvider>
-        </VStack>
+                                Avbryt
+                            </Button>
+                        </HStack>
+                    </VStack>
+                </FormProvider>
+            </VStack>
+        </section>
     );
 }
