@@ -54,6 +54,14 @@ export class PersonMock {
             })?.personPseudoId ?? null
         );
     };
+
+    static findAktørIdForPersonPseudoId = (personPseudoId: string): string | null => {
+        return (
+            PersonMock.persons.find((person) => {
+                if (person.personPseudoId == personPseudoId) return person;
+            })?.aktørId ?? null
+        );
+    };
 }
 
 export const finnFødselsnummerForVedtaksperiodeId = (vedtaksperiodeId: string) =>

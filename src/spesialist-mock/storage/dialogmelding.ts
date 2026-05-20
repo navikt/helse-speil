@@ -23,6 +23,7 @@ const MOCK_AKTOR_ID = '2564094783926';
 
 interface InternalDialog {
     conversationRef: string;
+    aktorId: string;
     behandler: ApiBehandler;
     opprettetTidspunkt: string;
     status: ApiDialogmeldingStatus;
@@ -65,6 +66,7 @@ const mockBehandler3: ApiBehandler = {
 const initialDialoger: InternalDialog[] = [
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440001',
+        aktorId: MOCK_AKTOR_ID,
         behandler: mockBehandler1,
         opprettetTidspunkt: '2026-04-24T14:36:00',
         status: ApiDialogmeldingStatus.SENDT,
@@ -104,6 +106,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440002',
+        aktorId: MOCK_AKTOR_ID,
         behandler: mockBehandler1,
         opprettetTidspunkt: '2026-04-20T08:30:00',
         status: ApiDialogmeldingStatus.PURRING_SENDT,
@@ -120,6 +123,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440003',
+        aktorId: MOCK_AKTOR_ID,
         behandler: mockBehandler2,
         opprettetTidspunkt: '2026-04-24T14:36:00',
         status: ApiDialogmeldingStatus.MOTTATT,
@@ -144,6 +148,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440004',
+        aktorId: MOCK_AKTOR_ID,
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-04-10T09:00:00',
         status: ApiDialogmeldingStatus.FERDIGSTILT,
@@ -169,6 +174,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440005',
+        aktorId: MOCK_AKTOR_ID,
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-04-05T11:00:00',
         status: ApiDialogmeldingStatus.SENDT,
@@ -195,6 +201,7 @@ const initialDialoger: InternalDialog[] = [
     },
     {
         conversationRef: '550e8400-e29b-41d4-a716-446655440006',
+        aktorId: MOCK_AKTOR_ID,
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-03-28T14:00:00',
         status: ApiDialogmeldingStatus.PURRING_SENDT,
@@ -214,23 +221,39 @@ const initialDialoger: InternalDialog[] = [
 export class DialogmeldingMock {
     private static dialoger: InternalDialog[] = structuredClone(initialDialoger);
 
-    static getAll = (): ApiDialogOppsummering[] => {
-        return DialogmeldingMock.dialoger.map((dialog) => {
-            const first = dialog.dialogmeldinger[0]!;
-            return {
-                conversationRef: dialog.conversationRef,
-                behandler: dialog.behandler,
-                fagomrade: first.fagomrade,
-                meldingstype: first.meldingstype,
-                opprettetTidspunkt: dialog.opprettetTidspunkt,
-                antallMeldinger: dialog.dialogmeldinger.length,
-                antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
-            };
-        });
+    private static tilPersonPseudoId = (dialog: InternalDialog): string | null => {
+        return PersonMock.findPersonPseudoId(dialog.aktorId);
     };
 
-    static getById = (dialogId: string): ApiDialogDetails | null => {
-        const dialog = DialogmeldingMock.dialoger.find((d) => d.conversationRef === dialogId);
+    private static getDialogForPerson = (personPseudoId: string, dialogId: string): InternalDialog | null => {
+        return (
+            DialogmeldingMock.dialoger.find(
+                (dialog) =>
+                    dialog.conversationRef === dialogId &&
+                    DialogmeldingMock.tilPersonPseudoId(dialog) === personPseudoId,
+            ) ?? null
+        );
+    };
+
+    static getAllForPerson = (personPseudoId: string): ApiDialogOppsummering[] => {
+        return DialogmeldingMock.dialoger
+            .filter((dialog) => DialogmeldingMock.tilPersonPseudoId(dialog) === personPseudoId)
+            .map((dialog) => {
+                const first = dialog.dialogmeldinger[0]!;
+                return {
+                    conversationRef: dialog.conversationRef,
+                    behandler: dialog.behandler,
+                    fagomrade: first.fagomrade,
+                    meldingstype: first.meldingstype,
+                    opprettetTidspunkt: dialog.opprettetTidspunkt,
+                    antallMeldinger: dialog.dialogmeldinger.length,
+                    antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
+                };
+            });
+    };
+
+    static getByIdForPerson = (personPseudoId: string, dialogId: string): ApiDialogDetails | null => {
+        const dialog = DialogmeldingMock.getDialogForPerson(personPseudoId, dialogId);
         if (!dialog) return null;
         return {
             conversationRef: dialog.conversationRef,
@@ -241,8 +264,8 @@ export class DialogmeldingMock {
     };
 
     static getAllForOppgaver = (): ApiDialogmeldingOppgave[] => {
-        const personPseudoId = PersonMock.findPersonPseudoId(MOCK_AKTOR_ID) ?? 'unknown';
         return DialogmeldingMock.dialoger.map((dialog, index) => {
+            const personPseudoId = DialogmeldingMock.tilPersonPseudoId(dialog) ?? 'unknown';
             const first = dialog.dialogmeldinger[0]!;
             const sisteAktivitetTidspunkt = dialog.opprettetTidspunkt;
             return {
@@ -258,12 +281,14 @@ export class DialogmeldingMock {
         });
     };
 
-    static addDialogmelding = (data: ApiNyDialogmelding): ApiDialogDetails => {
+    static addDialogmelding = (personPseudoId: string, data: ApiNyDialogmelding): ApiDialogDetails => {
         const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
         const conversationRef = crypto.randomUUID();
+        const aktorId = PersonMock.findAktørIdForPersonPseudoId(personPseudoId) ?? MOCK_AKTOR_ID;
 
         const dialog: InternalDialog = {
             conversationRef,
+            aktorId,
             behandler: data.behandler,
             opprettetTidspunkt: tid,
             status: ApiDialogmeldingStatus.SENDT,
@@ -289,8 +314,12 @@ export class DialogmeldingMock {
         };
     };
 
-    static addSvar = (dialogId: string, data: ApiSvarPaDialog): ApiDialogDetails | null => {
-        const dialog = DialogmeldingMock.dialoger.find((d) => d.conversationRef === dialogId);
+    static addSvarForPerson = (
+        personPseudoId: string,
+        dialogId: string,
+        data: ApiSvarPaDialog,
+    ): ApiDialogDetails | null => {
+        const dialog = DialogmeldingMock.getDialogForPerson(personPseudoId, dialogId);
         if (!dialog) return null;
 
         const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
