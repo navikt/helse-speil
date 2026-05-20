@@ -49,7 +49,13 @@ export const ForkastFraUberegnetButton = ({ activePeriod }: ForkastFraUberegnetB
 
     return (
         <>
-            <Button variant="secondary" disabled={isPending || forkastingAnmodet} size="small" onClick={submit}>
+            <Button
+                className="w-fit"
+                variant="secondary"
+                disabled={isPending || forkastingAnmodet}
+                size="small"
+                onClick={submit}
+            >
                 Kan ikke behandles her
             </Button>
             {error && (
