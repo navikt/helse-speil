@@ -1405,6 +1405,18 @@ export interface ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode {
     code?: ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCodeCode;
 }
 
+export interface ApiAnmodOmForkastingRequestÅrsak {
+    key: string;
+    årsak: string;
+}
+
+export type ApiAnmodOmForkastingRequestKommentar = null | string;
+
+export interface ApiAnmodOmForkastingRequest {
+    årsaker: ApiAnmodOmForkastingRequestÅrsak[];
+    kommentar?: ApiAnmodOmForkastingRequestKommentar;
+}
+
 export type ApiPostAnmodOmForkastingErrorCode =
     (typeof ApiPostAnmodOmForkastingErrorCode)[keyof typeof ApiPostAnmodOmForkastingErrorCode];
 
@@ -1413,6 +1425,7 @@ export const ApiPostAnmodOmForkastingErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
     BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
+    MANGLER_ÅRSAKER: 'MANGLER_ÅRSAKER',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCodeDetail = null | string;

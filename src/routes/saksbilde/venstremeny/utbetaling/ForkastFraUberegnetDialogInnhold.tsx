@@ -16,7 +16,7 @@ import { ForkastingSkjema, forkastingSkjema } from '@/form-schemas/forkastingSkj
 import { Arsak, useArsaker } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UberegnetPeriodeFragment } from '@io/graphql';
-import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
+import { usePostAnmodOmForkasting } from '@io/rest/generated/vedtaksperioder/vedtaksperioder';
 import {
     visningenErOppdatertToast,
     visningenErOppdatertToastKey,
@@ -34,7 +34,7 @@ export const ForkastFraUberegnetDialogInnhold = ({
     activePeriod,
     onSuccess,
 }: ForkastFraUberegnetDialogInnholdProps) => {
-    const { mutate, isPending, error } = usePostForkasting();
+    const { mutate, isPending, error } = usePostAnmodOmForkasting();
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const { arsaker, loading: arsakerLoading } = useArsaker('forkastingarsaker');
@@ -54,10 +54,9 @@ export const ForkastFraUberegnetDialogInnhold = ({
         addToast(visningenOppdateresToast({}));
         mutate(
             {
-                behandlingId: activePeriod.behandlingId,
+                vedtaksperiodeId: activePeriod.vedtaksperiodeId,
                 data: {
-                    årsak: 'Feil vurdering og/eller beregning',
-                    begrunnelser: parsedArsaker.map((it) => it.arsak),
+                    årsaker: parsedArsaker.map((it) => ({ key: it._key, årsak: it.arsak })),
                     kommentar: values.kommentar.trim() || undefined,
                 },
             },
