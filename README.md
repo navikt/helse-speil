@@ -43,6 +43,15 @@ Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesial
 
 Kjør precommit hooks manuelt - `.husky/pre-commit`
 
+### Utvikle lokalt mot lokalt kjørende backend
+
+| Script                      | Spesialist     | Sporhund       |
+| --------------------------- | -------------- | -------------- |
+| `pnpm run dev`              | mocked (stub)  | mocked (stub)  |
+| `pnpm run lokal-backend`    | localhost:8080 | localhost:8282 |
+| `pnpm run lokal-spesialist` | localhost:8080 | mocked (stub)  |
+| `pnpm run lokal-sporhund`   | mocked (stub)  | localhost:8282 |
+
 ### Legge til en testperson lokalt:
 
 1. Kjør `pnpm run import-testperson` og følg instruksjonene
