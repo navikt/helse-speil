@@ -39,6 +39,7 @@ export enum Key {
     O = 'KeyO',
     R = 'KeyR',
     S = 'KeyS',
+    T = 'KeyT',
     V = 'KeyV',
     P = 'KeyP',
 }

@@ -1,12 +1,16 @@
 import { useTheme } from 'next-themes';
+import { useParams } from 'next/navigation';
 
+import { backend } from '@/env';
 import { hoppTilModia, redirigerTilArbeidOgInntektUrl } from '@components/SystemMenu';
 import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
+import { getGetDialogmeldingQueryKey, getGetDialogmeldingerQueryKey } from '@io/rest/generated/default/default';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
+import { useQueryClient } from '@tanstack/react-query';
 import { isBeregnetPeriode, isNotNullOrUndefined, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): string | null => {
@@ -164,6 +168,42 @@ const useOpenDemosiderForVedtak = (): (() => void) => {
     return () => hoppTilModia('https://demo.ekstern.dev.nav.no/syk/sykepenger', fødselsnummer);
 };
 
+const useSimulerBehandlerSvar = (): (() => void) => {
+    const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId: string }>();
+    const queryClient = useQueryClient();
+    const addToast = useAddToast();
+
+    return () => {
+        if (!personPseudoId || !dialogId) {
+            addToast({
+                key: 'mockBehandlerSvarFeilet',
+                message: 'Kan bare simulere behandlersvar fra en dialogmelding-side',
+                timeToLiveMs: 3000,
+            });
+            return;
+        }
+
+        void fetch(`/api/sporhund/personer/${personPseudoId}/dialogmeldinger/${dialogId}/mock-behandler-svar`, {
+            method: 'POST',
+        }).then((res) => {
+            if (res.ok) {
+                void queryClient.invalidateQueries({
+                    queryKey: getGetDialogmeldingQueryKey(personPseudoId, dialogId),
+                });
+                void queryClient.invalidateQueries({
+                    queryKey: getGetDialogmeldingerQueryKey(personPseudoId),
+                });
+            } else {
+                addToast({
+                    key: 'mockBehandlerSvarFeilet',
+                    message: 'Klarte ikke å simulere behandlersvar',
+                    timeToLiveMs: 3000,
+                });
+            }
+        });
+    };
+};
+
 export const useKeyboardActions = (): Action[] => {
     const { navigateToNext, navigateToPrevious } = useNavigation();
     const { theme, setTheme } = useTheme();
@@ -182,6 +222,7 @@ export const useKeyboardActions = (): Action[] => {
     const openModiaPersonoversikt = useModiaPersonoversikt();
     const openModiaSykefraværsoppfølging = useOpenModiaSykefraværsoppfølging();
     const openDemosiderForVedtak = useOpenDemosiderForVedtak();
+    const simulerBehandlerSvar = useSimulerBehandlerSvar();
 
     return [
         {
@@ -392,6 +433,18 @@ export const useKeyboardActions = (): Action[] => {
                       ignoreIfModifiers: false,
                       modifier: Key.Alt,
                       utviklerOnly: true,
+                  },
+              ]
+            : []),
+        ...(backend !== 'deployed'
+            ? [
+                  {
+                      key: Key.T,
+                      visningstekst: 'Simuler behandlersvar (mock)',
+                      visningssnarvei: ['ALT', 'T'],
+                      action: simulerBehandlerSvar,
+                      ignoreIfModifiers: false,
+                      modifier: Key.Alt,
                   },
               ]
             : []),

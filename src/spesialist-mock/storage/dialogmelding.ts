@@ -351,6 +351,31 @@ export class DialogmeldingMock {
         };
     };
 
+    static addBehandlerSvarForPerson = (personPseudoId: string, dialogId: string): ApiDialogDetails | null => {
+        const dialog = DialogmeldingMock.getDialogForPerson(personPseudoId, dialogId);
+        if (!dialog) return null;
+
+        const tid = dayjs().format(ISO_TIDSPUNKTFORMAT);
+        const first = dialog.dialogmeldinger[0]!;
+        dialog.dialogmeldinger.unshift({
+            fagomrade: first.fagomrade,
+            meldingstype: first.meldingstype,
+            melding:
+                'Vedlagt finner dere etterspurt dokumentasjon. Pasienten har vært til kontroll og jeg har oppdatert vurderingen. Ta kontakt dersom dere trenger ytterligere opplysninger.',
+            sendtTidspunkt: tid,
+            fraNav: false,
+            vedlegg: [{ navn: 'Svar_fra_lege.pdf', url: '#' }],
+        });
+        dialog.status = ApiDialogmeldingStatus.MOTTATT;
+
+        return {
+            conversationRef: dialog.conversationRef,
+            behandler: dialog.behandler,
+            status: dialog.status,
+            dialogmeldinger: dialog.dialogmeldinger,
+        };
+    };
+
     static updateStatus = (
         personPseudoId: string,
         dialogId: string,
