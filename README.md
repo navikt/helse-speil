@@ -85,13 +85,21 @@ pnpm run generate-graphql
 
 ## Oppdatere REST-typer og genererte Tanstack Query-hooks
 
-OpenAPI-spec hentes fra spesialist på lokal maskin. Først må man starte spesialist på lokal maskin (se etter fila LocalApp.kt).
+OpenAPI-spec kan hentes fra spesialist eller sporhund på lokal maskin (Eller begge). Først må man starte spesialist eller sporhund på lokal maskin (se etter fila LocalApp.kt).
 OpenAPI-spec'en når man kjører lokalt krever ikke autentisering.
 
 **Kjør så kommandoen:**
 
 ```shell
-pnpm run generate-rest
+pnpm run generate-rest # krever at både spesialist og sporhund kjører lokalt
+```
+
+```shell
+pnpm run generate-rest:spesialist # krever at spesialist kjører lokalt
+```
+
+```shell
+pnpm run generate-rest:sporhund # krever at sporhund kjører lokalt
 ```
 
 ## Henvendelser
