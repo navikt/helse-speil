@@ -88,12 +88,12 @@ const dialogmeldingFilters: Filter[] = [
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.STATUS,
     },
-    {
-        key: ApiDialogmeldingStatus.FERDIGSTILT,
-        label: 'Ferdigstilt',
-        status: FilterStatus.OFF,
-        column: DialogmeldingKolonne.STATUS,
-    },
+    // {
+    //     key: ApiDialogmeldingStatus.FERDIGSTILT,
+    //     label: 'Ferdigstilt',
+    //     status: FilterStatus.OFF,
+    //     column: DialogmeldingKolonne.STATUS,
+    // },
 ];
 
 const dialogmeldingFilterState = atomWithLocalStorage<Filter[]>('dialogmeldingFilters', dialogmeldingFilters);

@@ -269,21 +269,23 @@ export class DialogmeldingMock {
     };
 
     static getAllForOppgaver = (): ApiDialogmeldingOppgave[] => {
-        return DialogmeldingMock.dialoger.map((dialog) => {
-            const personPseudoId = DialogmeldingMock.tilPersonPseudoId(dialog) ?? 'unknown';
-            const first = dialog.dialogmeldinger[0]!;
-            const sisteAktivitetTidspunkt = dialog.opprettetTidspunkt;
-            return {
-                conversationRef: dialog.conversationRef,
-                fagomrade: first.fagomrade,
-                meldingstype: first.meldingstype,
-                status: dialog.status,
-                sisteAktivitetTidspunkt,
-                fristTidspunkt: getFrist(sisteAktivitetTidspunkt),
-                personPseudoId,
-                soker: dialog.sokernavn,
-            };
-        });
+        return DialogmeldingMock.dialoger
+            .filter((dialog) => dialog.status !== ApiDialogmeldingStatus.FERDIGSTILT)
+            .map((dialog) => {
+                const personPseudoId = DialogmeldingMock.tilPersonPseudoId(dialog) ?? 'unknown';
+                const first = dialog.dialogmeldinger[0]!;
+                const sisteAktivitetTidspunkt = dialog.opprettetTidspunkt;
+                return {
+                    conversationRef: dialog.conversationRef,
+                    fagomrade: first.fagomrade,
+                    meldingstype: first.meldingstype,
+                    status: dialog.status,
+                    sisteAktivitetTidspunkt,
+                    fristTidspunkt: getFrist(sisteAktivitetTidspunkt),
+                    personPseudoId,
+                    soker: dialog.sokernavn,
+                };
+            });
     };
 
     static addDialogmelding = (personPseudoId: string, data: ApiNyDialogmelding): ApiDialogDetails => {
