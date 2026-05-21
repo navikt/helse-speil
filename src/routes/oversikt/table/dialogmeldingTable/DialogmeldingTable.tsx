@@ -173,7 +173,7 @@ function filterOppgaver(
     return oppgaver.filter((oppgave) => {
         const matchesPlus =
             plusFilters.length === 0 ||
-            plusFilters.some((f) => {
+            plusFilters.every((f) => {
                 const field = columnMapping[f.column];
                 return field && oppgave[field] === f.key;
             });
