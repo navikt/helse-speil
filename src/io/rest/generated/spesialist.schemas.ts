@@ -2015,6 +2015,7 @@ export type GetOppgaverParams = {
     sorteringsrekkefoelge?: ApiSorteringsrekkefølge;
     sidetall?: number;
     sidestoerrelse?: number;
+    ekskluderVarsler?: string;
 };
 
 export type GetBehandledeOppgaverParams = {
