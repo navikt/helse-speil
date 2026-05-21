@@ -7,7 +7,6 @@ export enum TabType {
     Mine = 'mine',
     Ventende = 'ventende',
     BehandletIdag = 'behandletIdag',
-    Liste = 'liste',
     Dialogmelding = 'dialogmelding',
     Oppgavelister = 'oppgavelister',
 }

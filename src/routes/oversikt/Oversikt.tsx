@@ -13,7 +13,6 @@ import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
-import { ListeTable } from '@oversikt/table/ListeTable';
 import { OppgavelisterTable } from '@oversikt/table/OppgavelisterTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
 import { useSorteringValue } from '@oversikt/table/state/sortation';
@@ -39,8 +38,6 @@ const TabContent = dynamic(
             switch (aktivTab) {
                 case TabType.BehandletIdag:
                     return <BehandletIdagTable />;
-                case TabType.Liste:
-                    return <ListeTable />;
                 case TabType.Dialogmelding:
                     return <DialogmeldingTable />;
                 case TabType.Oppgavelister:
@@ -76,9 +73,9 @@ export const Oversikt = (): ReactElement => {
         <main className={styles.Oversikt}>
             <Tabs antallMineSaker={antallMineSaker} antallPåVentNåddFrist={antallPåVentNåddFrist} />
             <div className={styles.fullHeight}>
-                {aktivTab !== TabType.BehandletIdag &&
-                    aktivTab !== TabType.Liste &&
-                    aktivTab !== TabType.Oppgavelister && <Filtermeny filters={allFilters} />}
+                {aktivTab !== TabType.BehandletIdag && aktivTab !== TabType.Oppgavelister && (
+                    <Filtermeny filters={allFilters} />
+                )}
                 <section className={styles.Content}>
                     <TabContent
                         aktivTab={aktivTab}

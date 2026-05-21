@@ -28,7 +28,6 @@ const sorteringPerTab = atomWithLocalStorage<SorteringPerTab>('sorteringPerTab',
     [TabType.Mine]: defaultSortering,
     [TabType.Ventende]: { orderBy: SortKey.Tidsfrist, direction: 'ascending' },
     [TabType.BehandletIdag]: defaultSortering,
-    [TabType.Liste]: defaultSortering,
     [TabType.Dialogmelding]: defaultSortering,
     [TabType.Oppgavelister]: defaultSortering,
 });
@@ -38,7 +37,6 @@ const defaultDatoSortKey: Record<TabType, SortKey> = {
     [TabType.Mine]: SortKey.Opprettet,
     [TabType.Ventende]: SortKey.Tidsfrist,
     [TabType.BehandletIdag]: SortKey.Opprettet,
-    [TabType.Liste]: SortKey.Opprettet,
     [TabType.Dialogmelding]: SortKey.Opprettet,
     [TabType.Oppgavelister]: SortKey.BehandlingOpprettetTidspunkt,
 };
@@ -50,7 +48,6 @@ const datoSortKeyPerTab = atomWithLocalStorage<DatoSortKeyPerTab>('dateSortKeyPe
     [TabType.Mine]: SortKey.Opprettet,
     [TabType.Ventende]: SortKey.Tidsfrist,
     [TabType.BehandletIdag]: SortKey.Opprettet,
-    [TabType.Liste]: SortKey.Opprettet,
     [TabType.Dialogmelding]: SortKey.Opprettet,
     [TabType.Oppgavelister]: SortKey.BehandlingOpprettetTidspunkt,
 });

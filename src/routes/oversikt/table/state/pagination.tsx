@@ -17,7 +17,6 @@ const currentPagePerTab = atomWithSessionStorage<CurrentPagePerTab>('currentPage
     [TabType.Mine]: defaultPageState,
     [TabType.Ventende]: defaultPageState,
     [TabType.BehandletIdag]: defaultPageState,
-    [TabType.Liste]: defaultPageState,
     [TabType.Dialogmelding]: defaultPageState,
     [TabType.Oppgavelister]: defaultPageState,
 });

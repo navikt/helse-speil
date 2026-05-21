@@ -13,24 +13,8 @@ export type Oppgaveliste = {
 
 export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     {
-        id: 'utbetaling-uten-spesialtilfeller',
-        navn: 'Utbetaling uten spesialtilfeller',
-        params: {
-            erTildelt: false,
-            minstEnAvEgenskapene: [
-                [ApiEgenskap.UTBETALING_TIL_SYKMELDT, ApiEgenskap.DELVIS_REFUSJON, ApiEgenskap.INGEN_UTBETALING].join(
-                    ',',
-                ),
-                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE].join(','),
-            ],
-            ingenAvEgenskapene: [ApiEgenskap.UTLAND, ApiEgenskap.TILBAKEDATERT, ApiEgenskap.MEDLEMSKAP].join(','),
-            sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
-            sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
-        },
-    },
-    {
         id: 'nks-arbeidsgiver-skjonnsfastsettelse',
-        navn: 'NKS (Arbeidsgiver & Skjønnsfastsettelse)',
+        navn: 'NKS',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: [
