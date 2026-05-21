@@ -7,6 +7,7 @@ import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, VStac
 import { fagomradeLabels, meldingstypeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingOppgave, ApiNavn } from '@io/rest/generated/sporhund.schemas';
+import { DialogmeldingBodySkeleton } from '@oversikt/table/dialogmeldingTable/DialogmeldingBodySkeleton';
 import { DialogmeldingFilterChips } from '@oversikt/table/dialogmeldingTable/DialogmeldingFilterChips';
 import { FilterStatus } from '@oversikt/table/state/filter';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
@@ -33,7 +34,7 @@ export function DialogmeldingTable(): ReactElement {
     const setMultipleFilters = useSetMultipleDialogmeldingFilters();
     const [currentPage, setCurrentPage] = useDialogmeldingPageState();
 
-    const { data: oppgaver = [] } = useGetDialogmeldingOppgaver();
+    const { data: oppgaver = [], isPending } = useGetDialogmeldingOppgaver();
 
     const filtered = filterOppgaver(oppgaver, activeFilters);
     const sorted = sortOppgaver(filtered, sort);
@@ -86,7 +87,9 @@ export function DialogmeldingTable(): ReactElement {
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {paginated.length > 0 ? (
+                            {isPending ? (
+                                <DialogmeldingBodySkeleton />
+                            ) : paginated.length > 0 ? (
                                 paginated.map((oppgave) => (
                                     <LinkRow
                                         key={oppgave.conversationRef}
