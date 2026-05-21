@@ -4,11 +4,12 @@ import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
-import { Bleed, BodyShort, HStack, VStack } from '@navikt/ds-react';
+import { Bleed, BodyShort, HStack, Tag, type TagProps, VStack } from '@navikt/ds-react';
 
-import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
+import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
+import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 import { formatNavn } from '@utils/navnUtils';
 
@@ -50,6 +51,13 @@ export function DialogmeldingListe(): ReactElement {
                                 )}
                             >
                                 <VStack>
+                                    <Tag
+                                        size="xsmall"
+                                        data-color={statusTagColor[dialog.status]}
+                                        className="mb-2 self-start"
+                                    >
+                                        {statusLabels[dialog.status]}
+                                    </Tag>
                                     <HStack align="center" gap="space-4" marginBlock="space-0 space-2">
                                         <BodyShort weight={erAktiv ? 'semibold' : 'regular'}>
                                             {fagomradeLabels[dialog.fagomrade]}
@@ -74,3 +82,10 @@ export function DialogmeldingListe(): ReactElement {
         </VStack>
     );
 }
+
+const statusTagColor: Record<ApiDialogmeldingStatus, TagProps['data-color']> = {
+    [ApiDialogmeldingStatus.FERDIGSTILT]: 'success',
+    [ApiDialogmeldingStatus.SENDT]: 'neutral',
+    [ApiDialogmeldingStatus.PURRING_SENDT]: 'neutral',
+    [ApiDialogmeldingStatus.MOTTATT]: 'neutral',
+};

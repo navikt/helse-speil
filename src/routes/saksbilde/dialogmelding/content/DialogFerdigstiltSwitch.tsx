@@ -4,7 +4,11 @@ import React, { ReactElement, useState } from 'react';
 
 import { Alert, Switch } from '@navikt/ds-react';
 
-import { getGetDialogmeldingQueryKey, usePatchDialogstatus } from '@io/rest/generated/default/default';
+import {
+    getGetDialogmeldingQueryKey,
+    getGetDialogmeldingerQueryKey,
+    usePatchDialogstatus,
+} from '@io/rest/generated/default/default';
 import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -28,6 +32,9 @@ export function DialogFerdigstiltSwitch({
                 setChecked(data.status === ApiDialogmeldingStatus.FERDIGSTILT);
                 queryClient.invalidateQueries({
                     queryKey: getGetDialogmeldingQueryKey(personPseudoId, dialogId),
+                });
+                queryClient.invalidateQueries({
+                    queryKey: getGetDialogmeldingerQueryKey(personPseudoId),
                 });
             },
         },

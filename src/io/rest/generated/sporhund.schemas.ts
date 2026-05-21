@@ -62,6 +62,7 @@ export interface ApiDialogOppsummering {
     fagomrade: ApiFagomrade;
     meldingstype: ApiDialogmeldingType;
     opprettetTidspunkt: string;
+    status: ApiDialogmeldingStatus;
 }
 
 export type ApiBehandlerTelefonnummer = null | string;

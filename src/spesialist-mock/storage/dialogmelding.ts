@@ -252,6 +252,7 @@ export class DialogmeldingMock {
                     opprettetTidspunkt: dialog.opprettetTidspunkt,
                     antallMeldinger: dialog.dialogmeldinger.length,
                     antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
+                    status: dialog.status,
                 };
             });
     };
@@ -361,7 +362,12 @@ export class DialogmeldingMock {
         const dialog = DialogmeldingMock.getDialogForPerson(personPseudoId, dialogId);
         if (!dialog) return null;
 
-        dialog.status = data.ferdigstilt ? ApiDialogmeldingStatus.FERDIGSTILT : ApiDialogmeldingStatus.MOTTATT;
+        if (data.ferdigstilt) {
+            dialog.status = ApiDialogmeldingStatus.FERDIGSTILT;
+        } else {
+            const nyesteMelding = dialog.dialogmeldinger[0];
+            dialog.status = nyesteMelding?.fraNav ? ApiDialogmeldingStatus.SENDT : ApiDialogmeldingStatus.MOTTATT;
+        }
 
         return {
             conversationRef: dialog.conversationRef,
