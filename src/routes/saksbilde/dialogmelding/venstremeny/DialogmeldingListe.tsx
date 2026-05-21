@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { ChevronRightIcon, PaperclipIcon } from '@navikt/aksel-icons';
+import { PaperclipIcon } from '@navikt/aksel-icons';
 import { Bleed, BodyShort, HStack, Tag, type TagProps, VStack } from '@navikt/ds-react';
 
 import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
@@ -73,7 +73,6 @@ export function DialogmeldingListe(): ReactElement {
                                         {getFormattedDatetimeString(dialog.sisteAktivitetTidspunkt)}
                                     </BodyShort>
                                 </VStack>
-                                <ChevronRightIcon aria-hidden />
                             </Link>
                         </li>
                     </Bleed>
