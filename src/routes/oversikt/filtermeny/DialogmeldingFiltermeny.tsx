@@ -47,7 +47,7 @@ const DialogmeldingFilterList = ({ filters, text, onToggle }: DialogmeldingFilte
             <Accordion.Header className="box-border border-0 bg-transparent py-2 pr-4 pl-0 shadow-none [&::after]:h-0 [&::before]:h-0">
                 <BodyShort weight="semibold">{text}</BodyShort>
             </Accordion.Header>
-            <Accordion.Content className="ml-7.5 px-1 pb-4.5">
+            <Accordion.Content className="mb-0 ml-7.5 px-1 pb-4.5">
                 <VStack gap="space-8">
                     {filters.map((filter) => (
                         <HStack gap="space-8" key={filter.key} wrap={false}>
