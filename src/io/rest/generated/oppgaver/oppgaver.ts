@@ -4,8 +4,8 @@
  * API
  * OpenAPI spec version: latest
  */
-import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
+import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type {
     ApiAntallOppgaver,
     ApiBehandletOppgaveProjeksjonSide,
@@ -17,11 +17,9 @@ import type {
     ApiOppgaveProjeksjonSide,
     ApiPutPåVentRequest,
     GetBehandledeOppgaverParams,
-    GetListeOppgaverParams,
     GetOppgaverParams,
 } from '../spesialist.schemas';
 
-import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -36,6 +34,7 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 export const getOppgaver = (params?: GetOppgaverParams, signal?: AbortSignal) => {
     return callCustomAxios<ApiOppgaveProjeksjonSide>({
@@ -319,107 +318,6 @@ export function useGetBehandledeOppgaver<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = getGetBehandledeOppgaverQueryOptions(params, options);
-
-    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
-        queryKey: DataTag<QueryKey, TData, TError>;
-    };
-
-    query.queryKey = queryOptions.queryKey;
-
-    return query;
-}
-
-export const getListeOppgaver = (params?: GetListeOppgaverParams, signal?: AbortSignal) => {
-    return callCustomAxios<ApiOppgaveProjeksjonSide>({
-        url: `/api/spesialist/liste-oppgaver`,
-        method: 'GET',
-        params,
-        signal,
-    });
-};
-
-export const getGetListeOppgaverQueryKey = (params?: GetListeOppgaverParams) => {
-    return [`/api/spesialist/liste-oppgaver`, ...(params ? [params] : [])] as const;
-};
-
-export const getGetListeOppgaverQueryOptions = <
-    TData = Awaited<ReturnType<typeof getListeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
-    params?: GetListeOppgaverParams,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getListeOppgaver>>, TError, TData>> },
-) => {
-    const { query: queryOptions } = options ?? {};
-
-    const queryKey = queryOptions?.queryKey ?? getGetListeOppgaverQueryKey(params);
-
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof getListeOppgaver>>> = ({ signal }) =>
-        getListeOppgaver(params, signal);
-
-    return { queryKey, queryFn, staleTime: Infinity, gcTime: 0, ...queryOptions } as UseQueryOptions<
-        Awaited<ReturnType<typeof getListeOppgaver>>,
-        TError,
-        TData
-    > & { queryKey: DataTag<QueryKey, TData, TError> };
-};
-
-export type GetListeOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getListeOppgaver>>>;
-export type GetListeOppgaverQueryError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>;
-
-export function useGetListeOppgaver<
-    TData = Awaited<ReturnType<typeof getListeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
-    params: undefined | GetListeOppgaverParams,
-    options: {
-        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getListeOppgaver>>, TError, TData>> &
-            Pick<
-                DefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getListeOppgaver>>,
-                    TError,
-                    Awaited<ReturnType<typeof getListeOppgaver>>
-                >,
-                'initialData'
-            >;
-    },
-    queryClient?: QueryClient,
-): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetListeOppgaver<
-    TData = Awaited<ReturnType<typeof getListeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
-    params?: GetListeOppgaverParams,
-    options?: {
-        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getListeOppgaver>>, TError, TData>> &
-            Pick<
-                UndefinedInitialDataOptions<
-                    Awaited<ReturnType<typeof getListeOppgaver>>,
-                    TError,
-                    Awaited<ReturnType<typeof getListeOppgaver>>
-                >,
-                'initialData'
-            >;
-    },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-export function useGetListeOppgaver<
-    TData = Awaited<ReturnType<typeof getListeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
-    params?: GetListeOppgaverParams,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getListeOppgaver>>, TError, TData>> },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
-
-export function useGetListeOppgaver<
-    TData = Awaited<ReturnType<typeof getListeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
->(
-    params?: GetListeOppgaverParams,
-    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getListeOppgaver>>, TError, TData>> },
-    queryClient?: QueryClient,
-): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
-    const queryOptions = getGetListeOppgaverQueryOptions(params, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

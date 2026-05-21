@@ -2024,8 +2024,3 @@ export type GetBehandledeOppgaverParams = {
     sidetall: number;
     sidestoerrelse: number;
 };
-
-export type GetListeOppgaverParams = {
-    sidetall?: number;
-    sidestoerrelse?: number;
-};
