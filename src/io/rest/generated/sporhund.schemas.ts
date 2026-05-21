@@ -61,7 +61,7 @@ export interface ApiDialogOppsummering {
     conversationRef: string;
     fagomrade: ApiFagomrade;
     meldingstype: ApiDialogmeldingType;
-    opprettetTidspunkt: string;
+    sisteAktivitetTidspunkt: string;
     status: ApiDialogmeldingStatus;
 }
 
@@ -135,7 +135,6 @@ export interface ApiDialogDetails {
     behandler: ApiBehandler;
     conversationRef: string;
     dialogmeldinger: ApiDialogmelding[];
-    opprettetTidspunkt: string;
     status: ApiDialogmeldingStatus;
 }
 

@@ -9,7 +9,11 @@ import { Bleed, Box, Button, Heading, Textarea, VStack } from '@navikt/ds-react'
 
 import { SvarPåDialogSchema, svarPåDialogSchema } from '@/form-schemas/svarPåDialogSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getGetDialogmeldingQueryKey, usePostSvarPaDialog } from '@io/rest/generated/default/default';
+import {
+    getGetDialogmeldingQueryKey,
+    getGetDialogmeldingerQueryKey,
+    usePostSvarPaDialog,
+} from '@io/rest/generated/default/default';
 import { useQueryClient } from '@tanstack/react-query';
 
 export function SvarPåDialogForm(): ReactElement {
@@ -19,6 +23,7 @@ export function SvarPåDialogForm(): ReactElement {
         mutation: {
             onSuccess: () => {
                 queryClient.invalidateQueries({ queryKey: getGetDialogmeldingQueryKey(personPseudoId, dialogId) });
+                queryClient.invalidateQueries({ queryKey: getGetDialogmeldingerQueryKey(personPseudoId) });
                 form.reset();
             },
         },

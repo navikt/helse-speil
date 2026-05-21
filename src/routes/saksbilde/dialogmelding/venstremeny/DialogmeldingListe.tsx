@@ -31,7 +31,7 @@ export function DialogmeldingListe(): ReactElement {
         return <BodyShort>Ingen dialogmeldinger</BodyShort>;
     }
 
-    const sortert = [...data].sort((a, b) => b.opprettetTidspunkt.localeCompare(a.opprettetTidspunkt));
+    const sortert = [...data].sort((a, b) => b.sisteAktivitetTidspunkt.localeCompare(a.sisteAktivitetTidspunkt));
 
     return (
         <VStack as="ul">
@@ -70,7 +70,7 @@ export function DialogmeldingListe(): ReactElement {
                                             `, ${dialog.behandler.legekontor.kontor}`}
                                     </BodyShort>
                                     <BodyShort size="small" className="text-ax-text-neutral-subtle">
-                                        {getFormattedDatetimeString(dialog.opprettetTidspunkt)}
+                                        {getFormattedDatetimeString(dialog.sisteAktivitetTidspunkt)}
                                     </BodyShort>
                                 </VStack>
                                 <ChevronRightIcon aria-hidden />

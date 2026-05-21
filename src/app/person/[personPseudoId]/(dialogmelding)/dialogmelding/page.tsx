@@ -36,5 +36,5 @@ export default function Page({ params }: { params: Promise<{ personPseudoId: str
 }
 
 function finnNyesteDialog(dialoger: ApiDialogOppsummering[]) {
-    return dialoger.toSorted((a, b) => b.opprettetTidspunkt.localeCompare(a.opprettetTidspunkt))[0] ?? null;
+    return dialoger.toSorted((a, b) => b.sisteAktivitetTidspunkt.localeCompare(a.sisteAktivitetTidspunkt))[0] ?? null;
 }

@@ -244,12 +244,13 @@ export class DialogmeldingMock {
             .filter((dialog) => DialogmeldingMock.tilPersonPseudoId(dialog) === personPseudoId)
             .map((dialog) => {
                 const first = dialog.dialogmeldinger[0]!;
+                const sisteAktivitetTidspunkt = getSisteAktivitetTidspunkt(dialog);
                 return {
                     conversationRef: dialog.conversationRef,
                     behandler: dialog.behandler,
                     fagomrade: first.fagomrade,
                     meldingstype: first.meldingstype,
-                    opprettetTidspunkt: dialog.opprettetTidspunkt,
+                    sisteAktivitetTidspunkt,
                     antallMeldinger: dialog.dialogmeldinger.length,
                     antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
                     status: dialog.status,
@@ -263,7 +264,6 @@ export class DialogmeldingMock {
         return {
             conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
-            opprettetTidspunkt: dialog.opprettetTidspunkt,
             status: dialog.status,
             dialogmeldinger: dialog.dialogmeldinger,
         };
@@ -275,7 +275,7 @@ export class DialogmeldingMock {
             .map((dialog) => {
                 const personPseudoId = DialogmeldingMock.tilPersonPseudoId(dialog) ?? 'unknown';
                 const first = dialog.dialogmeldinger[0]!;
-                const sisteAktivitetTidspunkt = dialog.opprettetTidspunkt;
+                const sisteAktivitetTidspunkt = getSisteAktivitetTidspunkt(dialog);
                 return {
                     conversationRef: dialog.conversationRef,
                     fagomrade: first.fagomrade,
@@ -318,7 +318,6 @@ export class DialogmeldingMock {
         return {
             conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
-            opprettetTidspunkt: dialog.opprettetTidspunkt,
             status: dialog.status,
             dialogmeldinger: dialog.dialogmeldinger,
         };
@@ -342,13 +341,11 @@ export class DialogmeldingMock {
             fraNav: true,
             vedlegg: [],
         });
-        dialog.opprettetTidspunkt = tid;
         dialog.status = ApiDialogmeldingStatus.SENDT;
 
         return {
             conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
-            opprettetTidspunkt: dialog.opprettetTidspunkt,
             status: dialog.status,
             dialogmeldinger: dialog.dialogmeldinger,
         };
@@ -372,7 +369,6 @@ export class DialogmeldingMock {
         return {
             conversationRef: dialog.conversationRef,
             behandler: dialog.behandler,
-            opprettetTidspunkt: dialog.opprettetTidspunkt,
             status: dialog.status,
             dialogmeldinger: dialog.dialogmeldinger,
         };
@@ -383,4 +379,11 @@ function getFrist(dato: string): string {
     const d = new Date(dato);
     d.setDate(d.getDate() + 21);
     return d.toISOString();
+}
+
+function getSisteAktivitetTidspunkt(dialog: InternalDialog): string {
+    return dialog.dialogmeldinger.reduce(
+        (newest, m) => (m.sendtTidspunkt > newest ? m.sendtTidspunkt : newest),
+        dialog.dialogmeldinger[0]!.sendtTidspunkt,
+    );
 }
