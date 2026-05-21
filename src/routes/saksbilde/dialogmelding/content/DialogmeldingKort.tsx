@@ -20,7 +20,7 @@ export function DialogmeldingKort({ melding }: { melding: ApiDialogmelding }): R
                             {melding.fraNav ? 'Fra Nav' : 'Fra behandler'}
                         </Tag>
                         {!melding.fraNav && melding.vedlegg.length > 0 && (
-                            <HStack gap="space-2" align="center" className="text-sm text-ax-text-neutral-subtle">
+                            <HStack gap="space-2" align="center" className="text-ax-text-neutral-subtle">
                                 <PaperclipIcon aria-hidden />
                                 {melding.vedlegg.length}
                             </HStack>
