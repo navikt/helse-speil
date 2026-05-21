@@ -1,7 +1,7 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
 import { SetStateAction } from 'react';
 
-import { ApiDialogmeldingStatus, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogmeldingStatus, ApiDialogmeldingType, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
 import { atomWithLocalStorage } from '@state/jotai';
 
 import { Filter, FilterStatus } from './filter';
@@ -16,7 +16,7 @@ const dialogmeldingFilters: Filter[] = [
     // Fagområde
     {
         key: ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER,
-        label: 'Behandlingsdager',
+        label: 'Enkeltstående behandlingsdager',
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.FAGOMRADE,
     },
@@ -38,10 +38,34 @@ const dialogmeldingFilters: Filter[] = [
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.FAGOMRADE,
     },
-    // Meldingstype (placeholder values)
+    // Meldingstype
     {
-        key: 'SPØRSMÅL_OM_TILLEGGSOPPLYSNINGER',
-        label: 'En eller annen type (venter på svar fra Liz)',
+        key: ApiDialogmeldingType.JOURNALNOTAT,
+        label: 'Journalnotat',
+        status: FilterStatus.OFF,
+        column: DialogmeldingKolonne.MELDINGSTYPE,
+    },
+    {
+        key: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
+        label: 'Medisinske opplysninger',
+        status: FilterStatus.OFF,
+        column: DialogmeldingKolonne.MELDINGSTYPE,
+    },
+    {
+        key: ApiDialogmeldingType.EKSTRA_UTTALELSER_FRA_LEGE,
+        label: 'Ekstra uttalelser fra lege',
+        status: FilterStatus.OFF,
+        column: DialogmeldingKolonne.MELDINGSTYPE,
+    },
+    {
+        key: ApiDialogmeldingType.SPESIALISTERKLAERING,
+        label: 'Forespørsel om spesialisterklæring',
+        status: FilterStatus.OFF,
+        column: DialogmeldingKolonne.MELDINGSTYPE,
+    },
+    {
+        key: ApiDialogmeldingType.UTVIDET_SPESIALISTERKLAERING,
+        label: 'Forespørsel om utvidet spesialisterklæring',
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.MELDINGSTYPE,
     },

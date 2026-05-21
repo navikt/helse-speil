@@ -10,8 +10,30 @@ import {
 } from '@oversikt/table/state/dialogmeldingFilter';
 import { Filter, FilterStatus } from '@oversikt/table/state/filter';
 
-import avOgPåStyles from './AvOgPåKnapper.module.css';
-import styles from './FilterList.module.css';
+export const DialogmeldingFiltermeny = (): ReactElement => {
+    const { allFilters } = useDialogmeldingFilters();
+    const toggleFilter = useToggleDialogmeldingFilter();
+
+    return (
+        <>
+            <DialogmeldingFilterList
+                filters={allFilters.filter((f) => f.column === DialogmeldingKolonne.FAGOMRADE)}
+                text="Fagområde"
+                onToggle={toggleFilter}
+            />
+            <DialogmeldingFilterList
+                filters={allFilters.filter((f) => f.column === DialogmeldingKolonne.MELDINGSTYPE)}
+                text="Meldingstype"
+                onToggle={toggleFilter}
+            />
+            <DialogmeldingFilterList
+                filters={allFilters.filter((f) => f.column === DialogmeldingKolonne.STATUS)}
+                text="Status"
+                onToggle={toggleFilter}
+            />
+        </>
+    );
+};
 
 interface DialogmeldingFilterListProps {
     filters: Filter[];
@@ -21,16 +43,16 @@ interface DialogmeldingFilterListProps {
 
 const DialogmeldingFilterList = ({ filters, text, onToggle }: DialogmeldingFilterListProps): ReactElement => (
     <Accordion indent={false}>
-        <Accordion.Item defaultOpen className={styles.liste}>
-            <Accordion.Header className={styles.header}>
+        <Accordion.Item defaultOpen className="border-b-2 border-ax-border-neutral-subtle pt-3">
+            <Accordion.Header className="box-border border-0 bg-transparent py-2 pr-4 pl-0 shadow-none [&::after]:h-0 [&::before]:h-0">
                 <BodyShort weight="semibold">{text}</BodyShort>
             </Accordion.Header>
-            <Accordion.Content className={styles.innhold}>
+            <Accordion.Content className="ml-7.5 px-1 pb-4.5">
                 <VStack gap="space-8">
                     {filters.map((filter) => (
-                        <HStack gap="space-8" key={filter.key}>
-                            <BodyShort className={avOgPåStyles.label}>{filter.label}</BodyShort>
-                            <HStack gap="space-8" wrap={false}>
+                        <HStack gap="space-8" key={filter.key} wrap={false}>
+                            <BodyShort className="w-40 text-ax-text-neutral">{filter.label}</BodyShort>
+                            <HStack gap="space-8" wrap={false} className="self-center">
                                 <Button
                                     variant={filter.status === FilterStatus.PLUS ? 'primary' : 'secondary'}
                                     size="xsmall"
@@ -63,28 +85,3 @@ const DialogmeldingFilterList = ({ filters, text, onToggle }: DialogmeldingFilte
         </Accordion.Item>
     </Accordion>
 );
-
-export const DialogmeldingFiltermeny = (): ReactElement => {
-    const { allFilters } = useDialogmeldingFilters();
-    const toggleFilter = useToggleDialogmeldingFilter();
-
-    return (
-        <>
-            <DialogmeldingFilterList
-                filters={allFilters.filter((f) => f.column === DialogmeldingKolonne.FAGOMRADE)}
-                text="Fagområde"
-                onToggle={toggleFilter}
-            />
-            <DialogmeldingFilterList
-                filters={allFilters.filter((f) => f.column === DialogmeldingKolonne.MELDINGSTYPE)}
-                text="Meldingstype"
-                onToggle={toggleFilter}
-            />
-            <DialogmeldingFilterList
-                filters={allFilters.filter((f) => f.column === DialogmeldingKolonne.STATUS)}
-                text="Status"
-                onToggle={toggleFilter}
-            />
-        </>
-    );
-};
