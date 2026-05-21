@@ -79,6 +79,7 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
             minstEnAvEgenskapene: [
                 [ApiEgenskap.SOKNAD].join(','),
                 [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE].join(','),
+                [ApiEgenskap.SKJONNSFASTSETTELSE].join(','),
             ],
             ingenAvEgenskapene: [
                 ApiEgenskap.PA_VENT,
