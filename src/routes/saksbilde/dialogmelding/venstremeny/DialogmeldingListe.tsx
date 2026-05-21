@@ -52,9 +52,9 @@ export function DialogmeldingListe(): ReactElement {
                             >
                                 <VStack>
                                     <Tag
-                                        size="xsmall"
+                                        size="small"
                                         data-color={statusTagColor[dialog.status]}
-                                        className="mb-2 self-start"
+                                        className="mb-2 self-start text-ax-large"
                                     >
                                         {statusLabels[dialog.status]}
                                     </Tag>

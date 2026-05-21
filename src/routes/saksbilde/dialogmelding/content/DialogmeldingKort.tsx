@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { FilePdfIcon, PaperclipIcon } from '@navikt/aksel-icons';
-import { BodyShort, Box, HStack, Tag, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, HStack, LinkCard, Tag, VStack } from '@navikt/ds-react';
 
 import { ApiDialogmelding } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -12,36 +12,38 @@ export function DialogmeldingKort({ melding }: { melding: ApiDialogmelding }): R
             <VStack gap="space-8">
                 <HStack justify="space-between" gap="space-8">
                     <HStack gap="space-4" align="center">
-                        <Tag data-color={melding.fraNav ? 'meta-purple' : 'info'} size="small">
+                        <Tag
+                            data-color={melding.fraNav ? 'meta-purple' : 'info'}
+                            size="small"
+                            className="text-ax-large"
+                        >
                             {melding.fraNav ? 'Fra Nav' : 'Fra behandler'}
                         </Tag>
                         {!melding.fraNav && melding.vedlegg.length > 0 && (
-                            <HStack gap="space-2" align="center" className="text-sm text-(--ax-text-subtle)">
+                            <HStack gap="space-2" align="center" className="text-sm text-ax-text-neutral-subtle">
                                 <PaperclipIcon aria-hidden />
                                 {melding.vedlegg.length}
                             </HStack>
                         )}
                     </HStack>
-                    <BodyShort size="small" className="shrink-0 text-(--ax-text-action)">
+                    <BodyShort className="text-ax-text-neutral-subtle">
                         {getFormattedDatetimeString(melding.sendtTidspunkt)}
                     </BodyShort>
                 </HStack>
-                <BodyShort size="small">{melding.melding}</BodyShort>
+                <BodyShort>{melding.melding}</BodyShort>
                 {melding.vedlegg.length > 0 && (
                     <VStack as="ul" gap="space-4">
                         {melding.vedlegg.map((vedlegg, index) => (
-                            <Box key={index} as="li" borderWidth="1" borderRadius="8" borderColor="neutral-subtle">
-                                <Box
-                                    as="a"
-                                    href={vedlegg.url}
-                                    paddingBlock="space-4"
-                                    paddingInline="space-8"
-                                    className="flex items-center gap-2 text-sm text-(--ax-text-default)! [text-decoration:none]! hover:[text-decoration:underline]!"
-                                >
-                                    <FilePdfIcon aria-hidden className="shrink-0 text-(--ax-text-subtle)" />
-                                    {vedlegg.navn}
-                                </Box>
-                            </Box>
+                            <li key={index}>
+                                <LinkCard size="small" arrow={false}>
+                                    <LinkCard.Icon>
+                                        <FilePdfIcon aria-hidden fontSize="1.5rem" className="shrink-0" />
+                                    </LinkCard.Icon>
+                                    <LinkCard.Title>
+                                        <LinkCard.Anchor href={vedlegg.url}>{vedlegg.navn}</LinkCard.Anchor>
+                                    </LinkCard.Title>
+                                </LinkCard>
+                            </li>
                         ))}
                     </VStack>
                 )}

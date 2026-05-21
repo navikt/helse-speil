@@ -37,7 +37,7 @@ export function DialogmeldingContent(): ReactElement {
     const sortert = dialogmeldinger.sort((a, b) => b.sendtTidspunkt.localeCompare(a.sendtTidspunkt));
 
     return (
-        <Box as="section" padding="space-16" className="[grid-area:content]">
+        <Box as="section" padding="space-16" paddingBlock="space-24 space-16" className="[grid-area:content]">
             <VStack gap="space-16">
                 <VStack gap="space-8">
                     <Heading level="2" size="medium">

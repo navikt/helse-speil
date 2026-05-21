@@ -52,6 +52,7 @@ export function DialogFerdigstiltSwitch({
                     });
                 }}
                 disabled={isPending}
+                className="[&_span]:text-ax-heading-xsmall"
             >
                 Ferdigstilt
             </Switch>
