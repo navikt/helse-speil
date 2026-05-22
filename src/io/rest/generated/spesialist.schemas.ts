@@ -2016,6 +2016,8 @@ export type GetOppgaverParams = {
     sidetall?: number;
     sidestoerrelse?: number;
     ekskluderVarsler?: string;
+    behandlingOpprettetFom?: string;
+    behandlingOpprettetTom?: string;
 };
 
 export type GetBehandledeOppgaverParams = {
