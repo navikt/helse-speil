@@ -66,24 +66,25 @@ export function DialogmeldingTable(): ReactElement {
                     >
                         <Table.Header>
                             <Table.Row>
-                                <Table.ColumnHeader sortKey="sisteAktivitet" sortable>
+                                <Table.ColumnHeader sortKey="sisteAktivitet" sortable className="w-50">
                                     Siste aktivitet
                                 </Table.ColumnHeader>
-                                <Table.ColumnHeader sortKey="frist" sortable>
+                                <Table.ColumnHeader sortKey="frist" sortable className="w-36">
                                     Frist
                                 </Table.ColumnHeader>
-                                <Table.ColumnHeader sortKey="fagomrade" sortable>
+                                <Table.ColumnHeader sortKey="fagomrade" sortable className="w-74">
                                     Fagområde
                                 </Table.ColumnHeader>
-                                <Table.ColumnHeader sortKey="soker" sortable>
+                                <Table.ColumnHeader sortKey="soker" sortable className="w-120">
                                     Søker
                                 </Table.ColumnHeader>
-                                <Table.ColumnHeader sortKey="meldingstype" sortable>
+                                <Table.ColumnHeader sortKey="meldingstype" sortable className="w-90">
                                     Meldingstype
                                 </Table.ColumnHeader>
-                                <Table.ColumnHeader sortKey="status" sortable>
+                                <Table.ColumnHeader sortKey="status" sortable className="w-36">
                                     Status
                                 </Table.ColumnHeader>
+                                <Table.ColumnHeader />
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
@@ -103,9 +104,14 @@ export function DialogmeldingTable(): ReactElement {
                                             {getFormattedDateString(oppgave.fristTidspunkt)}
                                         </Table.DataCell>
                                         <Table.DataCell>{fagomradeLabels[oppgave.fagomrade]}</Table.DataCell>
-                                        <Table.DataCell>{formatSøkernavn(oppgave.soker)}</Table.DataCell>
+                                        <Table.DataCell>
+                                            <span className="block w-120 truncate">
+                                                {formatSøkernavn(oppgave.soker)}
+                                            </span>
+                                        </Table.DataCell>
                                         <Table.DataCell>{meldingstypeLabels[oppgave.meldingstype]}</Table.DataCell>
                                         <Table.DataCell>{statusLabels[oppgave.status]}</Table.DataCell>
+                                        <Table.DataCell />
                                     </LinkRow>
                                 ))
                             ) : (
