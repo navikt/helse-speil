@@ -148,7 +148,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                 type="submit"
                                 icon={<PaperplaneIcon />}
                                 loading={isPending}
-                                disabled={!personinfo}
+                                disabled={!personinfo || isPending}
                             >
                                 Send melding
                             </Button>

@@ -22,9 +22,6 @@ import {
 } from '../state/dialogmeldingFilter';
 import { dialogmeldingLimit, useDialogmeldingPageState } from '../state/dialogmeldingPagination';
 
-import paginationStyles from '../Pagination.module.css';
-import styles from '../table.module.css';
-
 type DialogmeldingSortKey = 'sisteAktivitet' | 'frist' | 'fagomrade' | 'soker' | 'meldingstype' | 'status';
 
 export function DialogmeldingTable(): ReactElement {
@@ -50,14 +47,14 @@ export function DialogmeldingTable(): ReactElement {
     };
 
     return (
-        <VStack paddingBlock="space-16 space-0" className={styles.TableContainer}>
+        <VStack paddingBlock="space-16 space-0" className="h-full overflow-auto">
             <DialogmeldingFilterChips
                 activeFilters={activeFilters}
                 toggleFilter={toggleFilter}
                 setMultipleFilters={setMultipleFilters}
             />
-            <div className={styles.Content}>
-                <div className={styles.Scrollable}>
+            <div className="flex-1 overflow-auto text-ax-text-neutral [scrollbar-width:none]">
+                <div className="h-[calc(100%-50px)] w-full">
                     <Table
                         aria-label="Dialogmeldinger"
                         zebraStripes
@@ -123,7 +120,7 @@ export function DialogmeldingTable(): ReactElement {
                     </Table>
                 </div>
             </div>
-            <HStack className={paginationStyles.Pagination}>
+            <HStack className="mt-4 shrink-0 items-center justify-between">
                 <NavPagination
                     page={currentPage}
                     onPageChange={setCurrentPage}
