@@ -11,7 +11,7 @@ import { OppgaverTableError } from '@oversikt/table/OppgaverTableError';
 import { Pagination } from '@oversikt/table/Pagination';
 import { HeaderCell } from '@oversikt/table/oppgaverTable/HeaderCell';
 import { IngenMatchendeFiltre } from '@oversikt/table/oppgaverTable/IngenMatchendeFiltre';
-import { TilGodkjenningOppgaveRow } from '@oversikt/table/oppgaverTable/tilGodkjenning/TilGodkjenningOppgaveRow';
+import { OppgavelisterOppgaveRow } from '@oversikt/table/oppgaverTable/tilGodkjenning/OppgavelisterOppgaveRow';
 import { useAktivOppgaveliste, useOppgavelisteFeed, useSetAktivOppgaveliste } from '@state/oppgavelister';
 import { cn } from '@utils/tw';
 
@@ -59,7 +59,8 @@ export const OppgavelisterTable = (): ReactElement => {
                             <Table.Row>
                                 <HeaderCell text="Saksbehandler" />
                                 <Table.DataCell rowSpan={2} />
-                                <HeaderCell text="Dato" />
+                                <HeaderCell text="Startdato" />
+                                <HeaderCell text="Oppgave klar" />
                                 <Table.DataCell rowSpan={2} aria-label="valg" />
                                 <Table.DataCell rowSpan={2} aria-label="notater" />
                             </Table.Row>
@@ -67,7 +68,7 @@ export const OppgavelisterTable = (): ReactElement => {
                         <Table.Body>
                             {oppgaver && oppgaver.length > 0 ? (
                                 oppgaver.map((oppgave) => (
-                                    <TilGodkjenningOppgaveRow key={oppgave.id} oppgave={oppgave} />
+                                    <OppgavelisterOppgaveRow key={oppgave.id} oppgave={oppgave} />
                                 ))
                             ) : (
                                 <IngenMatchendeFiltre />
