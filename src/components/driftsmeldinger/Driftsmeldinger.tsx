@@ -100,7 +100,7 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
     return (
         <InfoCard
             data-color="info"
-            size="medium"
+            size="small"
             onClick={() => setÅpneInformasjonsmelding((prev) => !prev)}
             className={styles.infomelding}
         >
