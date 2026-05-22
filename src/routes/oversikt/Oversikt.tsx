@@ -5,6 +5,7 @@ import { ReactElement } from 'react';
 
 import { SortState } from '@navikt/ds-react';
 
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
@@ -86,15 +87,17 @@ export const Oversikt = (): ReactElement => {
                 </section>
                 <BehandlingsstatistikkView />
             </div>
-            <Widget>
-                <EmojiTilbakemelding
-                    feedbackId="speil-generell"
-                    tittel="Hjelp oss å gjøre Speil bedre"
-                    feedbackProps={{
-                        erOppgaveOversikt: true,
-                    }}
-                />
-            </Widget>
+            <VisHvisSkrivetilgang>
+                <Widget>
+                    <EmojiTilbakemelding
+                        feedbackId="speil-generell"
+                        tittel="Hjelp oss å gjøre Speil bedre"
+                        feedbackProps={{
+                            erOppgaveOversikt: true,
+                        }}
+                    />
+                </Widget>
+            </VisHvisSkrivetilgang>
         </main>
     );
 };

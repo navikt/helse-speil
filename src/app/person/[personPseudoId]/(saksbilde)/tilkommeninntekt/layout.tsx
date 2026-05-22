@@ -2,6 +2,7 @@
 
 import React, { PropsWithChildren, ReactElement } from 'react';
 
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { TilkommenInntektSaksbilde } from '@saksbilde/tilkommenInntekt/saksbilde/TilkommenInntektSaksbilde';
 import { TilkommenInntektHistorikk } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektHistorikk';
@@ -13,7 +14,9 @@ export default function Layout({ children }: PropsWithChildren): ReactElement {
             <VenstremenyTilkommenInntekt />
             <TilkommenInntektSaksbilde>{children}</TilkommenInntektSaksbilde>
             <TilkommenInntektHistorikk />
-            <EmojiTilbakemeldingMedPeriode />
+            <VisHvisSkrivetilgang>
+                <EmojiTilbakemeldingMedPeriode />
+            </VisHvisSkrivetilgang>
         </>
     );
 }

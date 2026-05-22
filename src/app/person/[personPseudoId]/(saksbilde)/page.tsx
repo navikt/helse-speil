@@ -3,6 +3,7 @@
 import dynamic from 'next/dynamic';
 import React, { ReactElement } from 'react';
 
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Saksbilde } from '@saksbilde/Saksbilde';
 import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
@@ -19,7 +20,9 @@ export default function Page(): ReactElement {
             <Venstremeny />
             <Saksbilde />
             <Historikk />
-            <EmojiTilbakemeldingMedPeriode />
+            <VisHvisSkrivetilgang>
+                <EmojiTilbakemeldingMedPeriode />
+            </VisHvisSkrivetilgang>
         </>
     );
 }
