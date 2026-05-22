@@ -1,5 +1,3 @@
-import dayjs from 'dayjs';
-
 import {
     ApiEgenskap,
     ApiOppgaveSorteringsfelt,
@@ -13,17 +11,23 @@ export type Oppgaveliste = {
     params: Omit<GetOppgaverParams, 'sidetall' | 'sidestoerrelse'>;
 };
 
+const serialiserListe = (verdier: string[]): string => verdier.join(',');
+
+const enAv = (...grupper: ApiEgenskap[][]): string[] => grupper.map(serialiserListe);
+const ingen = (...egenskaper: ApiEgenskap[]): string => serialiserListe(egenskaper);
+const varsler = (...varselkoder: string[]): string => serialiserListe(varselkoder);
+
 export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     {
         id: 'nks-arbeidsgiver',
         navn: 'NKS',
         params: {
             erTildelt: false,
-            minstEnAvEgenskapene: [
-                [ApiEgenskap.SOKNAD].join(','),
-                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE].join(','),
-            ],
-            ingenAvEgenskapene: [
+            minstEnAvEgenskapene: enAv(
+                [ApiEgenskap.SOKNAD],
+                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE],
+            ),
+            ingenAvEgenskapene: ingen(
                 ApiEgenskap.PA_VENT,
                 ApiEgenskap.BESLUTTER,
                 ApiEgenskap.RETUR,
@@ -43,10 +47,10 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 ApiEgenskap.SKJONNSFASTSETTELSE,
                 ApiEgenskap.GRUNNBELOPSREGULERING,
                 ApiEgenskap.REVURDERING,
-            ].join(','),
+            ),
             sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
             sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
-            ekskluderVarsler: [
+            ekskluderVarsler: varsler(
                 'RV_MV_3',
                 'RV_IM_4',
                 'RV_VV_1',
@@ -70,7 +74,7 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 'RV_SØ_44',
                 'RV_IT_3',
                 'RV_IT_38',
-            ].join(','),
+            ),
         },
     },
     {
@@ -78,12 +82,12 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         navn: 'NKS - Skjønnsfastsettelse',
         params: {
             erTildelt: false,
-            minstEnAvEgenskapene: [
-                [ApiEgenskap.SOKNAD].join(','),
-                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE].join(','),
-                [ApiEgenskap.SKJONNSFASTSETTELSE].join(','),
-            ],
-            ingenAvEgenskapene: [
+            minstEnAvEgenskapene: enAv(
+                [ApiEgenskap.SOKNAD],
+                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE],
+                [ApiEgenskap.SKJONNSFASTSETTELSE],
+            ),
+            ingenAvEgenskapene: ingen(
                 ApiEgenskap.PA_VENT,
                 ApiEgenskap.BESLUTTER,
                 ApiEgenskap.RETUR,
@@ -103,10 +107,10 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 ApiEgenskap.FLERE_ARBEIDSGIVERE,
                 ApiEgenskap.GRUNNBELOPSREGULERING,
                 ApiEgenskap.REVURDERING,
-            ].join(','),
+            ),
             sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
             sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
-            ekskluderVarsler: [
+            ekskluderVarsler: varsler(
                 'RV_MV_3',
                 'RV_IM_4',
                 'RV_VV_1',
@@ -130,7 +134,7 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 'RV_SØ_44',
                 'RV_IT_3',
                 'RV_IT_38',
-            ].join(','),
+            ),
         },
     },
     {
@@ -138,12 +142,12 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         navn: 'NKS - Brukerutbetaling',
         params: {
             erTildelt: false,
-            minstEnAvEgenskapene: [
-                [ApiEgenskap.SOKNAD].join(','),
-                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE].join(','),
+            minstEnAvEgenskapene: enAv(
+                [ApiEgenskap.SOKNAD],
+                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE],
                 [ApiEgenskap.UTBETALING_TIL_SYKMELDT, ApiEgenskap.DELVIS_REFUSJON, ApiEgenskap.INGEN_UTBETALING],
-            ],
-            ingenAvEgenskapene: [
+            ),
+            ingenAvEgenskapene: ingen(
                 ApiEgenskap.PA_VENT,
                 ApiEgenskap.BESLUTTER,
                 ApiEgenskap.RETUR,
@@ -160,10 +164,10 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 ApiEgenskap.SKJONNSFASTSETTELSE,
                 ApiEgenskap.GRUNNBELOPSREGULERING,
                 ApiEgenskap.REVURDERING,
-            ].join(','),
+            ),
             sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
             sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
-            ekskluderVarsler: [
+            ekskluderVarsler: varsler(
                 'RV_MV_3',
                 'RV_IM_4',
                 'RV_VV_1',
@@ -187,9 +191,9 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 'RV_SØ_44',
                 'RV_IT_3',
                 'RV_IT_38',
-            ].join(','),
-            behandlingOpprettetFom: dayjs('2026-05-01'),
-            behandlingOpprettetTom: dayjs('2026-05-21'),
+            ),
+            behandlingOpprettetFom: '2026-05-01',
+            behandlingOpprettetTom: '2026-05-21',
         },
     },
 ];
