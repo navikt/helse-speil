@@ -28,6 +28,8 @@
     display: flex;
     flex-direction: column;
     text-decoration: none;
+    min-height: 48px;
+    justify-content: center;
 }
 
 .tittel {
@@ -43,9 +45,5 @@
 }
 
 .loader {
-    display: flex;
-    min-height: var(--ax-font-line-height-xlarge);
-    align-self: flex-start;
-    margin: 0.65rem var(--ax-space-8) 0.65rem var(--ax-space-16);
-    align-items: center;
+    margin: 0 var(--ax-space-8) 0 var(--ax-space-16);
 }

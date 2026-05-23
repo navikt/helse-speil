@@ -94,7 +94,9 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
     return (
         <div className={cn(className, styles.varsel, styles[type])}>
             {isLoading ? (
-                <Loader className={styles.loader} size="medium" variant="interaction" />
+                <span className={styles.loader}>
+                    <Loader size="medium" variant="interaction" />
+                </span>
             ) : (
                 <Avhuking
                     type={type}
