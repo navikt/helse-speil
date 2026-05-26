@@ -2018,6 +2018,8 @@ export type GetOppgaverParams = {
     ekskluderVarsler?: string;
     behandlingOpprettetFom?: string;
     behandlingOpprettetTom?: string;
+    oppgaveKlarFom?: string;
+    oppgaveKlarTom?: string;
 };
 
 export type GetBehandledeOppgaverParams = {
