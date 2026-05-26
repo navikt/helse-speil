@@ -201,6 +201,7 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
+                ApiEgenskap.BESLUTTER,
                 ApiEgenskap.FORLENGELSE,
                 ApiEgenskap.UTBETALING_TIL_SYKMELDT,
                 ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER,
@@ -212,7 +213,7 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 ApiEgenskap.MEDLEMSKAP,
                 ApiEgenskap.FLERE_ARBEIDSGIVERE,
             ),
-            sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
+            sorteringsfelt: ApiOppgaveSorteringsfelt.opprettetTidspunkt,
             sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
             oppgaveKlarTom: '2026-05-12',
         },
