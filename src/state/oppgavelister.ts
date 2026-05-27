@@ -1,4 +1,4 @@
-import { useAtom, useAtomValue } from 'jotai';
+import { atom, useAtom, useAtomValue } from 'jotai';
 
 import { ErrorType } from '@app/axios/orval-mutator';
 import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
@@ -6,7 +6,10 @@ import {
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
     ApiOppgaveProjeksjon,
 } from '@io/rest/generated/spesialist.schemas';
-import { Oppgaveliste, PREDEFINERTE_OPPGAVELISTER } from '@oversikt/oppgavelister';
+import {
+    Oppgaveliste,
+    PREDEFINERTE_OPPGAVELISTER,
+} from '@oversikt/table/oppgaverTable/oppgavelister/predefinerteOppgavelister';
 import { limit, useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { atomWithSessionStorage } from '@state/jotai';
 
@@ -29,12 +32,37 @@ export const useAktivOppgaveliste = (): Oppgaveliste => {
 
 export const useSetAktivOppgaveliste = () => {
     const [, setAktivId] = useAtom(aktivOppgavelisteIdAtom);
-    return (id: string) => setAktivId(id);
+    const [, setDatoOverrides] = useAtom(oppgavelisteDatoOverridesAtom);
+    return (id: string) => {
+        setAktivId(id);
+        const liste = PREDEFINERTE_OPPGAVELISTER.find((l) => l.id === id) ?? PREDEFINERTE_OPPGAVELISTER[0]!;
+        setDatoOverrides({
+            oppgaveKlarFom: liste.params.oppgaveKlarFom,
+            oppgaveKlarTom: liste.params.oppgaveKlarTom,
+        });
+    };
+};
+
+type OppgavelisteDato = { oppgaveKlarFom?: string; oppgaveKlarTom?: string };
+
+const oppgavelisteDatoOverridesAtom = atom<OppgavelisteDato>({
+    oppgaveKlarFom: PREDEFINERTE_OPPGAVELISTER[0].params.oppgaveKlarFom,
+    oppgaveKlarTom: PREDEFINERTE_OPPGAVELISTER[0].params.oppgaveKlarTom,
+});
+
+export const useOppgavelisteDato = () => {
+    const [dato, setDato] = useAtom(oppgavelisteDatoOverridesAtom);
+    return {
+        dato,
+        setOppgaveKlarFom: (fom?: string) => setDato((prev) => ({ ...prev, oppgaveKlarFom: fom })),
+        setOppgaveKlarTom: (tom?: string) => setDato((prev) => ({ ...prev, oppgaveKlarTom: tom })),
+    };
 };
 
 export const useOppgavelisteFeed = (): OppgaveFeedResponse => {
     const currentPage = useCurrentPageValue();
     const aktivOppgaveliste = useAktivOppgaveliste();
+    const { dato } = useOppgavelisteDato();
 
     const {
         data,
@@ -43,6 +71,8 @@ export const useOppgavelisteFeed = (): OppgaveFeedResponse => {
     } = useGetOppgaver(
         {
             ...aktivOppgaveliste.params,
+            oppgaveKlarFom: dato.oppgaveKlarFom,
+            oppgaveKlarTom: dato.oppgaveKlarTom,
             sidestoerrelse: limit,
             sidetall: currentPage,
         },

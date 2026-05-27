@@ -14,8 +14,8 @@ import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
-import { OppgavelisterTable } from '@oversikt/table/OppgavelisterTable';
 import { OppgaverTable } from '@oversikt/table/oppgaverTable/OppgaverTable';
+import { OppgavelisterTable } from '@oversikt/table/oppgaverTable/oppgavelister/OppgavelisterTable';
 import { useSorteringValue } from '@oversikt/table/state/sortation';
 import { useAntallOppgaver } from '@state/oppgaver';
 
