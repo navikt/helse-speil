@@ -7,7 +7,7 @@ import { lagOppslåttSaksbehandlerVisningsnavn } from '@oversikt/filtermeny/Søk
 import { TabType } from '@oversikt/tabState';
 import { cn } from '@utils/tw';
 
-import { Filter, FilterStatus, valgtSaksbehandlerAtom } from '../state/filter';
+import { Filter, FilterStatus, useSetDatofilter, valgtSaksbehandlerAtom } from '../state/filter';
 
 interface FilterChipsProps {
     activeFilters: Filter[];
@@ -23,8 +23,10 @@ export const FilterChips = ({
     aktivTab,
 }: FilterChipsProps): ReactElement => {
     const [valgtSaksbehandler, setValgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
+    const { datofilter, setOppgaveKlarFom, setOppgaveKlarTom, resetDatofilter } = useSetDatofilter();
     const erFiltrertPåSaksbehandler = valgtSaksbehandler && aktivTab === TabType.TilGodkjenning;
-    if (activeFilters.length > 0 || erFiltrertPåSaksbehandler) {
+    const harDatofilter = !!datofilter.oppgaveKlarFom || !!datofilter.oppgaveKlarTom;
+    if (activeFilters.length > 0 || erFiltrertPåSaksbehandler || harDatofilter) {
         return (
             <Chips className="mx-3 mt-1 mb-2">
                 {erFiltrertPåSaksbehandler && (
@@ -44,11 +46,22 @@ export const FilterChips = ({
                         {filter.label}
                     </Chips.Removable>
                 ))}
-                {activeFilters.length > 0 && (
+                {datofilter.oppgaveKlarFom && (
+                    <Chips.Removable key="oppgaveKlarFom" onClick={() => setOppgaveKlarFom(undefined)}>
+                        {`Dato fra: ${datofilter.oppgaveKlarFom.split('-').reverse().join('.')}`}
+                    </Chips.Removable>
+                )}
+                {datofilter.oppgaveKlarTom && (
+                    <Chips.Removable key="oppgaveKlarTom" onClick={() => setOppgaveKlarTom(undefined)}>
+                        {`Dato til: ${datofilter.oppgaveKlarTom.split('-').reverse().join('.')}`}
+                    </Chips.Removable>
+                )}
+                {(activeFilters.length > 0 || harDatofilter) && (
                     <Chips.Removable
                         onClick={() => {
                             setMultipleFilters(FilterStatus.OFF, ...activeFilters.map((filter) => filter.key));
                             setValgtSaksbehandler(null);
+                            resetDatofilter();
                         }}
                         data-color="neutral"
                     >

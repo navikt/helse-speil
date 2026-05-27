@@ -19,6 +19,7 @@ import {
     FilterStatus,
     Oppgaveoversiktkolonne,
     useAllFilters,
+    useDatofilter,
     valgtSaksbehandlerAtom,
 } from '@oversikt/table/state/filter';
 import { limit, useCurrentPageValue, useResetToFirstPageOnHashChange } from '@oversikt/table/state/pagination';
@@ -45,6 +46,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const sort = useSorteringValue();
     const aktivTab = useAktivTab();
     const allFilters = useAllFilters();
+    const datofilter = useDatofilter();
     const { oid: innloggetSaksbehandlerOid } = useBruker();
 
     const variables = useMemo<GetOppgaverParams>(() => {
@@ -86,8 +88,10 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
                 aktivTab === TabType.Ventende || aktivTab === TabType.Mine
                     ? innloggetSaksbehandlerOid
                     : valgtSaksbehandler?.oid,
+            oppgaveKlarFom: aktivTab === TabType.TilGodkjenning ? datofilter.oppgaveKlarFom : undefined,
+            oppgaveKlarTom: aktivTab === TabType.TilGodkjenning ? datofilter.oppgaveKlarTom : undefined,
         };
-    }, [aktivTab, allFilters, sort, innloggetSaksbehandlerOid, valgtSaksbehandler]);
+    }, [aktivTab, allFilters, sort, innloggetSaksbehandlerOid, valgtSaksbehandler, datofilter]);
 
     useEffect(() => {
         createHash(variables).then(resetToFirstPageOnHashChange);

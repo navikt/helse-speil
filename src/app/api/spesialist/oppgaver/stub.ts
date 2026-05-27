@@ -75,6 +75,8 @@ const oppgaveliste = (searchParams: URLSearchParams): ApiOppgaveProjeksjonSide =
     const erTildelt = tilBooleanEllerNull(searchParams.get('erTildelt'));
     const tildeltTilOid = searchParams.get('tildeltTilOid');
     const erPaaVent = tilBooleanEllerNull(searchParams.get('erPaaVent'));
+    const oppgaveKlarFom = searchParams.get('oppgaveKlarFom');
+    const oppgaveKlarTom = searchParams.get('oppgaveKlarTom');
 
     const sortertingsfelt = searchParams.get('sorteringsfelt') as ApiOppgaveSorteringsfelt;
     const sorteringsrekkefølge = searchParams.get('sorteringsrekkefoelge') as ApiSorteringsrekkefølge;
@@ -87,6 +89,8 @@ const oppgaveliste = (searchParams: URLSearchParams): ApiOppgaveProjeksjonSide =
         erTildelt,
         tildeltTilOid,
         erPaaVent,
+        oppgaveKlarFom,
+        oppgaveKlarTom,
     );
     const sortertListe = sorter(filtrertListe, sortertingsfelt, sorteringsrekkefølge);
 
@@ -178,6 +182,8 @@ const filtrer = (
     erTildelt: boolean | null,
     tildeltTilOid: string | null,
     erPaaVent: boolean | null,
+    oppgaveKlarFom: string | null,
+    oppgaveKlarTom: string | null,
 ): ApiOppgaveProjeksjon[] => {
     return oppgaver
         .filter((oppgave) => tildeltTilOid === null || oppgave.tildeling?.oid === tildeltTilOid)
@@ -194,7 +200,13 @@ const filtrer = (
                 minstEnAvEgenskapene.every((egenskapGruppe) =>
                     egenskapGruppe.some((egenskap) => oppgave.egenskaper.includes(egenskap)),
                 ),
-        );
+        )
+        .filter((oppgave) => {
+            if (!oppgaveKlarFom && !oppgaveKlarTom) return true;
+            const opprettet = oppgave.opprettetTidspunkt.slice(0, 10);
+            if (oppgaveKlarFom && opprettet < oppgaveKlarFom) return false;
+            return !(oppgaveKlarTom && opprettet > oppgaveKlarTom);
+        });
 };
 
 const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {

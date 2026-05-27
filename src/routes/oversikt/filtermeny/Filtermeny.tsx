@@ -9,6 +9,7 @@ import { cn } from '@utils/tw';
 
 import { TabType, useAktivTab } from '../tabState';
 import { Filter, Oppgaveoversiktkolonne } from '../table/state/filter';
+import { DatoFilter } from './DatoFilter';
 import { DialogmeldingFiltermeny } from './DialogmeldingFiltermeny';
 import { FilterList } from './FilterList';
 import { useSetFiltermenyWidth, useShowFiltermeny } from './state';
@@ -78,6 +79,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
                             filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD)}
                             text="Antall inntektsforhold"
                         />
+                        {aktivTab === TabType.TilGodkjenning && <DatoFilter />}
                     </>
                 )}
             </section>
