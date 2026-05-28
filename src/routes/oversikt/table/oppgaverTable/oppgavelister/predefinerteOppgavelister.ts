@@ -40,6 +40,7 @@ const ekskluder_varsler_nks = varsler(
     'RV_VV_1',
     'RV_VV_4',
     'RV_VV_8',
+    'RV_SV_2',
     'RV_SV_5',
     'RV_IT_1',
     'RV_IT_37',
