@@ -21,10 +21,10 @@ export const OppgavelisteDatoFilter = (): ReactElement => {
     return (
         <HStack wrap gap="space-32" marginInline="space-12" marginBlock="space-8 space-8">
             <DatePicker {...fomDatePicker.datepickerProps} dropdownCaption>
-                <DatePicker.Input {...fomDatePicker.inputProps} label="Oppgave klar fra" size="small" />
+                <DatePicker.Input {...fomDatePicker.inputProps} label="Oppgave klar f.o.m" size="small" />
             </DatePicker>
             <DatePicker {...tomDatePicker.datepickerProps} dropdownCaption>
-                <DatePicker.Input {...tomDatePicker.inputProps} label="Oppgave klar til" size="small" />
+                <DatePicker.Input {...tomDatePicker.inputProps} label="Oppgave klar t.o.m" size="small" />
             </DatePicker>
         </HStack>
     );
