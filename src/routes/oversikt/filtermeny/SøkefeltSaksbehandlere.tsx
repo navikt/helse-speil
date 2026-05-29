@@ -26,7 +26,7 @@ export const SøkefeltSaksbehandlere = () => {
     return (
         <VStack className={styles.sokefeltSaksbehandlere}>
             <BodyShort weight="semibold" spacing>
-                Tildelte saker for:
+                Tildelte saker for
             </BodyShort>
             <UNSAFE_Combobox
                 options={saksbehandlereOptions}
