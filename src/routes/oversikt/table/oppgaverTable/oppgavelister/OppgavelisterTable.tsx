@@ -2,7 +2,7 @@
 
 import { ReactElement } from 'react';
 
-import { Table, VStack } from '@navikt/ds-react';
+import { HStack, Table, VStack } from '@navikt/ds-react';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { BehandletIdagTableSkeleton } from '@oversikt/table/BehandletIdagTableSkeleton';
@@ -14,7 +14,7 @@ import { OppgavelisterOppgaveRow } from '@oversikt/table/oppgaverTable/tilGodkje
 import { useAktivOppgaveliste, useOppgavelisteFeed } from '@state/oppgavelister';
 import { cn } from '@utils/tw';
 
-import { OppgavelisteChips } from './OppgavelisteChips';
+import { OppgavelisteCombobox } from './OppgavelisteCombobox';
 import { OppgavelisteDatoFilter } from './OppgavelisteDatoFilter';
 
 export const OppgavelisterTable = (): ReactElement => {
@@ -34,11 +34,13 @@ export const OppgavelisterTable = (): ReactElement => {
 
     return (
         <VStack className={cn('h-full overflow-auto', loading && '[&_tbody]:opacity-60 [&_tbody]:transition-opacity')}>
-            <OppgavelisteChips />
-            <OppgavelisteDatoFilter key={aktivOppgaveliste.id} />
+            <HStack wrap gap="space-32" align="end" marginInline="space-12" marginBlock="space-12 space-8">
+                <OppgavelisteCombobox />
+                <OppgavelisteDatoFilter />
+            </HStack>
             <div className="flex-1 overflow-auto p-0 text-ax-text-neutral [scrollbar-width:none]">
                 <div className="m-0 h-[calc(100%-50px)] w-full p-0">
-                    <Table aria-label={aktivOppgaveliste.navn} zebraStripes>
+                    <Table aria-label={aktivOppgaveliste?.navn ?? 'Oppgavelister'} zebraStripes>
                         <Table.Header>
                             <Table.Row>
                                 <HeaderCell text="Saksbehandler" />

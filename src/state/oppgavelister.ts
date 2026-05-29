@@ -1,4 +1,4 @@
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 import { ErrorType } from '@app/axios/orval-mutator';
 import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
@@ -20,35 +20,22 @@ interface OppgaveFeedResponse {
     antallOppgaver: number;
 }
 
-export const aktivOppgavelisteIdAtom = atomWithSessionStorage<string>(
-    'aktivOppgavelisteId',
-    PREDEFINERTE_OPPGAVELISTER[0].id,
-);
+export const aktivOppgavelisteIdAtom = atomWithSessionStorage<string | null>('aktivOppgavelisteId', null);
 
-export const useAktivOppgaveliste = (): Oppgaveliste => {
+export const useAktivOppgaveliste = (): Oppgaveliste | null => {
     const aktivId = useAtomValue(aktivOppgavelisteIdAtom);
-    return PREDEFINERTE_OPPGAVELISTER.find((liste) => liste.id === aktivId) ?? PREDEFINERTE_OPPGAVELISTER[0]!;
+    if (!aktivId) return null;
+    return PREDEFINERTE_OPPGAVELISTER.find((liste) => liste.id === aktivId) ?? null;
 };
 
 export const useSetAktivOppgaveliste = () => {
-    const [, setAktivId] = useAtom(aktivOppgavelisteIdAtom);
-    const [, setDatoOverrides] = useAtom(oppgavelisteDatoOverridesAtom);
-    return (id: string) => {
-        setAktivId(id);
-        const liste = PREDEFINERTE_OPPGAVELISTER.find((l) => l.id === id) ?? PREDEFINERTE_OPPGAVELISTER[0]!;
-        setDatoOverrides({
-            oppgaveKlarFom: liste.params.oppgaveKlarFom,
-            oppgaveKlarTom: liste.params.oppgaveKlarTom,
-        });
-    };
+    const setAktivId = useSetAtom(aktivOppgavelisteIdAtom);
+    return (id: string) => setAktivId(id);
 };
 
 type OppgavelisteDato = { oppgaveKlarFom?: string; oppgaveKlarTom?: string };
 
-const oppgavelisteDatoOverridesAtom = atom<OppgavelisteDato>({
-    oppgaveKlarFom: PREDEFINERTE_OPPGAVELISTER[0].params.oppgaveKlarFom,
-    oppgaveKlarTom: PREDEFINERTE_OPPGAVELISTER[0].params.oppgaveKlarTom,
-});
+const oppgavelisteDatoOverridesAtom = atomWithSessionStorage<OppgavelisteDato>('oppgavelisteDato', {});
 
 export const useOppgavelisteDato = () => {
     const [dato, setDato] = useAtom(oppgavelisteDatoOverridesAtom);
@@ -70,7 +57,7 @@ export const useOppgavelisteFeed = (): OppgaveFeedResponse => {
         isFetching: loading,
     } = useGetOppgaver(
         {
-            ...aktivOppgaveliste.params,
+            ...aktivOppgaveliste?.params,
             oppgaveKlarFom: dato.oppgaveKlarFom,
             oppgaveKlarTom: dato.oppgaveKlarTom,
             sidestoerrelse: limit,
@@ -79,6 +66,7 @@ export const useOppgavelisteFeed = (): OppgaveFeedResponse => {
         {
             query: {
                 staleTime: 0,
+                enabled: aktivOppgaveliste !== null,
             },
         },
     );

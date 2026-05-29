@@ -19,7 +19,7 @@ export const OppgavelisteDatoFilter = (): ReactElement => {
     });
 
     return (
-        <HStack wrap gap="space-32" marginInline="space-12" marginBlock="space-8 space-8">
+        <HStack wrap gap="space-32">
             <DatePicker {...fomDatePicker.datepickerProps} dropdownCaption>
                 <DatePicker.Input {...fomDatePicker.inputProps} label="Oppgave klar f.o.m" size="small" />
             </DatePicker>
