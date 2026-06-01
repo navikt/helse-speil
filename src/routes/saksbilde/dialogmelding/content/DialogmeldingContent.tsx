@@ -62,7 +62,7 @@ export function DialogmeldingContent(): ReactElement {
                 </VStack>
                 <VStack gap="space-16">
                     {sortert.map((melding, index) => (
-                        <DialogmeldingKort key={index} melding={melding} />
+                        <DialogmeldingKort key={index} melding={melding} personPseudoId={personPseudoId} />
                     ))}
                 </VStack>
                 {status !== ApiDialogmeldingStatus.FERDIGSTILT && <SvarPåDialogForm />}

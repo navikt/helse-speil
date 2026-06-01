@@ -6,7 +6,12 @@ import { BodyShort, Box, HStack, LinkCard, Tag, VStack } from '@navikt/ds-react'
 import { ApiDialogmelding } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 
-export function DialogmeldingKort({ melding }: { melding: ApiDialogmelding }): ReactElement {
+interface Props {
+    melding: ApiDialogmelding;
+    personPseudoId: string;
+}
+
+export function DialogmeldingKort({ melding, personPseudoId }: Props): ReactElement {
     return (
         <Box padding="space-12" borderWidth="1" borderRadius="8" borderColor="neutral-subtle">
             <VStack gap="space-8">
@@ -19,10 +24,10 @@ export function DialogmeldingKort({ melding }: { melding: ApiDialogmelding }): R
                         >
                             {melding.fraNav ? 'Fra Nav' : 'Fra behandler'}
                         </Tag>
-                        {!melding.fraNav && melding.vedlegg.length > 0 && (
+                        {!melding.fraNav && melding.antallVedlegg > 0 && (
                             <HStack gap="space-2" align="center" className="text-ax-text-neutral-subtle">
                                 <PaperclipIcon aria-hidden />
-                                {melding.vedlegg.length}
+                                {melding.antallVedlegg}
                             </HStack>
                         )}
                     </HStack>
@@ -31,16 +36,22 @@ export function DialogmeldingKort({ melding }: { melding: ApiDialogmelding }): R
                     </BodyShort>
                 </HStack>
                 <BodyShort>{melding.melding}</BodyShort>
-                {melding.vedlegg.length > 0 && (
+                {melding.antallVedlegg > 0 && (
                     <VStack as="ul" gap="space-4">
-                        {melding.vedlegg.map((vedlegg, index) => (
+                        {Array.from({ length: melding.antallVedlegg }, (_, index) => (
                             <li key={index}>
                                 <LinkCard size="small" arrow={false}>
                                     <LinkCard.Icon>
                                         <FilePdfIcon aria-hidden fontSize="1.5rem" className="shrink-0" />
                                     </LinkCard.Icon>
                                     <LinkCard.Title>
-                                        <LinkCard.Anchor href={vedlegg.url}>{vedlegg.navn}</LinkCard.Anchor>
+                                        <LinkCard.Anchor
+                                            href={`/api/sporhund/personer/${personPseudoId}/vedlegg/${melding.msgId}/${index}`}
+                                            target="_blank"
+                                            rel="noreferrer"
+                                        >
+                                            {`Vedlegg ${index + 1}`}
+                                        </LinkCard.Anchor>
                                     </LinkCard.Title>
                                 </LinkCard>
                             </li>
