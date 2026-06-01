@@ -77,7 +77,8 @@ const initialDialoger: InternalDialog[] = [
                     'Takk for tilsendt dokumentasjon. Vi trenger noen tilleggsopplysninger om pasientens funksjonsnivå og eventuelle tilretteleggingsmuligheter på arbeidsplassen. Kan dere gi en nærmere vurdering av dette?',
                 sendtTidspunkt: '2026-04-24T14:36:00',
                 fraNav: true,
-                vedlegg: [],
+                msgId: 'a1b2c3d4-0001-0001-0001-000000000001',
+                antallVedlegg: 0,
             },
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
@@ -86,11 +87,8 @@ const initialDialoger: InternalDialog[] = [
                     'Hei, vedlagt finner dere den forespurte dokumentasjonen. Jeg har lagt ved relevant journaldokumentasjon og vurdering av pasientens tilstand. Ta gjerne kontakt dersom dere trenger ytterligere opplysninger.',
                 sendtTidspunkt: '2026-04-22T07:21:00',
                 fraNav: false,
-                vedlegg: [
-                    { navn: 'Sykmelding.pdf', url: '#' },
-                    { navn: 'Legeerklæring.pdf', url: '#' },
-                    { navn: 'Journal_2024.pdf', url: '#' },
-                ],
+                msgId: 'a1b2c3d4-0002-0002-0002-000000000002',
+                antallVedlegg: 3,
             },
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
@@ -99,7 +97,8 @@ const initialDialoger: InternalDialog[] = [
                     'Hei, vi behandler saken til Mia Cathrine Svendsen og trenger ytterligere dokumentasjon for å kunne fatte et vedtak. Kan dere sende over relevant dokumentasjon som belyser pasientens tilstand og arbeidsevne?',
                 sendtTidspunkt: '2026-04-20T09:15:00',
                 fraNav: true,
-                vedlegg: [],
+                msgId: 'a1b2c3d4-0003-0003-0003-000000000003',
+                antallVedlegg: 0,
             },
         ],
     },
@@ -117,7 +116,8 @@ const initialDialoger: InternalDialog[] = [
                 melding: 'Vi ønsker en oppdatering på pasientens tilstand og forventet varighet på sykmeldingen.',
                 sendtTidspunkt: '2026-04-27T08:30:00',
                 fraNav: true,
-                vedlegg: [],
+                msgId: 'a1b2c3d4-0004-0004-0004-000000000004',
+                antallVedlegg: 0,
             },
         ],
     },
@@ -135,7 +135,8 @@ const initialDialoger: InternalDialog[] = [
                 melding: 'Vedlagt sender jeg etterspurt dokumentasjon.',
                 sendtTidspunkt: '2026-04-24T14:36:00',
                 fraNav: false,
-                vedlegg: [{ navn: 'Dokumentasjon.pdf', url: '#' }],
+                msgId: 'a1b2c3d4-0005-0005-0005-000000000005',
+                antallVedlegg: 1,
             },
             {
                 fagomrade: ApiFagomrade.BESTRIDELSE,
@@ -143,7 +144,8 @@ const initialDialoger: InternalDialog[] = [
                 melding: 'Vi ber om dokumentasjon knyttet til pasientens diagnose og behandlingsplan.',
                 sendtTidspunkt: '2026-04-23T10:49:00',
                 fraNav: true,
-                vedlegg: [],
+                msgId: 'a1b2c3d4-0006-0006-0006-000000000006',
+                antallVedlegg: 0,
             },
         ],
     },
@@ -162,7 +164,8 @@ const initialDialoger: InternalDialog[] = [
                     'Pasienten er sykmeldt grunnet rygglidelse. Prognosen er god, forventet tilbakekomst om 6–8 uker.',
                 sendtTidspunkt: '2026-04-10T09:00:00',
                 fraNav: false,
-                vedlegg: [{ navn: 'Sykmelding.pdf', url: '#' }],
+                msgId: 'a1b2c3d4-0007-0007-0007-000000000007',
+                antallVedlegg: 1,
             },
             {
                 fagomrade: ApiFagomrade.YRKESSKADE,
@@ -170,7 +173,8 @@ const initialDialoger: InternalDialog[] = [
                 melding: 'Vi ønsker mer informasjon om diagnosen og prognosen for tilbakekomst til arbeid.',
                 sendtTidspunkt: '2026-04-08T13:15:00',
                 fraNav: true,
-                vedlegg: [],
+                msgId: 'a1b2c3d4-0008-0008-0008-000000000008',
+                antallVedlegg: 0,
             },
         ],
     },
@@ -189,7 +193,8 @@ const initialDialoger: InternalDialog[] = [
                     'Pasienten kan på det nåværende tidspunkt ikke benytte seg av gradert sykmelding, men vi vil revurdere dette om 2 uker.',
                 sendtTidspunkt: '2026-04-05T11:00:00',
                 fraNav: false,
-                vedlegg: [{ navn: 'Vurdering.pdf', url: '#' }],
+                msgId: 'a1b2c3d4-0009-0009-0009-000000000009',
+                antallVedlegg: 1,
             },
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
@@ -198,7 +203,8 @@ const initialDialoger: InternalDialog[] = [
                     'Kan dere gi en vurdering av pasientens nåværende arbeidsevne og muligheter for gradert sykmelding?',
                 sendtTidspunkt: '2026-04-04T10:00:00',
                 fraNav: true,
-                vedlegg: [],
+                msgId: 'a1b2c3d4-0010-0010-0010-000000000010',
+                antallVedlegg: 0,
             },
         ],
     },
@@ -216,7 +222,8 @@ const initialDialoger: InternalDialog[] = [
                 melding: 'Vi ber om bekreftelse på at behandlingsplanen er iverksatt.',
                 sendtTidspunkt: '2026-03-28T14:00:00',
                 fraNav: true,
-                vedlegg: [],
+                msgId: 'a1b2c3d4-0011-0011-0011-000000000011',
+                antallVedlegg: 0,
             },
         ],
     },
@@ -252,7 +259,7 @@ export class DialogmeldingMock {
                     meldingstype: first.meldingstype,
                     sisteAktivitetTidspunkt,
                     antallMeldinger: dialog.dialogmeldinger.length,
-                    antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.vedlegg.length, 0),
+                    antallVedlegg: dialog.dialogmeldinger.reduce((sum, m) => sum + m.antallVedlegg, 0),
                     status: dialog.status,
                 };
             });
@@ -308,7 +315,8 @@ export class DialogmeldingMock {
                     melding: data.melding,
                     sendtTidspunkt: tid,
                     fraNav: true,
-                    vedlegg: [],
+                    msgId: crypto.randomUUID(),
+                    antallVedlegg: 0,
                 },
             ],
         };
@@ -339,7 +347,8 @@ export class DialogmeldingMock {
             melding: data.melding,
             sendtTidspunkt: tid,
             fraNav: true,
-            vedlegg: [],
+            msgId: crypto.randomUUID(),
+            antallVedlegg: 0,
         });
         dialog.status = ApiDialogmeldingStatus.SENDT;
 
@@ -364,7 +373,8 @@ export class DialogmeldingMock {
                 'Vedlagt finner dere etterspurt dokumentasjon. Pasienten har vært til kontroll og jeg har oppdatert vurderingen. Ta kontakt dersom dere trenger ytterligere opplysninger.',
             sendtTidspunkt: tid,
             fraNav: false,
-            vedlegg: [{ navn: 'Svar_fra_lege.pdf', url: '#' }],
+            msgId: crypto.randomUUID(),
+            antallVedlegg: 1,
         });
         dialog.status = ApiDialogmeldingStatus.MOTTATT;
 

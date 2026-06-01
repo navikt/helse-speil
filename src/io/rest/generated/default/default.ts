@@ -4,8 +4,8 @@
  * API
  * OpenAPI spec version: latest
  */
-import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
+import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiDialogDetails,
     ApiDialogOppsummering,
@@ -15,6 +15,7 @@ import type {
     ApiSvarPaDialog,
 } from '../sporhund.schemas';
 
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -29,7 +30,6 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
-import { useMutation, useQuery } from '@tanstack/react-query';
 
 /**
  * Hent dialogmelding-oppgaver
@@ -557,3 +557,105 @@ export const usePostNyDialogmelding = <TError = ErrorType<unknown>, TContext = u
 
     return useMutation(mutationOptions, queryClient);
 };
+/**
+ * Hent ett vedlegg for en dialogmelding fra behandler
+ */
+export const getVedlegg = (pseudoId: string, msgId: string, index: number, signal?: AbortSignal) => {
+    return callCustomAxios<void>({
+        url: `/api/sporhund/personer/${pseudoId}/vedlegg/${msgId}/${index}`,
+        method: 'GET',
+        signal,
+    });
+};
+
+export const getGetVedleggQueryKey = (pseudoId?: string, msgId?: string, index?: number) => {
+    return [`/api/sporhund/personer/${pseudoId}/vedlegg/${msgId}/${index}`] as const;
+};
+
+export const getGetVedleggQueryOptions = <TData = Awaited<ReturnType<typeof getVedlegg>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    msgId: string,
+    index: number,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVedlegg>>, TError, TData>> },
+) => {
+    const { query: queryOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetVedleggQueryKey(pseudoId, msgId, index);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getVedlegg>>> = ({ signal }) =>
+        getVedlegg(pseudoId, msgId, index, signal);
+
+    return {
+        queryKey,
+        queryFn,
+        enabled: !!(pseudoId && msgId && index),
+        staleTime: Infinity,
+        gcTime: 0,
+        ...queryOptions,
+    } as UseQueryOptions<Awaited<ReturnType<typeof getVedlegg>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetVedleggQueryResult = NonNullable<Awaited<ReturnType<typeof getVedlegg>>>;
+export type GetVedleggQueryError = ErrorType<void>;
+
+export function useGetVedlegg<TData = Awaited<ReturnType<typeof getVedlegg>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    msgId: string,
+    index: number,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVedlegg>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getVedlegg>>,
+                    TError,
+                    Awaited<ReturnType<typeof getVedlegg>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetVedlegg<TData = Awaited<ReturnType<typeof getVedlegg>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    msgId: string,
+    index: number,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVedlegg>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getVedlegg>>,
+                    TError,
+                    Awaited<ReturnType<typeof getVedlegg>>
+                >,
+                'initialData'
+            >;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetVedlegg<TData = Awaited<ReturnType<typeof getVedlegg>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    msgId: string,
+    index: number,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVedlegg>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetVedlegg<TData = Awaited<ReturnType<typeof getVedlegg>>, TError = ErrorType<void>>(
+    pseudoId: string,
+    msgId: string,
+    index: number,
+    options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVedlegg>>, TError, TData>> },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = getGetVedleggQueryOptions(pseudoId, msgId, index, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    query.queryKey = queryOptions.queryKey;
+
+    return query;
+}

@@ -118,17 +118,13 @@ export const ApiBehandlerType = {
 } as const;
 
 export interface ApiDialogmelding {
+    antallVedlegg: number;
     fagomrade: ApiFagomrade;
     fraNav: boolean;
     melding: string;
     meldingstype: ApiDialogmeldingType;
+    msgId: string;
     sendtTidspunkt: string;
-    vedlegg: ApiVedlegg[];
-}
-
-export interface ApiVedlegg {
-    navn: string;
-    url: string;
 }
 
 export interface ApiDialogDetails {
