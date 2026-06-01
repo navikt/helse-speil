@@ -237,6 +237,47 @@ fragment ghostPeriode on GhostPeriode {
 
 fragment uberegnetPeriode on UberegnetPeriode {
     id
+    historikkinnslag {
+        id
+        type
+        timestamp
+        saksbehandlerIdent
+        dialogRef
+        ... on LagtPaVent {
+            frist
+            arsaker
+            notattekst
+            kommentarer {
+                ...kommentar
+            }
+        }
+        ... on EndrePaVent {
+            frist
+            arsaker
+            notattekst
+            kommentarer {
+                ...kommentar
+            }
+        }
+        ... on TotrinnsvurderingRetur {
+            notattekst
+            kommentarer {
+                ...kommentar
+            }
+        }
+        ... on StansAutomatiskBehandlingSaksbehandler {
+            notattekst
+            kommentarer {
+                ...kommentar
+            }
+        }
+        ... on OpphevStansAutomatiskBehandlingSaksbehandler {
+            notattekst
+            kommentarer {
+                ...kommentar
+            }
+        }
+    }
     ...periode
 }
 

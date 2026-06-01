@@ -158,6 +158,7 @@ export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriodeFragment
     varsler: [],
     vedtaksperiodeId: generateId(),
     aktivitetslogg: [],
+    historikkinnslag: [],
     ...overrides,
 });
 

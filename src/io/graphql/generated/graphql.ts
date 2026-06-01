@@ -662,6 +662,7 @@ export type Periode = {
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['LocalDate']['output'];
     hendelser: Array<Hendelse>;
+    historikkinnslag: Array<Historikkinnslag>;
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
     opprettet: Scalars['LocalDateTime']['output'];
@@ -1079,6 +1080,7 @@ export type UberegnetPeriode = Periode & {
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['LocalDate']['output'];
     hendelser: Array<Hendelse>;
+    historikkinnslag: Array<Historikkinnslag>;
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
     opprettet: Scalars['LocalDateTime']['output'];
@@ -1891,6 +1893,113 @@ export type ArbeidsgiverFragment = {
                   vedtaksperiodeId: string;
                   periodetilstand: Periodetilstand;
                   skjaeringstidspunkt: string;
+                  historikkinnslag: Array<
+                      | {
+                            __typename: 'EndrePaVent';
+                            frist: string | null;
+                            arsaker: Array<string>;
+                            notattekst: string | null;
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
+                        }
+                      | {
+                            __typename: 'FjernetFraPaVent';
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                        }
+                      | {
+                            __typename: 'LagtPaVent';
+                            frist: string | null;
+                            arsaker: Array<string>;
+                            notattekst: string | null;
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
+                        }
+                      | {
+                            __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+                            notattekst: string | null;
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
+                        }
+                      | {
+                            __typename: 'PeriodeHistorikkElementNy';
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                        }
+                      | {
+                            __typename: 'StansAutomatiskBehandlingSaksbehandler';
+                            notattekst: string | null;
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
+                        }
+                      | {
+                            __typename: 'TotrinnsvurderingRetur';
+                            notattekst: string | null;
+                            id: number;
+                            type: PeriodehistorikkType;
+                            timestamp: string;
+                            saksbehandlerIdent: string | null;
+                            dialogRef: number | null;
+                            kommentarer: Array<{
+                                __typename: 'Kommentar';
+                                id: number;
+                                tekst: string;
+                                opprettet: string;
+                                saksbehandlerident: string;
+                                feilregistrert_tidspunkt: string | null;
+                            }>;
+                        }
+                  >;
                   tidslinje: Array<{
                       __typename: 'Dag';
                       dato: string;
@@ -2258,6 +2367,113 @@ export type UberegnetPeriodeFragment = {
     vedtaksperiodeId: string;
     periodetilstand: Periodetilstand;
     skjaeringstidspunkt: string;
+    historikkinnslag: Array<
+        | {
+              __typename: 'EndrePaVent';
+              frist: string | null;
+              arsaker: Array<string>;
+              notattekst: string | null;
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
+          }
+        | {
+              __typename: 'FjernetFraPaVent';
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+          }
+        | {
+              __typename: 'LagtPaVent';
+              frist: string | null;
+              arsaker: Array<string>;
+              notattekst: string | null;
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
+          }
+        | {
+              __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+              notattekst: string | null;
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
+          }
+        | {
+              __typename: 'PeriodeHistorikkElementNy';
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+          }
+        | {
+              __typename: 'StansAutomatiskBehandlingSaksbehandler';
+              notattekst: string | null;
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
+          }
+        | {
+              __typename: 'TotrinnsvurderingRetur';
+              notattekst: string | null;
+              id: number;
+              type: PeriodehistorikkType;
+              timestamp: string;
+              saksbehandlerIdent: string | null;
+              dialogRef: number | null;
+              kommentarer: Array<{
+                  __typename: 'Kommentar';
+                  id: number;
+                  tekst: string;
+                  opprettet: string;
+                  saksbehandlerident: string;
+                  feilregistrert_tidspunkt: string | null;
+              }>;
+          }
+    >;
     tidslinje: Array<{
         __typename: 'Dag';
         dato: string;
@@ -3412,6 +3628,113 @@ export type PersonFragment = {
                       vedtaksperiodeId: string;
                       periodetilstand: Periodetilstand;
                       skjaeringstidspunkt: string;
+                      historikkinnslag: Array<
+                          | {
+                                __typename: 'EndrePaVent';
+                                frist: string | null;
+                                arsaker: Array<string>;
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'FjernetFraPaVent';
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                            }
+                          | {
+                                __typename: 'LagtPaVent';
+                                frist: string | null;
+                                arsaker: Array<string>;
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'PeriodeHistorikkElementNy';
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                            }
+                          | {
+                                __typename: 'StansAutomatiskBehandlingSaksbehandler';
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'TotrinnsvurderingRetur';
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                      >;
                       tidslinje: Array<{
                           __typename: 'Dag';
                           dato: string;
@@ -4202,6 +4525,113 @@ export type PersonFragment = {
                       vedtaksperiodeId: string;
                       periodetilstand: Periodetilstand;
                       skjaeringstidspunkt: string;
+                      historikkinnslag: Array<
+                          | {
+                                __typename: 'EndrePaVent';
+                                frist: string | null;
+                                arsaker: Array<string>;
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'FjernetFraPaVent';
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                            }
+                          | {
+                                __typename: 'LagtPaVent';
+                                frist: string | null;
+                                arsaker: Array<string>;
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'PeriodeHistorikkElementNy';
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                            }
+                          | {
+                                __typename: 'StansAutomatiskBehandlingSaksbehandler';
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                          | {
+                                __typename: 'TotrinnsvurderingRetur';
+                                notattekst: string | null;
+                                id: number;
+                                type: PeriodehistorikkType;
+                                timestamp: string;
+                                saksbehandlerIdent: string | null;
+                                dialogRef: number | null;
+                                kommentarer: Array<{
+                                    __typename: 'Kommentar';
+                                    id: number;
+                                    tekst: string;
+                                    opprettet: string;
+                                    saksbehandlerident: string;
+                                    feilregistrert_tidspunkt: string | null;
+                                }>;
+                            }
+                      >;
                       tidslinje: Array<{
                           __typename: 'Dag';
                           dato: string;
@@ -4883,6 +5313,113 @@ export type FetchPersonQuery = {
                           vedtaksperiodeId: string;
                           periodetilstand: Periodetilstand;
                           skjaeringstidspunkt: string;
+                          historikkinnslag: Array<
+                              | {
+                                    __typename: 'EndrePaVent';
+                                    frist: string | null;
+                                    arsaker: Array<string>;
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
+                                    __typename: 'FjernetFraPaVent';
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                }
+                              | {
+                                    __typename: 'LagtPaVent';
+                                    frist: string | null;
+                                    arsaker: Array<string>;
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
+                                    __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
+                                    __typename: 'PeriodeHistorikkElementNy';
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                }
+                              | {
+                                    __typename: 'StansAutomatiskBehandlingSaksbehandler';
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
+                                    __typename: 'TotrinnsvurderingRetur';
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                          >;
                           tidslinje: Array<{
                               __typename: 'Dag';
                               dato: string;
@@ -5681,6 +6218,113 @@ export type FetchPersonQuery = {
                           vedtaksperiodeId: string;
                           periodetilstand: Periodetilstand;
                           skjaeringstidspunkt: string;
+                          historikkinnslag: Array<
+                              | {
+                                    __typename: 'EndrePaVent';
+                                    frist: string | null;
+                                    arsaker: Array<string>;
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
+                                    __typename: 'FjernetFraPaVent';
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                }
+                              | {
+                                    __typename: 'LagtPaVent';
+                                    frist: string | null;
+                                    arsaker: Array<string>;
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
+                                    __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
+                                    __typename: 'PeriodeHistorikkElementNy';
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                }
+                              | {
+                                    __typename: 'StansAutomatiskBehandlingSaksbehandler';
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                              | {
+                                    __typename: 'TotrinnsvurderingRetur';
+                                    notattekst: string | null;
+                                    id: number;
+                                    type: PeriodehistorikkType;
+                                    timestamp: string;
+                                    saksbehandlerIdent: string | null;
+                                    dialogRef: number | null;
+                                    kommentarer: Array<{
+                                        __typename: 'Kommentar';
+                                        id: number;
+                                        tekst: string;
+                                        opprettet: string;
+                                        saksbehandlerident: string;
+                                        feilregistrert_tidspunkt: string | null;
+                                    }>;
+                                }
+                          >;
                           tidslinje: Array<{
                               __typename: 'Dag';
                               dato: string;
@@ -5954,6 +6598,26 @@ export const AntallFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<AntallFragment, unknown>;
+export const KommentarFragmentDoc = {
+    kind: 'Document',
+    definitions: [
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+    ],
+} as unknown as DocumentNode<KommentarFragment, unknown>;
 export const PeriodeFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -6190,7 +6854,164 @@ export const UberegnetPeriodeFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'historikkinnslag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'EndrePaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'StansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                 ],
             },
         },
@@ -6416,26 +7237,6 @@ export const UberegnetPeriodeFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<UberegnetPeriodeFragment, unknown>;
-export const KommentarFragmentDoc = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'kommentar' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<KommentarFragment, unknown>;
 export const SimuleringFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -7754,6 +8555,21 @@ export const ArbeidsgiverFragmentDoc = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'periode' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
             selectionSet: {
@@ -7974,21 +8790,6 @@ export const ArbeidsgiverFragmentDoc = {
         },
         {
             kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'kommentar' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'simulering' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Simulering' } },
             selectionSet: {
@@ -8096,6 +8897,148 @@ export const ArbeidsgiverFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'historikkinnslag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'EndrePaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'StansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
                 ],
             },
@@ -8878,6 +9821,21 @@ export const PersonFragmentDoc = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'periode' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
             selectionSet: {
@@ -9098,21 +10056,6 @@ export const PersonFragmentDoc = {
         },
         {
             kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'kommentar' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'simulering' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Simulering' } },
             selectionSet: {
@@ -9220,6 +10163,148 @@ export const PersonFragmentDoc = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'historikkinnslag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'EndrePaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'StansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
                 ],
             },
@@ -10471,6 +11556,21 @@ export const FetchPersonDocument = {
         },
         {
             kind: 'FragmentDefinition',
+            name: { kind: 'Name', value: 'kommentar' },
+            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
+            selectionSet: {
+                kind: 'SelectionSet',
+                selections: [
+                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
+                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
+                ],
+            },
+        },
+        {
+            kind: 'FragmentDefinition',
             name: { kind: 'Name', value: 'periode' },
             typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Periode' } },
             selectionSet: {
@@ -10697,22 +11797,149 @@ export const FetchPersonDocument = {
                 kind: 'SelectionSet',
                 selections: [
                     { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                    {
+                        kind: 'Field',
+                        name: { kind: 'Name', value: 'historikkinnslag' },
+                        selectionSet: {
+                            kind: 'SelectionSet',
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'id' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'type' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'timestamp' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerIdent' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'dialogRef' } },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'LagtPaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'EndrePaVent' } },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'arsaker' } },
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'TotrinnsvurderingRetur' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'StansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                                {
+                                    kind: 'InlineFragment',
+                                    typeCondition: {
+                                        kind: 'NamedType',
+                                        name: { kind: 'Name', value: 'OpphevStansAutomatiskBehandlingSaksbehandler' },
+                                    },
+                                    selectionSet: {
+                                        kind: 'SelectionSet',
+                                        selections: [
+                                            { kind: 'Field', name: { kind: 'Name', value: 'notattekst' } },
+                                            {
+                                                kind: 'Field',
+                                                name: { kind: 'Name', value: 'kommentarer' },
+                                                selectionSet: {
+                                                    kind: 'SelectionSet',
+                                                    selections: [
+                                                        {
+                                                            kind: 'FragmentSpread',
+                                                            name: { kind: 'Name', value: 'kommentar' },
+                                                        },
+                                                    ],
+                                                },
+                                            },
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                    },
                     { kind: 'FragmentSpread', name: { kind: 'Name', value: 'periode' } },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'kommentar' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Kommentar' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'id' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tekst' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'opprettet' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'saksbehandlerident' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'feilregistrert_tidspunkt' } },
                 ],
             },
         },

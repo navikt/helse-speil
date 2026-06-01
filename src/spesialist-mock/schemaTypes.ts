@@ -660,6 +660,7 @@ export type Periode = {
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['LocalDate']['output'];
     hendelser: Array<Hendelse>;
+    historikkinnslag: Array<Historikkinnslag>;
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
     opprettet: Scalars['LocalDateTime']['output'];
@@ -1077,6 +1078,7 @@ export type UberegnetPeriode = Periode & {
     erForkastet: Scalars['Boolean']['output'];
     fom: Scalars['LocalDate']['output'];
     hendelser: Array<Hendelse>;
+    historikkinnslag: Array<Historikkinnslag>;
     id: Scalars['UUID']['output'];
     inntektstype: Inntektstype;
     opprettet: Scalars['LocalDateTime']['output'];

@@ -106,6 +106,7 @@ const getHendelserForUberegnetPeriode = (
         ...getInntektoverstyringer(periode, inntektsforhold),
         ...getSykepengegrunnlagskjønnsfastsetting(periode, inntektsforhold, andreInntektsforhold),
         ...tilNotathendelse(notater),
+        ...getHistorikkinnslag(periode),
     ].sort(byTimestamp);
 };
 

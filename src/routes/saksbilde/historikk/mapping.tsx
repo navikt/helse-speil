@@ -198,7 +198,9 @@ export const getAnnullering = (period: BeregnetPeriodeFragment): Annulleringhend
     };
 };
 
-export const getHistorikkinnslag = (periode: BeregnetPeriodeFragment): HistorikkhendelseObject[] =>
+export const getHistorikkinnslag = (
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+): HistorikkhendelseObject[] =>
     periode.historikkinnslag.map((historikkelement, index): HistorikkhendelseObject => {
         return {
             id: `historikkinnslag-${index}`,
@@ -299,7 +301,7 @@ const kommentarer = (
     historikkelement?.__typename === 'TotrinnsvurderingRetur' ||
     historikkelement?.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
     historikkelement?.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
-        ? historikkelement.kommentarer.map(toKommentar)
+        ? (historikkelement.kommentarer ?? []).map(toKommentar)
         : [];
 
 const getTidligsteVurderingstidsstempelForPeriode = (
