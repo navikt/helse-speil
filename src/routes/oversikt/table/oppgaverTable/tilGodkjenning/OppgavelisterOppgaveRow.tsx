@@ -1,4 +1,5 @@
-import React, { ReactElement } from 'react';
+import dayjs from 'dayjs';
+import { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
@@ -8,19 +9,25 @@ import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';
 import { TildelingCell } from '@oversikt/table/cells/TildelingCell';
 import { OptionsCell } from '@oversikt/table/cells/options/OptionsCell';
 import { PåVentCell } from '@oversikt/table/cells/påvent/PåVentCell';
-import { NORSK_DATOFORMAT, somDato } from '@utils/date';
+import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somDato } from '@utils/date';
 
 interface OppgavelisterOppgaveRowProps {
     oppgave: ApiOppgaveProjeksjon;
 }
 
-export const OppgavelisterOppgaveRow = ({ oppgave }: OppgavelisterOppgaveRowProps): ReactElement => (
-    <LinkRow personPseudoId={oppgave.personPseudoId}>
-        <TildelingCell oppgave={oppgave} />
-        <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
-        <Table.DataCell>{somDato(oppgave.behandlingOpprettetTidspunkt).format(NORSK_DATOFORMAT)}</Table.DataCell>
-        <Table.DataCell>{somDato(oppgave.opprettetTidspunkt).format(NORSK_DATOFORMAT)}</Table.DataCell>
-        <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
-        <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} utgåttFrist={false} />
-    </LinkRow>
-);
+export const OppgavelisterOppgaveRow = ({ oppgave }: OppgavelisterOppgaveRowProps): ReactElement => {
+    const utgåttFrist: boolean =
+        oppgave.paVentInfo?.tidsfrist != null &&
+        dayjs(oppgave.paVentInfo.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
+
+    return (
+        <LinkRow personPseudoId={oppgave.personPseudoId}>
+            <TildelingCell oppgave={oppgave} />
+            <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
+            <Table.DataCell>{somDato(oppgave.behandlingOpprettetTidspunkt).format(NORSK_DATOFORMAT)}</Table.DataCell>
+            <Table.DataCell>{somDato(oppgave.opprettetTidspunkt).format(NORSK_DATOFORMAT)}</Table.DataCell>
+            <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
+            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} utgåttFrist={utgåttFrist} />
+        </LinkRow>
+    );
+};
