@@ -1818,7 +1818,7 @@
                                             "definisjonId": "aa5abb9e-ad71-3877-afd6-ad8751d79903",
                                             "opprettet": "2024-11-19T10:31:55.935095",
                                             "kode": "RV_VV_17",
-                                            "tittel": "Det er beregnet utbetaling under 20% total sykdomsgrad",
+                                            "tittel": "Det er beregnet utbetaling under 20 % total sykdomsgrad",
                                             "forklaring": "Det er vurdert at det er tilstrekkelig tap av arbeidstid i perioden.",
                                             "handling": null,
                                             "vurdering": null,
@@ -1830,7 +1830,7 @@
                                             "definisjonId": "70302f7f-7eda-439f-a4b6-8fdbc132edd0",
                                             "opprettet": "2024-11-19T10:31:57.012873",
                                             "kode": "RV_SI_3",
-                                            "tittel": "Det er simulert et negativt beløp.",
+                                            "tittel": "Det er mottatt flere inntektsmeldinger på samme skjæringstidspunkt. Undersøk at arbeidsgiverperioden, sykepengegrunnlaget og refusjonsopplysningene er riktige",
                                             "forklaring": "Vedtaksløsningen foreslår å omgjøre tidligere utbetaling av sykepenger, slik at hele eller deler av simuleringen gir et negativt beløp.",
                                             "handling": "Undersøk om simuleringen gir et ønsket og riktig resultat og korriger hvis simuleringen er feil. Hvis simuleringen er riktig, se rutine for revurdering, feilutbetaling og tilbakekreving.",
                                             "vurdering": null,
@@ -5026,7 +5026,7 @@
                                     }
                                 ],
                                 "perioderVurdertIkkeOk": [],
-                                "begrunnelse": "innvilget fordi total arbeidsevne er nedsatt med minst 20%",
+                                "begrunnelse": "innvilget fordi total arbeidsevne er nedsatt med minst 20 %",
                                 "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
                                 "__typename": "OverstyrtMinimumSykdomsgrad"
                             }
@@ -5692,7 +5692,7 @@
                                             "definisjonId": "aa5abb9e-ad71-3877-afd6-ad8751d79903",
                                             "opprettet": "2024-11-17T22:14:22.097785",
                                             "kode": "RV_VV_17",
-                                            "tittel": "Det er beregnet utbetaling under 20% total sykdomsgrad",
+                                            "tittel": "Det er beregnet utbetaling under 20 % total sykdomsgrad",
                                             "forklaring": "Det er vurdert at det er tilstrekkelig tap av arbeidstid i perioden.",
                                             "handling": null,
                                             "vurdering": {
@@ -11240,7 +11240,7 @@
                                     }
                                 ],
                                 "perioderVurdertIkkeOk": [],
-                                "begrunnelse": "innvilget fordi total arbeidsevne er nedsatt med minst 20%",
+                                "begrunnelse": "innvilget fordi total arbeidsevne er nedsatt med minst 20 %",
                                 "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
                                 "__typename": "OverstyrtMinimumSykdomsgrad"
                             }

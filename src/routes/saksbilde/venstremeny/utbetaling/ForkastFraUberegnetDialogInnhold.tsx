@@ -1,6 +1,8 @@
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import {
+    BodyLong,
+    BodyShort,
     Button,
     Checkbox,
     CheckboxGroup,
@@ -79,6 +81,17 @@ export const ForkastFraUberegnetDialogInnhold = ({
             <Dialog.Body>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} id="forkast-fra-uberegnet-skjema">
+                        <BodyLong className="mb-4">
+                            Sjekk siden{' '}
+                            <a
+                                style={{ textDecoration: 'underline' }}
+                                href="https://navno.sharepoint.com/sites/44/NAYsykepenger/_layouts/15/Doc.aspx?sourcedoc=%7Beedf26b9-2095-46bd-84ab-88859718061d%7D&action=view&wd=target%28Funksjoner.one%7C0a6ddbc7-1220-4da4-9cf8-096fffdb6235%2FAvvise%20periode%20til%20behandling%7C5f256a79-3927-4415-a118-89110a74df46%2F%29&wdorigin=703&wdpartid=%7B61237749-eaa9-0657-1917-a3175e3ae8c4%7D%7B1%7D&wdsectionfileid=%7B50933618-b447-404b-8ca1-6b558a6b51ad%7D"
+                                target="_blank"
+                            >
+                                Avvise periode til behandling i Speilboka
+                            </a>{' '}
+                            for å se om denne saken kan beholdes i Speil.
+                        </BodyLong>
                         <Controller
                             control={form.control}
                             name="arsaker"
@@ -114,9 +127,16 @@ export const ForkastFraUberegnetDialogInnhold = ({
                             render={({ field, fieldState }) => (
                                 <Textarea
                                     {...field}
+                                    className="mt-4"
                                     name="kommentar"
-                                    label={`Begrunnelse ${harValgtAnnet ? '' : '(valgfri)'}`}
-                                    description="Gi en forklaring på hvorfor perioden tas ut."
+                                    label={`Begrunnelse${harValgtAnnet ? '' : ' (valgfri)'}`}
+                                    description={
+                                        <>
+                                            <BodyShort>Gi en forklaring på hvorfor perioden tas ut.</BodyShort>
+                                            <BodyShort>Eksempel: </BodyShort>
+                                            <BodyShort>Ikke oppgi personopplysninger her.</BodyShort>
+                                        </>
+                                    }
                                     minRows={6}
                                     error={fieldState.error?.message}
                                 />

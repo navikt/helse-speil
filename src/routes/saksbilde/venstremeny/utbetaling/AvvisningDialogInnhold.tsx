@@ -1,7 +1,7 @@
 import { useRouter } from 'next/navigation';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Textarea } from '@navikt/ds-react';
+import { BodyShort, Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Textarea } from '@navikt/ds-react';
 
 import { AvvisningSkjema, avvisningSkjema } from '@/form-schemas/avvisningSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -68,7 +68,7 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                             name="begrunnelser"
                             render={({ field, fieldState }) => (
                                 <CheckboxGroup
-                                    legend="Årsak til at oppgaven ikke kan behandles"
+                                    legend="Årsak til at perioden må tas ut"
                                     error={fieldState.error?.message}
                                     value={field.value}
                                     onChange={field.onChange}
@@ -87,9 +87,18 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                             render={({ field, fieldState }) => (
                                 <Textarea
                                     {...field}
+                                    className="mt-4"
                                     name="kommentar"
-                                    label={`Begrunnelse ${annet ? '' : '(valgfri)'}`}
-                                    description={`Gi en kort forklaring på hvorfor du ikke kan behandle oppgaven.\nEksempel: Oppgave om oppfølging.\nMå ikke inneholde personopplysninger.`}
+                                    label={`Begrunnelse${annet ? '' : ' (valgfri)'}`}
+                                    description={
+                                        <>
+                                            <BodyShort>Gi en forklaring på hvorfor perioden tas ut.</BodyShort>
+                                            <BodyShort>
+                                                Eksempel: <span className="italic">Oppgave om oppfølging.</span>
+                                            </BodyShort>
+                                            <BodyShort>Ikke oppgi personopplysninger her.</BodyShort>
+                                        </>
+                                    }
                                     minRows={6}
                                     error={fieldState.error?.message}
                                 />
