@@ -104,7 +104,7 @@ export const TilkommenInntektSkjemafelter = ({
                         <HGrid columns={2} width="75%">
                             <ControlledDatePicker
                                 name="fom"
-                                label="Periode f.o.m"
+                                label="Periode f.o.m."
                                 gyldigePerioder={sykefraværstilfelleperioder}
                                 erGyldigDato={erGyldigFom}
                                 id="fom"
@@ -112,7 +112,7 @@ export const TilkommenInntektSkjemafelter = ({
                             />
                             <ControlledDatePicker
                                 name="tom"
-                                label="Periode t.o.m"
+                                label="Periode t.o.m."
                                 gyldigePerioder={sykefraværstilfelleperioder}
                                 erGyldigDato={erGyldigTom}
                                 id="tom"
