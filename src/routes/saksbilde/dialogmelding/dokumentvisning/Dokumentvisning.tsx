@@ -45,7 +45,7 @@ export function Dokumentvisning(): ReactElement {
                 </div>
                 {selected ? (
                     <iframe
-                        src={selected.url}
+                        src={`${selected.url}#zoom=page-width`}
                         className="h-full w-full"
                         title={selected.label}
                         style={{ pointerEvents: isDragging ? 'none' : 'auto' }}
