@@ -42,7 +42,7 @@ export function DialogmeldingKort({ melding, personPseudoId, behandler }: Props)
                         {getFormattedDatetimeString(melding.sendtTidspunkt)}
                     </BodyShort>
                 </HStack>
-                {melding.fraNav && (
+                {melding.fraNav ? (
                     <HStack gap="space-16">
                         <BodyShort className="text-ax-text-neutral-subtle">
                             <span className="font-bold">Fra:</span> {bruker.navn}
@@ -51,6 +51,10 @@ export function DialogmeldingKort({ melding, personPseudoId, behandler }: Props)
                             <span className="font-bold">Til:</span> {formatNavn(behandler.navn)}
                         </BodyShort>
                     </HStack>
+                ) : (
+                    <BodyShort className="text-ax-text-neutral-subtle">
+                        <span className="font-bold">Fra:</span> {formatNavn(behandler.navn)}
+                    </BodyShort>
                 )}
                 <BodyShort>{melding.melding}</BodyShort>
                 {melding.antallVedlegg > 0 && (
