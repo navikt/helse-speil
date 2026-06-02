@@ -3,17 +3,21 @@ import React, { ReactElement } from 'react';
 import { FilePdfIcon, PaperclipIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, LinkCard, Tag, VStack } from '@navikt/ds-react';
 
-import { ApiDialogmelding } from '@io/rest/generated/sporhund.schemas';
+import { useBruker } from '@auth/brukerContext';
+import { ApiBehandler, ApiDialogmelding } from '@io/rest/generated/sporhund.schemas';
 import { useSetSelectedVedlegg } from '@saksbilde/dialogmelding/dokumentvisning/selectedVedleggAtom';
 import { getFormattedDatetimeString } from '@utils/date';
+import { formatNavn } from '@utils/navnUtils';
 
 interface Props {
     melding: ApiDialogmelding;
     personPseudoId: string;
+    behandler: ApiBehandler;
 }
 
-export function DialogmeldingKort({ melding, personPseudoId }: Props): ReactElement {
+export function DialogmeldingKort({ melding, personPseudoId, behandler }: Props): ReactElement {
     const setSelectedVedlegg = useSetSelectedVedlegg();
+    const bruker = useBruker();
 
     return (
         <Box padding="space-12" borderWidth="1" borderRadius="8" borderColor="neutral-subtle">
@@ -38,6 +42,16 @@ export function DialogmeldingKort({ melding, personPseudoId }: Props): ReactElem
                         {getFormattedDatetimeString(melding.sendtTidspunkt)}
                     </BodyShort>
                 </HStack>
+                {melding.fraNav && (
+                    <HStack gap="space-16">
+                        <BodyShort className="text-ax-text-neutral-subtle">
+                            <span className="font-bold">Fra:</span> {bruker.navn}
+                        </BodyShort>
+                        <BodyShort className="text-ax-text-neutral-subtle">
+                            <span className="font-bold">Til:</span> {formatNavn(behandler.navn)}
+                        </BodyShort>
+                    </HStack>
+                )}
                 <BodyShort>{melding.melding}</BodyShort>
                 {melding.antallVedlegg > 0 && (
                     <VStack as="ul" gap="space-4">
