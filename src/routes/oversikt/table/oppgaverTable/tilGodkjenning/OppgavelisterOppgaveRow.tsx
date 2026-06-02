@@ -22,7 +22,7 @@ export const OppgavelisterOppgaveRow = ({ oppgave }: OppgavelisterOppgaveRowProp
             <Table.DataCell>{somDato(oppgave.behandlingOpprettetTidspunkt).format(NORSK_DATOFORMAT)}</Table.DataCell>
             <Table.DataCell>{somDato(oppgave.opprettetTidspunkt).format(NORSK_DATOFORMAT)}</Table.DataCell>
             <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
-            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} />
+            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.påVentInfo} />
         </LinkRow>
     );
 };

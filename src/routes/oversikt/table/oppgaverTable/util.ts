@@ -1,16 +1,16 @@
 import dayjs from 'dayjs';
 
-import { ApiOppgaveProjeksjon, ApiOppgaveProjeksjonPaaVentInfo } from '@io/rest/generated/spesialist.schemas';
+import { ApiOppgaveProjeksjon, ApiOppgaveProjeksjonPåVentInfo } from '@io/rest/generated/spesialist.schemas';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 export namespace Oppgave {
     // Returnerer false hvis oppgaven ikke er på vent
     export function erTidsfristUtgått(oppgave: ApiOppgaveProjeksjon): boolean {
-        return oppgave.paVentInfo != null && PåVentInfo.erTidsfristUtgått(oppgave.paVentInfo);
+        return oppgave.påVentInfo != null && PåVentInfo.erTidsfristUtgått(oppgave.påVentInfo);
     }
 }
 export namespace PåVentInfo {
-    export function erTidsfristUtgått(påVentInfo: ApiOppgaveProjeksjonPaaVentInfo): boolean {
+    export function erTidsfristUtgått(påVentInfo: ApiOppgaveProjeksjonPåVentInfo): boolean {
         return dayjs(påVentInfo.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
     }
 }

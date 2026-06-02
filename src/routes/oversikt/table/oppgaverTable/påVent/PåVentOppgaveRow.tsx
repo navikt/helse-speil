@@ -19,7 +19,7 @@ export const PåVentOppgaveRow = ({ oppgave }: PåVentOppgaveRowProps): ReactEle
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
             <PåVentDatoCell oppgave={oppgave} />
             <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
-            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} />
+            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.påVentInfo} />
         </LinkRow>
     );
 };

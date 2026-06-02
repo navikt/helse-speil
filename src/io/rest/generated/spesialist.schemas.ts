@@ -109,7 +109,7 @@ export const ApiSorteringsrekkefølge = {
 
 export type ApiOppgaveProjeksjonTildeling = null | ApiTildeling;
 
-export type ApiOppgaveProjeksjonPaVentInfo = null | ApiOppgaveProjeksjonPaaVentInfo;
+export type ApiOppgaveProjeksjonPåVentInfoProperty = null | ApiOppgaveProjeksjonPåVentInfo;
 
 export interface ApiOppgaveProjeksjon {
     id: string;
@@ -120,7 +120,7 @@ export interface ApiOppgaveProjeksjon {
     tildeling?: ApiOppgaveProjeksjonTildeling;
     opprettetTidspunkt: string;
     behandlingOpprettetTidspunkt: string;
-    paVentInfo?: ApiOppgaveProjeksjonPaVentInfo;
+    påVentInfo?: ApiOppgaveProjeksjonPåVentInfoProperty;
 }
 
 export type ApiPersonnavnMellomnavn = null | string;
@@ -176,26 +176,26 @@ export interface ApiTildeling {
     oid: string;
 }
 
-export type ApiOppgaveProjeksjonPaaVentInfoTekst = null | string;
+export type ApiOppgaveProjeksjonPåVentInfoTekst = null | string;
 
-export interface ApiOppgaveProjeksjonPaaVentInfo {
+export interface ApiOppgaveProjeksjonPåVentInfo {
     arsaker: string[];
-    tekst?: ApiOppgaveProjeksjonPaaVentInfoTekst;
+    tekst?: ApiOppgaveProjeksjonPåVentInfoTekst;
     dialogRef: number;
     saksbehandler: string;
     opprettet: string;
     tidsfrist: string;
-    kommentarer: ApiOppgaveProjeksjonPaaVentInfoKommentar[];
+    kommentarer: ApiOppgaveProjeksjonPåVentInfoKommentar[];
 }
 
-export type ApiOppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt = null | string;
+export type ApiOppgaveProjeksjonPåVentInfoKommentarFeilregistrertTidspunkt = null | string;
 
-export interface ApiOppgaveProjeksjonPaaVentInfoKommentar {
+export interface ApiOppgaveProjeksjonPåVentInfoKommentar {
     id: number;
     tekst: string;
     opprettet: string;
     saksbehandlerident: string;
-    feilregistrert_tidspunkt?: ApiOppgaveProjeksjonPaaVentInfoKommentarFeilregistrertTidspunkt;
+    feilregistrert_tidspunkt?: ApiOppgaveProjeksjonPåVentInfoKommentarFeilregistrertTidspunkt;
 }
 
 export interface ApiOppgaveProjeksjonSide {

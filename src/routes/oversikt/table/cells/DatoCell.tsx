@@ -31,8 +31,8 @@ const getVisningsDato = (oppgave: ApiOppgaveProjeksjon, sorteringsnøkkel: SortK
         case SortKey.BehandlingOpprettetTidspunkt:
             return somDato(oppgave.behandlingOpprettetTidspunkt).format(NORSK_DATOFORMAT);
         case SortKey.Tidsfrist:
-            return oppgave.paVentInfo?.tidsfrist
-                ? somDato(oppgave.paVentInfo.tidsfrist).format(NORSK_DATOFORMAT)
+            return oppgave.påVentInfo?.tidsfrist
+                ? somDato(oppgave.påVentInfo.tidsfrist).format(NORSK_DATOFORMAT)
                 : null;
         default:
             return somDato(oppgave.opprettetTidspunkt).format(NORSK_DATOFORMAT);

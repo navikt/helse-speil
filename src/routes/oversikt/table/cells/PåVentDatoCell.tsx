@@ -15,7 +15,7 @@ export function PåVentDatoCell({ oppgave }: PåVentDatoCellProps): ReactElement
     const utgåttFrist = Oppgave.erTidsfristUtgått(oppgave);
     return (
         <Table.DataCell className={cn('w-35', utgåttFrist && 'text-ax-text-danger-subtle')}>
-            {oppgave.paVentInfo?.tidsfrist ? somDato(oppgave.paVentInfo.tidsfrist).format(NORSK_DATOFORMAT) : null}
+            {oppgave.påVentInfo?.tidsfrist != null && somDato(oppgave.påVentInfo.tidsfrist).format(NORSK_DATOFORMAT)}
         </Table.DataCell>
     );
 }

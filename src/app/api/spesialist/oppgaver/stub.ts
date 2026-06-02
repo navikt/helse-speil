@@ -5,7 +5,7 @@ import { logger } from '@navikt/next-logger';
 import {
     ApiEgenskap,
     ApiOppgaveProjeksjon,
-    ApiOppgaveProjeksjonPaaVentInfo,
+    ApiOppgaveProjeksjonPåVentInfo,
     ApiOppgaveProjeksjonSide,
     ApiOppgaveSorteringsfelt,
     ApiSorteringsrekkefølge,
@@ -164,14 +164,14 @@ const oppfølgingsdatoSortFunction = (
     a: ApiOppgaveProjeksjon,
     b: ApiOppgaveProjeksjon,
 ) => {
-    if (!a.paVentInfo && !b.paVentInfo) {
+    if (!a.påVentInfo && !b.påVentInfo) {
         return 0;
-    } else if (!a.paVentInfo && !!b.paVentInfo) {
+    } else if (!a.påVentInfo && !!b.påVentInfo) {
         return 1;
-    } else if (!b.paVentInfo && !!a.paVentInfo) {
+    } else if (!b.påVentInfo && !!a.påVentInfo) {
         return -1;
     } else {
-        return tidspunktSortFunction(rekkefølge, a.paVentInfo!.tidsfrist, b.paVentInfo!.tidsfrist);
+        return tidspunktSortFunction(rekkefølge, a.påVentInfo!.tidsfrist, b.påVentInfo!.tidsfrist);
     }
 };
 
@@ -222,12 +222,12 @@ const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
             TildelingMock.setTildeling(oppgave.personPseudoId, oppgave.tildeling);
         }
 
-        let paVentInfo: ApiOppgaveProjeksjonPaaVentInfo | null = oppgave.paVentInfo ?? null;
+        let påVentInfo: ApiOppgaveProjeksjonPåVentInfo | null = oppgave.påVentInfo ?? null;
         let egenskaper = oppgave.egenskaper;
 
         if (PaVentMock.finnesIMock(oppgave.id)) {
             if (!PaVentMock.erPåVent(oppgave.id)) {
-                paVentInfo = null;
+                påVentInfo = null;
                 egenskaper = egenskaper.filter((e) => e !== ApiEgenskap.PA_VENT);
             } else {
                 const historikkinnslag = HistorikkinnslagMock.getSisteLagtPåVentHistorikkinnslag(
@@ -235,7 +235,7 @@ const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
                 ) as LagtPaVent;
 
                 if (historikkinnslag) {
-                    paVentInfo = {
+                    påVentInfo = {
                         arsaker: historikkinnslag.arsaker,
                         tekst: historikkinnslag.notattekst,
                         dialogRef: historikkinnslag.dialogRef!,
@@ -256,9 +256,9 @@ const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
                         : egenskaper;
                 }
             }
-        } else if (oppgave.paVentInfo !== undefined && oppgave.paVentInfo !== null) {
+        } else if (oppgave.påVentInfo !== undefined && oppgave.påVentInfo !== null) {
             PaVentMock.setPåVent(oppgave.id, {
-                frist: oppgave.paVentInfo?.tidsfrist,
+                frist: oppgave.påVentInfo?.tidsfrist,
                 oid: '11111111-2222-3333-4444-555555555555',
             });
         }
@@ -267,7 +267,7 @@ const syncMock = (oppgaver: ApiOppgaveProjeksjon[]) => {
             ...oppgave,
             tildeling: TildelingMock.getTildeling(oppgave.personPseudoId),
             egenskaper: egenskaper,
-            paVentInfo: paVentInfo,
+            påVentInfo: påVentInfo,
         } as ApiOppgaveProjeksjon;
     });
 };

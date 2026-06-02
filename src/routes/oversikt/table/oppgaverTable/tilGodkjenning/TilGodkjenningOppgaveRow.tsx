@@ -19,7 +19,7 @@ export const TilGodkjenningOppgaveRow = ({ oppgave }: TilGodkjenningOppgaveRowPr
             <EgenskaperTagsCell egenskaper={oppgave.egenskaper} />
             <DatoCell oppgave={oppgave} />
             <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
-            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} />
+            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.påVentInfo} />
         </LinkRow>
     );
 };

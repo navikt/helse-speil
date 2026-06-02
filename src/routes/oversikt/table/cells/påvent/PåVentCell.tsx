@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { HourglassBottomFilledIcon, HourglassTopFilledIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Table, Tooltip } from '@navikt/ds-react';
 
-import { ApiOppgaveProjeksjonPaaVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
+import { ApiOppgaveProjeksjonPåVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { SisteNotattekst } from '@oversikt/table/oppgaverTable/SisteNotattekst';
 import { PåVentInfo } from '@oversikt/table/oppgaverTable/util';
 
@@ -11,7 +11,7 @@ import { PåVentListeDialog } from './PåVentListeDialog';
 
 interface PåVentCellProps {
     navn: ApiPersonnavn;
-    påVentInfo: ApiOppgaveProjeksjonPaaVentInfo | undefined | null;
+    påVentInfo: ApiOppgaveProjeksjonPåVentInfo | undefined | null;
 }
 
 export const PåVentCell = ({ navn, påVentInfo }: PåVentCellProps): ReactElement => {
@@ -29,7 +29,7 @@ export const PåVentCell = ({ navn, påVentInfo }: PåVentCellProps): ReactEleme
 
 interface PåVentKnappProps {
     navn: ApiPersonnavn;
-    påVentInfo: ApiOppgaveProjeksjonPaaVentInfo;
+    påVentInfo: ApiOppgaveProjeksjonPåVentInfo;
 }
 
 const PåVentKnapp = ({ navn, påVentInfo }: PåVentKnappProps): ReactElement | null => {

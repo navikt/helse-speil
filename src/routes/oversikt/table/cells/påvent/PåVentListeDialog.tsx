@@ -3,7 +3,7 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 import { BodyShort, Dialog, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-import { ApiOppgaveProjeksjonPaaVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
+import { ApiOppgaveProjeksjonPåVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
 
@@ -11,7 +11,7 @@ interface PåVentListeDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     navn: ApiPersonnavn;
-    påVentInfo: ApiOppgaveProjeksjonPaaVentInfo;
+    påVentInfo: ApiOppgaveProjeksjonPåVentInfo;
 }
 
 export function PåVentListeDialog({ open, onOpenChange, navn, påVentInfo }: PåVentListeDialogProps): ReactElement {

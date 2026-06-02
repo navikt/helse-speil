@@ -55,7 +55,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
             ApiEgenskap.BESLUTTER,
             ApiEgenskap.PA_VENT,
         ],
-        paVentInfo: {
+        påVentInfo: {
             arsaker: ['§ 8-4 Avklare aktivitetskrav/medisinske vilkår'],
             dialogRef: 1,
             opprettet: '2023-01-23T11:09:57',
@@ -91,7 +91,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
             ApiEgenskap.EN_ARBEIDSGIVER,
             ApiEgenskap.VERGEMAL,
         ],
-        paVentInfo: {
+        påVentInfo: {
             arsaker: ['Inntektsmelding - etterspurt'],
             dialogRef: 222,
             opprettet: '2023-04-02T11:09:57',
