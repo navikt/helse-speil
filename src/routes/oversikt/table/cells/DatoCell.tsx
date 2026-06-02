@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { Oppgave } from '@oversikt/table/oppgaverTable/util';
 import { SortKey, useDateSortValue } from '@oversikt/table/state/sortation';
 import { NORSK_DATOFORMAT, somDato } from '@utils/date';
 import { cn } from '@utils/tw';
@@ -11,11 +12,11 @@ import styles from './DatoCell.module.css';
 
 interface DatoProps {
     oppgave: ApiOppgaveProjeksjon;
-    utgåttFrist: boolean;
 }
 
-export const DatoCell = ({ oppgave, utgåttFrist }: DatoProps): ReactElement => {
+export const DatoCell = ({ oppgave }: DatoProps): ReactElement => {
     const sorteringsnøkkel = useDateSortValue();
+    const utgåttFrist = Oppgave.erTidsfristUtgått(oppgave);
     return (
         <Table.DataCell
             className={cn(styles.datocell, sorteringsnøkkel === SortKey.Tidsfrist && utgåttFrist && styles.utgåttfrist)}

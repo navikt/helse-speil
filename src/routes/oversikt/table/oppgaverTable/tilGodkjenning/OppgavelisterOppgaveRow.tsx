@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
@@ -9,17 +8,13 @@ import { EgenskaperTagsCell } from '@oversikt/table/cells/EgenskaperTagsCell';
 import { TildelingCell } from '@oversikt/table/cells/TildelingCell';
 import { OptionsCell } from '@oversikt/table/cells/options/OptionsCell';
 import { PåVentCell } from '@oversikt/table/cells/påvent/PåVentCell';
-import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somDato } from '@utils/date';
+import { NORSK_DATOFORMAT, somDato } from '@utils/date';
 
 interface OppgavelisterOppgaveRowProps {
     oppgave: ApiOppgaveProjeksjon;
 }
 
 export const OppgavelisterOppgaveRow = ({ oppgave }: OppgavelisterOppgaveRowProps): ReactElement => {
-    const utgåttFrist: boolean =
-        oppgave.paVentInfo?.tidsfrist != null &&
-        dayjs(oppgave.paVentInfo.tidsfrist, ISO_DATOFORMAT).isSameOrBefore(dayjs());
-
     return (
         <LinkRow personPseudoId={oppgave.personPseudoId}>
             <TildelingCell oppgave={oppgave} />
@@ -27,7 +22,7 @@ export const OppgavelisterOppgaveRow = ({ oppgave }: OppgavelisterOppgaveRowProp
             <Table.DataCell>{somDato(oppgave.behandlingOpprettetTidspunkt).format(NORSK_DATOFORMAT)}</Table.DataCell>
             <Table.DataCell>{somDato(oppgave.opprettetTidspunkt).format(NORSK_DATOFORMAT)}</Table.DataCell>
             <OptionsCell oppgave={oppgave} navn={oppgave.navn} />
-            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} utgåttFrist={utgåttFrist} />
+            <PåVentCell navn={oppgave.navn} påVentInfo={oppgave.paVentInfo} />
         </LinkRow>
     );
 };
