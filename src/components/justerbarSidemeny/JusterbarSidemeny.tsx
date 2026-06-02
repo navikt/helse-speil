@@ -28,7 +28,6 @@ export const JusterbarSidemeny = ({
             ? parseInt(localStorage.getItem(localStorageNavn) || defaultBredde.toString())
             : defaultBredde,
     );
-    const [isDragging, setIsDragging] = useState(false);
     const isResized = useRef(false);
     const minWidth = 50;
     const maxWidth = 1980;
@@ -50,7 +49,6 @@ export const JusterbarSidemeny = ({
 
         const mouseupListener = () => {
             isResized.current = false;
-            setIsDragging(false);
         };
         window.addEventListener('mouseup', mouseupListener);
         return () => {
@@ -81,14 +79,12 @@ export const JusterbarSidemeny = ({
                 onMouseDown={(e) => {
                     e.preventDefault();
                     isResized.current = true;
-                    setIsDragging(true);
                 }}
             />
             <div
                 className={cn(styles.innhold, visSidemeny && styles.active, åpnesTilVenstre && styles.venstre)}
-                style={{ width: `${width}px`, position: 'relative' }}
+                style={{ width: `${width}px` }}
             >
-                {isDragging && <div style={{ position: 'absolute', inset: 0, zIndex: 10 }} />}
                 {children}
             </div>
         </div>
