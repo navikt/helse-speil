@@ -11,8 +11,15 @@ export const stubEllerVideresendTilSanity = async <T>(query: string): Promise<Ax
 };
 
 function localResponse<T>(query: string) {
+    const handlers = [
+        [`_id == "forkastingarsaker"]`, () => SanityMock.forkastingarsaker()],
+        [`_id == "paventarsaker"]`, () => SanityMock.paventarsaker()],
+    ] as const;
+
+    const data = handlers.find(([key]) => query.includes(key))?.[1]() ?? '';
+
     return {
-        data: query.includes(`_id == "forkastingarsaker"]`) ? SanityMock.forkastingarsaker() : '',
+        data,
         status: 200,
         statusText: 'OK',
         headers: {},

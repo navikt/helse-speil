@@ -1,0 +1,74 @@
+{
+    "query": "*[_type == \"arsaker\" && _id == \"paventarsaker\"]",
+    "result": [
+        {
+            "_createdAt": "2024-09-19T07:00:45Z",
+            "_id": "paventarsaker",
+            "_rev": "UfosySFOP5pIwzQxrn5Pxw",
+            "_system": {
+                "base": {
+                    "id": "paventarsaker",
+                    "rev": "lMvZbMHTM1M8gRaYkKAhxG"
+                }
+            },
+            "_type": "arsaker",
+            "_updatedAt": "2026-03-10T12:26:24Z",
+            "arsaker": [
+                {
+                    "_key": "ee6beb36b064",
+                    "arsak": "§ 8-4 Avklare aktivitetskrav/medisinske vilkår"
+                },
+                {
+                    "_key": "4d4fcb9055e1",
+                    "arsak": "§ 8-7 Vurdering av tilbakedatering"
+                },
+                {
+                    "_key": "b089bf83fe6c",
+                    "arsak": "§ 8-9 Oppholdskrav (utenfor EØS)"
+                },
+                {
+                    "_key": "1bb4307d2185",
+                    "arsak": "Inntektsmelding - etterspurt"
+                },
+                {
+                    "_key": "62fd39ab62ca",
+                    "arsak": "Bestridelse"
+                },
+                {
+                    "_key": "d0e7037bbc60",
+                    "arsak": "Venter på svar fra sykmeldt"
+                },
+                {
+                    "_key": "ab86e59b6919",
+                    "arsak": "Må avklares med arbeidsgiver"
+                },
+                {
+                    "_key": "196c6e6e07eb",
+                    "arsak": "Samhandling/samordning med andre ytelser"
+                },
+                {
+                    "_key": "3379b83685e4",
+                    "arsak": "Opplæring"
+                },
+                {
+                    "_key": "ad5b244bafea",
+                    "arsak": "Klage"
+                },
+                {
+                    "_key": "5c362eeb3a6f",
+                    "arsak": "NKS bidrar"
+                },
+                {
+                    "_key": "98a2527917f0",
+                    "arsak": "Annet"
+                },
+                {
+                    "_key": "d0d4c747db1a",
+                    "arsak": "Feilutbetaling"
+                }
+            ]
+        }
+    ],
+    "syncTags": ["s1:W5ue5A"],
+    "ms": 3
+}

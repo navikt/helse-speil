@@ -20,4 +20,8 @@ export class SanityMock {
     static forkastingarsaker() {
         return SanityMock.årsaker.get('forkastingarsaker');
     }
+
+    static paventarsaker() {
+        return SanityMock.årsaker.get('paventarsaker');
+    }
 }
