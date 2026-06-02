@@ -66,7 +66,7 @@ export function DialogmeldingContent(): ReactElement {
                         initialFerdigstilt={status === ApiDialogmeldingStatus.FERDIGSTILT}
                     />
                 </VStack>
-                <VStack gap="space-16">
+                <VStack gap="space-24">
                     {sortert.map((melding, index) => (
                         <DialogmeldingKort
                             key={index}
