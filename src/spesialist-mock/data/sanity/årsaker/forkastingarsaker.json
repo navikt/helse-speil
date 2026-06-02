@@ -1,0 +1,30 @@
+{
+    "query": "*[_type == \"arsaker\" && _id == \"forkastingarsaker\"]",
+    "result": [
+        {
+            "_createdAt": "2026-05-20T13:53:41Z",
+            "_id": "forkastingarsaker",
+            "_rev": "jcCCcnee5h53Ie2RsoDkkw",
+            "_system": {
+                "base": {
+                    "id": "forkastingarsaker",
+                    "rev": "jcCCcnee5h53Ie2RsmE2Yg"
+                }
+            },
+            "_type": "arsaker",
+            "_updatedAt": "2026-05-20T17:41:21Z",
+            "arsaker": [
+                {
+                    "_key": "fb40e53b9ae1",
+                    "arsak": "Bytter arbeidsforhold underveis mens den sykmeldte er sykmeldt - sendt søknad for ny arbeidsgiver"
+                },
+                {
+                    "_key": "acec90239e68",
+                    "arsak": "Annet"
+                }
+            ]
+        }
+    ],
+    "syncTags": ["s1:vtsDFA"],
+    "ms": 2
+}

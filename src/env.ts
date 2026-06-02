@@ -9,7 +9,7 @@ export const browserEnvSchema = z.object({
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
 export const serverEnvSchema = z.object({
-    SANITY_DATASET: z.enum(['production', 'local-development']),
+    SANITY_DATASET: z.enum(['production', 'local-spalten', 'local-mock']),
     SANITY_READ_DATASETS_TOKEN: z.string(),
     FLEXJAR_SCOPE: z.string(),
     FLEXJAR_BASEURL: z.string(),
