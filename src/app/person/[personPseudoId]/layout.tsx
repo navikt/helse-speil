@@ -6,7 +6,6 @@ import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from
 import { VStack } from '@navikt/ds-react';
 
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
-import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { useRefreshPersonVedEvent } from '@hooks/useRefreshPersonVedEvent';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
@@ -33,7 +32,6 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
     useAbonnerPåEndringer(personPseudoId);
     useKeyboardShortcuts();
     useResetOpenedDocuments();
-    useRefetchDriftsmeldinger();
 
     return <AktorScopedLayout key={personPseudoId}>{children}</AktorScopedLayout>;
 }

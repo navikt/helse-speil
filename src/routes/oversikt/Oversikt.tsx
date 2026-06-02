@@ -10,7 +10,6 @@ import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
 import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
-import { useRefetchDriftsmeldinger } from '@hooks/useRefetchDriftsmeldinger';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
 import { BehandletIdagTable } from '@oversikt/table/BehandletIdagTable';
@@ -68,7 +67,6 @@ export const Oversikt = (): ReactElement => {
 
     useKeyboardShortcuts();
     useFjernPersonFraApolloCache();
-    useRefetchDriftsmeldinger();
 
     return (
         <main className={styles.Oversikt}>
