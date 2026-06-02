@@ -1,13 +1,14 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { fagomradeLabels, meldingstypeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
+import { useSetSelectedVedlegg } from '@saksbilde/dialogmelding/dokumentvisning/selectedVedleggAtom';
 import { behandlerKategoriLabels, formatLegekontorAdresse } from '@utils/behandlerUtils';
 import { formatNavn } from '@utils/navnUtils';
 
@@ -19,9 +20,14 @@ import { SvarPåDialogForm } from './SvarPåDialogForm';
 
 export function DialogmeldingContent(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId: string }>();
+    const setSelectedVedlegg = useSetSelectedVedlegg();
     const { data, isPending, isError, refetch } = useGetDialogmelding(personPseudoId, dialogId, {
         query: { gcTime: 2 * 60 * 1000 },
     });
+
+    useEffect(() => {
+        setSelectedVedlegg(null);
+    }, [dialogId, setSelectedVedlegg]);
 
     if (isPending) {
         return <DialogmeldingContentSkeleton />;
