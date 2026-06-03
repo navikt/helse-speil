@@ -10,7 +10,7 @@ import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger'
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
-import { Begrunnelse } from './begrunnelse';
+import { ÅrsakTilAvvisning } from './årsakTilAvvisning';
 
 type AvvisningDialogInnholdProps = {
     activePeriod: BeregnetPeriodeFragment;
@@ -31,8 +31,8 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
     });
 
     const begrunnelser = useWatch({ name: 'begrunnelser', control: form.control });
-    const annet = begrunnelser.includes(Begrunnelse.Annet);
-    const begrunnelseValg = hentBegrunnelseValg(activePeriod);
+    const annet = begrunnelser.includes(ÅrsakTilAvvisning.Annet);
+    const { varslerOgRiskfunn, fasteÅrsaker } = hentÅrsakerValg(activePeriod);
 
     function onSubmit(values: AvvisningSkjema) {
         mutate(
@@ -68,12 +68,19 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                             name="begrunnelser"
                             render={({ field, fieldState }) => (
                                 <CheckboxGroup
-                                    legend="Årsak til at perioden må tas ut"
+                                    legend="Årsak(er) til at perioden må tas ut. Velg alle relevante årsaker."
                                     error={fieldState.error?.message}
                                     value={field.value}
                                     onChange={field.onChange}
                                 >
-                                    {begrunnelseValg.map((valg) => (
+                                    <BodyShort>Varsler i perioden</BodyShort>
+                                    {varslerOgRiskfunn.map((valg) => (
+                                        <Checkbox key={valg.value} value={valg.value}>
+                                            {valg.label}
+                                        </Checkbox>
+                                    ))}
+                                    <BodyShort>og/eller andre årsaker til at perioden må tas ut</BodyShort>
+                                    {fasteÅrsaker.map((valg) => (
                                         <Checkbox key={valg.value} value={valg.value}>
                                             {valg.label}
                                         </Checkbox>
@@ -92,11 +99,13 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                                     label={`Begrunnelse${annet ? '' : ' (valgfri)'}`}
                                     description={
                                         <>
-                                            <BodyShort>Gi en forklaring på hvorfor perioden tas ut.</BodyShort>
-                                            <BodyShort>Ikke oppgi personopplysninger her.</BodyShort>
+                                            <BodyShort>
+                                                Gi en forklaring på hvorfor perioden tas ut. Ikke oppgi
+                                                personopplysninger her.
+                                            </BodyShort>
                                         </>
                                     }
-                                    minRows={6}
+                                    minRows={2}
                                     error={fieldState.error?.message}
                                 />
                             )}
@@ -114,18 +123,21 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                 <Button variant="primary" type="submit" form="avvisning-skjema" loading={isPending}>
                     Kan ikke behandles her
                 </Button>
+                <BodyShort className="mt-3 italic">
+                    Utviklingsteamet bruker informasjonen du gir her til å videreutvikle og forbedre Speil
+                </BodyShort>
             </Dialog.Footer>
         </>
     );
 };
 
-type BegrunnelseValg = {
+type ÅrsakerValg = {
     value: string;
     label: React.ReactNode;
 };
 
-const hentBegrunnelseValg = (activePeriod: BeregnetPeriodeFragment): BegrunnelseValg[] => {
-    const valg: BegrunnelseValg[] = [];
+const hentÅrsakerValg = (activePeriod: BeregnetPeriodeFragment) => {
+    const valg: ÅrsakerValg[] = [];
 
     const funn = activePeriod.risikovurdering?.funn;
 
@@ -145,9 +157,10 @@ const hentBegrunnelseValg = (activePeriod: BeregnetPeriodeFragment): Begrunnelse
         }
     }
 
-    for (const begrunnelse of Object.values(Begrunnelse)) {
-        valg.push({ value: begrunnelse, label: begrunnelse });
+    const fasteÅrsaker: ÅrsakerValg[] = [];
+    for (const årsak of Object.values(ÅrsakTilAvvisning)) {
+        fasteÅrsaker.push({ value: årsak, label: årsak });
     }
 
-    return valg;
+    return { varslerOgRiskfunn: valg, fasteÅrsaker };
 };

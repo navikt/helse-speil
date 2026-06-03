@@ -97,7 +97,7 @@ export const ForkastFraUberegnetDialogInnhold = ({
                             name="arsaker"
                             render={({ field, fieldState }) => (
                                 <CheckboxGroup
-                                    legend="Årsak til at perioden må tas ut"
+                                    legend="Årsak(er) til at perioden må tas ut"
                                     error={fieldState.error?.message}
                                     value={field.value}
                                     onChange={field.onChange}
@@ -132,8 +132,10 @@ export const ForkastFraUberegnetDialogInnhold = ({
                                     label={`Begrunnelse${harValgtAnnet ? '' : ' (valgfri)'}`}
                                     description={
                                         <>
-                                            <BodyShort>Gi en forklaring på hvorfor perioden tas ut.</BodyShort>
-                                            <BodyShort>Ikke oppgi personopplysninger her.</BodyShort>
+                                            <BodyShort>
+                                                Gi en forklaring på hvorfor perioden tas ut. Ikke oppgi
+                                                personopplysninger her.
+                                            </BodyShort>
                                         </>
                                     }
                                     minRows={6}
@@ -154,6 +156,9 @@ export const ForkastFraUberegnetDialogInnhold = ({
                 <Button variant="primary" type="submit" form="forkast-fra-uberegnet-skjema" loading={isPending}>
                     Kan ikke behandles her
                 </Button>
+                <BodyShort className="mt-3 italic">
+                    Utviklingsteamet bruker informasjonen du gir her til å videreutvikle og forbedre Speil
+                </BodyShort>
             </Dialog.Footer>
         </>
     );

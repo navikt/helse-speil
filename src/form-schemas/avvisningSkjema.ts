@@ -4,7 +4,7 @@ export type AvvisningSkjema = z.infer<typeof avvisningSkjema>;
 
 export const avvisningSkjema = z
     .object({
-        begrunnelser: z.array(z.string()).nonempty({ error: 'Velg minst én begrunnelse' }),
+        begrunnelser: z.array(z.string()).nonempty({ error: 'Velg minst en årsak' }),
         kommentar: z.string(),
         årsak: z.string(),
     })

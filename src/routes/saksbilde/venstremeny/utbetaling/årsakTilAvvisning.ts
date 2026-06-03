@@ -1,4 +1,4 @@
-export enum Begrunnelse {
+export enum ÅrsakTilAvvisning {
     Reisetilskudd = 'Reisetilskudd',
     Feilutbetaling = 'Feilutbetaling',
     FriskmeldtTilArbeidsformidling = 'Friskmeldt til arbeidsformidling',
