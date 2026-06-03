@@ -4,7 +4,7 @@ export type AnnulleringSkjema = z.infer<typeof annulleringSkjema>;
 
 export const annulleringSkjema = z
     .object({
-        arsaker: z.array(z.string()).nonempty({ error: 'Velg minst én årsak' }),
+        arsaker: z.array(z.string()).nonempty({ error: 'Velg minst en årsak' }),
         kommentar: z.string(),
         arbeidsgiverFagsystemId: z.string(),
         personFagsystemId: z.string(),

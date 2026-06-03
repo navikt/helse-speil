@@ -4,7 +4,7 @@ export type PåVentSkjema = z.infer<typeof påVentSkjema>;
 
 export const påVentSkjema = z
     .object({
-        årsaker: z.array(z.string()).nonempty({ error: 'Velg minst én årsak' }),
+        årsaker: z.array(z.string()).nonempty({ error: 'Velg minst en årsak' }),
         notattekst: z.string().max(2000, { error: 'Det er kun tillatt med 2000 tegn' }),
         frist: z.date({ error: 'Oppfølgingsdato må være satt' }),
         skalTildeles: z.boolean(),

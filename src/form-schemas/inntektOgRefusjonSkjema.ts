@@ -48,11 +48,11 @@ export const lagInntektOgRefusjonSchema = (sykefraværstilfelle: DatePeriod, beg
                         },
                         {
                             path: ['fom'],
-                            error: 'Fra og med dato må være før til og med dato',
+                            error: 'Fra og med-dato må være før til og med-dato',
                         },
                     ),
             )
-            .min(1, 'Det må oppgis minst én refusjonsperiode')
+            .min(1, 'Det må oppgis minst en refusjonsperiode')
             .refine(
                 (perioder) => {
                     const hei = perioder
