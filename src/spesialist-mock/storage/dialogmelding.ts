@@ -6,6 +6,7 @@ import {
     ApiDialogDetails,
     ApiDialogOppsummering,
     ApiDialogmelding,
+    ApiDialogmeldingAvsender,
     ApiDialogmeldingOppgave,
     ApiDialogmeldingStatus,
     ApiDialogmeldingType,
@@ -76,7 +77,7 @@ const initialDialoger: InternalDialog[] = [
                 melding:
                     'Takk for tilsendt dokumentasjon. Vi trenger noen tilleggsopplysninger om pasientens funksjonsnivå og eventuelle tilretteleggingsmuligheter på arbeidsplassen. Kan dere gi en nærmere vurdering av dette?',
                 sendtTidspunkt: '2026-04-24T14:36:00',
-                fraNav: true,
+                avsender: ApiDialogmeldingAvsender.NAV,
                 msgId: 'a1b2c3d4-0001-0001-0001-000000000001',
                 antallVedlegg: 0,
             },
@@ -86,7 +87,7 @@ const initialDialoger: InternalDialog[] = [
                 melding:
                     'Hei, vedlagt finner dere den forespurte dokumentasjonen. Jeg har lagt ved relevant journaldokumentasjon og vurdering av pasientens tilstand. Ta gjerne kontakt dersom dere trenger ytterligere opplysninger.',
                 sendtTidspunkt: '2026-04-22T07:21:00',
-                fraNav: false,
+                avsender: ApiDialogmeldingAvsender.BEHANDLER,
                 msgId: 'a1b2c3d4-0002-0002-0002-000000000002',
                 antallVedlegg: 3,
             },
@@ -96,7 +97,7 @@ const initialDialoger: InternalDialog[] = [
                 melding:
                     'Hei, vi behandler saken til Mia Cathrine Svendsen og trenger ytterligere dokumentasjon for å kunne fatte et vedtak. Kan dere sende over relevant dokumentasjon som belyser pasientens tilstand og arbeidsevne?',
                 sendtTidspunkt: '2026-04-20T09:15:00',
-                fraNav: true,
+                avsender: ApiDialogmeldingAvsender.NAV,
                 msgId: 'a1b2c3d4-0003-0003-0003-000000000003',
                 antallVedlegg: 0,
             },
@@ -115,7 +116,7 @@ const initialDialoger: InternalDialog[] = [
                 meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
                 melding: 'Vi ønsker en oppdatering på pasientens tilstand og forventet varighet på sykmeldingen.',
                 sendtTidspunkt: '2026-04-27T08:30:00',
-                fraNav: true,
+                avsender: ApiDialogmeldingAvsender.NAV,
                 msgId: 'a1b2c3d4-0004-0004-0004-000000000004',
                 antallVedlegg: 0,
             },
@@ -134,7 +135,7 @@ const initialDialoger: InternalDialog[] = [
                 meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
                 melding: 'Vedlagt sender jeg etterspurt dokumentasjon.',
                 sendtTidspunkt: '2026-04-24T14:36:00',
-                fraNav: false,
+                avsender: ApiDialogmeldingAvsender.BEHANDLER,
                 msgId: 'a1b2c3d4-0005-0005-0005-000000000005',
                 antallVedlegg: 1,
             },
@@ -143,7 +144,7 @@ const initialDialoger: InternalDialog[] = [
                 meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
                 melding: 'Vi ber om dokumentasjon knyttet til pasientens diagnose og behandlingsplan.',
                 sendtTidspunkt: '2026-04-23T10:49:00',
-                fraNav: true,
+                avsender: ApiDialogmeldingAvsender.NAV,
                 msgId: 'a1b2c3d4-0006-0006-0006-000000000006',
                 antallVedlegg: 0,
             },
@@ -163,7 +164,7 @@ const initialDialoger: InternalDialog[] = [
                 melding:
                     'Pasienten er sykmeldt grunnet rygglidelse. Prognosen er god, forventet tilbakekomst om 6–8 uker.',
                 sendtTidspunkt: '2026-04-10T09:00:00',
-                fraNav: false,
+                avsender: ApiDialogmeldingAvsender.BEHANDLER,
                 msgId: 'a1b2c3d4-0007-0007-0007-000000000007',
                 antallVedlegg: 1,
             },
@@ -172,7 +173,7 @@ const initialDialoger: InternalDialog[] = [
                 meldingstype: ApiDialogmeldingType.SPESIALISTERKLAERING,
                 melding: 'Vi ønsker mer informasjon om diagnosen og prognosen for tilbakekomst til arbeid.',
                 sendtTidspunkt: '2026-04-08T13:15:00',
-                fraNav: true,
+                avsender: ApiDialogmeldingAvsender.NAV,
                 msgId: 'a1b2c3d4-0008-0008-0008-000000000008',
                 antallVedlegg: 0,
             },
@@ -192,7 +193,7 @@ const initialDialoger: InternalDialog[] = [
                 melding:
                     'Pasienten kan på det nåværende tidspunkt ikke benytte seg av gradert sykmelding, men vi vil revurdere dette om 2 uker.',
                 sendtTidspunkt: '2026-04-05T11:00:00',
-                fraNav: false,
+                avsender: ApiDialogmeldingAvsender.BEHANDLER,
                 msgId: 'a1b2c3d4-0009-0009-0009-000000000009',
                 antallVedlegg: 1,
             },
@@ -202,7 +203,7 @@ const initialDialoger: InternalDialog[] = [
                 melding:
                     'Kan dere gi en vurdering av pasientens nåværende arbeidsevne og muligheter for gradert sykmelding?',
                 sendtTidspunkt: '2026-04-04T10:00:00',
-                fraNav: true,
+                avsender: ApiDialogmeldingAvsender.NAV,
                 msgId: 'a1b2c3d4-0010-0010-0010-000000000010',
                 antallVedlegg: 0,
             },
@@ -221,8 +222,48 @@ const initialDialoger: InternalDialog[] = [
                 meldingstype: ApiDialogmeldingType.SPESIALISTERKLAERING,
                 melding: 'Vi ber om bekreftelse på at behandlingsplanen er iverksatt.',
                 sendtTidspunkt: '2026-03-28T14:00:00',
-                fraNav: true,
+                avsender: ApiDialogmeldingAvsender.NAV,
                 msgId: 'a1b2c3d4-0011-0011-0011-000000000011',
+                antallVedlegg: 0,
+            },
+        ],
+    },
+    {
+        conversationRef: '550e8400-e29b-41d4-a716-446655440007',
+        aktorId: '2805594640665',
+        behandler: mockBehandler2,
+        opprettetTidspunkt: '2026-05-10T09:00:00',
+        status: ApiDialogmeldingStatus.MOTTATT,
+        sokernavn: { fornavn: 'Punktlig', etternavn: 'Jakke', mellomnavn: null },
+        dialogmeldinger: [
+            {
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
+                melding:
+                    'Beklager sen tilbakemelding. Vedlagt finner dere den etterspurte dokumentasjonen på pasientens tilstand.',
+                sendtTidspunkt: '2026-05-23T08:45:00',
+                avsender: ApiDialogmeldingAvsender.BEHANDLER,
+                msgId: 'a1b2c3d4-0014-0014-0014-000000000014',
+                antallVedlegg: 1,
+            },
+            {
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
+                melding:
+                    'Vi minner om vår forespørsel fra 10. mai. Vi har fortsatt ikke mottatt den etterspurte dokumentasjonen og ber om svar innen 5 virkedager.',
+                sendtTidspunkt: '2026-05-22T10:15:00',
+                avsender: ApiDialogmeldingAvsender.SYSTEM,
+                msgId: 'a1b2c3d4-0012-0012-0012-000000000012',
+                antallVedlegg: 0,
+            },
+            {
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
+                melding:
+                    'Vi trenger dokumentasjon på pasientens tilstand for å vurdere tilbakedatering av sykmeldingen. Kan dere sende over relevante opplysninger?',
+                sendtTidspunkt: '2026-05-1T09:00:00',
+                avsender: ApiDialogmeldingAvsender.NAV,
+                msgId: 'a1b2c3d4-0013-0013-0013-000000000013',
                 antallVedlegg: 0,
             },
         ],
@@ -314,7 +355,7 @@ export class DialogmeldingMock {
                     meldingstype: data.meldingstype,
                     melding: data.melding,
                     sendtTidspunkt: tid,
-                    fraNav: true,
+                    avsender: ApiDialogmeldingAvsender.NAV,
                     msgId: crypto.randomUUID(),
                     antallVedlegg: 0,
                 },
@@ -346,7 +387,7 @@ export class DialogmeldingMock {
             meldingstype: first.meldingstype,
             melding: data.melding,
             sendtTidspunkt: tid,
-            fraNav: true,
+            avsender: ApiDialogmeldingAvsender.NAV,
             msgId: crypto.randomUUID(),
             antallVedlegg: 0,
         });
@@ -372,7 +413,7 @@ export class DialogmeldingMock {
             melding:
                 'Vedlagt finner dere etterspurt dokumentasjon. Pasienten har vært til kontroll og jeg har oppdatert vurderingen. Ta kontakt dersom dere trenger ytterligere opplysninger.',
             sendtTidspunkt: tid,
-            fraNav: false,
+            avsender: ApiDialogmeldingAvsender.BEHANDLER,
             msgId: crypto.randomUUID(),
             antallVedlegg: 1,
         });
@@ -398,7 +439,10 @@ export class DialogmeldingMock {
             dialog.status = ApiDialogmeldingStatus.FERDIGSTILT;
         } else {
             const nyesteMelding = dialog.dialogmeldinger[0];
-            dialog.status = nyesteMelding?.fraNav ? ApiDialogmeldingStatus.SENDT : ApiDialogmeldingStatus.MOTTATT;
+            dialog.status =
+                nyesteMelding?.avsender !== ApiDialogmeldingAvsender.BEHANDLER
+                    ? ApiDialogmeldingStatus.SENDT
+                    : ApiDialogmeldingStatus.MOTTATT;
         }
 
         return {

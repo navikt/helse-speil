@@ -4,10 +4,12 @@ import { FilePdfIcon, PaperclipIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, LinkCard, Tag, VStack } from '@navikt/ds-react';
 
 import { useBruker } from '@auth/brukerContext';
-import { ApiBehandler, ApiDialogmelding } from '@io/rest/generated/sporhund.schemas';
+import { ApiBehandler, ApiDialogmelding, ApiDialogmeldingAvsender } from '@io/rest/generated/sporhund.schemas';
 import { useSetSelectedVedlegg } from '@saksbilde/dialogmelding/dokumentvisning/selectedVedleggAtom';
 import { getFormattedDatetimeString } from '@utils/date';
 import { formatNavn } from '@utils/navnUtils';
+
+import { AvsenderInfo } from './AvsenderInfo';
 
 interface Props {
     melding: ApiDialogmelding;
@@ -18,20 +20,21 @@ interface Props {
 export function DialogmeldingKort({ melding, personPseudoId, behandler }: Props): ReactElement {
     const setSelectedVedlegg = useSetSelectedVedlegg();
     const bruker = useBruker();
+    const { color, tekst } = {
+        [ApiDialogmeldingAvsender.NAV]: { color: 'meta-purple' as const, tekst: 'Fra Nav' },
+        [ApiDialogmeldingAvsender.BEHANDLER]: { color: 'info' as const, tekst: 'Fra behandler' },
+        [ApiDialogmeldingAvsender.SYSTEM]: { color: 'warning' as const, tekst: 'Fra system' },
+    }[melding.avsender];
 
     return (
         <Box padding="space-12" borderWidth="1" borderRadius="8" borderColor="neutral-subtle">
             <VStack gap="space-8">
                 <HStack justify="space-between" gap="space-8">
                     <HStack gap="space-4" align="center">
-                        <Tag
-                            data-color={melding.fraNav ? 'meta-purple' : 'info'}
-                            size="small"
-                            className="text-ax-large"
-                        >
-                            {melding.fraNav ? 'Fra Nav' : 'Fra behandler'}
+                        <Tag data-color={color} size="small" className="text-ax-large">
+                            {tekst}
                         </Tag>
-                        {!melding.fraNav && melding.antallVedlegg > 0 && (
+                        {melding.avsender === ApiDialogmeldingAvsender.BEHANDLER && melding.antallVedlegg > 0 && (
                             <HStack gap="space-2" align="center" className="text-ax-text-neutral-subtle">
                                 <PaperclipIcon aria-hidden />
                                 {melding.antallVedlegg}
@@ -42,20 +45,11 @@ export function DialogmeldingKort({ melding, personPseudoId, behandler }: Props)
                         {getFormattedDatetimeString(melding.sendtTidspunkt)}
                     </BodyShort>
                 </HStack>
-                {melding.fraNav ? (
-                    <HStack gap="space-16">
-                        <BodyShort className="text-ax-text-neutral-subtle">
-                            <span className="font-bold">Fra:</span> {bruker.navn}
-                        </BodyShort>
-                        <BodyShort className="text-ax-text-neutral-subtle">
-                            <span className="font-bold">Til:</span> {formatNavn(behandler.navn)}
-                        </BodyShort>
-                    </HStack>
-                ) : (
-                    <BodyShort className="text-ax-text-neutral-subtle">
-                        <span className="font-bold">Fra:</span> {formatNavn(behandler.navn)}
-                    </BodyShort>
-                )}
+                <AvsenderInfo
+                    avsender={melding.avsender}
+                    brukerNavn={bruker.navn}
+                    behandlerNavn={formatNavn(behandler.navn)}
+                />
                 <BodyShort>{melding.melding}</BodyShort>
                 {melding.antallVedlegg > 0 && (
                     <VStack as="ul" gap="space-4">

@@ -119,13 +119,22 @@ export const ApiBehandlerType = {
 
 export interface ApiDialogmelding {
     antallVedlegg: number;
+    avsender: ApiDialogmeldingAvsender;
     fagomrade: ApiFagomrade;
-    fraNav: boolean;
     melding: string;
     meldingstype: ApiDialogmeldingType;
     msgId: string;
     sendtTidspunkt: string;
 }
+
+export type ApiDialogmeldingAvsender = (typeof ApiDialogmeldingAvsender)[keyof typeof ApiDialogmeldingAvsender];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiDialogmeldingAvsender = {
+    BEHANDLER: 'BEHANDLER',
+    NAV: 'NAV',
+    SYSTEM: 'SYSTEM',
+} as const;
 
 export interface ApiDialogDetails {
     behandler: ApiBehandler;
