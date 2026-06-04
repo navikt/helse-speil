@@ -219,8 +219,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     },
     // brukersaker - forlengelser
     {
-        id: 'oppdrag-1',
-        navn: 'Oppdrag 1',
+        id: 'oppgaveliste-1',
+        navn: 'Oppgaveliste 1',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -241,8 +241,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-2',
-        navn: 'Oppdrag 2',
+        id: 'oppgaveliste-2',
+        navn: 'Oppgaveliste 2',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.RISK_QA]),
@@ -263,8 +263,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-3',
-        navn: 'Oppdrag 3',
+        id: 'oppgaveliste-3',
+        navn: 'Oppgaveliste 3',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -285,8 +285,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-4',
-        navn: 'Oppdrag 4',
+        id: 'oppgaveliste-4',
+        navn: 'Oppgaveliste 4',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.RISK_QA]),
@@ -308,8 +308,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     },
     // brukersaker førstegangsbehandling
     {
-        id: 'oppdrag-5',
-        navn: 'Oppdrag 5',
+        id: 'oppgaveliste-5',
+        navn: 'Oppgaveliste 5',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -330,8 +330,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-6',
-        navn: 'Oppdrag 6',
+        id: 'oppgaveliste-6',
+        navn: 'Oppgaveliste 6',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.RISK_QA]),
@@ -352,8 +352,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-7',
-        navn: 'Oppdrag 7',
+        id: 'oppgaveliste-7',
+        navn: 'Oppgaveliste 7',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.SKJONNSFASTSETTELSE]),
@@ -374,8 +374,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-8',
-        navn: 'Oppdrag 8',
+        id: 'oppgaveliste-8',
+        navn: 'Oppgaveliste 8',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -396,8 +396,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-9',
-        navn: 'Oppdrag 9',
+        id: 'oppgaveliste-9',
+        navn: 'Oppgaveliste 9',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.RISK_QA]),
@@ -418,8 +418,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-10',
-        navn: 'Oppdrag 10',
+        id: 'oppgaveliste-10',
+        navn: 'Oppgaveliste 10',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.SKJONNSFASTSETTELSE]),
@@ -441,8 +441,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     },
     // delvis refusjon førstegangsbehandling
     {
-        id: 'oppdrag-11',
-        navn: 'Oppdrag 11',
+        id: 'oppgaveliste-11',
+        navn: 'Oppgaveliste 11',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -463,8 +463,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-12',
-        navn: 'Oppdrag 12',
+        id: 'oppgaveliste-12',
+        navn: 'Oppgaveliste 12',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.SKJONNSFASTSETTELSE]),
@@ -485,8 +485,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-13',
-        navn: 'Oppdrag 13',
+        id: 'oppgaveliste-13',
+        navn: 'Oppgaveliste 13',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -507,8 +507,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-14',
-        navn: 'Oppdrag 14',
+        id: 'oppgaveliste-14',
+        navn: 'Oppgaveliste 14',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.SKJONNSFASTSETTELSE]),
@@ -530,8 +530,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     },
     // delvis refusjon forlengelser
     {
-        id: 'oppdrag-15',
-        navn: 'Oppdrag 15',
+        id: 'oppgaveliste-15',
+        navn: 'Oppgaveliste 15',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -552,8 +552,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-16',
-        navn: 'Oppdrag 16',
+        id: 'oppgaveliste-16',
+        navn: 'Oppgaveliste 16',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -574,8 +574,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-17',
-        navn: 'Oppdrag 17',
+        id: 'oppgaveliste-17',
+        navn: 'Oppgaveliste 17',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.RISK_QA]),
@@ -595,8 +595,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     },
     // ingen mottaker førstegangs
     {
-        id: 'oppdrag-18',
-        navn: 'Oppdrag 18',
+        id: 'oppgaveliste-18',
+        navn: 'Oppgaveliste 18',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -617,8 +617,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-19',
-        navn: 'Oppdrag 19',
+        id: 'oppgaveliste-19',
+        navn: 'Oppgaveliste 19',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.SKJONNSFASTSETTELSE]),
@@ -639,8 +639,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-20',
-        navn: 'Oppdrag 20',
+        id: 'oppgaveliste-20',
+        navn: 'Oppgaveliste 20',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -661,8 +661,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-21',
-        navn: 'Oppdrag 21',
+        id: 'oppgaveliste-21',
+        navn: 'Oppgaveliste 21',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.SKJONNSFASTSETTELSE]),
@@ -684,8 +684,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     },
     // ingen mottaker forlengelse
     {
-        id: 'oppdrag-22',
-        navn: 'Oppdrag 22',
+        id: 'oppgaveliste-22',
+        navn: 'Oppgaveliste 22',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -706,8 +706,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-23',
-        navn: 'Oppdrag 23',
+        id: 'oppgaveliste-23',
+        navn: 'Oppgaveliste 23',
         params: {
             erTildelt: false,
             ingenAvEgenskapene: ingen(
@@ -728,8 +728,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'oppdrag-24',
-        navn: 'Oppdrag 24',
+        id: 'oppgaveliste-24',
+        navn: 'Oppgaveliste 24',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.RISK_QA]),
@@ -749,8 +749,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     },
     // risk og skjønn
     {
-        id: 'oppdrag-25',
-        navn: 'Oppdrag 25',
+        id: 'oppgaveliste-25',
+        navn: 'Oppgaveliste 25',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv([ApiEgenskap.RISK_QA], [ApiEgenskap.SKJONNSFASTSETTELSE]),
