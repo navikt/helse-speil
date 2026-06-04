@@ -64,7 +64,7 @@ export const MeldingTilNavdag: Speildag = {
 
 export const AvslattMeldingTilNavdag: Speildag = {
     speilDagtype: 'AvslattMeldingTilNav',
-    visningstekst: 'Melding til Nav (Avslått)',
+    visningstekst: 'Melding til Nav',
     overstyrtDagtype: 'AvslattMeldingTilNavdag',
 };
 

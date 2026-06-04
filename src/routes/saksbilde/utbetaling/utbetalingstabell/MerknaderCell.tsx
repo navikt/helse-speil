@@ -99,7 +99,7 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Re
                 </Tooltip>
             );
         case 'MELDING_TIL_NAV_DAG_UTENFOR_VENTETID':
-            return <BodyShort>Melding til Nav dag utenfor ventetid</BodyShort>;
+            return <BodyShort>Utenfor ventetid</BodyShort>;
         case 'AVSLATT_MELDING_TIL_NAV_DAG':
             return <BodyShort>Avslått melding til nav dag</BodyShort>;
         case 'ANDREYTELSER':
