@@ -35,7 +35,7 @@ export function DagtypeSelect({
         >
             {overstyringsdagtyper.map((dag) => (
                 <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                    {dag.visningstekst}
+                    {dag.speilDagtype === 'AvslattMeldingTilNav' ? 'Avslått melding til Nav' : dag.visningstekst}
                 </option>
             ))}
             <option disabled>-- Andre ytelser --</option>
