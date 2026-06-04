@@ -144,10 +144,12 @@ export enum Avslagstype {
 
 export enum Begrunnelse {
     Andreytelser = 'ANDREYTELSER',
+    AvslattMeldingTilNavDag = 'AVSLATT_MELDING_TIL_NAV_DAG',
     EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
     EtterDodsdato = 'ETTER_DODSDATO',
     ManglerMedlemskap = 'MANGLER_MEDLEMSKAP',
     ManglerOpptjening = 'MANGLER_OPPTJENING',
+    MeldingTilNavDagUtenforVentetid = 'MELDING_TIL_NAV_DAG_UTENFOR_VENTETID',
     MinimumInntekt = 'MINIMUM_INNTEKT',
     MinimumInntektOver_67 = 'MINIMUM_INNTEKT_OVER_67',
     MinimumSykdomsgrad = 'MINIMUM_SYKDOMSGRAD',
@@ -245,6 +247,7 @@ export enum Dagtype {
     AaPdag = 'AAPdag',
     ArbeidIkkeGjenopptattDag = 'ArbeidIkkeGjenopptattDag',
     Arbeidsdag = 'Arbeidsdag',
+    AvslattMeldingTilNavdag = 'AvslattMeldingTilNavdag',
     Avvistdag = 'Avvistdag',
     Dagpengerdag = 'Dagpengerdag',
     Egenmeldingsdag = 'Egenmeldingsdag',
@@ -984,6 +987,7 @@ export enum Sykdomsdagtype {
     Arbeidsdag = 'ARBEIDSDAG',
     Arbeidsgiverdag = 'ARBEIDSGIVERDAG',
     Avslatt = 'AVSLATT',
+    Avslattmeldingtilnavdag = 'AVSLATTMELDINGTILNAVDAG',
     Feriedag = 'FERIEDAG',
     ForeldetSykedag = 'FORELDET_SYKEDAG',
     FriskHelgedag = 'FRISK_HELGEDAG',

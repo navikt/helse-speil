@@ -9,6 +9,7 @@ import {
     AAPdag,
     ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
+    AvslattMeldingTilNavdag,
     Avslåttdag,
     AvvistEllerForeldetDag,
     Dagpengerdag,
@@ -65,6 +66,8 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Speilda
             return Avslåttdag;
         case Dagtype.MeldingTilNavdag:
             return MeldingTilNavdag;
+        case Dagtype.AvslattMeldingTilNavdag:
+            return AvslattMeldingTilNavdag;
     }
 };
 

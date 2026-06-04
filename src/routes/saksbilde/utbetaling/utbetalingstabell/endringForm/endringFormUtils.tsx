@@ -5,6 +5,7 @@ import { erProd } from '@/env';
 import {
     ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
+    AvslattMeldingTilNavdag,
     Egenmeldingsdag,
     Feriedag,
     Foreldrepengerdag,
@@ -47,7 +48,12 @@ export const typeendringerAndreYtelser: Speildag[] = [
 ];
 
 export const alleTypeendringer: Speildag[] = Array.from(
-    new Set([...overstyringsdagtyperArbeidstaker, ...typeendringerAndreYtelser, ...overstyringsdagtyperSelvstendig]),
+    new Set([
+        ...overstyringsdagtyperArbeidstaker,
+        ...typeendringerAndreYtelser,
+        ...overstyringsdagtyperSelvstendig,
+        ...(!erProd ? [AvslattMeldingTilNavdag] : []),
+    ]),
 );
 
 export const getDagFromType = (type: OverstyrbarDagtype): Speildag => {
@@ -72,4 +78,5 @@ export enum OverstyrbarDagtype {
     Omsorgspenger = 'Omsorgspenger',
     Opplæringspenger = 'Opplæringspenger',
     MeldingTilNav = 'MeldingTilNav',
+    AvslattMeldingTilNav = 'AvslattMeldingTilNav',
 }

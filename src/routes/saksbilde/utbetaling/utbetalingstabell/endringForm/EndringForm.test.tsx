@@ -7,6 +7,7 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import {
     ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
+    AvslattMeldingTilNavdag,
     Egenmeldingsdag,
     Feriedag,
     Foreldrepengerdag,
@@ -41,6 +42,7 @@ describe('Typeendringer', () => {
             Omsorgspengerdag,
             Opplæringspengerdag,
             MeldingTilNavdag,
+            AvslattMeldingTilNavdag,
         ]);
     });
 });

@@ -6,7 +6,10 @@ import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-reac
 import { DagEndringFormFields, lagDagEndringSchema } from '@/form-schemas/dagEndringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
-import { MeldingTilNavdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import {
+    AvslattMeldingTilNavdag,
+    MeldingTilNavdag,
+} from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { DagtypeSelect } from '../DagtypeSelect';
@@ -41,7 +44,13 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
     const watchDagtype = useWatch({ name: 'dagtype', control: form.control });
 
     const overstyringsdagtyper = erSelvstendig
-        ? overstyringsdagtyperSelvstendig.filter((dag) => dag !== MeldingTilNavdag)
+        ? overstyringsdagtyperSelvstendig
+              .filter((dag) => dag !== MeldingTilNavdag)
+              .concat(
+                  markerteDager.values().some((d) => d.dag.speilDagtype === 'MeldingTilNav')
+                      ? [AvslattMeldingTilNavdag]
+                      : [],
+              )
         : overstyringsdagtyperArbeidstaker;
 
     const handleSubmit = (values: DagEndringFormFields) => {

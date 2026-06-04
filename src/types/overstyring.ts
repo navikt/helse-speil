@@ -29,6 +29,7 @@ export type OverstyrtDagtype =
     | 'Dagpengerdag'
     | 'Ventetid'
     | 'MeldingTilNavdag'
+    | 'AvslattMeldingTilNavdag'
     // Disse støtter ikke Spleis å motta, men kan overstyre _fra_ dem
     | 'Avvistdag'
     | 'Helg';
