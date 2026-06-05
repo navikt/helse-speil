@@ -43,14 +43,16 @@ export const EndreDagerForm = ({ markerteDager, onSubmitEndring, erSelvstendig }
 
     const watchDagtype = useWatch({ name: 'dagtype', control: form.control });
 
+    const harMarkertMeldingTilNav = markerteDager.values().some((d) => d.dag.speilDagtype === 'MeldingTilNav');
+    const harMarkertAvslattMeldingTilNav = markerteDager
+        .values()
+        .some((d) => d.dag.speilDagtype === 'AvslattMeldingTilNav');
+
     const overstyringsdagtyper = erSelvstendig
         ? overstyringsdagtyperSelvstendig
               .filter((dag) => dag !== MeldingTilNavdag)
-              .concat(
-                  markerteDager.values().some((d) => d.dag.speilDagtype === 'MeldingTilNav')
-                      ? [AvslattMeldingTilNavdag]
-                      : [],
-              )
+              .concat(harMarkertMeldingTilNav ? [AvslattMeldingTilNavdag] : [])
+              .concat(harMarkertAvslattMeldingTilNav ? [MeldingTilNavdag] : [])
         : overstyringsdagtyperArbeidstaker;
 
     const handleSubmit = (values: DagEndringFormFields) => {
