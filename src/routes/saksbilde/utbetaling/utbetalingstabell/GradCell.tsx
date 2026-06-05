@@ -9,7 +9,7 @@ import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalin
 import { helgetyper } from './helgUtils';
 
 const dagtypeIsValid = (type: Utbetalingstabelldagtype): boolean =>
-    [...helgetyper, 'Arbeid', 'Ferie', 'Permisjon'].every((it) => it !== type);
+    [...helgetyper, 'Arbeid', 'Ferie', 'Permisjon', 'MeldingTilNav', 'AvslattMeldingTilNav'].every((it) => it !== type);
 
 const renderGrad = (grad?: number | null): string | false => typeof grad === 'number' && `${Math.floor(grad)} %`;
 

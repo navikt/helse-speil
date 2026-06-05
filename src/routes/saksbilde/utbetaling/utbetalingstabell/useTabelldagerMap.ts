@@ -80,7 +80,10 @@ const getUtbetalingstabelldag = (dag: Dag): Speildag => {
         case Utbetalingsdagtype.Navdag:
             return Sykedag;
         case Utbetalingsdagtype.AvvistDag:
-            if (dag.sykdomsdagtype === Sykdomsdagtype.Avslattmeldingtilnavdag) {
+            if (
+                dag.sykdomsdagtype === Sykdomsdagtype.Avslattmeldingtilnavdag ||
+                dag.sykdomsdagtype === Sykdomsdagtype.Meldingtilnavdag
+            ) {
                 return AvslattMeldingTilNavdag;
             }
             return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
