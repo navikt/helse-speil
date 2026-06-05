@@ -14,6 +14,7 @@ const dagtyperUtenGradering: Utbetalingstabelldagtype[] = [
     'Omsorgspenger',
     'Opplæringspenger',
     'MeldingTilNav',
+    'AvslattMeldingTilNav',
 ];
 export const kanVelgeGrad = (type?: Utbetalingstabelldagtype) =>
     type && dagtyperUtenGradering.every((dagtype) => dagtype !== type);
