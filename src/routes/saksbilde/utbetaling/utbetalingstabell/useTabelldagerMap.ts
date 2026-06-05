@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-import { Dag, Dagoverstyring, Dagtype, OverstyrtDag, Utbetalingsdagtype } from '@io/graphql';
+import { Dag, Dagoverstyring, Dagtype, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
@@ -80,6 +80,10 @@ const getUtbetalingstabelldag = (dag: Dag): Speildag => {
         case Utbetalingsdagtype.Navdag:
             return Sykedag;
         case Utbetalingsdagtype.AvvistDag:
+            if (dag.sykdomsdagtype === Sykdomsdagtype.Avslattmeldingtilnavdag) {
+                return AvslattMeldingTilNavdag;
+            }
+            return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
         case Utbetalingsdagtype.ForeldetDag:
             return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
     }
