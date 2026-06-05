@@ -23,10 +23,10 @@ export const somDate = (dato?: string): Date | undefined =>
 export const somIsoDato = (dato?: Date | string): DateString => (dato ? dayjs(dato).format(ISO_DATOFORMAT) : '');
 
 export const somNorskDato = (dato: string | undefined): string | undefined =>
-    dato ? dayjs(somDate(dato)).format(NORSK_DATOFORMAT) : undefined;
+    dato ? dayjs(dato).format(NORSK_DATOFORMAT) : undefined;
 
 export const somNorskÅrMåned = (dato: string | undefined): string | undefined =>
-    dato ? dayjs(somDate(dato)).format(NORSK_ÅR_MÅNED_FORMAT) : undefined;
+    dato ? dayjs(dato).format(NORSK_ÅR_MÅNED_FORMAT) : undefined;
 
 export const plussEnDag = (dato: DateString): DateString =>
     dayjs(dato, ISO_DATOFORMAT, true).add(1, 'day').format(ISO_DATOFORMAT);
