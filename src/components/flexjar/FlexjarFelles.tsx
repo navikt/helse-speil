@@ -163,7 +163,7 @@ export function FlexjarFelles({
                                     setErrorMsg(null);
                                     setTextValue(e.target.value);
                                 }}
-                                maxLength={600}
+                                maxLength={2000}
                                 minRows={3}
                                 description="Ikke skriv inn dine eller andres personopplysninger."
                             />
