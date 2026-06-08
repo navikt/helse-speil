@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
@@ -13,7 +13,7 @@ export const TotrinnsvurderingAttestertHendelse = ({
 }: TotrinnsvurderingAttestertHendelseProps): ReactElement => (
     <Historikkhendelse
         icon={<HistorikkCheckmarkCircleIkon />}
-        title="Godkjent og utbetalt"
+        title="Godkjent"
         timestamp={timestamp}
         saksbehandler={saksbehandler ?? undefined}
     />
