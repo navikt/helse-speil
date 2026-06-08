@@ -28,7 +28,7 @@ export function Dokumentvisning(): ReactElement {
 
     return (
         <JusterbarSidemeny defaultBredde={800} visSidemeny={true} localStorageNavn="dokumentvisningBredde">
-            <VStack as="section" className="h-full border-l border-l-ax-border-neutral-subtle">
+            <VStack as="section" className="-ml-[7px] h-full w-[calc(100%+7px)]">
                 <div className="flex items-center justify-between border-b border-b-ax-border-neutral-subtle p-4">
                     <Heading level="3" size="xsmall">
                         Dokumentvisning

@@ -1,8 +1,10 @@
-import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
+
+import { HStack } from '@navikt/ds-react';
 
 import { cn } from '@utils/tw';
 
-import styles from './JusterbarSidemeny.module.css';
+import { useJusterbarBredde } from './useJusterbarBredde';
 
 interface JusterbarSidebarProps {
     defaultBredde: number;
@@ -23,70 +25,38 @@ export const JusterbarSidemeny = ({
     onChangeBredde,
     åpnesTilVenstre = false,
 }: JusterbarSidebarProps): ReactElement => {
-    const [width, setWidth] = useState(() =>
-        localStorageNavn && typeof window !== 'undefined'
-            ? parseInt(localStorage.getItem(localStorageNavn) || defaultBredde.toString())
-            : defaultBredde,
+    const { visningsbredde, isDragging, startDragging } = useJusterbarBredde({
+        defaultBredde,
+        visSidemeny,
+        localStorageNavn,
+        onChangeBredde,
+        åpnesTilVenstre,
+    });
+
+    const separatorClassName = cn(
+        'relative z-2 flex cursor-col-resize items-stretch transition-[width,border-color,border-left-width] duration-200 ease-in-out',
+        !visSidemeny && 'w-0',
+        visSidemeny && 'w-2 border-l',
+        visSidemeny && isDragging && 'border-l-3 border-ax-border-accent',
+        visSidemeny &&
+            !isDragging &&
+            'border-l-ax-border-neutral-subtle hover:border-l-3 hover:border-ax-border-accent',
     );
-    const isResized = useRef(false);
-    const minWidth = 50;
-    const maxWidth = 1980;
 
-    useEffect(() => {
-        const mousemoveListener = (e: MouseEvent) => {
-            if (!isResized.current) {
-                return;
-            }
-
-            setWidth((previousWidth) => {
-                const newWidth = previousWidth + (åpnesTilVenstre ? e.movementX : -e.movementX);
-                const isWidthInRange = newWidth >= minWidth && newWidth <= maxWidth;
-
-                return isWidthInRange ? newWidth : previousWidth;
-            });
-        };
-        window.addEventListener('mousemove', mousemoveListener);
-
-        const mouseupListener = () => {
-            isResized.current = false;
-        };
-        window.addEventListener('mouseup', mouseupListener);
-        return () => {
-            window.removeEventListener('mousemove', mousemoveListener);
-            window.removeEventListener('mouseup', mouseupListener);
-        };
-    }, [åpnesTilVenstre]);
-
-    useEffect(() => {
-        if (!localStorageNavn) return;
-        localStorage.setItem(localStorageNavn, `${width}`);
-        if (onChangeBredde) onChangeBredde(width);
-    }, [localStorageNavn, onChangeBredde, width]);
-
-    useEffect(() => {
-        if (!visSidemeny) {
-            if (localStorageNavn) localStorage.removeItem(localStorageNavn);
-            // eslint-disable-next-line react-hooks/set-state-in-effect
-            setWidth(defaultBredde);
-        }
-    }, [defaultBredde, localStorageNavn, visSidemeny]);
+    const innholdClassName = cn(
+        'relative z-1 transition-[margin] duration-200 ease-in-out',
+        visSidemeny ? (åpnesTilVenstre ? 'ml-0' : 'mr-0') : åpnesTilVenstre ? '-ml-80' : '-mr-80',
+    );
 
     return (
-        <div className={cn(styles.justerbarSidemeny, className, åpnesTilVenstre && styles.venstre)}>
-            <div
-                role="separator"
-                className={cn(styles.justerbarLinje, visSidemeny && styles.active)}
-                onMouseDown={(e) => {
-                    e.preventDefault();
-                    isResized.current = true;
-                }}
-            />
-            <div
-                className={cn(styles.innhold, visSidemeny && styles.active, åpnesTilVenstre && styles.venstre)}
-                style={{ width: `${width}px` }}
-            >
+        <HStack
+            className={cn('z-1 overflow-hidden', åpnesTilVenstre && 'flex-row-reverse', className)}
+            style={{ gridArea: 'høyremeny' }}
+        >
+            <div role="separator" className={separatorClassName} onMouseDown={startDragging} />
+            <div className={innholdClassName} style={{ width: `${visningsbredde}px` }}>
                 {children}
             </div>
-        </div>
+        </HStack>
     );
 };
