@@ -4,6 +4,7 @@ import { HStack } from '@navikt/ds-react';
 
 import { cn } from '@utils/tw';
 
+import { JusterbarSidemenyContext } from './JusterbarSidemenyContext';
 import { useJusterbarBredde } from './useJusterbarBredde';
 
 interface JusterbarSidebarProps {
@@ -55,7 +56,7 @@ export const JusterbarSidemeny = ({
         >
             <div role="separator" className={separatorClassName} onMouseDown={startDragging} />
             <div className={innholdClassName} style={{ width: `${visningsbredde}px` }}>
-                {children}
+                <JusterbarSidemenyContext value={{ isDragging }}>{children}</JusterbarSidemenyContext>
             </div>
         </HStack>
     );
