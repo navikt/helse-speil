@@ -426,7 +426,7 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
             ingenAvEgenskapene: ingen(
                 ApiEgenskap.BESLUTTER,
                 ApiEgenskap.UTBETALING_TIL_SYKMELDT,
-                ApiEgenskap.FLERE_ARBEIDSGIVERE,
+                ApiEgenskap.EN_ARBEIDSGIVER,
                 ApiEgenskap.FORLENGELSE,
                 ApiEgenskap.INGEN_UTBETALING,
                 ApiEgenskap.MEDLEMSKAP,
