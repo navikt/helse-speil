@@ -22,13 +22,11 @@ export function AvsenderInfo({ avsender, brukerNavn, behandlerNavn }: Props): Re
                 </BodyShort>
             </HStack>
         );
-    }
-    if (avsender === ApiDialogmeldingAvsender.BEHANDLER) {
+    } else {
         return (
             <BodyShort className="text-ax-text-neutral-subtle">
                 <span className="font-bold">Fra:</span> {behandlerNavn}
             </BodyShort>
         );
     }
-    return <BodyShort className="text-ax-text-neutral-subtle">Automatisk melding</BodyShort>;
 }

@@ -21,9 +21,9 @@ export function DialogmeldingKort({ melding, personPseudoId, behandler }: Props)
     const setSelectedVedlegg = useSetSelectedVedlegg();
     const bruker = useBruker();
     const { color, tekst } = {
-        [ApiDialogmeldingAvsender.NAV]: { color: 'meta-purple' as const, tekst: 'Fra Nav' },
-        [ApiDialogmeldingAvsender.BEHANDLER]: { color: 'info' as const, tekst: 'Fra behandler' },
-        [ApiDialogmeldingAvsender.SYSTEM]: { color: 'warning' as const, tekst: 'Fra system' },
+        [ApiDialogmeldingAvsender.NAV]: { color: 'meta-purple' as const, tekst: 'Nav' },
+        [ApiDialogmeldingAvsender.BEHANDLER]: { color: 'info' as const, tekst: 'Behandler' },
+        [ApiDialogmeldingAvsender.SYSTEM]: { color: 'warning' as const, tekst: 'Automatisk purring' },
     }[melding.avsender];
 
     return (
