@@ -5,7 +5,7 @@ import { BodyShort, Box, HStack, LinkCard, Tag, VStack } from '@navikt/ds-react'
 
 import { useBruker } from '@auth/brukerContext';
 import { ApiBehandler, ApiDialogmelding, ApiDialogmeldingAvsender } from '@io/rest/generated/sporhund.schemas';
-import { useSetSelectedVedlegg } from '@saksbilde/dialogmelding/dokumentvisning/selectedVedleggAtom';
+import { useSetSelectedVedlegg } from '@saksbilde/dialogmelding/dokumentvisning/vedleggContext';
 import { getFormattedDatetimeString } from '@utils/date';
 import { formatNavn } from '@utils/navnUtils';
 

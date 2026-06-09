@@ -4,7 +4,7 @@ import { HStack } from '@navikt/ds-react';
 
 import { cn } from '@utils/tw';
 
-import { JusterbarSidemenyContext } from './JusterbarSidemenyContext';
+import { JusterbarSidemenyContext } from './context';
 import { useJusterbarBredde } from './useJusterbarBredde';
 
 interface JusterbarSidebarProps {

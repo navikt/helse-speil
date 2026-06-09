@@ -6,10 +6,10 @@ import { ExternalLinkIcon, FileTextIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Heading, Link, VStack } from '@navikt/ds-react';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
-import { useErJusterbarSidemenyDragging } from '@components/justerbarSidemeny/JusterbarSidemenyContext';
+import { useErJusterbarSidemenyDragging } from '@components/justerbarSidemeny/context';
 import { XKnapp } from '@saksbilde/historikk/XKnapp';
 
-import { useSelectedVedlegg, useSetSelectedVedlegg } from './selectedVedleggAtom';
+import { useSelectedVedlegg, useSetSelectedVedlegg } from './vedleggContext';
 
 export function Dokumentvisning(): ReactElement {
     return (
