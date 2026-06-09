@@ -3,7 +3,7 @@
 import React, { ReactElement } from 'react';
 
 import { ExternalLinkIcon, FileTextIcon } from '@navikt/aksel-icons';
-import { BodyShort, Heading, Link, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, Heading, Link, VStack } from '@navikt/ds-react';
 
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
 import { useErJusterbarSidemenyDragging } from '@components/justerbarSidemeny/JusterbarSidemenyContext';
@@ -26,11 +26,11 @@ function DokumentInnhold(): ReactElement {
 
     return (
         <VStack as="section" className="-ml-1.75 h-full w-[calc(100%+7px)]">
-            <div className="flex items-center justify-between border-b border-b-ax-border-neutral-subtle p-4">
+            <HStack align="center" justify="space-between" className="border-b border-b-ax-border-neutral-subtle p-4">
                 <Heading level="3" size="xsmall">
                     Dokumentvisning
                 </Heading>
-                <div className="flex items-center gap-2">
+                <HStack align="center" gap="space-8">
                     {selected && (
                         <Link href={selected.url} target="_blank" rel="noreferrer">
                             <ExternalLinkIcon aria-hidden />
@@ -38,8 +38,8 @@ function DokumentInnhold(): ReactElement {
                         </Link>
                     )}
                     {selected && <XKnapp tittel="Lukk dokument" onClick={() => setSelectedVedlegg(null)} />}
-                </div>
-            </div>
+                </HStack>
+            </HStack>
             {selected ? (
                 <iframe
                     src={`${selected.url}#zoom=page-width`}
