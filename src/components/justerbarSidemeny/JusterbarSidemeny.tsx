@@ -45,12 +45,14 @@ export const JusterbarSidemeny = ({
     );
 
     const innholdClassName = cn(
-        'relative z-1 transition-[margin] duration-200 ease-in-out',
+        'relative z-1 min-h-0 transition-[margin] duration-200 ease-in-out',
         visSidemeny ? (åpnesTilVenstre ? 'ml-0' : 'mr-0') : åpnesTilVenstre ? '-ml-80' : '-mr-80',
     );
 
     return (
         <HStack
+            align="stretch"
+            wrap={false}
             className={cn('z-1 overflow-hidden', åpnesTilVenstre && 'flex-row-reverse', className)}
             style={{ gridArea: 'høyremeny' }}
         >
