@@ -445,6 +445,7 @@ export const useKeyboardActions = (): Action[] => {
                       action: simulerBehandlerSvar,
                       ignoreIfModifiers: false,
                       modifier: Key.Alt,
+                      utviklerOnly: true,
                   },
               ]
             : []),
