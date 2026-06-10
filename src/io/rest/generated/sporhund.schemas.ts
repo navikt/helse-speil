@@ -117,24 +117,33 @@ export const ApiBehandlerType = {
     SYKMELDER: 'SYKMELDER',
 } as const;
 
-export interface ApiDialogmelding {
+export type ApiDialogmelding = ApiDialogmeldingFraBehandler | ApiDialogmeldingFraNav | ApiDialogmeldingFraSystem;
+
+export interface ApiDialogmeldingFraBehandler {
+    fagomrade: ApiFagomrade;
+    melding: string;
+    meldingstype: ApiDialogmeldingType;
+    msgId: string;
+    sendtTidspunkt: string;
     antallVedlegg: number;
-    avsender: ApiDialogmeldingAvsender;
+}
+
+export interface ApiDialogmeldingFraNav {
+    fagomrade: ApiFagomrade;
+    melding: string;
+    meldingstype: ApiDialogmeldingType;
+    msgId: string;
+    sendtTidspunkt: string;
+    saksbehandler: string;
+}
+
+export interface ApiDialogmeldingFraSystem {
     fagomrade: ApiFagomrade;
     melding: string;
     meldingstype: ApiDialogmeldingType;
     msgId: string;
     sendtTidspunkt: string;
 }
-
-export type ApiDialogmeldingAvsender = (typeof ApiDialogmeldingAvsender)[keyof typeof ApiDialogmeldingAvsender];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiDialogmeldingAvsender = {
-    BEHANDLER: 'BEHANDLER',
-    NAV: 'NAV',
-    SYSTEM: 'SYSTEM',
-} as const;
 
 export interface ApiDialogDetails {
     behandler: ApiBehandler;

@@ -15,6 +15,12 @@ import {
     Sykepengegrunnlagskjonnsfastsetting,
     UberegnetPeriodeFragment,
 } from '@io/graphql';
+import {
+    ApiDialogmelding,
+    ApiDialogmeldingFraBehandler,
+    ApiDialogmeldingFraNav,
+    ApiDialogmeldingFraSystem,
+} from '@io/rest/generated/sporhund.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { InfotrygdPeriod } from '@typer/shared';
 import { TimelinePeriod } from '@typer/timeline';
@@ -90,3 +96,11 @@ export const isSelvstendigNaering = (
         (inntektsforhold as SelvstendigNaering).behandlinger !== undefined
     );
 };
+
+export const erFraBehandler = (melding: ApiDialogmelding): melding is ApiDialogmeldingFraBehandler =>
+    'antallVedlegg' in melding;
+
+export const erFraNav = (melding: ApiDialogmelding): melding is ApiDialogmeldingFraNav => 'saksbehandler' in melding;
+
+export const erFraSystem = (melding: ApiDialogmelding): melding is ApiDialogmeldingFraSystem =>
+    !erFraBehandler(melding) && !erFraNav(melding);
