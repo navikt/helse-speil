@@ -10,13 +10,13 @@ import { BodyShortWithPreWrap } from './BodyShortWithPreWrap';
 interface ExpanderbarTekstProps {
     children: ReactNode;
     className?: string;
-    collapsedMaxHeightRem?: number;
+    collapsedMaxHeightPx?: number;
 }
 
 export function EkspanderbarTekst({
     children,
     className,
-    collapsedMaxHeightRem = 7,
+    collapsedMaxHeightPx = 112,
 }: ExpanderbarTekstProps): ReactElement {
     const [isExpanded, setIsExpanded] = useState(false);
     const [overflows, setOverflows] = useState(false);
@@ -25,19 +25,19 @@ export function EkspanderbarTekst({
     useLayoutEffect(() => {
         const el = textRef.current;
         if (!el) return;
-        const thresholdPx = collapsedMaxHeightRem * parseFloat(getComputedStyle(document.documentElement).fontSize);
-        setOverflows(el.scrollHeight > thresholdPx);
-    }, [children, collapsedMaxHeightRem]);
+        setOverflows(el.scrollHeight > collapsedMaxHeightPx);
+    }, [children, collapsedMaxHeightPx]);
 
     return (
         <VStack align="start" gap="space-4" className={cn('w-full', className)}>
             <BodyShortWithPreWrap
                 ref={textRef}
+                style={!isExpanded && overflows ? { maxHeight: `${collapsedMaxHeightPx}px` } : undefined}
                 className={cn(
                     'w-full',
                     !isExpanded &&
                         overflows &&
-                        `max-h-[${collapsedMaxHeightRem}rem] overflow-hidden mask-[linear-gradient(to_bottom,black_60%,transparent)]`,
+                        'overflow-hidden mask-[linear-gradient(to_bottom,black_60%,transparent)]',
                 )}
             >
                 {children}
