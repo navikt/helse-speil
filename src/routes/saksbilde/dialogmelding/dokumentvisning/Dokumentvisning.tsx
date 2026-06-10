@@ -25,7 +25,7 @@ function DokumentInnhold(): ReactElement {
     const isDragging = useErJusterbarSidemenyDragging();
 
     return (
-        <VStack as="section" className="-ml-1.75 h-full w-[calc(100%+7px)]">
+        <VStack as="section" className="-ml-1.75 h-full w-[calc(100%+7px)] bg-ax-bg-default">
             <HStack align="center" justify="space-between" className="border-b border-b-ax-border-neutral-subtle p-4">
                 <Heading level="3" size="xsmall">
                     Dokumentvisning
