@@ -10,7 +10,7 @@ interface DialogmeldingContentFeilProps {
 
 export function DialogmeldingContentError({ refetch }: DialogmeldingContentFeilProps): ReactElement {
     return (
-        <Box as="section" padding="space-16" className="[grid-area:content]">
+        <Box as="section" padding="space-16" className="min-w-0 [grid-area:content]">
             <VStack gap="space-8" align="start">
                 <Heading level="2" size="medium">
                     Dialogmelding

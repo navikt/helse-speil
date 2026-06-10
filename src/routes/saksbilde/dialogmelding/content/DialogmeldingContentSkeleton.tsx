@@ -4,7 +4,7 @@ import { Box, HStack, Skeleton, VStack } from '@navikt/ds-react';
 
 export function DialogmeldingContentSkeleton(): ReactElement {
     return (
-        <Box as="section" padding="space-16" className="[grid-area:content]">
+        <Box as="section" padding="space-16" className="min-w-0 [grid-area:content]">
             <VStack gap="space-16">
                 <VStack gap="space-8">
                     <Skeleton width={300} height={28} />

@@ -29,7 +29,7 @@ export default function Page({ params }: { params: Promise<{ personPseudoId: str
                 <Heading level="2" size="medium">
                     Dialogmelding
                 </Heading>
-                <BodyShort>Ingen dialoger funnet.</BodyShort>
+                <BodyShort>Ingen dialog funnet.</BodyShort>
             </VStack>
         </Box>
     );

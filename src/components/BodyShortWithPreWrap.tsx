@@ -6,7 +6,7 @@ interface BodyShortWithPreWrapProps extends ComponentPropsWithRef<'p'>, Omit<Bod
 
 export const BodyShortWithPreWrap = ({ children, ref: _, ...props }: BodyShortWithPreWrapProps): ReactElement => {
     return (
-        <BodyShort style={{ whiteSpace: 'pre-wrap' }} {...props}>
+        <BodyShort style={{ whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }} {...props}>
             {children}
         </BodyShort>
     );

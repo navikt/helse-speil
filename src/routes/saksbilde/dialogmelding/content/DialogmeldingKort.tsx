@@ -4,6 +4,7 @@ import { FilePdfIcon, PaperclipIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, LinkCard, Tag, VStack } from '@navikt/ds-react';
 
 import { useBruker } from '@auth/brukerContext';
+import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { ApiBehandler, ApiDialogmelding, ApiDialogmeldingAvsender } from '@io/rest/generated/sporhund.schemas';
 import { useSetSelectedVedlegg } from '@saksbilde/dialogmelding/dokumentvisning/vedleggContext';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -50,7 +51,7 @@ export function DialogmeldingKort({ melding, personPseudoId, behandler }: Props)
                     brukerNavn={bruker.navn}
                     behandlerNavn={formatNavn(behandler.navn)}
                 />
-                <BodyShort>{melding.melding}</BodyShort>
+                <BodyShortWithPreWrap>{melding.melding}</BodyShortWithPreWrap>
                 {melding.antallVedlegg > 0 && (
                     <VStack as="ul" gap="space-4">
                         {Array.from({ length: melding.antallVedlegg }, (_, index) => {

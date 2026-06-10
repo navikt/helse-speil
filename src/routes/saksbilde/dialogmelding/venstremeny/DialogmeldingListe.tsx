@@ -28,7 +28,7 @@ export function DialogmeldingListe(): ReactElement {
     }
 
     if (data.length === 0) {
-        return <BodyShort>Ingen dialogmeldinger</BodyShort>;
+        return <BodyShort>Ingen dialogmeldinger.</BodyShort>;
     }
 
     const sortert = [...data].sort((a, b) => b.sisteAktivitetTidspunkt.localeCompare(a.sisteAktivitetTidspunkt));
