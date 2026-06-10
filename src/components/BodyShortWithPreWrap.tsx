@@ -4,9 +4,9 @@ import { BodyShort, BodyShortProps } from '@navikt/ds-react';
 
 interface BodyShortWithPreWrapProps extends ComponentPropsWithRef<'p'>, Omit<BodyShortProps, 'children'> {}
 
-export const BodyShortWithPreWrap = ({ children, ref: _, ...props }: BodyShortWithPreWrapProps): ReactElement => {
+export const BodyShortWithPreWrap = ({ children, ref, ...props }: BodyShortWithPreWrapProps): ReactElement => {
     return (
-        <BodyShort style={{ whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }} {...props}>
+        <BodyShort ref={ref} style={{ whiteSpace: 'pre-wrap', overflowWrap: 'break-word' }} {...props}>
             {children}
         </BodyShort>
     );
