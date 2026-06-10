@@ -347,7 +347,6 @@ export class DialogmeldingMock {
                     sendtTidspunkt: tid,
                     saksbehandler: 'A123456',
                     msgId: crypto.randomUUID(),
-                    antallVedlegg: 0,
                 },
             ],
         };
@@ -379,7 +378,6 @@ export class DialogmeldingMock {
             sendtTidspunkt: tid,
             saksbehandler: 'A123456',
             msgId: crypto.randomUUID(),
-            antallVedlegg: 0,
         });
         dialog.status = ApiDialogmeldingStatus.SENDT;
 
