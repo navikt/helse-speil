@@ -88,6 +88,17 @@ type NyhetModalSlide = {
     slideBeskrivelse: PortableTextBlock[];
 };
 
+export interface DialogmeldingMal {
+    _id: string;
+    tittel: string;
+    tekst: PortableTextBlock[];
+    iProd: boolean;
+}
+
+export type DialogmeldingMalerQueryResult = {
+    result: DialogmeldingMal[];
+};
+
 export type SkjønnsfastsettelseMalerQueryResult = {
     result: SkjønnsfastsettingMal[];
 };
@@ -233,6 +244,23 @@ export function useNyheter() {
         nyheter,
         loading,
         error,
+    };
+}
+
+export function useDialogmeldingMaler() {
+    const { data, error, isPending, refetch } = useQuery({
+        queryKey: ['sanity', 'dialogmeldingMaler'],
+        queryFn: async (): Promise<DialogmeldingMalerQueryResult> =>
+            (await customAxios.get('/api/sanity/dialogmelding-maler')).data,
+        staleTime: Infinity,
+        gcTime: 0,
+    });
+
+    return {
+        maler: data?.result.filter((it: DialogmeldingMal) => (erProd ? it.iProd : true)) ?? [],
+        isPending,
+        error,
+        refetch,
     };
 }
 

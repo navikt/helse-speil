@@ -33,8 +33,10 @@ const behandlerSchema = z.object({
 
 export type NyDialogmeldingSchema = z.infer<typeof nyDialogmeldingSchema>;
 export const nyDialogmeldingSchema = z.object({
-    behandler: behandlerSchema.refine((val) => val.id.length > 0, { error: 'Velg en behandler' }),
-    fagomrade: z.enum(fagomradeValues, { error: 'Velg type' }),
+    behandler: behandlerSchema.optional().refine((val): val is z.infer<typeof behandlerSchema> => val !== undefined, {
+        error: 'Velg en behandler',
+    }),
+    fagomrade: z.enum(fagomradeValues, { error: 'Velg fagområde' }),
     melding: z.string().min(1, { error: 'Fyll inn melding' }),
 });
 

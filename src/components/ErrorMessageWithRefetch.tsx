@@ -13,7 +13,7 @@ export function ErrorMessageWithRefetch({ errorMessage, refetch }: FeilmeldingPr
             <InfoCard.Header>
                 <HStack gap="space-8" className="p-1">
                     <BodyShort>{errorMessage}</BodyShort>
-                    <Button size="xsmall" onClick={() => refetch()}>
+                    <Button type="button" size="xsmall" onClick={() => refetch()}>
                         Prøv igjen
                     </Button>
                 </HStack>

@@ -1,16 +1,19 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import React, { ReactElement, useState } from 'react';
+import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
-import { Box, Button, HStack, Heading, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, Button, HStack, Heading, Loader, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
+import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
+import { DialogmeldingMal, useDialogmeldingMaler } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostNyDialogmelding } from '@io/rest/generated/default/default';
 import { ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
+import { toPlainText } from '@portabletext/react';
 import { useFetchPersonQuery } from '@state/person';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -21,7 +24,11 @@ export function NyDialogmeldingForm(): ReactElement {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
     const { data: personData } = useFetchPersonQuery();
+    const { maler, error: malerError, isPending: malerIsPending, refetch } = useDialogmeldingMaler();
     const personinfo = personData?.person?.personinfo;
+    const [enkeltstandeType, setEnkeltstandeType] = useState<EnkeltståndeType | null>(null);
+    const malerById = Object.fromEntries(maler.map((mal: DialogmeldingMal) => [mal._id, mal]));
+
     const { mutateAsync, isPending } = usePostNyDialogmelding({
         mutation: {
             onSuccess: () => {
@@ -29,24 +36,28 @@ export function NyDialogmeldingForm(): ReactElement {
             },
         },
     });
+
     const form = useForm<NyDialogmeldingSchema>({
         resolver: zodResolver(nyDialogmeldingSchema),
         defaultValues: {
             behandler: undefined,
-            fagomrade: Object.values(ApiFagomrade)[0],
+            fagomrade: undefined,
             melding: '',
         },
     });
 
+    const fagomrade = useWatch({ control: form.control, name: 'fagomrade' });
+
     async function onSubmit(values: NyDialogmeldingSchema) {
-        if (!personinfo) return;
+        if (!personinfo || !values.behandler) return;
+        const { behandler, ...rest } = values;
 
         const sokernavn = {
             fornavn: personinfo.fornavn,
             etternavn: personinfo.etternavn,
             mellomnavn: personinfo.mellomnavn,
         };
-        const result = await mutateAsync({ pseudoId: personPseudoId, data: { ...values, sokernavn } });
+        const result = await mutateAsync({ pseudoId: personPseudoId, data: { ...rest, behandler, sokernavn } });
         if (result) {
             router.push(`/person/${personPseudoId}/dialogmelding/${result.conversationRef}`);
         }
@@ -88,10 +99,23 @@ export function NyDialogmeldingForm(): ReactElement {
                                 <RadioGroup
                                     legend="Fagområde"
                                     className="[&_legend]:text-ax-large"
-                                    value={field.value}
-                                    onChange={field.onChange}
+                                    value={field.value ?? ''}
+                                    onChange={(value: ApiFagomrade) => {
+                                        field.onChange(value);
+                                        setEnkeltstandeType(null);
+                                        if (value !== ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER) {
+                                            const malId = fagområdeToMalId[value as keyof typeof fagområdeToMalId];
+                                            const mal = malId ? malerById[malId] : undefined;
+                                            form.setValue('melding', mal ? toPlainText(mal.tekst) : '', {
+                                                shouldValidate: true,
+                                            });
+                                        } else {
+                                            form.setValue('melding', '');
+                                        }
+                                    }}
                                     error={fieldState.error?.message}
                                     size="small"
+                                    disabled={malerIsPending}
                                 >
                                     {Object.entries(fagomradeLabels).map(([value, label]) => (
                                         <Radio key={value} value={value}>
@@ -101,6 +125,41 @@ export function NyDialogmeldingForm(): ReactElement {
                                 </RadioGroup>
                             )}
                         />
+                        {fagomrade === ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER && (
+                            <RadioGroup
+                                legend="Type"
+                                className="[&_legend]:text-ax-large"
+                                value={enkeltstandeType ?? ''}
+                                onChange={(value: EnkeltståndeType) => {
+                                    setEnkeltstandeType(value);
+                                    const malId = enkeltståndeMalId[value];
+                                    const mal = malId ? malerById[malId] : undefined;
+                                    form.setValue('melding', mal ? toPlainText(mal.tekst) : '', {
+                                        shouldValidate: true,
+                                    });
+                                }}
+                                size="small"
+                            >
+                                <Radio value="ny">
+                                    <span className="text-ax-large">Ny</span>
+                                </Radio>
+                                <Radio value="forlengelse">
+                                    <span className="text-ax-large">Forlengelse</span>
+                                </Radio>
+                            </RadioGroup>
+                        )}
+                        {malerError && (
+                            <ErrorMessageWithRefetch
+                                errorMessage="Klarte ikke hente maler. Du kan fortsatt sende melding eller prøve å hente de igjen."
+                                refetch={refetch}
+                            />
+                        )}
+                        {malerIsPending && (
+                            <HStack gap="space-4">
+                                <BodyShort className="text-ax-text-neutral-subtle">Henter maler...</BodyShort>
+                                <Loader size="small" />
+                            </HStack>
+                        )}
                         <Controller
                             control={form.control}
                             name="melding"
@@ -143,3 +202,16 @@ export function NyDialogmeldingForm(): ReactElement {
         </section>
     );
 }
+
+type EnkeltståndeType = 'ny' | 'forlengelse';
+
+const fagområdeToMalId: Record<Exclude<ApiFagomrade, typeof ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER>, string> = {
+    [ApiFagomrade.BESTRIDELSE]: 'dialogmeldingmalBestridelse',
+    [ApiFagomrade.YRKESSKADE]: 'dialogmeldingmalYrkesskade',
+    [ApiFagomrade.TILBAKEDATERING]: 'dialogmeldingmalTilbakedatering',
+};
+
+const enkeltståndeMalId: Record<EnkeltståndeType, string> = {
+    ny: 'dialogmeldingmalEnkeltstandeNy',
+    forlengelse: 'dialogmeldingmalEnkeltstandeForlengelse',
+};
