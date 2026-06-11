@@ -13,7 +13,6 @@ import { DialogmeldingMal, useDialogmeldingMaler } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostNyDialogmelding } from '@io/rest/generated/default/default';
 import { ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
-import { toPlainText } from '@portabletext/react';
 import { useFetchPersonQuery } from '@state/person';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -106,7 +105,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                         if (value !== ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER) {
                                             const malId = fagområdeToMalId[value as keyof typeof fagområdeToMalId];
                                             const mal = malId ? malerById[malId] : undefined;
-                                            form.setValue('melding', mal ? toPlainText(mal.tekst) : '', {
+                                            form.setValue('melding', mal ? mal.tekst : '', {
                                                 shouldValidate: true,
                                             });
                                         } else {
@@ -134,7 +133,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                     setEnkeltstandeType(value);
                                     const malId = enkeltståndeMalId[value];
                                     const mal = malId ? malerById[malId] : undefined;
-                                    form.setValue('melding', mal ? toPlainText(mal.tekst) : '', {
+                                    form.setValue('melding', mal ? mal.tekst : '', {
                                         shouldValidate: true,
                                     });
                                 }}

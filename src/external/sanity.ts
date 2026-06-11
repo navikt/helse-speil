@@ -91,7 +91,7 @@ type NyhetModalSlide = {
 export interface DialogmeldingMal {
     _id: string;
     tittel: string;
-    tekst: PortableTextBlock[];
+    tekst: string;
     iProd: boolean;
 }
 
