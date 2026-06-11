@@ -1,12 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
-import {
-    ApiBehandlerKategori,
-    ApiDialogmeldingType,
-    ApiFagomrade,
-    type ApiNyDialogmelding,
-} from '@io/rest/generated/sporhund.schemas';
+import { ApiBehandlerKategori, ApiFagomrade, type ApiNyDialogmelding } from '@io/rest/generated/sporhund.schemas';
 
 const gyldigSkjema: ApiNyDialogmelding = {
     behandler: {
@@ -29,7 +24,6 @@ const gyldigSkjema: ApiNyDialogmelding = {
         type: null,
     },
     fagomrade: ApiFagomrade.TILBAKEDATERING,
-    meldingstype: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
     melding: 'Hei',
     sokernavn: {
         fornavn: 'Kari',
@@ -46,11 +40,6 @@ describe('nyDialogmeldingSchema', () => {
 
     it('feiler uten fagomrade', () => {
         const result = nyDialogmeldingSchema.safeParse({ ...gyldigSkjema, fagomrade: undefined });
-        expect(result.success).toBe(false);
-    });
-
-    it('feiler uten meldingstype', () => {
-        const result = nyDialogmeldingSchema.safeParse({ ...gyldigSkjema, meldingstype: undefined });
         expect(result.success).toBe(false);
     });
 });

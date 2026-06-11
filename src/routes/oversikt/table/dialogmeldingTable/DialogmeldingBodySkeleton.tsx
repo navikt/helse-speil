@@ -32,9 +32,6 @@ function DialogmeldingSkeletonRow(): ReactElement {
                 <Skeleton width={170} height={24} />
             </Table.DataCell>
             <Table.DataCell>
-                <Skeleton width={130} height={24} />
-            </Table.DataCell>
-            <Table.DataCell>
                 <Skeleton width={95} height={24} />
             </Table.DataCell>
         </Table.Row>

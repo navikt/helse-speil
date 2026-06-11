@@ -5,7 +5,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
-import { fagomradeLabels, meldingstypeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
+import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { behandlerKategoriLabels, formatLegekontorAdresse } from '@utils/behandlerUtils';
@@ -41,7 +41,7 @@ export function DialogmeldingContent(): ReactElement {
             <VStack gap="space-16">
                 <VStack gap="space-8">
                     <Heading level="2" size="medium">
-                        {`${fagomradeLabels[firstMelding.fagomrade]} - ${meldingstypeLabels[firstMelding.meldingstype]}`}
+                        {fagomradeLabels[firstMelding.fagomrade]}
                     </Heading>
                     <HStack gap="space-24" wrap>
                         <BodyShort size="small">

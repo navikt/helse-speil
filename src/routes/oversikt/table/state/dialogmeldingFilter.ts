@@ -1,14 +1,13 @@
 import { WritableAtom, atom, useAtom, useAtomValue } from 'jotai';
 import { SetStateAction } from 'react';
 
-import { ApiDialogmeldingStatus, ApiDialogmeldingType, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogmeldingStatus, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
 import { atomWithLocalStorage } from '@state/jotai';
 
 import { Filter, FilterStatus } from './filter';
 
 export enum DialogmeldingKolonne {
     FAGOMRADE = 'FAGOMRADE',
-    MELDINGSTYPE = 'MELDINGSTYPE',
     STATUS = 'STATUS',
 }
 
@@ -37,37 +36,6 @@ const dialogmeldingFilters: Filter[] = [
         label: 'Bestridelse',
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.FAGOMRADE,
-    },
-    // Meldingstype
-    {
-        key: ApiDialogmeldingType.JOURNALNOTAT,
-        label: 'Journalnotat',
-        status: FilterStatus.OFF,
-        column: DialogmeldingKolonne.MELDINGSTYPE,
-    },
-    {
-        key: ApiDialogmeldingType.MEDISINSKE_OPPLYSNINGER,
-        label: 'Medisinske opplysninger',
-        status: FilterStatus.OFF,
-        column: DialogmeldingKolonne.MELDINGSTYPE,
-    },
-    {
-        key: ApiDialogmeldingType.EKSTRA_UTTALELSER_FRA_LEGE,
-        label: 'Ekstra uttalelser fra lege',
-        status: FilterStatus.OFF,
-        column: DialogmeldingKolonne.MELDINGSTYPE,
-    },
-    {
-        key: ApiDialogmeldingType.SPESIALISTERKLAERING,
-        label: 'Forespørsel om spesialisterklæring',
-        status: FilterStatus.OFF,
-        column: DialogmeldingKolonne.MELDINGSTYPE,
-    },
-    {
-        key: ApiDialogmeldingType.UTVIDET_SPESIALISTERKLAERING,
-        label: 'Forespørsel om utvidet spesialisterklæring',
-        status: FilterStatus.OFF,
-        column: DialogmeldingKolonne.MELDINGSTYPE,
     },
     // Status
     {

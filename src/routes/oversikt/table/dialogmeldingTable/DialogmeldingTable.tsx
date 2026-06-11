@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, VStack } from '@navikt/ds-react';
 
-import { fagomradeLabels, meldingstypeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
+import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingOppgave, ApiNavn } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingBodySkeleton } from '@oversikt/table/dialogmeldingTable/DialogmeldingBodySkeleton';
@@ -22,7 +22,7 @@ import {
 } from '../state/dialogmeldingFilter';
 import { dialogmeldingLimit, useDialogmeldingPageState } from '../state/dialogmeldingPagination';
 
-type DialogmeldingSortKey = 'sisteAktivitet' | 'frist' | 'fagomrade' | 'soker' | 'meldingstype' | 'status';
+type DialogmeldingSortKey = 'sisteAktivitet' | 'frist' | 'fagomrade' | 'soker' | 'status';
 
 export function DialogmeldingTable(): ReactElement {
     const [sort, setSort] = useState<SortState>({ orderBy: 'sisteAktivitet', direction: 'descending' });
@@ -75,9 +75,6 @@ export function DialogmeldingTable(): ReactElement {
                                 <Table.ColumnHeader sortKey="soker" sortable className="w-120">
                                     Søker
                                 </Table.ColumnHeader>
-                                <Table.ColumnHeader sortKey="meldingstype" sortable className="w-90">
-                                    Meldingstype
-                                </Table.ColumnHeader>
                                 <Table.ColumnHeader sortKey="status" sortable className="w-36">
                                     Status
                                 </Table.ColumnHeader>
@@ -106,7 +103,6 @@ export function DialogmeldingTable(): ReactElement {
                                                 {formatSøkernavn(oppgave.soker)}
                                             </span>
                                         </Table.DataCell>
-                                        <Table.DataCell>{meldingstypeLabels[oppgave.meldingstype]}</Table.DataCell>
                                         <Table.DataCell>{statusLabels[oppgave.status]}</Table.DataCell>
                                         <Table.DataCell />
                                     </LinkRow>
@@ -147,7 +143,6 @@ function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): Api
         frist: (oppgave) => oppgave.fristTidspunkt,
         fagomrade: (oppgave) => oppgave.fagomrade,
         soker: (oppgave) => formatSøkernavn(oppgave.soker),
-        meldingstype: (oppgave) => oppgave.meldingstype,
         status: (oppgave) => oppgave.status,
     };
 
@@ -166,7 +161,6 @@ function filterOppgaver(
 
     const columnMapping: Record<string, keyof ApiDialogmeldingOppgave> = {
         [DialogmeldingKolonne.FAGOMRADE]: 'fagomrade',
-        [DialogmeldingKolonne.MELDINGSTYPE]: 'meldingstype',
         [DialogmeldingKolonne.STATUS]: 'status',
     };
 

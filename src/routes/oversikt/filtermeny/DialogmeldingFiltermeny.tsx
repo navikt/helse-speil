@@ -22,11 +22,6 @@ export const DialogmeldingFiltermeny = (): ReactElement => {
                 onToggle={toggleFilter}
             />
             <DialogmeldingFilterList
-                filters={allFilters.filter((f) => f.column === DialogmeldingKolonne.MELDINGSTYPE)}
-                text="Meldingstype"
-                onToggle={toggleFilter}
-            />
-            <DialogmeldingFilterList
                 filters={allFilters.filter((f) => f.column === DialogmeldingKolonne.STATUS)}
                 text="Status"
                 onToggle={toggleFilter}

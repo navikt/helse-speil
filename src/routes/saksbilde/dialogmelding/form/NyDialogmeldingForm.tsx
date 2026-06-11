@@ -7,15 +7,10 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack, Heading, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import {
-    NyDialogmeldingSchema,
-    fagomradeLabels,
-    meldingstypeLabels,
-    nyDialogmeldingSchema,
-} from '@/form-schemas/nyDialogmeldingSkjema';
+import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostNyDialogmelding } from '@io/rest/generated/default/default';
-import { ApiDialogmeldingType, ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
+import { ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
 import { useFetchPersonQuery } from '@state/person';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -39,7 +34,6 @@ export function NyDialogmeldingForm(): ReactElement {
         defaultValues: {
             behandler: undefined,
             fagomrade: Object.values(ApiFagomrade)[0],
-            meldingstype: Object.values(ApiDialogmeldingType)[0],
             melding: '',
         },
     });
@@ -100,26 +94,6 @@ export function NyDialogmeldingForm(): ReactElement {
                                     size="small"
                                 >
                                     {Object.entries(fagomradeLabels).map(([value, label]) => (
-                                        <Radio key={value} value={value}>
-                                            <span className="text-ax-large">{label}</span>
-                                        </Radio>
-                                    ))}
-                                </RadioGroup>
-                            )}
-                        />
-                        <Controller
-                            control={form.control}
-                            name="meldingstype"
-                            render={({ field, fieldState }) => (
-                                <RadioGroup
-                                    legend="Meldingstype"
-                                    className="[&_legend]:text-ax-large"
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                    error={fieldState.error?.message}
-                                    size="small"
-                                >
-                                    {Object.entries(meldingstypeLabels).map(([value, label]) => (
                                         <Radio key={value} value={value}>
                                             <span className="text-ax-large">{label}</span>
                                         </Radio>

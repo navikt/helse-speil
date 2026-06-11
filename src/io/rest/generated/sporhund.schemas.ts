@@ -8,7 +8,6 @@ export interface ApiDialogmeldingOppgave {
     conversationRef: string;
     fagomrade: ApiFagomrade;
     fristTidspunkt: string;
-    meldingstype: ApiDialogmeldingType;
     personPseudoId: string;
     sisteAktivitetTidspunkt: string;
     soker: ApiNavn;
@@ -23,17 +22,6 @@ export const ApiFagomrade = {
     TILBAKEDATERING: 'TILBAKEDATERING',
     YRKESSKADE: 'YRKESSKADE',
     BESTRIDELSE: 'BESTRIDELSE',
-} as const;
-
-export type ApiDialogmeldingType = (typeof ApiDialogmeldingType)[keyof typeof ApiDialogmeldingType];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiDialogmeldingType = {
-    JOURNALNOTAT: 'JOURNALNOTAT',
-    MEDISINSKE_OPPLYSNINGER: 'MEDISINSKE_OPPLYSNINGER',
-    EKSTRA_UTTALELSER_FRA_LEGE: 'EKSTRA_UTTALELSER_FRA_LEGE',
-    SPESIALISTERKLAERING: 'SPESIALISTERKLAERING',
-    UTVIDET_SPESIALISTERKLAERING: 'UTVIDET_SPESIALISTERKLAERING',
 } as const;
 
 export type ApiNavnMellomnavn = null | string;
@@ -60,7 +48,6 @@ export interface ApiDialogOppsummering {
     behandler: ApiBehandler;
     conversationRef: string;
     fagomrade: ApiFagomrade;
-    meldingstype: ApiDialogmeldingType;
     sisteAktivitetTidspunkt: string;
     status: ApiDialogmeldingStatus;
 }
@@ -123,7 +110,6 @@ export type ApiDialogmelding = ApiDialogmeldingFraBehandler | ApiDialogmeldingFr
 export interface ApiDialogmeldingFraBehandler {
     fagomrade: ApiFagomrade;
     melding: string;
-    meldingstype: ApiDialogmeldingType;
     msgId: string;
     sendtTidspunkt: string;
     antallVedlegg: number;
@@ -132,7 +118,6 @@ export interface ApiDialogmeldingFraBehandler {
 export interface ApiDialogmeldingFraNav {
     fagomrade: ApiFagomrade;
     melding: string;
-    meldingstype: ApiDialogmeldingType;
     msgId: string;
     sendtTidspunkt: string;
     saksbehandler: string;
@@ -141,7 +126,6 @@ export interface ApiDialogmeldingFraNav {
 export interface ApiDialogmeldingFraSystem {
     fagomrade: ApiFagomrade;
     melding: string;
-    meldingstype: ApiDialogmeldingType;
     msgId: string;
     sendtTidspunkt: string;
 }
@@ -157,7 +141,6 @@ export interface ApiNyDialogmelding {
     behandler: ApiBehandler;
     fagomrade: ApiFagomrade;
     melding: string;
-    meldingstype: ApiDialogmeldingType;
     sokernavn: ApiNavn;
 }
 
