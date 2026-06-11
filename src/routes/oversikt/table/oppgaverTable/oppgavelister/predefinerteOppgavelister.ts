@@ -48,13 +48,50 @@ const ekskluder_varsler_nks = varsler(
 );
 export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     {
-        id: 'nks-arbeidsgiver',
-        navn: 'NKS',
+        id: 'nks-arbeidsgiver-en-ag',
+        navn: 'NKS - Èn arbeidsgiver',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv(
                 [ApiEgenskap.SOKNAD],
                 [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE],
+                [ApiEgenskap.EN_ARBEIDSGIVER],
+            ),
+            ingenAvEgenskapene: ingen(
+                ApiEgenskap.PA_VENT,
+                ApiEgenskap.BESLUTTER,
+                ApiEgenskap.RETUR,
+                ApiEgenskap.UTBETALING_TIL_SYKMELDT,
+                ApiEgenskap.DELVIS_REFUSJON,
+                ApiEgenskap.INGEN_UTBETALING,
+                ApiEgenskap.HASTER,
+                ApiEgenskap.VERGEMAL,
+                ApiEgenskap.UTLAND,
+                ApiEgenskap.EGEN_ANSATT,
+                ApiEgenskap.STIKKPROVE,
+                ApiEgenskap.RISK_QA,
+                ApiEgenskap.FORTROLIG_ADRESSE,
+                ApiEgenskap.TILBAKEDATERT,
+                ApiEgenskap.MANGLER_IM,
+                ApiEgenskap.MEDLEMSKAP,
+                ApiEgenskap.SKJONNSFASTSETTELSE,
+                ApiEgenskap.GRUNNBELOPSREGULERING,
+                ApiEgenskap.REVURDERING,
+            ),
+            sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
+            sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
+            ekskluderVarsler: ekskluder_varsler_nks,
+        },
+    },
+    {
+        id: 'nks-arbeidsgiver-flere-ag',
+        navn: 'NKS - Flere arbeidsgivere',
+        params: {
+            erTildelt: false,
+            minstEnAvEgenskapene: enAv(
+                [ApiEgenskap.SOKNAD],
+                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE],
+                [ApiEgenskap.FLERE_ARBEIDSGIVERE],
             ),
             ingenAvEgenskapene: ingen(
                 ApiEgenskap.PA_VENT,
