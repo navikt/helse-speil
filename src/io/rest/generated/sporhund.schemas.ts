@@ -70,6 +70,7 @@ export type ApiBehandlerTelefonnummer = null | string;
 export type ApiBehandlerTypeProperty = null | ApiBehandlerType;
 
 export interface ApiBehandler {
+    hprNummer: number;
     id: string;
     kategori: ApiBehandlerKategori;
     legekontor: ApiLegekontor;

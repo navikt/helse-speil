@@ -11,6 +11,7 @@ import {
 const gyldigSkjema: ApiNyDialogmelding = {
     behandler: {
         id: 'behandler-id',
+        hprNummer: 1234567,
         kategori: ApiBehandlerKategori.LEGE,
         navn: {
             fornavn: 'Ola',

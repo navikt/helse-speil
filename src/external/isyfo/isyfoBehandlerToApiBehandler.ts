@@ -23,6 +23,7 @@ function castType(type: string | null): ApiBehandlerType | null {
 export function isyfoBehandlerToApiBehandler(b: IsyfoBehandler): ApiBehandler {
     return {
         id: b.behandlerRef,
+        hprNummer: b.hprId!,
         kategori: castKategori(b.kategori),
         navn: {
             fornavn: b.fornavn,

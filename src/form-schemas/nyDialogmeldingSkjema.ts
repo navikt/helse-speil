@@ -15,6 +15,7 @@ const typeValues = Object.values(ApiBehandlerType) as [ApiBehandlerType, ...ApiB
 
 const behandlerSchema = z.object({
     id: z.string().min(1),
+    hprNummer: z.number(),
     kategori: z.enum(kategoriValues),
     navn: z.object({
         fornavn: z.string(),

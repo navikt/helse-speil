@@ -33,6 +33,7 @@ interface InternalDialog {
 
 const mockBehandler1: ApiBehandler = {
     id: 'behandlerId-1',
+    hprNummer: 1234567,
     kategori: ApiBehandlerKategori.LEGE,
     navn: { fornavn: 'Linus', etternavn: 'Haugen', mellomnavn: null },
     legekontor: {
@@ -46,6 +47,7 @@ const mockBehandler1: ApiBehandler = {
 
 const mockBehandler2: ApiBehandler = {
     id: 'behandlerId-2',
+    hprNummer: 1234568,
     kategori: ApiBehandlerKategori.LEGE,
     navn: { fornavn: 'Solveig', etternavn: 'Bakke', mellomnavn: null },
     legekontor: { kontor: 'Legesenteret', orgnummer: null, adresse: null, postnummer: null, poststed: null },
@@ -53,6 +55,7 @@ const mockBehandler2: ApiBehandler = {
 
 const mockBehandler3: ApiBehandler = {
     id: 'behandlerId-3',
+    hprNummer: 1234569,
     kategori: ApiBehandlerKategori.LEGE,
     navn: { fornavn: 'Christian', etternavn: 'Strand', mellomnavn: null },
     legekontor: {
