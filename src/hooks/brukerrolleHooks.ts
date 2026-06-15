@@ -9,8 +9,13 @@ const useErBrukerrolle = (brukerrolle: ApiBrukerrolle) => {
 export const useHarUtviklerRolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.UTVIKLER);
 };
+
 export const useHarBeslutterrolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.BESLUTTER);
+};
+
+export const useHarDialogmeldingrolle = () => {
+    return useErBrukerrolle(ApiBrukerrolle.DIALOGMELDING);
 };
 
 export const useHarSkrivetilgang = () => {
