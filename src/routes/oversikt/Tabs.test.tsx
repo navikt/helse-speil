@@ -10,6 +10,7 @@ vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
     useHarUtviklerRolle: () => true,
     useHarBeslutterrolle: () => true,
+    useHarDialogmeldingrolle: () => true,
 }));
 
 describe('Tabs', () => {
