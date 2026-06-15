@@ -57,6 +57,7 @@ export const ApiBrukerrolle = {
     KODE_7: 'KODE_7',
     STIKKPRØVE: 'STIKKPRØVE',
     UTVIKLER: 'UTVIKLER',
+    DIALOGMELDING: 'DIALOGMELDING',
 } as const;
 
 export type ApiTilgang = (typeof ApiTilgang)[keyof typeof ApiTilgang];

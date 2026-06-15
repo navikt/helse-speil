@@ -8,6 +8,7 @@ export const stub = async () => {
             ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA,
             ApiBrukerrolle.EGEN_ANSATT,
             ApiBrukerrolle.STIKKPRØVE,
+            ApiBrukerrolle.DIALOGMELDING,
         ],
         tilganger: [ApiTilgang.SKRIV, ApiTilgang.LES],
     };

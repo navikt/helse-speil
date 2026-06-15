@@ -124,6 +124,8 @@ function brukerrolleVisningstekst(brukerrolle: ApiBrukerrolle): string {
             return 'Kode 7';
         case ApiBrukerrolle.BESLUTTER:
             return 'Beslutter';
+        case ApiBrukerrolle.DIALOGMELDING:
+            return 'Dialogmelding';
         default:
             return brukerrolle;
     }
