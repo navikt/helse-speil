@@ -24,7 +24,7 @@ import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold'
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { SaksbildeTab, useSaksbildeTab } from '@state/tab';
-import { useKanSeNyDialogmelding, useKanSeNyInngangsvilkår } from '@state/toggles';
+import { useKanSeNyInngangsvilkår } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -58,7 +58,6 @@ export const Saksbilde = () => {
     const { loading, data, error } = useFetchPersonQuery();
     const [tab, setTab] = useSaksbildeTab();
     const visNyInngangsvilkår = useKanSeNyInngangsvilkår();
-    const visNyDialogmelding = useKanSeNyDialogmelding();
     const harDialogmeldingrolle = useHarDialogmeldingrolle();
     const { personPseudoId } = useParams<{ personPseudoId?: string }>();
 
@@ -134,7 +133,7 @@ export const Saksbilde = () => {
                             <Tabs.Tab key={t.value} value={t.value} label={t.label} />
                         ))}
                     </Tabs.List>
-                    {visNyDialogmelding && harDialogmeldingrolle && (
+                    {harDialogmeldingrolle && (
                         <Link
                             href={`/person/${personPseudoId}/dialogmelding`}
                             className="flex items-center px-4 py-3 leading-6 no-underline inset-shadow-ax-border-neutral-subtleA transition-shadow duration-200 ease-[cubic-bezier(.2,0,0,1)] hover:inset-shadow-[0px_-4px]"

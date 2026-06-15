@@ -5,7 +5,6 @@ import { HStack, Skeleton } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarDialogmeldingrolle } from '@hooks/brukerrolleHooks';
-import { useKanSeNyDialogmelding } from '@state/toggles';
 import { cn } from '@utils/tw';
 
 import { useShowStatistikk, useToggleStatistikk } from './behandlingsstatistikk/state';
@@ -130,7 +129,6 @@ type TabProps = {
 };
 
 export const Tabs = ({ antallMineSaker, antallPåVentNåddFrist }: TabProps): ReactElement => {
-    const kanSeDialogmelding = useKanSeNyDialogmelding();
     const harDialogmeldingrolle = useHarDialogmeldingrolle();
     const [aktivTab] = useTabState();
     const visFilterButton = aktivTab !== TabType.BehandletIdag && aktivTab !== TabType.Oppgavelister;
@@ -146,7 +144,7 @@ export const Tabs = ({ antallMineSaker, antallPåVentNåddFrist }: TabProps): Re
                     <BehandletIdagTab />
                 </VisHvisSkrivetilgang>
                 <OppgavelisterTab />
-                {kanSeDialogmelding && harDialogmeldingrolle && <DialogmeldingTab />}
+                {harDialogmeldingrolle && <DialogmeldingTab />}
             </span>
             <StatistikkButton />
         </div>
