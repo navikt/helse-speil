@@ -15,7 +15,9 @@ export const useHarBeslutterrolle = () => {
 };
 
 export const useHarDialogmeldingrolle = () => {
-    return useErBrukerrolle(ApiBrukerrolle.DIALOGMELDING);
+    const harDialogmeldingrolle = useErBrukerrolle(ApiBrukerrolle.DIALOGMELDING);
+    const harUtviklerrolle = useErBrukerrolle(ApiBrukerrolle.UTVIKLER);
+    return harDialogmeldingrolle || harUtviklerrolle;
 };
 
 export const useHarSkrivetilgang = () => {
