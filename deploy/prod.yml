@@ -90,6 +90,7 @@ spec:
           - id: '59f26eef-0a4f-4038-bf46-3a5b2f252155' # beslutter
           - id: '54273224-e40a-4e3d-b3cb-2219603058f9' # speil-riksrevisjonen-lesetilgang
           - id: 'c5f26254-c6fa-4942-b81b-5cdff847d3df' # 0000-CA-Speil_Lesetilgang
+          - id: 'a857cdaf-9a02-4f3d-8e37-ecc81a0160d0' # 4448-CA-speil-dialogmelding_til_behandler
   envFrom:
     - secret: speil
     - secret: sanity-read-datasets-token
