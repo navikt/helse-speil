@@ -5,6 +5,7 @@ import React, { ReactElement, useState } from 'react';
 import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, VStack } from '@navikt/ds-react';
 
 import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
+import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingOppgave, ApiNavn } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingBodySkeleton } from '@oversikt/table/dialogmeldingTable/DialogmeldingBodySkeleton';
@@ -100,7 +101,9 @@ export function DialogmeldingTable(): ReactElement {
                                         <Table.DataCell>{fagomradeLabels[oppgave.fagomrade]}</Table.DataCell>
                                         <Table.DataCell>
                                             <span className="block w-120 truncate">
-                                                {formatSøkernavn(oppgave.soker)}
+                                                <AnonymizableTextWithEllipsis style={{ width: 200 }}>
+                                                    {formatSøkernavn(oppgave.soker)}
+                                                </AnonymizableTextWithEllipsis>
                                             </span>
                                         </Table.DataCell>
                                         <Table.DataCell>{statusLabels[oppgave.status]}</Table.DataCell>
