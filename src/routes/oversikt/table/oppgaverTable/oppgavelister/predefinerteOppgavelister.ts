@@ -224,6 +224,38 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
             ekskluderVarsler: ekskluder_varsler_nks,
         },
     },
+    {
+        id: 'restanseteam-frilans',
+        navn: 'Restanseteam - Frilans',
+        params: {
+            erTildelt: false,
+            minstEnAvEgenskapene: enAv([ApiEgenskap.SOKNAD]),
+            ingenAvEgenskapene: ingen(
+                ApiEgenskap.PA_VENT,
+                ApiEgenskap.BESLUTTER,
+                ApiEgenskap.RETUR,
+                ApiEgenskap.UTBETALING_TIL_SYKMELDT,
+                ApiEgenskap.DELVIS_REFUSJON,
+                ApiEgenskap.INGEN_UTBETALING,
+                ApiEgenskap.HASTER,
+                ApiEgenskap.VERGEMAL,
+                ApiEgenskap.UTLAND,
+                ApiEgenskap.EGEN_ANSATT,
+                ApiEgenskap.STIKKPROVE,
+                ApiEgenskap.RISK_QA,
+                ApiEgenskap.FORTROLIG_ADRESSE,
+                ApiEgenskap.TILBAKEDATERT,
+                ApiEgenskap.MANGLER_IM,
+                ApiEgenskap.MEDLEMSKAP,
+                ApiEgenskap.GRUNNBELOPSREGULERING,
+                ApiEgenskap.REVURDERING,
+            ),
+
+            sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
+            sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
+            tillatteVarsler: varsler('RV_IV_3'),
+        },
+    },
     // brukersaker - forlengelser
     {
         id: 'oppgaveliste-1',
