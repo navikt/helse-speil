@@ -2017,6 +2017,7 @@ export type GetOppgaverParams = {
     sidetall?: number;
     sidestoerrelse?: number;
     ekskluderVarsler?: string;
+    tillatteVarsler?: string;
     behandlingOpprettetFom?: string;
     behandlingOpprettetTom?: string;
     oppgaveKlarFom?: string;
