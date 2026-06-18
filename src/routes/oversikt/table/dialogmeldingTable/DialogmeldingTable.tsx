@@ -23,7 +23,7 @@ import {
 } from '../state/dialogmeldingFilter';
 import { dialogmeldingLimit, useDialogmeldingPageState } from '../state/dialogmeldingPagination';
 
-type DialogmeldingSortKey = 'sisteAktivitet' | 'frist' | 'fagomrade' | 'soker' | 'status';
+type DialogmeldingSortKey = 'sisteAktivitet' | 'frist' | 'fagomrade' | 'soker' | 'fodselsdato' | 'status';
 
 export function DialogmeldingTable(): ReactElement {
     const [sort, setSort] = useState<SortState>({ orderBy: 'sisteAktivitet', direction: 'descending' });
@@ -76,6 +76,9 @@ export function DialogmeldingTable(): ReactElement {
                                 <Table.ColumnHeader sortKey="soker" sortable className="w-120">
                                     Søker
                                 </Table.ColumnHeader>
+                                <Table.ColumnHeader sortKey="fodselsdato" sortable className="w-36">
+                                    Fødselsdato
+                                </Table.ColumnHeader>
                                 <Table.ColumnHeader sortKey="status" sortable className="w-36">
                                     Status
                                 </Table.ColumnHeader>
@@ -106,13 +109,18 @@ export function DialogmeldingTable(): ReactElement {
                                                 </AnonymizableTextWithEllipsis>
                                             </span>
                                         </Table.DataCell>
+                                        <Table.DataCell>
+                                            <AnonymizableTextWithEllipsis>
+                                                {getFormattedDateString(oppgave.soker.fodselsdato)}
+                                            </AnonymizableTextWithEllipsis>
+                                        </Table.DataCell>
                                         <Table.DataCell>{statusLabels[oppgave.status]}</Table.DataCell>
                                         <Table.DataCell />
                                     </LinkRow>
                                 ))
                             ) : (
                                 <Table.Row>
-                                    <Table.DataCell colSpan={6}>Ingen dialogmeldinger å vise</Table.DataCell>
+                                    <Table.DataCell colSpan={7}>Ingen dialogmeldinger å vise</Table.DataCell>
                                 </Table.Row>
                             )}
                         </Table.Body>
@@ -146,6 +154,7 @@ function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): Api
         frist: (oppgave) => oppgave.fristTidspunkt,
         fagomrade: (oppgave) => oppgave.fagomrade,
         soker: (oppgave) => formatSøkernavn(oppgave.soker.navn),
+        fodselsdato: (oppgave) => oppgave.soker.fodselsdato,
         status: (oppgave) => oppgave.status,
     };
 
