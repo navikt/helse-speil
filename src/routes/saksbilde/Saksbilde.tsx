@@ -1,12 +1,9 @@
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 import { InformationSquareIcon } from '@navikt/aksel-icons';
 import { Box, HStack, InfoCard, Tabs, VStack } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { useHarDialogmeldingrolle } from '@hooks/brukerrolleHooks';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
@@ -58,8 +55,6 @@ export const Saksbilde = () => {
     const { loading, data, error } = useFetchPersonQuery();
     const [tab, setTab] = useSaksbildeTab();
     const visNyInngangsvilkår = useKanSeNyInngangsvilkår();
-    const harDialogmeldingrolle = useHarDialogmeldingrolle();
-    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
 
     const person: PersonFragment | null = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
@@ -133,14 +128,6 @@ export const Saksbilde = () => {
                             <Tabs.Tab key={t.value} value={t.value} label={t.label} />
                         ))}
                     </Tabs.List>
-                    {harDialogmeldingrolle && (
-                        <Link
-                            href={`/person/${personPseudoId}/dialogmelding`}
-                            className="flex items-center px-4 py-3 leading-6 no-underline inset-shadow-ax-border-neutral-subtleA transition-shadow duration-200 ease-[cubic-bezier(.2,0,0,1)] hover:inset-shadow-[0px_-4px]"
-                        >
-                            Dialogmelding
-                        </Link>
-                    )}
                     <VisHvisSkrivetilgang>
                         <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
                     </VisHvisSkrivetilgang>

@@ -1,8 +1,10 @@
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { BodyShort, HStack } from '@navikt/ds-react';
+import { ChatIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, HStack } from '@navikt/ds-react';
 
+import { useHarDialogmeldingrolle } from '@hooks/brukerrolleHooks';
 import { Kjonn, PersonFragment } from '@io/graphql';
 import { useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import { AktørId } from '@saksbilde/personHeader/AktørId';
@@ -29,6 +31,8 @@ interface PersonHeaderWithContentProps {
 export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWithContentProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data, isPending } = useGetSaksbehandlerStans(personPseudoId);
+    const router = useRouter();
+    const harDialogmeldingrolle = useHarDialogmeldingrolle();
 
     const personinfo = person.personinfo;
 
@@ -56,6 +60,17 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
                     />
                 )}
             </HStack>
+            <HStack flexGrow="1" />
+            {harDialogmeldingrolle && (
+                <Button
+                    variant="primary"
+                    size="small"
+                    icon={<ChatIcon />}
+                    onClick={() => router.push(`/person/${personPseudoId}/dialogmelding`)}
+                >
+                    Dialogmelding
+                </Button>
+            )}
         </div>
     );
 };
