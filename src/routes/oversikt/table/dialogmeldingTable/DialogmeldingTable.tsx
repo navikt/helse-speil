@@ -154,7 +154,7 @@ function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): Api
         frist: (oppgave) => oppgave.fristTidspunkt,
         fagomrade: (oppgave) => oppgave.fagomrade,
         soker: (oppgave) => formatSøkernavn(oppgave.soker.navn),
-        fodselsdato: (oppgave) => oppgave.soker.fodselsdato,
+        fodselsdato: (oppgave) => oppgave.soker.fodselsdato.slice(-2),
         status: (oppgave) => oppgave.status,
     };
 
