@@ -1,4 +1,4 @@
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, usePathname, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ChatIcon } from '@navikt/aksel-icons';
@@ -33,6 +33,8 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
     const { data, isPending } = useGetSaksbehandlerStans(personPseudoId);
     const router = useRouter();
     const harDialogmeldingrolle = useHarDialogmeldingrolle();
+    const path = usePathname();
+    const erIDialogmeldingKontekst = path.includes('/dialogmelding');
 
     const personinfo = person.personinfo;
 
@@ -61,7 +63,7 @@ export const PersonHeaderWithContent = ({ isAnonymous, person }: PersonHeaderWit
                 )}
             </HStack>
             <HStack flexGrow="1" />
-            {harDialogmeldingrolle && (
+            {harDialogmeldingrolle && !erIDialogmeldingKontekst && (
                 <Button
                     variant="primary"
                     size="small"
