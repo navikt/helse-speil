@@ -10,7 +10,7 @@ export interface ApiDialogmeldingOppgave {
     fristTidspunkt: string;
     personPseudoId: string;
     sisteAktivitetTidspunkt: string;
-    soker: ApiNavn;
+    soker: ApiSoker;
     status: ApiDialogmeldingStatus;
 }
 
@@ -23,6 +23,11 @@ export const ApiFagomrade = {
     YRKESSKADE: 'YRKESSKADE',
     BESTRIDELSE: 'BESTRIDELSE',
 } as const;
+
+export interface ApiSoker {
+    fodselsdato: string;
+    navn: ApiNavn;
+}
 
 export type ApiNavnMellomnavn = null | string;
 
@@ -141,7 +146,7 @@ export interface ApiNyDialogmelding {
     behandler: ApiBehandler;
     fagomrade: ApiFagomrade;
     melding: string;
-    sokernavn: ApiNavn;
+    soker: ApiSoker;
 }
 
 export interface ApiSvarPaDialog {

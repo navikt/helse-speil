@@ -51,12 +51,15 @@ export function NyDialogmeldingForm(): ReactElement {
         if (!personinfo || !values.behandler) return;
         const { behandler, ...rest } = values;
 
-        const sokernavn = {
-            fornavn: personinfo.fornavn,
-            etternavn: personinfo.etternavn,
-            mellomnavn: personinfo.mellomnavn,
+        const soker = {
+            fodselsdato: personinfo.fodselsdato,
+            navn: {
+                fornavn: personinfo.fornavn,
+                etternavn: personinfo.etternavn,
+                mellomnavn: personinfo.mellomnavn,
+            },
         };
-        const result = await mutateAsync({ pseudoId: personPseudoId, data: { ...rest, behandler, sokernavn } });
+        const result = await mutateAsync({ pseudoId: personPseudoId, data: { ...rest, behandler, soker } });
         if (result) {
             router.push(`/person/${personPseudoId}/dialogmelding/${result.conversationRef}`);
         }

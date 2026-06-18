@@ -102,7 +102,7 @@ export function DialogmeldingTable(): ReactElement {
                                         <Table.DataCell>
                                             <span className="block w-120 truncate">
                                                 <AnonymizableTextWithEllipsis style={{ width: 200 }}>
-                                                    {formatSøkernavn(oppgave.soker)}
+                                                    {formatSøkernavn(oppgave.soker.navn)}
                                                 </AnonymizableTextWithEllipsis>
                                             </span>
                                         </Table.DataCell>
@@ -145,7 +145,7 @@ function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): Api
         sisteAktivitet: (oppgave) => oppgave.sisteAktivitetTidspunkt,
         frist: (oppgave) => oppgave.fristTidspunkt,
         fagomrade: (oppgave) => oppgave.fagomrade,
-        soker: (oppgave) => formatSøkernavn(oppgave.soker),
+        soker: (oppgave) => formatSøkernavn(oppgave.soker.navn),
         status: (oppgave) => oppgave.status,
     };
 

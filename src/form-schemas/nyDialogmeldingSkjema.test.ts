@@ -25,10 +25,13 @@ const gyldigSkjema: ApiNyDialogmelding = {
     },
     fagomrade: ApiFagomrade.TILBAKEDATERING,
     melding: 'Hei',
-    sokernavn: {
-        fornavn: 'Kari',
-        etternavn: 'Hansen',
-        mellomnavn: null,
+    soker: {
+        fodselsdato: '1990-01-01',
+        navn: {
+            fornavn: 'Kari',
+            etternavn: 'Hansen',
+            mellomnavn: null,
+        },
     },
 };
 

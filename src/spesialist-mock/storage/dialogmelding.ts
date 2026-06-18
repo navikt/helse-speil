@@ -11,9 +11,9 @@ import {
     ApiDialogmeldingOppgave,
     ApiDialogmeldingStatus,
     ApiFagomrade,
-    ApiNavn,
     ApiNyDialogmelding,
     ApiOppdaterDialogStatus,
+    ApiSoker,
     ApiSvarPaDialog,
 } from '@io/rest/generated/sporhund.schemas';
 import { PersonMock } from '@spesialist-mock/storage/person';
@@ -26,7 +26,7 @@ interface InternalDialog {
     behandler: ApiBehandler;
     opprettetTidspunkt: string;
     status: ApiDialogmeldingStatus;
-    sokernavn: ApiNavn;
+    soker: ApiSoker;
     dialogmeldinger: ApiDialogmelding[];
 }
 
@@ -73,7 +73,7 @@ const initialDialoger: InternalDialog[] = [
         behandler: mockBehandler1,
         opprettetTidspunkt: '2026-04-24T14:36:00',
         status: ApiDialogmeldingStatus.SENDT,
-        sokernavn: { fornavn: 'Slapp', etternavn: 'Appelsin', mellomnavn: null },
+        soker: { fodselsdato: '1988-05-14', navn: { fornavn: 'Slapp', etternavn: 'Appelsin', mellomnavn: null } },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
@@ -107,7 +107,10 @@ const initialDialoger: InternalDialog[] = [
         behandler: mockBehandler1,
         opprettetTidspunkt: '2026-04-27T08:30:00',
         status: ApiDialogmeldingStatus.PURRING_SENDT,
-        sokernavn: { fornavn: 'Optimistisk', etternavn: 'Banan', mellomnavn: null },
+        soker: {
+            fodselsdato: '1992-03-22',
+            navn: { fornavn: 'Optimistisk', etternavn: 'Banan', mellomnavn: null },
+        },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER,
@@ -124,7 +127,7 @@ const initialDialoger: InternalDialog[] = [
         behandler: mockBehandler2,
         opprettetTidspunkt: '2026-04-24T14:36:00',
         status: ApiDialogmeldingStatus.MOTTATT,
-        sokernavn: { fornavn: 'Sindig', etternavn: 'Globus', mellomnavn: null },
+        soker: { fodselsdato: '1979-11-08', navn: { fornavn: 'Sindig', etternavn: 'Globus', mellomnavn: null } },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.BESTRIDELSE,
@@ -148,7 +151,7 @@ const initialDialoger: InternalDialog[] = [
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-04-10T09:00:00',
         status: ApiDialogmeldingStatus.MOTTATT,
-        sokernavn: { fornavn: 'Punktlig', etternavn: 'Jakke', mellomnavn: null },
+        soker: { fodselsdato: '1985-07-30', navn: { fornavn: 'Punktlig', etternavn: 'Jakke', mellomnavn: null } },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.YRKESSKADE,
@@ -173,7 +176,10 @@ const initialDialoger: InternalDialog[] = [
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-04-05T11:00:00',
         status: ApiDialogmeldingStatus.MOTTATT,
-        sokernavn: { fornavn: 'Minimalistisk', etternavn: 'Aroma', mellomnavn: null },
+        soker: {
+            fodselsdato: '1995-01-17',
+            navn: { fornavn: 'Minimalistisk', etternavn: 'Aroma', mellomnavn: null },
+        },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
@@ -199,7 +205,7 @@ const initialDialoger: InternalDialog[] = [
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-03-28T14:00:00',
         status: ApiDialogmeldingStatus.SENDT,
-        sokernavn: { fornavn: 'Slapp', etternavn: 'Appelsin', mellomnavn: null },
+        soker: { fodselsdato: '1988-05-14', navn: { fornavn: 'Slapp', etternavn: 'Appelsin', mellomnavn: null } },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER,
@@ -216,7 +222,7 @@ const initialDialoger: InternalDialog[] = [
         behandler: mockBehandler2,
         opprettetTidspunkt: '2026-05-10T09:00:00',
         status: ApiDialogmeldingStatus.MOTTATT,
-        sokernavn: { fornavn: 'Punktlig', etternavn: 'Jakke', mellomnavn: null },
+        soker: { fodselsdato: '1985-07-30', navn: { fornavn: 'Punktlig', etternavn: 'Jakke', mellomnavn: null } },
         dialogmeldinger: [
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
@@ -308,7 +314,7 @@ export class DialogmeldingMock {
                     sisteAktivitetTidspunkt,
                     fristTidspunkt: getFrist(sisteAktivitetTidspunkt),
                     personPseudoId,
-                    soker: dialog.sokernavn,
+                    soker: dialog.soker,
                 };
             });
     };
@@ -324,7 +330,7 @@ export class DialogmeldingMock {
             behandler: data.behandler,
             opprettetTidspunkt: tid,
             status: ApiDialogmeldingStatus.SENDT,
-            sokernavn: data.sokernavn,
+            soker: data.soker,
             dialogmeldinger: [
                 {
                     fagomrade: data.fagomrade,
