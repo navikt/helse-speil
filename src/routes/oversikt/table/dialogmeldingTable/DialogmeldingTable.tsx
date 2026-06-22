@@ -2,7 +2,7 @@
 
 import React, { ReactElement, useState } from 'react';
 
-import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, Tooltip, VStack } from '@navikt/ds-react';
 
 import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
@@ -77,7 +77,9 @@ export function DialogmeldingTable(): ReactElement {
                                     Søker
                                 </Table.ColumnHeader>
                                 <Table.ColumnHeader sortKey="fodselsdato" sortable className="w-36">
-                                    Fødselsdato
+                                    <Tooltip content="Sorterer på dag, deretter måned og år">
+                                        <span>Fødselsdato</span>
+                                    </Tooltip>
                                 </Table.ColumnHeader>
                                 <Table.ColumnHeader sortKey="status" sortable className="w-36">
                                     Status
@@ -154,7 +156,10 @@ function sortOppgaver(oppgaver: ApiDialogmeldingOppgave[], sort: SortState): Api
         frist: (oppgave) => oppgave.fristTidspunkt,
         fagomrade: (oppgave) => oppgave.fagomrade,
         soker: (oppgave) => formatSøkernavn(oppgave.soker.navn),
-        fodselsdato: (oppgave) => oppgave.soker.fodselsdato.slice(-2),
+        fodselsdato: (oppgave) => {
+            const d = oppgave.soker.fodselsdato; // YYYY-MM-DD
+            return d.slice(-2) + d.slice(5, 7) + d.slice(0, 4);
+        },
         status: (oppgave) => oppgave.status,
     };
 
