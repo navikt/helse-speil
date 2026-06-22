@@ -1,7 +1,5 @@
 import assert from 'assert';
 
-import { erProd } from '@/env';
-
 import {
     ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
@@ -33,7 +31,8 @@ export const overstyringsdagtyperArbeidstaker: Speildag[] = [
 export const overstyringsdagtyperSelvstendig: Speildag[] = [
     Sykedag,
     Arbeidsdag,
-    ...(!erProd ? [MeldingTilNavdag] : []),
+    MeldingTilNavdag,
+    AvslattMeldingTilNavdag,
 ];
 
 export const typeendringerAndreYtelser: Speildag[] = [
@@ -48,12 +47,7 @@ export const typeendringerAndreYtelser: Speildag[] = [
 ];
 
 export const alleTypeendringer: Speildag[] = Array.from(
-    new Set([
-        ...overstyringsdagtyperArbeidstaker,
-        ...typeendringerAndreYtelser,
-        ...overstyringsdagtyperSelvstendig,
-        ...(!erProd ? [AvslattMeldingTilNavdag] : []),
-    ]),
+    new Set([...overstyringsdagtyperArbeidstaker, ...typeendringerAndreYtelser, ...overstyringsdagtyperSelvstendig]),
 );
 
 export const getDagFromType = (type: OverstyrbarDagtype): Speildag => {
