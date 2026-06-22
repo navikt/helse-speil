@@ -52,4 +52,5 @@ export const statusLabels: Record<ApiDialogmeldingStatus, string> = {
     [ApiDialogmeldingStatus.PURRING_SENDT]: 'Purring sendt',
     [ApiDialogmeldingStatus.MOTTATT]: 'Mottatt',
     [ApiDialogmeldingStatus.FERDIGSTILT]: 'Ferdigstilt',
+    [ApiDialogmeldingStatus.AVVIST]: 'Avvist',
 };

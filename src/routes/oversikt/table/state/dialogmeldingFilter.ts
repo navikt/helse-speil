@@ -56,6 +56,12 @@ const dialogmeldingFilters: Filter[] = [
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.STATUS,
     },
+    {
+        key: ApiDialogmeldingStatus.AVVIST,
+        label: 'Avvist',
+        status: FilterStatus.OFF,
+        column: DialogmeldingKolonne.STATUS,
+    },
     // {
     //     key: ApiDialogmeldingStatus.FERDIGSTILT,
     //     label: 'Ferdigstilt',

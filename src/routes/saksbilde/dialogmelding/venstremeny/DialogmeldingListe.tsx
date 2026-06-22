@@ -87,4 +87,5 @@ const statusTagColor: Record<ApiDialogmeldingStatus, TagProps['data-color']> = {
     [ApiDialogmeldingStatus.SENDT]: 'neutral',
     [ApiDialogmeldingStatus.PURRING_SENDT]: 'neutral',
     [ApiDialogmeldingStatus.MOTTATT]: 'neutral',
+    [ApiDialogmeldingStatus.AVVIST]: 'danger',
 };

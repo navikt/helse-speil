@@ -45,6 +45,7 @@ export const ApiDialogmeldingStatus = {
     PURRING_SENDT: 'PURRING_SENDT',
     MOTTATT: 'MOTTATT',
     FERDIGSTILT: 'FERDIGSTILT',
+    AVVIST: 'AVVIST',
 } as const;
 
 export interface ApiDialogOppsummering {

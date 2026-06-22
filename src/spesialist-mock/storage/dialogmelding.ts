@@ -175,12 +175,19 @@ const initialDialoger: InternalDialog[] = [
         aktorId: '2407074650987',
         behandler: mockBehandler3,
         opprettetTidspunkt: '2026-04-05T11:00:00',
-        status: ApiDialogmeldingStatus.MOTTATT,
+        status: ApiDialogmeldingStatus.AVVIST,
         soker: {
             fodselsdato: '1995-01-17',
             navn: { fornavn: 'Minimalistisk', etternavn: 'Aroma', mellomnavn: null },
         },
         dialogmeldinger: [
+            {
+                fagomrade: ApiFagomrade.TILBAKEDATERING,
+                melding: 'Melding som ble avvist',
+                sendtTidspunkt: '2026-04-06T12:12:12',
+                saksbehandler: 'A123456',
+                msgId: 'a1b2c3d4-0010-0010-0010-000000000110',
+            },
             {
                 fagomrade: ApiFagomrade.TILBAKEDATERING,
                 melding:
