@@ -14,6 +14,7 @@ import {
     overstyringsdagtyperSelvstendig,
 } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
+import { AvslattMeldingTilNavdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT, somIsoDato } from '@utils/date';
@@ -48,6 +49,10 @@ export const LeggTilDagerForm = React.memo(
         const dagtypeError = errors.dagtype?.message;
         const watchDag = useWatch({ name: 'dagtype', control: form.control });
 
+        const overstyringsdagtyper = erSelvstendig
+            ? overstyringsdagtyperSelvstendig.filter((dag) => dag !== AvslattMeldingTilNavdag)
+            : overstyringsdagtyperArbeidstaker;
+
         const handleSubmit = (values: LeggTilDagerFormFields) => {
             const nyeDagerMap = new Map<string, Utbetalingstabelldag>();
 
@@ -80,9 +85,7 @@ export const LeggTilDagerForm = React.memo(
                         <DagtypeSelect
                             name="dagtype"
                             erSelvstendig={erSelvstendig}
-                            overstyringsdagtyper={
-                                erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker
-                            }
+                            overstyringsdagtyper={overstyringsdagtyper}
                             hideError
                         />
                         <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} hideError />
