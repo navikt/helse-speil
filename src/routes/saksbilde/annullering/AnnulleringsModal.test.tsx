@@ -69,7 +69,7 @@ describe('Annulleringsmodal', () => {
 
         await userEvent.click(screen.getByText('Annuller'));
 
-        expect(await screen.findByText('Velg minst én årsak')).toBeInTheDocument();
+        expect(await screen.findByText('Velg minst en årsak')).toBeInTheDocument();
     });
 
     test('viser feilmelding ved manglende kommentar', async () => {
