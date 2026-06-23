@@ -7,12 +7,13 @@ import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, Toolt
 import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
-import { ApiDialogmeldingOppgave, ApiNavn } from '@io/rest/generated/sporhund.schemas';
+import { ApiDialogmeldingOppgave, ApiDialogmeldingStatus, ApiNavn } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingBodySkeleton } from '@oversikt/table/dialogmeldingTable/DialogmeldingBodySkeleton';
 import { DialogmeldingFilterChips } from '@oversikt/table/dialogmeldingTable/DialogmeldingFilterChips';
 import { FilterStatus } from '@oversikt/table/state/filter';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 import { capitalizeName } from '@utils/locale';
+import { cn } from '@utils/tw';
 
 import { LinkRow } from '../LinkRow';
 import {
@@ -116,7 +117,14 @@ export function DialogmeldingTable(): ReactElement {
                                                 {getFormattedDateString(oppgave.soker.fodselsdato)}
                                             </AnonymizableTextWithEllipsis>
                                         </Table.DataCell>
-                                        <Table.DataCell>{statusLabels[oppgave.status]}</Table.DataCell>
+                                        <Table.DataCell
+                                            className={cn({
+                                                'text-ax-text-danger-subtle':
+                                                    oppgave.status === ApiDialogmeldingStatus.AVVIST,
+                                            })}
+                                        >
+                                            {statusLabels[oppgave.status]}
+                                        </Table.DataCell>
                                         <Table.DataCell />
                                     </LinkRow>
                                 ))
