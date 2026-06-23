@@ -285,6 +285,49 @@ export interface ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode {
     code?: ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCodeCode;
 }
 
+export interface ApiAntall {
+    automatisk: number;
+    manuelt: number;
+    tilgjengelig: number;
+}
+
+export interface ApiBehandlingsstatistikkResponse {
+    enArbeidsgiver: ApiAntall;
+    flereArbeidsgivere: ApiAntall;
+    forstegangsbehandling: ApiAntall;
+    forlengelser: ApiAntall;
+    forlengelseIt: ApiAntall;
+    utbetalingTilArbeidsgiver: ApiAntall;
+    utbetalingTilSykmeldt: ApiAntall;
+    faresignaler: ApiAntall;
+    fortroligAdresse: ApiAntall;
+    stikkprover: ApiAntall;
+    revurdering: ApiAntall;
+    delvisRefusjon: ApiAntall;
+    beslutter: ApiAntall;
+    egenAnsatt: ApiAntall;
+    antallAnnulleringer: number;
+    antallAvvisninger: number;
+}
+
+export type ApiGetBehandlingsstatistikkErrorCode =
+    (typeof ApiGetBehandlingsstatistikkErrorCode)[keyof typeof ApiGetBehandlingsstatistikkErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetBehandlingsstatistikkErrorCode = {} as const;
+
+export type ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCodeCode = null | ApiGetBehandlingsstatistikkErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCodeCode;
+}
+
 export interface ApiPåVentÅrsak {
     key: string;
     årsak: string;

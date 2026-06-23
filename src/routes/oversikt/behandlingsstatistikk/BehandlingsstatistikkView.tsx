@@ -1,8 +1,9 @@
 import { motion } from 'motion/react';
 import React, { ReactElement } from 'react';
 
-import { useQuery } from '@apollo/client';
-import { HentBehandlingsstatistikkDocument } from '@io/graphql';
+import { useQuery as useApolloQuery } from '@apollo/client';
+import { Behandlingsstatistikk, HentBehandlingsstatistikkDocument } from '@io/graphql';
+import { useGetBehandlingsstatistikk } from '@io/rest/generated/behandlingsstatistikk/behandlingsstatistikk';
 
 import { BehandlingsstatistikkError } from './BehandlingsstatistikkError';
 import { BehandlingsstatistikkSkeleton } from './BehandlingsstatistikkSkeleton';
@@ -11,10 +12,26 @@ import { useShowStatistikk } from './state';
 
 import styles from './BehandlingsstatistikkView.module.css';
 
+const useBehandlingsstatistikk = () => {
+    const gql = useApolloQuery(HentBehandlingsstatistikkDocument);
+
+    const rest = useGetBehandlingsstatistikk({
+        query: {
+            enabled: gql.error != null, // gjør REST-kallet hvis GraphQL-kallet feilet
+        },
+    });
+
+    return {
+        loading: gql.loading || rest.isLoading,
+        error: gql.error && rest.error ? rest.error : undefined,
+        data: gql.data ?? (gql.error ? { behandlingsstatistikk: rest.data as Behandlingsstatistikk } : undefined),
+    };
+};
+
 export const BehandlingsstatistikkView = (): ReactElement => {
     const show = useShowStatistikk();
 
-    const { loading, error, data } = useQuery(HentBehandlingsstatistikkDocument);
+    const { loading, error, data } = useBehandlingsstatistikk();
 
     return (
         <motion.div
