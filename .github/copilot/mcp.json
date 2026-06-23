@@ -1,0 +1,8 @@
+{
+    "mcpServers": {
+        "aksel-mcp": {
+            "type": "http",
+            "url": "https://aksel-mcp.nav.no/mcp"
+        }
+    }
+}
