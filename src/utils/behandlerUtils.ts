@@ -1,11 +1,5 @@
 import { ApiBehandlerKategori, ApiLegekontor } from '@io/rest/generated/sporhund.schemas';
 
-
-
-
-
-
-
 export const behandlerKategoriLabels: Record<ApiBehandlerKategori, string> = {
     [ApiBehandlerKategori.LEGE]: 'lege',
     [ApiBehandlerKategori.FYSIOTERAPEUT]: 'fysioterapeut',
