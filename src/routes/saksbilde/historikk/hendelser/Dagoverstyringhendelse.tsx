@@ -7,11 +7,22 @@ import { OverstyrtDag } from '@io/graphql';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
+import { alleTypeendringer } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import { DagoverstyringhendelseObject } from '@typer/historikk';
 import { DateString } from '@typer/shared';
 import { getFormattedDateString } from '@utils/date';
 
 import styles from './Dagoverstyringhendelse.module.css';
+
+const getDagtypeVisningstekst = (dagtype: string): string => {
+    const speilDag = alleTypeendringer.find((dag) => dag.overstyrtDagtype === dagtype);
+    const visningstekst = speilDag?.visningstekst || dagtype;
+    if (dagtype === 'AvslattMeldingTilNavdag') {
+        return `${visningstekst} (Avslått)`;
+    }
+
+    return visningstekst;
+};
 
 type Endring = Pick<OverstyrtDag, 'grad' | 'type' | 'fraGrad' | 'fraType'>;
 
@@ -85,9 +96,9 @@ export const Dagoverstyringhendelse = ({
                         <BodyShort>Type:</BodyShort>
                         <BodyShort>
                             {group.fraType && group.fraType !== group.type && (
-                                <span className={styles.fromvalue}>{group.fraType}</span>
+                                <span className={styles.fromvalue}>{getDagtypeVisningstekst(group.fraType)}</span>
                             )}
-                            {group.type}
+                            {getDagtypeVisningstekst(group.type)}
                         </BodyShort>
                     </div>
                 ))}
