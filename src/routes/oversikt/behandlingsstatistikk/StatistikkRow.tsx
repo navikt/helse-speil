@@ -2,12 +2,12 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { Antall } from '@io/graphql';
+import { ApiAntall } from '@io/rest/generated/spesialist.schemas';
 
 import styles from './BehandlingsstatistikkView.module.css';
 
 interface StatistikkRowProps {
-    antall: Antall;
+    antall: ApiAntall;
 }
 
 export const StatistikkRow = ({ children, antall }: PropsWithChildren<StatistikkRowProps>): ReactElement => {

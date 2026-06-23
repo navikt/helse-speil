@@ -58,13 +58,6 @@ export type Annulleringskandidat = {
     vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
-export type Antall = {
-    __typename?: 'Antall';
-    automatisk: Scalars['Int']['output'];
-    manuelt: Scalars['Int']['output'];
-    tilgjengelig: Scalars['Int']['output'];
-};
-
 export type Arbeidsforhold = {
     __typename?: 'Arbeidsforhold';
     sluttdato?: Maybe<Scalars['LocalDate']['output']>;
@@ -163,26 +156,6 @@ export type Behandling = {
     __typename?: 'Behandling';
     id: Scalars['UUID']['output'];
     perioder: Array<Periode>;
-};
-
-export type Behandlingsstatistikk = {
-    __typename?: 'Behandlingsstatistikk';
-    antallAnnulleringer: Scalars['Int']['output'];
-    antallAvvisninger: Scalars['Int']['output'];
-    beslutter: Antall;
-    delvisRefusjon: Antall;
-    egenAnsatt: Antall;
-    enArbeidsgiver: Antall;
-    faresignaler: Antall;
-    flereArbeidsgivere: Antall;
-    forlengelseIt: Antall;
-    forlengelser: Antall;
-    forstegangsbehandling: Antall;
-    fortroligAdresse: Antall;
-    revurdering: Antall;
-    stikkprover: Antall;
-    utbetalingTilArbeidsgiver: Antall;
-    utbetalingTilSykmeldt: Antall;
 };
 
 export type BeregnetPeriode = Periode & {
@@ -766,7 +739,6 @@ export type Personinfo = {
 
 export type Query = {
     __typename?: 'Query';
-    behandlingsstatistikk: Behandlingsstatistikk;
     person?: Maybe<Person>;
 };
 

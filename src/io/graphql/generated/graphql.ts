@@ -60,13 +60,6 @@ export type Annulleringskandidat = {
     vedtaksperiodeId: Scalars['UUID']['output'];
 };
 
-export type Antall = {
-    __typename: 'Antall';
-    automatisk: Scalars['Int']['output'];
-    manuelt: Scalars['Int']['output'];
-    tilgjengelig: Scalars['Int']['output'];
-};
-
 export type Arbeidsforhold = {
     __typename: 'Arbeidsforhold';
     sluttdato: Maybe<Scalars['LocalDate']['output']>;
@@ -165,26 +158,6 @@ export type Behandling = {
     __typename: 'Behandling';
     id: Scalars['UUID']['output'];
     perioder: Array<Periode>;
-};
-
-export type Behandlingsstatistikk = {
-    __typename: 'Behandlingsstatistikk';
-    antallAnnulleringer: Scalars['Int']['output'];
-    antallAvvisninger: Scalars['Int']['output'];
-    beslutter: Antall;
-    delvisRefusjon: Antall;
-    egenAnsatt: Antall;
-    enArbeidsgiver: Antall;
-    faresignaler: Antall;
-    flereArbeidsgivere: Antall;
-    forlengelseIt: Antall;
-    forlengelser: Antall;
-    forstegangsbehandling: Antall;
-    fortroligAdresse: Antall;
-    revurdering: Antall;
-    stikkprover: Antall;
-    utbetalingTilArbeidsgiver: Antall;
-    utbetalingTilSykmeldt: Antall;
 };
 
 export type BeregnetPeriode = Periode & {
@@ -768,7 +741,6 @@ export type Personinfo = {
 
 export type Query = {
     __typename: 'Query';
-    behandlingsstatistikk: Behandlingsstatistikk;
     person: Maybe<Person>;
 };
 
@@ -1254,33 +1226,6 @@ export type Vurdering = {
     godkjent: Scalars['Boolean']['output'];
     ident: Scalars['String']['output'];
     tidsstempel: Scalars['LocalDateTime']['output'];
-};
-
-export type AntallFragment = { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-
-export type HentBehandlingsstatistikkQueryVariables = Exact<{ [key: string]: never }>;
-
-export type HentBehandlingsstatistikkQuery = {
-    __typename: 'Query';
-    behandlingsstatistikk: {
-        __typename: 'Behandlingsstatistikk';
-        antallAnnulleringer: number;
-        antallAvvisninger: number;
-        enArbeidsgiver: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        flereArbeidsgivere: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        beslutter: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        egenAnsatt: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        delvisRefusjon: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        faresignaler: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        forlengelser: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        forlengelseIt: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        forstegangsbehandling: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        fortroligAdresse: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        revurdering: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        stikkprover: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        utbetalingTilArbeidsgiver: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-        utbetalingTilSykmeldt: { __typename: 'Antall'; automatisk: number; manuelt: number; tilgjengelig: number };
-    };
 };
 
 export type OverstyrArbeidsforholdMutationMutationVariables = Exact<{
@@ -6584,24 +6529,6 @@ export type SendTilGodkjenningV2MutationVariables = Exact<{
 
 export type SendTilGodkjenningV2Mutation = { __typename: 'Mutation'; sendTilGodkjenningV2: boolean | null };
 
-export const AntallFragmentDoc = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'antall' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Antall' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'automatisk' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'manuelt' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tilgjengelig' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<AntallFragment, unknown>;
 export const KommentarFragmentDoc = {
     kind: 'Document',
     definitions: [
@@ -11230,185 +11157,6 @@ export const TildelingFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<TildelingFragment, unknown>;
-export const HentBehandlingsstatistikkDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'query',
-            name: { kind: 'Name', value: 'HentBehandlingsstatistikk' },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'behandlingsstatistikk' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'enArbeidsgiver' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'flereArbeidsgivere' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'beslutter' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'egenAnsatt' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'delvisRefusjon' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'faresignaler' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'forlengelser' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'forlengelseIt' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'forstegangsbehandling' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'fortroligAdresse' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'revurdering' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'stikkprover' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'utbetalingTilArbeidsgiver' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                {
-                                    kind: 'Field',
-                                    name: { kind: 'Name', value: 'utbetalingTilSykmeldt' },
-                                    selectionSet: {
-                                        kind: 'SelectionSet',
-                                        selections: [
-                                            { kind: 'FragmentSpread', name: { kind: 'Name', value: 'antall' } },
-                                        ],
-                                    },
-                                },
-                                { kind: 'Field', name: { kind: 'Name', value: 'antallAnnulleringer' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'antallAvvisninger' } },
-                            ],
-                        },
-                    },
-                ],
-            },
-        },
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'antall' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Antall' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'automatisk' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'manuelt' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'tilgjengelig' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<HentBehandlingsstatistikkQuery, HentBehandlingsstatistikkQueryVariables>;
 export const OverstyrArbeidsforholdMutationDocument = {
     kind: 'Document',
     definitions: [

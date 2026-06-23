@@ -2,16 +2,15 @@ import { ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import { Antall, Behandlingsstatistikk } from '@io/graphql';
+import { ApiAntall, ApiBehandlingsstatistikkResponse } from '@io/rest/generated/spesialist.schemas';
 import { StatistikkOppsummert } from '@oversikt/behandlingsstatistikk/StatistikkOppsummert';
 
 import { LabelCell } from './LabelCell';
 import { Separator } from './Separator';
 import { StatistikkRow } from './StatistikkRow';
 
-const getTotaltIdag = (statistikk: Behandlingsstatistikk): Antall => {
+const getTotaltIdag = (statistikk: ApiBehandlingsstatistikkResponse): ApiAntall => {
     return {
-        __typename: 'Antall',
         manuelt: statistikk.enArbeidsgiver.manuelt + statistikk.flereArbeidsgivere.manuelt,
         automatisk: statistikk.enArbeidsgiver.automatisk + statistikk.flereArbeidsgivere.automatisk,
         tilgjengelig: statistikk.enArbeidsgiver.tilgjengelig + statistikk.flereArbeidsgivere.tilgjengelig,
@@ -19,15 +18,14 @@ const getTotaltIdag = (statistikk: Behandlingsstatistikk): Antall => {
 };
 
 interface BehandlingsstatistikkTableProps {
-    behandlingsstatistikk: Behandlingsstatistikk;
+    behandlingsstatistikk: ApiBehandlingsstatistikkResponse;
 }
 
 export const BehandlingsstatistikkTable = ({
     behandlingsstatistikk,
 }: BehandlingsstatistikkTableProps): ReactElement => {
     const totaltIdag = getTotaltIdag(behandlingsstatistikk);
-    const søknad: Antall = {
-        __typename: 'Antall',
+    const søknad: ApiAntall = {
         automatisk:
             behandlingsstatistikk.delvisRefusjon.automatisk +
             behandlingsstatistikk.utbetalingTilSykmeldt.automatisk +
