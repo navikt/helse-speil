@@ -13,7 +13,6 @@ import { Oppgave, UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
-import { behandlingsstatistikk } from './data/behandlingsstatistikk';
 import { ManglendeAvviksvurderingError, NotReadyError } from './errors';
 import {
     Arbeidsgiver,
@@ -100,9 +99,6 @@ const getResolvers = (): IResolvers => ({
 
             valgtPerson = person;
             return person;
-        },
-        behandlingsstatistikk: async () => {
-            return behandlingsstatistikk;
         },
     },
     Mutation: {
