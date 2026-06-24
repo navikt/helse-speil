@@ -66,15 +66,5 @@ export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetali
                     input: dagtype,
                     path: ['dagtype'],
                 });
-            } else if (
-                dagtype === 'Ventetid' &&
-                markerteDager.some((markertDag) => markertDag.dag === MeldingTilNavdag)
-            ) {
-                ctx.addIssue({
-                    code: 'custom',
-                    message: 'Du kan ikke overstyre Ventetid til Melding til Nav',
-                    input: dagtype,
-                    path: ['dagtype'],
-                });
             }
         });

@@ -24,7 +24,6 @@ export const utbetalingstabelldagtypeValues = [
     'Pleiepenger',
     'Omsorgspenger',
     'Opplæringspenger',
-    'Ventetid',
     'MeldingTilNav',
     'AvslattMeldingTilNav',
 ] as const;
