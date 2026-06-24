@@ -28,7 +28,7 @@ export const overstyringsdagtyperArbeidstaker: Speildag[] = [
     Arbeidsdag,
 ];
 
-export const overstyringsdagtyperSelvstendig: Speildag[] = [Sykedag, Arbeidsdag, MeldingTilNavdag];
+export const overstyringsdagtyperSelvstendig: Speildag[] = [MeldingTilNavdag, AvslattMeldingTilNavdag];
 
 export const typeendringerAndreYtelser: Speildag[] = [
     // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.
@@ -42,12 +42,7 @@ export const typeendringerAndreYtelser: Speildag[] = [
 ];
 
 export const alleTypeendringer: Speildag[] = Array.from(
-    new Set([
-        ...overstyringsdagtyperArbeidstaker,
-        ...typeendringerAndreYtelser,
-        ...overstyringsdagtyperSelvstendig,
-        AvslattMeldingTilNavdag,
-    ]),
+    new Set([...overstyringsdagtyperArbeidstaker, ...typeendringerAndreYtelser, ...overstyringsdagtyperSelvstendig]),
 );
 
 export const getDagFromType = (type: OverstyrbarDagtype): Speildag => {
