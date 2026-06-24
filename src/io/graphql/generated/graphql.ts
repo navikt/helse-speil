@@ -6502,19 +6502,6 @@ export type FetchPersonQuery = {
     } | null;
 };
 
-export type PaventFragment = { __typename: 'PaVent'; frist: string | null; oid: string };
-
-export type SkjonnsfastsettelseMutationMutationVariables = Exact<{
-    skjonnsfastsettelse: SkjonnsfastsettelseInput;
-}>;
-
-export type SkjonnsfastsettelseMutationMutation = {
-    __typename: 'Mutation';
-    skjonnsfastsettSykepengegrunnlag: boolean | null;
-};
-
-export type TildelingFragment = { __typename: 'Tildeling'; navn: string; oid: string; epost: string };
-
 export type SendIReturMutationVariables = Exact<{
     oppgavereferanse: Scalars['String']['input'];
     notatTekst: Scalars['String']['input'];
@@ -11122,41 +11109,6 @@ export const PersonFragmentDoc = {
         },
     ],
 } as unknown as DocumentNode<PersonFragment, unknown>;
-export const PaventFragmentDoc = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'pavent' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'PaVent' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'frist' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<PaventFragment, unknown>;
-export const TildelingFragmentDoc = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'FragmentDefinition',
-            name: { kind: 'Name', value: 'tildeling' },
-            typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'Tildeling' } },
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    { kind: 'Field', name: { kind: 'Name', value: 'navn' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'oid' } },
-                    { kind: 'Field', name: { kind: 'Name', value: 'epost' } },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<TildelingFragment, unknown>;
 export const OverstyrArbeidsforholdMutationDocument = {
     kind: 'Document',
     definitions: [
@@ -12846,42 +12798,6 @@ export const FetchPersonDocument = {
         },
     ],
 } as unknown as DocumentNode<FetchPersonQuery, FetchPersonQueryVariables>;
-export const SkjonnsfastsettelseMutationDocument = {
-    kind: 'Document',
-    definitions: [
-        {
-            kind: 'OperationDefinition',
-            operation: 'mutation',
-            name: { kind: 'Name', value: 'SkjonnsfastsettelseMutation' },
-            variableDefinitions: [
-                {
-                    kind: 'VariableDefinition',
-                    variable: { kind: 'Variable', name: { kind: 'Name', value: 'skjonnsfastsettelse' } },
-                    type: {
-                        kind: 'NonNullType',
-                        type: { kind: 'NamedType', name: { kind: 'Name', value: 'SkjonnsfastsettelseInput' } },
-                    },
-                },
-            ],
-            selectionSet: {
-                kind: 'SelectionSet',
-                selections: [
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'skjonnsfastsettSykepengegrunnlag' },
-                        arguments: [
-                            {
-                                kind: 'Argument',
-                                name: { kind: 'Name', value: 'skjonnsfastsettelse' },
-                                value: { kind: 'Variable', name: { kind: 'Name', value: 'skjonnsfastsettelse' } },
-                            },
-                        ],
-                    },
-                ],
-            },
-        },
-    ],
-} as unknown as DocumentNode<SkjonnsfastsettelseMutationMutation, SkjonnsfastsettelseMutationMutationVariables>;
 export const SendIReturDocument = {
     kind: 'Document',
     definitions: [

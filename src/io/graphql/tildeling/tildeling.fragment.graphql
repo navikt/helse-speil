@@ -1,3 +1,0 @@
-fragment tildeling on Tildeling {
-    navn, oid, epost
-}
