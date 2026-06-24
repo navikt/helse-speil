@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { BodyShort, HStack, Skeleton } from '@navikt/ds-react';
 
@@ -9,11 +9,34 @@ import { useFetchPersonQuery } from '@state/person';
 import { cn } from '@utils/tw';
 
 import { GenderIcon } from './GenderIcon';
-import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
+import { PersonHeaderWithContent } from './PersonHeaderWithContent';
 
-import styles from './PersonHeader.module.css';
+export function PersonHeaderSeparator(): ReactElement {
+    return (
+        <BodyShort as="span" aria-hidden="true" className="mx-4">
+            /
+        </BodyShort>
+    );
+}
 
-const PersonHeaderContainer = (): ReactElement | null => {
+export function PersonHeaderFrame({ children, className }: PropsWithChildren<{ className?: string }>): ReactElement {
+    return (
+        <HStack
+            align="center"
+            className={cn(
+                'box-border h-12 px-8 [grid-area:personlinje]',
+                'border-b border-ax-border-neutral-strong bg-ax-bg-raised',
+                'min-w-max whitespace-nowrap text-ax-text-neutral',
+                '[&>span]:max-w-[200px] [&>svg]:mr-2',
+                className,
+            )}
+        >
+            {children}
+        </HStack>
+    );
+}
+
+function PersonHeaderContainer(): ReactElement | null {
     const isAnonymous = useIsAnonymous();
     const { loading, data } = useFetchPersonQuery();
     const person = data?.person;
@@ -27,38 +50,38 @@ const PersonHeaderContainer = (): ReactElement | null => {
     }
 
     return <PersonHeaderWithContent isAnonymous={isAnonymous} person={person} />;
-};
+}
 
-const PersonHeaderSkeleton = (): ReactElement => {
+function PersonHeaderSkeleton(): ReactElement {
     return (
-        <div className={styles.PersonHeader}>
+        <PersonHeaderFrame>
             <GenderIcon gender={Kjonn.Ukjent} />
             <Skeleton variant="rectangle" width="200px" />
-            <BodyShort className={styles.Separator}>/</BodyShort>
+            <PersonHeaderSeparator />
             <Skeleton variant="rectangle" width="200px" />
-            <BodyShort className={styles.Separator}>/</BodyShort>
+            <PersonHeaderSeparator />
             <Skeleton variant="rectangle" width="200px" />
-            <BodyShort className={styles.Separator}>/</BodyShort>
+            <PersonHeaderSeparator />
             <Skeleton variant="rectangle" width="200px" />
             <HStack paddingInline="space-12 space-0" gap="space-12">
                 <Skeleton variant="rectangle" width="6rem" />
             </HStack>
-        </div>
+        </PersonHeaderFrame>
     );
-};
+}
 
-const PersonHeaderError = (): ReactElement => {
+function PersonHeaderError(): ReactElement {
     return (
-        <div className={cn(styles.PersonHeader, styles.Error)}>
+        <PersonHeaderFrame className="bg-ax-bg-danger-soft">
             <BodyShort>Det oppstod en feil. Kan ikke vise personinformasjon.</BodyShort>
-        </div>
+        </PersonHeaderFrame>
     );
-};
+}
 
-export const PersonHeader = (): ReactElement => {
+export function PersonHeader(): ReactElement {
     return (
         <ErrorBoundary fallback={<PersonHeaderError />}>
             <PersonHeaderContainer />
         </ErrorBoundary>
     );
-};
+}

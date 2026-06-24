@@ -11,7 +11,7 @@ import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
 
-import { PersonHeaderWithContent } from './PersonHeaderWIthContent';
+import { PersonHeaderWithContent } from './PersonHeaderWithContent';
 
 vi.mock('@io/rest/generated/personer/personer');
 
