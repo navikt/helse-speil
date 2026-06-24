@@ -111,9 +111,6 @@ const getResolvers = (): IResolvers => ({
         overstyrArbeidsforhold: async () => {
             return true;
         },
-        skjonnsfastsettSykepengegrunnlag: async () => {
-            return true;
-        },
         sendTilGodkjenningV2: async (_, { oppgavereferanse }: MutationSendTilGodkjenningV2Args) => {
             const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
             const oppgave: Oppgave = {

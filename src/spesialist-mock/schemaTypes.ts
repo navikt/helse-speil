@@ -481,7 +481,6 @@ export type Mutation = {
     overstyrInntektOgRefusjon?: Maybe<Scalars['Boolean']['output']>;
     sendIRetur?: Maybe<Scalars['Boolean']['output']>;
     sendTilGodkjenningV2?: Maybe<Scalars['Boolean']['output']>;
-    skjonnsfastsettSykepengegrunnlag?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type MutationOverstyrArbeidsforholdArgs = {
@@ -504,10 +503,6 @@ export type MutationSendIReturArgs = {
 export type MutationSendTilGodkjenningV2Args = {
     oppgavereferanse: Scalars['String']['input'];
     vedtakBegrunnelse?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type MutationSkjonnsfastsettSykepengegrunnlagArgs = {
-    skjonnsfastsettelse: SkjonnsfastsettelseInput;
 };
 
 export type OmregnetArsinntekt = {
@@ -847,33 +842,6 @@ export type SkjonnsfastsattSykepengegrunnlag = {
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     type?: Maybe<Skjonnsfastsettingstype>;
 };
-
-export type SkjonnsfastsettelseArbeidsgiverInput = {
-    arlig: Scalars['Float']['input'];
-    arsak: Scalars['String']['input'];
-    begrunnelseFritekst?: InputMaybe<Scalars['String']['input']>;
-    begrunnelseKonklusjon?: InputMaybe<Scalars['String']['input']>;
-    begrunnelseMal?: InputMaybe<Scalars['String']['input']>;
-    fraArlig: Scalars['Float']['input'];
-    initierendeVedtaksperiodeId?: InputMaybe<Scalars['String']['input']>;
-    lovhjemmel?: InputMaybe<LovhjemmelInput>;
-    organisasjonsnummer: Scalars['String']['input'];
-    type: SkjonnsfastsettelseType;
-};
-
-export type SkjonnsfastsettelseInput = {
-    aktorId: Scalars['String']['input'];
-    arbeidsgivere: Array<SkjonnsfastsettelseArbeidsgiverInput>;
-    fodselsnummer: Scalars['String']['input'];
-    skjaringstidspunkt: Scalars['LocalDate']['input'];
-    vedtaksperiodeId: Scalars['UUID']['input'];
-};
-
-export enum SkjonnsfastsettelseType {
-    Annet = 'ANNET',
-    OmregnetArsinntekt = 'OMREGNET_ARSINNTEKT',
-    RapportertArsinntekt = 'RAPPORTERT_ARSINNTEKT',
-}
 
 export enum Skjonnsfastsettingstype {
     Annet = 'ANNET',
