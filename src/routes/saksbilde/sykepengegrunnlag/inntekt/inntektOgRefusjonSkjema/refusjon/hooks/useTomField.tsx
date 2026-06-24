@@ -38,6 +38,9 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
         defaultSelected: somDate(tom),
         defaultMonth: somDate(tom) ?? somDate(fom),
         onDateChange: updateTom,
+        toDate: dayjs(tom ?? new Date())
+            .add(1, 'year')
+            .toDate(),
     });
 
     const onChangeTom = (event: React.ChangeEvent<HTMLInputElement>) => {
