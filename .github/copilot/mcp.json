@@ -1,6 +1,6 @@
 {
     "mcpServers": {
-        "aksel-mcp": {
+        "io.github.navikt/aksel-mcp": {
             "type": "http",
             "url": "https://aksel-mcp.nav.no/mcp"
         }
