@@ -772,6 +772,7 @@
                     "sykepengegrunnlag": 780960,
                     "skjaeringstidspunkt": "2025-06-01",
                     "inntekter": [],
+                    "forsikringsvurderingId": "8be29a1e-73ea-11f1-845f-d3f88899f167",
                     "arbeidsgiverrefusjoner": [
                         {
                             "__typename": "Arbeidsgiverrefusjon",

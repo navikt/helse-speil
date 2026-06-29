@@ -1,21 +1,24 @@
-import React, { ReactElement } from 'react';
+import React, {ReactElement} from 'react';
 
-import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
-import { BodyShort, HStack } from '@navikt/ds-react';
+import {ExclamationmarkTriangleIcon} from '@navikt/aksel-icons';
+import {BodyShort, HStack} from '@navikt/ds-react';
 
-import type { ErrorType } from '@app/axios/orval-mutator';
-import { LoadingShimmer } from '@components/LoadingShimmer';
-import { useGetForsikringForPerson } from '@io/rest/generated/behandlinger/behandlinger';
-import type { ApiHttpProblemDetailsApiForsikringErrorCode } from '@io/rest/generated/spesialist.schemas';
+import type {ErrorType} from '@app/axios/orval-mutator';
+import {LoadingShimmer} from '@components/LoadingShimmer';
+import type {
+    ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode
+} from '@io/rest/generated/spesialist.schemas';
+import {useGetForsikringsvurderingForPerson} from "@io/rest/generated/forsikringer/forsikringer";
+import {useParams} from "next/navigation";
+import {erUtvikling} from "@/env";
 
-export const Forsikring = ({
-    behandlingId,
-    forsikringHardkodet,
-}: {
-    behandlingId: string;
-    forsikringHardkodet: string;
-}): ReactElement => {
-    const { data, isLoading, error } = useGetForsikringForPerson(behandlingId);
+export const Forsikring = ({ forsikringsvurderingId }: { forsikringsvurderingId: string | null }): ReactElement => {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data, isLoading, error } = useGetForsikringsvurderingForPerson(personPseudoId, forsikringsvurderingId!, {
+        query: {
+            enabled: erUtvikling && !!forsikringsvurderingId,
+        },
+    });
 
     if (isLoading) {
         return (
@@ -48,13 +51,13 @@ export const Forsikring = ({
             <BodyShort>
                 {data?.eksisterer
                     ? `${data.forsikringInnhold?.dekningsgrad} % fra ${data.forsikringInnhold?.gjelderFraDag}. dag`
-                    : forsikringHardkodet}
+                    : `80 % fra 17. dag`}
             </BodyShort>
         </>
     );
 };
 
-export const somForsikringBackendfeil = (error: ErrorType<ApiHttpProblemDetailsApiForsikringErrorCode>): string => {
+export const somForsikringBackendfeil = (error: ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>): string => {
     const problemDetailsCode = error.response?.data?.code;
     if (!problemDetailsCode) return 'Feil under visning av forsikring. Kontakt utviklerteamet.';
 
@@ -62,8 +65,8 @@ export const somForsikringBackendfeil = (error: ErrorType<ApiHttpProblemDetailsA
         case 'MANGLER_TILGANG_TIL_PERSON':
             return 'Du har ikke tilgang til å å se forsikring for denne personen';
         case 'FEIL_VED_VIDERE_KALL':
-            return 'Feil fra forsikringstjeneste';
-        case 'BEHANDLING_IKKE_FUNNET':
-            return 'Feil fra forsikringstjeneste';
+        case 'PERSON_PSEUDO_ID_IKKE_FUNNET':
+        case 'FORSIKRINGSVURDERING_IKKE_FUNNET':
+            return 'Feil ved henting av forsikring';
     }
 };

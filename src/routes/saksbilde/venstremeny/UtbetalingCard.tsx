@@ -1,9 +1,7 @@
-import React, { ReactElement } from 'react';
+import React, {ReactElement} from 'react';
 
-import { BodyShort } from '@navikt/ds-react';
-
-import { erUtvikling } from '@/env';
-import { LoadingShimmer } from '@components/LoadingShimmer';
+import {BodyShort} from '@navikt/ds-react';
+import {LoadingShimmer} from '@components/LoadingShimmer';
 import {
     Maybe,
     Personinfo,
@@ -13,14 +11,14 @@ import {
     VilkarsgrunnlagInfotrygdV2,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
-import { Forsikring } from '@saksbilde/venstremeny/Forsikring';
-import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { somPenger } from '@utils/locale';
-import { cn } from '@utils/tw';
-import { isSelvstendigNaering } from '@utils/typeguards';
+import {Forsikring} from '@saksbilde/venstremeny/Forsikring';
+import {Inntektsforhold} from '@state/inntektsforhold/inntektsforhold';
+import {somPenger} from '@utils/locale';
+import {cn} from '@utils/tw';
+import {isSelvstendigNaering} from '@utils/typeguards';
 
-import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
-import { CardTitle } from './CardTitle';
+import {BeløpTilUtbetaling} from './BeløpTilUtbetaling';
+import {CardTitle} from './CardTitle';
 
 import styles from './UtbetalingCard.module.css';
 
@@ -35,8 +33,6 @@ interface UtbetalingCardProps {
     periodeArbeidsgiverNettoBeløp: number;
     gammeltTotalbeløp?: number;
     inntektsforhold: Inntektsforhold;
-    erJordbruker: boolean;
-    behandlingId: string;
 }
 
 const UtbetalingCardBeregnet = ({
@@ -50,25 +46,15 @@ const UtbetalingCardBeregnet = ({
     periodeArbeidsgiverNettoBeløp,
     gammeltTotalbeløp,
     inntektsforhold,
-    erJordbruker,
-    behandlingId,
 }: UtbetalingCardProps): ReactElement => {
-    const forsikringHardkodet = `${erJordbruker ? 100 : 80} % fra 17. dag`;
+
     return (
         <section className={styles.Card}>
             <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
             <div className={styles.Grid}>
                 <BodyShort>Sykepengegrunnlag</BodyShort>
                 <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
-                {isSelvstendigNaering(inntektsforhold) &&
-                    (erUtvikling ? (
-                        <Forsikring behandlingId={behandlingId} forsikringHardkodet={forsikringHardkodet} />
-                    ) : (
-                        <>
-                            <BodyShort>Dekning</BodyShort>
-                            <BodyShort>{forsikringHardkodet}</BodyShort>
-                        </>
-                    ))}
+                {isSelvstendigNaering(inntektsforhold) && <Forsikring forsikringsvurderingId={(vilkårsgrunnlag as VilkarsgrunnlagSpleisV2)?.forsikringsvurderingId} />}
                 <BodyShort>Utbetalingsdager</BodyShort>
                 <BodyShort>{antallUtbetalingsdager}</BodyShort>
             </div>
