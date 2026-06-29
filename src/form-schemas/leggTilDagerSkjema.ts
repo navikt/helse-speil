@@ -46,7 +46,7 @@ export const lagLeggTilDagerArbeidstakerSchema = () =>
             dagtype: z.enum(utbetalingstabelldagtypeValues),
             fom: z.iso.date(),
             tom: z.iso.date(),
-            grad: z.number(),
+            grad: z.nullable(z.number()),
         })
         .superRefine(({ dagtype, grad }, ctx) => {
             if (kanVelgeGrad(dagtype)) {
