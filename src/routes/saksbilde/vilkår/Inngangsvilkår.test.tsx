@@ -22,6 +22,7 @@ const getVilkårsgrunnlagSpleis = (
     skjaeringstidspunkt: '2022-01-01',
     sykepengegrunnlag: 1234567,
     beregningsgrunnlag: '1234567',
+    forsikringsvurderingId: null,
     avviksvurdering: {
         __typename: 'VilkarsgrunnlagAvviksvurdering',
         avviksprosent: '0',

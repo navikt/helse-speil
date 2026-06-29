@@ -29,6 +29,7 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
         sammenligningsgrunnlag: '600000',
     },
     beregningsgrunnlag: '600000',
+    forsikringsvurderingId: null,
     grunnbelop: 100000,
     inntekter: [enArbeidsgiverinntekt()],
     vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.Oppfylt,
