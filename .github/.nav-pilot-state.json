@@ -1,13 +1,13 @@
 {
     "collection": "nextjs-frontend",
-    "version": "2026.06.24-071557-1b59278",
+    "version": "2026.06.26-055820-fa64632",
     "scope": "repo",
-    "source_sha": "1b59278",
+    "source_sha": "fa64632",
     "installed_at": "2026-06-23T10:52:33Z",
     "files": [
         {
             "path": ".github/agents/accessibility.agent.md",
-            "hash": "c35b6db4d15e6f9f"
+            "hash": "67b453f152c4f663"
         },
         {
             "path": ".github/agents/aksel.agent.md",
@@ -15,7 +15,7 @@
         },
         {
             "path": ".github/agents/code-review.agent.md",
-            "hash": "3f32b4e215bca95d"
+            "hash": "ba64c6ac567371bb"
         },
         {
             "path": ".github/agents/forfatter.agent.md",
@@ -23,7 +23,7 @@
         },
         {
             "path": ".github/agents/nav-pilot.agent.md",
-            "hash": "f490eb3f9ca1e9a3"
+            "hash": "09c7351bf3ceb03b"
         },
         {
             "path": ".github/skills/aksel-builder/",
@@ -31,7 +31,7 @@
         },
         {
             "path": ".github/skills/conventional-commit/",
-            "hash": "b81a4898fed3139d"
+            "hash": "0c21beaedabd1e39"
         },
         {
             "path": ".github/skills/playwright-testing/",
@@ -95,15 +95,15 @@
         },
         {
             "path": ".github/instructions/testing.instructions.md",
-            "hash": "4a6a7547a3701ce1"
+            "hash": "ca2a23744bef3a2c"
         },
         {
             "path": ".github/instructions/testing-typescript.instructions.md",
-            "hash": "d3fd7e7d5f2ee256"
+            "hash": "6c6055340a9d075c"
         },
         {
             "path": ".github/instructions/accessibility.instructions.md",
-            "hash": "3f682e93474bfdd8"
+            "hash": "986ef7aa27d8a1d9"
         },
         {
             "path": ".github/instructions/github-actions.instructions.md",
