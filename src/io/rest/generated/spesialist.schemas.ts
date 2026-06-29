@@ -2049,6 +2049,30 @@ export interface ApiHttpProblemDetailsApiForsikringErrorCode {
     code?: ApiHttpProblemDetailsApiForsikringErrorCodeCode;
 }
 
+export type ApiGetForsikringsvurderingForPersonErrorCode =
+    (typeof ApiGetForsikringsvurderingForPersonErrorCode)[keyof typeof ApiGetForsikringsvurderingForPersonErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGetForsikringsvurderingForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    FORSIKRINGSVURDERING_IKKE_FUNNET: 'FORSIKRINGSVURDERING_IKKE_FUNNET',
+    FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
+} as const;
+
+export type ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCodeCode =
+    null | ApiGetForsikringsvurderingForPersonErrorCode;
+
+export interface ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCodeCode;
+}
+
 export type GetOppgaverParams = {
     minstEnAvEgenskapene?: string[];
     ingenAvEgenskapene?: string;
