@@ -19,7 +19,7 @@ interface EndreDagerFormSelvstendigProps {
     onSubmitEndring: (endring: Partial<Utbetalingstabelldag>) => void;
 }
 
-export const EndreDagerFormSelvstendig = ({
+export const EndreDagerSelvstendigForm = ({
     markerteDager,
     onSubmitEndring,
 }: EndreDagerFormSelvstendigProps): ReactElement => {

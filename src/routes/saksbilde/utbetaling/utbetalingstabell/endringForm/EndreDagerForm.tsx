@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
-import { EndreDagerFormArbeidstaker } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerFormArbeidstaker';
-import { EndreDagerFormSelvstendig } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerFormSelvstendig';
+import { EndreDagerArbeidstakerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerArbeidstakerForm';
+import { EndreDagerSelvstendigForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerSelvstendigForm';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 interface EndreDagerFormProps {
@@ -16,8 +16,8 @@ export const EndreDagerForm = ({
     erSelvstendig,
 }: EndreDagerFormProps): ReactElement => {
     return erSelvstendig ? (
-        <EndreDagerFormSelvstendig markerteDager={markerteDager} onSubmitEndring={onSubmitEndring} />
+        <EndreDagerSelvstendigForm markerteDager={markerteDager} onSubmitEndring={onSubmitEndring} />
     ) : (
-        <EndreDagerFormArbeidstaker markerteDager={markerteDager} onSubmitEndring={onSubmitEndring} />
+        <EndreDagerArbeidstakerForm markerteDager={markerteDager} onSubmitEndring={onSubmitEndring} />
     );
 };

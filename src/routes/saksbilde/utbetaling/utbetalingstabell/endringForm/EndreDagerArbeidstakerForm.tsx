@@ -20,7 +20,7 @@ interface EndreDagerFormArbeidstakerProps {
     onSubmitEndring: (endring: Partial<Utbetalingstabelldag>) => void;
 }
 
-export const EndreDagerFormArbeidstaker = ({
+export const EndreDagerArbeidstakerForm = ({
     markerteDager,
     onSubmitEndring,
 }: EndreDagerFormArbeidstakerProps): ReactElement => {
