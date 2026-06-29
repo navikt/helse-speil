@@ -1,6 +1,6 @@
-import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
+import { Utbetalingstabelldagtype, UtbetalingstabelldagtypeSelvstendig } from '@typer/utbetalingstabell';
 
-const dagtyperUtenGradering: Utbetalingstabelldagtype[] = [
+const dagtyperUtenGradering: (Utbetalingstabelldagtype | UtbetalingstabelldagtypeSelvstendig)[] = [
     'Arbeid',
     'Ferie',
     'ArbeidIkkeGjenopptatt',

@@ -1,10 +1,48 @@
 import { z } from 'zod/v4';
 
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
-import { Egenmeldingsdag, MeldingTilNavdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
-import { Utbetalingstabelldag, utbetalingstabelldagtypeValues } from '@typer/utbetalingstabell';
+import { Egenmeldingsdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import {
+    Utbetalingstabelldag,
+    utbetalingstabelldagtypeSelvstendigValues,
+    utbetalingstabelldagtypeValues,
+} from '@typer/utbetalingstabell';
 
-export type DagEndringFormFields = z.infer<ReturnType<typeof lagDagEndringSchema>>;
+const lagGradValidering = (minimumGrad: number) => (grad: number | null, ctx: z.RefinementCtx) => {
+    if (grad == null || (grad as unknown) === '') {
+        ctx.addIssue({
+            code: 'custom',
+            message: 'Velg grad',
+            input: grad,
+            path: ['grad'],
+        });
+    } else if (Number.isNaN(grad)) {
+        ctx.addIssue({
+            code: 'custom',
+            message: 'Grad må være et tall',
+            input: grad,
+            path: ['grad'],
+        });
+    } else if (grad < minimumGrad) {
+        ctx.addIssue({
+            code: 'too_small',
+            message: `Grad må være minst ${minimumGrad}`,
+            minimum: minimumGrad,
+            origin: 'number',
+            input: grad,
+            path: ['grad'],
+        });
+    } else if (grad > 100) {
+        ctx.addIssue({
+            code: 'too_big',
+            message: 'Grad må være 100 eller lavere',
+            maximum: 100,
+            origin: 'number',
+            input: grad,
+            path: ['grad'],
+        });
+    }
+};
 
 export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetalingstabelldag[]) =>
     z
@@ -14,48 +52,9 @@ export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetali
         })
         .superRefine(({ dagtype, grad }, ctx) => {
             if (kanVelgeGrad(dagtype)) {
-                if (grad == null || (grad as unknown) === '') {
-                    ctx.addIssue({
-                        code: 'custom',
-                        message: 'Velg grad',
-                        input: grad,
-                        path: ['grad'],
-                    });
-                } else if (Number.isNaN(grad)) {
-                    ctx.addIssue({
-                        code: 'custom',
-                        message: 'Grad må være et tall',
-                        input: grad,
-                        path: ['grad'],
-                    });
-                } else if (grad < minimumGrad) {
-                    ctx.addIssue({
-                        code: 'too_small',
-                        message: `Grad må være minst ${minimumGrad}`,
-                        minimum: minimumGrad,
-                        origin: 'number',
-                        input: grad,
-                        path: ['grad'],
-                    });
-                } else if (grad > 100) {
-                    ctx.addIssue({
-                        code: 'too_big',
-                        message: 'Grad må være 100 eller lavere',
-                        maximum: 100,
-                        origin: 'number',
-                        input: grad,
-                        path: ['grad'],
-                    });
-                }
+                lagGradValidering(minimumGrad)(grad, ctx);
             }
-            if (dagtype === 'Syk' && markerteDager.some((markertDag) => markertDag.dag === MeldingTilNavdag)) {
-                ctx.addIssue({
-                    code: 'custom',
-                    message: `Du kan ikke overstyre Melding til Nav til Syk`,
-                    input: dagtype,
-                    path: ['dagtype'],
-                });
-            } else if (
+            if (
                 (dagtype === 'SykNav' || dagtype === 'Syk') &&
                 markerteDager.some((markertDag) => markertDag.dag === Egenmeldingsdag)
             ) {
@@ -68,3 +67,11 @@ export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetali
                 });
             }
         });
+
+export const lagDagEndringSelvstendigSchema = () =>
+    z.object({
+        dagtype: z.enum(utbetalingstabelldagtypeSelvstendigValues),
+    });
+
+export type DagEndringArbeidstakerFormFields = z.infer<ReturnType<typeof lagDagEndringSchema>>;
+export type DagEndringSelvstendigFormFields = z.infer<ReturnType<typeof lagDagEndringSelvstendigSchema>>;

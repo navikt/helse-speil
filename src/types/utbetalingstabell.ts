@@ -3,6 +3,16 @@ import { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstab
 
 import { DateString } from './shared';
 
+const andreYtelser = [
+    'Foreldrepenger',
+    'AAP',
+    'Dagpenger',
+    'Svangerskapspenger',
+    'Pleiepenger',
+    'Omsorgspenger',
+    'Opplæringspenger',
+];
+
 export const utbetalingstabelldagtypeValues = [
     'Syk',
     'Ferie',
@@ -17,18 +27,18 @@ export const utbetalingstabelldagtypeValues = [
     'Arbeid',
     'Avslått',
     'ArbeidIkkeGjenopptatt',
-    'Foreldrepenger',
-    'AAP',
-    'Dagpenger',
-    'Svangerskapspenger',
-    'Pleiepenger',
-    'Omsorgspenger',
-    'Opplæringspenger',
+    ...andreYtelser,
+] as const;
+
+export const utbetalingstabelldagtypeSelvstendigValues = [
     'MeldingTilNav',
     'AvslattMeldingTilNav',
+    ...andreYtelser,
 ] as const;
 
 export type Utbetalingstabelldagtype = (typeof utbetalingstabelldagtypeValues)[number];
+
+export type UtbetalingstabelldagtypeSelvstendig = (typeof utbetalingstabelldagtypeSelvstendigValues)[number];
 
 export type OverstyringerPrDag = {
     vedtaksperiodeId: string;
