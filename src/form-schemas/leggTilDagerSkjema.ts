@@ -60,8 +60,7 @@ export const lagLeggTilDagerArbeidstakerSchema = () =>
                     path: ['dagtype'],
                 });
             }
-        })
-        .superRefine(maksDagerFørSykmeldingen(18));
+        });
 
 export const lagLeggTilDagerSelvstendigSchema = () =>
     z
@@ -70,22 +69,19 @@ export const lagLeggTilDagerSelvstendigSchema = () =>
             fom: z.iso.date(),
             tom: z.iso.date(),
         })
-        .superRefine(maksDagerFørSykmeldingen(16));
+        .superRefine(({ fom, tom, dagtype }, ctx) => {
+            const antallDager = Math.abs(somDato(fom).diff(somDato(tom), 'days'));
+            const maksDager = dagtype === 'MeldingTilNav' ? 16 : 18;
 
-function maksDagerFørSykmeldingen(maksDagerForDagtype: number) {
-    return ({ fom, tom }: { fom: string; tom: string }, ctx: z.RefinementCtx) => {
-        const antallDager = Math.abs(somDato(fom).diff(somDato(tom), 'days'));
-
-        if (antallDager > maksDagerForDagtype) {
-            ctx.addIssue({
-                code: 'custom',
-                message: `Maks ${maksDagerForDagtype} kan legges inn før sykmeldingen`,
-                input: fom,
-                path: ['fom'],
-            });
-        }
-    };
-}
+            if (antallDager > maksDager) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: `Maks ${dagtype === 'MeldingTilNav' ? '16 "Melding til Nav-dager"' : '18 dager'} kan legges inn før sykmeldingen`,
+                    input: fom,
+                    path: ['fom'],
+                });
+            }
+        });
 
 export type LeggTilDagerArbeidstakerFormFields = z.infer<ReturnType<typeof lagLeggTilDagerArbeidstakerSchema>>;
 export type LeggTilDagerSelvstendigFormFields = z.infer<ReturnType<typeof lagLeggTilDagerSelvstendigSchema>>;
