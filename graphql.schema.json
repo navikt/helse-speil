@@ -10999,6 +10999,18 @@
                         "deprecationReason": null
                     },
                     {
+                        "name": "forsikringsvurderingId",
+                        "description": null,
+                        "args": [],
+                        "type": {
+                            "kind": "SCALAR",
+                            "name": "UUID",
+                            "ofType": null
+                        },
+                        "isDeprecated": false,
+                        "deprecationReason": null
+                    },
+                    {
                         "name": "grunnbelop",
                         "description": null,
                         "args": [],

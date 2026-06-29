@@ -1161,6 +1161,7 @@ export type VilkarsgrunnlagSpleisV2 = VilkarsgrunnlagV2 & {
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     avviksvurdering: Maybe<VilkarsgrunnlagAvviksvurdering>;
     beregningsgrunnlag: Scalars['BigDecimal']['output'];
+    forsikringsvurderingId: Maybe<Scalars['UUID']['output']>;
     grunnbelop: Scalars['Int']['output'];
     id: Scalars['UUID']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
@@ -2193,6 +2194,7 @@ export type VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment = {
     grunnbelop: number;
     opptjeningFra: string;
     beregningsgrunnlag: string;
+    forsikringsvurderingId: string | null;
     id: string;
     sykepengegrunnlag: number;
     skjaeringstidspunkt: string;
@@ -3931,6 +3933,7 @@ export type PersonFragment = {
               grunnbelop: number;
               opptjeningFra: string;
               beregningsgrunnlag: string;
+              forsikringsvurderingId: string | null;
               id: string;
               sykepengegrunnlag: number;
               skjaeringstidspunkt: string;
@@ -5620,6 +5623,7 @@ export type FetchPersonQuery = {
                   grunnbelop: number;
                   opptjeningFra: string;
                   beregningsgrunnlag: string;
+                  forsikringsvurderingId: string | null;
                   id: string;
                   sykepengegrunnlag: number;
                   skjaeringstidspunkt: string;
@@ -8282,6 +8286,7 @@ export const VilkarsgrunnlagV2FragmentDoc = {
                                         ],
                                     },
                                 },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forsikringsvurderingId' } },
                             ],
                         },
                     },
@@ -10933,6 +10938,7 @@ export const PersonFragmentDoc = {
                                         ],
                                     },
                                 },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forsikringsvurderingId' } },
                             ],
                         },
                     },
@@ -12437,6 +12443,7 @@ export const FetchPersonDocument = {
                                         ],
                                     },
                                 },
+                                { kind: 'Field', name: { kind: 'Name', value: 'forsikringsvurderingId' } },
                             ],
                         },
                     },

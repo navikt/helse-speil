@@ -1159,6 +1159,7 @@ export type VilkarsgrunnlagSpleisV2 = VilkarsgrunnlagV2 & {
     arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
     avviksvurdering?: Maybe<VilkarsgrunnlagAvviksvurdering>;
     beregningsgrunnlag: Scalars['BigDecimal']['output'];
+    forsikringsvurderingId?: Maybe<Scalars['UUID']['output']>;
     grunnbelop: Scalars['Int']['output'];
     id: Scalars['UUID']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
