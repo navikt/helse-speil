@@ -2028,27 +2028,6 @@ export interface ApiForsikring {
     forsikringInnhold?: ApiForsikringForsikringInnhold;
 }
 
-export type ApiForsikringErrorCode = (typeof ApiForsikringErrorCode)[keyof typeof ApiForsikringErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiForsikringErrorCode = {
-    BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
-} as const;
-
-export type ApiHttpProblemDetailsApiForsikringErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiForsikringErrorCodeCode = null | ApiForsikringErrorCode;
-
-export interface ApiHttpProblemDetailsApiForsikringErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiForsikringErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiForsikringErrorCodeCode;
-}
-
 export type ApiGetForsikringsvurderingForPersonErrorCode =
     (typeof ApiGetForsikringsvurderingForPersonErrorCode)[keyof typeof ApiGetForsikringsvurderingForPersonErrorCode];
 
