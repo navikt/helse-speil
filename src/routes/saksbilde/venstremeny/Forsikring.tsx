@@ -1,16 +1,14 @@
-import React, {ReactElement} from 'react';
+import { useParams } from 'next/navigation';
+import React, { ReactElement } from 'react';
 
-import {ExclamationmarkTriangleIcon} from '@navikt/aksel-icons';
-import {BodyShort, HStack} from '@navikt/ds-react';
+import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
+import { BodyShort, HStack } from '@navikt/ds-react';
 
-import type {ErrorType} from '@app/axios/orval-mutator';
-import {LoadingShimmer} from '@components/LoadingShimmer';
-import type {
-    ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode
-} from '@io/rest/generated/spesialist.schemas';
-import {useGetForsikringsvurderingForPerson} from "@io/rest/generated/forsikringer/forsikringer";
-import {useParams} from "next/navigation";
-import {erUtvikling} from "@/env";
+import { erUtvikling } from '@/env';
+import type { ErrorType } from '@app/axios/orval-mutator';
+import { LoadingShimmer } from '@components/LoadingShimmer';
+import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
+import type { ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode } from '@io/rest/generated/spesialist.schemas';
 
 export const Forsikring = ({ forsikringsvurderingId }: { forsikringsvurderingId: string | null }): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
@@ -57,7 +55,9 @@ export const Forsikring = ({ forsikringsvurderingId }: { forsikringsvurderingId:
     );
 };
 
-export const somForsikringBackendfeil = (error: ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>): string => {
+export const somForsikringBackendfeil = (
+    error: ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>,
+): string => {
     const problemDetailsCode = error.response?.data?.code;
     if (!problemDetailsCode) return 'Feil under visning av forsikring. Kontakt utviklerteamet.';
 

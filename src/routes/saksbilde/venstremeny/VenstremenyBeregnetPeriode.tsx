@@ -6,7 +6,6 @@ import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {
     BeregnetPeriodeFragment,
     Dag,
-    Egenskap,
     Handling,
     Periode,
     Periodehandling,

@@ -1,7 +1,8 @@
-import React, {ReactElement} from 'react';
+import React, { ReactElement } from 'react';
 
-import {BodyShort} from '@navikt/ds-react';
-import {LoadingShimmer} from '@components/LoadingShimmer';
+import { BodyShort } from '@navikt/ds-react';
+
+import { LoadingShimmer } from '@components/LoadingShimmer';
 import {
     Maybe,
     Personinfo,
@@ -11,14 +12,14 @@ import {
     VilkarsgrunnlagInfotrygdV2,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
-import {Forsikring} from '@saksbilde/venstremeny/Forsikring';
-import {Inntektsforhold} from '@state/inntektsforhold/inntektsforhold';
-import {somPenger} from '@utils/locale';
-import {cn} from '@utils/tw';
-import {isSelvstendigNaering} from '@utils/typeguards';
+import { Forsikring } from '@saksbilde/venstremeny/Forsikring';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { somPenger } from '@utils/locale';
+import { cn } from '@utils/tw';
+import { isSelvstendigNaering } from '@utils/typeguards';
 
-import {BeløpTilUtbetaling} from './BeløpTilUtbetaling';
-import {CardTitle} from './CardTitle';
+import { BeløpTilUtbetaling } from './BeløpTilUtbetaling';
+import { CardTitle } from './CardTitle';
 
 import styles from './UtbetalingCard.module.css';
 
@@ -47,14 +48,17 @@ const UtbetalingCardBeregnet = ({
     gammeltTotalbeløp,
     inntektsforhold,
 }: UtbetalingCardProps): ReactElement => {
-
     return (
         <section className={styles.Card}>
             <CardTitle>UTBETALINGSINFORMASJON</CardTitle>
             <div className={styles.Grid}>
                 <BodyShort>Sykepengegrunnlag</BodyShort>
                 <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
-                {isSelvstendigNaering(inntektsforhold) && <Forsikring forsikringsvurderingId={(vilkårsgrunnlag as VilkarsgrunnlagSpleisV2)?.forsikringsvurderingId} />}
+                {isSelvstendigNaering(inntektsforhold) && (
+                    <Forsikring
+                        forsikringsvurderingId={(vilkårsgrunnlag as VilkarsgrunnlagSpleisV2)?.forsikringsvurderingId}
+                    />
+                )}
                 <BodyShort>Utbetalingsdager</BodyShort>
                 <BodyShort>{antallUtbetalingsdager}</BodyShort>
             </div>
