@@ -1,4 +1,3 @@
-import { useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 import { Controller, FieldErrors, FormProvider, useForm, useWatch } from 'react-hook-form';
 
@@ -21,6 +20,7 @@ interface TilkommenInntektSkjemaProps {
     sykefraværstilfelleperioder: DatePeriod[];
     isSubmitting: boolean;
     startPeriodebeløp: number;
+    onCancel: () => void;
 }
 
 const kronerOgØreTilNumber = (value: string) =>
@@ -42,11 +42,11 @@ export const TilkommenInntektSkjemafelter = ({
     sykefraværstilfelleperioder,
     isSubmitting,
     startPeriodebeløp,
+    onCancel,
 }: TilkommenInntektSkjemaProps): ReactElement | null => {
     const [periodebeløpVisningsverdi, setPeriodebeløpVisningsverdi] = useState<string>(
         toKronerOgØre(startPeriodebeløp),
     );
-    const router = useRouter();
 
     const datofeil: string[] = [form.formState.errors.fom?.message, form.formState.errors.tom?.message].filter(
         (feil) => feil !== undefined,
@@ -210,7 +210,7 @@ export const TilkommenInntektSkjemafelter = ({
                                 size="small"
                                 variant="tertiary"
                                 type="button"
-                                onClick={() => router.back()}
+                                onClick={onCancel}
                                 disabled={isSubmitting}
                             >
                                 Avbryt

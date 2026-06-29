@@ -10,6 +10,7 @@ import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/Tilko
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
 import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
 import { norskDatoTilIsoDato } from '@utils/date';
 
 export const LeggTilTilkommenInntektView = (): ReactElement | null => {
@@ -20,6 +21,9 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
+
+    const draftKey = `ny-${personPseudoId}`;
+    const { clearDraft } = useTilkommenInntektFormDraft(draftKey);
 
     const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } =
         useHentTilkommenInntektQuery(personPseudoId);
@@ -55,6 +59,7 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
             },
             {
                 onSuccess: (data) => {
+                    clearDraft();
                     tilkommenInntektRefetch().then(() => {
                         navigerTilTilkommenInntekt(data.tilkommenInntektId);
                     });
@@ -77,10 +82,14 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
             startTom=""
             startPeriodebeløp={0}
             startEkskluderteUkedager={[]}
+            draftStorageKey={draftKey}
             submit={submit}
             isSubmitting={isSubmitting}
             submitError={submitError}
-            cancel={() => router.back()}
+            cancel={() => {
+                clearDraft();
+                router.back();
+            }}
         />
     );
 };

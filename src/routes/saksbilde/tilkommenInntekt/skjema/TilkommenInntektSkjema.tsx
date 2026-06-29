@@ -18,6 +18,7 @@ import {
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somNorskDato } from '@utils/date';
 import { isNumber } from '@utils/typeguards';
@@ -30,6 +31,7 @@ interface TilkommenInntektProps {
     startTom: DateString;
     startPeriodebeløp: number;
     startEkskluderteUkedager: DateString[];
+    draftStorageKey: string;
     submit: (values: TilkommenInntektSchema) => Promise<void>;
     isSubmitting: boolean;
     submitError?: string;
@@ -44,6 +46,7 @@ export const TilkommenInntektSkjema = ({
     startTom,
     startPeriodebeløp,
     startEkskluderteUkedager,
+    draftStorageKey,
     submit,
     isSubmitting,
     submitError,
@@ -52,20 +55,27 @@ export const TilkommenInntektSkjema = ({
     const sykefraværstilfelleperioder = utledSykefraværstilfelleperioder(person);
     const eksisterendePerioder = tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter);
 
+    const { draft, setDraft } = useTilkommenInntektFormDraft(draftStorageKey);
+
     const form = useForm({
         resolver: zodResolver(
             lagTilkommenInntektSchema(sykefraværstilfelleperioder, eksisterendePerioder, () => organisasjonEksisterer),
         ),
         reValidateMode: 'onBlur',
         defaultValues: {
-            organisasjonsnummer: startOrganisasjonsnummer,
-            fom: somNorskDato(startFom) ?? '',
-            tom: somNorskDato(startTom) ?? '',
-            periodebeløp: startPeriodebeløp,
-            notat: '',
-            ekskluderteUkedager: startEkskluderteUkedager,
+            organisasjonsnummer: draft?.organisasjonsnummer ?? startOrganisasjonsnummer,
+            fom: draft?.fom ?? somNorskDato(startFom) ?? '',
+            tom: draft?.tom ?? somNorskDato(startTom) ?? '',
+            periodebeløp: draft?.periodebeløp ?? startPeriodebeløp,
+            notat: draft?.notat ?? '',
+            ekskluderteUkedager: draft?.ekskluderteUkedager ?? startEkskluderteUkedager,
         },
     });
+
+    const allValues = useWatch({ control: form.control });
+    useEffect(() => {
+        setDraft(allValues as Parameters<typeof setDraft>[0]);
+    }, [allValues, setDraft]);
 
     const organisasjonsnummer = useWatch({ name: 'organisasjonsnummer', control: form.control });
     const { data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
@@ -160,7 +170,8 @@ export const TilkommenInntektSkjema = ({
                             erGyldigTom={erGyldigTom}
                             sykefraværstilfelleperioder={sykefraværstilfelleperioder}
                             isSubmitting={isSubmitting}
-                            startPeriodebeløp={startPeriodebeløp}
+                            startPeriodebeløp={draft?.periodebeløp ?? startPeriodebeløp}
+                            onCancel={cancel}
                         />
                     </VStack>
                     {gyldigPeriode !== undefined ? (

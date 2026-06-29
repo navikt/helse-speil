@@ -10,6 +10,7 @@ import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/Tilko
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
 import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
 import { norskDatoTilIsoDato } from '@utils/date';
 
 export const GjenopprettTilkommenInntektView = ({
@@ -23,6 +24,9 @@ export const GjenopprettTilkommenInntektView = ({
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
+
+    const draftKey = `gjenopprett-${tilkommenInntektId}`;
+    const { clearDraft } = useTilkommenInntektFormDraft(draftKey);
 
     const { data: tilkommenInntektData, refetch: tilkommenInntektRefetch } =
         useHentTilkommenInntektQuery(personPseudoId);
@@ -85,6 +89,7 @@ export const GjenopprettTilkommenInntektView = ({
             },
             {
                 onSuccess: () => {
+                    clearDraft();
                     tilkommenInntektRefetch().then(() => {
                         navigerTilTilkommenInntekt(tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId);
                     });
@@ -108,10 +113,14 @@ export const GjenopprettTilkommenInntektView = ({
             startTom={tilkommenInntektMedOrganisasjonsnummer.periode.tom}
             startPeriodebeløp={Number(tilkommenInntektMedOrganisasjonsnummer.periodebelop)}
             startEkskluderteUkedager={tilkommenInntektMedOrganisasjonsnummer.ekskluderteUkedager}
+            draftStorageKey={draftKey}
             submit={submit}
             isSubmitting={isSubmitting}
             submitError={submitError}
-            cancel={() => navigerTilTilkommenInntekt(tilkommenInntektId)}
+            cancel={() => {
+                clearDraft();
+                navigerTilTilkommenInntekt(tilkommenInntektId);
+            }}
         />
     );
 };
