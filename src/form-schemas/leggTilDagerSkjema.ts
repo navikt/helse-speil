@@ -60,6 +60,19 @@ export const lagLeggTilDagerArbeidstakerSchema = () =>
                     path: ['dagtype'],
                 });
             }
+        })
+        .superRefine(({ fom, tom }, ctx) => {
+            const antallDager = Math.abs(somDato(fom).diff(somDato(tom), 'days'));
+            const maksDagerForDagtype = 18;
+
+            if (antallDager > maksDagerForDagtype) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: `Maks ${maksDagerForDagtype} dager kan legges inn før sykmeldingen`,
+                    input: fom,
+                    path: ['fom'],
+                });
+            }
         });
 
 export const lagLeggTilDagerSelvstendigSchema = () =>
