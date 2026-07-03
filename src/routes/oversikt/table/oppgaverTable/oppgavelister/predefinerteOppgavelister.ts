@@ -193,6 +193,41 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
+        id: 'nks-brukerutbetaling-skjønnsfastsettelse',
+        navn: 'NKS - Brukerutbetaling skjønnsfastsettelse',
+        params: {
+            erTildelt: false,
+            minstEnAvEgenskapene: enAv(
+                [ApiEgenskap.SOKNAD],
+                [ApiEgenskap.SKJONNSFASTSETTELSE],
+                [(ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE)],
+                [ApiEgenskap.UTBETALING_TIL_SYKMELDT, ApiEgenskap.DELVIS_REFUSJON, ApiEgenskap.INGEN_UTBETALING],
+            ),
+            ingenAvEgenskapene: ingen(
+                ApiEgenskap.PA_VENT,
+                ApiEgenskap.BESLUTTER,
+                ApiEgenskap.RETUR,
+                ApiEgenskap.HASTER,
+                ApiEgenskap.VERGEMAL,
+                ApiEgenskap.UTLAND,
+                ApiEgenskap.EGEN_ANSATT,
+                ApiEgenskap.STIKKPROVE,
+                ApiEgenskap.RISK_QA,
+                ApiEgenskap.FORTROLIG_ADRESSE,
+                ApiEgenskap.TILBAKEDATERT,
+                ApiEgenskap.MANGLER_IM,
+                ApiEgenskap.MEDLEMSKAP,
+                ApiEgenskap.GRUNNBELOPSREGULERING,
+                ApiEgenskap.REVURDERING,
+                ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE,
+                ApiEgenskap.FLERE_ARBEIDSGIVERE
+            ),
+            sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
+            sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
+            ekskluderVarsler: ekskluder_varsler_nks,
+        },
+    },
+    {
         id: 'restanseteam-arbeidsgiver-skjonnsfastsettelse-flere-ag',
         navn: 'Restanseteam - Skjønnfastsettelse flere arbeidsgivere',
         params: {
