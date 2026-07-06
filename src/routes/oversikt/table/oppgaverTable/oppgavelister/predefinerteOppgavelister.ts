@@ -200,7 +200,7 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
             minstEnAvEgenskapene: enAv(
                 [ApiEgenskap.SOKNAD],
                 [ApiEgenskap.SKJONNSFASTSETTELSE],
-                [(ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE)],
+                [ApiEgenskap.FORSTEGANGSBEHANDLING, ApiEgenskap.FORLENGELSE],
                 [ApiEgenskap.UTBETALING_TIL_SYKMELDT, ApiEgenskap.DELVIS_REFUSJON, ApiEgenskap.INGEN_UTBETALING],
             ),
             ingenAvEgenskapene: ingen(
@@ -220,7 +220,7 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 ApiEgenskap.GRUNNBELOPSREGULERING,
                 ApiEgenskap.REVURDERING,
                 ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE,
-                ApiEgenskap.FLERE_ARBEIDSGIVERE
+                ApiEgenskap.FLERE_ARBEIDSGIVERE,
             ),
             sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
             sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
