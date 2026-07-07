@@ -66,11 +66,13 @@ export const Inntektsmeldingsinnhold = ({
                             <BodyShort weight="semibold" size="small">
                                 Arbeidsgiverperioder
                             </BodyShort>
-                            {data.arbeidsgiverperioder?.map((it) => (
-                                <BodyShort size="small" key={`agperioder${it.fom}-${it.tom}`}>
-                                    {it.fom && somNorskDato(it.fom)} – {it.tom && somNorskDato(it.tom)}
-                                </BodyShort>
-                            ))}
+                            {data.arbeidsgiverperioder
+                                ?.toSorted((a, b) => (a.fom ?? '').localeCompare(b.fom ?? ''))
+                                .map((it) => (
+                                    <BodyShort size="small" key={`agperioder${it.fom}-${it.tom}`}>
+                                        {it.fom && somNorskDato(it.fom)} – {it.tom && somNorskDato(it.tom)}
+                                    </BodyShort>
+                                ))}
                         </div>
                     )}
                     {data.bruttoUtbetalt != null && (
