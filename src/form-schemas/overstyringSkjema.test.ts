@@ -1,4 +1,4 @@
-import { lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
+import { lagOverstyringSchema, overstyringFeilkoder } from '@/form-schemas/overstyringSkjema';
 import { Arbeidsdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import {
     ForventetUtfall,
@@ -49,7 +49,7 @@ describe('lagOverstyringSchema', () => {
                 erSelvstendig,
             ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-            forventRegelResultat(resultat, forventet, 'arbeidsdagerKanIkkeOverstyres');
+            forventRegelResultat(resultat, forventet, overstyringFeilkoder.arbeidsdag);
         });
     });
 
@@ -61,7 +61,7 @@ describe('lagOverstyringSchema', () => {
                 false,
             ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-            forventRegelResultat(resultat, forventet, 'kanIkkeOverstyreTilAnnenYtelse');
+            forventRegelResultat(resultat, forventet, overstyringFeilkoder.andreYtelser);
         });
     });
 
@@ -73,7 +73,7 @@ describe('lagOverstyringSchema', () => {
                 false,
             ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-            forventRegelResultat(resultat, forventet, 'kanIkkeOverstyreTilArbeidIkkeGjenopptatt');
+            forventRegelResultat(resultat, forventet, overstyringFeilkoder.arbeidIkkeGjenopptatt);
         });
     });
 
@@ -85,7 +85,7 @@ describe('lagOverstyringSchema', () => {
                 false,
             ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-            forventRegelResultat(resultat, forventet, 'kanIkkeOverstyreTilSykNav');
+            forventRegelResultat(resultat, forventet, overstyringFeilkoder.sykNav);
         });
     });
 
@@ -97,7 +97,7 @@ describe('lagOverstyringSchema', () => {
                 false,
             ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-            forventRegelResultat(resultat, forventet, 'kanIkkeOverstyreTilEgenmelding');
+            forventRegelResultat(resultat, forventet, overstyringFeilkoder.egenmelding);
         });
     });
 
@@ -111,6 +111,6 @@ describe('lagOverstyringSchema', () => {
 
         expect(resultat.success).toBe(false);
         const feilkoder = resultat.error?.issues.map((issue) => issue.path[0]);
-        expect(feilkoder).toEqual(expect.arrayContaining(['begrunnelse', 'arbeidsdagerKanIkkeOverstyres']));
+        expect(feilkoder).toEqual(expect.arrayContaining(['begrunnelse', overstyringFeilkoder.arbeidsdag]));
     });
 });

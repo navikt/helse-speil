@@ -8,6 +8,18 @@ import { ISO_DATOFORMAT } from '@utils/date';
 
 const sorterEtterDato = (a: Utbetalingstabelldag, b: Utbetalingstabelldag): number => dayjs(a.dato).diff(dayjs(b.dato));
 
+/*
+ * Feilkodene brukes som `path` på Zod-issues, og fungerer som nøkler i react-hook-forms
+ * `formState.errors`. Samlet ett sted for å unngå skrivefeil når de refereres fra tester.
+ */
+export const overstyringFeilkoder = {
+    arbeidsdag: 'arbeidsdagerKanIkkeOverstyres',
+    arbeidIkkeGjenopptatt: 'kanIkkeOverstyreTilArbeidIkkeGjenopptatt',
+    andreYtelser: 'kanIkkeOverstyreTilAnnenYtelse',
+    sykNav: 'kanIkkeOverstyreTilSykNav',
+    egenmelding: 'kanIkkeOverstyreTilEgenmelding',
+} as const;
+
 const finnDagerISluttenAvPerioden = (
     dager: Utbetalingstabelldag[],
     sluttenAvPerioden: DateString,
@@ -100,7 +112,7 @@ const sjekkArbeidsdager = (
     if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
         ctx.addIssue({
             code: 'custom',
-            path: ['arbeidsdagerKanIkkeOverstyres'],
+            path: [overstyringFeilkoder.arbeidsdag],
             message: erSelvstendig
                 ? 'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan foreløpig kun overstyre til Arbeid i slutten av søknadsperioden'
                 : 'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
@@ -117,7 +129,7 @@ const sjekkArbeidIkkeGjenopptatt = (overstyrteDager: Map<string, Utbetalingstabe
     if (overstyrtTilArbeidIkkeGjenopptatt.length > 0) {
         ctx.addIssue({
             code: 'custom',
-            path: ['kanIkkeOverstyreTilArbeidIkkeGjenopptatt'],
+            path: [overstyringFeilkoder.arbeidIkkeGjenopptatt],
             message:
                 'Du kan ikke overstyre til arbeid ikke gjenopptatt. Du kan bare overstyre til arbeid ikke gjenopptatt på dager som allerede er overstyrt av saksbehandler eller så kan arbeid ikke gjenopptatt legges til som en ny dag i starten av perioden.',
         });
@@ -163,7 +175,7 @@ const sjekkAndreYtelser = (
     if (dagerSomKanOverstyresTilAnnenYtelse.length !== overstyrtTilAnnenYtelsesdag.length) {
         ctx.addIssue({
             code: 'custom',
-            path: ['kanIkkeOverstyreTilAnnenYtelse'],
+            path: [overstyringFeilkoder.andreYtelser],
             message:
                 'Andre ytelser kan legges til i forkant av perioden, i starten av perioden eller i slutten av perioden',
         });
@@ -186,7 +198,7 @@ const sjekkSykNav = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.
     if (dagerSomKanOverstyresTilSykNav.length !== overstyrtTilSykNav.length) {
         ctx.addIssue({
             code: 'custom',
-            path: ['kanIkkeOverstyreTilSykNav'],
+            path: [overstyringFeilkoder.sykNav],
             message: 'Syk (Nav) kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
         });
     }
@@ -216,7 +228,7 @@ const sjekkEgenmelding = (
     if (dagerSomKanOverstyresTilEgenmelding.length !== overstyrtTilEgenmelding.length) {
         ctx.addIssue({
             code: 'custom',
-            path: ['kanIkkeOverstyreTilEgenmelding'],
+            path: [overstyringFeilkoder.egenmelding],
             message: 'Egenmelding kan kun overstyres i eller før arbeidsgiverperioden eller legges til som en ny dag.',
         });
     }
