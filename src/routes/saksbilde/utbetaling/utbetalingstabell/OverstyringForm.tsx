@@ -3,58 +3,21 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorMessage, ErrorSummary, HStack, Textarea, VStack } from '@navikt/ds-react';
 
-import { lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
+import { OverstyringFormFields } from '@/form-schemas/overstyringSkjema';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 interface OverstyringFormProps {
     overstyrteDager: Map<string, Utbetalingstabelldag>;
-    alleDager: Map<string, Utbetalingstabelldag>;
     error?: string;
     toggleOverstyring: () => void;
-    onSubmit: () => void;
-    erSelvstendig: boolean;
 }
 
-export const OverstyringForm = ({
-    overstyrteDager,
-    alleDager,
-    error,
-    toggleOverstyring,
-    onSubmit,
-    erSelvstendig,
-}: OverstyringFormProps): ReactElement => {
-    const { handleSubmit, register, formState, setError, clearErrors } = useFormContext();
+export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: OverstyringFormProps): ReactElement => {
+    const { register, formState } = useFormContext<OverstyringFormFields>();
     const [oppsummering, setOppsummering] = useState('');
     const oppsummeringRef = useRef<HTMLDivElement>(null);
 
-    const begrunnelseValidation = register('begrunnelse', { required: 'Begrunnelse må fylles ut', minLength: 1 });
-
-    const setCustomError = (name: string, message: string) => {
-        setError(name, {
-            type: 'custom',
-            message: message,
-        });
-    };
-
-    const validering = () => {
-        clearErrors([
-            'arbeidsdagerKanIkkeOverstyres',
-            'kanIkkeOverstyreTilArbeidIkkeGjenopptatt',
-            'kanIkkeOverstyreTilAnnenYtelse',
-            'kanIkkeOverstyreTilSykNav',
-            'kanIkkeOverstyreTilEgenmelding',
-        ]);
-        const resultat = lagOverstyringSchema(overstyrteDager, alleDager, erSelvstendig).safeParse({});
-
-        if (resultat.success) {
-            handleSubmit(onSubmit)();
-        } else {
-            const førsteFeil = resultat.error.issues[0];
-            if (førsteFeil) {
-                setCustomError(førsteFeil.path.join(''), førsteFeil.message);
-            }
-        }
-    };
+    const begrunnelseValidation = register('begrunnelse');
 
     const harFeil = !formState?.isValid;
 
@@ -97,9 +60,8 @@ export const OverstyringForm = ({
                 <Button
                     size="small"
                     variant="secondary"
-                    type="button"
+                    type="submit"
                     data-testid="oppdater"
-                    onClick={validering}
                     disabled={overstyrteDager.size < 1}
                 >
                     Ferdig ({overstyrteDager.size})

@@ -1,4 +1,5 @@
 import { lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
+import { Arbeidsdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import {
     ForventetUtfall,
     andreYtelserScenarioer,
@@ -6,33 +7,35 @@ import {
     arbeidsdagScenarioer,
     egenmeldingScenarioer,
     lagAlleDager,
+    lagDag,
     sykNavScenarioer,
 } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtures';
 
 /*
  * Kjører de delte scenariene fra validering.fixtures.ts mot lagOverstyringSchema – det samme
- * skjemaet som brukes i OverstyringForm. Dette speiler hvordan valideringen faktisk kalles i
- * produksjonskoden (en kjede av sjekker som kortslutter ved første feil), i stedet for å teste
- * hver regel isolert slik validering.test.ts gjør mot de gamle Map + setError-funksjonene.
- *
- * To scenarioer fra validering.fixtures.ts ('ignorerer overstyringer som ikke er annen ytelse' og
- * 'ignorerer overstyringer som ikke er syk (nav)') er bevisst utelatt her: de inneholder en
- * arbeidsdag-overstyring som er ugyldig i seg selv, og som derfor korrekt fanges opp av
- * arbeidsdag-sjekken tidligere i kjeden – de tester altså isolasjon som ikke gjelder når
- * valideringen kjøres samlet.
+ * skjemaet som brukes i OverstyringForm. I motsetning til den gamle && -kjeden i OverstyringForm
+ * kjøres alle sjekkene uavhengig av hverandre, slik at alle regelbrudd rapporteres som issues
+ * samtidig. Testene her verifiserer derfor kun om *den aktuelle regelen* rapporterer en issue,
+ * uavhengig av om andre regler (som ikke testes av scenarioet) også skulle slå ut.
  */
 
-const forventResultat = (
+const forventRegelResultat = (
     resultat: ReturnType<ReturnType<typeof lagOverstyringSchema>['safeParse']>,
     forventet: ForventetUtfall,
+    regelkode: string,
 ) => {
-    expect(resultat.success).toBe(forventet.gyldig);
-    if (!forventet.gyldig) {
-        const issues = resultat.error?.issues ?? [];
-        expect(issues).toHaveLength(1);
+    const issues = resultat.error?.issues ?? [];
+    const egenIssue = issues.find((issue) => issue.path[0] === regelkode);
+
+    if (forventet.gyldig) {
+        expect(egenIssue).toBeUndefined();
+    } else {
+        expect(egenIssue).toBeDefined();
         if (forventet.feilkode) {
-            expect(issues[0]?.path).toEqual([forventet.feilkode]);
-            expect(issues[0]?.message).toBe(forventet.feilmelding);
+            expect(egenIssue?.path).toEqual([forventet.feilkode]);
+        }
+        if (forventet.feilmelding) {
+            expect(egenIssue?.message).toBe(forventet.feilmelding);
         }
     }
 };
@@ -44,25 +47,22 @@ describe('lagOverstyringSchema', () => {
                 lagAlleDager(overstyrteDager),
                 lagAlleDager(alleDager),
                 erSelvstendig,
-            ).safeParse({});
+            ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-            forventResultat(resultat, forventet);
+            forventRegelResultat(resultat, forventet, 'arbeidsdagerKanIkkeOverstyres');
         });
     });
 
     describe('andreYtelserValidering', () => {
-        it.each(andreYtelserScenarioer.filter((s) => s.navn !== 'ignorerer overstyringer som ikke er annen ytelse'))(
-            '$navn',
-            ({ alleDager, overstyrteDager, forventet }) => {
-                const resultat = lagOverstyringSchema(
-                    lagAlleDager(overstyrteDager),
-                    lagAlleDager(alleDager),
-                    false,
-                ).safeParse({});
+        it.each(andreYtelserScenarioer)('$navn', ({ alleDager, overstyrteDager, forventet }) => {
+            const resultat = lagOverstyringSchema(
+                lagAlleDager(overstyrteDager),
+                lagAlleDager(alleDager),
+                false,
+            ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-                forventResultat(resultat, forventet);
-            },
-        );
+            forventRegelResultat(resultat, forventet, 'kanIkkeOverstyreTilAnnenYtelse');
+        });
     });
 
     describe('arbeidIkkeGjenopptattValidering', () => {
@@ -71,25 +71,22 @@ describe('lagOverstyringSchema', () => {
                 lagAlleDager(overstyrteDager),
                 lagAlleDager(alleDager),
                 false,
-            ).safeParse({});
+            ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-            forventResultat(resultat, forventet);
+            forventRegelResultat(resultat, forventet, 'kanIkkeOverstyreTilArbeidIkkeGjenopptatt');
         });
     });
 
     describe('sykNavValidering', () => {
-        it.each(sykNavScenarioer.filter((s) => s.navn !== 'ignorerer overstyringer som ikke er syk (nav)'))(
-            '$navn',
-            ({ alleDager, overstyrteDager, forventet }) => {
-                const resultat = lagOverstyringSchema(
-                    lagAlleDager(overstyrteDager),
-                    lagAlleDager(alleDager),
-                    false,
-                ).safeParse({});
+        it.each(sykNavScenarioer)('$navn', ({ alleDager, overstyrteDager, forventet }) => {
+            const resultat = lagOverstyringSchema(
+                lagAlleDager(overstyrteDager),
+                lagAlleDager(alleDager),
+                false,
+            ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-                forventResultat(resultat, forventet);
-            },
-        );
+            forventRegelResultat(resultat, forventet, 'kanIkkeOverstyreTilSykNav');
+        });
     });
 
     describe('egenmeldingValidering', () => {
@@ -98,9 +95,22 @@ describe('lagOverstyringSchema', () => {
                 lagAlleDager(overstyrteDager),
                 lagAlleDager(alleDager),
                 false,
-            ).safeParse({});
+            ).safeParse({ begrunnelse: 'en begrunnelse' });
 
-            forventResultat(resultat, forventet);
+            forventRegelResultat(resultat, forventet, 'kanIkkeOverstyreTilEgenmelding');
         });
+    });
+
+    it('rapporterer brudd på flere regler samtidig i stedet for å stoppe ved det første', () => {
+        const overstyrteDager = [lagDag({ dato: '2020-01-02', dag: Arbeidsdag, fraType: 'Syk' })];
+        const alleDager = [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02', dag: Arbeidsdag })];
+
+        const resultat = lagOverstyringSchema(lagAlleDager(overstyrteDager), lagAlleDager(alleDager), false).safeParse({
+            begrunnelse: '',
+        });
+
+        expect(resultat.success).toBe(false);
+        const feilkoder = resultat.error?.issues.map((issue) => issue.path[0]);
+        expect(feilkoder).toEqual(expect.arrayContaining(['begrunnelse', 'arbeidsdagerKanIkkeOverstyres']));
     });
 });

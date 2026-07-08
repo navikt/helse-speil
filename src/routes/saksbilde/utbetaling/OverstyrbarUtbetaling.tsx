@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { OverstyringFormFields, lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbetalingstatus } from '@io/graphql';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
@@ -183,7 +185,6 @@ export const OverstyrbarUtbetaling = ({
     periode,
 }: OverstyrbarUtbetalingProps): ReactElement => {
     const aktuellPeriode = useRef(periode);
-    const form = useForm({ mode: 'onBlur', shouldFocusError: false });
 
     const [overstyrer, setOverstyrer] = useState(false);
 
@@ -201,11 +202,20 @@ export const OverstyrbarUtbetaling = ({
     const alleDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...dager]);
     const alleOverstyrteDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...overstyrteDager]);
 
-    const onSubmitOverstyring = () => {
+    const form = useForm<OverstyringFormFields>({
+        mode: 'onBlur',
+        shouldFocusError: false,
+        resolver: zodResolver(
+            lagOverstyringSchema(alleOverstyrteDager, alleDager, isSelvstendigNaering(inntektsforhold)),
+        ),
+        defaultValues: { begrunnelse: '' },
+    });
+
+    const onSubmitOverstyring = (values: OverstyringFormFields) => {
         void postOverstyring(
             Array.from(alleDager.values()),
             Array.from(alleOverstyrteDager.values()),
-            form.getValues('begrunnelse'),
+            values.begrunnelse,
             periode.vedtaksperiodeId,
             () => setOverstyrer(!overstyrer),
         );
@@ -213,6 +223,7 @@ export const OverstyrbarUtbetaling = ({
 
     const toggleOverstyring = () => {
         dispatch({ type: DagerActionType.FJERN_ALLE_DAGER });
+        form.reset();
         setOverstyrer(!overstyrer);
     };
 
@@ -249,8 +260,9 @@ export const OverstyrbarUtbetaling = ({
     useEffect(() => {
         if (done) {
             dispatch({ type: DagerActionType.FJERN_NYE_OG_OVERSTYRTE_DAGER });
+            form.reset();
         }
-    }, [done, dispatch]);
+    }, [done, dispatch, form]);
 
     const periodeFom = Array.from(alleDager.values())[0];
     if (periodeFom == undefined) return <></>;
@@ -314,14 +326,11 @@ export const OverstyrbarUtbetaling = ({
                             erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                         />
                         <FormProvider {...form}>
-                            <form onSubmit={(event) => event.preventDefault()} autoComplete="off">
+                            <form onSubmit={form.handleSubmit(onSubmitOverstyring)} autoComplete="off">
                                 <OverstyringForm
                                     overstyrteDager={alleOverstyrteDager}
-                                    alleDager={alleDager}
                                     error={error}
                                     toggleOverstyring={toggleOverstyring}
-                                    onSubmit={onSubmitOverstyring}
-                                    erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                                 />
                             </form>
                         </FormProvider>

@@ -1,6 +1,8 @@
 import React, { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { OverstyringFormFields, lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -8,8 +10,22 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { OverstyringForm } from './OverstyringForm';
 import { Arbeidsdag, Egenmeldingsdag, Sykedag } from './utbetalingstabelldager';
 
-const FormWrapper = ({ children }: PropsWithChildren) => {
-    const form = useForm();
+interface FormWrapperProps {
+    overstyrteDager: Map<string, Utbetalingstabelldag>;
+    alleDager: Map<string, Utbetalingstabelldag>;
+    erSelvstendig?: boolean;
+}
+
+const FormWrapper = ({
+    children,
+    overstyrteDager,
+    alleDager,
+    erSelvstendig = false,
+}: PropsWithChildren<FormWrapperProps>) => {
+    const form = useForm<OverstyringFormFields>({
+        resolver: zodResolver(lagOverstyringSchema(overstyrteDager, alleDager, erSelvstendig)),
+        defaultValues: { begrunnelse: '' },
+    });
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(() => null)}>{children}</form>
@@ -37,14 +53,8 @@ describe('OverstyringForm', () => {
 
     it('disabler submit-knappen om det ikke er noen overstyrte dager', () => {
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={new Map()}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={new Map()} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={new Map()} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 
@@ -54,14 +64,8 @@ describe('OverstyringForm', () => {
     it('viser feilmelding om begrunnelse ikke er fylt ut før innsending', async () => {
         const overstyrteDager = new Map([['2020-01-01', { dag: Sykedag, dato: '2020-01-01' } as Utbetalingstabelldag]]);
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={overstyrteDager}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={overstyrteDager} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 
@@ -76,14 +80,8 @@ describe('OverstyringForm', () => {
             ['2020-01-01', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={overstyrteDager}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={overstyrteDager} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 
@@ -98,14 +96,8 @@ describe('OverstyringForm', () => {
             ['2020-01-01', { dag: Arbeidsdag, fraType: 'SykHelg', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={overstyrteDager}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={overstyrteDager} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 
@@ -120,14 +112,8 @@ describe('OverstyringForm', () => {
             ['2020-01-01', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={overstyrteDager}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={overstyrteDager} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 
@@ -145,14 +131,8 @@ describe('OverstyringForm', () => {
             ],
         ]);
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={overstyrteDager}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={overstyrteDager} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 
@@ -170,14 +150,8 @@ describe('OverstyringForm', () => {
             ],
         ]);
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={overstyrteDager}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={overstyrteDager} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 
@@ -195,14 +169,8 @@ describe('OverstyringForm', () => {
             ],
         ]);
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={overstyrteDager}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={overstyrteDager} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 
@@ -217,14 +185,8 @@ describe('OverstyringForm', () => {
             ['2020-01-02', { dag: Egenmeldingsdag, fraType: 'Syk', dato: '2020-01-02' } as Utbetalingstabelldag],
         ]);
         render(
-            <FormWrapper>
-                <OverstyringForm
-                    overstyrteDager={overstyrteDager}
-                    alleDager={alleDager}
-                    toggleOverstyring={() => null}
-                    onSubmit={() => null}
-                    erSelvstendig={false}
-                />
+            <FormWrapper overstyrteDager={overstyrteDager} alleDager={alleDager} erSelvstendig={false}>
+                <OverstyringForm overstyrteDager={overstyrteDager} toggleOverstyring={() => null} />
             </FormWrapper>,
         );
 

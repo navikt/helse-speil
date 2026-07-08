@@ -70,13 +70,13 @@ const sjekkArbeidsdager = (
     alleDager: Map<string, Utbetalingstabelldag>,
     erSelvstendig: boolean,
     ctx: z.RefinementCtx,
-): boolean => {
+): void => {
     const overstyrtTilArbeidsdager = Array.from(overstyrteDager.values())
         .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'Arbeid')
         .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
 
     if (overstyrtTilArbeidsdager.length === 0) {
-        return true;
+        return;
     }
 
     const { sluttenAvPerioden } = getStartOgSluttAvPerioden(
@@ -104,15 +104,10 @@ const sjekkArbeidsdager = (
                 ? 'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan foreløpig kun overstyre til Arbeid i slutten av søknadsperioden'
                 : 'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
         });
-        return false;
     }
-    return true;
 };
 
-const sjekkArbeidIkkeGjenopptatt = (
-    overstyrteDager: Map<string, Utbetalingstabelldag>,
-    ctx: z.RefinementCtx,
-): boolean => {
+const sjekkArbeidIkkeGjenopptatt = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.RefinementCtx): void => {
     const overstyrtTilArbeidIkkeGjenopptatt = Array.from(overstyrteDager.values()).filter(
         (overstyrtDag) =>
             overstyrtDag.dag.speilDagtype === 'ArbeidIkkeGjenopptatt' && overstyrtDag.kilde.type !== 'SAKSBEHANDLER',
@@ -126,16 +121,14 @@ const sjekkArbeidIkkeGjenopptatt = (
             message:
                 'Du kan ikke overstyre til arbeid ikke gjenopptatt. Du kan bare overstyre til arbeid ikke gjenopptatt på dager som allerede er overstyrt av saksbehandler eller så kan arbeid ikke gjenopptatt legges til som en ny dag i starten av perioden.',
         });
-        return false;
     }
-    return true;
 };
 
 const sjekkAndreYtelser = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
     alleDager: Map<string, Utbetalingstabelldag>,
     ctx: z.RefinementCtx,
-): boolean => {
+): void => {
     const overstyrtTilAnnenYtelsesdag = Array.from(overstyrteDager.values())
         .filter((overstyrtDag) =>
             [
@@ -151,7 +144,7 @@ const sjekkAndreYtelser = (
         .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
 
     if (overstyrtTilAnnenYtelsesdag.length === 0) {
-        return true;
+        return;
     }
 
     const { sluttenAvPerioden, startenAvPerioden } = getStartOgSluttAvPerioden(
@@ -175,18 +168,16 @@ const sjekkAndreYtelser = (
             message:
                 'Andre ytelser kan legges til i forkant av perioden, i starten av perioden eller i slutten av perioden',
         });
-        return false;
     }
-    return true;
 };
 
-const sjekkSykNav = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.RefinementCtx): boolean => {
+const sjekkSykNav = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.RefinementCtx): void => {
     const overstyrtTilSykNav = Array.from(overstyrteDager.values())
         .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'SykNav')
         .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
 
     if (overstyrtTilSykNav.length === 0) {
-        return true;
+        return;
     }
 
     const dagerSomKanOverstyresTilSykNav: Utbetalingstabelldag[] = overstyrtTilSykNav.filter(
@@ -200,22 +191,20 @@ const sjekkSykNav = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.
             input: undefined,
             message: 'Syk (Nav) kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
         });
-        return false;
     }
-    return true;
 };
 
 const sjekkEgenmelding = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
     alleDager: Map<string, Utbetalingstabelldag>,
     ctx: z.RefinementCtx,
-): boolean => {
+): void => {
     const overstyrtTilEgenmelding = Array.from(overstyrteDager.values())
         .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'Egenmelding')
         .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
 
     if (overstyrtTilEgenmelding.length === 0) {
-        return true;
+        return;
     }
 
     const førsteDagMedAgp = Array.from(alleDager.values())
@@ -233,24 +222,29 @@ const sjekkEgenmelding = (
             input: undefined,
             message: 'Egenmelding kan kun overstyres i eller før arbeidsgiverperioden eller legges til som en ny dag.',
         });
-        return false;
     }
-    return true;
 };
 
 /*
- * Valideringsrekkefølgen speiler den gamle && -kjeden i OverstyringForm: hver sjekk kjøres kun
- * dersom alle foregående sjekker er gyldige, og kun det første bruddet rapporteres som issue.
+ * I motsetning til den gamle && -kjeden i OverstyringForm kjøres alle sjekkene her uavhengig av
+ * hverandre, slik at alle regelbrudd rapporteres som issues samtidig i stedet for å stoppe ved
+ * det første.
  */
 export const lagOverstyringSchema = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
     alleDager: Map<string, Utbetalingstabelldag>,
     erSelvstendig: boolean,
 ) =>
-    z.object({}).superRefine((_data, ctx) => {
-        if (!sjekkArbeidsdager(overstyrteDager, alleDager, erSelvstendig, ctx)) return;
-        if (!sjekkArbeidIkkeGjenopptatt(overstyrteDager, ctx)) return;
-        if (!sjekkAndreYtelser(overstyrteDager, alleDager, ctx)) return;
-        if (!sjekkSykNav(overstyrteDager, ctx)) return;
-        sjekkEgenmelding(overstyrteDager, alleDager, ctx);
-    });
+    z
+        .object({
+            begrunnelse: z.string().min(1, 'Begrunnelse må fylles ut'),
+        })
+        .superRefine((_data, ctx) => {
+            sjekkArbeidsdager(overstyrteDager, alleDager, erSelvstendig, ctx);
+            sjekkArbeidIkkeGjenopptatt(overstyrteDager, ctx);
+            sjekkAndreYtelser(overstyrteDager, alleDager, ctx);
+            sjekkSykNav(overstyrteDager, ctx);
+            sjekkEgenmelding(overstyrteDager, alleDager, ctx);
+        });
+
+export type OverstyringFormFields = z.infer<ReturnType<typeof lagOverstyringSchema>>;
