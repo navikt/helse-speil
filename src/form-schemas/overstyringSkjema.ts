@@ -20,11 +20,9 @@ export const overstyringFeilkoder = {
     egenmelding: 'kanIkkeOverstyreTilEgenmelding',
 } as const;
 
-const leggTilFeil = (
-    ctx: z.RefinementCtx,
-    feilkode: (typeof overstyringFeilkoder)[keyof typeof overstyringFeilkoder],
-    message: string,
-): void => {
+type OverstyringFeilkode = (typeof overstyringFeilkoder)[keyof typeof overstyringFeilkoder];
+
+const leggTilFeil = (ctx: z.RefinementCtx, feilkode: OverstyringFeilkode, message: string): void => {
     ctx.addIssue({
         code: 'custom',
         path: [feilkode],
@@ -41,7 +39,7 @@ const sjekkAtAlleErGyldige = (
     dager: Utbetalingstabelldag[],
     erGyldig: (dag: Utbetalingstabelldag) => boolean,
     ctx: z.RefinementCtx,
-    feilkode: (typeof overstyringFeilkoder)[keyof typeof overstyringFeilkoder],
+    feilkode: OverstyringFeilkode,
     message: string,
 ): void => {
     const gyldigeDager = dager.filter(erGyldig);
@@ -116,7 +114,8 @@ const sjekkArbeidsdager = (
     erSelvstendig: boolean,
     ctx: z.RefinementCtx,
 ): void => {
-    const overstyrtTilArbeidsdager = Array.from(overstyrteDager.values())
+    const alleOverstyrteDager = Array.from(overstyrteDager.values());
+    const overstyrtTilArbeidsdager = alleOverstyrteDager
         .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'Arbeid')
         .sort(sorterEtterDato);
 
@@ -127,7 +126,7 @@ const sjekkArbeidsdager = (
     const { sluttenAvPerioden } = getStartOgSluttAvPerioden(
         alleDager,
         undefined,
-        R.last(Array.from(overstyrteDager.values()))?.dag.speilDagtype,
+        R.last(alleOverstyrteDager)?.dag.speilDagtype,
     );
 
     const dagerISluttenAvPerioden = finnDagerISluttenAvPerioden(overstyrtTilArbeidsdager, sluttenAvPerioden);
@@ -137,7 +136,7 @@ const sjekkArbeidsdager = (
         (dag) =>
             dag.erAGP ||
             dag.erNyDag ||
-            !['Syk', 'SykHelg', 'Ferie'].includes(dag?.fraType ?? '') ||
+            !['Syk', 'SykHelg', 'Ferie'].includes(dag.fraType ?? '') ||
             dagerISluttenAvPerioden.includes(dag),
         ctx,
         overstyringFeilkoder.arbeidsdag,
@@ -162,7 +161,8 @@ const sjekkAndreYtelser = (
     alleDager: Map<string, Utbetalingstabelldag>,
     ctx: z.RefinementCtx,
 ): void => {
-    const overstyrtTilAnnenYtelsesdag = Array.from(overstyrteDager.values())
+    const alleOverstyrteDager = Array.from(overstyrteDager.values());
+    const overstyrtTilAnnenYtelsesdag = alleOverstyrteDager
         .filter((overstyrtDag) =>
             [
                 'Foreldrepenger',
@@ -182,8 +182,8 @@ const sjekkAndreYtelser = (
 
     const { sluttenAvPerioden, startenAvPerioden } = getStartOgSluttAvPerioden(
         alleDager,
-        R.first(Array.from(overstyrteDager.values()))?.dag.speilDagtype,
-        R.last(Array.from(overstyrteDager.values()))?.dag.speilDagtype,
+        R.first(alleOverstyrteDager)?.dag.speilDagtype,
+        R.last(alleOverstyrteDager)?.dag.speilDagtype,
     );
 
     const dagerISluttenAvPerioden = finnDagerISluttenAvPerioden(overstyrtTilAnnenYtelsesdag, sluttenAvPerioden);
