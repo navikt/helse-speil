@@ -99,7 +99,6 @@ const sjekkArbeidsdager = (
         ctx.addIssue({
             code: 'custom',
             path: ['arbeidsdagerKanIkkeOverstyres'],
-            input: undefined,
             message: erSelvstendig
                 ? 'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan foreløpig kun overstyre til Arbeid i slutten av søknadsperioden'
                 : 'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
@@ -117,7 +116,6 @@ const sjekkArbeidIkkeGjenopptatt = (overstyrteDager: Map<string, Utbetalingstabe
         ctx.addIssue({
             code: 'custom',
             path: ['kanIkkeOverstyreTilArbeidIkkeGjenopptatt'],
-            input: undefined,
             message:
                 'Du kan ikke overstyre til arbeid ikke gjenopptatt. Du kan bare overstyre til arbeid ikke gjenopptatt på dager som allerede er overstyrt av saksbehandler eller så kan arbeid ikke gjenopptatt legges til som en ny dag i starten av perioden.',
         });
@@ -164,7 +162,6 @@ const sjekkAndreYtelser = (
         ctx.addIssue({
             code: 'custom',
             path: ['kanIkkeOverstyreTilAnnenYtelse'],
-            input: undefined,
             message:
                 'Andre ytelser kan legges til i forkant av perioden, i starten av perioden eller i slutten av perioden',
         });
@@ -188,7 +185,6 @@ const sjekkSykNav = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.
         ctx.addIssue({
             code: 'custom',
             path: ['kanIkkeOverstyreTilSykNav'],
-            input: undefined,
             message: 'Syk (Nav) kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
         });
     }
@@ -219,7 +215,6 @@ const sjekkEgenmelding = (
         ctx.addIssue({
             code: 'custom',
             path: ['kanIkkeOverstyreTilEgenmelding'],
-            input: undefined,
             message: 'Egenmelding kan kun overstyres i eller før arbeidsgiverperioden eller legges til som en ny dag.',
         });
     }
