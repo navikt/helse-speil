@@ -49,7 +49,7 @@ const sjekkAtAlleErGyldige = (
     }
 };
 
-const finnDagerISluttenAvPerioden = (
+export const finnDagerISluttenAvPerioden = (
     dager: Utbetalingstabelldag[],
     sluttenAvPerioden: DateString,
 ): Utbetalingstabelldag[] => {
@@ -67,7 +67,7 @@ const finnDagerISluttenAvPerioden = (
         : [];
 };
 
-const finnDagerIStartenAvPerioden = (
+export const finnDagerIStartenAvPerioden = (
     dager: Utbetalingstabelldag[],
     startenAvPerioden: DateString,
 ): Utbetalingstabelldag[] => {
@@ -90,7 +90,7 @@ type StartOgSluttAvPerioden = {
     sluttenAvPerioden: DateString;
 };
 
-const getStartOgSluttAvPerioden = (
+export const getStartOgSluttAvPerioden = (
     alleDager: Map<string, Utbetalingstabelldag>,
     førsteOverstyrteDagtype?: Utbetalingstabelldagtype,
     sisteOverstyrteDagtype?: Utbetalingstabelldagtype,
