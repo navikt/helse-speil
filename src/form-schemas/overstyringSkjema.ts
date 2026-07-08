@@ -54,11 +54,11 @@ const getStartOgSluttAvPerioden = (
 ): StartOgSluttAvPerioden => {
     // TODO: ikke sjekk mot visningstekst
     const startenAvPerioden = førsteOverstyrteDagtype
-        ? (R.first([...Array.from(alleDager.values())].filter((it) => it.dag.visningstekst !== førsteOverstyrteDagtype))
+        ? (R.first(Array.from(alleDager.values()).filter((it) => it.dag.visningstekst !== førsteOverstyrteDagtype))
               ?.dato ?? '')
         : '';
     const sluttenAvPerioden = sisteOverstyrteDagtype
-        ? (R.last([...Array.from(alleDager.values())].filter((it) => it.dag.visningstekst !== sisteOverstyrteDagtype))
+        ? (R.last(Array.from(alleDager.values()).filter((it) => it.dag.visningstekst !== sisteOverstyrteDagtype))
               ?.dato ?? '')
         : '';
 
@@ -82,7 +82,7 @@ const sjekkArbeidsdager = (
     const { sluttenAvPerioden } = getStartOgSluttAvPerioden(
         alleDager,
         undefined,
-        R.last([...Array.from(overstyrteDager.values())])?.dag.speilDagtype,
+        R.last(Array.from(overstyrteDager.values()))?.dag.speilDagtype,
     );
 
     const dagerISluttenAvPerioden = finnDagerISluttenAvPerioden(overstyrtTilArbeidsdager, sluttenAvPerioden);
@@ -149,8 +149,8 @@ const sjekkAndreYtelser = (
 
     const { sluttenAvPerioden, startenAvPerioden } = getStartOgSluttAvPerioden(
         alleDager,
-        R.first([...Array.from(overstyrteDager.values())])?.dag.speilDagtype,
-        R.last([...Array.from(overstyrteDager.values())])?.dag.speilDagtype,
+        R.first(Array.from(overstyrteDager.values()))?.dag.speilDagtype,
+        R.last(Array.from(overstyrteDager.values()))?.dag.speilDagtype,
     );
 
     const dagerISluttenAvPerioden = finnDagerISluttenAvPerioden(overstyrtTilAnnenYtelsesdag, sluttenAvPerioden);
