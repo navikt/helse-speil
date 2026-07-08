@@ -3,15 +3,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorMessage, ErrorSummary, HStack, Textarea, VStack } from '@navikt/ds-react';
 
+import { lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-
-import {
-    andreYtelserValidering,
-    arbeidIkkeGjenopptattValidering,
-    arbeidsdagValidering,
-    egenmeldingValidering,
-    sykNavValidering,
-} from './validering';
 
 interface OverstyringFormProps {
     overstyrteDager: Map<string, Utbetalingstabelldag>;
@@ -51,14 +44,15 @@ export const OverstyringForm = ({
             'kanIkkeOverstyreTilSykNav',
             'kanIkkeOverstyreTilEgenmelding',
         ]);
-        if (
-            arbeidsdagValidering(overstyrteDager, alleDager, setCustomError, erSelvstendig) &&
-            arbeidIkkeGjenopptattValidering(overstyrteDager, setCustomError) &&
-            andreYtelserValidering(overstyrteDager, alleDager, setCustomError) &&
-            sykNavValidering(overstyrteDager, setCustomError) &&
-            egenmeldingValidering(overstyrteDager, alleDager, setCustomError)
-        ) {
+        const resultat = lagOverstyringSchema(overstyrteDager, alleDager, erSelvstendig).safeParse({});
+
+        if (resultat.success) {
             handleSubmit(onSubmit)();
+        } else {
+            const førsteFeil = resultat.error.issues[0];
+            if (førsteFeil) {
+                setCustomError(førsteFeil.path.join(''), førsteFeil.message);
+            }
         }
     };
 
