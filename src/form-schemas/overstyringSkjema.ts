@@ -32,6 +32,25 @@ const leggTilFeil = (
     });
 };
 
+/*
+ * Rapporterer én issue dersom ikke alle dagene i `dager` er gyldige ifølge `erGyldig`. Brukes av
+ * de fem forretningsregel-sjekkene under, som alle følger samme mønster: filtrer ut de overstyrte
+ * dagene av en gitt type, og sjekk at samtlige oppfyller reglene for å kunne overstyres til den typen.
+ */
+const sjekkAtAlleErGyldige = (
+    dager: Utbetalingstabelldag[],
+    erGyldig: (dag: Utbetalingstabelldag) => boolean,
+    ctx: z.RefinementCtx,
+    feilkode: (typeof overstyringFeilkoder)[keyof typeof overstyringFeilkoder],
+    message: string,
+): void => {
+    const gyldigeDager = dager.filter(erGyldig);
+
+    if (gyldigeDager.length !== dager.length) {
+        leggTilFeil(ctx, feilkode, message);
+    }
+};
+
 const finnDagerISluttenAvPerioden = (
     dager: Utbetalingstabelldag[],
     sluttenAvPerioden: DateString,
@@ -113,38 +132,29 @@ const sjekkArbeidsdager = (
 
     const dagerISluttenAvPerioden = finnDagerISluttenAvPerioden(overstyrtTilArbeidsdager, sluttenAvPerioden);
 
-    const dagerSomKanOverstyresTilArbeidsdag: Utbetalingstabelldag[] = overstyrtTilArbeidsdager.filter(
+    sjekkAtAlleErGyldige(
+        overstyrtTilArbeidsdager,
         (dag) =>
             dag.erAGP ||
             dag.erNyDag ||
             !['Syk', 'SykHelg', 'Ferie'].includes(dag?.fraType ?? '') ||
             dagerISluttenAvPerioden.includes(dag),
+        ctx,
+        overstyringFeilkoder.arbeidsdag,
+        erSelvstendig
+            ? 'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan foreløpig kun overstyre til Arbeid i slutten av søknadsperioden'
+            : 'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
     );
-
-    if (dagerSomKanOverstyresTilArbeidsdag.length !== overstyrtTilArbeidsdager.length) {
-        leggTilFeil(
-            ctx,
-            overstyringFeilkoder.arbeidsdag,
-            erSelvstendig
-                ? 'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan foreløpig kun overstyre til Arbeid i slutten av søknadsperioden'
-                : 'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
-        );
-    }
 };
 
 const sjekkArbeidIkkeGjenopptatt = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.RefinementCtx): void => {
-    const overstyrtTilArbeidIkkeGjenopptatt = Array.from(overstyrteDager.values()).filter(
-        (overstyrtDag) =>
-            overstyrtDag.dag.speilDagtype === 'ArbeidIkkeGjenopptatt' && overstyrtDag.kilde.type !== 'SAKSBEHANDLER',
+    sjekkAtAlleErGyldige(
+        Array.from(overstyrteDager.values()),
+        (dag) => !(dag.dag.speilDagtype === 'ArbeidIkkeGjenopptatt' && dag.kilde.type !== 'SAKSBEHANDLER'),
+        ctx,
+        overstyringFeilkoder.arbeidIkkeGjenopptatt,
+        'Du kan ikke overstyre til arbeid ikke gjenopptatt. Du kan bare overstyre til arbeid ikke gjenopptatt på dager som allerede er overstyrt av saksbehandler eller så kan arbeid ikke gjenopptatt legges til som en ny dag i starten av perioden.',
     );
-
-    if (overstyrtTilArbeidIkkeGjenopptatt.length > 0) {
-        leggTilFeil(
-            ctx,
-            overstyringFeilkoder.arbeidIkkeGjenopptatt,
-            'Du kan ikke overstyre til arbeid ikke gjenopptatt. Du kan bare overstyre til arbeid ikke gjenopptatt på dager som allerede er overstyrt av saksbehandler eller så kan arbeid ikke gjenopptatt legges til som en ny dag i starten av perioden.',
-        );
-    }
 };
 
 const sjekkAndreYtelser = (
@@ -179,17 +189,13 @@ const sjekkAndreYtelser = (
     const dagerISluttenAvPerioden = finnDagerISluttenAvPerioden(overstyrtTilAnnenYtelsesdag, sluttenAvPerioden);
     const dagerIStartenAvPerioden = finnDagerIStartenAvPerioden(overstyrtTilAnnenYtelsesdag, startenAvPerioden);
 
-    const dagerSomKanOverstyresTilAnnenYtelse: Utbetalingstabelldag[] = overstyrtTilAnnenYtelsesdag.filter(
+    sjekkAtAlleErGyldige(
+        overstyrtTilAnnenYtelsesdag,
         (dag) => dag.erNyDag || dagerISluttenAvPerioden.includes(dag) || dagerIStartenAvPerioden.includes(dag),
+        ctx,
+        overstyringFeilkoder.andreYtelser,
+        'Andre ytelser kan legges til i forkant av perioden, i starten av perioden eller i slutten av perioden',
     );
-
-    if (dagerSomKanOverstyresTilAnnenYtelse.length !== overstyrtTilAnnenYtelsesdag.length) {
-        leggTilFeil(
-            ctx,
-            overstyringFeilkoder.andreYtelser,
-            'Andre ytelser kan legges til i forkant av perioden, i starten av perioden eller i slutten av perioden',
-        );
-    }
 };
 
 const sjekkSykNav = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.RefinementCtx): void => {
@@ -201,17 +207,13 @@ const sjekkSykNav = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.
         return;
     }
 
-    const dagerSomKanOverstyresTilSykNav: Utbetalingstabelldag[] = overstyrtTilSykNav.filter(
-        (dag) => dag.erAGP || dag.erNyDag,
+    sjekkAtAlleErGyldige(
+        overstyrtTilSykNav,
+        (dag) => Boolean(dag.erAGP || dag.erNyDag),
+        ctx,
+        overstyringFeilkoder.sykNav,
+        'Syk (Nav) kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
     );
-
-    if (dagerSomKanOverstyresTilSykNav.length !== overstyrtTilSykNav.length) {
-        leggTilFeil(
-            ctx,
-            overstyringFeilkoder.sykNav,
-            'Syk (Nav) kan kun overstyres i arbeidsgiverperioden eller legges til som en ny dag.',
-        );
-    }
 };
 
 const sjekkEgenmelding = (
@@ -231,17 +233,14 @@ const sjekkEgenmelding = (
         .sort(sorterEtterDato)
         .find((dag) => dag.erAGP && dag.dag.speilDagtype === 'Syk')?.dato;
 
-    const dagerSomKanOverstyresTilEgenmelding: Utbetalingstabelldag[] = overstyrtTilEgenmelding.filter((dag) => {
-        return dag.erAGP || dag.erNyDag || (førsteDagMedAgp !== undefined && dayjs(dag.dato).isBefore(førsteDagMedAgp));
-    });
-
-    if (dagerSomKanOverstyresTilEgenmelding.length !== overstyrtTilEgenmelding.length) {
-        leggTilFeil(
-            ctx,
-            overstyringFeilkoder.egenmelding,
-            'Egenmelding kan kun overstyres i eller før arbeidsgiverperioden eller legges til som en ny dag.',
-        );
-    }
+    sjekkAtAlleErGyldige(
+        overstyrtTilEgenmelding,
+        (dag) =>
+            dag.erAGP || dag.erNyDag || (førsteDagMedAgp !== undefined && dayjs(dag.dato).isBefore(førsteDagMedAgp)),
+        ctx,
+        overstyringFeilkoder.egenmelding,
+        'Egenmelding kan kun overstyres i eller før arbeidsgiverperioden eller legges til som en ny dag.',
+    );
 };
 
 /*
