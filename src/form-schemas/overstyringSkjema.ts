@@ -6,12 +6,14 @@ import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT } from '@utils/date';
 
+const sorterEtterDato = (a: Utbetalingstabelldag, b: Utbetalingstabelldag): number => dayjs(a.dato).diff(dayjs(b.dato));
+
 const finnDagerISluttenAvPerioden = (
     dager: Utbetalingstabelldag[],
     sluttenAvPerioden: DateString,
 ): Utbetalingstabelldag[] => {
     return dager.find((dag) => dag.dato === sluttenAvPerioden)
-        ? dager.reverse().reduce((latest: Utbetalingstabelldag[], periode) => {
+        ? [...dager].reverse().reduce((latest: Utbetalingstabelldag[], periode) => {
               return dayjs(
                   latest[latest.length - 1]?.dato ??
                       dayjs(sluttenAvPerioden, ISO_DATOFORMAT).add(1, 'days').format(ISO_DATOFORMAT),
@@ -73,7 +75,7 @@ const sjekkArbeidsdager = (
 ): void => {
     const overstyrtTilArbeidsdager = Array.from(overstyrteDager.values())
         .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'Arbeid')
-        .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
+        .sort(sorterEtterDato);
 
     if (overstyrtTilArbeidsdager.length === 0) {
         return;
@@ -139,7 +141,7 @@ const sjekkAndreYtelser = (
                 'Opplæringspenger',
             ].includes(overstyrtDag.dag.speilDagtype),
         )
-        .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
+        .sort(sorterEtterDato);
 
     if (overstyrtTilAnnenYtelsesdag.length === 0) {
         return;
@@ -171,7 +173,7 @@ const sjekkAndreYtelser = (
 const sjekkSykNav = (overstyrteDager: Map<string, Utbetalingstabelldag>, ctx: z.RefinementCtx): void => {
     const overstyrtTilSykNav = Array.from(overstyrteDager.values())
         .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'SykNav')
-        .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
+        .sort(sorterEtterDato);
 
     if (overstyrtTilSykNav.length === 0) {
         return;
@@ -197,18 +199,18 @@ const sjekkEgenmelding = (
 ): void => {
     const overstyrtTilEgenmelding = Array.from(overstyrteDager.values())
         .filter((overstyrtDag) => overstyrtDag.dag.speilDagtype === 'Egenmelding')
-        .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)));
+        .sort(sorterEtterDato);
 
     if (overstyrtTilEgenmelding.length === 0) {
         return;
     }
 
     const førsteDagMedAgp = Array.from(alleDager.values())
-        .sort((a, b) => dayjs(a.dato).diff(dayjs(b.dato)))
+        .sort(sorterEtterDato)
         .find((dag) => dag.erAGP && dag.dag.speilDagtype === 'Syk')?.dato;
 
     const dagerSomKanOverstyresTilEgenmelding: Utbetalingstabelldag[] = overstyrtTilEgenmelding.filter((dag) => {
-        return dag.erAGP || dag.erNyDag || dayjs(dag.dato).isBefore(førsteDagMedAgp ?? null);
+        return dag.erAGP || dag.erNyDag || (førsteDagMedAgp !== undefined && dayjs(dag.dato).isBefore(førsteDagMedAgp));
     });
 
     if (dagerSomKanOverstyresTilEgenmelding.length !== overstyrtTilEgenmelding.length) {
