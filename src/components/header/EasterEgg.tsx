@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import Image from 'next/image';
 import React, { ReactElement } from 'react';
 
+import fotballgurk from '@assets/topplinjebilder/fotballgurk.svg';
 import julegurken from '@assets/topplinjebilder/julegurken.svg';
 import nyttårsgurken from '@assets/topplinjebilder/nyttårsgurken.svg';
 import påskegurken from '@assets/topplinjebilder/påskegurken.svg';
@@ -16,6 +17,7 @@ export const EasterEgg = (): ReactElement => (
         <Nyttårspynt />
         <Påskepynt />
         <Sommergurken />
+        <Fotballgurk />
     </div>
 );
 
@@ -39,7 +41,17 @@ const Nyttårspynt = (): ReactElement | null =>
         <Image style={{ marginLeft: '1.5rem' }} priority={true} alt="Nyttårspynt" src={nyttårsgurken} />
     ) : null;
 
-const Sommergurken = (): ReactElement | null =>
-    dayjs().get('month') == 6 ? (
+const VM_START = dayjs('2026-06-11', ISO_DATOFORMAT);
+const VM_SLUTT = dayjs('2026-07-19', ISO_DATOFORMAT);
+const erUnderFotballVM = (dato: dayjs.Dayjs): boolean => dato >= VM_START && dato <= VM_SLUTT;
+
+const Sommergurken = (): ReactElement | null => {
+    const now = dayjs();
+    return now.get('month') == 6 && !erUnderFotballVM(now) ? (
         <Image style={{ marginLeft: '1.5rem' }} priority={true} alt="Sommerpynt" src={sommergurken} />
     ) : null;
+};
+
+const Fotballgurk = (): ReactElement | null => {
+    return erUnderFotballVM(dayjs()) ? <Image priority={true} alt="Fotball-VM-pynt" src={fotballgurk} /> : null;
+};
