@@ -10,12 +10,9 @@ import { Kilde, Kildetype } from '@io/graphql';
 import { DagtypeSelect } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeSelect';
 import { DateField } from '@saksbilde/utbetaling/utbetalingstabell/DateField';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
-import {
-    alleTypeendringer,
-    overstyringsdagtyperSelvstendig,
-} from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
+import { alleTypeendringer } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
-import { AvslattMeldingTilNavdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import { MeldingTilNavdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -78,9 +75,7 @@ export const LeggTilDagerSelvstendigForm = ({
                     <DagtypeSelect
                         name="dagtype"
                         erSelvstendig={true}
-                        overstyringsdagtyper={overstyringsdagtyperSelvstendig.filter(
-                            (dag) => dag !== AvslattMeldingTilNavdag,
-                        )}
+                        overstyringsdagtyper={[MeldingTilNavdag]}
                         hideError
                     />
                     <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} hideError />

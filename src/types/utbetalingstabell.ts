@@ -33,6 +33,8 @@ export const utbetalingstabelldagtypeValues = [
 export const utbetalingstabelldagtypeSelvstendigValues = [
     'MeldingTilNav',
     'AvslattMeldingTilNav',
+    'Syk',
+    'Arbeid',
     ...andreYtelser,
 ] as const;
 

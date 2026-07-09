@@ -135,13 +135,14 @@ const sjekkArbeidsdager = (
         overstyrtTilArbeidsdager,
         (dag) =>
             dag.erAGP ||
+            dag.erVentetid ||
             dag.erNyDag ||
             !['Syk', 'SykHelg', 'Ferie'].includes(dag.fraType ?? '') ||
             dagerISluttenAvPerioden.includes(dag),
         ctx,
         overstyringFeilkoder.arbeidsdag,
         erSelvstendig
-            ? 'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan foreløpig kun overstyre til Arbeid i slutten av søknadsperioden'
+            ? 'Du kan ikke overstyre fra Syk til Arbeid. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i ventetiden'
             : 'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden',
     );
 };

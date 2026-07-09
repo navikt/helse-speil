@@ -52,7 +52,7 @@ export type ArbeidsdagScenario = ValideringScenario & { erSelvstendig: boolean }
 const arbeidsdagFeilmeldingArbeidsgiver =
     'Du kan ikke overstyre Syk eller Ferie til Arbeidsdag. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i arbeidsgiverperioden';
 const arbeidsdagFeilmeldingSelvstendig =
-    'Du kan ikke overstyre fra Syk til Arbeid for denne/disse dagen(e). Du kan foreløpig kun overstyre til Arbeid i slutten av søknadsperioden';
+    'Du kan ikke overstyre fra Syk til Arbeid. Arbeidsdag kan legges til i forkant av perioden, i slutten av perioden, eller endres i ventetiden';
 
 export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
     {
@@ -107,6 +107,13 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         },
     },
     {
+        navn: 'siste dag i perioden (i halen), fraType Syk, selvstendig næringsdrivende',
+        alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' })],
+        overstyrteDager: [lagDag({ dato: '2020-01-02', dag: Arbeidsdag, fraType: 'Syk' })],
+        erSelvstendig: true,
+        forventet: { gyldig: true },
+    },
+    {
         navn: 'ny dag, fraType Syk',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' })],
         overstyrteDager: [lagDag({ dato: '2020-01-01', dag: Arbeidsdag, fraType: 'Syk', erNyDag: true })],
@@ -118,6 +125,13 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' })],
         overstyrteDager: [lagDag({ dato: '2020-01-01', dag: Arbeidsdag, fraType: 'Syk', erAGP: true })],
         erSelvstendig: false,
+        forventet: { gyldig: true },
+    },
+    {
+        navn: 'i ventetiden, fraType Syk, selvstendig næringsdrivende',
+        alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' })],
+        overstyrteDager: [lagDag({ dato: '2020-01-01', dag: Arbeidsdag, fraType: 'Syk', erVentetid: true })],
+        erSelvstendig: true,
         forventet: { gyldig: true },
     },
     {

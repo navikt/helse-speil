@@ -68,10 +68,43 @@ export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetali
             }
         });
 
-export const lagDagEndringSelvstendigSchema = () =>
-    z.object({
-        dagtype: z.enum(utbetalingstabelldagtypeSelvstendigValues),
-    });
+const erMeldingTilNavtype = (dagtype: string): boolean =>
+    dagtype === 'MeldingTilNav' || dagtype === 'AvslattMeldingTilNav';
+
+export const lagDagEndringSelvstendigSchema = (minimumGrad: number, markerteDager: Utbetalingstabelldag[]) =>
+    z
+        .object({
+            dagtype: z.enum(utbetalingstabelldagtypeSelvstendigValues),
+            grad: z.nullable(z.number()),
+        })
+        .superRefine(({ dagtype, grad }, ctx) => {
+            if (kanVelgeGrad(dagtype)) {
+                lagGradValidering(minimumGrad)(grad, ctx);
+            }
+
+            const noenErMeldingTilNavtype = markerteDager.some((markertDag) =>
+                erMeldingTilNavtype(markertDag.dag.speilDagtype),
+            );
+            const meldingIsolasjon = 'Melding til Nav og Avslått melding til Nav kan kun endres til hverandre';
+
+            if (noenErMeldingTilNavtype && !erMeldingTilNavtype(dagtype)) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: meldingIsolasjon,
+                    input: dagtype,
+                    path: ['dagtype'],
+                });
+            }
+
+            if (!noenErMeldingTilNavtype && erMeldingTilNavtype(dagtype)) {
+                ctx.addIssue({
+                    code: 'custom',
+                    message: meldingIsolasjon,
+                    input: dagtype,
+                    path: ['dagtype'],
+                });
+            }
+        });
 
 export type DagEndringArbeidstakerFormFields = z.infer<ReturnType<typeof lagDagEndringSchema>>;
 export type DagEndringSelvstendigFormFields = z.infer<ReturnType<typeof lagDagEndringSelvstendigSchema>>;

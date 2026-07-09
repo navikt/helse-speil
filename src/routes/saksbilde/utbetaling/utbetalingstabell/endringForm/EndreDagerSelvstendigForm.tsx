@@ -23,10 +23,15 @@ export const EndreDagerSelvstendigForm = ({
     markerteDager,
     onSubmitEndring,
 }: EndreDagerFormSelvstendigProps): ReactElement => {
+    const minimumGrad = markerteDager
+        .values()
+        .reduce((previousValue, currentValue) => Math.max(previousValue, currentValue.grad ?? 0), 0);
+
     const form = useForm<DagEndringSelvstendigFormFields>({
-        resolver: zodResolver(lagDagEndringSelvstendigSchema()),
+        resolver: zodResolver(lagDagEndringSelvstendigSchema(minimumGrad, [...markerteDager.values()])),
         defaultValues: {
             dagtype: 'MeldingTilNav',
+            grad: null,
         },
     });
 
@@ -34,6 +39,7 @@ export const EndreDagerSelvstendigForm = ({
 
     const handleSubmit = (values: DagEndringSelvstendigFormFields) => {
         onSubmitEndring({
+            grad: values.grad,
             dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!,
             erAvvist: false,
             erForeldet: false,
@@ -72,6 +78,11 @@ export const EndreDagerSelvstendigForm = ({
                         {form.formState.errors.dagtype?.message && (
                             <ErrorMessage size="small" showIcon>
                                 Dagtype: {form.formState.errors.dagtype.message as string}
+                            </ErrorMessage>
+                        )}
+                        {form.formState.errors.grad?.message && (
+                            <ErrorMessage size="small" showIcon>
+                                Grad: {form.formState.errors.grad.message as string}
                             </ErrorMessage>
                         )}
                     </VStack>
