@@ -6,6 +6,7 @@ import { Button, Dialog, ErrorMessage, Textarea } from '@navikt/ds-react';
 
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { useApolloClient } from '@apollo/client';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
 import { getGetSaksbehandlerStansQueryKey, usePatchSaksbehandlerStans } from '@io/rest/generated/personer/personer';
@@ -68,6 +69,7 @@ export function StansAutomatiskBehandlingDialogInnhold({
             <Dialog.Body>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} id="stans-automatisk-behandling-form">
+                        <VisesIkkeIVedtakTag />
                         <Controller
                             control={form.control}
                             name="begrunnelse"

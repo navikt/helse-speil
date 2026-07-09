@@ -15,6 +15,7 @@ import {
 } from '@navikt/ds-react';
 
 import { ForkastingSkjema, forkastingSkjema } from '@/form-schemas/forkastingSkjema';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { Arsak, useArsaker } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UberegnetPeriodeFragment } from '@io/graphql';
@@ -121,28 +122,30 @@ export const ForkastFraUberegnetDialogInnhold = ({
                                 </CheckboxGroup>
                             )}
                         />
-                        <Controller
-                            control={form.control}
-                            name="kommentar"
-                            render={({ field, fieldState }) => (
-                                <Textarea
-                                    {...field}
-                                    className="mt-4"
-                                    name="kommentar"
-                                    label={`Begrunnelse${harValgtAnnet ? '' : ' (valgfri)'}`}
-                                    description={
-                                        <>
-                                            <BodyShort>
-                                                Gi en forklaring på hvorfor perioden tas ut. Ikke oppgi
-                                                personopplysninger her.
-                                            </BodyShort>
-                                        </>
-                                    }
-                                    minRows={6}
-                                    error={fieldState.error?.message}
-                                />
-                            )}
-                        />
+                        <VStack align="start" gap="space-8" className="mt-4">
+                            <VisesIkkeIVedtakTag />
+                            <Controller
+                                control={form.control}
+                                name="kommentar"
+                                render={({ field, fieldState }) => (
+                                    <Textarea
+                                        {...field}
+                                        name="kommentar"
+                                        label={`Begrunnelse${harValgtAnnet ? '' : ' (valgfri)'}`}
+                                        description={
+                                            <>
+                                                <BodyShort>
+                                                    Gi en forklaring på hvorfor perioden tas ut. Ikke oppgi
+                                                    personopplysninger her.
+                                                </BodyShort>
+                                            </>
+                                        }
+                                        minRows={6}
+                                        error={fieldState.error?.message}
+                                    />
+                                )}
+                            />
+                        </VStack>
                     </form>
                 </FormProvider>
             </Dialog.Body>

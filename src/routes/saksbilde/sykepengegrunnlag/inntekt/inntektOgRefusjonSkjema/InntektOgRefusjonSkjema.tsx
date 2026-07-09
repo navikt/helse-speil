@@ -11,10 +11,11 @@ import {
     useWatch,
 } from 'react-hook-form';
 
-import { Alert, Button, HStack } from '@navikt/ds-react';
+import { Alert, Button, HStack, VStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { Arbeidsgiver, InntektFraAOrdningen, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
@@ -215,9 +216,12 @@ export const InntektOgRefusjonSkjema = ({
                         inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
                     />
                     <Begrunnelser begrunnelser={begrunnelser} />
-                    <ForklaringTextarea
-                        description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
-                    />
+                    <VStack align="start" gap="space-8">
+                        <VisesIkkeIVedtakTag />
+                        <ForklaringTextarea
+                            description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
+                        />
+                    </VStack>
                     {visFeilOppsummering && (
                         <Feiloppsummering
                             feiloppsummeringRef={feiloppsummeringRef}

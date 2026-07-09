@@ -3,10 +3,11 @@ import React, { ReactElement, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
+import { Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { NotatFormFields } from '@/form-schemas/notatSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import {
     getGetNotatVedtaksperiodeIderForPersonQueryKey,
@@ -61,10 +62,8 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
                     </Button>
                 </VisHvisSkrivetilgang>
                 {open && (
-                    <>
-                        <VStack paddingBlock="space-0 space-8">
-                            <BodyShort>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</BodyShort>
-                        </VStack>
+                    <VStack gap="space-8" align="start" className="mt-1">
+                        <VisesIkkeIVedtakTag />
                         <NotatSkjema
                             submit={leggTilNotat}
                             submitTekst="Lagre notat"
@@ -75,8 +74,9 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
                             }}
                             loading={loading}
                             notattype={ApiNotatType.Generelt}
+                            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
                         />
-                    </>
+                    </VStack>
                 )}
                 {open && error && (
                     <ErrorMessage>

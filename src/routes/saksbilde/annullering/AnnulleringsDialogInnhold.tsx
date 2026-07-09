@@ -21,6 +21,7 @@ import { ListItem } from '@navikt/ds-react/List';
 import { AnnulleringSkjema, annulleringSkjema } from '@/form-schemas/annulleringSkjema';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { Arsak, useArsaker } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
@@ -142,20 +143,23 @@ export function AnnulleringsDialogInnhold({
                                     </CheckboxGroup>
                                 )}
                             />
-                            <Controller
-                                control={form.control}
-                                name="kommentar"
-                                render={({ field, fieldState }) => (
-                                    <Textarea
-                                        {...field}
-                                        name="kommentar"
-                                        label={`Begrunnelse ${harValgtAnnet ? '' : '(valgfri)'}`}
-                                        description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
-                                        minRows={6}
-                                        error={fieldState.error?.message}
-                                    />
-                                )}
-                            />
+                            <VStack align="start" gap="space-8">
+                                <VisesIkkeIVedtakTag />
+                                <Controller
+                                    control={form.control}
+                                    name="kommentar"
+                                    render={({ field, fieldState }) => (
+                                        <Textarea
+                                            {...field}
+                                            name="kommentar"
+                                            label={`Begrunnelse ${harValgtAnnet ? '' : '(valgfri)'}`}
+                                            description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
+                                            minRows={6}
+                                            error={fieldState.error?.message}
+                                        />
+                                    )}
+                                />
+                            </VStack>
                         </VStack>
                         {!erINyesteSkjæringstidspunkt && (
                             <BodyShort className="mb-5">

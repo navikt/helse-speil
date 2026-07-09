@@ -5,6 +5,7 @@ import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Text
 
 import { TilkommenInntektSchema } from '@/form-schemas';
 import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
@@ -181,6 +182,7 @@ export const TilkommenInntektSkjemafelter = ({
                         )}
                     </VStack>
                     <Box maxWidth="380px">
+                        <VisesIkkeIVedtakTag />
                         <Controller
                             control={form.control}
                             name="notat"

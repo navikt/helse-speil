@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { BodyLong, Button, Dialog, ErrorMessage, Textarea, VStack } from '@navikt/ds-react';
 
 import { FjernTilkommenInntektSkjema, fjernTilkommenInntektSkjema } from '@/form-schemas/fjernTilkommenInntektSkjema';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { usePatchTilkommenInntekt } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
@@ -69,6 +70,7 @@ export function FjernTilkommenInntektDialog({
                             {somNorskDato(tilkommenInntekt.periode.tom)}?
                         </BodyLong>
                         <form onSubmit={form.handleSubmit(onSubmit)} id="fjern-tilkommen-inntekt-form">
+                            <VisesIkkeIVedtakTag />
                             <Controller
                                 control={form.control}
                                 name="begrunnelse"

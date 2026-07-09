@@ -4,6 +4,7 @@ import { Control, FormProvider, SubmitHandler, useController, useForm } from 're
 import { Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
 import { KommentarFormFields, kommentarSkjema } from '@/form-schemas/kommentarSkjema';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 interface LeggTilNyKommentarFormProps {
@@ -51,11 +52,14 @@ function Kommentartekstfelt({ control }: { control: Control<KommentarFormFields>
     const { field, fieldState } = useController({ name: 'tekst', control: control });
 
     return (
-        <Textarea
-            {...field}
-            label="Kommentar"
-            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
-            error={fieldState.error?.message}
-        />
+        <VStack align="start" gap="space-8">
+            <VisesIkkeIVedtakTag />
+            <Textarea
+                {...field}
+                label="Kommentar"
+                description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
+                error={fieldState.error?.message}
+            />
+        </VStack>
     );
 }

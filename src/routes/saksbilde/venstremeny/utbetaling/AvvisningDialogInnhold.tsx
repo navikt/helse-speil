@@ -1,9 +1,10 @@
 import { useRouter } from 'next/navigation';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { BodyShort, Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Textarea } from '@navikt/ds-react';
+import { BodyShort, Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Textarea, VStack } from '@navikt/ds-react';
 
 import { AvvisningSkjema, avvisningSkjema } from '@/form-schemas/avvisningSkjema';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BeregnetPeriodeFragment } from '@io/graphql';
 import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
@@ -88,28 +89,30 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                                 </CheckboxGroup>
                             )}
                         />
-                        <Controller
-                            control={form.control}
-                            name="kommentar"
-                            render={({ field, fieldState }) => (
-                                <Textarea
-                                    {...field}
-                                    className="mt-4"
-                                    name="kommentar"
-                                    label={`Begrunnelse${annet ? '' : ' (valgfri)'}`}
-                                    description={
-                                        <>
-                                            <BodyShort>
-                                                Gi en forklaring på hvorfor perioden tas ut. Ikke oppgi
-                                                personopplysninger her.
-                                            </BodyShort>
-                                        </>
-                                    }
-                                    minRows={2}
-                                    error={fieldState.error?.message}
-                                />
-                            )}
-                        />
+                        <VStack align="start" gap="space-8" className="mt-4">
+                            <VisesIkkeIVedtakTag />
+                            <Controller
+                                control={form.control}
+                                name="kommentar"
+                                render={({ field, fieldState }) => (
+                                    <Textarea
+                                        {...field}
+                                        name="kommentar"
+                                        label={`Begrunnelse${annet ? '' : ' (valgfri)'}`}
+                                        description={
+                                            <>
+                                                <BodyShort>
+                                                    Gi en forklaring på hvorfor perioden tas ut. Ikke oppgi
+                                                    personopplysninger her.
+                                                </BodyShort>
+                                            </>
+                                        }
+                                        minRows={2}
+                                        error={fieldState.error?.message}
+                                    />
+                                )}
+                            />
+                        </VStack>
                     </form>
                 </FormProvider>
             </Dialog.Body>

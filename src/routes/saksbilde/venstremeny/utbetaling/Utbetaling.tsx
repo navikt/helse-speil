@@ -17,6 +17,7 @@ import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { getPeriodState } from '@utils/mapping';
+import { cn } from '@utils/tw';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { IndividuellBegrunnelse } from '../individuellBegrunnelse/IndividuellBegrunnelse';
@@ -88,10 +89,12 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
 
     return (
         <Box
-            background={rensetVedtakBegrunnelseTekst !== '' ? 'neutral-soft' : undefined}
             paddingBlock="space-0 space-16"
             paddingInline="space-16 space-16"
-            style={{ margin: '0 -1rem' }}
+            className={cn('-mx-4 my-0', {
+                'bg-ax-bg-neutral-soft shadow-[inset_3px_0_0_0] shadow-ax-border-accent-strong':
+                    rensetVedtakBegrunnelseTekst !== '',
+            })}
         >
             <IndividuellBegrunnelse
                 defaultÅpen={rensetVedtakBegrunnelseTekst !== ''}

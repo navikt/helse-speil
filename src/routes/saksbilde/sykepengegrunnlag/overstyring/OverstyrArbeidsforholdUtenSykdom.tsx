@@ -2,10 +2,11 @@ import React, { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, ErrorMessage, ErrorSummary, HStack } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, ErrorSummary, HStack, VStack } from '@navikt/ds-react';
 
 import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { PersonFragment } from '@io/graphql';
 import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
@@ -134,9 +135,12 @@ const OverstyrArbeidsforholdSkjema = ({
             <form onSubmit={form.handleSubmit(confirmChanges)}>
                 <div className={styles.container}>
                     <Begrunnelser begrunnelser={begrunnelser} />
-                    <ForklaringTextarea
-                        description={`Begrunn hvorfor inntekt ikke skal brukes i beregningen. \nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
-                    />
+                    <VStack align="start" gap="space-8">
+                        <VisesIkkeIVedtakTag />
+                        <ForklaringTextarea
+                            description={`Begrunn hvorfor inntekt ikke skal brukes i beregningen. \nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
+                        />
+                    </VStack>
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <div className={styles.feiloppsummering}>
                             <ErrorSummary ref={feiloppsummeringRef} heading="Skjemaet inneholder følgende feil:">

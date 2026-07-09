@@ -1,8 +1,9 @@
 import React, { Dispatch, ReactElement, SetStateAction } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 
-import { BodyShort, ErrorMessage, VStack } from '@navikt/ds-react';
+import { ErrorMessage, VStack } from '@navikt/ds-react';
 
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { PersonFragment } from '@io/graphql';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useActivePeriod } from '@state/periode';
@@ -35,16 +36,8 @@ export const Returnotat = ({
     };
 
     return (
-        <VStack as="li" paddingBlock="space-0 space-16">
-            <VStack paddingBlock="space-0 space-8">
-                <BodyShort weight="semibold">Returner sak til saksbehandler</BodyShort>
-                <BodyShort>
-                    Forklar hvorfor oppgaven sendes tilbake på en enkel måte, slik at det er lett å forstå hva som må
-                    vurderes og gjøres annerledes.
-                    <br />
-                    (Blir ikke forevist den sykmeldte, med mindre hen ber om innsyn)
-                </BodyShort>
-            </VStack>
+        <VStack align="start" gap="space-8" paddingBlock="space-0 space-16">
+            <VisesIkkeIVedtakTag />
             <NotatSkjema
                 submit={submit}
                 submitTekst="Lagre notat og returner"
@@ -52,6 +45,15 @@ export const Returnotat = ({
                 skjulNotatFelt={() => setShowNotat(false)}
                 loading={loading}
                 notattype={KladdNotatType.Retur}
+                label="Returner sak til saksbehandler"
+                description={
+                    <span>
+                        Forklar hvorfor oppgaven sendes tilbake på en enkel måte, slik at det er lett å forstå hva som
+                        må vurderes og gjøres annerledes.
+                        <br />
+                        (Blir ikke forevist den sykmeldte, med mindre hen ber om innsyn)
+                    </span>
+                }
             />
             {error && <ErrorMessage>{error}</ErrorMessage>}
         </VStack>

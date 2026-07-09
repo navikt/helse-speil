@@ -7,6 +7,7 @@ import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea, VStack } from
 import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
 import { getGetVeilederStansQueryKey, usePatchVeilederStans } from '@io/rest/generated/personer/personer';
@@ -94,6 +95,7 @@ export function UnntattFraAutomatisering({
             {åpen && (
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)}>
+                        <VisesIkkeIVedtakTag />
                         <Controller
                             control={form.control}
                             name="begrunnelse"

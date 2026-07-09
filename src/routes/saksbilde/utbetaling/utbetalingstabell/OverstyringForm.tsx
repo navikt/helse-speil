@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { Button, ErrorMessage, ErrorSummary, HStack, Textarea, VStack } from '@navikt/ds-react';
 
 import { OverstyringFormFields } from '@/form-schemas/overstyringSkjema';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 interface OverstyringFormProps {
@@ -29,26 +30,29 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
 
     return (
         <VStack marginInline="space-32" width="640px" gap="space-32">
-            <Textarea
-                id="begrunnelse"
-                label="Notat til beslutter"
-                value={oppsummering}
-                description={
-                    <span>
-                        Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. <br />
-                        Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.
-                    </span>
-                }
-                error={formState.errors.begrunnelse ? (formState.errors.begrunnelse.message as string) : null}
-                data-testid="overstyring-begrunnelse"
-                maxLength={2000}
-                {...begrunnelseValidation}
-                onChange={(event) => {
-                    void begrunnelseValidation.onChange(event);
-                    setOppsummering(event.target.value);
-                }}
-                rows={6}
-            />
+            <VStack align="start" gap="space-8">
+                <VisesIkkeIVedtakTag />
+                <Textarea
+                    id="begrunnelse"
+                    label="Notat til beslutter"
+                    value={oppsummering}
+                    description={
+                        <span>
+                            Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. <br />
+                            Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.
+                        </span>
+                    }
+                    error={formState.errors.begrunnelse ? (formState.errors.begrunnelse.message as string) : null}
+                    data-testid="overstyring-begrunnelse"
+                    maxLength={2000}
+                    {...begrunnelseValidation}
+                    onChange={(event) => {
+                        void begrunnelseValidation.onChange(event);
+                        setOppsummering(event.target.value);
+                    }}
+                    rows={6}
+                />
+            </VStack>
             {visFeilOppsummering && (
                 <ErrorSummary ref={oppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                     {Object.entries(formState.errors).map(([id, error], index) => {

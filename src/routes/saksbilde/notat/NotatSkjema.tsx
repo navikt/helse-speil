@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button, HStack } from '@navikt/ds-react';
@@ -16,6 +16,9 @@ interface NotatSkjemaProps {
     skjulNotatFelt: () => void;
     loading: boolean;
     notattype: KladdNotatType;
+    label?: ReactNode;
+    description?: ReactNode;
+    hideLabel?: boolean;
 }
 
 export function NotatSkjema({
@@ -25,6 +28,9 @@ export function NotatSkjema({
     skjulNotatFelt,
     loading,
     notattype,
+    label,
+    description,
+    hideLabel = false,
 }: NotatSkjemaProps) {
     const notatkladd = useNotatkladd();
 
@@ -54,7 +60,14 @@ export function NotatSkjema({
                 })}
                 style={{ width: '100%' }}
             >
-                <Notattekstfelt control={form.control} vedtaksperiodeId={vedtaksperiodeId} notatType={notattype} />
+                <Notattekstfelt
+                    control={form.control}
+                    vedtaksperiodeId={vedtaksperiodeId}
+                    notatType={notattype}
+                    label={label}
+                    description={description}
+                    hideLabel={hideLabel}
+                />
                 <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                     <Button size="small" variant="secondary" type="submit" loading={loading}>
                         {submitTekst}

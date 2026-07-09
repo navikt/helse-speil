@@ -14,6 +14,7 @@ import { XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
@@ -113,7 +114,10 @@ export const ArbeidstidsvurderingForm = ({
                         aktivPeriode={aktivPeriode}
                         person={person}
                     />
-                    <NotatTilBeslutter vedtaksperiodeId={initierendeVedtaksperiodeId} />
+                    <VStack align="start" gap="space-8" className="mt-4">
+                        <VisesIkkeIVedtakTag />
+                        <NotatTilBeslutter vedtaksperiodeId={initierendeVedtaksperiodeId} />
+                    </VStack>
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <Feiloppsummering
                             feiloppsummeringRef={feiloppsummeringRef}

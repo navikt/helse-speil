@@ -4,6 +4,7 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { BodyShort, HelpText, Textarea, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
+import { VisesIVedtakTag } from '@components/tags/VisesIVedtakTag';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import { toKronerOgØre } from '@utils/locale';
 
@@ -52,41 +53,44 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     )}
                 </ExpandableSkjønnsfastsettingBegrunnelseContent>
             </div>
-            <Textarea
-                className={styles.fritekst}
-                label={
-                    <span className={styles.fritekstlabel}>
-                        Nærmere begrunnelse for skjønnsvurderingen&nbsp;
-                        <HelpText title="Veiledning">
-                            <VStack gap="space-16">
-                                <BodyShort>
-                                    Beskriv arbeidssituasjonen til bruker nå og de siste 12 månedene, eventuelt
-                                    tidligere år.
-                                </BodyShort>
-                                <VStack>
-                                    <BodyShort>Eksempler på endringer kan være:</BodyShort>
-                                    <ul>
-                                        <li>Du har skiftet jobb</li>
-                                        <li>Du har endret stillingsgrad i samme jobb</li>
-                                        <li>Du har hatt overgang fra midlertidig til fast stilling</li>
-                                        <li>Du har nylig begynt i arbeidslivet</li>
-                                    </ul>
+            <VStack align="start" gap="space-8">
+                <VisesIVedtakTag />
+                <Textarea
+                    className={styles.fritekst}
+                    label={
+                        <span className={styles.fritekstlabel}>
+                            Nærmere begrunnelse for skjønnsvurderingen&nbsp;
+                            <HelpText title="Veiledning">
+                                <VStack gap="space-16">
+                                    <BodyShort>
+                                        Beskriv arbeidssituasjonen til bruker nå og de siste 12 månedene, eventuelt
+                                        tidligere år.
+                                    </BodyShort>
+                                    <VStack>
+                                        <BodyShort>Eksempler på endringer kan være:</BodyShort>
+                                        <ul>
+                                            <li>Du har skiftet jobb</li>
+                                            <li>Du har endret stillingsgrad i samme jobb</li>
+                                            <li>Du har hatt overgang fra midlertidig til fast stilling</li>
+                                            <li>Du har nylig begynt i arbeidslivet</li>
+                                        </ul>
+                                    </VStack>
                                 </VStack>
-                            </VStack>
-                        </HelpText>
-                    </span>
-                }
-                {...register('begrunnelseFritekst', {
-                    required: 'Du må skrive en nærmere begrunnelse',
-                })}
-                description="Teksten vises til den sykmeldte i «Svar på søknad om sykepenger»."
-                error={
-                    formState.errors.begrunnelseFritekst
-                        ? (formState.errors.begrunnelseFritekst.message as string)
-                        : null
-                }
-                resize
-            />
+                            </HelpText>
+                        </span>
+                    }
+                    {...register('begrunnelseFritekst', {
+                        required: 'Du må skrive en nærmere begrunnelse',
+                    })}
+                    description="Teksten vises til den sykmeldte i «Svar på søknad om sykepenger»."
+                    error={
+                        formState.errors.begrunnelseFritekst
+                            ? (formState.errors.begrunnelseFritekst.message as string)
+                            : null
+                    }
+                    resize
+                />
+            </VStack>
             {valgtMal?.konklusjon && (
                 <BodyShortWithPreWrap className={styles.mal}>
                     {valgtMal.konklusjon.replace('${skjønnsfastsattÅrsinntekt}', toKronerOgØre(skjønnsfastsatt))}
