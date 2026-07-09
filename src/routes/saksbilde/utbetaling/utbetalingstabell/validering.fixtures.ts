@@ -63,7 +63,7 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         forventet: { gyldig: true },
     },
     {
-        navn: 'fraType Syk, ikke ny dag, ikke i AGP, ikke i hale',
+        navn: 'fraType Syk, ikke ny dag, ikke i AGP, ikke i slutten av perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' }), lagDag({ dato: '2020-01-03' })],
         overstyrteDager: [lagDag({ dato: '2020-01-01', dag: Arbeidsdag, fraType: 'Syk' })],
         erSelvstendig: false,
@@ -74,7 +74,7 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         },
     },
     {
-        navn: 'fraType SykHelg, ikke ny dag, ikke i AGP, ikke i hale',
+        navn: 'fraType SykHelg, ikke ny dag, ikke i AGP, ikke i slutten av perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' })],
         overstyrteDager: [lagDag({ dato: '2020-01-01', dag: Arbeidsdag, fraType: 'SykHelg' })],
         erSelvstendig: false,
@@ -85,7 +85,7 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         },
     },
     {
-        navn: 'fraType Ferie, ikke ny dag, ikke i AGP, ikke i hale',
+        navn: 'fraType Ferie, ikke ny dag, ikke i AGP, ikke i slutten av perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' })],
         overstyrteDager: [lagDag({ dato: '2020-01-01', dag: Arbeidsdag, fraType: 'Ferie' })],
         erSelvstendig: false,
@@ -107,7 +107,7 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         },
     },
     {
-        navn: 'siste dag i perioden (i halen), fraType Syk, selvstendig næringsdrivende',
+        navn: 'siste dag i perioden (i slutten av perioden), fraType Syk, selvstendig næringsdrivende',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' })],
         overstyrteDager: [lagDag({ dato: '2020-01-02', dag: Arbeidsdag, fraType: 'Syk' })],
         erSelvstendig: true,
@@ -142,14 +142,14 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         forventet: { gyldig: true },
     },
     {
-        navn: 'siste dag i perioden (i halen), fraType Syk',
+        navn: 'siste dag i perioden (i slutten av perioden), fraType Syk',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' })],
         overstyrteDager: [lagDag({ dato: '2020-01-02', dag: Arbeidsdag, fraType: 'Syk' })],
         erSelvstendig: false,
         forventet: { gyldig: true },
     },
     {
-        navn: 'flere sammenhengende dager i halen av perioden',
+        navn: 'flere sammenhengende dager i slutten av perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' }), lagDag({ dato: '2020-01-03' })],
         overstyrteDager: [
             lagDag({ dato: '2020-01-02', dag: Arbeidsdag, fraType: 'Syk' }),
@@ -159,7 +159,7 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         forventet: { gyldig: true },
     },
     {
-        navn: 'dager som ikke henger sammen med halen',
+        navn: 'dager som ikke henger sammen med slutten av perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' }), lagDag({ dato: '2020-01-03' })],
         overstyrteDager: [
             lagDag({ dato: '2020-01-01', dag: Arbeidsdag, fraType: 'Syk' }),
@@ -173,7 +173,7 @@ export const arbeidsdagScenarioer: ArbeidsdagScenario[] = [
         },
     },
     {
-        navn: 'hale finnes ikke i perioden',
+        navn: 'slutten av perioden finnes ikke i perioden',
         alleDager: [lagDag({ dato: '2020-01-01', dag: Arbeidsdag }), lagDag({ dato: '2020-01-02', dag: Arbeidsdag })],
         overstyrteDager: [lagDag({ dato: '2020-01-01', dag: Arbeidsdag, fraType: 'Syk' })],
         erSelvstendig: false,
@@ -193,19 +193,19 @@ export const andreYtelserScenarioer: ValideringScenario[] = [
         forventet: { gyldig: true },
     },
     {
-        navn: 'dagen er i snuten (starten) av perioden',
+        navn: 'dagen er i starten av perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' }), lagDag({ dato: '2020-01-03' })],
         overstyrteDager: [lagDag({ dato: '2020-01-01', dag: Foreldrepengerdag })],
         forventet: { gyldig: true },
     },
     {
-        navn: 'dagen er i halen (slutten) av perioden',
+        navn: 'dagen er i slutten av perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' }), lagDag({ dato: '2020-01-03' })],
         overstyrteDager: [lagDag({ dato: '2020-01-03', dag: Foreldrepengerdag })],
         forventet: { gyldig: true },
     },
     {
-        navn: 'dagen er midt i perioden, verken i snuten eller halen',
+        navn: 'dagen er midt i perioden, verken i starten eller slutten av perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' }), lagDag({ dato: '2020-01-03' })],
         overstyrteDager: [lagDag({ dato: '2020-01-02', dag: Foreldrepengerdag })],
         forventet: {

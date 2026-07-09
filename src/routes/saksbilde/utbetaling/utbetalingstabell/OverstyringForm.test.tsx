@@ -75,7 +75,7 @@ describe('OverstyringForm', () => {
         expect(await screen.findAllByText('Begrunnelse må fylles ut')).toHaveLength(2);
     });
 
-    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i hale og overstyrt fraType Syk', async () => {
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i slutten av perioden og overstyrt fraType Syk', async () => {
         const overstyrteDager = new Map([
             ['2020-01-01', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
@@ -91,7 +91,7 @@ describe('OverstyringForm', () => {
         expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
 
-    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i hale og overstyrt fraType SykHelg', async () => {
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i slutten av perioden og overstyrt fraType SykHelg', async () => {
         const overstyrteDager = new Map([
             ['2020-01-01', { dag: Arbeidsdag, fraType: 'SykHelg', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
@@ -107,7 +107,7 @@ describe('OverstyringForm', () => {
         expect(await screen.findByText(arbeidsdagvalideringstekst)).toBeInTheDocument();
     });
 
-    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i hale og overstyrt fraType Ferie', async () => {
+    it('viser feilmelding dersom arbeidsdager ikke er ny dag, innenfor agp, ikke i slutten av perioden og overstyrt fraType Ferie', async () => {
         const overstyrteDager = new Map([
             ['2020-01-01', { dag: Arbeidsdag, fraType: 'Ferie', dato: '2020-01-01' } as Utbetalingstabelldag],
         ]);
@@ -161,7 +161,7 @@ describe('OverstyringForm', () => {
         expect(screen.queryByText(arbeidsdagvalideringstekst)).not.toBeInTheDocument();
     });
 
-    it('viser ikke feilmelding dersom overstyring til arbeidsdag er i hale av perioden, selv om fraType er Syk', async () => {
+    it('viser ikke feilmelding dersom overstyring til arbeidsdag er i slutten av perioden, selv om fraType er Syk', async () => {
         const overstyrteDager = new Map([
             [
                 '2020-01-02',
