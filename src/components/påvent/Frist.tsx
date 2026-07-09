@@ -6,7 +6,7 @@ import { DatePicker, useDatepicker } from '@navikt/ds-react';
 import { PåVentSkjema } from '@/form-schemas/påVentSkjema';
 import { plussEttÅr } from '@utils/date';
 
-export const Frist = (): ReactElement => {
+export function Frist(): ReactElement {
     const { control } = useFormContext<PåVentSkjema>();
     const { field, fieldState } = useController({ name: 'frist', control });
     const idag = new Date();
@@ -31,4 +31,4 @@ export const Frist = (): ReactElement => {
             />
         </DatePicker>
     );
-};
+}
