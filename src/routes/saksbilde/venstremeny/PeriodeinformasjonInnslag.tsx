@@ -36,7 +36,10 @@ export const Periodeinformasjon = ({ tittel, periodeinformasjon }: Periodeinform
                 {periodeinformasjon.map((informasjon) => (
                     <List key={inntektsforholdReferanseTilKey(informasjon.inntektsforholdReferanse)} as="ul">
                         {periodeinformasjon.length > 1 && (
-                            <Inntektsforholdnavn inntektsforholdReferanse={informasjon.inntektsforholdReferanse} />
+                            <Inntektsforholdnavn
+                                inntektsforholdReferanse={informasjon.inntektsforholdReferanse}
+                                maxWidth="180px"
+                            />
                         )}
                         {informasjon.perioder.map((periode) => (
                             <List.Item key={periode.id} className={styles.datoliste}>
