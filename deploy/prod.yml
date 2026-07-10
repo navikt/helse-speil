@@ -54,7 +54,6 @@ spec:
     min: 2
   resources:
     limits:
-      cpu: '2000m'
       memory: '512Mi'
     requests:
       cpu: '150m'
