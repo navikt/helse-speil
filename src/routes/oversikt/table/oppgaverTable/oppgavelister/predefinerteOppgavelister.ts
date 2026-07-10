@@ -381,6 +381,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
                 'RV_IV_1',
                 'RV_IV_3',
             ),
+            sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
+            sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
         },
     },
     // brukersaker - forlengelser
