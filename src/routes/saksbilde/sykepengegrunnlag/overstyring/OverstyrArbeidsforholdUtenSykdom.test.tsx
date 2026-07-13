@@ -108,6 +108,7 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
         );
 
         await userEvent.click(screen.getByRole('button'));
+        await userEvent.click(screen.getByRole('button', { name: 'Ja' }));
 
         expect(screen.queryByText('Bruk arbeidsforholdet i beregningen likevel')).not.toBeInTheDocument();
     });
