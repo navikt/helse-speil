@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { ArrowUndoIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
@@ -6,6 +6,7 @@ import { Button } from '@navikt/ds-react';
 import { PersonFragment } from '@io/graphql';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
+import { BrukArbeidsforholdILikevelDialog } from './BrukArbeidsforholdILikevelDialog';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
 interface AngreOverstyrArbeidsforholdUtenSykdomProps {
@@ -21,6 +22,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     skjæringstidspunkt,
     onClick,
 }: AngreOverstyrArbeidsforholdUtenSykdomProps): ReactElement => {
+    const [open, setOpen] = useState(false);
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
     const { postOverstyring } = usePostOverstyrtArbeidsforhold(person.aktorId);
     const begrunnelse: BegrunnelseForOverstyring = {
@@ -36,17 +38,17 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     );
     return (
         <>
-            <Button
-                size="xsmall"
-                variant="tertiary"
-                onClick={() => {
+            <Button size="xsmall" variant="tertiary" onClick={() => setOpen(true)} icon={<ArrowUndoIcon />}>
+                Bruk arbeidsforholdet i beregningen likevel
+            </Button>
+            <BrukArbeidsforholdILikevelDialog
+                open={open}
+                onOpenChange={setOpen}
+                onApprove={() => {
                     onClick();
                     postOverstyring(overstyrtArbeidsforhold);
                 }}
-                icon={<ArrowUndoIcon />}
-            >
-                Bruk arbeidsforholdet i beregningen likevel
-            </Button>
+            />
         </>
     );
 };
