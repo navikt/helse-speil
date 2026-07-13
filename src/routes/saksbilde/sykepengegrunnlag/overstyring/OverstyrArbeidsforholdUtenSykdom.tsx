@@ -37,7 +37,9 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
         ? 'Bruk arbeidsforholdet i beregningen likevel'
         : 'Ikke bruk arbeidsforholdet i beregningen';
 
-    const { venterPåEndringState, oppdaterVenterPåEndringState } = useContext(VenterPåEndringContext);
+    const { hentVenterPåEndringState, oppdaterVenterPåEndringState } = useContext(VenterPåEndringContext);
+    const nøkkel = `${organisasjonsnummerAktivPeriode}-${skjæringstidspunkt}`;
+    const venterPåEndringState = hentVenterPåEndringState(nøkkel);
 
     const skalViseAngreknapp = venterPåEndringState.visAngreknapp && arbeidsforholdErDeaktivert;
     const skalViseOverstyr = venterPåEndringState.visOverstyrKnapp && !arbeidsforholdErDeaktivert;
@@ -57,7 +59,9 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                         person={person}
                         organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                         skjæringstidspunkt={skjæringstidspunkt}
-                        onClick={() => oppdaterVenterPåEndringState({ visAngreknapp: false, visOverstyrKnapp: true })}
+                        onClick={() =>
+                            oppdaterVenterPåEndringState(nøkkel, { visAngreknapp: false, visOverstyrKnapp: true })
+                        }
                     />
                 )}
                 {skalViseOverstyr &&
@@ -84,7 +88,9 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                     onClose={() => setEditingArbeidsforhold(false)}
                     organisasjonsnummerAktivPeriode={organisasjonsnummerAktivPeriode}
                     skjæringstidspunkt={skjæringstidspunkt}
-                    onSubmit={() => oppdaterVenterPåEndringState({ visAngreknapp: true, visOverstyrKnapp: false })}
+                    onSubmit={() =>
+                        oppdaterVenterPåEndringState(nøkkel, { visAngreknapp: true, visOverstyrKnapp: false })
+                    }
                 />
             )}
         </div>
