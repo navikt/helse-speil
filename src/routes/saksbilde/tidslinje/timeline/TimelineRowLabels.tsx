@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 import { ChevronDownIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, HStack, Tooltip, VStack } from '@navikt/ds-react';
 
+import { CopyLabelPopover } from '@saksbilde/tidslinje/timeline/CopyLabelPopover';
 import { RowLabels } from '@saksbilde/tidslinje/timeline/index';
 import { useExpandedRows, useToggleRow } from '@saksbilde/tidslinje/timeline/row/context';
 import { cn } from '@utils/tw';
@@ -69,11 +70,15 @@ export function TimelineRowLabels({ labels }: TimelineRowLabelsProps): ReactElem
                                 </BodyShort>
                             </Tooltip>
                         </HStack>
-                        {label.copyLabelButton && (
-                            <Tooltip content="Kopier arbeidsgivernavn">
-                                <CopyButton copyText={label.label} size="xsmall" />
-                            </Tooltip>
-                        )}
+                        {/* organisasjonsnummer er kun satt for tilkommen inntekt-rader */}
+                        {label.copyLabelButton &&
+                            (label.organisasjonsnummer ? (
+                                <CopyLabelPopover navn={label.label} organisasjonsnummer={label.organisasjonsnummer} />
+                            ) : (
+                                <Tooltip content="Kopier arbeidsgivernavn">
+                                    <CopyButton copyText={label.label} size="xsmall" />
+                                </Tooltip>
+                            ))}
                     </HStack>
                 );
             })}

@@ -108,7 +108,14 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                     </TimelineRow>
                 ))}
                 {tilkommenRader.map((rad) => (
-                    <TimelineRow key={rad.id} label={rad.navn} icon={rad.icon} copyLabelButton anonymized={isAnonymous}>
+                    <TimelineRow
+                        key={rad.id}
+                        label={rad.navn}
+                        icon={rad.icon}
+                        copyLabelButton
+                        anonymized={isAnonymous}
+                        organisasjonsnummer={rad.organisasjonsnummer}
+                    >
                         {rad.tidslinjeElementer.map((element) => (
                             <TimelinePeriod
                                 key={element.fom + element.tom}

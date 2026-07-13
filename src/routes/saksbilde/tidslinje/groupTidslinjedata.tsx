@@ -34,6 +34,7 @@ export type TidslinjeRad = {
     navn: string;
     icon: React.ReactElement;
     tidslinjeElementer: TidslinjeElement[];
+    organisasjonsnummer?: string;
 };
 
 const isArbeidsgiver = (f: Inntektsforhold): f is Arbeidsgiver => 'navn' in f;
@@ -126,6 +127,7 @@ export function useTidslinjeRader(
             navnMap.get(inntektskilde.organisasjonsnummer) ?? inntektskilde.organisasjonsnummer,
         ),
         icon: <SackKronerIcon aria-hidden fontSize="1.5rem" />,
+        organisasjonsnummer: inntektskilde.organisasjonsnummer,
         tidslinjeElementer: inntektskilde.inntekter
             .map((inntekt) => ({
                 fom: inntekt.periode.fom,
