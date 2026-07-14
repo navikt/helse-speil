@@ -178,3 +178,21 @@ export const capitalizeArbeidsgiver = (value: string) =>
     capitalizeName(value)
         .replace(/\b(?:As|Asa|Sa|Da|Ba|Se|Fkf|Iks|Kf|Sf|Nuf)\b/, (t) => t.toUpperCase())
         .replaceAll(/\b(?:Og|I)\b/g, (t) => t.toLowerCase());
+
+export const useSlåOppNavnOmNødvendig = (organisasjonsnummer?: string, kjentNavn?: string) => {
+    const måSlåOppNavn =
+        kjentNavn === undefined ||
+        kjentNavn.toLowerCase() === 'navn er utilgjengelig' ||
+        kjentNavn.toLowerCase() === 'ikke tilgjengelig';
+
+    const { isEnabled, isPending, data } = useOrganisasjonQuery(måSlåOppNavn ? organisasjonsnummer : undefined);
+
+    if (!måSlåOppNavn) {
+        return { henterNavn: false, navn: kjentNavn };
+    }
+
+    return {
+        henterNavn: isEnabled && isPending,
+        navn: data?.navn != undefined ? capitalizeArbeidsgiver(data.navn) : 'Navn er utilgjengelig',
+    };
+};

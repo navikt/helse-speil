@@ -25,7 +25,7 @@ type Period = {
     periodPins?: PeriodPins[];
 };
 
-export type RowLabels = {
+export type RowLabel = {
     label: string;
     icon: ReactElement;
     rowIndex: number;
@@ -33,7 +33,9 @@ export type RowLabels = {
     copyLabelButton: boolean;
     anonymized: boolean;
     organisasjonsnummer?: string;
-}[];
+};
+
+export type RowLabels = RowLabel[];
 
 type ParsedRowsResult = {
     rowLabels: RowLabels;
