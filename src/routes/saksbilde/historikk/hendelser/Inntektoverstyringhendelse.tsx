@@ -5,6 +5,7 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
+import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
 import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
@@ -22,7 +23,7 @@ type InntektoverstyringhendelseProps = {
 };
 
 export const Inntektoverstyringhendelse = ({
-    hendelse: { erRevurdering, saksbehandler, timestamp, inntekt },
+    hendelse: { erRevurdering, saksbehandler, timestamp, inntekt, inntektsforholdReferanse },
 }: InntektoverstyringhendelseProps): ReactElement => {
     return (
         <>
@@ -34,6 +35,17 @@ export const Inntektoverstyringhendelse = ({
                     saksbehandler={saksbehandler}
                     aktiv={false}
                 >
+                    <HistorikkSection tittel="Arbeidsgiver">
+                        <Inntektsforholdnavn
+                            inntektsforholdReferanse={inntektsforholdReferanse}
+                            visOrganisasjonsnummerITooltip
+                        />
+                    </HistorikkSection>
+                    {inntektsforholdReferanse.type === 'Arbeidsgiver' && (
+                        <HistorikkSection tittel="Virksomhetsnummer">
+                            <BodyShort>{inntektsforholdReferanse.organisasjonsnummer}</BodyShort>
+                        </HistorikkSection>
+                    )}
                     <HistorikkSection tittel="Begrunnelse">
                         <BodyShort>{inntekt.begrunnelse}</BodyShort>
                     </HistorikkSection>
@@ -72,6 +84,17 @@ export const Inntektoverstyringhendelse = ({
                     saksbehandler={saksbehandler}
                     aktiv={false}
                 >
+                    <HistorikkSection tittel="Arbeidsgiver">
+                        <Inntektsforholdnavn
+                            inntektsforholdReferanse={inntektsforholdReferanse}
+                            visOrganisasjonsnummerITooltip
+                        />
+                    </HistorikkSection>
+                    {inntektsforholdReferanse.type === 'Arbeidsgiver' && (
+                        <HistorikkSection tittel="Organisasjonsnummer">
+                            <BodyShort>{inntektsforholdReferanse.organisasjonsnummer}</BodyShort>
+                        </HistorikkSection>
+                    )}
                     <HistorikkSection tittel="Begrunnelse">
                         <BodyShort>{inntekt.begrunnelse}</BodyShort>
                     </HistorikkSection>

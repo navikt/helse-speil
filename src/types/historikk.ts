@@ -78,6 +78,7 @@ export type InntektoverstyringhendelseObject = BaseHendelseObject & {
     saksbehandler: string;
     timestamp: DateString;
     inntekt: OverstyrtInntekt;
+    inntektsforholdReferanse: InntektsforholdReferanse;
 };
 
 export type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObject & {

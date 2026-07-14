@@ -502,6 +502,7 @@ export const getInntektoverstyringer = (
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
             timestamp: overstyring.timestamp,
             inntekt: overstyring.inntekt,
+            inntektsforholdReferanse: tilReferanse(inntektsforhold),
         }));
 };
 
@@ -520,6 +521,7 @@ export const getInntektoverstyringerForGhost = (
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
             timestamp: overstyring.timestamp,
             inntekt: overstyring.inntekt,
+            inntektsforholdReferanse: tilReferanse(arbeidsgiver),
         }));
 };
 
