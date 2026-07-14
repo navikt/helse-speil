@@ -21,7 +21,7 @@ export const InntektOgRefusjonHeader = ({ arbeidsgiverReferanse, kilde }: Inntek
         <HStack align="center">
             <BodyShort>(</BodyShort>
             <AnonymizableText>{arbeidsgiverReferanse.organisasjonsnummer}</AnonymizableText>
-            <Tooltip content="Kopier organisasjonsnummer">
+            <Tooltip content="Kopier virksomhetsnummer">
                 <CopyButton copyText={arbeidsgiverReferanse.organisasjonsnummer} size="small" />
             </Tooltip>
             <BodyShort>)</BodyShort>

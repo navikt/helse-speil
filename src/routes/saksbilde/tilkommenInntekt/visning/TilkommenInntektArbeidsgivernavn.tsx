@@ -16,7 +16,7 @@ export const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { orga
             <CopyButton
                 copyText={organisasjonsnummer}
                 size="xsmall"
-                title="Kopier organisasjonsnummer"
+                title="Kopier virksomhetsnummer"
                 onClick={(event) => event.stopPropagation()}
             />
             <BodyShort weight="semibold">)</BodyShort>

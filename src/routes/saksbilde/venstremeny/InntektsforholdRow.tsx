@@ -78,7 +78,7 @@ export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: Inntekts
                     <div />
                     <HStack>
                         <AnonymizableText>{inntektsforhold.organisasjonsnummer}</AnonymizableText>
-                        <Tooltip content="Kopier organisasjonsnummer">
+                        <Tooltip content="Kopier virksomhetsnummer">
                             <CopyButton copyText={inntektsforhold.organisasjonsnummer} size="xsmall" />
                         </Tooltip>
                     </HStack>
