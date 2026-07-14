@@ -15,6 +15,7 @@ import { capitalizeName, tilTelefonNummer, toKronerOgØre } from '@utils/locale'
 import { BestemmendeFraværsdag } from './BestemmendeFraværsdag';
 import { DokumentFragment, DokumentFragmentAnonymisert } from './DokumentFragment';
 import { DokumentLoader } from './DokumentLoader';
+import { Inntektsdato } from './Inntektsdato';
 
 import styles from './Inntektsmeldingsinnhold.module.css';
 
@@ -61,6 +62,7 @@ export const Inntektsmeldingsinnhold = ({
                     )}
                     <Endringsårsaker årsaker={data.inntektEndringAarsaker ?? []} />
                     <BestemmendeFraværsdag førsteFraværsdag={data?.foersteFravaersdag ?? null} />
+                    <Inntektsdato inntektsdato={data?.inntektsdato ?? null} />
                     {(data.arbeidsgiverperioder?.length ?? 0) > 0 && (
                         <div className={styles.liste}>
                             <BodyShort weight="semibold" size="small">

@@ -843,6 +843,8 @@ export type ApiDokumentInntektsmeldingFerieperioder = null | ApiIMPeriode[];
 
 export type ApiDokumentInntektsmeldingFoersteFravaersdag = null | string;
 
+export type ApiDokumentInntektsmeldingInntektsdato = null | string;
+
 export type ApiDokumentInntektsmeldingNaerRelasjon = null | boolean;
 
 export type ApiDokumentInntektsmeldingInnsenderFulltNavn = null | string;
@@ -866,6 +868,7 @@ export interface ApiDokumentInntektsmelding {
     arbeidsgiverperioder?: ApiDokumentInntektsmeldingArbeidsgiverperioder;
     ferieperioder?: ApiDokumentInntektsmeldingFerieperioder;
     foersteFravaersdag?: ApiDokumentInntektsmeldingFoersteFravaersdag;
+    inntektsdato?: ApiDokumentInntektsmeldingInntektsdato;
     naerRelasjon?: ApiDokumentInntektsmeldingNaerRelasjon;
     innsenderFulltNavn?: ApiDokumentInntektsmeldingInnsenderFulltNavn;
     innsenderTelefon?: ApiDokumentInntektsmeldingInnsenderTelefon;
@@ -1826,7 +1829,9 @@ export type ApiPostPersonSokErrorCode = (typeof ApiPostPersonSokErrorCode)[keyof
 export const ApiPostPersonSokErrorCode = {
     FOR_MANGE_INPUTPARAMETERE: 'FOR_MANGE_INPUTPARAMETERE',
     MANGLER_INPUTPARAMETERE: 'MANGLER_INPUTPARAMETERE',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    AKTØRID_IKKE_FUNNET: 'AKTØRID_IKKE_FUNNET',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail = null | string;

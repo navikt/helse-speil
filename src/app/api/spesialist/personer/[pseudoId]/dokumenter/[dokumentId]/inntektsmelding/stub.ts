@@ -32,6 +32,7 @@ const mockedInntektsmelding: ApiDokumentInntektsmelding = {
     ],
     ferieperioder: [],
     foersteFravaersdag: '2023-08-01',
+    inntektsdato: null,
     naerRelasjon: null,
     inntektEndringAarsaker: [
         {
