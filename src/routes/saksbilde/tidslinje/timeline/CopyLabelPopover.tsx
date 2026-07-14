@@ -26,7 +26,7 @@ export function CopyLabelPopover({ navn, organisasjonsnummer }: CopyLabelPopover
 
     const felter: { felt: KopierbartFelt; verdi: string; tekst: string }[] = [
         { felt: 'navn', verdi: navn, tekst: 'Kopier navn' },
-        { felt: 'organisasjonsnummer', verdi: organisasjonsnummer, tekst: 'Kopier organisasjonsnummer' },
+        { felt: 'organisasjonsnummer', verdi: organisasjonsnummer, tekst: 'Kopier virksomhetsnummer' },
     ];
 
     return (
@@ -37,11 +37,11 @@ export function CopyLabelPopover({ navn, organisasjonsnummer }: CopyLabelPopover
                 size="xsmall"
                 icon={<FilesIcon aria-hidden />}
                 onClick={() => setOpen((prev) => !prev)}
-                title="Kopier"
+                title="Kopier navn eller virksomhetsnummer"
             />
-            <Popover anchorEl={buttonRef.current} open={open} onClose={() => setOpen(false)} placement="bottom">
+            <Popover anchorEl={buttonRef.current} open={open} onClose={() => setOpen(false)} placement="right">
                 <Popover.Content>
-                    <VStack gap="space-4" className="w-56">
+                    <VStack gap="space-4" className="w-52">
                         {felter.map(({ felt, verdi, tekst }) => (
                             <Button
                                 key={felt}

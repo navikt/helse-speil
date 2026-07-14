@@ -70,7 +70,6 @@ export function TimelineRowLabels({ labels }: TimelineRowLabelsProps): ReactElem
                                 </BodyShort>
                             </Tooltip>
                         </HStack>
-                        {/* organisasjonsnummer er kun satt for tilkommen inntekt-rader */}
                         {label.copyLabelButton &&
                             (label.organisasjonsnummer ? (
                                 <CopyLabelPopover navn={label.label} organisasjonsnummer={label.organisasjonsnummer} />

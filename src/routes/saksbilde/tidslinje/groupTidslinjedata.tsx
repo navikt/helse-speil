@@ -117,6 +117,7 @@ export function useTidslinjeRader(
             id: index,
             navn: isArbeidsgiver(forhold) ? capitalizeArbeidsgiver(forhold.navn) : 'Selvstendig næring',
             icon: <BriefcaseIcon aria-hidden className="text-ax-text-neutral" fontSize="1.5rem" />,
+            organisasjonsnummer: isArbeidsgiver(forhold) ? forhold.organisasjonsnummer : undefined,
             tidslinjeElementer: [...behandlingElements, ...ghostElements].sort((a, b) => a.fom.localeCompare(b.fom)),
         };
     });

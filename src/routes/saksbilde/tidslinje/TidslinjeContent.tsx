@@ -72,6 +72,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                         icon={rad.icon}
                         copyLabelButton={rad.navn !== 'Selvstendig næring'}
                         anonymized={isAnonymous}
+                        organisasjonsnummer={rad.organisasjonsnummer}
                     >
                         {rad.tidslinjeElementer.map((element) => {
                             const id = element.periode?.id ?? element.ghostPeriode?.id;
