@@ -49,7 +49,7 @@ const ekskluder_varsler_nks = varsler(
 export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
     {
         id: 'nks-arbeidsgiver-en-ag',
-        navn: 'NKS - Èn arbeidsgiver',
+        navn: 'NKS - En arbeidsgiver',
         params: {
             erTildelt: false,
             minstEnAvEgenskapene: enAv(
