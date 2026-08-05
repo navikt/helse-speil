@@ -69,7 +69,7 @@ export const useJusterbarBredde = ({
 };
 
 function lesLagretBredde(localStorageNavn: string | undefined, defaultBredde: number): number {
-    if (!localStorageNavn || typeof window === 'undefined') return defaultBredde;
+    if (!localStorageNavn || typeof window === 'undefined' || typeof localStorage === 'undefined') return defaultBredde;
     const lagret = Number.parseInt(localStorage.getItem(localStorageNavn) ?? '', 10);
     return Number.isFinite(lagret) ? lagret : defaultBredde;
 }

@@ -82,8 +82,32 @@ vi.mock('@app/axios/axiosClient', () => ({
     customAxios: customAxiosMock,
 }));
 
+// Node 26 deaktiverer localStorage som eksperimentell global. Vi setter opp en in-memory mock
+// slik at kode som bruker localStorage fungerer i testmiljøet.
+if (typeof localStorage === 'undefined' || localStorage === null) {
+    const store: Record<string, string> = {};
+    const localStorageMock: Storage = {
+        getItem: (key) => store[key] ?? null,
+        setItem: (key, value) => {
+            store[key] = String(value);
+        },
+        removeItem: (key) => {
+            delete store[key];
+        },
+        clear: () => {
+            Object.keys(store).forEach((key) => delete store[key]);
+        },
+        get length() {
+            return Object.keys(store).length;
+        },
+        key: (index) => Object.keys(store)[index] ?? null,
+    };
+    Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock });
+}
+
 beforeEach(() => {
     vi.clearAllMocks();
+    localStorage.clear();
 });
 
 // TODO: Remove when Apollo/GraphQL is fully phased out

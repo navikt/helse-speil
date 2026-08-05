@@ -5,10 +5,6 @@ import { renderHook } from '@test-utils';
 
 import { SortKey, useDateSortValue, useSetDatoSortering, useSetSortering, useSorteringValue } from './sortation';
 
-beforeEach(() => {
-    localStorage.clear();
-});
-
 describe('sortation', () => {
     describe('useSorteringValue', () => {
         it('opprettet er default sortering for til godkjenning tab', () => {
