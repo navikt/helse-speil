@@ -39,6 +39,7 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
                 ) : (
                     <>
                         {aktivTab === TabType.TilGodkjenning && <SøkefeltSaksbehandlere />}
+                        {aktivTab === TabType.TilGodkjenning && <DatoFilter />}
                         {aktivTab === TabType.TilGodkjenning && (
                             <FilterList
                                 filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.TILDELING)}
@@ -79,7 +80,6 @@ export const Filtermeny = ({ filters }: FilterMenyProps): ReactElement => {
                             filters={filters.filter((it) => it.column === Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD)}
                             text="Antall inntektsforhold"
                         />
-                        {aktivTab === TabType.TilGodkjenning && <DatoFilter />}
                     </>
                 )}
             </section>
