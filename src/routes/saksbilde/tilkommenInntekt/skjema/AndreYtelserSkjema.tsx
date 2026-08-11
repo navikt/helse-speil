@@ -123,7 +123,7 @@ export const AndreYtelserSkjema = (): ReactElement => {
 
     const { fields, append, remove } = useFieldArray({ control: form.control, name: 'perioder' });
 
-    if (!person) return null;
+    if (!person) return <ErrorMessage>Kunne ikke hente personinformasjon</ErrorMessage>;
 
     const handleSubmit = async (_values: AndreYtelserSchema) => {
         setSubmitError(undefined);

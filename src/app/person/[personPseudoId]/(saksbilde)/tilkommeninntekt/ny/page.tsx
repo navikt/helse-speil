@@ -1,13 +1,15 @@
-'use client';
-
 import React, {ReactElement} from 'react';
 
-import {erUtvikling} from '@/env';
 import {
     LeggTilTilkommenInntektEllerAndreYtelserView
 } from '@saksbilde/tilkommenInntekt/saksbilde/LeggTilTilkommenInntektEllerAndreYtelserView';
 import {LeggTilTilkommenInntektView} from '@saksbilde/tilkommenInntekt/saksbilde/LeggTilTilkommenInntektView';
+import {skalBrukeNyttTilkommenInntektSkjema} from '@utils/featureToggles';
 
 export default function Page(): ReactElement | null {
-    return erUtvikling ? <LeggTilTilkommenInntektEllerAndreYtelserView /> : <LeggTilTilkommenInntektView />;
+    return skalBrukeNyttTilkommenInntektSkjema() ? (
+        <LeggTilTilkommenInntektEllerAndreYtelserView />
+    ) : (
+        <LeggTilTilkommenInntektView />
+    );
 }
