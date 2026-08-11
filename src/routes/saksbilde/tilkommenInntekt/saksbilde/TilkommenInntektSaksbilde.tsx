@@ -1,26 +1,32 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 
-import { HStack, VStack } from '@navikt/ds-react';
+import { Box, HStack, Tabs, VStack } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
-import { LeggTilTilkommenInntektView } from '@saksbilde/tilkommenInntekt/saksbilde/LeggTilTilkommenInntektView';
-import { LeggTilTilkommenInntektEllerAndreYtelserView } from '@saksbilde/tilkommenInntekt/saksbilde/LeggTilTilkommenInntektEllerAndreYtelserView';
 import { useFetchPersonQuery } from '@state/person';
 
-export const TilkommenInntektSaksbilde = () => {
+export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
     const { data: personData } = useFetchPersonQuery();
 
     return (
         <VStack className="h-full min-w-0 flex-1 [grid-area:content]">
-            <HStack wrap={false} className="w-full inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA">
-                <VisHvisSkrivetilgang>
-                    <SaksbildeDropdownMenu person={personData?.person} />
-                </VisHvisSkrivetilgang>
-            </HStack>
-            {!erUtvikling && <LeggTilTilkommenInntektEllerAndreYtelserView />}
-            {erUtvikling && <LeggTilTilkommenInntektView />}
+            <Tabs defaultValue="tilkommen-inntekt" size="medium">
+                <HStack
+                    wrap={false}
+                    className="w-full inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA [&>*:first-child]:w-fit [&>*:first-child]:inset-shadow-none"
+                >
+                    <Tabs.List>
+                        <Tabs.Tab value="tilkommen-inntekt" label="Tilkommen inntekt" />
+                    </Tabs.List>
+                    <VisHvisSkrivetilgang>
+                        <SaksbildeDropdownMenu person={personData?.person} />
+                    </VisHvisSkrivetilgang>
+                </HStack>
+                <Box overflowX="auto">
+                    <Tabs.Panel value="tilkommen-inntekt">{children}</Tabs.Panel>
+                </Box>
+            </Tabs>
         </VStack>
     );
 };
