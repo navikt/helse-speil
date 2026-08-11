@@ -1,15 +1,16 @@
 import React from 'react';
-import { useController } from 'react-hook-form';
+import {useController} from 'react-hook-form';
 
-import { DatePicker, useDatepicker } from '@navikt/ds-react';
+import {DatePicker, useDatepicker} from '@navikt/ds-react';
 
-import { DatePeriod, DateString } from '@typer/shared';
-import { dateTilNorskDato, erGyldigNorskDato, norskDatoTilDate, plussEnDag, somDate } from '@utils/date';
+import {DatePeriod, DateString} from '@typer/shared';
+import {dateTilNorskDato, erGyldigNorskDato, norskDatoTilDate, plussEnDag, somDate} from '@utils/date';
 
 type ControlledDatePickerProps = {
     name: string;
     error?: boolean;
     label: string;
+    hideLabel?: boolean;
     gyldigePerioder: DatePeriod[];
     erGyldigDato: (dato: string) => boolean;
     id: string;
@@ -26,6 +27,7 @@ export const ControlledDatePicker = ({
     name,
     error = false,
     label,
+    hideLabel = false,
     gyldigePerioder,
     erGyldigDato,
     id,
@@ -66,6 +68,7 @@ export const ControlledDatePicker = ({
                 }}
                 disabled={field.disabled}
                 label={label}
+                hideLabel={hideLabel}
                 error={error ? fieldState.error?.message != undefined : fieldState.error?.message}
                 size="small"
                 style={{ width: '110px' }}

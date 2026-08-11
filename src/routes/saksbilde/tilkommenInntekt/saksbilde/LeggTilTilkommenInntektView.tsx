@@ -1,17 +1,17 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import {useParams, useRouter} from 'next/navigation';
+import React, {ReactElement, useState} from 'react';
 
-import { TilkommenInntektSchema } from '@/form-schemas';
-import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import { usePostTilkomneInntekter } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
-import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
-import { useFetchPersonQuery } from '@state/person';
-import { useNavigerTilTilkommenInntekt } from '@state/routing';
-import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
-import { norskDatoTilIsoDato } from '@utils/date';
+import {TilkommenInntektSchema} from '@/form-schemas';
+import {ApiTilkommenInntekt} from '@io/rest/generated/spesialist.schemas';
+import {usePostTilkomneInntekter} from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
+import {TilkommenInntektSkjema} from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
+import {useFetchPersonQuery} from '@state/person';
+import {useNavigerTilTilkommenInntekt} from '@state/routing';
+import {tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery} from '@state/tilkommenInntekt';
+import {useTilkommenInntektFormDraft} from '@state/tilkommenInntektSkjema';
+import {norskDatoTilIsoDato} from '@utils/date';
 
 export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const { data: personData } = useFetchPersonQuery();
@@ -32,7 +32,7 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
             ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
             : undefined;
 
-    const { mutate: leggTilTilkommenInntekt } = usePostTilkomneInntekter();
+    const { mutateAsync: leggTilTilkommenInntekt } = usePostTilkomneInntekter();
 
     if (!person || tilkomneInntekterMedOrganisasjonsnummer === undefined) {
         return null;
@@ -41,8 +41,8 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const submit = async (values: TilkommenInntektSchema) => {
         setIsSubmitting(true);
         setSubmitError(undefined);
-        leggTilTilkommenInntekt(
-            {
+        try {
+            const data = await leggTilTilkommenInntekt({
                 data: {
                     fodselsnummer: person.fodselsnummer,
                     notatTilBeslutter: values.notat,
@@ -56,22 +56,19 @@ export const LeggTilTilkommenInntektView = (): ReactElement | null => {
                         ekskluderteUkedager: values.ekskluderteUkedager,
                     },
                 },
-            },
-            {
-                onSuccess: (data) => {
-                    clearDraft();
-                    tilkommenInntektRefetch().then(() => {
-                        navigerTilTilkommenInntekt(data.tilkommenInntektId);
-                    });
-                },
-                onError: () => {
-                    setSubmitError(
-                        'Klarte ikke lagre ny tilkommen inntekt. Prøv igjen senere, eller kontakt en coach.',
-                    );
-                    setIsSubmitting(false);
-                },
-            },
-        );
+            });
+            clearDraft();
+            setIsSubmitting(false);
+            try {
+                await tilkommenInntektRefetch();
+            } catch {
+                // Naviger likevel om refetch feiler; detaljsiden henter data på nytt.
+            }
+            navigerTilTilkommenInntekt(data.tilkommenInntektId);
+        } catch {
+            setSubmitError('Klarte ikke lagre ny tilkommen inntekt. Prøv igjen senere, eller kontakt en coach.');
+            setIsSubmitting(false);
+        }
     };
     return (
         <TilkommenInntektSkjema

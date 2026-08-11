@@ -1,17 +1,17 @@
 'use client';
 
-import { useParams } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import {useParams} from 'next/navigation';
+import React, {ReactElement, useState} from 'react';
 
-import { TilkommenInntektSchema } from '@/form-schemas';
-import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import { usePatchTilkommenInntekt } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
-import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
-import { useFetchPersonQuery } from '@state/person';
-import { useNavigerTilTilkommenInntekt } from '@state/routing';
-import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
-import { norskDatoTilIsoDato } from '@utils/date';
+import {TilkommenInntektSchema} from '@/form-schemas';
+import {ApiTilkommenInntekt} from '@io/rest/generated/spesialist.schemas';
+import {usePatchTilkommenInntekt} from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
+import {TilkommenInntektSkjema} from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
+import {useFetchPersonQuery} from '@state/person';
+import {useNavigerTilTilkommenInntekt} from '@state/routing';
+import {tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery} from '@state/tilkommenInntekt';
+import {useTilkommenInntektFormDraft} from '@state/tilkommenInntektSkjema';
+import {norskDatoTilIsoDato} from '@utils/date';
 
 export const EndreTilkommenInntektView = ({
     tilkommenInntektId,
@@ -39,7 +39,7 @@ export const EndreTilkommenInntektView = ({
             (inntektMedOrganisasjonsnummer) => inntektMedOrganisasjonsnummer.tilkommenInntektId === tilkommenInntektId,
         );
 
-    const { mutate: patchTilkommenInntekt } = usePatchTilkommenInntekt();
+    const { mutateAsync: patchTilkommenInntekt } = usePatchTilkommenInntekt();
 
     if (
         !person ||
@@ -52,8 +52,8 @@ export const EndreTilkommenInntektView = ({
     const submit = async (values: TilkommenInntektSchema) => {
         setIsSubmitting(true);
         setSubmitError(undefined);
-        patchTilkommenInntekt(
-            {
+        try {
+            await patchTilkommenInntekt({
                 tilkommenInntektId: tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId,
                 data: {
                     endringer: {
@@ -82,20 +82,19 @@ export const EndreTilkommenInntektView = ({
                     },
                     notatTilBeslutter: values.notat,
                 },
-            },
-            {
-                onSuccess: () => {
-                    clearDraft();
-                    tilkommenInntektRefetch().then(() => {
-                        navigerTilTilkommenInntekt(tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId);
-                    });
-                },
-                onError: () => {
-                    setSubmitError('Klarte ikke lagre endringer. Prøv igjen senere, eller kontakt en coach.');
-                    setIsSubmitting(false);
-                },
-            },
-        );
+            });
+            clearDraft();
+            setIsSubmitting(false);
+            try {
+                await tilkommenInntektRefetch();
+            } catch {
+                // Naviger likevel om refetch feiler; detaljsiden henter data på nytt.
+            }
+            navigerTilTilkommenInntekt(tilkommenInntektMedOrganisasjonsnummer.tilkommenInntektId);
+        } catch {
+            setSubmitError('Klarte ikke lagre endringer. Prøv igjen senere, eller kontakt en coach.');
+            setIsSubmitting(false);
+        }
     };
 
     return (
