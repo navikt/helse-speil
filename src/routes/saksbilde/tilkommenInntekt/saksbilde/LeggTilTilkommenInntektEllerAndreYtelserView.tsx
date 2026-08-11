@@ -21,7 +21,10 @@ export const LeggTilTilkommenInntektEllerAndreYtelserView = (): ReactElement => 
             paddingInline="space-40"
             paddingBlock="space-16"
             marginBlock="space-16"
-            width="max-content"
+            width="fit-content"
+            minWidth="calc(var(--ax-space-128) * 4)"
+            maxWidth="100%"
+            style={{ marginInlineEnd: 'auto' }}
         >
             <VStack gap="space-16">
                 <RadioGroup

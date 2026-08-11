@@ -153,6 +153,7 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
         }
     };
 
+
     return (
         <FormProvider {...form}>
             <HStack wrap={false} gap="space-0">

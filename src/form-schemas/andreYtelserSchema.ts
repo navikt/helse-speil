@@ -58,11 +58,11 @@ const lagAndreYtelserPeriodeSchema = (sykefraværstilfelleperioder: DatePeriod[]
                     input: grad,
                     continue: true,
                 });
-            } else if (grad > 100) {
+            } else if (grad > 99) {
                 ctx.issues.push({
                     code: 'too_big',
-                    message: 'Grad må være 100 eller lavere',
-                    maximum: 100,
+                    message: 'Grad må være 99 eller lavere',
+                    maximum: 99,
                     origin: 'number',
                     path: ['grad'],
                     input: grad,

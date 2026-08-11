@@ -1,32 +1,46 @@
-import {useRouter} from 'next/navigation';
-import React, {ReactElement, useState} from 'react';
-import {Controller, FormProvider, useFieldArray, useForm, UseFormReturn, useWatch} from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import React, { ReactElement, useState } from 'react';
+import { Controller, FieldErrors, FormProvider, UseFormReturn, useFieldArray, useForm, useFormState, useWatch } from 'react-hook-form';
 
-import {PlusIcon, TrashIcon} from '@navikt/aksel-icons';
-import {Button, ErrorMessage, HGrid, HStack, Select, Textarea, TextField, VStack} from '@navikt/ds-react';
-import {Box} from '@navikt/ds-react/Box';
+import { PlusIcon } from '@navikt/aksel-icons';
+import { Button, ErrorMessage, HGrid, HStack, Select, TextField, Textarea, VStack } from '@navikt/ds-react';
+import { Box } from '@navikt/ds-react/Box';
 
-import {AndreYtelserSchema, ANNEN_YTELSE_OPTIONS, lagAndreYtelserSchema} from '@/form-schemas/andreYtelserSchema';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {ControlledDatePicker} from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
-import {utledSykefraværstilfelleperioder} from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-import {useFetchPersonQuery} from '@state/person';
-import {erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag} from '@utils/date';
+import { ANNEN_YTELSE_OPTIONS, AndreYtelserSchema, lagAndreYtelserSchema } from '@/form-schemas/andreYtelserSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
+import { utledSykefraværstilfelleperioder } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { useFetchPersonQuery } from '@state/person';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag } from '@utils/date';
 
 interface PeriodeRadProps {
     index: number;
     form: UseFormReturn<AndreYtelserSchema>;
     onRemove: () => void;
-    canRemove: boolean;
     sykefraværstilfelleperioder: ReturnType<typeof utledSykefraværstilfelleperioder>;
 }
 
-const PeriodeRad = ({ index, form, onRemove, canRemove, sykefraværstilfelleperioder }: PeriodeRadProps): ReactElement => {
+const tomPeriode = { fom: '', tom: '', grad: undefined };
+
+const hentPeriodeFeilmeldinger = (errors: FieldErrors<AndreYtelserSchema>) => {
+    const perioder = Array.isArray(errors.perioder) ? errors.perioder : [];
+
+    return perioder.flatMap((periode, index, allePerioder) =>
+        [periode?.fom?.message, periode?.tom?.message, periode?.grad?.message]
+            .filter((message): message is string => typeof message === 'string')
+            .map((message) => (allePerioder.length > 1 ? `Periode ${index + 1}: ${message}` : message)),
+    );
+};
+
+const PeriodeRad = ({ index, form, onRemove, sykefraværstilfelleperioder }: PeriodeRadProps): ReactElement => {
     const fom = useWatch({ control: form.control, name: `perioder.${index}.fom` });
     const tom = useWatch({ control: form.control, name: `perioder.${index}.tom` });
-    const fomError = form.formState.errors.perioder?.[index]?.fom?.message;
-    const tomError = form.formState.errors.perioder?.[index]?.tom?.message;
-    const gradError = form.formState.errors.perioder?.[index]?.grad?.message;
+    const { errors } = useFormState({
+        control: form.control,
+        name: [`perioder.${index}.fom`, `perioder.${index}.tom`, `perioder.${index}.grad`],
+    });
+    const fomError = errors.perioder?.[index]?.fom?.message;
+    const tomError = errors.perioder?.[index]?.tom?.message;
 
     const erGyldigFom = (fom: string) => {
         if (!erGyldigNorskDato(fom)) return false;
@@ -49,62 +63,54 @@ const PeriodeRad = ({ index, form, onRemove, canRemove, sykefraværstilfelleperi
     };
 
     return (
-        <HGrid columns="1fr 1fr auto auto" gap="space-8" align="end">
-            <ControlledDatePicker
-                name={`perioder.${index}.fom`}
-                label="Periode f.o.m."
-                hideLabel={index !== 0}
-                gyldigePerioder={sykefraværstilfelleperioder}
-                erGyldigDato={erGyldigFom}
-                id={`perioder.${index}.fom`}
-                error
-            />
-            <ControlledDatePicker
-                name={`perioder.${index}.tom`}
-                label="Periode t.o.m."
-                hideLabel={index !== 0}
-                gyldigePerioder={sykefraværstilfelleperioder}
-                erGyldigDato={erGyldigTom}
-                id={`perioder.${index}.tom`}
-                defaultMonth={fom === '' ? undefined : fom}
-                error
-            />
-            <Controller
-                control={form.control}
-                name={`perioder.${index}.grad`}
-                render={({ field }) => (
-                    <TextField
-                        value={field.value == null ? '' : field.value.toString()}
-                        onChange={(e) => {
-                            field.onChange(e.target.value === '' ? undefined : Number(e.target.value));
-                        }}
-                        onBlur={field.onBlur}
-                        label={index === 0 ? 'Grad' : undefined}
-                        hideLabel={index !== 0}
-                        size="small"
-                        type="number"
-                        min={1}
-                        max={100}
-                        error={gradError}
-                        style={{ width: '70px' }}
-                        id={`perioder.${index}.grad`}
-                    />
-                )}
-            />
-            {canRemove ? (
-                <Button
-                    type="button"
-                    variant="tertiary-neutral"
-                    size="small"
-                    icon={<TrashIcon />}
-                    onClick={onRemove}
-                    aria-label="Fjern periode"
-                    style={{ marginBottom: (fomError ?? tomError ?? gradError) ? '1.5rem' : undefined }}
+        <VStack gap="space-8" marginBlock="space-16">
+            <HGrid columns={4} gap="space-8" align="end">
+                <ControlledDatePicker
+                    name={`perioder.${index}.fom`}
+                    label="Periode f.o.m."
+                    hideLabel={index !== 0}
+                    gyldigePerioder={sykefraværstilfelleperioder}
+                    erGyldigDato={erGyldigFom}
+                    id={`perioder.${index}.fom`}
+                    error={fomError != undefined}
                 />
-            ) : (
-                <div style={{ width: '32px' }} />
-            )}
-        </HGrid>
+                <ControlledDatePicker
+                    name={`perioder.${index}.tom`}
+                    label="Periode t.o.m."
+                    hideLabel={index !== 0}
+                    gyldigePerioder={sykefraværstilfelleperioder}
+                    erGyldigDato={erGyldigTom}
+                    id={`perioder.${index}.tom`}
+                    defaultMonth={fom === '' ? undefined : fom}
+                    error={tomError != undefined}
+                />
+                <Controller
+                    control={form.control}
+                    name={`perioder.${index}.grad`}
+                    render={({ field, fieldState }) => (
+                        <TextField
+                            value={field.value == null ? '' : field.value.toString()}
+                            onChange={(e) => {
+                                field.onChange(e.target.value === '' ? undefined : Number(e.target.value));
+                            }}
+                            onBlur={field.onBlur}
+                            label={index === 0 ? 'Grad' : undefined}
+                            hideLabel={index !== 0}
+                            size="small"
+                            type="number"
+                            min={1}
+                            max={99}
+                            error={fieldState.error?.message != undefined}
+                            style={{ width: 'var(--ax-space-80)' }}
+                            id={`perioder.${index}.grad`}
+                        />
+                    )}
+                />
+                <Button type="button" variant="tertiary" size="xsmall" onClick={onRemove}>
+                    Slett
+                </Button>
+            </HGrid>
+        </VStack>
     );
 };
 
@@ -120,8 +126,10 @@ export const AndreYtelserSkjema = (): ReactElement => {
         reValidateMode: 'onBlur',
         defaultValues: { ytelse: undefined, perioder: [{ fom: '', tom: '', grad: undefined }], notat: '' },
     });
+    const { errors } = useFormState({ control: form.control });
+    const periodeFeilmeldinger = hentPeriodeFeilmeldinger(errors);
 
-    const { fields, append, remove } = useFieldArray({ control: form.control, name: 'perioder' });
+    const { fields, append, remove, update } = useFieldArray({ control: form.control, name: 'perioder' });
 
     if (!person) return <ErrorMessage>Kunne ikke hente personinformasjon</ErrorMessage>;
 
@@ -130,87 +138,112 @@ export const AndreYtelserSkjema = (): ReactElement => {
         setSubmitError('Lagring av andre ytelser er ikke koblet opp ennå.');
     };
 
+    const handleRemove = (index: number) => {
+        if (fields.length === 1) {
+            update(index, tomPeriode);
+            form.clearErrors(`perioder.${index}`);
+            return;
+        }
+
+        remove(index);
+    };
+
     return (
         <FormProvider {...form}>
-            <form onSubmit={form.handleSubmit(handleSubmit)}>
-                <VStack gap="space-16">
-                    <Controller
-                        control={form.control}
-                        name="ytelse"
-                        render={({ field, fieldState }) => (
-                            <Select
-                                {...field}
-                                value={field.value ?? ''}
-                                label="Velg ytelse"
-                                size="small"
-                                error={fieldState.error?.message}
-                                style={{ maxWidth: '220px' }}
-                            >
-                                <option value="" />
-                                {ANNEN_YTELSE_OPTIONS.map((ytelse) => (
-                                    <option key={ytelse} value={ytelse}>
-                                        {ytelse}
-                                    </option>
-                                ))}
-                            </Select>
-                        )}
-                    />
-                    <VStack gap="space-4">
-                        {fields.map((field, index) => (
-                            <PeriodeRad
-                                key={field.id}
-                                index={index}
-                                form={form}
-                                onRemove={() => remove(index)}
-                                canRemove={fields.length > 1}
-                                sykefraværstilfelleperioder={sykefraværstilfelleperioder}
+            <HStack gap="space-0" wrap={false}>
+                <form noValidate onSubmit={form.handleSubmit(handleSubmit)}>
+                    <VStack gap="space-8">
+                        <HStack gap="space-4" align="end">
+                            <Controller
+                                control={form.control}
+                                name="ytelse"
+                                render={({ field, fieldState }) => (
+                                    <Select
+                                        {...field}
+                                        value={field.value ?? ''}
+                                        label="Velg ytelse"
+                                        size="small"
+                                        error={fieldState.error?.message}
+                                        style={{ maxWidth: '220px' }}
+                                    >
+                                        <option value="" />
+                                        {ANNEN_YTELSE_OPTIONS.map((ytelse) => (
+                                            <option key={ytelse} value={ytelse}>
+                                                {ytelse}
+                                            </option>
+                                        ))}
+                                    </Select>
+                                )}
                             />
-                        ))}
-                        <Button
-                            type="button"
-                            variant="tertiary"
-                            size="small"
-                            icon={<PlusIcon />}
-                            onClick={() => append({ fom: '', tom: '', grad: undefined })}
-                        >
-                            Legg til periode
-                        </Button>
-                    </VStack>
-                    <Box maxWidth="380px">
-                        <Controller
-                            control={form.control}
-                            name="notat"
-                            render={({ field, fieldState }) => (
-                                <Textarea
-                                    {...field}
-                                    label="Notat til beslutter"
-                                    description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
-                                    size="small"
-                                    error={fieldState.error?.message}
-                                    id="notat"
+                        </HStack>
+                        <VStack>
+                            {fields.map((field, index) => (
+                                <PeriodeRad
+                                    key={field.id}
+                                    index={index}
+                                    form={form}
+                                    onRemove={() => handleRemove(index)}
+                                    sykefraværstilfelleperioder={sykefraværstilfelleperioder}
                                 />
-                            )}
-                        />
-                    </Box>
-                    <HStack gap="space-8">
-                        <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
-                            Lagre
-                        </Button>
-                        <Button
-                            size="small"
-                            variant="tertiary"
-                            type="button"
-                            disabled={isSubmitting}
-                            onClick={() => {
-                                router.back();
-                            }}
-                        >
-                            Avbryt
-                        </Button>
-                    </HStack>
-                </VStack>
-                {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
-            </form>
+                            ))}
+                            <HGrid columns={1} gap="space-8" align="start">
+                                <Button
+                                    type="button"
+                                    variant="tertiary"
+                                    size="small"
+                                    icon={<PlusIcon />}
+                                    onClick={() => append(tomPeriode)}
+                                    style={{ justifySelf: 'start', paddingInlineStart: 'var(--ax-space-0)' }}
+                                >
+                                    Legg til periode
+                                </Button>
+                                <div />
+                                <div />
+                            </HGrid>
+                        </VStack>
+                        <Box maxWidth="calc(var(--ax-space-128) * 3)">
+                            <Controller
+                                control={form.control}
+                                name="notat"
+                                render={({ field, fieldState }) => (
+                                    <Textarea
+                                        {...field}
+                                        label="Notat til beslutter"
+                                        description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
+                                        size="small"
+                                        error={fieldState.error?.message}
+                                        id="notat"
+                                    />
+                                )}
+                            />
+                        </Box>
+                        <VStack gap="space-4">
+                            {periodeFeilmeldinger.map((feil) => (
+                                <ErrorMessage key={feil} showIcon size="small">
+                                    {feil}
+                                </ErrorMessage>
+                            ))}
+                        </VStack>
+                        <HStack gap="space-8">
+                            <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
+                                Lagre
+                            </Button>
+                            <Button
+                                size="small"
+                                variant="tertiary"
+                                type="button"
+                                disabled={isSubmitting}
+                                onClick={() => {
+                                    router.back();
+                                }}
+                            >
+                                Avbryt
+                            </Button>
+                        </HStack>
+                    </VStack>
+                    {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
+                </form>
+            </HStack>
         </FormProvider>
     );
 };
