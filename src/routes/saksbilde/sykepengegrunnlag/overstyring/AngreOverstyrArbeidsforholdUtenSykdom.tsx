@@ -3,6 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { ArrowUndoIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { PersonFragment } from '@io/graphql';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
 
@@ -38,9 +39,11 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     );
     return (
         <>
-            <Button size="xsmall" variant="tertiary" onClick={() => setOpen(true)} icon={<ArrowUndoIcon />}>
-                Bruk arbeidsforholdet i beregningen likevel
-            </Button>
+            <VisHvisSkrivetilgang>
+                <Button size="xsmall" variant="tertiary" onClick={() => setOpen(true)} icon={<ArrowUndoIcon />}>
+                    Bruk arbeidsforholdet i beregningen likevel
+                </Button>
+            </VisHvisSkrivetilgang>
             <BrukArbeidsforholdILikevelDialog
                 open={open}
                 onOpenChange={setOpen}
