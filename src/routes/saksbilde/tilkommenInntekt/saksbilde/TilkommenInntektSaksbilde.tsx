@@ -19,8 +19,8 @@ export const TilkommenInntektSaksbilde = () => {
                     <SaksbildeDropdownMenu person={personData?.person} />
                 </VisHvisSkrivetilgang>
             </HStack>
-            {!erUtvikling && <LeggTilTilkommenInntektEllerAndreYtelserView />}
-            {erUtvikling && <LeggTilTilkommenInntektView />}
+            {erUtvikling && <LeggTilTilkommenInntektEllerAndreYtelserView />}
+            {!erUtvikling && <LeggTilTilkommenInntektView />}
         </VStack>
     );
 };
