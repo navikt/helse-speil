@@ -3,9 +3,10 @@ import React, { ReactElement, ReactNode } from 'react';
 import { InformationSquareIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, Dialog, HStack, Heading, Table, VStack } from '@navikt/ds-react';
 
+import { LovdataLenke } from '@components/LovdataLenke';
 import {
-    ApiEkskluderingsårsak,
     ApiEkskludertForsikring,
+    ApiFolketrygdlovenreferanse,
     ApiForsikring,
     ApiForsikringsvurdering,
 } from '@io/rest/generated/spesialist.schemas';
@@ -68,7 +69,7 @@ export const ForsikringDialog = ({
                                 Ekskluderte forsikringer
                             </Heading>
                             {ekskluderteForsikringer.length > 0 ? (
-                                <ForsikringTabell forsikringer={ekskluderteForsikringer} visEkskluderingsårsak />
+                                <ForsikringTabell forsikringer={ekskluderteForsikringer} visEkskluderingsbegrunnelse />
                             ) : (
                                 <BodyShort>Ingen ekskluderte forsikringer</BodyShort>
                             )}
@@ -87,33 +88,47 @@ export const ForsikringDialog = ({
 
 const ForsikringTabell = ({
     forsikringer,
-    visEkskluderingsårsak = false,
+    visEkskluderingsbegrunnelse = false,
 }: {
     forsikringer: (ApiForsikring | ApiEkskludertForsikring)[];
-    visEkskluderingsårsak?: boolean;
+    visEkskluderingsbegrunnelse?: boolean;
 }): ReactElement => (
     <Table size="small" zebraStripes>
         <Table.Header>
             <Table.Row>
-                <Table.HeaderCell scope="col">Virkningsdato</Table.HeaderCell>
-                <Table.HeaderCell scope="col">Opphørsdato</Table.HeaderCell>
-                <Table.HeaderCell scope="col">Dekningsgrad</Table.HeaderCell>
-                <Table.HeaderCell scope="col">Dekning i ventetid</Table.HeaderCell>
-                {visEkskluderingsårsak && <Table.HeaderCell scope="col">Årsak til ekskludering</Table.HeaderCell>}
+                <Table.HeaderCell scope="col">Type</Table.HeaderCell>
+                <Table.HeaderCell scope="col">Gjelder fra</Table.HeaderCell>
+                <Table.HeaderCell scope="col">Opphører</Table.HeaderCell>
+                {visEkskluderingsbegrunnelse && <Table.HeaderCell scope="col">Årsak</Table.HeaderCell>}
             </Table.Row>
         </Table.Header>
         <Table.Body>
             {forsikringer.map((forsikring, index) => (
                 <Table.Row key={`${forsikring.virkningsdato}-${index}`}>
+                    <Table.DataCell>
+                        {forsikring.navn} (<FolketrygdlovenLenke referanse={forsikring.folketrygdlovenreferanse} />)
+                    </Table.DataCell>
                     <Table.DataCell>{somNorskDato(forsikring.virkningsdato)}</Table.DataCell>
                     <Table.DataCell>{somNorskDato(forsikring.opphørsdato ?? undefined) ?? '–'}</Table.DataCell>
-                    <Table.DataCell>{forsikring.dekningsgrad} %</Table.DataCell>
-                    <Table.DataCell>{forsikring.dekningIVentetid ? 'Ja' : 'Nei'}</Table.DataCell>
-                    {visEkskluderingsårsak && (
+                    {visEkskluderingsbegrunnelse && (
                         <Table.DataCell>
-                            {'ekskluderingsårsak' in forsikring
-                                ? somEkskluderingsårsak(forsikring.ekskluderingsårsak)
-                                : '–'}
+                            {'ekskluderingsbegrunnelse' in forsikring ? (
+                                <>
+                                    {forsikring.ekskluderingsbegrunnelse.forklaring}
+                                    {forsikring.ekskluderingsbegrunnelse.folketrygdlovenreferanse !== null && (
+                                        <>
+                                            {' '}
+                                            (
+                                            <FolketrygdlovenLenke
+                                                referanse={forsikring.ekskluderingsbegrunnelse.folketrygdlovenreferanse}
+                                            />
+                                            )
+                                        </>
+                                    )}
+                                </>
+                            ) : (
+                                '–'
+                            )}
                         </Table.DataCell>
                     )}
                 </Table.Row>
@@ -121,6 +136,20 @@ const ForsikringTabell = ({
         </Table.Body>
     </Table>
 );
+
+const FolketrygdlovenLenke = ({
+    referanse,
+}: {
+    referanse?: ApiFolketrygdlovenreferanse | null;
+}): ReactElement | string => {
+    if (!referanse) return '–';
+
+    const paragraf = `${referanse.kapittel}-${referanse.paragrafIKapittel}`;
+    const ledd = referanse.ledd ? ` ${referanse.ledd}. ledd` : '';
+    const bokstav = referanse.bokstav ? ` bokstav ${referanse.bokstav}` : '';
+
+    return <LovdataLenke paragraf={paragraf}>{`§ ${paragraf}${ledd}${bokstav}`}</LovdataLenke>;
+};
 
 const Opplysning = ({ tittel, children }: { tittel: string; children: ReactNode }): ReactElement => (
     <VStack>
@@ -130,16 +159,3 @@ const Opplysning = ({ tittel, children }: { tittel: string; children: ReactNode 
         <BodyShort>{children}</BodyShort>
     </VStack>
 );
-
-export const somEkskluderingsårsak = (årsak: ApiEkskluderingsårsak): string => {
-    switch (årsak) {
-        case ApiEkskluderingsårsak.SKJÆRINGSTIDSPUNKT_INNEN_28_DAGER_FØR_VIRKNINGSDATO:
-            return 'Skjæringstidspunkt innen 28 dager før virkningsdato';
-        case ApiEkskluderingsårsak.SKJÆRINGSTIDSPUNKT_MER_ENN_28_DAGER_FØR_VIRKNINGSDATO:
-            return 'Skjæringstidspunkt mer enn 28 dager før virkningsdato';
-        case ApiEkskluderingsårsak.OPPHØRT_PÅ_SKJÆRINGSTIDSPUNKT:
-            return 'Opphørt på skjæringstidspunkt';
-        case ApiEkskluderingsårsak.ALDRI_BETALT:
-            return 'Aldri betalt';
-    }
-};

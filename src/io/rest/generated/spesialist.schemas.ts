@@ -1982,7 +1982,29 @@ export interface ApiEkskludertForsikring {
     opphørsdato?: ApiEkskludertForsikringOpphørsdato;
     dekningsgrad: number;
     dekningIVentetid: boolean;
+    navn: string;
+    folketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
     ekskluderingsårsak: ApiEkskluderingsårsak;
+    ekskluderingsbegrunnelse: ApiEkskluderingsbegrunnelse;
+}
+
+export type ApiFolketrygdlovenreferanseLedd = null | number;
+
+/**
+ * @minimum 1
+ * @maximum 1
+ */
+export type ApiFolketrygdlovenreferanseBokstav = null | string;
+
+export interface ApiFolketrygdlovenreferanse {
+    kapittel: number;
+    paragrafIKapittel: number;
+    ledd?: ApiFolketrygdlovenreferanseLedd;
+    /**
+     * @minimum 1
+     * @maximum 1
+     */
+    bokstav?: ApiFolketrygdlovenreferanseBokstav;
 }
 
 export type ApiEkskluderingsårsak = (typeof ApiEkskluderingsårsak)[keyof typeof ApiEkskluderingsårsak];
@@ -1995,6 +2017,13 @@ export const ApiEkskluderingsårsak = {
     ALDRI_BETALT: 'ALDRI_BETALT',
 } as const;
 
+export type ApiEkskluderingsbegrunnelseFolketrygdlovenreferanse = null | ApiFolketrygdlovenreferanse;
+
+export interface ApiEkskluderingsbegrunnelse {
+    forklaring: string;
+    folketrygdlovenreferanse?: ApiEkskluderingsbegrunnelseFolketrygdlovenreferanse;
+}
+
 export type ApiForsikringOpphørsdato = null | string;
 
 export interface ApiForsikring {
@@ -2002,6 +2031,8 @@ export interface ApiForsikring {
     opphørsdato?: ApiForsikringOpphørsdato;
     dekningsgrad: number;
     dekningIVentetid: boolean;
+    navn: string;
+    folketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
 }
 
 export type ApiForsikringsvurderingForsikringInnhold = null | ForsikringInnhold;
