@@ -15,13 +15,11 @@ import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
-import { InngangsvilkårNy } from '@saksbilde/vilkår/ny-inngangsvilkår/InngangsvilkårNy';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { SaksbildeTab, useSaksbildeTab } from '@state/tab';
-import { useKanSeNyInngangsvilkår } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -54,7 +52,6 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
 export const Saksbilde = () => {
     const { loading, data, error } = useFetchPersonQuery();
     const [tab, setTab] = useSaksbildeTab();
-    const visNyInngangsvilkår = useKanSeNyInngangsvilkår();
 
     const person: PersonFragment | null = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
@@ -139,11 +136,7 @@ export const Saksbilde = () => {
                                 <Utbetaling person={person} periode={aktivPeriode} />
                             </Tabs.Panel>
                             <Tabs.Panel value="inngangsvilkår">
-                                {visNyInngangsvilkår ? (
-                                    <InngangsvilkårNy periode={aktivPeriode} />
-                                ) : (
-                                    <Inngangsvilkår person={person} periode={aktivPeriode} />
-                                )}
+                                <Inngangsvilkår person={person} periode={aktivPeriode} />
                             </Tabs.Panel>
                             <Tabs.Panel value="sykepengegrunnlag">
                                 <Sykepengegrunnlag person={person} periode={aktivPeriode} />
