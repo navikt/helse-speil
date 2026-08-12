@@ -100,15 +100,18 @@ OpenAPI-spec'en når man kjører lokalt krever ikke autentisering.
 **Kjør så kommandoen:**
 
 ```shell
-pnpm run generate-rest # krever at både spesialist og sporhund kjører lokalt
+# krever at både spesialist og sporhund kjører lokalt
+pnpm run generate-rest 
 ```
 
 ```shell
-pnpm run generate-rest:spesialist # krever at spesialist kjører lokalt
+# krever at spesialist kjører lokalt
+pnpm run generate-rest:spesialist 
 ```
 
 ```shell
-pnpm run generate-rest:sporhund # krever at sporhund kjører lokalt
+# krever at sporhund kjører lokalt
+pnpm run generate-rest:sporhund 
 ```
 
 ## Henvendelser

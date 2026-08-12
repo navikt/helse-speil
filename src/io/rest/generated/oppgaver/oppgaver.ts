@@ -13,9 +13,13 @@ import type {
     ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode,
     ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode,
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
+    ApiHttpProblemDetailsApiPostSendIReturErrorCode,
+    ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode,
     ApiHttpProblemDetailsApiPutPåVentErrorCode,
     ApiOppgaveProjeksjonSide,
     ApiPutPåVentRequest,
+    ApiSendIReturRequest,
+    ApiSendTilGodkjenningRequest,
     GetBehandledeOppgaverParams,
     GetOppgaverParams,
 } from '../spesialist.schemas';
@@ -438,6 +442,158 @@ export const useDeletePåVent = <TError = ErrorType<ApiHttpProblemDetailsApiDele
     queryClient?: QueryClient,
 ): UseMutationResult<Awaited<ReturnType<typeof deletePåVent>>, TError, { oppgaveId: number }, TContext> => {
     const mutationOptions = getDeletePåVentMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const postSendTilGodkjenning = (
+    oppgaveId: number,
+    apiSendTilGodkjenningRequest?: ApiSendTilGodkjenningRequest,
+    signal?: AbortSignal,
+) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/oppgaver/${oppgaveId}/totrinnsvurdering/send-til-godkjenning`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiSendTilGodkjenningRequest,
+        signal,
+    });
+};
+
+export const getPostSendTilGodkjenningMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postSendTilGodkjenning>>,
+        TError,
+        { oppgaveId: number; data: ApiSendTilGodkjenningRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postSendTilGodkjenning>>,
+    TError,
+    { oppgaveId: number; data: ApiSendTilGodkjenningRequest },
+    TContext
+> => {
+    const mutationKey = ['postSendTilGodkjenning'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postSendTilGodkjenning>>,
+        { oppgaveId: number; data: ApiSendTilGodkjenningRequest }
+    > = (props) => {
+        const { oppgaveId, data } = props ?? {};
+
+        return postSendTilGodkjenning(oppgaveId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostSendTilGodkjenningMutationResult = NonNullable<Awaited<ReturnType<typeof postSendTilGodkjenning>>>;
+export type PostSendTilGodkjenningMutationBody = ApiSendTilGodkjenningRequest;
+export type PostSendTilGodkjenningMutationError = ErrorType<ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode>;
+
+export const usePostSendTilGodkjenning = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postSendTilGodkjenning>>,
+            TError,
+            { oppgaveId: number; data: ApiSendTilGodkjenningRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postSendTilGodkjenning>>,
+    TError,
+    { oppgaveId: number; data: ApiSendTilGodkjenningRequest },
+    TContext
+> => {
+    const mutationOptions = getPostSendTilGodkjenningMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const postSendIRetur = (
+    oppgaveId: number,
+    apiSendIReturRequest?: ApiSendIReturRequest,
+    signal?: AbortSignal,
+) => {
+    return callCustomAxios<void>({
+        url: `/api/spesialist/oppgaver/${oppgaveId}/totrinnsvurdering/send-i-retur`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiSendIReturRequest,
+        signal,
+    });
+};
+
+export const getPostSendIReturMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostSendIReturErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postSendIRetur>>,
+        TError,
+        { oppgaveId: number; data: ApiSendIReturRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postSendIRetur>>,
+    TError,
+    { oppgaveId: number; data: ApiSendIReturRequest },
+    TContext
+> => {
+    const mutationKey = ['postSendIRetur'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postSendIRetur>>,
+        { oppgaveId: number; data: ApiSendIReturRequest }
+    > = (props) => {
+        const { oppgaveId, data } = props ?? {};
+
+        return postSendIRetur(oppgaveId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostSendIReturMutationResult = NonNullable<Awaited<ReturnType<typeof postSendIRetur>>>;
+export type PostSendIReturMutationBody = ApiSendIReturRequest;
+export type PostSendIReturMutationError = ErrorType<ApiHttpProblemDetailsApiPostSendIReturErrorCode>;
+
+export const usePostSendIRetur = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPostSendIReturErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postSendIRetur>>,
+            TError,
+            { oppgaveId: number; data: ApiSendIReturRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postSendIRetur>>,
+    TError,
+    { oppgaveId: number; data: ApiSendIReturRequest },
+    TContext
+> => {
+    const mutationOptions = getPostSendIReturMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

@@ -7,7 +7,7 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
-    ApiForsikring,
+    ApiForsikringsvurdering,
     ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode,
 } from '../spesialist.schemas';
 
@@ -29,7 +29,7 @@ export const getForsikringsvurderingForPerson = (
     forsikringvurderingId: string,
     signal?: AbortSignal,
 ) => {
-    return callCustomAxios<ApiForsikring>({
+    return callCustomAxios<ApiForsikringsvurdering>({
         url: `/api/spesialist/personer/${pseudoId}/forsikringsvurderinger/${forsikringvurderingId}`,
         method: 'GET',
         signal,

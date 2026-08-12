@@ -382,6 +382,68 @@ export interface ApiHttpProblemDetailsApiDeletePåVentErrorCode {
     code?: ApiHttpProblemDetailsApiDeletePåVentErrorCodeCode;
 }
 
+export type ApiSendTilGodkjenningRequestBegrunnelse = null | string;
+
+export interface ApiSendTilGodkjenningRequest {
+    begrunnelse?: ApiSendTilGodkjenningRequestBegrunnelse;
+}
+
+export type ApiPostSendTilGodkjenningErrorCode =
+    (typeof ApiPostSendTilGodkjenningErrorCode)[keyof typeof ApiPostSendTilGodkjenningErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostSendTilGodkjenningErrorCode = {
+    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    MANGLER_VURDERING_AV_VARSLER: 'MANGLER_VURDERING_AV_VARSLER',
+    TOTRINNSVURDERING_IKKE_FUNNET: 'TOTRINNSVURDERING_IKKE_FUNNET',
+    OPPGAVE_ALLEREDE_SENDT_TIL_BESLUTTER: 'OPPGAVE_ALLEREDE_SENDT_TIL_BESLUTTER',
+    KREVER_TOTRINNSVURDERING_AV_ANNEN: 'KREVER_TOTRINNSVURDERING_AV_ANNEN',
+    UVENTET_MODELLFEIL: 'UVENTET_MODELLFEIL',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCodeCode = null | ApiPostSendTilGodkjenningErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCodeCode;
+}
+
+export interface ApiSendIReturRequest {
+    notatTekst: string;
+}
+
+export type ApiPostSendIReturErrorCode = (typeof ApiPostSendIReturErrorCode)[keyof typeof ApiPostSendIReturErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostSendIReturErrorCode = {
+    OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    TOTRINNSVURDERING_IKKE_FUNNET: 'TOTRINNSVURDERING_IKKE_FUNNET',
+    TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER: 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER',
+    OPPGAVE_ALLEREDE_SENDT_I_RETUR: 'OPPGAVE_ALLEREDE_SENDT_I_RETUR',
+    KREVER_TOTRINNSVURDERING_AV_ANNEN: 'KREVER_TOTRINNSVURDERING_AV_ANNEN',
+    KUNNE_IKKE_OPPRETTE_HISTORIKKINNSLAG: 'KUNNE_IKKE_OPPRETTE_HISTORIKKINNSLAG',
+    UVENTET_MODELLFEIL: 'UVENTET_MODELLFEIL',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostSendIReturErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostSendIReturErrorCodeCode = null | ApiPostSendIReturErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostSendIReturErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostSendIReturErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostSendIReturErrorCodeCode;
+}
+
 export interface ApiTildelingRequest {
     navident: string;
 }
@@ -1043,119 +1105,6 @@ export interface ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonError
     title: string;
     detail?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode;
-}
-
-export interface ApiSamlingAvVurderteInngangsvilkår {
-    samlingAvVurderteInngangsvilkårId: string;
-    versjon: number;
-    skjæringstidspunkt: string;
-    vurderteInngangsvilkår: ApiVurdertInngangsvilkår[];
-}
-
-export type ApiVurdertInngangsvilkår = Automatisk | Manuell;
-
-export type AutomatiskVurderingskode = null | string;
-
-export type AutomatiskType = (typeof AutomatiskType)[keyof typeof AutomatiskType];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const AutomatiskType = {
-    AUTOMATISK: 'AUTOMATISK',
-} as const;
-
-export interface Automatisk {
-    id: string;
-    vilkårskode: string;
-    vurderingskode?: AutomatiskVurderingskode;
-    tidspunkt: string;
-    automatiskVurdering: ApiAutomatiskVurdering;
-    type: AutomatiskType;
-}
-
-export type ApiAutomatiskVurderingGrunnlagsdata = { [key: string]: string };
-
-export interface ApiAutomatiskVurdering {
-    system: string;
-    versjon: string;
-    grunnlagsdata: ApiAutomatiskVurderingGrunnlagsdata;
-}
-
-export type ManuellVurderingskode = null | string;
-
-export type ManuellType = (typeof ManuellType)[keyof typeof ManuellType];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ManuellType = {
-    MANUELL: 'MANUELL',
-} as const;
-
-export interface Manuell {
-    id: string;
-    vilkårskode: string;
-    vurderingskode?: ManuellVurderingskode;
-    tidspunkt: string;
-    manuellVurdering: ApiManuellVurdering;
-    type: ManuellType;
-}
-
-export interface ApiManuellVurdering {
-    navident: string;
-    begrunnelse: string;
-}
-
-export type ApiGetVurderteInngangsvilkårErrorCode =
-    (typeof ApiGetVurderteInngangsvilkårErrorCode)[keyof typeof ApiGetVurderteInngangsvilkårErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetVurderteInngangsvilkårErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCodeCode =
-    null | ApiGetVurderteInngangsvilkårErrorCode;
-
-export interface ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetVurderteInngangsvilkårErrorCodeCode;
-}
-
-export interface ApiManuellInngangsvilkårVurdering {
-    vilkårskode: string;
-    vurderingskode: string;
-    begrunnelse: string;
-}
-
-export interface ApiPostManuelleInngangsvilkårVurderingerRequest {
-    versjon: number;
-    vurderinger: ApiManuellInngangsvilkårVurdering[];
-}
-
-export type ApiPostVurderteInngangsvilkårErrorCode =
-    (typeof ApiPostVurderteInngangsvilkårErrorCode)[keyof typeof ApiPostVurderteInngangsvilkårErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostVurderteInngangsvilkårErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCodeCode =
-    null | ApiPostVurderteInngangsvilkårErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostVurderteInngangsvilkårErrorCodeCode;
 }
 
 export interface ApiTilkommenInntektInput {
@@ -2026,11 +1975,44 @@ export interface ForsikringInnhold {
     dekningsgrad: number;
 }
 
-export type ApiForsikringForsikringInnhold = null | ForsikringInnhold;
+export type ApiEkskludertForsikringOpphørsdato = null | string;
+
+export interface ApiEkskludertForsikring {
+    virkningsdato: string;
+    opphørsdato?: ApiEkskludertForsikringOpphørsdato;
+    dekningsgrad: number;
+    dekningIVentetid: boolean;
+    ekskluderingsårsak: ApiEkskluderingsårsak;
+}
+
+export type ApiEkskluderingsårsak = (typeof ApiEkskluderingsårsak)[keyof typeof ApiEkskluderingsårsak];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiEkskluderingsårsak = {
+    SKJÆRINGSTIDSPUNKT_INNEN_28_DAGER_FØR_VIRKNINGSDATO: 'SKJÆRINGSTIDSPUNKT_INNEN_28_DAGER_FØR_VIRKNINGSDATO',
+    SKJÆRINGSTIDSPUNKT_MER_ENN_28_DAGER_FØR_VIRKNINGSDATO: 'SKJÆRINGSTIDSPUNKT_MER_ENN_28_DAGER_FØR_VIRKNINGSDATO',
+    OPPHØRT_PÅ_SKJÆRINGSTIDSPUNKT: 'OPPHØRT_PÅ_SKJÆRINGSTIDSPUNKT',
+    ALDRI_BETALT: 'ALDRI_BETALT',
+} as const;
+
+export type ApiForsikringOpphørsdato = null | string;
 
 export interface ApiForsikring {
+    virkningsdato: string;
+    opphørsdato?: ApiForsikringOpphørsdato;
+    dekningsgrad: number;
+    dekningIVentetid: boolean;
+}
+
+export type ApiForsikringsvurderingForsikringInnhold = null | ForsikringInnhold;
+
+export type ApiForsikringsvurderingGjeldendeForsikring = null | ApiForsikring;
+
+export interface ApiForsikringsvurdering {
     eksisterer: boolean;
-    forsikringInnhold?: ApiForsikringForsikringInnhold;
+    forsikringInnhold?: ApiForsikringsvurderingForsikringInnhold;
+    ekskluderteForsikringer: ApiEkskludertForsikring[];
+    gjeldendeForsikring?: ApiForsikringsvurderingGjeldendeForsikring;
 }
 
 export type ApiGetForsikringsvurderingForPersonErrorCode =

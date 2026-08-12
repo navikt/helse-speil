@@ -9,6 +9,7 @@ import type { ErrorType } from '@app/axios/orval-mutator';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
 import type { ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode } from '@io/rest/generated/spesialist.schemas';
+import { ForsikringDialog } from '@saksbilde/venstremeny/ForsikringDialog';
 
 export const Forsikring = ({ forsikringsvurderingId }: { forsikringsvurderingId: string | null }): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
@@ -43,14 +44,20 @@ export const Forsikring = ({ forsikringsvurderingId }: { forsikringsvurderingId:
         );
     }
 
+    if (data?.eksisterer) {
+        const dekningstekst = `${data.forsikringInnhold?.dekningsgrad} % fra ${data.forsikringInnhold?.gjelderFraDag}. dag`;
+        return (
+            <>
+                <BodyShort>Dekning</BodyShort>
+                <ForsikringDialog forsikringsvurdering={data} dekningstekst={dekningstekst} />
+            </>
+        );
+    }
+
     return (
         <>
             <BodyShort>Dekning</BodyShort>
-            <BodyShort>
-                {data?.eksisterer
-                    ? `${data.forsikringInnhold?.dekningsgrad} % fra ${data.forsikringInnhold?.gjelderFraDag}. dag`
-                    : `80 % fra 17. dag`}
-            </BodyShort>
+            <BodyShort>80 % fra 17. dag</BodyShort>
         </>
     );
 };
