@@ -40,11 +40,20 @@ describe('ForsikringDialog', () => {
         await userEvent.click(screen.getByRole('button', { name: '100 % fra 17. dag' }));
 
         expect(await screen.findByRole('dialog')).toBeVisible();
-        expect(screen.getByText('Gjeldende forsikring')).toBeVisible();
-        expect(screen.getByText('12.08.2026')).toBeVisible();
-        expect(screen.getByText('100 % fra dag 17')).toBeVisible();
+
+        expect(screen.getByRole('heading', { name: 'Dekning brukt i beregningen' })).toBeVisible();
+        expect(screen.getByText('100 %')).toBeVisible();
+        expect(screen.getByText('17')).toBeVisible();
+
+        expect(screen.getByRole('heading', { name: 'Gjeldende forsikring' })).toBeVisible();
+        expect(screen.getByRole('cell', { name: /100 % fra dag 17/ })).toBeVisible();
         expect(screen.getByRole('link', { name: '§ 8-36 1. ledd bokstav b' })).toBeVisible();
-        expect(screen.getByText('Forsikringen er innvilget, men ikke betalt ennå')).toBeVisible();
-        expect(screen.getByText('01.01.2021')).toBeVisible();
+        expect(screen.getByRole('cell', { name: '12.08.2026' })).toBeVisible();
+
+        expect(screen.getByRole('heading', { name: 'Ekskluderte forsikringer' })).toBeVisible();
+        expect(screen.getByRole('cell', { name: /80 % fra dag 1/ })).toBeVisible();
+        expect(screen.getByRole('cell', { name: '01.01.2020' })).toBeVisible();
+        expect(screen.getByRole('cell', { name: '01.01.2021' })).toBeVisible();
+        expect(screen.getByRole('cell', { name: 'Forsikringen er innvilget, men ikke betalt ennå' })).toBeVisible();
     });
 });
