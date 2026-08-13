@@ -45,6 +45,7 @@ export const fagomradeLabels: Record<ApiFagomrade, string> = {
     [ApiFagomrade.TILBAKEDATERING]: 'Tilbakedatering',
     [ApiFagomrade.YRKESSKADE]: 'Yrkesskade',
     [ApiFagomrade.BESTRIDELSE]: 'Bestridelse',
+    [ApiFagomrade.UNNTAK_FRA_ARBEIDSGIVERANSVAR]: 'Unntak fra arbeidsgiveransvar',
 };
 
 export const statusLabels: Record<ApiDialogmeldingStatus, string> = {

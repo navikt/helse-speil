@@ -26,6 +26,7 @@ export function NyDialogmeldingForm(): ReactElement {
     const { maler, error: malerError, isPending: malerIsPending, refetch } = useDialogmeldingMaler();
     const personinfo = personData?.person?.personinfo;
     const [enkeltstandeType, setEnkeltstandeType] = useState<EnkeltståndeType | null>(null);
+    const [unntakType, setUnntakType] = useState<UnntakFraArbeidsgiveransvarType | null>(null);
     const malerById = Object.fromEntries(maler.map((mal: DialogmeldingMal) => [mal._id, mal]));
 
     const { mutateAsync, isPending } = usePostNyDialogmelding({
@@ -105,7 +106,11 @@ export function NyDialogmeldingForm(): ReactElement {
                                     onChange={(value: ApiFagomrade) => {
                                         field.onChange(value);
                                         setEnkeltstandeType(null);
-                                        if (value !== ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER) {
+                                        setUnntakType(null);
+                                        const harSubtyper =
+                                            value === ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER ||
+                                            value === ApiFagomrade.UNNTAK_FRA_ARBEIDSGIVERANSVAR;
+                                        if (!harSubtyper) {
                                             const malId = fagområdeToMalId[value as keyof typeof fagområdeToMalId];
                                             const mal = malId ? malerById[malId] : undefined;
                                             form.setValue('melding', mal ? mal.tekst : '', {
@@ -127,6 +132,34 @@ export function NyDialogmeldingForm(): ReactElement {
                                 </RadioGroup>
                             )}
                         />
+                        {fagomrade === ApiFagomrade.UNNTAK_FRA_ARBEIDSGIVERANSVAR && (
+                            <RadioGroup
+                                legend="Type"
+                                className="[&_legend]:text-ax-large"
+                                value={unntakType ?? ''}
+                                onChange={(value: UnntakFraArbeidsgiveransvarType) => {
+                                    setUnntakType(value);
+                                    const malId = unntakFraArbeidsgiveransvarMalId[value];
+                                    const mal = malId ? malerById[malId] : undefined;
+                                    form.setValue('melding', mal ? mal.tekst : '', {
+                                        shouldValidate: true,
+                                    });
+                                }}
+                                size="small"
+                            >
+                                <Radio value="kronisk_syk">
+                                    <span className="text-ax-large">Kronisk syk</span>
+                                </Radio>
+                                <Radio value="svangerskap_uten_w_diagnose">
+                                    <span className="text-ax-large">Svangerskap uten W-diagnose</span>
+                                </Radio>
+                                <Radio value="tidlig_svangerskap">
+                                    <span className="text-ax-large">
+                                        Tidlig svangerskap og ikke huket av for svangerskapsrelatert
+                                    </span>
+                                </Radio>
+                            </RadioGroup>
+                        )}
                         {fagomrade === ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER && (
                             <RadioGroup
                                 legend="Type"
@@ -206,8 +239,15 @@ export function NyDialogmeldingForm(): ReactElement {
 }
 
 type EnkeltståndeType = 'ny' | 'forlengelse';
+type UnntakFraArbeidsgiveransvarType = 'kronisk_syk' | 'svangerskap_uten_w_diagnose' | 'tidlig_svangerskap';
 
-const fagområdeToMalId: Record<Exclude<ApiFagomrade, typeof ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER>, string> = {
+const fagområdeToMalId: Record<
+    Exclude<
+        ApiFagomrade,
+        typeof ApiFagomrade.ENKELTSTAENDE_BEHANDLINGSDAGER | typeof ApiFagomrade.UNNTAK_FRA_ARBEIDSGIVERANSVAR
+    >,
+    string
+> = {
     [ApiFagomrade.BESTRIDELSE]: 'dialogmeldingmalBestridelse',
     [ApiFagomrade.YRKESSKADE]: 'dialogmeldingmalYrkesskade',
     [ApiFagomrade.TILBAKEDATERING]: 'dialogmeldingmalTilbakedatering',
@@ -216,4 +256,10 @@ const fagområdeToMalId: Record<Exclude<ApiFagomrade, typeof ApiFagomrade.ENKELT
 const enkeltståndeMalId: Record<EnkeltståndeType, string> = {
     ny: 'dialogmeldingmalEnkeltstandeNy',
     forlengelse: 'dialogmeldingmalEnkeltstandeForlengelse',
+};
+
+const unntakFraArbeidsgiveransvarMalId: Record<UnntakFraArbeidsgiveransvarType, string> = {
+    kronisk_syk: 'dialogmeldingmalKroniskSyk',
+    svangerskap_uten_w_diagnose: 'dialogmeldingmalSvangerskapUtenWDiagnose',
+    tidlig_svangerskap: 'dialogmeldingmalTidligSvangerskap',
 };
