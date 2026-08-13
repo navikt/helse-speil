@@ -10,7 +10,7 @@ import {
     ApiForsikringsvurdering,
     ApiForsikringsvurderingGjeldendeForsikring,
 } from '@io/rest/generated/spesialist.schemas';
-import { NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
+import { NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
 
 type Forsikringsrad = {
     forsikring: NonNullable<ApiForsikringsvurderingGjeldendeForsikring> | ApiEkskludertForsikring;
@@ -45,7 +45,10 @@ export const ForsikringDialog = ({
                 </Dialog.Header>
                 <Dialog.Body>
                     <HStack align="center" gap="space-12" marginBlock="space-0 space-16">
-                        <BodyShort>Opplysninger hentet og vurdert {dayjs().format(NORSK_DATOFORMAT)}</BodyShort>
+                        <BodyShort>
+                            Opplysninger hentet og vurdert{' '}
+                            {dayjs(forsikringsvurdering.dataHentetTidspunkt).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
+                        </BodyShort>
                         <Button size="small" variant="secondary">
                             Hent og vurder på nytt
                         </Button>

@@ -2044,6 +2044,7 @@ export interface ApiForsikringsvurdering {
     forsikringInnhold?: ApiForsikringsvurderingForsikringInnhold;
     ekskluderteForsikringer: ApiEkskludertForsikring[];
     gjeldendeForsikring?: ApiForsikringsvurderingGjeldendeForsikring;
+    dataHentetTidspunkt: string;
 }
 
 export type ApiGetForsikringsvurderingForPersonErrorCode =

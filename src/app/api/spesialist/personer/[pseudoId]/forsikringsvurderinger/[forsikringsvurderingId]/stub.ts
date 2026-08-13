@@ -40,6 +40,7 @@ export async function stub(_request: NextRequest) {
                 navn: '100 % fra dag 17',
                 folketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'b' },
             },
+            dataHentetTidspunkt: '2025-07-15T12:34:56.789101112Z',
         },
         { status: 200 },
     );
