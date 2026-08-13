@@ -1,4 +1,3 @@
-import dayjs from 'dayjs';
 import React from 'react';
 
 import { Button } from '@navikt/ds-react';
@@ -7,7 +6,6 @@ import { ApiForsikringsvurdering } from '@io/rest/generated/spesialist.schemas';
 import { ForsikringDialog } from '@saksbilde/venstremeny/ForsikringDialog';
 import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
-import { NORSK_DATOFORMAT } from '@utils/date';
 
 const forsikringsvurdering: ApiForsikringsvurdering = {
     eksisterer: true,
@@ -35,6 +33,7 @@ const forsikringsvurdering: ApiForsikringsvurdering = {
             },
         },
     ],
+    dataHentetTidspunkt: '2021-02-03T12:34:56.789101112Z',
 };
 
 describe('ForsikringDialog', () => {
@@ -53,7 +52,7 @@ describe('ForsikringDialog', () => {
 
         expect(screen.getByRole('heading', { name: 'Grunnlag for forsikringsvurdering' })).toBeVisible();
         expect(screen.getByText('Gjelder sykefravær med skjæringstidspunkt 01.08.2026')).toBeVisible();
-        expect(screen.getByText(`Opplysninger hentet og vurdert ${dayjs().format(NORSK_DATOFORMAT)}`)).toBeVisible();
+        expect(screen.getByText('Opplysninger hentet og vurdert 03.02.2021 kl. 13.34')).toBeVisible();
         expect(screen.getByRole('button', { name: 'Hent og vurder på nytt' })).toBeVisible();
 
         expect(screen.getByRole('cell', { name: /100 % fra dag 17/ })).toBeVisible();
