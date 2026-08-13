@@ -63,15 +63,15 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
                                     </HStack>
                                 ))}
                         </VStack>
-                        <ForsikringSeksjon
-                            forsikringsvurderingId={vilkårsgrunnlag.forsikringsvurderingId}
-                            skjæringstidspunkt={vilkårsgrunnlag.skjaeringstidspunkt}
-                        />
                         <HStack gap="space-24">
                             <BodyShort weight="semibold">Beregnet årsinntekt</BodyShort>
                             <BodyShort>{somPenger(Number(vilkårsgrunnlag.beregningsgrunnlag))}</BodyShort>
                         </HStack>
                     </VStack>
+                    <ForsikringSeksjon
+                        forsikringsvurderingId={vilkårsgrunnlag.forsikringsvurderingId}
+                        skjæringstidspunkt={vilkårsgrunnlag.skjaeringstidspunkt}
+                    />
                 </VStack>
             </Box>
         </HStack>
