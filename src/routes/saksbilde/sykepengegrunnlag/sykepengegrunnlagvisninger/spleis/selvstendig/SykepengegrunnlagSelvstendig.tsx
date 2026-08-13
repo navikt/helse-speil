@@ -11,6 +11,7 @@ import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { BeregnetPeriodeFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
+import { ForsikringSeksjon } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/ForsikringSeksjon';
 import { SykepengegrunnlagSelvstendigPanel } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendigPanel';
 import { somPenger } from '@utils/locale';
 
@@ -62,6 +63,10 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
                                     </HStack>
                                 ))}
                         </VStack>
+                        <ForsikringSeksjon
+                            forsikringsvurderingId={vilkårsgrunnlag.forsikringsvurderingId}
+                            skjæringstidspunkt={vilkårsgrunnlag.skjaeringstidspunkt}
+                        />
                         <HStack gap="space-24">
                             <BodyShort weight="semibold">Beregnet årsinntekt</BodyShort>
                             <BodyShort>{somPenger(Number(vilkårsgrunnlag.beregningsgrunnlag))}</BodyShort>

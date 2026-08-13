@@ -1,80 +1,60 @@
-import React, { ReactElement, ReactNode } from 'react';
+import dayjs from 'dayjs';
+import React, { ReactElement } from 'react';
 
-import { InformationSquareIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Dialog, HStack, Heading, Table, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, Dialog, HStack, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import {
     ApiEkskludertForsikring,
     ApiFolketrygdlovenreferanse,
-    ApiForsikring,
     ApiForsikringsvurdering,
+    ApiForsikringsvurderingGjeldendeForsikring,
 } from '@io/rest/generated/spesialist.schemas';
-import { somNorskDato } from '@utils/date';
+import { NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
+
+type Forsikringsrad = {
+    forsikring: NonNullable<ApiForsikringsvurderingGjeldendeForsikring> | ApiEkskludertForsikring;
+    erGjeldende: boolean;
+};
 
 export const ForsikringDialog = ({
     forsikringsvurdering,
-    dekningstekst,
+    skjæringstidspunkt,
+    trigger,
 }: {
     forsikringsvurdering: ApiForsikringsvurdering;
-    dekningstekst: string;
+    skjæringstidspunkt: string;
+    trigger: ReactElement;
 }): ReactElement => {
-    const { forsikringInnhold, gjeldendeForsikring, ekskluderteForsikringer } = forsikringsvurdering;
+    const { gjeldendeForsikring, ekskluderteForsikringer } = forsikringsvurdering;
+
+    const rader: Forsikringsrad[] = [
+        ...(gjeldendeForsikring ? [{ forsikring: gjeldendeForsikring, erGjeldende: true }] : []),
+        ...ekskluderteForsikringer.map((forsikring) => ({ forsikring, erGjeldende: false })),
+    ].toSorted(sammenlignForsikringsrader);
 
     return (
         <Dialog>
-            <Dialog.Trigger>
-                <Button
-                    variant="tertiary"
-                    size="small"
-                    className="px-0 font-normal"
-                    icon={<InformationSquareIcon aria-hidden />}
-                    iconPosition="right"
-                >
-                    {dekningstekst}
-                </Button>
-            </Dialog.Trigger>
+            <Dialog.Trigger>{trigger}</Dialog.Trigger>
             <Dialog.Popup width="large">
                 <Dialog.Header>
-                    <Dialog.Title>Forsikring</Dialog.Title>
-                    <Dialog.Description>Opplysninger fra forsikringsvurderingen</Dialog.Description>
+                    <Dialog.Title>Grunnlag for forsikringsvurdering</Dialog.Title>
+                    <Dialog.Description>
+                        Gjelder sykefravær med skjæringstidspunkt {somNorskDato(skjæringstidspunkt)}
+                    </Dialog.Description>
                 </Dialog.Header>
                 <Dialog.Body>
-                    <VStack gap="space-24">
-                        <VStack gap="space-8">
-                            <Heading level="2" size="xsmall">
-                                Dekning brukt i beregningen
-                            </Heading>
-                            {forsikringInnhold ? (
-                                <HStack gap="space-48">
-                                    <Opplysning tittel="Dekningsgrad">{forsikringInnhold.dekningsgrad} %</Opplysning>
-                                    <Opplysning tittel="Gjelder fra dag">{forsikringInnhold.gjelderFraDag}</Opplysning>
-                                </HStack>
-                            ) : (
-                                <BodyShort>Ingen forsikring lagt til grunn</BodyShort>
-                            )}
-                        </VStack>
-                        <VStack gap="space-8">
-                            <Heading level="2" size="xsmall">
-                                Gjeldende forsikring
-                            </Heading>
-                            {gjeldendeForsikring ? (
-                                <ForsikringTabell forsikringer={[gjeldendeForsikring]} />
-                            ) : (
-                                <BodyShort>Ingen gjeldende forsikring</BodyShort>
-                            )}
-                        </VStack>
-                        <VStack gap="space-8">
-                            <Heading level="2" size="xsmall">
-                                Ekskluderte forsikringer
-                            </Heading>
-                            {ekskluderteForsikringer.length > 0 ? (
-                                <ForsikringTabell forsikringer={ekskluderteForsikringer} visEkskluderingsbegrunnelse />
-                            ) : (
-                                <BodyShort>Ingen ekskluderte forsikringer</BodyShort>
-                            )}
-                        </VStack>
-                    </VStack>
+                    <HStack align="center" gap="space-12" marginBlock="space-0 space-16">
+                        <BodyShort>Opplysninger hentet og vurdert {dayjs().format(NORSK_DATOFORMAT)}</BodyShort>
+                        <Button size="small" variant="secondary">
+                            Hent og vurder på nytt
+                        </Button>
+                    </HStack>
+                    {rader.length > 0 ? (
+                        <ForsikringTabell rader={rader} />
+                    ) : (
+                        <BodyShort>Ingen forsikringer funnet</BodyShort>
+                    )}
                 </Dialog.Body>
                 <Dialog.Footer>
                     <Dialog.CloseTrigger>
@@ -86,58 +66,68 @@ export const ForsikringDialog = ({
     );
 };
 
-const ForsikringTabell = ({
-    forsikringer,
-    visEkskluderingsbegrunnelse = false,
-}: {
-    forsikringer: (ApiForsikring | ApiEkskludertForsikring)[];
-    visEkskluderingsbegrunnelse?: boolean;
-}): ReactElement => (
-    <Table size="small" zebraStripes>
+const sammenlignForsikringsrader = (a: Forsikringsrad, b: Forsikringsrad): number => {
+    const virkningsdato = a.forsikring.virkningsdato.localeCompare(b.forsikring.virkningsdato);
+    if (virkningsdato !== 0) return virkningsdato;
+
+    const opphørA = a.forsikring.opphørsdato;
+    const opphørB = b.forsikring.opphørsdato;
+    if (opphørA === opphørB) return 0;
+    if (!opphørA) return 1;
+    if (!opphørB) return -1;
+    return opphørA.localeCompare(opphørB);
+};
+
+const ForsikringTabell = ({ rader }: { rader: Forsikringsrad[] }): ReactElement => (
+    <Table size="small">
         <Table.Header>
             <Table.Row>
                 <Table.HeaderCell scope="col">Type</Table.HeaderCell>
                 <Table.HeaderCell scope="col">Gjelder fra</Table.HeaderCell>
                 <Table.HeaderCell scope="col">Opphører</Table.HeaderCell>
-                {visEkskluderingsbegrunnelse && <Table.HeaderCell scope="col">Årsak</Table.HeaderCell>}
+                <Table.HeaderCell scope="col">Vurdering</Table.HeaderCell>
             </Table.Row>
         </Table.Header>
         <Table.Body>
-            {forsikringer.map((forsikring, index) => (
-                <Table.Row key={`${forsikring.virkningsdato}-${index}`}>
+            {rader.map(({ forsikring, erGjeldende }, index) => (
+                <Table.Row
+                    key={`${forsikring.virkningsdato}-${index}`}
+                    className={erGjeldende ? 'bg-ax-bg-success-soft' : 'bg-ax-bg-neutral-soft'}
+                >
                     <Table.DataCell>
-                        {forsikring.navn} (<FolketrygdlovenLenke referanse={forsikring.folketrygdlovenreferanse} />)
+                        <VStack>
+                            {forsikring.navn}
+                            <FolketrygdlovenLenke referanse={forsikring.folketrygdlovenreferanse} />
+                        </VStack>
                     </Table.DataCell>
                     <Table.DataCell>{somNorskDato(forsikring.virkningsdato)}</Table.DataCell>
                     <Table.DataCell>{somNorskDato(forsikring.opphørsdato ?? undefined) ?? '–'}</Table.DataCell>
-                    {visEkskluderingsbegrunnelse && (
-                        <Table.DataCell>
-                            {'ekskluderingsbegrunnelse' in forsikring ? (
-                                <>
-                                    {forsikring.ekskluderingsbegrunnelse.forklaring}
-                                    {forsikring.ekskluderingsbegrunnelse.folketrygdlovenreferanse !== null && (
-                                        <>
-                                            {' '}
-                                            (
-                                            <FolketrygdlovenLenke
-                                                referanse={forsikring.ekskluderingsbegrunnelse.folketrygdlovenreferanse}
-                                            />
-                                            )
-                                        </>
-                                    )}
-                                </>
-                            ) : (
-                                '–'
-                            )}
-                        </Table.DataCell>
-                    )}
+                    <Table.DataCell>
+                        {'ekskluderingsbegrunnelse' in forsikring ? (
+                            <>
+                                {forsikring.ekskluderingsbegrunnelse.forklaring}
+                                {forsikring.ekskluderingsbegrunnelse.folketrygdlovenreferanse !== null && (
+                                    <>
+                                        {' '}
+                                        (
+                                        <FolketrygdlovenLenke
+                                            referanse={forsikring.ekskluderingsbegrunnelse.folketrygdlovenreferanse}
+                                        />
+                                        )
+                                    </>
+                                )}
+                            </>
+                        ) : (
+                            'Lagt til grunn'
+                        )}
+                    </Table.DataCell>
                 </Table.Row>
             ))}
         </Table.Body>
     </Table>
 );
 
-const FolketrygdlovenLenke = ({
+export const FolketrygdlovenLenke = ({
     referanse,
 }: {
     referanse?: ApiFolketrygdlovenreferanse | null;
@@ -150,12 +140,3 @@ const FolketrygdlovenLenke = ({
 
     return <LovdataLenke paragraf={paragraf}>{`§ ${paragraf}${ledd}${bokstav}`}</LovdataLenke>;
 };
-
-const Opplysning = ({ tittel, children }: { tittel: string; children: ReactNode }): ReactElement => (
-    <VStack>
-        <BodyShort size="small" className="text-ax-text-neutral-subtle">
-            {tittel}
-        </BodyShort>
-        <BodyShort>{children}</BodyShort>
-    </VStack>
-);
