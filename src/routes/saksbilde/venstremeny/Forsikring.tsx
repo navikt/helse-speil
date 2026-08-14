@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, InlineMessage } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
 
@@ -11,7 +10,7 @@ export const Forsikring = ({ forsikringsvurderingId }: { forsikringsvurderingId:
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data, isLoading, error } = useGetForsikringsvurderingForPerson(personPseudoId, forsikringsvurderingId!, {
         query: {
-            enabled: erUtvikling && !!forsikringsvurderingId,
+            enabled: !!forsikringsvurderingId,
         },
     });
 
