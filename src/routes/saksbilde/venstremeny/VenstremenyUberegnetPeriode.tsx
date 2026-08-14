@@ -32,6 +32,7 @@ export const VenstremenyUberegnetPeriode = ({
             Periodetilstand.ForberederGodkjenning,
             Periodetilstand.ManglerInformasjon,
             Periodetilstand.VenterPaEnAnnenPeriode,
+            Periodetilstand.IngenUtbetaling,
         ].includes(activePeriod.periodetilstand);
     return (
         <section className={styles.Venstremeny}>
