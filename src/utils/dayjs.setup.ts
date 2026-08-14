@@ -7,6 +7,8 @@ import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import timezone from 'dayjs/plugin/timezone';
+import utc from 'dayjs/plugin/utc';
 
 dayjs.extend(relativeTime);
 dayjs.extend(minMax);
@@ -16,5 +18,7 @@ dayjs.extend(isSameOrBefore);
 dayjs.extend(isoWeek);
 dayjs.extend(customParseFormat);
 dayjs.locale('nb');
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 export default dayjs;

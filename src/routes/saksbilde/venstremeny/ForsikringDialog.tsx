@@ -47,7 +47,9 @@ export const ForsikringDialog = ({
                     <HStack align="center" gap="space-12" marginBlock="space-0 space-16">
                         <BodyShort>
                             Opplysninger hentet og vurdert{' '}
-                            {dayjs(forsikringsvurdering.dataHentetTidspunkt).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
+                            {dayjs(forsikringsvurdering.dataHentetTidspunkt)
+                                .tz('Europe/Oslo')
+                                .format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
                         </BodyShort>
                         <Button size="small" variant="secondary">
                             Hent og vurder på nytt
