@@ -1,21 +1,16 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Button, Dialog, HStack, Table, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, Dialog, HStack, Heading, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import {
-    ApiEkskludertForsikring,
     ApiFolketrygdlovenreferanse,
     ApiForsikringsvurdering,
-    ApiForsikringsvurderingGjeldendeForsikring,
+    ApiKollektivForsikring,
+    ApiNavKjøptForsikring,
 } from '@io/rest/generated/spesialist.schemas';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
-
-type Forsikringsrad = {
-    forsikring: NonNullable<ApiForsikringsvurderingGjeldendeForsikring> | ApiEkskludertForsikring;
-    erGjeldende: boolean;
-};
 
 export const ForsikringDialog = ({
     forsikringsvurdering,
@@ -26,12 +21,8 @@ export const ForsikringDialog = ({
     skjæringstidspunkt: string;
     trigger: ReactElement;
 }): ReactElement => {
-    const { gjeldendeForsikring, ekskluderteForsikringer } = forsikringsvurdering;
-
-    const rader: Forsikringsrad[] = [
-        ...(gjeldendeForsikring ? [{ forsikring: gjeldendeForsikring, erGjeldende: true }] : []),
-        ...ekskluderteForsikringer.map((forsikring) => ({ forsikring, erGjeldende: false })),
-    ].toSorted(sammenlignForsikringsrader);
+    const forsikringer = forsikringsvurdering.navKjøpteForsikringer.toSorted(sammenlignForsikringer);
+    const kollektivForsikring = forsikringsvurdering.kollektivForsikring;
 
     return (
         <Dialog>
@@ -47,7 +38,7 @@ export const ForsikringDialog = ({
                     <HStack align="center" gap="space-12" marginBlock="space-0 space-16">
                         <BodyShort>
                             Opplysninger hentet og vurdert{' '}
-                            {dayjs(forsikringsvurdering.dataHentetTidspunkt)
+                            {dayjs(forsikringsvurdering.vurdertTidspunkt)
                                 .tz('Europe/Oslo')
                                 .format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
                         </BodyShort>
@@ -55,11 +46,35 @@ export const ForsikringDialog = ({
                             Hent og vurder på nytt
                         </Button>
                     </HStack>
-                    {rader.length > 0 ? (
-                        <ForsikringTabell rader={rader} />
-                    ) : (
-                        <BodyShort>Ingen forsikringer funnet</BodyShort>
-                    )}
+                    <VStack gap="space-8" marginBlock="space-0 space-24">
+                        <Heading size="xsmall" level="3">
+                            Kollektive forsikringer
+                        </Heading>
+                        {kollektivForsikring ? (
+                            <>
+                                <FolketrygdlovenLenke
+                                    referanse={kollektivForsikring.kollektivFolketrygdlovenreferanse}
+                                />
+                                <KollektivForsikringTabell forsikring={kollektivForsikring} />
+                                <BodyShort size="small" textColor="subtle">
+                                    Merk: Kollektive forsikringer er utledet av søknadstypen, dette må ikke tolkes som
+                                    en bekreftelse på at bruker har denne forsikringen.
+                                </BodyShort>
+                            </>
+                        ) : (
+                            <BodyShort>Ingen kollektive forsikringer</BodyShort>
+                        )}
+                    </VStack>
+                    <VStack gap="space-8">
+                        <Heading size="xsmall" level="3">
+                            Nav-kjøpte forsikringer
+                        </Heading>
+                        {forsikringer.length > 0 ? (
+                            <ForsikringTabell forsikringer={forsikringer} />
+                        ) : (
+                            <BodyShort>Ingen forsikringer funnet</BodyShort>
+                        )}
+                    </VStack>
                 </Dialog.Body>
                 <Dialog.Footer>
                     <Dialog.CloseTrigger>
@@ -71,19 +86,19 @@ export const ForsikringDialog = ({
     );
 };
 
-const sammenlignForsikringsrader = (a: Forsikringsrad, b: Forsikringsrad): number => {
-    const virkningsdato = a.forsikring.virkningsdato.localeCompare(b.forsikring.virkningsdato);
+const sammenlignForsikringer = (a: ApiNavKjøptForsikring, b: ApiNavKjøptForsikring): number => {
+    const virkningsdato = a.virkningsdato.localeCompare(b.virkningsdato);
     if (virkningsdato !== 0) return virkningsdato;
 
-    const opphørA = a.forsikring.opphørsdato;
-    const opphørB = b.forsikring.opphørsdato;
+    const opphørA = a.opphørsdato;
+    const opphørB = b.opphørsdato;
     if (opphørA === opphørB) return 0;
     if (!opphørA) return 1;
     if (!opphørB) return -1;
     return opphørA.localeCompare(opphørB);
 };
 
-const ForsikringTabell = ({ rader }: { rader: Forsikringsrad[] }): ReactElement => (
+const ForsikringTabell = ({ forsikringer }: { forsikringer: ApiNavKjøptForsikring[] }): ReactElement => (
     <Table size="small">
         <Table.Header>
             <Table.Row>
@@ -94,40 +109,51 @@ const ForsikringTabell = ({ rader }: { rader: Forsikringsrad[] }): ReactElement 
             </Table.Row>
         </Table.Header>
         <Table.Body>
-            {rader.map(({ forsikring, erGjeldende }, index) => (
+            {forsikringer.map((forsikring, index) => (
                 <Table.Row
                     key={`${forsikring.virkningsdato}-${index}`}
-                    className={erGjeldende ? 'bg-ax-bg-success-soft' : 'bg-ax-bg-neutral-soft'}
+                    className={forsikring.lagtTilGrunn ? 'bg-ax-bg-success-soft' : 'bg-ax-bg-neutral-soft'}
                 >
                     <Table.DataCell>
                         <VStack>
                             {forsikring.navn}
-                            <FolketrygdlovenLenke referanse={forsikring.folketrygdlovenreferanse} />
+                            <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />
                         </VStack>
                     </Table.DataCell>
                     <Table.DataCell>{somNorskDato(forsikring.virkningsdato)}</Table.DataCell>
                     <Table.DataCell>{somNorskDato(forsikring.opphørsdato ?? undefined) ?? '–'}</Table.DataCell>
                     <Table.DataCell>
-                        {'ekskluderingsbegrunnelse' in forsikring ? (
+                        {forsikring.konklusjon.forklaring}
+                        {forsikring.konklusjon.folketrygdlovenreferanse && (
                             <>
-                                {forsikring.ekskluderingsbegrunnelse.forklaring}
-                                {forsikring.ekskluderingsbegrunnelse.folketrygdlovenreferanse !== null && (
-                                    <>
-                                        {' '}
-                                        (
-                                        <FolketrygdlovenLenke
-                                            referanse={forsikring.ekskluderingsbegrunnelse.folketrygdlovenreferanse}
-                                        />
-                                        )
-                                    </>
-                                )}
+                                {' '}
+                                (
+                                <FolketrygdlovenLenke referanse={forsikring.konklusjon.folketrygdlovenreferanse} />)
                             </>
-                        ) : (
-                            'Lagt til grunn'
                         )}
                     </Table.DataCell>
                 </Table.Row>
             ))}
+        </Table.Body>
+    </Table>
+);
+
+const KollektivForsikringTabell = ({ forsikring }: { forsikring: ApiKollektivForsikring }): ReactElement => (
+    <Table size="small">
+        <Table.Header>
+            <Table.Row>
+                <Table.HeaderCell scope="col">Type</Table.HeaderCell>
+            </Table.Row>
+        </Table.Header>
+        <Table.Body>
+            <Table.Row className="bg-ax-bg-success-soft">
+                <Table.DataCell>
+                    <VStack>
+                        {forsikring.navn}
+                        <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />
+                    </VStack>
+                </Table.DataCell>
+            </Table.Row>
         </Table.Body>
     </Table>
 );

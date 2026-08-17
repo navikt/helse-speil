@@ -7,7 +7,11 @@ import { BodyShort, Button, HStack, Heading, InlineMessage, VStack } from '@navi
 import { erUtvikling } from '@/env';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
-import { ApiForsikringsvurdering } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiForsikringsvurdering,
+    ApiKollektivForsikring,
+    ApiNavKjøptForsikring,
+} from '@io/rest/generated/spesialist.schemas';
 import { FolketrygdlovenLenke, ForsikringDialog } from '@saksbilde/venstremeny/ForsikringDialog';
 import { somNorskDato } from '@utils/date';
 
@@ -54,9 +58,7 @@ export const ForsikringSeksjon = ({
                 </HStack>
             ) : (
                 <VStack align="start" gap="space-8">
-                    <VStack>
-                        <Forsikringsinnhold forsikringsvurdering={data} />
-                    </VStack>
+                    <Forsikringsinnhold forsikringsvurdering={data} />
                 </VStack>
             )}
         </VStack>
@@ -68,23 +70,46 @@ const Forsikringsinnhold = ({
 }: {
     forsikringsvurdering: ApiForsikringsvurdering | undefined;
 }): ReactElement => {
-    const gjeldendeForsikring = forsikringsvurdering?.gjeldendeForsikring;
+    const navKjøpteForsikringer = (forsikringsvurdering?.navKjøpteForsikringer ?? [])
+        .filter((forsikring) => forsikring.lagtTilGrunn)
+        .sort((a, b) => a.virkningsdato.localeCompare(b.virkningsdato));
+    const kollektivForsikring = forsikringsvurdering?.kollektivForsikring;
 
-    if (!forsikringsvurdering?.eksisterer || !gjeldendeForsikring) {
+    if (navKjøpteForsikringer.length === 0 && !kollektivForsikring) {
         return <BodyShort>Ingen forsikring</BodyShort>;
     }
 
-    const opphørsdato = somNorskDato(gjeldendeForsikring.opphørsdato ?? undefined);
-
     return (
         <>
-            <BodyShort weight="semibold">
-                {somNorskDato(gjeldendeForsikring.virkningsdato)} — {opphørsdato}
-            </BodyShort>
-            <BodyShort>
-                {gjeldendeForsikring.navn}{' '}
-                <FolketrygdlovenLenke referanse={gjeldendeForsikring.folketrygdlovenreferanse} />
-            </BodyShort>
+            {kollektivForsikring && <KollektivForsikringInnhold forsikring={kollektivForsikring} />}
+            {navKjøpteForsikringer.map((forsikring) => (
+                <NavKjøptForsikringInnhold
+                    key={`${forsikring.virkningsdato}-${forsikring.navn}`}
+                    forsikring={forsikring}
+                />
+            ))}
         </>
     );
 };
+
+const NavKjøptForsikringInnhold = ({ forsikring }: { forsikring: ApiNavKjøptForsikring }): ReactElement => (
+    <VStack>
+        <BodyShort weight="semibold">
+            {somNorskDato(forsikring.virkningsdato)} — {somNorskDato(forsikring.opphørsdato ?? undefined)}
+        </BodyShort>
+        <BodyShort>
+            {forsikring.navn} <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />
+        </BodyShort>
+    </VStack>
+);
+
+const KollektivForsikringInnhold = ({ forsikring }: { forsikring: ApiKollektivForsikring }): ReactElement => (
+    <VStack>
+        <BodyShort weight="semibold">Kollektiv</BodyShort>
+        <BodyShort>
+            {forsikring.navn} <FolketrygdlovenLenke referanse={forsikring.kollektivFolketrygdlovenreferanse} />
+            {' + '}
+            <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />
+        </BodyShort>
+    </VStack>
+);

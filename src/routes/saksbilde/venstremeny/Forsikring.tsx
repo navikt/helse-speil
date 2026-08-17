@@ -21,8 +21,8 @@ export const Forsikring = ({ forsikringsvurderingId }: { forsikringsvurderingId:
                 <LoadingShimmer />
             ) : error ? (
                 <InlineMessage status="error">Klarte ikke hente</InlineMessage>
-            ) : data?.eksisterer ? (
-                <BodyShort>{`${data.forsikringInnhold?.dekningsgrad} % fra ${data.forsikringInnhold?.gjelderFraDag}. dag`}</BodyShort>
+            ) : data?.samletDekning != undefined ? (
+                <BodyShort>{`${data.samletDekning.grad} % fra ${data.samletDekning.fraDag}. dag`}</BodyShort>
             ) : (
                 <BodyShort>80 % fra 17. dag</BodyShort>
             )}

@@ -4,7 +4,7 @@ export async function stub(_request: NextRequest) {
     return Response.json(
         {
             eksisterer: true,
-            forsikringInnhold: { gjelderFraDag: 17, dekningsgrad: 100 },
+            samletDekning: { grad: 100, fraDag: 1 },
             ekskluderteForsikringer: [
                 {
                     virkningsdato: '2026-09-01',
@@ -40,7 +40,45 @@ export async function stub(_request: NextRequest) {
                 navn: '100 % fra dag 17',
                 folketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'b' },
             },
+            navKjøpteForsikringer: [
+                {
+                    navn: '80 % fra 1. dag',
+                    dekningFolketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'a' },
+                    virkningsdato: '2022-01-01',
+                    opphørsdato: '2023-12-31',
+                    konklusjon: {
+                        forklaring: 'Forsikringen var opphørt på skjæringstidspunktet',
+                        folketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 37, ledd: null, bokstav: null },
+                    },
+                    lagtTilGrunn: false,
+                },
+                {
+                    navn: '100 % fra 1. dag',
+                    dekningFolketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'c' },
+                    virkningsdato: '2026-01-01',
+                    opphørsdato: '2026-06-31',
+                    konklusjon: { forklaring: 'Lagt til grunn', folketrygdlovenreferanse: null },
+                    lagtTilGrunn: true,
+                },
+                {
+                    navn: '100 % fra 17. dag',
+                    dekningFolketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'b' },
+                    virkningsdato: '2026-07-01',
+                    opphørsdato: null,
+                    konklusjon: {
+                        forklaring: 'Forsikringen var ennå ikke gyldig på skjæringstidspunktet',
+                        folketrygdlovenreferanse: null,
+                    },
+                    lagtTilGrunn: false,
+                },
+            ],
+            kollektivForsikring: {
+                navn: 'Jordbrukere - 100 % fra 17. dag',
+                dekningFolketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'b' },
+                kollektivFolketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 4, bokstav: null },
+            },
             dataHentetTidspunkt: '2025-07-15T12:34:56.789101112Z',
+            vurdertTidspunkt: '2026-07-15T12:34:56.789101112Z',
         },
         { status: 200 },
     );
