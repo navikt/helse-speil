@@ -8,10 +8,7 @@ import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
 const forsikringsvurdering: ApiForsikringsvurdering = {
-    eksisterer: true,
     samletDekning: { fraDag: 17, grad: 100 },
-    ekskluderteForsikringer: [],
-    dataHentetTidspunkt: '2021-02-03T12:34:56.789101112Z',
     navKjøpteForsikringer: [
         {
             virkningsdato: '2026-08-12',

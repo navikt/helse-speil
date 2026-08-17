@@ -2047,22 +2047,15 @@ export interface ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode 
     code?: ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeCode;
 }
 
-export interface ForsikringInnhold {
-    gjelderFraDag: number;
-    dekningsgrad: number;
+export interface ApiDekning {
+    grad: number;
+    fraDag: number;
 }
 
-export type ApiEkskludertForsikringOpphørsdato = null | string;
-
-export interface ApiEkskludertForsikring {
-    virkningsdato: string;
-    opphørsdato?: ApiEkskludertForsikringOpphørsdato;
-    dekningsgrad: number;
-    dekningIVentetid: boolean;
+export interface ApiKollektivForsikring {
     navn: string;
-    folketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
-    ekskluderingsårsak: ApiEkskluderingsårsak;
-    ekskluderingsbegrunnelse: ApiEkskluderingsbegrunnelse;
+    dekningFolketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
+    kollektivFolketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
 }
 
 export type ApiFolketrygdlovenreferanseLedd = null | number;
@@ -2084,45 +2077,6 @@ export interface ApiFolketrygdlovenreferanse {
     bokstav?: ApiFolketrygdlovenreferanseBokstav;
 }
 
-export type ApiEkskluderingsårsak = (typeof ApiEkskluderingsårsak)[keyof typeof ApiEkskluderingsårsak];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiEkskluderingsårsak = {
-    SKJÆRINGSTIDSPUNKT_INNEN_28_DAGER_FØR_VIRKNINGSDATO: 'SKJÆRINGSTIDSPUNKT_INNEN_28_DAGER_FØR_VIRKNINGSDATO',
-    SKJÆRINGSTIDSPUNKT_MER_ENN_28_DAGER_FØR_VIRKNINGSDATO: 'SKJÆRINGSTIDSPUNKT_MER_ENN_28_DAGER_FØR_VIRKNINGSDATO',
-    OPPHØRT_PÅ_SKJÆRINGSTIDSPUNKT: 'OPPHØRT_PÅ_SKJÆRINGSTIDSPUNKT',
-    ALDRI_BETALT: 'ALDRI_BETALT',
-} as const;
-
-export type ApiEkskluderingsbegrunnelseFolketrygdlovenreferanse = null | ApiFolketrygdlovenreferanse;
-
-export interface ApiEkskluderingsbegrunnelse {
-    forklaring: string;
-    folketrygdlovenreferanse?: ApiEkskluderingsbegrunnelseFolketrygdlovenreferanse;
-}
-
-export type ApiForsikringOpphørsdato = null | string;
-
-export interface ApiForsikring {
-    virkningsdato: string;
-    opphørsdato?: ApiForsikringOpphørsdato;
-    dekningsgrad: number;
-    dekningIVentetid: boolean;
-    navn: string;
-    folketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
-}
-
-export interface ApiDekning {
-    grad: number;
-    fraDag: number;
-}
-
-export interface ApiKollektivForsikring {
-    navn: string;
-    dekningFolketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
-    kollektivFolketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
-}
-
 export type ApiNavKjøptForsikringOpphørsdato = null | string;
 
 export interface ApiNavKjøptForsikring {
@@ -2141,20 +2095,11 @@ export interface ApiNavKjøptForsikringKonklusjon {
     folketrygdlovenreferanse?: ApiNavKjøptForsikringKonklusjonFolketrygdlovenreferanse;
 }
 
-export type ApiForsikringsvurderingForsikringInnhold = null | ForsikringInnhold;
-
-export type ApiForsikringsvurderingGjeldendeForsikring = null | ApiForsikring;
-
 export type ApiForsikringsvurderingSamletDekning = null | ApiDekning;
 
 export type ApiForsikringsvurderingKollektivForsikring = null | ApiKollektivForsikring;
 
 export interface ApiForsikringsvurdering {
-    eksisterer: boolean;
-    forsikringInnhold?: ApiForsikringsvurderingForsikringInnhold;
-    ekskluderteForsikringer: ApiEkskludertForsikring[];
-    gjeldendeForsikring?: ApiForsikringsvurderingGjeldendeForsikring;
-    dataHentetTidspunkt: string;
     samletDekning?: ApiForsikringsvurderingSamletDekning;
     kollektivForsikring?: ApiForsikringsvurderingKollektivForsikring;
     navKjøpteForsikringer: ApiNavKjøptForsikring[];
