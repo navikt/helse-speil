@@ -14,13 +14,17 @@ export const putStub = async (request: NextRequest, params: Promise<{ varselId: 
             it.arbeidsgivere.flatMap((it) => it.behandlinger.flatMap((it) => it.perioder.flatMap((it) => it.varsler))),
         )
         .find((it) => it.id === varselId);
-    if (!funnetVarsel) {
-        return NextResponse.json({
-            code: 'VARSEL_IKKE_FUNNET',
-            status: 404,
-            title: 'Varsel ikke funnet',
-            type: 'about:blank',
-        });
+    if (funnetVarsel == undefined) {
+        return NextResponse.json(
+            {
+                code: 'VARSEL_IKKE_FUNNET',
+                title: 'Varsel ikke funnet',
+                type: 'about:blank',
+            },
+            {
+                status: 404,
+            },
+        );
     }
     const endring = VarselMock.leggTilEndretVarsel({
         ...funnetVarsel,
