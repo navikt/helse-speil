@@ -1,7 +1,7 @@
-import {z} from 'zod/v4';
+import { z } from 'zod/v4';
 
-import {DatePeriod} from '@typer/shared';
-import {erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato} from '@utils/date';
+import { DatePeriod } from '@typer/shared';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato } from '@utils/date';
 
 export const ANNEN_YTELSE_OPTIONS = [
     'Foreldrepenger',
@@ -11,6 +11,10 @@ export const ANNEN_YTELSE_OPTIONS = [
     'Opplæringspenger',
 ] as const;
 
+/** Verdiene skjemafeltene har mens de fylles ut — `grad` kan være tom her. */
+export type AndreYtelserSkjemaInput = z.input<ReturnType<typeof lagAndreYtelserSchema>>;
+
+/** Ferdig validerte verdier fra `handleSubmit` — `grad` er garantert satt. */
 export type AndreYtelserSchema = z.infer<ReturnType<typeof lagAndreYtelserSchema>>;
 
 const lagAndreYtelserPeriodeSchema = (sykefraværstilfelleperioder: DatePeriod[]) =>
@@ -24,48 +28,24 @@ const lagAndreYtelserPeriodeSchema = (sykefraværstilfelleperioder: DatePeriod[]
                 .string()
                 .min(1, { error: 'Til og med-dato er påkrevd' })
                 .refine((value) => erGyldigNorskDato(value), 'Til og med-datoen er ikke en gyldig norsk dato'),
-            grad: z.number({ error: 'Grad må være et tall' }).optional(),
+            grad: z
+                .number({ error: 'Velg grad' })
+                .int({ error: 'Grad må være et heltall' })
+                .min(1, { error: 'Grad må være minst 1' })
+                .max(99, { error: 'Grad må være 99 eller lavere' })
+                .optional(),
         })
         .refine(({ fom, tom }) => norskDatoTilIsoDato(fom) <= norskDatoTilIsoDato(tom), {
             error: 'Fra og med-dato må være før eller lik til og med-dato',
             path: ['fom'],
         })
         .check((ctx) => {
-            const grad = ctx.value.grad;
-            if (grad == null) {
+            if (ctx.value.grad == null) {
                 ctx.issues.push({
                     code: 'custom',
                     message: 'Velg grad',
                     path: ['grad'],
-                    input: grad,
-                    continue: true,
-                });
-            } else if (!Number.isInteger(grad)) {
-                ctx.issues.push({
-                    code: 'custom',
-                    message: 'Grad må være et heltall',
-                    path: ['grad'],
-                    input: grad,
-                    continue: true,
-                });
-            } else if (grad < 1) {
-                ctx.issues.push({
-                    code: 'too_small',
-                    message: 'Grad må være minst 1',
-                    minimum: 1,
-                    origin: 'number',
-                    path: ['grad'],
-                    input: grad,
-                    continue: true,
-                });
-            } else if (grad > 99) {
-                ctx.issues.push({
-                    code: 'too_big',
-                    message: 'Grad må være 99 eller lavere',
-                    maximum: 99,
-                    origin: 'number',
-                    path: ['grad'],
-                    input: grad,
+                    input: ctx.value.grad,
                     continue: true,
                 });
             }
@@ -85,7 +65,10 @@ const lagAndreYtelserPeriodeSchema = (sykefraværstilfelleperioder: DatePeriod[]
                     continue: true,
                 });
             }
-        });
+        })
+        // Feltet starter tomt i skjemaet, men sjekken over avviser innsending uten grad.
+        // Transformen løfter den garantien opp i typen, slik at koden nedstrøms slipper å gjenta den.
+        .transform((periode) => ({ ...periode, grad: periode.grad as number }));
 
 export const lagAndreYtelserSchema = (sykefraværstilfelleperioder: DatePeriod[]) =>
     z.object({

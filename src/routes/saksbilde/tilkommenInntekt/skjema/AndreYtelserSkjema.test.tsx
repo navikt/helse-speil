@@ -38,7 +38,7 @@ describe('AndreYtelserSkjema', () => {
         await user.selectOptions(screen.getByRole('combobox', { name: 'Velg ytelse' }), 'Pleiepenger');
         await user.type(screen.getByLabelText('Periode f.o.m.'), '01.01.2020');
         await user.type(screen.getByLabelText('Periode t.o.m.'), '03.01.2020');
-        await user.type(screen.getByRole('spinbutton', { name: 'Grad' }), '100');
+        await user.type(screen.getByRole('textbox', { name: 'Grad' }), '100');
         await user.type(screen.getByLabelText('Notat til beslutter'), 'Et notat');
         await user.click(screen.getByRole('button', { name: 'Lagre' }));
 
@@ -53,11 +53,11 @@ describe('AndreYtelserSkjema', () => {
 
         await user.type(screen.getByLabelText('Periode f.o.m.'), '01.01.2020');
         await user.type(screen.getByLabelText('Periode t.o.m.'), '03.01.2020');
-        await user.type(screen.getByRole('spinbutton', { name: 'Grad' }), '50');
+        await user.type(screen.getByRole('textbox', { name: 'Grad' }), '50');
         await user.click(screen.getByRole('button', { name: 'Slett' }));
 
         expect(screen.getByLabelText('Periode f.o.m.')).toHaveValue('');
         expect(screen.getByLabelText('Periode t.o.m.')).toHaveValue('');
-        expect(screen.getByRole('spinbutton', { name: 'Grad' })).toHaveValue(null);
+        expect(screen.getByRole('textbox', { name: 'Grad' })).toHaveValue('');
     });
 });

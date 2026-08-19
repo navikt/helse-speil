@@ -1,0 +1,18 @@
+{
+    "fodselsnummer": "06028620819",
+    "data": {
+        "graderteAndreYtelser": [
+            {
+                "andreYtelserId": "9c2f1c4e-5b7a-4f2e-9a3d-1f8b6c0d4e21",
+                "andreYtelseType": "PLEIEPENGER",
+                "perioder": [
+                    {
+                        "fom": "2022-08-02",
+                        "tom": "2022-08-13",
+                        "grad": 50
+                    }
+                ]
+            }
+        ]
+    }
+}
