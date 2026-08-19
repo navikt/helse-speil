@@ -4,7 +4,6 @@ import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { BodyShort, Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Textarea, VStack } from '@navikt/ds-react';
 
 import { AvvisningSkjema, avvisningSkjema } from '@/form-schemas/avvisningSkjema';
-import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BeregnetPeriodeFragment } from '@io/graphql';
 import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
@@ -62,6 +61,10 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                 <Dialog.Title>Kan ikke behandles her</Dialog.Title>
             </Dialog.Header>
             <Dialog.Body>
+                <BodyShort className="mb-5 italic">
+                    Utviklingsteamet bruker informasjonen du gir her til å videreutvikle og forbedre Speil.
+                    Informasjonen vil ikke bli vist til bruker.
+                </BodyShort>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} id="avvisning-skjema">
                         <Controller
@@ -90,7 +93,6 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                             )}
                         />
                         <VStack align="start" gap="space-8" className="mt-4">
-                            <VisesIkkeIVedtakTag />
                             <Controller
                                 control={form.control}
                                 name="kommentar"
@@ -99,6 +101,7 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                                         {...field}
                                         name="kommentar"
                                         label={`Begrunnelse${annet ? '' : ' (valgfri)'}`}
+                                        className="w-full"
                                         description={
                                             <>
                                                 <BodyShort>
@@ -126,9 +129,6 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                 <Button variant="primary" type="submit" form="avvisning-skjema" loading={isPending}>
                     Kan ikke behandles her
                 </Button>
-                <BodyShort className="mt-3 italic">
-                    Utviklingsteamet bruker informasjonen du gir her til å videreutvikle og forbedre Speil
-                </BodyShort>
             </Dialog.Footer>
         </>
     );

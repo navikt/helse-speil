@@ -15,7 +15,6 @@ import {
 } from '@navikt/ds-react';
 
 import { ForkastingSkjema, forkastingSkjema } from '@/form-schemas/forkastingSkjema';
-import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { Arsak, useArsaker } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UberegnetPeriodeFragment } from '@io/graphql';
@@ -82,6 +81,10 @@ export const ForkastFraUberegnetDialogInnhold = ({
             <Dialog.Body>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} id="forkast-fra-uberegnet-skjema">
+                        <BodyShort className="mb-5 italic">
+                            Utviklingsteamet bruker informasjonen du gir her til å videreutvikle og forbedre Speil.
+                            Informasjonen vil ikke bli vist til bruker.
+                        </BodyShort>
                         <BodyLong className="mb-4">
                             Sjekk siden{' '}
                             <a
@@ -123,13 +126,13 @@ export const ForkastFraUberegnetDialogInnhold = ({
                             )}
                         />
                         <VStack align="start" gap="space-8" className="mt-4">
-                            <VisesIkkeIVedtakTag />
                             <Controller
                                 control={form.control}
                                 name="kommentar"
                                 render={({ field, fieldState }) => (
                                     <Textarea
                                         {...field}
+                                        className="w-full"
                                         name="kommentar"
                                         label={`Begrunnelse${harValgtAnnet ? '' : ' (valgfri)'}`}
                                         description={
@@ -159,9 +162,6 @@ export const ForkastFraUberegnetDialogInnhold = ({
                 <Button variant="primary" type="submit" form="forkast-fra-uberegnet-skjema" loading={isPending}>
                     Kan ikke behandles her
                 </Button>
-                <BodyShort className="mt-3 italic">
-                    Utviklingsteamet bruker informasjonen du gir her til å videreutvikle og forbedre Speil
-                </BodyShort>
             </Dialog.Footer>
         </>
     );
