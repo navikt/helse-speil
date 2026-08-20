@@ -30,9 +30,6 @@ export class InfoAlert extends SpeilError {
     }
 }
 
-export const apolloErrorCode = (error: ApolloError | undefined): number =>
-    error?.graphQLErrors?.[0]?.extensions?.['code'] as number;
-
 export function apolloExtensionValue<T>(error: ApolloError | undefined, field: string): T | null {
     return error?.graphQLErrors?.[0]?.extensions?.[field] as T;
 }

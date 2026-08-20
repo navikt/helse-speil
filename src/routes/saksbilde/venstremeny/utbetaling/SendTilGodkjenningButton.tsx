@@ -2,14 +2,11 @@ import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { erProd } from '@/env';
-import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { Personinfo, SendTilGodkjenningV2Document, Utbetaling } from '@io/graphql';
+import { Personinfo, Utbetaling } from '@io/graphql';
 import { PostSendTilGodkjenningMutationError, usePostSendTilGodkjenning } from '@io/rest/generated/oppgaver/oppgaver';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
-import { apolloErrorCode } from '@utils/error';
 import { generateId } from '@utils/generateId';
 
 import { BackendFeil, UtbetalingDialog } from './UtbetalingDialog';
@@ -54,19 +51,12 @@ export const SendTilGodkjenningButton = ({
     const [showModal, setShowModal] = useState(false);
     const addToast = useAddSendtTilGodkjenningtoast();
 
-    const [sendTilGodkjenningMutation, { loading: graphqlLoading, error: graphqlError }] =
-        useMutation(SendTilGodkjenningV2Document);
     const {
-        mutate: sendTilGodkjenningRest,
-        isPending: restLoading,
-        error: restError,
+        mutate: sendTilGodkjenning,
+        isPending: loading,
+        error,
         reset: resetSendTilGodkjenningMutation,
     } = usePostSendTilGodkjenning();
-
-    const loading = !erProd ? restLoading : graphqlLoading;
-    const error = !erProd
-        ? restError && somRestBackendfeil(restError)
-        : graphqlError && somGraphqlBackendfeil(graphqlError);
 
     useKeyboard([
         {
@@ -76,36 +66,22 @@ export const SendTilGodkjenningButton = ({
         },
     ]);
 
-    const sendTilGodkjenning = async () => {
-        if (!erProd) {
-            void sendTilGodkjenningRest(
-                {
-                    oppgaveId: Number(oppgavereferanse),
-                    data: {
-                        begrunnelse: vedtakBegrunnelseTekst,
-                    },
+    const sendTilGodkjenningHandler = async () => {
+        void sendTilGodkjenning(
+            {
+                oppgaveId: Number(oppgavereferanse),
+                data: {
+                    begrunnelse: vedtakBegrunnelseTekst,
                 },
-                {
-                    onSuccess: () => {
-                        addToast();
-                        onSuccess?.();
-                        setShowModal(false);
-                    },
-                },
-            );
-        } else {
-            await sendTilGodkjenningMutation({
-                variables: {
-                    oppgavereferanse: oppgavereferanse,
-                    vedtakBegrunnelse: vedtakBegrunnelseTekst,
-                },
-                onCompleted: () => {
+            },
+            {
+                onSuccess: () => {
                     addToast();
                     onSuccess?.();
                     setShowModal(false);
                 },
-            });
-        }
+            },
+        );
     };
 
     return (
@@ -131,8 +107,8 @@ export const SendTilGodkjenningButton = ({
                     }
                     setShowModal(open);
                 }}
-                onApprove={sendTilGodkjenning}
-                error={error ?? null}
+                onApprove={sendTilGodkjenningHandler}
+                error={error ? somRestBackendfeil(error) : null}
                 isSending={loading}
                 totrinnsvurdering={true}
             />
@@ -175,17 +151,4 @@ const somRestBackendfeil = (error: PostSendTilGodkjenningMutationError): Backend
                 message: 'Kunne ikke sende oppgaven til godkjenning',
             };
     }
-};
-
-const somGraphqlBackendfeil = (error: ApolloError): BackendFeil => {
-    const errorCode = apolloErrorCode(error);
-
-    return {
-        message:
-            errorCode === 409
-                ? 'Denne perioden er allerede behandlet'
-                : error.message === 'mangler_vurdering_av_varsler'
-                  ? 'Mangler vurdering av varsler'
-                  : 'Kunne ikke sende oppgaven til godkjenning',
-    };
 };

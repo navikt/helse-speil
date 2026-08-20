@@ -2,9 +2,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { erProd } from '@/env';
-import { useMutation } from '@apollo/client';
-import { BeregnetPeriodeFragment, PersonFragment, SendIReturDocument } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { PostSendIReturMutationError, usePostSendIRetur } from '@io/rest/generated/oppgaver/oppgaver';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useAddToast } from '@state/toasts';
@@ -44,10 +42,7 @@ export const ReturButton = ({
 
     const addReturtoast = useAddReturtoast();
 
-    const [sendIReturMutation, { loading: graphqlLoading }] = useMutation(SendIReturDocument);
-    const { mutate: sendIReturRest, isPending: restLoading } = usePostSendIRetur();
-
-    const loading = !erProd ? restLoading : graphqlLoading;
+    const { mutate: sendIRetur, isPending: loading } = usePostSendIRetur();
 
     const closeNotat = () => {
         setError(undefined);
@@ -61,44 +56,26 @@ export const ReturButton = ({
     const returnerUtbetaling = async (notattekst: string) => {
         setError(undefined);
 
-        if (!erProd) {
-            return new Promise<void>((resolve) => {
-                sendIReturRest(
-                    {
-                        oppgaveId: Number(activePeriod.oppgave?.id),
-                        data: { notatTekst: notattekst },
+        return new Promise<void>((resolve) => {
+            sendIRetur(
+                {
+                    oppgaveId: Number(activePeriod.oppgave?.id),
+                    data: { notatTekst: notattekst },
+                },
+                {
+                    onSuccess: () => {
+                        addReturtoast();
+                        closeNotat();
+                        onSuccess?.();
+                        resolve();
                     },
-                    {
-                        onSuccess: () => {
-                            addReturtoast();
-                            closeNotat();
-                            onSuccess?.();
-                            resolve();
-                        },
-                        onError: (error) => {
-                            setError(somRestFeilmelding(error));
-                            resolve();
-                        },
+                    onError: (error) => {
+                        setError(somRestFeilmelding(error));
+                        resolve();
                     },
-                );
-            });
-        }
-
-        return sendIReturMutation({
-            variables: { oppgavereferanse: activePeriod.oppgave?.id ?? '', notatTekst: notattekst },
-        })
-            .then(() => {
-                addReturtoast();
-                closeNotat();
-                onSuccess?.();
-            })
-            .catch((error) => {
-                setError(
-                    error.statusCode === 401
-                        ? 'Du har blitt logget ut'
-                        : 'En feil oppsto, oppgaven kunne ikke returneres',
-                );
-            });
+                },
+            );
+        });
     };
 
     return (
