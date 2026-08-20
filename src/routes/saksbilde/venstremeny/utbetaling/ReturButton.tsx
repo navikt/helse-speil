@@ -2,8 +2,10 @@ import React, { ReactElement, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
+import { erProd } from '@/env';
 import { useMutation } from '@apollo/client';
 import { BeregnetPeriodeFragment, PersonFragment, SendIReturDocument } from '@io/graphql';
+import { PostSendIReturMutationError, usePostSendIRetur } from '@io/rest/generated/oppgaver/oppgaver';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
@@ -41,7 +43,11 @@ export const ReturButton = ({
     const [error, setError] = useState<string | undefined>();
 
     const addReturtoast = useAddReturtoast();
-    const [sendIReturMutation, { loading }] = useMutation(SendIReturDocument);
+
+    const [sendIReturMutation, { loading: graphqlLoading }] = useMutation(SendIReturDocument);
+    const { mutate: sendIReturRest, isPending: restLoading } = usePostSendIRetur();
+
+    const loading = !erProd ? restLoading : graphqlLoading;
 
     const closeNotat = () => {
         setError(undefined);
@@ -54,6 +60,29 @@ export const ReturButton = ({
 
     const returnerUtbetaling = async (notattekst: string) => {
         setError(undefined);
+
+        if (!erProd) {
+            return new Promise<void>((resolve) => {
+                sendIReturRest(
+                    {
+                        oppgaveId: Number(activePeriod.oppgave?.id),
+                        data: { notatTekst: notattekst },
+                    },
+                    {
+                        onSuccess: () => {
+                            addReturtoast();
+                            closeNotat();
+                            onSuccess?.();
+                            resolve();
+                        },
+                        onError: (error) => {
+                            setError(somRestFeilmelding(error));
+                            resolve();
+                        },
+                    },
+                );
+            });
+        }
 
         return sendIReturMutation({
             variables: { oppgavereferanse: activePeriod.oppgave?.id ?? '', notatTekst: notattekst },
@@ -95,4 +124,26 @@ export const ReturButton = ({
             )}
         </>
     );
+};
+
+const somRestFeilmelding = (error: PostSendIReturMutationError): string => {
+    const problemDetailsCode = error.response?.data?.code;
+    if (!problemDetailsCode) return 'En feil oppsto, oppgaven kunne ikke returneres';
+
+    switch (problemDetailsCode) {
+        case 'MANGLER_TILGANG_TIL_PERSON':
+            return 'Du har ikke tilgang til å returnere denne oppgaven';
+        case 'OPPGAVE_IKKE_FUNNET':
+            return 'Perioden er allerede utbetalt';
+        case 'OPPGAVE_ALLEREDE_SENDT_I_RETUR':
+            return 'Denne oppgaven er allerede sendt i retur';
+        case 'KREVER_TOTRINNSVURDERING_AV_ANNEN':
+            return 'Du kan ikke returnere en sak du selv har sendt til godkjenning';
+        case 'TOTRINNSVURDERING_IKKE_FUNNET':
+        case 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER':
+        case 'KUNNE_IKKE_OPPRETTE_HISTORIKKINNSLAG':
+        case 'UVENTET_MODELLFEIL':
+        default:
+            return 'En feil oppsto, oppgaven kunne ikke returneres';
+    }
 };

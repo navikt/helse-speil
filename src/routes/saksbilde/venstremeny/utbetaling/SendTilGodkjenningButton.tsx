@@ -2,9 +2,11 @@ import React, { ReactElement, ReactNode, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
+import { erProd } from '@/env';
 import { ApolloError, useMutation } from '@apollo/client';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Personinfo, SendTilGodkjenningV2Document, Utbetaling } from '@io/graphql';
+import { PostSendTilGodkjenningMutationError, usePostSendTilGodkjenning } from '@io/rest/generated/oppgaver/oppgaver';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { apolloErrorCode } from '@utils/error';
@@ -51,7 +53,20 @@ export const SendTilGodkjenningButton = ({
 }: SendTilGodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
     const addToast = useAddSendtTilGodkjenningtoast();
-    const [sendTilGodkjenningMutation, { loading, error }] = useMutation(SendTilGodkjenningV2Document);
+
+    const [sendTilGodkjenningMutation, { loading: graphqlLoading, error: graphqlError }] =
+        useMutation(SendTilGodkjenningV2Document);
+    const {
+        mutate: sendTilGodkjenningRest,
+        isPending: restLoading,
+        error: restError,
+        reset: resetSendTilGodkjenningMutation,
+    } = usePostSendTilGodkjenning();
+
+    const loading = !erProd ? restLoading : graphqlLoading;
+    const error = !erProd
+        ? restError && somRestBackendfeil(restError)
+        : graphqlError && somGraphqlBackendfeil(graphqlError);
 
     useKeyboard([
         {
@@ -62,17 +77,35 @@ export const SendTilGodkjenningButton = ({
     ]);
 
     const sendTilGodkjenning = async () => {
-        await sendTilGodkjenningMutation({
-            variables: {
-                oppgavereferanse: oppgavereferanse,
-                vedtakBegrunnelse: vedtakBegrunnelseTekst,
-            },
-            onCompleted: () => {
-                addToast();
-                onSuccess?.();
-                setShowModal(false);
-            },
-        });
+        if (!erProd) {
+            void sendTilGodkjenningRest(
+                {
+                    oppgaveId: Number(oppgavereferanse),
+                    data: {
+                        begrunnelse: vedtakBegrunnelseTekst,
+                    },
+                },
+                {
+                    onSuccess: () => {
+                        addToast();
+                        onSuccess?.();
+                        setShowModal(false);
+                    },
+                },
+            );
+        } else {
+            await sendTilGodkjenningMutation({
+                variables: {
+                    oppgavereferanse: oppgavereferanse,
+                    vedtakBegrunnelse: vedtakBegrunnelseTekst,
+                },
+                onCompleted: () => {
+                    addToast();
+                    onSuccess?.();
+                    setShowModal(false);
+                },
+            });
+        }
     };
 
     return (
@@ -92,9 +125,14 @@ export const SendTilGodkjenningButton = ({
                 utbetaling={utbetaling}
                 inntektsforholdReferanse={inntektsforholdReferanse}
                 personinfo={personinfo}
-                onOpenChange={setShowModal}
+                onOpenChange={(open) => {
+                    if (!open) {
+                        resetSendTilGodkjenningMutation();
+                    }
+                    setShowModal(open);
+                }}
                 onApprove={sendTilGodkjenning}
-                error={(error && somBackendfeil(error)) ?? null}
+                error={error ?? null}
                 isSending={loading}
                 totrinnsvurdering={true}
             />
@@ -102,7 +140,44 @@ export const SendTilGodkjenningButton = ({
     );
 };
 
-const somBackendfeil = (error: ApolloError): BackendFeil => {
+const somRestBackendfeil = (error: PostSendTilGodkjenningMutationError): BackendFeil => {
+    const problemDetailsCode = error.response?.data?.code;
+    if (!problemDetailsCode)
+        return {
+            message: 'Kunne ikke sende oppgaven til godkjenning',
+        };
+
+    switch (problemDetailsCode) {
+        case 'MANGLER_TILGANG_TIL_PERSON':
+            return {
+                message: 'Du har ikke tilgang til å sende denne oppgaven til godkjenning',
+            };
+        case 'OPPGAVE_IKKE_FUNNET':
+            return {
+                message: 'Perioden er allerede utbetalt',
+            };
+        case 'MANGLER_VURDERING_AV_VARSLER':
+            return {
+                message: 'Mangler vurdering av varsler',
+            };
+        case 'OPPGAVE_ALLEREDE_SENDT_TIL_BESLUTTER':
+            return {
+                message: 'Denne perioden er allerede sendt til beslutter',
+            };
+        case 'KREVER_TOTRINNSVURDERING_AV_ANNEN':
+            return {
+                message: 'Oppgaven krever vurdering av en annen saksbehandler',
+            };
+        case 'TOTRINNSVURDERING_IKKE_FUNNET':
+        case 'UVENTET_MODELLFEIL':
+        default:
+            return {
+                message: 'Kunne ikke sende oppgaven til godkjenning',
+            };
+    }
+};
+
+const somGraphqlBackendfeil = (error: ApolloError): BackendFeil => {
     const errorCode = apolloErrorCode(error);
 
     return {
