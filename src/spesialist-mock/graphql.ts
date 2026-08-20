@@ -14,18 +14,8 @@ import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { ManglendeAvviksvurderingError, NotReadyError } from './errors';
-import {
-    Arbeidsgiver,
-    BeregnetPeriode,
-    Egenskap,
-    Historikkinnslag,
-    MutationSendIReturArgs,
-    MutationSendTilGodkjenningV2Args,
-    PeriodehistorikkType,
-    Person,
-    Utbetaling,
-} from './schemaTypes';
-import { OppgaveMock, getDefaultOppgave } from './storage/oppgave';
+import { Arbeidsgiver, BeregnetPeriode, Egenskap, Historikkinnslag, Person, Utbetaling } from './schemaTypes';
+import { OppgaveMock } from './storage/oppgave';
 import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
@@ -109,47 +99,6 @@ const getResolvers = (): IResolvers => ({
             return true;
         },
         overstyrArbeidsforhold: async () => {
-            return true;
-        },
-        sendTilGodkjenningV2: async (_, { oppgavereferanse }: MutationSendTilGodkjenningV2Args) => {
-            const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
-            const oppgave: Oppgave = {
-                ...getDefaultOppgave(),
-                id: oppgavereferanse,
-                tildelt:
-                    tidligereSaksbehandler === '11111111-2222-3333-4444-555555555555'
-                        ? null
-                        : '11111111-2222-3333-4444-555555555555',
-                totrinnsvurdering: {
-                    erRetur: false,
-                    erBeslutteroppgave: true,
-                    saksbehandler: '11111111-2222-3333-4444-555555555555',
-                },
-            };
-
-            OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
-            return true;
-        },
-        sendIRetur: async (_, { oppgavereferanse, notatTekst }: MutationSendIReturArgs) => {
-            const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgavereferanse)?.totrinnsvurdering?.saksbehandler;
-            const oppgave: Oppgave = {
-                ...getDefaultOppgave(),
-                id: oppgavereferanse,
-                tildelt: tidligereSaksbehandler,
-                totrinnsvurdering: {
-                    saksbehandler: '11111111-2222-3333-4444-555555555555',
-                    erRetur: true,
-                    erBeslutteroppgave: false,
-                },
-            };
-
-            OppgaveMock.addOrUpdateOppgave(oppgavereferanse, oppgave);
-
-            HistorikkinnslagMock.addHistorikkinnslag(oppgavereferanse, {
-                type: PeriodehistorikkType.TotrinnsvurderingRetur,
-                notattekst: notatTekst,
-                dialogRef: DialogMock.addDialog(),
-            });
             return true;
         },
     },
