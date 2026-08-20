@@ -12,3 +12,12 @@ lockfile: true
 preferFrozenLockfile: true
 
 nodeVersion: 24.11.1
+
+overrides:
+  '@asyncapi/specs': 6.10.0
+  picomatch: '>=4.0.4'
+  minimatch@3: '>=3.1.3'
+  minimatch@6: '>=6.2.1'
+  minimatch@9: '>=9.0.7'
+  flatted: '>=3.3.4'
+  protobufjs: '>=8.0.1'

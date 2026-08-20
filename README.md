@@ -33,6 +33,14 @@ Legg til følgende i `~/.bashrc` eller `~/.zshrc`:
 export NPM_AUTH_TOKEN=<token>
 ```
 
+I tillegg må du sette opp en `.npmrc` på brukernivå. pnpm ekspanderer ikke
+miljøvariabler i prosjektets `.npmrc` (siden den filen er sjekket inn i repoet
+og kunne lekket hemmeligheten), så credential-linjen må ligge i `~/.npmrc`:
+
+```shell
+echo '//npm.pkg.github.com/:_authToken=${NPM_AUTH_TOKEN}' >> ~/.npmrc
+```
+
 ## Utvikle lokalt
 
 1. Sørg for at du har riktig versjon av node (se package.json), f.eks. med [nvm](https://github.com/nvm-sh/nvm) eller [mise](https://mise.jdx.dev).
