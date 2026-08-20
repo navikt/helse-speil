@@ -479,8 +479,6 @@ export type Mutation = {
     overstyrArbeidsforhold?: Maybe<Scalars['Boolean']['output']>;
     overstyrDager?: Maybe<Scalars['Boolean']['output']>;
     overstyrInntektOgRefusjon?: Maybe<Scalars['Boolean']['output']>;
-    sendIRetur?: Maybe<Scalars['Boolean']['output']>;
-    sendTilGodkjenningV2?: Maybe<Scalars['Boolean']['output']>;
 };
 
 export type MutationOverstyrArbeidsforholdArgs = {
@@ -493,16 +491,6 @@ export type MutationOverstyrDagerArgs = {
 
 export type MutationOverstyrInntektOgRefusjonArgs = {
     overstyring: InntektOgRefusjonOverstyringInput;
-};
-
-export type MutationSendIReturArgs = {
-    notatTekst: Scalars['String']['input'];
-    oppgavereferanse: Scalars['String']['input'];
-};
-
-export type MutationSendTilGodkjenningV2Args = {
-    oppgavereferanse: Scalars['String']['input'];
-    vedtakBegrunnelse?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type OmregnetArsinntekt = {
