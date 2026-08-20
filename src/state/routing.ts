@@ -21,8 +21,8 @@ export const useNavigerTilPeriode = () => {
 
     return (periodeId: string) => {
         setActivePeriodId(periodeId);
-        const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
-        if (erPåTilkommenInntektSide) {
+        const erPåEgenUnderside = pathname.includes('/tilkommeninntekt/') || pathname.includes('/andreytelser/');
+        if (erPåEgenUnderside) {
             setTab('dagoversikt');
             router.push(`/person/${personPseudoId}`);
         }
@@ -33,4 +33,19 @@ export const useTilkommenInntektIdFraUrl = (): string | null => {
     const { tilkommenInntektId } = useParams<{ tilkommenInntektId?: string }>();
 
     return tilkommenInntektId !== undefined ? tilkommenInntektId : null;
+};
+
+export const useNavigerTilGraderteAndreYtelser = () => {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const router = useRouter();
+
+    return (andreYtelserId: string) => {
+        router.push(`/person/${personPseudoId}/andreytelser/${andreYtelserId}`);
+    };
+};
+
+export const useGraderteAndreYtelserIdFraUrl = (): string | null => {
+    const { andreYtelserId } = useParams<{ andreYtelserId?: string }>();
+
+    return andreYtelserId !== undefined ? andreYtelserId : null;
 };

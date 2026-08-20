@@ -7,8 +7,14 @@ import { ArchiveIcon } from '@navikt/aksel-icons';
 import { Skeleton } from '@navikt/ds-react';
 
 import { PersonFragment } from '@io/graphql';
+import { useGetGraderteAndreYtelserForPerson } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { useGetInfotrygdperioderForPerson } from '@io/rest/generated/personer/personer';
-import { InfotrygdPopover, PeriodPopover, TilkommenInntektPopover } from '@saksbilde/tidslinje/PeriodPopover';
+import {
+    GraderteAndreYtelserPopover,
+    InfotrygdPopover,
+    PeriodPopover,
+    TilkommenInntektPopover,
+} from '@saksbilde/tidslinje/PeriodPopover';
 import { TilkommenInntektKnapp } from '@saksbilde/tidslinje/TilkommenInntektKnapp';
 import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { useMaksdato } from '@saksbilde/tidslinje/hooks/useMaksdato';
@@ -29,7 +35,12 @@ import { useIsAnonymous } from '@state/anonymization';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithLocalStorage } from '@state/jotai';
 import { useSetActivePeriodId } from '@state/periode';
-import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
+import {
+    useGraderteAndreYtelserIdFraUrl,
+    useNavigerTilGraderteAndreYtelser,
+    useNavigerTilTilkommenInntekt,
+    useTilkommenInntektIdFraUrl,
+} from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { PeriodCategory } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
@@ -53,11 +64,18 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
     const { data: infotrygdperioder, isLoading: infotrygdperioderLoading } =
         useGetInfotrygdperioderForPerson(personPseudoId);
     const { data: tilkomneInntekter } = useHentTilkommenInntektQuery(personPseudoId);
+    const { data: graderteAndreYtelser } = useGetGraderteAndreYtelserForPerson(personPseudoId);
     const activeTilkommenInntektId = useTilkommenInntektIdFraUrl();
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
+    const activeGraderteAndreYtelserId = useGraderteAndreYtelserIdFraUrl();
+    const navigerTilGraderteAndreYtelser = useNavigerTilGraderteAndreYtelser();
     const [zoomLevel, setZoomLevel] = useAtom(zoomLevelAtom);
 
-    const { arbeidsgiverRader, tilkommenRader } = useTidslinjeRader(inntektsforhold, tilkomneInntekter ?? []);
+    const { arbeidsgiverRader, tilkommenRader, andreYtelserRader } = useTidslinjeRader(
+        inntektsforhold,
+        tilkomneInntekter ?? [],
+        graderteAndreYtelser ?? [],
+    );
 
     const maksdato = useMaksdato(inntektsforhold);
 
@@ -86,8 +104,10 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                                     onSelectPeriod={() => {
                                         if (id) {
                                             setActivePeriodId(id);
-                                            const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
-                                            if (erPåTilkommenInntektSide) {
+                                            const erPåEgenUnderside =
+                                                pathname.includes('/tilkommeninntekt/') ||
+                                                pathname.includes('/andreytelser/');
+                                            if (erPåEgenUnderside) {
                                                 router.push(`/person/${personPseudoId}`);
                                             }
                                         }
@@ -135,6 +155,27 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                                         element={element}
                                     />
                                 )}
+                            </TimelinePeriod>
+                        ))}
+                    </TimelineRow>
+                ))}
+                {andreYtelserRader.map((rad) => (
+                    <TimelineRow key={rad.id} label={rad.navn} icon={rad.icon} anonymized={isAnonymous}>
+                        {rad.tidslinjeElementer.map((element) => (
+                            <TimelinePeriod
+                                key={element.fom + element.tom}
+                                startDate={dayjs(element.fom)}
+                                endDate={dayjs(element.tom)}
+                                onSelectPeriod={() => {
+                                    navigerTilGraderteAndreYtelser(element.gradertAndreYtelser!.andreYtelserId);
+                                }}
+                                activePeriod={
+                                    activeGraderteAndreYtelserId === element.gradertAndreYtelser!.andreYtelserId
+                                }
+                                icon={statusTilIkon[element.status]}
+                                variant={statusTilVariant[element.status]}
+                            >
+                                <GraderteAndreYtelserPopover element={element} />
                             </TimelinePeriod>
                         ))}
                     </TimelineRow>
