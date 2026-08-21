@@ -33,6 +33,7 @@
         "generate-rest": "orval",
         "generate-rest:spesialist": "orval --project spesialist",
         "generate-rest:sporhund": "orval --project sporhund",
+        "generate-rest:vilkarsproving": "orval --project vilkarsproving",
         "generate-graphql": "BEARER_TOKEN=$(curl http://localhost:8080/local-token) graphql-codegen --config graphql-codegen.yml",
         "prepare": "husky",
         "lint-staged": "lint-staged"

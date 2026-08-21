@@ -1,5 +1,5 @@
 // noinspection ES6PreferShortImport
-import { spesialistOpenAPITransformer, sporhundOpenAPITransformer } from './src/io/rest/spesialist-openapi-transformer';
+import { spesialistOpenAPITransformer, sporhundOpenAPITransformer, vilkarsprovingOpenAPITransformer } from './src/io/rest/spesialist-openapi-transformer';
 import { defineConfig } from 'orval';
 
 const sharedOutput = {
@@ -52,6 +52,19 @@ export default defineConfig({
         output: {
             ...sharedOutput,
             target: 'src/io/rest/generated/sporhund.ts',
+        },
+        hooks: sharedHooks,
+    },
+    vilkarsproving: {
+        input: {
+            target: 'http://localhost:8181/api/openapi.json',
+            override: {
+                transformer: vilkarsprovingOpenAPITransformer,
+            },
+        },
+        output: {
+            ...sharedOutput,
+            target: 'src/io/rest/generated/vilkarsproving.ts',
         },
         hooks: sharedHooks,
     },

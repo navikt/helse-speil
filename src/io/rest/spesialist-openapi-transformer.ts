@@ -57,7 +57,7 @@ const transformPathItem = (pathItem: PathItemObject): PathItemObject => {
 };
 
 const lagOpenAPITransformer =
-    (apiPrefix: 'spesialist' | 'sporhund') =>
+    (apiPrefix: 'spesialist' | 'sporhund' | 'vilkarsproving') =>
     (api: OpenAPIObject): OpenAPIObject => {
         // Ta bort security scheme fra toppen, siden det håndteres av OBO-flyten i rutingen
         let components = api.components;
@@ -80,3 +80,4 @@ const lagOpenAPITransformer =
 
 export const spesialistOpenAPITransformer = lagOpenAPITransformer('spesialist');
 export const sporhundOpenAPITransformer = lagOpenAPITransformer('sporhund');
+export const vilkarsprovingOpenAPITransformer = lagOpenAPITransformer('vilkarsproving');
