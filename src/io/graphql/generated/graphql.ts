@@ -1156,6 +1156,7 @@ export type VilkarsgrunnlagSpleisV2 = VilkarsgrunnlagV2 & {
     oppfyllerKravOmMinstelonn: Scalars['Boolean']['output'];
     oppfyllerKravOmOpptjening: Scalars['Boolean']['output'];
     opptjeningFra: Scalars['LocalDate']['output'];
+    opptjeningsvurderingId: Scalars['UUID']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     skjonnsmessigFastsattAarlig: Maybe<Scalars['Float']['output']>;
     sykepengegrunnlag: Scalars['Float']['output'];
@@ -2181,6 +2182,7 @@ export type VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment = {
     antallOpptjeningsdagerErMinst: number;
     grunnbelop: number;
     opptjeningFra: string;
+    opptjeningsvurderingId: string;
     beregningsgrunnlag: string;
     forsikringsvurderingId: string | null;
     id: string;
@@ -3920,6 +3922,7 @@ export type PersonFragment = {
               antallOpptjeningsdagerErMinst: number;
               grunnbelop: number;
               opptjeningFra: string;
+              opptjeningsvurderingId: string;
               beregningsgrunnlag: string;
               forsikringsvurderingId: string | null;
               id: string;
@@ -5610,6 +5613,7 @@ export type FetchPersonQuery = {
                   antallOpptjeningsdagerErMinst: number;
                   grunnbelop: number;
                   opptjeningFra: string;
+                  opptjeningsvurderingId: string;
                   beregningsgrunnlag: string;
                   forsikringsvurderingId: string | null;
                   id: string;
@@ -8235,6 +8239,7 @@ export const VilkarsgrunnlagV2FragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningsvurderingId' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'sykepengegrunnlagsgrense' },
@@ -10887,6 +10892,7 @@ export const PersonFragmentDoc = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningsvurderingId' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'sykepengegrunnlagsgrense' },
@@ -12392,6 +12398,7 @@ export const FetchPersonDocument = {
                                 { kind: 'Field', name: { kind: 'Name', value: 'antallOpptjeningsdagerErMinst' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'grunnbelop' } },
                                 { kind: 'Field', name: { kind: 'Name', value: 'opptjeningFra' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningsvurderingId' } },
                                 {
                                     kind: 'Field',
                                     name: { kind: 'Name', value: 'sykepengegrunnlagsgrense' },

@@ -110,6 +110,7 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 7232,
                     "grunnbelop": 111477,
+                    "opptjeningsvurderingId": "41aca5c4-c2da-45dd-b865-d263be299893",
                     "beregningsgrunnlag": "396000",
                     "avviksvurdering": {
                         "avviksprosent": "0",

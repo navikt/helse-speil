@@ -19,6 +19,7 @@ const getVilkårsgrunnlagSpleis = (
     oppfyllerKravOmMinstelonn: true,
     oppfyllerKravOmOpptjening: true,
     opptjeningFra: '2000-01-01',
+    opptjeningsvurderingId: 'en-opptjeningsvurdering-id',
     skjaeringstidspunkt: '2022-01-01',
     sykepengegrunnlag: 1234567,
     beregningsgrunnlag: '1234567',
