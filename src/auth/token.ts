@@ -19,27 +19,47 @@ const tokenPayloadSchema = z.object({
     groups: z.array(z.string()),
 });
 
+
+const testBruker = {
+    oid: '11111111-2222-3333-4444-555555555555',
+    preferred_username: 'local-username',
+    name: 'Utvikler, Lokal',
+    NAVident: 'A123456',
+    groups: ['local-group'],
+};
+
+const getLocalTokenBaseUrl = (): string => {
+    switch (backend) {
+        case 'lokal':
+        case 'lokal-spesialist':
+            return getServerEnv().SPESIALIST_BASEURL;
+        case 'lokal-sporhund':
+            return getServerEnv().SPORHUND_BASEURL;
+        case 'lokal-vilkarsproving':
+            return getServerEnv().VILKARSPROVING_BASEURL;
+        default:
+            throw new Error(`Unsupported backend for local token: ${backend}`);
+    }
+};
+
+const hentLokaltToken = async (): Promise<ReturnType<typeof requestAzureOboToken>> => {
+    const token = await fetch(`${getLocalTokenBaseUrl()}/local-token`).then((res) => res.text());
+
+    return {
+        ok: true,
+        token,
+    };
+};
+
 export async function getTokenPayload(): Promise<TokenPayload> {
     switch (backend) {
         case 'mock':
-            return {
-                oid: '11111111-2222-3333-4444-555555555555',
-                preferred_username: 'local-username',
-                name: 'Utvikler, Lokal',
-                NAVident: 'A123456',
-                groups: ['local-group'],
-            };
+        case 'lokal-sporhund':
+        case 'lokal-vilkarsproving':
+            return testBruker;
         case 'lokal':
         case 'lokal-spesialist':
             return await fetch(getServerEnv().SPESIALIST_BASEURL + '/bruker').then((res) => res.json());
-        case 'lokal-sporhund':
-            return {
-                oid: '11111111-2222-3333-4444-555555555555',
-                preferred_username: 'local-username',
-                name: 'Utvikler, Lokal',
-                NAVident: 'A123456',
-                groups: ['local-group'],
-            };
         case 'deployed':
             const token = hentWonderwallToken(await headers());
             if (!token) {
@@ -98,15 +118,9 @@ export async function byttTilOboToken(token: string, scope: string): Promise<Ret
             };
         case 'lokal':
         case 'lokal-spesialist':
-            return await fetch(`${getServerEnv().SPESIALIST_BASEURL}/local-token`).then(async (res) => ({
-                ok: true,
-                token: await res.text(),
-            }));
         case 'lokal-sporhund':
-            return await fetch(`${getServerEnv().SPORHUND_BASEURL}/local-token`).then(async (res) => ({
-                ok: true,
-                token: await res.text(),
-            }));
+        case 'lokal-vilkarsproving':
+            return await hentLokaltToken();
         case 'deployed':
             metrics.oboCounter.inc({ target_client_id: scope }, 1);
             return requestAzureOboToken(token, scope);

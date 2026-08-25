@@ -119,3 +119,8 @@ spec:
       value: api://dev-gcp.personoversikt.modiacontextholder/.default
     - name: SPESIALIST_WS_URL
       value: ws://spesialist
+    - name: CLIENT_ID_VILKARSPROVING
+      value: api://dev-gcp.tbd.sp-vilkarsproving/.default
+    - name: VILKARSPROVING_BASE_URL
+      value: http://sp-vilkarsproving
+

@@ -4,69 +4,150 @@
  * sp-vilkarsproving
  * OpenAPI spec version: 1.0.0
  */
-export interface ApiOpptjeningsvurderingResponse {
+export type ApiKravvurdering = ApiKravvurderingOverførtFraInfotrygd | ApiKravvurderingVurdertISpeil;
+
+export interface ApiKravvurderingOverførtFraInfotrygd {
     id: string;
-    skjæringstidspunkt: string;
-    utfall: ApiUtfallResponse;
-    kodeverkkode: string;
-    grunnlag: ApiOpptjeningsgrunnlagResponse;
-    kilde: ApiKildeResponse;
-    vurdertTidspunkt: string;
+    kravkode: ApiKravkode;
+    rettTilSykepenger: boolean;
+    kravkilde: ApiKravkilde;
 }
 
-export type ApiUtfallResponse = (typeof ApiUtfallResponse)[keyof typeof ApiUtfallResponse];
+export type ApiKravkode = (typeof ApiKravkode)[keyof typeof ApiKravkode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiUtfallResponse = {
-    Oppfylt: 'Oppfylt',
-    IkkeOppfylt: 'IkkeOppfylt',
+export const ApiKravkode = {
+    OPPTJENING: 'OPPTJENING',
 } as const;
 
-export type ApiOpptjeningsgrunnlagResponse =
-    | ApiOpptjeningsgrunnlagResponseArbeidstaker
-    | ApiOpptjeningsgrunnlagResponseSelvstendigNæringsdrivende;
-
-export interface ApiOpptjeningsgrunnlagResponseArbeidstaker {
-    arbeidsforhold: ApiArbeidsforholdResponse[];
-}
-
-export type ApiArbeidsforholdResponseTom = null | string;
-
-export interface ApiArbeidsforholdResponse {
-    orgnummer: string;
-    fom: string;
-    tom?: ApiArbeidsforholdResponseTom;
-    type: ApiArbeidsforholdtypeResponse;
-}
-
-export type ApiArbeidsforholdtypeResponse =
-    (typeof ApiArbeidsforholdtypeResponse)[keyof typeof ApiArbeidsforholdtypeResponse];
+export type ApiKravkilde = (typeof ApiKravkilde)[keyof typeof ApiKravkilde];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiArbeidsforholdtypeResponse = {
+export const ApiKravkilde = {
+    VURDERT_I_SPEIL: 'VURDERT_I_SPEIL',
+    OVERFOERT_FRA_INFOTRYGD: 'OVERFOERT_FRA_INFOTRYGD',
+} as const;
+
+export interface ApiKravvurderingVurdertISpeil {
+    id: string;
+    kravkode: ApiKravkode;
+    rettTilSykepenger: boolean;
+    avgjørendeVilkårskode: ApiVilkårskode;
+    vurderinger: ApiVilkårsvurdering[];
+    kravkilde: ApiKravkilde;
+}
+
+export type ApiVilkårskode = (typeof ApiVilkårskode)[keyof typeof ApiVilkårskode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiVilkårskode = {
+    OPPTJENING_ARBEID_MINST_4_UKER: 'OPPTJENING_ARBEID_MINST_4_UKER',
+    OPPTJENING_LIKESTILT_YTELSE: 'OPPTJENING_LIKESTILT_YTELSE',
+    OPPTJENING_UNNTAK_FORELDREPENGER_UTEN_FORUTGAAENDE_AAP: 'OPPTJENING_UNNTAK_FORELDREPENGER_UTEN_FORUTGAAENDE_AAP',
+    OPPTJENING_YRKESAKTIV_FOER_FORELDREPENGER: 'OPPTJENING_YRKESAKTIV_FOER_FORELDREPENGER',
+} as const;
+
+export type ApiVilkårsvurderingVurdertTidspunkt = null | string;
+
+export interface ApiVilkårsvurdering {
+    id: string;
+    vilkårskode: ApiVilkårskode;
+    utfall: ApiUtfall;
+    vurdertTidspunkt?: ApiVilkårsvurderingVurdertTidspunkt;
+    kilde: ApiVurderingskilde;
+}
+
+export type ApiUtfall = (typeof ApiUtfall)[keyof typeof ApiUtfall];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiUtfall = {
+    OPPFYLT: 'OPPFYLT',
+    IKKE_OPPFYLT: 'IKKE_OPPFYLT',
+} as const;
+
+export type ApiVurderingskilde =
+    | ApiVurderingskildeAutomatisk
+    | ApiVurderingskildeOverførtFraSpleis
+    | ApiVurderingskildeSaksbehandler;
+
+export interface ApiVurderingskildeAutomatisk {
+    versjonAvKildekode: string;
+    grunnlag: ApiVurderingsgrunnlag;
+    kildetype: ApiKildetype;
+}
+
+export type ApiVurderingsgrunnlag =
+    | ApiVurderingsgrunnlagArbeidsforhold
+    | ApiVurderingsgrunnlagSelvstendigNæringsdrivende;
+
+export type ApiVurderingsgrunnlagArbeidsforholdOpptjeningsperiode = null | ApiPeriode;
+
+export interface ApiVurderingsgrunnlagArbeidsforhold {
+    arbeidsforhold: ApiArbeidsforhold[];
+    opptjeningsperiode?: ApiVurderingsgrunnlagArbeidsforholdOpptjeningsperiode;
+    opptjeningsdager: number;
+    grunnlagstype: ApiGrunnlagstype;
+}
+
+export type ApiArbeidsforholdTom = null | string;
+
+export interface ApiArbeidsforhold {
+    organisasjonsnummer: string;
+    fom: string;
+    tom?: ApiArbeidsforholdTom;
+    type: ApiArbeidsforholdtype;
+}
+
+export type ApiArbeidsforholdtype = (typeof ApiArbeidsforholdtype)[keyof typeof ApiArbeidsforholdtype];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiArbeidsforholdtype = {
     FORENKLET_OPPGJØRSORDNING: 'FORENKLET_OPPGJØRSORDNING',
     FRILANSER: 'FRILANSER',
     MARITIMT: 'MARITIMT',
     ORDINÆRT: 'ORDINÆRT',
 } as const;
 
-export interface ApiOpptjeningsgrunnlagResponseSelvstendigNæringsdrivende {
-    [key: string]: unknown;
+export interface ApiPeriode {
+    fom: string;
+    tom: string;
 }
 
-export type ApiKildeResponse = ApiKildeResponseAutomatisk | ApiKildeResponseManuell;
+export type ApiGrunnlagstype = (typeof ApiGrunnlagstype)[keyof typeof ApiGrunnlagstype];
 
-export interface ApiKildeResponseAutomatisk {
-    regelversjon: string;
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGrunnlagstype = {
+    ARBEIDSFORHOLD: 'ARBEIDSFORHOLD',
+    SELVSTENDIG_NAERINGSDRIVENDE: 'SELVSTENDIG_NAERINGSDRIVENDE',
+} as const;
+
+export interface ApiVurderingsgrunnlagSelvstendigNæringsdrivende {
+    grunnlagstype: ApiGrunnlagstype;
 }
 
-export interface ApiKildeResponseManuell {
-    saksbehandlerIdent: string;
+export type ApiKildetype = (typeof ApiKildetype)[keyof typeof ApiKildetype];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiKildetype = {
+    AUTOMATISK: 'AUTOMATISK',
+    SAKSBEHANDLER: 'SAKSBEHANDLER',
+    OVERFOERT_FRA_SPLEIS: 'OVERFOERT_FRA_SPLEIS',
+} as const;
+
+export interface ApiVurderingskildeOverførtFraSpleis {
+    grunnlag: ApiVurderingsgrunnlag;
+    kildetype: ApiKildetype;
+}
+
+export interface ApiVurderingskildeSaksbehandler {
+    ident: string;
     fritekstbegrunnelse: string;
+    kildetype: ApiKildetype;
 }
 
 export interface ApiVilkårsvurderingerForPersonResponse {
-    opptjeningsvurdering: ApiOpptjeningsvurderingResponse;
+    skjæringstidspunkt: string;
+    krav: ApiKravvurdering[];
 }
 
 export type ProblemDetailsDetail = null | string;
