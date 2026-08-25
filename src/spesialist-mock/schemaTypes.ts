@@ -1154,6 +1154,7 @@ export type VilkarsgrunnlagSpleisV2 = VilkarsgrunnlagV2 & {
     oppfyllerKravOmMinstelonn: Scalars['Boolean']['output'];
     oppfyllerKravOmOpptjening: Scalars['Boolean']['output'];
     opptjeningFra: Scalars['LocalDate']['output'];
+    opptjeningsvurderingId: Scalars['UUID']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     skjonnsmessigFastsattAarlig?: Maybe<Scalars['Float']['output']>;
     sykepengegrunnlag: Scalars['Float']['output'];

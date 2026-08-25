@@ -215,6 +215,7 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 3422,
                     "grunnbelop": 111477,
+                    "opptjeningsvurderingId": "34d5d9d5-39d1-4580-95fc-d89fa7365c0a",
                     "beregningsgrunnlag": "469836",
                     "avviksvurdering": {
                         "avviksprosent": "2.365410495184309",
@@ -267,6 +268,7 @@
                     "oppfyllerKravOmOpptjening": true,
                     "antallOpptjeningsdagerErMinst": 3422,
                     "grunnbelop": 111477,
+                    "opptjeningsvurderingId": "f49617bb-b59e-4781-84dd-e5bbc007bd7b",
                     "beregningsgrunnlag": "491964",
                     "avviksvurdering": {
                         "avviksprosent": "2.2329135935670035",

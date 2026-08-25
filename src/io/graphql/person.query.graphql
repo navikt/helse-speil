@@ -200,6 +200,7 @@ fragment vilkarsgrunnlagV2 on VilkarsgrunnlagV2 {
         antallOpptjeningsdagerErMinst
         grunnbelop
         opptjeningFra
+        opptjeningsvurderingId
         sykepengegrunnlagsgrense {
             grunnbelop
             grense
