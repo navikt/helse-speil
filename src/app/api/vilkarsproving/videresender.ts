@@ -34,7 +34,7 @@ const buildHeaders = async (request: Request): Promise<Response | Headers> => {
         return new Response(null, { status: 401 });
     }
 
-    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPORHUND_SCOPE);
+    const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().VILKARSPROVING_SCOPE);
     if (!oboResult.ok) {
         throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
     }
