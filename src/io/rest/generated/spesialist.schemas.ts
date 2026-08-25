@@ -1293,6 +1293,40 @@ export interface ApiHttpProblemDetailsApiPostAndreYtelserErrorCode {
     code?: ApiHttpProblemDetailsApiPostAndreYtelserErrorCodeCode;
 }
 
+export interface ApiPatchGraderteAndreYtelserRequest {
+    graderteAndreYtelserId: string;
+    perioder: ApiGraderteAndreYtelserPeriode[];
+    andreYtelseType: ApiGraderteAndreYtelseType;
+    notatTilBeslutter: string;
+}
+
+export interface ApiPatchGraderteAndreYtelserResponse {
+    andreYtelserId: string;
+}
+
+export type ApiPatchGraderteAndreYtelserErrorCode =
+    (typeof ApiPatchGraderteAndreYtelserErrorCode)[keyof typeof ApiPatchGraderteAndreYtelserErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPatchGraderteAndreYtelserErrorCode = {
+    GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeCode =
+    null | ApiPatchGraderteAndreYtelserErrorCode;
+
+export interface ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeCode;
+}
+
 export type ApiSykepengegrunnlagRequestApiSykepengegrunnlagtype = ApiSkjønnsfastsatt;
 
 export type ApiSkjønnsfastsattDiscriminatorType =
@@ -2077,22 +2111,22 @@ export interface ApiFolketrygdlovenreferanse {
     bokstav?: ApiFolketrygdlovenreferanseBokstav;
 }
 
-export type ApiNavKjøptForsikringOpphørsdato = null | string;
+export type ApiIndividuellForsikringOpphørsdato = null | string;
 
-export interface ApiNavKjøptForsikring {
+export interface ApiIndividuellForsikring {
     navn: string;
     dekningFolketrygdlovenreferanse: ApiFolketrygdlovenreferanse;
     virkningsdato: string;
-    opphørsdato?: ApiNavKjøptForsikringOpphørsdato;
-    konklusjon: ApiNavKjøptForsikringKonklusjon;
+    opphørsdato?: ApiIndividuellForsikringOpphørsdato;
+    konklusjon: ApiIndividuellForsikringKonklusjon;
     lagtTilGrunn: boolean;
 }
 
-export type ApiNavKjøptForsikringKonklusjonFolketrygdlovenreferanse = null | ApiFolketrygdlovenreferanse;
+export type ApiIndividuellForsikringKonklusjonFolketrygdlovenreferanse = null | ApiFolketrygdlovenreferanse;
 
-export interface ApiNavKjøptForsikringKonklusjon {
+export interface ApiIndividuellForsikringKonklusjon {
     forklaring: string;
-    folketrygdlovenreferanse?: ApiNavKjøptForsikringKonklusjonFolketrygdlovenreferanse;
+    folketrygdlovenreferanse?: ApiIndividuellForsikringKonklusjonFolketrygdlovenreferanse;
 }
 
 export type ApiForsikringsvurderingSamletDekning = null | ApiDekning;
@@ -2102,7 +2136,7 @@ export type ApiForsikringsvurderingKollektivForsikring = null | ApiKollektivFors
 export interface ApiForsikringsvurdering {
     samletDekning?: ApiForsikringsvurderingSamletDekning;
     kollektivForsikring?: ApiForsikringsvurderingKollektivForsikring;
-    navKjøpteForsikringer: ApiNavKjøptForsikring[];
+    individuelleForsikringer: ApiIndividuellForsikring[];
     vurdertTidspunkt: string;
 }
 

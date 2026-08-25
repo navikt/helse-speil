@@ -9,8 +9,8 @@ import { LoadingShimmer } from '@components/LoadingShimmer';
 import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
 import {
     ApiForsikringsvurdering,
+    ApiIndividuellForsikring,
     ApiKollektivForsikring,
-    ApiNavKjøptForsikring,
 } from '@io/rest/generated/spesialist.schemas';
 import { FolketrygdlovenLenke, ForsikringDialog } from '@saksbilde/venstremeny/ForsikringDialog';
 import { somNorskDato } from '@utils/date';
@@ -70,20 +70,20 @@ const Forsikringsinnhold = ({
 }: {
     forsikringsvurdering: ApiForsikringsvurdering | undefined;
 }): ReactElement => {
-    const navKjøpteForsikringer = (forsikringsvurdering?.navKjøpteForsikringer ?? [])
+    const individuelleForsikringer = (forsikringsvurdering?.individuelleForsikringer ?? [])
         .filter((forsikring) => forsikring.lagtTilGrunn)
         .sort((a, b) => a.virkningsdato.localeCompare(b.virkningsdato));
     const kollektivForsikring = forsikringsvurdering?.kollektivForsikring;
 
-    if (navKjøpteForsikringer.length === 0 && !kollektivForsikring) {
+    if (individuelleForsikringer.length === 0 && !kollektivForsikring) {
         return <BodyShort>Ingen forsikring</BodyShort>;
     }
 
     return (
         <>
             {kollektivForsikring && <KollektivForsikringInnhold forsikring={kollektivForsikring} />}
-            {navKjøpteForsikringer.map((forsikring) => (
-                <NavKjøptForsikringInnhold
+            {individuelleForsikringer.map((forsikring) => (
+                <IndividuellForsikringInnhold
                     key={`${forsikring.virkningsdato}-${forsikring.navn}`}
                     forsikring={forsikring}
                 />
@@ -92,7 +92,7 @@ const Forsikringsinnhold = ({
     );
 };
 
-const NavKjøptForsikringInnhold = ({ forsikring }: { forsikring: ApiNavKjøptForsikring }): ReactElement => (
+const IndividuellForsikringInnhold = ({ forsikring }: { forsikring: ApiIndividuellForsikring }): ReactElement => (
     <VStack>
         <BodyShort weight="semibold">
             {somNorskDato(forsikring.virkningsdato)} — {somNorskDato(forsikring.opphørsdato ?? undefined)}

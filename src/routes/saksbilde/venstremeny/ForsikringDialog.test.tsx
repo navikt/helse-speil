@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 
 const forsikringsvurdering: ApiForsikringsvurdering = {
     samletDekning: { fraDag: 17, grad: 100 },
-    navKjøpteForsikringer: [
+    individuelleForsikringer: [
         {
             virkningsdato: '2026-08-12',
             opphørsdato: null,
@@ -75,7 +75,7 @@ describe('ForsikringDialog', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Se vurdering' }));
 
         expect(await screen.findByRole('heading', { name: 'Kollektive forsikringer' })).toBeVisible();
-        expect(screen.getByRole('heading', { name: 'Nav-kjøpte forsikringer' })).toBeVisible();
+        expect(screen.getByRole('heading', { name: 'Individuelle forsikringer' })).toBeVisible();
         expect(screen.getByText('Ingen kollektive forsikringer')).toBeVisible();
         expect(screen.queryByText(/Merk: Kollektive forsikringer er utledet av søknadstypen/)).not.toBeInTheDocument();
     });

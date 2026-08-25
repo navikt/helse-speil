@@ -9,9 +9,12 @@ import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiGraderteAndreYtelser,
     ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCode,
+    ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCode,
     ApiHttpProblemDetailsApiPostAndreYtelserErrorCode,
     ApiLeggTilGraderteAndreYtelserRequest,
     ApiLeggTilGraderteAndreYtelserResponse,
+    ApiPatchGraderteAndreYtelserRequest,
+    ApiPatchGraderteAndreYtelserResponse,
 } from '../spesialist.schemas';
 
 import { useMutation, useQuery } from '@tanstack/react-query';
@@ -216,6 +219,83 @@ export const usePostGraderteAndreYtelser = <
     TContext
 > => {
     const mutationOptions = getPostGraderteAndreYtelserMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};
+export const patchGraderteAndreYtelser = (
+    graderteAndreYtelserId: string,
+    apiPatchGraderteAndreYtelserRequest?: ApiPatchGraderteAndreYtelserRequest,
+) => {
+    return callCustomAxios<ApiPatchGraderteAndreYtelserResponse>({
+        url: `/api/spesialist/graderte-andre-ytelser/${graderteAndreYtelserId}`,
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiPatchGraderteAndreYtelserRequest,
+    });
+};
+
+export const getPatchGraderteAndreYtelserMutationOptions = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCode>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof patchGraderteAndreYtelser>>,
+        TError,
+        { graderteAndreYtelserId: string; data: ApiPatchGraderteAndreYtelserRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof patchGraderteAndreYtelser>>,
+    TError,
+    { graderteAndreYtelserId: string; data: ApiPatchGraderteAndreYtelserRequest },
+    TContext
+> => {
+    const mutationKey = ['patchGraderteAndreYtelser'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof patchGraderteAndreYtelser>>,
+        { graderteAndreYtelserId: string; data: ApiPatchGraderteAndreYtelserRequest }
+    > = (props) => {
+        const { graderteAndreYtelserId, data } = props ?? {};
+
+        return patchGraderteAndreYtelser(graderteAndreYtelserId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PatchGraderteAndreYtelserMutationResult = NonNullable<
+    Awaited<ReturnType<typeof patchGraderteAndreYtelser>>
+>;
+export type PatchGraderteAndreYtelserMutationBody = ApiPatchGraderteAndreYtelserRequest;
+export type PatchGraderteAndreYtelserMutationError =
+    ErrorType<ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCode>;
+
+export const usePatchGraderteAndreYtelser = <
+    TError = ErrorType<ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCode>,
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof patchGraderteAndreYtelser>>,
+            TError,
+            { graderteAndreYtelserId: string; data: ApiPatchGraderteAndreYtelserRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof patchGraderteAndreYtelser>>,
+    TError,
+    { graderteAndreYtelserId: string; data: ApiPatchGraderteAndreYtelserRequest },
+    TContext
+> => {
+    const mutationOptions = getPatchGraderteAndreYtelserMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

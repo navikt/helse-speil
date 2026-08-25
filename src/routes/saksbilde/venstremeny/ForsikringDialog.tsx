@@ -7,8 +7,8 @@ import { LovdataLenke } from '@components/LovdataLenke';
 import {
     ApiFolketrygdlovenreferanse,
     ApiForsikringsvurdering,
+    ApiIndividuellForsikring,
     ApiKollektivForsikring,
-    ApiNavKjøptForsikring,
 } from '@io/rest/generated/spesialist.schemas';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
 
@@ -21,7 +21,7 @@ export const ForsikringDialog = ({
     skjæringstidspunkt: string;
     trigger: ReactElement;
 }): ReactElement => {
-    const forsikringer = forsikringsvurdering.navKjøpteForsikringer.toSorted(sammenlignForsikringer);
+    const forsikringer = forsikringsvurdering.individuelleForsikringer.toSorted(sammenlignForsikringer);
     const kollektivForsikring = forsikringsvurdering.kollektivForsikring;
 
     return (
@@ -67,7 +67,7 @@ export const ForsikringDialog = ({
                     </VStack>
                     <VStack gap="space-8">
                         <Heading size="xsmall" level="3">
-                            Nav-kjøpte forsikringer
+                            Individuelle forsikringer
                         </Heading>
                         {forsikringer.length > 0 ? (
                             <ForsikringTabell forsikringer={forsikringer} />
@@ -86,7 +86,7 @@ export const ForsikringDialog = ({
     );
 };
 
-const sammenlignForsikringer = (a: ApiNavKjøptForsikring, b: ApiNavKjøptForsikring): number => {
+const sammenlignForsikringer = (a: ApiIndividuellForsikring, b: ApiIndividuellForsikring): number => {
     const virkningsdato = a.virkningsdato.localeCompare(b.virkningsdato);
     if (virkningsdato !== 0) return virkningsdato;
 
@@ -98,7 +98,7 @@ const sammenlignForsikringer = (a: ApiNavKjøptForsikring, b: ApiNavKjøptForsik
     return opphørA.localeCompare(opphørB);
 };
 
-const ForsikringTabell = ({ forsikringer }: { forsikringer: ApiNavKjøptForsikring[] }): ReactElement => (
+const ForsikringTabell = ({ forsikringer }: { forsikringer: ApiIndividuellForsikring[] }): ReactElement => (
     <Table size="small">
         <Table.Header>
             <Table.Row>

@@ -40,7 +40,7 @@ export async function stub(_request: NextRequest) {
                 navn: '100 % fra dag 17',
                 folketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'b' },
             },
-            navKjøpteForsikringer: [
+            individuelleForsikringer: [
                 {
                     navn: '80 % fra 1. dag',
                     dekningFolketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'a' },
