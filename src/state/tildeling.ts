@@ -40,12 +40,8 @@ export const useTildel = (): [
                     const code = error.response.data.code;
                     if (code === 'OPPGAVE_TILDELT_ANNEN_SAKSBEHANDLER') {
                         leggTilTildelingsvarsel(`Oppgaven er allerede tildelt en annen saksbehandler.`);
-                    } else if (code === 'MANGLER_TILGANG_TIL_PERSON') {
-                        leggTilTildelingsvarsel(`Du har ikke tilgang til personen.`);
                     } else if (code === 'MANGLER_TILGANG_TIL_OPPGAVE') {
                         leggTilTildelingsvarsel(`Du har ikke tilgang til oppgaven.`);
-                    } else if (code === 'PERSON_PSEUDO_ID_IKKE_FUNNET') {
-                        leggTilTildelingsvarsel(`Systemet fant ikke personen du prøver å tildele oppgave for.`);
                     } else {
                         leggTilTildelingsvarsel('Kunne ikke tildele oppgave.');
                     }
@@ -74,10 +70,10 @@ export const useAvmeld = (): [
             {
                 onError: (error) => {
                     const code = error.response.data.code;
-                    if (code === 'MANGLER_TILGANG_TIL_PERSON') {
-                        leggTilTildelingsvarsel(`Du har ikke tilgang til personen.`);
-                    } else if (code === 'OPPGAVE_IKKE_FUNNET') {
-                        leggTilTildelingsvarsel(`Systemet fant ikke oppgaven du forsøkte å avmelde`);
+                    if (code === 'OPPGAVE_IKKE_FUNNET') {
+                        leggTilTildelingsvarsel(
+                            `Det har skjedd en teknisk endring på oppgaven i baksystemet, du kan prøve å fjerne tildeling igjen etter å ha lastet siden på nytt`,
+                        );
                     } else {
                         leggTilTildelingsvarsel('Kunne ikke avmelde oppgave.');
                     }

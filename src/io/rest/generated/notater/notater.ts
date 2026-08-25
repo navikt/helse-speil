@@ -7,11 +7,11 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
-    ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode,
     ApiHttpProblemDetailsApiPatchNotatErrorCode,
     ApiHttpProblemDetailsApiPostNotatErrorCode,
     ApiHttpProblemDetailsGetNotatErrorCode,
     ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiNotat,
     ApiNotatRequest,
     ApiNotatResponse,
@@ -45,7 +45,7 @@ export const getGetNotatQueryKey = (notatId?: number) => {
 
 export const getGetNotatQueryOptions = <
     TData = Awaited<ReturnType<typeof getNotat>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
@@ -69,11 +69,13 @@ export const getGetNotatQueryOptions = <
 };
 
 export type GetNotatQueryResult = NonNullable<Awaited<ReturnType<typeof getNotat>>>;
-export type GetNotatQueryError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>;
+export type GetNotatQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotatErrorCode
+>;
 
 export function useGetNotat<
     TData = Awaited<ReturnType<typeof getNotat>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
     options: {
@@ -91,7 +93,7 @@ export function useGetNotat<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetNotat<
     TData = Awaited<ReturnType<typeof getNotat>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
     options?: {
@@ -109,7 +111,7 @@ export function useGetNotat<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetNotat<
     TData = Awaited<ReturnType<typeof getNotat>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
@@ -118,7 +120,7 @@ export function useGetNotat<
 
 export function useGetNotat<
     TData = Awaited<ReturnType<typeof getNotat>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotatErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotatErrorCode>,
 >(
     notatId: number,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getNotat>>, TError, TData>> },
@@ -145,7 +147,7 @@ export const patchNotat = (notatId: number, apiPatchNotatRequest?: ApiPatchNotat
 };
 
 export const getPatchNotatMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchNotatErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchNotatErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -181,9 +183,14 @@ export const getPatchNotatMutationOptions = <
 
 export type PatchNotatMutationResult = NonNullable<Awaited<ReturnType<typeof patchNotat>>>;
 export type PatchNotatMutationBody = ApiPatchNotatRequest;
-export type PatchNotatMutationError = ErrorType<ApiHttpProblemDetailsApiPatchNotatErrorCode>;
+export type PatchNotatMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchNotatErrorCode
+>;
 
-export const usePatchNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPatchNotatErrorCode>, TContext = unknown>(
+export const usePatchNotat = <
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchNotatErrorCode>,
+    TContext = unknown,
+>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof patchNotat>>,
@@ -217,7 +224,9 @@ export const getGetNotaterForVedtaksperiodeQueryKey = (vedtaksperiodeId?: string
 
 export const getGetNotaterForVedtaksperiodeQueryOptions = <
     TData = Awaited<ReturnType<typeof getNotaterForVedtaksperiode>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode
+    >,
 >(
     vedtaksperiodeId: string,
     options?: {
@@ -246,12 +255,15 @@ export const getGetNotaterForVedtaksperiodeQueryOptions = <
 export type GetNotaterForVedtaksperiodeQueryResult = NonNullable<
     Awaited<ReturnType<typeof getNotaterForVedtaksperiode>>
 >;
-export type GetNotaterForVedtaksperiodeQueryError =
-    ErrorType<ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode>;
+export type GetNotaterForVedtaksperiodeQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode
+>;
 
 export function useGetNotaterForVedtaksperiode<
     TData = Awaited<ReturnType<typeof getNotaterForVedtaksperiode>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode
+    >,
 >(
     vedtaksperiodeId: string,
     options: {
@@ -269,7 +281,9 @@ export function useGetNotaterForVedtaksperiode<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetNotaterForVedtaksperiode<
     TData = Awaited<ReturnType<typeof getNotaterForVedtaksperiode>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode
+    >,
 >(
     vedtaksperiodeId: string,
     options?: {
@@ -287,7 +301,9 @@ export function useGetNotaterForVedtaksperiode<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetNotaterForVedtaksperiode<
     TData = Awaited<ReturnType<typeof getNotaterForVedtaksperiode>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode
+    >,
 >(
     vedtaksperiodeId: string,
     options?: {
@@ -298,7 +314,9 @@ export function useGetNotaterForVedtaksperiode<
 
 export function useGetNotaterForVedtaksperiode<
     TData = Awaited<ReturnType<typeof getNotaterForVedtaksperiode>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetNotaterForVedtaksperiodeErrorCode
+    >,
 >(
     vedtaksperiodeId: string,
     options?: {
@@ -328,7 +346,7 @@ export const postNotat = (apiNotatRequest?: ApiNotatRequest, signal?: AbortSigna
 };
 
 export const getPostNotatMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostNotatErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<Awaited<ReturnType<typeof postNotat>>, TError, { data: ApiNotatRequest }, TContext>;
@@ -351,9 +369,14 @@ export const getPostNotatMutationOptions = <
 
 export type PostNotatMutationResult = NonNullable<Awaited<ReturnType<typeof postNotat>>>;
 export type PostNotatMutationBody = ApiNotatRequest;
-export type PostNotatMutationError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>;
+export type PostNotatMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostNotatErrorCode
+>;
 
-export const usePostNotat = <TError = ErrorType<ApiHttpProblemDetailsApiPostNotatErrorCode>, TContext = unknown>(
+export const usePostNotat = <
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostNotatErrorCode>,
+    TContext = unknown,
+>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postNotat>>,
@@ -382,7 +405,7 @@ export const getGetNotatVedtaksperiodeIderForPersonQueryKey = (pseudoId?: string
 
 export const getGetNotatVedtaksperiodeIderForPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -413,12 +436,11 @@ export const getGetNotatVedtaksperiodeIderForPersonQueryOptions = <
 export type GetNotatVedtaksperiodeIderForPersonQueryResult = NonNullable<
     Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>
 >;
-export type GetNotatVedtaksperiodeIderForPersonQueryError =
-    ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>;
+export type GetNotatVedtaksperiodeIderForPersonQueryError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>;
 
 export function useGetNotatVedtaksperiodeIderForPerson<
     TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options: {
@@ -438,7 +460,7 @@ export function useGetNotatVedtaksperiodeIderForPerson<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetNotatVedtaksperiodeIderForPerson<
     TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -458,7 +480,7 @@ export function useGetNotatVedtaksperiodeIderForPerson<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetNotatVedtaksperiodeIderForPerson<
     TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -471,7 +493,7 @@ export function useGetNotatVedtaksperiodeIderForPerson<
 
 export function useGetNotatVedtaksperiodeIderForPerson<
     TData = Awaited<ReturnType<typeof getNotatVedtaksperiodeIderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {

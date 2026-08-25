@@ -6,13 +6,16 @@ import { useGetBehandledeOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiBehandletOppgaveProjeksjon,
     ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode,
+    type ApiHttpProblemDetailsPersonErrorCode,
 } from '@io/rest/generated/spesialist.schemas';
 import { limit, useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { ISO_DATOFORMAT } from '@utils/date';
 
 interface BehandledeOppgaverFeed {
     oppgaver?: ApiBehandletOppgaveProjeksjon[];
-    error: ErrorType<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode> | null;
+    error: ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode
+    > | null;
     loading: boolean;
     antallOppgaver: number;
     refetch: (fom: Dayjs, tom: Dayjs) => void;

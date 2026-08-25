@@ -9,6 +9,7 @@ import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiHttpProblemDetailsApiPatchKommentarErrorCode,
     ApiHttpProblemDetailsApiPostKommentarErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiKommentarRequest,
     ApiKommentarResponse,
     ApiPatchKommentarRequest,
@@ -28,7 +29,7 @@ export const postKommentar = (dialogId: number, apiKommentarRequest?: ApiKomment
 };
 
 export const getPostKommentarMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostKommentarErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -64,10 +65,12 @@ export const getPostKommentarMutationOptions = <
 
 export type PostKommentarMutationResult = NonNullable<Awaited<ReturnType<typeof postKommentar>>>;
 export type PostKommentarMutationBody = ApiKommentarRequest;
-export type PostKommentarMutationError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>;
+export type PostKommentarMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostKommentarErrorCode
+>;
 
 export const usePostKommentar = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostKommentarErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostKommentarErrorCode>,
     TContext = unknown,
 >(
     options?: {
@@ -103,7 +106,7 @@ export const patchKommentar = (
 };
 
 export const getPatchKommentarMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchKommentarErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -139,10 +142,12 @@ export const getPatchKommentarMutationOptions = <
 
 export type PatchKommentarMutationResult = NonNullable<Awaited<ReturnType<typeof patchKommentar>>>;
 export type PatchKommentarMutationBody = ApiPatchKommentarRequest;
-export type PatchKommentarMutationError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>;
+export type PatchKommentarMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchKommentarErrorCode
+>;
 
 export const usePatchKommentar = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchKommentarErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchKommentarErrorCode>,
     TContext = unknown,
 >(
     options?: {

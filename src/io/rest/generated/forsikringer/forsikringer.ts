@@ -9,6 +9,7 @@ import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiForsikringsvurdering,
     ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
 } from '../spesialist.schemas';
 
 import { useQuery } from '@tanstack/react-query';
@@ -42,7 +43,9 @@ export const getGetForsikringsvurderingForPersonQueryKey = (pseudoId?: string, f
 
 export const getGetForsikringsvurderingForPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getForsikringsvurderingForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     forsikringvurderingId: string,
@@ -73,12 +76,15 @@ export const getGetForsikringsvurderingForPersonQueryOptions = <
 export type GetForsikringsvurderingForPersonQueryResult = NonNullable<
     Awaited<ReturnType<typeof getForsikringsvurderingForPerson>>
 >;
-export type GetForsikringsvurderingForPersonQueryError =
-    ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>;
+export type GetForsikringsvurderingForPersonQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode
+>;
 
 export function useGetForsikringsvurderingForPerson<
     TData = Awaited<ReturnType<typeof getForsikringsvurderingForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     forsikringvurderingId: string,
@@ -97,7 +103,9 @@ export function useGetForsikringsvurderingForPerson<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetForsikringsvurderingForPerson<
     TData = Awaited<ReturnType<typeof getForsikringsvurderingForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     forsikringvurderingId: string,
@@ -116,7 +124,9 @@ export function useGetForsikringsvurderingForPerson<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetForsikringsvurderingForPerson<
     TData = Awaited<ReturnType<typeof getForsikringsvurderingForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     forsikringvurderingId: string,
@@ -128,7 +138,9 @@ export function useGetForsikringsvurderingForPerson<
 
 export function useGetForsikringsvurderingForPerson<
     TData = Awaited<ReturnType<typeof getForsikringsvurderingForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetForsikringsvurderingForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     forsikringvurderingId: string,

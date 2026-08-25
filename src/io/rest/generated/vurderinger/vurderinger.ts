@@ -9,6 +9,7 @@ import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiArbeidstidsvurderingRequest,
     ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
 } from '../spesialist.schemas';
 
 import { useMutation } from '@tanstack/react-query';
@@ -29,7 +30,7 @@ export const postArbeidstidsvurdering = (
 };
 
 export const getPostArbeidstidsvurderingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -65,10 +66,12 @@ export const getPostArbeidstidsvurderingMutationOptions = <
 
 export type PostArbeidstidsvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof postArbeidstidsvurdering>>>;
 export type PostArbeidstidsvurderingMutationBody = ApiArbeidstidsvurderingRequest;
-export type PostArbeidstidsvurderingMutationError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>;
+export type PostArbeidstidsvurderingMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode
+>;
 
 export const usePostArbeidstidsvurdering = <
-    TError = ErrorType<ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiArbeidstidsvurderingErrorCode>,
     TContext = unknown,
 >(
     options?: {

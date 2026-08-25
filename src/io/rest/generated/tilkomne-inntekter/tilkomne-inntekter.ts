@@ -7,9 +7,8 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
-    ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode,
     ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode,
-    ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiLeggTilTilkommenInntektRequest,
     ApiLeggTilTilkommenInntektResponse,
     ApiTilkommenInntektPatch,
@@ -46,7 +45,7 @@ export const getGetTilkomneInntektskilderForPersonQueryKey = (pseudoId?: string)
 
 export const getGetTilkomneInntektskilderForPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -75,12 +74,11 @@ export const getGetTilkomneInntektskilderForPersonQueryOptions = <
 export type GetTilkomneInntektskilderForPersonQueryResult = NonNullable<
     Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>
 >;
-export type GetTilkomneInntektskilderForPersonQueryError =
-    ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>;
+export type GetTilkomneInntektskilderForPersonQueryError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>;
 
 export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options: {
@@ -98,7 +96,7 @@ export function useGetTilkomneInntektskilderForPerson<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -118,7 +116,7 @@ export function useGetTilkomneInntektskilderForPerson<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -129,7 +127,7 @@ export function useGetTilkomneInntektskilderForPerson<
 
 export function useGetTilkomneInntektskilderForPerson<
     TData = Awaited<ReturnType<typeof getTilkomneInntektskilderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -162,7 +160,7 @@ export const postTilkomneInntekter = (
 };
 
 export const getPostTilkomneInntekterMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -198,12 +196,9 @@ export const getPostTilkomneInntekterMutationOptions = <
 
 export type PostTilkomneInntekterMutationResult = NonNullable<Awaited<ReturnType<typeof postTilkomneInntekter>>>;
 export type PostTilkomneInntekterMutationBody = ApiLeggTilTilkommenInntektRequest;
-export type PostTilkomneInntekterMutationError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>;
+export type PostTilkomneInntekterMutationError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>;
 
-export const usePostTilkomneInntekter = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode>,
-    TContext = unknown,
->(
+export const usePostTilkomneInntekter = <TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postTilkomneInntekter>>,
@@ -236,7 +231,7 @@ export const patchTilkommenInntekt = (
 };
 
 export const getPatchTilkommenInntektMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -272,10 +267,12 @@ export const getPatchTilkommenInntektMutationOptions = <
 
 export type PatchTilkommenInntektMutationResult = NonNullable<Awaited<ReturnType<typeof patchTilkommenInntekt>>>;
 export type PatchTilkommenInntektMutationBody = ApiTilkommenInntektPatch;
-export type PatchTilkommenInntektMutationError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>;
+export type PatchTilkommenInntektMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode
+>;
 
 export const usePatchTilkommenInntekt = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode>,
     TContext = unknown,
 >(
     options?: {

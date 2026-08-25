@@ -8,6 +8,7 @@ import { useGetAntallOppgaver, useGetOppgaver } from '@io/rest/generated/oppgave
 import {
     ApiEgenskap,
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
+    type ApiHttpProblemDetailsPersonErrorCode,
     ApiOppgaveProjeksjon,
     ApiOppgaveSorteringsfelt,
     ApiSorteringsrekkefølge,
@@ -34,7 +35,7 @@ export type FetchMoreArgs = {
 
 interface OppgaveFeedResponse {
     oppgaver?: ApiOppgaveProjeksjon[];
-    error: ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
+    error: ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
     loading: boolean;
     antallOppgaver: number;
 }

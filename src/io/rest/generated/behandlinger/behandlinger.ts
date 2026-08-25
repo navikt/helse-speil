@@ -10,6 +10,7 @@ import type {
     ApiForkastingRequest,
     ApiHttpProblemDetailsApiPostForkastingErrorCode,
     ApiHttpProblemDetailsApiPostVedtakErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiVedtakRequest,
 } from '../spesialist.schemas';
 
@@ -27,7 +28,7 @@ export const postVedtak = (behandlingId: string, apiVedtakRequest?: ApiVedtakReq
 };
 
 export const getPostVedtakMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostVedtakErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostVedtakErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -63,9 +64,14 @@ export const getPostVedtakMutationOptions = <
 
 export type PostVedtakMutationResult = NonNullable<Awaited<ReturnType<typeof postVedtak>>>;
 export type PostVedtakMutationBody = ApiVedtakRequest;
-export type PostVedtakMutationError = ErrorType<ApiHttpProblemDetailsApiPostVedtakErrorCode>;
+export type PostVedtakMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostVedtakErrorCode
+>;
 
-export const usePostVedtak = <TError = ErrorType<ApiHttpProblemDetailsApiPostVedtakErrorCode>, TContext = unknown>(
+export const usePostVedtak = <
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostVedtakErrorCode>,
+    TContext = unknown,
+>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postVedtak>>,
@@ -100,7 +106,7 @@ export const postForkasting = (
 };
 
 export const getPostForkastingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostForkastingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostForkastingErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -136,10 +142,12 @@ export const getPostForkastingMutationOptions = <
 
 export type PostForkastingMutationResult = NonNullable<Awaited<ReturnType<typeof postForkasting>>>;
 export type PostForkastingMutationBody = ApiForkastingRequest;
-export type PostForkastingMutationError = ErrorType<ApiHttpProblemDetailsApiPostForkastingErrorCode>;
+export type PostForkastingMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostForkastingErrorCode
+>;
 
 export const usePostForkasting = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostForkastingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostForkastingErrorCode>,
     TContext = unknown,
 >(
     options?: {

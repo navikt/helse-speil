@@ -5,6 +5,7 @@ import { Button } from '@navikt/ds-react';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Personinfo, Utbetaling } from '@io/graphql';
 import { PostSendTilGodkjenningMutationError, usePostSendTilGodkjenning } from '@io/rest/generated/oppgaver/oppgaver';
+import { somPersonFeilmelding } from '@io/rest/personFeilmeldinger';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
@@ -123,11 +124,10 @@ const somRestBackendfeil = (error: PostSendTilGodkjenningMutationError): Backend
             message: 'Kunne ikke sende oppgaven til godkjenning',
         };
 
+    const personFeilmelding = somPersonFeilmelding(problemDetailsCode);
+    if (personFeilmelding != null) return { message: personFeilmelding };
+
     switch (problemDetailsCode) {
-        case 'MANGLER_TILGANG_TIL_PERSON':
-            return {
-                message: 'Du har ikke tilgang til å sende denne oppgaven til godkjenning',
-            };
         case 'OPPGAVE_IKKE_FUNNET':
             return {
                 message: 'Perioden er allerede utbetalt',

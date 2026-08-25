@@ -16,6 +16,7 @@ import type {
     ApiHttpProblemDetailsApiPostSendIReturErrorCode,
     ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode,
     ApiHttpProblemDetailsApiPutPåVentErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiOppgaveProjeksjonSide,
     ApiPutPåVentRequest,
     ApiSendIReturRequest,
@@ -55,7 +56,7 @@ export const getGetOppgaverQueryKey = (params?: GetOppgaverParams) => {
 
 export const getGetOppgaverQueryOptions = <
     TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
 >(
     params?: GetOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>> },
@@ -74,11 +75,13 @@ export const getGetOppgaverQueryOptions = <
 };
 
 export type GetOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getOppgaver>>>;
-export type GetOppgaverQueryError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>;
+export type GetOppgaverQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetOppgaverErrorCode
+>;
 
 export function useGetOppgaver<
     TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
 >(
     params: undefined | GetOppgaverParams,
     options: {
@@ -96,7 +99,7 @@ export function useGetOppgaver<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetOppgaver<
     TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
 >(
     params?: GetOppgaverParams,
     options?: {
@@ -114,7 +117,7 @@ export function useGetOppgaver<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetOppgaver<
     TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
 >(
     params?: GetOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>> },
@@ -123,7 +126,7 @@ export function useGetOppgaver<
 
 export function useGetOppgaver<
     TData = Awaited<ReturnType<typeof getOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetOppgaverErrorCode>,
 >(
     params?: GetOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOppgaver>>, TError, TData>> },
@@ -150,7 +153,7 @@ export const getGetAntallOppgaverQueryKey = () => {
 
 export const getGetAntallOppgaverQueryOptions = <
     TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>>;
 }) => {
@@ -169,11 +172,13 @@ export const getGetAntallOppgaverQueryOptions = <
 };
 
 export type GetAntallOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getAntallOppgaver>>>;
-export type GetAntallOppgaverQueryError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>;
+export type GetAntallOppgaverQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode
+>;
 
 export function useGetAntallOppgaver<
     TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
 >(
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>> &
@@ -190,7 +195,7 @@ export function useGetAntallOppgaver<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetAntallOppgaver<
     TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
 >(
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>> &
@@ -207,7 +212,7 @@ export function useGetAntallOppgaver<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetAntallOppgaver<
     TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -215,7 +220,7 @@ export function useGetAntallOppgaver<
 
 export function useGetAntallOppgaver<
     TData = Awaited<ReturnType<typeof getAntallOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAntallOppgaverErrorCode>,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAntallOppgaver>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -246,7 +251,7 @@ export const getGetBehandledeOppgaverQueryKey = (params?: GetBehandledeOppgaverP
 
 export const getGetBehandledeOppgaverQueryOptions = <
     TData = Awaited<ReturnType<typeof getBehandledeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
 >(
     params: GetBehandledeOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandledeOppgaver>>, TError, TData>> },
@@ -266,11 +271,13 @@ export const getGetBehandledeOppgaverQueryOptions = <
 };
 
 export type GetBehandledeOppgaverQueryResult = NonNullable<Awaited<ReturnType<typeof getBehandledeOppgaver>>>;
-export type GetBehandledeOppgaverQueryError = ErrorType<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>;
+export type GetBehandledeOppgaverQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode
+>;
 
 export function useGetBehandledeOppgaver<
     TData = Awaited<ReturnType<typeof getBehandledeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
 >(
     params: GetBehandledeOppgaverParams,
     options: {
@@ -288,7 +295,7 @@ export function useGetBehandledeOppgaver<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetBehandledeOppgaver<
     TData = Awaited<ReturnType<typeof getBehandledeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
 >(
     params: GetBehandledeOppgaverParams,
     options?: {
@@ -306,7 +313,7 @@ export function useGetBehandledeOppgaver<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetBehandledeOppgaver<
     TData = Awaited<ReturnType<typeof getBehandledeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
 >(
     params: GetBehandledeOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandledeOppgaver>>, TError, TData>> },
@@ -315,7 +322,7 @@ export function useGetBehandledeOppgaver<
 
 export function useGetBehandledeOppgaver<
     TData = Awaited<ReturnType<typeof getBehandledeOppgaver>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode>,
 >(
     params: GetBehandledeOppgaverParams,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandledeOppgaver>>, TError, TData>> },
@@ -342,7 +349,7 @@ export const putPåVent = (oppgaveId: number, apiPutPåVentRequest?: ApiPutPåVe
 };
 
 export const getPutPåVentMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPutPåVentErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPutPåVentErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -378,9 +385,14 @@ export const getPutPåVentMutationOptions = <
 
 export type PutPåVentMutationResult = NonNullable<Awaited<ReturnType<typeof putPåVent>>>;
 export type PutPåVentMutationBody = ApiPutPåVentRequest;
-export type PutPåVentMutationError = ErrorType<ApiHttpProblemDetailsApiPutPåVentErrorCode>;
+export type PutPåVentMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPutPåVentErrorCode
+>;
 
-export const usePutPåVent = <TError = ErrorType<ApiHttpProblemDetailsApiPutPåVentErrorCode>, TContext = unknown>(
+export const usePutPåVent = <
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPutPåVentErrorCode>,
+    TContext = unknown,
+>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof putPåVent>>,
@@ -405,7 +417,7 @@ export const deletePåVent = (oppgaveId: number) => {
 };
 
 export const getDeletePåVentMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiDeletePåVentErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiDeletePåVentErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<Awaited<ReturnType<typeof deletePåVent>>, TError, { oppgaveId: number }, TContext>;
@@ -428,9 +440,14 @@ export const getDeletePåVentMutationOptions = <
 
 export type DeletePåVentMutationResult = NonNullable<Awaited<ReturnType<typeof deletePåVent>>>;
 
-export type DeletePåVentMutationError = ErrorType<ApiHttpProblemDetailsApiDeletePåVentErrorCode>;
+export type DeletePåVentMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiDeletePåVentErrorCode
+>;
 
-export const useDeletePåVent = <TError = ErrorType<ApiHttpProblemDetailsApiDeletePåVentErrorCode>, TContext = unknown>(
+export const useDeletePåVent = <
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiDeletePåVentErrorCode>,
+    TContext = unknown,
+>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof deletePåVent>>,
@@ -460,7 +477,7 @@ export const postSendTilGodkjenning = (
 };
 
 export const getPostSendTilGodkjenningMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -496,10 +513,12 @@ export const getPostSendTilGodkjenningMutationOptions = <
 
 export type PostSendTilGodkjenningMutationResult = NonNullable<Awaited<ReturnType<typeof postSendTilGodkjenning>>>;
 export type PostSendTilGodkjenningMutationBody = ApiSendTilGodkjenningRequest;
-export type PostSendTilGodkjenningMutationError = ErrorType<ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode>;
+export type PostSendTilGodkjenningMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode
+>;
 
 export const usePostSendTilGodkjenning = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostSendTilGodkjenningErrorCode>,
     TContext = unknown,
 >(
     options?: {
@@ -536,7 +555,7 @@ export const postSendIRetur = (
 };
 
 export const getPostSendIReturMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostSendIReturErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostSendIReturErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -572,10 +591,12 @@ export const getPostSendIReturMutationOptions = <
 
 export type PostSendIReturMutationResult = NonNullable<Awaited<ReturnType<typeof postSendIRetur>>>;
 export type PostSendIReturMutationBody = ApiSendIReturRequest;
-export type PostSendIReturMutationError = ErrorType<ApiHttpProblemDetailsApiPostSendIReturErrorCode>;
+export type PostSendIReturMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostSendIReturErrorCode
+>;
 
 export const usePostSendIRetur = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostSendIReturErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostSendIReturErrorCode>,
     TContext = unknown,
 >(
     options?: {

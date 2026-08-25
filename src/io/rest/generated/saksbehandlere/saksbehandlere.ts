@@ -11,6 +11,7 @@ import type {
     ApiBruker,
     ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode,
     ApiHttpProblemDetailsGetBrukerErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
 } from '../spesialist.schemas';
 
 import { useQuery } from '@tanstack/react-query';
@@ -40,7 +41,7 @@ export const getGetAktiveSaksbehandlereQueryKey = () => {
 
 export const getGetAktiveSaksbehandlereQueryOptions = <
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>>;
 }) => {
@@ -59,11 +60,13 @@ export const getGetAktiveSaksbehandlereQueryOptions = <
 };
 
 export type GetAktiveSaksbehandlereQueryResult = NonNullable<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>>;
-export type GetAktiveSaksbehandlereQueryError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>;
+export type GetAktiveSaksbehandlereQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode
+>;
 
 export function useGetAktiveSaksbehandlere<
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> &
@@ -80,7 +83,7 @@ export function useGetAktiveSaksbehandlere<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetAktiveSaksbehandlere<
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> &
@@ -97,7 +100,7 @@ export function useGetAktiveSaksbehandlere<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetAktiveSaksbehandlere<
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -105,7 +108,7 @@ export function useGetAktiveSaksbehandlere<
 
 export function useGetAktiveSaksbehandlere<
     TData = Awaited<ReturnType<typeof getAktiveSaksbehandlere>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode>,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktiveSaksbehandlere>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -131,7 +134,7 @@ export const getGetBrukerQueryKey = () => {
 
 export const getGetBrukerQueryOptions = <
     TData = Awaited<ReturnType<typeof getBruker>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetBrukerErrorCode>,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>>;
 }) => {
@@ -149,11 +152,13 @@ export const getGetBrukerQueryOptions = <
 };
 
 export type GetBrukerQueryResult = NonNullable<Awaited<ReturnType<typeof getBruker>>>;
-export type GetBrukerQueryError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>;
+export type GetBrukerQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetBrukerErrorCode
+>;
 
 export function useGetBruker<
     TData = Awaited<ReturnType<typeof getBruker>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetBrukerErrorCode>,
 >(
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> &
@@ -170,7 +175,7 @@ export function useGetBruker<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetBruker<
     TData = Awaited<ReturnType<typeof getBruker>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetBrukerErrorCode>,
 >(
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> &
@@ -187,7 +192,7 @@ export function useGetBruker<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetBruker<
     TData = Awaited<ReturnType<typeof getBruker>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetBrukerErrorCode>,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -195,7 +200,7 @@ export function useGetBruker<
 
 export function useGetBruker<
     TData = Awaited<ReturnType<typeof getBruker>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetBrukerErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetBrukerErrorCode>,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBruker>>, TError, TData>> },
     queryClient?: QueryClient,

@@ -10,16 +10,12 @@ import type {
     ApiBehandlendeEnhet,
     ApiHttpProblemDetailsApiDeleteTildelingErrorCode,
     ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode,
-    ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode,
-    ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
-    ApiHttpProblemDetailsApiGetVeilederStansErrorCode,
-    ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
     ApiHttpProblemDetailsApiPostPersonSokErrorCode,
-    ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode,
     ApiHttpProblemDetailsApiPutTildelingErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiInfotrygdperiode,
     ApiKrrRegistrertStatus,
     ApiPerson,
@@ -186,7 +182,7 @@ export const putTildeling = (pseudoId: string, apiTildelingRequest?: ApiTildelin
 };
 
 export const getPutTildelingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPutTildelingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPutTildelingErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -222,9 +218,14 @@ export const getPutTildelingMutationOptions = <
 
 export type PutTildelingMutationResult = NonNullable<Awaited<ReturnType<typeof putTildeling>>>;
 export type PutTildelingMutationBody = ApiTildelingRequest;
-export type PutTildelingMutationError = ErrorType<ApiHttpProblemDetailsApiPutTildelingErrorCode>;
+export type PutTildelingMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPutTildelingErrorCode
+>;
 
-export const usePutTildeling = <TError = ErrorType<ApiHttpProblemDetailsApiPutTildelingErrorCode>, TContext = unknown>(
+export const usePutTildeling = <
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPutTildelingErrorCode>,
+    TContext = unknown,
+>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof putTildeling>>,
@@ -249,7 +250,7 @@ export const deleteTildeling = (pseudoId: string) => {
 };
 
 export const getDeleteTildelingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiDeleteTildelingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiDeleteTildelingErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<Awaited<ReturnType<typeof deleteTildeling>>, TError, { pseudoId: string }, TContext>;
@@ -272,10 +273,12 @@ export const getDeleteTildelingMutationOptions = <
 
 export type DeleteTildelingMutationResult = NonNullable<Awaited<ReturnType<typeof deleteTildeling>>>;
 
-export type DeleteTildelingMutationError = ErrorType<ApiHttpProblemDetailsApiDeleteTildelingErrorCode>;
+export type DeleteTildelingMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiDeleteTildelingErrorCode
+>;
 
 export const useDeleteTildeling = <
-    TError = ErrorType<ApiHttpProblemDetailsApiDeleteTildelingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiDeleteTildelingErrorCode>,
     TContext = unknown,
 >(
     options?: {
@@ -306,7 +309,7 @@ export const getGetSaksbehandlerStansQueryKey = (pseudoId?: string) => {
 
 export const getGetSaksbehandlerStansQueryOptions = <
     TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData>> },
@@ -331,11 +334,11 @@ export const getGetSaksbehandlerStansQueryOptions = <
 };
 
 export type GetSaksbehandlerStansQueryResult = NonNullable<Awaited<ReturnType<typeof getSaksbehandlerStans>>>;
-export type GetSaksbehandlerStansQueryError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>;
+export type GetSaksbehandlerStansQueryError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>;
 
 export function useGetSaksbehandlerStans<
     TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options: {
@@ -353,7 +356,7 @@ export function useGetSaksbehandlerStans<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetSaksbehandlerStans<
     TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -371,7 +374,7 @@ export function useGetSaksbehandlerStans<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetSaksbehandlerStans<
     TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData>> },
@@ -380,7 +383,7 @@ export function useGetSaksbehandlerStans<
 
 export function useGetSaksbehandlerStans<
     TData = Awaited<ReturnType<typeof getSaksbehandlerStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerStans>>, TError, TData>> },
@@ -407,7 +410,7 @@ export const patchSaksbehandlerStans = (pseudoId: string, apiStansRequest?: ApiS
 };
 
 export const getPatchSaksbehandlerStansMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -443,10 +446,10 @@ export const getPatchSaksbehandlerStansMutationOptions = <
 
 export type PatchSaksbehandlerStansMutationResult = NonNullable<Awaited<ReturnType<typeof patchSaksbehandlerStans>>>;
 export type PatchSaksbehandlerStansMutationBody = ApiStansRequest;
-export type PatchSaksbehandlerStansMutationError = ErrorType<ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode>;
+export type PatchSaksbehandlerStansMutationError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>;
 
 export const usePatchSaksbehandlerStans = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
     TContext = unknown,
 >(
     options?: {
@@ -482,7 +485,7 @@ export const getGetVeilederStansQueryKey = (pseudoId?: string) => {
 
 export const getGetVeilederStansQueryOptions = <
     TData = Awaited<ReturnType<typeof getVeilederStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData>> },
@@ -507,11 +510,11 @@ export const getGetVeilederStansQueryOptions = <
 };
 
 export type GetVeilederStansQueryResult = NonNullable<Awaited<ReturnType<typeof getVeilederStans>>>;
-export type GetVeilederStansQueryError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>;
+export type GetVeilederStansQueryError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>;
 
 export function useGetVeilederStans<
     TData = Awaited<ReturnType<typeof getVeilederStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options: {
@@ -529,7 +532,7 @@ export function useGetVeilederStans<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetVeilederStans<
     TData = Awaited<ReturnType<typeof getVeilederStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -547,7 +550,7 @@ export function useGetVeilederStans<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetVeilederStans<
     TData = Awaited<ReturnType<typeof getVeilederStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData>> },
@@ -556,7 +559,7 @@ export function useGetVeilederStans<
 
 export function useGetVeilederStans<
     TData = Awaited<ReturnType<typeof getVeilederStans>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetVeilederStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVeilederStans>>, TError, TData>> },
@@ -583,7 +586,7 @@ export const patchVeilederStans = (pseudoId: string, apiStansRequest?: ApiStansR
 };
 
 export const getPatchVeilederStansMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -619,10 +622,12 @@ export const getPatchVeilederStansMutationOptions = <
 
 export type PatchVeilederStansMutationResult = NonNullable<Awaited<ReturnType<typeof patchVeilederStans>>>;
 export type PatchVeilederStansMutationBody = ApiStansRequest;
-export type PatchVeilederStansMutationError = ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>;
+export type PatchVeilederStansMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchVeilederStansErrorCode
+>;
 
 export const usePatchVeilederStans = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
     TContext = unknown,
 >(
     options?: {
@@ -660,7 +665,7 @@ export const postSykepengegrunnlag = (
 };
 
 export const getPostSykepengegrunnlagMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -696,12 +701,9 @@ export const getPostSykepengegrunnlagMutationOptions = <
 
 export type PostSykepengegrunnlagMutationResult = NonNullable<Awaited<ReturnType<typeof postSykepengegrunnlag>>>;
 export type PostSykepengegrunnlagMutationBody = ApiSykepengegrunnlagRequest;
-export type PostSykepengegrunnlagMutationError = ErrorType<ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode>;
+export type PostSykepengegrunnlagMutationError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>;
 
-export const usePostSykepengegrunnlag = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode>,
-    TContext = unknown,
->(
+export const usePostSykepengegrunnlag = <TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postSykepengegrunnlag>>,
@@ -732,7 +734,7 @@ export const postPersonSok = (apiPersonSokRequest?: ApiPersonSokRequest, signal?
 };
 
 export const getPostPersonSokMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostPersonSokErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -762,10 +764,12 @@ export const getPostPersonSokMutationOptions = <
 
 export type PostPersonSokMutationResult = NonNullable<Awaited<ReturnType<typeof postPersonSok>>>;
 export type PostPersonSokMutationBody = ApiPersonSokRequest;
-export type PostPersonSokMutationError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>;
+export type PostPersonSokMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostPersonSokErrorCode
+>;
 
 export const usePostPersonSok = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostPersonSokErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostPersonSokErrorCode>,
     TContext = unknown,
 >(
     options?: {
@@ -796,7 +800,9 @@ export const getGetKrrRegistrertStatusForPersonQueryKey = (pseudoId?: string) =>
 
 export const getGetKrrRegistrertStatusForPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options?: {
@@ -825,12 +831,15 @@ export const getGetKrrRegistrertStatusForPersonQueryOptions = <
 export type GetKrrRegistrertStatusForPersonQueryResult = NonNullable<
     Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>
 >;
-export type GetKrrRegistrertStatusForPersonQueryError =
-    ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>;
+export type GetKrrRegistrertStatusForPersonQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode
+>;
 
 export function useGetKrrRegistrertStatusForPerson<
     TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options: {
@@ -848,7 +857,9 @@ export function useGetKrrRegistrertStatusForPerson<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetKrrRegistrertStatusForPerson<
     TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options?: {
@@ -866,7 +877,9 @@ export function useGetKrrRegistrertStatusForPerson<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetKrrRegistrertStatusForPerson<
     TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options?: {
@@ -877,7 +890,9 @@ export function useGetKrrRegistrertStatusForPerson<
 
 export function useGetKrrRegistrertStatusForPerson<
     TData = Awaited<ReturnType<typeof getKrrRegistrertStatusForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options?: {
@@ -910,7 +925,9 @@ export const getGetBehandlendeEnhetForPersonQueryKey = (pseudoId?: string) => {
 
 export const getGetBehandlendeEnhetForPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options?: {
@@ -939,12 +956,15 @@ export const getGetBehandlendeEnhetForPersonQueryOptions = <
 export type GetBehandlendeEnhetForPersonQueryResult = NonNullable<
     Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>
 >;
-export type GetBehandlendeEnhetForPersonQueryError =
-    ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>;
+export type GetBehandlendeEnhetForPersonQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode
+>;
 
 export function useGetBehandlendeEnhetForPerson<
     TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options: {
@@ -962,7 +982,9 @@ export function useGetBehandlendeEnhetForPerson<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetBehandlendeEnhetForPerson<
     TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options?: {
@@ -980,7 +1002,9 @@ export function useGetBehandlendeEnhetForPerson<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetBehandlendeEnhetForPerson<
     TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options?: {
@@ -991,7 +1015,9 @@ export function useGetBehandlendeEnhetForPerson<
 
 export function useGetBehandlendeEnhetForPerson<
     TData = Awaited<ReturnType<typeof getBehandlendeEnhetForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode
+    >,
 >(
     pseudoId: string,
     options?: {
@@ -1020,7 +1046,7 @@ export const getGetPersonQueryKey = (pseudoId?: string) => {
 
 export const getGetPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPerson>>, TError, TData>> },
@@ -1044,11 +1070,13 @@ export const getGetPersonQueryOptions = <
 };
 
 export type GetPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getPerson>>>;
-export type GetPersonQueryError = ErrorType<ApiHttpProblemDetailsApiGetPersonErrorCode>;
+export type GetPersonQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetPersonErrorCode
+>;
 
 export function useGetPerson<
     TData = Awaited<ReturnType<typeof getPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetPersonErrorCode>,
 >(
     pseudoId: string,
     options: {
@@ -1066,7 +1094,7 @@ export function useGetPerson<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetPerson<
     TData = Awaited<ReturnType<typeof getPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -1084,7 +1112,7 @@ export function useGetPerson<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetPerson<
     TData = Awaited<ReturnType<typeof getPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPerson>>, TError, TData>> },
@@ -1093,7 +1121,7 @@ export function useGetPerson<
 
 export function useGetPerson<
     TData = Awaited<ReturnType<typeof getPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetPersonErrorCode>,
 >(
     pseudoId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPerson>>, TError, TData>> },
@@ -1124,7 +1152,7 @@ export const getGetInfotrygdperioderForPersonQueryKey = (pseudoId?: string) => {
 
 export const getGetInfotrygdperioderForPersonQueryOptions = <
     TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -1153,12 +1181,11 @@ export const getGetInfotrygdperioderForPersonQueryOptions = <
 export type GetInfotrygdperioderForPersonQueryResult = NonNullable<
     Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>
 >;
-export type GetInfotrygdperioderForPersonQueryError =
-    ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>;
+export type GetInfotrygdperioderForPersonQueryError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>;
 
 export function useGetInfotrygdperioderForPerson<
     TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options: {
@@ -1176,7 +1203,7 @@ export function useGetInfotrygdperioderForPerson<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetInfotrygdperioderForPerson<
     TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -1194,7 +1221,7 @@ export function useGetInfotrygdperioderForPerson<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetInfotrygdperioderForPerson<
     TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {
@@ -1205,7 +1232,7 @@ export function useGetInfotrygdperioderForPerson<
 
 export function useGetInfotrygdperioderForPerson<
     TData = Awaited<ReturnType<typeof getInfotrygdperioderForPerson>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode>,
 >(
     pseudoId: string,
     options?: {

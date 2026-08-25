@@ -9,6 +9,7 @@ import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiHttpProblemDetailsDeleteVarselvurderingErrorCode,
     ApiHttpProblemDetailsGetVarselErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiHttpProblemDetailsPutVarselvurderingErrorCode,
     ApiVarsel,
     ApiVarselvurdering,
@@ -40,7 +41,7 @@ export const getGetVarselQueryKey = (varselId?: string) => {
 
 export const getGetVarselQueryOptions = <
     TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetVarselErrorCode>,
 >(
     varselId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> },
@@ -64,11 +65,13 @@ export const getGetVarselQueryOptions = <
 };
 
 export type GetVarselQueryResult = NonNullable<Awaited<ReturnType<typeof getVarsel>>>;
-export type GetVarselQueryError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>;
+export type GetVarselQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetVarselErrorCode
+>;
 
 export function useGetVarsel<
     TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetVarselErrorCode>,
 >(
     varselId: string,
     options: {
@@ -86,7 +89,7 @@ export function useGetVarsel<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetVarsel<
     TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetVarselErrorCode>,
 >(
     varselId: string,
     options?: {
@@ -104,7 +107,7 @@ export function useGetVarsel<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetVarsel<
     TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetVarselErrorCode>,
 >(
     varselId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> },
@@ -113,7 +116,7 @@ export function useGetVarsel<
 
 export function useGetVarsel<
     TData = Awaited<ReturnType<typeof getVarsel>>,
-    TError = ErrorType<ApiHttpProblemDetailsGetVarselErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsGetVarselErrorCode>,
 >(
     varselId: string,
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getVarsel>>, TError, TData>> },
@@ -140,7 +143,7 @@ export const putVarselvurdering = (varselId: string, apiVarselvurdering?: ApiVar
 };
 
 export const getPutVarselvurderingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsPutVarselvurderingErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -176,10 +179,12 @@ export const getPutVarselvurderingMutationOptions = <
 
 export type PutVarselvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof putVarselvurdering>>>;
 export type PutVarselvurderingMutationBody = ApiVarselvurdering;
-export type PutVarselvurderingMutationError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>;
+export type PutVarselvurderingMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsPutVarselvurderingErrorCode
+>;
 
 export const usePutVarselvurdering = <
-    TError = ErrorType<ApiHttpProblemDetailsPutVarselvurderingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsPutVarselvurderingErrorCode>,
     TContext = unknown,
 >(
     options?: {
@@ -206,7 +211,7 @@ export const deleteVarselvurdering = (varselId: string) => {
 };
 
 export const getDeleteVarselvurderingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -236,10 +241,12 @@ export const getDeleteVarselvurderingMutationOptions = <
 
 export type DeleteVarselvurderingMutationResult = NonNullable<Awaited<ReturnType<typeof deleteVarselvurdering>>>;
 
-export type DeleteVarselvurderingMutationError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>;
+export type DeleteVarselvurderingMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsDeleteVarselvurderingErrorCode
+>;
 
 export const useDeleteVarselvurdering = <
-    TError = ErrorType<ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsDeleteVarselvurderingErrorCode>,
     TContext = unknown,
 >(
     options?: {

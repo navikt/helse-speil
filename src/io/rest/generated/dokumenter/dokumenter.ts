@@ -10,6 +10,7 @@ import type {
     ApiDokumentInntektsmelding,
     ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode,
     ApiHttpProblemDetailsApiGetSoknadErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiSoknad,
 } from '../spesialist.schemas';
 
@@ -40,7 +41,7 @@ export const getGetSoknadQueryKey = (pseudoId?: string, dokumentId?: string) => 
 
 export const getGetSoknadQueryOptions = <
     TData = Awaited<ReturnType<typeof getSoknad>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -66,11 +67,13 @@ export const getGetSoknadQueryOptions = <
 };
 
 export type GetSoknadQueryResult = NonNullable<Awaited<ReturnType<typeof getSoknad>>>;
-export type GetSoknadQueryError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>;
+export type GetSoknadQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetSoknadErrorCode
+>;
 
 export function useGetSoknad<
     TData = Awaited<ReturnType<typeof getSoknad>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -89,7 +92,7 @@ export function useGetSoknad<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetSoknad<
     TData = Awaited<ReturnType<typeof getSoknad>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -108,7 +111,7 @@ export function useGetSoknad<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetSoknad<
     TData = Awaited<ReturnType<typeof getSoknad>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -118,7 +121,7 @@ export function useGetSoknad<
 
 export function useGetSoknad<
     TData = Awaited<ReturnType<typeof getSoknad>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetSoknadErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetSoknadErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -150,7 +153,7 @@ export const getGetInntektsmeldingQueryKey = (pseudoId?: string, dokumentId?: st
 
 export const getGetInntektsmeldingQueryOptions = <
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -176,11 +179,13 @@ export const getGetInntektsmeldingQueryOptions = <
 };
 
 export type GetInntektsmeldingQueryResult = NonNullable<Awaited<ReturnType<typeof getInntektsmelding>>>;
-export type GetInntektsmeldingQueryError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>;
+export type GetInntektsmeldingQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode
+>;
 
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -199,7 +204,7 @@ export function useGetInntektsmelding<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -218,7 +223,7 @@ export function useGetInntektsmelding<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,
@@ -228,7 +233,7 @@ export function useGetInntektsmelding<
 
 export function useGetInntektsmelding<
     TData = Awaited<ReturnType<typeof getInntektsmelding>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetInntektsmeldingErrorCode>,
 >(
     pseudoId: string,
     dokumentId: string,

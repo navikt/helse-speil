@@ -4,6 +4,7 @@ import { ErrorType } from '@app/axios/orval-mutator';
 import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
+    type ApiHttpProblemDetailsPersonErrorCode,
     ApiOppgaveProjeksjon,
 } from '@io/rest/generated/spesialist.schemas';
 import {
@@ -15,7 +16,7 @@ import { atomWithSessionStorage } from '@state/jotai';
 
 interface OppgaveFeedResponse {
     oppgaver?: ApiOppgaveProjeksjon[];
-    error: ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
+    error: ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
     loading: boolean;
     antallOppgaver: number;
 }

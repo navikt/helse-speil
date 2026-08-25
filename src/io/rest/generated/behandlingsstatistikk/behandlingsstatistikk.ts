@@ -9,6 +9,7 @@ import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
     ApiBehandlingsstatistikkResponse,
     ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
 } from '../spesialist.schemas';
 
 import { useQuery } from '@tanstack/react-query';
@@ -38,7 +39,9 @@ export const getGetBehandlingsstatistikkQueryKey = () => {
 
 export const getGetBehandlingsstatistikkQueryOptions = <
     TData = Awaited<ReturnType<typeof getBehandlingsstatistikk>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode
+    >,
 >(options?: {
     query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlingsstatistikk>>, TError, TData>>;
 }) => {
@@ -57,11 +60,15 @@ export const getGetBehandlingsstatistikkQueryOptions = <
 };
 
 export type GetBehandlingsstatistikkQueryResult = NonNullable<Awaited<ReturnType<typeof getBehandlingsstatistikk>>>;
-export type GetBehandlingsstatistikkQueryError = ErrorType<ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode>;
+export type GetBehandlingsstatistikkQueryError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode
+>;
 
 export function useGetBehandlingsstatistikk<
     TData = Awaited<ReturnType<typeof getBehandlingsstatistikk>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode
+    >,
 >(
     options: {
         query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlingsstatistikk>>, TError, TData>> &
@@ -78,7 +85,9 @@ export function useGetBehandlingsstatistikk<
 ): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetBehandlingsstatistikk<
     TData = Awaited<ReturnType<typeof getBehandlingsstatistikk>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode
+    >,
 >(
     options?: {
         query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlingsstatistikk>>, TError, TData>> &
@@ -95,7 +104,9 @@ export function useGetBehandlingsstatistikk<
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 export function useGetBehandlingsstatistikk<
     TData = Awaited<ReturnType<typeof getBehandlingsstatistikk>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode
+    >,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlingsstatistikk>>, TError, TData>> },
     queryClient?: QueryClient,
@@ -103,7 +114,9 @@ export function useGetBehandlingsstatistikk<
 
 export function useGetBehandlingsstatistikk<
     TData = Awaited<ReturnType<typeof getBehandlingsstatistikk>>,
-    TError = ErrorType<ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiGetBehandlingsstatistikkErrorCode
+    >,
 >(
     options?: { query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getBehandlingsstatistikk>>, TError, TData>> },
     queryClient?: QueryClient,

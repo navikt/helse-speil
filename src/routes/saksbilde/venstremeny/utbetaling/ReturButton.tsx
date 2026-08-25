@@ -4,6 +4,7 @@ import { Button } from '@navikt/ds-react';
 
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { PostSendIReturMutationError, usePostSendIRetur } from '@io/rest/generated/oppgaver/oppgaver';
+import { somPersonFeilmelding } from '@io/rest/personFeilmeldinger';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
@@ -107,9 +108,10 @@ const somRestFeilmelding = (error: PostSendIReturMutationError): string => {
     const problemDetailsCode = error.response?.data?.code;
     if (!problemDetailsCode) return 'En feil oppsto, oppgaven kunne ikke returneres';
 
+    const personFeilmelding = somPersonFeilmelding(problemDetailsCode);
+    if (personFeilmelding != null) return personFeilmelding;
+
     switch (problemDetailsCode) {
-        case 'MANGLER_TILGANG_TIL_PERSON':
-            return 'Du har ikke tilgang til å returnere denne oppgaven';
         case 'OPPGAVE_IKKE_FUNNET':
             return 'Perioden er allerede utbetalt';
         case 'OPPGAVE_ALLEREDE_SENDT_I_RETUR':

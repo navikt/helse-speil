@@ -10,6 +10,7 @@ import type {
     ApiAnmodOmForkastingRequest,
     ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode,
     ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
     ApiVedtaksperiodeAnnullerRequest,
 } from '../spesialist.schemas';
 
@@ -31,7 +32,9 @@ export const postVedtaksperiodeAnnuller = (
 };
 
 export const getPostVedtaksperiodeAnnullerMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode
+    >,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -69,11 +72,14 @@ export type PostVedtaksperiodeAnnullerMutationResult = NonNullable<
     Awaited<ReturnType<typeof postVedtaksperiodeAnnuller>>
 >;
 export type PostVedtaksperiodeAnnullerMutationBody = ApiVedtaksperiodeAnnullerRequest;
-export type PostVedtaksperiodeAnnullerMutationError =
-    ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>;
+export type PostVedtaksperiodeAnnullerMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode
+>;
 
 export const usePostVedtaksperiodeAnnuller = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode>,
+    TError = ErrorType<
+        ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode
+    >,
     TContext = unknown,
 >(
     options?: {
@@ -110,7 +116,7 @@ export const postAnmodOmForkasting = (
 };
 
 export const getPostAnmodOmForkastingMutationOptions = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -146,10 +152,12 @@ export const getPostAnmodOmForkastingMutationOptions = <
 
 export type PostAnmodOmForkastingMutationResult = NonNullable<Awaited<ReturnType<typeof postAnmodOmForkasting>>>;
 export type PostAnmodOmForkastingMutationBody = ApiAnmodOmForkastingRequest;
-export type PostAnmodOmForkastingMutationError = ErrorType<ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode>;
+export type PostAnmodOmForkastingMutationError = ErrorType<
+    ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode
+>;
 
 export const usePostAnmodOmForkasting = <
-    TError = ErrorType<ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode>,
+    TError = ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode>,
     TContext = unknown,
 >(
     options?: {

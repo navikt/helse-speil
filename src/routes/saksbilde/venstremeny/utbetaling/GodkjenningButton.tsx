@@ -5,6 +5,7 @@ import { Button } from '@navikt/ds-react';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Personinfo, Utbetaling } from '@io/graphql';
 import { PostVedtakMutationError, usePostVedtak } from '@io/rest/generated/behandlinger/behandlinger';
+import { somPersonFeilmelding } from '@io/rest/personFeilmeldinger';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
@@ -111,9 +112,10 @@ const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
             message: 'Feil under fatting av vedtak. Kontakt utviklerteamet.',
         };
 
+    const personFeilmelding = somPersonFeilmelding(problemDetailsCode);
+    if (personFeilmelding != null) return message(personFeilmelding);
+
     switch (problemDetailsCode) {
-        case 'MANGLER_TILGANG_TIL_PERSON':
-            return message('Du har ikke tilgang til å fatte vedtak for denne personen');
         case 'OPPGAVE_IKKE_FUNNET':
             return message('Perioden er allerede utbetalt');
         case 'OPPGAVE_FEIL_TILSTAND':

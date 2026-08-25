@@ -1,14 +1,15 @@
 import type { ErrorType } from '@app/axios/orval-mutator';
 import {
-    ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
+    ApiHttpProblemDetailsPersonErrorCode,
 } from '@io/rest/generated/spesialist.schemas';
+import { somPersonFeilmelding } from '@io/rest/personFeilmeldinger';
 import { ToastObject } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
 export const opphevStansAutomatiskBehandlingToast: ToastObject = {
     key: generateId(),
-    message: 'Stans av automatisk behandling opphevet',
+    message: 'Stans av automatisk behandling er opphevet',
     variant: 'success',
     timeToLiveMs: 5000,
 };
@@ -22,37 +23,32 @@ export const stansAutomatiskBehandlingToast: ToastObject = {
 
 export const opphevStansAutomatiskBehandlingVeilederToast: ToastObject = {
     key: generateId(),
-    message: 'Veileder stans opphevet',
+    message: 'Stans fra veileder er opphevet',
     variant: 'success',
     timeToLiveMs: 5000,
 };
 
 export const somVeilederBackendfeil = (
-    error: ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
+    error: ErrorType<ApiHttpProblemDetailsPersonErrorCode | ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
 ): string => {
+    const generellFeilmelding = 'Oppheving av stans feilet av ukjent årsak, meld feilen videre';
     const problemDetailsCode = error.response?.data?.code;
-    if (!problemDetailsCode) return 'Feil ved oppretting av stans. Kontakt utviklerteamet.';
+    if (!problemDetailsCode) return generellFeilmelding;
+
+    const personFeilmelding = somPersonFeilmelding(problemDetailsCode);
+    if (personFeilmelding != null) return personFeilmelding;
 
     switch (problemDetailsCode) {
-        case 'PERSON_PSEUDO_ID_IKKE_FUNNET':
-            return 'Det skjedde en feil, hent personen på nytt og prøv igjen, kontakt utviklerteamet om feilen fortsetter.';
         case 'KAN_IKKE_OPPRETTE_VEILEDER_STANS':
-            return 'Speil har sendt en ugyldig veilederstans, kontakt utviklerteamet.';
-        case 'MANGLER_TILGANG_TIL_PERSON':
-            return 'Du har ikke tilgang til å gjøre endringer på denne personen.';
+            return 'Speil har sendt en ugyldig veilederstans, meld feilen videre';
+        default:
+            return generellFeilmelding;
     }
 };
 
-export const somSaksbehandlerBackendfeil = (
-    error: ErrorType<ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode>,
-): string => {
+export const somSaksbehandlerBackendfeil = (error: ErrorType<ApiHttpProblemDetailsPersonErrorCode>): string => {
     const problemDetailsCode = error.response?.data?.code;
-    if (!problemDetailsCode) return 'Feil ved oppretting av stans. Kontakt utviklerteamet.';
-
-    switch (problemDetailsCode) {
-        case 'PERSON_PSEUDO_ID_IKKE_FUNNET':
-            return 'Det skjedde en feil, hent personen på nytt og prøv igjen, kontakt utviklerteamet om feilen fortsetter.';
-        case 'MANGLER_TILGANG_TIL_PERSON':
-            return 'Du har ikke tilgang til å gjøre endringer på denne personen.';
-    }
+    const generellFeilmelding = 'Feil ved oppretting av stans, meld feilen videre';
+    if (!problemDetailsCode) return generellFeilmelding;
+    return somPersonFeilmelding(problemDetailsCode) ?? generellFeilmelding;
 };

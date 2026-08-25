@@ -29,6 +29,27 @@ export interface ApiAktivSaksbehandler {
     oid: string;
 }
 
+export type PersonErrorCode = (typeof PersonErrorCode)[keyof typeof PersonErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const PersonErrorCode = {
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+} as const;
+
+export type ApiHttpProblemDetailsPersonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsPersonErrorCodeCode = null | PersonErrorCode;
+
+export interface ApiHttpProblemDetailsPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsPersonErrorCodeDetail;
+    code?: ApiHttpProblemDetailsPersonErrorCodeCode;
+}
+
 export type ApiGetAktiveSaksbehandlereErrorCode =
     (typeof ApiGetAktiveSaksbehandlereErrorCode)[keyof typeof ApiGetAktiveSaksbehandlereErrorCode];
 
@@ -348,7 +369,6 @@ export type ApiPutPåVentErrorCode = (typeof ApiPutPåVentErrorCode)[keyof typeo
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPutPåVentErrorCode = {
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
 export type ApiHttpProblemDetailsApiPutPåVentErrorCodeDetail = null | string;
@@ -368,7 +388,6 @@ export type ApiDeletePåVentErrorCode = (typeof ApiDeletePåVentErrorCode)[keyof
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiDeletePåVentErrorCode = {
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
 export type ApiHttpProblemDetailsApiDeletePåVentErrorCodeDetail = null | string;
@@ -395,7 +414,6 @@ export type ApiPostSendTilGodkjenningErrorCode =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostSendTilGodkjenningErrorCode = {
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     MANGLER_VURDERING_AV_VARSLER: 'MANGLER_VURDERING_AV_VARSLER',
     TOTRINNSVURDERING_IKKE_FUNNET: 'TOTRINNSVURDERING_IKKE_FUNNET',
     OPPGAVE_ALLEREDE_SENDT_TIL_BESLUTTER: 'OPPGAVE_ALLEREDE_SENDT_TIL_BESLUTTER',
@@ -424,7 +442,6 @@ export type ApiPostSendIReturErrorCode = (typeof ApiPostSendIReturErrorCode)[key
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostSendIReturErrorCode = {
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     TOTRINNSVURDERING_IKKE_FUNNET: 'TOTRINNSVURDERING_IKKE_FUNNET',
     TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER: 'TOTRINNSVURDERING_MANGLER_SAKSBEHANDLER',
     OPPGAVE_ALLEREDE_SENDT_I_RETUR: 'OPPGAVE_ALLEREDE_SENDT_I_RETUR',
@@ -453,8 +470,6 @@ export type ApiPutTildelingErrorCode = (typeof ApiPutTildelingErrorCode)[keyof t
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPutTildelingErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     MANGLER_TILGANG_TIL_OPPGAVE: 'MANGLER_TILGANG_TIL_OPPGAVE',
     OPPGAVE_TILDELT_ANNEN_SAKSBEHANDLER: 'OPPGAVE_TILDELT_ANNEN_SAKSBEHANDLER',
 } as const;
@@ -477,7 +492,6 @@ export type ApiDeleteTildelingErrorCode =
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiDeleteTildelingErrorCode = {
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
 export type ApiHttpProblemDetailsApiDeleteTildelingErrorCodeDetail = null | string;
@@ -505,51 +519,9 @@ export interface ApiSaksbehandlerStans {
     opprettetTidspunkt?: ApiSaksbehandlerStansOpprettetTidspunkt;
 }
 
-export type ApiGetBehandlerdlerStansErrorCode =
-    (typeof ApiGetBehandlerdlerStansErrorCode)[keyof typeof ApiGetBehandlerdlerStansErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetBehandlerdlerStansErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCodeCode = null | ApiGetBehandlerdlerStansErrorCode;
-
-export interface ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCodeCode;
-}
-
 export interface ApiStansRequest {
     begrunnelse: string;
     stans: boolean;
-}
-
-export type ApiPatchSaksbehandlerStansErrorCode =
-    (typeof ApiPatchSaksbehandlerStansErrorCode)[keyof typeof ApiPatchSaksbehandlerStansErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPatchSaksbehandlerStansErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeCode = null | ApiPatchSaksbehandlerStansErrorCode;
-
-export interface ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCodeCode;
 }
 
 export type ApiVeilederStansÅrsak = (typeof ApiVeilederStansÅrsak)[keyof typeof ApiVeilederStansÅrsak];
@@ -570,34 +542,11 @@ export interface ApiVeilederStans {
     tidspunkt?: ApiVeilederStansTidspunkt;
 }
 
-export type ApiGetVeilederStansErrorCode =
-    (typeof ApiGetVeilederStansErrorCode)[keyof typeof ApiGetVeilederStansErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetVeilederStansErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetVeilederStansErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiGetVeilederStansErrorCodeCode = null | ApiGetVeilederStansErrorCode;
-
-export interface ApiHttpProblemDetailsApiGetVeilederStansErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetVeilederStansErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetVeilederStansErrorCodeCode;
-}
-
 export type ApiPatchVeilederStansErrorCode =
     (typeof ApiPatchVeilederStansErrorCode)[keyof typeof ApiPatchVeilederStansErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPatchVeilederStansErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     KAN_IKKE_OPPRETTE_VEILEDER_STANS: 'KAN_IKKE_OPPRETTE_VEILEDER_STANS',
 } as const;
 
@@ -766,8 +715,6 @@ export type ApiGetSoknadErrorCode = (typeof ApiGetSoknadErrorCode)[keyof typeof 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetSoknadErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
 } as const;
 
@@ -944,8 +891,6 @@ export type ApiGetInntektsmeldingErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetInntektsmeldingErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     FANT_IKKE_DOKUMENT: 'FANT_IKKE_DOKUMENT',
     MANGLER_FØDSELSNUMMER_OG_AKTØRID: 'MANGLER_FØDSELSNUMMER_OG_AKTØRID',
 } as const;
@@ -1086,28 +1031,6 @@ export interface ApiTilkommenInntektOpprettetEvent {
     type: ApiTilkommenInntektOpprettetEventType;
 }
 
-export type ApiGetTilkomneInntektskilderForPersonErrorCode =
-    (typeof ApiGetTilkomneInntektskilderForPersonErrorCode)[keyof typeof ApiGetTilkomneInntektskilderForPersonErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetTilkomneInntektskilderForPersonErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode =
-    null | ApiGetTilkomneInntektskilderForPersonErrorCode;
-
-export interface ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetTilkomneInntektskilderForPersonErrorCodeCode;
-}
-
 export interface ApiTilkommenInntektInput {
     organisasjonsnummer: string;
     periode: ApiDatoPeriode;
@@ -1123,27 +1046,6 @@ export interface ApiLeggTilTilkommenInntektRequest {
 
 export interface ApiLeggTilTilkommenInntektResponse {
     tilkommenInntektId: string;
-}
-
-export type ApiPostTilkomneInntekterErrorCode =
-    (typeof ApiPostTilkomneInntekterErrorCode)[keyof typeof ApiPostTilkomneInntekterErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostTilkomneInntekterErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode = null | ApiPostTilkomneInntekterErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode;
 }
 
 export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer = null | ApiPatchStringEndring;
@@ -1200,7 +1102,6 @@ export type ApiPatchTilkommenInntektErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPatchTilkommenInntektErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
     FEIL_UTGANGSPUNKT: 'FEIL_UTGANGSPUNKT',
 } as const;
@@ -1240,28 +1141,6 @@ export const ApiGraderteAndreYtelseType = {
     OPPLARINGSPENGER: 'OPPLARINGSPENGER',
 } as const;
 
-export type ApiGetGraderteAndreYtelserForPersonErrorCode =
-    (typeof ApiGetGraderteAndreYtelserForPersonErrorCode)[keyof typeof ApiGetGraderteAndreYtelserForPersonErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetGraderteAndreYtelserForPersonErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCodeCode =
-    null | ApiGetGraderteAndreYtelserForPersonErrorCode;
-
-export interface ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCodeCode;
-}
-
 export interface ApiLeggTilGraderteAndreYtelserRequest {
     fodselsnummer: string;
     perioder: ApiGraderteAndreYtelserPeriode[];
@@ -1273,59 +1152,97 @@ export interface ApiLeggTilGraderteAndreYtelserResponse {
     andreYtelserId: string;
 }
 
-export type ApiPostAndreYtelserErrorCode =
-    (typeof ApiPostAndreYtelserErrorCode)[keyof typeof ApiPostAndreYtelserErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostAndreYtelserErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostAndreYtelserErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostAndreYtelserErrorCodeCode = null | ApiPostAndreYtelserErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostAndreYtelserErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostAndreYtelserErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostAndreYtelserErrorCodeCode;
-}
-
-export interface ApiPatchGraderteAndreYtelserRequest {
+export interface ApiPatchEndreGraderteAndreYtelserRequest {
     graderteAndreYtelserId: string;
     perioder: ApiGraderteAndreYtelserPeriode[];
     andreYtelseType: ApiGraderteAndreYtelseType;
     notatTilBeslutter: string;
 }
 
-export interface ApiPatchGraderteAndreYtelserResponse {
+export interface ApiPatchEndreGraderteAndreYtelserResponse {
     andreYtelserId: string;
 }
 
-export type ApiPatchGraderteAndreYtelserErrorCode =
-    (typeof ApiPatchGraderteAndreYtelserErrorCode)[keyof typeof ApiPatchGraderteAndreYtelserErrorCode];
+export type ApiPatchEndreGraderteAndreYtelserErrorCode =
+    (typeof ApiPatchEndreGraderteAndreYtelserErrorCode)[keyof typeof ApiPatchEndreGraderteAndreYtelserErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPatchGraderteAndreYtelserErrorCode = {
+export const ApiPatchEndreGraderteAndreYtelserErrorCode = {
     GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    GRADERTE_ANDRE_YTELSER_ER_FJERNET: 'GRADERTE_ANDRE_YTELSER_ER_FJERNET',
 } as const;
 
-export type ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeCode =
-    null | ApiPatchGraderteAndreYtelserErrorCode;
+export type ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCodeCode =
+    null | ApiPatchEndreGraderteAndreYtelserErrorCode;
 
-export interface ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCode {
+export interface ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeCode;
+    detail?: ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCodeCode;
+}
+
+export interface ApiPostFjernGraderteAndreYtelserRequest {
+    notatTilBeslutter: string;
+}
+
+export interface ApiPostFjernGraderteAndreYtelserResponse {
+    andreYtelserId: string;
+}
+
+export type ApiPostFjernGraderteAndreYtelserErrorCode =
+    (typeof ApiPostFjernGraderteAndreYtelserErrorCode)[keyof typeof ApiPostFjernGraderteAndreYtelserErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostFjernGraderteAndreYtelserErrorCode = {
+    GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
+    GRADERTE_ANDRE_YTELSER_ALLEREDE_FJERNET: 'GRADERTE_ANDRE_YTELSER_ALLEREDE_FJERNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCodeCode =
+    null | ApiPostFjernGraderteAndreYtelserErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCodeCode;
+}
+
+export interface ApiPostGjenopprettGraderteAndreYtelserRequest {
+    notatTilBeslutter: string;
+}
+
+export interface ApiPostGjenopprettGraderteAndreYtelserResponse {
+    andreYtelserId: string;
+}
+
+export type ApiPostGjenopprettGraderteAndreYtelserErrorCode =
+    (typeof ApiPostGjenopprettGraderteAndreYtelserErrorCode)[keyof typeof ApiPostGjenopprettGraderteAndreYtelserErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostGjenopprettGraderteAndreYtelserErrorCode = {
+    GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
+    GRADERTE_ANDRE_YTELSER_ER_IKKE_FJERNET: 'GRADERTE_ANDRE_YTELSER_ER_IKKE_FJERNET',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCodeCode =
+    null | ApiPostGjenopprettGraderteAndreYtelserErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCodeCode;
 }
 
 export type ApiSykepengegrunnlagRequestApiSykepengegrunnlagtype = ApiSkjønnsfastsatt;
@@ -1388,27 +1305,6 @@ export interface ApiSykepengegrunnlagRequest {
     intierendeVedtaksperiodeId: string;
 }
 
-export type ApiPostSykepengegrunnlagErrorCode =
-    (typeof ApiPostSykepengegrunnlagErrorCode)[keyof typeof ApiPostSykepengegrunnlagErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPostSykepengegrunnlagErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCodeCode = null | ApiPostSykepengegrunnlagErrorCode;
-
-export interface ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCodeCode;
-}
-
 export type ApiVedtakRequestBegrunnelse = null | string;
 
 export interface ApiVedtakRequest {
@@ -1419,7 +1315,6 @@ export type ApiPostVedtakErrorCode = (typeof ApiPostVedtakErrorCode)[keyof typeo
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostVedtakErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
     OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
     SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG: 'SAKSBEHANDLER_MANGLER_BESLUTTERTILGANG',
@@ -1459,7 +1354,6 @@ export type ApiPostForkastingErrorCode = (typeof ApiPostForkastingErrorCode)[key
 export const ApiPostForkastingErrorCode = {
     BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
     OPPGAVE_IKKE_FUNNET: 'OPPGAVE_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     OPPGAVE_FEIL_TILSTAND: 'OPPGAVE_FEIL_TILSTAND',
     TOTRINNSVURDERING_SENDT_TIL_BESLUTTER: 'TOTRINNSVURDERING_SENDT_TIL_BESLUTTER',
 } as const;
@@ -1495,7 +1389,6 @@ export type ApiPostVedtaksperiodeAnnullerErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostVedtaksperiodeAnnullerErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
     ALLEREDE_ANNULLERT: 'ALLEREDE_ANNULLERT',
 } as const;
@@ -1530,7 +1423,6 @@ export type ApiPostAnmodOmForkastingErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostAnmodOmForkastingErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
     BEHANDLING_IKKE_FUNNET: 'BEHANDLING_IKKE_FUNNET',
     MANGLER_ÅRSAKER: 'MANGLER_ÅRSAKER',
@@ -1568,8 +1460,6 @@ export type ApiArbeidstidsvurderingErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiArbeidstidsvurderingErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     MISMATCH_I_IDENTITETSNUMRE: 'MISMATCH_I_IDENTITETSNUMRE',
     MANGLER_VURDERTE_PERIODER: 'MANGLER_VURDERTE_PERIODER',
 } as const;
@@ -1621,7 +1511,6 @@ export type GetVarselErrorCode = (typeof GetVarselErrorCode)[keyof typeof GetVar
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetVarselErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
 } as const;
 
@@ -1646,7 +1535,6 @@ export type PutVarselvurderingErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const PutVarselvurderingErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
     VARSEL_VURDERT_AV_ANNEN_SAKSBEHANDLER: 'VARSEL_VURDERT_AV_ANNEN_SAKSBEHANDLER',
     VARSEL_VURDERT_MED_ANNEN_DEFINISJON: 'VARSEL_VURDERT_MED_ANNEN_DEFINISJON',
@@ -1670,7 +1558,6 @@ export type DeleteVarselvurderingErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const DeleteVarselvurderingErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VARSEL_IKKE_FUNNET: 'VARSEL_IKKE_FUNNET',
     VARSEL_HAR_FEIL_STATUS: 'VARSEL_HAR_FEIL_STATUS',
 } as const;
@@ -1779,7 +1666,6 @@ export type GetNotatErrorCode = (typeof GetNotatErrorCode)[keyof typeof GetNotat
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetNotatErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
 } as const;
 
@@ -1800,7 +1686,6 @@ export type GetNotaterForVedtaksperiodeErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const GetNotaterForVedtaksperiodeErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
 } as const;
 
@@ -1829,7 +1714,6 @@ export type ApiPostNotatErrorCode = (typeof ApiPostNotatErrorCode)[keyof typeof 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostNotatErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
 } as const;
 
@@ -1853,7 +1737,6 @@ export type ApiPatchNotatErrorCode = (typeof ApiPatchNotatErrorCode)[keyof typeo
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPatchNotatErrorCode = {
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     NOTAT_IKKE_FUNNET: 'NOTAT_IKKE_FUNNET',
     KAN_IKKE_FJERNE_FEILREGISTRERING: 'KAN_IKKE_FJERNE_FEILREGISTRERING',
 } as const;
@@ -1889,9 +1772,8 @@ export type ApiPostPersonSokErrorCode = (typeof ApiPostPersonSokErrorCode)[keyof
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiPostPersonSokErrorCode = {
     FOR_MANGE_INPUTPARAMETERE: 'FOR_MANGE_INPUTPARAMETERE',
-    MANGLER_INPUTPARAMETERE: 'MANGLER_INPUTPARAMETERE',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    MANGLER_INPUTPARAMETERE: 'MANGLER_INPUTPARAMETERE',
     AKTØRID_IKKE_FUNNET: 'AKTØRID_IKKE_FUNNET',
 } as const;
 
@@ -1921,8 +1803,6 @@ export type ApiGetKrrRegistrertStatusForPersonErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetKrrRegistrertStatusForPersonErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     TIMEOUT_VED_VIDERE_KALL: 'TIMEOUT_VED_VIDERE_KALL',
 } as const;
 
@@ -1950,8 +1830,6 @@ export type ApiGetBehandlendeEnhetForPersonErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetBehandlendeEnhetForPersonErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     BEHANDLENDE_ENHET_IKKE_FUNNET: 'BEHANDLENDE_ENHET_IKKE_FUNNET',
 } as const;
 
@@ -2010,8 +1888,6 @@ export type ApiGetPersonErrorCode = (typeof ApiGetPersonErrorCode)[keyof typeof 
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetPersonErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     AKTØRID_IKKE_FUNNET: 'AKTØRID_IKKE_FUNNET',
 } as const;
@@ -2033,53 +1909,9 @@ export interface ApiNotatVedtaksperiodeId {
     notattyper: ApiNotatType[];
 }
 
-export type ApiGetNotatVedtaksperiodeIderErrorCode =
-    (typeof ApiGetNotatVedtaksperiodeIderErrorCode)[keyof typeof ApiGetNotatVedtaksperiodeIderErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetNotatVedtaksperiodeIderErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeCode =
-    null | ApiGetNotatVedtaksperiodeIderErrorCode;
-
-export interface ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetNotatVedtaksperiodeIderErrorCodeCode;
-}
-
 export interface ApiInfotrygdperiode {
     fom: string;
     tom: string;
-}
-
-export type ApiGetInfotrygdperioderForPersonErrorCode =
-    (typeof ApiGetInfotrygdperioderForPersonErrorCode)[keyof typeof ApiGetInfotrygdperioderForPersonErrorCode];
-
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGetInfotrygdperioderForPersonErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export type ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeDetail = null | string;
-
-export type ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeCode =
-    null | ApiGetInfotrygdperioderForPersonErrorCode;
-
-export interface ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    detail?: ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCodeCode;
 }
 
 export interface ApiDekning {
@@ -2146,8 +1978,6 @@ export type ApiGetForsikringsvurderingForPersonErrorCode =
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiGetForsikringsvurderingForPersonErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     FORSIKRINGSVURDERING_IKKE_FUNNET: 'FORSIKRINGSVURDERING_IKKE_FUNNET',
     FEIL_VED_VIDERE_KALL: 'FEIL_VED_VIDERE_KALL',
 } as const;

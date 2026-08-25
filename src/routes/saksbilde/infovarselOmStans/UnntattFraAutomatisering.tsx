@@ -104,7 +104,7 @@ export function UnntattFraAutomatisering({
                                     {...field}
                                     error={fieldState.error?.message}
                                     label="Begrunnelse"
-                                    description="Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
+                                    description="Kommer ikke i vedtaksbrevet, men vil bli forevist den sykmeldte ved spørsmål om innsyn."
                                     maxLength={2000}
                                 />
                             )}
