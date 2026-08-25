@@ -83,7 +83,7 @@ export const ForkastFraUberegnetDialogInnhold = ({
                     <form onSubmit={form.handleSubmit(onSubmit)} id="forkast-fra-uberegnet-skjema">
                         <BodyShort className="mb-5 italic">
                             Utviklingsteamet bruker informasjonen du gir her til å videreutvikle og forbedre Speil.
-                            Informasjonen vil ikke bli vist til bruker.
+                            Informasjonen vil ikke bli vist til den sykmeldte.
                         </BodyShort>
                         <BodyLong className="mb-4">
                             Sjekk siden{' '}

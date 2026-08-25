@@ -63,7 +63,7 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
             <Dialog.Body>
                 <BodyShort className="mb-5 italic">
                     Utviklingsteamet bruker informasjonen du gir her til å videreutvikle og forbedre Speil.
-                    Informasjonen vil ikke bli vist til bruker.
+                    Informasjonen vil ikke bli vist til den sykmeldte.
                 </BodyShort>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} id="avvisning-skjema">
@@ -77,13 +77,11 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                                     value={field.value}
                                     onChange={field.onChange}
                                 >
-                                    <BodyShort>Varsler i perioden</BodyShort>
                                     {varslerOgRiskfunn.map((valg) => (
                                         <Checkbox key={valg.value} value={valg.value}>
                                             {valg.label}
                                         </Checkbox>
                                     ))}
-                                    <BodyShort>og/eller andre årsaker til at perioden må tas ut</BodyShort>
                                     {fasteÅrsaker.map((valg) => (
                                         <Checkbox key={valg.value} value={valg.value}>
                                             {valg.label}
