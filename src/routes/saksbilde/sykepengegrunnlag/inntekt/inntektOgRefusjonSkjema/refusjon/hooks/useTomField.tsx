@@ -44,11 +44,16 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
     });
 
     const onChangeTom = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const date = dayjs(event.target.value, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
-        const validDate = date !== 'Invalid Date';
-        setTomValue(event.target.value);
-        setTomField(validDate ? date : undefined);
-        if (validDate) tomDatePicker.setSelected(new Date(date));
+        const innskrevetTom = event.target.value;
+        const dato = dayjs(innskrevetTom, NORSK_DATOFORMAT, true).format(ISO_DATOFORMAT);
+        const validDate = dato !== 'Invalid Date';
+        setTomValue(innskrevetTom);
+        if (validDate) {
+            setTomField(dato);
+            tomDatePicker.setSelected(new Date(dato));
+        } else {
+            setTomField(innskrevetTom === '' ? undefined : innskrevetTom);
+        }
     };
 
     return {

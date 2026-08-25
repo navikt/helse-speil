@@ -40,10 +40,13 @@ describe('Refusjonskjema', () => {
         const methods = useForm();
         return (
             <FormProvider {...methods}>
-                <RefusjonSkjema
-                    fraRefusjonsopplysninger={fraRefusjonsopplysninger ?? []}
-                    lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger ?? []}
-                />
+                <form onSubmit={methods.handleSubmit(() => {})}>
+                    <RefusjonSkjema
+                        fraRefusjonsopplysninger={fraRefusjonsopplysninger ?? []}
+                        lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger ?? []}
+                    />
+                    <button type="submit">Lagre</button>
+                </form>
             </FormProvider>
         );
     };
@@ -78,5 +81,16 @@ describe('Refusjonskjema', () => {
         const knapper = await screen.findAllByRole('button', { name: 'Legg til' });
         await userEvent.click(knapper[0]!);
         expect(screen.queryAllByTestId('refusjonsopplysningrad')).toHaveLength(2);
+    });
+
+    it('skal vise feilmelding og beholde verdien når til og med dato har ugyldig format', async () => {
+        render(<TestRefusjonSkjema fraRefusjonsopplysninger={to_refusjonsopplysninger} />);
+        const tomFelt = (await screen.findAllByLabelText('Til og med dato'))[0]!;
+        await userEvent.clear(tomFelt);
+        await userEvent.type(tomFelt, '32.13.2020');
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(await screen.findByText('Datoen må ha format dd.mm.åååå')).toBeInTheDocument();
+        expect(tomFelt).toHaveValue('32.13.2020');
     });
 });
