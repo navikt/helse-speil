@@ -2,7 +2,16 @@ import { ZodError, z } from 'zod/v4';
 
 export type PublicEnv = z.infer<typeof browserEnvSchema>;
 export const browserEnvSchema = z.object({
-    NEXT_PUBLIC_RUNTIME_ENV: z.enum(['test', 'dev', 'lokal', 'lokal-spesialist', 'lokal-sporhund', 'lokal-vilkarsproving', 'prod', 'mock']),
+    NEXT_PUBLIC_RUNTIME_ENV: z.enum([
+        'test',
+        'dev',
+        'lokal',
+        'lokal-spesialist',
+        'lokal-sporhund',
+        'lokal-vilkarsproving',
+        'prod',
+        'mock',
+    ]),
     NEXT_PUBLIC_ASSET_PREFIX: z.string().optional(),
     NEXT_PUBLIC_TELEMETRY_URL: z.string().optional(),
 });
@@ -22,7 +31,7 @@ export const serverEnvSchema = z.object({
     SPORHUND_SCOPE: z.string(),
     SPORHUND_BASEURL: z.string(),
     VILKARSPROVING_SCOPE: z.string(),
-    VILKARSPROVING_BASEURL: z.string(),    
+    VILKARSPROVING_BASEURL: z.string(),
     SYFO_SCOPE: z.string().optional(),
     SYFO_BASEURL: z.string().optional(),
     AZURE_APP_CLIENT_ID: z.string(),
@@ -110,7 +119,13 @@ export function getServerEnv(): ServerEnv & PublicEnv {
         }
     }
 }
-const backendVariant = (): 'mock' | 'lokal' | 'lokal-spesialist' | 'lokal-sporhund' | 'lokal-vilkarsproving' | 'deployed' => {
+const backendVariant = ():
+    | 'mock'
+    | 'lokal'
+    | 'lokal-spesialist'
+    | 'lokal-sporhund'
+    | 'lokal-vilkarsproving'
+    | 'deployed' => {
     switch (browserEnv.NEXT_PUBLIC_RUNTIME_ENV) {
         case 'test':
         case 'mock':
