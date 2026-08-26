@@ -17,7 +17,7 @@ export function VenstremenyDialogmelding(): ReactElement {
             gap="space-16"
             paddingInline="space-16"
             paddingBlock="space-16"
-            className="w-91.5 border-r border-r-ax-border-neutral-subtle [grid-area:venstremeny]"
+            className="w-[366px] border-r border-r-ax-border-neutral-subtle [grid-area:venstremeny]"
         >
             <VisHvisSkrivetilgang>
                 <Button
