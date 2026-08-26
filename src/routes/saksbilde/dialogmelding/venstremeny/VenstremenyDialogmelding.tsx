@@ -5,6 +5,7 @@ import React, { ReactElement } from 'react';
 import { NotePencilIcon } from '@navikt/aksel-icons';
 import { Button, VStack } from '@navikt/ds-react';
 
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { DialogmeldingListe } from '@saksbilde/dialogmelding/venstremeny/DialogmeldingListe';
 
 export function VenstremenyDialogmelding(): ReactElement {
@@ -16,18 +17,20 @@ export function VenstremenyDialogmelding(): ReactElement {
             gap="space-16"
             paddingInline="space-16"
             paddingBlock="space-16"
-            className="w-[366px] border-r border-r-ax-border-neutral-subtle [grid-area:venstremeny]"
+            className="w-91.5 border-r border-r-ax-border-neutral-subtle [grid-area:venstremeny]"
         >
-            <Button
-                as={Link}
-                href={`/person/${personPseudoId}/dialogmelding/ny`}
-                variant="primary"
-                size="small"
-                className="self-start"
-                icon={<NotePencilIcon />}
-            >
-                Ny dialogmelding
-            </Button>
+            <VisHvisSkrivetilgang>
+                <Button
+                    as={Link}
+                    href={`/person/${personPseudoId}/dialogmelding/ny`}
+                    variant="primary"
+                    size="small"
+                    className="self-start"
+                    icon={<NotePencilIcon />}
+                >
+                    Ny dialogmelding
+                </Button>
+            </VisHvisSkrivetilgang>
             <DialogmeldingListe />
         </VStack>
     );

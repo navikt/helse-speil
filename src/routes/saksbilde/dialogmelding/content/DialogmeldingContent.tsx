@@ -3,19 +3,48 @@
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
+
+
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
+
+
 import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { behandlerKategoriLabels, formatLegekontorAdresse } from '@utils/behandlerUtils';
 import { formatNavn } from '@utils/navnUtils';
+
+
 
 import { DialogFerdigstiltSwitch } from './DialogFerdigstiltSwitch';
 import { DialogmeldingContentError } from './DialogmeldingContentError';
 import { DialogmeldingContentSkeleton } from './DialogmeldingContentSkeleton';
 import { DialogmeldingKort } from './DialogmeldingKort';
 import { SvarPåDialogForm } from './SvarPåDialogForm';
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export function DialogmeldingContent(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId: string }>();
@@ -54,11 +83,13 @@ export function DialogmeldingContent(): ReactElement {
                         <BodyShort size="small">Org.nr.: {behandler.legekontor.orgnummer || '-'}</BodyShort>
                         <BodyShort size="small">Tlf: {behandler.telefonnummer || '-'}</BodyShort>
                     </HStack>
-                    <DialogFerdigstiltSwitch
-                        personPseudoId={personPseudoId}
-                        dialogId={dialogId}
-                        initialFerdigstilt={status === ApiDialogmeldingStatus.FERDIGSTILT}
-                    />
+                    <VisHvisSkrivetilgang>
+                        <DialogFerdigstiltSwitch
+                            personPseudoId={personPseudoId}
+                            dialogId={dialogId}
+                            initialFerdigstilt={status === ApiDialogmeldingStatus.FERDIGSTILT}
+                        />
+                    </VisHvisSkrivetilgang>
                 </VStack>
                 <VStack gap="space-24">
                     {sortert.map((melding, index) => (
@@ -70,7 +101,9 @@ export function DialogmeldingContent(): ReactElement {
                         />
                     ))}
                 </VStack>
-                {status !== ApiDialogmeldingStatus.FERDIGSTILT && <SvarPåDialogForm />}
+                <VisHvisSkrivetilgang>
+                    {status !== ApiDialogmeldingStatus.FERDIGSTILT && <SvarPåDialogForm />}
+                </VisHvisSkrivetilgang>
             </VStack>
         </Box>
     );
