@@ -1,10 +1,10 @@
 import React from 'react';
-import {useController} from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
-import {DatePicker, useDatepicker} from '@navikt/ds-react';
+import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
-import {DatePeriod, DateString} from '@typer/shared';
-import {dateTilNorskDato, erGyldigNorskDato, norskDatoTilDate, plussEnDag, somDate} from '@utils/date';
+import { DatePeriod, DateString } from '@typer/shared';
+import { dateTilNorskDato, erGyldigNorskDato, norskDatoTilDate, plussEnDag, somDate } from '@utils/date';
 
 type ControlledDatePickerProps = {
     name: string;

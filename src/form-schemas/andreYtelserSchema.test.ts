@@ -34,25 +34,33 @@ describe('andre ytelser skjemavalidering', () => {
 
     it('fom skal være gyldig dato', () => {
         expect(
-            hentFeilmelding(validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '32.01.2020', tom: '03.01.2020', grad: 100 }])),
+            hentFeilmelding(
+                validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '32.01.2020', tom: '03.01.2020', grad: 100 }]),
+            ),
         ).toBe('Fra og med-datoen er ikke en gyldig norsk dato');
     });
 
     it('tom skal være gyldig dato', () => {
         expect(
-            hentFeilmelding(validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '01.01.2020', tom: '99.01.2020', grad: 100 }])),
+            hentFeilmelding(
+                validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '01.01.2020', tom: '99.01.2020', grad: 100 }]),
+            ),
         ).toBe('Til og med-datoen er ikke en gyldig norsk dato');
     });
 
     it('fom skal være før tom', () => {
         expect(
-            hentFeilmelding(validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '03.01.2020', tom: '01.01.2020', grad: 60 }])),
+            hentFeilmelding(
+                validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '03.01.2020', tom: '01.01.2020', grad: 60 }]),
+            ),
         ).toBe('Fra og med-dato må være før eller lik til og med-dato');
     });
 
     it('periode skal være innenfor et sykefraværstilfelle', () => {
         expect(
-            hentFeilmelding(validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '01.01.2020', tom: '20.02.2020', grad: 60 }])),
+            hentFeilmelding(
+                validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '01.01.2020', tom: '20.02.2020', grad: 60 }]),
+            ),
         ).toBe('Oppgitt periode må være innenfor et sykefraværstilfelle');
     });
 
@@ -70,7 +78,9 @@ describe('andre ytelser skjemavalidering', () => {
 
     it('grad må være minst 1', () => {
         expect(
-            hentFeilmelding(validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '01.01.2020', tom: '03.01.2020', grad: 0 }])),
+            hentFeilmelding(
+                validerAndreYtelserSkjema('Foreldrepenger', [{ fom: '01.01.2020', tom: '03.01.2020', grad: 0 }]),
+            ),
         ).toBe('Grad må være minst 1');
     });
 

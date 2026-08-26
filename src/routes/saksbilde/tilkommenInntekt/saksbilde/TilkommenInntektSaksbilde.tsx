@@ -1,10 +1,10 @@
-import React, {PropsWithChildren} from 'react';
+import React, { PropsWithChildren } from 'react';
 
-import {Box, HStack, Tabs, VStack} from '@navikt/ds-react';
+import { Box, HStack, Tabs, VStack } from '@navikt/ds-react';
 
-import {VisHvisSkrivetilgang} from '@components/VisHvisSkrivetilgang';
-import {SaksbildeDropdownMenu} from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
-import {useFetchPersonQuery} from '@state/person';
+import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
+import { useFetchPersonQuery } from '@state/person';
 
 export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
     const { data: personData } = useFetchPersonQuery();

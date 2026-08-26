@@ -45,4 +45,3 @@ describe('AngreOverstyrArbeidsforholdUtenSykdom', () => {
         ).not.toBeInTheDocument();
     });
 });
-

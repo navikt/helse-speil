@@ -1,30 +1,30 @@
-import {useParams, useRouter} from 'next/navigation';
-import React, {ReactElement, useEffect, useMemo, useState} from 'react';
-import {Controller, FormProvider, useForm, useWatch} from 'react-hook-form';
+import { useParams, useRouter } from 'next/navigation';
+import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import {Button, ErrorMessage, HGrid, HStack, Textarea, TextField, VStack} from '@navikt/ds-react';
-import {Box} from '@navikt/ds-react/Box';
+import { Button, ErrorMessage, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
+import { Box } from '@navikt/ds-react/Box';
 
-import {lagTilkommenInntektSchema, TilkommenInntektSchema} from '@/form-schemas';
-import {Organisasjonsnavn} from '@components/Inntektsforholdnavn';
-import {erGyldigOrganisasjonsnummer, useOrganisasjonQuery} from '@external/sparkel-aareg/useOrganisasjonQuery';
-import {zodResolver} from '@hookform/resolvers/zod';
-import {usePostTilkomneInntekter} from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
-import {ControlledDatePicker} from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
-import {TilkommenInntektSkjemaTabell} from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemaTabell';
+import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
+import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
+import { erGyldigOrganisasjonsnummer, useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { usePostTilkomneInntekter } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
+import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
+import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemaTabell';
 import {
     beregnInntektPerDag,
     tilPerioderPerOrganisasjonsnummer,
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-import {finnAlleInntektsforhold} from '@state/inntektsforhold/inntektsforhold';
-import {useFetchPersonQuery} from '@state/person';
-import {useNavigerTilTilkommenInntekt} from '@state/routing';
-import {tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery} from '@state/tilkommenInntekt';
-import {useTilkommenInntektFormDraft} from '@state/tilkommenInntektSkjema';
-import {erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag} from '@utils/date';
-import {toKronerOgØre} from '@utils/locale';
-import {isNumber} from '@utils/typeguards';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useFetchPersonQuery } from '@state/person';
+import { useNavigerTilTilkommenInntekt } from '@state/routing';
+import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag } from '@utils/date';
+import { toKronerOgØre } from '@utils/locale';
+import { isNumber } from '@utils/typeguards';
 
 export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
     const { data: personData } = useFetchPersonQuery();
@@ -152,7 +152,6 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
             setIsSubmitting(false);
         }
     };
-
 
     return (
         <FormProvider {...form}>

@@ -1,17 +1,17 @@
 'use client';
 
-import {useParams, useRouter} from 'next/navigation';
-import React, {ReactElement, useState} from 'react';
+import { useParams, useRouter } from 'next/navigation';
+import React, { ReactElement, useState } from 'react';
 
-import {TilkommenInntektSchema} from '@/form-schemas';
-import {ApiTilkommenInntekt} from '@io/rest/generated/spesialist.schemas';
-import {usePostTilkomneInntekter} from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
-import {TilkommenInntektSkjema} from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
-import {useFetchPersonQuery} from '@state/person';
-import {useNavigerTilTilkommenInntekt} from '@state/routing';
-import {tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery} from '@state/tilkommenInntekt';
-import {useTilkommenInntektFormDraft} from '@state/tilkommenInntektSkjema';
-import {norskDatoTilIsoDato} from '@utils/date';
+import { TilkommenInntektSchema } from '@/form-schemas';
+import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
+import { usePostTilkomneInntekter } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
+import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';
+import { useFetchPersonQuery } from '@state/person';
+import { useNavigerTilTilkommenInntekt } from '@state/routing';
+import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
+import { norskDatoTilIsoDato } from '@utils/date';
 
 export const LeggTilTilkommenInntektView = (): ReactElement | null => {
     const { data: personData } = useFetchPersonQuery();
