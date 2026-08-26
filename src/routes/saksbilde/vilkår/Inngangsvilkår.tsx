@@ -104,14 +104,12 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 fødselsdato={person.personinfo.fodselsdato!}
             />
-            {visSpleisTolkningAvOpptjening &&
-                (vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' ||
-                    vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2') && (
-                    <OpptjeningVilkårsvurderingDebug
-                        personPseudoId={personPseudoId}
-                        opptjeningsvurderingId={vilkårsgrunnlag.opptjeningsvurderingId}
-                    />
-                )}
+            {visSpleisTolkningAvOpptjening && vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' && (
+                <OpptjeningVilkårsvurderingDebug
+                    personPseudoId={personPseudoId}
+                    opptjeningsvurderingId={vilkårsgrunnlag.opptjeningsvurderingId}
+                />
+            )}
         </>
     );
 };

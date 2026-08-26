@@ -1140,7 +1140,6 @@ export type VilkarsgrunnlagInfotrygdV2 = VilkarsgrunnlagV2 & {
     id: Scalars['UUID']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float']['output'];
-    opptjeningsvurderingId: Scalars['UUID']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
 };
