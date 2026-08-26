@@ -1140,6 +1140,7 @@ export type VilkarsgrunnlagInfotrygdV2 = VilkarsgrunnlagV2 & {
     id: Scalars['UUID']['output'];
     inntekter: Array<Arbeidsgiverinntekt>;
     omregnetArsinntekt: Scalars['Float']['output'];
+    opptjeningsvurderingId: Scalars['UUID']['output'];
     skjaeringstidspunkt: Scalars['LocalDate']['output'];
     sykepengegrunnlag: Scalars['Float']['output'];
 };
@@ -2132,6 +2133,7 @@ export type ArbeidsgiverFragment = {
 export type VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment = {
     __typename: 'VilkarsgrunnlagInfotrygdV2';
     omregnetArsinntekt: number;
+    opptjeningsvurderingId: string;
     id: string;
     sykepengegrunnlag: number;
     skjaeringstidspunkt: string;
@@ -3865,6 +3867,7 @@ export type PersonFragment = {
         | {
               __typename: 'VilkarsgrunnlagInfotrygdV2';
               omregnetArsinntekt: number;
+              opptjeningsvurderingId: string;
               id: string;
               sykepengegrunnlag: number;
               skjaeringstidspunkt: string;
@@ -5552,6 +5555,7 @@ export type FetchPersonQuery = {
             | {
                   __typename: 'VilkarsgrunnlagInfotrygdV2';
                   omregnetArsinntekt: number;
+                  opptjeningsvurderingId: string;
                   id: string;
                   sykepengegrunnlag: number;
                   skjaeringstidspunkt: string;
@@ -8278,7 +8282,10 @@ export const VilkarsgrunnlagV2FragmentDoc = {
                         },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } }],
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningsvurderingId' } },
+                            ],
                         },
                     },
                 ],
@@ -10931,7 +10938,10 @@ export const PersonFragmentDoc = {
                         },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } }],
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningsvurderingId' } },
+                            ],
                         },
                     },
                 ],
@@ -12437,7 +12447,10 @@ export const FetchPersonDocument = {
                         },
                         selectionSet: {
                             kind: 'SelectionSet',
-                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } }],
+                            selections: [
+                                { kind: 'Field', name: { kind: 'Name', value: 'omregnetArsinntekt' } },
+                                { kind: 'Field', name: { kind: 'Name', value: 'opptjeningsvurderingId' } },
+                            ],
                         },
                     },
                 ],

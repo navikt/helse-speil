@@ -48,6 +48,7 @@ const getVilkårsgrunnlagInfotrygd = (): VilkarsgrunnlagInfotrygdV2 => ({
     skjaeringstidspunkt: '2022-01-01',
     sykepengegrunnlag: 1234567,
     omregnetArsinntekt: 1234567,
+    opptjeningsvurderingId: 'en-opptjeningsvurdering-id',
 });
 
 const getVurdering = (overrides?: Partial<Vurdering>): Vurdering => ({

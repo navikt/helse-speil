@@ -60,6 +60,7 @@ export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<
     id: generateId(),
     inntekter: [enArbeidsgiverinntekt()],
     omregnetArsinntekt: 600000,
+    opptjeningsvurderingId: 'a1b2c3d4-0000-4000-8000-000000000002',
     sammenligningsgrunnlag: 600000,
     skjaeringstidspunkt: '2020-01-01',
     sykepengegrunnlag: 600000,
