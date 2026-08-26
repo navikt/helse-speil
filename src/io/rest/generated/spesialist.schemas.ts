@@ -1221,6 +1221,7 @@ export interface ApiGraderteAndreYtelser {
     andreYtelserId: string;
     perioder: ApiGraderteAndreYtelserPeriode[];
     andreYtelseType: ApiGraderteAndreYtelseType;
+    fjernet: boolean;
 }
 
 export interface ApiGraderteAndreYtelserPeriode {
@@ -1294,38 +1295,103 @@ export interface ApiHttpProblemDetailsApiPostAndreYtelserErrorCode {
     code?: ApiHttpProblemDetailsApiPostAndreYtelserErrorCodeCode;
 }
 
-export interface ApiPatchGraderteAndreYtelserRequest {
+export interface ApiPatchEndreGraderteAndreYtelserRequest {
     graderteAndreYtelserId: string;
     perioder: ApiGraderteAndreYtelserPeriode[];
     andreYtelseType: ApiGraderteAndreYtelseType;
     notatTilBeslutter: string;
 }
 
-export interface ApiPatchGraderteAndreYtelserResponse {
+export interface ApiPatchEndreGraderteAndreYtelserResponse {
     andreYtelserId: string;
 }
 
-export type ApiPatchGraderteAndreYtelserErrorCode =
-    (typeof ApiPatchGraderteAndreYtelserErrorCode)[keyof typeof ApiPatchGraderteAndreYtelserErrorCode];
+export type ApiPatchEndreGraderteAndreYtelserErrorCode =
+    (typeof ApiPatchEndreGraderteAndreYtelserErrorCode)[keyof typeof ApiPatchEndreGraderteAndreYtelserErrorCode];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiPatchGraderteAndreYtelserErrorCode = {
+export const ApiPatchEndreGraderteAndreYtelserErrorCode = {
     GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
+    GRADERTE_ANDRE_YTELSER_ER_FJERNET: 'GRADERTE_ANDRE_YTELSER_ER_FJERNET',
     PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
 } as const;
 
-export type ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeDetail = null | string;
+export type ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCodeDetail = null | string;
 
-export type ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeCode =
-    null | ApiPatchGraderteAndreYtelserErrorCode;
+export type ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCodeCode =
+    null | ApiPatchEndreGraderteAndreYtelserErrorCode;
 
-export interface ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCode {
+export interface ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCode {
     type: string;
     status: number;
     title: string;
-    detail?: ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeDetail;
-    code?: ApiHttpProblemDetailsApiPatchGraderteAndreYtelserErrorCodeCode;
+    detail?: ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCodeCode;
+}
+
+export interface ApiPostFjernGraderteAndreYtelserRequest {
+    notatTilBeslutter: string;
+}
+
+export interface ApiPostFjernGraderteAndreYtelserResponse {
+    andreYtelserId: string;
+}
+
+export type ApiPostFjernGraderteAndreYtelserErrorCode =
+    (typeof ApiPostFjernGraderteAndreYtelserErrorCode)[keyof typeof ApiPostFjernGraderteAndreYtelserErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostFjernGraderteAndreYtelserErrorCode = {
+    GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
+    GRADERTE_ANDRE_YTELSER_ALLEREDE_FJERNET: 'GRADERTE_ANDRE_YTELSER_ALLEREDE_FJERNET',
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCodeCode =
+    null | ApiPostFjernGraderteAndreYtelserErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCodeCode;
+}
+
+export interface ApiPostGjenopprettGraderteAndreYtelserRequest {
+    notatTilBeslutter: string;
+}
+
+export interface ApiPostGjenopprettGraderteAndreYtelserResponse {
+    andreYtelserId: string;
+}
+
+export type ApiPostGjenopprettGraderteAndreYtelserErrorCode =
+    (typeof ApiPostGjenopprettGraderteAndreYtelserErrorCode)[keyof typeof ApiPostGjenopprettGraderteAndreYtelserErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiPostGjenopprettGraderteAndreYtelserErrorCode = {
+    GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
+    GRADERTE_ANDRE_YTELSER_ER_IKKE_FJERNET: 'GRADERTE_ANDRE_YTELSER_ER_IKKE_FJERNET',
+    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCodeCode =
+    null | ApiPostGjenopprettGraderteAndreYtelserErrorCode;
+
+export interface ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCodeCode;
 }
 
 export type ApiSykepengegrunnlagRequestApiSykepengegrunnlagtype = ApiSkjønnsfastsatt;
@@ -1546,6 +1612,157 @@ export interface ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode {
     title: string;
     detail?: ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCodeDetail;
     code?: ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCodeCode;
+}
+
+export type ApiOverstyrTidslinjeRequestDagGrad = null | number;
+
+export type ApiOverstyrTidslinjeRequestDagFraGrad = null | number;
+
+export type ApiOverstyrTidslinjeRequestDagLovhjemmel = null | ApiLovhjemmel;
+
+export interface ApiOverstyrTidslinjeRequestDag {
+    dato: string;
+    type: string;
+    fraType: string;
+    grad?: ApiOverstyrTidslinjeRequestDagGrad;
+    fraGrad?: ApiOverstyrTidslinjeRequestDagFraGrad;
+    lovhjemmel?: ApiOverstyrTidslinjeRequestDagLovhjemmel;
+}
+
+export type ApiLovhjemmelLedd = null | string;
+
+export type ApiLovhjemmelBokstav = null | string;
+
+export interface ApiLovhjemmel {
+    paragraf: string;
+    ledd?: ApiLovhjemmelLedd;
+    bokstav?: ApiLovhjemmelBokstav;
+    lovverk: string;
+    lovverksversjon: string;
+}
+
+export interface ApiOverstyrTidslinjeRequest {
+    begrunnelse: string;
+    dager: ApiOverstyrTidslinjeRequestDag[];
+}
+
+export type ApiOverstyrTidslinjeErrorCode =
+    (typeof ApiOverstyrTidslinjeErrorCode)[keyof typeof ApiOverstyrTidslinjeErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiOverstyrTidslinjeErrorCode = {
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiOverstyrTidslinjeErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiOverstyrTidslinjeErrorCodeCode = null | ApiOverstyrTidslinjeErrorCode;
+
+export interface ApiHttpProblemDetailsApiOverstyrTidslinjeErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiOverstyrTidslinjeErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiOverstyrTidslinjeErrorCodeCode;
+}
+
+export type ApiOverstyrInntektOgRefusjonRequestArbeidsgiverRefusjonsopplysninger =
+    | null
+    | ApiOverstyrInntektOgRefusjonRequestRefusjonselement[];
+
+export type ApiOverstyrInntektOgRefusjonRequestArbeidsgiverFraRefusjonsopplysninger =
+    | null
+    | ApiOverstyrInntektOgRefusjonRequestRefusjonselement[];
+
+export type ApiOverstyrInntektOgRefusjonRequestArbeidsgiverLovhjemmel = null | ApiLovhjemmel;
+
+export type ApiOverstyrInntektOgRefusjonRequestArbeidsgiverFom = null | string;
+
+export type ApiOverstyrInntektOgRefusjonRequestArbeidsgiverTom = null | string;
+
+export interface ApiOverstyrInntektOgRefusjonRequestArbeidsgiver {
+    organisasjonsnummer: string;
+    månedligInntekt: number;
+    fraMånedligInntekt: number;
+    refusjonsopplysninger?: ApiOverstyrInntektOgRefusjonRequestArbeidsgiverRefusjonsopplysninger;
+    fraRefusjonsopplysninger?: ApiOverstyrInntektOgRefusjonRequestArbeidsgiverFraRefusjonsopplysninger;
+    begrunnelse: string;
+    forklaring: string;
+    lovhjemmel?: ApiOverstyrInntektOgRefusjonRequestArbeidsgiverLovhjemmel;
+    fom?: ApiOverstyrInntektOgRefusjonRequestArbeidsgiverFom;
+    tom?: ApiOverstyrInntektOgRefusjonRequestArbeidsgiverTom;
+}
+
+export type ApiOverstyrInntektOgRefusjonRequestRefusjonselementTom = null | string;
+
+export interface ApiOverstyrInntektOgRefusjonRequestRefusjonselement {
+    fom: string;
+    tom?: ApiOverstyrInntektOgRefusjonRequestRefusjonselementTom;
+    beløp: number;
+}
+
+export interface ApiOverstyrInntektOgRefusjonRequest {
+    skjæringstidspunkt: string;
+    arbeidsgivere: ApiOverstyrInntektOgRefusjonRequestArbeidsgiver[];
+}
+
+export type ApiOverstyrInntektOgRefusjonErrorCode =
+    (typeof ApiOverstyrInntektOgRefusjonErrorCode)[keyof typeof ApiOverstyrInntektOgRefusjonErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiOverstyrInntektOgRefusjonErrorCode = {
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiOverstyrInntektOgRefusjonErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiOverstyrInntektOgRefusjonErrorCodeCode =
+    null | ApiOverstyrInntektOgRefusjonErrorCode;
+
+export interface ApiHttpProblemDetailsApiOverstyrInntektOgRefusjonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiOverstyrInntektOgRefusjonErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiOverstyrInntektOgRefusjonErrorCodeCode;
+}
+
+export type ApiOverstyrArbeidsforholdRequestArbeidsforholdLovhjemmel = null | ApiLovhjemmel;
+
+export interface ApiOverstyrArbeidsforholdRequestArbeidsforhold {
+    organisasjonsnummer: string;
+    deaktivert: boolean;
+    begrunnelse: string;
+    forklaring: string;
+    lovhjemmel?: ApiOverstyrArbeidsforholdRequestArbeidsforholdLovhjemmel;
+}
+
+export interface ApiOverstyrArbeidsforholdRequest {
+    skjæringstidspunkt: string;
+    overstyrteArbeidsforhold: ApiOverstyrArbeidsforholdRequestArbeidsforhold[];
+}
+
+export type ApiOverstyrArbeidsforholdErrorCode =
+    (typeof ApiOverstyrArbeidsforholdErrorCode)[keyof typeof ApiOverstyrArbeidsforholdErrorCode];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiOverstyrArbeidsforholdErrorCode = {
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export type ApiHttpProblemDetailsApiOverstyrArbeidsforholdErrorCodeDetail = null | string;
+
+export type ApiHttpProblemDetailsApiOverstyrArbeidsforholdErrorCodeCode = null | ApiOverstyrArbeidsforholdErrorCode;
+
+export interface ApiHttpProblemDetailsApiOverstyrArbeidsforholdErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    detail?: ApiHttpProblemDetailsApiOverstyrArbeidsforholdErrorCodeDetail;
+    code?: ApiHttpProblemDetailsApiOverstyrArbeidsforholdErrorCodeCode;
 }
 
 export interface ApiArbeidstidsvurderingRequestArbeidsgiver {

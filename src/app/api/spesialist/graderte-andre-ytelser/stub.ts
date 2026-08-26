@@ -12,6 +12,7 @@ export const stub = async (request: Request) => {
         andreYtelserId: nyAndreYtelserId,
         andreYtelseType: requestBody.andreYtelseType,
         perioder: requestBody.perioder,
+        fjernet: false,
     };
 
     GraderteAndreYtelserMock.leggTil(requestBody.fodselsnummer, graderteAndreYtelser);
