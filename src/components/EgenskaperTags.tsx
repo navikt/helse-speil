@@ -65,6 +65,8 @@ const tilTekst = (egenskap: ApiEgenskap) => {
             return 'Selvstendig næringsdrivende';
         case ApiEgenskap.JORDBRUKER_REINDRIFT:
             return 'Jordbruk / Reindrift';
+        case ApiEgenskap.FORSIKRING:
+            return 'Forsikring';
         default:
             return egenskap.toString();
     }
