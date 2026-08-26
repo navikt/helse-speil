@@ -198,6 +198,8 @@ export const finnKategori = (kolonne: string) => {
         case Oppgaveoversiktkolonne.STATUS:
         case Oppgaveoversiktkolonne.PÅVENT:
             return Kategori.Status;
+        case Oppgaveoversiktkolonne.INNTEKTSFORHOLD:
+            return Kategori.Inntektsforhold;
         default:
             return Kategori.Ukategorisert;
     }
