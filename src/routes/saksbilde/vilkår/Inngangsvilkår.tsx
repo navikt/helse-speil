@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { Alert } from '@navikt/ds-react';
@@ -13,11 +14,13 @@ import {
 } from '@io/graphql';
 import { OppfylteVilkår } from '@saksbilde/vilkår/vilkårsgrupper/OppfylteVilkår';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useVisSpleisTolkningAvOpptjening } from '@state/toggles';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
+import { OpptjeningVilkårsvurderingDebug } from './OpptjeningVilkårsvurderingDebug';
 import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
@@ -88,14 +91,26 @@ interface InngangsvilkårContainerProps {
 
 const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerProps): ReactElement | null => {
     const inntektsforhold = useAktivtInntektsforhold(person);
+    const visSpleisTolkningAvOpptjening = useVisSpleisTolkningAvOpptjening();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId);
+
     return (
-        <InngangsvilkårWithContent
-            erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
-            vurdering={periode.utbetaling.vurdering}
-            periodeFom={periode.fom}
-            vilkårsgrunnlag={getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId)}
-            fødselsdato={person.personinfo.fodselsdato!}
-        />
+        <>
+            <InngangsvilkårWithContent
+                erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
+                vurdering={periode.utbetaling.vurdering}
+                periodeFom={periode.fom}
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                fødselsdato={person.personinfo.fodselsdato!}
+            />
+            {visSpleisTolkningAvOpptjening && vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' && (
+                <OpptjeningVilkårsvurderingDebug
+                    personPseudoId={personPseudoId}
+                    opptjeningsvurderingId={vilkårsgrunnlag.opptjeningsvurderingId}
+                />
+            )}
+        </>
     );
 };
 

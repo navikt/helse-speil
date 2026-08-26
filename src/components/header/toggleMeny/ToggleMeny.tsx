@@ -18,6 +18,12 @@ export function ToggleMeny(): ReactElement {
                         <Checkbox value="kanBeslutteEgne" onChange={toggle('kanBeslutteEgne')}>
                             Kan beslutte egen beslutteroppgave
                         </Checkbox>
+                        <Checkbox
+                            value="visSpleisTolkningAvOpptjening"
+                            onChange={toggle('visSpleisTolkningAvOpptjening')}
+                        >
+                            Vis JSON fra vilkårsprøving (opptjening)
+                        </Checkbox>
                     </CheckboxGroup>
                 </form>
             </Dialog.Body>
@@ -28,5 +34,6 @@ export function ToggleMeny(): ReactElement {
 const toggleStateToCheckboxValue = (state: ToggleState): string[] => {
     const array: string[] = [];
     if (state.kanBeslutteEgne) array.push('kanBeslutteEgne');
+    if (state.visSpleisTolkningAvOpptjening) array.push('visSpleisTolkningAvOpptjening');
     return array;
 };
