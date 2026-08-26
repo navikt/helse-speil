@@ -245,14 +245,13 @@ const PeriodeCardBeregnet = ({
     dødsdato,
 }: PeriodeCardBeregnetProps): ReactElement => {
     const egenskaper = periode.egenskaper.map((it) => it.egenskap);
+    const jordbrukerReindrift = egenskaper.includes(Egenskap.JordbrukerReindrift);
+
     const egenskaperForVisning = periode.egenskaper
         .filter((it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde)
-        .filter((it) => {
-            return !(
-                egenskaper.includes(Egenskap.JordbrukerReindrift) &&
-                it.egenskap === Egenskap.SelvstendigNaeringsdrivende
-            );
-        })
+        .filter((it) => it.egenskap !== Egenskap.Forsikring)
+        // filtrerer vekk SN-tag hvis personen er Jordbruker/Reindrift
+        .filter((it) => !jordbrukerReindrift || it.egenskap !== Egenskap.SelvstendigNaeringsdrivende)
         .map((it) => it.egenskap);
     return (
         <div>

@@ -245,6 +245,7 @@ export enum Egenskap {
     EnArbeidsgiver = 'EN_ARBEIDSGIVER',
     FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
     Forlengelse = 'FORLENGELSE',
+    Forsikring = 'FORSIKRING',
     Forstegangsbehandling = 'FORSTEGANGSBEHANDLING',
     FortroligAdresse = 'FORTROLIG_ADRESSE',
     Gosys = 'GOSYS',
