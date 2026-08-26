@@ -1,5 +1,6 @@
 import { Mock, vi } from 'vitest';
 
+import { customAxios } from '@app/axios/axiosClient';
 import { Kildetype, OverstyrDagerMutationDocument } from '@io/graphql';
 import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -12,6 +13,18 @@ import { act, waitFor } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
+
+// skalBrukeRestOverstyring() styrer om hooken bruker REST (lokalt/dev) eller GraphQL (prod), se
+// plan-overstyring-graphql-til-rest.md. Default til `true` (REST) og sett til `false` i egne
+// tester som skal dekke den gamle GraphQL-varianten frem til den fjernes.
+const featureToggleMock = vi.hoisted(() => ({ skalBrukeRestOverstyring: true }));
+vi.mock('@utils/featureToggles', async () => {
+    const actual = await vi.importActual<typeof import('@utils/featureToggles')>('@utils/featureToggles');
+    return {
+        ...actual,
+        skalBrukeRestOverstyring: () => featureToggleMock.skalBrukeRestOverstyring,
+    };
+});
 
 vi.mock('@state/person');
 vi.mock('@state/inntektsforhold/inntektsforhold');
@@ -27,8 +40,9 @@ const ORGNUMMER = '987654321';
 const VEDTAKSPERIODE_ID = 'vedtaksperiode';
 const BEGRUNNELSE = 'begrunnelse';
 
-describe('useOverstyrDager', () => {
+describe('useOverstyrDager (GraphQL, prod)', () => {
     beforeEach(() => {
+        featureToggleMock.skalBrukeRestOverstyring = false;
         (useAktivtInntektsforhold as Mock).mockReturnValue(enArbeidsgiver({ organisasjonsnummer: ORGNUMMER }));
         (useAddToast as Mock).mockReturnValue(() => {});
         (useRemoveToast as Mock).mockReturnValue(() => {});
@@ -115,6 +129,52 @@ describe('useOverstyrDager', () => {
 
         rerender(person);
         await waitFor(() => expect(result.current.error).not.toBeNull());
+    });
+});
+
+describe('useOverstyrDager (REST, lokalt/dev)', () => {
+    beforeEach(() => {
+        featureToggleMock.skalBrukeRestOverstyring = true;
+        (useAktivtInntektsforhold as Mock).mockReturnValue(enArbeidsgiver({ organisasjonsnummer: ORGNUMMER }));
+        (useAddToast as Mock).mockReturnValue(() => {});
+        (useRemoveToast as Mock).mockReturnValue(() => {});
+        (useHåndterNyttEvent as Mock).mockReturnValue(() => {});
+    });
+
+    test('skal poste overstyring av tidslinje til REST-endepunktet', async () => {
+        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+        const person = enPerson({ aktorId: AKTØR_ID, fodselsnummer: FØDSELSNUMMER });
+        const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer: ORGNUMMER });
+        const { result } = renderHook(() => useOverstyrDager(person, arbeidsgiver));
+
+        const callback = vi.fn();
+        await act(() =>
+            result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID, callback),
+        );
+
+        expect(customAxios).toHaveBeenCalledWith(
+            expect.objectContaining({
+                url: `/api/spesialist/vedtaksperioder/${VEDTAKSPERIODE_ID}/overstyringer/tidslinje`,
+                method: 'POST',
+                data: {
+                    begrunnelse: BEGRUNNELSE,
+                    dager: tilOverstyrteDager(dager, oversyrteDager),
+                },
+            }),
+        );
+        await waitFor(() => expect(callback).toHaveBeenCalledTimes(1));
+    });
+
+    test('skal ha error hvis REST-overstyringen feiler', async () => {
+        (customAxios as unknown as Mock).mockRejectedValue({ response: { status: 500, data: undefined } });
+        const person = enPerson({ aktorId: AKTØR_ID, fodselsnummer: FØDSELSNUMMER });
+        const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer: ORGNUMMER });
+        const { result, rerender } = renderHook(() => useOverstyrDager(person, arbeidsgiver));
+
+        await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
+
+        rerender();
+        await waitFor(() => expect(result.current.error).not.toBeUndefined());
     });
 });
 

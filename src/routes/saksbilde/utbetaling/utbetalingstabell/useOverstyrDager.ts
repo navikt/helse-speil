@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import { OverstyrDagerMutationDocument, OverstyrDagerMutationMutation, PersonFragment } from '@io/graphql';
+import { usePostOverstyrTidslinje } from '@io/rest/generated/overstyringer/overstyringer';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
     visningenErOppdatertToast,
@@ -15,6 +16,7 @@ import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { skalBrukeRestOverstyring } from '@utils/featureToggles';
 import { isArbeidsgiver } from '@utils/typeguards';
 
 type UsePostOverstyringResult = {
@@ -36,6 +38,8 @@ export const useOverstyrDager = (
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
+    // TODO: Fjern GraphQL-varianten (og skalBrukeRestOverstyring-bryteren) når REST er rullet ut i prod
+    const { mutateAsync: overstyrTidslinje, error: overstyrTidslinjeError } = usePostOverstyrTidslinje();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
     const [done, setDone] = useState(false);
 
@@ -63,28 +67,45 @@ export const useOverstyrDager = (
         setDone(false);
         addToast(visningenOppdateresToast({}));
         setVisningenOppdateres(true);
-        return overstyrMutation({
-            variables: {
-                overstyring: {
-                    aktorId: person.aktorId,
-                    fodselsnummer: person.fodselsnummer,
-                    organisasjonsnummer: isArbeidsgiver(inntektsforhold)
-                        ? inntektsforhold.organisasjonsnummer
-                        : 'SELVSTENDIG',
-                    dager: tilOverstyrteDager(dager, overstyrteDager),
-                    begrunnelse: begrunnelse,
-                    vedtaksperiodeId,
+
+        if (!skalBrukeRestOverstyring()) {
+            return overstyrMutation({
+                variables: {
+                    overstyring: {
+                        aktorId: person.aktorId,
+                        fodselsnummer: person.fodselsnummer,
+                        organisasjonsnummer: isArbeidsgiver(inntektsforhold)
+                            ? inntektsforhold.organisasjonsnummer
+                            : 'SELVSTENDIG',
+                        dager: tilOverstyrteDager(dager, overstyrteDager),
+                        begrunnelse: begrunnelse,
+                        vedtaksperiodeId,
+                    },
                 },
+                onCompleted: () => {
+                    callback?.();
+                },
+            }).catch(() => Promise.resolve());
+        }
+
+        return overstyrTidslinje({
+            vedtaksperiodeId,
+            data: {
+                begrunnelse,
+                dager: tilOverstyrteDager(dager, overstyrteDager),
             },
-            onCompleted: () => {
+        })
+            .then(() => {
                 callback?.();
-            },
-        }).catch(() => Promise.resolve());
+            })
+            .catch(() => Promise.resolve());
     };
 
     return {
         postOverstyring: overstyrDager,
-        error: overstyringError && 'Feil under sending av overstyring. Prøv igjen senere.',
+        error: (skalBrukeRestOverstyring() ? overstyrTidslinjeError : overstyringError)
+            ? 'Feil under sending av overstyring. Prøv igjen senere.'
+            : undefined,
         done,
     };
 };

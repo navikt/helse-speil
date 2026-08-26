@@ -1,5 +1,6 @@
 import { Mock, vi } from 'vitest';
 
+import { customAxios } from '@app/axios/axiosClient';
 import { OverstyrInntektOgRefusjonMutationDocument } from '@io/graphql';
 import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { visningenErOppdatertToastKey, visningenOppdateresToastKey } from '@state/oppdateringToasts';
@@ -10,6 +11,18 @@ import { renderHook } from '@test-utils';
 import { act, waitFor } from '@testing-library/react';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
+
+// skalBrukeRestOverstyring() styrer om hooken bruker REST (lokalt/dev) eller GraphQL (prod), se
+// plan-overstyring-graphql-til-rest.md. Default til `false` her for å beholde regresjonstestene
+// for GraphQL-varianten, og overstyres til `true` i eget describe-block for REST-varianten.
+const featureToggleMock = vi.hoisted(() => ({ skalBrukeRestOverstyring: false }));
+vi.mock('@utils/featureToggles', async () => {
+    const actual = await vi.importActual<typeof import('@utils/featureToggles')>('@utils/featureToggles');
+    return {
+        ...actual,
+        skalBrukeRestOverstyring: () => featureToggleMock.skalBrukeRestOverstyring,
+    };
+});
 
 vi.mock('@state/toasts');
 vi.mock('@state/serverSentEvents', async () => ({
@@ -24,8 +37,9 @@ vi.mock('@state/overstyring', async () => ({
 const addToastMock = vi.fn();
 const slettLokaleOverstyringerMock = vi.fn();
 
-describe('usePostOverstyrInntektOgRefusjon', () => {
+describe('usePostOverstyrInntektOgRefusjon (GraphQL, prod)', () => {
     beforeEach(() => {
+        featureToggleMock.skalBrukeRestOverstyring = false;
         vi.clearAllMocks();
         (useAddToast as Mock).mockReturnValue((toast: ToastObject) => {
             addToastMock(toast);
@@ -193,6 +207,108 @@ describe('usePostOverstyrInntektOgRefusjon', () => {
                 }),
             ),
         );
+    });
+});
+
+describe('usePostOverstyrInntektOgRefusjon (REST, lokalt/dev)', () => {
+    const VEDTAKSPERIODE_ID = '123';
+
+    beforeEach(() => {
+        featureToggleMock.skalBrukeRestOverstyring = true;
+        vi.clearAllMocks();
+        (useAddToast as Mock).mockReturnValue((toast: ToastObject) => {
+            addToastMock(toast);
+        });
+        (useRemoveToast as Mock).mockReturnValue(() => {});
+        (useHåndterNyttEvent as Mock).mockReturnValue(() => {});
+        (useSlettLokaleOverstyringer as Mock).mockReturnValue(slettLokaleOverstyringerMock);
+    });
+
+    it('skal poste overstyring av inntekt og refusjon til REST-endepunktet', async () => {
+        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+        const { result } = renderHook(usePostOverstyrtInntektOgRefusjon);
+
+        await act(() =>
+            result.current.postOverstyring({
+                aktørId: 'aktørid',
+                fødselsnummer: 'fødselsnummer',
+                skjæringstidspunkt: '2020-01-01',
+                arbeidsgivere: [
+                    {
+                        begrunnelse: 'begrunnelse',
+                        forklaring: 'forklaring',
+                        fraMånedligInntekt: 10000,
+                        månedligInntekt: 20000,
+                        organisasjonsnummer: 'organisasjonsnummer',
+                        fraRefusjonsopplysninger: [],
+                        refusjonsopplysninger: [],
+                        fom: undefined,
+                        tom: undefined,
+                    },
+                ],
+                vedtaksperiodeId: VEDTAKSPERIODE_ID,
+            }),
+        );
+
+        expect(customAxios).toHaveBeenCalledWith(
+            expect.objectContaining({
+                url: `/api/spesialist/vedtaksperioder/${VEDTAKSPERIODE_ID}/overstyringer/inntekt-og-refusjon`,
+                method: 'POST',
+                data: {
+                    skjæringstidspunkt: '2020-01-01',
+                    arbeidsgivere: [
+                        {
+                            organisasjonsnummer: 'organisasjonsnummer',
+                            månedligInntekt: 20000,
+                            fraMånedligInntekt: 10000,
+                            refusjonsopplysninger: [],
+                            fraRefusjonsopplysninger: [],
+                            begrunnelse: 'begrunnelse',
+                            forklaring: 'forklaring',
+                            lovhjemmel: undefined,
+                            fom: null,
+                            tom: null,
+                        },
+                    ],
+                },
+            }),
+        );
+
+        await waitFor(() =>
+            expect(addToastMock).toHaveBeenCalledWith(
+                expect.objectContaining({
+                    key: visningenOppdateresToastKey,
+                }),
+            ),
+        );
+    });
+
+    it('setter error om REST-overstyringen feiler', async () => {
+        (customAxios as unknown as Mock).mockRejectedValue({ response: { status: 500, data: undefined } });
+        const { result, rerender } = renderHook(usePostOverstyrtInntektOgRefusjon);
+
+        await act(() =>
+            result.current.postOverstyring({
+                aktørId: 'aktørid',
+                fødselsnummer: 'fødselsnummer',
+                skjæringstidspunkt: '2020-01-01',
+                arbeidsgivere: [
+                    {
+                        begrunnelse: 'begrunnelse',
+                        forklaring: 'forklaring',
+                        fraMånedligInntekt: 10000,
+                        månedligInntekt: 20000,
+                        organisasjonsnummer: 'en feil',
+                        fraRefusjonsopplysninger: [],
+                        refusjonsopplysninger: [],
+                    },
+                ],
+                vedtaksperiodeId: VEDTAKSPERIODE_ID,
+            }),
+        );
+
+        rerender();
+        await waitFor(() => expect(result.current.error).not.toBeUndefined());
     });
 });
 

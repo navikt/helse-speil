@@ -1,5 +1,6 @@
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
+import { customAxios } from '@app/axios/axiosClient';
 import { OverstyrArbeidsforholdMutationDocument, OverstyringArbeidsforholdInput } from '@io/graphql';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
@@ -18,6 +19,12 @@ vi.mock('@hooks/brukerrolleHooks', () => ({
 }));
 
 describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
+    beforeEach(() => {
+        // Overstyring av arbeidsforhold bruker REST (ikke GraphQL) utenom i prod, se
+        // plan-overstyring-graphql-til-rest.md
+        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+    });
+
     it('skal vise ikke bruk arbeidsforholdet knap om arbeidsforholdet ikke er deaktivert og knappen ikke er trykket', () => {
         const periode = enBeregnetPeriode();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
