@@ -5,7 +5,7 @@ import React, { ReactElement, useState } from 'react';
 import { Radio, RadioGroup, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
-import { AndreYtelserSkjema } from '@saksbilde/tilkommenInntekt/skjema/AndreYtelserSkjema';
+import { LeggTilAndreYtelserView } from '@saksbilde/andreYtelser/LeggTilAndreYtelserView';
 import { LeggTilTilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/LeggTilTilkommenInntektSkjemaV2';
 
 type LeggTilType = 'tilkommen-inntekt' | 'andre-ytelser';
@@ -36,7 +36,7 @@ export const LeggTilTilkommenInntektEllerAndreYtelserView = (): ReactElement => 
                     <Radio value="tilkommen-inntekt">Tilkommen inntekt</Radio>
                     <Radio value="andre-ytelser">Andre ytelser</Radio>
                 </RadioGroup>
-                {type === 'tilkommen-inntekt' ? <LeggTilTilkommenInntektSkjema /> : <AndreYtelserSkjema />}
+                {type === 'tilkommen-inntekt' ? <LeggTilTilkommenInntektSkjema /> : <LeggTilAndreYtelserView />}
             </VStack>
         </Box>
     );

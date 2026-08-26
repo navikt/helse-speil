@@ -1,7 +1,7 @@
 import React from 'react';
 import { Mock, vi } from 'vitest';
 
-import { AndreYtelserSkjema } from '@saksbilde/tilkommenInntekt/skjema/AndreYtelserSkjema';
+import { AndreYtelserSkjema } from '@saksbilde/andreYtelser/skjema/AndreYtelserSkjema';
 import { useFetchPersonQuery } from '@state/person';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
@@ -18,7 +18,7 @@ describe('AndreYtelserSkjema', () => {
         const user = userEvent.setup();
         (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: enPerson() } });
 
-        render(<AndreYtelserSkjema />);
+        render(<AndreYtelserSkjema onSubmit={vi.fn()} onAvbryt={vi.fn()} />);
 
         await user.selectOptions(screen.getByRole('combobox', { name: 'Velg ytelse' }), 'Pleiepenger');
         await user.type(screen.getByLabelText('Notat til beslutter'), 'Et notat');
@@ -33,7 +33,7 @@ describe('AndreYtelserSkjema', () => {
         const user = userEvent.setup();
         (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: enPerson() } });
 
-        render(<AndreYtelserSkjema />);
+        render(<AndreYtelserSkjema onSubmit={vi.fn()} onAvbryt={vi.fn()} />);
 
         await user.selectOptions(screen.getByRole('combobox', { name: 'Velg ytelse' }), 'Pleiepenger');
         await user.type(screen.getByLabelText('Periode f.o.m.'), '01.01.2020');
@@ -49,7 +49,7 @@ describe('AndreYtelserSkjema', () => {
         const user = userEvent.setup();
         (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: enPerson() } });
 
-        render(<AndreYtelserSkjema />);
+        render(<AndreYtelserSkjema onSubmit={vi.fn()} onAvbryt={vi.fn()} />);
 
         await user.type(screen.getByLabelText('Periode f.o.m.'), '01.01.2020');
         await user.type(screen.getByLabelText('Periode t.o.m.'), '03.01.2020');

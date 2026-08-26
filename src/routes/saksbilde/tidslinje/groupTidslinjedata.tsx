@@ -41,6 +41,7 @@ export type GradertAndreYtelserElement = {
     andreYtelserId: string;
     andreYtelseType: ApiGraderteAndreYtelseType;
     grad: number;
+    fjernet?: boolean;
 };
 
 export type TidslinjeRad = {
@@ -160,11 +161,12 @@ export function useTidslinjeRader(
             const elementer = ytelse.perioder.map((periode) => ({
                 fom: periode.fom,
                 tom: periode.tom,
-                status: 'tilkommen' as PeriodCategory,
+                status: (ytelse.fjernet ? 'tilkommen_fjernet' : 'tilkommen') as PeriodCategory,
                 gradertAndreYtelser: {
                     andreYtelserId: ytelse.andreYtelserId,
                     andreYtelseType: ytelse.andreYtelseType,
                     grad: periode.grad,
+                    fjernet: ytelse.fjernet,
                 },
                 generasjonIndex: 0,
             }));

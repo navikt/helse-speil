@@ -86,6 +86,7 @@ export function GraderteAndreYtelserPopover({ element }: GraderteAndreYtelserPop
         <HGrid columns={2} gap="space-4 space-24">
             <BodyShort size="small" className="col-span-2" weight="semibold">
                 {gradertAndreYtelser ? andreYtelseTypeTilNavn[gradertAndreYtelser.andreYtelseType] : 'Andre ytelser'}
+                {gradertAndreYtelser?.fjernet ? ' (fjernet)' : ''}
             </BodyShort>
             <BodyShort size="small">Periode:</BodyShort>
             <BodyShort size="small">

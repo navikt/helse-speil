@@ -1363,6 +1363,8 @@ export interface ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode 
 }
 
 export interface ApiPostGjenopprettGraderteAndreYtelserRequest {
+    perioder: ApiGraderteAndreYtelserPeriode[];
+    andreYtelseType: ApiGraderteAndreYtelseType;
     notatTilBeslutter: string;
 }
 

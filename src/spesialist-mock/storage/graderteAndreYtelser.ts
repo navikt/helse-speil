@@ -40,4 +40,29 @@ export class GraderteAndreYtelserMock {
         }
         eksisterende.push(ytelse);
     };
+
+    static finn = (andreYtelserId: string): ApiGraderteAndreYtelser | undefined =>
+        [...GraderteAndreYtelserMock.ytelser.values()]
+            .flat()
+            .find((ytelse) => ytelse.andreYtelserId === andreYtelserId);
+
+    static endre = (
+        andreYtelserId: string,
+        endringer: Pick<ApiGraderteAndreYtelser, 'perioder' | 'andreYtelseType'>,
+    ): ApiGraderteAndreYtelser | undefined => {
+        const ytelse = GraderteAndreYtelserMock.finn(andreYtelserId);
+        if (ytelse === undefined) return undefined;
+
+        ytelse.perioder = endringer.perioder;
+        ytelse.andreYtelseType = endringer.andreYtelseType;
+        return ytelse;
+    };
+
+    static settFjernet = (andreYtelserId: string, fjernet: boolean): ApiGraderteAndreYtelser | undefined => {
+        const ytelse = GraderteAndreYtelserMock.finn(andreYtelserId);
+        if (ytelse === undefined) return undefined;
+
+        ytelse.fjernet = fjernet;
+        return ytelse;
+    };
 }

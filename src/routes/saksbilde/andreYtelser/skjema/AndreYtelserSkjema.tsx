@@ -1,8 +1,15 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
-import { Controller, FieldErrors, FormProvider, useFieldArray, useForm, useFormState } from 'react-hook-form';
+import {
+    Controller,
+    DefaultValues,
+    FieldErrors,
+    FormProvider,
+    useFieldArray,
+    useForm,
+    useFormState,
+} from 'react-hook-form';
 
 import { PlusIcon } from '@navikt/aksel-icons';
 import { Alert, Button, ErrorMessage, HGrid, HStack, Select, Textarea, VStack } from '@navikt/ds-react';
@@ -15,50 +22,52 @@ import {
     lagAndreYtelserSchema,
 } from '@/form-schemas/andreYtelserSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-    getGetGraderteAndreYtelserForPersonQueryKey,
-    usePostGraderteAndreYtelser,
-} from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
-import { PeriodeRad } from '@saksbilde/tilkommenInntekt/skjema/PeriodeRad';
-import { tilGraderteAndreYtelserRequest } from '@saksbilde/tilkommenInntekt/skjema/andreYtelserMapping';
+import { PeriodeRad } from '@saksbilde/andreYtelser/skjema/PeriodeRad';
 import { utledSykefraværstilfelleperioder } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useFetchPersonQuery } from '@state/person';
-import { useQueryClient } from '@tanstack/react-query';
 
-export function AndreYtelserSkjema(): ReactElement {
-    const router = useRouter();
-    const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const queryClient = useQueryClient();
+export const tomPeriode: AndreYtelserSkjemaInput['perioder'][number] = { fom: '', tom: '', grad: undefined };
+
+export const tomtAndreYtelserSkjema: DefaultValues<AndreYtelserSkjemaInput> = {
+    ytelse: undefined,
+    perioder: [tomPeriode],
+    notat: '',
+};
+
+interface AndreYtelserSkjemaProps {
+    /** Startverdier. Utelates ved «legg til», settes fra eksisterende ytelse ved endring og gjenoppretting. */
+    defaultValues?: DefaultValues<AndreYtelserSkjemaInput>;
+    onSubmit: (values: AndreYtelserSchema) => void;
+    onAvbryt: () => void;
+    isPending?: boolean;
+    isError?: boolean;
+    feilmelding?: string;
+    submitLabel?: string;
+}
+
+export function AndreYtelserSkjema({
+    defaultValues = tomtAndreYtelserSkjema,
+    onSubmit,
+    onAvbryt,
+    isPending = false,
+    isError = false,
+    feilmelding = 'Klarte ikke lagre andre ytelser. Prøv igjen senere, eller kontakt en coach.',
+    submitLabel = 'Lagre',
+}: AndreYtelserSkjemaProps): ReactElement {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
-
-    const { mutate, isPending, isError } = usePostGraderteAndreYtelser({
-        mutation: {
-            onSuccess: () => {
-                queryClient.invalidateQueries({
-                    queryKey: getGetGraderteAndreYtelserForPersonQueryKey(personPseudoId),
-                });
-                router.back();
-            },
-        },
-    });
 
     const sykefraværstilfelleperioder = person ? utledSykefraværstilfelleperioder(person) : [];
 
     const form = useForm<AndreYtelserSkjemaInput, unknown, AndreYtelserSchema>({
         resolver: zodResolver(lagAndreYtelserSchema(sykefraværstilfelleperioder)),
         reValidateMode: 'onBlur',
-        defaultValues: { ytelse: undefined, perioder: [tomPeriode], notat: '' },
+        defaultValues,
     });
 
     const { errors } = useFormState({ control: form.control });
     const periodeFeilmeldinger = hentPeriodeFeilmeldinger(errors);
     const { fields, append, remove, update } = useFieldArray({ control: form.control, name: 'perioder' });
-
-    function onSubmit(values: AndreYtelserSchema) {
-        if (!person) return;
-        mutate({ data: tilGraderteAndreYtelserRequest(values, person.fodselsnummer) });
-    }
 
     function fjernPeriode(index: number) {
         if (fields.length === 1) {
@@ -143,29 +152,21 @@ export function AndreYtelserSkjema(): ReactElement {
                 </VStack>
                 <HStack gap="space-8">
                     <Button size="small" variant="primary" type="submit" loading={isPending} disabled={isPending}>
-                        Lagre
+                        {submitLabel}
                     </Button>
-                    <Button
-                        size="small"
-                        variant="tertiary"
-                        type="button"
-                        disabled={isPending}
-                        onClick={() => router.back()}
-                    >
+                    <Button size="small" variant="tertiary" type="button" disabled={isPending} onClick={onAvbryt}>
                         Avbryt
                     </Button>
                 </HStack>
                 {isError && (
                     <Alert variant="error" size="small">
-                        Klarte ikke lagre andre ytelser. Prøv igjen senere, eller kontakt en coach.
+                        {feilmelding}
                     </Alert>
                 )}
             </VStack>
         </FormProvider>
     );
 }
-
-const tomPeriode: AndreYtelserSkjemaInput['perioder'][number] = { fom: '', tom: '', grad: undefined };
 
 function hentPeriodeFeilmeldinger(errors: FieldErrors<AndreYtelserSkjemaInput>): string[] {
     const perioder = Array.isArray(errors.perioder) ? errors.perioder : [];

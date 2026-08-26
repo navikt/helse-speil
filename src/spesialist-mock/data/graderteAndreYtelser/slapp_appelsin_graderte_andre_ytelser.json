@@ -5,11 +5,24 @@
             {
                 "andreYtelserId": "9c2f1c4e-5b7a-4f2e-9a3d-1f8b6c0d4e21",
                 "andreYtelseType": "PLEIEPENGER",
+                "fjernet": false,
                 "perioder": [
                     {
                         "fom": "2022-08-02",
                         "tom": "2022-08-13",
                         "grad": 50
+                    }
+                ]
+            },
+            {
+                "andreYtelserId": "3d7a5b1f-2c8e-4a6d-9b0f-7e4c2a1d8b53",
+                "andreYtelseType": "OMSORGSPENGER",
+                "fjernet": true,
+                "perioder": [
+                    {
+                        "fom": "2022-08-16",
+                        "tom": "2022-08-19",
+                        "grad": 20
                     }
                 ]
             }
