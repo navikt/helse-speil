@@ -193,6 +193,12 @@ const filters = [
         column: Oppgaveoversiktkolonne.EGENSKAPER,
     },
     {
+        key: ApiEgenskap.FORSIKRING,
+        label: 'Forsikring',
+        status: FilterStatus.OFF,
+        column: Oppgaveoversiktkolonne.EGENSKAPER,
+    },
+    {
         key: ApiEgenskap.EN_ARBEIDSGIVER,
         label: 'Ett inntektsforhold',
         status: FilterStatus.OFF,
