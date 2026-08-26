@@ -8,31 +8,33 @@ export async function stub(_request: NextRequest, params: Promise<{ pseudoId: st
     const { pseudoId } = await params;
 
     const encoder = new TextEncoder();
-    const timeouts: ReturnType<typeof setTimeout>[] = [];
+    let antallSendteEventer = 0;
+    let intervall: ReturnType<typeof setInterval> | undefined;
 
     const stream = new ReadableStream({
         start(controller) {
             logger.info(`Stream started - personPseudoId: ${pseudoId}`);
-            const events = ServerSentEventsMock.hentEventsFor(pseudoId);
 
-            events.forEach((event, i) => {
-                const data = `event: ${event.event}\ndata: {}\n\n`;
-                const timeout = setTimeout(
-                    () => {
-                        try {
-                            logger.info(`Sender ${data}`);
-                            controller.enqueue(encoder.encode(data));
-                        } catch {
-                            logger.info('Controller is closed');
-                        }
-                    },
-                    (i + 1) * 2000,
-                );
-                timeouts.push(timeout);
-            });
+            // Poller for nye eventer, slik at eventer som pushes etter at streamen ble åpnet
+            // (f.eks. fra overstyrings-stubber som pusher eventer med forsinkelse) også sendes.
+            intervall = setInterval(() => {
+                const events = ServerSentEventsMock.hentEventsFor(pseudoId);
+                const nyeEventer = events.slice(antallSendteEventer);
+                antallSendteEventer = events.length;
+
+                nyeEventer.forEach((event) => {
+                    const data = `event: ${event.event}\ndata: {}\n\n`;
+                    try {
+                        logger.info(`Sender ${data}`);
+                        controller.enqueue(encoder.encode(data));
+                    } catch {
+                        logger.info('Controller is closed');
+                    }
+                });
+            }, 500);
         },
         cancel() {
-            timeouts.forEach(clearTimeout);
+            if (intervall) clearInterval(intervall);
         },
     });
 
