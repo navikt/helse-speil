@@ -3,18 +3,21 @@ import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { renderHook, waitFor } from '@test-utils';
 
 const pleiepenger: ApiGraderteAndreYtelser = {
+    fjernet: false,
     andreYtelserId: 'pleiepenger-1',
     andreYtelseType: ApiGraderteAndreYtelseType.PLEIEPENGER,
     perioder: [{ fom: '2022-08-02', tom: '2022-08-13', grad: 50 }],
 };
 
 const foreldrepenger: ApiGraderteAndreYtelser = {
+    fjernet: false,
     andreYtelserId: 'foreldrepenger-1',
     andreYtelseType: ApiGraderteAndreYtelseType.FORELDREPENGER,
     perioder: [{ fom: '2022-09-01', tom: '2022-09-10', grad: 100 }],
 };
 
 const foreldrepengerTidligere: ApiGraderteAndreYtelser = {
+    fjernet: false,
     andreYtelserId: 'foreldrepenger-2',
     andreYtelseType: ApiGraderteAndreYtelseType.FORELDREPENGER,
     perioder: [{ fom: '2022-01-01', tom: '2022-01-10', grad: 80 }],
