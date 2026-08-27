@@ -33,7 +33,12 @@ export const useSetAktivOppgaveliste = () => {
     return (id: string) => setAktivId(id);
 };
 
-type OppgavelisteDato = { oppgaveKlarFom?: string; oppgaveKlarTom?: string };
+type OppgavelisteDato = {
+    oppgaveKlarFom?: string;
+    oppgaveKlarTom?: string;
+    behandlingOpprettetFom?: string;
+    behandlingOpprettetTom?: string;
+};
 
 const oppgavelisteDatoOverridesAtom = atomWithSessionStorage<OppgavelisteDato>('oppgavelisteDato', {});
 
@@ -43,6 +48,8 @@ export const useOppgavelisteDato = () => {
         dato,
         setOppgaveKlarFom: (fom?: string) => setDato((prev) => ({ ...prev, oppgaveKlarFom: fom })),
         setOppgaveKlarTom: (tom?: string) => setDato((prev) => ({ ...prev, oppgaveKlarTom: tom })),
+        setBehandlingOpprettetFom: (fom?: string) => setDato((prev) => ({ ...prev, behandlingOpprettetFom: fom })),
+        setBehandlingOpprettetTom: (tom?: string) => setDato((prev) => ({ ...prev, behandlingOpprettetTom: tom })),
     };
 };
 
@@ -60,6 +67,8 @@ export const useOppgavelisteFeed = (): OppgaveFeedResponse => {
             ...aktivOppgaveliste?.params,
             oppgaveKlarFom: dato.oppgaveKlarFom,
             oppgaveKlarTom: dato.oppgaveKlarTom,
+            behandlingOpprettetFom: dato.behandlingOpprettetFom,
+            behandlingOpprettetTom: dato.behandlingOpprettetTom,
             sidestoerrelse: limit,
             sidetall: currentPage,
         },

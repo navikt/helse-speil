@@ -77,6 +77,8 @@ const oppgaveliste = (searchParams: URLSearchParams): ApiOppgaveProjeksjonSide =
     const erPaaVent = tilBooleanEllerNull(searchParams.get('erPaaVent'));
     const oppgaveKlarFom = searchParams.get('oppgaveKlarFom');
     const oppgaveKlarTom = searchParams.get('oppgaveKlarTom');
+    const behandlingOpprettetFom = searchParams.get('behandlingOpprettetFom');
+    const behandlingOpprettetTom = searchParams.get('behandlingOpprettetTom');
 
     const sortertingsfelt = searchParams.get('sorteringsfelt') as ApiOppgaveSorteringsfelt;
     const sorteringsrekkefølge = searchParams.get('sorteringsrekkefoelge') as ApiSorteringsrekkefølge;
@@ -91,6 +93,8 @@ const oppgaveliste = (searchParams: URLSearchParams): ApiOppgaveProjeksjonSide =
         erPaaVent,
         oppgaveKlarFom,
         oppgaveKlarTom,
+        behandlingOpprettetFom,
+        behandlingOpprettetTom,
     );
     const sortertListe = sorter(filtrertListe, sortertingsfelt, sorteringsrekkefølge);
 
@@ -184,6 +188,8 @@ const filtrer = (
     erPaaVent: boolean | null,
     oppgaveKlarFom: string | null,
     oppgaveKlarTom: string | null,
+    behandlingOpprettetFom: string | null,
+    behandlingOpprettetTom: string | null,
 ): ApiOppgaveProjeksjon[] => {
     return oppgaver
         .filter((oppgave) => tildeltTilOid === null || oppgave.tildeling?.oid === tildeltTilOid)
@@ -206,6 +212,12 @@ const filtrer = (
             const opprettet = oppgave.opprettetTidspunkt.slice(0, 10);
             if (oppgaveKlarFom && opprettet < oppgaveKlarFom) return false;
             return !(oppgaveKlarTom && opprettet > oppgaveKlarTom);
+        })
+        .filter((oppgave) => {
+            if (!behandlingOpprettetFom && !behandlingOpprettetTom) return true;
+            const behandlingOpprettet = oppgave.behandlingOpprettetTidspunkt.slice(0, 10);
+            if (behandlingOpprettetFom && behandlingOpprettet < behandlingOpprettetFom) return false;
+            return !(behandlingOpprettetTom && behandlingOpprettet > behandlingOpprettetTom);
         });
 };
 
