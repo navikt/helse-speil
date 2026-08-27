@@ -3,11 +3,7 @@
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-
-
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
-
-
 
 import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
@@ -16,35 +12,11 @@ import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { behandlerKategoriLabels, formatLegekontorAdresse } from '@utils/behandlerUtils';
 import { formatNavn } from '@utils/navnUtils';
 
-
-
 import { DialogFerdigstiltSwitch } from './DialogFerdigstiltSwitch';
 import { DialogmeldingContentError } from './DialogmeldingContentError';
 import { DialogmeldingContentSkeleton } from './DialogmeldingContentSkeleton';
 import { DialogmeldingKort } from './DialogmeldingKort';
 import { SvarPåDialogForm } from './SvarPåDialogForm';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 export function DialogmeldingContent(): ReactElement {
     const { personPseudoId, dialogId } = useParams<{ personPseudoId: string; dialogId: string }>();

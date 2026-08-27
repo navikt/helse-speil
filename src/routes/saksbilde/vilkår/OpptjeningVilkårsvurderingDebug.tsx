@@ -21,7 +21,7 @@ export function OpptjeningVilkårsvurderingDebug({
     if (isError) return <BodyShort>Feil ved henting av vilkårsvurdering</BodyShort>;
 
     return (
-        <pre style={{ fontSize: '12px', overflow: 'auto', maxHeight: '400px', background: '#f5f5f5', padding: '8px' }}>
+        <pre className="text-ax-text-default max-h-100 overflow-auto bg-ax-bg-neutral-moderate p-2 text-xs">
             {JSON.stringify(data, null, 2)}
         </pre>
     );

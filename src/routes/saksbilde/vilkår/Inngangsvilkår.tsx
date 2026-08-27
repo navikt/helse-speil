@@ -12,6 +12,7 @@ import {
     VilkarsgrunnlagSpleisV2,
     Vurdering,
 } from '@io/graphql';
+import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { OppfylteVilkår } from '@saksbilde/vilkår/vilkårsgrupper/OppfylteVilkår';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useVisSpleisTolkningAvOpptjening } from '@state/toggles';
@@ -21,7 +22,7 @@ import { Vilkårdata } from '@typer/vilkår';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
 import { OpptjeningVilkårsvurderingDebug } from './OpptjeningVilkårsvurderingDebug';
-import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
+import { SpVilkårsvurdering, kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
@@ -38,6 +39,7 @@ interface InngangsvilkårWithContentProps {
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
     fødselsdato: DateString;
     vurdering?: Vurdering | null;
+    spVilkårsvurdering?: SpVilkårsvurdering;
 }
 
 export const InngangsvilkårWithContent = ({
@@ -46,11 +48,18 @@ export const InngangsvilkårWithContent = ({
     vilkårsgrunnlag,
     fødselsdato,
     vurdering,
+    spVilkårsvurdering,
 }: InngangsvilkårWithContentProps) => {
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
 
     const { oppfylteVilkår, ikkeVurderteVilkår, ikkeOppfylteVilkår, vilkårVurdertIInfotrygd, vilkårVurdertISpleis } =
-        kategoriserteInngangsvilkår(erSelvstendigNæring, vilkårsgrunnlag, alderVedSkjæringstidspunkt, vurdering);
+        kategoriserteInngangsvilkår(
+            erSelvstendigNæring,
+            vilkårsgrunnlag,
+            alderVedSkjæringstidspunkt,
+            vurdering,
+            spVilkårsvurdering,
+        );
 
     const harBehandledeVilkår =
         harVilkår(ikkeVurderteVilkår) || harVilkår(ikkeOppfylteVilkår) || harVilkår(oppfylteVilkår);
@@ -94,6 +103,17 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
     const visSpleisTolkningAvOpptjening = useVisSpleisTolkningAvOpptjening();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId);
+    const opptjeningsvurderingId = vilkårsgrunnlag.opptjeningsvurderingId;
+
+    const {
+        data: spVilkårsvurderingData,
+        isLoading: spVilkårsvurderingIsLoading,
+        isError: spVilkårsvurderingIsError,
+    } = useGetVilkårsvurderingerForPersonBehandler(
+        personPseudoId,
+        { opptjeningsvurderingId },
+        { query: { enabled: visSpleisTolkningAvOpptjening } },
+    );
 
     return (
         <>
@@ -103,15 +123,22 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
                 periodeFom={periode.fom}
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 fødselsdato={person.personinfo.fodselsdato!}
+                spVilkårsvurdering={
+                    visSpleisTolkningAvOpptjening
+                        ? {
+                              data: spVilkårsvurderingData,
+                              isLoading: spVilkårsvurderingIsLoading,
+                              isError: spVilkårsvurderingIsError,
+                          }
+                        : undefined
+                }
             />
-            {visSpleisTolkningAvOpptjening &&
-                (vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' ||
-                    vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2') && (
-                    <OpptjeningVilkårsvurderingDebug
-                        personPseudoId={personPseudoId}
-                        opptjeningsvurderingId={vilkårsgrunnlag.opptjeningsvurderingId}
-                    />
-                )}
+            {visSpleisTolkningAvOpptjening && (
+                <OpptjeningVilkårsvurderingDebug
+                    personPseudoId={personPseudoId}
+                    opptjeningsvurderingId={opptjeningsvurderingId}
+                />
+            )}
         </>
     );
 };
