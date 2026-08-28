@@ -48,7 +48,6 @@ describe('Utbetalingstabell', () => {
                 fom="2021-01-01"
                 tom="2021-01-10"
                 dager={dager}
-                personFødselsdato="01-01-2000"
                 person={enPerson()}
                 erSelvstendigNæring={false}
             />,

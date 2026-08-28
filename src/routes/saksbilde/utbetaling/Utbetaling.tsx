@@ -85,7 +85,6 @@ const ReadonlyUtbetaling = ({
                     fom={fom}
                     tom={tom}
                     dager={dager}
-                    personFødselsdato={person.personinfo.fodselsdato}
                     person={person}
                     erSelvstendigNæring={inntektsforholdReferanse.type === 'Selvstendig Næring'}
                 />

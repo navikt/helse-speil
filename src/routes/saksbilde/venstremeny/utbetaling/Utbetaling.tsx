@@ -103,7 +103,6 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                 size="small"
                                 utbetaling={period.utbetaling}
                                 inntektsforholdReferanse={inntektsforholdReferanse}
-                                personinfo={person.personinfo}
                                 oppgavereferanse={period.oppgave?.id ?? ''}
                                 disabled={
                                     visningenOppdateres ||
@@ -126,7 +125,6 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                     behandlingId={period.behandlingId}
                                     utbetaling={period.utbetaling}
                                     inntektsforholdReferanse={inntektsforholdReferanse}
-                                    personinfo={person.personinfo}
                                     disabled={
                                         visningenOppdateres ||
                                         periodenErSendt ||
@@ -146,7 +144,6 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                         behandlingId={period.behandlingId}
                                         utbetaling={period.utbetaling}
                                         inntektsforholdReferanse={inntektsforholdReferanse}
-                                        personinfo={person.personinfo}
                                         disabled={
                                             visningenOppdateres ||
                                             periodenErSendt ||

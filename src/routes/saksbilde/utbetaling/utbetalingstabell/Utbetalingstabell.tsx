@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement, useMemo } from 'react';
 
 import { HStack, Table } from '@navikt/ds-react';
@@ -5,6 +6,7 @@ import { HStack, Table } from '@navikt/ds-react';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
 import { PersonFragment } from '@io/graphql';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -29,7 +31,6 @@ interface UtbetalingstabellProps {
     fom: DateString;
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
-    personFødselsdato: string | null;
     lokaleOverstyringer?: Map<string, Utbetalingstabelldag>;
     markerteDager?: Map<string, Utbetalingstabelldag>;
     overstyrer?: boolean;
@@ -42,7 +43,6 @@ export const Utbetalingstabell = ({
     fom,
     tom,
     dager,
-    personFødselsdato,
     lokaleOverstyringer,
     markerteDager,
     overstyrer = false,
@@ -50,12 +50,15 @@ export const Utbetalingstabell = ({
     person,
     erSelvstendigNæring,
 }: UtbetalingstabellProps): ReactElement => {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: apiPerson } = useGetPerson(personPseudoId);
+
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
 
     const dagerList: Utbetalingstabelldag[] = useMemo(() => Array.from(dager.values()), [dager]);
 
-    const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt(person, personFødselsdato);
+    const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt(person, apiPerson?.fødselsdato);
 
     return (
         <section className={cn(styles.container, overstyrer && styles.overstyrer)}>

@@ -8,17 +8,16 @@ import {
     getGetGraderteAndreYtelserForPersonQueryKey,
     usePostGraderteAndreYtelser,
 } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { AndreYtelserSkjema } from '@saksbilde/andreYtelser/skjema/AndreYtelserSkjema';
 import { tilGraderteAndreYtelserRequest } from '@saksbilde/andreYtelser/skjema/andreYtelserMapping';
-import { useFetchPersonQuery } from '@state/person';
 import { useQueryClient } from '@tanstack/react-query';
 
 export function LeggTilAndreYtelserView(): ReactElement {
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
-    const { data: personData } = useFetchPersonQuery();
-    const person = personData?.person ?? null;
+    const { data: person } = useGetPerson(personPseudoId);
 
     const { mutate, isPending, isError } = usePostGraderteAndreYtelser({
         mutation: {
@@ -33,7 +32,7 @@ export function LeggTilAndreYtelserView(): ReactElement {
 
     function onSubmit(values: AndreYtelserSchema) {
         if (!person) return;
-        mutate({ data: tilGraderteAndreYtelserRequest(values, person.fodselsnummer) });
+        mutate({ data: tilGraderteAndreYtelserRequest(values, person.identitetsnummer) });
     }
 
     return (

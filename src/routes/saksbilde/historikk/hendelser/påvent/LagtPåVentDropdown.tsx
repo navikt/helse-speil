@@ -1,4 +1,4 @@
-import { useRouter } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
@@ -7,6 +7,7 @@ import { ActionMenu, Button, Loader } from '@navikt/ds-react';
 import { EndrePåVentDialog } from '@components/påvent/PåVentDialoger';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useFetchPersonQuery } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -33,6 +34,8 @@ export const LagtPåVentDropdown = ({
 
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: apiPerson } = useGetPerson(personPseudoId);
     const router = useRouter();
 
     const errorHandler = useOperationErrorHandler('Legg på vent');
@@ -41,10 +44,10 @@ export const LagtPåVentDropdown = ({
 
     const tildeling = person.tildeling;
 
-    const navn: ApiPersonnavn = {
-        fornavn: person.personinfo.fornavn,
-        mellomnavn: person.personinfo.mellomnavn,
-        etternavn: person.personinfo.etternavn,
+    const navn: ApiPersonnavn | undefined = apiPerson && {
+        fornavn: apiPerson.fornavn,
+        mellomnavn: apiPerson.mellomnavn,
+        etternavn: apiPerson.etternavn,
     };
 
     const fjernFraPåVent = () => {
@@ -78,7 +81,7 @@ export const LagtPåVentDropdown = ({
                     </ActionMenu.Item>
                 </ActionMenu.Content>
             </ActionMenu>
-            {showEndreModal && (
+            {showEndreModal && navn && (
                 <EndrePåVentDialog
                     oppgaveId={oppgaveId!}
                     navn={navn}

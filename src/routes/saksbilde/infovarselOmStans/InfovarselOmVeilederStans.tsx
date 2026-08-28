@@ -5,18 +5,16 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
-import { useGetVeilederStans } from '@io/rest/generated/personer/personer';
-import { useFetchPersonQuery } from '@state/person';
+import { useGetPerson, useGetVeilederStans } from '@io/rest/generated/personer/personer';
 
 import { UnntattFraAutomatisering } from './UnntattFraAutomatisering';
 
 function InfovarselOmVeilederStansContainer(): ReactElement | null {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { data, loading } = useFetchPersonQuery();
+    const { data: currentPerson, isPending } = useGetPerson(personPseudoId);
     const { data: veilederStans, isLoading, error, refetch } = useGetVeilederStans(personPseudoId);
 
-    const currentPerson = data?.person;
-    if (loading || isLoading || currentPerson == null) {
+    if (isPending || isLoading || currentPerson == null) {
         return null;
     }
 
@@ -29,7 +27,7 @@ function InfovarselOmVeilederStansContainer(): ReactElement | null {
             <UnntattFraAutomatisering
                 årsaker={veilederStans.årsaker}
                 tidspunkt={veilederStans.tidspunkt!}
-                fødselsnummer={currentPerson.fodselsnummer}
+                fødselsnummer={currentPerson.identitetsnummer}
             />
         );
     }

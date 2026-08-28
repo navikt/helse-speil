@@ -5,7 +5,6 @@ import { BodyShort } from '@navikt/ds-react';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import {
     Maybe,
-    Personinfo,
     Simulering,
     Utbetaling,
     Utbetalingstatus,
@@ -27,7 +26,6 @@ interface UtbetalingCardProps {
     vilkårsgrunnlag?: Maybe<VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2>;
     antallUtbetalingsdager: number;
     utbetaling: Utbetaling;
-    personinfo: Personinfo;
     arbeidsgiversimulering?: Simulering | null;
     personsimulering?: Simulering | null;
     periodePersonNettoBeløp: number;
@@ -40,7 +38,6 @@ const UtbetalingCardBeregnet = ({
     vilkårsgrunnlag,
     antallUtbetalingsdager,
     utbetaling,
-    personinfo,
     arbeidsgiversimulering,
     personsimulering,
     periodePersonNettoBeløp,
@@ -70,7 +67,6 @@ const UtbetalingCardBeregnet = ({
             )}
             <BeløpTilUtbetaling
                 utbetaling={utbetaling}
-                personinfo={personinfo}
                 arbeidsgiversimulering={arbeidsgiversimulering}
                 personsimulering={personsimulering}
                 periodePersonNettoBeløp={periodePersonNettoBeløp}

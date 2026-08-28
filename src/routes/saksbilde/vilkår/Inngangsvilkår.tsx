@@ -12,6 +12,7 @@ import {
     VilkarsgrunnlagSpleisV2,
     Vurdering,
 } from '@io/graphql';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { OppfylteVilkår } from '@saksbilde/vilkår/vilkårsgrupper/OppfylteVilkår';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -102,6 +103,7 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
     const inntektsforhold = useAktivtInntektsforhold(person);
     const visSpleisTolkningAvOpptjening = useVisSpleisTolkningAvOpptjening();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: apiPerson } = useGetPerson(personPseudoId);
     const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId);
     const opptjeningsvurderingId = vilkårsgrunnlag.opptjeningsvurderingId;
 
@@ -115,6 +117,10 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
         { query: { enabled: visSpleisTolkningAvOpptjening } },
     );
 
+    if (!apiPerson) {
+        return null;
+    }
+
     return (
         <>
             <InngangsvilkårWithContent
@@ -122,7 +128,7 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
                 vurdering={periode.utbetaling.vurdering}
                 periodeFom={periode.fom}
                 vilkårsgrunnlag={vilkårsgrunnlag}
-                fødselsdato={person.personinfo.fodselsdato!}
+                fødselsdato={apiPerson.fødselsdato}
                 spVilkårsvurdering={
                     visSpleisTolkningAvOpptjening
                         ? {

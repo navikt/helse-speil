@@ -8,7 +8,7 @@ import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
-import { useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
+import { useGetPerson, useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { AnnulleringsDialogInnhold } from '@saksbilde/annullering/AnnulleringsDialogInnhold';
 import { OpphevStansAutomatiskBehandlingDialogInnhold } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingDialogInnhold';
@@ -62,6 +62,7 @@ function SaksbildeDropdownMenuContent({
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const { data: saksbehandlerStans } = useGetSaksbehandlerStans(personPseudoId);
+    const { data: apiPerson } = useGetPerson(personPseudoId);
 
     const router = useRouter();
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
@@ -80,10 +81,10 @@ function SaksbildeDropdownMenuContent({
             activePeriod.periodetilstand === Periodetilstand.Utbetalt) &&
         !behandlingHarAnnullering;
 
-    const navn: ApiPersonnavn = {
-        fornavn: person.personinfo.fornavn,
-        mellomnavn: person.personinfo.mellomnavn,
-        etternavn: person.personinfo.etternavn,
+    const navn: ApiPersonnavn | undefined = apiPerson && {
+        fornavn: apiPerson.fornavn,
+        mellomnavn: apiPerson.mellomnavn,
+        etternavn: apiPerson.etternavn,
     };
 
     const fjernFraPåVent = () => {
@@ -185,7 +186,7 @@ function SaksbildeDropdownMenuContent({
                     </ActionMenu.Group>
                 </ActionMenu.Content>
             </ActionMenu>
-            {showLeggPåVentModal && periodeTilGodkjenning && oppgaveId && (
+            {showLeggPåVentModal && periodeTilGodkjenning && oppgaveId && navn && (
                 <LeggPåVentDialog
                     oppgaveId={oppgaveId}
                     navn={navn}
@@ -210,18 +211,18 @@ function SaksbildeDropdownMenuContent({
                         />
                     </Dialog>
                 )}
-            {showStansModal && (
+            {showStansModal && apiPerson && (
                 <Dialog open={showStansModal} onOpenChange={setShowStansModal}>
                     <StansAutomatiskBehandlingDialogInnhold
-                        fødselsnummer={person.fodselsnummer}
+                        fødselsnummer={apiPerson.identitetsnummer}
                         onSuccess={() => setShowStansModal(false)}
                     />
                 </Dialog>
             )}
-            {showOpphevStansModal && (
+            {showOpphevStansModal && apiPerson && (
                 <Dialog open={showOpphevStansModal} onOpenChange={setShowOpphevStansModal}>
                     <OpphevStansAutomatiskBehandlingDialogInnhold
-                        fødselsnummer={person.fodselsnummer}
+                        fødselsnummer={apiPerson.identitetsnummer}
                         onSuccess={() => setShowOpphevStansModal(false)}
                     />
                 </Dialog>

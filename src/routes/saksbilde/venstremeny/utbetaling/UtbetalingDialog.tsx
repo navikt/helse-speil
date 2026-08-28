@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import { ReactElement } from 'react';
 
 import { BodyShort, Button, Dialog, ErrorMessage, HStack, Spacer, VStack } from '@navikt/ds-react';
@@ -6,7 +7,10 @@ import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
-import { Personinfo, Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { Utbetaling, Utbetalingstatus } from '@io/graphql';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
+import { ApiPerson } from '@io/rest/generated/spesialist.schemas';
+import { getFormattedName } from '@saksbilde/venstremeny/personnavn';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName, somPenger } from '@utils/locale';
 
@@ -19,7 +23,6 @@ type UtbetalingDialogProps = {
     totrinnsvurdering: boolean;
     utbetaling?: Utbetaling;
     inntektsforholdReferanse: InntektsforholdReferanse;
-    personinfo?: Personinfo;
 };
 
 export type BackendFeil = {
@@ -35,8 +38,10 @@ export function UtbetalingDialog({
     totrinnsvurdering,
     utbetaling,
     inntektsforholdReferanse,
-    personinfo,
 }: UtbetalingDialogProps): ReactElement {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { data: person } = useGetPerson(personPseudoId);
+
     return (
         <Dialog open={open} onOpenChange={onOpenChange} aria-label="Utbetaling dialog">
             <Dialog.Popup width="small">
@@ -44,11 +49,11 @@ export function UtbetalingDialog({
                     <Dialog.Title>Er du sikker?</Dialog.Title>
                 </Dialog.Header>
                 <Dialog.Body className="flex flex-col gap-8">
-                    {utbetaling && personinfo && (
+                    {utbetaling && person && (
                         <TilUtbetaling
                             utbetaling={utbetaling}
                             inntektsforholdReferanse={inntektsforholdReferanse}
-                            personinfo={personinfo}
+                            person={person}
                         />
                     )}
                     <BodyShort>
@@ -75,10 +80,10 @@ export function UtbetalingDialog({
 type TilUtbetalingProps = {
     utbetaling: Utbetaling;
     inntektsforholdReferanse: InntektsforholdReferanse;
-    personinfo: Personinfo;
+    person: ApiPerson;
 };
 
-function TilUtbetaling({ utbetaling, inntektsforholdReferanse, personinfo }: TilUtbetalingProps): ReactElement {
+function TilUtbetaling({ utbetaling, inntektsforholdReferanse, person }: TilUtbetalingProps): ReactElement {
     return (
         <VStack gap="space-4">
             <HStack align="center" gap="space-16" className="[&>svg]:w-4">
@@ -100,18 +105,10 @@ function TilUtbetaling({ utbetaling, inntektsforholdReferanse, personinfo }: Til
             )}
             <HStack align="center" gap="space-16" className="[&>svg]:w-4">
                 <SykmeldtikonMedTooltip />
-                <AnonymizableTextWithEllipsis>
-                    {capitalizeName(getFormattedName(personinfo))}
-                </AnonymizableTextWithEllipsis>
+                <AnonymizableTextWithEllipsis>{capitalizeName(getFormattedName(person))}</AnonymizableTextWithEllipsis>
                 <Spacer />
                 <BodyShort>{somPenger(utbetaling.personNettoBelop)}</BodyShort>
             </HStack>
         </VStack>
     );
-}
-
-function getFormattedName(personinfo: Personinfo): string {
-    return `${personinfo.fornavn} ${
-        personinfo.mellomnavn ? `${personinfo.mellomnavn} ${personinfo.etternavn}` : personinfo.etternavn
-    }`;
 }

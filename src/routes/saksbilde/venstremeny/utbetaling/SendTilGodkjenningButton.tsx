@@ -3,7 +3,7 @@ import React, { ReactElement, ReactNode, useState } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { Personinfo, Utbetaling } from '@io/graphql';
+import { Utbetaling } from '@io/graphql';
 import { PostSendTilGodkjenningMutationError, usePostSendTilGodkjenning } from '@io/rest/generated/oppgaver/oppgaver';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
@@ -31,7 +31,6 @@ interface SendTilGodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLBu
     onSuccess?: () => void;
     utbetaling: Utbetaling;
     inntektsforholdReferanse: InntektsforholdReferanse;
-    personinfo: Personinfo;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';
 }
@@ -43,7 +42,6 @@ export const SendTilGodkjenningButton = ({
     onSuccess,
     utbetaling,
     inntektsforholdReferanse,
-    personinfo,
     vedtakBegrunnelseTekst,
     size,
     ...buttonProps
@@ -100,7 +98,6 @@ export const SendTilGodkjenningButton = ({
                 open={showModal}
                 utbetaling={utbetaling}
                 inntektsforholdReferanse={inntektsforholdReferanse}
-                personinfo={personinfo}
                 onOpenChange={(open) => {
                     if (!open) {
                         resetSendTilGodkjenningMutation();

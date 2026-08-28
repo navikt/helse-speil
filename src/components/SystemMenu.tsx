@@ -1,13 +1,14 @@
 'use client';
 
 import { useTheme } from 'next-themes';
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
 import { ActionMenu, InternalHeader, Theme } from '@navikt/ds-react';
 
 import { useMounted } from '@hooks/useMounted';
-import { useFetchPersonQuery } from '@state/person';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
 
 export const redirigerTilArbeidOgInntektUrl = async (url: string, fødselsnummer: string | null) => {
     if (!fødselsnummer) {
@@ -157,9 +158,10 @@ export const SystemMenu = (): ReactElement => {
 };
 
 function SystemMenuLinks(): ReactElement[] {
-    const { data } = useFetchPersonQuery();
-    const maybeFnr: string | null = data?.person?.fodselsnummer ?? null;
-    const maybeAktoerId: string | null = data?.person?.aktorId ?? null;
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const { data: person } = useGetPerson(personPseudoId ?? '');
+    const maybeFnr: string | null = person?.identitetsnummer ?? null;
+    const maybeAktoerId: string | null = person?.aktørId ?? null;
 
     return createLinks(maybeFnr, maybeAktoerId).map((link) =>
         'href' in link ? (

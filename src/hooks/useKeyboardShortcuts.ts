@@ -7,6 +7,7 @@ import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { getGetDialogmeldingQueryKey, getGetDialogmeldingerQueryKey } from '@io/rest/generated/default/default';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useAddToast } from '@state/toasts';
@@ -14,14 +15,16 @@ import { useQueryClient } from '@tanstack/react-query';
 import { isBeregnetPeriode, isNotNullOrUndefined, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): string | null => {
-    const { loading, data } = useFetchPersonQuery();
-    return !loading && data !== undefined && isPerson(data.person) ? data.person.fodselsnummer : null;
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const { data: person } = useGetPerson(personPseudoId ?? '');
+    return person?.identitetsnummer ?? null;
 };
 
 const useCurrentAktørId = (): string | null => {
-    const { loading, data } = useFetchPersonQuery();
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const { data: person } = useGetPerson(personPseudoId ?? '');
 
-    return !loading && data !== undefined && isPerson(data.person) ? data.person.aktorId : null;
+    return person?.aktørId ?? null;
 };
 
 const useCopyFødselsnummer = (): (() => void) => {

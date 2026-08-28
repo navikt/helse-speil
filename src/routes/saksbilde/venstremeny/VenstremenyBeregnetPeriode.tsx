@@ -80,7 +80,6 @@ export const VenstremenyBeregnetPeriode = ({
                 vilkårsgrunnlag={vilkårsgrunnlag}
                 antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}
                 utbetaling={activePeriod.utbetaling}
-                personinfo={currentPerson.personinfo}
                 arbeidsgiversimulering={activePeriod.utbetaling.arbeidsgiversimulering}
                 personsimulering={activePeriod.utbetaling.personsimulering}
                 periodeArbeidsgiverNettoBeløp={arbeidsgiverTotalbeløp}
