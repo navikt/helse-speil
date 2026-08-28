@@ -68,14 +68,6 @@ export type Arbeidsforhold = {
     stillingstittel: Scalars['String']['output'];
 };
 
-export type ArbeidsforholdOverstyringHandlingInput = {
-    aktorId: Scalars['String']['input'];
-    fodselsnummer: Scalars['String']['input'];
-    overstyrteArbeidsforhold: Array<OverstyringArbeidsforholdInput>;
-    skjaringstidspunkt: Scalars['LocalDate']['input'];
-    vedtaksperiodeId: Scalars['UUID']['input'];
-};
-
 export type Arbeidsforholdoverstyring = Overstyring & {
     __typename: 'Arbeidsforholdoverstyring';
     begrunnelse: Scalars['String']['output'];
@@ -365,14 +357,6 @@ export type InntektHentetFraAOrdningen = Hendelse & {
     type: Hendelsetype;
 };
 
-export type InntektOgRefusjonOverstyringInput = {
-    aktorId: Scalars['String']['input'];
-    arbeidsgivere: Array<OverstyringArbeidsgiverInput>;
-    fodselsnummer: Scalars['String']['input'];
-    skjaringstidspunkt: Scalars['LocalDate']['input'];
-    vedtaksperiodeId: Scalars['UUID']['input'];
-};
-
 export type Inntektoverstyring = Overstyring & {
     __typename: 'Inntektoverstyring';
     ferdigstilt: Scalars['Boolean']['output'];
@@ -459,14 +443,6 @@ export type LagtPaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
-export type LovhjemmelInput = {
-    bokstav?: InputMaybe<Scalars['String']['input']>;
-    ledd?: InputMaybe<Scalars['String']['input']>;
-    lovverk: Scalars['String']['input'];
-    lovverksversjon: Scalars['String']['input'];
-    paragraf: Scalars['String']['input'];
-};
-
 export type MinimumSykdomsgradOverstyring = Overstyring & {
     __typename: 'MinimumSykdomsgradOverstyring';
     ferdigstilt: Scalars['Boolean']['output'];
@@ -475,25 +451,6 @@ export type MinimumSykdomsgradOverstyring = Overstyring & {
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
     vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type Mutation = {
-    __typename: 'Mutation';
-    overstyrArbeidsforhold: Maybe<Scalars['Boolean']['output']>;
-    overstyrDager: Maybe<Scalars['Boolean']['output']>;
-    overstyrInntektOgRefusjon: Maybe<Scalars['Boolean']['output']>;
-};
-
-export type MutationOverstyrArbeidsforholdArgs = {
-    overstyring: ArbeidsforholdOverstyringHandlingInput;
-};
-
-export type MutationOverstyrDagerArgs = {
-    overstyring: TidslinjeOverstyringInput;
-};
-
-export type MutationOverstyrInntektOgRefusjonArgs = {
-    overstyring: InntektOgRefusjonOverstyringInput;
 };
 
 export type OmregnetArsinntekt = {
@@ -532,42 +489,6 @@ export type Overstyring = {
     saksbehandler: Saksbehandler;
     timestamp: Scalars['LocalDateTime']['output'];
     vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type OverstyringArbeidsforholdInput = {
-    begrunnelse: Scalars['String']['input'];
-    deaktivert: Scalars['Boolean']['input'];
-    forklaring: Scalars['String']['input'];
-    lovhjemmel?: InputMaybe<LovhjemmelInput>;
-    orgnummer: Scalars['String']['input'];
-};
-
-export type OverstyringArbeidsgiverInput = {
-    begrunnelse: Scalars['String']['input'];
-    fom?: InputMaybe<Scalars['LocalDate']['input']>;
-    forklaring: Scalars['String']['input'];
-    fraManedligInntekt: Scalars['Float']['input'];
-    fraRefusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
-    lovhjemmel?: InputMaybe<LovhjemmelInput>;
-    manedligInntekt: Scalars['Float']['input'];
-    organisasjonsnummer: Scalars['String']['input'];
-    refusjonsopplysninger?: InputMaybe<Array<OverstyringRefusjonselementInput>>;
-    tom?: InputMaybe<Scalars['LocalDate']['input']>;
-};
-
-export type OverstyringDagInput = {
-    dato: Scalars['LocalDate']['input'];
-    fraGrad?: InputMaybe<Scalars['Int']['input']>;
-    fraType: Scalars['String']['input'];
-    grad?: InputMaybe<Scalars['Int']['input']>;
-    lovhjemmel?: InputMaybe<LovhjemmelInput>;
-    type: Scalars['String']['input'];
-};
-
-export type OverstyringRefusjonselementInput = {
-    belop: Scalars['Float']['input'];
-    fom: Scalars['LocalDate']['input'];
-    tom?: InputMaybe<Scalars['LocalDate']['input']>;
 };
 
 export type OverstyrtDag = {
@@ -964,15 +885,6 @@ export type Sykmelding = Hendelse & {
     rapportertDato: Scalars['LocalDateTime']['output'];
     tom: Scalars['LocalDate']['output'];
     type: Hendelsetype;
-};
-
-export type TidslinjeOverstyringInput = {
-    aktorId: Scalars['String']['input'];
-    begrunnelse: Scalars['String']['input'];
-    dager: Array<OverstyringDagInput>;
-    fodselsnummer: Scalars['String']['input'];
-    organisasjonsnummer: Scalars['String']['input'];
-    vedtaksperiodeId: Scalars['UUID']['input'];
 };
 
 export type Tildeling = {
