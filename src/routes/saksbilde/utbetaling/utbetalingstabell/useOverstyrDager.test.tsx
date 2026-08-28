@@ -1,30 +1,16 @@
 import { Mock, vi } from 'vitest';
 
 import { customAxios } from '@app/axios/axiosClient';
-import { Kildetype, OverstyrDagerMutationDocument } from '@io/graphql';
+import { Kildetype } from '@io/graphql';
 import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
-import { enArbeidsgiver } from '@test-data/arbeidsgiver';
-import { enPerson } from '@test-data/person';
 import { renderHook } from '@test-utils';
 import { act, waitFor } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
-
-// skalBrukeRestOverstyring() styrer om hooken bruker REST (lokalt/dev) eller GraphQL (prod), se
-// plan-overstyring-graphql-til-rest.md. Default til `true` (REST) og sett til `false` i egne
-// tester som skal dekke den gamle GraphQL-varianten frem til den fjernes.
-const featureToggleMock = vi.hoisted(() => ({ skalBrukeRestOverstyring: true }));
-vi.mock('@utils/featureToggles', async () => {
-    const actual = await vi.importActual<typeof import('@utils/featureToggles')>('@utils/featureToggles');
-    return {
-        ...actual,
-        skalBrukeRestOverstyring: () => featureToggleMock.skalBrukeRestOverstyring,
-    };
-});
 
 vi.mock('@state/person');
 vi.mock('@state/inntektsforhold/inntektsforhold');
@@ -34,118 +20,27 @@ vi.mock('@state/serverSentEvents', async () => ({
     useHåndterNyttEvent: vi.fn(),
 }));
 
-const AKTØR_ID = 'aktørId';
-const FØDSELSNUMMER = 'fødselsnummer';
 const ORGNUMMER = '987654321';
 const VEDTAKSPERIODE_ID = 'vedtaksperiode';
 const BEGRUNNELSE = 'begrunnelse';
 
-describe('useOverstyrDager (GraphQL, prod)', () => {
+describe('useOverstyrDager', () => {
     beforeEach(() => {
-        featureToggleMock.skalBrukeRestOverstyring = false;
-        (useAktivtInntektsforhold as Mock).mockReturnValue(enArbeidsgiver({ organisasjonsnummer: ORGNUMMER }));
+        (useAktivtInntektsforhold as Mock).mockReturnValue({ organisasjonsnummer: ORGNUMMER });
         (useAddToast as Mock).mockReturnValue(() => {});
         (useRemoveToast as Mock).mockReturnValue(() => {});
         (useHåndterNyttEvent as Mock).mockReturnValue(() => {});
     });
 
     test('skal ha default verdier ved oppstart', async () => {
-        const person = enPerson();
-        const { result } = renderHook((initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver()), {
-            mocks,
-            initialProps: person,
-        });
+        const { result } = renderHook(() => useOverstyrDager());
         expect(result.current.error).toBe(undefined);
         expect(result.current.done).toBe(false);
     });
 
-    test('skal ha kalle callback etter posting av korrekt overstyring', async () => {
-        const person = enPerson({
-            aktorId: AKTØR_ID,
-            fodselsnummer: FØDSELSNUMMER,
-        });
-        const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer: ORGNUMMER });
-        const { result, rerender } = renderHook(
-            (initialProps) => useOverstyrDager(initialProps.person, initialProps.arbeidsgiver),
-            {
-                mocks,
-                initialProps: { person, arbeidsgiver },
-            },
-        );
-
-        const callback = vi.fn();
-
-        await act(() =>
-            result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID, callback),
-        );
-
-        rerender({ person, arbeidsgiver });
-
-        await waitFor(() => expect(callback).toHaveBeenCalledTimes(1));
-    });
-
-    test('skal ha done lik true etter person er oppdatert', async () => {
-        const person = enPerson({
-            aktorId: AKTØR_ID,
-            fodselsnummer: FØDSELSNUMMER,
-        });
-
-        // Set up mock to trigger event callback when hook re-runs after mutation
-        (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {
-            onNyttEvent({
-                event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,
-                data: null,
-            });
-        });
-
-        const { result, rerender } = renderHook(
-            (initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver({ organisasjonsnummer: ORGNUMMER })),
-            {
-                mocks,
-                initialProps: person,
-            },
-        );
-
-        await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
-
-        rerender(enPerson());
-        await waitFor(() => expect(result.current.done).toBeTruthy());
-    });
-
-    test('skal ha error hvis overstyring ikke virker', async () => {
-        const person = enPerson({
-            aktorId: AKTØR_ID,
-            fodselsnummer: FØDSELSNUMMER,
-        });
-        const { result, rerender } = renderHook(
-            (initialPerson) => useOverstyrDager(initialPerson, enArbeidsgiver({ organisasjonsnummer: ORGNUMMER })),
-            {
-                mocks,
-                initialProps: person,
-            },
-        );
-
-        await act(() => result.current.postOverstyring([], [], BEGRUNNELSE, 'en feil'));
-
-        rerender(person);
-        await waitFor(() => expect(result.current.error).not.toBeNull());
-    });
-});
-
-describe('useOverstyrDager (REST, lokalt/dev)', () => {
-    beforeEach(() => {
-        featureToggleMock.skalBrukeRestOverstyring = true;
-        (useAktivtInntektsforhold as Mock).mockReturnValue(enArbeidsgiver({ organisasjonsnummer: ORGNUMMER }));
-        (useAddToast as Mock).mockReturnValue(() => {});
-        (useRemoveToast as Mock).mockReturnValue(() => {});
-        (useHåndterNyttEvent as Mock).mockReturnValue(() => {});
-    });
-
     test('skal poste overstyring av tidslinje til REST-endepunktet', async () => {
         (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
-        const person = enPerson({ aktorId: AKTØR_ID, fodselsnummer: FØDSELSNUMMER });
-        const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer: ORGNUMMER });
-        const { result } = renderHook(() => useOverstyrDager(person, arbeidsgiver));
+        const { result } = renderHook(() => useOverstyrDager());
 
         const callback = vi.fn();
         await act(() =>
@@ -165,11 +60,26 @@ describe('useOverstyrDager (REST, lokalt/dev)', () => {
         await waitFor(() => expect(callback).toHaveBeenCalledTimes(1));
     });
 
+    test('skal ha done lik true etter ny saksbehandleroppgave-event', async () => {
+        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+
+        (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {
+            onNyttEvent({
+                event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,
+                data: null,
+            });
+        });
+
+        const { result } = renderHook(() => useOverstyrDager());
+
+        await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
+
+        await waitFor(() => expect(result.current.done).toBeTruthy());
+    });
+
     test('skal ha error hvis REST-overstyringen feiler', async () => {
         (customAxios as unknown as Mock).mockRejectedValue({ response: { status: 500, data: undefined } });
-        const person = enPerson({ aktorId: AKTØR_ID, fodselsnummer: FØDSELSNUMMER });
-        const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer: ORGNUMMER });
-        const { result, rerender } = renderHook(() => useOverstyrDager(person, arbeidsgiver));
+        const { result, rerender } = renderHook(() => useOverstyrDager());
 
         await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));
 
@@ -210,45 +120,5 @@ const oversyrteDager: Utbetalingstabelldag[] = [
         erVentetid: false,
         erAvvist: false,
         erMaksdato: false,
-    },
-];
-const mocks = [
-    {
-        request: {
-            query: OverstyrDagerMutationDocument,
-            variables: {
-                overstyring: {
-                    aktorId: AKTØR_ID,
-                    fodselsnummer: FØDSELSNUMMER,
-                    organisasjonsnummer: ORGNUMMER,
-                    dager: tilOverstyrteDager(dager, oversyrteDager),
-                    begrunnelse: BEGRUNNELSE,
-                    vedtaksperiodeId: VEDTAKSPERIODE_ID,
-                },
-            },
-        },
-        result: {
-            data: {
-                overstyrDager: true,
-            },
-        },
-    },
-    {
-        request: {
-            query: OverstyrDagerMutationDocument,
-            variables: {
-                overstyring: {
-                    aktorId: AKTØR_ID,
-                    fodselsnummer: FØDSELSNUMMER,
-                    organisasjonsnummer: ORGNUMMER,
-                    dager: [],
-                    begrunnelse: BEGRUNNELSE,
-                    vedtaksperiodeId: 'en feil',
-                },
-            },
-        },
-        result: {
-            errors: [{ message: 'en feil' }],
-        },
     },
 ];

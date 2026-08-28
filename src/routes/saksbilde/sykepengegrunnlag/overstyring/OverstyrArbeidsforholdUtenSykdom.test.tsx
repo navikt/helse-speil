@@ -1,13 +1,12 @@
 import { Mock, vi } from 'vitest';
 
 import { customAxios } from '@app/axios/axiosClient';
-import { OverstyrArbeidsforholdMutationDocument, OverstyringArbeidsforholdInput } from '@io/graphql';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
-import { createMock, render, screen } from '@test-utils';
+import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('@io/sse/useAbonnerPåEndringer', () => ({
@@ -20,8 +19,6 @@ vi.mock('@hooks/brukerrolleHooks', () => ({
 
 describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
     beforeEach(() => {
-        // Overstyring av arbeidsforhold bruker REST (ikke GraphQL) utenom i prod, se
-        // plan-overstyring-graphql-til-rest.md
         (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
     });
 
@@ -45,16 +42,6 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
-        const mocks = [
-            overstyrArbeidsforholdMutationMock(periode.skjaeringstidspunkt, periode.vedtaksperiodeId, {
-                begrunnelse: 'Avbrudd mer enn 14 dager (generell)',
-                deaktivert: true,
-                forklaring: 'En begrunnelse',
-                orgnummer: arbeidsgiver.organisasjonsnummer,
-                lovhjemmel: { paragraf: '8-15', lovverk: 'folketrygdloven', lovverksversjon: '1998-12-18' },
-            }),
-        ];
-
         render(
             <VenterPåEndringProvider>
                 <OverstyrArbeidsforholdUtenSykdom
@@ -64,7 +51,6 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
                     person={person}
                 />
             </VenterPåEndringProvider>,
-            { mocks },
         );
         await userEvent.click(screen.getByRole('button'));
         await userEvent.click(screen.getAllByRole('radio')[0]!);
@@ -94,14 +80,6 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
         const periode = enBeregnetPeriode();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-        const mocks = [
-            overstyrArbeidsforholdMutationMock(periode.skjaeringstidspunkt, periode.vedtaksperiodeId, {
-                begrunnelse: 'Angret å ikke bruke det i beregningen',
-                deaktivert: false,
-                forklaring: 'Saksbehandler angret å deaktivere arbeidsforholdet i beregningen',
-                orgnummer: arbeidsgiver.organisasjonsnummer,
-            }),
-        ];
         render(
             <VenterPåEndringProvider>
                 <OverstyrArbeidsforholdUtenSykdom
@@ -111,7 +89,6 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
                     person={person}
                 />
             </VenterPåEndringProvider>,
-            { mocks },
         );
 
         await userEvent.click(screen.getByRole('button'));
@@ -120,29 +97,3 @@ describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
         expect(screen.queryByText('Bruk arbeidsforholdet i beregningen likevel')).not.toBeInTheDocument();
     });
 });
-
-const overstyrArbeidsforholdMutationMock = (
-    skjæringstidspunkt: string,
-    vedtaksperiodeId: string,
-    overstyrtArbeidsforhold: OverstyringArbeidsforholdInput,
-) =>
-    createMock({
-        request: {
-            query: OverstyrArbeidsforholdMutationDocument,
-            variables: {
-                overstyring: {
-                    aktorId: '1234567890',
-                    overstyrteArbeidsforhold: [overstyrtArbeidsforhold],
-                    fodselsnummer: '12345678910',
-                    skjaringstidspunkt: skjæringstidspunkt,
-                    vedtaksperiodeId: vedtaksperiodeId,
-                },
-            },
-        },
-        result: {
-            data: {
-                __typename: 'Mutation',
-                overstyrArbeidsforhold: true,
-            },
-        },
-    });

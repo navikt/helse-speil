@@ -91,17 +91,6 @@ const getResolvers = (): IResolvers => ({
             return person;
         },
     },
-    Mutation: {
-        overstyrDager: async () => {
-            return true;
-        },
-        overstyrInntektOgRefusjon: async () => {
-            return true;
-        },
-        overstyrArbeidsforhold: async () => {
-            return true;
-        },
-    },
     Periode: {
         __resolveType: (periode: { utbetaling: Utbetaling; vilkarsgrunnlagId: string }) => {
             return periode.utbetaling?.id ? 'BeregnetPeriode' : 'UberegnetPeriode';

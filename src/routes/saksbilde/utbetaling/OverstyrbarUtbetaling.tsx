@@ -188,7 +188,7 @@ export const OverstyrbarUtbetaling = ({
 
     const [overstyrer, setOverstyrer] = useState(false);
 
-    const { postOverstyring, error, done } = useOverstyrDager(person, inntektsforhold);
+    const { postOverstyring, error, done } = useOverstyrDager();
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 

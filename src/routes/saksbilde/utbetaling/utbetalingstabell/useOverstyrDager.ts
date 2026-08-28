@@ -1,11 +1,8 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { FetchResult, useMutation } from '@apollo/client';
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
-import { OverstyrDagerMutationDocument, OverstyrDagerMutationMutation, PersonFragment } from '@io/graphql';
 import { usePostOverstyrTidslinje } from '@io/rest/generated/overstyringer/overstyringer';
-import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
     visningenErOppdatertToast,
     visningenErOppdatertToastKey,
@@ -16,8 +13,6 @@ import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { skalBrukeRestOverstyring } from '@utils/featureToggles';
-import { isArbeidsgiver } from '@utils/typeguards';
 
 type UsePostOverstyringResult = {
     postOverstyring: (
@@ -26,19 +21,14 @@ type UsePostOverstyringResult = {
         begrunnelse: string,
         vedtaksperiodeId: string,
         callback?: () => void,
-    ) => Promise<void | FetchResult<OverstyrDagerMutationMutation>>;
+    ) => Promise<void>;
     error?: string;
     done: boolean;
 };
 
-export const useOverstyrDager = (
-    person: PersonFragment,
-    inntektsforhold: Inntektsforhold,
-): UsePostOverstyringResult => {
+export const useOverstyrDager = (): UsePostOverstyringResult => {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const [overstyrMutation, { error: overstyringError }] = useMutation(OverstyrDagerMutationDocument);
-    // TODO: Fjern GraphQL-varianten (og skalBrukeRestOverstyring-bryteren) når REST er rullet ut i prod
     const { mutateAsync: overstyrTidslinje, error: overstyrTidslinjeError } = usePostOverstyrTidslinje();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
     const [done, setDone] = useState(false);
@@ -63,30 +53,10 @@ export const useOverstyrDager = (
         begrunnelse: string,
         vedtaksperiodeId: string,
         callback?: () => void,
-    ): Promise<void | FetchResult<OverstyrDagerMutationMutation>> => {
+    ): Promise<void> => {
         setDone(false);
         addToast(visningenOppdateresToast({}));
         setVisningenOppdateres(true);
-
-        if (!skalBrukeRestOverstyring()) {
-            return overstyrMutation({
-                variables: {
-                    overstyring: {
-                        aktorId: person.aktorId,
-                        fodselsnummer: person.fodselsnummer,
-                        organisasjonsnummer: isArbeidsgiver(inntektsforhold)
-                            ? inntektsforhold.organisasjonsnummer
-                            : 'SELVSTENDIG',
-                        dager: tilOverstyrteDager(dager, overstyrteDager),
-                        begrunnelse: begrunnelse,
-                        vedtaksperiodeId,
-                    },
-                },
-                onCompleted: () => {
-                    callback?.();
-                },
-            }).catch(() => Promise.resolve());
-        }
 
         return overstyrTidslinje({
             vedtaksperiodeId,
@@ -103,9 +73,7 @@ export const useOverstyrDager = (
 
     return {
         postOverstyring: overstyrDager,
-        error: (skalBrukeRestOverstyring() ? overstyrTidslinjeError : overstyringError)
-            ? 'Feil under sending av overstyring. Prøv igjen senere.'
-            : undefined,
+        error: overstyrTidslinjeError ? 'Feil under sending av overstyring. Prøv igjen senere.' : undefined,
         done,
     };
 };

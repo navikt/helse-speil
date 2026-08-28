@@ -1,12 +1,6 @@
-import { useMutation } from '@apollo/client';
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
-import {
-    ArbeidsforholdOverstyringHandlingInput,
-    OverstyrArbeidsforholdMutationDocument,
-    OverstyringArbeidsforholdInput,
-    PersonFragment,
-} from '@io/graphql';
-import { usePostOverstyrArbeidsforhold as usePostOverstyrArbeidsforholdRest } from '@io/rest/generated/overstyringer/overstyringer';
+import { PersonFragment } from '@io/graphql';
+import { usePostOverstyrArbeidsforhold } from '@io/rest/generated/overstyringer/overstyringer';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
     visningenErOppdatertToast,
@@ -18,7 +12,6 @@ import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
-import { skalBrukeRestOverstyring } from '@utils/featureToggles';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
 type OverstyrtArbeidsforholdGetter = (
@@ -61,13 +54,7 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onVisningOppdat
 
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
 
-    const [overstyrMutation, { error, loading }] = useMutation(OverstyrArbeidsforholdMutationDocument);
-    // TODO: Fjern GraphQL-varianten (og skalBrukeRestOverstyring-bryteren) når REST er rullet ut i prod
-    const {
-        mutateAsync: overstyrArbeidsforholdRest,
-        error: restError,
-        isPending: restIsLoading,
-    } = usePostOverstyrArbeidsforholdRest();
+    const { mutateAsync: overstyrArbeidsforhold, error, isPending: isLoading } = usePostOverstyrArbeidsforhold();
 
     useHåndterNyttEvent((event) => {
         if (visningenOppdateres && event.event === 'NY_SAKSBEHANDLEROPPGAVE') {
@@ -80,41 +67,10 @@ export const usePostOverstyrtArbeidsforhold = (aktørId: string, onVisningOppdat
     useFjernOppdatererToast(visningenOppdateres);
 
     return {
-        isLoading: (skalBrukeRestOverstyring() ? restIsLoading : loading) || visningenOppdateres,
-        error:
-            (skalBrukeRestOverstyring() ? restError : error) &&
-            'Kunne ikke overstyre arbeidsforhold. Prøv igjen senere.',
+        isLoading: isLoading || visningenOppdateres,
+        error: error && 'Kunne ikke overstyre arbeidsforhold. Prøv igjen senere.',
         postOverstyring: (overstyrtArbeidsforhold: OverstyrtArbeidsforholdDTO) => {
-            if (!skalBrukeRestOverstyring()) {
-                const overstyring: ArbeidsforholdOverstyringHandlingInput = {
-                    aktorId: overstyrtArbeidsforhold.aktørId,
-                    overstyrteArbeidsforhold: overstyrtArbeidsforhold.overstyrteArbeidsforhold.map(
-                        (arbeidsforhold): OverstyringArbeidsforholdInput => ({
-                            begrunnelse: arbeidsforhold.begrunnelse,
-                            deaktivert: arbeidsforhold.deaktivert,
-                            forklaring: arbeidsforhold.forklaring,
-                            orgnummer: arbeidsforhold.orgnummer,
-                            lovhjemmel: arbeidsforhold.lovhjemmel,
-                        }),
-                    ),
-                    fodselsnummer: overstyrtArbeidsforhold.fødselsnummer,
-                    skjaringstidspunkt: overstyrtArbeidsforhold.skjæringstidspunkt,
-                    vedtaksperiodeId: overstyrtArbeidsforhold.vedtaksperiodeId,
-                };
-
-                void overstyrMutation({
-                    variables: { overstyring: overstyring },
-                    onCompleted: () => {
-                        if (aktørId) {
-                            setVisningenOppdateres(true);
-                            addToast(visningenOppdateresToast({}));
-                        }
-                    },
-                });
-                return;
-            }
-
-            void overstyrArbeidsforholdRest({
+            void overstyrArbeidsforhold({
                 vedtaksperiodeId: overstyrtArbeidsforhold.vedtaksperiodeId,
                 data: {
                     skjæringstidspunkt: overstyrtArbeidsforhold.skjæringstidspunkt,
