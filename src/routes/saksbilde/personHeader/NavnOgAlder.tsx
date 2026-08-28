@@ -4,27 +4,35 @@ import React, { ReactElement } from 'react';
 import { CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { AnonymizableBold } from '@components/anonymizable/AnonymizableBold';
-import { Personinfo } from '@io/graphql';
+import { ApiPerson } from '@io/rest/generated/spesialist.schemas';
 import { capitalizeName } from '@utils/locale';
 
-const getFormattedName = ({ etternavn, mellomnavn, fornavn }: Personinfo) => {
+type Navn = Pick<ApiPerson, 'fornavn' | 'mellomnavn' | 'etternavn'>;
+
+const getFormattedName = ({ etternavn, mellomnavn, fornavn }: Navn) => {
     return `${fornavn}${mellomnavn ? ` ${mellomnavn}` : ''} ${etternavn}`;
 };
 
-const getFormattedAge = (fodselsdato: string, dodsdato: string | null) => {
-    const sluttidspunkt = dodsdato ? dayjs(dodsdato, 'YYYY-MM-DD') : dayjs();
-    const alder = sluttidspunkt.diff(fodselsdato, 'year');
+const getFormattedAge = (fødselsdato: string, dødsdato: string | null | undefined) => {
+    const sluttidspunkt = dødsdato ? dayjs(dødsdato, 'YYYY-MM-DD') : dayjs();
+    const alder = sluttidspunkt.diff(fødselsdato, 'year');
     return ` (${alder} år)`;
 };
 
-interface NavnOgAlderProps {
-    personinfo: Personinfo;
-    dodsdato: string | null;
+interface NavnOgAlderProps extends Navn {
+    fødselsdato: string;
+    dødsdato?: string | null;
 }
 
-export const NavnOgAlder = ({ personinfo, dodsdato }: NavnOgAlderProps): ReactElement => {
-    const formattedName = capitalizeName(getFormattedName(personinfo));
-    const formattedAge = personinfo.fodselsdato ? getFormattedAge(personinfo.fodselsdato, dodsdato) : null;
+export const NavnOgAlder = ({
+    fornavn,
+    mellomnavn,
+    etternavn,
+    fødselsdato,
+    dødsdato,
+}: NavnOgAlderProps): ReactElement => {
+    const formattedName = capitalizeName(getFormattedName({ fornavn, mellomnavn, etternavn }));
+    const formattedAge = fødselsdato ? getFormattedAge(fødselsdato, dødsdato) : null;
 
     return (
         <HStack gap="space-4">

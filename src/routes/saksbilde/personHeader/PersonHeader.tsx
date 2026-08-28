@@ -1,11 +1,12 @@
+import { useParams } from 'next/navigation';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { BodyShort, HStack, Skeleton } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Kjonn } from '@io/graphql';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
+import { ApiPersonKjønn } from '@io/rest/generated/spesialist.schemas';
 import { useIsAnonymous } from '@state/anonymization';
-import { useFetchPersonQuery } from '@state/person';
 import { cn } from '@utils/tw';
 
 import { GenderIcon } from './GenderIcon';
@@ -38,11 +39,15 @@ export function PersonHeaderFrame({ children, className }: PropsWithChildren<{ c
 
 function PersonHeaderContainer(): ReactElement | null {
     const isAnonymous = useIsAnonymous();
-    const { loading, data } = useFetchPersonQuery();
-    const person = data?.person;
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { isPending, isError, data: person } = useGetPerson(personPseudoId);
 
-    if (loading) {
+    if (isPending) {
         return <PersonHeaderSkeleton />;
+    }
+
+    if (isError) {
+        return <PersonHeaderError />;
     }
 
     if (!person) {
@@ -55,7 +60,7 @@ function PersonHeaderContainer(): ReactElement | null {
 function PersonHeaderSkeleton(): ReactElement {
     return (
         <PersonHeaderFrame>
-            <GenderIcon gender={Kjonn.Ukjent} />
+            <GenderIcon gender={ApiPersonKjønn.UKJENT} />
             <Skeleton variant="rectangle" width="200px" />
             <PersonHeaderSeparator />
             <Skeleton variant="rectangle" width="200px" />

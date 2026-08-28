@@ -2,16 +2,16 @@ import React, { ReactElement } from 'react';
 
 import { FigureCombinationIcon, FigureInwardIcon, FigureOutwardIcon } from '@navikt/aksel-icons';
 
-import { Kjonn } from '@io/graphql';
+import { ApiPersonKjønn } from '@io/rest/generated/spesialist.schemas';
 
 interface GenderIconProps extends React.SVGAttributes<SVGElement> {
-    gender: Kjonn;
+    gender: ApiPersonKjønn;
 }
 
 const genderIcons = {
-    Kvinne: FigureOutwardIcon,
-    Mann: FigureInwardIcon,
-    Ukjent: FigureCombinationIcon,
+    [ApiPersonKjønn.KVINNE]: FigureOutwardIcon,
+    [ApiPersonKjønn.MANN]: FigureInwardIcon,
+    [ApiPersonKjønn.UKJENT]: FigureCombinationIcon,
 };
 
 export const GenderIcon = ({ gender }: GenderIconProps): ReactElement => {

@@ -1,14 +1,10 @@
 import React, { ReactElement } from 'react';
 
-import { PersonFragment } from '@io/graphql';
-
 import { TagMedTooltip } from './TagMedTooltip';
 
 interface FullmaktTagProps {
-    person: PersonFragment;
+    fullmakt?: boolean | null;
 }
 
-export const FullmaktTag = ({ person }: FullmaktTagProps): ReactElement | null => {
-    const harFullmakt = person?.personinfo?.fullmakt;
-    return harFullmakt ? <TagMedTooltip tooltipTekst="Den sykmeldte er under fullmakt" etikett="Fullmakt" /> : null;
-};
+export const FullmaktTag = ({ fullmakt }: FullmaktTagProps): ReactElement | null =>
+    fullmakt ? <TagMedTooltip tooltipTekst="Den sykmeldte er under fullmakt" etikett="Fullmakt" /> : null;

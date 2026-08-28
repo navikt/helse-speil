@@ -1,15 +1,15 @@
 import React, { ReactElement } from 'react';
 
-import { PersonFragment } from '@io/graphql';
 import { finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
+import { useFetchPersonQuery } from '@state/person';
 
 import { TagMedTooltip } from './TagMedTooltip';
 
-interface VergemålTagProps {
-    person: PersonFragment;
-}
+export const VergemålTag = (): ReactElement | null => {
+    const { data } = useFetchPersonQuery();
+    const person = data?.person;
+    if (!person) return null;
 
-export const VergemålTag = ({ person }: VergemålTagProps): ReactElement | null => {
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     if (!periodeTilGodkjenning) return null;
 

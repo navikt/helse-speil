@@ -1,12 +1,15 @@
 import React from 'react';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
+import { useFetchPersonQuery } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@testing-library/react';
 
 import { UtlandTag } from './UtlandTag';
+
+vi.mock('@state/person');
 
 describe('UtlandTag', () => {
     const periode = enBeregnetPeriode()
@@ -32,11 +35,13 @@ describe('UtlandTag', () => {
         vi.clearAllMocks();
     });
     it('rendrer tag når det finnes en periode til godkjenning med varsel for utlandsenhet', () => {
-        render(<UtlandTag person={personMedVarsel} />);
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: personMedVarsel } });
+        render(<UtlandTag />);
         expect(screen.queryByText('Utland')).toBeVisible();
     });
     it('rendrer ikke tag når det ikke finnes varsel for utlandsenhet på periode til godkjenning', () => {
-        render(<UtlandTag person={personUtenVarsel} />);
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: personUtenVarsel } });
+        render(<UtlandTag />);
         expect(screen.queryByText('Utland')).not.toBeInTheDocument();
     });
 });

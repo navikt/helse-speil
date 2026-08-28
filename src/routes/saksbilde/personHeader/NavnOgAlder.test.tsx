@@ -1,40 +1,34 @@
 import dayjs from 'dayjs';
 
-import { Adressebeskyttelse, Kjonn, Personinfo } from '@io/graphql';
 import { NavnOgAlder } from '@saksbilde/personHeader/NavnOgAlder';
 import { render } from '@test-utils';
 import { cleanup, screen } from '@testing-library/react';
 
 describe('NavnOgAlder', () => {
     test('rendrer ok', () => {
-        render(<NavnOgAlder personinfo={defaultPersoninfo} dodsdato={null} />);
+        render(<NavnOgAlder {...defaultNavn} fødselsdato="1976-02-06" dødsdato={null} />);
         expect(screen.getByText('Bruce Batman Wayne (50 år)')).toBeVisible();
     });
 
     test('Regner alder ut fra fødselsdato', () => {
-        const fodselsdato = '1978-06-14';
-        render(<NavnOgAlder personinfo={{ ...defaultPersoninfo, fodselsdato }} dodsdato={null} />);
-        const antallÅrMellomFødselsdatoOgNå = dayjs().diff(fodselsdato, 'year');
+        const fødselsdato = '1978-06-14';
+        render(<NavnOgAlder {...defaultNavn} fødselsdato={fødselsdato} dødsdato={null} />);
+        const antallÅrMellomFødselsdatoOgNå = dayjs().diff(fødselsdato, 'year');
         expect(screen.getByText(`(${antallÅrMellomFødselsdatoOgNå} år)`, { exact: false })).toBeVisible();
     });
 
     test('viser riktig alder etter dødsfall', () => {
-        const fodselsdato = '1980-02-01';
-        render(<NavnOgAlder personinfo={{ ...defaultPersoninfo, fodselsdato }} dodsdato="2022-01-31" />);
+        const fødselsdato = '1980-02-01';
+        render(<NavnOgAlder {...defaultNavn} fødselsdato={fødselsdato} dødsdato="2022-01-31" />);
         expect(screen.getByText('(41 år)', { exact: false })).toBeVisible();
         cleanup();
-        render(<NavnOgAlder personinfo={{ ...defaultPersoninfo, fodselsdato }} dodsdato="2022-02-01" />);
+        render(<NavnOgAlder {...defaultNavn} fødselsdato={fødselsdato} dødsdato="2022-02-01" />);
         expect(screen.getByText('(42 år)', { exact: false })).toBeVisible();
     });
 });
 
-const defaultPersoninfo: Personinfo = {
-    __typename: 'Personinfo',
+const defaultNavn = {
     fornavn: 'BRUCE',
     mellomnavn: 'BATMAN',
     etternavn: 'WAYNE',
-    adressebeskyttelse: Adressebeskyttelse.Ugradert,
-    kjonn: Kjonn.Mann,
-    fullmakt: null,
-    fodselsdato: '1976-02-06',
 };

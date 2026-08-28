@@ -1,11 +1,15 @@
 import React from 'react';
+import { Mock, vi } from 'vitest';
 
+import { useFetchPersonQuery } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@testing-library/react';
 
 import { VergemålTag } from './VergemålTag';
+
+vi.mock('@state/person');
 
 describe('VergemålTag', () => {
     const personUtenVarsel = enPerson();
@@ -31,11 +35,13 @@ describe('VergemålTag', () => {
     ]);
 
     it('rendrer tag når det finnes en periode til godkjenning med varsel for vergemål', () => {
-        render(<VergemålTag person={personMedVarsel} />);
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: personMedVarsel } });
+        render(<VergemålTag />);
         expect(screen.queryByText('Vergemål')).toBeVisible();
     });
     it('rendrer ikke tag når det ikke finnes varsel for vergemål på periode til godkjenning', () => {
-        render(<VergemålTag person={personUtenVarsel} />);
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: personUtenVarsel } });
+        render(<VergemålTag />);
         expect(screen.queryByText('Vergemål')).not.toBeInTheDocument();
     });
 });

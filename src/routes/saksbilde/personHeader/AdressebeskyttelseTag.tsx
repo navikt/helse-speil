@@ -3,20 +3,20 @@ import React, { ReactElement } from 'react';
 import { Tag } from '@navikt/ds-react';
 
 import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
-import { Adressebeskyttelse } from '@io/graphql';
+import { ApiPersonAdressebeskyttelse } from '@io/rest/generated/spesialist.schemas';
 
 interface AdressebeskyttelseTagProps {
-    adressebeskyttelse: Adressebeskyttelse;
+    adressebeskyttelse: ApiPersonAdressebeskyttelse;
 }
 
 export const AdressebeskyttelseTag = ({ adressebeskyttelse }: AdressebeskyttelseTagProps): ReactElement | null => {
-    if (adressebeskyttelse !== 'Fortrolig') {
+    if (adressebeskyttelse !== ApiPersonAdressebeskyttelse.FORTROLIG) {
         return null;
     }
     return (
         <AnonymizableContainer>
             <Tag variant="error" size="small">
-                {adressebeskyttelse} adresse
+                Fortrolig adresse
             </Tag>
         </AnonymizableContainer>
     );

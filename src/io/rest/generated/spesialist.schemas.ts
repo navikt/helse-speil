@@ -2212,6 +2212,8 @@ export type ApiPersonMellomnavn = null | string;
 
 export type ApiPersonDødsdato = null | string;
 
+export type ApiPersonFullmakt = null | boolean;
+
 export interface ApiPerson {
     identitetsnummer: string;
     andreIdentitetsnumre: string[];
@@ -2223,6 +2225,7 @@ export interface ApiPerson {
     dødsdato?: ApiPersonDødsdato;
     kjønn: ApiPersonKjønn;
     adressebeskyttelse: ApiPersonAdressebeskyttelse;
+    fullmakt?: ApiPersonFullmakt;
 }
 
 export type ApiGetPersonErrorCode = (typeof ApiGetPersonErrorCode)[keyof typeof ApiGetPersonErrorCode];

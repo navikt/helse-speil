@@ -23,6 +23,7 @@ export const stub = async (_request: Request, params: Promise<{ pseudoId: string
         dødsdato: person.dodsdato,
         kjønn: toApiPersonKjønn(person.personinfo.kjonn),
         adressebeskyttelse: toApiPersonAdressebeskyttelse(person.personinfo.adressebeskyttelse),
+        fullmakt: person.personinfo.fullmakt,
     };
     return Response.json(apiPerson, { status: 200 });
 };
