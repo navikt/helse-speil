@@ -12,8 +12,8 @@ import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { DialogmeldingMal, useDialogmeldingMaler } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostNyDialogmelding } from '@io/rest/generated/default/default';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
-import { useFetchPersonQuery } from '@state/person';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { BehandlerSearch } from './BehandlerSearch';
@@ -22,9 +22,8 @@ export function NyDialogmeldingForm(): ReactElement {
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
-    const { data: personData } = useFetchPersonQuery();
+    const { data: person } = useGetPerson(personPseudoId);
     const { maler, error: malerError, isPending: malerIsPending, refetch } = useDialogmeldingMaler();
-    const personinfo = personData?.person?.personinfo;
     const [enkeltstandeType, setEnkeltstandeType] = useState<EnkeltståndeType | null>(null);
     const [unntakType, setUnntakType] = useState<UnntakFraArbeidsgiveransvarType | null>(null);
     const malerById = Object.fromEntries(maler.map((mal: DialogmeldingMal) => [mal._id, mal]));
@@ -49,15 +48,15 @@ export function NyDialogmeldingForm(): ReactElement {
     const fagomrade = useWatch({ control: form.control, name: 'fagomrade' });
 
     async function onSubmit(values: NyDialogmeldingSchema) {
-        if (!personinfo || !values.behandler) return;
+        if (!person || !values.behandler) return;
         const { behandler, ...rest } = values;
 
         const soker = {
-            fodselsdato: personinfo.fodselsdato,
+            fodselsdato: person.fødselsdato,
             navn: {
-                fornavn: personinfo.fornavn,
-                etternavn: personinfo.etternavn,
-                mellomnavn: personinfo.mellomnavn,
+                fornavn: person.fornavn,
+                etternavn: person.etternavn,
+                mellomnavn: person.mellomnavn,
             },
         };
         const result = await mutateAsync({ pseudoId: personPseudoId, data: { ...rest, behandler, soker } });
@@ -216,7 +215,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                 type="submit"
                                 icon={<PaperplaneIcon />}
                                 loading={isPending}
-                                disabled={!personinfo || isPending}
+                                disabled={!person || isPending}
                             >
                                 Send melding
                             </Button>
