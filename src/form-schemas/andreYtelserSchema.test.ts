@@ -1,11 +1,13 @@
 import { ZodError } from 'zod/v4';
 
 import { lagAndreYtelserSchema } from '@/form-schemas/andreYtelserSchema';
+import { ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
 
 const validerAndreYtelserSkjema = (
     ytelse: unknown = 'Foreldrepenger',
     perioder: unknown = [{ fom: '01.01.2020', tom: '03.01.2020', grad: 60 }],
     notat: unknown = 'Dette er et notat',
+    alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [],
 ) => {
     const sykefraværstilfelleperioder = [
         {
@@ -14,7 +16,7 @@ const validerAndreYtelserSkjema = (
         },
     ];
 
-    return lagAndreYtelserSchema(sykefraværstilfelleperioder).safeParse({
+    return lagAndreYtelserSchema(sykefraværstilfelleperioder, alleGraderteAndreYtelser).safeParse({
         ytelse: ytelse,
         perioder: perioder,
         notat: notat,
@@ -88,5 +90,47 @@ describe('andre ytelser skjemavalidering', () => {
         expect(hentFeilmelding(validerAndreYtelserSkjema('Foreldrepenger', undefined, ''))).toBe(
             'Notat til beslutter er påkrevd',
         );
+    });
+
+    it('samlet gradering kan ikke overstige 100 % når andre lagrede ytelser overlapper i tid', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'annen-ytelse',
+                andreYtelseType: 'PLEIEPENGER',
+                fjernet: false,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 50 }],
+            },
+        ];
+
+        expect(
+            hentFeilmelding(
+                validerAndreYtelserSkjema(
+                    'Foreldrepenger',
+                    [{ fom: '03.01.2020', tom: '10.01.2020', grad: 60 }],
+                    'Dette er et notat',
+                    alleGraderteAndreYtelser,
+                ),
+            ),
+        ).toBe('Samlet gradering for perioden kan ikke overstige 100 %');
+    });
+
+    it('fjernede ytelser regnes ikke med i valideringen', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'annen-ytelse',
+                andreYtelseType: 'PLEIEPENGER',
+                fjernet: true,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 50 }],
+            },
+        ];
+
+        expect(
+            validerAndreYtelserSkjema(
+                'Foreldrepenger',
+                [{ fom: '03.01.2020', tom: '10.01.2020', grad: 60 }],
+                'Dette er et notat',
+                alleGraderteAndreYtelser,
+            ).success,
+        ).toBe(true);
     });
 });

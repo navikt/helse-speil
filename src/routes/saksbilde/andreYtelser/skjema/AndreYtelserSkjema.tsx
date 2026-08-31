@@ -26,6 +26,8 @@ import { PeriodeRad } from '@saksbilde/andreYtelser/skjema/PeriodeRad';
 import { utledSykefraværstilfelleperioder } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { useFetchPersonQuery } from '@state/person';
 
+import { useAlleGraderteAndreYtelser } from '../useAlleGraderteAndreYtelser';
+
 export const tomPeriode: AndreYtelserSkjemaInput['perioder'][number] = { fom: '', tom: '', grad: undefined };
 
 export const tomtAndreYtelserSkjema: DefaultValues<AndreYtelserSkjemaInput> = {
@@ -37,6 +39,8 @@ export const tomtAndreYtelserSkjema: DefaultValues<AndreYtelserSkjemaInput> = {
 interface AndreYtelserSkjemaProps {
     /** Startverdier. Utelates ved «legg til», settes fra eksisterende ytelse ved endring og gjenoppretting. */
     defaultValues?: DefaultValues<AndreYtelserSkjemaInput>;
+    /** Id-en til ytelsen som endres/gjenopprettes, slik at den ikke sjekkes mot seg selv i graderingssjekken. */
+    gjeldendeAndreYtelserId?: string;
     onSubmit: (values: AndreYtelserSchema) => void;
     onAvbryt: () => void;
     isPending?: boolean;
@@ -47,6 +51,7 @@ interface AndreYtelserSkjemaProps {
 
 export function AndreYtelserSkjema({
     defaultValues = tomtAndreYtelserSkjema,
+    gjeldendeAndreYtelserId,
     onSubmit,
     onAvbryt,
     isPending = false,
@@ -58,9 +63,9 @@ export function AndreYtelserSkjema({
     const person = personData?.person ?? null;
 
     const sykefraværstilfelleperioder = person ? utledSykefraværstilfelleperioder(person) : [];
-
+    const alleYtelser = useAlleGraderteAndreYtelser().ytelser ?? [];
     const form = useForm<AndreYtelserSkjemaInput, unknown, AndreYtelserSchema>({
-        resolver: zodResolver(lagAndreYtelserSchema(sykefraværstilfelleperioder)),
+        resolver: zodResolver(lagAndreYtelserSchema(sykefraværstilfelleperioder, alleYtelser, gjeldendeAndreYtelserId)),
         reValidateMode: 'onBlur',
         defaultValues,
     });
@@ -149,6 +154,11 @@ export function AndreYtelserSkjema({
                             {feil}
                         </ErrorMessage>
                     ))}
+                    {errors.perioder?.root?.message && (
+                        <ErrorMessage showIcon size="small">
+                            {errors.perioder.root.message}
+                        </ErrorMessage>
+                    )}
                 </VStack>
                 <HStack gap="space-8">
                     <Button size="small" variant="primary" type="submit" loading={isPending} disabled={isPending}>

@@ -39,6 +39,7 @@ export function EndreAndreYtelserView({ andreYtelserId }: { andreYtelserId: stri
         <AndreYtelserSkjemaRamme onAvbryt={() => router.back()} isPending={isPending}>
             <AndreYtelserSkjema
                 defaultValues={tilAndreYtelserSkjemaverdier(ytelse)}
+                gjeldendeAndreYtelserId={andreYtelserId}
                 onSubmit={onSubmit}
                 onAvbryt={() => router.back()}
                 isPending={isPending}

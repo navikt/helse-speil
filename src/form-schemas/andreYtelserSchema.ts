@@ -1,7 +1,8 @@
 import { z } from 'zod/v4';
 
+import { ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
 import { DatePeriod } from '@typer/shared';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato } from '@utils/date';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, tilDatoer } from '@utils/date';
 
 export const ANNEN_YTELSE_OPTIONS = [
     'Foreldrepenger',
@@ -70,9 +71,41 @@ const lagAndreYtelserPeriodeSchema = (sykefraværstilfelleperioder: DatePeriod[]
         // Transformen løfter den garantien opp i typen, slik at koden nedstrøms slipper å gjenta den.
         .transform((periode) => ({ ...periode, grad: periode.grad as number }));
 
-export const lagAndreYtelserSchema = (sykefraværstilfelleperioder: DatePeriod[]) =>
-    z.object({
-        ytelse: z.enum(ANNEN_YTELSE_OPTIONS, { message: 'Gyldig ytelse er påkrevd' }),
-        perioder: z.array(lagAndreYtelserPeriodeSchema(sykefraværstilfelleperioder)).min(1),
-        notat: z.string().min(1, { error: 'Notat til beslutter er påkrevd' }),
-    });
+export const lagAndreYtelserSchema = (
+    sykefraværstilfelleperioder: DatePeriod[],
+    alleGraderteAndreYtelser: ApiGraderteAndreYtelser[],
+    gjeldendeAndreYtelserId?: string,
+) =>
+    z
+        .object({
+            ytelse: z.enum(ANNEN_YTELSE_OPTIONS, { message: 'Gyldig ytelse er påkrevd' }),
+            perioder: z.array(lagAndreYtelserPeriodeSchema(sykefraværstilfelleperioder)).min(1),
+            notat: z.string().min(1, { error: 'Notat til beslutter er påkrevd' }),
+        })
+        .check((ctx) => {
+            const gradPerDag = new Map<string, number>();
+            const leggTilGrad = (fomIso: string, tomIso: string, grad: number | null | undefined) => {
+                tilDatoer({ fom: fomIso, tom: tomIso }).forEach((dato) => {
+                    gradPerDag.set(dato, (gradPerDag.get(dato) ?? 0) + (grad ?? 0));
+                });
+            };
+
+            alleGraderteAndreYtelser
+                .filter((ytelse) => !ytelse.fjernet && ytelse.andreYtelserId !== gjeldendeAndreYtelserId)
+                .flatMap((ytelse) => ytelse.perioder)
+                .forEach((periode) => leggTilGrad(periode.fom, periode.tom, periode.grad));
+
+            ctx.value.perioder.forEach(({ fom, tom, grad }) => {
+                leggTilGrad(norskDatoTilIsoDato(fom), norskDatoTilIsoDato(tom), grad);
+            });
+
+            const overstigerHundreProsent = Array.from(gradPerDag.values()).some((totalGrad) => totalGrad > 100);
+            if (overstigerHundreProsent) {
+                ctx.issues.push({
+                    code: 'custom',
+                    message: 'Samlet gradering for perioden kan ikke overstige 100 %',
+                    path: ['perioder'],
+                    input: ctx.value.perioder,
+                });
+            }
+        });
