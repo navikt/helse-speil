@@ -43,6 +43,10 @@ export const useActivePeriod = (person: PersonFragment | null): ActivePeriod | n
 
 export const useActivePeriodWithPerson = (person: PersonFragment): ActivePeriod | null => useActivePeriod(person);
 
+// siste periode brukeren har klikket på i tidslinjen
+export const useSistValgtePeriode = (person: PersonFragment | null): ActivePeriod | null =>
+    findPeriod(useAtomValue(activePeriodIdState), person);
+
 export const useSelectPeriod = () => {
     const setActivePeriodId = useSetAtom(activePeriodIdState);
     return (person: PersonFragment) => {
@@ -77,8 +81,8 @@ const findPeriodToSelect = (person: PersonFragment): ActivePeriod | null => {
     return periodeTilBehandling ?? venteperioder[0] ?? aktuellePerioder[0] ?? null;
 };
 
-const findPeriod = (periodeId: string | null, person: PersonFragment) => {
-    if (periodeId == null) return null;
+const findPeriod = (periodeId: string | null, person: PersonFragment | null) => {
+    if (periodeId == null || person == null) return null;
 
     return (
         finnAlleInntektsforhold(person)

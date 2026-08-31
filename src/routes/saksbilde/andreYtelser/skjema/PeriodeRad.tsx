@@ -7,8 +7,11 @@ import { Button, HGrid, TextField, VStack } from '@navikt/ds-react';
 
 import { AndreYtelserSkjemaInput } from '@/form-schemas/andreYtelserSchema';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
+import {
+    erGyldigFomForSykefraværstilfelle,
+    erGyldigTomForSykefraværstilfelle,
+} from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { DatePeriod } from '@typer/shared';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag } from '@utils/date';
 
 interface PeriodeRadProps {
     index: number;
@@ -27,25 +30,8 @@ export function PeriodeRad({ index, onRemove, sykefraværstilfelleperioder }: Pe
     const fomError = errors.perioder?.[index]?.fom?.message;
     const tomError = errors.perioder?.[index]?.tom?.message;
 
-    const erGyldigFom = (fom: string) => {
-        if (!erGyldigNorskDato(fom)) return false;
-        const isoDato = norskDatoTilIsoDato(fom);
-        return (
-            sykefraværstilfelleperioder.some((periode) => erIPeriode(isoDato, periode)) &&
-            (!erGyldigNorskDato(tom) || isoDato <= norskDatoTilIsoDato(tom))
-        );
-    };
-
-    const erGyldigTom = (tom: string) => {
-        if (!erGyldigNorskDato(tom)) return false;
-        const isoDato = norskDatoTilIsoDato(tom);
-        return (
-            sykefraværstilfelleperioder.some((periode) =>
-                erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
-            ) &&
-            (!erGyldigNorskDato(fom) || isoDato >= norskDatoTilIsoDato(fom))
-        );
-    };
+    const erGyldigFom = (fom: string) => erGyldigFomForSykefraværstilfelle(fom, tom, sykefraværstilfelleperioder);
+    const erGyldigTom = (tom: string) => erGyldigTomForSykefraværstilfelle(tom, fom, sykefraværstilfelleperioder);
 
     return (
         <VStack gap="space-8" marginBlock="space-16">

@@ -14,13 +14,15 @@ import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/skjema
 import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemafelter';
 import {
     beregnInntektPerDag,
+    erGyldigFomForSykefraværstilfelle,
+    erGyldigTomForSykefraværstilfelle,
     tilPerioderPerOrganisasjonsnummer,
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
 import { DatePeriod, DateString } from '@typer/shared';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somNorskDato } from '@utils/date';
+import { erIPeriode, norskDatoTilIsoDato, somNorskDato } from '@utils/date';
 import { isNumber } from '@utils/typeguards';
 
 interface TilkommenInntektProps {
@@ -86,28 +88,12 @@ export const TilkommenInntektSkjema = ({
     const tom = useWatch({ name: 'tom', control: form.control });
 
     const erGyldigFom = useCallback(
-        (fom: string) => {
-            if (!erGyldigNorskDato(fom)) return false;
-            const isoDato = norskDatoTilIsoDato(fom);
-            return (
-                sykefraværstilfelleperioder.some((periode) => erIPeriode(isoDato, periode)) &&
-                (!erGyldigNorskDato(tom) || isoDato <= norskDatoTilIsoDato(tom))
-            );
-        },
+        (fom: string) => erGyldigFomForSykefraværstilfelle(fom, tom, sykefraværstilfelleperioder),
         [tom, sykefraværstilfelleperioder],
     );
 
     const erGyldigTom = useCallback(
-        (tom: string) => {
-            if (!erGyldigNorskDato(tom)) return false;
-            const isoDato = norskDatoTilIsoDato(tom);
-            return (
-                sykefraværstilfelleperioder.some((periode) =>
-                    erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
-                ) &&
-                (!erGyldigNorskDato(fom) || isoDato >= norskDatoTilIsoDato(fom))
-            );
-        },
+        (tom: string) => erGyldigTomForSykefraværstilfelle(tom, fom, sykefraværstilfelleperioder),
         [fom, sykefraværstilfelleperioder],
     );
 

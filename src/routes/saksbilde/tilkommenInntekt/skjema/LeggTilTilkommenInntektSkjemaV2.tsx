@@ -14,9 +14,12 @@ import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/Control
 import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemaTabell';
 import {
     beregnInntektPerDag,
+    erGyldigFomForSykefraværstilfelle,
+    erGyldigTomForSykefraværstilfelle,
     tilPerioderPerOrganisasjonsnummer,
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
@@ -73,23 +76,9 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
     const fom = useWatch({ name: 'fom', control: form.control });
     const tom = useWatch({ name: 'tom', control: form.control });
 
-    const erGyldigFom = (fom: string) => {
-        if (!erGyldigNorskDato(fom)) return false;
-        const isoDato = norskDatoTilIsoDato(fom);
-        return (
-            sykefraværstilfelleperioder.some((p) => erIPeriode(isoDato, p)) &&
-            (!erGyldigNorskDato(tom) || isoDato <= norskDatoTilIsoDato(tom))
-        );
-    };
+    const erGyldigFom = (fom: string) => erGyldigFomForSykefraværstilfelle(fom, tom, sykefraværstilfelleperioder);
 
-    const erGyldigTom = (tom: string) => {
-        if (!erGyldigNorskDato(tom)) return false;
-        const isoDato = norskDatoTilIsoDato(tom);
-        return (
-            sykefraværstilfelleperioder.some((p) => erIPeriode(isoDato, { fom: plussEnDag(p.fom), tom: p.tom })) &&
-            (!erGyldigNorskDato(fom) || isoDato >= norskDatoTilIsoDato(fom))
-        );
-    };
+    const erGyldigTom = (tom: string) => erGyldigTomForSykefraværstilfelle(tom, fom, sykefraværstilfelleperioder);
 
     const [periodebeløpVisningsverdi, setPeriodebeløpVisningsverdi] = useState(toKronerOgØre(draft?.periodebeløp ?? 0));
     const periodebeløp = useWatch({ name: 'periodebeløp', control: form.control });

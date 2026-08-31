@@ -11,9 +11,37 @@ import {
 } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod, DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { somDato, tilDatoer, tilUkedager } from '@utils/date';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somDato, tilDatoer, tilUkedager } from '@utils/date';
 import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
 import { isBeregnetPeriode, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
+
+export function erGyldigFomForSykefraværstilfelle(
+    fom: string,
+    tom: string,
+    sykefraværstilfelleperioder: DatePeriod[],
+): boolean {
+    if (!erGyldigNorskDato(fom)) return false;
+    const isoDato = norskDatoTilIsoDato(fom);
+    return (
+        sykefraværstilfelleperioder.some((periode) => erIPeriode(isoDato, periode)) &&
+        (!erGyldigNorskDato(tom) || isoDato <= norskDatoTilIsoDato(tom))
+    );
+}
+
+export function erGyldigTomForSykefraværstilfelle(
+    tom: string,
+    fom: string,
+    sykefraværstilfelleperioder: DatePeriod[],
+): boolean {
+    if (!erGyldigNorskDato(tom)) return false;
+    const isoDato = norskDatoTilIsoDato(tom);
+    return (
+        sykefraværstilfelleperioder.some((periode) =>
+            erIPeriode(isoDato, { fom: plussEnDag(periode.fom), tom: periode.tom }),
+        ) &&
+        (!erGyldigNorskDato(fom) || isoDato >= norskDatoTilIsoDato(fom))
+    );
+}
 
 export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
     const vedtaksperioder = finnAlleInntektsforhold(person)
