@@ -11,7 +11,15 @@ import {
 } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod, DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag, somDato, tilDatoer, tilUkedager } from '@utils/date';
+import {
+    erGyldigNorskDato,
+    erIPeriode,
+    norskDatoTilIsoDato,
+    plussEnDag,
+    somDato,
+    tilDatoer,
+    tilUkedager,
+} from '@utils/date';
 import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
 import { isBeregnetPeriode, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
 

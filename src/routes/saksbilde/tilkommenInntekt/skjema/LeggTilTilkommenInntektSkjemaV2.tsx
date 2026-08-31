@@ -1,5 +1,5 @@
 import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement, useEffect, useMemo, useState } from 'react';
+import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Button, ErrorMessage, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
@@ -19,13 +19,12 @@ import {
     tilPerioderPerOrganisasjonsnummer,
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
 import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, plussEnDag } from '@utils/date';
+import { erIPeriode, norskDatoTilIsoDato } from '@utils/date';
 import { toKronerOgØre } from '@utils/locale';
 import { isNumber } from '@utils/typeguards';
 
@@ -49,7 +48,10 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
 
     const { mutateAsync: leggTilTilkommenInntekt } = usePostTilkomneInntekter();
 
-    const sykefraværstilfelleperioder = person ? utledSykefraværstilfelleperioder(person) : [];
+    const sykefraværstilfelleperioder = useMemo(
+        () => (person ? utledSykefraværstilfelleperioder(person) : []),
+        [person],
+    );
     const eksisterendePerioder = andreTilkomneInntekter
         ? tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter)
         : new Map();
@@ -76,9 +78,15 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
     const fom = useWatch({ name: 'fom', control: form.control });
     const tom = useWatch({ name: 'tom', control: form.control });
 
-    const erGyldigFom = (fom: string) => erGyldigFomForSykefraværstilfelle(fom, tom, sykefraværstilfelleperioder);
+    const erGyldigFom = useCallback(
+        (fom: string) => erGyldigFomForSykefraværstilfelle(fom, tom, sykefraværstilfelleperioder),
+        [tom, sykefraværstilfelleperioder],
+    );
 
-    const erGyldigTom = (tom: string) => erGyldigTomForSykefraværstilfelle(tom, fom, sykefraværstilfelleperioder);
+    const erGyldigTom = useCallback(
+        (tom: string) => erGyldigTomForSykefraværstilfelle(tom, fom, sykefraværstilfelleperioder),
+        [fom, sykefraværstilfelleperioder],
+    );
 
     const [periodebeløpVisningsverdi, setPeriodebeløpVisningsverdi] = useState(toKronerOgØre(draft?.periodebeløp ?? 0));
     const periodebeløp = useWatch({ name: 'periodebeløp', control: form.control });
