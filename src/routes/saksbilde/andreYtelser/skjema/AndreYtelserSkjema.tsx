@@ -101,7 +101,7 @@ export function AndreYtelserSkjema({
                             error={fieldState.error?.message}
                             style={{ maxWidth: '220px' }}
                         >
-                            <option value="" />
+                            <option value="">- Velg ytelse -</option>
                             {ANNEN_YTELSE_OPTIONS.map((ytelse) => (
                                 <option key={ytelse} value={ytelse}>
                                     {ytelse}
