@@ -58,7 +58,7 @@ describe('useTidslinjeRader', () => {
         expect(result.current.andreYtelserRader[0]?.tidslinjeElementer[0]).toEqual({
             fom: '2022-08-02',
             tom: '2022-08-13',
-            status: 'tilkommen',
+            status: 'graderte_andre_ytelser',
             generasjonIndex: 0,
             gradertAndreYtelser: {
                 andreYtelserId: 'pleiepenger-1',
