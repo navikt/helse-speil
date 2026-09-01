@@ -123,7 +123,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
-                andreYtelseType: 'OMSORGSPENGER',
+                andreYtelserType: 'OMSORGSPENGER',
                 fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-01', grad: 50 }],
             },
@@ -145,7 +145,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
-                andreYtelseType: 'OMSORGSPENGER',
+                andreYtelserType: 'OMSORGSPENGER',
                 fjernet: false,
                 perioder: [
                     { fom: '2020-01-01', tom: '2020-01-02', grad: 60 },
@@ -172,7 +172,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
-                andreYtelseType: 'OMSORGSPENGER',
+                andreYtelserType: 'OMSORGSPENGER',
                 fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-01', grad: 50 }],
             },
