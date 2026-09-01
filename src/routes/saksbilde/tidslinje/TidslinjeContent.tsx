@@ -9,13 +9,13 @@ import { Skeleton } from '@navikt/ds-react';
 import { PersonFragment } from '@io/graphql';
 import { useGetGraderteAndreYtelserForPerson } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { useGetInfotrygdperioderForPerson } from '@io/rest/generated/personer/personer';
+import { LeggTilPeriodeKnapp } from '@saksbilde/tidslinje/LeggTilPeriodeKnapp';
 import {
     GraderteAndreYtelserPopover,
     InfotrygdPopover,
     PeriodPopover,
     TilkommenInntektPopover,
 } from '@saksbilde/tidslinje/PeriodPopover';
-import { TilkommenInntektKnapp } from '@saksbilde/tidslinje/TilkommenInntektKnapp';
 import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { useMaksdato } from '@saksbilde/tidslinje/hooks/useMaksdato';
 import {
@@ -46,6 +46,7 @@ import { PeriodCategory } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
 import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
 import { isSelvstendigNaering } from '@utils/typeguards';
+import { erPåEgenUnderside } from '@utils/undersider';
 
 interface TidslinjeProps {
     inntektsforhold: Inntektsforhold[];
@@ -104,10 +105,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                                     onSelectPeriod={() => {
                                         if (id) {
                                             setActivePeriodId(id);
-                                            const erPåEgenUnderside =
-                                                pathname.includes('/tilkommeninntekt/') ||
-                                                pathname.includes('/andreytelser/');
-                                            if (erPåEgenUnderside) {
+                                            if (erPåEgenUnderside(pathname)) {
                                                 router.push(`/person/${personPseudoId}`);
                                             }
                                         }
@@ -210,10 +208,10 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                 )}
                 <TimelineZoom />
             </Timeline>
-            <TilkommenInntektKnapp
+            <LeggTilPeriodeKnapp
                 person={person}
                 personPseudoId={personPseudoId}
-                kanLeggeTilTilkommenInntekt={kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering))}
+                kanLeggeTilPeriode={kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering))}
             />
         </div>
     );

@@ -8,6 +8,7 @@ import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold'
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { erPåSideUtenAktivPeriode } from '@utils/undersider';
 
 const activePeriodIdState = atom<string | null>(null);
 
@@ -34,9 +35,9 @@ export const useSetActivePeriodIdUtenPerson = () => {
 export const useActivePeriod = (person: PersonFragment | null): ActivePeriod | null => {
     const activePeriodId = useAtomValue(activePeriodIdState);
     const pathname = usePathname();
-    const erPåTilkommenInntektSide = pathname.includes('/tilkommeninntekt/');
+    const erUtenAktivPeriode = erPåSideUtenAktivPeriode(pathname);
 
-    if (erPåTilkommenInntektSide || !person) return null;
+    if (erUtenAktivPeriode || !person) return null;
 
     return findPeriod(activePeriodId, person) ?? findPeriodToSelect(person);
 };

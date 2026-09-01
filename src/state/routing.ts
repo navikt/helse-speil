@@ -2,6 +2,7 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 
 import { useSetActivePeriodIdUtenPerson } from '@state/periode';
 import { useSetSaksbildeTab } from '@state/tab';
+import { erPåEgenUnderside } from '@utils/undersider';
 
 export const useNavigerTilTilkommenInntekt = () => {
     const { personPseudoId } = useParams<{ personPseudoId?: string }>();
@@ -21,8 +22,7 @@ export const useNavigerTilPeriode = () => {
 
     return (periodeId: string) => {
         setActivePeriodId(periodeId);
-        const erPåEgenUnderside = pathname.includes('/tilkommeninntekt/') || pathname.includes('/andreytelser/');
-        if (erPåEgenUnderside) {
+        if (erPåEgenUnderside(pathname)) {
             setTab('dagoversikt');
             router.push(`/person/${personPseudoId}`);
         }

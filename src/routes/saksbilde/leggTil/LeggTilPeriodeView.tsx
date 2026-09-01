@@ -10,7 +10,7 @@ import { LeggTilTilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjem
 
 type LeggTilType = 'tilkommen-inntekt' | 'andre-ytelser';
 
-export const LeggTilTilkommenInntektEllerAndreYtelserView = (): ReactElement => {
+export const LeggTilPeriodeView = (): ReactElement => {
     const [type, setType] = useState<LeggTilType>('tilkommen-inntekt');
 
     return (

@@ -8,31 +8,31 @@ import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
 
-interface TilkommenInntektKnappProps {
+interface LeggTilPeriodeKnappProps {
     person: PersonFragment;
     personPseudoId: string;
-    kanLeggeTilTilkommenInntekt: boolean;
+    kanLeggeTilPeriode: boolean;
 }
 
-export function TilkommenInntektKnapp({
+export function LeggTilPeriodeKnapp({
     person,
     personPseudoId,
-    kanLeggeTilTilkommenInntekt,
-}: TilkommenInntektKnappProps): ReactElement {
+    kanLeggeTilPeriode,
+}: LeggTilPeriodeKnappProps): ReactElement {
     const erBeslutteroppgave = useHarTotrinnsvurdering(person);
     return (
         <div className="absolute bottom-4 left-6">
             <VisHvisSkrivetilgang>
-                {kanLeggeTilTilkommenInntekt && !erBeslutteroppgave && (
+                {kanLeggeTilPeriode && !erBeslutteroppgave && (
                     <Button
                         as={NextLink}
                         variant="tertiary"
                         size="small"
                         style={{ marginLeft: '-0.5rem' }}
-                        icon={<PlusIcon title="Legg til tilkommen inntekt" />}
-                        href={`/person/${personPseudoId}/tilkommeninntekt/ny`}
+                        icon={<PlusIcon aria-hidden />}
+                        href={`/person/${personPseudoId}/leggtil`}
                     >
-                        Legg til tilkommen inntekt/periode
+                        Legg til tilkommen inntekt/annen ytelse
                     </Button>
                 )}
             </VisHvisSkrivetilgang>

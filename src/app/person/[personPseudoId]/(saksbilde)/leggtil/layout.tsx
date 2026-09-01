@@ -4,16 +4,14 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { EmojiTilbakemeldingMedPeriode } from '@saksbilde/feedback/EmojiTilbakemeldingMedPeriode';
-import { TilkommenInntektSaksbilde } from '@saksbilde/tilkommenInntekt/saksbilde/TilkommenInntektSaksbilde';
-import { TilkommenInntektHistorikk } from '@saksbilde/tilkommenInntekt/visning/TilkommenInntektHistorikk';
+import { LeggTilSaksbilde } from '@saksbilde/leggTil/LeggTilSaksbilde';
 import { VenstremenyUtenPeriode } from '@saksbilde/venstremeny/VenstremenyUtenPeriode';
 
 export default function Layout({ children }: PropsWithChildren): ReactElement {
     return (
         <>
             <VenstremenyUtenPeriode />
-            <TilkommenInntektSaksbilde>{children}</TilkommenInntektSaksbilde>
-            <TilkommenInntektHistorikk />
+            <LeggTilSaksbilde>{children}</LeggTilSaksbilde>
             <VisHvisSkrivetilgang>
                 <EmojiTilbakemeldingMedPeriode />
             </VisHvisSkrivetilgang>
