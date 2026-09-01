@@ -11,15 +11,21 @@ import {
     erGyldigFomForSykefraværstilfelle,
     erGyldigTomForSykefraværstilfelle,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-import { DatePeriod } from '@typer/shared';
+import { ActivePeriod, DatePeriod } from '@typer/shared';
 
 interface PeriodeRadProps {
     index: number;
     onRemove: () => void;
     sykefraværstilfelleperioder: DatePeriod[];
+    aktivPeriode?: ActivePeriod | null;
 }
 
-export function PeriodeRad({ index, onRemove, sykefraværstilfelleperioder }: PeriodeRadProps): ReactElement {
+export function PeriodeRad({
+    index,
+    onRemove,
+    sykefraværstilfelleperioder,
+    aktivPeriode,
+}: PeriodeRadProps): ReactElement {
     const { control } = useFormContext<AndreYtelserSkjemaInput>();
     const fom = useWatch({ control, name: `perioder.${index}.fom` });
     const tom = useWatch({ control, name: `perioder.${index}.tom` });
@@ -44,6 +50,7 @@ export function PeriodeRad({ index, onRemove, sykefraværstilfelleperioder }: Pe
                     erGyldigDato={erGyldigFom}
                     id={`perioder.${index}.fom`}
                     error={fomError != undefined}
+                    defaultMonth={aktivPeriode?.fom}
                 />
                 <ControlledDatePicker
                     name={`perioder.${index}.tom`}
@@ -52,7 +59,7 @@ export function PeriodeRad({ index, onRemove, sykefraværstilfelleperioder }: Pe
                     gyldigePerioder={sykefraværstilfelleperioder}
                     erGyldigDato={erGyldigTom}
                     id={`perioder.${index}.tom`}
-                    defaultMonth={fom === '' ? undefined : fom}
+                    defaultMonth={aktivPeriode?.tom}
                     error={tomError != undefined}
                 />
                 <Controller

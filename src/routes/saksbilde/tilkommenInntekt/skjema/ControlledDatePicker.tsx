@@ -52,6 +52,7 @@ export const ControlledDatePicker = ({
             field.onBlur();
         },
     });
+
     return (
         <DatePicker {...datepickerProps} dropdownCaption>
             <DatePicker.Input

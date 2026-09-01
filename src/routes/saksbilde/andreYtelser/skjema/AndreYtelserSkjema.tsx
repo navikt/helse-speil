@@ -24,6 +24,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PeriodeRad } from '@saksbilde/andreYtelser/skjema/PeriodeRad';
 import { utledSykefraværstilfelleperioder } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
+import { useSistValgtePeriode } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 
 import { useAlleGraderteAndreYtelser } from '../useAlleGraderteAndreYtelser';
@@ -61,6 +62,7 @@ export function AndreYtelserSkjema({
 }: AndreYtelserSkjemaProps): ReactElement {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
+    const aktivPeriode = useSistValgtePeriode(person);
 
     const sykefraværstilfelleperioder = person ? utledSykefraværstilfelleperioder(person) : [];
     const alleYtelser = useAlleGraderteAndreYtelser().ytelser ?? [];
@@ -117,6 +119,7 @@ export function AndreYtelserSkjema({
                             index={index}
                             onRemove={() => fjernPeriode(index)}
                             sykefraværstilfelleperioder={sykefraværstilfelleperioder}
+                            aktivPeriode={aktivPeriode}
                         />
                     ))}
                     <HGrid columns={1} gap="space-8" align="start">

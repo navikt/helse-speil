@@ -20,6 +20,7 @@ import {
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useSistValgtePeriode } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useNavigerTilTilkommenInntekt } from '@state/routing';
 import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
@@ -31,6 +32,7 @@ import { isNumber } from '@utils/typeguards';
 export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
     const { data: personData } = useFetchPersonQuery();
     const person = personData?.person ?? null;
+    const aktivPeriode = useSistValgtePeriode(person);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);
@@ -198,6 +200,7 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
                                 erGyldigDato={erGyldigFom}
                                 id="fom"
                                 error
+                                defaultMonth={aktivPeriode?.fom}
                             />
                             <ControlledDatePicker
                                 name="tom"
@@ -205,7 +208,7 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
                                 gyldigePerioder={sykefraværstilfelleperioder}
                                 erGyldigDato={erGyldigTom}
                                 id="tom"
-                                defaultMonth={fom === '' ? undefined : fom}
+                                defaultMonth={aktivPeriode?.tom}
                                 error
                             />
                         </HGrid>
