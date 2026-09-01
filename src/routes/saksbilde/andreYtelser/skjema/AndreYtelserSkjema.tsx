@@ -31,6 +31,8 @@ import { useAlleGraderteAndreYtelser } from '../useAlleGraderteAndreYtelser';
 
 export const tomPeriode: AndreYtelserSkjemaInput['perioder'][number] = { fom: '', tom: '', grad: undefined };
 
+type PeriodeFeil = { fom?: { message?: string }; tom?: { message?: string }; grad?: { message?: string } };
+
 export const tomtAndreYtelserSkjema: DefaultValues<AndreYtelserSkjemaInput> = {
     ytelse: undefined,
     perioder: [tomPeriode],
@@ -182,7 +184,17 @@ export function AndreYtelserSkjema({
 }
 
 function hentPeriodeFeilmeldinger(errors: FieldErrors<AndreYtelserSkjemaInput>): string[] {
-    const perioder = Array.isArray(errors.perioder) ? errors.perioder : [];
+    const perioderFeil = errors.perioder;
+    if (perioderFeil == undefined) return [];
+
+    // Når det også finnes en feil på hele periodelista, gjør react-hook-form om arrayet til et objekt
+    // med indeksnøkler pluss `root`. Da må vi plukke ut indeksene selv for å beholde feltfeilene.
+    const perioder: (PeriodeFeil | undefined)[] = Array.isArray(perioderFeil)
+        ? perioderFeil
+        : Object.entries(perioderFeil)
+              .filter(([nøkkel]) => /^\d+$/.test(nøkkel))
+              .sort(([en], [to]) => Number(en) - Number(to))
+              .map(([, feil]) => feil as PeriodeFeil);
 
     return perioder.flatMap((periode, index, allePerioder) =>
         [periode?.fom?.message, periode?.tom?.message, periode?.grad?.message]

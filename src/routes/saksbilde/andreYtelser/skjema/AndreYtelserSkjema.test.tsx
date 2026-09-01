@@ -43,6 +43,12 @@ describe('AndreYtelserSkjema', () => {
         await user.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(await screen.findByText('Grad må være 99 eller lavere')).toBeInTheDocument();
+        // Graderingsfeilen ligger på hele periodelista og skal ikke skjule feltfeilen over.
+        expect(
+            screen.getByText(
+                'Samlet gradering på tvers av alle ytelser kan ikke overstige 99 %. Grensen overskrides 01.01.2020–03.01.2020.',
+            ),
+        ).toBeInTheDocument();
     });
 
     it('tømmer siste periode når man trykker slett', async () => {

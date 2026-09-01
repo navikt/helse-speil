@@ -95,7 +95,7 @@ describe('andre ytelser skjemavalidering', () => {
         );
     });
 
-    it('samlet gradering kan ikke overstige 100 % når andre lagrede ytelser overlapper i tid', () => {
+    it('samlet gradering kan ikke overstige 99 % når andre lagrede ytelser overlapper i tid', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
@@ -114,7 +114,78 @@ describe('andre ytelser skjemavalidering', () => {
                     alleGraderteAndreYtelser,
                 ),
             ),
-        ).toBe('Samlet gradering for perioden kan ikke overstige 100 %');
+        ).toBe(
+            'Samlet gradering på tvers av alle ytelser kan ikke overstige 99 %. Grensen overskrides 03.01.2020–05.01.2020.',
+        );
+    });
+
+    it('samlet gradering på nøyaktig 100 % avvises, med dagen det gjelder', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'annen-ytelse',
+                andreYtelseType: 'OMSORGSPENGER',
+                fjernet: false,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-01', grad: 50 }],
+            },
+        ];
+
+        expect(
+            hentFeilmelding(
+                validerAndreYtelserSkjema(
+                    'Foreldrepenger',
+                    [{ fom: '01.01.2020', tom: '01.01.2020', grad: 50 }],
+                    'Dette er et notat',
+                    alleGraderteAndreYtelser,
+                ),
+            ),
+        ).toBe('Samlet gradering på tvers av alle ytelser kan ikke overstige 99 %. Grensen overskrides 01.01.2020.');
+    });
+
+    it('lister opp flere adskilte datoer over grensen', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'annen-ytelse',
+                andreYtelseType: 'OMSORGSPENGER',
+                fjernet: false,
+                perioder: [
+                    { fom: '2020-01-01', tom: '2020-01-02', grad: 60 },
+                    { fom: '2020-01-05', tom: '2020-01-05', grad: 60 },
+                ],
+            },
+        ];
+
+        expect(
+            hentFeilmelding(
+                validerAndreYtelserSkjema(
+                    'Foreldrepenger',
+                    [{ fom: '01.01.2020', tom: '10.01.2020', grad: 50 }],
+                    'Dette er et notat',
+                    alleGraderteAndreYtelser,
+                ),
+            ),
+        ).toBe(
+            'Samlet gradering på tvers av alle ytelser kan ikke overstige 99 %. Grensen overskrides 01.01.2020–02.01.2020, 05.01.2020.',
+        );
+    });
+
+    it('samlet gradering på 99 % er tillatt', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'annen-ytelse',
+                andreYtelseType: 'OMSORGSPENGER',
+                fjernet: false,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-01', grad: 50 }],
+            },
+        ];
+
+        expect(
+            validerAndreYtelserSkjema(
+                'Foreldrepenger',
+                [{ fom: '01.01.2020', tom: '01.01.2020', grad: 49 }],
+                'Dette er et notat',
+                alleGraderteAndreYtelser,
+            ).success,
+        ).toBe(true);
     });
 
     it('fjernede ytelser regnes ikke med i graderingsvalideringen', () => {
@@ -292,6 +363,6 @@ describe('andre ytelser skjemavalidering', () => {
             'Perioden overlapper med en annen periode i skjemaet',
             'Perioden overlapper med en annen periode i skjemaet',
         ]);
-        expect(feilmeldinger).not.toContain('Samlet gradering for perioden kan ikke overstige 100 %');
+        expect(feilmeldinger.some((melding) => melding.startsWith('Samlet gradering'))).toBe(false);
     });
 });

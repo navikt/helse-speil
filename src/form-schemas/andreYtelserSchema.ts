@@ -2,7 +2,15 @@ import { z } from 'zod/v4';
 
 import { ApiGraderteAndreYtelseType, ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
 import { DatePeriod } from '@typer/shared';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, perioderOverlapper, tilDatoer } from '@utils/date';
+import {
+    erGyldigNorskDato,
+    erIPeriode,
+    norskDatoTilIsoDato,
+    perioderOverlapper,
+    plussEnDag,
+    somNorskDato,
+    tilDatoer,
+} from '@utils/date';
 
 export const ANNEN_YTELSE_OPTIONS = [
     'Foreldrepenger',
@@ -13,6 +21,26 @@ export const ANNEN_YTELSE_OPTIONS = [
 ] as const;
 
 export type YtelseValg = (typeof ANNEN_YTELSE_OPTIONS)[number];
+
+/** Maks samlet gradering per dag. 100 % eller mer skal overstyres på dagen i stedet. */
+const MAKS_SAMLET_GRAD = 99;
+
+/** Antall datoperioder vi lister opp i feilmeldingen før vi forkorter med «m.fl.». */
+const MAKS_ANTALL_DATOER_I_FEILMELDING = 5;
+
+/** Slår sammen sammenhengende datoer til perioder, så feilmeldingen blir kort og lesbar. */
+const tilSammenhengendePerioder = (isoDatoer: string[]): DatePeriod[] =>
+    [...isoDatoer].sort().reduce<DatePeriod[]>((perioder, dato) => {
+        const forrige = perioder.at(-1);
+        if (forrige !== undefined && plussEnDag(forrige.tom) === dato) {
+            forrige.tom = dato;
+            return perioder;
+        }
+        return [...perioder, { fom: dato, tom: dato }];
+    }, []);
+
+const somNorskPeriodetekst = ({ fom, tom }: DatePeriod): string =>
+    fom === tom ? `${somNorskDato(fom)}` : `${somNorskDato(fom)}–${somNorskDato(tom)}`;
 
 export const ytelseTilApiType: Record<YtelseValg, ApiGraderteAndreYtelseType> = {
     Foreldrepenger: ApiGraderteAndreYtelseType.FORELDREPENGER,
@@ -43,7 +71,7 @@ const lagAndreYtelserPeriodeSchema = (sykefraværstilfelleperioder: DatePeriod[]
                 .number({ error: 'Velg grad' })
                 .int({ error: 'Grad må være et heltall' })
                 .min(1, { error: 'Grad må være minst 1' })
-                .max(99, { error: 'Grad må være 99 eller lavere' })
+                .max(MAKS_SAMLET_GRAD, { error: `Grad må være ${MAKS_SAMLET_GRAD} eller lavere` })
                 .optional(),
         })
         .refine(({ fom, tom }) => norskDatoTilIsoDato(fom) <= norskDatoTilIsoDato(tom), {
@@ -156,11 +184,23 @@ export const lagAndreYtelserSchema = (
                 leggTilGrad(norskDatoTilIsoDato(fom), norskDatoTilIsoDato(tom), grad);
             });
 
-            const overstigerHundreProsent = Array.from(gradPerDag.values()).some((totalGrad) => totalGrad > 100);
-            if (overstigerHundreProsent) {
+            const datoerOverGrensen = Array.from(gradPerDag.entries())
+                .filter(([, totalGrad]) => totalGrad > MAKS_SAMLET_GRAD)
+                .map(([dato]) => dato);
+
+            if (datoerOverGrensen.length > 0) {
+                const perioderOverGrensen = tilSammenhengendePerioder(datoerOverGrensen);
+                const datotekst = perioderOverGrensen
+                    .slice(0, MAKS_ANTALL_DATOER_I_FEILMELDING)
+                    .map(somNorskPeriodetekst)
+                    .join(', ');
+                const forkortet = perioderOverGrensen.length > MAKS_ANTALL_DATOER_I_FEILMELDING ? ' m.fl.' : '';
+
                 ctx.issues.push({
                     code: 'custom',
-                    message: 'Samlet gradering for perioden kan ikke overstige 100 %',
+                    message:
+                        `Samlet gradering på tvers av alle ytelser kan ikke overstige ${MAKS_SAMLET_GRAD} %. ` +
+                        `Grensen overskrides ${datotekst}${forkortet}.`,
                     path: ['perioder'],
                     input: ctx.value.perioder,
                 });
