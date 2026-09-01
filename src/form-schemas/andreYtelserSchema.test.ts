@@ -100,8 +100,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'annen-ytelse',
                 andreYtelserType: 'PLEIEPENGER',
-                fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 50 }],
+                fjernet: false,
+                events: [],
             },
         ];
 
@@ -124,8 +125,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'annen-ytelse',
                 andreYtelserType: 'OMSORGSPENGER',
-                fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-01', grad: 50 }],
+                fjernet: false,
+                events: [],
             },
         ];
 
@@ -146,11 +148,12 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'annen-ytelse',
                 andreYtelserType: 'OMSORGSPENGER',
-                fjernet: false,
                 perioder: [
                     { fom: '2020-01-01', tom: '2020-01-02', grad: 60 },
                     { fom: '2020-01-05', tom: '2020-01-05', grad: 60 },
                 ],
+                fjernet: false,
+                events: [],
             },
         ];
 
@@ -173,8 +176,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'annen-ytelse',
                 andreYtelserType: 'OMSORGSPENGER',
-                fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-01', grad: 50 }],
+                fjernet: false,
+                events: [],
             },
         ];
 
@@ -193,8 +197,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'annen-ytelse',
                 andreYtelserType: 'PLEIEPENGER',
-                fjernet: true,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 50 }],
+                fjernet: true,
+                events: [],
             },
         ];
 
@@ -233,8 +238,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'annen-ytelse',
                 andreYtelserType: 'FORELDREPENGER',
-                fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+                fjernet: false,
+                events: [],
             },
         ];
 
@@ -255,8 +261,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'annen-ytelse',
                 andreYtelserType: 'PLEIEPENGER',
-                fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+                fjernet: false,
+                events: [],
             },
         ];
 
@@ -275,8 +282,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'annen-ytelse',
                 andreYtelserType: 'FORELDREPENGER',
-                fjernet: true,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+                fjernet: true,
+                events: [],
             },
         ];
 
@@ -297,8 +305,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'gjeldende-ytelse',
                 andreYtelserType: 'FORELDREPENGER',
-                fjernet: true,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+                fjernet: true,
+                events: [],
             },
         ];
 
@@ -320,8 +329,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'gjeldende-ytelse',
                 andreYtelserType: 'FORELDREPENGER',
-                fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+                fjernet: false,
+                events: [],
             },
         ];
 
@@ -343,8 +353,9 @@ describe('andre ytelser skjemavalidering', () => {
             {
                 andreYtelserId: 'fjernet-ytelse',
                 andreYtelserType: 'FORELDREPENGER',
-                fjernet: true,
                 perioder: [{ fom: '2022-08-16', tom: '2022-08-19', grad: 50 }],
+                fjernet: true,
+                events: [],
             },
         ];
 

@@ -1206,6 +1206,7 @@ export interface ApiGraderteAndreYtelser {
     perioder: ApiGraderteAndreYtelserPeriode[];
     andreYtelserType: ApiGraderteAndreYtelserType;
     fjernet: boolean;
+    events: ApiGraderteAndreYtelserEvent[];
 }
 
 export interface ApiGraderteAndreYtelserPeriode {
@@ -1225,6 +1226,101 @@ export const ApiGraderteAndreYtelserType = {
     PLEIEPENGER: 'PLEIEPENGER',
     OPPLARINGSPENGER: 'OPPLARINGSPENGER',
 } as const;
+
+export type ApiGraderteAndreYtelserEvent =
+    | ApiGraderteAndreYtelserEndretEvent
+    | ApiGraderteAndreYtelserFjernetEvent
+    | ApiGraderteAndreYtelserGjenopprettetEvent
+    | ApiGraderteAndreYtelserOpprettetEvent;
+
+export type ApiGraderteAndreYtelserEndretEventType =
+    (typeof ApiGraderteAndreYtelserEndretEventType)[keyof typeof ApiGraderteAndreYtelserEndretEventType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGraderteAndreYtelserEndretEventType = {
+    ApiGraderteAndreYtelserEndretEvent: 'ApiGraderteAndreYtelserEndretEvent',
+} as const;
+
+export interface ApiGraderteAndreYtelserEndretEvent {
+    metadata: ApiGraderteAndreYtelserEventMetadata;
+    endringer: ApiGraderteAndreYtelserEventEndringer;
+    type: ApiGraderteAndreYtelserEndretEventType;
+}
+
+export interface ApiGraderteAndreYtelserEventMetadata {
+    sekvensnummer: number;
+    tidspunkt: string;
+    utfortAvSaksbehandlerIdent: string;
+    notatTilBeslutter: string;
+}
+
+export type ApiGraderteAndreYtelserEventEndringerPerioder =
+    null | ApiGraderteAndreYtelserEventListGradertAnnenYtelseEndring;
+
+export type ApiGraderteAndreYtelserEventEndringerAndreYtelserType =
+    null | ApiGraderteAndreYtelserEventGradertAnnenYtelseTypeEndring;
+
+export interface ApiGraderteAndreYtelserEventEndringer {
+    perioder?: ApiGraderteAndreYtelserEventEndringerPerioder;
+    andreYtelserType?: ApiGraderteAndreYtelserEventEndringerAndreYtelserType;
+}
+
+export interface ApiGraderteAndreYtelserEventListGradertAnnenYtelseEndring {
+    fra: ApiGraderteAndreYtelserEventApiGradertAnnenYtelse[];
+    til: ApiGraderteAndreYtelserEventApiGradertAnnenYtelse[];
+}
+
+export interface ApiGraderteAndreYtelserEventApiGradertAnnenYtelse {
+    periode: ApiDatoPeriode;
+    grad: number;
+}
+
+export interface ApiGraderteAndreYtelserEventGradertAnnenYtelseTypeEndring {
+    fra: ApiGraderteAndreYtelserType;
+    til: ApiGraderteAndreYtelserType;
+}
+
+export type ApiGraderteAndreYtelserFjernetEventType =
+    (typeof ApiGraderteAndreYtelserFjernetEventType)[keyof typeof ApiGraderteAndreYtelserFjernetEventType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGraderteAndreYtelserFjernetEventType = {
+    ApiGraderteAndreYtelserFjernetEvent: 'ApiGraderteAndreYtelserFjernetEvent',
+} as const;
+
+export interface ApiGraderteAndreYtelserFjernetEvent {
+    metadata: ApiGraderteAndreYtelserEventMetadata;
+    type: ApiGraderteAndreYtelserFjernetEventType;
+}
+
+export type ApiGraderteAndreYtelserGjenopprettetEventType =
+    (typeof ApiGraderteAndreYtelserGjenopprettetEventType)[keyof typeof ApiGraderteAndreYtelserGjenopprettetEventType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGraderteAndreYtelserGjenopprettetEventType = {
+    ApiGraderteAndreYtelserGjenopprettetEvent: 'ApiGraderteAndreYtelserGjenopprettetEvent',
+} as const;
+
+export interface ApiGraderteAndreYtelserGjenopprettetEvent {
+    metadata: ApiGraderteAndreYtelserEventMetadata;
+    endringer: ApiGraderteAndreYtelserEventEndringer;
+    type: ApiGraderteAndreYtelserGjenopprettetEventType;
+}
+
+export type ApiGraderteAndreYtelserOpprettetEventType =
+    (typeof ApiGraderteAndreYtelserOpprettetEventType)[keyof typeof ApiGraderteAndreYtelserOpprettetEventType];
+
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export const ApiGraderteAndreYtelserOpprettetEventType = {
+    ApiGraderteAndreYtelserOpprettetEvent: 'ApiGraderteAndreYtelserOpprettetEvent',
+} as const;
+
+export interface ApiGraderteAndreYtelserOpprettetEvent {
+    metadata: ApiGraderteAndreYtelserEventMetadata;
+    perioder: ApiGraderteAndreYtelserPeriode[];
+    andreYtelserType: ApiGraderteAndreYtelserType;
+    type: ApiGraderteAndreYtelserOpprettetEventType;
+}
 
 export type ApiGetGraderteAndreYtelserForPersonErrorCode =
     (typeof ApiGetGraderteAndreYtelserForPersonErrorCode)[keyof typeof ApiGetGraderteAndreYtelserForPersonErrorCode];

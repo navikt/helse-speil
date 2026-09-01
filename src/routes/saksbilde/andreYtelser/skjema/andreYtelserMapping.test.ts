@@ -73,6 +73,7 @@ describe('tilAndreYtelserSkjemaverdier', () => {
             andreYtelserType: ApiGraderteAndreYtelserType.OPPLARINGSPENGER,
             perioder: [{ fom: '2020-01-01', tom: '2020-01-03', grad: 50 }],
             fjernet: true,
+            events: [],
         });
 
         expect(skjemaverdier.ytelse).toBe('Opplæringspenger');
@@ -85,6 +86,7 @@ describe('tilAndreYtelserSkjemaverdier', () => {
             andreYtelserType: ApiGraderteAndreYtelserType.PLEIEPENGER,
             perioder: [],
             fjernet: true,
+            events: [],
         });
 
         expect(skjemaverdier.notat).toBe('');

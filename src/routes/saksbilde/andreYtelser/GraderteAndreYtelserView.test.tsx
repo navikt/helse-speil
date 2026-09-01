@@ -18,6 +18,7 @@ const enYtelse = (overstyringer: Partial<ApiGraderteAndreYtelser> = {}): ApiGrad
     andreYtelserType: ApiGraderteAndreYtelserType.PLEIEPENGER,
     perioder: [{ fom: '2022-08-02', tom: '2022-08-13', grad: 50 }],
     fjernet: false,
+    events: [],
     ...overstyringer,
 });
 

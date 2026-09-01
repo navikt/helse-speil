@@ -13,6 +13,7 @@ export const stub = async (request: Request) => {
         andreYtelserType: requestBody.andreYtelserType,
         perioder: requestBody.perioder,
         fjernet: false,
+        events: [],
     };
 
     GraderteAndreYtelserMock.leggTil(requestBody.fodselsnummer, graderteAndreYtelser);

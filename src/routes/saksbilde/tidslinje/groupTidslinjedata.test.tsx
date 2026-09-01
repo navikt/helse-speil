@@ -7,6 +7,7 @@ const pleiepenger: ApiGraderteAndreYtelser = {
     andreYtelserType: ApiGraderteAndreYtelserType.PLEIEPENGER,
     perioder: [{ fom: '2022-08-02', tom: '2022-08-13', grad: 50 }],
     fjernet: false,
+    events: [],
 };
 
 const foreldrepenger: ApiGraderteAndreYtelser = {
@@ -14,6 +15,7 @@ const foreldrepenger: ApiGraderteAndreYtelser = {
     andreYtelserType: ApiGraderteAndreYtelserType.FORELDREPENGER,
     perioder: [{ fom: '2022-09-01', tom: '2022-09-10', grad: 100 }],
     fjernet: false,
+    events: [],
 };
 
 const foreldrepengerTidligere: ApiGraderteAndreYtelser = {
@@ -21,6 +23,7 @@ const foreldrepengerTidligere: ApiGraderteAndreYtelser = {
     andreYtelserType: ApiGraderteAndreYtelserType.FORELDREPENGER,
     perioder: [{ fom: '2022-01-01', tom: '2022-01-10', grad: 80 }],
     fjernet: false,
+    events: [],
 };
 
 describe('useTidslinjeRader', () => {
