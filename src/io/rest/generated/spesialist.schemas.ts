@@ -1174,16 +1174,6 @@ export interface ApiTilkommenInntektEventEndringerBooleanEndring {
     til: boolean;
 }
 
-export interface ApiPatchListLocalDateEndring {
-    fra: string[];
-    til: string[];
-}
-
-export interface ApiPatchBooleanEndring {
-    fra: boolean;
-    til: boolean;
-}
-
 export interface ApiTilkommenInntektPatch {
     endringer: ApiTilkommenInntektPatchApiTilkommenInntektEndringer;
     notatTilBeslutter: string;
