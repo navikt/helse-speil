@@ -1146,16 +1146,20 @@ export interface ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCode {
     code?: ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeCode;
 }
 
-export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer = null | ApiPatchStringEndring;
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer =
+    null | ApiTilkommenInntektEventEndringerStringEndring;
 
-export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriode = null | ApiPatchDatoPeriodeEndring;
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriode =
+    null | ApiTilkommenInntektEventEndringerDatoPeriodeEndring;
 
-export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriodebeløp = null | ApiPatchBigDecimalEndring;
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerPeriodebeløp =
+    null | ApiTilkommenInntektEventEndringerBigDecimalEndring;
 
 export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerEkskluderteUkedager =
-    null | ApiPatchListLocalDateEndring;
+    null | ApiTilkommenInntektEventEndringerListLocalDateEndring;
 
-export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerFjernet = null | ApiPatchBooleanEndring;
+export type ApiTilkommenInntektPatchApiTilkommenInntektEndringerFjernet =
+    null | ApiTilkommenInntektEventEndringerBooleanEndring;
 
 export interface ApiTilkommenInntektPatchApiTilkommenInntektEndringer {
     organisasjonsnummer?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerOrganisasjonsnummer;
@@ -1165,19 +1169,9 @@ export interface ApiTilkommenInntektPatchApiTilkommenInntektEndringer {
     fjernet?: ApiTilkommenInntektPatchApiTilkommenInntektEndringerFjernet;
 }
 
-export interface ApiPatchStringEndring {
-    fra: string;
-    til: string;
-}
-
-export interface ApiPatchDatoPeriodeEndring {
-    fra: ApiDatoPeriode;
-    til: ApiDatoPeriode;
-}
-
-export interface ApiPatchBigDecimalEndring {
-    fra: string;
-    til: string;
+export interface ApiTilkommenInntektEventEndringerBooleanEndring {
+    fra: boolean;
+    til: boolean;
 }
 
 export interface ApiPatchListLocalDateEndring {
