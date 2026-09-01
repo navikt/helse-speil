@@ -20,6 +20,8 @@ export type TimelineVariant =
     | 'ghost'
     | 'tilkommen'
     | 'tilkommen_fjernet'
+    | 'graderte_andre_ytelser'
+    | 'graderte_andre_ytelser_fjernet'
     | 'historisk'
     | 'infotrygd'
     | 'annullert';

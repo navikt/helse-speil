@@ -161,7 +161,9 @@ export function useTidslinjeRader(
             const elementer = ytelse.perioder.map((periode) => ({
                 fom: periode.fom,
                 tom: periode.tom,
-                status: (ytelse.fjernet ? 'tilkommen_fjernet' : 'tilkommen') as PeriodCategory,
+                status: (ytelse.fjernet
+                    ? 'graderte_andre_ytelser_fjernet'
+                    : 'graderte_andre_ytelser') as PeriodCategory,
                 gradertAndreYtelser: {
                     andreYtelserId: ytelse.andreYtelserId,
                     andreYtelseType: ytelse.andreYtelseType,

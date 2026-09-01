@@ -54,6 +54,8 @@ export type PeriodCategory =
     | 'neutralError'
     | 'tilkommen'
     | 'tilkommen_fjernet'
+    | 'graderte_andre_ytelser'
+    | 'graderte_andre_ytelser_fjernet'
     | 'ghost'
     | 'historisk'
     | 'ukjent';
