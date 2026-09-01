@@ -1,4 +1,9 @@
-import { ANNEN_YTELSE_OPTIONS, AndreYtelserSchema, AndreYtelserSkjemaInput } from '@/form-schemas/andreYtelserSchema';
+import {
+    AndreYtelserSchema,
+    AndreYtelserSkjemaInput,
+    YtelseValg,
+    ytelseTilApiType,
+} from '@/form-schemas/andreYtelserSchema';
 import {
     ApiGraderteAndreYtelseType,
     ApiGraderteAndreYtelser,
@@ -8,16 +13,6 @@ import {
     ApiPostGjenopprettGraderteAndreYtelserRequest,
 } from '@io/rest/generated/spesialist.schemas';
 import { norskDatoTilIsoDato, somNorskDato } from '@utils/date';
-
-type YtelseValg = (typeof ANNEN_YTELSE_OPTIONS)[number];
-
-const ytelseTilApiType: Record<YtelseValg, ApiGraderteAndreYtelseType> = {
-    Foreldrepenger: ApiGraderteAndreYtelseType.FORELDREPENGER,
-    Svangerskapspenger: ApiGraderteAndreYtelseType.SVANGERSKAPSPENGER,
-    Pleiepenger: ApiGraderteAndreYtelseType.PLEIEPENGER,
-    Omsorgspenger: ApiGraderteAndreYtelseType.OMSORGSPENGER,
-    Opplæringspenger: ApiGraderteAndreYtelseType.OPPLARINGSPENGER,
-};
 
 const apiTypeTilYtelse: Record<ApiGraderteAndreYtelseType, YtelseValg> = {
     [ApiGraderteAndreYtelseType.FORELDREPENGER]: 'Foreldrepenger',

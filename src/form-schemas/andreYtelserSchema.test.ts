@@ -25,6 +25,9 @@ const validerAndreYtelserSkjema = (
 
 const hentFeilmelding = (result: { success: boolean; error?: ZodError }) => result.error?.issues[0]?.message;
 
+const hentFeilmeldinger = (result: { success: boolean; error?: ZodError }) =>
+    result.error?.issues.map((issue) => issue.message) ?? [];
+
 describe('andre ytelser skjemavalidering', () => {
     it('skal validere gyldig skjema', () => {
         expect(validerAndreYtelserSkjema().success).toBe(true);
@@ -114,7 +117,7 @@ describe('andre ytelser skjemavalidering', () => {
         ).toBe('Samlet gradering for perioden kan ikke overstige 100 %');
     });
 
-    it('fjernede ytelser regnes ikke med i valideringen', () => {
+    it('fjernede ytelser regnes ikke med i graderingsvalideringen', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
@@ -132,5 +135,163 @@ describe('andre ytelser skjemavalidering', () => {
                 alleGraderteAndreYtelser,
             ).success,
         ).toBe(true);
+    });
+
+    it('perioder i samme skjema kan ikke overlappe', () => {
+        expect(
+            hentFeilmelding(
+                validerAndreYtelserSkjema('Foreldrepenger', [
+                    { fom: '01.01.2020', tom: '10.01.2020', grad: 30 },
+                    { fom: '10.01.2020', tom: '15.01.2020', grad: 30 },
+                ]),
+            ),
+        ).toBe('Perioden overlapper med en annen periode i skjemaet');
+    });
+
+    it('perioder i samme skjema kan ligge etter hverandre uten å overlappe', () => {
+        expect(
+            validerAndreYtelserSkjema('Foreldrepenger', [
+                { fom: '01.01.2020', tom: '10.01.2020', grad: 30 },
+                { fom: '11.01.2020', tom: '15.01.2020', grad: 30 },
+            ]).success,
+        ).toBe(true);
+    });
+
+    it('perioden kan ikke overlappe med en lagret periode for samme ytelse', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'annen-ytelse',
+                andreYtelseType: 'FORELDREPENGER',
+                fjernet: false,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+            },
+        ];
+
+        expect(
+            hentFeilmelding(
+                validerAndreYtelserSkjema(
+                    'Foreldrepenger',
+                    [{ fom: '03.01.2020', tom: '10.01.2020', grad: 20 }],
+                    'Dette er et notat',
+                    alleGraderteAndreYtelser,
+                ),
+            ),
+        ).toBe('Perioden overlapper med en lagret periode for samme ytelse');
+    });
+
+    it('perioden kan overlappe med en lagret periode for en annen ytelse', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'annen-ytelse',
+                andreYtelseType: 'PLEIEPENGER',
+                fjernet: false,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+            },
+        ];
+
+        expect(
+            validerAndreYtelserSkjema(
+                'Foreldrepenger',
+                [{ fom: '03.01.2020', tom: '10.01.2020', grad: 20 }],
+                'Dette er et notat',
+                alleGraderteAndreYtelser,
+            ).success,
+        ).toBe(true);
+    });
+
+    it('perioden kan ikke overlappe med en fjernet periode for samme ytelse', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'annen-ytelse',
+                andreYtelseType: 'FORELDREPENGER',
+                fjernet: true,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+            },
+        ];
+
+        expect(
+            hentFeilmelding(
+                validerAndreYtelserSkjema(
+                    'Foreldrepenger',
+                    [{ fom: '03.01.2020', tom: '10.01.2020', grad: 20 }],
+                    'Dette er et notat',
+                    alleGraderteAndreYtelser,
+                ),
+            ),
+        ).toBe('Perioden overlapper med en lagret periode for samme ytelse');
+    });
+
+    it('ytelsen som gjenopprettes sjekkes ikke mot sin egen fjernede periode', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'gjeldende-ytelse',
+                andreYtelseType: 'FORELDREPENGER',
+                fjernet: true,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+            },
+        ];
+
+        expect(
+            lagAndreYtelserSchema(
+                [{ fom: '2020-01-01', tom: '2020-02-19' }],
+                alleGraderteAndreYtelser,
+                'gjeldende-ytelse',
+            ).safeParse({
+                ytelse: 'Foreldrepenger',
+                perioder: [{ fom: '01.01.2020', tom: '05.01.2020', grad: 20 }],
+                notat: 'Dette er et notat',
+            }).success,
+        ).toBe(true);
+    });
+
+    it('ytelsen som endres sjekkes ikke mot seg selv', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'gjeldende-ytelse',
+                andreYtelseType: 'FORELDREPENGER',
+                fjernet: false,
+                perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
+            },
+        ];
+
+        expect(
+            lagAndreYtelserSchema(
+                [{ fom: '2020-01-01', tom: '2020-02-19' }],
+                alleGraderteAndreYtelser,
+                'gjeldende-ytelse',
+            ).safeParse({
+                ytelse: 'Foreldrepenger',
+                perioder: [{ fom: '03.01.2020', tom: '10.01.2020', grad: 20 }],
+                notat: 'Dette er et notat',
+            }).success,
+        ).toBe(true);
+    });
+
+    it('overlappende perioder gir overlappfeil, ikke graderingsfeil', () => {
+        const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
+            {
+                andreYtelserId: 'fjernet-ytelse',
+                andreYtelseType: 'FORELDREPENGER',
+                fjernet: true,
+                perioder: [{ fom: '2022-08-16', tom: '2022-08-19', grad: 50 }],
+            },
+        ];
+
+        const feilmeldinger = hentFeilmeldinger(
+            lagAndreYtelserSchema([{ fom: '2022-08-01', tom: '2022-09-30' }], alleGraderteAndreYtelser).safeParse({
+                ytelse: 'Foreldrepenger',
+                perioder: [
+                    { fom: '01.08.2022', tom: '31.08.2022', grad: 50 },
+                    { fom: '10.08.2022', tom: '15.08.2022', grad: 20 },
+                ],
+                notat: 'Dette er et notat',
+            }),
+        );
+
+        expect(feilmeldinger).toEqual([
+            'Perioden overlapper med en annen periode i skjemaet',
+            'Perioden overlapper med en annen periode i skjemaet',
+        ]);
+        expect(feilmeldinger).not.toContain('Samlet gradering for perioden kan ikke overstige 100 %');
     });
 });

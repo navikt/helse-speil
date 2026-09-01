@@ -1,8 +1,8 @@
 import { z } from 'zod/v4';
 
-import { ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelseType, ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
 import { DatePeriod } from '@typer/shared';
-import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, tilDatoer } from '@utils/date';
+import { erGyldigNorskDato, erIPeriode, norskDatoTilIsoDato, perioderOverlapper, tilDatoer } from '@utils/date';
 
 export const ANNEN_YTELSE_OPTIONS = [
     'Foreldrepenger',
@@ -11,6 +11,16 @@ export const ANNEN_YTELSE_OPTIONS = [
     'Omsorgspenger',
     'Opplæringspenger',
 ] as const;
+
+export type YtelseValg = (typeof ANNEN_YTELSE_OPTIONS)[number];
+
+export const ytelseTilApiType: Record<YtelseValg, ApiGraderteAndreYtelseType> = {
+    Foreldrepenger: ApiGraderteAndreYtelseType.FORELDREPENGER,
+    Svangerskapspenger: ApiGraderteAndreYtelseType.SVANGERSKAPSPENGER,
+    Pleiepenger: ApiGraderteAndreYtelseType.PLEIEPENGER,
+    Omsorgspenger: ApiGraderteAndreYtelseType.OMSORGSPENGER,
+    Opplæringspenger: ApiGraderteAndreYtelseType.OPPLARINGSPENGER,
+};
 
 /** Verdiene skjemafeltene har mens de fylles ut — `grad` kan være tom her. */
 export type AndreYtelserSkjemaInput = z.input<ReturnType<typeof lagAndreYtelserSchema>>;
@@ -81,6 +91,53 @@ export const lagAndreYtelserSchema = (
             ytelse: z.enum(ANNEN_YTELSE_OPTIONS, { message: 'Gyldig ytelse er påkrevd' }),
             perioder: z.array(lagAndreYtelserPeriodeSchema(sykefraværstilfelleperioder)).min(1),
             notat: z.string().min(1, { error: 'Notat til beslutter er påkrevd' }),
+        })
+        .check((ctx) => {
+            // Overlapp sjekkes før graderingen: to overlappende perioder for samme ytelse gir en misvisende
+            // graderingssum, så vi stopper her og lar saksbehandler rette opp overlappet først.
+            // Kun perioder med gyldige datoer i riktig rekkefølge sjekkes — resten gir allerede egne feilmeldinger.
+            const skjemaperioder = ctx.value.perioder.map((periode) => {
+                if (!erGyldigNorskDato(periode.fom) || !erGyldigNorskDato(periode.tom)) return null;
+                const datoperiode = { fom: norskDatoTilIsoDato(periode.fom), tom: norskDatoTilIsoDato(periode.tom) };
+                return datoperiode.fom <= datoperiode.tom ? datoperiode : null;
+            });
+
+            // Fjernede ytelser teller også med her: perioden er fortsatt opptatt selv om ytelsen er fjernet.
+            const lagredePerioderForSammeYtelse: DatePeriod[] = alleGraderteAndreYtelser
+                .filter(
+                    (ytelse) =>
+                        ytelse.andreYtelserId !== gjeldendeAndreYtelserId &&
+                        ytelse.andreYtelseType === ytelseTilApiType[ctx.value.ytelse],
+                )
+                .flatMap((ytelse) => ytelse.perioder);
+
+            skjemaperioder.forEach((periode, index) => {
+                if (periode === null) return;
+
+                const overlapperAnnenPeriodeISkjemaet = skjemaperioder.some(
+                    (annenPeriode, annenIndex) =>
+                        annenIndex !== index && annenPeriode !== null && perioderOverlapper(periode, annenPeriode),
+                );
+                const overlapperLagretPeriode = lagredePerioderForSammeYtelse.some((lagretPeriode) =>
+                    perioderOverlapper(periode, lagretPeriode),
+                );
+
+                if (overlapperAnnenPeriodeISkjemaet) {
+                    ctx.issues.push({
+                        code: 'custom',
+                        message: 'Perioden overlapper med en annen periode i skjemaet',
+                        path: ['perioder', index, 'fom'],
+                        input: ctx.value.perioder[index]?.fom,
+                    });
+                } else if (overlapperLagretPeriode) {
+                    ctx.issues.push({
+                        code: 'custom',
+                        message: 'Perioden overlapper med en lagret periode for samme ytelse',
+                        path: ['perioder', index, 'fom'],
+                        input: ctx.value.perioder[index]?.fom,
+                    });
+                }
+            });
         })
         .check((ctx) => {
             const gradPerDag = new Map<string, number>();
