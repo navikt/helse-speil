@@ -3,7 +3,7 @@
 import React, { ReactElement } from 'react';
 import { Controller, useFormContext, useFormState, useWatch } from 'react-hook-form';
 
-import { Button, HGrid, TextField, VStack } from '@navikt/ds-react';
+import { Button, HStack, TextField, VStack } from '@navikt/ds-react';
 
 import { AndreYtelserSkjemaInput } from '@/form-schemas/andreYtelserSchema';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
@@ -34,8 +34,8 @@ export function PeriodeRad({ index, onRemove, sykefraværstilfelleperioder }: Pe
     const erGyldigTom = (tom: string) => erGyldigTomForSykefraværstilfelle(tom, fom, sykefraværstilfelleperioder);
 
     return (
-        <VStack gap="space-8" marginBlock="space-16">
-            <HGrid columns={4} gap="space-8" align="end">
+        <VStack gap="space-8">
+            <HStack gap="space-8" align="end">
                 <ControlledDatePicker
                     name={`perioder.${index}.fom`}
                     label="Periode f.o.m."
@@ -71,15 +71,15 @@ export function PeriodeRad({ index, onRemove, sykefraværstilfelleperioder }: Pe
                             size="small"
                             autoComplete="off"
                             error={fieldState.error?.message != undefined}
-                            style={{ width: 'var(--ax-space-80)' }}
+                            className="w-16"
                             id={`perioder.${index}.grad`}
                         />
                     )}
                 />
-                <Button type="button" variant="tertiary" size="xsmall" onClick={onRemove}>
+                <Button type="button" variant="tertiary" size="xsmall" onClick={onRemove} className="mr-auto mb-[3px]">
                     Slett
                 </Button>
-            </HGrid>
+            </HStack>
         </VStack>
     );
 }
