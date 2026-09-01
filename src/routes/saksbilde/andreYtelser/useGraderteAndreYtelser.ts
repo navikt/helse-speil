@@ -1,10 +1,8 @@
 import { useParams } from 'next/navigation';
 
-import {
-    getGetGraderteAndreYtelserForPersonQueryKey,
-    useGetGraderteAndreYtelserForPerson,
-} from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
+import { getGetGraderteAndreYtelserForPersonQueryKey } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
+import { useAlleGraderteAndreYtelser } from '@saksbilde/andreYtelser/useAlleGraderteAndreYtelser';
 import { useQueryClient } from '@tanstack/react-query';
 
 type GraderteAndreYtelserResultat = {
@@ -16,10 +14,10 @@ type GraderteAndreYtelserResultat = {
 export const useGraderteAndreYtelser = (andreYtelserId: string): GraderteAndreYtelserResultat => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
-    const { data, isPending } = useGetGraderteAndreYtelserForPerson(personPseudoId);
+    const { ytelser, isPending } = useAlleGraderteAndreYtelser();
 
     return {
-        ytelse: data?.find((it) => it.andreYtelserId === andreYtelserId),
+        ytelse: ytelser?.find((it) => it.andreYtelserId === andreYtelserId),
         isPending,
         invaliderGraderteAndreYtelser: () =>
             queryClient.invalidateQueries({
