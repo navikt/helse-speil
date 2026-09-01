@@ -7,12 +7,12 @@ import { atomWithSessionStorage } from '@state/jotai';
 
 export type ToggleState = {
     kanBeslutteEgne: boolean;
-    visSpleisTolkningAvOpptjening: boolean;
+    nyOpptjeningVisning: boolean;
 };
 
 const defaultToggleState: ToggleState = {
     kanBeslutteEgne: false,
-    visSpleisTolkningAvOpptjening: false,
+    nyOpptjeningVisning: false,
 };
 
 const toggleState = atomWithSessionStorage<ToggleState>('toggleState', defaultToggleState);
@@ -41,4 +41,4 @@ export const useToggle = (): { value: ToggleState; toggle: (property: keyof Togg
 
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
 
-export const useVisSpleisTolkningAvOpptjening = (): boolean => useAtomValue(toggleState).visSpleisTolkningAvOpptjening;
+export const useNyOpptjeningVisning = (): boolean => useAtomValue(toggleState).nyOpptjeningVisning;

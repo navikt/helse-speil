@@ -5,6 +5,7 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     BeregnetPeriodeFragment,
     PersonFragment,
@@ -13,17 +14,16 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
-import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { OppfylteVilkår } from '@saksbilde/vilkår/vilkårsgrupper/OppfylteVilkår';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useVisSpleisTolkningAvOpptjening } from '@state/toggles';
+import { useNyOpptjeningVisning } from '@state/toggles';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
-import { OpptjeningVilkårsvurderingDebug } from './OpptjeningVilkårsvurderingDebug';
-import { SpVilkårsvurdering, kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
+import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
+import { Opptjening } from './opptjening/Opptjening';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
@@ -40,7 +40,7 @@ interface InngangsvilkårWithContentProps {
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
     fødselsdato: DateString;
     vurdering?: Vurdering | null;
-    spVilkårsvurdering?: SpVilkårsvurdering;
+    opptjening?: ReactElement | null;
 }
 
 export const InngangsvilkårWithContent = ({
@@ -49,7 +49,7 @@ export const InngangsvilkårWithContent = ({
     vilkårsgrunnlag,
     fødselsdato,
     vurdering,
-    spVilkårsvurdering,
+    opptjening,
 }: InngangsvilkårWithContentProps) => {
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
 
@@ -59,7 +59,7 @@ export const InngangsvilkårWithContent = ({
             vilkårsgrunnlag,
             alderVedSkjæringstidspunkt,
             vurdering,
-            spVilkårsvurdering,
+            opptjening != null,
         );
 
     const harBehandledeVilkår =
@@ -69,6 +69,7 @@ export const InngangsvilkårWithContent = ({
 
     return (
         <div className={styles.Inngangsvilkår}>
+            {opptjening}
             {harBehandledeVilkår && (
                 <div className={styles.Flex}>
                     {harVilkår(ikkeVurderteVilkår) && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår} />}
@@ -101,51 +102,34 @@ interface InngangsvilkårContainerProps {
 
 const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerProps): ReactElement | null => {
     const inntektsforhold = useAktivtInntektsforhold(person);
-    const visSpleisTolkningAvOpptjening = useVisSpleisTolkningAvOpptjening();
+    const nyOpptjeningVisning = useNyOpptjeningVisning();
+    const readOnly = useIsReadOnlyOppgave(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
     const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId);
     const opptjeningsvurderingId = vilkårsgrunnlag.opptjeningsvurderingId;
-
-    const {
-        data: spVilkårsvurderingData,
-        isLoading: spVilkårsvurderingIsLoading,
-        isError: spVilkårsvurderingIsError,
-    } = useGetVilkårsvurderingerForPersonBehandler(
-        personPseudoId,
-        { opptjeningsvurderingId },
-        { query: { enabled: visSpleisTolkningAvOpptjening } },
-    );
 
     if (!apiPerson) {
         return null;
     }
 
     return (
-        <>
-            <InngangsvilkårWithContent
-                erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
-                vurdering={periode.utbetaling.vurdering}
-                periodeFom={periode.fom}
-                vilkårsgrunnlag={vilkårsgrunnlag}
-                fødselsdato={apiPerson.fødselsdato}
-                spVilkårsvurdering={
-                    visSpleisTolkningAvOpptjening
-                        ? {
-                              data: spVilkårsvurderingData,
-                              isLoading: spVilkårsvurderingIsLoading,
-                              isError: spVilkårsvurderingIsError,
-                          }
-                        : undefined
-                }
-            />
-            {visSpleisTolkningAvOpptjening && (
-                <OpptjeningVilkårsvurderingDebug
-                    personPseudoId={personPseudoId}
-                    opptjeningsvurderingId={opptjeningsvurderingId}
-                />
-            )}
-        </>
+        <InngangsvilkårWithContent
+            erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
+            vurdering={periode.utbetaling.vurdering}
+            periodeFom={periode.fom}
+            vilkårsgrunnlag={vilkårsgrunnlag}
+            fødselsdato={apiPerson.fødselsdato}
+            opptjening={
+                nyOpptjeningVisning ? (
+                    <Opptjening
+                        personPseudoId={personPseudoId}
+                        opptjeningsvurderingId={opptjeningsvurderingId}
+                        readOnly={readOnly}
+                    />
+                ) : null
+            }
+        />
     );
 };
 

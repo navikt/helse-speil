@@ -184,4 +184,23 @@ describe('Inngangsvilkår', () => {
         expect(within(gruppe).getByText('Opptjening fra')).toBeVisible();
         expect(within(gruppe).getByText('Antall dager (>28)')).toBeVisible();
     });
+
+    it('rendrer opptjening separat og utelater opptjeningstid fra kolonnene', () => {
+        render(
+            <InngangsvilkårWithContent
+                periodeFom="2022-01-01"
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
+                fødselsdato="1900-01-01"
+                erSelvstendigNæring={false}
+                opptjening={<div data-testid="opptjening" />}
+            />,
+        );
+
+        expect(screen.getByTestId('opptjening')).toBeVisible();
+
+        const gruppe = screen.getByTestId('oppfylte-vilkår');
+        expect(within(gruppe).queryByText('Opptjeningstid')).not.toBeInTheDocument();
+        expect(within(gruppe).getByText('Lovvalg og medlemskap')).toBeVisible();
+        expect(within(gruppe).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
+    });
 });

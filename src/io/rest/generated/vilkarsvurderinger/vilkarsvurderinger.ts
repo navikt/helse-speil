@@ -7,20 +7,25 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
+    ApiOverstyrVilkårsvurderingRequest,
+    ApiOverstyrVilkårsvurderingResponse,
     ApiVilkårsvurderingerForPersonResponse,
     GetVilkårsvurderingerForPersonBehandlerParams,
     ProblemDetails,
 } from '../vilkarsproving.schemas';
 
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
     DefinedUseQueryResult,
+    MutationFunction,
     QueryClient,
     QueryFunction,
     QueryKey,
     UndefinedInitialDataOptions,
+    UseMutationOptions,
+    UseMutationResult,
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
@@ -160,3 +165,79 @@ export function useGetVilkårsvurderingerForPersonBehandler<
 
     return query;
 }
+
+export const overstyrVilkårsvurderingBehandler = (
+    personId: string,
+    apiOverstyrVilkårsvurderingRequest?: ApiOverstyrVilkårsvurderingRequest,
+    signal?: AbortSignal,
+) => {
+    return callCustomAxios<ApiOverstyrVilkårsvurderingResponse>({
+        url: `/api/vilkarsproving/personer/${personId}/vilkarsvurderinger/overstyring`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: apiOverstyrVilkårsvurderingRequest,
+        signal,
+    });
+};
+
+export const getOverstyrVilkårsvurderingBehandlerMutationOptions = <
+    TError = ErrorType<ProblemDetails>,
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+        TError,
+        { personId: string; data: ApiOverstyrVilkårsvurderingRequest },
+        TContext
+    >;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+    TError,
+    { personId: string; data: ApiOverstyrVilkårsvurderingRequest },
+    TContext
+> => {
+    const mutationKey = ['overstyrVilkårsvurderingBehandler'];
+    const { mutation: mutationOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey } };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+        { personId: string; data: ApiOverstyrVilkårsvurderingRequest }
+    > = (props) => {
+        const { personId, data } = props ?? {};
+
+        return overstyrVilkårsvurderingBehandler(personId, data);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type OverstyrVilkårsvurderingBehandlerMutationResult = NonNullable<
+    Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>
+>;
+export type OverstyrVilkårsvurderingBehandlerMutationBody = ApiOverstyrVilkårsvurderingRequest;
+export type OverstyrVilkårsvurderingBehandlerMutationError = ErrorType<ProblemDetails>;
+
+export const useOverstyrVilkårsvurderingBehandler = <TError = ErrorType<ProblemDetails>, TContext = unknown>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+            TError,
+            { personId: string; data: ApiOverstyrVilkårsvurderingRequest },
+            TContext
+        >;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+    TError,
+    { personId: string; data: ApiOverstyrVilkårsvurderingRequest },
+    TContext
+> => {
+    const mutationOptions = getOverstyrVilkårsvurderingBehandlerMutationOptions(options);
+
+    return useMutation(mutationOptions, queryClient);
+};

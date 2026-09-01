@@ -4,9 +4,11 @@
  * sp-vilkarsproving
  * OpenAPI spec version: 1.0.0
  */
-export type ApiKravvurdering = ApiKravvurderingOverførtFraInfotrygd | ApiKravvurderingVurdertISpeil;
+export type ApiOpptjeningsvurdering =
+    | ApiOpptjeningsvurderingOverførtFraInfotrygd
+    | ApiOpptjeningsvurderingVurdertISpeil;
 
-export interface ApiKravvurderingOverførtFraInfotrygd {
+export interface ApiOpptjeningsvurderingOverførtFraInfotrygd {
     id: string;
     kravkode: ApiKravkode;
     rettTilSykepenger: boolean;
@@ -28,7 +30,7 @@ export const ApiKravkilde = {
     OVERFOERT_FRA_INFOTRYGD: 'OVERFOERT_FRA_INFOTRYGD',
 } as const;
 
-export interface ApiKravvurderingVurdertISpeil {
+export interface ApiOpptjeningsvurderingVurdertISpeil {
     id: string;
     kravkode: ApiKravkode;
     rettTilSykepenger: boolean;
@@ -106,6 +108,7 @@ export const ApiArbeidsforholdtype = {
     FRILANSER: 'FRILANSER',
     MARITIMT: 'MARITIMT',
     ORDINÆRT: 'ORDINÆRT',
+    UKJENT: 'UKJENT',
 } as const;
 
 export interface ApiPeriode {
@@ -147,7 +150,7 @@ export interface ApiVurderingskildeSaksbehandler {
 
 export interface ApiVilkårsvurderingerForPersonResponse {
     skjæringstidspunkt: string;
-    krav: ApiKravvurdering[];
+    krav: ApiOpptjeningsvurdering[];
 }
 
 export type ProblemDetailsDetail = null | string;
@@ -158,6 +161,17 @@ export interface ProblemDetails {
     status: number;
     detail?: ProblemDetailsDetail;
     instance: string;
+}
+
+export interface ApiOverstyrVilkårsvurderingRequest {
+    skjæringstidspunkt: string;
+    vilkårskode: ApiVilkårskode;
+    utfall: ApiUtfall;
+    fritekstbegrunnelse: string;
+}
+
+export interface ApiOverstyrVilkårsvurderingResponse {
+    opptjeningsvurderingId: string;
 }
 
 export type GetVilkårsvurderingerForPersonBehandlerParams = {
