@@ -1,6 +1,6 @@
 import { z } from 'zod/v4';
 
-import { ApiGraderteAndreYtelseType, ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelser, ApiGraderteAndreYtelserType } from '@io/rest/generated/spesialist.schemas';
 import { DatePeriod } from '@typer/shared';
 import {
     erGyldigNorskDato,
@@ -42,12 +42,12 @@ const tilSammenhengendePerioder = (isoDatoer: string[]): DatePeriod[] =>
 const somNorskPeriodetekst = ({ fom, tom }: DatePeriod): string =>
     fom === tom ? `${somNorskDato(fom)}` : `${somNorskDato(fom)}–${somNorskDato(tom)}`;
 
-export const ytelseTilApiType: Record<YtelseValg, ApiGraderteAndreYtelseType> = {
-    Foreldrepenger: ApiGraderteAndreYtelseType.FORELDREPENGER,
-    Svangerskapspenger: ApiGraderteAndreYtelseType.SVANGERSKAPSPENGER,
-    Pleiepenger: ApiGraderteAndreYtelseType.PLEIEPENGER,
-    Omsorgspenger: ApiGraderteAndreYtelseType.OMSORGSPENGER,
-    Opplæringspenger: ApiGraderteAndreYtelseType.OPPLARINGSPENGER,
+export const ytelseTilApiType: Record<YtelseValg, ApiGraderteAndreYtelserType> = {
+    Foreldrepenger: ApiGraderteAndreYtelserType.FORELDREPENGER,
+    Svangerskapspenger: ApiGraderteAndreYtelserType.SVANGERSKAPSPENGER,
+    Pleiepenger: ApiGraderteAndreYtelserType.PLEIEPENGER,
+    Omsorgspenger: ApiGraderteAndreYtelserType.OMSORGSPENGER,
+    Opplæringspenger: ApiGraderteAndreYtelserType.OPPLARINGSPENGER,
 };
 
 /** Verdiene skjemafeltene har mens de fylles ut — `grad` kan være tom her. */
@@ -135,7 +135,7 @@ export const lagAndreYtelserSchema = (
                 .filter(
                     (ytelse) =>
                         ytelse.andreYtelserId !== gjeldendeAndreYtelserId &&
-                        ytelse.andreYtelseType === ytelseTilApiType[ctx.value.ytelse],
+                        ytelse.andreYtelserType === ytelseTilApiType[ctx.value.ytelse],
                 )
                 .flatMap((ytelse) => ytelse.perioder);
 

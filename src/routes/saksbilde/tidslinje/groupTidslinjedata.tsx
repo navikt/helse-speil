@@ -9,12 +9,12 @@ import { harUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { Arbeidsgiver, GhostPeriode, Periode, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { useGetNotatVedtaksperiodeIderForPerson } from '@io/rest/generated/notater/notater';
 import {
-    ApiGraderteAndreYtelseType,
     ApiGraderteAndreYtelser,
+    ApiGraderteAndreYtelserType,
     ApiTilkommenInntekt,
     ApiTilkommenInntektskilde,
 } from '@io/rest/generated/spesialist.schemas';
-import { andreYtelseTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
+import { andreYtelserTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
 import { IconAndreYtelser } from '@saksbilde/table/icons/IconAndreYtelser';
 import { PeriodPins } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -39,7 +39,7 @@ export type TidslinjeElement = {
 
 export type GradertAndreYtelserElement = {
     andreYtelserId: string;
-    andreYtelseType: ApiGraderteAndreYtelseType;
+    andreYtelserType: ApiGraderteAndreYtelserType;
     grad: number;
     fjernet?: boolean;
 };
@@ -166,7 +166,7 @@ export function useTidslinjeRader(
                     : 'graderte_andre_ytelser') as PeriodCategory,
                 gradertAndreYtelser: {
                     andreYtelserId: ytelse.andreYtelserId,
-                    andreYtelseType: ytelse.andreYtelseType,
+                    andreYtelserType: ytelse.andreYtelserType,
                     grad: periode.grad,
                     fjernet: ytelse.fjernet,
                 },
@@ -175,15 +175,15 @@ export function useTidslinjeRader(
 
             return {
                 ...grupper,
-                [ytelse.andreYtelseType]: [...(grupper[ytelse.andreYtelseType] ?? []), ...elementer],
+                [ytelse.andreYtelserType]: [...(grupper[ytelse.andreYtelserType] ?? []), ...elementer],
             };
         }, {}),
     ).map((tidslinjeElementer) => {
-        const andreYtelseType = tidslinjeElementer[0]!.gradertAndreYtelser!.andreYtelseType;
+        const andreYtelserType = tidslinjeElementer[0]!.gradertAndreYtelser!.andreYtelserType;
 
         return {
-            id: andreYtelseType,
-            navn: andreYtelseTypeTilNavn[andreYtelseType],
+            id: andreYtelserType,
+            navn: andreYtelserTypeTilNavn[andreYtelserType],
             icon: <IconAndreYtelser alt="Andre ytelser" />,
             tidslinjeElementer: tidslinjeElementer.sort((a, b) => a.fom.localeCompare(b.fom)),
         };

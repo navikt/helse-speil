@@ -1204,7 +1204,7 @@ export interface ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode {
 export interface ApiGraderteAndreYtelser {
     andreYtelserId: string;
     perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelseType: ApiGraderteAndreYtelseType;
+    andreYtelserType: ApiGraderteAndreYtelserType;
     fjernet: boolean;
 }
 
@@ -1214,10 +1214,11 @@ export interface ApiGraderteAndreYtelserPeriode {
     grad: number;
 }
 
-export type ApiGraderteAndreYtelseType = (typeof ApiGraderteAndreYtelseType)[keyof typeof ApiGraderteAndreYtelseType];
+export type ApiGraderteAndreYtelserType =
+    (typeof ApiGraderteAndreYtelserType)[keyof typeof ApiGraderteAndreYtelserType];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export const ApiGraderteAndreYtelseType = {
+export const ApiGraderteAndreYtelserType = {
     FORELDREPENGER: 'FORELDREPENGER',
     SVANGERSKAPSPENGER: 'SVANGERSKAPSPENGER',
     OMSORGSPENGER: 'OMSORGSPENGER',
@@ -1250,7 +1251,7 @@ export interface ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCo
 export interface ApiLeggTilGraderteAndreYtelserRequest {
     fodselsnummer: string;
     perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelseType: ApiGraderteAndreYtelseType;
+    andreYtelserType: ApiGraderteAndreYtelserType;
     notatTilBeslutter: string;
 }
 
@@ -1282,7 +1283,7 @@ export interface ApiHttpProblemDetailsApiPostAndreYtelserErrorCode {
 export interface ApiPatchEndreGraderteAndreYtelserRequest {
     graderteAndreYtelserId: string;
     perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelseType: ApiGraderteAndreYtelseType;
+    andreYtelserType: ApiGraderteAndreYtelserType;
     notatTilBeslutter: string;
 }
 
@@ -1348,7 +1349,7 @@ export interface ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode 
 
 export interface ApiPostGjenopprettGraderteAndreYtelserRequest {
     perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelseType: ApiGraderteAndreYtelseType;
+    andreYtelserType: ApiGraderteAndreYtelserType;
     notatTilBeslutter: string;
 }
 
@@ -2095,7 +2096,7 @@ export const ApiPostPersonSokErrorCode = {
     MANGLER_INPUTPARAMETERE: 'MANGLER_INPUTPARAMETERE',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    AKTØRID_IKKE_FUNNET: 'AKTØRID_IKKE_FUNNET',
+    AKTØRID_IKKE_FUNNET_I_PDL: 'AKTØRID_IKKE_FUNNET_I_PDL',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail = null | string;

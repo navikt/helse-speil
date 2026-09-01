@@ -99,7 +99,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
-                andreYtelseType: 'PLEIEPENGER',
+                andreYtelserType: 'PLEIEPENGER',
                 fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 50 }],
             },
@@ -192,7 +192,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
-                andreYtelseType: 'PLEIEPENGER',
+                andreYtelserType: 'PLEIEPENGER',
                 fjernet: true,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 50 }],
             },
@@ -232,7 +232,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
-                andreYtelseType: 'FORELDREPENGER',
+                andreYtelserType: 'FORELDREPENGER',
                 fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
             },
@@ -254,7 +254,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
-                andreYtelseType: 'PLEIEPENGER',
+                andreYtelserType: 'PLEIEPENGER',
                 fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
             },
@@ -274,7 +274,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'annen-ytelse',
-                andreYtelseType: 'FORELDREPENGER',
+                andreYtelserType: 'FORELDREPENGER',
                 fjernet: true,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
             },
@@ -296,7 +296,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'gjeldende-ytelse',
-                andreYtelseType: 'FORELDREPENGER',
+                andreYtelserType: 'FORELDREPENGER',
                 fjernet: true,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
             },
@@ -319,7 +319,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'gjeldende-ytelse',
-                andreYtelseType: 'FORELDREPENGER',
+                andreYtelserType: 'FORELDREPENGER',
                 fjernet: false,
                 perioder: [{ fom: '2020-01-01', tom: '2020-01-05', grad: 20 }],
             },
@@ -342,7 +342,7 @@ describe('andre ytelser skjemavalidering', () => {
         const alleGraderteAndreYtelser: ApiGraderteAndreYtelser[] = [
             {
                 andreYtelserId: 'fjernet-ytelse',
-                andreYtelseType: 'FORELDREPENGER',
+                andreYtelserType: 'FORELDREPENGER',
                 fjernet: true,
                 perioder: [{ fom: '2022-08-16', tom: '2022-08-19', grad: 50 }],
             },

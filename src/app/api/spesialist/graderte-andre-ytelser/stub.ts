@@ -10,7 +10,7 @@ export const stub = async (request: Request) => {
 
     const graderteAndreYtelser: ApiGraderteAndreYtelser = {
         andreYtelserId: nyAndreYtelserId,
-        andreYtelseType: requestBody.andreYtelseType,
+        andreYtelserType: requestBody.andreYtelserType,
         perioder: requestBody.perioder,
         fjernet: false,
     };

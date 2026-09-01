@@ -11,7 +11,7 @@ import { Box } from '@navikt/ds-react/Box';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { AndreYtelserFjernetAlert } from '@saksbilde/andreYtelser/AndreYtelserFjernetAlert';
 import { FjernAndreYtelserDialog } from '@saksbilde/andreYtelser/FjernAndreYtelserDialog';
-import { andreYtelseTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
+import { andreYtelserTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
 import { useGraderteAndreYtelser } from '@saksbilde/andreYtelser/useGraderteAndreYtelser';
 import { useFetchPersonQuery } from '@state/person';
 import { somNorskDato } from '@utils/date';
@@ -61,7 +61,7 @@ export const GraderteAndreYtelserView = ({ andreYtelserId }: GraderteAndreYtelse
                 >
                     <VStack gap="space-16" align="start">
                         <Heading size="small" level="2">
-                            {andreYtelseTypeTilNavn[ytelse.andreYtelseType]}
+                            {andreYtelserTypeTilNavn[ytelse.andreYtelserType]}
                         </Heading>
                         <HGrid columns={3} gap="space-8" width="100%">
                             <BodyShort weight="semibold">Periode f.o.m.</BodyShort>

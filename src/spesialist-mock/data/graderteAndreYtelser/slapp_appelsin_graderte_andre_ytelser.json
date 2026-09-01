@@ -4,7 +4,7 @@
         "graderteAndreYtelser": [
             {
                 "andreYtelserId": "9c2f1c4e-5b7a-4f2e-9a3d-1f8b6c0d4e21",
-                "andreYtelseType": "PLEIEPENGER",
+                "andreYtelserType": "PLEIEPENGER",
                 "fjernet": false,
                 "perioder": [
                     {
@@ -16,7 +16,7 @@
             },
             {
                 "andreYtelserId": "3d7a5b1f-2c8e-4a6d-9b0f-7e4c2a1d8b53",
-                "andreYtelseType": "OMSORGSPENGER",
+                "andreYtelserType": "OMSORGSPENGER",
                 "fjernet": true,
                 "perioder": [
                     {

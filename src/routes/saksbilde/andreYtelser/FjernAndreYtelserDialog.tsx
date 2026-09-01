@@ -8,7 +8,7 @@ import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePostFjernGraderteAndreYtelser } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
-import { andreYtelseTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
+import { andreYtelserTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
 import { useGraderteAndreYtelser } from '@saksbilde/andreYtelser/useGraderteAndreYtelser';
 
 interface FjernAndreYtelserDialogProps {
@@ -55,7 +55,7 @@ export function FjernAndreYtelserDialog({ open, onOpenChange, ytelse }: FjernAnd
                 <Dialog.Body>
                     <VStack gap="space-16">
                         <BodyLong>
-                            Vil du fjerne {andreYtelseTypeTilNavn[ytelse.andreYtelseType].toLowerCase()} med alle
+                            Vil du fjerne {andreYtelserTypeTilNavn[ytelse.andreYtelserType].toLowerCase()} med alle
                             tilhørende perioder?
                         </BodyLong>
                         <form onSubmit={form.handleSubmit(onSubmit)} id="fjern-andre-ytelser-form">

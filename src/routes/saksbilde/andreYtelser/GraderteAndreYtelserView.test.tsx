@@ -2,7 +2,7 @@ import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import { ApiGraderteAndreYtelseType, ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelser, ApiGraderteAndreYtelserType } from '@io/rest/generated/spesialist.schemas';
 import { GraderteAndreYtelserView } from '@saksbilde/andreYtelser/GraderteAndreYtelserView';
 import { useGraderteAndreYtelser } from '@saksbilde/andreYtelser/useGraderteAndreYtelser';
 import { useFetchPersonQuery } from '@state/person';
@@ -15,7 +15,7 @@ vi.mock('@saksbilde/andreYtelser/useGraderteAndreYtelser');
 
 const enYtelse = (overstyringer: Partial<ApiGraderteAndreYtelser> = {}): ApiGraderteAndreYtelser => ({
     andreYtelserId: 'en-id',
-    andreYtelseType: ApiGraderteAndreYtelseType.PLEIEPENGER,
+    andreYtelserType: ApiGraderteAndreYtelserType.PLEIEPENGER,
     perioder: [{ fom: '2022-08-02', tom: '2022-08-13', grad: 50 }],
     fjernet: false,
     ...overstyringer,

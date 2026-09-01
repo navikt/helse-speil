@@ -7,7 +7,7 @@ export const stub = async (request: Request, params: Promise<{ graderteAndreYtel
 
     const endret = GraderteAndreYtelserMock.endre(graderteAndreYtelserId, {
         perioder: requestBody.perioder,
-        andreYtelseType: requestBody.andreYtelseType,
+        andreYtelserType: requestBody.andreYtelserType,
     });
 
     if (endret === undefined) return new Response(null, { status: 404 });

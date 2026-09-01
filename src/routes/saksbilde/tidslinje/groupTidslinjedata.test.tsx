@@ -1,24 +1,24 @@
-import { ApiGraderteAndreYtelseType, ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelser, ApiGraderteAndreYtelserType } from '@io/rest/generated/spesialist.schemas';
 import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { renderHook, waitFor } from '@test-utils';
 
 const pleiepenger: ApiGraderteAndreYtelser = {
     andreYtelserId: 'pleiepenger-1',
-    andreYtelseType: ApiGraderteAndreYtelseType.PLEIEPENGER,
+    andreYtelserType: ApiGraderteAndreYtelserType.PLEIEPENGER,
     perioder: [{ fom: '2022-08-02', tom: '2022-08-13', grad: 50 }],
     fjernet: false,
 };
 
 const foreldrepenger: ApiGraderteAndreYtelser = {
     andreYtelserId: 'foreldrepenger-1',
-    andreYtelseType: ApiGraderteAndreYtelseType.FORELDREPENGER,
+    andreYtelserType: ApiGraderteAndreYtelserType.FORELDREPENGER,
     perioder: [{ fom: '2022-09-01', tom: '2022-09-10', grad: 100 }],
     fjernet: false,
 };
 
 const foreldrepengerTidligere: ApiGraderteAndreYtelser = {
     andreYtelserId: 'foreldrepenger-2',
-    andreYtelseType: ApiGraderteAndreYtelseType.FORELDREPENGER,
+    andreYtelserType: ApiGraderteAndreYtelserType.FORELDREPENGER,
     perioder: [{ fom: '2022-01-01', tom: '2022-01-10', grad: 80 }],
     fjernet: false,
 };
@@ -62,7 +62,7 @@ describe('useTidslinjeRader', () => {
             generasjonIndex: 0,
             gradertAndreYtelser: {
                 andreYtelserId: 'pleiepenger-1',
-                andreYtelseType: ApiGraderteAndreYtelseType.PLEIEPENGER,
+                andreYtelserType: ApiGraderteAndreYtelserType.PLEIEPENGER,
                 fjernet: false,
                 grad: 50,
             },

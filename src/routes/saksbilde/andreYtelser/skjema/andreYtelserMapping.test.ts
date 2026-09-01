@@ -1,5 +1,5 @@
 import { AndreYtelserSchema } from '@/form-schemas/andreYtelserSchema';
-import { ApiGraderteAndreYtelseType } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelserType } from '@io/rest/generated/spesialist.schemas';
 import {
     tilAndreYtelserSkjemaverdier,
     tilEndreGraderteAndreYtelserRequest,
@@ -19,13 +19,13 @@ describe('tilGraderteAndreYtelserRequest', () => {
     it('mapper ytelse-label til API-enum', () => {
         const request = tilGraderteAndreYtelserRequest(etSkjema({ ytelse: 'Pleiepenger' }), '12345678910');
 
-        expect(request.andreYtelseType).toBe('PLEIEPENGER');
+        expect(request.andreYtelserType).toBe('PLEIEPENGER');
     });
 
     it('mapper Opplæringspenger til OPPLARINGSPENGER uten Æ', () => {
         const request = tilGraderteAndreYtelserRequest(etSkjema({ ytelse: 'Opplæringspenger' }), '12345678910');
 
-        expect(request.andreYtelseType).toBe('OPPLARINGSPENGER');
+        expect(request.andreYtelserType).toBe('OPPLARINGSPENGER');
     });
 
     it('konverterer norske datoer til ISO-format', () => {
@@ -50,7 +50,7 @@ describe('tilEndreGraderteAndreYtelserRequest', () => {
         const request = tilEndreGraderteAndreYtelserRequest(etSkjema(), 'en-id');
 
         expect(request.graderteAndreYtelserId).toBe('en-id');
-        expect(request.andreYtelseType).toBe('PLEIEPENGER');
+        expect(request.andreYtelserType).toBe('PLEIEPENGER');
         expect(request.perioder).toEqual([{ fom: '2020-01-01', tom: '2020-01-03', grad: 50 }]);
         expect(request.notatTilBeslutter).toBe('Et notat');
     });
@@ -60,7 +60,7 @@ describe('tilGjenopprettGraderteAndreYtelserRequest', () => {
     it('sender med perioder, ytelsestype og notat', () => {
         const request = tilGjenopprettGraderteAndreYtelserRequest(etSkjema());
 
-        expect(request.andreYtelseType).toBe('PLEIEPENGER');
+        expect(request.andreYtelserType).toBe('PLEIEPENGER');
         expect(request.perioder).toEqual([{ fom: '2020-01-01', tom: '2020-01-03', grad: 50 }]);
         expect(request.notatTilBeslutter).toBe('Et notat');
     });
@@ -70,7 +70,7 @@ describe('tilAndreYtelserSkjemaverdier', () => {
     it('konverterer API-verdier til norske skjemaverdier', () => {
         const skjemaverdier = tilAndreYtelserSkjemaverdier({
             andreYtelserId: 'en-id',
-            andreYtelseType: ApiGraderteAndreYtelseType.OPPLARINGSPENGER,
+            andreYtelserType: ApiGraderteAndreYtelserType.OPPLARINGSPENGER,
             perioder: [{ fom: '2020-01-01', tom: '2020-01-03', grad: 50 }],
             fjernet: true,
         });
@@ -82,7 +82,7 @@ describe('tilAndreYtelserSkjemaverdier', () => {
     it('lar notat til beslutter stå tomt', () => {
         const skjemaverdier = tilAndreYtelserSkjemaverdier({
             andreYtelserId: 'en-id',
-            andreYtelseType: ApiGraderteAndreYtelseType.PLEIEPENGER,
+            andreYtelserType: ApiGraderteAndreYtelserType.PLEIEPENGER,
             perioder: [],
             fjernet: true,
         });

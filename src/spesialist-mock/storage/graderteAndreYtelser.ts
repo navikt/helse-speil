@@ -48,13 +48,13 @@ export class GraderteAndreYtelserMock {
 
     static endre = (
         andreYtelserId: string,
-        endringer: Pick<ApiGraderteAndreYtelser, 'perioder' | 'andreYtelseType'>,
+        endringer: Pick<ApiGraderteAndreYtelser, 'perioder' | 'andreYtelserType'>,
     ): ApiGraderteAndreYtelser | undefined => {
         const ytelse = GraderteAndreYtelserMock.finn(andreYtelserId);
         if (ytelse === undefined) return undefined;
 
         ytelse.perioder = endringer.perioder;
-        ytelse.andreYtelseType = endringer.andreYtelseType;
+        ytelse.andreYtelserType = endringer.andreYtelserType;
         return ytelse;
     };
 

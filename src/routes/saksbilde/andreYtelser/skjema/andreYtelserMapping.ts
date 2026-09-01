@@ -5,21 +5,21 @@ import {
     ytelseTilApiType,
 } from '@/form-schemas/andreYtelserSchema';
 import {
-    ApiGraderteAndreYtelseType,
     ApiGraderteAndreYtelser,
     ApiGraderteAndreYtelserPeriode,
+    ApiGraderteAndreYtelserType,
     ApiLeggTilGraderteAndreYtelserRequest,
     ApiPatchEndreGraderteAndreYtelserRequest,
     ApiPostGjenopprettGraderteAndreYtelserRequest,
 } from '@io/rest/generated/spesialist.schemas';
 import { norskDatoTilIsoDato, somNorskDato } from '@utils/date';
 
-const apiTypeTilYtelse: Record<ApiGraderteAndreYtelseType, YtelseValg> = {
-    [ApiGraderteAndreYtelseType.FORELDREPENGER]: 'Foreldrepenger',
-    [ApiGraderteAndreYtelseType.SVANGERSKAPSPENGER]: 'Svangerskapspenger',
-    [ApiGraderteAndreYtelseType.PLEIEPENGER]: 'Pleiepenger',
-    [ApiGraderteAndreYtelseType.OMSORGSPENGER]: 'Omsorgspenger',
-    [ApiGraderteAndreYtelseType.OPPLARINGSPENGER]: 'Opplæringspenger',
+const apiTypeTilYtelse: Record<ApiGraderteAndreYtelserType, YtelseValg> = {
+    [ApiGraderteAndreYtelserType.FORELDREPENGER]: 'Foreldrepenger',
+    [ApiGraderteAndreYtelserType.SVANGERSKAPSPENGER]: 'Svangerskapspenger',
+    [ApiGraderteAndreYtelserType.PLEIEPENGER]: 'Pleiepenger',
+    [ApiGraderteAndreYtelserType.OMSORGSPENGER]: 'Omsorgspenger',
+    [ApiGraderteAndreYtelserType.OPPLARINGSPENGER]: 'Opplæringspenger',
 };
 
 const tilApiPerioder = (values: AndreYtelserSchema): ApiGraderteAndreYtelserPeriode[] =>
@@ -34,7 +34,7 @@ export const tilGraderteAndreYtelserRequest = (
     fodselsnummer: string,
 ): ApiLeggTilGraderteAndreYtelserRequest => ({
     fodselsnummer,
-    andreYtelseType: ytelseTilApiType[values.ytelse],
+    andreYtelserType: ytelseTilApiType[values.ytelse],
     perioder: tilApiPerioder(values),
     notatTilBeslutter: values.notat,
 });
@@ -44,7 +44,7 @@ export const tilEndreGraderteAndreYtelserRequest = (
     graderteAndreYtelserId: string,
 ): ApiPatchEndreGraderteAndreYtelserRequest => ({
     graderteAndreYtelserId,
-    andreYtelseType: ytelseTilApiType[values.ytelse],
+    andreYtelserType: ytelseTilApiType[values.ytelse],
     perioder: tilApiPerioder(values),
     notatTilBeslutter: values.notat,
 });
@@ -52,14 +52,14 @@ export const tilEndreGraderteAndreYtelserRequest = (
 export const tilGjenopprettGraderteAndreYtelserRequest = (
     values: AndreYtelserSchema,
 ): ApiPostGjenopprettGraderteAndreYtelserRequest => ({
-    andreYtelseType: ytelseTilApiType[values.ytelse],
+    andreYtelserType: ytelseTilApiType[values.ytelse],
     perioder: tilApiPerioder(values),
     notatTilBeslutter: values.notat,
 });
 
 /** Fyller skjemaet med verdiene fra en eksisterende ytelse. Notat til beslutter starter alltid tomt. */
 export const tilAndreYtelserSkjemaverdier = (ytelse: ApiGraderteAndreYtelser): AndreYtelserSkjemaInput => ({
-    ytelse: apiTypeTilYtelse[ytelse.andreYtelseType],
+    ytelse: apiTypeTilYtelse[ytelse.andreYtelserType],
     perioder: ytelse.perioder.map((periode) => ({
         fom: somNorskDato(periode.fom) ?? '',
         tom: somNorskDato(periode.tom) ?? '',

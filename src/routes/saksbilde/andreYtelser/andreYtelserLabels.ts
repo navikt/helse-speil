@@ -1,9 +1,9 @@
-import { ApiGraderteAndreYtelseType } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelserType } from '@io/rest/generated/spesialist.schemas';
 
-export const andreYtelseTypeTilNavn: Record<ApiGraderteAndreYtelseType, string> = {
-    [ApiGraderteAndreYtelseType.FORELDREPENGER]: 'Foreldrepenger',
-    [ApiGraderteAndreYtelseType.SVANGERSKAPSPENGER]: 'Svangerskapspenger',
-    [ApiGraderteAndreYtelseType.OMSORGSPENGER]: 'Omsorgspenger',
-    [ApiGraderteAndreYtelseType.PLEIEPENGER]: 'Pleiepenger',
-    [ApiGraderteAndreYtelseType.OPPLARINGSPENGER]: 'Opplæringspenger',
+export const andreYtelserTypeTilNavn: Record<ApiGraderteAndreYtelserType, string> = {
+    [ApiGraderteAndreYtelserType.FORELDREPENGER]: 'Foreldrepenger',
+    [ApiGraderteAndreYtelserType.SVANGERSKAPSPENGER]: 'Svangerskapspenger',
+    [ApiGraderteAndreYtelserType.OMSORGSPENGER]: 'Omsorgspenger',
+    [ApiGraderteAndreYtelserType.PLEIEPENGER]: 'Pleiepenger',
+    [ApiGraderteAndreYtelserType.OPPLARINGSPENGER]: 'Opplæringspenger',
 };

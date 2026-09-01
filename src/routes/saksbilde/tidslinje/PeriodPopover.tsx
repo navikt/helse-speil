@@ -9,7 +9,7 @@ import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { useGetNotatVedtaksperiodeIderForPerson } from '@io/rest/generated/notater/notater';
 import { ApiNotatType, ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import { andreYtelseTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
+import { andreYtelserTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
 import { TidslinjeElement } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
@@ -85,7 +85,7 @@ export function GraderteAndreYtelserPopover({ element }: GraderteAndreYtelserPop
     return (
         <HGrid columns={2} gap="space-4 space-24">
             <BodyShort size="small" className="col-span-2" weight="semibold">
-                {gradertAndreYtelser ? andreYtelseTypeTilNavn[gradertAndreYtelser.andreYtelseType] : 'Andre ytelser'}
+                {gradertAndreYtelser ? andreYtelserTypeTilNavn[gradertAndreYtelser.andreYtelserType] : 'Andre ytelser'}
                 {gradertAndreYtelser?.fjernet ? ' (fjernet)' : ''}
             </BodyShort>
             <BodyShort size="small">Periode:</BodyShort>
