@@ -2,6 +2,8 @@ import dayjs from 'dayjs';
 import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
+import { VStack } from '@navikt/ds-react';
+
 import { OverstyringFormFields, lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbetalingstatus } from '@io/graphql';
@@ -280,62 +282,67 @@ export const OverstyrbarUtbetaling = ({
                     erRevurdering={erRevurdering}
                 />
             )}
-            {overstyrer && (
-                <OverstyringToolBar
-                    toggleOverstyring={toggleOverstyring}
-                    onSubmitPølsestrekk={onSubmitPølsestrekk}
-                    kanStrekkes={kanStrekkes(periode, inntektsforhold)}
-                    periodeFom={periodeFom.dato}
-                    erRevurdering={erRevurdering}
-                    erSelvstendig={isSelvstendigNaering(inntektsforhold)}
-                />
-            )}
-            <div className={cn(styles.TableContainer)}>
-                <Utbetalingstabell
-                    fom={periode.fom}
-                    tom={periode.tom}
-                    dager={alleDager}
-                    lokaleOverstyringer={alleOverstyrteDager}
-                    markerteDager={markerteDager}
-                    overstyrer={overstyrer}
-                    slettSisteNyeDag={slettSisteNyeDag}
-                    person={person}
-                    erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
-                />
+            <VStack
+                gap="space-16"
+                className={cn(overstyrer && 'inset-shadow-[3px_0px] inset-shadow-ax-border-accent-strong')}
+            >
                 {overstyrer && (
-                    <>
-                        <div className={styles.CheckboxContainer}>
-                            <MarkerAlleDagerCheckbox
-                                alleDager={alleDager}
-                                markerteDager={markerteDager}
-                                setMarkerteDager={setMarkerteDager}
-                            />
-                            {Array.from(alleDager.values()).map((dag, i) => (
-                                <RadmarkeringCheckbox
-                                    key={i}
-                                    index={i}
-                                    onChange={toggleChecked(dag)}
-                                    checked={markerteDager.get(dag.dato) !== undefined}
-                                />
-                            ))}
-                        </div>
-                        <EndreDagerForm
-                            markerteDager={markerteDager}
-                            onSubmitEndring={onSubmitEndring}
-                            erSelvstendig={isSelvstendigNaering(inntektsforhold)}
-                        />
-                        <FormProvider {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmitOverstyring)} autoComplete="off">
-                                <OverstyringForm
-                                    overstyrteDager={alleOverstyrteDager}
-                                    error={error}
-                                    toggleOverstyring={toggleOverstyring}
-                                />
-                            </form>
-                        </FormProvider>
-                    </>
+                    <OverstyringToolBar
+                        toggleOverstyring={toggleOverstyring}
+                        onSubmitPølsestrekk={onSubmitPølsestrekk}
+                        kanStrekkes={kanStrekkes(periode, inntektsforhold)}
+                        periodeFom={periodeFom.dato}
+                        erRevurdering={erRevurdering}
+                        erSelvstendig={isSelvstendigNaering(inntektsforhold)}
+                    />
                 )}
-            </div>
+                <div className={cn(styles.TableContainer)}>
+                    <Utbetalingstabell
+                        fom={periode.fom}
+                        tom={periode.tom}
+                        dager={alleDager}
+                        lokaleOverstyringer={alleOverstyrteDager}
+                        markerteDager={markerteDager}
+                        overstyrer={overstyrer}
+                        slettSisteNyeDag={slettSisteNyeDag}
+                        person={person}
+                        erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
+                    />
+                    {overstyrer && (
+                        <>
+                            <div className={styles.CheckboxContainer}>
+                                <MarkerAlleDagerCheckbox
+                                    alleDager={alleDager}
+                                    markerteDager={markerteDager}
+                                    setMarkerteDager={setMarkerteDager}
+                                />
+                                {Array.from(alleDager.values()).map((dag, i) => (
+                                    <RadmarkeringCheckbox
+                                        key={i}
+                                        index={i}
+                                        onChange={toggleChecked(dag)}
+                                        checked={markerteDager.get(dag.dato) !== undefined}
+                                    />
+                                ))}
+                            </div>
+                            <EndreDagerForm
+                                markerteDager={markerteDager}
+                                onSubmitEndring={onSubmitEndring}
+                                erSelvstendig={isSelvstendigNaering(inntektsforhold)}
+                            />
+                            <FormProvider {...form}>
+                                <form onSubmit={form.handleSubmit(onSubmitOverstyring)} autoComplete="off">
+                                    <OverstyringForm
+                                        overstyrteDager={alleOverstyrteDager}
+                                        error={error}
+                                        toggleOverstyring={toggleOverstyring}
+                                    />
+                                </form>
+                            </FormProvider>
+                        </>
+                    )}
+                </div>
+            </VStack>
         </article>
     );
 };

@@ -12,7 +12,6 @@
     overflow-y: hidden;
     height: max-content;
     padding: var(--padding) var(--padding) calc(var(--padding) * 2) 0;
-    border-left: 6px solid var(--ax-bg-strong);
     background-color: var(--ax-bg-neutral-soft);
 }
 
