@@ -9,7 +9,7 @@ import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
-import { toKronerOgØre } from '@utils/locale';
+import { kronerOgØreTilNumber, toKronerOgØre } from '@utils/locale';
 
 interface TilkommenInntektSkjemaProps {
     form: ReturnType<typeof useForm<TilkommenInntektSchema>>;
@@ -23,15 +23,6 @@ interface TilkommenInntektSkjemaProps {
     startPeriodebeløp: number;
     onCancel: () => void;
 }
-
-const kronerOgØreTilNumber = (value: string) =>
-    Number(
-        value
-            .replaceAll(' ', '')
-            .replaceAll(',', '.')
-            // Når tallet blir formattert av toKronerOgØre får det non braking space i stedet for ' '
-            .replaceAll(String.fromCharCode(160), ''),
-    );
 
 export const TilkommenInntektSkjemafelter = ({
     form,

@@ -21,7 +21,7 @@ describe('AndreYtelserSkjema', () => {
         render(<AndreYtelserSkjema onSubmit={vi.fn()} onAvbryt={vi.fn()} />);
 
         await user.selectOptions(screen.getByRole('combobox', { name: 'Velg ytelse' }), 'Pleiepenger');
-        await user.type(screen.getByLabelText('Notat til beslutter'), 'Et notat');
+        await user.type(screen.getByLabelText('Notat til beslutter', { exact: false }), 'Et notat');
         await user.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(await screen.findByText('Fra og med-dato er påkrevd')).toBeInTheDocument();
@@ -39,7 +39,7 @@ describe('AndreYtelserSkjema', () => {
         await user.type(screen.getByLabelText('Periode f.o.m.'), '01.01.2020');
         await user.type(screen.getByLabelText('Periode t.o.m.'), '03.01.2020');
         await user.type(screen.getByRole('textbox', { name: 'Grad' }), '100');
-        await user.type(screen.getByLabelText('Notat til beslutter'), 'Et notat');
+        await user.type(screen.getByLabelText('Notat til beslutter', { exact: false }), 'Et notat');
         await user.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(await screen.findByText('Grad må være 99 eller lavere')).toBeInTheDocument();

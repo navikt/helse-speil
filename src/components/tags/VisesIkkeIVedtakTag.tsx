@@ -1,12 +1,15 @@
 import { ReactElement } from 'react';
 
 import { EyeClosedIcon } from '@navikt/aksel-icons';
-import { Tag } from '@navikt/ds-react';
+import { Tag, VStack } from '@navikt/ds-react';
 
-export function VisesIkkeIVedtakTag(): ReactElement {
+export function VisesIkkeIVedtakTag({ label }: { label?: string }): ReactElement {
     return (
-        <Tag size="xsmall" variant="outline" data-color="meta-purple" icon={<EyeClosedIcon aria-hidden />}>
-            Vises ikke i vedtaket
-        </Tag>
+        <VStack gap="space-2">
+            {label && <label>{label}</label>}
+            <Tag size="xsmall" variant="outline" data-color="meta-purple" icon={<EyeClosedIcon aria-hidden />}>
+                Vises ikke i vedtaket
+            </Tag>
+        </VStack>
     );
 }

@@ -41,7 +41,7 @@ export function PeriodeRad({
 
     return (
         <VStack gap="space-8">
-            <HStack gap="space-8" align="end">
+            <HStack gap="space-28" align="end">
                 <ControlledDatePicker
                     name={`perioder.${index}.fom`}
                     label="Periode f.o.m."
@@ -83,7 +83,13 @@ export function PeriodeRad({
                         />
                     )}
                 />
-                <Button type="button" variant="tertiary" size="xsmall" onClick={onRemove} className="mr-auto mb-[3px]">
+                <Button
+                    type="button"
+                    variant="tertiary"
+                    size="xsmall"
+                    onClick={onRemove}
+                    className="mr-auto mb-[3px] -ml-4"
+                >
                     Slett
                 </Button>
             </HStack>

@@ -21,6 +21,7 @@ import {
     AndreYtelserSkjemaInput,
     lagAndreYtelserSchema,
 } from '@/form-schemas/andreYtelserSchema';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PeriodeRad } from '@saksbilde/andreYtelser/skjema/PeriodeRad';
 import { utledSykefraværstilfelleperioder } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
@@ -92,7 +93,7 @@ export function AndreYtelserSkjema({
 
     return (
         <FormProvider {...form}>
-            <VStack as="form" noValidate onSubmit={form.handleSubmit(onSubmit)} gap="space-8" id="andre-ytelser-form">
+            <VStack as="form" noValidate onSubmit={form.handleSubmit(onSubmit)} gap="space-12" id="andre-ytelser-form">
                 <Controller
                     control={form.control}
                     name="ytelse"
@@ -114,7 +115,7 @@ export function AndreYtelserSkjema({
                         </Select>
                     )}
                 />
-                <VStack gap="space-16" marginBlock="space-8 space-0">
+                <VStack gap="space-12" marginBlock="space-8 space-0">
                     {fields.map((field, index) => (
                         <PeriodeRad
                             key={field.id}
@@ -128,7 +129,7 @@ export function AndreYtelserSkjema({
                         <Button
                             type="button"
                             variant="tertiary"
-                            size="small"
+                            size="xsmall"
                             icon={<PlusIcon />}
                             onClick={() => append(tomPeriode)}
                             style={{ justifySelf: 'start', paddingInlineStart: 'var(--ax-space-0)' }}
@@ -137,14 +138,14 @@ export function AndreYtelserSkjema({
                         </Button>
                     </HGrid>
                 </VStack>
-                <Box maxWidth="calc(var(--ax-space-128) * 3)">
+                <Box maxWidth="calc(var(--ax-space-128) * 3)" paddingBlock="space-8">
                     <Controller
                         control={form.control}
                         name="notat"
                         render={({ field, fieldState }) => (
                             <Textarea
                                 {...field}
-                                label="Notat til beslutter"
+                                label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
                                 description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                 size="small"
                                 error={fieldState.error?.message}
