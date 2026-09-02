@@ -1,8 +1,15 @@
+import dayjs from 'dayjs';
 import fs from 'fs';
 import path from 'path';
 import { cwd } from 'process';
 
-import { ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiGraderteAndreYtelser,
+    ApiGraderteAndreYtelserEvent,
+    ApiGraderteAndreYtelserEventEndringer,
+    ApiGraderteAndreYtelserEventMetadata,
+    ApiGraderteAndreYtelserPeriode,
+} from '@io/rest/generated/spesialist.schemas';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
 export class GraderteAndreYtelserMock {
@@ -65,4 +72,53 @@ export class GraderteAndreYtelserMock {
         ytelse.fjernet = fjernet;
         return ytelse;
     };
+
+    static byggEventMetadata = (
+        notatTilBeslutter: string,
+        eksisterendeEvents: ApiGraderteAndreYtelserEvent[],
+    ): ApiGraderteAndreYtelserEventMetadata => ({
+        notatTilBeslutter: notatTilBeslutter,
+        sekvensnummer:
+            eksisterendeEvents.length === 0
+                ? 1
+                : Math.max(...eksisterendeEvents.map((it) => it.metadata.sekvensnummer)) + 1,
+        tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+        utfortAvSaksbehandlerIdent: 'a1234567',
+    });
+
+    static tilEventEndringer = (
+        fra: Pick<ApiGraderteAndreYtelser, 'perioder' | 'andreYtelserType'>,
+        til: Pick<ApiGraderteAndreYtelser, 'perioder' | 'andreYtelserType'>,
+    ): ApiGraderteAndreYtelserEventEndringer => ({
+        andreYtelserType:
+            fra.andreYtelserType !== til.andreYtelserType
+                ? { fra: fra.andreYtelserType, til: til.andreYtelserType }
+                : null,
+        perioder: !GraderteAndreYtelserMock.erLikePerioder(fra.perioder, til.perioder)
+            ? {
+                  fra: fra.perioder.map(GraderteAndreYtelserMock.tilGradertAnnenYtelse),
+                  til: til.perioder.map(GraderteAndreYtelserMock.tilGradertAnnenYtelse),
+              }
+            : null,
+    });
+
+    static harEndringer = (endringer: ApiGraderteAndreYtelserEventEndringer): boolean =>
+        endringer.andreYtelserType != null || endringer.perioder != null;
+
+    private static tilGradertAnnenYtelse = (periode: ApiGraderteAndreYtelserPeriode) => ({
+        periode: { fom: periode.fom, tom: periode.tom },
+        grad: periode.grad,
+    });
+
+    private static erLikePerioder = (a: ApiGraderteAndreYtelserPeriode[], b: ApiGraderteAndreYtelserPeriode[]) =>
+        a.length === b.length &&
+        a.every((periode, index) => {
+            const annen = b[index];
+            return (
+                annen !== undefined &&
+                periode.fom === annen.fom &&
+                periode.tom === annen.tom &&
+                periode.grad === annen.grad
+            );
+        });
 }

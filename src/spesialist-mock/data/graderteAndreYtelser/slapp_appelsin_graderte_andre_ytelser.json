@@ -12,6 +12,57 @@
                         "tom": "2022-08-13",
                         "grad": 50
                     }
+                ],
+                "events": [
+                    {
+                        "type": "ApiGraderteAndreYtelserOpprettetEvent",
+                        "metadata": {
+                            "sekvensnummer": 1,
+                            "tidspunkt": "2022-09-01T10:00:00",
+                            "utfortAvSaksbehandlerIdent": "a1234567",
+                            "notatTilBeslutter": "Bruker har pleiepenger i perioden."
+                        },
+                        "andreYtelserType": "PLEIEPENGER",
+                        "perioder": [
+                            {
+                                "fom": "2022-08-02",
+                                "tom": "2022-08-12",
+                                "grad": 40
+                            }
+                        ]
+                    },
+                    {
+                        "type": "ApiGraderteAndreYtelserEndretEvent",
+                        "metadata": {
+                            "sekvensnummer": 2,
+                            "tidspunkt": "2022-09-02T09:30:00",
+                            "utfortAvSaksbehandlerIdent": "a1234567",
+                            "notatTilBeslutter": "Rettet periode og grad etter ny informasjon."
+                        },
+                        "endringer": {
+                            "andreYtelserType": null,
+                            "perioder": {
+                                "fra": [
+                                    {
+                                        "periode": {
+                                            "fom": "2022-08-02",
+                                            "tom": "2022-08-12"
+                                        },
+                                        "grad": 40
+                                    }
+                                ],
+                                "til": [
+                                    {
+                                        "periode": {
+                                            "fom": "2022-08-02",
+                                            "tom": "2022-08-13"
+                                        },
+                                        "grad": 50
+                                    }
+                                ]
+                            }
+                        }
+                    }
                 ]
             },
             {
@@ -23,6 +74,34 @@
                         "fom": "2022-08-16",
                         "tom": "2022-08-19",
                         "grad": 20
+                    }
+                ],
+                "events": [
+                    {
+                        "type": "ApiGraderteAndreYtelserOpprettetEvent",
+                        "metadata": {
+                            "sekvensnummer": 1,
+                            "tidspunkt": "2022-09-01T11:00:00",
+                            "utfortAvSaksbehandlerIdent": "a1234567",
+                            "notatTilBeslutter": "Bruker har omsorgspenger i perioden."
+                        },
+                        "andreYtelserType": "OMSORGSPENGER",
+                        "perioder": [
+                            {
+                                "fom": "2022-08-16",
+                                "tom": "2022-08-19",
+                                "grad": 20
+                            }
+                        ]
+                    },
+                    {
+                        "type": "ApiGraderteAndreYtelserFjernetEvent",
+                        "metadata": {
+                            "sekvensnummer": 2,
+                            "tidspunkt": "2022-09-03T13:15:00",
+                            "utfortAvSaksbehandlerIdent": "a1234567",
+                            "notatTilBeslutter": "Ytelsen gjaldt ikke denne perioden likevel."
+                        }
                     }
                 ]
             }

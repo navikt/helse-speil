@@ -11,14 +11,17 @@ import { AndreYtelserHistorikkmeny } from '@saksbilde/andreYtelser/AndreYtelserH
 import { useAlleGraderteAndreYtelser } from '@saksbilde/andreYtelser/useAlleGraderteAndreYtelser';
 import { historikkFeil } from '@saksbilde/historikk/HistorikkFeil';
 import { XKnapp } from '@saksbilde/historikk/XKnapp';
+import { AndreYtelserHendelse } from '@saksbilde/historikk/hendelser/AndreYtelserHendelse';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { useShowHistorikkState, useShowHøyremenyState } from '@saksbilde/historikk/state';
 import { useFetchPersonQuery } from '@state/person';
+import { useGraderteAndreYtelserIdFraUrl } from '@state/routing';
 
 const AndreYtelserHistorikkWithContent = (): ReactElement => {
     const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
     const person = fetchPersonData?.person ?? null;
-    const { isPending: andreYtelserLoading } = useAlleGraderteAndreYtelser();
+    const { ytelser, isPending: andreYtelserLoading } = useAlleGraderteAndreYtelser();
+    const andreYtelserId = useGraderteAndreYtelserIdFraUrl();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny, _] = useShowHøyremenyState();
 
@@ -32,6 +35,9 @@ const AndreYtelserHistorikkWithContent = (): ReactElement => {
     ]);
 
     if (fetchPersonLoading || andreYtelserLoading) return <HistorikkSkeleton />;
+
+    const ytelse = ytelser?.find((it) => it.andreYtelserId === andreYtelserId);
+    const events = ytelse?.events?.toSorted((a, b) => b.metadata.sekvensnummer - a.metadata.sekvensnummer) ?? [];
 
     return (
         <HStack style={{ gridArea: 'høyremeny' }}>
@@ -54,8 +60,11 @@ const AndreYtelserHistorikkWithContent = (): ReactElement => {
                             <BodyShort size="small">HISTORIKK</BodyShort>
                             <XKnapp tittel="Lukk historikk" onClick={() => setShowHistorikk(false)} />
                         </HStack>
-                        {/* Listen er tom inntil graderte andre ytelser får events fra spesialist. */}
-                        <VStack as="ul" paddingInline="space-16" paddingBlock="space-0 space-32" />
+                        <VStack as="ul" paddingInline="space-16" paddingBlock="space-0 space-32">
+                            {events.map((event) => (
+                                <AndreYtelserHendelse key={event.metadata.sekvensnummer} event={event} />
+                            ))}
+                        </VStack>
                     </VStack>
                 </motion.div>
             </JusterbarSidemeny>

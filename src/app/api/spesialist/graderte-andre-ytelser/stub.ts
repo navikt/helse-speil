@@ -1,6 +1,10 @@
 import { v4 } from 'uuid';
 
-import { ApiGraderteAndreYtelser, ApiLeggTilGraderteAndreYtelserRequest } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiGraderteAndreYtelser,
+    ApiGraderteAndreYtelserOpprettetEvent,
+    ApiLeggTilGraderteAndreYtelserRequest,
+} from '@io/rest/generated/spesialist.schemas';
 import { GraderteAndreYtelserMock } from '@spesialist-mock/storage/graderteAndreYtelser';
 
 export const stub = async (request: Request) => {
@@ -13,7 +17,14 @@ export const stub = async (request: Request) => {
         andreYtelserType: requestBody.andreYtelserType,
         perioder: requestBody.perioder,
         fjernet: false,
-        events: [],
+        events: [
+            {
+                type: 'ApiGraderteAndreYtelserOpprettetEvent',
+                metadata: GraderteAndreYtelserMock.byggEventMetadata(requestBody.notatTilBeslutter, []),
+                perioder: requestBody.perioder,
+                andreYtelserType: requestBody.andreYtelserType,
+            } as ApiGraderteAndreYtelserOpprettetEvent,
+        ],
     };
 
     GraderteAndreYtelserMock.leggTil(requestBody.fodselsnummer, graderteAndreYtelser);
