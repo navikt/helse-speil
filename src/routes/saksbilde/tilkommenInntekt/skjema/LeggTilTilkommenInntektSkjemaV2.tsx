@@ -37,7 +37,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
-                <VStack gap="space-12">
+                <VStack>
                     <VStack gap="space-8">
                         <HStack gap="space-4" align="end">
                             <Controller
