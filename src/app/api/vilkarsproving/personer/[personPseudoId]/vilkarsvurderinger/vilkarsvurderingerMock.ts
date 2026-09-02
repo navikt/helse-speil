@@ -18,7 +18,7 @@ let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
         {
             id: 'krav-2',
             kravkode: ApiKravkode.OPPTJENING,
-            rettTilSykepenger: true,
+            opptjeningOk: true,
             avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
             vurderinger: [
                 {
@@ -80,7 +80,7 @@ export const overstyrVilkårsvurdering = (request: ApiOverstyrVilkårsvurderingR
     const nyttKrav: ApiOpptjeningsvurderingVurdertISpeil = {
         id: v4(),
         kravkode: ApiKravkode.OPPTJENING,
-        rettTilSykepenger: oppfyltVurdering !== undefined,
+        opptjeningOk: oppfyltVurdering !== undefined,
         avgjørendeVilkårskode: (oppfyltVurdering ?? nyVurdering).vilkårskode,
         vurderinger: nyeVurderinger,
         kravkilde: ApiKravkilde.VURDERT_I_SPEIL,

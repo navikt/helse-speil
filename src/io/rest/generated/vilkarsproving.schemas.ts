@@ -11,7 +11,7 @@ export type ApiOpptjeningsvurdering =
 export interface ApiOpptjeningsvurderingOverførtFraInfotrygd {
     id: string;
     kravkode: ApiKravkode;
-    rettTilSykepenger: boolean;
+    opptjeningOk: boolean;
     kravkilde: ApiKravkilde;
 }
 
@@ -33,7 +33,7 @@ export const ApiKravkilde = {
 export interface ApiOpptjeningsvurderingVurdertISpeil {
     id: string;
     kravkode: ApiKravkode;
-    rettTilSykepenger: boolean;
+    opptjeningOk: boolean;
     avgjørendeVilkårskode: ApiVilkårskode;
     vurderinger: ApiVilkårsvurdering[];
     kravkilde: ApiKravkilde;

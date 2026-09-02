@@ -30,7 +30,7 @@ const automatiskVurdertArbeidMinst4Uker: ApiVilkårsvurderingerForPersonResponse
         {
             id: 'krav-1',
             kravkode: ApiKravkode.OPPTJENING,
-            rettTilSykepenger: true,
+            opptjeningOk: true,
             avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
             kravkilde: ApiKravkilde.VURDERT_I_SPEIL,
             vurderinger: [
@@ -68,7 +68,7 @@ const overførtFraInfotrygd: ApiVilkårsvurderingerForPersonResponse = {
         {
             id: 'krav-2',
             kravkode: ApiKravkode.OPPTJENING,
-            rettTilSykepenger: true,
+            opptjeningOk: true,
             kravkilde: ApiKravkilde.OVERFOERT_FRA_INFOTRYGD,
         },
     ],

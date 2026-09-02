@@ -82,7 +82,7 @@ export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }:
                                     utfall={
                                         krav === undefined
                                             ? undefined
-                                            : krav.rettTilSykepenger
+                                            : krav.opptjeningOk
                                               ? ApiUtfall.OPPFYLT
                                               : ApiUtfall.IKKE_OPPFYLT
                                     }
@@ -91,7 +91,7 @@ export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }:
                             <BodyShort weight="semibold">
                                 {krav === undefined
                                     ? 'Opptjening er ikke vurdert'
-                                    : krav.rettTilSykepenger
+                                    : krav.opptjeningOk
                                       ? 'Kravet til opptjening er oppfylt'
                                       : 'Kravet til opptjening er ikke oppfylt'}
                             </BodyShort>
