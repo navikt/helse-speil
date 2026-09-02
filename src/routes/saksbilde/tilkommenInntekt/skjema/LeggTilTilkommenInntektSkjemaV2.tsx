@@ -37,7 +37,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
     return (
         <FormProvider {...form}>
             <form onSubmit={form.handleSubmit(handleSubmit)}>
-                <VStack>
+                <VStack gap="space-16">
                     <VStack gap="space-8">
                         <HStack gap="space-4" align="end">
                             <Controller
@@ -73,7 +73,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
                         )}
                     </VStack>
 
-                    <VStack marginBlock="space-16" gap="space-8">
+                    <VStack gap="space-8">
                         <HGrid columns={2} width="75%">
                             <ControlledDatePicker
                                 name="fom"
@@ -103,7 +103,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
                             ))}
                     </VStack>
 
-                    <VStack marginBlock="space-16" gap="space-8">
+                    <VStack gap="space-8">
                         <HGrid columns={2} width="75%">
                             <Controller
                                 control={form.control}
@@ -155,7 +155,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
                         )}
                     </VStack>
 
-                    <Box maxWidth="380px" marginBlock="space-16">
+                    <Box maxWidth="380px" paddingBlock="space-8">
                         <Controller
                             control={form.control}
                             name="notat"
@@ -172,7 +172,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
                         />
                     </Box>
 
-                    <HStack gap="space-8" marginBlock="space-16">
+                    <HStack gap="space-8">
                         <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
                             Lagre
                         </Button>
