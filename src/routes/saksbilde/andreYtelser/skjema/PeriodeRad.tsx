@@ -15,6 +15,7 @@ import { ActivePeriod, DatePeriod } from '@typer/shared';
 
 interface PeriodeRadProps {
     index: number;
+    antallPerioder: number;
     onRemove: () => void;
     sykefraværstilfelleperioder: DatePeriod[];
     aktivPeriode?: ActivePeriod | null;
@@ -22,6 +23,7 @@ interface PeriodeRadProps {
 
 export function PeriodeRad({
     index,
+    antallPerioder,
     onRemove,
     sykefraværstilfelleperioder,
     aktivPeriode,
@@ -41,7 +43,7 @@ export function PeriodeRad({
 
     return (
         <VStack gap="space-8">
-            <HStack gap="space-8" align="end">
+            <HStack gap="space-28" align="end">
                 <ControlledDatePicker
                     name={`perioder.${index}.fom`}
                     label="Periode f.o.m."
@@ -83,9 +85,17 @@ export function PeriodeRad({
                         />
                     )}
                 />
-                <Button type="button" variant="tertiary" size="xsmall" onClick={onRemove} className="mr-auto mb-[3px]">
-                    Slett
-                </Button>
+                {antallPerioder > 1 && (
+                    <Button
+                        type="button"
+                        variant="tertiary"
+                        size="xsmall"
+                        onClick={onRemove}
+                        className="mr-auto mb-[3px] -ml-4"
+                    >
+                        Slett
+                    </Button>
+                )}
             </HStack>
         </VStack>
     );

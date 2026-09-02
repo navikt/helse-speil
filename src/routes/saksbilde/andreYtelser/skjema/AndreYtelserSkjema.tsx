@@ -21,6 +21,7 @@ import {
     AndreYtelserSkjemaInput,
     lagAndreYtelserSchema,
 } from '@/form-schemas/andreYtelserSchema';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PeriodeRad } from '@saksbilde/andreYtelser/skjema/PeriodeRad';
 import { utledSykefraværstilfelleperioder } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
@@ -76,15 +77,11 @@ export function AndreYtelserSkjema({
 
     const { errors } = useFormState({ control: form.control });
     const periodeFeilmeldinger = hentPeriodeFeilmeldinger(errors);
-    const { fields, append, remove, update } = useFieldArray({ control: form.control, name: 'perioder' });
+    const { fields, append, remove } = useFieldArray({ control: form.control, name: 'perioder' });
+
+    const hasErrors = Object.keys(errors).length > 0 || periodeFeilmeldinger.length > 0;
 
     function fjernPeriode(index: number) {
-        if (fields.length === 1) {
-            update(index, tomPeriode);
-            form.clearErrors(`perioder.${index}`);
-            return;
-        }
-
         remove(index);
     }
 
@@ -92,7 +89,7 @@ export function AndreYtelserSkjema({
 
     return (
         <FormProvider {...form}>
-            <VStack as="form" noValidate onSubmit={form.handleSubmit(onSubmit)} gap="space-8" id="andre-ytelser-form">
+            <VStack as="form" noValidate onSubmit={form.handleSubmit(onSubmit)} gap="space-16" id="andre-ytelser-form">
                 <Controller
                     control={form.control}
                     name="ytelse"
@@ -114,11 +111,12 @@ export function AndreYtelserSkjema({
                         </Select>
                     )}
                 />
-                <VStack gap="space-16" marginBlock="space-8 space-0">
+                <VStack gap="space-12" marginBlock="space-8 space-0">
                     {fields.map((field, index) => (
                         <PeriodeRad
                             key={field.id}
                             index={index}
+                            antallPerioder={fields.length}
                             onRemove={() => fjernPeriode(index)}
                             sykefraværstilfelleperioder={sykefraværstilfelleperioder}
                             aktivPeriode={aktivPeriode}
@@ -128,7 +126,7 @@ export function AndreYtelserSkjema({
                         <Button
                             type="button"
                             variant="tertiary"
-                            size="small"
+                            size="xsmall"
                             icon={<PlusIcon />}
                             onClick={() => append(tomPeriode)}
                             style={{ justifySelf: 'start', paddingInlineStart: 'var(--ax-space-0)' }}
@@ -137,14 +135,14 @@ export function AndreYtelserSkjema({
                         </Button>
                     </HGrid>
                 </VStack>
-                <Box maxWidth="calc(var(--ax-space-128) * 3)">
+                <Box maxWidth="calc(var(--ax-space-128) * 3)" paddingBlock="space-8">
                     <Controller
                         control={form.control}
                         name="notat"
                         render={({ field, fieldState }) => (
                             <Textarea
                                 {...field}
-                                label="Notat til beslutter"
+                                label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
                                 description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                 size="small"
                                 error={fieldState.error?.message}
@@ -153,18 +151,20 @@ export function AndreYtelserSkjema({
                         )}
                     />
                 </Box>
-                <VStack gap="space-4">
-                    {periodeFeilmeldinger.map((feil) => (
-                        <ErrorMessage key={feil} showIcon size="small">
-                            {feil}
-                        </ErrorMessage>
-                    ))}
-                    {errors.perioder?.root?.message && (
-                        <ErrorMessage showIcon size="small">
-                            {errors.perioder.root.message}
-                        </ErrorMessage>
-                    )}
-                </VStack>
+                {hasErrors && (
+                    <VStack gap="space-4">
+                        {periodeFeilmeldinger.map((feil) => (
+                            <ErrorMessage key={feil} showIcon size="small">
+                                {feil}
+                            </ErrorMessage>
+                        ))}
+                        {errors.perioder?.root?.message && (
+                            <ErrorMessage showIcon size="small">
+                                {errors.perioder.root.message}
+                            </ErrorMessage>
+                        )}
+                    </VStack>
+                )}
                 <HStack gap="space-8">
                     <Button size="small" variant="primary" type="submit" loading={isPending} disabled={isPending}>
                         {submitLabel}

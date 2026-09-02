@@ -1,161 +1,43 @@
-import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement, useCallback, useEffect, useMemo, useState } from 'react';
-import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
+import React, { ReactElement } from 'react';
+import { Controller, FormProvider, useWatch } from 'react-hook-form';
 
 import { Button, ErrorMessage, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
-import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
 import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
-import { erGyldigOrganisasjonsnummer, useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { usePostTilkomneInntekter } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
-import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemaTabell';
-import {
-    beregnInntektPerDag,
-    erGyldigFomForSykefraværstilfelle,
-    erGyldigTomForSykefraværstilfelle,
-    tilPerioderPerOrganisasjonsnummer,
-    utledSykefraværstilfelleperioder,
-} from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
-import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useSistValgtePeriode } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
-import { useNavigerTilTilkommenInntekt } from '@state/routing';
-import { tilTilkomneInntekterMedOrganisasjonsnummer, useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
-import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
-import { erIPeriode, norskDatoTilIsoDato } from '@utils/date';
-import { toKronerOgØre } from '@utils/locale';
-import { isNumber } from '@utils/typeguards';
+import { LeggTilTilkommenInntektSkjemaState } from '@saksbilde/tilkommenInntekt/skjema/useLeggTilTilkommenInntektSkjema';
+import { kronerOgØreTilNumber, toKronerOgØre } from '@utils/locale';
 
-export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
-    const { data: personData } = useFetchPersonQuery();
-    const person = personData?.person ?? null;
-    const aktivPeriode = useSistValgtePeriode(person);
-    const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
-    const [isSubmitting, setIsSubmitting] = useState(false);
-    const [submitError, setSubmitError] = useState<string | undefined>(undefined);
-    const router = useRouter();
-    const { personPseudoId } = useParams<{ personPseudoId: string }>();
-
-    const draftKey = `ny-${personPseudoId}`;
-    const { draft, setDraft, clearDraft } = useTilkommenInntektFormDraft(draftKey);
-
-    const { data: tilkommenInntektData, refetch } = useHentTilkommenInntektQuery(personPseudoId);
-    const andreTilkomneInntekter =
-        tilkommenInntektData !== undefined
-            ? tilTilkomneInntekterMedOrganisasjonsnummer(tilkommenInntektData)
-            : undefined;
-
-    const { mutateAsync: leggTilTilkommenInntekt } = usePostTilkomneInntekter();
-
-    const sykefraværstilfelleperioder = useMemo(
-        () => (person ? utledSykefraværstilfelleperioder(person) : []),
-        [person],
-    );
-    const eksisterendePerioder = andreTilkomneInntekter
-        ? tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter)
-        : new Map();
-
-    const form = useForm({
-        resolver: zodResolver(
-            lagTilkommenInntektSchema(sykefraværstilfelleperioder, eksisterendePerioder, () => organisasjonEksisterer),
-        ),
-        reValidateMode: 'onBlur',
-        defaultValues: {
-            organisasjonsnummer: draft?.organisasjonsnummer ?? '',
-            fom: draft?.fom ?? '',
-            tom: draft?.tom ?? '',
-            periodebeløp: draft?.periodebeløp ?? 0,
-            notat: draft?.notat ?? '',
-            ekskluderteUkedager: draft?.ekskluderteUkedager ?? [],
-        },
-    });
+export const LeggTilTilkommenInntektSkjemaFelter = ({
+    skjema,
+}: {
+    skjema: LeggTilTilkommenInntektSkjemaState;
+}): ReactElement => {
+    const {
+        aktivPeriode,
+        sykefraværstilfelleperioder,
+        erGyldigFom,
+        erGyldigTom,
+        inntektPerDag,
+        isSubmitting,
+        submitError,
+        periodebeløpVisningsverdi,
+        setPeriodebeløpVisningsverdi,
+        handleSubmit,
+        onCancel,
+        setDraft,
+        form,
+    } = skjema;
 
     const organisasjonsnummer = useWatch({ name: 'organisasjonsnummer', control: form.control });
-    const { data: organisasjonData } = useOrganisasjonQuery(organisasjonsnummer);
-    const organisasjonEksisterer = organisasjonData?.navn != undefined;
-
-    const fom = useWatch({ name: 'fom', control: form.control });
-    const tom = useWatch({ name: 'tom', control: form.control });
-
-    const erGyldigFom = useCallback(
-        (fom: string) => erGyldigFomForSykefraværstilfelle(fom, tom, sykefraværstilfelleperioder),
-        [tom, sykefraværstilfelleperioder],
-    );
-
-    const erGyldigTom = useCallback(
-        (tom: string) => erGyldigTomForSykefraværstilfelle(tom, fom, sykefraværstilfelleperioder),
-        [fom, sykefraværstilfelleperioder],
-    );
-
-    const [periodebeløpVisningsverdi, setPeriodebeløpVisningsverdi] = useState(toKronerOgØre(draft?.periodebeløp ?? 0));
-    const periodebeløp = useWatch({ name: 'periodebeløp', control: form.control });
-    const ekskluderteUkedager = useWatch({ name: 'ekskluderteUkedager', control: form.control });
-
-    const gyldigPeriode = useMemo(
-        () =>
-            erGyldigFom(fom) && erGyldigTom(tom)
-                ? { fom: norskDatoTilIsoDato(fom), tom: norskDatoTilIsoDato(tom) }
-                : undefined,
-
-        [erGyldigFom, erGyldigTom, fom, tom],
-    );
-
-    const inntektPerDag =
-        gyldigPeriode !== undefined
-            ? beregnInntektPerDag(isNumber(periodebeløp) ? periodebeløp : 0, gyldigPeriode, ekskluderteUkedager)
-            : undefined;
-
-    const { setValue } = form;
-    useEffect(() => {
-        if (gyldigPeriode !== undefined) {
-            if (ekskluderteUkedager.some((dag) => !erIPeriode(dag, gyldigPeriode))) {
-                setValue(
-                    'ekskluderteUkedager',
-                    ekskluderteUkedager.filter((dag) => erIPeriode(dag, gyldigPeriode)),
-                );
-            }
-        }
-    }, [gyldigPeriode, ekskluderteUkedager, setValue]);
-
-    if (!person || andreTilkomneInntekter === undefined) return null;
-
-    const handleSubmit = async (values: TilkommenInntektSchema) => {
-        setIsSubmitting(true);
-        setSubmitError(undefined);
-        try {
-            const data = await leggTilTilkommenInntekt({
-                data: {
-                    fodselsnummer: person.fodselsnummer,
-                    notatTilBeslutter: values.notat,
-                    verdier: {
-                        periode: { fom: norskDatoTilIsoDato(values.fom), tom: norskDatoTilIsoDato(values.tom) },
-                        organisasjonsnummer: values.organisasjonsnummer,
-                        periodebelop: values.periodebeløp.toString(),
-                        ekskluderteUkedager: values.ekskluderteUkedager,
-                    },
-                },
-            });
-            clearDraft();
-            setIsSubmitting(false);
-            try {
-                await refetch();
-            } catch {
-                // Naviger likevel om refetch feiler; detaljsiden henter data på nytt.
-            }
-            navigerTilTilkommenInntekt(data.tilkommenInntektId);
-        } catch {
-            setSubmitError('Klarte ikke lagre ny tilkommen inntekt. Prøv igjen senere, eller kontakt en coach.');
-            setIsSubmitting(false);
-        }
-    };
 
     return (
         <FormProvider {...form}>
-            <HStack wrap={false} gap="space-0">
-                <form onSubmit={form.handleSubmit(handleSubmit)}>
+            <form onSubmit={form.handleSubmit(handleSubmit)}>
+                <VStack gap="space-16">
                     <VStack gap="space-8">
                         <HStack gap="space-4" align="end">
                             <Controller
@@ -191,7 +73,7 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
                         )}
                     </VStack>
 
-                    <VStack marginBlock="space-16" gap="space-8">
+                    <VStack gap="space-8">
                         <HGrid columns={2} width="75%">
                             <ControlledDatePicker
                                 name="fom"
@@ -221,7 +103,7 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
                             ))}
                     </VStack>
 
-                    <VStack marginBlock="space-16" gap="space-8">
+                    <VStack gap="space-8">
                         <HGrid columns={2} width="75%">
                             <Controller
                                 control={form.control}
@@ -231,12 +113,12 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
                                         {...field}
                                         value={periodebeløpVisningsverdi}
                                         onChange={(e) => {
-                                            const val = Number(e.target.value.replaceAll(' ', '').replaceAll(',', '.'));
+                                            const val = kronerOgØreTilNumber(e.target.value);
                                             setPeriodebeløpVisningsverdi(e.target.value);
                                             field.onChange(val);
                                         }}
                                         onBlur={(e) => {
-                                            const val = Number(e.target.value.replaceAll(' ', '').replaceAll(',', '.'));
+                                            const val = kronerOgØreTilNumber(e.target.value);
                                             setPeriodebeløpVisningsverdi(
                                                 Number.isNaN(val) ? e.target.value : toKronerOgØre(val),
                                             );
@@ -273,15 +155,15 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
                         )}
                     </VStack>
 
-                    <Box maxWidth="380px" marginBlock="space-16">
+                    <Box maxWidth="380px" paddingBlock="space-8">
                         <Controller
                             control={form.control}
                             name="notat"
                             render={({ field, fieldState }) => (
                                 <Textarea
                                     {...field}
+                                    label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
                                     error={fieldState.error?.message}
-                                    label="Notat til beslutter"
                                     description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                     size="small"
                                     id="notat"
@@ -290,7 +172,7 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
                         />
                     </Box>
 
-                    <HStack gap="space-8" marginBlock="space-16">
+                    <HStack gap="space-8">
                         <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
                             Lagre
                         </Button>
@@ -299,35 +181,14 @@ export const LeggTilTilkommenInntektSkjema = (): ReactElement | null => {
                             variant="tertiary"
                             type="button"
                             disabled={isSubmitting}
-                            onClick={() => {
-                                clearDraft();
-                                router.back();
-                            }}
+                            onClick={onCancel}
                         >
                             Avbryt
                         </Button>
                     </HStack>
                     {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
-                </form>
-                {gyldigPeriode !== undefined && (
-                    <Controller
-                        control={form.control}
-                        name="ekskluderteUkedager"
-                        render={({ field, fieldState }) => (
-                            <TilkommenInntektSkjemaTabell
-                                inntektsforhold={finnAlleInntektsforhold(person)}
-                                periode={gyldigPeriode}
-                                error={fieldState.error !== undefined}
-                                ekskluderteUkedager={field.value ?? []}
-                                setEkskluderteUkedager={(ukedager) => {
-                                    field.onChange(ukedager);
-                                    field.onBlur();
-                                }}
-                            />
-                        )}
-                    />
-                )}
-            </HStack>
+                </VStack>
+            </form>
         </FormProvider>
     );
 };
