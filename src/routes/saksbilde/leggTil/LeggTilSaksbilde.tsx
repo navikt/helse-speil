@@ -6,7 +6,7 @@ import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { useFetchPersonQuery } from '@state/person';
 
-export const LeggTilSaksbilde = ({ children }: PropsWithChildren): ReactElement => {
+export function LeggTilSaksbilde({ children }: PropsWithChildren): ReactElement {
     const { data: personData } = useFetchPersonQuery();
 
     return (
@@ -29,4 +29,4 @@ export const LeggTilSaksbilde = ({ children }: PropsWithChildren): ReactElement 
             </Tabs>
         </VStack>
     );
-};
+}

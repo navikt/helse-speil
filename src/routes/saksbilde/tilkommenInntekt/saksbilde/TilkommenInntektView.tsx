@@ -39,6 +39,8 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
 
     if (!tilkommenInntekt || !organisasjonsnummer || !person) return null;
 
+    const kanEndres = !tilkommenInntekt.fjernet && !erReadOnly;
+
     const inntektPerDag = beregnInntektPerDag(
         Number(tilkommenInntekt.periodebelop),
         tilkommenInntekt.periode,
@@ -47,100 +49,74 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
 
     return (
         <>
-            <Box marginBlock="space-16" width="max-content">
-                <HStack wrap={false}>
-                    <VStack>
-                        <Box height="2.5rem">
-                            <HStack style={{ paddingLeft: '5px' }} paddingBlock="space-8 space-16">
-                                {!tilkommenInntekt.fjernet && !erReadOnly && (
-                                    <Button
-                                        variant="secondary"
-                                        size="xsmall"
-                                        icon={<PersonPencilIcon />}
-                                        onClick={() => router.push(tilkommenInntektId + '/endre')}
-                                    >
-                                        Endre
-                                    </Button>
-                                )}
-                            </HStack>
-                        </Box>
-                        <Box
-                            background="neutral-soft"
-                            borderWidth="0 0 0 3"
-                            style={{ borderColor: 'transparent' }}
-                            paddingBlock="space-16 space-20"
-                            paddingInline="space-24"
-                            width="460px"
-                        >
-                            <VStack gap="space-16" align="start">
-                                <VStack gap="space-16" paddingInline="space-8">
-                                    <HStack align="center">
-                                        <TilkommenInntektArbeidsgivernavn organisasjonsnummer={organisasjonsnummer} />
-                                        <EndringsloggTilkommenInntektButton tilkommenInntekt={tilkommenInntekt} />
-                                    </HStack>
-                                    <VStack paddingInline="space-28" gap="space-16">
-                                        <HGrid columns={2} gap="space-8" width="450px">
-                                            <VStack>
-                                                <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
-                                                <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
-                                            </VStack>
-                                            <VStack>
-                                                <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
-                                                <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
-                                            </VStack>
-                                            <VStack>
-                                                <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
-                                                <BodyShort>
-                                                    {somPenger(Number(tilkommenInntekt.periodebelop))}
-                                                </BodyShort>
-                                            </VStack>
-                                            <VStack>
-                                                <BodyShort weight="semibold">Inntekt per dag</BodyShort>
-                                                <BodyShort>
-                                                    {Number.isNaN(inntektPerDag) || !Number.isFinite(inntektPerDag)
-                                                        ? ''
-                                                        : somPenger(inntektPerDag)}
-                                                </BodyShort>
-                                            </VStack>
-                                        </HGrid>
-                                        {tilkommenInntekt.fjernet && (
-                                            <TilkommenInntektFjernetAlert
-                                                tilkommenInntektEvents={tilkommenInntekt.events}
-                                            />
-                                        )}
-                                    </VStack>
+            <HStack wrap={false} marginBlock="space-0 space-16" width="max-content">
+                <Box background="neutral-soft" paddingBlock="space-16 space-20" paddingInline="space-32" width="460px">
+                    <VStack gap="space-16" align="start">
+                        {kanEndres && (
+                            <Button
+                                variant="secondary"
+                                size="xsmall"
+                                icon={<PersonPencilIcon />}
+                                onClick={() => router.push(tilkommenInntektId + '/endre')}
+                            >
+                                Endre
+                            </Button>
+                        )}
+                        <HStack align="center">
+                            <TilkommenInntektArbeidsgivernavn organisasjonsnummer={organisasjonsnummer} />
+                            <EndringsloggTilkommenInntektButton tilkommenInntekt={tilkommenInntekt} />
+                        </HStack>
+                        <VStack paddingInline="space-28" gap="space-16">
+                            <HGrid columns={2} gap="space-8" width="450px">
+                                <VStack>
+                                    <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
+                                    <BodyShort>{somNorskDato(tilkommenInntekt.periode.fom)}</BodyShort>
                                 </VStack>
-                                {!tilkommenInntekt.fjernet && !erReadOnly && (
-                                    <Button
-                                        variant="tertiary"
-                                        size="small"
-                                        icon={<XMarkOctagonIcon />}
-                                        onClick={() => setShowFjernModal(true)}
-                                    >
-                                        Fjern periode
-                                    </Button>
-                                )}
-                                {tilkommenInntekt.fjernet && !erReadOnly && (
-                                    <Box paddingInline="space-16">
-                                        <Link as={NextLink} href={`${tilkommenInntektId}/gjenopprett`}>
-                                            <ArrowUndoIcon fontSize="1.3rem" />
-                                            Legg til perioden likevel
-                                        </Link>
-                                    </Box>
-                                )}
-                            </VStack>
-                        </Box>
+                                <VStack>
+                                    <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
+                                    <BodyShort>{somNorskDato(tilkommenInntekt.periode.tom)}</BodyShort>
+                                </VStack>
+                                <VStack>
+                                    <BodyShort weight="semibold">Inntekt for perioden</BodyShort>
+                                    <BodyShort>{somPenger(Number(tilkommenInntekt.periodebelop))}</BodyShort>
+                                </VStack>
+                                <VStack>
+                                    <BodyShort weight="semibold">Inntekt per dag</BodyShort>
+                                    <BodyShort>
+                                        {Number.isNaN(inntektPerDag) || !Number.isFinite(inntektPerDag)
+                                            ? ''
+                                            : somPenger(inntektPerDag)}
+                                    </BodyShort>
+                                </VStack>
+                            </HGrid>
+                            {tilkommenInntekt.fjernet && (
+                                <TilkommenInntektFjernetAlert tilkommenInntektEvents={tilkommenInntekt.events} />
+                            )}
+                        </VStack>
+                        {kanEndres && (
+                            <Button
+                                variant="tertiary"
+                                size="small"
+                                icon={<XMarkOctagonIcon />}
+                                onClick={() => setShowFjernModal(true)}
+                            >
+                                Fjern periode
+                            </Button>
+                        )}
+                        {tilkommenInntekt.fjernet && !erReadOnly && (
+                            <Link as={NextLink} href={`${tilkommenInntektId}/gjenopprett`}>
+                                <ArrowUndoIcon fontSize="1.3rem" />
+                                Legg til perioden likevel
+                            </Link>
+                        )}
                     </VStack>
-                    <VStack>
-                        <Box height="2.5rem" />
-                        <TilkommenInntektDagoversikt
-                            inntektsforhold={finnAlleInntektsforhold(person)}
-                            periode={tilkommenInntekt.periode}
-                            ekskluderteUkedager={tilkommenInntekt.ekskluderteUkedager}
-                        />
-                    </VStack>
-                </HStack>
-            </Box>
+                </Box>
+                <TilkommenInntektDagoversikt
+                    inntektsforhold={finnAlleInntektsforhold(person)}
+                    periode={tilkommenInntekt.periode}
+                    ekskluderteUkedager={tilkommenInntekt.ekskluderteUkedager}
+                />
+            </HStack>
             <FjernTilkommenInntektDialog
                 open={showFjernModal}
                 onOpenChange={setShowFjernModal}

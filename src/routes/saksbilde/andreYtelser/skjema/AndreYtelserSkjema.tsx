@@ -111,7 +111,7 @@ export function AndreYtelserSkjema({
                         </Select>
                     )}
                 />
-                <VStack gap="space-12" marginBlock="space-8 space-0">
+                <VStack gap="space-12">
                     {fields.map((field, index) => (
                         <PeriodeRad
                             key={field.id}

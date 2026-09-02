@@ -22,11 +22,21 @@ export function AndreYtelserSkjemaRamme({
     children,
 }: AndreYtelserSkjemaRammeProps): ReactElement {
     return (
-        <Box marginBlock="space-16" width="max-content">
+        <Box
+            background="neutral-soft"
+            marginBlock="space-0 space-16"
+            paddingBlock="space-16 space-0"
+            width="max-content"
+        >
             <VStack>
-                <Box background="neutral-soft" borderWidth="0 0 0 3" borderColor="accent" height="2.5rem">
-                    <HStack style={{ paddingLeft: '5px' }} paddingBlock="space-8 space-16">
+                <Box
+                    background="neutral-soft"
+                    height="2.5rem"
+                    className="inset-shadow-[3px_0px] inset-shadow-ax-border-accent-strong"
+                >
+                    <HStack paddingInline="space-32" paddingBlock="space-8 space-16">
                         <Button
+                            className="-ml-2.5"
                             icon={<XMarkIcon />}
                             size="xsmall"
                             variant="tertiary"
@@ -40,12 +50,11 @@ export function AndreYtelserSkjemaRamme({
                 </Box>
                 <Box
                     background="neutral-soft"
-                    borderWidth="0 0 0 3"
-                    borderColor="accent"
                     paddingBlock="space-16 space-20"
-                    paddingInline="space-24"
+                    paddingInline="space-32"
                     width="fit-content"
                     minWidth="460px"
+                    className="inset-shadow-[3px_0px] inset-shadow-ax-border-accent-strong"
                 >
                     {children}
                 </Box>

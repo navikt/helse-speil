@@ -54,11 +54,10 @@ export const TilkommenInntektSkjemafelter = ({
             <form onSubmit={form.handleSubmit(handleSubmit)}>
                 <Box
                     background="neutral-soft"
-                    paddingInline="space-40"
+                    paddingInline="space-32"
                     paddingBlock="space-16"
                     width="460px"
-                    borderWidth="0 0 0 3"
-                    borderColor="accent"
+                    className="inset-shadow-[3px_0px] inset-shadow-ax-border-accent-strong"
                 >
                     <VStack gap="space-8">
                         <HStack gap="space-4" align="end">
@@ -173,7 +172,6 @@ export const TilkommenInntektSkjemafelter = ({
                         )}
                     </VStack>
                     <Box maxWidth="380px">
-                        <VisesIkkeIVedtakTag />
                         <Controller
                             control={form.control}
                             name="notat"
@@ -181,7 +179,7 @@ export const TilkommenInntektSkjemafelter = ({
                                 <Textarea
                                     {...field}
                                     error={fieldState.error?.message}
-                                    label="Notat til beslutter"
+                                    label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
                                     description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                     size="small"
                                     id="notat"

@@ -10,9 +10,11 @@ import { Box } from '@navikt/ds-react/Box';
 
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { AndreYtelserFjernetAlert } from '@saksbilde/andreYtelser/AndreYtelserFjernetAlert';
+import { EndringsloggAndreYtelserButton } from '@saksbilde/andreYtelser/EndringsloggAndreYtelserButton';
 import { FjernAndreYtelserDialog } from '@saksbilde/andreYtelser/FjernAndreYtelserDialog';
 import { andreYtelserTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
 import { useGraderteAndreYtelser } from '@saksbilde/andreYtelser/useGraderteAndreYtelser';
+import { IconAndreYtelser } from '@saksbilde/table/icons/IconAndreYtelser';
 import { useFetchPersonQuery } from '@state/person';
 import { somNorskDato } from '@utils/date';
 
@@ -35,34 +37,33 @@ export const GraderteAndreYtelserView = ({ andreYtelserId }: GraderteAndreYtelse
 
     return (
         <>
-            <Box marginBlock="space-16" width="max-content">
-                <Box height="2.5rem">
-                    <HStack style={{ paddingLeft: '5px' }} paddingBlock="space-8 space-16">
-                        {kanEndres && (
-                            <Button
-                                variant="secondary"
-                                size="xsmall"
-                                icon={<PersonPencilIcon />}
-                                onClick={() => router.push(`${andreYtelserId}/endre`)}
-                            >
-                                Endre
-                            </Button>
-                        )}
-                    </HStack>
-                </Box>
-                <Box
-                    background="neutral-soft"
-                    borderWidth="0 0 0 3"
-                    style={{ borderColor: 'transparent' }}
-                    paddingBlock="space-16 space-20"
-                    paddingInline="space-24"
-                    width="fit-content"
-                    minWidth="460px"
-                >
-                    <VStack gap="space-16" align="start">
-                        <Heading size="small" level="2">
+            <Box
+                background="neutral-soft"
+                marginBlock="space-0 space-16"
+                paddingBlock="space-16 space-20"
+                paddingInline="space-32"
+                width="fit-content"
+                minWidth="460px"
+            >
+                <VStack gap="space-16" align="start">
+                    {kanEndres && (
+                        <Button
+                            variant="secondary"
+                            size="xsmall"
+                            icon={<PersonPencilIcon />}
+                            onClick={() => router.push(`${andreYtelserId}/endre`)}
+                        >
+                            Endre
+                        </Button>
+                    )}
+                    <HStack align="center" gap="space-4">
+                        <IconAndreYtelser alt="Nav-logo" />
+                        <Heading size="xsmall" level="2">
                             {andreYtelserTypeTilNavn[ytelse.andreYtelserType]}
                         </Heading>
+                        <EndringsloggAndreYtelserButton ytelse={ytelse} />
+                    </HStack>
+                    <VStack paddingInline="space-28" gap="space-16">
                         <HGrid columns={3} gap="space-8" width="100%">
                             <BodyShort weight="semibold">Periode f.o.m.</BodyShort>
                             <BodyShort weight="semibold">Periode t.o.m.</BodyShort>
@@ -75,25 +76,25 @@ export const GraderteAndreYtelserView = ({ andreYtelserId }: GraderteAndreYtelse
                                 </React.Fragment>
                             ))}
                         </HGrid>
-                        {ytelse.fjernet && <AndreYtelserFjernetAlert />}
-                        {kanEndres && (
-                            <Button
-                                variant="tertiary"
-                                size="small"
-                                icon={<XMarkOctagonIcon />}
-                                onClick={() => setShowFjernModal(true)}
-                            >
-                                Fjern ytelse
-                            </Button>
-                        )}
-                        {ytelse.fjernet && !erReadOnly && (
-                            <Link as={NextLink} href={`${andreYtelserId}/gjenopprett`}>
-                                <ArrowUndoIcon fontSize="1.3rem" />
-                                Legg til ytelsen likevel
-                            </Link>
-                        )}
+                        {ytelse.fjernet && <AndreYtelserFjernetAlert events={ytelse.events} />}
                     </VStack>
-                </Box>
+                    {kanEndres && (
+                        <Button
+                            variant="tertiary"
+                            size="small"
+                            icon={<XMarkOctagonIcon />}
+                            onClick={() => setShowFjernModal(true)}
+                        >
+                            Fjern ytelse
+                        </Button>
+                    )}
+                    {ytelse.fjernet && !erReadOnly && (
+                        <Link as={NextLink} href={`${andreYtelserId}/gjenopprett`}>
+                            <ArrowUndoIcon fontSize="1.3rem" />
+                            Legg til ytelsen likevel
+                        </Link>
+                    )}
+                </VStack>
             </Box>
             <FjernAndreYtelserDialog open={showFjernModal} onOpenChange={setShowFjernModal} ytelse={ytelse} />
         </>
