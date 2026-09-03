@@ -62,21 +62,19 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
                     </Button>
                 </VisHvisSkrivetilgang>
                 {open && (
-                    <VStack gap="space-8" align="start" className="mt-1">
-                        <VisesIkkeIVedtakTag />
-                        <NotatSkjema
-                            submit={leggTilNotat}
-                            submitTekst="Lagre notat"
-                            vedtaksperiodeId={vedtaksperiodeId}
-                            skjulNotatFelt={() => {
-                                setOpen(false);
-                                reset();
-                            }}
-                            loading={loading}
-                            notattype={ApiNotatType.Generelt}
-                            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
-                        />
-                    </VStack>
+                    <NotatSkjema
+                        submit={leggTilNotat}
+                        submitTekst="Lagre notat"
+                        vedtaksperiodeId={vedtaksperiodeId}
+                        skjulNotatFelt={() => {
+                            setOpen(false);
+                            reset();
+                        }}
+                        label={<VisesIkkeIVedtakTag />}
+                        loading={loading}
+                        notattype={ApiNotatType.Generelt}
+                        description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
+                    />
                 )}
                 {open && error && (
                     <ErrorMessage>

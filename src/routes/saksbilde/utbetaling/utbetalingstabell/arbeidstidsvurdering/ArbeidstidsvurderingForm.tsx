@@ -114,10 +114,7 @@ export const ArbeidstidsvurderingForm = ({
                         aktivPeriode={aktivPeriode}
                         person={person}
                     />
-                    <VStack align="start" gap="space-8" className="mt-4">
-                        <VisesIkkeIVedtakTag />
-                        <NotatTilBeslutter vedtaksperiodeId={initierendeVedtaksperiodeId} />
-                    </VStack>
+                    <NotatTilBeslutter vedtaksperiodeId={initierendeVedtaksperiodeId} />
                     {!form.formState.isValid && form.formState.isSubmitted && (
                         <Feiloppsummering
                             feiloppsummeringRef={feiloppsummeringRef}
@@ -229,7 +226,7 @@ const NotatTilBeslutter = ({ vedtaksperiodeId }: NotatTilBeslutterProps) => {
         <Textarea
             {...field}
             className={styles.fritekst}
-            label={<span className={styles.fritekstlabel}>Notat til beslutter</span>}
+            label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
             description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
             error={fieldState?.error?.message as string}
             onChange={(e) => {

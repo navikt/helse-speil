@@ -1,12 +1,15 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 import { EyeIcon } from '@navikt/aksel-icons';
-import { Tag } from '@navikt/ds-react';
+import { Tag, VStack } from '@navikt/ds-react';
 
-export function VisesIVedtakTag(): ReactElement {
+export function VisesIVedtakTag({ label }: { label?: ReactNode }): ReactElement {
     return (
-        <Tag size="xsmall" variant="outline" data-color="meta-lime" icon={<EyeIcon aria-hidden />}>
-            Vises i vedtaket
-        </Tag>
+        <VStack gap="space-2" align="start">
+            {label && <label>{label}</label>}
+            <Tag size="xsmall" variant="outline" data-color="meta-lime" icon={<EyeIcon aria-hidden />}>
+                Vises i vedtaket
+            </Tag>
+        </VStack>
     );
 }

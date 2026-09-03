@@ -69,7 +69,6 @@ export function StansAutomatiskBehandlingDialogInnhold({
             <Dialog.Body>
                 <FormProvider {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} id="stans-automatisk-behandling-form">
-                        <VisesIkkeIVedtakTag />
                         <Controller
                             control={form.control}
                             name="begrunnelse"
@@ -77,7 +76,7 @@ export function StansAutomatiskBehandlingDialogInnhold({
                                 <Textarea
                                     {...field}
                                     error={fieldState.error?.message}
-                                    label="Begrunnelse"
+                                    label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
                                     description="Kommer ikke i vedtaksbrevet, men vil bli forevist bruker ved spørsmål om innsyn."
                                     maxLength={2000}
                                 />

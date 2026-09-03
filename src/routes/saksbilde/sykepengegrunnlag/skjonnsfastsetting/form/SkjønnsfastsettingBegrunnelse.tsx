@@ -53,44 +53,45 @@ export const SkjønnsfastsettingBegrunnelse = ({
                     )}
                 </ExpandableSkjønnsfastsettingBegrunnelseContent>
             </div>
-            <VStack align="start" gap="space-8">
-                <VisesIVedtakTag />
-                <Textarea
-                    className={styles.fritekst}
-                    label={
-                        <span className={styles.fritekstlabel}>
-                            Nærmere begrunnelse for skjønnsvurderingen&nbsp;
-                            <HelpText title="Veiledning">
-                                <VStack gap="space-16">
-                                    <BodyShort>
-                                        Beskriv arbeidssituasjonen til bruker nå og de siste 12 månedene, eventuelt
-                                        tidligere år.
-                                    </BodyShort>
-                                    <VStack>
-                                        <BodyShort>Eksempler på endringer kan være:</BodyShort>
-                                        <ul>
-                                            <li>Du har skiftet jobb</li>
-                                            <li>Du har endret stillingsgrad i samme jobb</li>
-                                            <li>Du har hatt overgang fra midlertidig til fast stilling</li>
-                                            <li>Du har nylig begynt i arbeidslivet</li>
-                                        </ul>
+            <Textarea
+                className={styles.fritekst}
+                label={
+                    <VisesIVedtakTag
+                        label={
+                            <span className={styles.fritekstlabel}>
+                                Nærmere begrunnelse for skjønnsvurderingen&nbsp;
+                                <HelpText title="Veiledning">
+                                    <VStack gap="space-16">
+                                        <BodyShort>
+                                            Beskriv arbeidssituasjonen til bruker nå og de siste 12 månedene, eventuelt
+                                            tidligere år.
+                                        </BodyShort>
+                                        <VStack>
+                                            <BodyShort>Eksempler på endringer kan være:</BodyShort>
+                                            <ul>
+                                                <li>Du har skiftet jobb</li>
+                                                <li>Du har endret stillingsgrad i samme jobb</li>
+                                                <li>Du har hatt overgang fra midlertidig til fast stilling</li>
+                                                <li>Du har nylig begynt i arbeidslivet</li>
+                                            </ul>
+                                        </VStack>
                                     </VStack>
-                                </VStack>
-                            </HelpText>
-                        </span>
-                    }
-                    {...register('begrunnelseFritekst', {
-                        required: 'Du må skrive en nærmere begrunnelse',
-                    })}
-                    description="Teksten vises til den sykmeldte i «Svar på søknad om sykepenger»."
-                    error={
-                        formState.errors.begrunnelseFritekst
-                            ? (formState.errors.begrunnelseFritekst.message as string)
-                            : null
-                    }
-                    resize
-                />
-            </VStack>
+                                </HelpText>
+                            </span>
+                        }
+                    />
+                }
+                {...register('begrunnelseFritekst', {
+                    required: 'Du må skrive en nærmere begrunnelse',
+                })}
+                description="Teksten vises til den sykmeldte i «Svar på søknad om sykepenger»."
+                error={
+                    formState.errors.begrunnelseFritekst
+                        ? (formState.errors.begrunnelseFritekst.message as string)
+                        : null
+                }
+                resize
+            />
             {valgtMal?.konklusjon && (
                 <BodyShortWithPreWrap className={styles.mal}>
                     {valgtMal.konklusjon.replace('${skjønnsfastsattÅrsinntekt}', toKronerOgØre(skjønnsfastsatt))}

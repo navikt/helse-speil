@@ -59,7 +59,6 @@ export function FjernAndreYtelserDialog({ open, onOpenChange, ytelse }: FjernAnd
                             tilhørende perioder?
                         </BodyLong>
                         <form onSubmit={form.handleSubmit(onSubmit)} id="fjern-andre-ytelser-form">
-                            <VisesIkkeIVedtakTag />
                             <Controller
                                 control={form.control}
                                 name="begrunnelse"
@@ -67,7 +66,7 @@ export function FjernAndreYtelserDialog({ open, onOpenChange, ytelse }: FjernAnd
                                     <Textarea
                                         {...field}
                                         error={fieldState.error?.message}
-                                        label="Begrunn hvorfor ytelsen fjernes"
+                                        label={<VisesIkkeIVedtakTag label="Begrunn hvorfor ytelsen fjernes" />}
                                         description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                     />
                                 )}

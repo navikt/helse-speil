@@ -70,7 +70,6 @@ export function FjernTilkommenInntektDialog({
                             {somNorskDato(tilkommenInntekt.periode.tom)}?
                         </BodyLong>
                         <form onSubmit={form.handleSubmit(onSubmit)} id="fjern-tilkommen-inntekt-form">
-                            <VisesIkkeIVedtakTag />
                             <Controller
                                 control={form.control}
                                 name="begrunnelse"
@@ -78,7 +77,7 @@ export function FjernTilkommenInntektDialog({
                                     <Textarea
                                         {...field}
                                         error={fieldState.error?.message}
-                                        label="Begrunn hvorfor perioden fjernes"
+                                        label={<VisesIkkeIVedtakTag label="Begrunn hvorfor perioden fjernes" />}
                                         description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                     />
                                 )}

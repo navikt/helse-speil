@@ -143,23 +143,25 @@ export function AnnulleringsDialogInnhold({
                                     </CheckboxGroup>
                                 )}
                             />
-                            <VStack align="start" gap="space-8">
-                                <VisesIkkeIVedtakTag />
-                                <Controller
-                                    control={form.control}
-                                    name="kommentar"
-                                    render={({ field, fieldState }) => (
-                                        <Textarea
-                                            {...field}
-                                            name="kommentar"
-                                            label={`Begrunnelse ${harValgtAnnet ? '' : '(valgfri)'}`}
-                                            description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
-                                            minRows={6}
-                                            error={fieldState.error?.message}
-                                        />
-                                    )}
-                                />
-                            </VStack>
+
+                            <Controller
+                                control={form.control}
+                                name="kommentar"
+                                render={({ field, fieldState }) => (
+                                    <Textarea
+                                        {...field}
+                                        name="kommentar"
+                                        label={
+                                            <VisesIkkeIVedtakTag
+                                                label={`Begrunnelse ${harValgtAnnet ? '' : '(valgfri)'}`}
+                                            />
+                                        }
+                                        description={`Gi en kort forklaring på hvorfor du annullerte.\nEksempel: Korrigerte opplysninger om ferie`}
+                                        minRows={6}
+                                        error={fieldState.error?.message}
+                                    />
+                                )}
+                            />
                         </VStack>
                         {!erINyesteSkjæringstidspunkt && (
                             <BodyShort className="mb-5">

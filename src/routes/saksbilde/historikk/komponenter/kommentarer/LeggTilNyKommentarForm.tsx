@@ -52,14 +52,11 @@ function Kommentartekstfelt({ control }: { control: Control<KommentarFormFields>
     const { field, fieldState } = useController({ name: 'tekst', control: control });
 
     return (
-        <VStack align="start" gap="space-8">
-            <VisesIkkeIVedtakTag />
-            <Textarea
-                {...field}
-                label="Kommentar"
-                description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
-                error={fieldState.error?.message}
-            />
-        </VStack>
+        <Textarea
+            {...field}
+            label={<VisesIkkeIVedtakTag label="Kommentar" />}
+            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
+            error={fieldState.error?.message}
+        />
     );
 }

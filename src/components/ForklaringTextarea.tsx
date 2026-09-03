@@ -3,6 +3,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { Textarea } from '@navikt/ds-react';
 
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+
 interface ForklaringTextareaProps {
     description: string;
 }
@@ -19,7 +21,7 @@ export const ForklaringTextarea = ({ description }: ForklaringTextareaProps): Re
 
     return (
         <Textarea
-            label="Notat til beslutter"
+            label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
             id="forklaring"
             value={forklaring}
             ref={ref}

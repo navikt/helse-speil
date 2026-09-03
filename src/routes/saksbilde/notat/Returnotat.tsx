@@ -36,8 +36,7 @@ export const Returnotat = ({
     };
 
     return (
-        <VStack align="start" gap="space-8" paddingBlock="space-0 space-16">
-            <VisesIkkeIVedtakTag />
+        <VStack gap="space-8" paddingBlock="space-0 space-16">
             <NotatSkjema
                 submit={submit}
                 submitTekst="Lagre notat og returner"
@@ -45,7 +44,7 @@ export const Returnotat = ({
                 skjulNotatFelt={() => setShowNotat(false)}
                 loading={loading}
                 notattype={KladdNotatType.Retur}
-                label="Returner sak til saksbehandler"
+                label={<VisesIkkeIVedtakTag label="Returner sak til saksbehandler" />}
                 description={
                     <span>
                         Forklar hvorfor oppgaven sendes tilbake på en enkel måte, slik at det er lett å forstå hva som
