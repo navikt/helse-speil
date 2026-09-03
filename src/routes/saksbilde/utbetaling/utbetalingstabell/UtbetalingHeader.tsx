@@ -35,12 +35,7 @@ export const UtbetalingHeader = ({
             <HelpText>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</HelpText>
         ) : (
             <VisHvisSkrivetilgang>
-                <Button
-                    size="xsmall"
-                    variant="tertiary"
-                    onClick={toggleOverstyring}
-                    icon={<PersonPencilIcon fontSize="1.5rem" />}
-                >
+                <Button size="xsmall" variant="tertiary" onClick={toggleOverstyring} icon={<PersonPencilIcon />}>
                     {erRevurdering ? 'Revurder' : 'Endre'} dager
                 </Button>
             </VisHvisSkrivetilgang>

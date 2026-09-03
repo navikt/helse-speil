@@ -22,8 +22,6 @@ import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useOverstyrDager } from './utbetalingstabell/useOverstyrDager';
 
-import styles from './OverstyrbarUtbetaling.module.css';
-
 const getKey = (dag: Utbetalingstabelldag) => dag.dato;
 
 const erReellEndring = (tilDag: Partial<Utbetalingstabelldag>, fraDag: Utbetalingstabelldag): boolean =>
@@ -180,12 +178,12 @@ interface OverstyrbarUtbetalingProps {
     periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
 }
 
-export const OverstyrbarUtbetaling = ({
+export function OverstyrbarUtbetaling({
     person,
     inntektsforhold,
     dager,
     periode,
-}: OverstyrbarUtbetalingProps): ReactElement => {
+}: OverstyrbarUtbetalingProps): ReactElement {
     const aktuellPeriode = useRef(periode);
 
     const [overstyrer, setOverstyrer] = useState(false);
@@ -271,7 +269,15 @@ export const OverstyrbarUtbetaling = ({
 
     const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Utbetalt;
     return (
-        <article className={cn(styles.OverstyrbarUtbetaling, overstyrer && styles.overstyrer)} data-testid="utbetaling">
+        <VStack
+            as="article"
+            gap="space-16"
+            className={cn(
+                'relative h-full px-6 pt-8 pb-16',
+                overstyrer && 'h-max overflow-y-hidden bg-ax-bg-neutral-soft pr-8 pl-0',
+            )}
+            data-testid="utbetaling"
+        >
             {!overstyrer && (
                 <UtbetalingHeader
                     periodeErForkastet={
@@ -284,7 +290,7 @@ export const OverstyrbarUtbetaling = ({
             )}
             <VStack
                 gap="space-16"
-                className={cn(overstyrer && 'inset-shadow-[3px_0px] inset-shadow-ax-border-accent-strong')}
+                className={cn(overstyrer && '-mt-4 pt-4 inset-shadow-[3px_0px] inset-shadow-ax-border-accent-strong')}
             >
                 {overstyrer && (
                     <OverstyringToolBar
@@ -296,7 +302,7 @@ export const OverstyrbarUtbetaling = ({
                         erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                     />
                 )}
-                <div className={cn(styles.TableContainer)}>
+                <VStack gap="space-32" className="relative mb-4 h-full">
                     <Utbetalingstabell
                         fom={periode.fom}
                         tom={periode.tom}
@@ -310,7 +316,7 @@ export const OverstyrbarUtbetaling = ({
                     />
                     {overstyrer && (
                         <>
-                            <div className={styles.CheckboxContainer}>
+                            <VStack className="absolute top-17 left-4">
                                 <MarkerAlleDagerCheckbox
                                     alleDager={alleDager}
                                     markerteDager={markerteDager}
@@ -324,7 +330,7 @@ export const OverstyrbarUtbetaling = ({
                                         checked={markerteDager.get(dag.dato) !== undefined}
                                     />
                                 ))}
-                            </div>
+                            </VStack>
                             <EndreDagerForm
                                 markerteDager={markerteDager}
                                 onSubmitEndring={onSubmitEndring}
@@ -341,8 +347,8 @@ export const OverstyrbarUtbetaling = ({
                             </FormProvider>
                         </>
                     )}
-                </div>
+                </VStack>
             </VStack>
-        </article>
+        </VStack>
     );
-};
+}

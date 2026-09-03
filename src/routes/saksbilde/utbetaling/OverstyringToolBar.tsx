@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack, Heading, VStack } from '@navikt/ds-react';
@@ -16,20 +16,20 @@ interface OverstyringToolBarProps {
     erSelvstendig: boolean;
 }
 
-export const OverstyringToolBar = ({
+export function OverstyringToolBar({
     toggleOverstyring,
     onSubmitPølsestrekk,
     kanStrekkes,
     periodeFom,
     erRevurdering,
     erSelvstendig,
-}: OverstyringToolBarProps) => {
+}: OverstyringToolBarProps): ReactElement {
     const [visLeggTilDagerForm, setVisLeggTilDagerForm] = useState(false);
 
     return (
         <Box marginInline="space-24">
             <HStack paddingBlock="space-0 space-16" gap="space-8">
-                <Heading size="small">{erRevurdering ? 'Revurder' : 'Endre'} dager</Heading>
+                <Heading size="xsmall">{erRevurdering ? 'Revurder' : 'Endre'} dager</Heading>
                 <Button
                     size="xsmall"
                     variant="tertiary"
@@ -61,4 +61,4 @@ export const OverstyringToolBar = ({
             )}
         </Box>
     );
-};
+}

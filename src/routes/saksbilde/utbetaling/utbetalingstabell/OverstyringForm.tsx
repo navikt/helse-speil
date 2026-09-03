@@ -31,10 +31,9 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
     return (
         <VStack marginInline="space-32" width="640px" gap="space-32">
             <VStack align="start" gap="space-8">
-                <VisesIkkeIVedtakTag />
                 <Textarea
                     id="begrunnelse"
-                    label="Notat til beslutter"
+                    label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
                     value={oppsummering}
                     description={
                         <span>
