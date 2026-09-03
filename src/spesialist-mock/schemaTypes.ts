@@ -279,11 +279,6 @@ export type EndrePaVent = Historikkinnslag & {
     type: PeriodehistorikkType;
 };
 
-export type Enhet = {
-    __typename?: 'Enhet';
-    id: Scalars['String']['output'];
-};
-
 export type Faresignal = {
     __typename?: 'Faresignal';
     beskrivelse: Scalars['String']['output'];
@@ -621,7 +616,6 @@ export type Person = {
     andreFodselsnummer: Array<AnnetFodselsnummer>;
     arbeidsgivere: Array<Arbeidsgiver>;
     dodsdato?: Maybe<Scalars['LocalDate']['output']>;
-    enhet: Enhet;
     fodselsnummer: Scalars['String']['output'];
     personinfo: Personinfo;
     selvstendigNaering?: Maybe<SelvstendigNaering>;

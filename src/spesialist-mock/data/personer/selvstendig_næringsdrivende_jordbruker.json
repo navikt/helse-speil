@@ -5,11 +5,6 @@
             "fodselsnummer": "17466707384",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "enhet": {
-                "__typename": "Enhet",
-                "id": "0101",
-                "navn": "Halden"
-            },
             "personinfo": {
                 "__typename": "Personinfo",
                 "fornavn": "NYSGJERRIG",

@@ -39,11 +39,6 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
             reservasjon: null,
             automatiskBehandlingStansetAvSaksbehandler: false,
         },
-        enhet: {
-            __typename: 'Enhet',
-            id: '1234',
-            navn: 'Oslo',
-        },
         versjon: 1,
         vilkarsgrunnlag: [],
         vilkarsgrunnlagV2: [],

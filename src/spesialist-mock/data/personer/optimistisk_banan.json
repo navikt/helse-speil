@@ -4,10 +4,6 @@
             "fodselsnummer": "12345678910",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "enhet": {
-                "id": "0806",
-                "navn": "Skien"
-            },
             "personinfo": {
                 "fornavn": "OPTIMISTISK",
                 "mellomnavn": null,

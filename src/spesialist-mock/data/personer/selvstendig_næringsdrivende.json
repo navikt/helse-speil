@@ -5,11 +5,6 @@
             "fodselsnummer": "23817999700",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "enhet": {
-                "__typename": "Enhet",
-                "id": "1165",
-                "navn": "Stavanger - Madla"
-            },
             "personinfo": {
                 "__typename": "Personinfo",
                 "fornavn": "KVART",

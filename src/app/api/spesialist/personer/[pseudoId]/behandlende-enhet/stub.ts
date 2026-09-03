@@ -1,23 +1,25 @@
 import { NextRequest } from 'next/server';
 
 import { ApiBehandlendeEnhet } from '@io/rest/generated/spesialist.schemas';
-import { fetchPersondata } from '@spesialist-mock/graphql';
-import { PersonMock } from '@spesialist-mock/storage/person';
 
 export async function stub(_request: NextRequest, params: Promise<{ pseudoId: string }>) {
     const { pseudoId } = await params;
-    const identitetsnummer = PersonMock.findFødselsnummerForPersonPseudoId(pseudoId);
-    if (!identitetsnummer) return Response.error();
-    const person = fetchPersondata()[identitetsnummer];
-    if (!person) return Response.error();
 
-    const enhetNr = person.enhet.id;
+    const enhetNr = enhetsnummerFraPseudoId(pseudoId);
     const behandlendeEnhet: ApiBehandlendeEnhet = {
         enhetNr: enhetNr,
         navn: stubnavnForEnhetsnummer(enhetNr),
         type: 'LOKAL',
     };
     return Response.json(behandlendeEnhet, { status: 200 });
+}
+
+function enhetsnummerFraPseudoId(pseudoId: string): string {
+    let hash = 0;
+    for (const tegn of pseudoId) {
+        hash = (hash * 31 + tegn.charCodeAt(0)) % 10000;
+    }
+    return String(hash).padStart(4, '0');
 }
 
 function stubnavnForEnhetsnummer(enhetNr: string): string {

@@ -2990,7 +2990,6 @@ export type PersonFragment = {
     versjon: number;
     aktorId: string;
     andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
-    enhet: { __typename: 'Enhet'; id: string };
     personinfo: {
         __typename: 'Personinfo';
         fornavn: string;
@@ -4678,7 +4677,6 @@ export type FetchPersonQuery = {
         versjon: number;
         aktorId: string;
         andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
-        enhet: { __typename: 'Enhet'; id: string };
         personinfo: {
             __typename: 'Personinfo';
             fornavn: string;
@@ -9442,14 +9440,6 @@ export const PersonFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'enhet' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-                        },
-                    },
-                    {
-                        kind: 'Field',
                         name: { kind: 'Name', value: 'personinfo' },
                         selectionSet: {
                             kind: 'SelectionSet',
@@ -12395,14 +12385,6 @@ export const FetchPersonDocument = {
                         },
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'enhet' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-                        },
-                    },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'personinfo' },

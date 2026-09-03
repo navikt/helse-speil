@@ -4,10 +4,6 @@
             "fodselsnummer": "07518405122",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "enhet": {
-                "id": "1122",
-                "navn": "Gjesdal"
-            },
             "personinfo": {
                 "fornavn": "Punktlig",
                 "mellomnavn": null,

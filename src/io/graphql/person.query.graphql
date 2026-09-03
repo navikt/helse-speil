@@ -539,9 +539,6 @@ fragment person on Person {
         personPseudoId
     }
     dodsdato
-    enhet {
-        id
-    }
     personinfo {
         fornavn
         mellomnavn

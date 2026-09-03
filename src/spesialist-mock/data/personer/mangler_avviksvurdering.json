@@ -5,11 +5,6 @@
             "fodselsnummer": "14829598281",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "enhet": {
-                "__typename": "Enhet",
-                "id": "0312",
-                "navn": "Uranienborg-Majorstuen"
-            },
             "personinfo": {
                 "__typename": "Personinfo",
                 "fornavn": "USEDVANLIG",

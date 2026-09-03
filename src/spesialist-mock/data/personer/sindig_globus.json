@@ -4,11 +4,6 @@
             "fodselsnummer": "19886497256",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "enhet": {
-                "id": "0319",
-                "navn": "Søndre Nordstrand",
-                "__typename": "Enhet"
-            },
             "personinfo": {
                 "fornavn": "SINDIG",
                 "mellomnavn": null,
