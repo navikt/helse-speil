@@ -141,7 +141,10 @@ describe('Utbetaling', () => {
         );
 
         await userEvent.click(screen.getByTestId('retur-button'));
-        await userEvent.type(screen.getByLabelText('Returner sak til saksbehandler'), 'Dette må vurderes på nytt');
+        await userEvent.type(
+            screen.getByLabelText('Returner sak til saksbehandler', { exact: false }),
+            'Dette må vurderes på nytt',
+        );
         await userEvent.click(screen.getByRole('button', { name: 'Lagre notat og returner' }));
 
         await waitFor(() =>
