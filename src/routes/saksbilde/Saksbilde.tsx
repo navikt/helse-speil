@@ -15,6 +15,7 @@ import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
+import { VilkårsvurderingerKnappHvisTilgjengelig } from '@saksbilde/vilkårsvurderinger/VilkårsvurderingerKnappHvisTilgjengelig';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
@@ -125,9 +126,12 @@ export const Saksbilde = () => {
                             <Tabs.Tab key={t.value} value={t.value} label={t.label} />
                         ))}
                     </Tabs.List>
-                    <VisHvisSkrivetilgang>
-                        <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
-                    </VisHvisSkrivetilgang>
+                    <HStack align="center" wrap={false}>
+                        <VilkårsvurderingerKnappHvisTilgjengelig person={person} aktivPeriode={aktivPeriode} />
+                        <VisHvisSkrivetilgang>
+                            <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
+                        </VisHvisSkrivetilgang>
+                    </HStack>
                 </HStack>
                 <Box overflowX="auto">
                     {isBeregnetPeriode(aktivPeriode) && (
