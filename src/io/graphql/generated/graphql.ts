@@ -2981,7 +2981,6 @@ export type PersonFragment = {
     __typename: 'Person';
     fodselsnummer: string;
     dodsdato: string | null;
-    versjon: number;
     aktorId: string;
     andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
     personinfo: {
@@ -4668,7 +4667,6 @@ export type FetchPersonQuery = {
         __typename: 'Person';
         fodselsnummer: string;
         dodsdato: string | null;
-        versjon: number;
         aktorId: string;
         andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
         personinfo: {
@@ -9536,7 +9534,6 @@ export const PersonFragmentDoc = {
                             ],
                         },
                     },
-                    { kind: 'Field', name: { kind: 'Name', value: 'versjon' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'vilkarsgrunnlagV2' },
@@ -12483,7 +12480,6 @@ export const FetchPersonDocument = {
                             ],
                         },
                     },
-                    { kind: 'Field', name: { kind: 'Name', value: 'versjon' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'vilkarsgrunnlagV2' },
