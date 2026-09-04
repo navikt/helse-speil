@@ -1,13 +1,13 @@
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactElement, useRef } from 'react';
-import { validate as validateUuid } from 'uuid';
+import { validate } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
 import { teamLogger } from '@navikt/next-logger/team-log';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { validFødselsnummer } from '@io/graphql/common';
-import { FetchError, NotFoundError, UgyldigFødselsnummerError, UgyldigIdentifikatorError } from '@io/graphql/errors';
+import { BadRequestError, FetchError, NotFoundError } from '@io/graphql/errors';
 import { usePostPersonSok } from '@io/rest/generated/personer/personer';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
@@ -16,8 +16,7 @@ import { useAddVarsel } from '@state/varsler';
 
 import styles from './Personsøk.module.css';
 
-const kanVæreFødselsnummer = (value: string) => value.match(/^\d{11}$/);
-const kanVæreAktørId = (value: string) => value.match(/^\d{13}$/);
+const erGyldigPersonId = (value: string) => value.match(/^\d{13}$/) || value.match(/^\d{11}$/) || validate(value);
 
 export const Personsøk = (): ReactElement => {
     const addVarsel = useAddVarsel();
@@ -38,18 +37,16 @@ export const Personsøk = (): ReactElement => {
         if (!personId || loading) {
             return;
         }
-        if (kanVæreFødselsnummer(personId) && !validFødselsnummer(personId)) {
+
+        if (!erGyldigPersonId(personId)) {
             router.push('/');
-            addVarsel(new UgyldigFødselsnummerError(personId));
-        } else if (!(kanVæreAktørId(personId) || validateUuid(personId))) {
-            router.push('/');
-            addVarsel(new UgyldigIdentifikatorError(personId));
+            addVarsel(new BadRequestError(personId));
         } else {
-            if (validateUuid(personId)) {
+            if (validate(personId)) {
                 router.push(`/person/${personId}`);
                 return;
             }
-            const personsøkVariables: ApiPersonSokRequest = kanVæreFødselsnummer(personId)
+            const personsøkVariables: ApiPersonSokRequest = validFødselsnummer(personId)
                 ? { identitetsnummer: personId }
                 : { aktørId: personId };
 
