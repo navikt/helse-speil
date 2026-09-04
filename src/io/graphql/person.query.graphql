@@ -539,15 +539,6 @@ fragment person on Person {
         personPseudoId
     }
     dodsdato
-    personinfo {
-        fornavn
-        mellomnavn
-        etternavn
-        adressebeskyttelse
-        fodselsdato
-        kjonn
-        fullmakt
-    }
     selvstendigNaering {
         behandlinger {
             id

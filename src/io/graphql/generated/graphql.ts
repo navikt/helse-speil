@@ -2982,16 +2982,6 @@ export type PersonFragment = {
     dodsdato: string | null;
     aktorId: string;
     andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
-    personinfo: {
-        __typename: 'Personinfo';
-        fornavn: string;
-        mellomnavn: string | null;
-        etternavn: string;
-        adressebeskyttelse: Adressebeskyttelse;
-        fodselsdato: string;
-        kjonn: Kjonn;
-        fullmakt: boolean | null;
-    };
     selvstendigNaering: {
         __typename: 'SelvstendigNaering';
         behandlinger: Array<{
@@ -4668,16 +4658,6 @@ export type FetchPersonQuery = {
         dodsdato: string | null;
         aktorId: string;
         andreFodselsnummer: Array<{ __typename: 'AnnetFodselsnummer'; fodselsnummer: string; personPseudoId: string }>;
-        personinfo: {
-            __typename: 'Personinfo';
-            fornavn: string;
-            mellomnavn: string | null;
-            etternavn: string;
-            adressebeskyttelse: Adressebeskyttelse;
-            fodselsdato: string;
-            kjonn: Kjonn;
-            fullmakt: boolean | null;
-        };
         selvstendigNaering: {
             __typename: 'SelvstendigNaering';
             behandlinger: Array<{
@@ -9431,22 +9411,6 @@ export const PersonFragmentDoc = {
                     { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
                     {
                         kind: 'Field',
-                        name: { kind: 'Name', value: 'personinfo' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'adressebeskyttelse' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'fullmakt' } },
-                            ],
-                        },
-                    },
-                    {
-                        kind: 'Field',
                         name: { kind: 'Name', value: 'selvstendigNaering' },
                         selectionSet: {
                             kind: 'SelectionSet',
@@ -12375,22 +12339,6 @@ export const FetchPersonDocument = {
                         },
                     },
                     { kind: 'Field', name: { kind: 'Name', value: 'dodsdato' } },
-                    {
-                        kind: 'Field',
-                        name: { kind: 'Name', value: 'personinfo' },
-                        selectionSet: {
-                            kind: 'SelectionSet',
-                            selections: [
-                                { kind: 'Field', name: { kind: 'Name', value: 'fornavn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'mellomnavn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'etternavn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'adressebeskyttelse' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'fodselsdato' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'kjonn' } },
-                                { kind: 'Field', name: { kind: 'Name', value: 'fullmakt' } },
-                            ],
-                        },
-                    },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'selvstendigNaering' },
