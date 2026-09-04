@@ -1,11 +1,26 @@
 import dayjs from 'dayjs';
 
+
+
 import { erProd, erUtvikling } from '@/env';
 import { customAxios } from '@app/axios/axiosClient';
 import { PortableTextBlock } from '@portabletext/react';
 import { useQuery } from '@tanstack/react-query';
 import { Lovhjemmel } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 export type ArbeidsforholdMal = 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE';
 
@@ -28,12 +43,17 @@ export interface Driftsmelding {
     konsekvens: string;
     arsak: string;
     tiltak: string;
-    oppdatering: string;
+    oppdateringer: Oppdatering[];
     cta: string;
     _updatedAt: DateString;
     _createdAt: DateString;
 }
 
+export interface Oppdatering {
+    _key: string;
+    tidspunkt: DateString;
+    melding: string;
+}
 export interface Informasjonsmelding {
     _id: string;
     _rev: string;
