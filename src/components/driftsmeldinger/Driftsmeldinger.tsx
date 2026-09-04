@@ -3,61 +3,15 @@
 import React, { ReactElement, useState } from 'react';
 import * as R from 'remeda';
 
-
-
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, GlobalAlert, HStack, InfoCard, VStack } from '@navikt/ds-react';
-
-
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Driftsmelding, Informasjonsmelding, useDriftsmelding, useInformasjonsmelding } from '@external/sanity';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
-
-
 import styles from './Driftsmeldinger.module.scss';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 interface DriftsmeldingProps {
     driftsmelding: Driftsmelding;
@@ -111,7 +65,7 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
         return ryddetTekst.endsWith('.') ? `${ryddetTekst} ` : `${ryddetTekst}. `;
     };
 
-    const [sisteOppdatering, ...tidligereOppdateringer] = R.sortBy(driftsmelding.oppdateringer, [
+    const [sisteOppdatering, ...tidligereOppdateringer] = R.sortBy(driftsmelding.oppdateringer ?? [], [
         R.prop('tidspunkt'),
         'desc',
     ]);
@@ -142,7 +96,9 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
                         {medPunktum(sisteOppdatering?.melding)}
                         {tidligereOppdateringer.length > 0 && (
                             <Box marginBlock="space-8 space-0">
-                                <BodyShort weight="semibold" size="small">Tidligere oppdateringer</BodyShort>
+                                <BodyShort weight="semibold" size="small">
+                                    Tidligere oppdateringer
+                                </BodyShort>
                                 {tidligereOppdateringer.map((oppdatering) => (
                                     <BodyShort key={oppdatering._key} size="small">
                                         {getFormattedDatetimeString(oppdatering.tidspunkt)}: {oppdatering.melding}
