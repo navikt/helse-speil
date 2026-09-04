@@ -759,7 +759,6 @@
                 "epost": "Martin.Remoy.Solheim@nav.no",
                 "oid": "9c3d9ee4-e487-4e43-b6ab-432743f5863b"
             },
-            "versjon": 54,
             "vilkarsgrunnlagV2": [
                 {
                     "__typename": "VilkarsgrunnlagSpleisV2",

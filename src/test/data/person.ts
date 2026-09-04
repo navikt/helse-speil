@@ -39,7 +39,6 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
             reservasjon: null,
             automatiskBehandlingStansetAvSaksbehandler: false,
         },
-        versjon: 1,
         vilkarsgrunnlag: [],
         vilkarsgrunnlagV2: [],
         tilleggsinfoForInntektskilder: [tilleggsinfoFraEnInntektskilde()],

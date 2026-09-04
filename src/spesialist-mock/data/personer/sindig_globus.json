@@ -21,7 +21,6 @@
                 "oid": "ee97fdb4-327e-4554-875a-fb93b6f15688",
                 "__typename": "Tildeling"
             },
-            "versjon": 54,
             "vilkarsgrunnlag": [
                 {
                     "id": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",

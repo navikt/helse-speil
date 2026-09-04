@@ -18,7 +18,6 @@
                 "automatiskBehandlingStansetAvSaksbehandler": false
             },
             "tildeling": null,
-            "versjon": 54,
             "vilkarsgrunnlagV2": [
                 {
                     "__typename": "VilkarsgrunnlagSpleisV2",

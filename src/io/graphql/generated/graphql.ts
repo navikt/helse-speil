@@ -623,7 +623,6 @@ export type Person = {
     selvstendigNaering: Maybe<SelvstendigNaering>;
     tildeling: Maybe<Tildeling>;
     tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
-    versjon: Scalars['Int']['output'];
     vilkarsgrunnlagV2: Array<VilkarsgrunnlagV2>;
 };
 
