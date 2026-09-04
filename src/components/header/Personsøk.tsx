@@ -1,22 +1,24 @@
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactElement, useRef } from 'react';
-import { validate } from 'uuid';
+import { validate as validateUuid } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
 import { teamLogger } from '@navikt/next-logger/team-log';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { validFødselsnummer } from '@io/graphql/common';
-import { BadRequestError, FetchError, NotFoundError } from '@io/graphql/errors';
+import { FetchError, NotFoundError, UgyldigFødselsnummerError, UgyldigIdentifikatorError } from '@io/graphql/errors';
 import { usePostPersonSok } from '@io/rest/generated/personer/personer';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
 import { usePersonKlargjøres } from '@state/personSomKlargjøres';
 import { useAddVarsel } from '@state/varsler';
 
+import { validerFødselsnummer } from './validering';
+
 import styles from './Personsøk.module.css';
 
-const erGyldigPersonId = (value: string) => value.match(/^\d{13}$/) || value.match(/^\d{11}$/) || validate(value);
+const kanVæreFødselsnummer = (value: string) => value.match(/^\d{11}$/);
+const kanVæreAktørId = (value: string) => value.match(/^\d{13}$/);
 
 export const Personsøk = (): ReactElement => {
     const addVarsel = useAddVarsel();
@@ -31,24 +33,25 @@ export const Personsøk = (): ReactElement => {
 
     const søkOppPerson = async (event: FormEvent) => {
         event.preventDefault();
-        const rawPersonId = searchRef.current?.value;
-        const personId = rawPersonId?.replace(/\s/g, '');
+        const søketekst = searchRef.current?.value?.replace(/\s/g, '');
 
-        if (!personId || loading) {
+        if (!søketekst || loading) {
             return;
         }
-
-        if (!erGyldigPersonId(personId)) {
+        if (validateUuid(søketekst)) {
+            router.push(`/person/${søketekst}`);
+            return;
+        }
+        if (!(kanVæreAktørId(søketekst) || kanVæreFødselsnummer(søketekst))) {
             router.push('/');
-            addVarsel(new BadRequestError(personId));
+            addVarsel(new UgyldigIdentifikatorError(søketekst));
+        } else if (kanVæreFødselsnummer(søketekst) && !validerFødselsnummer(søketekst)) {
+            router.push('/');
+            addVarsel(new UgyldigFødselsnummerError(søketekst));
         } else {
-            if (validate(personId)) {
-                router.push(`/person/${personId}`);
-                return;
-            }
-            const personsøkVariables: ApiPersonSokRequest = validFødselsnummer(personId)
-                ? { identitetsnummer: personId }
-                : { aktørId: personId };
+            const personsøkVariables: ApiPersonSokRequest = kanVæreFødselsnummer(søketekst)
+                ? { identitetsnummer: søketekst }
+                : { aktørId: søketekst };
 
             void mutate(
                 { data: personsøkVariables },
