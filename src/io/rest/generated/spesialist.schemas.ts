@@ -15,7 +15,6 @@ export const ApiServerSentEventEvent = {
     REVURDERING_AVVIST: 'REVURDERING_AVVIST',
     REVURDERING_FERDIGBEHANDLET: 'REVURDERING_FERDIGBEHANDLET',
     PERSONDATA_OPPDATERT: 'PERSONDATA_OPPDATERT',
-    PERSON_KLAR_TIL_BEHANDLING: 'PERSON_KLAR_TIL_BEHANDLING',
 } as const;
 
 export interface ApiServerSentEvent {
@@ -2181,7 +2180,6 @@ export interface ApiPersonSokRequest {
 
 export interface ApiPersonSokResponse {
     personPseudoId: string;
-    klarForVisning: boolean;
 }
 
 export type ApiPostPersonSokErrorCode = (typeof ApiPostPersonSokErrorCode)[keyof typeof ApiPostPersonSokErrorCode];
@@ -2193,6 +2191,8 @@ export const ApiPostPersonSokErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     AKTØRID_IKKE_FUNNET_I_PDL: 'AKTØRID_IKKE_FUNNET_I_PDL',
+    PERSONINFO_IKKE_FUNNET_I_PDL: 'PERSONINFO_IKKE_FUNNET_I_PDL',
+    PERSONINFO_OPPSLAG_FEILET: 'PERSONINFO_OPPSLAG_FEILET',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostPersonSokErrorCodeDetail = null | string;

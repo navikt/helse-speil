@@ -9,8 +9,6 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchError, NotFoundError, UgyldigFødselsnummerError, UgyldigIdentifikatorError } from '@io/graphql/errors';
 import { usePostPersonSok } from '@io/rest/generated/personer/personer';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
-import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
-import { usePersonKlargjøres } from '@state/personSomKlargjøres';
 import { useAddVarsel } from '@state/varsler';
 
 import { validerFødselsnummer } from './validering';
@@ -24,8 +22,6 @@ export const Personsøk = (): ReactElement => {
     const addVarsel = useAddVarsel();
     const router = useRouter();
     const { mutate, isPending: loading } = usePostPersonSok();
-    const { venterPåKlargjøring, klargjortPseudoId } = usePersonKlargjøres();
-    useAbonnerPåEndringer(klargjortPseudoId);
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
@@ -57,11 +53,7 @@ export const Personsøk = (): ReactElement => {
                 { data: personsøkVariables },
                 {
                     onSuccess: (data) => {
-                        if (!data.klarForVisning) {
-                            venterPåKlargjøring(data.personPseudoId);
-                        } else {
-                            router.push(`/person/${data.personPseudoId}`);
-                        }
+                        router.push(`/person/${data.personPseudoId}`);
                     },
                     onError: (error) => {
                         if (error.response) {

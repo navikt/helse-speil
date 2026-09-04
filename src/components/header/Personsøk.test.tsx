@@ -17,7 +17,6 @@ describe('Personsøk', () => {
     it('finds a personPseudoId and redirects to person page', async () => {
         (customAxios as unknown as Mock).mockResolvedValue({
             data: {
-                klarForVisning: true,
                 personPseudoId: 'en random uuid',
             },
         });

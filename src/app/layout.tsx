@@ -8,7 +8,6 @@ import { backend, browserEnv, erDev, erProd } from '@/env';
 import { Preload } from '@app/preload';
 import { Providers } from '@app/providers';
 import { getTokenPayload } from '@auth/token';
-import { PersonSomKlargjøres } from '@components/PersonSomKlargjøres';
 import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Driftsmeldinger } from '@components/driftsmeldinger/Driftsmeldinger';
@@ -62,7 +61,6 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                     <Driftsmeldinger />
                     <Header />
                     <Varsler />
-                    <PersonSomKlargjøres />
                     {children}
                     <Toasts />
                 </Providers>
