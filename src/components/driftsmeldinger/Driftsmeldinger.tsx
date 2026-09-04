@@ -7,6 +7,7 @@ import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, GlobalAlert, HStack, InfoCard, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
+import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Driftsmelding, Informasjonsmelding, useDriftsmelding, useInformasjonsmelding } from '@external/sanity';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
@@ -20,7 +21,21 @@ interface InformasjonsmeldingProps {
     informasjonsmelding: Informasjonsmelding;
 }
 
-export const Driftsmeldinger = (): ReactElement[] => {
+export const Driftsmeldinger = (): ReactElement => (
+    <ErrorBoundary
+        fallback={
+            <GlobalAlert status="warning" size="medium">
+                <GlobalAlert.Header>
+                    <GlobalAlert.Title>Kunne ikke vise driftsmeldinger.</GlobalAlert.Title>
+                </GlobalAlert.Header>
+            </GlobalAlert>
+        }
+    >
+        <DriftsmeldingerListe />
+    </ErrorBoundary>
+);
+
+const DriftsmeldingerListe = (): ReactElement => {
     const { driftsmeldinger } = useDriftsmelding();
     const { informasjonsmeldinger } = useInformasjonsmelding();
 
@@ -32,7 +47,7 @@ export const Driftsmeldinger = (): ReactElement[] => {
         <InformasjonsmeldingInnhold key={`info-${informasjonsmelding._id}`} informasjonsmelding={informasjonsmelding} />
     ));
 
-    return [...drift, ...info];
+    return <>{[...drift, ...info]}</>;
 };
 
 const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactElement | null => {
