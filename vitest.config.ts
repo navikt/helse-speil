@@ -38,7 +38,6 @@ export default defineConfig({
             '@oversikt': resolve(__dirname, './src/routes/oversikt'),
             '@spesialist-mock': resolve(__dirname, './src/spesialist-mock'),
             '@state': resolve(__dirname, './src/state'),
-            '@apollo-mocks': resolve(__dirname, './src/test/tiny-collection-of-mocks'),
             '@test-utils': resolve(__dirname, './src/test/test-utils'),
             '@test-wrappers': resolve(__dirname, './src/test/wrappers'),
             '@test-data': resolve(__dirname, './src/test/data'),

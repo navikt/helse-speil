@@ -8,15 +8,7 @@ import { MockLink, MockedResponse } from '@apollo/client/testing';
 import { apolloCacheConfig } from '@app/apollo/apolloClient';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ApolloWrapper } from '@test-wrappers';
-import {
-    RenderHookOptions,
-    RenderHookResult,
-    RenderOptions,
-    Screen,
-    render,
-    renderHook,
-    screen,
-} from '@testing-library/react';
+import { RenderHookOptions, RenderHookResult, RenderOptions, render, renderHook, screen } from '@testing-library/react';
 
 type ProviderProps = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -89,15 +81,9 @@ function customRenderHook<Result, Props>(
     });
 }
 
-async function openPlayground(screen: Screen): Promise<void> {
-    screen.logTestingPlaygroundURL();
-}
-
 const customScreen = {
     ...screen,
-    openPlayground: () => openPlayground(screen),
 };
 
-export * from './apollo-utils';
 export * from '@testing-library/react';
 export { customRender as render, customRenderHook as renderHook, customScreen as screen };
