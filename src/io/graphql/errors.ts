@@ -7,9 +7,17 @@ export class FetchError extends SpeilError {
     }
 }
 
-export class BadRequestError extends FetchError {
+export class UgyldigIdentifikatorError extends FetchError {
     constructor(søketekst: string) {
-        super(`"${søketekst}" er ikke en gyldig aktør-ID/fødselsnummer.`);
+        super(`"${søketekst}" er ikke en gyldig identifikator for søk`);
+        this.severity = 'info';
+        this.scope = '/';
+    }
+}
+
+export class UgyldigFødselsnummerError extends FetchError {
+    constructor(søketekst: string) {
+        super(`"${søketekst}" er ikke et gyldig fødselsnummer.`);
         this.severity = 'info';
         this.scope = '/';
     }
