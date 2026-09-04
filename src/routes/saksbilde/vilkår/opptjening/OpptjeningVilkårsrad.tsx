@@ -16,6 +16,7 @@ import {
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 
+import { ArbeidsforholdIGrunnlaget } from './ArbeidsforholdIGrunnlaget';
 import { VurderOpptjeningsvilkårSkjema } from './VurderOpptjeningsvilkårSkjema';
 
 const erSaksbehandlerkilde = (kilde: ApiVurderingskilde): kilde is ApiVurderingskildeSaksbehandler => 'ident' in kilde;
@@ -77,29 +78,34 @@ const Vurderingsdetaljer = ({ vurdering }: VurderingsdetaljerProps): ReactElemen
     const arbeidsforholdgrunnlag = grunnlag && erArbeidsforholdgrunnlag(grunnlag) ? grunnlag : undefined;
 
     return (
-        <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
-            {arbeidsforholdgrunnlag?.opptjeningsperiode && (
-                <Detaljrad label="Opptjening fra">
-                    {somNorskDato(arbeidsforholdgrunnlag.opptjeningsperiode.fom) ?? 'ukjent'}
-                </Detaljrad>
-            )}
+        <VStack gap="space-12">
+            <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
+                {arbeidsforholdgrunnlag?.opptjeningsperiode && (
+                    <Detaljrad label="Opptjening fra">
+                        {somNorskDato(arbeidsforholdgrunnlag.opptjeningsperiode.fom) ?? 'ukjent'}
+                    </Detaljrad>
+                )}
+                {arbeidsforholdgrunnlag && (
+                    <Detaljrad label="Antall dager (>28)">{`${arbeidsforholdgrunnlag.opptjeningsdager}`}</Detaljrad>
+                )}
+                {erSaksbehandlerkilde(vurdering.kilde) ? (
+                    <>
+                        <Detaljrad label="Vurdert av">{vurdering.kilde.ident}</Detaljrad>
+                        <Detaljrad label="Begrunnelse">{vurdering.kilde.fritekstbegrunnelse}</Detaljrad>
+                    </>
+                ) : (
+                    <Detaljrad label="Vurdert">Automatisk</Detaljrad>
+                )}
+                {vurdering.vurdertTidspunkt && (
+                    <Detaljrad label="Vurdert tidspunkt">
+                        {getFormattedDatetimeString(vurdering.vurdertTidspunkt)}
+                    </Detaljrad>
+                )}
+            </dl>
             {arbeidsforholdgrunnlag && (
-                <Detaljrad label="Antall dager (>28)">{`${arbeidsforholdgrunnlag.opptjeningsdager}`}</Detaljrad>
+                <ArbeidsforholdIGrunnlaget arbeidsforhold={arbeidsforholdgrunnlag.arbeidsforhold} />
             )}
-            {erSaksbehandlerkilde(vurdering.kilde) ? (
-                <>
-                    <Detaljrad label="Vurdert av">{vurdering.kilde.ident}</Detaljrad>
-                    <Detaljrad label="Begrunnelse">{vurdering.kilde.fritekstbegrunnelse}</Detaljrad>
-                </>
-            ) : (
-                <Detaljrad label="Vurdert">Automatisk</Detaljrad>
-            )}
-            {vurdering.vurdertTidspunkt && (
-                <Detaljrad label="Vurdert tidspunkt">
-                    {getFormattedDatetimeString(vurdering.vurdertTidspunkt)}
-                </Detaljrad>
-            )}
-        </dl>
+        </VStack>
     );
 };
 

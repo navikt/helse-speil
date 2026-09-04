@@ -49,6 +49,12 @@ const automatiskVurdertArbeidMinst4Uker: ApiVilkårsvurderingerForPersonResponse
                                     tom: null,
                                     type: 'ORDINÆRT',
                                 },
+                                {
+                                    organisasjonsnummer: '987654321',
+                                    fom: '2022-03-01',
+                                    tom: '2022-12-31',
+                                    type: 'FRILANSER',
+                                },
                             ],
                             opptjeningsperiode: { fom: '2023-01-01', tom: '2023-12-31' },
                             opptjeningsdager: 120,
@@ -125,6 +131,27 @@ describe('Opptjening', () => {
         expect(within(arbeidsvilkår()).getByText('Antall dager (>28)')).toBeVisible();
         expect(within(arbeidsvilkår()).getByText('120')).toBeVisible();
         expect(within(arbeidsvilkår()).getByText('Automatisk')).toBeVisible();
+    });
+
+    it('viser arbeidsforholdene i grunnlaget i en liste bak en ReadMore', async () => {
+        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={false} />);
+
+        expect(within(likestiltYtelse()).queryByText('Arbeidsforhold i grunnlaget (2)')).not.toBeInTheDocument();
+
+        const readMore = within(arbeidsvilkår()).getByRole('button', { name: 'Arbeidsforhold i grunnlaget (2)' });
+        expect(readMore).toHaveAttribute('aria-expanded', 'false');
+
+        await userEvent.click(readMore);
+        expect(readMore).toHaveAttribute('aria-expanded', 'true');
+
+        const rader = within(arbeidsvilkår()).getAllByRole('row');
+        expect(rader).toHaveLength(3);
+        expect(within(rader[1]!).getByText('123456789')).toBeVisible();
+        expect(within(rader[1]!).getByText('01.01.2023 – løpende')).toBeVisible();
+        expect(within(rader[1]!).getByText('Ordinært')).toBeVisible();
+        expect(within(rader[2]!).getByText('987654321')).toBeVisible();
+        expect(within(rader[2]!).getByText('01.03.2022 – 31.12.2022')).toBeVisible();
+        expect(within(rader[2]!).getByText('Frilanser')).toBeVisible();
     });
 
     it('lar saksbehandler vurdere et uvurdert vilkår direkte', async () => {

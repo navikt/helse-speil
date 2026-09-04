@@ -36,6 +36,12 @@ let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
                                     tom: null,
                                     type: 'ORDINÆRT',
                                 },
+                                {
+                                    organisasjonsnummer: '987654321',
+                                    fom: '2022-03-01',
+                                    tom: '2022-12-31',
+                                    type: 'FRILANSER',
+                                },
                             ],
                             opptjeningsperiode: {
                                 fom: '2023-01-01',
