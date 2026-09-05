@@ -1,5 +1,5 @@
 import { atom, useAtom } from 'jotai';
-import { atomFamily } from 'jotai/utils';
+import { atomFamily } from 'jotai-family';
 
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { usePersonStore } from '@state/contexts/personStore';
