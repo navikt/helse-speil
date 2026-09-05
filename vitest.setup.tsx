@@ -38,7 +38,25 @@ const MockNextNavigation = {
 vi.mock('next/navigation', () => MockNextNavigation);
 
 vi.mock('next/image', () => ({
-    default: ({ src, alt, ...rest }: { src: string; alt: string; [_: string]: unknown }) => {
+    default: ({
+        src,
+        alt,
+        priority: _priority,
+        unoptimized: _unoptimized,
+        placeholder: _placeholder,
+        blurDataURL: _blurDataURL,
+        loader: _loader,
+        ...rest
+    }: {
+        src: string;
+        alt: string;
+        priority?: unknown;
+        unoptimized?: unknown;
+        placeholder?: unknown;
+        blurDataURL?: unknown;
+        loader?: unknown;
+        [_: string]: unknown;
+    }) => {
         // eslint-disable-next-line @next/next/no-img-element
         return <img src={src} alt={alt} {...rest} />;
     },
@@ -120,4 +138,17 @@ console.error = (...args: unknown[]) => {
         return;
     }
     originalConsoleError(...args);
+};
+
+// Aksel sin <Accordion> logger en dev-warning (med hele DOM-noden/Fiber-treet som argument) når
+// den kun har ett Accordion.Item. Dette er en designanbefaling, ikke en testfeil, så vi filtrerer
+// bort støyen den skaper i test-output.
+// eslint-disable-next-line no-console
+const originalConsoleWarn = console.warn;
+// eslint-disable-next-line no-console
+console.warn = (...args: unknown[]) => {
+    if (args[0] === '[Aksel]') {
+        return;
+    }
+    originalConsoleWarn(...args);
 };
