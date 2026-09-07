@@ -27,6 +27,10 @@ export const useHarBetabrukerrolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA);
 };
 
+export const useHarPorteføljestyringrolle = () => {
+    return useErBrukerrolle(ApiBrukerrolle.PORTEFØLJESTYRING);
+};
+
 export const useHarGraderteAndreYtelserTilgang = () => {
     return useErBrukerrolle(ApiBrukerrolle.GRADERTE_ANDRE_YTELSER);
 };

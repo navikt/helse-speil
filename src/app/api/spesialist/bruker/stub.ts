@@ -10,6 +10,7 @@ export const stub = async () => {
             ApiBrukerrolle.STIKKPRØVE,
             ApiBrukerrolle.DIALOGMELDING,
             ApiBrukerrolle.GRADERTE_ANDRE_YTELSER,
+            ApiBrukerrolle.PORTEFØLJESTYRING,
         ],
         tilganger: [ApiTilgang.SKRIV, ApiTilgang.LES],
     };

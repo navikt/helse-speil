@@ -3,9 +3,11 @@ import { ReactElement } from 'react';
 
 import { DatePicker, HStack, useDatepicker } from '@navikt/ds-react';
 
+import { useHarPorteføljestyringrolle } from '@hooks/brukerrolleHooks';
 import { useOppgavelisteDato } from '@state/oppgavelister';
 
 export const OppgavelisteDatoFilter = (): ReactElement => {
+    const harPorteføljestyringrolle = useHarPorteføljestyringrolle();
     const { dato, setOppgaveKlarFom, setOppgaveKlarTom, setBehandlingOpprettetFom, setBehandlingOpprettetTom } =
         useOppgavelisteDato();
 
@@ -37,20 +39,24 @@ export const OppgavelisteDatoFilter = (): ReactElement => {
             <DatePicker {...tomDatePicker.datepickerProps} dropdownCaption>
                 <DatePicker.Input {...tomDatePicker.inputProps} label="Oppgave klar t.o.m." size="small" />
             </DatePicker>
-            <DatePicker {...behandlingOpprettetFomDatePicker.datepickerProps} dropdownCaption>
-                <DatePicker.Input
-                    {...behandlingOpprettetFomDatePicker.inputProps}
-                    label="Startdato f.o.m."
-                    size="small"
-                />
-            </DatePicker>
-            <DatePicker {...behandlingOpprettetTomDatePicker.datepickerProps} dropdownCaption>
-                <DatePicker.Input
-                    {...behandlingOpprettetTomDatePicker.inputProps}
-                    label="Startdato t.o.m."
-                    size="small"
-                />
-            </DatePicker>
+            {harPorteføljestyringrolle && (
+                <>
+                    <DatePicker {...behandlingOpprettetFomDatePicker.datepickerProps} dropdownCaption>
+                        <DatePicker.Input
+                            {...behandlingOpprettetFomDatePicker.inputProps}
+                            label="Startdato f.o.m."
+                            size="small"
+                        />
+                    </DatePicker>
+                    <DatePicker {...behandlingOpprettetTomDatePicker.datepickerProps} dropdownCaption>
+                        <DatePicker.Input
+                            {...behandlingOpprettetTomDatePicker.inputProps}
+                            label="Startdato t.o.m."
+                            size="small"
+                        />
+                    </DatePicker>
+                </>
+            )}
         </HStack>
     );
 };

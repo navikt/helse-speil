@@ -90,6 +90,7 @@ const BRUKERROLLE_REKKEFØLGE: ApiBrukerrolle[] = [
     ApiBrukerrolle.KODE_7,
     ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA,
     ApiBrukerrolle.UTVIKLER,
+    ApiBrukerrolle.PORTEFØLJESTYRING,
 ];
 
 const useBrukerinfo = () => {
@@ -126,6 +127,8 @@ function brukerrolleVisningstekst(brukerrolle: ApiBrukerrolle): string {
             return 'Beslutter';
         case ApiBrukerrolle.DIALOGMELDING:
             return 'Dialogmelding';
+        case ApiBrukerrolle.PORTEFØLJESTYRING:
+            return 'Porteføljestyring';
         default:
             return brukerrolle;
     }
