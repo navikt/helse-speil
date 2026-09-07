@@ -45,11 +45,10 @@ echo '//npm.pkg.github.com/:_authToken=${NPM_AUTH_TOKEN}' >> ~/.npmrc
 
 1. Sørg for at du har riktig versjon av node (se package.json), f.eks. med [nvm](https://github.com/nvm-sh/nvm) eller [mise](https://mise.jdx.dev).
 2. Installer prosjektet - `pnpm install`
-3. Kjør Speil lokalt med next dev server - `pnpm run dev`
+3. Installer pre-commit hook - `pnpm run install-precommit-hooks`
+4. Kjør Speil lokalt med next dev server - `pnpm run dev`
 
 Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesialist.
-
-Kjør precommit hooks manuelt - `.husky/pre-commit`
 
 ### Utvikle lokalt mot lokalt kjørende backend
 
@@ -109,17 +108,17 @@ OpenAPI-spec'en når man kjører lokalt krever ikke autentisering.
 
 ```shell
 # krever at både spesialist og sporhund kjører lokalt
-pnpm run generate-rest 
+pnpm run generate-rest
 ```
 
 ```shell
 # krever at spesialist kjører lokalt
-pnpm run generate-rest:spesialist 
+pnpm run generate-rest:spesialist
 ```
 
 ```shell
 # krever at sporhund kjører lokalt
-pnpm run generate-rest:sporhund 
+pnpm run generate-rest:sporhund
 ```
 
 ## Henvendelser
