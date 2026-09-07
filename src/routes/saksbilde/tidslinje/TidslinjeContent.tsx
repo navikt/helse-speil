@@ -44,8 +44,6 @@ import {
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { PeriodCategory } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
-import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
-import { isSelvstendigNaering } from '@utils/typeguards';
 import { erPåEgenUnderside } from '@utils/undersider';
 
 interface TidslinjeProps {
@@ -211,7 +209,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
             <LeggTilPeriodeKnapp
                 person={person}
                 personPseudoId={personPseudoId}
-                kanLeggeTilPeriode={kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering))}
+                inntektsforhold={inntektsforhold}
             />
         </div>
     );

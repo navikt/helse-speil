@@ -7,19 +7,24 @@ import { Button } from '@navikt/ds-react';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
+import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
+import { isSelvstendigNaering } from '@utils/typeguards';
+import { Inntektsforhold } from '@/state/inntektsforhold/inntektsforhold';
 
 interface LeggTilPeriodeKnappProps {
     person: PersonFragment;
     personPseudoId: string;
-    kanLeggeTilPeriode: boolean;
+    inntektsforhold: Inntektsforhold[];
 }
 
 export function LeggTilPeriodeKnapp({
     person,
     personPseudoId,
-    kanLeggeTilPeriode,
+    inntektsforhold,
 }: LeggTilPeriodeKnappProps): ReactElement {
+    const kanLeggeTilPeriode = kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering));
     const erBeslutteroppgave = useHarTotrinnsvurdering(person);
+
     return (
         <div className="absolute bottom-4 left-6">
             <VisHvisSkrivetilgang>
