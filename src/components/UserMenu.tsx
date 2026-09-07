@@ -129,6 +129,8 @@ function brukerrolleVisningstekst(brukerrolle: ApiBrukerrolle): string {
             return 'Dialogmelding';
         case ApiBrukerrolle.PORTEFØLJESTYRING:
             return 'Porteføljestyring';
+        case ApiBrukerrolle.GRADERTE_ANDRE_YTELSER:
+            return 'Graderte andre ytelser';
         default:
             return brukerrolle;
     }
