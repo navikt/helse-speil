@@ -2,9 +2,9 @@ name: Setup npm deps
 description: Install npm dependencies
 
 inputs:
-  NPM_AUTH_TOKEN:
+  AUTH_TOKEN:
     required: true
-    description: Github reader token
+    description: Token to authenticate against the npm registry
 
 runs:
   using: composite
@@ -13,10 +13,11 @@ runs:
     - uses: actions/setup-node@v6
       with:
         node-version: 24
+        registry-url: "https://npm.pkg.github.com"
         cache: 'pnpm'
+        scope: "@navikt"
     - shell: bash
-      run: |
-        pnpm config set --location project "//npm.pkg.github.com/:_authToken" "$NPM_AUTH_TOKEN"
+      run:        
         pnpm install --frozen-lockfile
       env:
-        NPM_AUTH_TOKEN: ${{ inputs.NPM_AUTH_TOKEN }}
+        NODE_AUTH_TOKEN: ${{ inputs.AUTH_TOKEN }}

@@ -24,7 +24,7 @@ jobs:
       - name: Installer deps
         uses: ./.github/actions/setup-npm-deps
         with:
-          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+          AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - run: pnpm run lint
       - run: pnpm run test
   build-dev:
@@ -39,7 +39,7 @@ jobs:
       - name: Installer deps
         uses: ./.github/actions/setup-npm-deps
         with:
-          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+          AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - run: cp envs/.env.dev .env.production
       - run: pnpm run build
       - uses: ./.github/actions/cdn-n-image
@@ -64,7 +64,7 @@ jobs:
       - name: Installer deps
         uses: ./.github/actions/setup-npm-deps
         with:
-          NPM_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+          AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - run: cp envs/.env.production .env.production
       - run: pnpm run build
       - uses: ./.github/actions/cdn-n-image

@@ -22,7 +22,7 @@ Vedkommende som ønsker tilgang må:
 
 ### Sett opp tilgang til Github Package Registry
 
-For å kunne laste dependencies fra Github Package Registry
+For at pnpm skulle kunne laste dependencies fra Github Package Registry
 må du ha et Github Personal Access satt i miljøvariabelen `NPM_AUTH_TOKEN`.
 
 Dette tokenet trenger scopet `read:packages`. Husk å trykke Configure SSO for navikt.
