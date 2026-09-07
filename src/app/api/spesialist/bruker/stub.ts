@@ -9,6 +9,7 @@ export const stub = async () => {
             ApiBrukerrolle.EGEN_ANSATT,
             ApiBrukerrolle.STIKKPRØVE,
             ApiBrukerrolle.DIALOGMELDING,
+            ApiBrukerrolle.GRADERTE_ANDRE_YTELSER,
         ],
         tilganger: [ApiTilgang.SKRIV, ApiTilgang.LES],
     };

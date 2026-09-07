@@ -57,6 +57,8 @@ export const ApiBrukerrolle = {
     STIKKPRØVE: 'STIKKPRØVE',
     UTVIKLER: 'UTVIKLER',
     DIALOGMELDING: 'DIALOGMELDING',
+    PORTEFØLJESTYRING: 'PORTEFØLJESTYRING',
+    GRADERTE_ANDRE_YTELSER: 'GRADERTE_ANDRE_YTELSER',
 } as const;
 
 export type ApiTilgang = (typeof ApiTilgang)[keyof typeof ApiTilgang];
