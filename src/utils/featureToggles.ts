@@ -1,3 +1,4 @@
 import { erUtvikling } from '@/env';
 
-export const kanLeggeTilTilkommenInntekt = (harSelvstendingNæringsinntekt: boolean) => erUtvikling || !harSelvstendingNæringsinntekt;
+export const kanLeggeTilTilkommenInntekt = (harSelvstendingNæringsinntekt: boolean) =>
+    erUtvikling || !harSelvstendingNæringsinntekt;

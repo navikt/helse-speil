@@ -206,11 +206,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                 )}
                 <TimelineZoom />
             </Timeline>
-            <LeggTilPeriodeKnapp
-                person={person}
-                personPseudoId={personPseudoId}
-                inntektsforhold={inntektsforhold}
-            />
+            <LeggTilPeriodeKnapp person={person} personPseudoId={personPseudoId} inntektsforhold={inntektsforhold} />
         </div>
     );
 }

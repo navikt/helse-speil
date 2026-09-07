@@ -7,9 +7,9 @@ import { Button } from '@navikt/ds-react';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
 import { isSelvstendigNaering } from '@utils/typeguards';
-import { Inntektsforhold } from '@/state/inntektsforhold/inntektsforhold';
 
 interface LeggTilPeriodeKnappProps {
     person: PersonFragment;
