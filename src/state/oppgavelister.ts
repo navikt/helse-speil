@@ -10,53 +10,63 @@ import {
     Oppgaveliste,
     PREDEFINERTE_OPPGAVELISTER,
 } from '@oversikt/table/oppgaverTable/oppgavelister/predefinerteOppgavelister';
-import { limit, useCurrentPageValue } from '@oversikt/table/state/pagination';
+import { limit, useCurrentPageState, useCurrentPageValue } from '@oversikt/table/state/pagination';
 import { atomWithSessionStorage } from '@state/jotai';
 
-interface OppgaveFeedResponse {
-    oppgaver?: ApiOppgaveProjeksjon[];
-    error: ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
-    loading: boolean;
-    antallOppgaver: number;
-}
-
-export const aktivOppgavelisteIdAtom = atomWithSessionStorage<string | null>('aktivOppgavelisteId', null);
-
-export const useAktivOppgaveliste = (): Oppgaveliste | null => {
-    const aktivId = useAtomValue(aktivOppgavelisteIdAtom);
-    if (!aktivId) return null;
-    return PREDEFINERTE_OPPGAVELISTER.find((liste) => liste.id === aktivId) ?? null;
-};
-
-export const useSetAktivOppgaveliste = () => {
-    const setAktivId = useSetAtom(aktivOppgavelisteIdAtom);
-    return (id: string) => setAktivId(id);
-};
-
-type OppgavelisteDato = {
+type OppgavelisteSok = {
+    oppgavelisteId: string | null;
     oppgaveKlarFom?: string;
     oppgaveKlarTom?: string;
     behandlingOpprettetFom?: string;
     behandlingOpprettetTom?: string;
 };
 
-const oppgavelisteDatoOverridesAtom = atomWithSessionStorage<OppgavelisteDato>('oppgavelisteDato', {});
+const tomtSok: OppgavelisteSok = { oppgavelisteId: null };
 
-export const useOppgavelisteDato = () => {
-    const [dato, setDato] = useAtom(oppgavelisteDatoOverridesAtom);
+const draftAtom = atomWithSessionStorage<OppgavelisteSok>('oppgavelisteSokDraft', tomtSok);
+const appliedAtom = atomWithSessionStorage<OppgavelisteSok>('oppgavelisteSokApplied', tomtSok);
+
+const finnOppgaveliste = (id: string | null): Oppgaveliste | null =>
+    PREDEFINERTE_OPPGAVELISTER.find((liste) => liste.id === id) ?? null;
+
+export const useOppgavelisteSokSkjema = () => {
+    const [draft, setDraft] = useAtom(draftAtom);
     return {
-        dato,
-        setOppgaveKlarFom: (fom?: string) => setDato((prev) => ({ ...prev, oppgaveKlarFom: fom })),
-        setOppgaveKlarTom: (tom?: string) => setDato((prev) => ({ ...prev, oppgaveKlarTom: tom })),
-        setBehandlingOpprettetFom: (fom?: string) => setDato((prev) => ({ ...prev, behandlingOpprettetFom: fom })),
-        setBehandlingOpprettetTom: (tom?: string) => setDato((prev) => ({ ...prev, behandlingOpprettetTom: tom })),
+        draft,
+        valgtOppgaveliste: finnOppgaveliste(draft.oppgavelisteId),
+        setOppgavelisteId: (oppgavelisteId: string) => setDraft((prev) => ({ ...prev, oppgavelisteId })),
+        setOppgaveKlarFom: (oppgaveKlarFom?: string) => setDraft((prev) => ({ ...prev, oppgaveKlarFom })),
+        setOppgaveKlarTom: (oppgaveKlarTom?: string) => setDraft((prev) => ({ ...prev, oppgaveKlarTom })),
+        setBehandlingOpprettetFom: (behandlingOpprettetFom?: string) =>
+            setDraft((prev) => ({ ...prev, behandlingOpprettetFom })),
+        setBehandlingOpprettetTom: (behandlingOpprettetTom?: string) =>
+            setDraft((prev) => ({ ...prev, behandlingOpprettetTom })),
     };
 };
 
+export const useSubmitOppgavelisteSok = () => {
+    const draft = useAtomValue(draftAtom);
+    const setApplied = useSetAtom(appliedAtom);
+    const [, setCurrentPage] = useCurrentPageState();
+
+    return () => {
+        setApplied(draft);
+        setCurrentPage(1);
+    };
+};
+
+interface OppgaveFeedResponse {
+    oppgaver?: ApiOppgaveProjeksjon[];
+    error: ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
+    loading: boolean;
+    antallOppgaver: number;
+    aktivOppgaveliste: Oppgaveliste | null;
+}
+
 export const useOppgavelisteFeed = (): OppgaveFeedResponse => {
     const currentPage = useCurrentPageValue();
-    const aktivOppgaveliste = useAktivOppgaveliste();
-    const { dato } = useOppgavelisteDato();
+    const applied = useAtomValue(appliedAtom);
+    const aktivOppgaveliste = finnOppgaveliste(applied.oppgavelisteId);
 
     const {
         data,
@@ -65,10 +75,10 @@ export const useOppgavelisteFeed = (): OppgaveFeedResponse => {
     } = useGetOppgaver(
         {
             ...aktivOppgaveliste?.params,
-            oppgaveKlarFom: dato.oppgaveKlarFom,
-            oppgaveKlarTom: dato.oppgaveKlarTom,
-            behandlingOpprettetFom: dato.behandlingOpprettetFom,
-            behandlingOpprettetTom: dato.behandlingOpprettetTom,
+            oppgaveKlarFom: applied.oppgaveKlarFom,
+            oppgaveKlarTom: applied.oppgaveKlarTom,
+            behandlingOpprettetFom: applied.behandlingOpprettetFom,
+            behandlingOpprettetTom: applied.behandlingOpprettetTom,
             sidestoerrelse: limit,
             sidetall: currentPage,
         },
@@ -85,5 +95,6 @@ export const useOppgavelisteFeed = (): OppgaveFeedResponse => {
         antallOppgaver: data?.totaltAntall ?? 0,
         error,
         loading,
+        aktivOppgaveliste,
     };
 };

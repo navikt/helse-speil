@@ -1,13 +1,17 @@
-import { ReactElement } from 'react';
+import { ReactElement, Ref } from 'react';
 
 import { Box, UNSAFE_Combobox } from '@navikt/ds-react';
 
 import { PREDEFINERTE_OPPGAVELISTER } from '@oversikt/table/oppgaverTable/oppgavelister/predefinerteOppgavelister';
-import { useAktivOppgaveliste, useSetAktivOppgaveliste } from '@state/oppgavelister';
+import { useOppgavelisteSokSkjema } from '@state/oppgavelister';
 
-export const OppgavelisteCombobox = (): ReactElement => {
-    const aktivOppgaveliste = useAktivOppgaveliste();
-    const setAktivOppgaveliste = useSetAktivOppgaveliste();
+interface OppgavelisteComboboxProps {
+    harFeil?: boolean;
+    ref?: Ref<HTMLInputElement>;
+}
+
+export const OppgavelisteCombobox = ({ harFeil = false, ref }: OppgavelisteComboboxProps): ReactElement => {
+    const { valgtOppgaveliste, setOppgavelisteId } = useOppgavelisteSokSkjema();
 
     const options = PREDEFINERTE_OPPGAVELISTER.map((liste) => ({
         label: liste.navn,
@@ -17,13 +21,15 @@ export const OppgavelisteCombobox = (): ReactElement => {
     return (
         <Box width="200px">
             <UNSAFE_Combobox
+                ref={ref}
+                error={harFeil}
                 label="Oppgaveliste"
                 size="small"
                 options={options}
-                selectedOptions={aktivOppgaveliste ? options.filter((o) => o.value === aktivOppgaveliste.id) : []}
+                selectedOptions={valgtOppgaveliste ? options.filter((o) => o.value === valgtOppgaveliste.id) : []}
                 onToggleSelected={(option, isSelected) => {
                     if (isSelected) {
-                        setAktivOppgaveliste(option);
+                        setOppgavelisteId(option);
                     }
                 }}
                 shouldAutocomplete
