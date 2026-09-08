@@ -991,4 +991,14 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
             sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
         },
     },
+    {
+        id: 'coach-andre-ytelser',
+        navn: 'Coach - Andre ytelser',
+        params: {
+            erTildelt: false,
+            sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
+            sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
+            tillatteVarsler: varsler('RV_AY_5', 'RV_AY_6', 'RV_AY_7', 'RV_AY_8', 'RV_AY_11'),
+        },
+    },
 ];
