@@ -1,11 +1,9 @@
 import React, { ReactElement, ReactNode, useState } from 'react';
 
-import { BodyShort, Box, Button, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
+import { CheckmarkIcon, ExclamationmarkTriangleIcon, XMarkIcon } from '@navikt/aksel-icons';
+import { BodyShort, Box, ExpansionCard, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
 
 import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@/form-schemas/overstyrVilkårsvurderingSkjema';
-import { Kryssikon } from '@components/ikoner/Kryssikon';
-import { Sjekkikon } from '@components/ikoner/Sjekkikon';
-import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
 import {
     ApiUtfall,
     ApiVilkårsvurdering,
@@ -27,6 +25,20 @@ const grunnlagFraKilde = (kilde: ApiVurderingskilde): ApiVurderingsgrunnlag | un
 const erArbeidsforholdgrunnlag = (grunnlag: ApiVurderingsgrunnlag): grunnlag is ApiVurderingsgrunnlagArbeidsforhold =>
     'arbeidsforhold' in grunnlag;
 
+export const opptjeningsgrunnlagFor = (
+    vurdering?: ApiVilkårsvurdering,
+): { fom: string; opptjeningsdager: number } | undefined => {
+    const grunnlag = vurdering && grunnlagFraKilde(vurdering.kilde);
+    const arbeidsforholdgrunnlag = grunnlag && erArbeidsforholdgrunnlag(grunnlag) ? grunnlag : undefined;
+
+    return arbeidsforholdgrunnlag?.opptjeningsperiode
+        ? {
+              fom: arbeidsforholdgrunnlag.opptjeningsperiode.fom,
+              opptjeningsdager: arbeidsforholdgrunnlag.opptjeningsdager,
+          }
+        : undefined;
+};
+
 const utfallstekst = (utfall?: ApiUtfall): string => {
     switch (utfall) {
         case ApiUtfall.OPPFYLT:
@@ -38,6 +50,17 @@ const utfallstekst = (utfall?: ApiUtfall): string => {
     }
 };
 
+const utfallTagVariant = (utfall?: ApiUtfall): 'success' | 'error' | 'warning' => {
+    switch (utfall) {
+        case ApiUtfall.OPPFYLT:
+            return 'success';
+        case ApiUtfall.IKKE_OPPFYLT:
+            return 'error';
+        default:
+            return 'warning';
+    }
+};
+
 interface UtfallsikonProps {
     utfall?: ApiUtfall;
 }
@@ -45,11 +68,11 @@ interface UtfallsikonProps {
 export const Utfallsikon = ({ utfall }: UtfallsikonProps): ReactElement => {
     switch (utfall) {
         case ApiUtfall.OPPFYLT:
-            return <Sjekkikon alt="Oppfylt" />;
+            return <CheckmarkIcon title="Oppfylt" fontSize="24" />;
         case ApiUtfall.IKKE_OPPFYLT:
-            return <Kryssikon alt="Ikke oppfylt" />;
+            return <XMarkIcon title="Ikke oppfylt" fontSize="24" />;
         default:
-            return <Utropstegnikon alt="Ikke vurdert" />;
+            return <ExclamationmarkTriangleIcon title="Ikke vurdert" fontSize="24" />;
     }
 };
 
@@ -128,45 +151,60 @@ export const OpptjeningVilkårsrad = ({
     readOnly,
     onOverstyrt,
 }: OpptjeningVilkårsradProps): ReactElement => {
-    const [viserSkjema, setViserSkjema] = useState(false);
+    const [open, setOpen] = useState(false);
     const vilkårsnavn = vilkårskodeLabels[vilkårskode];
+    const titleId = `opptjeningsvilkår-tittel-${vilkårskode}`;
 
     return (
-        <Box as="li" borderWidth="1" borderColor="neutral-subtle" borderRadius="8" padding="space-16">
-            <VStack gap="space-12" data-testid={`opptjeningsvilkår-${vilkårskode}`}>
-                <HStack gap="space-8" align="center">
-                    <span className="flex w-6 items-center justify-center">
-                        <Utfallsikon utfall={vurdering?.utfall} />
-                    </span>
-                    <BodyShort weight="semibold">{vilkårsnavn}</BodyShort>
-                    <BodyShort textColor="subtle">{utfallstekst(vurdering?.utfall)}</BodyShort>
-                    {erAvgjørende && (
-                        <Tag size="xsmall" variant="info">
-                            Avgjørende
-                        </Tag>
-                    )}
-                    <Spacer />
-                    {!readOnly && !viserSkjema && (
-                        <Button size="small" variant="secondary" onClick={() => setViserSkjema(true)}>
-                            {vurdering ? `Endre vurdering av ${vilkårsnavn}` : `Vurder ${vilkårsnavn}`}
-                        </Button>
-                    )}
-                </HStack>
-                {vurdering && <Vurderingsdetaljer vurdering={vurdering} />}
-                {viserSkjema && (
-                    <VurderOpptjeningsvilkårSkjema
-                        personPseudoId={personPseudoId}
-                        skjæringstidspunkt={skjæringstidspunkt}
-                        vilkårskode={vilkårskode}
-                        vilkårsnavn={vilkårsnavn}
-                        onOverstyrt={(opptjeningsvurderingId) => {
-                            setViserSkjema(false);
-                            onOverstyrt(opptjeningsvurderingId);
-                        }}
-                        onAvbryt={() => setViserSkjema(false)}
-                    />
-                )}
-            </VStack>
-        </Box>
+        <li>
+            <ExpansionCard
+                size="small"
+                open={open}
+                onToggle={setOpen}
+                aria-labelledby={titleId}
+                data-testid={`opptjeningsvilkår-${vilkårskode}`}
+                className="border-ax-border-neutral-subtleA bg-ax-bg-default"
+            >
+                <ExpansionCard.Header className="grid grid-cols-[1fr_auto] items-center after:content-none hover:bg-ax-bg-default">
+                    <ExpansionCard.Title id={titleId} size="small" as={Box} className="w-full">
+                        <HStack gap="space-8" align="center">
+                            <span className="flex w-6 items-center justify-center">
+                                <Utfallsikon utfall={vurdering?.utfall} />
+                            </span>
+                            <BodyShort weight="semibold" className="underline">
+                                {vilkårsnavn}
+                            </BodyShort>
+                            <Spacer />
+                            {erAvgjørende && (
+                                <Tag size="xsmall" variant="info">
+                                    Avgjørende vilkår
+                                </Tag>
+                            )}
+                            <Tag size="xsmall" variant={utfallTagVariant(vurdering?.utfall)}>
+                                {utfallstekst(vurdering?.utfall)}
+                            </Tag>
+                        </HStack>
+                    </ExpansionCard.Title>
+                </ExpansionCard.Header>
+                <ExpansionCard.Content>
+                    {open &&
+                        (readOnly ? (
+                            vurdering && <Vurderingsdetaljer vurdering={vurdering} />
+                        ) : (
+                            <VurderOpptjeningsvilkårSkjema
+                                personPseudoId={personPseudoId}
+                                skjæringstidspunkt={skjæringstidspunkt}
+                                vilkårskode={vilkårskode}
+                                eksisterendeUtfall={vurdering?.utfall}
+                                onOverstyrt={(opptjeningsvurderingId) => {
+                                    setOpen(false);
+                                    onOverstyrt(opptjeningsvurderingId);
+                                }}
+                                onAvbryt={() => setOpen(false)}
+                            />
+                        ))}
+                </ExpansionCard.Content>
+            </ExpansionCard>
+        </li>
     );
 };
