@@ -22,7 +22,6 @@ export interface Kodeverkvilkår {
 // Kodeverket bruker andre koder enn vilkårsprøvingsapiet
 const kodeverkskoder: Record<ManueltVurderbarVilkårskode, string> = {
     [ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER]: 'OPPTJENING_MINST_4_UKER',
-    [ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE]: 'OPPTJENING_ANNEN_YTELSE',
 };
 
 const erStøttetVilkårskode = (vilkårskode: ApiVilkårskode): vilkårskode is ManueltVurderbarVilkårskode =>

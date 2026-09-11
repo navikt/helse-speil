@@ -41,17 +41,6 @@ const vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
                         kildetype: ApiKildetype.AUTOMATISK,
                     },
                 },
-                {
-                    id: 'vurdering-2',
-                    vilkårskode: ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE,
-                    utfall: ApiUtfall.IKKE_OPPFYLT,
-                    vurdertTidspunkt: '2024-01-03T10:00:00.000Z',
-                    kilde: {
-                        ident: 'S123456',
-                        fritekstbegrunnelse: 'En begrunnelse',
-                        kildetype: ApiKildetype.SAKSBEHANDLER,
-                    },
-                },
             ],
         },
     ],
@@ -82,7 +71,7 @@ describe('VilkårsvurderingerKnapp', () => {
         expect(screen.queryByText('OPPTJENING_MINST_4_UKER')).not.toBeInTheDocument();
     });
 
-    it('viser paragraf, vurderingstype og utfall for hvert vurderte vilkår', async () => {
+    it('viser paragraf, vurderingstype og utfall vurderte vilkår', async () => {
         mockVilkårsvurderinger(vilkårsvurderinger);
 
         await åpneDialog();
@@ -96,12 +85,6 @@ describe('VilkårsvurderingerKnapp', () => {
         expect(within(arbeidsvilkår).getByText('§8-2 ledd 1 setning 1')).toBeVisible();
         expect(within(arbeidsvilkår).getByText('Oppfylt')).toBeVisible();
         expect(within(arbeidsvilkår).getByText('Automatisk vurdert')).toBeVisible();
-
-        const likestiltYtelse = screen.getByTestId(`vilkårsvurdering-${ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE}`);
-        expect(within(likestiltYtelse).getByText('OPPTJENING_ANNEN_YTELSE')).toBeVisible();
-        expect(within(likestiltYtelse).getByText('§8-2 ledd 2 setning 1')).toBeVisible();
-        expect(within(likestiltYtelse).getByText('Ikke oppfylt')).toBeVisible();
-        expect(within(likestiltYtelse).getByText('Manuelt vurdert')).toBeVisible();
     });
 
     it('viser melding når ingen vilkår er vurdert', async () => {
