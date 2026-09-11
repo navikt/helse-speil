@@ -11,10 +11,18 @@
     color: var(--ax-text-neutral);
 }
 
+.saksbildevarsler {
+    background-color: transparent;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+}
+
 .varsler {
     padding: 0;
     border-bottom: 0;
     margin: 0;
+    border-radius: 0;
 }
 
 .varslerheader {
@@ -22,30 +30,23 @@
     color: var(--ax-text-subtle);
     padding: 0.5rem;
     border-bottom: 0;
-    display: flex;
-    width: unset;
     box-shadow: none !important;
     border-radius: 0;
+    flex-direction: row-reverse;
+    justify-content: start;
+    align-items: center;
 }
 
-.saksbildevarsler[data-expanded='true']:last-child {
-    border-bottom: 0;
-}
-
-.varslerheader::before,
 .varslerheader::after {
-    height: 0;
-}
-
-.varslerheader > span {
-    font-size: var(--ax-font-size-large);
-    font-weight: var(--ax-font-weight-regular);
-}
-
-.varslerheader:focus {
-    box-shadow: none;
+    content: none;
 }
 
 .varslerheader.skjult {
     visibility: hidden;
+}
+
+.beslutteroppgavekontroll {
+    margin-block: 0;
+    padding-inline: 0;
+    list-style-position: inside;
 }

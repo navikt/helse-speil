@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { Accordion, Alert, BodyShort } from '@navikt/ds-react';
+import { Alert, BodyShort, ExpansionCard } from '@navikt/ds-react';
 
 import { Overstyring, VarselDto, Varselstatus } from '@io/graphql';
 import { useInntektOgRefusjon } from '@state/overstyring';
@@ -221,12 +221,15 @@ export const Saksbildevarsler = ({
         beslutteroppgaveKontrollelementer.length > 0 ||
         infoVarsler.length > 0 ||
         feilVarsler.length > 0;
+
     const skalViseKalkulerEndringerVarsel =
         lokaleInntektoverstyringer &&
         lokaleInntektoverstyringer?.skjæringstidspunkt === skjæringstidspunkt &&
         lokaleInntektoverstyringer.arbeidsgivere.length > 0;
 
     if (!skalViseVarsler && !skalViseKalkulerEndringerVarsel) return null;
+
+    const skjulVarslerHeader = infoVarsler.length === 0 && varsler?.length === 0 && feilVarsler.length === 0;
 
     const varselheadertekst =
         varsler && varsler.length > 0
@@ -239,50 +242,46 @@ export const Saksbildevarsler = ({
               } av ${varsler.length} varsler er sjekket)`
             : 'Vis varsler';
 
+    const varselHeaderStateTekst = !open ? varselheadertekst : 'Skjul varsler';
+
     return (
         <div className="Saksbildevarsler">
             {skalViseVarsler && (
-                <Accordion indent={false}>
-                    <Accordion.Item open={open} className={styles.saksbildevarsler}>
-                        <Accordion.Header
-                            className={cn(
-                                styles.varslerheader,
-                                infoVarsler.length === 0 &&
-                                    varsler?.length === 0 &&
-                                    feilVarsler.length === 0 &&
-                                    styles.skjult,
-                            )}
-                            onClick={() => {
-                                setOpen((prevState) => !prevState);
-                            }}
-                        >
-                            {!open ? varselheadertekst : 'Skjul varsler'}
-                        </Accordion.Header>
-                        <Accordion.Content className={styles.varsler}>
-                            {beslutteroppgaveKontrollelementer.length > 0 && (
-                                <Alert className={styles.Varsel} variant="info" key="beslutteroppgave">
-                                    <BodyShort weight="semibold">Kontroller:</BodyShort>
-                                    <ul style={{ marginBlock: 0, paddingInline: 0, listStylePosition: 'inside' }}>
-                                        {beslutteroppgaveKontrollelementer.map((kontrollelementer, index) => (
-                                            <li key={index}>{kontrollelementer}</li>
-                                        ))}
-                                    </ul>
-                                </Alert>
-                            )}
-                            {infoVarsler.map(({ grad, melding }, index) => (
-                                <Alert className={styles.Varsel} variant={grad} key={index}>
-                                    <BodyShort className={styles.text}>{melding}</BodyShort>
-                                </Alert>
-                            ))}
-                            {varsler && <Varsler varsler={varsler} />}
-                            {feilVarsler.map(({ grad, melding }, index) => (
-                                <Alert className={styles.Varsel} variant={grad} key={index}>
-                                    <BodyShort className={styles.text}>{melding}</BodyShort>
-                                </Alert>
-                            ))}
-                        </Accordion.Content>
-                    </Accordion.Item>
-                </Accordion>
+                <ExpansionCard
+                    aria-label={varselHeaderStateTekst}
+                    open={open}
+                    onToggle={setOpen}
+                    size="small"
+                    data-color="accent"
+                    className={styles.saksbildevarsler}
+                >
+                    <ExpansionCard.Header className={cn(styles.varslerheader, skjulVarslerHeader && styles.skjult)}>
+                        {varselHeaderStateTekst}
+                    </ExpansionCard.Header>
+                    <ExpansionCard.Content className={styles.varsler}>
+                        {beslutteroppgaveKontrollelementer.length > 0 && (
+                            <Alert className={styles.Varsel} variant="info" key="beslutteroppgave">
+                                <BodyShort weight="semibold">Kontroller:</BodyShort>
+                                <ul className={styles.beslutteroppgaveKontroll}>
+                                    {beslutteroppgaveKontrollelementer.map((kontrollelementer, index) => (
+                                        <li key={index}>{kontrollelementer}</li>
+                                    ))}
+                                </ul>
+                            </Alert>
+                        )}
+                        {infoVarsler.map(({ grad, melding }, index) => (
+                            <Alert className={styles.Varsel} variant={grad} key={index}>
+                                <BodyShort className={styles.text}>{melding}</BodyShort>
+                            </Alert>
+                        ))}
+                        {varsler && <Varsler varsler={varsler} />}
+                        {feilVarsler.map(({ grad, melding }, index) => (
+                            <Alert className={styles.Varsel} variant={grad} key={index}>
+                                <BodyShort className={styles.text}>{melding}</BodyShort>
+                            </Alert>
+                        ))}
+                    </ExpansionCard.Content>
+                </ExpansionCard>
             )}
             {skalViseKalkulerEndringerVarsel && (
                 <KalkulerEndringerVarsel lokaleInntektoverstyringer={lokaleInntektoverstyringer} />
