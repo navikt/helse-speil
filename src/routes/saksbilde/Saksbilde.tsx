@@ -5,7 +5,7 @@ import { Box, HStack, InfoCard, Tabs, VStack } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
-import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
+import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
@@ -101,7 +101,7 @@ export const Saksbilde = () => {
     if (erAnnullert) {
         return (
             <VStack className="h-full min-w-0 flex-1 overflow-hidden [grid-area:content]">
-                <SaksbildeVarsel person={person} periode={aktivPeriode} />
+                <SaksbildevarselContainer person={person} periode={aktivPeriode} />
             </VStack>
         );
     }
@@ -115,7 +115,7 @@ export const Saksbilde = () => {
                     initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
                 />
             )}
-            <SaksbildeVarsel person={person} periode={aktivPeriode} />
+            <SaksbildevarselContainer person={person} periode={aktivPeriode} />
             <Tabs value={tab} onChange={(value) => setTab(value as SaksbildeTab)} size="medium">
                 <HStack
                     wrap={false}

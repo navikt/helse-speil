@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
-import { isAnnullertBeregnetPeriode } from '@saksbilde/SaksbildeVarsel';
+import { isAnnullertBeregnetPeriode } from '@saksbilde/SaksbildevarselContainer';
 import { historikkFeil } from '@saksbilde/historikk/HistorikkFeil';
 import { HistorikkVisning } from '@saksbilde/historikk/HistorikkVisning';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';

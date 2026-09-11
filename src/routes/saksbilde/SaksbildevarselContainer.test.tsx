@@ -1,7 +1,7 @@
 import { Mock, vi } from 'vitest';
 
 import { Dagoverstyring, Dagtype, Periodetilstand, VarselDto, Varselstatus } from '@io/graphql';
-import { SaksbildeVarsel } from '@saksbilde/SaksbildeVarsel';
+import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -14,7 +14,7 @@ import { render, screen } from '@test-utils';
 vi.mock('@state/overstyring');
 vi.mock('@state/tilkommenInntekt');
 
-describe('SaksbildeVarsel', () => {
+describe('SaksbildevarselContainer', () => {
     beforeEach(() => {
         (useHentTilkommenInntektQuery as Mock).mockReturnValue({ data: [] });
     });
@@ -23,17 +23,19 @@ describe('SaksbildeVarsel', () => {
         const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
         const periode = enBeregnetPeriode({ vilkarsgrunnlagId: undefined });
 
-        expect(() => render(<SaksbildeVarsel person={enPerson()} periode={periode} />)).toThrow();
+        expect(() => render(<SaksbildevarselContainer person={enPerson()} periode={periode} />)).toThrow();
         consoleErrorSpy.mockRestore();
     });
     it('skal rendre eget varsel for uberegnet periode', () => {
-        render(<SaksbildeVarsel person={enPerson()} periode={enUberegnetPeriode({ varsler: [getVarsel()] })} />);
+        render(
+            <SaksbildevarselContainer person={enPerson()} periode={enUberegnetPeriode({ varsler: [getVarsel()] })} />,
+        );
 
         expect(screen.getByText('Et varsel')).toBeInTheDocument();
     });
     it('skal rendre eget varsel for annullert beregnet periode', () => {
         render(
-            <SaksbildeVarsel
+            <SaksbildevarselContainer
                 person={enPerson()}
                 periode={enBeregnetPeriode({ periodetilstand: Periodetilstand.Annullert })}
             />,
@@ -43,7 +45,7 @@ describe('SaksbildeVarsel', () => {
     });
     it('skal rendre eget varsel for beregnet periode til annullering', () => {
         render(
-            <SaksbildeVarsel
+            <SaksbildevarselContainer
                 person={enPerson()}
                 periode={enBeregnetPeriode({ periodetilstand: Periodetilstand.TilAnnullering })}
             />,
@@ -64,7 +66,7 @@ describe('SaksbildeVarsel', () => {
             oppgave: enOppgave(),
         });
         render(
-            <SaksbildeVarsel
+            <SaksbildevarselContainer
                 person={enPerson({
                     arbeidsgivere: [
                         enArbeidsgiver({
@@ -105,7 +107,7 @@ describe('SaksbildeVarsel', () => {
             ],
         });
 
-        render(<SaksbildeVarsel person={person} periode={periode} />);
+        render(<SaksbildevarselContainer person={person} periode={periode} />);
 
         expect(
             screen.getByText('Endringene for sykepengegrunnlag må kalkuleres før du sender oppgaven til godkjenning.'),

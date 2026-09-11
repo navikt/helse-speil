@@ -25,12 +25,12 @@ import { ActivePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-interface SaksbildeVarselProps {
+interface SaksbildevarselContainerProps {
     person: PersonFragment;
     periode: ActivePeriod;
 }
 
-export const SaksbildeVarsel = ({ person, periode }: SaksbildeVarselProps) => {
+export const SaksbildevarselContainer = ({ person, periode }: SaksbildevarselContainerProps) => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(personPseudoId);
     const harTilkommenInntektEndring =
