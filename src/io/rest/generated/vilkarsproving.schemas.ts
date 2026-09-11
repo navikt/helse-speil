@@ -30,11 +30,13 @@ export const ApiKravkilde = {
     OVERFOERT_FRA_INFOTRYGD: 'OVERFOERT_FRA_INFOTRYGD',
 } as const;
 
+export type ApiOpptjeningsvurderingVurdertISpeilAvgjørendeVilkårskode = null | ApiVilkårskode;
+
 export interface ApiOpptjeningsvurderingVurdertISpeil {
     id: string;
     kravkode: ApiKravkode;
     opptjeningOk: boolean;
-    avgjørendeVilkårskode: ApiVilkårskode;
+    avgjørendeVilkårskode?: ApiOpptjeningsvurderingVurdertISpeilAvgjørendeVilkårskode;
     vurderinger: ApiVilkårsvurdering[];
     kravkilde: ApiKravkilde;
 }
@@ -44,9 +46,6 @@ export type ApiVilkårskode = (typeof ApiVilkårskode)[keyof typeof ApiVilkårsk
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiVilkårskode = {
     OPPTJENING_ARBEID_MINST_4_UKER: 'OPPTJENING_ARBEID_MINST_4_UKER',
-    OPPTJENING_LIKESTILT_YTELSE: 'OPPTJENING_LIKESTILT_YTELSE',
-    OPPTJENING_UNNTAK_FORELDREPENGER_UTEN_FORUTGAAENDE_AAP: 'OPPTJENING_UNNTAK_FORELDREPENGER_UTEN_FORUTGAAENDE_AAP',
-    OPPTJENING_YRKESAKTIV_FOER_FORELDREPENGER: 'OPPTJENING_YRKESAKTIV_FOER_FORELDREPENGER',
 } as const;
 
 export type ApiVilkårsvurderingVurdertTidspunkt = null | string;

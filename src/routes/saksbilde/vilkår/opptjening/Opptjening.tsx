@@ -36,7 +36,7 @@ const vurderingerFor = (krav?: ApiOpptjeningsvurdering): ApiVilkårsvurdering[] 
     krav && 'vurderinger' in krav ? krav.vurderinger : [];
 
 const avgjørendeVilkårskodeFor = (krav?: ApiOpptjeningsvurdering): ApiVilkårskode | undefined =>
-    krav && 'avgjørendeVilkårskode' in krav ? krav.avgjørendeVilkårskode : undefined;
+    krav && 'avgjørendeVilkårskode' in krav ? (krav.avgjørendeVilkårskode ?? undefined) : undefined;
 
 interface OpptjeningProps {
     personPseudoId: string;
