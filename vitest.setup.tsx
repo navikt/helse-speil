@@ -1,3 +1,4 @@
+import { JSDOM } from 'jsdom';
 import * as mockRouter from 'next-router-mock';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 import { beforeEach, vi } from 'vitest';
@@ -100,28 +101,21 @@ vi.mock('@app/axios/axiosClient', () => ({
     customAxios: customAxiosMock,
 }));
 
-// Node 26 deaktiverer localStorage som eksperimentell global. Vi setter opp en in-memory mock
-// slik at kode som bruker localStorage fungerer i testmiljøet.
-if (typeof localStorage === 'undefined' || localStorage === null) {
-    const store: Record<string, string> = {};
-    const localStorageMock: Storage = {
-        getItem: (key) => store[key] ?? null,
-        setItem: (key, value) => {
-            store[key] = String(value);
-        },
-        removeItem: (key) => {
-            delete store[key];
-        },
-        clear: () => {
-            Object.keys(store).forEach((key) => delete store[key]);
-        },
-        get length() {
-            return Object.keys(store).length;
-        },
-        key: (index) => Object.keys(store)[index] ?? null,
-    };
-    Object.defineProperty(globalThis, 'localStorage', { value: localStorageMock });
-}
+// Node 26 defines an un-writable localStorage getter that defaults to undefined.
+// We force-override it with jsdom's isolated localStorage instance.
+const dom = new JSDOM('', { url: 'http://localhost/' });
+
+Object.defineProperty(globalThis, 'localStorage', {
+    value: dom.window.localStorage,
+    writable: true,
+    configurable: true,
+});
+
+Object.defineProperty(globalThis, 'sessionStorage', {
+    value: dom.window.sessionStorage,
+    writable: true,
+    configurable: true,
+});
 
 beforeEach(() => {
     vi.clearAllMocks();
