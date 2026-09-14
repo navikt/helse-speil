@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useState } from 'react';
 
-import { Alert, BodyShort, ExpansionCard } from '@navikt/ds-react';
+import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { Overstyring, VarselDto, Varselstatus } from '@io/graphql';
 import { useInntektOgRefusjon } from '@state/overstyring';
@@ -15,6 +15,7 @@ import {
     isSykepengegrunnlagskjønnsfastsetting,
 } from '@utils/typeguards';
 
+import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { KalkulerEndringerVarsel } from './KalkulerEndringerVarsel';
 import { Varsler } from './Varsler';
 
@@ -247,18 +248,20 @@ export const Saksbildevarsler = ({
     return (
         <div className="Saksbildevarsler">
             {skalViseVarsler && (
-                <ExpansionCard
+                <EkspanderbartVarsel
                     aria-label={varselHeaderStateTekst}
                     open={open}
                     onToggle={setOpen}
-                    size="small"
-                    data-color="accent"
                     className={styles.saksbildevarsler}
                 >
-                    <ExpansionCard.Header className={cn(styles.varslerheader, skjulVarslerHeader && styles.skjult)}>
+                    <EkspanderbartVarsel.Header
+                        flexDirection="row-reverse"
+                        justify="start"
+                        className={cn(styles.varslerheader, skjulVarslerHeader && styles.skjult)}
+                    >
                         {varselHeaderStateTekst}
-                    </ExpansionCard.Header>
-                    <ExpansionCard.Content className={styles.varsler}>
+                    </EkspanderbartVarsel.Header>
+                    <EkspanderbartVarsel.Content>
                         {beslutteroppgaveKontrollelementer.length > 0 && (
                             <Alert className={styles.Varsel} variant="info" key="beslutteroppgave">
                                 <BodyShort weight="semibold">Kontroller:</BodyShort>
@@ -280,8 +283,8 @@ export const Saksbildevarsler = ({
                                 <BodyShort className={styles.text}>{melding}</BodyShort>
                             </Alert>
                         ))}
-                    </ExpansionCard.Content>
-                </ExpansionCard>
+                    </EkspanderbartVarsel.Content>
+                </EkspanderbartVarsel>
             )}
             {skalViseKalkulerEndringerVarsel && (
                 <KalkulerEndringerVarsel lokaleInntektoverstyringer={lokaleInntektoverstyringer} />

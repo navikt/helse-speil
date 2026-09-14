@@ -1,121 +1,36 @@
-.varsel {
-    border: none;
-    margin: 3px 0;
-    padding-right: 0;
-    padding-left: 0;
-}
-
-.ekspanderbartVarsel > button {
-    --background-color: var(--ax-bg-warning-soft);
-    --border-color: var(--ax-border-warning);
-    color: var(--ax-text-neutral);
-    background-color: var(--background-color) !important;
-    border-bottom: 1px solid var(--border-color) !important;
-    padding: 0 var(--ax-space-16) 0 0 !important;
-    flex-direction: row-reverse;
-    justify-content: space-between;
-    box-shadow: none !important;
-}
-
-.ekspanderbartVarsel > button > svg {
-    margin: 8px 0;
-}
-
-.ekspanderbartVarsel.aktiv > button {
-    --background-color: var(--ax-bg-warning-soft);
-    --border-color: var(--ax-border-warning);
-}
-
-.ekspanderbartVarsel.vurdert > button {
-    --background-color: var(--ax-bg-success-soft);
-    --border-color: var(--ax-border-success);
-    padding: var(--ax-space-8) var(--ax-space-16) var(--ax-space-8) 0;
-}
-
-.ekspanderbartVarsel.ferdig-behandlet > button {
-    --background-color: var(--ax-bg-neutral-soft);
-    --border-color: var(--ax-border-success);
-    padding: var(--ax-space-8) var(--ax-space-16) var(--ax-space-8) 0;
-}
-
-.ekspanderbartVarsel.feil > button {
-    --background-color: var(--ax-bg-danger-soft);
-    --border-color: var(--ax-border-danger);
-}
-
-.ekspanderbartVarsel > button:global(.navds-accordion__header:hover) {
-    text-decoration-color: var(--ax-text-neutral);
-}
-
-.ekspanderbartVarsel > button:focus,
-.ekspanderbartVarsel > button:active {
-    box-shadow: none;
-}
-
-.ekspanderbartVarsel > button:focus-visible {
-    outline: 3px solid var(--ax-border-focus);
-    outline-offset: 3px;
-}
-
-.ekspanderbartVarsel > button > svg > path {
-    fill: var(--ax-text-neutral);
-}
-
-.ekspanderbartVarsel[data-expanded='true']:last-child {
-    border-bottom: 0;
-}
-
 .header {
-    border-radius: 0;
+    padding: var(--ax-space-8);
+    color: var(--ax-text-subtle);
 }
 
-.header::before,
-.header::after {
-    height: 0;
+.chevronButton {
+    background-color: var(--ax-bg-accent-soft);
+}
+
+.chevronButton:hover {
+    background-color: var(--ax-bg-accent-strong-hover);
+    color: var(--ax-text-neutral-contrast);
+}
+
+.chevron {
+    transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.header[data-open='true'] .chevron {
+    transform: rotate(180deg);
 }
 
 .content {
-    --border-color: var(--ax-border-warning);
-    --background-color: var(--ax-bg-warning-soft);
-    padding: 0 3.25rem;
-    border-bottom: 1px solid var(--border-color) !important;
-    background-color: var(--background-color);
-    margin: 0;
-}
-
-.ekspanderbartVarsel[data-expanded='false'] > .content {
+    display: grid;
     grid-template-rows: 0fr;
-    min-height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    border-bottom: none;
-}
-
-.ekspanderbartVarsel[data-expanded='false'] > .content > * {
-    min-height: 0;
     overflow: hidden;
+    transition: grid-template-rows 0.25s cubic-bezier(0.2, 0, 0, 1);
 }
 
-.content.aktiv {
-    --background-color: var(--ax-bg-warning-soft);
-    --border-color: var(--ax-border-warning);
+.content[data-open='true'] {
+    grid-template-rows: 1fr;
 }
 
-.content.vurdert {
-    --background-color: var(--ax-bg-success-soft);
-    --border-color: var(--ax-border-success);
-}
-
-.content.ferdig-behandlet {
-    --background-color: var(--ax-bg-neutral-soft);
-    --border-color: var(--ax-border-success);
-}
-
-.content.feil {
-    --background-color: var(--ax-bg-danger-soft);
-    --border-color: var(--ax-border-danger);
-}
-
-.tag {
-    margin-bottom: var(--ax-space-8);
+.contentInnhold {
+    min-height: 0;
 }

@@ -4,8 +4,8 @@ import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
 import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 import { cn } from '@utils/tw';
 
-import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { Varsel } from './Varsel';
+import { VarselMedHandling } from './VarselMedHandling';
 import { useSkalViseAvviksvarselSomFeil } from './useSkalViseAvviksvarselSomFeil';
 
 import styles from './Varsler.module.css';
@@ -55,7 +55,7 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
                             (varsel.kode === under20Sykdomsgradsvarsel &&
                                 skalViseUnder20SykdomsgradsvarselSomFeil &&
                                 type !== 'ferdig-behandlet');
-                        return <EkspanderbartVarsel key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
+                        return <VarselMedHandling key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
                     } else {
                         return (
                             <Varsel

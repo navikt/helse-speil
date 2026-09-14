@@ -11,36 +11,6 @@
     color: var(--ax-text-neutral);
 }
 
-.saksbildevarsler {
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-}
-
-.varsler {
-    padding: 0;
-    border-bottom: 0;
-    margin: 0;
-    border-radius: 0;
-}
-
-.varslerheader {
-    background-color: transparent !important;
-    color: var(--ax-text-subtle);
-    padding: 0.5rem;
-    border-bottom: 0;
-    box-shadow: none !important;
-    border-radius: 0;
-    flex-direction: row-reverse;
-    justify-content: start;
-    align-items: center;
-}
-
-.varslerheader::after {
-    content: none;
-}
-
 .varslerheader.skjult {
     visibility: hidden;
 }
