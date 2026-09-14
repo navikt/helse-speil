@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef, useState } from 'react';
+import React, { ReactElement, useRef, useState } from 'react';
 
 import { CheckmarkIcon, FilesIcon } from '@navikt/aksel-icons';
 import { Button, Popover, VStack } from '@navikt/ds-react';
@@ -15,9 +15,10 @@ export function CopyLabelPopover({ navn, organisasjonsnummer }: CopyLabelPopover
     const [kopiertFelt, setKopiertFelt] = useState<KopierbartFelt | null>(null);
     const buttonRef = useRef<HTMLButtonElement>(null);
 
-    useEffect(() => {
-        if (!open) setKopiertFelt(null);
-    }, [open]);
+    const lukk = () => {
+        setOpen(false);
+        setKopiertFelt(null);
+    };
 
     const kopier = (felt: KopierbartFelt, verdi: string) => {
         void navigator.clipboard.writeText(verdi);
@@ -36,10 +37,10 @@ export function CopyLabelPopover({ navn, organisasjonsnummer }: CopyLabelPopover
                 variant="tertiary-neutral"
                 size="xsmall"
                 icon={<FilesIcon aria-hidden />}
-                onClick={() => setOpen((prev) => !prev)}
+                onClick={() => (open ? lukk() : setOpen(true))}
                 title="Kopier navn eller virksomhetsnummer"
             />
-            <Popover anchorEl={buttonRef.current} open={open} onClose={() => setOpen(false)} placement="right">
+            <Popover anchorEl={buttonRef.current} open={open} onClose={lukk} placement="right">
                 <Popover.Content>
                     <VStack gap="space-4" className="w-52">
                         {felter.map(({ felt, verdi, tekst }) => (
