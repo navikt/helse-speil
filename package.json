@@ -29,6 +29,7 @@
         "lint:fix": "eslint --ext=ts,tsx src --fix",
         "test": "vitest run",
         "test:watch": "vitest",
+        "pretsc": "next typegen",
         "tsc": "tsc",
         "generate-rest": "orval",
         "generate-rest:spesialist": "orval --project spesialist",
