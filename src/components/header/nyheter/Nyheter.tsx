@@ -28,9 +28,9 @@ export function Nyheter(): ReactElement {
     const handleToggle = () => {
         const nextOpen = !open;
         setOpen(nextOpen);
-        if (nextOpen) {
+        if (nextOpen && sisteNyhet) {
             harBlittÅpnet.current = true;
-            localStorage.setItem(SISTE_NYHET_OPPRETTET_KEY, JSON.stringify(sisteNyhet?._createdAt));
+            localStorage.setItem(SISTE_NYHET_OPPRETTET_KEY, JSON.stringify(sisteNyhet._createdAt));
         }
     };
 
@@ -89,5 +89,9 @@ const harNyNyhet = (sisteNyhetOpprettet: string | undefined): boolean => {
 
     if (lagretSisteNyhetOpprettet === null) return true;
 
-    return dayjs(sisteNyhetOpprettet).isAfter(JSON.parse(lagretSisteNyhetOpprettet));
+    try {
+        return dayjs(sisteNyhetOpprettet).isAfter(JSON.parse(lagretSisteNyhetOpprettet));
+    } catch {
+        return true;
+    }
 };
