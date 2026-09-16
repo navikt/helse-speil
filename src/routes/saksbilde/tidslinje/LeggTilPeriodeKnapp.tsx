@@ -8,7 +8,7 @@ import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { PersonFragment } from '@io/graphql';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
+import { kanLeggeTilTilkommenInntekt, useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
 interface LeggTilPeriodeKnappProps {
@@ -24,6 +24,7 @@ export function LeggTilPeriodeKnapp({
 }: LeggTilPeriodeKnappProps): ReactElement {
     const kanLeggeTilPeriode = kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering));
     const erBeslutteroppgave = useHarTotrinnsvurdering(person);
+    const skalSeGraderteAndreYtelser = useSkalSeGraderteAndreYtelser();
 
     return (
         <div className="absolute bottom-4 left-6">
@@ -37,7 +38,9 @@ export function LeggTilPeriodeKnapp({
                         icon={<PlusIcon aria-hidden />}
                         href={`/person/${personPseudoId}/leggtil`}
                     >
-                        Legg til tilkommen inntekt/annen ytelse
+                        {skalSeGraderteAndreYtelser
+                            ? 'Legg til tilkommen inntekt/annen ytelse'
+                            : 'Legg til tilkommen inntekt'}
                     </Button>
                 )}
             </VisHvisSkrivetilgang>
