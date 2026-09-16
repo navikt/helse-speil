@@ -6,6 +6,6 @@
     flex-shrink: 0;
 }
 
-.Pagination :global(.navds-pagination--invisible) {
+.Pagination :global(.aksel-pagination--invisible) {
     visibility: visible;
 }

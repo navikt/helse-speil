@@ -7,7 +7,6 @@ import { DagEndringArbeidstakerFormFields, lagDagEndringSchema } from '@/form-sc
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DagtypeSelect } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeSelect';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
-import styles from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm.module.css';
 import {
     alleTypeendringer,
     overstyringsdagtyperArbeidstaker,
@@ -48,7 +47,7 @@ export const EndreDagerArbeidstakerForm = ({
     };
 
     return (
-        <div className={styles.EndringForm}>
+        <VStack gap="space-8" paddingInline="space-32" className="[&_label]:text-base [&_label]:font-normal">
             <BodyShort weight="semibold">
                 Fyll inn hva {markerteDager.size === 1 ? `den valgte dagen` : `de ${markerteDager.size} valgte dagene`}{' '}
                 skal endres til
@@ -89,6 +88,6 @@ export const EndreDagerArbeidstakerForm = ({
                     </VStack>
                 </form>
             </FormProvider>
-        </div>
+        </VStack>
     );
 };

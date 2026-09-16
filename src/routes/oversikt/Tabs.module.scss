@@ -10,7 +10,8 @@
     white-space: nowrap;
     display: flex;
     flex-wrap: nowrap;
-    align-items: center;
+    align-self: stretch;
+    align-items: stretch;
   }
 }
 
@@ -21,9 +22,8 @@
   gap: 0.25rem;
   background: none;
   border: none;
-  padding: 1rem;
+  padding: 0 1rem;
   margin: 0;
-  height: max-content;
   font-family: inherit;
   font-size: 1rem;
   font-weight: var(--ax-font-weight-bold);
@@ -53,7 +53,8 @@
   }
 
   &:focus-visible {
-    box-shadow: inset var(--a-shadow-focus);
+    outline: 3px solid var(--ax-border-focus);
+    outline-offset: -3px;
   }
 
   &.active:before {

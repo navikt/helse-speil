@@ -1,9 +1,8 @@
 import React, { ReactElement } from 'react';
 import { useController } from 'react-hook-form';
 
-import { BodyShort, HelpText, Select, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, HelpText, Select, VStack } from '@navikt/ds-react';
 
-import styles from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndringForm.module.css';
 import { typeendringerAndreYtelser } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 
@@ -50,7 +49,7 @@ export function DagtypeSelect({
 
 function DagtypevelgerLabel({ erSelvstendig }: { erSelvstendig: boolean }) {
     return (
-        <span className={styles.dagtypelabel}>
+        <HStack as="span" align="center" className="[&_label]:leading-ax-large">
             Dagtype&nbsp;
             {!erSelvstendig && (
                 <HelpText title="Forklaring av dagtyper">
@@ -88,6 +87,6 @@ function DagtypevelgerLabel({ erSelvstendig }: { erSelvstendig: boolean }) {
                     </VStack>
                 </HelpText>
             )}
-        </span>
+        </HStack>
     );
 }

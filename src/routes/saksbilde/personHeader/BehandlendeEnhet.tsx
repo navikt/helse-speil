@@ -21,7 +21,7 @@ export const BehandlendeEnhet = (): ReactElement => {
     }
 
     if (isError || !enhet) {
-        return <BodyShort className="text-red-600">Ukjent enhet</BodyShort>;
+        return <BodyShort className="text-ax-text-danger-decoration">Ukjent enhet</BodyShort>;
     }
 
     return (

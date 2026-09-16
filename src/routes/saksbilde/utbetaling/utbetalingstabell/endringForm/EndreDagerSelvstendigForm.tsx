@@ -12,8 +12,6 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { alleTypeendringer, overstyringsdagtyperSelvstendig } from './endringFormUtils';
 
-import styles from './EndringForm.module.css';
-
 interface EndreDagerFormSelvstendigProps {
     markerteDager: Map<string, Utbetalingstabelldag>;
     onSubmitEndring: (endring: Partial<Utbetalingstabelldag>) => void;
@@ -47,7 +45,7 @@ export const EndreDagerSelvstendigForm = ({
     };
 
     return (
-        <div className={styles.EndringForm}>
+        <VStack gap="space-8" paddingInline="space-32" className="[&_label]:text-base [&_label]:font-normal">
             <BodyShort weight="semibold">
                 Fyll inn hva {markerteDager.size === 1 ? `den valgte dagen` : `de ${markerteDager.size} valgte dagene`}{' '}
                 skal endres til
@@ -88,6 +86,6 @@ export const EndreDagerSelvstendigForm = ({
                     </VStack>
                 </form>
             </FormProvider>
-        </div>
+        </VStack>
     );
 };

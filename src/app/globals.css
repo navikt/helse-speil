@@ -1,7 +1,19 @@
 @import 'tailwindcss';
+@import '@navikt/ds-tailwind/v4';
 @import '@navikt/ds-css' layer(components);
 
-@config '../../tailwind.config.ts';
+@source '../../src';
+
+/*
+ * Aksels v4-config legger font-størrelsene under --font-size-ax-*, men Tailwind v4 sitt
+ * namespace for font-size er --text-*. Uten disse tre slutter text-ax-medium,
+ * text-ax-large og text-ax-heading-xsmall å genereres.
+ */
+@theme {
+    --text-ax-medium: var(--ax-font-size-medium);
+    --text-ax-large: var(--ax-font-size-large);
+    --text-ax-heading-xsmall: var(--ax-font-size-heading-xsmall);
+}
 
 .saksbilde-grid {
     display: grid;
@@ -35,16 +47,6 @@
     --ax-font-size-large: 1rem;
     --speil-light-hover: var(--ax-bg-neutral-soft);
     --speil-total-min-width: 1400px;
-
-    /* overstyrer plassering av knapper i aksel-modal */
-    .navds-modal__footer {
-        flex-flow: row wrap;
-    }
-
-    .navds-modal__footer :nth-of-type(2) {
-        margin-left: 0;
-        margin-right: auto;
-    }
 }
 
 /* Sladding av sensitive data, f.eks. når man deler skjerm eller tar skjermbilder */

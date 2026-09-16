@@ -26,6 +26,7 @@ pnpm run generate-rest      # Regenerate REST types and React Query hooks via Or
 The app uses **Next.js 16 App Router**. Page layouts and routing live under `src/app/`, but the actual UI components for each route live under `src/routes/` (e.g., `src/routes/saksbilde/`, `src/routes/oversikt/`). App Router pages in `src/app/` are thin wrappers that render components from `src/routes/`.
 
 The main routes are:
+
 - `/` — Task overview (`src/routes/oversikt/`)
 - `/person/[personPseudoId]/*` — Case view ("saksbilde") with sub-routes for daily overview, eligibility criteria, sickness benefit basis, assessment criteria, and additional income
 
@@ -74,7 +75,7 @@ Form schemas use **Zod v4** (imported as `zod/v4`) with **react-hook-form** and 
 
 ### Styling
 
-Uses **Tailwind CSS v4** with NAV's design system (`@navikt/ds-react`, `@navikt/ds-css`, `@navikt/ds-tailwind`). Some components also use CSS Modules (`.module.css` / `.module.scss`). The `classnames` and `tailwind-merge` packages are available for composing class names.
+Uses **Tailwind CSS v4** with NAV's design system (`@navikt/ds-react`, `@navikt/ds-css`, `@navikt/ds-tailwind`). Aksel's design tokens are loaded as a v4 theme via `@import '@navikt/ds-tailwind/v4'` in `src/app/globals.css` — there is no `tailwind.config.ts`. Tokens are exposed as `ax-*` utilities (`bg-ax-bg-default`, `text-ax-text-danger`, `rounded-ax-radius-8`). Prefer `ax-*` utilities over Tailwind's default palette so light and dark theme stay in sync. Some components also use CSS Modules (`.module.css` / `.module.scss`). The `classnames` and `tailwind-merge` packages are available for composing class names.
 
 ### Code formatting
 
