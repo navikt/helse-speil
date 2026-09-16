@@ -32,5 +32,5 @@ export const useHarPorteføljestyringrolle = () => {
 };
 
 export const useHarGraderteAndreYtelserTilgang = () => {
-    return useErBrukerrolle(ApiBrukerrolle.GRADERTE_ANDRE_YTELSER) && false;
+    return useErBrukerrolle(ApiBrukerrolle.GRADERTE_ANDRE_YTELSER);
 };

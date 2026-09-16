@@ -14,6 +14,7 @@ export const browserEnvSchema = z.object({
     ]),
     NEXT_PUBLIC_ASSET_PREFIX: z.string().optional(),
     NEXT_PUBLIC_TELEMETRY_URL: z.string().optional(),
+    NEXT_PUBLIC_GRADERTE_ANDRE_YTELSER_ER_AKTIVERT: z.boolean(),
 });
 
 export type ServerEnv = z.infer<typeof serverEnvSchema>;
@@ -50,7 +51,9 @@ export const browserEnv = browserEnvSchema.parse({
     NEXT_PUBLIC_RUNTIME_ENV: process.env.NEXT_PUBLIC_RUNTIME_ENV,
     NEXT_PUBLIC_ASSET_PREFIX: process.env.NEXT_PUBLIC_ASSET_PREFIX,
     NEXT_PUBLIC_TELEMETRY_URL: process.env.NEXT_PUBLIC_TELEMETRY_URL,
-} satisfies Record<keyof PublicEnv, string | undefined>);
+    NEXT_PUBLIC_GRADERTE_ANDRE_YTELSER_ER_AKTIVERT:
+        process.env.NEXT_PUBLIC_GRADERTE_ANDRE_YTELSER_ER_AKTIVERT === 'true',
+} satisfies Record<keyof PublicEnv, string | boolean | undefined>);
 
 const getRawServerConfig = (): Partial<unknown> => {
     const backend = backendVariant();
