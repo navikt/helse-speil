@@ -37,6 +37,12 @@ const dialogmeldingFilters: Filter[] = [
         status: FilterStatus.OFF,
         column: DialogmeldingKolonne.FAGOMRADE,
     },
+    {
+        key: ApiFagomrade.UNNTAK_FRA_ARBEIDSGIVERANSVAR,
+        label: 'Unntak fra arbeidsgiveransvar',
+        status: FilterStatus.OFF,
+        column: DialogmeldingKolonne.FAGOMRADE,
+    },
     // Status
     {
         key: ApiDialogmeldingStatus.SENDT,
