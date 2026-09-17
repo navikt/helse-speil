@@ -55,7 +55,7 @@ export function DialogmeldingTable(): ReactElement {
                 toggleFilter={toggleFilter}
                 setMultipleFilters={setMultipleFilters}
             />
-            <div className="flex-1 overflow-auto text-ax-text-neutral [scrollbar-width:none]">
+            <div className="flex-1 [scrollbar-width:none] overflow-auto text-ax-text-neutral">
                 <div className="h-[calc(100%-50px)] w-full">
                     <Table
                         aria-label="Dialogmeldinger"

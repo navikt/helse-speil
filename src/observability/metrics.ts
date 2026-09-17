@@ -1,5 +1,6 @@
 import { nextleton } from 'nextleton';
-import prometheus from 'prom-client';
+
+import prometheus from '@prometheus-io/client';
 
 class Metrics {
     public authErrorCounter = new prometheus.Counter({

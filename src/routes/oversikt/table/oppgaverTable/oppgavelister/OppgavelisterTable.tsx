@@ -66,7 +66,7 @@ const Oppgavelisteinnhold = (): ReactElement => {
         <>
             <div
                 className={cn(
-                    'flex-1 overflow-auto p-0 text-ax-text-neutral [scrollbar-width:none]',
+                    'flex-1 scrollbar-none overflow-auto p-0 text-ax-text-neutral',
                     loading && '[&_tbody]:opacity-60 [&_tbody]:transition-opacity',
                 )}
             >

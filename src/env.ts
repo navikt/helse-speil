@@ -123,12 +123,7 @@ export function getServerEnv(): ServerEnv & PublicEnv {
     }
 }
 const backendVariant = ():
-    | 'mock'
-    | 'lokal'
-    | 'lokal-spesialist'
-    | 'lokal-sporhund'
-    | 'lokal-vilkarsproving'
-    | 'deployed' => {
+    'mock' | 'lokal' | 'lokal-spesialist' | 'lokal-sporhund' | 'lokal-vilkarsproving' | 'deployed' => {
     switch (browserEnv.NEXT_PUBLIC_RUNTIME_ENV) {
         case 'test':
         case 'mock':

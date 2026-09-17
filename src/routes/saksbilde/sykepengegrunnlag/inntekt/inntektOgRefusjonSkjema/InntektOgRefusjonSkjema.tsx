@@ -259,7 +259,7 @@ interface RefMedId extends CustomElement<FieldValues> {
 export const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): Skjemafeil[] =>
     Object.entries(errors)
         .map(([id, error]) => ({
-            id: (error?.ref as RefMedId)?.id ?? id,
+            id: (error as { ref?: RefMedId } | undefined)?.ref?.id ?? id,
             melding: error.message ?? id,
         }))
         .flat();

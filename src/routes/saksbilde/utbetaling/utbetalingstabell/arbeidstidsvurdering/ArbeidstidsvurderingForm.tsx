@@ -148,7 +148,7 @@ interface RefMedId extends CustomElement<FieldValues> {
 const formErrorsTilFeilliste = (errors: FieldErrors<ArbeidstidsvurderingFormFields>): Skjemafeil[] =>
     Object.entries(errors)
         .map(([id, error]) => ({
-            id: (error?.ref as RefMedId)?.id ?? id,
+            id: (error as { ref?: RefMedId } | undefined)?.ref?.id ?? id,
             melding:
                 error.message?.toString() ??
                 (Object.entries(error).length > 0 ? 'Du må gi en vurdering i alle periodene' : id),

@@ -11,7 +11,7 @@ engineStrict: true # Krever at alle pakker vi installerer skal ha støtte for no
 lockfile: true
 preferFrozenLockfile: true
 
-nodeVersion: 24.11.1
+nodeVersion: 24.21.0
 
 overrides:
   '@asyncapi/specs': 6.10.0
@@ -23,3 +23,15 @@ overrides:
   protobufjs: '>=8.0.1'
 minimumReleaseAgeExclude:
   - '@tanstack/eslint-plugin-query@5.103.1'
+  - '@envelop/core@5.6.1'
+  - '@envelop/instrumentation@1.0.1'
+  - '@envelop/types@5.2.2'
+  - '@graphql-yoga/logger@2.0.2'
+  - '@graphql-yoga/subscription@5.1.1'
+  - '@graphql-yoga/typed-event-target@3.0.3'
+  - '@tanstack/query-core@5.103.1'
+  - '@tanstack/react-query@5.103.1'
+  - framer-motion@13.4.0
+  - graphql-yoga@5.24.0
+  - jsdom@30.1.0
+  - motion@13.4.0

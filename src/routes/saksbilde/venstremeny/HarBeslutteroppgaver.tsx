@@ -40,26 +40,24 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
     const harTilkommenInntektEndring = endredeTilkomneInntektskilder.length > 0;
 
     const perioderTilKontroll = finnAlleInntektsforhold(person)
-        .map(
-            (inntektsforhold): PeriodeinformasjonInnslag => ({
-                inntektsforholdReferanse: tilReferanse(inntektsforhold),
-                perioder:
-                    inntektsforhold.behandlinger[0]?.perioder
-                        .filter((periode) => !periode.erForkastet)
-                        .filter(
-                            (periode) =>
-                                inntektsforhold.overstyringer
-                                    .filter((overstyring) => !overstyring.ferdigstilt)
-                                    .some((overstyring) => overstyring.vedtaksperiodeId === periode.vedtaksperiodeId) ||
-                                (periodeTilGodkjenning.id === periode.id && harTilkommenInntektEndring),
-                        )
-                        .map((periode) => ({
-                            id: periode.id,
-                            fom: periode.fom,
-                            tom: periode.tom,
-                        })) ?? [],
-            }),
-        )
+        .map((inntektsforhold): PeriodeinformasjonInnslag => ({
+            inntektsforholdReferanse: tilReferanse(inntektsforhold),
+            perioder:
+                inntektsforhold.behandlinger[0]?.perioder
+                    .filter((periode) => !periode.erForkastet)
+                    .filter(
+                        (periode) =>
+                            inntektsforhold.overstyringer
+                                .filter((overstyring) => !overstyring.ferdigstilt)
+                                .some((overstyring) => overstyring.vedtaksperiodeId === periode.vedtaksperiodeId) ||
+                            (periodeTilGodkjenning.id === periode.id && harTilkommenInntektEndring),
+                    )
+                    .map((periode) => ({
+                        id: periode.id,
+                        fom: periode.fom,
+                        tom: periode.tom,
+                    })) ?? [],
+        }))
         .filter((overstyring) => overstyring.perioder.length > 0);
 
     if (perioderTilKontroll.length === 0 && !harTilkommenInntektEndring) return null;

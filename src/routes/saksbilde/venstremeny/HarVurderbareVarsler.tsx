@@ -19,20 +19,18 @@ export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): Rea
     if (!harPeriodeTilGodkjenning) return null;
 
     const inntektsforholdMedVurderbareVarsler = finnAlleInntektsforhold(person)
-        .map(
-            (inntektsforhold): PeriodeinformasjonInnslag => ({
-                inntektsforholdReferanse: tilReferanse(inntektsforhold),
-                perioder: inntektsforhold.behandlinger
-                    .flatMap((behandling) =>
-                        behandling.perioder.filter((periode) =>
-                            periode.varsler.some(
-                                (varsel) => varsel.vurdering === null || varsel.vurdering?.status === 'AKTIV',
-                            ),
+        .map((inntektsforhold): PeriodeinformasjonInnslag => ({
+            inntektsforholdReferanse: tilReferanse(inntektsforhold),
+            perioder: inntektsforhold.behandlinger
+                .flatMap((behandling) =>
+                    behandling.perioder.filter((periode) =>
+                        periode.varsler.some(
+                            (varsel) => varsel.vurdering === null || varsel.vurdering?.status === 'AKTIV',
                         ),
-                    )
-                    .map((periode) => ({ id: periode.id, fom: periode.fom, tom: periode.tom })),
-            }),
-        )
+                    ),
+                )
+                .map((periode) => ({ id: periode.id, fom: periode.fom, tom: periode.tom })),
+        }))
         .filter((it) => it.perioder.length > 0);
 
     if (inntektsforholdMedVurderbareVarsler.length === 0) return null;

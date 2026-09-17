@@ -1,4 +1,4 @@
-import prometheus from 'prom-client';
+import prometheus from '@prometheus-io/client';
 
 prometheus.collectDefaultMetrics();
 

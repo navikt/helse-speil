@@ -11,11 +11,7 @@ export type TimelineZoomLevel = {
 };
 
 export type TimelinePeriod = (
-    | GhostPeriodeFragment
-    | BeregnetPeriodeFragment
-    | UberegnetPeriodeFragment
-    | InfotrygdPeriod
-    | DatePeriod
+    GhostPeriodeFragment | BeregnetPeriodeFragment | UberegnetPeriodeFragment | InfotrygdPeriod | DatePeriod
 ) & {
     isFirst?: boolean;
     hasLeftNeighbour?: boolean;
