@@ -21,3 +21,5 @@ overrides:
   minimatch@9: '>=9.0.7'
   flatted: '>=3.3.4'
   protobufjs: '>=8.0.1'
+minimumReleaseAgeExclude:
+  - '@tanstack/eslint-plugin-query@5.103.1'
