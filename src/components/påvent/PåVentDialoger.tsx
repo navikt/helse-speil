@@ -5,7 +5,6 @@ import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { BodyShort, Button, Checkbox, Dialog, ErrorMessage } from '@navikt/ds-react';
 
 import { PåVentSkjema, påVentSkjema } from '@/form-schemas/påVentSkjema';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useArsaker } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePutPåVent } from '@io/rest/generated/oppgaver/oppgaver';
@@ -176,7 +175,7 @@ const PåVentDialogInnhold = ({
         <Dialog.Popup width="large">
             <Dialog.Header>
                 <Dialog.Title>{tittel}</Dialog.Title>
-                {søkernavn && <AnonymizableText size="small">{`Søker: ${søkernavn}`}</AnonymizableText>}
+                {søkernavn && <BodyShort data-sensitive size="small">{`Søker: ${søkernavn}`}</BodyShort>}
             </Dialog.Header>
             <Dialog.Body>
                 <FormProvider {...form}>

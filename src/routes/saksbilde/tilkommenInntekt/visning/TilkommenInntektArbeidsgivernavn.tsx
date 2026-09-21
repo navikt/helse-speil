@@ -4,7 +4,6 @@ import { SackKronerIcon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, HStack } from '@navikt/ds-react';
 
 import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 
 export const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { organisasjonsnummer: string }) => (
     <HStack align="center" gap="space-4">
@@ -12,7 +11,9 @@ export const TilkommenInntektArbeidsgivernavn = ({ organisasjonsnummer }: { orga
         <Organisasjonsnavn maxWidth="225px" organisasjonsnummer={organisasjonsnummer} weight="semibold" />
         <HStack>
             <BodyShort weight="semibold">(</BodyShort>
-            <AnonymizableTextWithEllipsis weight="semibold">{organisasjonsnummer}</AnonymizableTextWithEllipsis>
+            <BodyShort truncate data-sensitive weight="semibold">
+                {organisasjonsnummer}
+            </BodyShort>
             <CopyButton
                 copyText={organisasjonsnummer}
                 size="xsmall"

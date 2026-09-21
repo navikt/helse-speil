@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Box, ReadMore, Table } from '@navikt/ds-react';
 
 import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { ApiArbeidsforhold, ApiArbeidsforholdtype } from '@io/rest/generated/vilkarsproving.schemas';
 import { somNorskDato } from '@utils/date';
 
@@ -47,7 +46,9 @@ export const ArbeidsforholdIGrunnlaget = ({ arbeidsforhold }: ArbeidsforholdIGru
                                     />
                                 </Table.DataCell>
                                 <Table.DataCell>
-                                    <AnonymizableText size="small">{it.organisasjonsnummer}</AnonymizableText>
+                                    <BodyShort data-sensitive size="small">
+                                        {it.organisasjonsnummer}
+                                    </BodyShort>
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {`${somNorskDato(it.fom) ?? 'ukjent'} – ${somNorskDato(it.tom ?? undefined) ?? 'løpende'}`}

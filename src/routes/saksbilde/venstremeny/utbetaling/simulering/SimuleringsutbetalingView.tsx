@@ -14,8 +14,8 @@ interface SimuleringsutbetalingViewProps {
 export const SimuleringsutbetalingView = ({ utbetaling }: SimuleringsutbetalingViewProps): ReactElement => {
     return (
         <>
-            <SimuleringsperiodeValue label="Utbetales til ID" value={utbetaling.mottakerId} />
-            <SimuleringsperiodeValue label="Utbetales til navn" value={utbetaling.mottakerNavn} />
+            <SimuleringsperiodeValue label="Utbetales til ID" value={utbetaling.mottakerId} isSensitive />
+            <SimuleringsperiodeValue label="Utbetales til navn" value={utbetaling.mottakerNavn} isSensitive />
             <SimuleringsperiodeValue label="Forfall" value={getFormattedDateString(utbetaling.forfall)} />
             <SimuleringsperiodeValue label="Feilkonto" value={utbetaling.feilkonto ? 'Ja' : 'Nei'} />
             {utbetaling.detaljer.map((detalj, i) => (
@@ -26,7 +26,7 @@ export const SimuleringsutbetalingView = ({ utbetaling }: SimuleringsutbetalingV
                     <SimuleringsperiodeValue label="Antall dager" value={String(detalj.antallSats)} />
                     <SimuleringsperiodeValue label="Beløp" value={detalj.belop} />
                     <SimuleringsperiodeValue label="Tilbakeføring" value={detalj.tilbakeforing ? 'Ja' : 'Nei'} />
-                    <SimuleringsperiodeValue label="Konto" value={detalj.konto} />
+                    <SimuleringsperiodeValue label="Konto" value={detalj.konto} isSensitive />
                     <SimuleringsperiodeValue label="Klassekode" value={detalj.klassekode} />
                     <SimuleringsperiodeValue label="Klassekodebeskrivelse" value={detalj.klassekodebeskrivelse} />
                     <SimuleringsperiodeValue label="Uføregrad" value={`${detalj.uforegrad} %`} />
@@ -35,6 +35,7 @@ export const SimuleringsutbetalingView = ({ utbetaling }: SimuleringsutbetalingV
                         className={styles.SisteDetaljerrad}
                         label="Refunderes orgnummer"
                         value={detalj.refunderesOrgNr}
+                        isSensitive
                     />
                 </React.Fragment>
             ))}

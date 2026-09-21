@@ -2,7 +2,6 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { BodyShort, Dialog, HStack, Heading, VStack } from '@navikt/ds-react';
 
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { ApiOppgaveProjeksjonPåVentInfo, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
@@ -79,7 +78,7 @@ function Innhold({ tittel, children, anonymize = false }: PropsWithChildren<Innh
             <Heading level="2" size="xsmall">
                 {tittel}
             </Heading>
-            {anonymize ? <AnonymizableText>{children}</AnonymizableText> : <BodyShort>{children}</BodyShort>}
+            {anonymize ? <BodyShort data-sensitive>{children}</BodyShort> : <BodyShort>{children}</BodyShort>}
         </VStack>
     );
 }

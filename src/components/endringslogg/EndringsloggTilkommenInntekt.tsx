@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Dialog, Table } from '@navikt/ds-react';
 
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import {
     ApiTilkommenInntekt,
     ApiTilkommenInntektEndretEvent,
@@ -100,7 +99,9 @@ function OpprettetEventCeller({ event }: { event: ApiTilkommenInntektOpprettetEv
     return (
         <>
             <Table.DataCell>
-                <AnonymizableTextWithEllipsis>{event.organisasjonsnummer}</AnonymizableTextWithEllipsis>
+                <BodyShort truncate data-sensitive>
+                    {event.organisasjonsnummer}
+                </BodyShort>
             </Table.DataCell>
             <Table.DataCell>
                 <BodyShort>
@@ -129,12 +130,12 @@ function EndretEllerGjenopprettetEventCeller({
             <Table.DataCell>
                 {event.endringer.organisasjonsnummer && (
                     <>
-                        <AnonymizableTextWithEllipsis className="line-through">
+                        <BodyShort truncate data-sensitive className="line-through">
                             {event.endringer.organisasjonsnummer.fra}
-                        </AnonymizableTextWithEllipsis>
-                        <AnonymizableTextWithEllipsis>
+                        </BodyShort>
+                        <BodyShort truncate data-sensitive>
                             {event.endringer.organisasjonsnummer.til}
-                        </AnonymizableTextWithEllipsis>
+                        </BodyShort>
                     </>
                 )}
             </Table.DataCell>

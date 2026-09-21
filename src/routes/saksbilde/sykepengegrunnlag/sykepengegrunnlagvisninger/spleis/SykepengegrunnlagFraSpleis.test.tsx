@@ -5,7 +5,6 @@ import { Mock, vi } from 'vitest';
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
-import { useIsAnonymous } from '@state/anonymization';
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
@@ -23,7 +22,6 @@ vi.mock('@external/sanity');
 vi.mock('@state/periode');
 vi.mock('@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag');
 vi.mock('@state/toggles');
-vi.mock('@state/anonymization');
 vi.mock('@state/person');
 vi.mock('@hooks/useEndringerForPeriode');
 
@@ -63,7 +61,6 @@ describe('SykepengegrunnlagFraSpleis', () => {
             skjønnsfastsettingsendringer: [],
         });
         (useVilkårsgrunnlag as Mock).mockReturnValue(vilkårsgrunnlag);
-        (useIsAnonymous as Mock).mockReturnValue(false);
 
         renderWithProvider(
             <SykepengegrunnlagFraSpleis

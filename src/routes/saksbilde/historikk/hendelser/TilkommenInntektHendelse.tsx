@@ -3,7 +3,6 @@ import React from 'react';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import {
     ApiTilkommenInntektEndretEvent,
     ApiTilkommenInntektEvent,
@@ -24,7 +23,9 @@ export const TilkommenInntektOpprettetHendelse = ({ event }: { event: ApiTilkomm
     <>
         <VStack>
             <BodyShort weight="semibold">Organisasjonsnummer</BodyShort>
-            <AnonymizableTextWithEllipsis>{event.organisasjonsnummer}</AnonymizableTextWithEllipsis>
+            <BodyShort truncate data-sensitive>
+                {event.organisasjonsnummer}
+            </BodyShort>
         </VStack>
         <VStack>
             <BodyShort weight="semibold">Periode f.o.m. - t.o.m.</BodyShort>
@@ -58,10 +59,12 @@ export const TilkommenInntektEndretEllerGjenopprettetHendelse = ({
         {event.endringer.organisasjonsnummer && (
             <VStack>
                 <BodyShort weight="semibold">Organisasjonsnummer</BodyShort>
-                <AnonymizableTextWithEllipsis className={styles.linethrough}>
+                <BodyShort truncate data-sensitive className={styles.linethrough}>
                     {event.endringer.organisasjonsnummer.fra}
-                </AnonymizableTextWithEllipsis>
-                <AnonymizableTextWithEllipsis>{event.endringer.organisasjonsnummer.til}</AnonymizableTextWithEllipsis>
+                </BodyShort>
+                <BodyShort truncate data-sensitive>
+                    {event.endringer.organisasjonsnummer.til}
+                </BodyShort>
             </VStack>
         )}
         {event.endringer.periode && (

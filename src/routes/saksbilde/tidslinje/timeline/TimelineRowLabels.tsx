@@ -54,15 +54,7 @@ const TimelineRowLabel = ({ label }: { label: RowLabel }) => {
                     {henterNavn ? (
                         <Skeleton width="8rem" />
                     ) : (
-                        <BodyShort
-                            data-sensitive
-                            className={cn(
-                                'max-w-[168px] leading-6 group-hover:underline',
-                                label.anonymized &&
-                                    'pointer-events-none rounded bg-ax-bg-neutral-moderate text-transparent select-none',
-                            )}
-                            truncate
-                        >
+                        <BodyShort data-sensitive className="max-w-[168px] leading-6 group-hover:underline" truncate>
                             {navn}
                         </BodyShort>
                     )}

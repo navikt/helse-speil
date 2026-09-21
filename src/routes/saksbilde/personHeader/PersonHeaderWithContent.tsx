@@ -4,6 +4,7 @@ import React, { ReactElement } from 'react';
 import { ChatIcon } from '@navikt/aksel-icons';
 import { Button, HStack } from '@navikt/ds-react';
 
+import { useIsAnonymous } from '@components/anonymization/context';
 import { useHarDialogmeldingrolle } from '@hooks/brukerrolleHooks';
 import { useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import { ApiPerson, ApiPersonKjønn } from '@io/rest/generated/spesialist.schemas';
@@ -23,11 +24,11 @@ import { UtlandTag } from './UtlandTag';
 import { VergemålTag } from './VergemålTag';
 
 interface PersonHeaderWithContentProps {
-    isAnonymous: boolean;
     person: ApiPerson;
 }
 
-export function PersonHeaderWithContent({ isAnonymous, person }: PersonHeaderWithContentProps): ReactElement {
+export function PersonHeaderWithContent({ person }: PersonHeaderWithContentProps): ReactElement {
+    const isAnonymous = useIsAnonymous();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data, isPending } = useGetSaksbehandlerStans(personPseudoId);
     const router = useRouter();

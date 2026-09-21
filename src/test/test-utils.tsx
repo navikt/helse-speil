@@ -85,5 +85,5 @@ const customScreen = {
     ...screen,
 };
 
-export * from '@testing-library/react';
+export { act, waitFor, within } from '@testing-library/react';
 export { customRender as render, customRenderHook as renderHook, customScreen as screen };

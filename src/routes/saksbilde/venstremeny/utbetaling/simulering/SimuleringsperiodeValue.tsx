@@ -10,9 +10,15 @@ import styles from './SimuleringsperiodeView.module.css';
 interface SimuleringsperiodeValueProps extends React.HTMLAttributes<HTMLElement> {
     label: string;
     value: string | number;
+    isSensitive?: boolean;
 }
 
-export const SimuleringsperiodeValue = ({ label, value, ...props }: SimuleringsperiodeValueProps): ReactElement => {
+export const SimuleringsperiodeValue = ({
+    label,
+    value,
+    isSensitive,
+    ...props
+}: SimuleringsperiodeValueProps): ReactElement => {
     return (
         <>
             <BodyShort size="small" {...props}>
@@ -20,6 +26,7 @@ export const SimuleringsperiodeValue = ({ label, value, ...props }: Simuleringsp
             </BodyShort>
             <BodyShort
                 size="small"
+                data-sensitive={isSensitive || undefined}
                 className={cn(styles.Bold, typeof value === 'number' && value < 0 && styles.NegativtBeløp)}
             >
                 {typeof value === 'number' ? somPenger(value) : value}

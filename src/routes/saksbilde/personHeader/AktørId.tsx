@@ -1,8 +1,6 @@
 import React from 'react';
 
-import { CopyButton, HStack, Tooltip } from '@navikt/ds-react';
-
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
+import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 interface AktørIdProps {
     aktørId: string;
@@ -10,7 +8,7 @@ interface AktørIdProps {
 
 export const AktørId = ({ aktørId }: AktørIdProps) => (
     <HStack gap="space-4">
-        <AnonymizableText>Aktør-ID: {aktørId}</AnonymizableText>
+        <BodyShort data-sensitive>Aktør-ID: {aktørId}</BodyShort>
         <Tooltip content="Kopier aktør-ID" keys={['alt', 'a']}>
             <CopyButton copyText={aktørId} size="xsmall" />
         </Tooltip>

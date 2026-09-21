@@ -4,7 +4,6 @@ import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Inntektskilde } from '@io/graphql';
 import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
@@ -20,7 +19,7 @@ export const InntektOgRefusjonHeader = ({ arbeidsgiverReferanse, kilde }: Inntek
         <Inntektsforholdnavn inntektsforholdReferanse={arbeidsgiverReferanse} maxWidth="190px" />
         <HStack align="center">
             <BodyShort>(</BodyShort>
-            <AnonymizableText>{arbeidsgiverReferanse.organisasjonsnummer}</AnonymizableText>
+            <BodyShort data-sensitive>{arbeidsgiverReferanse.organisasjonsnummer}</BodyShort>
             <Tooltip content="Kopier virksomhetsnummer">
                 <CopyButton copyText={arbeidsgiverReferanse.organisasjonsnummer} size="small" />
             </Tooltip>

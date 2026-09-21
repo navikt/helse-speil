@@ -6,7 +6,6 @@ import { BodyShort, HStack, Skeleton } from '@navikt/ds-react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiPersonKjønn } from '@io/rest/generated/spesialist.schemas';
-import { useIsAnonymous } from '@state/anonymization';
 import { cn } from '@utils/tw';
 
 import { GenderIcon } from './GenderIcon';
@@ -38,7 +37,6 @@ export function PersonHeaderFrame({ children, className }: PropsWithChildren<{ c
 }
 
 function PersonHeaderContainer(): ReactElement | null {
-    const isAnonymous = useIsAnonymous();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { isPending, isError, data: person } = useGetPerson(personPseudoId);
 
@@ -54,7 +52,7 @@ function PersonHeaderContainer(): ReactElement | null {
         return null;
     }
 
-    return <PersonHeaderWithContent isAnonymous={isAnonymous} person={person} />;
+    return <PersonHeaderWithContent person={person} />;
 }
 
 function PersonHeaderSkeleton(): ReactElement {

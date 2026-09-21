@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { ApiPersonAdressebeskyttelse } from '@io/rest/generated/spesialist.schemas';
 
 interface AdressebeskyttelseTagProps {
@@ -14,10 +13,10 @@ export const AdressebeskyttelseTag = ({ adressebeskyttelse }: Adressebeskyttelse
         return null;
     }
     return (
-        <AnonymizableContainer>
+        <div data-sensitive>
             <Tag variant="error" size="small">
                 Fortrolig adresse
             </Tag>
-        </AnonymizableContainer>
+        </div>
     );
 };

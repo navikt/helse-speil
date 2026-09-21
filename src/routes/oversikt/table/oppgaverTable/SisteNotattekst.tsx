@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Popover, PopoverProps } from '@navikt/ds-react';
 
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { ApiOppgaveProjeksjonPåVentInfo } from '@io/rest/generated/spesialist.schemas';
 import { usePopoverAnchor } from '@saksbilde/tidslinje/hooks/usePopoverAnchor';
 
@@ -19,9 +18,9 @@ export const SisteNotattekst = ({ påVentInfo }: SisteNotattekstProps): ReactEle
 
     return (
         <>
-            <AnonymizableText onMouseOver={onMouseOver} onMouseOut={onMouseOut} className={styles.SisteNotat}>
+            <BodyShort data-sensitive onMouseOver={onMouseOver} onMouseOut={onMouseOut} className={styles.SisteNotat}>
                 {preview}
-            </AnonymizableText>
+            </BodyShort>
             <NotattekstPopover tekst={påVentInfo.tekst} årsaker={påVentInfo.arsaker} {...popoverProps} />
         </>
     );
@@ -40,14 +39,16 @@ const NotattekstPopover = ({ tekst, årsaker, ...popoverProps }: NotattekstPopov
                     <>
                         <BodyShort weight="semibold">Årsaker</BodyShort>
                         {årsaker.map((årsak) => (
-                            <AnonymizableText key={årsak}>{årsak}</AnonymizableText>
+                            <BodyShort data-sensitive key={årsak}>
+                                {årsak}
+                            </BodyShort>
                         ))}
                     </>
                 )}
                 {!!tekst && (
                     <>
                         <BodyShort weight="semibold">Notat</BodyShort>
-                        <AnonymizableText>{tekst}</AnonymizableText>
+                        <BodyShort data-sensitive>{tekst}</BodyShort>
                     </>
                 )}
             </Popover.Content>

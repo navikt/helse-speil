@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { Alert, BodyShort, HStack, Link } from '@navikt/ds-react';
 
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { getFormattedFødselsnummer } from '@saksbilde/personHeader/Fødselsnummer';
 import { useFetchPersonQuery } from '@state/person';
 
@@ -21,7 +20,7 @@ export function VarselOmFlerFødselsnumre(): ReactElement | null {
                 {andreFødselsnumre.map((value, index) => (
                     <HStack key={index}>
                         <Link as={NextLink} key={value.fodselsnummer} href={`/person/${value.personPseudoId}`}>
-                            <AnonymizableText>{getFormattedFødselsnummer(value.fodselsnummer)}</AnonymizableText>
+                            <BodyShort data-sensitive>{getFormattedFødselsnummer(value.fodselsnummer)}</BodyShort>
                         </Link>
                     </HStack>
                 ))}

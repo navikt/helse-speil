@@ -14,7 +14,6 @@ export interface TimelineRowProps extends PropsWithChildren {
     label: string;
     icon: ReactElement;
     copyLabelButton?: boolean;
-    anonymized?: boolean;
     organisasjonsnummer?: string;
 }
 

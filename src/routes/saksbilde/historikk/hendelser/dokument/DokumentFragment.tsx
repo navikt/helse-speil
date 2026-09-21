@@ -2,8 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort } from '@navikt/ds-react';
 
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
-
 interface EnBlokkProps extends React.HTMLAttributes<HTMLDivElement> {
     overskrift: string;
 }
@@ -21,7 +19,7 @@ export const DokumentFragmentAnonymisert = ({ overskrift, children }: EnBlokkPro
     return (
         <>
             <BodyShort weight="semibold">{overskrift}</BodyShort>
-            <AnonymizableText>{children}</AnonymizableText>
+            <BodyShort data-sensitive>{children}</BodyShort>
         </>
     );
 };

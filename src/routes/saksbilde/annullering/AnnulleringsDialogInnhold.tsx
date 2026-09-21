@@ -20,7 +20,6 @@ import { ListItem } from '@navikt/ds-react/List';
 
 import { AnnulleringSkjema, annulleringSkjema } from '@/form-schemas/annulleringSkjema';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { Arsak, useArsaker } from '@external/sanity';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -224,9 +223,9 @@ function Annulleringsinformasjon({
                     weight="semibold"
                 />
                 {inntektsforholdReferanse.type === 'Arbeidsgiver' && (
-                    <AnonymizableText weight="semibold">
+                    <BodyShort data-sensitive weight="semibold">
                         {inntektsforholdReferanse.organisasjonsnummer}
-                    </AnonymizableText>
+                    </BodyShort>
                 )}
             </HStack>
             <BodyShort>Utbetalingene for følgende perioder annulleres</BodyShort>

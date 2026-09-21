@@ -3,13 +3,9 @@ import React from 'react';
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { BodyShort, BodyShortProps, CopyButton, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
-import { useIsAnonymous } from '@state/anonymization';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName } from '@utils/locale';
-
-import styles from './Inntektsforholdnavn.module.css';
 
 export const Inntektsforholdnavn = ({
     inntektsforholdReferanse,
@@ -59,7 +55,9 @@ export const Organisasjonsnavn = ({
     ) : navn === undefined ? (
         <Tooltip content="Klarte ikke finne navn på organisasjonen i enhetsregisteret">
             <HStack align="center">
-                <AnonymizableTextWithEllipsis {...bodyShortProps}>{organisasjonsnummer}</AnonymizableTextWithEllipsis>
+                <BodyShort truncate data-sensitive {...bodyShortProps}>
+                    {organisasjonsnummer}
+                </BodyShort>
                 <ExclamationmarkTriangleIcon color="red" />
             </HStack>
         </Tooltip>
@@ -116,21 +114,6 @@ const Arbeidsgivernavn = ({
     );
 };
 
-function tooltipInnhold(
-    isAnonymous: boolean,
-    navn: string,
-    organisasjonsnummer: string,
-    visOrganisasjonsnummerITooltip: boolean,
-) {
-    if (isAnonymous) {
-        return 'Arbeidsgiver';
-    } else if (visOrganisasjonsnummerITooltip) {
-        return `${navn} (${organisasjonsnummer})`;
-    } else {
-        return navn;
-    }
-}
-
 const OrganisasonsnavnKjent = ({
     navn,
     maxWidth,
@@ -144,24 +127,23 @@ const OrganisasonsnavnKjent = ({
     showCopyButton?: boolean;
     organisasjonsnummer: string;
     visOrganisasjonsnummerITooltip: boolean;
-} & Omit<BodyShortProps, 'children'>) => {
-    const isAnonymous = useIsAnonymous();
-    return (
-        <Tooltip content={tooltipInnhold(isAnonymous, navn, organisasjonsnummer, visOrganisasjonsnummerITooltip)}>
-            <HStack gap="space-8" maxWidth={maxWidth} wrap={false} className={styles.anonymisert}>
-                <AnonymizableTextWithEllipsis {...bodyShortProps}>{navn}</AnonymizableTextWithEllipsis>
-                {showCopyButton && (
-                    <CopyButton
-                        copyText={navn}
-                        size="xsmall"
-                        title="Kopier arbeidsgivernavn"
-                        onClick={(event) => event.stopPropagation()}
-                    />
-                )}
-            </HStack>
+} & Omit<BodyShortProps, 'children'>) => (
+    <HStack gap="space-8" maxWidth={maxWidth} wrap={false}>
+        <Tooltip content={visOrganisasjonsnummerITooltip ? `${navn} (${organisasjonsnummer})` : navn}>
+            <BodyShort truncate data-sensitive {...bodyShortProps}>
+                {navn}
+            </BodyShort>
         </Tooltip>
-    );
-};
+        {showCopyButton && (
+            <CopyButton
+                copyText={navn}
+                size="xsmall"
+                title="Kopier arbeidsgivernavn"
+                onClick={(event) => event.stopPropagation()}
+            />
+        )}
+    </HStack>
+);
 
 const SelvstendigNæringsdrivendeNavn = ({
     maxWidth,

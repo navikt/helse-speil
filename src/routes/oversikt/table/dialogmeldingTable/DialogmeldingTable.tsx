@@ -5,7 +5,6 @@ import React, { ReactElement, useState } from 'react';
 import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, Tooltip, VStack } from '@navikt/ds-react';
 
 import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingOppgave, ApiDialogmeldingStatus, ApiNavn } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingBodySkeleton } from '@oversikt/table/dialogmeldingTable/DialogmeldingBodySkeleton';
@@ -107,15 +106,15 @@ export function DialogmeldingTable(): ReactElement {
                                         <Table.DataCell>{fagomradeLabels[oppgave.fagomrade]}</Table.DataCell>
                                         <Table.DataCell>
                                             <span className="block w-120 truncate">
-                                                <AnonymizableTextWithEllipsis style={{ width: 200 }}>
+                                                <BodyShort truncate data-sensitive style={{ width: 200 }}>
                                                     {formatSøkernavn(oppgave.soker.navn)}
-                                                </AnonymizableTextWithEllipsis>
+                                                </BodyShort>
                                             </span>
                                         </Table.DataCell>
                                         <Table.DataCell>
-                                            <AnonymizableTextWithEllipsis>
+                                            <BodyShort truncate data-sensitive>
                                                 {getFormattedDateString(oppgave.soker.fodselsdato)}
-                                            </AnonymizableTextWithEllipsis>
+                                            </BodyShort>
                                         </Table.DataCell>
                                         <Table.DataCell
                                             className={cn({

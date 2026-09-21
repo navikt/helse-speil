@@ -49,25 +49,20 @@
     --speil-total-min-width: 1400px;
 }
 
-/* Sladding av sensitive data, f.eks. når man deler skjerm eller tar skjermbilder */
-:root {
-    --anonymous-background: var(--ax-neutral-300);
-    --anonymous-color: var(--anonymous-background);
-    --anonymous-border-radius: 0.25rem;
-    --anonymous-opacity: 0;
-    --anonymous-user-select: none;
+/* Sladding av sensitive data, f.eks. når man deler skjerm eller tar skjermbilder. */
+.anonymized :where([data-sensitive]) {
+    background-color: var(--ax-neutral-300);
+    color: transparent;
+    border-radius: 0.25rem;
+    user-select: none;
+    pointer-events: none;
+    width: fit-content;
+    height: fit-content;
+}
 
-    --visible-color: unset;
-    --visible-background: unset;
-    --visible-border-radius: unset;
-    --visible-opacity: 1;
-    --visible-user-select: unset;
-
-    --anonymizable-background: unset;
-    --anonymizable-color: unset;
-    --anonymizable-border-radius: unset;
-    --anonymizable-opacity: 1;
-    --anonymizable-user-select: unset;
+.anonymized :where([data-sensitive]) * {
+    opacity: 0;
+    user-select: none;
 }
 
 [data-color='gammalost'] {

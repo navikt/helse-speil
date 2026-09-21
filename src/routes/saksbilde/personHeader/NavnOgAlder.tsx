@@ -1,9 +1,8 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { CopyButton, HStack, Tooltip } from '@navikt/ds-react';
+import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
-import { AnonymizableBold } from '@components/anonymizable/AnonymizableBold';
 import { ApiPerson } from '@io/rest/generated/spesialist.schemas';
 import { capitalizeName } from '@utils/locale';
 
@@ -36,9 +35,9 @@ export const NavnOgAlder = ({
 
     return (
         <HStack gap="space-4">
-            <AnonymizableBold>
+            <BodyShort weight="semibold" data-sensitive>
                 {formattedName} {formattedAge}
-            </AnonymizableBold>
+            </BodyShort>
             <Tooltip content="Kopier navn">
                 <CopyButton copyText={formattedName} size="xsmall" />
             </Tooltip>

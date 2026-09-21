@@ -7,6 +7,7 @@ import { Table } from '@navikt/ds-react';
 import type { ApolloLink, InMemoryCache } from '@apollo/client';
 import { MockedProvider, type MockedResponse } from '@apollo/client/testing';
 import { BrukerContext } from '@auth/brukerContext';
+import { AnonymizationProvider } from '@components/anonymization/context';
 
 interface JotaiProps {
     atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
@@ -43,7 +44,9 @@ export const JotaiWrapper = ({ children, atomValues }: PropsWithChildren<JotaiPr
             }}
         >
             <Provider>
-                <HydrateAtoms atomValues={atomValues}>{children}</HydrateAtoms>
+                <AnonymizationProvider>
+                    <HydrateAtoms atomValues={atomValues}>{children}</HydrateAtoms>
+                </AnonymizationProvider>
             </Provider>
         </BrukerContext.Provider>
     );

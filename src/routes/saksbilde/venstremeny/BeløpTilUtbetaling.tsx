@@ -4,7 +4,6 @@ import React from 'react';
 import { BodyShort, HStack, Spacer, VStack } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
-import { AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
 import { Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
@@ -69,9 +68,9 @@ export const BeløpTilUtbetaling = ({
             )}
             <HStack align="center" gap="space-16" wrap={false} className="[&>svg]:w-4">
                 <SykmeldtikonMedTooltip />
-                <AnonymizableTextWithEllipsis>
+                <BodyShort truncate data-sensitive>
                     {person && capitalizeName(getFormattedName(person))}
-                </AnonymizableTextWithEllipsis>
+                </BodyShort>
                 <Spacer />
                 <BodyShort className="whitespace-nowrap">{somPenger(periodePersonNettoBeløp)}</BodyShort>
             </HStack>

@@ -31,7 +31,6 @@ import { TimelinePeriod, TimelineVariant } from '@saksbilde/tidslinje/timeline/p
 import { MaksdatoPin } from '@saksbilde/tidslinje/timeline/pin/pins/MaksdatoPin';
 import { TimelineRow } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
 import { TimelineZoom, ZoomLevel } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
-import { useIsAnonymous } from '@state/anonymization';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithLocalStorage } from '@state/jotai';
 import { useSetActivePeriodId } from '@state/periode';
@@ -58,7 +57,6 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
     const pathname = usePathname();
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const isAnonymous = useIsAnonymous();
     const setActivePeriodId = useSetActivePeriodId(person);
     const { data: infotrygdperioder, isLoading: infotrygdperioderLoading } =
         useGetInfotrygdperioderForPerson(personPseudoId);
@@ -88,7 +86,6 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                         label={rad.navn}
                         icon={rad.icon}
                         copyLabelButton={rad.navn !== 'Selvstendig næring'}
-                        anonymized={isAnonymous}
                         organisasjonsnummer={rad.organisasjonsnummer}
                     >
                         {rad.tidslinjeElementer.map((element) => {
@@ -130,7 +127,6 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                         label={rad.navn}
                         icon={rad.icon}
                         copyLabelButton
-                        anonymized={isAnonymous}
                         organisasjonsnummer={rad.organisasjonsnummer}
                     >
                         {rad.tidslinjeElementer.map((element) => (
@@ -156,7 +152,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                     </TimelineRow>
                 ))}
                 {andreYtelserRader.map((rad) => (
-                    <TimelineRow key={rad.id} label={rad.navn} icon={rad.icon} anonymized={isAnonymous}>
+                    <TimelineRow key={rad.id} label={rad.navn} icon={rad.icon}>
                         {rad.tidslinjeElementer.map((element) => (
                             <TimelinePeriod
                                 key={element.fom + element.tom}

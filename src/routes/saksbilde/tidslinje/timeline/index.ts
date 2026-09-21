@@ -31,7 +31,6 @@ export type RowLabel = {
     rowIndex: number;
     generationLevels: number;
     copyLabelButton: boolean;
-    anonymized: boolean;
     organisasjonsnummer?: string;
 };
 
@@ -71,7 +70,6 @@ export function useParsedRows(children: ReactNode): ParsedRowsResult {
             rowIndex,
             generationLevels: row.generasjonPeriodsByLevel?.size ?? 0,
             copyLabelButton: row.copyLabelButton,
-            anonymized: row.anonymized,
             organisasjonsnummer: row.organisasjonsnummer,
         };
     });
@@ -89,7 +87,6 @@ export type ParsedRow = {
     periods: Period[];
     generasjonPeriodsByLevel: Map<number, Period[]>;
     copyLabelButton: boolean;
-    anonymized: boolean;
     organisasjonsnummer?: string;
 };
 
@@ -168,7 +165,6 @@ export function parseRows(rows: ReactElement<TimelineRowProps>[]): ParsedRow[] {
             periods,
             generasjonPeriodsByLevel: sortedGenerasjonPeriodsByLevel,
             copyLabelButton: row.props?.copyLabelButton ?? false,
-            anonymized: row.props?.anonymized ?? false,
             organisasjonsnummer: row.props?.organisasjonsnummer,
         });
     });

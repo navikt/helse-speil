@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import { Link } from '@navikt/ds-react';
 
+import { AnonymizationProvider, AnonymizationRoot } from '@components/anonymization/context';
 import { Simulering, Utbetaling } from '@io/graphql';
 import { cn } from '@utils/tw';
 
@@ -33,8 +34,9 @@ const isStylesheetLink = (node: Node): node is HTMLLinkElement => {
     return (node as HTMLLinkElement).rel === 'stylesheet';
 };
 
-// Dette funker ikke med vanlig dev-bygg fordi stilene ikke blir hentet som ressurser.
-// Hvis man vil teste lokalt kan man bygge frontend med 'vite build' og åpne speil på port 3000.
+// Popupen kopierer <link rel="stylesheet"> fra hovedvinduets head. Får du et ustilt vindu lokalt,
+// er det fordi dev-serveren ikke serverer CSS-en som slike lenker. Bygg da med
+// 'pnpm build && pnpm start'.
 const copyStylesheets = ({ from, to }: CopyStylesheetsOptions) => {
     const linkNodes = from.document.head.querySelectorAll('head link');
 
@@ -69,7 +71,16 @@ const openSimulering = ({ simulering, utbetalingId }: OpenSimuleringParameters) 
 
     const root = createRoot(rootContainer);
 
-    root.render(<SimuleringView simulering={simulering} utbetalingId={utbetalingId} />);
+    // Popupen er et eget dokument med egen React-rot, så den trenger sin egen provider og
+    // .anonymized-forelder for at CSS-regelen skal treffe. localStorage og window tilhører
+    // hovedvinduet, så sladdingen følger med når man skrur den av og på der.
+    root.render(
+        <AnonymizationProvider>
+            <AnonymizationRoot>
+                <SimuleringView simulering={simulering} utbetalingId={utbetalingId} />
+            </AnonymizationRoot>
+        </AnonymizationProvider>,
+    );
 };
 
 interface OpenSimuleringButtonProps {

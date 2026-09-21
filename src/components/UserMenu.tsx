@@ -9,18 +9,17 @@ import { InternalHeaderUserButton } from '@navikt/ds-react/InternalHeader';
 
 import { DarkModeToggle } from '@components/DarkModeToggle';
 import { TastaturDialog } from '@components/TastaturDialog';
+import { useAnonymizationContext } from '@components/anonymization/context';
 import { useMounted } from '@hooks/useMounted';
 import { useGetBruker } from '@io/rest/generated/saksbehandlere/saksbehandlere';
 import { ApiBrukerrolle, ApiTilgang } from '@io/rest/generated/spesialist.schemas';
-import { useIsAnonymous, useToggleAnonymity } from '@state/anonymization';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 
 export const UserMenu = (): ReactElement => {
     const { navn, ident } = useBrukerinfo();
     const { resolvedTheme } = useTheme();
     const mounted = useMounted();
-    const isAnonymous = useIsAnonymous();
-    const toggleAnonymity = useToggleAnonymity();
+    const { isAnonymized, toggle: toggleAnonymity } = useAnonymizationContext();
     const [visTastatursnarveier, setVisTastatursnarveier] = useState(false);
 
     const { data } = useGetBruker();
@@ -62,7 +61,7 @@ export const UserMenu = (): ReactElement => {
                             )}
                             <ActionMenu.Divider />
                             <ActionMenu.Item onClick={toggleAnonymity}>
-                                {isAnonymous ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
+                                {isAnonymized ? 'Fjern anonymisering' : 'Anonymiser personopplysninger'}
                             </ActionMenu.Item>
                             <ActionMenu.Divider />
                             <ActionMenu.Item onClick={() => setVisTastatursnarveier(!visTastatursnarveier)}>

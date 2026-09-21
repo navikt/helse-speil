@@ -2,7 +2,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading } from '@navikt/ds-react';
 
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { Simulering } from '@io/graphql';
 import { somPenger } from '@utils/locale';
 import { cn } from '@utils/tw';
@@ -15,13 +14,18 @@ import styles from './SimuleringView.module.css';
 interface SimuleringValueProps {
     label: string;
     value: string | number;
+    isSensitive?: boolean;
 }
 
-const SimuleringValue = ({ label, value }: SimuleringValueProps): ReactElement => {
+const SimuleringValue = ({ label, value, isSensitive }: SimuleringValueProps): ReactElement => {
     return (
         <div className={styles.SimuleringValue}>
             <BodyShort size="small">{label}</BodyShort>
-            <BodyShort size="small" className={cn(typeof value === 'number' && value < 0 && styles.NegativtBeløp)}>
+            <BodyShort
+                size="small"
+                data-sensitive={isSensitive || undefined}
+                className={cn(typeof value === 'number' && value < 0 && styles.NegativtBeløp)}
+            >
                 {typeof value === 'number' ? somPenger(value) : value}
             </BodyShort>
         </div>
@@ -46,11 +50,7 @@ export const SimuleringView = ({ simulering, utbetalingId }: SimuleringViewProps
                 {isNumber(simulering.totalbelop) && (
                     <SimuleringValue label="Totalbeløp" value={simulering.totalbelop} />
                 )}
-                {utbetalesTil && (
-                    <AnonymizableContainer>
-                        <SimuleringValue label="Utbetales til" value={utbetalesTil} />
-                    </AnonymizableContainer>
-                )}
+                {utbetalesTil && <SimuleringValue label="Utbetales til" value={utbetalesTil} isSensitive />}
                 <SimuleringValue label="Utbetaling-ID" value={utbetalingId} />
             </div>
             {simulering.perioder?.map((periode, i) => (

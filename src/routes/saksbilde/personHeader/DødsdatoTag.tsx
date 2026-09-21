@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
-import { AnonymizableContainer } from '@components/anonymizable/AnonymizableContainer';
 import { NORSK_DATOFORMAT } from '@utils/date';
 
 interface DødsdatoTagProps {
@@ -16,10 +15,10 @@ export const DødsdatoTag = ({ dødsdato }: DødsdatoTagProps): ReactElement | n
     }
 
     return (
-        <AnonymizableContainer>
+        <div data-sensitive>
             <Tag variant="strong" data-color="neutral" size="small">
                 Dødsdato {dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}
             </Tag>
-        </AnonymizableContainer>
+        </div>
     );
 };

@@ -3,10 +3,8 @@ import React, { ReactElement } from 'react';
 import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
-import { AnonymizableText, AnonymizableTextWithEllipsis } from '@components/anonymizable/AnonymizableText';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Arbeidsforhold } from '@io/graphql';
-import { useIsAnonymous } from '@state/anonymization';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { somNorskDato } from '@utils/date';
 import { capitalizeName } from '@utils/locale';
@@ -16,10 +14,9 @@ import styles from './ArbeidsgiverRow.module.scss';
 
 interface ArbeidsforholdRowProps {
     arbeidsforhold: Arbeidsforhold[];
-    erAnonymisert: boolean;
 }
 
-const ArbeidsforholdRow = ({ arbeidsforhold, erAnonymisert }: ArbeidsforholdRowProps): ReactElement => {
+const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactElement => {
     return (
         <>
             {arbeidsforhold.map((arbeidsforhold, i) => {
@@ -29,18 +26,10 @@ const ArbeidsforholdRow = ({ arbeidsforhold, erAnonymisert }: ArbeidsforholdRowP
 
                 return (
                     <React.Fragment key={i}>
-                        <Tooltip
-                            content={
-                                !erAnonymisert
-                                    ? `${stillingstittel}, ${arbeidsforhold.stillingsprosent} %`
-                                    : 'Stillingstittel, stillingsprosent'
-                            }
-                        >
-                            <div className={styles.arbeidsforhold}>
-                                <AnonymizableTextWithEllipsis>
-                                    {`${capitalizeName(stillingstittel)}`}
-                                </AnonymizableTextWithEllipsis>
-                                <AnonymizableText>{`, ${arbeidsforhold.stillingsprosent} %`}</AnonymizableText>
+                        <Tooltip content={`${stillingstittel}, ${arbeidsforhold.stillingsprosent} %`}>
+                            <div className={styles.arbeidsforhold} data-sensitive>
+                                <BodyShort truncate>{stillingstittel}</BodyShort>
+                                <BodyShort>{`, ${arbeidsforhold.stillingsprosent} %`}</BodyShort>
                             </div>
                         </Tooltip>
                         <BodyShort>
@@ -60,9 +49,6 @@ interface InntektsforholdRowProps {
 }
 
 export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: InntektsforholdRowProps): ReactElement => {
-    // const [open, setOpen] = useState(false);
-    const erAnonymisert = useIsAnonymous();
-
     return (
         <>
             <div className={styles.iconContainer}>
@@ -77,7 +63,7 @@ export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: Inntekts
                 <>
                     <div />
                     <HStack>
-                        <AnonymizableText>{inntektsforhold.organisasjonsnummer}</AnonymizableText>
+                        <BodyShort data-sensitive>{inntektsforhold.organisasjonsnummer}</BodyShort>
                         <Tooltip content="Kopier virksomhetsnummer">
                             <CopyButton copyText={inntektsforhold.organisasjonsnummer} size="xsmall" />
                         </Tooltip>
@@ -87,7 +73,7 @@ export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: Inntekts
                         <Accordion.Item className={styles.arbeidsgiverRow}>
                             <Accordion.Header className={styles.header}>Arbeidsforhold</Accordion.Header>
                             <Accordion.Content className={styles.content}>
-                                <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} erAnonymisert={erAnonymisert} />
+                                <ArbeidsforholdRow arbeidsforhold={arbeidsforhold} />
                             </Accordion.Content>
                         </Accordion.Item>
                     </Accordion>

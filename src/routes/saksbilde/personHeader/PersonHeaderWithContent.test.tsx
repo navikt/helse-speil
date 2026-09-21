@@ -34,26 +34,41 @@ const enApiPerson: ApiPerson = {
 
 describe('Personlinje', () => {
     test('rendrer personinfo', async () => {
-        (useGetBehandlendeEnhetForPerson as Mock).mockReturnValueOnce({
-            data: {
-                enhetNr: '1234',
-                navn: 'Nav Andeby',
-                type: 'LOKAL',
-            },
-        });
-        (useGetSaksbehandlerStans as Mock).mockReturnValueOnce({
-            data: {
-                erStanset: false,
-            },
-        });
-        (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({
-            data: ApiKrrRegistrertStatus.RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING,
-        });
-        render(<PersonHeaderWithContent isAnonymous={false} person={enApiPerson} />);
+        mockPersonHeaderKall();
+
+        render(<PersonHeaderWithContent person={enApiPerson} />);
         expect(await screen.findByText('Kornelius Sa Kvakk', { exact: false })).toBeVisible();
         expect(await screen.findByText('123456 78910')).toBeVisible();
         expect(await screen.findByText('Aktør-ID: 123456789')).toBeVisible();
         expect(await screen.findByText('1234 - Nav Andeby')).toBeVisible();
         expect(await screen.findByText('Reservert KRR')).toBeVisible();
     });
+
+    it('markerer personopplysningene for sladding', async () => {
+        mockPersonHeaderKall();
+
+        render(<PersonHeaderWithContent person={enApiPerson} />);
+
+        expect(await screen.findByText('123456 78910')).toHaveAttribute('data-sensitive');
+        expect(await screen.findByText('Aktør-ID: 123456789')).toHaveAttribute('data-sensitive');
+        expect(await screen.findByText('1234 - Nav Andeby')).toHaveAttribute('data-sensitive');
+    });
 });
+
+function mockPersonHeaderKall() {
+    (useGetBehandlendeEnhetForPerson as Mock).mockReturnValueOnce({
+        data: {
+            enhetNr: '1234',
+            navn: 'Nav Andeby',
+            type: 'LOKAL',
+        },
+    });
+    (useGetSaksbehandlerStans as Mock).mockReturnValueOnce({
+        data: {
+            erStanset: false,
+        },
+    });
+    (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({
+        data: ApiKrrRegistrertStatus.RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING,
+    });
+}

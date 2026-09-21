@@ -14,7 +14,7 @@ import { ApolloProvider } from '@apollo/client';
 import { createApolloClient } from '@app/apollo/apolloClient';
 import useExposeQueryClient from '@app/useExposeQueryClient';
 import { Bruker, BrukerContext } from '@auth/brukerContext';
-import { AnonymiseringProvider } from '@components/anonymizable/AnonymizationProvider';
+import { AnonymizationProvider, AnonymizationRoot } from '@components/anonymization/context';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { initInstrumentation } from '@observability/faro';
 import { hydrateDialogmeldingFilters } from '@oversikt/table/state/dialogmeldingFilter';
@@ -44,9 +44,11 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
                     <Provider>
                         <AtomsHydrator atomValues={getAtomValues()}>
                             <SyncAlerts>
-                                <AnonymiseringProvider>
-                                    <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
-                                </AnonymiseringProvider>
+                                <AnonymizationProvider>
+                                    <AnonymizationRoot>
+                                        <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                                    </AnonymizationRoot>
+                                </AnonymizationProvider>
                             </SyncAlerts>
                         </AtomsHydrator>
                     </Provider>

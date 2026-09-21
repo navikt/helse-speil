@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 
-import { AnonymizableText } from '@components/anonymizable/AnonymizableText';
 import { useGetBehandlendeEnhetForPerson } from '@io/rest/generated/personer/personer';
 
 export const BehandlendeEnhet = (): ReactElement => {
@@ -25,8 +24,8 @@ export const BehandlendeEnhet = (): ReactElement => {
     }
 
     return (
-        <AnonymizableText>
+        <BodyShort data-sensitive>
             {enhet.enhetNr} - {enhet.navn}
-        </AnonymizableText>
+        </BodyShort>
     );
 };
