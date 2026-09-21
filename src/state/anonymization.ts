@@ -1,16 +1,27 @@
-import { useAtomValue, useSetAtom } from 'jotai';
+import { useSyncExternalStore } from 'react';
 
-import { atomWithLocalStorage } from '@state/jotai';
+const ANONYMISERING_KEY = 'anonymisering';
 
-const anonymityState = atomWithLocalStorage('anonymisering', false, false);
+export const useIsAnonymous = (): boolean => {
+    return useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+};
 
 export const useToggleAnonymity = (): (() => void) => {
-    const setAnonymity = useSetAtom(anonymityState);
     return () => {
-        setAnonymity((prevState) => !prevState);
+        localStorage.setItem(ANONYMISERING_KEY, String(!getSnapshot()));
+        window.dispatchEvent(new Event('storage'));
     };
 };
 
-export const useIsAnonymous = () => {
-    return useAtomValue(anonymityState);
-};
+function subscribe(onStoreChange: () => void): () => void {
+    window.addEventListener('storage', onStoreChange);
+    return () => window.removeEventListener('storage', onStoreChange);
+}
+
+function getSnapshot(): boolean {
+    return localStorage.getItem(ANONYMISERING_KEY) === 'true';
+}
+
+function getServerSnapshot(): boolean {
+    return false;
+}
