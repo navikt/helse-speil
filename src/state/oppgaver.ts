@@ -3,6 +3,7 @@ import { useEffect, useMemo } from 'react';
 
 import { ErrorType } from '@app/axios/orval-mutator';
 import { useBruker } from '@auth/brukerContext';
+import { useHarPorteføljestyringrolle } from '@hooks/brukerrolleHooks';
 import { Kategori } from '@io/graphql';
 import { useGetAntallOppgaver, useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
@@ -47,6 +48,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const aktivTab = useAktivTab();
     const allFilters = useAllFilters();
     const datofilter = useDatofilter();
+    const harPorteføljestyringrolle = useHarPorteføljestyringrolle();
     const { oid: innloggetSaksbehandlerOid } = useBruker();
 
     const variables = useMemo<GetOppgaverParams>(() => {
@@ -90,8 +92,24 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
                     : valgtSaksbehandler?.oid,
             oppgaveKlarFom: aktivTab === TabType.TilGodkjenning ? datofilter.oppgaveKlarFom : undefined,
             oppgaveKlarTom: aktivTab === TabType.TilGodkjenning ? datofilter.oppgaveKlarTom : undefined,
+            behandlingOpprettetFom:
+                aktivTab === TabType.TilGodkjenning && harPorteføljestyringrolle
+                    ? datofilter.behandlingOpprettetFom
+                    : undefined,
+            behandlingOpprettetTom:
+                aktivTab === TabType.TilGodkjenning && harPorteføljestyringrolle
+                    ? datofilter.behandlingOpprettetTom
+                    : undefined,
         };
-    }, [aktivTab, allFilters, sort, innloggetSaksbehandlerOid, valgtSaksbehandler, datofilter]);
+    }, [
+        aktivTab,
+        allFilters,
+        sort,
+        innloggetSaksbehandlerOid,
+        valgtSaksbehandler,
+        datofilter,
+        harPorteføljestyringrolle,
+    ]);
 
     useEffect(() => {
         createHash(variables).then(resetToFirstPageOnHashChange);

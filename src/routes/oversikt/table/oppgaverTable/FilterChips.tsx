@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { Chips } from '@navikt/ds-react';
 
+import { useHarPorteføljestyringrolle } from '@hooks/brukerrolleHooks';
 import { lagOppslåttSaksbehandlerVisningsnavn } from '@oversikt/filtermeny/SøkefeltSaksbehandlere';
 import { TabType } from '@oversikt/tabState';
 import { cn } from '@utils/tw';
@@ -23,9 +24,21 @@ export const FilterChips = ({
     aktivTab,
 }: FilterChipsProps): ReactElement => {
     const [valgtSaksbehandler, setValgtSaksbehandler] = useAtom(valgtSaksbehandlerAtom);
-    const { datofilter, setOppgaveKlarFom, setOppgaveKlarTom, resetDatofilter } = useSetDatofilter();
+    const harPorteføljestyringrolle = useHarPorteføljestyringrolle();
+    const {
+        datofilter,
+        setOppgaveKlarFom,
+        setOppgaveKlarTom,
+        setBehandlingOpprettetFom,
+        setBehandlingOpprettetTom,
+        resetDatofilter,
+    } = useSetDatofilter();
     const erFiltrertPåSaksbehandler = valgtSaksbehandler && aktivTab === TabType.TilGodkjenning;
-    const harDatofilter = !!datofilter.oppgaveKlarFom || !!datofilter.oppgaveKlarTom;
+    const visStartdatofilter = harPorteføljestyringrolle && aktivTab === TabType.TilGodkjenning;
+    const harDatofilter =
+        !!datofilter.oppgaveKlarFom ||
+        !!datofilter.oppgaveKlarTom ||
+        (visStartdatofilter && (!!datofilter.behandlingOpprettetFom || !!datofilter.behandlingOpprettetTom));
     if (activeFilters.length > 0 || erFiltrertPåSaksbehandler || harDatofilter) {
         return (
             <Chips className="mx-3 mt-1 mb-2">
@@ -48,12 +61,22 @@ export const FilterChips = ({
                 ))}
                 {datofilter.oppgaveKlarFom && (
                     <Chips.Removable key="oppgaveKlarFom" onClick={() => setOppgaveKlarFom(undefined)}>
-                        {`Dato fra: ${datofilter.oppgaveKlarFom.split('-').reverse().join('.')}`}
+                        {`Oppgave klar fra: ${datofilter.oppgaveKlarFom.split('-').reverse().join('.')}`}
                     </Chips.Removable>
                 )}
                 {datofilter.oppgaveKlarTom && (
                     <Chips.Removable key="oppgaveKlarTom" onClick={() => setOppgaveKlarTom(undefined)}>
-                        {`Dato til: ${datofilter.oppgaveKlarTom.split('-').reverse().join('.')}`}
+                        {`Oppgave klar til: ${datofilter.oppgaveKlarTom.split('-').reverse().join('.')}`}
+                    </Chips.Removable>
+                )}
+                {visStartdatofilter && datofilter.behandlingOpprettetFom && (
+                    <Chips.Removable key="behandlingOpprettetFom" onClick={() => setBehandlingOpprettetFom(undefined)}>
+                        {`Startdato fra: ${datofilter.behandlingOpprettetFom.split('-').reverse().join('.')}`}
+                    </Chips.Removable>
+                )}
+                {visStartdatofilter && datofilter.behandlingOpprettetTom && (
+                    <Chips.Removable key="behandlingOpprettetTom" onClick={() => setBehandlingOpprettetTom(undefined)}>
+                        {`Startdato til: ${datofilter.behandlingOpprettetTom.split('-').reverse().join('.')}`}
                     </Chips.Removable>
                 )}
                 {(activeFilters.length > 0 || harDatofilter) && (

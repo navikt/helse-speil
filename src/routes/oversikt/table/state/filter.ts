@@ -312,7 +312,12 @@ export const valgtSaksbehandlerAtom = atomWithLocalStorage<ApiAktivSaksbehandler
     null,
 );
 
-type Datofilter = { oppgaveKlarFom?: string; oppgaveKlarTom?: string };
+type Datofilter = {
+    oppgaveKlarFom?: string;
+    oppgaveKlarTom?: string;
+    behandlingOpprettetFom?: string;
+    behandlingOpprettetTom?: string;
+};
 
 const datofilterAtom = atomWithLocalStorage<Datofilter>('datofilter', {});
 
@@ -324,6 +329,8 @@ export const useSetDatofilter = () => {
         datofilter,
         setOppgaveKlarFom: (fom?: string) => setDatofilter({ ...datofilter, oppgaveKlarFom: fom }),
         setOppgaveKlarTom: (tom?: string) => setDatofilter({ ...datofilter, oppgaveKlarTom: tom }),
+        setBehandlingOpprettetFom: (fom?: string) => setDatofilter({ ...datofilter, behandlingOpprettetFom: fom }),
+        setBehandlingOpprettetTom: (tom?: string) => setDatofilter({ ...datofilter, behandlingOpprettetTom: tom }),
         resetDatofilter: () => setDatofilter({}),
     };
 };
