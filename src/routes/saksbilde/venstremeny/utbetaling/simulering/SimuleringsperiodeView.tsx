@@ -1,20 +1,25 @@
 import React, { ReactElement } from 'react';
 
+import { HGrid } from '@navikt/ds-react';
+
 import { Simuleringsperiode } from '@io/graphql';
 import { getFormattedDateString } from '@utils/date';
 
 import { SimuleringsperiodeValue } from './SimuleringsperiodeValue';
 import { SimuleringsutbetalingView } from './SimuleringsutbetalingView';
 
-import styles from './SimuleringsperiodeView.module.css';
-
 interface SimuleringsperiodeProps {
     periode: Simuleringsperiode;
 }
 
-export const SimuleringsperiodeView = ({ periode }: SimuleringsperiodeProps): ReactElement => {
+export function SimuleringsperiodeView({ periode }: SimuleringsperiodeProps): ReactElement {
     return (
-        <div className={styles.Simuleringsperiode}>
+        <HGrid
+            columns="1fr 1fr"
+            gap="space-0 space-16"
+            paddingBlock="space-16 space-0"
+            className="border-t border-ax-border-neutral"
+        >
             <SimuleringsperiodeValue
                 label="Periode"
                 value={`${getFormattedDateString(periode.fom)} - ${getFormattedDateString(periode.tom)}`}
@@ -22,6 +27,6 @@ export const SimuleringsperiodeView = ({ periode }: SimuleringsperiodeProps): Re
             {periode.utbetalinger.map((utbetaling, i) => (
                 <SimuleringsutbetalingView utbetaling={utbetaling} key={i} />
             ))}
-        </div>
+        </HGrid>
     );
-};
+}

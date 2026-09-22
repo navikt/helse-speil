@@ -5,20 +5,18 @@ import { BodyShort } from '@navikt/ds-react';
 import { somPenger } from '@utils/locale';
 import { cn } from '@utils/tw';
 
-import styles from './SimuleringsperiodeView.module.css';
-
 interface SimuleringsperiodeValueProps extends React.HTMLAttributes<HTMLElement> {
     label: string;
     value: string | number;
     isSensitive?: boolean;
 }
 
-export const SimuleringsperiodeValue = ({
+export function SimuleringsperiodeValue({
     label,
     value,
     isSensitive,
     ...props
-}: SimuleringsperiodeValueProps): ReactElement => {
+}: SimuleringsperiodeValueProps): ReactElement {
     return (
         <>
             <BodyShort size="small" {...props}>
@@ -27,10 +25,13 @@ export const SimuleringsperiodeValue = ({
             <BodyShort
                 size="small"
                 data-sensitive={isSensitive || undefined}
-                className={cn(styles.Bold, typeof value === 'number' && value < 0 && styles.NegativtBeløp)}
+                className={cn(
+                    'font-semibold',
+                    typeof value === 'number' && value < 0 && 'text-ax-text-danger-subtle italic',
+                )}
             >
                 {typeof value === 'number' ? somPenger(value) : value}
             </BodyShort>
         </>
     );
-};
+}

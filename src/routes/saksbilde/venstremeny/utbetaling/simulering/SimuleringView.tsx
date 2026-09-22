@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Heading } from '@navikt/ds-react';
+import { BodyShort, Heading, VStack } from '@navikt/ds-react';
 
 import { Simulering } from '@io/graphql';
 import { somPenger } from '@utils/locale';
@@ -9,7 +9,33 @@ import { isNumber } from '@utils/typeguards';
 
 import { SimuleringsperiodeView } from './SimuleringsperiodeView';
 
-import styles from './SimuleringView.module.css';
+interface SimuleringViewProps {
+    simulering: Simulering;
+    utbetalingId: string;
+}
+
+export function SimuleringView({ simulering, utbetalingId }: SimuleringViewProps): ReactElement {
+    const førsteUtbetaling = simulering.perioder?.[0]?.utbetalinger[0];
+    const utbetalesTil = førsteUtbetaling
+        ? `${førsteUtbetaling.mottakerId} ${førsteUtbetaling.mottakerNavn}`
+        : undefined;
+
+    return (
+        <VStack as="article" gap="space-24" paddingInline="space-32" paddingBlock="space-20 space-32">
+            <Heading size="large">Simulering</Heading>
+            <VStack gap="space-16">
+                {isNumber(simulering.totalbelop) && (
+                    <SimuleringValue label="Totalbeløp" value={simulering.totalbelop} />
+                )}
+                {utbetalesTil && <SimuleringValue label="Utbetales til" value={utbetalesTil} isSensitive />}
+                <SimuleringValue label="Utbetaling-ID" value={utbetalingId} />
+            </VStack>
+            {simulering.perioder?.map((periode) => (
+                <SimuleringsperiodeView periode={periode} key={`${periode.fom}-${periode.tom}`} />
+            ))}
+        </VStack>
+    );
+}
 
 interface SimuleringValueProps {
     label: string;
@@ -17,45 +43,19 @@ interface SimuleringValueProps {
     isSensitive?: boolean;
 }
 
-const SimuleringValue = ({ label, value, isSensitive }: SimuleringValueProps): ReactElement => {
+function SimuleringValue({ label, value, isSensitive }: SimuleringValueProps): ReactElement {
     return (
-        <div className={styles.SimuleringValue}>
-            <BodyShort size="small">{label}</BodyShort>
+        <div>
+            <BodyShort size="small" weight="semibold">
+                {label}
+            </BodyShort>
             <BodyShort
                 size="small"
                 data-sensitive={isSensitive || undefined}
-                className={cn(typeof value === 'number' && value < 0 && styles.NegativtBeløp)}
+                className={cn(typeof value === 'number' && value < 0 && 'text-ax-text-danger-subtle italic')}
             >
                 {typeof value === 'number' ? somPenger(value) : value}
             </BodyShort>
         </div>
     );
-};
-
-interface SimuleringViewProps {
-    simulering: Simulering;
-    utbetalingId: string;
 }
-
-export const SimuleringView = ({ simulering, utbetalingId }: SimuleringViewProps): ReactElement => {
-    const utbetalesTil = (() => {
-        const utbetaling = simulering.perioder?.[0]?.utbetalinger[0] ?? null;
-        return utbetaling ? `${utbetaling.mottakerId} ${utbetaling.mottakerNavn}` : null;
-    })();
-
-    return (
-        <article className={styles.SimuleringView}>
-            <Heading size="large">Simulering</Heading>
-            <div className={styles.SimuleringValueContainer}>
-                {isNumber(simulering.totalbelop) && (
-                    <SimuleringValue label="Totalbeløp" value={simulering.totalbelop} />
-                )}
-                {utbetalesTil && <SimuleringValue label="Utbetales til" value={utbetalesTil} isSensitive />}
-                <SimuleringValue label="Utbetaling-ID" value={utbetalingId} />
-            </div>
-            {simulering.perioder?.map((periode, i) => (
-                <SimuleringsperiodeView periode={periode} key={i} />
-            ))}
-        </article>
-    );
-};

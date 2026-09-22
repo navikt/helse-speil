@@ -5,13 +5,11 @@ import { getFormattedDateString } from '@utils/date';
 
 import { SimuleringsperiodeValue } from './SimuleringsperiodeValue';
 
-import styles from './SimuleringsperiodeView.module.css';
-
 interface SimuleringsutbetalingViewProps {
     utbetaling: Simuleringsutbetaling;
 }
 
-export const SimuleringsutbetalingView = ({ utbetaling }: SimuleringsutbetalingViewProps): ReactElement => {
+export function SimuleringsutbetalingView({ utbetaling }: SimuleringsutbetalingViewProps): ReactElement {
     return (
         <>
             <SimuleringsperiodeValue label="Utbetales til ID" value={utbetaling.mottakerId} isSensitive />
@@ -32,7 +30,7 @@ export const SimuleringsutbetalingView = ({ utbetaling }: SimuleringsutbetalingV
                     <SimuleringsperiodeValue label="Uføregrad" value={`${detalj.uforegrad} %`} />
                     <SimuleringsperiodeValue label="Utbetalingstype" value={detalj.utbetalingstype} />
                     <SimuleringsperiodeValue
-                        className={styles.SisteDetaljerrad}
+                        className="mb-4"
                         label="Refunderes orgnummer"
                         value={detalj.refunderesOrgNr}
                         isSensitive
@@ -41,4 +39,4 @@ export const SimuleringsutbetalingView = ({ utbetaling }: SimuleringsutbetalingV
             ))}
         </>
     );
-};
+}

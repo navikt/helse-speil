@@ -53,6 +53,14 @@ Environment variables are validated with Zod schemas in `src/env.ts`. `erLokal` 
 
 ## Conventions
 
+### Function declarations over arrow constants
+
+Declare components, hooks and helper functions with the `function` keyword, not as arrow functions assigned to a `const`. This applies to exported components (`export function SimuleringView(...)`), local helpers and test helpers alike. Hoisting is a bonus: mutually recursive helpers work without reordering.
+
+Two exceptions. Keep `const` when a type annotation belongs on the binding rather than the signature, as in `src/test/data/` where every builder is `export const enUtbetaling: OverridableConstructor<Utbetaling> = (overrides) => ({...})`. Inline callbacks (`map`, `filter`, event handlers passed as props) stay as arrow functions.
+
+Place exported components at the top of the file and helper functions at the bottom.
+
 ### Path aliases
 
 Always use path aliases for imports (enforced by `eslint-plugin-import-alias`). Relative imports are only allowed within the same directory (depth 1). Key aliases:
@@ -74,6 +82,8 @@ Tests use **Vitest** with **Testing Library** and **vitest-axe** for accessibili
 Form schemas use **Zod v4** (imported as `zod/v4`) with **react-hook-form** and `@hookform/resolvers`. Schemas live in `src/form-schemas/`.
 
 ### Styling
+
+**Always reach for Aksel layout primitives before Tailwind utilities.** `VStack`, `HStack`, `HGrid`, `Box`, `Page` and `Bleed` cover nearly all layout needs, and their `gap`, `padding*` and `margin*` props take design tokens (`space-16`, `space-24`) that stay in sync with the design system. Do not write `flex flex-col gap-4` or `grid grid-cols-2` when a primitive does the same job. `VStack` and `HStack` are `OverridableComponent`s, so `as="article"` keeps the right semantics. Note that `HGrid columns={2}` renders `repeat(2, minmax(0, 1fr))`, not `1fr 1fr` — pass the string when the distinction matters. Primitives have no border props, so borders stay in `className`.
 
 Uses **Tailwind CSS v4** with NAV's design system (`@navikt/ds-react`, `@navikt/ds-css`, `@navikt/ds-tailwind`). Aksel's design tokens are loaded as a v4 theme via `@import '@navikt/ds-tailwind/v4'` in `src/app/globals.css` — there is no `tailwind.config.ts`. Tokens are exposed as `ax-*` utilities (`bg-ax-bg-default`, `text-ax-text-danger`, `rounded-ax-radius-8`). Prefer `ax-*` utilities over Tailwind's default palette so light and dark theme stay in sync. Some components also use CSS Modules (`.module.css` / `.module.scss`). The `classnames` and `tailwind-merge` packages are available for composing class names.
 
