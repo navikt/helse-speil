@@ -33,7 +33,7 @@ export const SykepengegrunnlagFraInfogtrygd = ({
                     arbeidsgivernavn={navn}
                 />
                 <span className={styles.strek} />
-                <Inntekt person={person} inntekt={inntekt} />
+                <Inntekt person={person} inntekt={inntekt} vilkårsgrunnlag={vilkårsgrunnlag} />
             </div>
         </Infotrygdvurdering>
     );

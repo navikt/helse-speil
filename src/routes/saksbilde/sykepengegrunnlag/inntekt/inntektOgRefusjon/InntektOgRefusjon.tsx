@@ -8,9 +8,10 @@ import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/in
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
 import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
+import { harSykefraværMedSkjæringstidspunkt } from '@state/inntektsforhold/arbeidsgiver';
 import { arbeidsgiverTilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Refusjonsopplysning } from '@typer/overstyring';
-import { ActivePeriod } from '@typer/shared';
+import { DateString } from '@typer/shared';
 
 import {
     endreInntektMedSykefraværBegrunnelser,
@@ -19,7 +20,7 @@ import {
 
 interface InntektUtenSykefraværProps {
     person: PersonFragment;
-    periode: ActivePeriod;
+    skjæringstidspunkt: DateString;
     inntekt: Arbeidsgiverinntekt;
     vilkårsgrunnlagId?: string | null;
     inntektstype?: Inntektstype | null;
@@ -32,7 +33,7 @@ interface InntektUtenSykefraværProps {
 
 export const InntektOgRefusjon = ({
     person,
-    periode,
+    skjæringstidspunkt,
     inntekt,
     vilkårsgrunnlagId,
     arbeidsgiver,
@@ -50,10 +51,10 @@ export const InntektOgRefusjon = ({
     } = inntekt;
 
     const inntektFraAOrdningen = arbeidsgiver.inntekterFraAordningen.find(
-        (it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt,
+        (it) => it.skjaeringstidspunkt === skjæringstidspunkt,
     )?.inntekter;
 
-    const harSykefravær = !!arbeidsgiver?.behandlinger[0]?.perioder.find((it) => it.fom === periode.fom);
+    const harSykefravær = harSykefraværMedSkjæringstidspunkt(arbeidsgiver, skjæringstidspunkt);
 
     return (
         <>
@@ -61,8 +62,7 @@ export const InntektOgRefusjon = ({
                 <VisHvisSkrivetilgang>
                     <ToggleOverstyring
                         person={person}
-                        arbeidsgiver={arbeidsgiver}
-                        periode={periode}
+                        skjæringstidspunkt={skjæringstidspunkt}
                         vilkårsgrunnlagId={vilkårsgrunnlagId}
                         organisasjonsnummer={organisasjonsnummer}
                         erDeaktivert={erDeaktivert ?? false}
@@ -82,7 +82,8 @@ export const InntektOgRefusjon = ({
                     begrunnelser={
                         harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
                     }
-                    skjæringstidspunkt={periode.skjaeringstidspunkt}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    vilkårsgrunnlagId={vilkårsgrunnlagId}
                     person={person}
                     arbeidsgiver={arbeidsgiver}
                     inntektFom={inntekt.fom}
@@ -95,7 +96,7 @@ export const InntektOgRefusjon = ({
             {!editing && (
                 <InntektOgRefusjonVisning
                     person={person}
-                    periode={periode}
+                    skjæringstidspunkt={skjæringstidspunkt}
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
                     endret={endret}
                     refusjon={refusjon}
@@ -103,8 +104,7 @@ export const InntektOgRefusjon = ({
                     inntektFraAOrdningen={inntektFraAOrdningen}
                     erDeaktivert={erDeaktivert ?? false}
                     inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
-                    organisasjonsnummer={organisasjonsnummer}
-                    overstyringer={arbeidsgiver.overstyringer}
+                    arbeidsgiver={arbeidsgiver}
                 />
             )}
         </>

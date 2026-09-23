@@ -3,20 +3,22 @@ import React, { ReactElement, useRef, useState } from 'react';
 import { Alert, Box } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Arbeidsgiverinntekt, Inntektskilde, PersonFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
+import {
+    Arbeidsgiverinntekt,
+    Inntektskilde,
+    PersonFragment,
+    VilkarsgrunnlagInfotrygdV2,
+    VilkarsgrunnlagSpleisV2,
+} from '@io/graphql';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
     dedupliserteInntektsmeldingHendelser,
     finnArbeidsgiverMedOrganisasjonsnummer,
-    usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/inntektsforhold/arbeidsgiver';
 import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { mapOgSorterRefusjoner } from '@state/overstyring';
-import { useActivePeriod } from '@state/periode';
 import { cn } from '@utils/tw';
-import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-import { useVilkårsgrunnlag } from '../useVilkårsgrunnlag';
 import { InntektOgRefusjon } from './inntektOgRefusjon/InntektOgRefusjon';
 
 import styles from './Inntekt.module.css';
@@ -24,59 +26,35 @@ import styles from './Inntekt.module.css';
 interface InntektContainerProps {
     person: PersonFragment;
     inntekt: Arbeidsgiverinntekt;
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
 }
 
-const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElement | null => {
+const InntektContainer = ({ person, inntekt, vilkårsgrunnlag }: InntektContainerProps): ReactElement => {
     const [editing, setEditing] = useState(false);
-    const previousPeriodIdRef = useRef<string | undefined>(undefined);
+    const previousOrganisasjonsnummerRef = useRef<string | undefined>(undefined);
 
-    const aktivPeriode = useActivePeriod(person);
-    const periodeForSkjæringstidspunktForArbeidsgiver = usePeriodForSkjæringstidspunktForArbeidsgiver(
-        person,
-        aktivPeriode?.skjaeringstidspunkt ?? null,
-        inntekt.arbeidsgiver,
-    );
-
-    if (previousPeriodIdRef.current !== periodeForSkjæringstidspunktForArbeidsgiver?.id) {
-        previousPeriodIdRef.current = periodeForSkjæringstidspunktForArbeidsgiver?.id;
+    if (previousOrganisasjonsnummerRef.current !== inntekt.arbeidsgiver) {
+        previousOrganisasjonsnummerRef.current = inntekt.arbeidsgiver;
         if (editing) {
             setEditing(false);
         }
     }
 
     const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, inntekt.arbeidsgiver);
-    const vilkårsgrunnlag = useVilkårsgrunnlag(person, periodeForSkjæringstidspunktForArbeidsgiver);
 
-    const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, aktivPeriode);
-    const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.inntekter.find(
-        (it) => it.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
+    const arbeidsgiverrefusjon = vilkårsgrunnlag.arbeidsgiverrefusjoner.find(
+        (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === inntekt.arbeidsgiver,
     );
-    const arbeidsgiverrefusjon =
-        vilkårsgrunnlag && isBeregnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
-            ? vilkårsgrunnlag.arbeidsgiverrefusjoner.find(
-                  (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
-              )
-            : isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver) && uberegnetAGfinnesIVilkårsgrunnlaget
-              ? vilkårsgrunnlagAktivPeriode?.arbeidsgiverrefusjoner.find(
-                    (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver?.organisasjonsnummer,
-                )
-              : null;
-
-    const vilkårsgrunnlagId = !isUberegnetPeriode(periodeForSkjæringstidspunktForArbeidsgiver)
-        ? periodeForSkjæringstidspunktForArbeidsgiver?.vilkarsgrunnlagId
-        : aktivPeriode !== null && !isUberegnetPeriode(aktivPeriode)
-          ? aktivPeriode.vilkarsgrunnlagId
-          : null;
-
-    if (!aktivPeriode || !periodeForSkjæringstidspunktForArbeidsgiver || !vilkårsgrunnlagId) {
-        return null;
-    }
 
     const inntektsmeldinghendelser = dedupliserteInntektsmeldingHendelser(arbeidsgiver);
     const refusjon = mapOgSorterRefusjoner(inntektsmeldinghendelser, arbeidsgiverrefusjon?.refusjonsopplysninger ?? []);
 
     const inntekterForSammenligningsgrunnlag =
-        Number((vilkårsgrunnlag as VilkarsgrunnlagSpleisV2)?.avviksvurdering?.avviksprosent ?? 0) > 25
+        Number(
+            vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
+                ? (vilkårsgrunnlag.avviksvurdering?.avviksprosent ?? 0)
+                : 0,
+        ) > 25
             ? inntekt.sammenligningsgrunnlag?.inntektFraAOrdningen
             : [];
 
@@ -85,9 +63,9 @@ const InntektContainer = ({ person, inntekt }: InntektContainerProps): ReactElem
             {inntekt.omregnetArsinntekt != null && arbeidsgiver != null ? (
                 <InntektOgRefusjon
                     person={person}
-                    periode={periodeForSkjæringstidspunktForArbeidsgiver}
+                    skjæringstidspunkt={vilkårsgrunnlag.skjaeringstidspunkt}
                     inntekt={inntekt}
-                    vilkårsgrunnlagId={vilkårsgrunnlagId}
+                    vilkårsgrunnlagId={vilkårsgrunnlag.id}
                     arbeidsgiver={arbeidsgiver}
                     refusjon={refusjon}
                     inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
@@ -115,12 +93,13 @@ const InntektError = (): ReactElement => {
 interface InntektProps {
     person: PersonFragment;
     inntekt: Arbeidsgiverinntekt;
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
 }
 
-export const Inntekt = ({ person, inntekt }: InntektProps): ReactElement => {
+export const Inntekt = ({ person, inntekt, vilkårsgrunnlag }: InntektProps): ReactElement => {
     return (
         <ErrorBoundary fallback={<InntektError />}>
-            <InntektContainer person={person} inntekt={inntekt} />
+            <InntektContainer person={person} inntekt={inntekt} vilkårsgrunnlag={vilkårsgrunnlag} />
         </ErrorBoundary>
     );
 };

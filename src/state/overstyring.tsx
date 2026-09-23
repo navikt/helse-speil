@@ -2,16 +2,14 @@ import { useAtom, useAtomValue } from 'jotai';
 import { atomWithReset, useResetAtom } from 'jotai/utils';
 
 import { Arbeidsgiver, Arbeidsgiverrefusjon, Hendelse, Kildetype, PersonFragment, Refusjonselement } from '@io/graphql';
-import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { dedupliserteInntektsmeldingHendelser } from '@state/inntektsforhold/arbeidsgiver';
-import { useActivePeriod } from '@state/periode';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
     OverstyrtInntektOgRefusjonDTO,
     Refusjonsopplysning,
 } from '@typer/overstyring';
-import { ActivePeriod, DateString } from '@typer/shared';
-import { isBeregnetPeriode, isGhostPeriode, isPerson, isUberegnetPeriode } from '@utils/typeguards';
+import { DateString } from '@typer/shared';
+import { isPerson } from '@utils/typeguards';
 
 export const useInntektOgRefusjon = () => useAtomValue(inntektOgRefusjonState);
 
@@ -104,32 +102,17 @@ export const mapOgSorterRefusjoner = (
                 : Kildetype.Saksbehandler,
         }));
 };
-export const useOverstyrtInntektMetadata = (
+export const lagOverstyrtInntektMetadata = (
     person: PersonFragment,
     arbeidsgiver: Arbeidsgiver,
-    period: ActivePeriod | null,
+    skjæringstidspunkt: DateString,
+    vilkårsgrunnlagId?: string | null,
 ): OverstyrtInntektMetadata => {
-    const activePeriod = useActivePeriod(person);
-    const vilkårsgrunnlagAktivPeriode = useVilkårsgrunnlag(person, activePeriod);
-    const uberegnetAGfinnesIVilkårsgrunnlaget = vilkårsgrunnlagAktivPeriode?.inntekter.find(
-        (it) => it.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
-    );
-    if (
-        !isBeregnetPeriode(period) &&
-        !isGhostPeriode(period) &&
-        !(isUberegnetPeriode(period) && uberegnetAGfinnesIVilkårsgrunnlaget)
-    ) {
-        throw Error('Mangler data for å kunne overstyre inntekt.');
-    }
     const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon | undefined = person.vilkarsgrunnlagV2
-        .filter((it) =>
-            !isUberegnetPeriode(period)
-                ? it.id === period?.vilkarsgrunnlagId
-                : it.id === vilkårsgrunnlagAktivPeriode?.id,
-        )[0]
-        ?.arbeidsgiverrefusjoner.filter(
+        .find((it) => it.id === vilkårsgrunnlagId)
+        ?.arbeidsgiverrefusjoner.find(
             (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer,
-        )[0];
+        );
 
     const inntektsmeldinghendelser = dedupliserteInntektsmeldingHendelser(arbeidsgiver);
     const refusjonsopplysninger = mapOgSorterRefusjoner(
@@ -141,7 +124,7 @@ export const useOverstyrtInntektMetadata = (
         aktørId: person.aktorId,
         fødselsnummer: person.fodselsnummer,
         organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-        skjæringstidspunkt: period.skjaeringstidspunkt,
+        skjæringstidspunkt: skjæringstidspunkt,
         fraRefusjonsopplysninger: refusjonsopplysninger,
     };
 };

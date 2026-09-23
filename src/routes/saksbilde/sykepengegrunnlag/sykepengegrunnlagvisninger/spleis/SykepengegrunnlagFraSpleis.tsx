@@ -48,7 +48,7 @@ export const SykepengegrunnlagFraSpleis = ({
                 organisasjonsnummer={aktivInntektskilde.arbeidsgiver}
             />
             <span className={styles.strek} />
-            <Inntekt person={person} inntekt={aktivInntektskilde} />
+            <Inntekt person={person} inntekt={aktivInntektskilde} vilkårsgrunnlag={vilkårsgrunnlag} />
         </HStack>
     );
 };

@@ -21,8 +21,7 @@ describe('ToggleOverstyring', () => {
         render(
             <ToggleOverstyring
                 person={person}
-                arbeidsgiver={arbeidsgiver}
-                periode={periode}
+                skjæringstidspunkt={periode.skjaeringstidspunkt}
                 vilkårsgrunnlagId="vilkårsgrunnlagId"
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 erDeaktivert={false}
@@ -41,8 +40,7 @@ describe('ToggleOverstyring', () => {
         render(
             <ToggleOverstyring
                 person={person}
-                arbeidsgiver={arbeidsgiver}
-                periode={periode}
+                skjæringstidspunkt={periode.skjaeringstidspunkt}
                 vilkårsgrunnlagId="vilkårsgrunnlagId"
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 erDeaktivert={false}
@@ -63,8 +61,7 @@ describe('ToggleOverstyring', () => {
         const { baseElement } = render(
             <ToggleOverstyring
                 person={person}
-                arbeidsgiver={arbeidsgiver}
-                periode={valgtPeriode}
+                skjæringstidspunkt={valgtPeriode.skjaeringstidspunkt}
                 vilkårsgrunnlagId="vilkårsgrunnlagId"
                 organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                 erDeaktivert={false}
@@ -89,8 +86,7 @@ describe('ToggleOverstyring', () => {
             render(
                 <ToggleOverstyring
                     person={person}
-                    arbeidsgiver={arbeidsgiver}
-                    periode={valgtPeriode}
+                    skjæringstidspunkt={valgtPeriode.skjaeringstidspunkt}
                     vilkårsgrunnlagId="vilkårsgrunnlagId"
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                     erDeaktivert={false}
@@ -111,8 +107,7 @@ describe('ToggleOverstyring', () => {
             render(
                 <ToggleOverstyring
                     person={person}
-                    arbeidsgiver={arbeidsgiver}
-                    periode={uberegnetPeriode}
+                    skjæringstidspunkt={uberegnetPeriode.skjaeringstidspunkt}
                     vilkårsgrunnlagId={null}
                     organisasjonsnummer={arbeidsgiver.organisasjonsnummer}
                     erDeaktivert={false}

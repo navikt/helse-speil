@@ -6,7 +6,6 @@ import { Button, ErrorMessage, HStack, HelpText } from '@navikt/ds-react';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
-    Arbeidsgiver,
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
     GhostPeriodeFragment,
@@ -60,15 +59,8 @@ export const SkjønnsfastsettingForm = ({
     formValues,
     setFormValues,
 }: SkjønnsfastsettingFormProps): ReactElement | null => {
-    const arbeidsgivere = useAktiveArbeidsgivere(person, periode, inntekter);
-    const aktiveArbeidsgivereInntekter = inntekter.filter((inntekt) =>
-        arbeidsgivere.some(
-            (arbeidsgiver) =>
-                arbeidsgiver.organisasjonsnummer === inntekt.arbeidsgiver &&
-                inntekt.omregnetArsinntekt !== null &&
-                !inntekt.deaktivert,
-        ),
-    );
+    const arbeidsgivere = finnAlleArbeidsgivere(person);
+    const aktiveArbeidsgivereInntekter = finnAktiveInntekter(inntekter);
     const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
@@ -145,8 +137,6 @@ export const SkjønnsfastsettingForm = ({
         }
     }, [valgtType, avrundetSammenligningsgrunnlag, setValue, aktiveArbeidsgivereInntekter]);
 
-    if (!arbeidsgivere || !aktiveArbeidsgivereInntekter) return null;
-
     const confirmChanges = () => {
         postSkjønnsfastsetting(
             skjønnsfastsettingFormToDto(
@@ -208,26 +198,8 @@ export const SkjønnsfastsettingForm = ({
     );
 };
 
-export const useAktiveArbeidsgivere = (
-    person: PersonFragment,
-    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
-    inntekter: Arbeidsgiverinntekt[],
-): Arbeidsgiver[] =>
-    finnAlleArbeidsgivere(person)
-        .filter(
-            (arbeidsgiver) =>
-                arbeidsgiver.behandlinger?.[0]?.perioder.some(
-                    (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt,
-                ) ||
-                arbeidsgiver.ghostPerioder.some(
-                    (it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt && !it.deaktivert,
-                ),
-        )
-        .filter(
-            (arbeidsgiver) =>
-                inntekter.find((inntekt) => inntekt.arbeidsgiver === arbeidsgiver.organisasjonsnummer)
-                    ?.omregnetArsinntekt !== null,
-        );
+export const finnAktiveInntekter = (inntekter: Arbeidsgiverinntekt[]): Arbeidsgiverinntekt[] =>
+    inntekter.filter((inntekt) => !inntekt.deaktivert && inntekt.omregnetArsinntekt !== null);
 
 function useFormDefaults(
     skjønnsfastsettelseFormState: SkjønnsfastsettingFormFields | null,

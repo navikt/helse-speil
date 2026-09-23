@@ -34,14 +34,21 @@ describe('SkjønnsfastsettingForm', () => {
         organisasjonsnummer: '123456710',
         navn: 'Arbeidsgiver Tre',
     });
+    const arbeidsgiverUtenPølse = enArbeidsgiver({
+        behandlinger: [],
+        ghostPerioder: [],
+        organisasjonsnummer: '123456711',
+        navn: 'Arbeidsgiver Uten Pølse',
+    });
     const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis().medInntekter([
         enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiver.organisasjonsnummer }),
         enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiver2.organisasjonsnummer }),
         enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiver3.organisasjonsnummer, deaktivert: true }),
+        enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiverUtenPølse.organisasjonsnummer }),
     ]);
     const person = enPerson({
         vilkarsgrunnlagV2: [vilkårsgrunnlag],
-        arbeidsgivere: [arbeidsgiver, arbeidsgiver2, arbeidsgiver3],
+        arbeidsgivere: [arbeidsgiver, arbeidsgiver2, arbeidsgiver3, arbeidsgiverUtenPølse],
     });
 
     const malMed25Avvik = {
@@ -198,6 +205,32 @@ describe('SkjønnsfastsettingForm', () => {
         expect(await screen.findByText(arbeidsgiver.navn)).toBeInTheDocument();
         expect(await screen.findByText(arbeidsgiver2.navn)).toBeInTheDocument();
         expect(screen.queryByText(arbeidsgiver3.navn)).not.toBeInTheDocument();
+    });
+
+    it('tar med arbeidsforhold som mangler både periode og ghost-periode', async () => {
+        const user = userEvent.setup();
+
+        renderWithProvider(
+            <SkjønnsfastsettingForm
+                person={person}
+                periode={periode}
+                inntekter={vilkårsgrunnlag.inntekter}
+                omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}
+                sammenligningsgrunnlag={Number(vilkårsgrunnlag.avviksvurdering!.sammenligningsgrunnlag)}
+                sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
+                onEndretSykepengegrunnlag={vi.fn()}
+                closeAndResetForm={vi.fn()}
+                maler={maler}
+                sisteSkjønnsfastsettelse={null}
+                formValues={null}
+                setFormValues={vi.fn()}
+            />,
+        );
+
+        await user.click(screen.getByText(malMed25Avvik.arsak));
+        await user.click(screen.getByText('Skjønnsfastsette til omregnet årsinntekt'));
+
+        expect(await screen.findByText(arbeidsgiverUtenPølse.navn)).toBeInTheDocument();
     });
 
     it('skal ha validering av at inntekt fordeles ved skjønnsfastsettelse til rapportert', async () => {

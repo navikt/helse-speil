@@ -31,7 +31,12 @@
                                 "belop": 666666,
                                 "inntektFraAOrdningen": []
                             },
-                            "omregnetArsinntekt": null,
+                            "omregnetArsinntekt": {
+                                "inntektFraAOrdningen": null,
+                                "belop": 240000,
+                                "manedsbelop": 20000,
+                                "kilde": "AORDNINGEN"
+                            },
                             "arbeidsgiver": "896929120",
                             "deaktivert": false
                         }

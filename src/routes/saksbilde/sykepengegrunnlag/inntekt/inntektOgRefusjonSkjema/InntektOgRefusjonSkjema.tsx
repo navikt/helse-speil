@@ -21,20 +21,20 @@ import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntek
 import { SisteTolvMånedersInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånedersInntekt';
 import { Månedsbeløp } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/månedsbeløp/Månedsbeløp';
 import {
+    finnSistePeriodeForSkjæringstidspunkt,
+    harSykefraværMedSkjæringstidspunkt,
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
-    usePeriodForSkjæringstidspunktForArbeidsgiver,
 } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useInntektOgRefusjon, useLokaleInntektOverstyringer, useOverstyrtInntektMetadata } from '@state/overstyring';
+import { lagOverstyrtInntektMetadata, useInntektOgRefusjon, useLokaleInntektOverstyringer } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
 import { BegrunnelseForOverstyring } from '@typer/overstyring';
-import { ActivePeriod, DateString } from '@typer/shared';
+import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { avrundetToDesimaler } from '@utils/tall';
-import { isGhostPeriode } from '@utils/typeguards';
 
 import { Begrunnelser } from '../Begrunnelser';
 import { SlettLokaleOverstyringerDialog } from './SlettLokaleOverstyringerDialog';
@@ -56,6 +56,7 @@ interface EditableInntektProps {
     omregnetÅrsinntekt: OmregnetArsinntekt;
     begrunnelser: BegrunnelseForOverstyring[];
     skjæringstidspunkt: DateString;
+    vilkårsgrunnlagId?: string | null;
     inntektFraAOrdningen?: InntektFraAOrdningen[];
     inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
     inntektFom: string | null;
@@ -71,6 +72,7 @@ export const InntektOgRefusjonSkjema = ({
     omregnetÅrsinntekt,
     begrunnelser,
     skjæringstidspunkt,
+    vilkårsgrunnlagId,
     inntektFraAOrdningen,
     inntekterForSammenligningsgrunnlag,
     inntektFom,
@@ -81,12 +83,9 @@ export const InntektOgRefusjonSkjema = ({
 }: EditableInntektProps): ReactElement => {
     const form = useForm<InntektFormFields>({ shouldFocusError: false, mode: 'onSubmit', reValidateMode: 'onBlur' });
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
-    const period = usePeriodForSkjæringstidspunktForArbeidsgiver(
-        person,
-        skjæringstidspunkt,
-        arbeidsgiver.organisasjonsnummer,
-    );
-    const metadata = useOverstyrtInntektMetadata(person, arbeidsgiver, period);
+    const sistePeriodeForSkjæringstidspunkt = finnSistePeriodeForSkjæringstidspunkt(arbeidsgiver, skjæringstidspunkt);
+    const utenSykefravær = !harSykefraværMedSkjæringstidspunkt(arbeidsgiver, skjæringstidspunkt);
+    const metadata = lagOverstyrtInntektMetadata(person, arbeidsgiver, skjæringstidspunkt, vilkårsgrunnlagId);
     const valgtVedtaksperiode = useActivePeriod(person);
     const [harIkkeSkjemaEndringer, setHarIkkeSkjemaEndringer] = useState(false);
     const [showSlettLokaleOverstyringerModal, setShowSlettLokaleOverstyringerModal] = useState(false);
@@ -175,7 +174,8 @@ export const InntektOgRefusjonSkjema = ({
     };
 
     const validateRefusjon = refusjonsvalidator(
-        period,
+        utenSykefravær,
+        sistePeriodeForSkjæringstidspunkt?.tom,
         values,
         metadata.fraRefusjonsopplysninger,
         omregnetÅrsinntekt.manedsbelop,
@@ -202,7 +202,7 @@ export const InntektOgRefusjonSkjema = ({
                         feilmelding={form.formState.errors.manedsbelop?.message}
                     />
                     <OmregnetÅrsinntekt omregnetÅrsintekt={omregnetÅrsinntekt?.belop} gap="space-64" />
-                    {!isGhostPeriode(period) && (
+                    {!utenSykefravær && (
                         <RefusjonSkjema
                             fraRefusjonsopplysninger={metadata.fraRefusjonsopplysninger}
                             lokaleRefusjonsopplysninger={lokaleRefusjonsopplysninger}
@@ -211,7 +211,7 @@ export const InntektOgRefusjonSkjema = ({
                     <SisteTolvMånedersInntekt
                         skjæringstidspunkt={skjæringstidspunkt}
                         inntektFraAOrdningen={inntektFraAOrdningen}
-                        erAktivGhost={isGhostPeriode(period) && !erDeaktivert}
+                        erAktivGhost={utenSykefravær && !erDeaktivert}
                         inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
                     />
                     <Begrunnelser begrunnelser={begrunnelser} />
@@ -266,7 +266,8 @@ export const formErrorsTilFeilliste = (errors: FieldErrors<InntektFormFields>): 
 
 const refusjonsvalidator =
     (
-        period: ActivePeriod | null,
+        utenSykdom: boolean,
+        sistePeriodeTom: DateString | undefined,
         values: InntektFormFields,
         fraRefusjonsopplysninger: Refusjonsopplysning[],
         omregnetÅrsinntektBeløp: number,
@@ -278,7 +279,7 @@ const refusjonsvalidator =
         førstePeriodeForSkjæringstidspunktFom?: string,
     ) =>
     (e: FormEvent) => {
-        if (isGhostPeriode(period)) {
+        if (utenSykdom) {
             handleSubmit(confirmChanges);
             return;
         }
@@ -333,7 +334,7 @@ const refusjonsvalidator =
         const sisteTomErFørPeriodensTom: boolean =
             refusjonsopplysninger?.[0]?.tom === null
                 ? false
-                : (dayjs(refusjonsopplysninger?.[0]?.tom, ISO_DATOFORMAT).isBefore(period?.tom) ?? true);
+                : (dayjs(refusjonsopplysninger?.[0]?.tom, ISO_DATOFORMAT).isBefore(sistePeriodeTom) ?? true);
 
         const førsteFomErEtterFørstePeriodesFom: boolean = dayjs(
             refusjonsopplysninger?.[refusjonsopplysninger.length - 1]?.fom,

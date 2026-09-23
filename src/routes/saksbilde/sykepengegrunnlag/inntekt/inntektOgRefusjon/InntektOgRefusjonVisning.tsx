@@ -2,22 +2,24 @@ import React from 'react';
 
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import {
-    BeregnetPeriodeFragment,
+    Arbeidsgiver,
     InntektFraAOrdningen,
     Inntektskilde,
     OmregnetArsinntekt,
-    Overstyring,
     PersonFragment,
     VilkarsgrunnlagSpleisV2,
 } from '@io/graphql';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { Refusjonsoversikt } from '@saksbilde/sykepengegrunnlag/refusjon/Refusjonsoversikt';
-import { useLokaleRefusjonsopplysninger, useLokaltMånedsbeløp } from '@state/inntektsforhold/arbeidsgiver';
+import {
+    harSykefraværMedSkjæringstidspunkt,
+    useLokaleRefusjonsopplysninger,
+    useLokaltMånedsbeløp,
+} from '@state/inntektsforhold/arbeidsgiver';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
-import { ActivePeriod } from '@typer/shared';
-import { isGhostPeriode } from '@utils/typeguards';
+import { DateString } from '@typer/shared';
 
 import { ReadOnlyInntekt } from './ReadOnlyInntekt';
 import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
@@ -25,7 +27,7 @@ import { useArbeidsforholdKanOverstyres } from './inntektOgRefusjonUtils';
 
 interface InntektOgRefusjonVisningProps {
     person: PersonFragment;
-    periode: ActivePeriod;
+    skjæringstidspunkt: DateString;
     omregnetÅrsinntekt: OmregnetArsinntekt | null;
     endret: boolean;
     refusjon?: Refusjonsopplysning[] | null;
@@ -33,13 +35,12 @@ interface InntektOgRefusjonVisningProps {
     inntektFraAOrdningen?: InntektFraAOrdningen[];
     erDeaktivert: boolean;
     inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
-    organisasjonsnummer: string;
-    overstyringer: Overstyring[];
+    arbeidsgiver: Arbeidsgiver;
 }
 
 export const InntektOgRefusjonVisning = ({
     person,
-    periode,
+    skjæringstidspunkt,
     omregnetÅrsinntekt,
     endret,
     refusjon,
@@ -47,16 +48,15 @@ export const InntektOgRefusjonVisning = ({
     inntektFraAOrdningen,
     erDeaktivert,
     inntekterForSammenligningsgrunnlag,
-    organisasjonsnummer,
-    overstyringer,
+    arbeidsgiver,
 }: InntektOgRefusjonVisningProps) => {
-    const { skjaeringstidspunkt: skjæringstidspunkt } = periode as BeregnetPeriodeFragment;
+    const organisasjonsnummer = arbeidsgiver.organisasjonsnummer;
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
-    const { inntektsendringer } = useEndringerForPeriode(overstyringer, person);
+    const { inntektsendringer } = useEndringerForPeriode(arbeidsgiver.overstyringer, person);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
-    const erGhostperiode = isGhostPeriode(periode);
+    const utenSykefravær = !harSykefraværMedSkjæringstidspunkt(arbeidsgiver, skjæringstidspunkt);
     const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
     const skalVise12mnd828 =
         Number(
@@ -96,7 +96,7 @@ export const InntektOgRefusjonVisning = ({
             <SisteTolvMånedersInntekt
                 skjæringstidspunkt={skjæringstidspunkt}
                 inntektFraAOrdningen={finnInntektFraAOrdningen()}
-                erAktivGhost={erGhostperiode && !erDeaktivert}
+                erAktivGhost={utenSykefravær && !erDeaktivert}
                 inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
             />
             {(arbeidsforholdKanOverstyres || erDeaktivert) && (

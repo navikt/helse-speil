@@ -3,7 +3,7 @@ import React from 'react';
 import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { Button, HelpText } from '@navikt/ds-react';
 
-import { Arbeidsgiver, PersonFragment, Utbetalingstatus } from '@io/graphql';
+import { PersonFragment, Utbetalingstatus } from '@io/graphql';
 import {
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
@@ -12,14 +12,14 @@ import {
     useAktivtInntektsforhold,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
-import { ActivePeriod } from '@typer/shared';
+import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 interface ToggleOverstyringProps {
     person: PersonFragment;
-    arbeidsgiver: Arbeidsgiver;
-    periode: ActivePeriod;
+    skjæringstidspunkt: DateString;
     vilkårsgrunnlagId?: string | null;
     organisasjonsnummer: string;
     erDeaktivert: boolean;
@@ -29,30 +29,36 @@ interface ToggleOverstyringProps {
 
 export const ToggleOverstyring = ({
     person,
-    arbeidsgiver,
-    periode,
+    skjæringstidspunkt,
     vilkårsgrunnlagId,
     organisasjonsnummer,
     erDeaktivert,
     editing,
     setEditing,
 }: ToggleOverstyringProps) => {
+    const aktivPeriode = useActivePeriod(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
-    const kanRevurderes = useInntektKanRevurderes(person, periode.skjaeringstidspunkt);
+    const kanRevurderes = useInntektKanRevurderes(person, skjæringstidspunkt);
     const ghostInntektKanOverstyres =
-        useGhostInntektKanOverstyres(person, periode.skjaeringstidspunkt, organisasjonsnummer) && !erDeaktivert;
+        useGhostInntektKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer) && !erDeaktivert;
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
 
     const kanOverstyres = vilkårsgrunnlagId != null && (kanRevurderes || ghostInntektKanOverstyres);
 
-    if (!isGhostPeriode(periode) && !isInCurrentGeneration(periode, arbeidsgiver)) return null;
+    // Saksbehandler ser på en tidligere behandling av den aktive perioden, og skal ikke kunne overstyre.
+    if (
+        aktivPeriode == null ||
+        inntektsforhold == null ||
+        (!isGhostPeriode(aktivPeriode) && !isInCurrentGeneration(aktivPeriode, inntektsforhold))
+    ) {
+        return null;
+    }
 
     const utbetalingForSkjæringstidspunkt =
-        Array.from(inntektsforhold?.behandlinger[0]?.perioder ?? [])
+        Array.from(inntektsforhold.behandlinger[0]?.perioder ?? [])
             .filter(isBeregnetPeriode)
             .reverse()
-            .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === periode.skjaeringstidspunkt)
-            ?.utbetaling ?? null;
+            .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === skjæringstidspunkt)?.utbetaling ?? null;
     const erRevurdering = utbetalingForSkjæringstidspunkt?.status === Utbetalingstatus.Utbetalt;
 
     return kanOverstyres ? (

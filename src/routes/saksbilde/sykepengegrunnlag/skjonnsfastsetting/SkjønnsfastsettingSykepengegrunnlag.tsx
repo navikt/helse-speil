@@ -18,7 +18,7 @@ import {
 } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/atoms';
 import {
     SkjønnsfastsettingForm,
-    useAktiveArbeidsgivere,
+    finnAktiveInntekter,
 } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { cn } from '@utils/tw';
@@ -57,7 +57,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const [editing, setEditing] = useAtomEditingForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     const [formValues, setFormValues] = useAtomSkjemaForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<number | null>(null);
-    const aktiveArbeidsgivereMedOmregnetÅrsinntekt = useAktiveArbeidsgivere(person, periode, inntekter);
+    const aktiveArbeidsgivereMedOmregnetÅrsinntekt = finnAktiveInntekter(inntekter);
     const skalVise828andreLedd = Math.abs(avviksprosent) > 25;
 
     const { maler, error } = useSkjønnsfastsettelsesMaler(

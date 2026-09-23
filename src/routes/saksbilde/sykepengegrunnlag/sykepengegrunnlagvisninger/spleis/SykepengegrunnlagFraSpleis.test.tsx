@@ -6,7 +6,7 @@ import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { PersonStoreContext } from '@state/contexts/personStore';
-import { useActivePeriod } from '@state/periode';
+import { useActivePeriod, useActivePeriodWithPerson } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
@@ -158,7 +158,138 @@ describe('SykepengegrunnlagFraSpleis', () => {
         expect(screen.getByText('RAPPORTERT SISTE 3 MÅNEDER')).toBeVisible();
         expect(screen.getAllByText(arbeidsgiver.navn)).toHaveLength(3);
     });
+
+    it('rendrer inntekt for arbeidsgiver som mangler både periode og ghost-periode', () => {
+        const arbeidsgiverMedSykdom = enArbeidsgiver();
+        const arbeidsgiverUtenPølse = enArbeidsgiver({
+            navn: 'Uten Pølse AS',
+            organisasjonsnummer: '900800700',
+            behandlinger: [],
+            ghostPerioder: [],
+        });
+        const person = enPerson()
+            .medArbeidsgivere([arbeidsgiverMedSykdom, arbeidsgiverUtenPølse])
+            .medTilleggsinfoForInntektskilder([
+                tilleggsinfoFraEnInntektskilde({
+                    navn: arbeidsgiverMedSykdom.navn,
+                    orgnummer: arbeidsgiverMedSykdom.organisasjonsnummer,
+                }),
+                tilleggsinfoFraEnInntektskilde({
+                    navn: arbeidsgiverUtenPølse.navn,
+                    orgnummer: arbeidsgiverUtenPølse.organisasjonsnummer,
+                }),
+            ]);
+        const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt: '2020-01-01' }).medInntekter([
+            enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiverMedSykdom.organisasjonsnummer }),
+            enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiverUtenPølse.organisasjonsnummer }),
+        ]);
+
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: person } });
+        (useActivePeriod as Mock).mockReturnValue(enBeregnetPeriode());
+        (useEndringerForPeriode as Mock).mockReturnValue({
+            inntektsendringer: [],
+            arbeidsforholdendringer: [],
+            dagendringer: [],
+            skjønnsfastsettingsendringer: [],
+        });
+        (useVilkårsgrunnlag as Mock).mockReturnValue(vilkårsgrunnlag);
+
+        renderWithProvider(
+            <SykepengegrunnlagFraSpleis
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                organisasjonsnummer={arbeidsgiverUtenPølse.organisasjonsnummer}
+                person={person}
+                periode={enBeregnetPeriode()}
+            />,
+        );
+
+        expect(screen.getByText('Beregnet månedsinntekt')).toBeVisible();
+        expect(screen.getAllByText(arbeidsgiverUtenPølse.navn).length).toBeGreaterThan(1);
+    });
+
+    it('forklarer hvorfor et aktivt arbeidsforhold uten pølse er med i beregningsgrunnlaget', () => {
+        const { vilkårsgrunnlag, person, arbeidsgiverUtenPølse } = etGrunnlagMedArbeidsforholdUtenPølse({
+            deaktivert: false,
+        });
+
+        renderWithProvider(
+            <SykepengegrunnlagFraSpleis
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                organisasjonsnummer={arbeidsgiverUtenPølse.organisasjonsnummer}
+                person={person}
+                periode={enBeregnetPeriode()}
+            />,
+        );
+
+        expect(screen.getByText(/tatt med i beregningsgrunnlaget/)).toBeVisible();
+    });
+
+    it('forklarer ikke beregningsgrunnlaget for et deaktivert arbeidsforhold uten pølse', () => {
+        const { vilkårsgrunnlag, person, arbeidsgiverUtenPølse } = etGrunnlagMedArbeidsforholdUtenPølse({
+            deaktivert: true,
+        });
+
+        renderWithProvider(
+            <SykepengegrunnlagFraSpleis
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                organisasjonsnummer={arbeidsgiverUtenPølse.organisasjonsnummer}
+                person={person}
+                periode={enBeregnetPeriode()}
+            />,
+        );
+
+        expect(screen.getByText('Brukes ikke i beregningen')).toBeVisible();
+        expect(screen.queryByText(/tatt med i beregningsgrunnlaget/)).not.toBeInTheDocument();
+    });
 });
+
+/**
+ * Bygger et vilkårsgrunnlag der én arbeidsgiver har sykdom og én er et arbeidsforhold uten pølse,
+ * altså uten både periode og ghost-periode på skjæringstidspunktet.
+ */
+function etGrunnlagMedArbeidsforholdUtenPølse({ deaktivert }: { deaktivert: boolean }) {
+    const arbeidsgiverMedSykdom = enArbeidsgiver();
+    const arbeidsgiverUtenPølse = enArbeidsgiver({
+        navn: 'Uten Pølse AS',
+        organisasjonsnummer: '900800700',
+        behandlinger: [],
+        ghostPerioder: [],
+    });
+    const person = enPerson()
+        .medArbeidsgivere([arbeidsgiverMedSykdom, arbeidsgiverUtenPølse])
+        .medTilleggsinfoForInntektskilder([
+            tilleggsinfoFraEnInntektskilde({
+                navn: arbeidsgiverMedSykdom.navn,
+                orgnummer: arbeidsgiverMedSykdom.organisasjonsnummer,
+            }),
+            tilleggsinfoFraEnInntektskilde({
+                navn: arbeidsgiverUtenPølse.navn,
+                orgnummer: arbeidsgiverUtenPølse.organisasjonsnummer,
+            }),
+        ]);
+    const inntektUtenPølse = enArbeidsgiverinntekt({
+        arbeidsgiver: arbeidsgiverUtenPølse.organisasjonsnummer,
+        deaktivert,
+    }).medInntektFraAOrdningen();
+    const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt: '2020-01-01' }).medInntekter([
+        enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiverMedSykdom.organisasjonsnummer }),
+        inntektUtenPølse,
+    ]);
+    const aktivPeriode = arbeidsgiverMedSykdom.behandlinger[0]!.perioder[0]!;
+
+    (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: person } });
+    (useActivePeriod as Mock).mockReturnValue(aktivPeriode);
+    (useActivePeriodWithPerson as Mock).mockReturnValue(aktivPeriode);
+    (useEndringerForPeriode as Mock).mockReturnValue({
+        inntektsendringer: [],
+        arbeidsforholdendringer: [],
+        dagendringer: [],
+        skjønnsfastsettingsendringer: [],
+    });
+    (useVilkårsgrunnlag as Mock).mockReturnValue(vilkårsgrunnlag);
+
+    return { vilkårsgrunnlag, person, arbeidsgiverUtenPølse };
+}
 
 export const renderWithProvider = (ui: React.ReactNode) =>
     render(<PersonStoreContext.Provider value={createStore()}>{ui}</PersonStoreContext.Provider>);

@@ -1,82 +1,31 @@
-import {
-    Arbeidsgiver,
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    Hendelse,
-    Periode,
-    PersonFragment,
-} from '@io/graphql';
-import {
-    finnAlleInntektsforhold,
-    finnNteEllerNyesteBehandling,
-    finnPeriodeTilGodkjenning,
-    useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
-} from '@state/inntektsforhold/inntektsforhold';
+import { Arbeidsgiver, GhostPeriodeFragment, Hendelse, Periode, PersonFragment } from '@io/graphql';
+import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useInntektOgRefusjon } from '@state/overstyring';
-import { useActivePeriod } from '@state/periode';
 import { Refusjonsopplysning } from '@typer/overstyring';
-import { ActivePeriod, DateString } from '@typer/shared';
-import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { DateString } from '@typer/shared';
 
-export const usePeriodForSkjæringstidspunktForArbeidsgiver = (
-    person: PersonFragment,
-    skjæringstidspunkt: DateString | null,
-    organisasjonsnummer: string,
-): ActivePeriod | null => {
-    const aktivPeriode = useActivePeriod(person);
-    const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer);
-    const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
+/**
+ * Sjekker om arbeidsgiveren har en periode med det oppgitte skjæringstidspunktet i siste behandling.
+ *
+ * Kallstedene bruker dette til å avgjøre om et arbeidsforhold er «uten sykdom». Den slutningen holder
+ * bare for arbeidsgivere som allerede er i inntektsgrunnlaget for skjæringstidspunktet, altså de som
+ * ligger i vilkårsgrunnlagets inntektsliste. Vi ser på perioder i stedet for ghost-objekter fordi Spleis
+ * ikke alltid lager en ghost-periode, for eksempel når dagtypen er helg.
+ */
+export const harSykefraværMedSkjæringstidspunkt = (
+    arbeidsgiver: Arbeidsgiver | null,
+    skjæringstidspunkt: DateString,
+): boolean =>
+    !!arbeidsgiver?.behandlinger[0]?.perioder.some((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt);
 
-    if (!skjæringstidspunkt || aktivPeriode == null || arbeidsgiver == null) return null;
-
-    const forrigeEllerNyesteBehandling = finnNteEllerNyesteBehandling(aktivPeriode, arbeidsgiver);
-
-    const arbeidsgiverEierForrigeEllerNyesteBehandling = arbeidsgiver?.behandlinger.some(
-        (g) => g.id === forrigeEllerNyesteBehandling?.id,
-    );
-
-    const arbeidsgiverGhostPerioder =
-        arbeidsgiver?.ghostPerioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [];
-
-    const arbeidsgiverPerioder = arbeidsgiverEierForrigeEllerNyesteBehandling
-        ? (forrigeEllerNyesteBehandling?.perioder.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? [])
-        : [];
-    if (arbeidsgiverPerioder.length === 0 && arbeidsgiverGhostPerioder.length === 0) {
-        return null;
-    }
-    const arbeidsgiverBeregnedePerioder: BeregnetPeriodeFragment[] = arbeidsgiverPerioder.filter((it) =>
-        isBeregnetPeriode(it),
-    ) as BeregnetPeriodeFragment[];
-
-    if (arbeidsgiverBeregnedePerioder.length === 0 && isGhostPeriode(arbeidsgiverGhostPerioder[0])) {
-        return arbeidsgiverGhostPerioder[0] ?? null;
-    }
-
-    const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
-    const harSammeSkjæringstidspunkt = skjæringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
-
-    const aktivArbeidsgiverHarAktivPeriode = arbeidsgiverBeregnedePerioder.some(
-        (it) => it.id === periodeTilGodkjenning?.id,
-    );
-
-    if (
-        periodeTilGodkjenning &&
-        aktivArbeidsgiverHarAktivPeriode &&
-        erAktivPeriodeLikEllerFørPeriodeTilGodkjenning &&
-        harSammeSkjæringstidspunkt
-    )
-        return periodeTilGodkjenning as ActivePeriod;
-
-    const overstyrbareArbeidsgiverPerioder = arbeidsgiverPerioder
-        .filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it))
-        .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime());
-    const nyesteBeregnetPeriodePåSkjæringstidspunkt = (overstyrbareArbeidsgiverPerioder
-        ?.filter((it) => isBeregnetPeriode(it))
-        .pop() ?? null) as ActivePeriod | null;
-    const nyestePeriodePåSkjæringstidspunkt = (overstyrbareArbeidsgiverPerioder?.pop() ?? null) as ActivePeriod | null;
-
-    return nyesteBeregnetPeriodePåSkjæringstidspunkt ?? nyestePeriodePåSkjæringstidspunkt;
-};
+/**
+ * Perioder ligger nyeste først, så den første treffer på skjæringstidspunktet er den siste i sykefraværstilfellet.
+ */
+export const finnSistePeriodeForSkjæringstidspunkt = (
+    arbeidsgiver: Arbeidsgiver | null,
+    skjæringstidspunkt: DateString,
+): Periode | null =>
+    arbeidsgiver?.behandlinger[0]?.perioder.find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? null;
 
 export const useLokaleRefusjonsopplysninger = (
     organisasjonsnummer: string,
