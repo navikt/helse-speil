@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { Alert, Link } from '@navikt/ds-react';
 
 import { PopupWindowPortal, usePopupWindow } from '@components/PopupWindow';
-import { AnonymizationRoot } from '@components/anonymization/context';
 import { Simulering, Utbetaling } from '@io/graphql';
 import { cn } from '@utils/tw';
 
@@ -36,9 +35,7 @@ export function OpenSimuleringButton({ simulering, utbetaling, className }: Open
             )}
             {popup !== null && (
                 <PopupWindowPortal popup={popup}>
-                    <AnonymizationRoot>
-                        <SimuleringView simulering={simulering} utbetalingId={utbetaling.id} />
-                    </AnonymizationRoot>
+                    <SimuleringView simulering={simulering} utbetalingId={utbetaling.id} />
                 </PopupWindowPortal>
             )}
         </>

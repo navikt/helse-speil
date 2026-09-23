@@ -1,7 +1,6 @@
 import React from 'react';
 import { vi } from 'vitest';
 
-import { AnonymizationProvider } from '@components/anonymization/context';
 import { enSimulering } from '@test-data/simulering';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { render } from '@test-utils';
@@ -51,6 +50,18 @@ describe('OpenSimuleringButton', () => {
         document.documentElement.classList.remove('dark');
     });
 
+    it('tar med anonymiseringen fra hovedvinduet', async () => {
+        localStorage.setItem('anonymisering', 'true');
+        const popup = etFalskPopupvindu();
+        vi.spyOn(window, 'open').mockReturnValue(popup as unknown as Window);
+
+        rendre();
+        await userEvent.click(screen.getByRole('button', { name: 'Simulering' }));
+
+        await waitFor(() => expect(popup.document.documentElement.classList.contains('anonymized')).toBe(true));
+        localStorage.clear();
+    });
+
     it('lukker vinduet og rydder opp når komponenten unmountes', async () => {
         const popup = etFalskPopupvindu();
         vi.spyOn(window, 'open').mockReturnValue(popup as unknown as Window);
@@ -94,11 +105,7 @@ describe('OpenSimuleringButton', () => {
 });
 
 function rendre() {
-    return render(
-        <AnonymizationProvider>
-            <OpenSimuleringButton simulering={enSimulering()} utbetaling={enUtbetaling()} />
-        </AnonymizationProvider>,
-    );
+    return render(<OpenSimuleringButton simulering={enSimulering()} utbetaling={enUtbetaling()} />);
 }
 
 function etFalskPopupvindu() {

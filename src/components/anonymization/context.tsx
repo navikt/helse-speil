@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, ReactElement, createContext, useContext, useSyncExternalStore } from 'react';
+import { PropsWithChildren, ReactElement, createContext, useContext, useEffect, useSyncExternalStore } from 'react';
 
 const ANONYMISERING_KEY = 'anonymisering';
 
@@ -26,24 +26,19 @@ export function useIsAnonymous(): boolean {
 export function AnonymizationProvider({ children }: PropsWithChildren): ReactElement {
     const isAnonymized = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
+    // Aksel-portaler (Dialog, Popover, Tooltip) rendres i document.body, så klassen må ligge på <html>.
+    // Simuleringsvinduet får den også, siden PopupWindow speiler klassene på <html>.
+    useEffect(() => {
+        document.documentElement.classList.toggle('anonymized', isAnonymized);
+        return () => document.documentElement.classList.remove('anonymized');
+    }, [isAnonymized]);
+
     const toggle = () => {
         localStorage.setItem(ANONYMISERING_KEY, String(!isAnonymized));
         window.dispatchEvent(new Event('storage'));
     };
 
     return <AnonymizationContext.Provider value={{ isAnonymized, toggle }}>{children}</AnonymizationContext.Provider>;
-}
-
-// Holder klassen som CSS-en henger på. div#root har også layout-CSS-en for hele appen, se globals.css.
-// Ligger utenfor provideren så tester kan bruke konteksten uten å få med seg markup.
-export function AnonymizationRoot({ children }: PropsWithChildren): ReactElement {
-    const { isAnonymized } = useAnonymizationContext();
-
-    return (
-        <div id="root" className={isAnonymized ? 'anonymized' : undefined}>
-            {children}
-        </div>
-    );
 }
 
 function subscribe(onStoreChange: () => void): () => void {

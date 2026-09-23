@@ -66,6 +66,21 @@ describe('AnonymizationProvider', () => {
         expect(result.current.isAnonymized).toBe(true);
     });
 
+    it('setter anonymized-klassen på <html> så portaler også sladdes', () => {
+        const { result, unmount } = renderAnonymisering();
+        expect(document.documentElement).not.toHaveClass('anonymized');
+
+        act(() => result.current.toggle());
+        expect(document.documentElement).toHaveClass('anonymized');
+
+        act(() => result.current.toggle());
+        expect(document.documentElement).not.toHaveClass('anonymized');
+
+        act(() => result.current.toggle());
+        unmount();
+        expect(document.documentElement).not.toHaveClass('anonymized');
+    });
+
     it('kaster feil når konteksten brukes uten provider', () => {
         expect(() => renderHookUtenProvidere(() => useAnonymizationContext())).toThrow(
             'useAnonymizationContext må brukes inne i en AnonymizationProvider',
