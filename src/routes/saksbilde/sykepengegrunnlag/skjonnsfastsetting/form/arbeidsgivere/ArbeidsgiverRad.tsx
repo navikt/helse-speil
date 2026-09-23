@@ -35,9 +35,11 @@ export const ArbeidsgiverRad = ({
     return (
         <Table.Row className={styles.arbeidsgiver}>
             <Table.DataCell>
-                <HStack gap="space-12" align="center" maxWidth="228px">
-                    <Arbeidsgiverikon />
-                    <Inntektsforholdnavn inntektsforholdReferanse={arbeidsgiverReferanse} />
+                <HStack gap="space-12" align="center" maxWidth="228px" wrap={false}>
+                    <Arbeidsgiverikon className="shrink-0" />
+                    <div className="min-w-0">
+                        <Inntektsforholdnavn inntektsforholdReferanse={arbeidsgiverReferanse} />
+                    </div>
                 </HStack>
             </Table.DataCell>
             <Table.DataCell>
