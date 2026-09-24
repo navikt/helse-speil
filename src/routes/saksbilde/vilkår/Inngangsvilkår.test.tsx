@@ -203,4 +203,70 @@ describe('Inngangsvilkår', () => {
         expect(within(gruppe).getByText('Lovvalg og medlemskap')).toBeVisible();
         expect(within(gruppe).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
     });
+
+    describe('nytt vilkårsdesign', () => {
+        it('rendrer sykepengegrunnlag og medlemskap som flate kort i stedet for kolonner', () => {
+            render(
+                <InngangsvilkårWithContent
+                    periodeFom="2022-01-01"
+                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
+                    fødselsdato="1900-01-01"
+                    erSelvstendigNæring={false}
+                    nyttVilkårsdesign={true}
+                    opptjening={<div data-testid="opptjening" />}
+                />,
+            );
+
+            expect(screen.getByTestId('opptjening')).toBeVisible();
+            expect(screen.queryByTestId('oppfylte-vilkår')).not.toBeInTheDocument();
+            expect(screen.queryByTestId('vurdert-automatisk')).not.toBeInTheDocument();
+
+            const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+            expect(within(sykepengegrunnlag).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
+            expect(within(sykepengegrunnlag).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
+
+            const medlemskap = screen.getByTestId('medlemskap');
+            expect(within(medlemskap).getByText('Lovvalg og medlemskap')).toBeVisible();
+            expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
+        });
+
+        it('viser ikke oppfylt/ikke vurdert-utfall for sykepengegrunnlag og medlemskap', () => {
+            render(
+                <InngangsvilkårWithContent
+                    periodeFom="2022-01-01"
+                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis({
+                        oppfyllerKravOmMinstelonn: false,
+                        vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.IkkeVurdert,
+                    })}
+                    fødselsdato="1900-01-01"
+                    erSelvstendigNæring={false}
+                    nyttVilkårsdesign={true}
+                />,
+            );
+
+            const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+            expect(within(sykepengegrunnlag).getByText('Ikke oppfylt', { selector: '.aksel-tag' })).toBeVisible();
+
+            const medlemskap = screen.getByTestId('medlemskap');
+            expect(within(medlemskap).getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
+        });
+
+        it('viser "Vurdert i Infotrygd" som utfall-tag når vilkårsgrunnlaget er fra Infotrygd', () => {
+            render(
+                <InngangsvilkårWithContent
+                    periodeFom="2022-01-01"
+                    vilkårsgrunnlag={getVilkårsgrunnlagInfotrygd()}
+                    fødselsdato="1900-01-01"
+                    erSelvstendigNæring={false}
+                    nyttVilkårsdesign={true}
+                />,
+            );
+
+            const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+            expect(within(sykepengegrunnlag).getByText('Vurdert i Infotrygd')).toBeVisible();
+
+            const medlemskap = screen.getByTestId('medlemskap');
+            expect(within(medlemskap).getByText('Vurdert i Infotrygd')).toBeVisible();
+        });
+    });
 });

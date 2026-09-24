@@ -14,8 +14,9 @@ export const vilkårsspørsmål: Record<ManueltVurderbarVilkårskode, string> = 
     [ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER]: 'Vurder om søkeren har hatt arbeid i minst 4 uker',
 };
 
-export type OverstyrVilkårsvurderingSchema = z.infer<typeof overstyrVilkårsvurderingSkjema>;
-export const overstyrVilkårsvurderingSkjema = z.object({
+export type ManuellVurderingAvVilkårSchema = z.infer<typeof manuellVurderingAvVilkårSkjema>;
+export const manuellVurderingAvVilkårSkjema = z.object({
     utfall: z.enum([ApiUtfall.OPPFYLT, ApiUtfall.IKKE_OPPFYLT], { error: 'Velg utfall' }),
     fritekstbegrunnelse: z.string().min(1, { error: 'Fyll inn begrunnelse' }),
+    dokumentIder: z.array(z.object({ verdi: z.string() })),
 });

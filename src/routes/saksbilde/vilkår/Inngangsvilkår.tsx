@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { Alert } from '@navikt/ds-react';
+import { Alert, BodyShort, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -20,9 +20,17 @@ import { useNyOpptjeningVisning } from '@state/toggles';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
+import { getFormattedDateString } from '@utils/date';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
-import { kategoriserteInngangsvilkår } from './kategoriserteInngangsvilkår';
+import { MedlemskapVilkår } from './MedlemskapVilkår';
+import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
+import { VurderingspanelContext, VurderingspanelProvider } from './VurderingspanelContext';
+import {
+    kategoriserteInngangsvilkår,
+    medlemskapOppfylt,
+    sykepengegrunnlagOppfylt,
+} from './kategoriserteInngangsvilkår';
 import { Opptjening } from './opptjening/Opptjening';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
@@ -41,6 +49,7 @@ interface InngangsvilkårWithContentProps {
     fødselsdato: DateString;
     vurdering?: Vurdering | null;
     opptjening?: ReactElement | null;
+    nyttVilkårsdesign?: boolean;
 }
 
 export const InngangsvilkårWithContent = ({
@@ -50,8 +59,37 @@ export const InngangsvilkårWithContent = ({
     fødselsdato,
     vurdering,
     opptjening,
+    nyttVilkårsdesign = false,
 }: InngangsvilkårWithContentProps) => {
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
+
+    if (nyttVilkårsdesign) {
+        const vurdertIInfotrygd = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2';
+
+        return (
+            <VurderingspanelProvider>
+                <div className={styles.Inngangsvilkår}>
+                    <VStack gap="space-16">
+                        <VStack gap="space-4">
+                            <BodyShort spacing>
+                                {`Inngangsvilkår ved skjæringstidspunktet ${getFormattedDateString(vilkårsgrunnlag.skjaeringstidspunkt)}`}
+                            </BodyShort>
+                            <Heading level="2" size="medium">
+                                Inngangsvilkår
+                            </Heading>
+                        </VStack>
+                        <VurderingspanelContent
+                            opptjening={opptjening}
+                            vurdertIInfotrygd={vurdertIInfotrygd}
+                            vilkårsgrunnlag={vilkårsgrunnlag}
+                            alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                            vurdering={vurdering}
+                        />
+                    </VStack>
+                </div>
+            </VurderingspanelProvider>
+        );
+    }
 
     const { oppfylteVilkår, ikkeVurderteVilkår, ikkeOppfylteVilkår, vilkårVurdertIInfotrygd, vilkårVurdertISpleis } =
         kategoriserteInngangsvilkår(
@@ -129,6 +167,7 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
                     />
                 ) : null
             }
+            nyttVilkårsdesign={nyOpptjeningVisning}
         />
     );
 };
@@ -149,3 +188,66 @@ export const Inngangsvilkår = ({ person, periode }: InngangsvilkårProps): Reac
         <InngangsvilkårContainer person={person} periode={periode} />
     </ErrorBoundary>
 );
+
+interface VurderingspanelContentProps {
+    opptjening?: ReactElement | null;
+    vurdertIInfotrygd: boolean;
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
+    alderVedSkjæringstidspunkt: number;
+    vurdering?: Vurdering | null;
+}
+
+function VurderingspanelContent({
+    opptjening,
+    vurdertIInfotrygd,
+    vilkårsgrunnlag,
+    alderVedSkjæringstidspunkt,
+    vurdering,
+}: VurderingspanelContentProps): ReactElement {
+    const { innhold } = React.useContext(VurderingspanelContext);
+    const harVurderingspanel = innhold != null;
+
+    return (
+        <HStack wrap={false} gap="space-0" align="start">
+            <div className="w-full min-w-0 pt-4">
+                <VStack className="divide-y divide-ax-border-neutral-subtle">
+                    <div
+                        data-testid={harVurderingspanel ? 'opptjening-vurderingsseksjon' : undefined}
+                        className="py-6 first:pt-0 last:pb-0"
+                    >
+                        {opptjening}
+                    </div>
+                    <div className="py-6 first:pt-0 last:pb-0">
+                        <SykepengegrunnlagVilkår
+                            oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}
+                            sykepengegrunnlag={
+                                vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
+                                    ? vilkårsgrunnlag.sykepengegrunnlag
+                                    : undefined
+                            }
+                            grunnbeløp={
+                                vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
+                                    ? vilkårsgrunnlag.grunnbelop
+                                    : undefined
+                            }
+                            alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                            vurdertIInfotrygd={vurdertIInfotrygd}
+                            vurdering={vurdering}
+                        />
+                    </div>
+                    <div className="py-6 first:pt-0 last:pb-0">
+                        <MedlemskapVilkår
+                            oppfylt={medlemskapOppfylt(vilkårsgrunnlag)}
+                            vurdertIInfotrygd={vurdertIInfotrygd}
+                            vurdering={vurdering}
+                        />
+                    </div>
+                </VStack>
+            </div>
+            {innhold && <span className={styles.strek} />}
+            <div className={styles.vurderingspanel}>
+                {innhold && <div className={styles.vurderingspanelAktiv}>{innhold}</div>}
+            </div>
+        </HStack>
+    );
+}

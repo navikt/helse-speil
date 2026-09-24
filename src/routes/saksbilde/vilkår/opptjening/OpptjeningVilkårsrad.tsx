@@ -1,9 +1,9 @@
-import React, { ReactElement, ReactNode, useState } from 'react';
+import React, { ReactElement, ReactNode, useContext } from 'react';
 
-import { CheckmarkIcon, ExclamationmarkTriangleIcon, XMarkIcon } from '@navikt/aksel-icons';
-import { BodyShort, Box, ExpansionCard, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
+import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
 
-import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@/form-schemas/overstyrVilkårsvurderingSkjema';
+import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@/form-schemas/manuellVurderingAvVilkårSkjema';
 import {
     ApiUtfall,
     ApiVilkårsvurdering,
@@ -14,8 +14,9 @@ import {
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 
+import { VurderingspanelContext } from '../VurderingspanelContext';
 import { ArbeidsforholdIGrunnlaget } from './ArbeidsforholdIGrunnlaget';
-import { VurderOpptjeningsvilkårSkjema } from './VurderOpptjeningsvilkårSkjema';
+import { ManuellVurderingAvVilkårSkjema } from './ManuellVurderingAvVilkårSkjema';
 
 const erSaksbehandlerkilde = (kilde: ApiVurderingskilde): kilde is ApiVurderingskildeSaksbehandler => 'ident' in kilde;
 
@@ -50,6 +51,18 @@ const utfallstekst = (utfall?: ApiUtfall): string => {
     }
 };
 
+const vurdertTagTekst = (vurdering?: ApiVilkårsvurdering): string => {
+    if (!vurdering || !vurdering.vurdertTidspunkt) {
+        return utfallstekst(vurdering?.utfall);
+    }
+
+    const tidspunkt = getFormattedDatetimeString(vurdering.vurdertTidspunkt);
+
+    return erSaksbehandlerkilde(vurdering.kilde)
+        ? `Vurdert ${tidspunkt} – ${vurdering.kilde.ident}`
+        : `Vurdert automatisk ${tidspunkt}`;
+};
+
 const utfallTagVariant = (utfall?: ApiUtfall): 'success' | 'error' | 'warning' => {
     switch (utfall) {
         case ApiUtfall.OPPFYLT:
@@ -68,11 +81,11 @@ interface UtfallsikonProps {
 export const Utfallsikon = ({ utfall }: UtfallsikonProps): ReactElement => {
     switch (utfall) {
         case ApiUtfall.OPPFYLT:
-            return <CheckmarkIcon title="Oppfylt" fontSize="24" />;
+            return <CheckmarkCircleIcon title="Vurdert automatisk" className="text-ax-text-neutral" fontSize="24" />;
         case ApiUtfall.IKKE_OPPFYLT:
-            return <XMarkIcon title="Ikke oppfylt" fontSize="24" />;
+            return <XMarkOctagonIcon title="Ikke oppfylt" className="text-ax-text-neutral" fontSize="24" />;
         default:
-            return <ExclamationmarkTriangleIcon title="Ikke vurdert" fontSize="24" />;
+            return <ExclamationmarkTriangleIcon title="Ikke vurdert" className="text-ax-text-neutral" fontSize="24" />;
     }
 };
 
@@ -96,37 +109,31 @@ interface VurderingsdetaljerProps {
     vurdering: ApiVilkårsvurdering;
 }
 
-const Vurderingsdetaljer = ({ vurdering }: VurderingsdetaljerProps): ReactElement => {
+const Vurderingsdetaljer = ({ vurdering }: VurderingsdetaljerProps): ReactElement | null => {
     const grunnlag = grunnlagFraKilde(vurdering.kilde);
     const arbeidsforholdgrunnlag = grunnlag && erArbeidsforholdgrunnlag(grunnlag) ? grunnlag : undefined;
+    const opptjeningsgrunnlag = opptjeningsgrunnlagFor(vurdering);
+
+    if (!erSaksbehandlerkilde(vurdering.kilde) && !arbeidsforholdgrunnlag) {
+        return null;
+    }
 
     return (
         <VStack gap="space-12">
-            <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
-                {arbeidsforholdgrunnlag?.opptjeningsperiode && (
-                    <Detaljrad label="Opptjening fra">
-                        {somNorskDato(arbeidsforholdgrunnlag.opptjeningsperiode.fom) ?? 'ukjent'}
-                    </Detaljrad>
-                )}
-                {arbeidsforholdgrunnlag && (
-                    <Detaljrad label="Antall dager (>28)">{`${arbeidsforholdgrunnlag.opptjeningsdager}`}</Detaljrad>
-                )}
-                {erSaksbehandlerkilde(vurdering.kilde) ? (
-                    <>
-                        <Detaljrad label="Vurdert av">{vurdering.kilde.ident}</Detaljrad>
-                        <Detaljrad label="Begrunnelse">{vurdering.kilde.fritekstbegrunnelse}</Detaljrad>
-                    </>
-                ) : (
-                    <Detaljrad label="Vurdert">Automatisk</Detaljrad>
-                )}
-                {vurdering.vurdertTidspunkt && (
-                    <Detaljrad label="Vurdert tidspunkt">
-                        {getFormattedDatetimeString(vurdering.vurdertTidspunkt)}
-                    </Detaljrad>
-                )}
-            </dl>
+            {erSaksbehandlerkilde(vurdering.kilde) && (
+                <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
+                    <Detaljrad label="Begrunnelse">{vurdering.kilde.fritekstbegrunnelse}</Detaljrad>
+                </dl>
+            )}
             {arbeidsforholdgrunnlag && (
-                <ArbeidsforholdIGrunnlaget arbeidsforhold={arbeidsforholdgrunnlag.arbeidsforhold} />
+                <VStack gap="space-4">
+                    {opptjeningsgrunnlag && (
+                        <BodyShort>
+                            {`Opptjening fra ${somNorskDato(opptjeningsgrunnlag.fom) ?? 'ukjent'} (${opptjeningsgrunnlag.opptjeningsdager} dager)`}
+                        </BodyShort>
+                    )}
+                    <ArbeidsforholdIGrunnlaget arbeidsforhold={arbeidsforholdgrunnlag.arbeidsforhold} />
+                </VStack>
             )}
         </VStack>
     );
@@ -147,64 +154,56 @@ export const OpptjeningVilkårsrad = ({
     skjæringstidspunkt,
     vilkårskode,
     vurdering,
-    erAvgjørende,
     readOnly,
     onOverstyrt,
 }: OpptjeningVilkårsradProps): ReactElement => {
-    const [open, setOpen] = useState(false);
+    const { visVurderingspanel, lukkVurderingspanel } = useContext(VurderingspanelContext);
     const vilkårsnavn = vilkårskodeLabels[vilkårskode];
     const titleId = `opptjeningsvilkår-tittel-${vilkårskode}`;
 
     return (
         <li>
-            <ExpansionCard
-                size="small"
-                open={open}
-                onToggle={setOpen}
-                aria-labelledby={titleId}
-                data-testid={`opptjeningsvilkår-${vilkårskode}`}
-                className="border-ax-border-neutral-subtleA bg-ax-bg-default"
-            >
-                <ExpansionCard.Header className="grid grid-cols-[1fr_auto] items-center after:content-none hover:bg-ax-bg-default">
-                    <ExpansionCard.Title id={titleId} size="small" as={Box} className="w-full">
-                        <HStack gap="space-8" align="center">
-                            <span className="flex w-6 items-center justify-center">
-                                <Utfallsikon utfall={vurdering?.utfall} />
-                            </span>
-                            <BodyShort weight="semibold" className="underline">
-                                {vilkårsnavn}
-                            </BodyShort>
-                            <Spacer />
-                            {erAvgjørende && (
-                                <Tag size="xsmall" variant="info">
-                                    Avgjørende vilkår
-                                </Tag>
-                            )}
-                            <Tag size="xsmall" variant={utfallTagVariant(vurdering?.utfall)}>
-                                {utfallstekst(vurdering?.utfall)}
-                            </Tag>
-                        </HStack>
-                    </ExpansionCard.Title>
-                </ExpansionCard.Header>
-                <ExpansionCard.Content>
-                    {open &&
-                        (readOnly ? (
-                            vurdering && <Vurderingsdetaljer vurdering={vurdering} />
-                        ) : (
-                            <VurderOpptjeningsvilkårSkjema
-                                personPseudoId={personPseudoId}
-                                skjæringstidspunkt={skjæringstidspunkt}
-                                vilkårskode={vilkårskode}
-                                eksisterendeUtfall={vurdering?.utfall}
-                                onOverstyrt={(opptjeningsvurderingId) => {
-                                    setOpen(false);
-                                    onOverstyrt(opptjeningsvurderingId);
-                                }}
-                                onAvbryt={() => setOpen(false)}
-                            />
-                        ))}
-                </ExpansionCard.Content>
-            </ExpansionCard>
+            <VStack gap="space-8" data-testid={`opptjeningsvilkår-${vilkårskode}`}>
+                <HStack gap="space-8" align="center" wrap={false}>
+                    <span className="flex w-6 shrink-0 items-center justify-center">
+                        <Utfallsikon utfall={vurdering?.utfall} />
+                    </span>
+                    <BodyShort id={titleId} weight="semibold">
+                        {vilkårsnavn}
+                    </BodyShort>
+                    <Spacer />
+                    {!readOnly && (
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            size="small"
+                            onClick={() =>
+                                visVurderingspanel(
+                                    vilkårskode,
+                                    <ManuellVurderingAvVilkårSkjema
+                                        personPseudoId={personPseudoId}
+                                        skjæringstidspunkt={skjæringstidspunkt}
+                                        vilkårskode={vilkårskode}
+                                        eksisterendeUtfall={vurdering?.utfall}
+                                        onOverstyrt={onOverstyrt}
+                                        onAvbryt={lukkVurderingspanel}
+                                    />,
+                                )
+                            }
+                        >
+                            Vurder vilkår
+                        </Button>
+                    )}
+                </HStack>
+                <VStack gap="space-8">
+                    <HStack gap="space-8" align="center">
+                        <Tag size="xsmall" variant={utfallTagVariant(vurdering?.utfall)}>
+                            {vurdertTagTekst(vurdering)}
+                        </Tag>
+                    </HStack>
+                    {vurdering && <Vurderingsdetaljer vurdering={vurdering} />}
+                </VStack>
+            </VStack>
         </li>
     );
 };

@@ -1,6 +1,6 @@
 import kodeverk from './vilkårskodeverk.json';
 
-import { ManueltVurderbarVilkårskode } from '@/form-schemas/overstyrVilkårsvurderingSkjema';
+import { ManueltVurderbarVilkårskode } from '@/form-schemas/manuellVurderingAvVilkårSkjema';
 import { ApiVilkårskode } from '@io/rest/generated/vilkarsproving.schemas';
 
 export interface Vilkårshjemmel {

@@ -1,15 +1,15 @@
-import React, { ReactElement } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import React, { ReactElement, useContext } from 'react';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
-import { EyeSlashIcon } from '@navikt/aksel-icons';
-import { Alert, Button, HStack, Radio, RadioGroup, Tag, Textarea, VStack } from '@navikt/ds-react';
+import { EyeSlashIcon, PlusIcon } from '@navikt/aksel-icons';
+import { Alert, Button, HStack, Radio, RadioGroup, Tag, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import {
+    ManuellVurderingAvVilkårSchema,
     ManueltVurderbarVilkårskode,
-    OverstyrVilkårsvurderingSchema,
-    overstyrVilkårsvurderingSkjema,
+    manuellVurderingAvVilkårSkjema,
     vilkårsspørsmål,
-} from '@/form-schemas/overstyrVilkårsvurderingSkjema';
+} from '@/form-schemas/manuellVurderingAvVilkårSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
 import {
@@ -18,7 +18,9 @@ import {
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { useQueryClient } from '@tanstack/react-query';
 
-interface VurderOpptjeningsvilkårSkjemaProps {
+import { VurderingspanelContext } from '../VurderingspanelContext';
+
+interface ManuellVurderingAvVilkårSkjemaProps {
     personPseudoId: string;
     skjæringstidspunkt: string;
     vilkårskode: ManueltVurderbarVilkårskode;
@@ -27,19 +29,24 @@ interface VurderOpptjeningsvilkårSkjemaProps {
     onAvbryt: () => void;
 }
 
-export const VurderOpptjeningsvilkårSkjema = ({
+export const ManuellVurderingAvVilkårSkjema = ({
     personPseudoId,
     skjæringstidspunkt,
     vilkårskode,
     eksisterendeUtfall,
     onOverstyrt,
     onAvbryt,
-}: VurderOpptjeningsvilkårSkjemaProps): ReactElement => {
+}: ManuellVurderingAvVilkårSkjemaProps): ReactElement => {
     const queryClient = useQueryClient();
+    const { lukkVurderingspanel } = useContext(VurderingspanelContext);
 
-    const form = useForm<OverstyrVilkårsvurderingSchema>({
-        resolver: zodResolver(overstyrVilkårsvurderingSkjema),
-        defaultValues: { utfall: eksisterendeUtfall, fritekstbegrunnelse: '' },
+    const form = useForm<ManuellVurderingAvVilkårSchema>({
+        resolver: zodResolver(manuellVurderingAvVilkårSkjema),
+        defaultValues: { utfall: eksisterendeUtfall, fritekstbegrunnelse: '', dokumentIder: [{ verdi: '' }] },
+    });
+    const { fields, append, remove } = useFieldArray<ManuellVurderingAvVilkårSchema, 'dokumentIder'>({
+        control: form.control,
+        name: 'dokumentIder',
     });
 
     const { mutate, isPending, isError } = useOverstyrVilkårsvurderingBehandler({
@@ -49,11 +56,12 @@ export const VurderOpptjeningsvilkårSkjema = ({
                     queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
                 });
                 onOverstyrt(response.opptjeningsvurderingId);
+                lukkVurderingspanel();
             },
         },
     });
 
-    function onSubmit({ utfall, fritekstbegrunnelse }: OverstyrVilkårsvurderingSchema) {
+    function onSubmit({ utfall, fritekstbegrunnelse }: ManuellVurderingAvVilkårSchema) {
         mutate({
             personId: personPseudoId,
             data: { skjæringstidspunkt, vilkårskode, utfall, fritekstbegrunnelse },
@@ -100,11 +108,54 @@ export const VurderOpptjeningsvilkårSkjema = ({
                     />
                 )}
             />
+            <VStack gap="space-4">
+                {fields.map((field, index) => (
+                    <HStack key={field.id} gap="space-8" align="end">
+                        <Controller
+                            control={form.control}
+                            name={`dokumentIder.${index}.verdi` as const}
+                            render={({ field: documentField, fieldState }) => (
+                                <TextField
+                                    {...documentField}
+                                    label={index === 0 ? 'Dokument-ID' : undefined}
+                                    size="small"
+                                    error={fieldState.error?.message}
+                                />
+                            )}
+                        />
+                        {index > 0 && (
+                            <Button variant="tertiary" size="small" onClick={() => remove(index)}>
+                                Fjern
+                            </Button>
+                        )}
+                    </HStack>
+                ))}
+                <div className="w-fit">
+                    <Button
+                        type="button"
+                        variant="tertiary"
+                        size="xsmall"
+                        icon={<PlusIcon />}
+                        onClick={() => append({ verdi: '' })}
+                        style={{ justifySelf: 'start', paddingInlineStart: 'var(--ax-space-0)' }}
+                    >
+                        Legg til flere dokument-ID
+                    </Button>
+                </div>
+            </VStack>
             <HStack gap="space-8">
                 <Button type="submit" variant="primary" size="small" loading={isPending}>
                     Lagre
                 </Button>
-                <Button type="button" variant="tertiary" size="small" onClick={onAvbryt}>
+                <Button
+                    type="button"
+                    variant="tertiary"
+                    size="small"
+                    onClick={() => {
+                        lukkVurderingspanel();
+                        onAvbryt();
+                    }}
+                >
                     Avbryt
                 </Button>
             </HStack>

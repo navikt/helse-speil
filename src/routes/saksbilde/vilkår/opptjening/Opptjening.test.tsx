@@ -16,6 +16,7 @@ import {
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
+import { VurderingspanelContext, VurderingspanelProvider } from '../VurderingspanelContext';
 import { Opptjening } from './Opptjening';
 
 vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
@@ -109,16 +110,34 @@ const mockVilkårsvurderinger = (
 
 const arbeidsvilkår = () => screen.getByTestId(`opptjeningsvilkår-${ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}`);
 
-const åpneKort = async () => {
-    await userEvent.click(screen.getByRole('button', { name: 'Vis mer' }));
-};
+function VurderingspanelTestRamme({ children }: React.PropsWithChildren): React.ReactElement {
+    return (
+        <VurderingspanelProvider>
+            <VurderingspanelInnhold>{children}</VurderingspanelInnhold>
+        </VurderingspanelProvider>
+    );
+}
+
+function VurderingspanelInnhold({ children }: React.PropsWithChildren): React.ReactElement {
+    const { innhold } = React.useContext(VurderingspanelContext);
+
+    return (
+        <>
+            {children}
+            <div>{innhold}</div>
+        </>
+    );
+}
+
+const renderOpptjening = (readOnly: boolean) =>
+    render(
+        <VurderingspanelTestRamme>
+            <Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={readOnly} />
+        </VurderingspanelTestRamme>,
+    );
 
 const startVurdering = async () => {
     await userEvent.click(screen.getByRole('button', { name: 'Vurder vilkår' }));
-};
-
-const åpneRad = async (rad: HTMLElement) => {
-    await userEvent.click(within(rad).getByRole('button', { name: 'Vis mer' }));
 };
 
 beforeEach(() => {
@@ -133,36 +152,29 @@ beforeEach(() => {
 
 describe('Opptjening', () => {
     it('viser oppsummering av opptjeningsgrunnlaget', async () => {
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={false} />);
+        renderOpptjening(false);
 
-        await åpneKort();
-
-        expect(screen.getByText('Opptjening fra 01.01.2023 (120 dager)')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('Opptjening fra 01.01.2023 (120 dager)')).toBeVisible();
     });
 
     it('viser grunnlagsdata for automatisk vurdering', async () => {
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={true} />);
+        renderOpptjening(true);
 
-        await åpneKort();
-        await åpneRad(arbeidsvilkår());
-
-        expect(within(arbeidsvilkår()).getByText('Opptjening fra')).toBeVisible();
-        expect(within(arbeidsvilkår()).getByText('01.01.2023')).toBeVisible();
-        expect(within(arbeidsvilkår()).getByText('Antall dager (>28)')).toBeVisible();
-        expect(within(arbeidsvilkår()).getByText('120')).toBeVisible();
-        expect(within(arbeidsvilkår()).getByText('Automatisk')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('Opptjening fra 01.01.2023 (120 dager)')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText(/Vurdert automatisk/, { selector: 'span' })).toBeVisible();
     });
 
     it('lar saksbehandler vurdere et uvurdert vilkår direkte', async () => {
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={false} />);
+        renderOpptjening(false);
 
-        await åpneKort();
         await startVurdering();
-        await åpneRad(arbeidsvilkår());
 
-        await userEvent.click(within(arbeidsvilkår()).getByRole('radio', { name: 'Oppfylt' }));
-        await userEvent.type(within(arbeidsvilkår()).getByRole('textbox'), 'Har likestilt ytelse');
-        await userEvent.click(within(arbeidsvilkår()).getByRole('button', { name: 'Lagre' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.type(
+            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
+            'Har likestilt ytelse',
+        );
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(mutate).toHaveBeenCalledWith({
             personId: 'en-person',
@@ -176,15 +188,16 @@ describe('Opptjening', () => {
     });
 
     it('lar saksbehandler overstyre en automatisk vurdering', async () => {
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={false} />);
+        renderOpptjening(false);
 
-        await åpneKort();
         await startVurdering();
-        await åpneRad(arbeidsvilkår());
 
-        await userEvent.click(within(arbeidsvilkår()).getByRole('radio', { name: 'Ikke oppfylt' }));
-        await userEvent.type(within(arbeidsvilkår()).getByRole('textbox'), 'Mangler opptjening');
-        await userEvent.click(within(arbeidsvilkår()).getByRole('button', { name: 'Lagre' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Ikke oppfylt' }));
+        await userEvent.type(
+            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
+            'Mangler opptjening',
+        );
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(mutate).toHaveBeenCalledWith({
             personId: 'en-person',
@@ -199,12 +212,10 @@ describe('Opptjening', () => {
 
     it('validerer at utfall og begrunnelse er fylt ut', async () => {
         mockVilkårsvurderinger(ingenAutomatiskeVurderinger);
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={false} />);
+        renderOpptjening(false);
 
-        await åpneKort();
         await startVurdering();
-        await åpneRad(arbeidsvilkår());
-        await userEvent.click(within(arbeidsvilkår()).getByRole('button', { name: 'Lagre' }));
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(mutate).not.toHaveBeenCalled();
         expect(await screen.findByText('Velg utfall')).toBeVisible();
@@ -212,23 +223,22 @@ describe('Opptjening', () => {
     });
 
     it('lar saksbehandler avbryte en vurderingsøkt', async () => {
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={false} />);
+        renderOpptjening(false);
 
-        await åpneKort();
         await startVurdering();
 
-        expect(within(arbeidsvilkår()).getByText('Arbeid i minst 4 uker')).toBeVisible();
+        expect(screen.getByText('Vurder om søkeren har hatt arbeid i minst 4 uker')).toBeVisible();
+        expect(screen.getByRole('heading', { name: 'Opptjeningstid' })).not.toHaveClass('bg-ax-bg-info-soft');
+        expect(screen.getByRole('list').parentElement).toHaveClass('bg-ax-bg-info-soft');
 
         await userEvent.click(screen.getByRole('button', { name: 'Avbryt' }));
 
-        expect(screen.queryByText('Arbeid i minst 4 uker')).not.toBeInTheDocument();
+        expect(screen.queryByText('Vurder om søkeren har hatt arbeid i minst 4 uker')).not.toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
     });
 
     it('skjuler vurderingsknappene når saken er read only', async () => {
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={true} />);
-
-        await åpneKort();
+        renderOpptjening(true);
 
         expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
@@ -236,21 +246,18 @@ describe('Opptjening', () => {
     it('lar saksbehandler vurdere vilkårene når kravet er overført fra Infotrygd', async () => {
         mockVilkårsvurderinger(overførtFraInfotrygd);
 
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={false} />);
-
-        await åpneKort();
-        await startVurdering();
+        renderOpptjening(false);
 
         expect(within(arbeidsvilkår()).getByText('Ikke vurdert', { selector: 'span' })).toBeVisible();
-        expect(within(arbeidsvilkår()).getByRole('button', { name: 'Vis mer' })).toBeVisible();
+
+        await startVurdering();
+        expect(screen.getByText('Vurder om søkeren har hatt arbeid i minst 4 uker')).toBeVisible();
     });
 
     it('viser feilmelding når vilkårsvurderingen ikke kan hentes', async () => {
         mockVilkårsvurderinger(undefined, { isError: true });
 
-        render(<Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={false} />);
-
-        await åpneKort();
+        renderOpptjening(false);
 
         expect(screen.getByText('Kunne ikke hente opptjeningsvurderingen')).toBeVisible();
     });

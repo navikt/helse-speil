@@ -50,6 +50,9 @@ const opptjeningstid = (
     }
 };
 
+export const sykepengegrunnlagOppfylt = (vilkår: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2): boolean =>
+    vilkår.__typename === 'VilkarsgrunnlagSpleisV2' ? vilkår.oppfyllerKravOmMinstelonn : true;
+
 const sykepengegrunnlag = (
     alderVedSkjæringstidspunkt: number,
     vilkår: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
@@ -87,22 +90,30 @@ const sykepengegrunnlag = (
     }
 };
 
+const medlemskapVurderingTilOppfylt = (vilkarsgrunnlagVurdering: VilkarsgrunnlagVurdering): boolean | null => {
+    switch (vilkarsgrunnlagVurdering) {
+        case VilkarsgrunnlagVurdering.Oppfylt:
+            return true;
+        case VilkarsgrunnlagVurdering.IkkeOppfylt:
+            return false;
+        case VilkarsgrunnlagVurdering.IkkeVurdert:
+            return null;
+    }
+};
+
+export const medlemskapOppfylt = (
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
+): boolean | null =>
+    vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
+        ? medlemskapVurderingTilOppfylt(vilkårsgrunnlag.vurderingAvKravOmMedlemskap)
+        : true;
+
 const medlemskap = (vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2): Vilkårdata => {
     switch (vilkårsgrunnlag.__typename) {
         case 'VilkarsgrunnlagSpleisV2': {
-            const vurdering = (vilkarsgrunnlagVurdering: VilkarsgrunnlagVurdering): boolean | null => {
-                switch (vilkarsgrunnlagVurdering) {
-                    case VilkarsgrunnlagVurdering.Oppfylt:
-                        return true;
-                    case VilkarsgrunnlagVurdering.IkkeOppfylt:
-                        return false;
-                    case VilkarsgrunnlagVurdering.IkkeVurdert:
-                        return null;
-                }
-            };
             return {
                 type: Vilkårstype.Medlemskap,
-                oppfylt: vurdering(vilkårsgrunnlag.vurderingAvKravOmMedlemskap),
+                oppfylt: medlemskapVurderingTilOppfylt(vilkårsgrunnlag.vurderingAvKravOmMedlemskap),
                 tittel: 'Lovvalg og medlemskap',
                 komponent: null,
             };
