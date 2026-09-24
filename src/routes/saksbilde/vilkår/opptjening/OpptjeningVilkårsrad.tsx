@@ -113,6 +113,7 @@ const Vurderingsdetaljer = ({ vurdering }: VurderingsdetaljerProps): ReactElemen
     const grunnlag = grunnlagFraKilde(vurdering.kilde);
     const arbeidsforholdgrunnlag = grunnlag && erArbeidsforholdgrunnlag(grunnlag) ? grunnlag : undefined;
     const opptjeningsgrunnlag = opptjeningsgrunnlagFor(vurdering);
+    const journalpostIder = erSaksbehandlerkilde(vurdering.kilde) ? vurdering.kilde.journalpostId : [];
 
     if (!erSaksbehandlerkilde(vurdering.kilde) && !arbeidsforholdgrunnlag) {
         return null;
@@ -123,6 +124,9 @@ const Vurderingsdetaljer = ({ vurdering }: VurderingsdetaljerProps): ReactElemen
             {erSaksbehandlerkilde(vurdering.kilde) && (
                 <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
                     <Detaljrad label="Begrunnelse">{vurdering.kilde.fritekstbegrunnelse}</Detaljrad>
+                    {journalpostIder.length > 0 && (
+                        <Detaljrad label="Dokument-ID">{journalpostIder.join(', ')}</Detaljrad>
+                    )}
                 </dl>
             )}
             {arbeidsforholdgrunnlag && (

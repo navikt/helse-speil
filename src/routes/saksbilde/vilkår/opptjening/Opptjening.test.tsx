@@ -216,6 +216,7 @@ describe('Opptjening', () => {
         renderOpptjening(false);
 
         await startVurdering();
+        await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), 'JP-123');
         await userEvent.type(
             screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
@@ -233,6 +234,59 @@ describe('Opptjening', () => {
                 journalpostId: ['JP-123'],
             },
         });
+    });
+
+    it('viser dokument-id under begrunnelse etter lagring', async () => {
+        const oppdatertVilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
+            skjæringstidspunkt: '2024-01-01',
+            krav: [
+                {
+                    id: 'krav-1',
+                    kravkode: ApiKravkode.OPPTJENING,
+                    opptjeningOk: true,
+                    avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+                    kravkilde: ApiKravkilde.VURDERT_I_SPEIL,
+                    vurderinger: [
+                        {
+                            id: 'vurdering-2',
+                            vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+                            utfall: ApiUtfall.OPPFYLT,
+                            vurdertTidspunkt: '2024-01-03T10:00:00.000Z',
+                            kilde: {
+                                ident: 'S123456',
+                                fritekstbegrunnelse: 'Dokumentert via vedtak',
+                                journalpostId: ['JP-123'],
+                                kildetype: ApiKildetype.SAKSBEHANDLER,
+                            },
+                        },
+                    ],
+                },
+            ],
+        };
+
+        (usePostManuellVilkårsvurderingBehandler as Mock).mockImplementation((options) => ({
+            mutate: (variables: { personId: string; data: unknown }) => {
+                mutate(variables);
+                mockVilkårsvurderinger(oppdatertVilkårsvurderinger);
+                options?.mutation?.onSuccess?.({ opptjeningsvurderingId: 'oppdatert-id' }, variables, undefined);
+            },
+            isPending: false,
+            isError: false,
+        }));
+
+        renderOpptjening(false);
+
+        await startVurdering();
+        await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), 'JP-123');
+        await userEvent.type(
+            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
+            'Dokumentert via vedtak',
+        );
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(await within(arbeidsvilkår()).findByText('Dokument-ID')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('JP-123')).toBeVisible();
     });
 
     it('validerer at utfall og begrunnelse er fylt ut', async () => {
