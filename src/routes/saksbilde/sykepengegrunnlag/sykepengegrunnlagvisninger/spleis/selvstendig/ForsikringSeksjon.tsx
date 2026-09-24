@@ -1,19 +1,26 @@
+import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
-import { TasklistIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, HStack, Heading, InlineMessage, VStack } from '@navikt/ds-react';
+import { ArrowCirclepathIcon } from '@navikt/aksel-icons';
+import { BodyShort, Button, Detail, HStack, Heading, InlineMessage, VStack } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
 import { LoadingShimmer } from '@components/LoadingShimmer';
-import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
+import { LovdataLenke } from '@components/LovdataLenke';
+import { useRevurderForsikring } from '@io/rest/forsikringer-midlertidig';
 import {
+    getGetForsikringsvurderingForPersonQueryKey,
+    useGetForsikringsvurderingForPerson,
+} from '@io/rest/generated/forsikringer/forsikringer';
+import {
+    ApiFolketrygdlovenreferanse,
     ApiForsikringsvurdering,
     ApiIndividuellForsikring,
     ApiKollektivForsikring,
 } from '@io/rest/generated/spesialist.schemas';
-import { FolketrygdlovenLenke, ForsikringDialog } from '@saksbilde/venstremeny/ForsikringDialog';
-import { somNorskDato } from '@utils/date';
+import { useQueryClient } from '@tanstack/react-query';
+import { NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
 
 export const ForsikringSeksjon = ({
     forsikringsvurderingId,
@@ -23,33 +30,59 @@ export const ForsikringSeksjon = ({
     skjæringstidspunkt: string;
 }): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const queryClient = useQueryClient();
+    const [ingenNyVurdering, setIngenNyVurdering] = useState(false);
     const { data, isLoading, error } = useGetForsikringsvurderingForPerson(personPseudoId, forsikringsvurderingId!, {
         query: {
             enabled: !!forsikringsvurderingId,
         },
     });
+    const { mutate: revurderForsikring, isPending: revurderer } = useRevurderForsikring(
+        personPseudoId,
+        skjæringstidspunkt,
+        {
+            onSuccess: ({ nyForsikringsvurdering }) => {
+                setIngenNyVurdering(!nyForsikringsvurdering);
+                if (nyForsikringsvurdering) {
+                    queryClient.invalidateQueries({
+                        queryKey: getGetForsikringsvurderingForPersonQueryKey(
+                            personPseudoId,
+                            forsikringsvurderingId ?? undefined,
+                        ),
+                    });
+                }
+            },
+        },
+    );
 
     return (
         <VStack gap="space-8">
-            <HStack gap="space-8">
+            <HStack gap="space-8" align="center">
                 <Heading size="xsmall">Forsikring</Heading>
                 {erUtvikling && data && (
-                    <ForsikringDialog
-                        forsikringsvurdering={data}
-                        skjæringstidspunkt={skjæringstidspunkt}
-                        trigger={
-                            <Button
-                                size="xsmall"
-                                variant="tertiary"
-                                iconPosition="left"
-                                icon={<TasklistIcon aria-hidden />}
-                            >
-                                Se vurdering
-                            </Button>
-                        }
-                    />
+                    <Button
+                        size="xsmall"
+                        variant="tertiary"
+                        icon={<ArrowCirclepathIcon />}
+                        loading={revurderer}
+                        onClick={() => {
+                            setIngenNyVurdering(false);
+                            revurderForsikring();
+                        }}
+                    >
+                        Hent på nytt
+                    </Button>
                 )}
             </HStack>
+            {erUtvikling && data && (
+                <VStack>
+                    <Detail textColor="subtle">
+                        {`Hentet og vurdert ${dayjs(data.vurdertTidspunkt).tz('Europe/Oslo').format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}
+                    </Detail>
+                    {ingenNyVurdering && <Detail textColor="subtle">Ingen ny forsikringsvurdering</Detail>}
+                </VStack>
+            )}
+
             {isLoading ? (
                 <LoadingShimmer />
             ) : error ? (
@@ -94,22 +127,41 @@ const Forsikringsinnhold = ({
 
 const IndividuellForsikringInnhold = ({ forsikring }: { forsikring: ApiIndividuellForsikring }): ReactElement => (
     <VStack>
-        <BodyShort weight="semibold">
+        <BodyShort as="span" weight="semibold">
             {somNorskDato(forsikring.virkningsdato)} — {somNorskDato(forsikring.opphørsdato ?? undefined)}
         </BodyShort>
         <BodyShort>
+            <BodyShort as="span" weight="semibold">
+                Selvstendig næringsdrivende
+            </BodyShort>
+            {', '}
             {forsikring.navn} <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />
         </BodyShort>
     </VStack>
 );
 
 const KollektivForsikringInnhold = ({ forsikring }: { forsikring: ApiKollektivForsikring }): ReactElement => (
-    <VStack>
-        <BodyShort weight="semibold">Kollektiv</BodyShort>
-        <BodyShort>
-            {forsikring.navn} <FolketrygdlovenLenke referanse={forsikring.kollektivFolketrygdlovenreferanse} />
-            {' + '}
-            <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />
+    <BodyShort>
+        <BodyShort as="span" weight="semibold">
+            Kollektiv
         </BodyShort>
-    </VStack>
+        {', '}
+        {forsikring.navn} <FolketrygdlovenLenke referanse={forsikring.kollektivFolketrygdlovenreferanse} />
+        {' og '}
+        <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />
+    </BodyShort>
 );
+
+export const FolketrygdlovenLenke = ({
+    referanse,
+}: {
+    referanse?: ApiFolketrygdlovenreferanse | null;
+}): ReactElement | string => {
+    if (!referanse) return '–';
+
+    const paragraf = `${referanse.kapittel}-${referanse.paragrafIKapittel}`;
+    const ledd = referanse.ledd ? ` ${referanse.ledd}. ledd` : '';
+    const bokstav = referanse.bokstav ? ` bokstav ${referanse.bokstav}` : '';
+
+    return <LovdataLenke paragraf={paragraf}>{`§ ${paragraf}${ledd}${bokstav}`}</LovdataLenke>;
+};

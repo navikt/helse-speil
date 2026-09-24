@@ -73,7 +73,7 @@ export async function stub(_request: NextRequest) {
                 },
             ],
             kollektivForsikring: {
-                navn: 'Jordbrukere - 100 % fra 17. dag',
+                navn: 'Jordbruker - 100 % fra 17. dag',
                 dekningFolketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 1, bokstav: 'b' },
                 kollektivFolketrygdlovenreferanse: { kapittel: 8, paragrafIKapittel: 36, ledd: 4, bokstav: null },
             },
