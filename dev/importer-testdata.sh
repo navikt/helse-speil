@@ -12,7 +12,6 @@ function giOpp {
 
 test "$(uname -s)" == "Darwin" || giOpp "Du bruker ikke Mac, det er bare sorry det."
 utklippstavleinnholdlenge="$(pbpaste | wc -c | xargs)"
-test $utklippstavleinnholdlenge -lt 40000 && giOpp "Innholdet i utklippstavla di er bare $utklippstavleinnholdlenge bytes, det er for lite, ass."
 
 tempFile=$(mktemp)
 pbpaste > $tempFile
@@ -21,7 +20,6 @@ felter="$(node -e '
 const fil = JSON.parse(require("fs").readFileSync(process.argv[1], "utf-8"));
 const person = fil?.data?.person;
 if (!person?.aktorId || !person?.fodselsnummer) { console.error("Fant ikke data.person med aktorId og fodselsnummer i clipboard-innholdet"); process.exit(1); }
-if (!fil?.rest?.person) { console.error("Fant ikke rest.person i clipboard-innholdet. Er det kopiert med en gammel versjon av speil?"); process.exit(1); }
 console.log(person.aktorId, person.fodselsnummer);
 ' "$tempFile")" || { rm -f $tempFile; giOpp "Clipboard-innholdet er ikke persondata kopiert med ALT+P."; }
 
