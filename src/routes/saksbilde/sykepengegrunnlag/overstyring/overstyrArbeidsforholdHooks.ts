@@ -11,15 +11,15 @@ import { useActivePeriodWithPerson } from '@state/periode';
 import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
-import { BegrunnelseForOverstyring, OverstyrtArbeidsforholdDTO } from '@typer/overstyring';
+import { OverstyrtArbeidsforholdDTO, ÅrsakForOverstyring } from '@typer/overstyring';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 
 type OverstyrtArbeidsforholdGetter = (
     organisasjonsnummerGhost: string,
     skjæringstidspunkt: string,
     arbeidsforholdSkalDeaktiveres: boolean,
-    forklaring: string,
-    begrunnelse: BegrunnelseForOverstyring,
+    begrunnelse: string,
+    årsak: ÅrsakForOverstyring,
     paragraf?: string,
     ledd?: string,
     bokstav?: string,
@@ -28,7 +28,7 @@ type OverstyrtArbeidsforholdGetter = (
 export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): OverstyrtArbeidsforholdGetter => {
     const valgtVedtaksperiode = useActivePeriodWithPerson(person);
 
-    return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, forklaring, begrunnelse) => ({
+    return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, begrunnelse, årsak) => ({
         fødselsnummer: person?.fodselsnummer,
         aktørId: person?.aktorId,
         skjæringstidspunkt: skjæringstidspunkt,
@@ -36,9 +36,9 @@ export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): Overstyrt
             {
                 orgnummer: organisasjonsnummerGhost,
                 deaktivert: arbeidsforholdSkalDeaktiveres,
-                forklaring: forklaring,
-                begrunnelse: begrunnelse.forklaring,
-                lovhjemmel: begrunnelse.lovhjemmel,
+                forklaring: begrunnelse,
+                begrunnelse: årsak.forklaring,
+                lovhjemmel: årsak.lovhjemmel,
             },
         ],
         vedtaksperiodeId: finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt(

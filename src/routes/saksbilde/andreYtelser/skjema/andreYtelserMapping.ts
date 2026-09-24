@@ -57,7 +57,7 @@ export const tilGjenopprettGraderteAndreYtelserRequest = (
     notatTilBeslutter: values.notat,
 });
 
-/** Fyller skjemaet med verdiene fra en eksisterende ytelse. Notat til beslutter starter alltid tomt. */
+/** Fyller skjemaet med verdiene fra en eksisterende ytelse. Begrunnelse starter alltid tomt. */
 export const tilAndreYtelserSkjemaverdier = (ytelse: ApiGraderteAndreYtelser): AndreYtelserSkjemaInput => ({
     ytelse: apiTypeTilYtelse[ytelse.andreYtelserType],
     perioder: ytelse.perioder.map((periode) => ({

@@ -91,7 +91,7 @@ describe('andre ytelser skjemavalidering', () => {
 
     it('notat må fylles ut', () => {
         expect(hentFeilmelding(validerAndreYtelserSkjema('Foreldrepenger', undefined, ''))).toBe(
-            'Notat til beslutter er påkrevd',
+            'Begrunnelse er påkrevd',
         );
     });
 

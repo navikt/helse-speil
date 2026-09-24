@@ -14,7 +14,7 @@ import {
 } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { isForkastet } from '@state/selectors/period';
-import { BegrunnelseForOverstyring } from '@typer/overstyring';
+import { ÅrsakForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
@@ -133,7 +133,7 @@ export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspu
     );
 };
 
-export const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [
+export const endreInntektUtenSykefraværÅrsaker: ÅrsakForOverstyring[] = [
     {
         id: '0',
         forklaring: 'Arbeidsforhold har vart kortere enn 3 måneder',
@@ -168,7 +168,7 @@ export const endreInntektUtenSykefraværBegrunnelser: BegrunnelseForOverstyring[
     },
 ];
 
-export const endreInntektMedSykefraværBegrunnelser: BegrunnelseForOverstyring[] = [
+export const endreInntektMedSykefraværÅrsaker: ÅrsakForOverstyring[] = [
     { id: '0', forklaring: 'Korrigert inntekt i inntektsmelding' },
     { id: '1', forklaring: 'Tariffendring i inntektsmelding' },
     { id: '2', forklaring: 'Innrapportert feil inntekt til A-ordningen' },

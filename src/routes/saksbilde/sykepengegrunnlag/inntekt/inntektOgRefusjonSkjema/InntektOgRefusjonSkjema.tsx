@@ -13,8 +13,8 @@ import {
 
 import { Alert, Button, HStack } from '@navikt/ds-react';
 
+import { BegrunnelseTextarea } from '@components/BegrunnelseTextarea';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
-import { ForklaringTextarea } from '@components/ForklaringTextarea';
 import { Arbeidsgiver, InntektFraAOrdningen, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
@@ -30,13 +30,13 @@ import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold'
 import { lagOverstyrtInntektMetadata, useInntektOgRefusjon, useLokaleInntektOverstyringer } from '@state/overstyring';
 import { useActivePeriod } from '@state/periode';
 import type { OverstyrtInntektOgRefusjonDTO, Refusjonsopplysning } from '@typer/overstyring';
-import { BegrunnelseForOverstyring } from '@typer/overstyring';
+import { ÅrsakForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT } from '@utils/date';
 import { finnFørsteVedtaksperiodeIdPåSkjæringstidspunkt } from '@utils/sykefraværstilfelle';
 import { avrundetToDesimaler } from '@utils/tall';
 
-import { Begrunnelser } from '../Begrunnelser';
+import { Arsaker } from '../Arsaker';
 import { SlettLokaleOverstyringerDialog } from './SlettLokaleOverstyringerDialog';
 import { RefusjonSkjema } from './refusjon/RefusjonSkjema/RefusjonSkjema';
 import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
@@ -44,8 +44,8 @@ import { RefusjonFormFields } from './refusjon/hooks/useRefusjonFormField';
 import styles from './InntektOgRefusjonSkjema.module.css';
 
 export interface InntektFormFields {
-    begrunnelseId: string;
-    forklaring: string;
+    årsakId: string;
+    begrunnelse: string;
     manedsbelop: string;
     refusjonsopplysninger: RefusjonFormFields[];
 }
@@ -54,7 +54,7 @@ interface EditableInntektProps {
     person: PersonFragment;
     arbeidsgiver: Arbeidsgiver;
     omregnetÅrsinntekt: OmregnetArsinntekt;
-    begrunnelser: BegrunnelseForOverstyring[];
+    årsaker: ÅrsakForOverstyring[];
     skjæringstidspunkt: DateString;
     vilkårsgrunnlagId?: string | null;
     inntektFraAOrdningen?: InntektFraAOrdningen[];
@@ -70,7 +70,7 @@ export const InntektOgRefusjonSkjema = ({
     person,
     arbeidsgiver,
     omregnetÅrsinntekt,
-    begrunnelser,
+    årsaker,
     skjæringstidspunkt,
     vilkårsgrunnlagId,
     inntektFraAOrdningen,
@@ -126,11 +126,11 @@ export const InntektOgRefusjonSkjema = ({
     }, [harFeil]);
 
     const confirmChanges = () => {
-        const { begrunnelseId, forklaring, manedsbelop, refusjonsopplysninger } = form.getValues();
-        const begrunnelse = begrunnelser.find((begrunnelse) => begrunnelse.id === begrunnelseId);
+        const { årsakId, begrunnelse, manedsbelop, refusjonsopplysninger } = form.getValues();
+        const årsak = årsaker.find((årsak) => årsak.id === årsakId);
 
-        if (begrunnelse === undefined) {
-            throw 'Mangler begrunnelse for endring av inntekt';
+        if (årsak === undefined) {
+            throw 'Mangler årsak for endring av inntekt';
         }
 
         const overstyrtInntektOgRefusjon: OverstyrtInntektOgRefusjonDTO = {
@@ -140,8 +140,8 @@ export const InntektOgRefusjonSkjema = ({
             arbeidsgivere: [
                 {
                     organisasjonsnummer: metadata.organisasjonsnummer,
-                    begrunnelse: begrunnelse.forklaring,
-                    forklaring: forklaring,
+                    begrunnelse: årsak.forklaring,
+                    forklaring: begrunnelse,
                     månedligInntekt:
                         stringIsNaN(manedsbelop) ||
                         Math.abs(avrundetToDesimaler(omregnetÅrsinntekt.manedsbelop) - Number.parseFloat(manedsbelop)) <
@@ -151,13 +151,13 @@ export const InntektOgRefusjonSkjema = ({
                     fraMånedligInntekt: omregnetÅrsinntekt.manedsbelop,
                     refusjonsopplysninger: refusjonsopplysninger ?? [],
                     fraRefusjonsopplysninger: metadata.fraRefusjonsopplysninger,
-                    ...(begrunnelse.lovhjemmel?.paragraf && {
+                    ...(årsak.lovhjemmel?.paragraf && {
                         lovhjemmel: {
-                            paragraf: begrunnelse.lovhjemmel.paragraf,
-                            ledd: begrunnelse.lovhjemmel?.ledd,
-                            bokstav: begrunnelse.lovhjemmel?.bokstav,
-                            lovverk: begrunnelse.lovhjemmel?.lovverk,
-                            lovverksversjon: begrunnelse.lovhjemmel?.lovverksversjon,
+                            paragraf: årsak.lovhjemmel.paragraf,
+                            ledd: årsak.lovhjemmel?.ledd,
+                            bokstav: årsak.lovhjemmel?.bokstav,
+                            lovverk: årsak.lovhjemmel?.lovverk,
+                            lovverksversjon: årsak.lovhjemmel?.lovverksversjon,
                         },
                     }),
                     fom: inntektFom,
@@ -214,8 +214,8 @@ export const InntektOgRefusjonSkjema = ({
                         erAktivGhost={utenSykefravær && !erDeaktivert}
                         inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
                     />
-                    <Begrunnelser begrunnelser={begrunnelser} />
-                    <ForklaringTextarea
+                    <Arsaker årsaker={årsaker} />
+                    <BegrunnelseTextarea
                         description={`Begrunn hvorfor det er gjort endringer i inntekt og/eller refusjon.\nTeksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.`}
                     />
                     {visFeilOppsummering && (

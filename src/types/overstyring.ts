@@ -6,7 +6,7 @@ export interface Lovhjemmel {
     lovverksversjon: string;
 }
 
-export interface BegrunnelseForOverstyring {
+export interface ÅrsakForOverstyring {
     id: string;
     forklaring: string;
     lovhjemmel?: Lovhjemmel;

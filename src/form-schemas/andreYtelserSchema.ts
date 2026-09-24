@@ -118,7 +118,7 @@ export const lagAndreYtelserSchema = (
         .object({
             ytelse: z.enum(ANNEN_YTELSE_OPTIONS, { message: 'Gyldig ytelse er påkrevd' }),
             perioder: z.array(lagAndreYtelserPeriodeSchema(sykefraværstilfelleperioder)).min(1),
-            notat: z.string().min(1, { error: 'Notat til beslutter er påkrevd' }),
+            notat: z.string().min(1, { error: 'Begrunnelse er påkrevd' }),
         })
         .check((ctx) => {
             // Overlapp sjekkes før graderingen: to overlappende perioder for samme ytelse gir en misvisende

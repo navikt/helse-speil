@@ -80,7 +80,7 @@ export const ArbeidstidsvurderingVisning = ({ oppkuttedePerioder, minimumSykdoms
                 </Table>
                 <List>
                     <BodyShort weight="semibold" as="h2">
-                        Notat til beslutter
+                        Begrunnelse
                     </BodyShort>
                     {delperioder.map((it) => (
                         <List.Item key={it.periode.fom}>

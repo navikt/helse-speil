@@ -42,7 +42,7 @@ export const lagTilkommenInntektSchema = (
                     error: 'Periodebeløp må være et tall',
                 })
                 .min(1, 'Inntekt for perioden må være minimum 1 kr'),
-            notat: z.string().min(1, { error: 'Notat til beslutter er påkrevd' }),
+            notat: z.string().min(1, { error: 'Begrunnelse er påkrevd' }),
             ekskluderteUkedager: z.iso.date().array(),
         })
         .refine(({ fom, tom }) => norskDatoTilIsoDato(fom) <= norskDatoTilIsoDato(tom), {

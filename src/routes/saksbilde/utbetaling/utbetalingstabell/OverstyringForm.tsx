@@ -33,14 +33,9 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
             <VStack align="start" gap="space-8">
                 <Textarea
                     id="begrunnelse"
-                    label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
+                    label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
                     value={oppsummering}
-                    description={
-                        <span>
-                            Begrunn hvorfor det er gjort endringer i sykdomstidslinjen. <br />
-                            Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.
-                        </span>
-                    }
+                    description={<span>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</span>}
                     error={formState.errors.begrunnelse ? (formState.errors.begrunnelse.message as string) : null}
                     data-testid="overstyring-begrunnelse"
                     maxLength={2000}

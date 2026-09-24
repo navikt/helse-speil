@@ -142,7 +142,7 @@ export function AndreYtelserSkjema({
                         render={({ field, fieldState }) => (
                             <Textarea
                                 {...field}
-                                label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
+                                label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
                                 description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                 size="small"
                                 error={fieldState.error?.message}

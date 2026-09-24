@@ -226,7 +226,7 @@ const NotatTilBeslutter = ({ vedtaksperiodeId }: NotatTilBeslutterProps) => {
         <Textarea
             {...field}
             className={styles.fritekst}
-            label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
+            label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
             description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
             error={fieldState?.error?.message as string}
             onChange={(e) => {

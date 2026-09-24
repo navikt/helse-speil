@@ -108,9 +108,9 @@ describe('tilkommenIkktekt skjemavalidering', () => {
         );
     });
 
-    it('notat må fylles ut', () => {
+    it('begrunnelse må fylles ut', () => {
         expect(hentFeilmelding(validerTilkommenInntektSkjema('947064649', '01.01.2020', '03.01.2020', 1000, ''))).toBe(
-            'Notat til beslutter er påkrevd',
+            'Begrunnelse er påkrevd',
         );
     });
 });

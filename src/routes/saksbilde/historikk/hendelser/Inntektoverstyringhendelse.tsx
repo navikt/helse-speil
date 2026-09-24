@@ -46,10 +46,10 @@ export const Inntektoverstyringhendelse = ({
                             <BodyShort>{inntektsforholdReferanse.organisasjonsnummer}</BodyShort>
                         </HistorikkSection>
                     )}
-                    <HistorikkSection tittel="Begrunnelse">
+                    <HistorikkSection tittel="Årsak">
                         <BodyShort>{inntekt.begrunnelse}</BodyShort>
                     </HistorikkSection>
-                    <HistorikkSection tittel="Notat til beslutter">
+                    <HistorikkSection tittel="Begrunnelse">
                         <BodyShortWithPreWrap>{inntekt.forklaring}</BodyShortWithPreWrap>
                     </HistorikkSection>
                     <HistorikkSection tittel="Mnd. inntekt">

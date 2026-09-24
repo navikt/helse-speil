@@ -5,7 +5,7 @@ import { Button } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { PersonFragment } from '@io/graphql';
-import { BegrunnelseForOverstyring } from '@typer/overstyring';
+import { ÅrsakForOverstyring } from '@typer/overstyring';
 
 import { BrukArbeidsforholdILikevelDialog } from './BrukArbeidsforholdILikevelDialog';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
@@ -26,7 +26,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     const [open, setOpen] = useState(false);
     const getOverstyrtArbeidsforhold = useGetOverstyrtArbeidsforhold(person);
     const { postOverstyring } = usePostOverstyrtArbeidsforhold(person.aktorId);
-    const begrunnelse: BegrunnelseForOverstyring = {
+    const årsak: ÅrsakForOverstyring = {
         id: '',
         forklaring: 'Angret å ikke bruke det i beregningen',
     };
@@ -35,7 +35,7 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
         skjæringstidspunkt,
         false,
         'Saksbehandler angret å deaktivere arbeidsforholdet i beregningen',
-        begrunnelse,
+        årsak,
     );
     return (
         <>

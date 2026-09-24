@@ -13,10 +13,7 @@ import { arbeidsgiverTilReferanse } from '@state/inntektsforhold/inntektsforhold
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 
-import {
-    endreInntektMedSykefraværBegrunnelser,
-    endreInntektUtenSykefraværBegrunnelser,
-} from './inntektOgRefusjonUtils';
+import { endreInntektMedSykefraværÅrsaker, endreInntektUtenSykefraværÅrsaker } from './inntektOgRefusjonUtils';
 
 interface InntektUtenSykefraværProps {
     person: PersonFragment;
@@ -79,9 +76,7 @@ export const InntektOgRefusjon = ({
                     omregnetÅrsinntekt={omregnetÅrsinntekt}
                     close={() => setEditing(false)}
                     harEndring={setEndret}
-                    begrunnelser={
-                        harSykefravær ? endreInntektMedSykefraværBegrunnelser : endreInntektUtenSykefraværBegrunnelser
-                    }
+                    årsaker={harSykefravær ? endreInntektMedSykefraværÅrsaker : endreInntektUtenSykefraværÅrsaker}
                     skjæringstidspunkt={skjæringstidspunkt}
                     vilkårsgrunnlagId={vilkårsgrunnlagId}
                     person={person}

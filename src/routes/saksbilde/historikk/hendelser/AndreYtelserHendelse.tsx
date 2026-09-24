@@ -49,7 +49,7 @@ export function AndreYtelserOpprettetHendelse({
                 ))}
             </VStack>
             <VStack>
-                <BodyShort weight="semibold">Notat til beslutter</BodyShort>
+                <BodyShort weight="semibold">Begrunnelse</BodyShort>
                 <BodyShortWithPreWrap>{event.metadata.notatTilBeslutter}</BodyShortWithPreWrap>
             </VStack>
         </>
@@ -92,7 +92,7 @@ export function AndreYtelserEndretEllerGjenopprettetHendelse({
                 </VStack>
             )}
             <VStack>
-                <BodyShort weight="semibold">Notat til beslutter</BodyShort>
+                <BodyShort weight="semibold">Begrunnelse</BodyShort>
                 <BodyShortWithPreWrap>{event.metadata.notatTilBeslutter}</BodyShortWithPreWrap>
             </VStack>
         </>

@@ -37,7 +37,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
         expect(request.perioder).toEqual([{ fom: '2020-01-01', tom: '2020-01-03', grad: 50 }]);
     });
 
-    it('sender med fødselsnummer og notat til beslutter', () => {
+    it('sender med fødselsnummer og begrunnelse', () => {
         const request = tilGraderteAndreYtelserRequest(etSkjema({ notat: 'Et notat' }), '12345678910');
 
         expect(request.fodselsnummer).toBe('12345678910');
@@ -80,7 +80,7 @@ describe('tilAndreYtelserSkjemaverdier', () => {
         expect(skjemaverdier.perioder).toEqual([{ fom: '01.01.2020', tom: '03.01.2020', grad: 50 }]);
     });
 
-    it('lar notat til beslutter stå tomt', () => {
+    it('lar begrunnelse stå tomt', () => {
         const skjemaverdier = tilAndreYtelserSkjemaverdier({
             andreYtelserId: 'en-id',
             andreYtelserType: ApiGraderteAndreYtelserType.PLEIEPENGER,

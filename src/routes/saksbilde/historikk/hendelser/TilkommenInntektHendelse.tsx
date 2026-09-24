@@ -44,7 +44,7 @@ export const TilkommenInntektOpprettetHendelse = ({ event }: { event: ApiTilkomm
             ))}
         </VStack>
         <VStack>
-            <BodyShort weight="semibold">Notat til beslutter</BodyShort>
+            <BodyShort weight="semibold">Begrunnelse</BodyShort>
             <BodyShortWithPreWrap>{event.metadata.notatTilBeslutter}</BodyShortWithPreWrap>
         </VStack>
     </>
@@ -102,7 +102,7 @@ export const TilkommenInntektEndretEllerGjenopprettetHendelse = ({
             </VStack>
         )}
         <VStack>
-            <BodyShort weight="semibold">Notat til beslutter</BodyShort>
+            <BodyShort weight="semibold">Begrunnelse</BodyShort>
             <BodyShortWithPreWrap>{event.metadata.notatTilBeslutter}</BodyShortWithPreWrap>
         </VStack>
     </>

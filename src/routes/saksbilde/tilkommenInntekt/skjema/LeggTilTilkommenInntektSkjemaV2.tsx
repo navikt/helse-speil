@@ -162,7 +162,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
                             render={({ field, fieldState }) => (
                                 <Textarea
                                     {...field}
-                                    label={<VisesIkkeIVedtakTag label="Notat til beslutter" />}
+                                    label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
                                     error={fieldState.error?.message}
                                     description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                                     size="small"

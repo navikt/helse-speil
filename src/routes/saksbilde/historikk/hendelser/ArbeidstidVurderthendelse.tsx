@@ -44,7 +44,7 @@ export const ArbeidstidVurderthendelse = ({
                     </BodyShort>
                 </HistorikkSection>
             )}
-            <HistorikkSection tittel="Notat til beslutter">
+            <HistorikkSection tittel="Begrunnelse">
                 <BodyShortWithPreWrap>{minimumSykdomsgrad.begrunnelse}</BodyShortWithPreWrap>
             </HistorikkSection>
         </Historikkhendelse>
