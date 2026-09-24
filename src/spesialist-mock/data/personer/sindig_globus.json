@@ -4,17 +4,6 @@
             "fodselsnummer": "19886497256",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "personinfo": {
-                "fornavn": "SINDIG",
-                "mellomnavn": null,
-                "etternavn": "GLOBUS",
-                "adressebeskyttelse": "Ugradert",
-                "fodselsdato": "1964-08-19",
-                "kjonn": "Kvinne",
-                "fullmakt": false,
-                "reservasjon": null,
-                "__typename": "Personinfo"
-            },
             "tildeling": {
                 "navn": "Hagen, Øyvind",
                 "epost": "Oyvind.Hagen@nav.no",
@@ -10942,6 +10931,21 @@
                 }
             ],
             "__typename": "Person"
+        }
+    },
+    "rest": {
+        "person": {
+            "identitetsnummer": "19886497256",
+            "andreIdentitetsnumre": [],
+            "aktørId": "2117136462117",
+            "fornavn": "SINDIG",
+            "mellomnavn": null,
+            "etternavn": "GLOBUS",
+            "fødselsdato": "1964-08-19",
+            "dødsdato": null,
+            "kjønn": "KVINNE",
+            "adressebeskyttelse": "UGRADERT",
+            "fullmakt": false
         }
     }
 }

@@ -4,15 +4,6 @@
             "fodselsnummer": "07518405122",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "personinfo": {
-                "fornavn": "Punktlig",
-                "mellomnavn": null,
-                "etternavn": "Jakke",
-                "adressebeskyttelse": "Ugradert",
-                "fodselsdato": "1984-11-07",
-                "kjonn": "Mann",
-                "reservasjon": null
-            },
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
@@ -781,6 +772,21 @@
                     "navn": "HEST"
                 }
             ]
+        }
+    },
+    "rest": {
+        "person": {
+            "identitetsnummer": "07518405122",
+            "andreIdentitetsnumre": [],
+            "aktørId": "2805594640665",
+            "fornavn": "Punktlig",
+            "mellomnavn": null,
+            "etternavn": "Jakke",
+            "fødselsdato": "1984-11-07",
+            "dødsdato": null,
+            "kjønn": "MANN",
+            "adressebeskyttelse": "UGRADERT",
+            "fullmakt": null
         }
     }
 }

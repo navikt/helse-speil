@@ -1,10 +1,4 @@
-import {
-    Adressebeskyttelse,
-    ArbeidsgiverFragment,
-    Kjonn,
-    PersonFragment,
-    TilleggsinfoForInntektskilde,
-} from '@io/graphql';
+import { ArbeidsgiverFragment, PersonFragment, TilleggsinfoForInntektskilde } from '@io/graphql';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { tilleggsinfoFraEnInntektskilde } from '@test-data/tilleggsinfoFraInntektskilde';
 import { OverridableConstructor } from '@typer/shared';
@@ -27,18 +21,6 @@ export const enPerson: OverridableConstructor<PersonFragment, Extensions> = (ove
         tildeling: null,
         arbeidsgivere: [enArbeidsgiver()],
         selvstendigNaering: null,
-        personinfo: {
-            __typename: 'Personinfo',
-            fornavn: 'Navn',
-            mellomnavn: null,
-            etternavn: 'Navnesen',
-            kjonn: Kjonn.Kvinne,
-            fullmakt: null,
-            adressebeskyttelse: Adressebeskyttelse.Ugradert,
-            fodselsdato: '1986-02-06',
-            reservasjon: null,
-            automatiskBehandlingStansetAvSaksbehandler: false,
-        },
         vilkarsgrunnlagV2: [],
         tilleggsinfoForInntektskilder: [tilleggsinfoFraEnInntektskilde()],
         ...overrides,

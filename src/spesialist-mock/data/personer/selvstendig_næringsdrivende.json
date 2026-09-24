@@ -5,18 +5,6 @@
             "fodselsnummer": "23817999700",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "personinfo": {
-                "__typename": "Personinfo",
-                "fornavn": "KVART",
-                "mellomnavn": null,
-                "etternavn": "ARBEIDSKRAFT",
-                "adressebeskyttelse": "Ugradert",
-                "fodselsdato": "1979-01-23",
-                "kjonn": "Mann",
-                "fullmakt": false,
-                "reservasjon": null,
-                "automatiskBehandlingStansetAvSaksbehandler": false
-            },
             "selvstendigNaering": {
                 "__typename": "SelvstendigNaering",
                 "behandlinger": [
@@ -795,6 +783,21 @@
             "aktorId": "2948505693240",
             "arbeidsgivere": [],
             "tilleggsinfoForInntektskilder": []
+        }
+    },
+    "rest": {
+        "person": {
+            "identitetsnummer": "23817999700",
+            "andreIdentitetsnumre": [],
+            "aktørId": "2948505693240",
+            "fornavn": "KVART",
+            "mellomnavn": null,
+            "etternavn": "ARBEIDSKRAFT",
+            "fødselsdato": "1979-01-23",
+            "dødsdato": null,
+            "kjønn": "MANN",
+            "adressebeskyttelse": "UGRADERT",
+            "fullmakt": false
         }
     }
 }

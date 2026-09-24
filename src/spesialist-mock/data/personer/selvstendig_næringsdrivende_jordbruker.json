@@ -5,18 +5,6 @@
             "fodselsnummer": "17466707384",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "personinfo": {
-                "__typename": "Personinfo",
-                "fornavn": "NYSGJERRIG",
-                "mellomnavn": null,
-                "etternavn": "AKTØR",
-                "adressebeskyttelse": "Ugradert",
-                "fodselsdato": "1967-06-17",
-                "kjonn": "Mann",
-                "fullmakt": false,
-                "reservasjon": null,
-                "automatiskBehandlingStansetAvSaksbehandler": false
-            },
             "selvstendigNaering": {
                 "__typename": "SelvstendigNaering",
                 "behandlinger": [
@@ -768,6 +756,21 @@
             "aktorId": "2037105535448",
             "arbeidsgivere": [],
             "tilleggsinfoForInntektskilder": []
+        }
+    },
+    "rest": {
+        "person": {
+            "identitetsnummer": "17466707384",
+            "andreIdentitetsnumre": [],
+            "aktørId": "2037105535448",
+            "fornavn": "NYSGJERRIG",
+            "mellomnavn": null,
+            "etternavn": "AKTØR",
+            "fødselsdato": "1967-06-17",
+            "dødsdato": null,
+            "kjønn": "MANN",
+            "adressebeskyttelse": "UGRADERT",
+            "fullmakt": false
         }
     }
 }

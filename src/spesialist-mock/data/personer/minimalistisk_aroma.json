@@ -4,15 +4,6 @@
             "fodselsnummer": "07489201431",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "personinfo": {
-                "fornavn": "Minimalistisk",
-                "mellomnavn": null,
-                "etternavn": "Aroma",
-                "adressebeskyttelse": "Ugradert",
-                "fodselsdato": "1992-08-07",
-                "kjonn": "Kvinne",
-                "reservasjon": null
-            },
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
@@ -2575,6 +2566,21 @@
                     "navn": "KLONELABBEN"
                 }
             ]
+        }
+    },
+    "rest": {
+        "person": {
+            "identitetsnummer": "07489201431",
+            "andreIdentitetsnumre": [],
+            "aktørId": "2407074650987",
+            "fornavn": "Minimalistisk",
+            "mellomnavn": null,
+            "etternavn": "Aroma",
+            "fødselsdato": "1992-08-07",
+            "dødsdato": null,
+            "kjønn": "KVINNE",
+            "adressebeskyttelse": "UGRADERT",
+            "fullmakt": null
         }
     }
 }

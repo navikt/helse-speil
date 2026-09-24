@@ -1,15 +1,13 @@
 #!/usr/bin/env sh
 
 # Skriptet er laget for å kunne vise en person fra prod eller dev lokalt.
-# Det leser fra utklippstavla, oppretter en json-fil, og lager data som må
-# settes inn i lista over personidentifikatorer og legger dem på utklippstavla
-
-# Forbedringsmulighet: legge inn dataene i lista automatisk
+# Det leser persondata kopiert med ALT+P fra utklippstavla og oppretter en
+# json-fil under src/spesialist-mock/data/personer.
 
 set -ueo pipefail
 
 function giOpp {
-  echo $1 && exit
+  echo $1 && exit 1
 }
 
 test "$(uname -s)" == "Darwin" || giOpp "Du bruker ikke Mac, det er bare sorry det."
@@ -19,25 +17,18 @@ test $utklippstavleinnholdlenge -lt 40000 && giOpp "Innholdet i utklippstavla di
 tempFile=$(mktemp)
 pbpaste > $tempFile
 
-aktorId="$(grep aktorId $tempFile | tr -dc '0-9')" || giOpp "Fant ikke aktorId-feltet i clipboard-innholdet"
-fodselsnummer="$(grep fodselsnummer $tempFile | tr -dc '0-9')" || giOpp "Fant ikke fodselsnummer-feltet i clipboard-innholdet"
+felter="$(node -e '
+const fil = JSON.parse(require("fs").readFileSync(process.argv[1], "utf-8"));
+const person = fil?.data?.person;
+if (!person?.aktorId || !person?.fodselsnummer) { console.error("Fant ikke data.person med aktorId og fodselsnummer i clipboard-innholdet"); process.exit(1); }
+if (!fil?.rest?.person) { console.error("Fant ikke rest.person i clipboard-innholdet. Er det kopiert med en gammel versjon av speil?"); process.exit(1); }
+console.log(person.aktorId, person.fodselsnummer);
+' "$tempFile")" || { rm -f $tempFile; giOpp "Clipboard-innholdet er ikke persondata kopiert med ALT+P."; }
+
+aktorId="${felter% *}"
+fodselsnummer="${felter#* }"
 
 mv $tempFile src/spesialist-mock/data/personer/$aktorId.json
 
-element=$(cat <<EOF
-{
-    aktørId: '$aktorId',
-    fødselsnummer: '$fodselsnummer',
-    personPseudoId: '$(uuidgen | tr '[:upper:]' '[:lower:]')',
-},
-EOF
-)
-
-echo "$element" | pbcopy
-echo Jess, nå er det opprettet en testdata-fil for personen.
-echo Du har fått dette i utklippstavla di:
-echo "$element"
-filename=src/spesialist-mock/storage/person.ts
-filelink="$(realpath $filename)"
-echo Legg det inn i $filelink og så kan du søke opp personen!
-
+echo Jess, nå er det opprettet en testdata-fil for personen: src/spesialist-mock/data/personer/$aktorId.json
+echo Start speil på nytt og søk opp personen med fødselsnummer $fodselsnummer eller aktør-ID $aktorId.

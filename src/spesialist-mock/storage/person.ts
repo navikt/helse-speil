@@ -4,6 +4,7 @@ import { cwd } from 'process';
 import { v5 as uuidv5 } from 'uuid';
 
 import { Person } from '@io/graphql';
+import { ApiPerson } from '@io/rest/generated/spesialist.schemas';
 import { UUID } from '@typer/spesialist-mock';
 
 type PersonIdentifikatorer = {
@@ -12,14 +13,21 @@ type PersonIdentifikatorer = {
     personPseudoId: UUID;
 };
 
-const lesPersoner = (): Person[] => {
+export type Testpersonfil = {
+    data: { person: Person };
+    rest?: { person?: ApiPerson };
+};
+
+export function lesTestpersonfiler(): Testpersonfil[] {
     const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
     const filenames = fs.readdirSync(url);
     return filenames.map((filename) => {
         const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
-        return JSON.parse(raw).data.person;
+        return JSON.parse(raw) as Testpersonfil;
     });
-};
+}
+
+const lesPersoner = (): Person[] => lesTestpersonfiler().map((fil) => fil.data.person);
 
 const UUID_NAMESPACE = '0e4ec8b1-8fad-4003-b4a4-69d90be4eee0';
 
@@ -54,6 +62,9 @@ export class PersonMock {
             })?.personPseudoId ?? null
         );
     };
+
+    static finnApiPerson = (fødselsnummer: string): ApiPerson | null =>
+        lesTestpersonfiler().find((fil) => fil.data.person.fodselsnummer === fødselsnummer)?.rest?.person ?? null;
 
     static findAktørIdForPersonPseudoId = (personPseudoId: string): string | null => {
         return (

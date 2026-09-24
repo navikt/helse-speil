@@ -9,16 +9,6 @@
                 }
             ],
             "dodsdato": null,
-            "personinfo": {
-                "fornavn": "Slapp",
-                "mellomnavn": null,
-                "etternavn": "Appelsin",
-                "adressebeskyttelse": "Ugradert",
-                "fodselsdato": "1986-02-06",
-                "kjonn": "Kvinne",
-                "reservasjon": null,
-                "automatiskBehandlingStansetAvSaksbehandler": false
-            },
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
@@ -1005,6 +995,21 @@
                     "navn": "HÅRREISENDE FRISØR"
                 }
             ]
+        }
+    },
+    "rest": {
+        "person": {
+            "identitetsnummer": "06028620819",
+            "andreIdentitetsnumre": ["07518405122"],
+            "aktørId": "2564094783926",
+            "fornavn": "Slapp",
+            "mellomnavn": null,
+            "etternavn": "Appelsin",
+            "fødselsdato": "1986-02-06",
+            "dødsdato": null,
+            "kjønn": "KVINNE",
+            "adressebeskyttelse": "UGRADERT",
+            "fullmakt": null
         }
     }
 }

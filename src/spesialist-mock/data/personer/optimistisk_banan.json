@@ -4,18 +4,6 @@
             "fodselsnummer": "12345678910",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "personinfo": {
-                "fornavn": "OPTIMISTISK",
-                "mellomnavn": null,
-                "etternavn": "BANAN",
-                "adressebeskyttelse": "Ugradert",
-                "fodselsdato": "1984-12-14",
-                "kjonn": "Kvinne",
-                "reservasjon": {
-                    "kanVarsles": true,
-                    "reservert": false
-                }
-            },
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
@@ -26811,6 +26799,21 @@
                     "navn": "FISKEFINGER ENGINEERING"
                 }
             ]
+        }
+    },
+    "rest": {
+        "person": {
+            "identitetsnummer": "12345678910",
+            "andreIdentitetsnumre": [],
+            "aktørId": "1000001337420",
+            "fornavn": "OPTIMISTISK",
+            "mellomnavn": null,
+            "etternavn": "BANAN",
+            "fødselsdato": "1984-12-14",
+            "dødsdato": null,
+            "kjønn": "KVINNE",
+            "adressebeskyttelse": "UGRADERT",
+            "fullmakt": null
         }
     }
 }

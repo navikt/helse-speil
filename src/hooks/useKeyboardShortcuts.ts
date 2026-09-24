@@ -74,12 +74,14 @@ const useCopyVedtaksperiodeId = (): (() => void) => {
 };
 
 const useCopyPersondata = (): (() => void) => {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
     const { loading, data } = useFetchPersonQuery();
+    const { data: apiPerson } = useGetPerson(personPseudoId ?? '');
     const addToast = useAddToast();
 
     return () => {
-        if (!loading && isNotNullOrUndefined(data)) {
-            void copyString(JSON.stringify({ data }, null, 2), true);
+        if (!loading && isNotNullOrUndefined(data) && isNotNullOrUndefined(apiPerson)) {
+            void copyString(JSON.stringify({ data, rest: { person: apiPerson } }, null, 2), true);
             addToast({
                 key: 'kopierPersondataToastKey',
                 message: 'Persondata er kopiert',

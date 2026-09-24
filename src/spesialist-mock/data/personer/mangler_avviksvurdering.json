@@ -5,18 +5,6 @@
             "fodselsnummer": "14829598281",
             "andreFodselsnummer": [],
             "dodsdato": null,
-            "personinfo": {
-                "__typename": "Personinfo",
-                "fornavn": "USEDVANLIG",
-                "mellomnavn": null,
-                "etternavn": "MANDAG",
-                "adressebeskyttelse": "Ugradert",
-                "fodselsdato": "1995-02-14",
-                "kjonn": "Kvinne",
-                "fullmakt": null,
-                "reservasjon": null,
-                "automatiskBehandlingStansetAvSaksbehandler": false
-            },
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
@@ -838,6 +826,21 @@
                     "navn": "SAUEFABRIKK"
                 }
             ]
+        }
+    },
+    "rest": {
+        "person": {
+            "identitetsnummer": "14829598281",
+            "andreIdentitetsnumre": [],
+            "aktørId": "2150126368568",
+            "fornavn": "USEDVANLIG",
+            "mellomnavn": null,
+            "etternavn": "MANDAG",
+            "fødselsdato": "1995-02-14",
+            "dødsdato": null,
+            "kjønn": "KVINNE",
+            "adressebeskyttelse": "UGRADERT",
+            "fullmakt": null
         }
     }
 }

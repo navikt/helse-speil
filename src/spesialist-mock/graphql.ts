@@ -1,14 +1,11 @@
 import spesialistSchema from './graphql.schema.json';
-import fs from 'fs';
 import { GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
-import path from 'path';
-import { cwd } from 'process';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
-import { PersonMock } from '@spesialist-mock/storage/person';
+import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person';
 import { Oppgave, UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
@@ -55,14 +52,7 @@ const leggTilLagretData = (person: Person): void => {
     person.tildeling = tildeling;
 };
 
-const lesTestpersoner = (): Person[] => {
-    const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
-    const filenames = fs.readdirSync(url);
-    return filenames.map((filename) => {
-        const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
-        return JSON.parse(raw).data.person;
-    });
-};
+const lesTestpersoner = (): Person[] => lesTestpersonfiler().map((fil) => fil.data.person as unknown as Person);
 
 export const fetchPersondata = (): Record<string, Person> => {
     const personer = lesTestpersoner();
