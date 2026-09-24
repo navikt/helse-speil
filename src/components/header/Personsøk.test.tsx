@@ -32,6 +32,27 @@ describe('Personsøk', () => {
         });
     });
 
+    it('nullstiller lagret saksbildefane når man søker opp en person', async () => {
+        sessionStorage.setItem(
+            'saksbildeTabPerPerson',
+            JSON.stringify({ personPseudoId: 'forrige-person', tab: 'sykepengegrunnlag' }),
+        );
+        (customAxios as unknown as Mock).mockResolvedValue({
+            data: {
+                personPseudoId: 'en random uuid',
+            },
+        });
+
+        render(<Personsøk />);
+
+        await userEvent.type(screen.getByRole('searchbox', { name: 'Søk' }), '1234567891000');
+        await userEvent.click(screen.getByRole('button', { name: 'Søk' }));
+
+        await waitFor(() => {
+            expect(sessionStorage.getItem('saksbildeTabPerPerson')).toBeNull();
+        });
+    });
+
     it('displays varsel when person is not found', async () => {
         (customAxios as unknown as Mock).mockRejectedValue({ response: { status: 404 } });
         (useFetchPersonQuery as Mock).mockReturnValue({});

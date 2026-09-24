@@ -5,9 +5,11 @@ import { Alert, BodyShort, HStack, Link } from '@navikt/ds-react';
 
 import { getFormattedFødselsnummer } from '@saksbilde/personHeader/Fødselsnummer';
 import { useFetchPersonQuery } from '@state/person';
+import { useNullstillSaksbildeTab } from '@state/tab';
 
 export function VarselOmFlerFødselsnumre(): ReactElement | null {
     const { data } = useFetchPersonQuery();
+    const nullstillSaksbildeTab = useNullstillSaksbildeTab();
     const andreFødselsnumre = data?.person?.andreFodselsnummer ?? [];
 
     if (andreFødselsnumre.length === 0) {
@@ -19,7 +21,12 @@ export function VarselOmFlerFødselsnumre(): ReactElement | null {
                 <BodyShort>Personen har også andre fødselsnumre:</BodyShort>
                 {andreFødselsnumre.map((value, index) => (
                     <HStack key={index}>
-                        <Link as={NextLink} key={value.fodselsnummer} href={`/person/${value.personPseudoId}`}>
+                        <Link
+                            as={NextLink}
+                            key={value.fodselsnummer}
+                            href={`/person/${value.personPseudoId}`}
+                            onClick={nullstillSaksbildeTab}
+                        >
                             <BodyShort data-sensitive>{getFormattedFødselsnummer(value.fodselsnummer)}</BodyShort>
                         </Link>
                     </HStack>

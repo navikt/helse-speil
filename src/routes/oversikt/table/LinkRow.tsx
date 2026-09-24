@@ -3,6 +3,8 @@ import React, { ReactElement, useRef } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { useNullstillSaksbildeTab } from '@state/tab';
+
 import styles from './LinkRow.module.css';
 
 const shouldOpenInNewTab = (event: React.SyntheticEvent): boolean => {
@@ -21,12 +23,14 @@ interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
 export const LinkRow = ({ personPseudoId, subPath, children, ...rest }: LinkRowProps): ReactElement => {
     const ref = useRef<HTMLTableRowElement | null>(null);
     const router = useRouter();
+    const nullstillSaksbildeTab = useNullstillSaksbildeTab();
 
     const navigate = (event: React.SyntheticEvent) => {
         const destinationUrl = `/person/${personPseudoId}${subPath ? `/${subPath}` : ''}`;
         if (shouldOpenInNewTab(event)) {
             window.open(destinationUrl, '_blank');
         } else {
+            nullstillSaksbildeTab();
             router.push(destinationUrl);
         }
     };

@@ -1,4 +1,6 @@
-import { useAtom, useSetAtom } from 'jotai';
+import { useAtomValue, useSetAtom } from 'jotai';
+import { RESET } from 'jotai/utils';
+import { useParams } from 'next/navigation';
 
 import { atomWithSessionStorage } from '@state/jotai';
 
@@ -11,8 +13,29 @@ export const saksbildeTabs: SaksbildeTab[] = [
     'vurderingsmomenter',
 ];
 
-const saksbildeTabAtom = atomWithSessionStorage<SaksbildeTab>('saksbildeTab', 'dagoversikt');
+type LagretSaksbildeTab = { personPseudoId?: string; tab: SaksbildeTab };
 
-export const useSaksbildeTab = () => useAtom(saksbildeTabAtom);
+const saksbildeTabAtom = atomWithSessionStorage<LagretSaksbildeTab>('saksbildeTabPerPerson', { tab: 'dagoversikt' });
 
-export const useSetSaksbildeTab = () => useSetAtom(saksbildeTabAtom);
+export const useSaksbildeTab = (): [SaksbildeTab, (tab: SaksbildeTab) => void] => {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const lagret = useAtomValue(saksbildeTabAtom);
+    const setTab = useSetSaksbildeTab();
+
+    const tab = lagret.personPseudoId === personPseudoId ? lagret.tab : 'dagoversikt';
+
+    return [tab, setTab];
+};
+
+export const useSetSaksbildeTab = () => {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const setLagret = useSetAtom(saksbildeTabAtom);
+
+    return (tab: SaksbildeTab) => setLagret({ personPseudoId, tab });
+};
+
+export const useNullstillSaksbildeTab = () => {
+    const setLagret = useSetAtom(saksbildeTabAtom);
+
+    return () => setLagret(RESET);
+};
