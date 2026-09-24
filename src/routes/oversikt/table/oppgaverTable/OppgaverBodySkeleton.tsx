@@ -18,24 +18,24 @@ export function OppgaverBodySkeleton() {
 
 const BodyRowSkeleton = (): ReactElement => (
     <Table.Row>
-        <Table.DataCell style={{ width: 220, paddingTop: 8, paddingBottom: 8 }}>
-            <Skeleton width={120} height={32} />
+        <Table.DataCell style={{ width: 220, paddingTop: 12, paddingBottom: 12 }}>
+            <Skeleton width={120} height={28} />
         </Table.DataCell>
-        <Table.DataCell style={{ paddingTop: 8, paddingBottom: 8 }}>
+        <Table.DataCell style={{ paddingTop: 12, paddingBottom: 12 }}>
             <HStack gap="space-12" wrap={false}>
-                <Skeleton width={96} height={32} />
-                <Skeleton width={80} height={32} />
-                <Skeleton width={110} height={32} />
+                <Skeleton width={96} height={28} />
+                <Skeleton width={80} height={28} />
+                <Skeleton width={110} height={28} />
             </HStack>
         </Table.DataCell>
-        <Table.DataCell style={{ width: 140, paddingTop: 8, paddingBottom: 8 }}>
-            <Skeleton width={120} height={32} />
+        <Table.DataCell style={{ width: 140, paddingTop: 12, paddingBottom: 12 }}>
+            <Skeleton width={120} height={28} />
         </Table.DataCell>
         <Table.DataCell style={{ width: 20, paddingRight: 0 }}>
             <Skeleton variant="circle" width={24} height={24} />
         </Table.DataCell>
-        <Table.DataCell style={{ paddingTop: 8, paddingBottom: 8 }}>
-            <Skeleton width={80} height={32} />
+        <Table.DataCell style={{ paddingTop: 12, paddingBottom: 12 }}>
+            <Skeleton width={80} height={28} />
         </Table.DataCell>
     </Table.Row>
 );

@@ -29,12 +29,12 @@ export const BehandletIdagTableSkeleton = (): ReactElement => (
     </VStack>
 );
 
-const FilterChipsSkeleton = (): ReactElement => (
+export const FilterChipsSkeleton = (): ReactElement => (
     <div className={styles.filterchipsskeleton}>
         <HStack gap="space-8" wrap={false}>
-            <Skeleton height={48} width={140} />
-            <Skeleton height={48} width={100} />
-            <Skeleton height={48} width={120} />
+            <Skeleton height={32} width={140} />
+            <Skeleton height={32} width={100} />
+            <Skeleton height={32} width={120} />
         </HStack>
     </div>
 );
@@ -44,7 +44,7 @@ const DateSelectHeaderSkeleton = (): ReactElement => (
         <Table.DataCell />
         <Table.DataCell />
         <Table.DataCell className={styles.selecttdskeleton}>
-            <Skeleton height={40} width={140} />
+            <Skeleton height={32} width={140} />
         </Table.DataCell>
     </Table.Row>
 );
@@ -56,7 +56,7 @@ const SortHeaderRowSkeleton = (): ReactElement => (
         </Table.ColumnHeader>
         <Table.DataCell />
         <Table.ColumnHeader style={{ paddingLeft: 16 }}>
-            <Skeleton height={40} width={140} />
+            <Skeleton height={56} width={140} />
         </Table.ColumnHeader>
         <Table.DataCell />
         <Table.DataCell />
