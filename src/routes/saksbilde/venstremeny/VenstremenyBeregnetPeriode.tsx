@@ -114,7 +114,7 @@ const getNumberOfDaysWithType = (timeline: Dag[], type: Utbetalingsdagtype): num
 
 const utbetaling = (state: PeriodState): VarselObject | null =>
     ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(state)
-        ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragsystemet.' }
+        ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragssystemet.' }
         : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(state)
           ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
           : null;

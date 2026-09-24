@@ -59,7 +59,7 @@ export function UtbetalingDialog({
                         Når du trykker ja{' '}
                         {totrinnsvurdering
                             ? 'sendes oppgaven til beslutter for godkjenning.'
-                            : 'blir utbetalingen sendt til oppdragsystemet.'}
+                            : 'blir utbetalingen sendt til oppdragssystemet.'}
                     </BodyShort>
                 </Dialog.Body>
                 <Dialog.Footer>
