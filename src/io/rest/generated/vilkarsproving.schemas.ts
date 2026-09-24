@@ -5,8 +5,7 @@
  * OpenAPI spec version: 1.0.0
  */
 export type ApiOpptjeningsvurdering =
-    | ApiOpptjeningsvurderingOverførtFraInfotrygd
-    | ApiOpptjeningsvurderingVurdertISpeil;
+    ApiOpptjeningsvurderingOverførtFraInfotrygd | ApiOpptjeningsvurderingVurdertISpeil;
 
 export interface ApiOpptjeningsvurderingOverførtFraInfotrygd {
     id: string;
@@ -67,9 +66,7 @@ export const ApiUtfall = {
 } as const;
 
 export type ApiVurderingskilde =
-    | ApiVurderingskildeAutomatisk
-    | ApiVurderingskildeOverførtFraSpleis
-    | ApiVurderingskildeSaksbehandler;
+    ApiVurderingskildeAutomatisk | ApiVurderingskildeOverførtFraSpleis | ApiVurderingskildeSaksbehandler;
 
 export interface ApiVurderingskildeAutomatisk {
     versjonAvKildekode: string;
@@ -78,8 +75,7 @@ export interface ApiVurderingskildeAutomatisk {
 }
 
 export type ApiVurderingsgrunnlag =
-    | ApiVurderingsgrunnlagArbeidsforhold
-    | ApiVurderingsgrunnlagSelvstendigNæringsdrivende;
+    ApiVurderingsgrunnlagArbeidsforhold | ApiVurderingsgrunnlagSelvstendigNæringsdrivende;
 
 export type ApiVurderingsgrunnlagArbeidsforholdOpptjeningsperiode = null | ApiPeriode;
 
@@ -144,6 +140,7 @@ export interface ApiVurderingskildeOverførtFraSpleis {
 export interface ApiVurderingskildeSaksbehandler {
     ident: string;
     fritekstbegrunnelse: string;
+    journalpostId: string[];
     kildetype: ApiKildetype;
 }
 
@@ -162,14 +159,15 @@ export interface ProblemDetails {
     instance: string;
 }
 
-export interface ApiOverstyrVilkårsvurderingRequest {
+export interface ApiManuellVilkårsvurderingRequest {
     skjæringstidspunkt: string;
     vilkårskode: ApiVilkårskode;
     utfall: ApiUtfall;
     fritekstbegrunnelse: string;
+    journalpostId: string[];
 }
 
-export interface ApiOverstyrVilkårsvurderingResponse {
+export interface ApiManuellVilkårsvurderingResponse {
     opptjeningsvurderingId: string;
 }
 

@@ -14,7 +14,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
 import {
     getGetVilkårsvurderingerForPersonBehandlerQueryKey,
-    useOverstyrVilkårsvurderingBehandler,
+    usePostManuellVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -49,7 +49,7 @@ export const ManuellVurderingAvVilkårSkjema = ({
         name: 'dokumentIder',
     });
 
-    const { mutate, isPending, isError } = useOverstyrVilkårsvurderingBehandler({
+    const { mutate, isPending, isError } = usePostManuellVilkårsvurderingBehandler({
         mutation: {
             onSuccess: (response) => {
                 queryClient.invalidateQueries({
@@ -61,10 +61,16 @@ export const ManuellVurderingAvVilkårSkjema = ({
         },
     });
 
-    function onSubmit({ utfall, fritekstbegrunnelse }: ManuellVurderingAvVilkårSchema) {
+    function onSubmit({ utfall, fritekstbegrunnelse, dokumentIder }: ManuellVurderingAvVilkårSchema) {
         mutate({
             personId: personPseudoId,
-            data: { skjæringstidspunkt, vilkårskode, utfall, fritekstbegrunnelse },
+            data: {
+                skjæringstidspunkt,
+                vilkårskode,
+                utfall,
+                fritekstbegrunnelse,
+                journalpostId: dokumentIder.map((dokumentId) => dokumentId.verdi).filter((verdi) => verdi !== ''),
+            },
         });
     }
 

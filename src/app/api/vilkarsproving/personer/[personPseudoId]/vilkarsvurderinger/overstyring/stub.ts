@@ -1,16 +1,16 @@
 import { NextRequest } from 'next/server';
 
 import {
-    ApiOverstyrVilkårsvurderingRequest,
-    ApiOverstyrVilkårsvurderingResponse,
+    ApiManuellVilkårsvurderingRequest,
+    ApiManuellVilkårsvurderingResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
 
 import { overstyrVilkårsvurdering } from '../vilkarsvurderingerMock';
 
 export const stub = async (request: NextRequest) => {
-    const body: ApiOverstyrVilkårsvurderingRequest = await request.json();
+    const body: ApiManuellVilkårsvurderingRequest = await request.json();
 
-    const response: ApiOverstyrVilkårsvurderingResponse = {
+    const response: ApiManuellVilkårsvurderingResponse = {
         opptjeningsvurderingId: overstyrVilkårsvurdering(body),
     };
 

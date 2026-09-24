@@ -7,8 +7,8 @@
 import { callCustomAxios } from '../../../../app/axios/orval-mutator';
 import type { ErrorType } from '../../../../app/axios/orval-mutator';
 import type {
-    ApiOverstyrVilkårsvurderingRequest,
-    ApiOverstyrVilkårsvurderingResponse,
+    ApiManuellVilkårsvurderingRequest,
+    ApiManuellVilkårsvurderingResponse,
     ApiVilkårsvurderingerForPersonResponse,
     GetVilkårsvurderingerForPersonBehandlerParams,
     ProblemDetails,
@@ -166,37 +166,37 @@ export function useGetVilkårsvurderingerForPersonBehandler<
     return query;
 }
 
-export const overstyrVilkårsvurderingBehandler = (
+export const postManuellVilkårsvurderingBehandler = (
     personId: string,
-    apiOverstyrVilkårsvurderingRequest?: ApiOverstyrVilkårsvurderingRequest,
+    apiManuellVilkårsvurderingRequest?: ApiManuellVilkårsvurderingRequest,
     signal?: AbortSignal,
 ) => {
-    return callCustomAxios<ApiOverstyrVilkårsvurderingResponse>({
-        url: `/api/vilkarsproving/personer/${personId}/vilkarsvurderinger/overstyring`,
+    return callCustomAxios<ApiManuellVilkårsvurderingResponse>({
+        url: `/api/vilkarsproving/personer/${personId}/vilkarsvurderinger/manuell`,
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        data: apiOverstyrVilkårsvurderingRequest,
+        data: apiManuellVilkårsvurderingRequest,
         signal,
     });
 };
 
-export const getOverstyrVilkårsvurderingBehandlerMutationOptions = <
+export const getPostManuellVilkårsvurderingBehandlerMutationOptions = <
     TError = ErrorType<ProblemDetails>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+        Awaited<ReturnType<typeof postManuellVilkårsvurderingBehandler>>,
         TError,
-        { personId: string; data: ApiOverstyrVilkårsvurderingRequest },
+        { personId: string; data: ApiManuellVilkårsvurderingRequest },
         TContext
     >;
 }): UseMutationOptions<
-    Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+    Awaited<ReturnType<typeof postManuellVilkårsvurderingBehandler>>,
     TError,
-    { personId: string; data: ApiOverstyrVilkårsvurderingRequest },
+    { personId: string; data: ApiManuellVilkårsvurderingRequest },
     TContext
 > => {
-    const mutationKey = ['overstyrVilkårsvurderingBehandler'];
+    const mutationKey = ['postManuellVilkårsvurderingBehandler'];
     const { mutation: mutationOptions } = options
         ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
             ? options
@@ -204,40 +204,40 @@ export const getOverstyrVilkårsvurderingBehandlerMutationOptions = <
         : { mutation: { mutationKey } };
 
     const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
-        { personId: string; data: ApiOverstyrVilkårsvurderingRequest }
+        Awaited<ReturnType<typeof postManuellVilkårsvurderingBehandler>>,
+        { personId: string; data: ApiManuellVilkårsvurderingRequest }
     > = (props) => {
         const { personId, data } = props ?? {};
 
-        return overstyrVilkårsvurderingBehandler(personId, data);
+        return postManuellVilkårsvurderingBehandler(personId, data);
     };
 
     return { mutationFn, ...mutationOptions };
 };
 
-export type OverstyrVilkårsvurderingBehandlerMutationResult = NonNullable<
-    Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>
+export type PostManuellVilkårsvurderingBehandlerMutationResult = NonNullable<
+    Awaited<ReturnType<typeof postManuellVilkårsvurderingBehandler>>
 >;
-export type OverstyrVilkårsvurderingBehandlerMutationBody = ApiOverstyrVilkårsvurderingRequest;
-export type OverstyrVilkårsvurderingBehandlerMutationError = ErrorType<ProblemDetails>;
+export type PostManuellVilkårsvurderingBehandlerMutationBody = ApiManuellVilkårsvurderingRequest;
+export type PostManuellVilkårsvurderingBehandlerMutationError = ErrorType<ProblemDetails>;
 
-export const useOverstyrVilkårsvurderingBehandler = <TError = ErrorType<ProblemDetails>, TContext = unknown>(
+export const usePostManuellVilkårsvurderingBehandler = <TError = ErrorType<ProblemDetails>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+            Awaited<ReturnType<typeof postManuellVilkårsvurderingBehandler>>,
             TError,
-            { personId: string; data: ApiOverstyrVilkårsvurderingRequest },
+            { personId: string; data: ApiManuellVilkårsvurderingRequest },
             TContext
         >;
     },
     queryClient?: QueryClient,
 ): UseMutationResult<
-    Awaited<ReturnType<typeof overstyrVilkårsvurderingBehandler>>,
+    Awaited<ReturnType<typeof postManuellVilkårsvurderingBehandler>>,
     TError,
-    { personId: string; data: ApiOverstyrVilkårsvurderingRequest },
+    { personId: string; data: ApiManuellVilkårsvurderingRequest },
     TContext
 > => {
-    const mutationOptions = getOverstyrVilkårsvurderingBehandlerMutationOptions(options);
+    const mutationOptions = getPostManuellVilkårsvurderingBehandlerMutationOptions(options);
 
     return useMutation(mutationOptions, queryClient);
 };

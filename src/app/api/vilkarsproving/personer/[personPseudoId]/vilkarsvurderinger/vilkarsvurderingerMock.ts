@@ -4,8 +4,8 @@ import {
     ApiKildetype,
     ApiKravkilde,
     ApiKravkode,
+    ApiManuellVilkårsvurderingRequest,
     ApiOpptjeningsvurderingVurdertISpeil,
-    ApiOverstyrVilkårsvurderingRequest,
     ApiUtfall,
     ApiVilkårskode,
     ApiVilkårsvurdering,
@@ -61,7 +61,7 @@ let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
 
 export const hentVilkårsvurderinger = (): ApiVilkårsvurderingerForPersonResponse => vilkårsvurderinger;
 
-export const overstyrVilkårsvurdering = (request: ApiOverstyrVilkårsvurderingRequest): string => {
+export const overstyrVilkårsvurdering = (request: ApiManuellVilkårsvurderingRequest): string => {
     const nyVurdering: ApiVilkårsvurdering = {
         id: v4(),
         vilkårskode: request.vilkårskode,
@@ -70,6 +70,7 @@ export const overstyrVilkårsvurdering = (request: ApiOverstyrVilkårsvurderingR
         kilde: {
             ident: 'S123456',
             fritekstbegrunnelse: request.fritekstbegrunnelse,
+            journalpostId: request.journalpostId,
             kildetype: ApiKildetype.SAKSBEHANDLER,
         },
     };

@@ -11,7 +11,7 @@ import {
 } from '@io/rest/generated/vilkarsproving.schemas';
 import {
     useGetVilkårsvurderingerForPersonBehandler,
-    useOverstyrVilkårsvurderingBehandler,
+    usePostManuellVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
@@ -22,7 +22,7 @@ import { Opptjening } from './Opptjening';
 vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
     useGetVilkårsvurderingerForPersonBehandler: vi.fn(),
-    useOverstyrVilkårsvurderingBehandler: vi.fn(),
+    usePostManuellVilkårsvurderingBehandler: vi.fn(),
 }));
 
 const ingenAutomatiskeVurderinger: ApiVilkårsvurderingerForPersonResponse = {
@@ -143,7 +143,7 @@ const startVurdering = async () => {
 beforeEach(() => {
     mutate.mockClear();
     mockVilkårsvurderinger(automatiskVurdertArbeidMinst4Uker);
-    (useOverstyrVilkårsvurderingBehandler as Mock).mockReturnValue({
+    (usePostManuellVilkårsvurderingBehandler as Mock).mockReturnValue({
         mutate,
         isPending: false,
         isError: false,
@@ -183,6 +183,7 @@ describe('Opptjening', () => {
                 vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                 utfall: ApiUtfall.OPPFYLT,
                 fritekstbegrunnelse: 'Har likestilt ytelse',
+                journalpostId: [],
             },
         });
     });
@@ -206,6 +207,30 @@ describe('Opptjening', () => {
                 vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                 utfall: ApiUtfall.IKKE_OPPFYLT,
                 fritekstbegrunnelse: 'Mangler opptjening',
+                journalpostId: [],
+            },
+        });
+    });
+
+    it('sender dokument-id som journalpostId', async () => {
+        renderOpptjening(false);
+
+        await startVurdering();
+        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), 'JP-123');
+        await userEvent.type(
+            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
+            'Dokumentert via vedtak',
+        );
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(mutate).toHaveBeenCalledWith({
+            personId: 'en-person',
+            data: {
+                skjæringstidspunkt: '2024-01-01',
+                vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+                utfall: ApiUtfall.OPPFYLT,
+                fritekstbegrunnelse: 'Dokumentert via vedtak',
+                journalpostId: ['JP-123'],
             },
         });
     });
