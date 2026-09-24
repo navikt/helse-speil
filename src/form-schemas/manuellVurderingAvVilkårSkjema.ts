@@ -18,5 +18,9 @@ export type ManuellVurderingAvVilkårSchema = z.infer<typeof manuellVurderingAvV
 export const manuellVurderingAvVilkårSkjema = z.object({
     utfall: z.enum([ApiUtfall.OPPFYLT, ApiUtfall.IKKE_OPPFYLT], { error: 'Velg utfall' }),
     fritekstbegrunnelse: z.string().min(1, { error: 'Fyll inn begrunnelse' }),
-    dokumentIder: z.array(z.object({ verdi: z.string() })),
+    dokumentIder: z.array(
+        z.object({
+            verdi: z.string().regex(/^$|^\d{1,11}$/, { error: 'Dokument-ID må være 1 til 11 siffer' }),
+        }),
+    ),
 });

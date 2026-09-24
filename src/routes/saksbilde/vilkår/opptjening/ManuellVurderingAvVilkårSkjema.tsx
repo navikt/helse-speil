@@ -120,14 +120,30 @@ export const ManuellVurderingAvVilkårSkjema = ({
                         <Controller
                             control={form.control}
                             name={`dokumentIder.${index}.verdi` as const}
-                            render={({ field: documentField, fieldState }) => (
-                                <TextField
-                                    {...documentField}
-                                    label={index === 0 ? 'Dokument-ID' : undefined}
-                                    size="small"
-                                    error={fieldState.error?.message}
-                                />
-                            )}
+                            rules={{
+                                pattern: {
+                                    value: /^\d*$/,
+                                    message: 'Dokument-ID kan bare inneholde tall',
+                                },
+                            }}
+                            render={({ field: documentField, fieldState }) => {
+                                const dokumentIdFeil =
+                                    fieldState.error?.message ??
+                                    (/^(?:\d{1,11})?$/.test(documentField.value)
+                                        ? undefined
+                                        : 'Dokument-ID må være 1 til 11 siffer');
+
+                                return (
+                                    <TextField
+                                        {...documentField}
+                                        label={index === 0 ? 'Dokument-ID' : undefined}
+                                        size="small"
+                                        inputMode="numeric"
+                                        pattern="[0-9]{0,11}"
+                                        error={dokumentIdFeil}
+                                    />
+                                );
+                            }}
                         />
                         {index > 0 && (
                             <Button variant="tertiary" size="small" onClick={() => remove(index)}>

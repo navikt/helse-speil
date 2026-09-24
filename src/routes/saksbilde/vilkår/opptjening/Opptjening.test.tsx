@@ -217,7 +217,7 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
-        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), 'JP-123');
+        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '12345');
         await userEvent.type(
             screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
             'Dokumentert via vedtak',
@@ -231,9 +231,41 @@ describe('Opptjening', () => {
                 vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                 utfall: ApiUtfall.OPPFYLT,
                 fritekstbegrunnelse: 'Dokumentert via vedtak',
-                journalpostId: ['JP-123'],
+                journalpostId: ['12345'],
             },
         });
+    });
+
+    it('viser validering når dokument-id inneholder andre tegn enn tall', async () => {
+        renderOpptjening(false);
+
+        await startVurdering();
+        await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), 'JP-123');
+        await userEvent.type(
+            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
+            'Dokumentert via vedtak',
+        );
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(await screen.findByText('Dokument-ID må være 1 til 11 siffer')).toBeVisible();
+        expect(mutate).not.toHaveBeenCalled();
+    });
+
+    it('viser validering når dokument-id er lengre enn 11 siffer', async () => {
+        renderOpptjening(false);
+
+        await startVurdering();
+        await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '123456789012');
+        await userEvent.type(
+            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
+            'Dokumentert via vedtak',
+        );
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(await screen.findByText('Dokument-ID må være 1 til 11 siffer')).toBeVisible();
+        expect(mutate).not.toHaveBeenCalled();
     });
 
     it('viser dokument-id under begrunnelse etter lagring', async () => {
@@ -255,7 +287,7 @@ describe('Opptjening', () => {
                             kilde: {
                                 ident: 'S123456',
                                 fritekstbegrunnelse: 'Dokumentert via vedtak',
-                                journalpostId: ['JP-123'],
+                                journalpostId: ['12345'],
                                 kildetype: ApiKildetype.SAKSBEHANDLER,
                             },
                         },
@@ -278,7 +310,7 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
-        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), 'JP-123');
+        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '12345');
         await userEvent.type(
             screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
             'Dokumentert via vedtak',
@@ -286,7 +318,7 @@ describe('Opptjening', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(await within(arbeidsvilkår()).findByText('Dokument-ID')).toBeVisible();
-        expect(within(arbeidsvilkår()).getByText('JP-123')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('12345')).toBeVisible();
     });
 
     it('validerer at utfall og begrunnelse er fylt ut', async () => {
