@@ -28,6 +28,7 @@ export default defineConfig({
             '@assets': resolve(import.meta.dirname, './src/assets'),
             '@auth': resolve(import.meta.dirname, './src/auth'),
             '@components': resolve(import.meta.dirname, './src/components'),
+            '@form-schemas': resolve(import.meta.dirname, './src/form-schemas'),
             '@external': resolve(import.meta.dirname, './src/external'),
             '@hooks': resolve(import.meta.dirname, './src/hooks'),
             '@io': resolve(import.meta.dirname, './src/io'),

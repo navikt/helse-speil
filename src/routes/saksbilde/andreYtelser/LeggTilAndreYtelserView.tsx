@@ -3,7 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { AndreYtelserSchema } from '@/form-schemas/andreYtelserSchema';
+import { AndreYtelserSchema } from '@form-schemas/andreYtelserSchema';
 import {
     getGetGraderteAndreYtelserForPersonQueryKey,
     usePostGraderteAndreYtelser,

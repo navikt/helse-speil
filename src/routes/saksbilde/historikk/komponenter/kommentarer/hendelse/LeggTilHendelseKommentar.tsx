@@ -5,9 +5,9 @@ import { SubmitHandler } from 'react-hook-form';
 import { PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { KommentarFormFields } from '@/form-schemas/kommentarSkjema';
 import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { KommentarFormFields } from '@form-schemas/kommentarSkjema';
 import { KommentarFragmentDoc, PeriodehistorikkType } from '@io/graphql';
 import { usePostKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';

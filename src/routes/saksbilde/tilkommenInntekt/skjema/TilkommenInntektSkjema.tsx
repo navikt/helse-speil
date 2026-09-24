@@ -4,9 +4,9 @@ import { Controller, useForm, useWatch } from 'react-hook-form';
 import { XMarkIcon } from '@navikt/aksel-icons';
 import { Alert, Box, Button, HStack, VStack } from '@navikt/ds-react';
 
-import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
+import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PersonFragment } from '@io/graphql';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';

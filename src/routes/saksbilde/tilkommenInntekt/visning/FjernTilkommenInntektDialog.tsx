@@ -3,8 +3,8 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { BodyLong, Button, Dialog, ErrorMessage, Textarea, VStack } from '@navikt/ds-react';
 
-import { FjernTilkommenInntektSkjema, fjernTilkommenInntektSkjema } from '@/form-schemas/fjernTilkommenInntektSkjema';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+import { FjernTilkommenInntektSkjema, fjernTilkommenInntektSkjema } from '@form-schemas/fjernTilkommenInntektSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { usePatchTilkommenInntekt } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';

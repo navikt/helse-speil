@@ -3,8 +3,8 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox, CheckboxGroup, HStack, Skeleton, VStack } from '@navikt/ds-react';
 
-import { PåVentSkjema } from '@/form-schemas/påVentSkjema';
 import { Arsak } from '@external/sanity';
+import { PåVentSkjema } from '@form-schemas/påVentSkjema';
 
 interface ÅrsakerProps {
     årsaker: Arsak[] | undefined;

@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { AndreYtelserSchema } from '@/form-schemas/andreYtelserSchema';
+import { AndreYtelserSchema } from '@form-schemas/andreYtelserSchema';
 import { usePatchEndreGraderteAndreYtelser } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { AndreYtelserSkjema } from '@saksbilde/andreYtelser/skjema/AndreYtelserSkjema';
 import { AndreYtelserSkjemaRamme } from '@saksbilde/andreYtelser/skjema/AndreYtelserSkjemaRamme';

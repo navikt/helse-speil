@@ -3,7 +3,7 @@ import {
     AndreYtelserSkjemaInput,
     YtelseValg,
     ytelseTilApiType,
-} from '@/form-schemas/andreYtelserSchema';
+} from '@form-schemas/andreYtelserSchema';
 import {
     ApiGraderteAndreYtelser,
     ApiGraderteAndreYtelserPeriode,

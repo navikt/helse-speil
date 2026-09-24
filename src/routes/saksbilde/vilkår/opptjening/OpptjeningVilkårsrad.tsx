@@ -4,7 +4,7 @@ import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } fr
 import { BodyShort, Button, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
-import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@/form-schemas/manuellVurderingAvVilkårSkjema';
+import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import {
     ApiUtfall,
     ApiVilkårsvurdering,

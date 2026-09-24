@@ -3,8 +3,8 @@ import { Control, FormProvider, SubmitHandler, useController, useForm } from 're
 
 import { Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
-import { KommentarFormFields, kommentarSkjema } from '@/form-schemas/kommentarSkjema';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+import { KommentarFormFields, kommentarSkjema } from '@form-schemas/kommentarSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 interface LeggTilNyKommentarFormProps {

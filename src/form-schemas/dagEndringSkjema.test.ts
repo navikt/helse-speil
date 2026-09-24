@@ -1,4 +1,4 @@
-import { lagDagEndringSchema, lagDagEndringSelvstendigSchema } from '@/form-schemas/dagEndringSkjema';
+import { lagDagEndringSchema, lagDagEndringSelvstendigSchema } from '@form-schemas/dagEndringSkjema';
 import {
     Arbeidsdag,
     AvslattMeldingTilNavdag,

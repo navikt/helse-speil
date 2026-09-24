@@ -6,8 +6,8 @@ import React, { ReactElement } from 'react';
 import { PaperclipIcon } from '@navikt/aksel-icons';
 import { Bleed, BodyShort, HStack, Tag, type TagProps, VStack } from '@navikt/ds-react';
 
-import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
+import { fagomradeLabels, statusLabels } from '@form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';

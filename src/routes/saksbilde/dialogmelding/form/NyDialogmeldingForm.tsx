@@ -7,9 +7,9 @@ import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, HStack, Heading, Loader, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
-import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { DialogmeldingMal, useDialogmeldingMaler } from '@external/sanity';
+import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostNyDialogmelding } from '@io/rest/generated/default/default';
 import { useGetPerson } from '@io/rest/generated/personer/personer';

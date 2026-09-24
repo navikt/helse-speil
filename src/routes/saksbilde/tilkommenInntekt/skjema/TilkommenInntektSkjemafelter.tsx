@@ -3,10 +3,10 @@ import { Controller, FieldErrors, FormProvider, useForm, useWatch } from 'react-
 
 import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
 
-import { TilkommenInntektSchema } from '@/form-schemas';
 import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
+import { TilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import { DatePeriod } from '@typer/shared';
 import { kronerOgØreTilNumber, toKronerOgØre } from '@utils/locale';

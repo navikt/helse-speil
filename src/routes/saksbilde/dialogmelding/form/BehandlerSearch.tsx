@@ -8,9 +8,9 @@ import { UNSAFE_Combobox } from '@navikt/ds-react';
 // @ts-expect-error TS klager på at den ikke finner modulen med combobox-typen selv om den resolver
 import { ComboboxOption } from '@navikt/ds-react/cjs/form/combobox/types';
 
-import { NyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
 import { isyfoBehandlerToApiBehandler } from '@external/isyfo/isyfoBehandlerToApiBehandler';
 import { IsyfoBehandler, useBehandlerSearch } from '@external/isyfo/useBehandlerSearch';
+import { NyDialogmeldingSchema } from '@form-schemas/nyDialogmeldingSkjema';
 
 export function BehandlerSearch(): ReactElement {
     const { control } = useFormContext<NyDialogmeldingSchema>();

@@ -3,7 +3,7 @@ import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Textarea, VStack } from '@navikt/ds-react';
 
-import { AvvisningSkjema, avvisningSkjema } from '@/form-schemas/avvisningSkjema';
+import { AvvisningSkjema, avvisningSkjema } from '@form-schemas/avvisningSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BeregnetPeriodeFragment } from '@io/graphql';
 import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';

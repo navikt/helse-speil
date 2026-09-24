@@ -3,7 +3,7 @@ import { Control, useController } from 'react-hook-form';
 
 import { Textarea } from '@navikt/ds-react';
 
-import { NotatFormFields } from '@/form-schemas/notatSkjema';
+import { NotatFormFields } from '@form-schemas/notatSkjema';
 import { useNotatkladd } from '@state/notater';
 import { KladdNotatType } from '@typer/notat';
 

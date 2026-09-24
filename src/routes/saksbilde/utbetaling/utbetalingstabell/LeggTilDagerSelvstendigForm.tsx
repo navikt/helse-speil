@@ -4,7 +4,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
-import { LeggTilDagerSelvstendigFormFields, lagLeggTilDagerSelvstendigSchema } from '@/form-schemas/leggTilDagerSkjema';
+import { LeggTilDagerSelvstendigFormFields, lagLeggTilDagerSelvstendigSchema } from '@form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
 import { DagtypeSelect } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeSelect';

@@ -3,7 +3,7 @@ import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
-import { DagEndringArbeidstakerFormFields, lagDagEndringSchema } from '@/form-schemas/dagEndringSkjema';
+import { DagEndringArbeidstakerFormFields, lagDagEndringSchema } from '@form-schemas/dagEndringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DagtypeSelect } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeSelect';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';

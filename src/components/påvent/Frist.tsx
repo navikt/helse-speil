@@ -3,7 +3,7 @@ import { useController, useFormContext } from 'react-hook-form';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
 
-import { PåVentSkjema } from '@/form-schemas/påVentSkjema';
+import { PåVentSkjema } from '@form-schemas/påVentSkjema';
 import { plussEttÅr } from '@utils/date';
 
 export function Frist(): ReactElement {

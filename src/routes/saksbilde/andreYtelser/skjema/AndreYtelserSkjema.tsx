@@ -15,13 +15,13 @@ import { PlusIcon } from '@navikt/aksel-icons';
 import { Alert, Button, ErrorMessage, HGrid, HStack, Select, Textarea, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
     ANNEN_YTELSE_OPTIONS,
     AndreYtelserSchema,
     AndreYtelserSkjemaInput,
     lagAndreYtelserSchema,
-} from '@/form-schemas/andreYtelserSchema';
-import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+} from '@form-schemas/andreYtelserSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PeriodeRad } from '@saksbilde/andreYtelser/skjema/PeriodeRad';
 import { utledSykefraværstilfelleperioder } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';

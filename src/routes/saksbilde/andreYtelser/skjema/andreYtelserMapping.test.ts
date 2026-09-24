@@ -1,4 +1,4 @@
-import { AndreYtelserSchema } from '@/form-schemas/andreYtelserSchema';
+import { AndreYtelserSchema } from '@form-schemas/andreYtelserSchema';
 import { ApiGraderteAndreYtelserType } from '@io/rest/generated/spesialist.schemas';
 import {
     tilAndreYtelserSkjemaverdier,

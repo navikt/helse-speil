@@ -4,7 +4,7 @@ import {
     getStartOgSluttAvPerioden,
     lagOverstyringSchema,
     overstyringFeilkoder,
-} from '@/form-schemas/overstyringSkjema';
+} from '@form-schemas/overstyringSkjema';
 import { Arbeidsdag, Egenmeldingsdag, Sykedag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import {
     ForventetUtfall,

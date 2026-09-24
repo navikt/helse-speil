@@ -7,7 +7,7 @@ import { Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 import {
     LeggTilDagerArbeidstakerFormFields,
     lagLeggTilDagerArbeidstakerSchema,
-} from '@/form-schemas/leggTilDagerSkjema';
+} from '@form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
 import { DagtypeSelect } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeSelect';

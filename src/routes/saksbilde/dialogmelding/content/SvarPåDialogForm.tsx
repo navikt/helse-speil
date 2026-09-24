@@ -7,7 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { PaperplaneIcon } from '@navikt/aksel-icons';
 import { Bleed, Box, Button, Heading, Textarea, VStack } from '@navikt/ds-react';
 
-import { SvarPåDialogSchema, svarPåDialogSchema } from '@/form-schemas/svarPåDialogSkjema';
+import { SvarPåDialogSchema, svarPåDialogSchema } from '@form-schemas/svarPåDialogSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
     getGetDialogmeldingQueryKey,

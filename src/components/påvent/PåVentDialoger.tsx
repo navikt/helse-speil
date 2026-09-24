@@ -4,8 +4,8 @@ import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, Checkbox, Dialog, ErrorMessage } from '@navikt/ds-react';
 
-import { PåVentSkjema, påVentSkjema } from '@/form-schemas/påVentSkjema';
 import { useArsaker } from '@external/sanity';
+import { PåVentSkjema, påVentSkjema } from '@form-schemas/påVentSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePutPåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn, ApiTildeling } from '@io/rest/generated/spesialist.schemas';

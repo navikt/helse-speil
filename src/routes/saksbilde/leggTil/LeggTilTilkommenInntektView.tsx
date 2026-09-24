@@ -3,7 +3,7 @@
 import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
-import { TilkommenInntektSchema } from '@/form-schemas';
+import { TilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { usePostTilkomneInntekter } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
 import { TilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjema';

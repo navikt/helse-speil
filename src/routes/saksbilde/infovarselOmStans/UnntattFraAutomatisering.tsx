@@ -4,10 +4,13 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
-import { StansAutomatiskBehandlingSchema, stansAutomatiskBehandlingSchema } from '@/form-schemas';
 import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+import {
+    StansAutomatiskBehandlingSchema,
+    stansAutomatiskBehandlingSchema,
+} from '@form-schemas/stansAutomatiskBehandlingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { FetchPersonDocument } from '@io/graphql';
 import { getGetVeilederStansQueryKey, usePatchVeilederStans } from '@io/rest/generated/personer/personer';

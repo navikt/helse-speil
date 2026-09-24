@@ -9,7 +9,7 @@ import {
     ManueltVurderbarVilkårskode,
     manuellVurderingAvVilkårSkjema,
     vilkårsspørsmål,
-} from '@/form-schemas/manuellVurderingAvVilkårSkjema';
+} from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
 import {

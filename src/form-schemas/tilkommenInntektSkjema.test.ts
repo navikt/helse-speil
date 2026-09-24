@@ -1,6 +1,6 @@
 import { ZodError } from 'zod/v4';
 
-import { lagTilkommenInntektSchema } from '@/form-schemas/index';
+import { lagTilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
 
 const validerTilkommenInntektSkjema = (
     organisasjonsnummer: unknown = '947064649',

@@ -5,7 +5,7 @@ import { Controller, useFormContext, useFormState, useWatch } from 'react-hook-f
 
 import { Button, HStack, TextField, VStack } from '@navikt/ds-react';
 
-import { AndreYtelserSkjemaInput } from '@/form-schemas/andreYtelserSchema';
+import { AndreYtelserSkjemaInput } from '@form-schemas/andreYtelserSchema';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
 import {
     erGyldigFomForSykefraværstilfelle,

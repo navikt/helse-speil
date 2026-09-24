@@ -1,6 +1,6 @@
 import { ZodError } from 'zod/v4';
 
-import { lagInntektOgRefusjonSchema, sorter } from '@/form-schemas/inntektOgRefusjonSkjema';
+import { lagInntektOgRefusjonSchema, sorter } from '@form-schemas/inntektOgRefusjonSkjema';
 
 const sykefraværstilfelle = { fom: '01.01.2020', tom: '31.01.2020' };
 

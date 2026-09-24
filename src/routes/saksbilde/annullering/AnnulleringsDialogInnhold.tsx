@@ -18,10 +18,10 @@ import {
 } from '@navikt/ds-react';
 import { ListItem } from '@navikt/ds-react/List';
 
-import { AnnulleringSkjema, annulleringSkjema } from '@/form-schemas/annulleringSkjema';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { Arsak, useArsaker } from '@external/sanity';
+import { AnnulleringSkjema, annulleringSkjema } from '@form-schemas/annulleringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';

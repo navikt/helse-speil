@@ -1,6 +1,6 @@
 import { ZodError } from 'zod/v4';
 
-import { lagAndreYtelserSchema } from '@/form-schemas/andreYtelserSchema';
+import { lagAndreYtelserSchema } from '@form-schemas/andreYtelserSchema';
 import { ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';
 
 const validerAndreYtelserSkjema = (

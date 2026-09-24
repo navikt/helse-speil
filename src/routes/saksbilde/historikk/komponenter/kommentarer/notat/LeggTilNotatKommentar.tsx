@@ -4,8 +4,8 @@ import { SubmitHandler } from 'react-hook-form';
 import { PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { KommentarFormFields } from '@/form-schemas/kommentarSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { KommentarFormFields } from '@form-schemas/kommentarSkjema';
 import { usePostKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { getGetNotaterForVedtaksperiodeQueryKey } from '@io/rest/generated/notater/notater';
 import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';

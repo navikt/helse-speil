@@ -5,9 +5,9 @@ import { SubmitHandler } from 'react-hook-form';
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
-import { NotatFormFields } from '@/form-schemas/notatSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+import { NotatFormFields } from '@form-schemas/notatSkjema';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import {
     getGetNotatVedtaksperiodeIderForPersonQueryKey,

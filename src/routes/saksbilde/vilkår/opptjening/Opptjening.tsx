@@ -3,7 +3,7 @@ import React, { ReactElement, useState } from 'react';
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { Alert, Heading, Loader, VStack } from '@navikt/ds-react';
 
-import { manueltVurderbareVilkårskoder } from '@/form-schemas/manuellVurderingAvVilkårSkjema';
+import { manueltVurderbareVilkårskoder } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import {
     ApiKravkode,
     ApiOpptjeningsvurdering,

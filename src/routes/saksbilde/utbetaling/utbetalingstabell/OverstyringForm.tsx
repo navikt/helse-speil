@@ -3,8 +3,8 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorMessage, ErrorSummary, HStack, Textarea, VStack } from '@navikt/ds-react';
 
-import { OverstyringFormFields } from '@/form-schemas/overstyringSkjema';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+import { OverstyringFormFields } from '@form-schemas/overstyringSkjema';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 interface OverstyringFormProps {

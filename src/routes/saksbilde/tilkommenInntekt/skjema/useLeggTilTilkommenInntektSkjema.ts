@@ -2,8 +2,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { UseFormReturn, useForm, useWatch } from 'react-hook-form';
 
-import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@/form-schemas';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
+import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePostTilkomneInntekter } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
 import {

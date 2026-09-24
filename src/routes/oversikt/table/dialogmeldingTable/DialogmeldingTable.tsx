@@ -4,7 +4,7 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, Tooltip, VStack } from '@navikt/ds-react';
 
-import { fagomradeLabels, statusLabels } from '@/form-schemas/nyDialogmeldingSkjema';
+import { fagomradeLabels, statusLabels } from '@form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmeldingOppgaver } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingOppgave, ApiDialogmeldingStatus, ApiNavn } from '@io/rest/generated/sporhund.schemas';
 import { DialogmeldingBodySkeleton } from '@oversikt/table/dialogmeldingTable/DialogmeldingBodySkeleton';

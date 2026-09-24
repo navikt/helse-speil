@@ -14,8 +14,8 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
-import { ForkastingSkjema, forkastingSkjema } from '@/form-schemas/forkastingSkjema';
 import { Arsak, useArsaker } from '@external/sanity';
+import { ForkastingSkjema, forkastingSkjema } from '@form-schemas/forkastingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UberegnetPeriodeFragment } from '@io/graphql';
 import { usePostAnmodOmForkasting } from '@io/rest/generated/vedtaksperioder/vedtaksperioder';

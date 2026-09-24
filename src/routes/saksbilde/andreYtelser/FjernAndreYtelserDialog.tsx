@@ -3,8 +3,8 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { BodyLong, Button, Dialog, ErrorMessage, Textarea, VStack } from '@navikt/ds-react';
 
-import { FjernAndreYtelserSkjema, fjernAndreYtelserSkjema } from '@/form-schemas/fjernAndreYtelserSkjema';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
+import { FjernAndreYtelserSkjema, fjernAndreYtelserSkjema } from '@form-schemas/fjernAndreYtelserSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePostFjernGraderteAndreYtelser } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { ApiGraderteAndreYtelser } from '@io/rest/generated/spesialist.schemas';

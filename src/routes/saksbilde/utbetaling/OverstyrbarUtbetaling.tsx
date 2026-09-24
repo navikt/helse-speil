@@ -4,7 +4,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 
 import { VStack } from '@navikt/ds-react';
 
-import { OverstyringFormFields, lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
+import { OverstyringFormFields, lagOverstyringSchema } from '@form-schemas/overstyringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbetalingstatus } from '@io/graphql';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';

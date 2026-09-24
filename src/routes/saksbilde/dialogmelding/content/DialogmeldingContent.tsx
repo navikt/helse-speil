@@ -5,8 +5,8 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
-import { fagomradeLabels } from '@/form-schemas/nyDialogmeldingSkjema';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { fagomradeLabels } from '@form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { behandlerKategoriLabels, formatLegekontorAdresse } from '@utils/behandlerUtils';

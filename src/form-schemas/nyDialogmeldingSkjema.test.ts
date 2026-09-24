@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { nyDialogmeldingSchema } from '@/form-schemas/nyDialogmeldingSkjema';
+import { nyDialogmeldingSchema } from '@form-schemas/nyDialogmeldingSkjema';
 import { ApiBehandlerKategori, ApiFagomrade, type ApiNyDialogmelding } from '@io/rest/generated/sporhund.schemas';
 
 const gyldigSkjema: ApiNyDialogmelding = {

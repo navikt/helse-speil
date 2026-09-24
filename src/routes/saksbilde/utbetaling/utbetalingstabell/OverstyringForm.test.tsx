@@ -1,7 +1,7 @@
 import React, { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
-import { OverstyringFormFields, lagOverstyringSchema } from '@/form-schemas/overstyringSkjema';
+import { OverstyringFormFields, lagOverstyringSchema } from '@form-schemas/overstyringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
