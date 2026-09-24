@@ -25,6 +25,17 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     usePostManuellVilkårsvurderingBehandler: vi.fn(),
 }));
 
+const envMock = vi.hoisted(() => ({
+    erUtvikling: true,
+}));
+
+vi.mock('@/env', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@/env')>()),
+    get erUtvikling() {
+        return envMock.erUtvikling;
+    },
+}));
+
 const ingenAutomatiskeVurderinger: ApiVilkårsvurderingerForPersonResponse = {
     skjæringstidspunkt: '2024-01-01',
     krav: [
@@ -142,6 +153,7 @@ const startVurdering = async () => {
 
 beforeEach(() => {
     mutate.mockClear();
+    envMock.erUtvikling = true;
     mockVilkårsvurderinger(automatiskVurdertArbeidMinst4Uker);
     (usePostManuellVilkårsvurderingBehandler as Mock).mockReturnValue({
         mutate,
@@ -155,6 +167,14 @@ describe('Opptjening', () => {
         renderOpptjening(false);
 
         expect(within(arbeidsvilkår()).getByText('Opptjening fra 01.01.2023 (120 dager)')).toBeVisible();
+    });
+
+    it('skjuler vurder vilkår-knappen når vi ikke er i utvikling', async () => {
+        envMock.erUtvikling = false;
+
+        renderOpptjening(false);
+
+        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 
     it('viser grunnlagsdata for automatisk vurdering', async () => {

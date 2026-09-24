@@ -3,6 +3,7 @@ import React, { ReactElement, ReactNode, useContext } from 'react';
 import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
 
+import { erUtvikling } from '@/env';
 import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@/form-schemas/manuellVurderingAvVilkårSkjema';
 import {
     ApiUtfall,
@@ -176,7 +177,7 @@ export const OpptjeningVilkårsrad = ({
                         {vilkårsnavn}
                     </BodyShort>
                     <Spacer />
-                    {!readOnly && (
+                    {!readOnly && erUtvikling && (
                         <Button
                             type="button"
                             variant="secondary"
