@@ -2,8 +2,8 @@
 
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
 import { AndreYtelserHistorikk } from '@saksbilde/andreYtelser/AndreYtelserHistorikk';
 import { AndreYtelserSaksbilde } from '@saksbilde/andreYtelser/AndreYtelserSaksbilde';
 import { VenstremenyUtenPeriode } from '@saksbilde/venstremeny/VenstremenyUtenPeriode';
