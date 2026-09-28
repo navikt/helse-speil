@@ -15,7 +15,7 @@ export type ApiSjekkEndringForsikringRequest = {
 };
 
 export type ApiSjekkEndringForsikringResponse = {
-    nyForsikringsvurdering: boolean;
+    vurderingErEndret: boolean;
 };
 
 const postSjekkEndringForsikring = (apiEndringssjekkRequest?: ApiSjekkEndringForsikringRequest, signal?: AbortSignal) =>

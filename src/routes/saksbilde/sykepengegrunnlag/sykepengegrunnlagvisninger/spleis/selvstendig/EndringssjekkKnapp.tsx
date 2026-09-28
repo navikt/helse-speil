@@ -53,8 +53,8 @@ export function EndringssjekkKnapp({
                 },
             },
             {
-                onSuccess: ({ nyForsikringsvurdering }) => {
-                    if (nyForsikringsvurdering) {
+                onSuccess: ({ vurderingErEndret }) => {
+                    if (vurderingErEndret) {
                         setVisningenOppdateres(true);
                         addToast(visningenOppdateresToast({}));
                     } else {

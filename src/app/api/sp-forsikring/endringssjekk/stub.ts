@@ -15,13 +15,13 @@ export async function stub(request: NextRequest) {
 
     // Annenhver revurdering gir ny vurdering, slik at begge utfall kan testes lokalt
     antallRevurderinger += 1;
-    const nyForsikringsvurdering = antallRevurderinger % 2 === 1;
+    const vurderingErEndret = antallRevurderinger % 2 === 1;
 
-    if (nyForsikringsvurdering) {
+    if (vurderingErEndret) {
         setTimeout(() => {
             ServerSentEventsMock.pushEvent(identitetsnummer, ApiServerSentEventEvent.REVURDERING_FERDIGBEHANDLET);
         }, 2000);
     }
 
-    return Response.json({ nyForsikringsvurdering }, { status: 200 });
+    return Response.json({ vurderingErEndret }, { status: 200 });
 }
