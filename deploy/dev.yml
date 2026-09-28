@@ -99,6 +99,10 @@ spec:
       value: api://dev-gcp.tbd.sporhund/.default
     - name: SPORHUND_BASE_URL
       value: http://sporhund
+    - name: CLIENT_ID_SP_FORSIKRING
+      value: api://dev-gcp.tbd.sp-forsikring/.default
+    - name: SP_FORSIKRING_BASE_URL
+      value: http://sp-forsikring
     - name: SANITY_DATASET
       value: production
     - name: SPARKEL_AAREG_SCOPE

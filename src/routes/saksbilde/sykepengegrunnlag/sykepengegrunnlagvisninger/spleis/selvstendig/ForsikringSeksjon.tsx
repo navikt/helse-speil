@@ -1,86 +1,60 @@
-import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
-import { ArrowCirclepathIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, Detail, HStack, Heading, InlineMessage, VStack } from '@navikt/ds-react';
+import { BodyShort, Detail, HStack, Heading, InlineMessage, VStack } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
-import { useRevurderForsikring } from '@io/rest/forsikringer-midlertidig';
-import {
-    getGetForsikringsvurderingForPersonQueryKey,
-    useGetForsikringsvurderingForPerson,
-} from '@io/rest/generated/forsikringer/forsikringer';
+import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
 import {
     ApiFolketrygdlovenreferanse,
     ApiForsikringsvurdering,
     ApiIndividuellForsikring,
     ApiKollektivForsikring,
 } from '@io/rest/generated/spesialist.schemas';
-import { useQueryClient } from '@tanstack/react-query';
-import { NORSK_DATOFORMAT_MED_KLOKKESLETT, somNorskDato } from '@utils/date';
+import { EndringssjekkKnapp } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/EndringssjekkKnapp';
+import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
+
+interface ForsikringSeksjonProps {
+    forsikringsvurderingId: string | null;
+    skjæringstidspunkt: string;
+    vedtaksperiodeId: string;
+    behandlingId: string;
+    identitetsnummer: string;
+}
 
 export const ForsikringSeksjon = ({
     forsikringsvurderingId,
     skjæringstidspunkt,
-}: {
-    forsikringsvurderingId: string | null;
-    skjæringstidspunkt: string;
-}): ReactElement => {
+    vedtaksperiodeId,
+    behandlingId,
+    identitetsnummer,
+}: ForsikringSeksjonProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const queryClient = useQueryClient();
-    const [ingenNyVurdering, setIngenNyVurdering] = useState(false);
     const { data, isLoading, error } = useGetForsikringsvurderingForPerson(personPseudoId, forsikringsvurderingId!, {
         query: {
             enabled: !!forsikringsvurderingId,
         },
     });
-    const { mutate: revurderForsikring, isPending: revurderer } = useRevurderForsikring(
-        personPseudoId,
-        skjæringstidspunkt,
-        {
-            onSuccess: ({ nyForsikringsvurdering }) => {
-                setIngenNyVurdering(!nyForsikringsvurdering);
-                if (nyForsikringsvurdering) {
-                    queryClient.invalidateQueries({
-                        queryKey: getGetForsikringsvurderingForPersonQueryKey(
-                            personPseudoId,
-                            forsikringsvurderingId ?? undefined,
-                        ),
-                    });
-                }
-            },
-        },
-    );
 
     return (
         <VStack gap="space-8">
             <HStack gap="space-8" align="center">
                 <Heading size="xsmall">Forsikring</Heading>
                 {erUtvikling && data && (
-                    <Button
-                        size="xsmall"
-                        variant="tertiary"
-                        icon={<ArrowCirclepathIcon />}
-                        loading={revurderer}
-                        onClick={() => {
-                            setIngenNyVurdering(false);
-                            revurderForsikring();
-                        }}
-                    >
-                        Hent på nytt
-                    </Button>
+                    <EndringssjekkKnapp
+                        identitetsnummer={identitetsnummer}
+                        skjæringstidspunkt={skjæringstidspunkt}
+                        behandlingId={behandlingId}
+                        vedtaksperiodeId={vedtaksperiodeId}
+                    />
                 )}
             </HStack>
             {erUtvikling && data && (
-                <VStack>
-                    <Detail textColor="subtle">
-                        {`Hentet og vurdert ${dayjs(data.vurdertTidspunkt).tz('Europe/Oslo').format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}`}
-                    </Detail>
-                    {ingenNyVurdering && <Detail textColor="subtle">Ingen ny forsikringsvurdering</Detail>}
-                </VStack>
+                <Detail textColor="subtle">
+                    {`Hentet ${getFormattedDatetimeString(data.sistHentet?.tidspunkt)} og vurdert ${getFormattedDatetimeString(data.vurdertTidspunkt)}`}
+                </Detail>
             )}
 
             {isLoading ? (

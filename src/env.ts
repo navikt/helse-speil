@@ -31,6 +31,8 @@ export const serverEnvSchema = z.object({
     SPESIALIST_BASEURL: z.string(),
     SPORHUND_SCOPE: z.string(),
     SPORHUND_BASEURL: z.string(),
+    SP_FORSIKRING_BASEURL: z.string(),
+    SP_FORSIKRING_SCOPE: z.string(),
     VILKARSPROVING_SCOPE: z.string(),
     VILKARSPROVING_BASEURL: z.string(),
     SYFO_SCOPE: z.string().optional(),
@@ -89,6 +91,9 @@ const getRawServerConfig = (): Partial<unknown> => {
                 : backend === 'lokal' || backend === 'lokal-vilkarsproving'
                   ? 'http://localhost:8181'
                   : 'http://localhost:8181',
+        SP_FORSIKRING_SCOPE: process.env.CLIENT_ID_SP_FORSIKRING,
+        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpForsikring returnerer stub-svar direkte
+        SP_FORSIKRING_BASEURL: backend === 'deployed' ? process.env.SP_FORSIKRING_BASE_URL : 'http://localhost:8181',
         SYFO_SCOPE: process.env.SYFO_SCOPE,
         SYFO_BASEURL: process.env.SYFO_BASE_URL,
         // Provided by nais

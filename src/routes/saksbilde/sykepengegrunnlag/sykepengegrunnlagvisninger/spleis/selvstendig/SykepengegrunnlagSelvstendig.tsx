@@ -18,9 +18,14 @@ import { somPenger } from '@utils/locale';
 interface SykepengegrunnlagProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2;
     beregnetPeriode: BeregnetPeriodeFragment;
+    identitetsnummer: string;
 }
 
-export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode }: SykepengegrunnlagProps) => {
+export const SykepengegrunnlagSelvstendig = ({
+    vilkårsgrunnlag,
+    beregnetPeriode,
+    identitetsnummer,
+}: SykepengegrunnlagProps) => {
     return (
         <HStack>
             <Box
@@ -71,6 +76,9 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
                     <ForsikringSeksjon
                         forsikringsvurderingId={vilkårsgrunnlag.forsikringsvurderingId}
                         skjæringstidspunkt={vilkårsgrunnlag.skjaeringstidspunkt}
+                        vedtaksperiodeId={beregnetPeriode.vedtaksperiodeId}
+                        behandlingId={beregnetPeriode.behandlingId}
+                        identitetsnummer={identitetsnummer}
                     />
                 </VStack>
             </Box>

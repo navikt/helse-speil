@@ -37,7 +37,13 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
                     />
                 );
             } else if (isSelvstendigNaering(inntektsforhold) && isBeregnetPeriode(periode)) {
-                return <SykepengegrunnlagSelvstendig vilkårsgrunnlag={vilkårsgrunnlag} beregnetPeriode={periode} />;
+                return (
+                    <SykepengegrunnlagSelvstendig
+                        vilkårsgrunnlag={vilkårsgrunnlag}
+                        beregnetPeriode={periode}
+                        identitetsnummer={person.fodselsnummer}
+                    />
+                );
             }
             return null;
         case 'VilkarsgrunnlagInfotrygdV2':
