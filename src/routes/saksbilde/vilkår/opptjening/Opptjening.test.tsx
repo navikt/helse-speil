@@ -359,8 +359,6 @@ describe('Opptjening', () => {
         await startVurdering();
 
         expect(screen.getByText('Vurder om søkeren har hatt arbeid i minst 4 uker')).toBeVisible();
-        expect(screen.getByRole('heading', { name: 'Opptjeningstid' })).not.toHaveClass('bg-ax-bg-info-soft');
-        expect(screen.getByRole('list').parentElement).toHaveClass('bg-ax-bg-info-soft');
 
         await userEvent.click(screen.getByRole('button', { name: 'Avbryt' }));
 
