@@ -1133,6 +1133,8 @@ export type ApiPostTilkomneInntekterErrorCode =
 export const ApiPostTilkomneInntekterErrorCode = {
     PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    GÅR_UTENFOR_SYKEFRAVÆRSTILFELLE: 'GÅR_UTENFOR_SYKEFRAVÆRSTILFELLE',
+    OVERLAPPER_ANNEN_TILKOMMEN_INNTEKT: 'OVERLAPPER_ANNEN_TILKOMMEN_INNTEKT',
 } as const;
 
 export type ApiHttpProblemDetailsApiPostTilkomneInntekterErrorCodeDetail = null | string;
@@ -1188,6 +1190,8 @@ export const ApiPatchTilkommenInntektErrorCode = {
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
     FANT_IKKE_TILKOMMEN_INNTEKT: 'FANT_IKKE_TILKOMMEN_INNTEKT',
     FEIL_UTGANGSPUNKT: 'FEIL_UTGANGSPUNKT',
+    GÅR_UTENFOR_SYKEFRAVÆRSTILFELLE: 'GÅR_UTENFOR_SYKEFRAVÆRSTILFELLE',
+    OVERLAPPER_ANNEN_TILKOMMEN_INNTEKT: 'OVERLAPPER_ANNEN_TILKOMMEN_INNTEKT',
 } as const;
 
 export type ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCodeDetail = null | string;
@@ -1752,12 +1756,10 @@ export interface ApiHttpProblemDetailsApiOverstyrTidslinjeErrorCode {
 }
 
 export type ApiOverstyrInntektOgRefusjonRequestArbeidsgiverRefusjonsopplysninger =
-    | null
-    | ApiOverstyrInntektOgRefusjonRequestRefusjonselement[];
+    null | ApiOverstyrInntektOgRefusjonRequestRefusjonselement[];
 
 export type ApiOverstyrInntektOgRefusjonRequestArbeidsgiverFraRefusjonsopplysninger =
-    | null
-    | ApiOverstyrInntektOgRefusjonRequestRefusjonselement[];
+    null | ApiOverstyrInntektOgRefusjonRequestRefusjonselement[];
 
 export type ApiOverstyrInntektOgRefusjonRequestArbeidsgiverLovhjemmel = null | ApiLovhjemmel;
 
@@ -2435,15 +2437,23 @@ export interface ApiIndividuellForsikringKonklusjon {
     folketrygdlovenreferanse?: ApiIndividuellForsikringKonklusjonFolketrygdlovenreferanse;
 }
 
+export interface ApiSistHentet {
+    tidspunkt: string;
+    utførtAvSaksbehandlerIdent: string;
+}
+
 export type ApiForsikringsvurderingSamletDekning = null | ApiDekning;
 
 export type ApiForsikringsvurderingKollektivForsikring = null | ApiKollektivForsikring;
+
+export type ApiForsikringsvurderingSistHentet = null | ApiSistHentet;
 
 export interface ApiForsikringsvurdering {
     samletDekning?: ApiForsikringsvurderingSamletDekning;
     kollektivForsikring?: ApiForsikringsvurderingKollektivForsikring;
     individuelleForsikringer: ApiIndividuellForsikring[];
     vurdertTidspunkt: string;
+    sistHentet?: ApiForsikringsvurderingSistHentet;
 }
 
 export type ApiGetForsikringsvurderingForPersonErrorCode =
