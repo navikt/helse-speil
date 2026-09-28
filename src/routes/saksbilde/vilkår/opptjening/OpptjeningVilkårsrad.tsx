@@ -167,48 +167,46 @@ export const OpptjeningVilkårsrad = ({
     const titleId = `opptjeningsvilkår-tittel-${vilkårskode}`;
 
     return (
-        <li>
-            <VStack gap="space-8" data-testid={`opptjeningsvilkår-${vilkårskode}`}>
-                <HStack gap="space-8" align="center" wrap={false}>
-                    <span className="flex w-6 shrink-0 items-center justify-center">
-                        <Utfallsikon utfall={vurdering?.utfall} />
-                    </span>
-                    <BodyShort id={titleId} weight="semibold">
-                        {vilkårsnavn}
-                    </BodyShort>
-                    <Spacer />
-                    {!readOnly && erUtvikling && (
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            size="small"
-                            onClick={() =>
-                                visVurderingspanel(
-                                    vilkårskode,
-                                    <ManuellVurderingAvVilkårSkjema
-                                        personPseudoId={personPseudoId}
-                                        skjæringstidspunkt={skjæringstidspunkt}
-                                        vilkårskode={vilkårskode}
-                                        eksisterendeUtfall={vurdering?.utfall}
-                                        onOverstyrt={onOverstyrt}
-                                        onAvbryt={lukkVurderingspanel}
-                                    />,
-                                )
-                            }
-                        >
-                            Vurder vilkår
-                        </Button>
-                    )}
+        <VStack as="li" gap="space-8" data-testid={`opptjeningsvilkår-${vilkårskode}`}>
+            <HStack gap="space-8" align="center" wrap={false}>
+                <span className="flex w-6 shrink-0 items-center justify-center">
+                    <Utfallsikon utfall={vurdering?.utfall} />
+                </span>
+                <BodyShort id={titleId} weight="semibold">
+                    {vilkårsnavn}
+                </BodyShort>
+                <Spacer />
+                {!readOnly && erUtvikling && (
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        size="small"
+                        onClick={() =>
+                            visVurderingspanel(
+                                vilkårskode,
+                                <ManuellVurderingAvVilkårSkjema
+                                    personPseudoId={personPseudoId}
+                                    skjæringstidspunkt={skjæringstidspunkt}
+                                    vilkårskode={vilkårskode}
+                                    eksisterendeUtfall={vurdering?.utfall}
+                                    onOverstyrt={onOverstyrt}
+                                    onAvbryt={lukkVurderingspanel}
+                                />,
+                            )
+                        }
+                    >
+                        Vurder vilkår
+                    </Button>
+                )}
+            </HStack>
+            <VStack gap="space-8">
+                <HStack gap="space-8" align="center">
+                    <Tag size="xsmall" variant={utfallTagVariant(vurdering?.utfall)}>
+                        {vurdertTagTekst(vurdering)}
+                    </Tag>
                 </HStack>
-                <VStack gap="space-8">
-                    <HStack gap="space-8" align="center">
-                        <Tag size="xsmall" variant={utfallTagVariant(vurdering?.utfall)}>
-                            {vurdertTagTekst(vurdering)}
-                        </Tag>
-                    </HStack>
-                    {vurdering && <Vurderingsdetaljer vurdering={vurdering} />}
-                </VStack>
+                {vurdering && <Vurderingsdetaljer vurdering={vurdering} />}
             </VStack>
-        </li>
+        </VStack>
     );
 };

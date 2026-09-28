@@ -38,7 +38,7 @@ export const ArbeidsforholdIGrunnlaget = ({ arbeidsforhold }: ArbeidsforholdIGru
                     <Table.Body>
                         {arbeidsforhold.map((it) => (
                             <Table.Row key={`${it.organisasjonsnummer}-${it.fom}-${it.tom ?? ''}`}>
-                                <Table.DataCell>
+                                <Table.DataCell className="max-w-36">
                                     <Organisasjonsnavn
                                         organisasjonsnummer={it.organisasjonsnummer}
                                         maxWidth="14rem"
@@ -50,7 +50,7 @@ export const ArbeidsforholdIGrunnlaget = ({ arbeidsforhold }: ArbeidsforholdIGru
                                         {it.organisasjonsnummer}
                                     </BodyShort>
                                 </Table.DataCell>
-                                <Table.DataCell>
+                                <Table.DataCell className="whitespace-nowrap">
                                     {`${somNorskDato(it.fom) ?? 'ukjent'} – ${somNorskDato(it.tom ?? undefined) ?? 'løpende'}`}
                                 </Table.DataCell>
                                 <Table.DataCell>{arbeidsforholdtypeLabels[it.type]}</Table.DataCell>

@@ -31,13 +31,13 @@ let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
                         grunnlag: {
                             arbeidsforhold: [
                                 {
-                                    organisasjonsnummer: '123456789',
+                                    organisasjonsnummer: '967170232',
                                     fom: '2023-01-01',
                                     tom: null,
                                     type: 'ORDINÆRT',
                                 },
                                 {
-                                    organisasjonsnummer: '987654321',
+                                    organisasjonsnummer: '311927825',
                                     fom: '2022-03-01',
                                     tom: '2022-12-31',
                                     type: 'FRILANSER',

@@ -205,45 +205,37 @@ function VurderingspanelContent({
     vurdering,
 }: VurderingspanelContentProps): ReactElement {
     const { innhold } = React.useContext(VurderingspanelContext);
-    const harVurderingspanel = innhold != null;
 
     return (
         <HStack wrap={false} gap="space-0" align="start">
-            <div className="w-full min-w-0 pt-4">
-                <VStack className="divide-y divide-ax-border-neutral-subtle">
-                    <div
-                        data-testid={harVurderingspanel ? 'opptjening-vurderingsseksjon' : undefined}
-                        className="py-6 first:pt-0 last:pb-0"
-                    >
-                        {opptjening}
-                    </div>
-                    <div className="py-6 first:pt-0 last:pb-0">
-                        <SykepengegrunnlagVilkår
-                            oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}
-                            sykepengegrunnlag={
-                                vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
-                                    ? vilkårsgrunnlag.sykepengegrunnlag
-                                    : undefined
-                            }
-                            grunnbeløp={
-                                vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
-                                    ? vilkårsgrunnlag.grunnbelop
-                                    : undefined
-                            }
-                            alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
-                            vurdertIInfotrygd={vurdertIInfotrygd}
-                            vurdering={vurdering}
-                        />
-                    </div>
-                    <div className="py-6 first:pt-0 last:pb-0">
-                        <MedlemskapVilkår
-                            oppfylt={medlemskapOppfylt(vilkårsgrunnlag)}
-                            vurdertIInfotrygd={vurdertIInfotrygd}
-                            vurdering={vurdering}
-                        />
-                    </div>
-                </VStack>
-            </div>
+            <VStack className="min-w-160 divide-y divide-ax-border-neutral-subtle">
+                <div className="py-6 first:pt-0 last:pb-0">{opptjening}</div>
+                <div className="py-6 first:pt-0 last:pb-0">
+                    <SykepengegrunnlagVilkår
+                        oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}
+                        sykepengegrunnlag={
+                            vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
+                                ? vilkårsgrunnlag.sykepengegrunnlag
+                                : undefined
+                        }
+                        grunnbeløp={
+                            vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
+                                ? vilkårsgrunnlag.grunnbelop
+                                : undefined
+                        }
+                        alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                        vurdertIInfotrygd={vurdertIInfotrygd}
+                        vurdering={vurdering}
+                    />
+                </div>
+                <div className="py-6 first:pt-0 last:pb-0">
+                    <MedlemskapVilkår
+                        oppfylt={medlemskapOppfylt(vilkårsgrunnlag)}
+                        vurdertIInfotrygd={vurdertIInfotrygd}
+                        vurdering={vurdering}
+                    />
+                </div>
+            </VStack>
             {innhold && <span className={styles.strek} />}
             <div className={styles.vurderingspanel}>
                 {innhold && <div className={styles.vurderingspanelAktiv}>{innhold}</div>}

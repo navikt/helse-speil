@@ -84,34 +84,32 @@ export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }:
                     Opptjeningstid
                 </Heading>
             </div>
-            <div className="w-full border-t border-ax-border-neutral-subtle">
-                <VStack gap="space-0">
-                    {isLoading ? (
-                        <Loader size="small" title="Henter opptjeningsvurdering" />
-                    ) : isError || !data ? (
-                        <Alert variant="error" size="small">
-                            Kunne ikke hente opptjeningsvurderingen
-                        </Alert>
-                    ) : (
-                        <div className="bg-ax-bg-info-soft px-4 py-4">
-                            <ul className="m-0 flex list-none flex-col gap-4 p-0">
-                                {manueltVurderbareVilkårskoder.map((vilkårskode) => (
-                                    <OpptjeningVilkårsrad
-                                        key={vilkårskode}
-                                        personPseudoId={personPseudoId}
-                                        skjæringstidspunkt={data.skjæringstidspunkt}
-                                        vilkårskode={vilkårskode}
-                                        vurdering={vurderinger.find((it) => it.vilkårskode === vilkårskode)}
-                                        erAvgjørende={avgjørendeVilkårskode === vilkårskode}
-                                        readOnly={readOnly}
-                                        onOverstyrt={setOverstyrtOpptjeningsvurderingId}
-                                    />
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </VStack>
-            </div>
+            <VStack gap="space-0" className="w-full border-t border-ax-border-neutral-subtle">
+                {isLoading ? (
+                    <Loader size="small" title="Henter opptjeningsvurdering" />
+                ) : isError || !data ? (
+                    <Alert variant="error" size="small">
+                        Kunne ikke hente opptjeningsvurderingen
+                    </Alert>
+                ) : (
+                    <div className="bg-ax-bg-info-soft px-4 py-4">
+                        <ul className="m-0 flex list-none flex-col gap-4 p-0">
+                            {manueltVurderbareVilkårskoder.map((vilkårskode) => (
+                                <OpptjeningVilkårsrad
+                                    key={vilkårskode}
+                                    personPseudoId={personPseudoId}
+                                    skjæringstidspunkt={data.skjæringstidspunkt}
+                                    vilkårskode={vilkårskode}
+                                    vurdering={vurderinger.find((it) => it.vilkårskode === vilkårskode)}
+                                    erAvgjørende={avgjørendeVilkårskode === vilkårskode}
+                                    readOnly={readOnly}
+                                    onOverstyrt={setOverstyrtOpptjeningsvurderingId}
+                                />
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </VStack>
         </VStack>
     );
 };
