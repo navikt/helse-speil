@@ -25,19 +25,23 @@ export interface Driftsmelding {
     iProd: 'true' | 'false';
     iDev: 'true' | 'false';
     lost: 'true' | 'false';
-    konsekvens: string;
-    arsak: string;
-    tiltak: string;
-    oppdateringer?: Oppdatering[];
-    cta: string;
+    statuser?: Driftsstatus[];
     _updatedAt: DateString;
     _createdAt: DateString;
 }
 
-export interface Oppdatering {
+/**
+ * En status er en versjon av driftsmeldingen på et gitt tidspunkt. Kun den første statusen må være
+ * komplett — senere statuser fyller bare ut det som har endret seg, og arver resten fra forrige status.
+ */
+export interface Driftsstatus {
     _key: string;
     tidspunkt: DateString;
-    melding: string;
+    konsekvens?: string;
+    arsak?: string;
+    tiltak?: string;
+    oppdatering?: string;
+    cta?: string;
 }
 export interface Informasjonsmelding {
     _id: string;

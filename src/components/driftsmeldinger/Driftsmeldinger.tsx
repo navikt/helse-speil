@@ -8,7 +8,13 @@ import { BodyShort, Box, GlobalAlert, HStack, InfoCard, VStack } from '@navikt/d
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { Driftsmelding, Informasjonsmelding, useDriftsmelding, useInformasjonsmelding } from '@external/sanity';
+import {
+    Driftsmelding,
+    Driftsstatus,
+    Informasjonsmelding,
+    useDriftsmelding,
+    useInformasjonsmelding,
+} from '@external/sanity';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -52,19 +58,16 @@ const DriftsmeldingerListe = (): ReactElement => {
 
 const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactElement | null => {
     const [åpneDriftsmelding, setÅpneDriftsmelding] = useState(false);
-    type Konsekvens = 'treghet' | 'delvisMulig' | 'ikkeMulig';
 
     const erLøst = driftsmelding.lost === 'true';
 
-    const titler: Record<Konsekvens, string> = {
-        treghet: 'Treghet i speil',
-        delvisMulig: 'Delvis mulig å saksbehandle i speil',
-        ikkeMulig: 'Ikke mulig å saksbehandle i speil',
-    };
+    const sorterteStatuser = R.sortBy(driftsmelding.statuser ?? [], [R.prop('tidspunkt'), 'desc']);
+    const [gjeldendeStatus, ...tidligereStatuser] = sorterteStatuser;
 
-    const konsekvens = driftsmelding.konsekvens as Konsekvens;
+    if (!gjeldendeStatus) return null;
 
-    const tittel = titler[konsekvens];
+    const konsekvens = gjeldendeKonsekvens(sorterteStatuser);
+    const tittel = konsekvensTittel(konsekvens);
     let status: 'success' | 'warning' | 'error';
     if (erLøst) {
         status = 'success';
@@ -73,17 +76,6 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
     } else {
         status = 'error';
     }
-
-    const medPunktum = (uryddetTekst?: string) => {
-        const ryddetTekst = uryddetTekst?.trim();
-        if (!ryddetTekst) return '';
-        return ryddetTekst.endsWith('.') ? `${ryddetTekst} ` : `${ryddetTekst}. `;
-    };
-
-    const [sisteOppdatering, ...tidligereOppdateringer] = R.sortBy(driftsmelding.oppdateringer ?? [], [
-        R.prop('tidspunkt'),
-        'desc',
-    ]);
 
     return (
         <GlobalAlert
@@ -95,7 +87,7 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
             <GlobalAlert.Header>
                 <GlobalAlert.Title>{tittel}</GlobalAlert.Title>
                 <HStack margin="space-8">
-                    <BodyShort className={styles.dato}>{dato(driftsmelding, erLøst)}</BodyShort>
+                    <BodyShort className={styles.dato}>{dato(driftsmelding, gjeldendeStatus, erLøst)}</BodyShort>
                     <ChevronDownIcon
                         title="Vis mer"
                         fontSize="1.5rem"
@@ -106,28 +98,43 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
             {åpneDriftsmelding && (
                 <GlobalAlert.Content>
                     <VStack gap="space-4">
-                        {medPunktum(driftsmelding.arsak)}
-                        {medPunktum(driftsmelding.tiltak)}
-                        {medPunktum(sisteOppdatering?.melding)}
-                        {tidligereOppdateringer.length > 0 && (
+                        {medPunktum(gjeldendeStatus.arsak)}
+                        {medPunktum(gjeldendeStatus.tiltak)}
+                        {medPunktum(gjeldendeStatus.oppdatering)}
+                        {medPunktum(gjeldendeStatus.cta)}
+                        {tidligereStatuser.length > 0 && (
                             <Box marginBlock="space-8 space-0">
                                 <BodyShort weight="semibold" size="small">
-                                    Tidligere oppdateringer
+                                    Tidligere statuser
                                 </BodyShort>
-                                {tidligereOppdateringer.map((oppdatering) => (
-                                    <BodyShort key={oppdatering._key} size="small">
-                                        {getFormattedDatetimeString(oppdatering.tidspunkt)}: {oppdatering.melding}
-                                    </BodyShort>
-                                ))}
+                                <VStack gap="space-8" marginBlock="space-4 space-0">
+                                    {tidligereStatuser.map((tidligereStatus) => (
+                                        <TidligereStatus key={tidligereStatus._key} status={tidligereStatus} />
+                                    ))}
+                                </VStack>
                             </Box>
                         )}
-                        {medPunktum(driftsmelding.cta)}
                     </VStack>
                 </GlobalAlert.Content>
             )}
         </GlobalAlert>
     );
 };
+
+const TidligereStatus = ({ status }: { status: Driftsstatus }): ReactElement => (
+    <Box>
+        <BodyShort size="small" weight="semibold">
+            {getFormattedDatetimeString(status.tidspunkt)}
+            {status.konsekvens ? `: ${konsekvensTittel(status.konsekvens)}` : ''}
+        </BodyShort>
+        <BodyShort size="small">
+            {medPunktum(status.arsak)}
+            {medPunktum(status.tiltak)}
+            {medPunktum(status.oppdatering)}
+            {medPunktum(status.cta)}
+        </BodyShort>
+    </Box>
+);
 
 const InformasjonsmeldingInnhold = ({ informasjonsmelding }: InformasjonsmeldingProps): ReactElement | null => {
     const [åpneInformasjonsmelding, setÅpneInformasjonsmelding] = useState(false);
@@ -160,11 +167,33 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
     );
 };
 
-function dato(driftsmelding: Driftsmelding, erLøst: boolean): string {
-    const updated = driftsmelding._updatedAt.toString();
-
+function dato(driftsmelding: Driftsmelding, gjeldendeStatus: Driftsstatus, erLøst: boolean): string {
     if (erLøst) {
-        return `(Løst: ${getFormattedDatetimeString(updated)})`;
+        return `(Løst: ${getFormattedDatetimeString(driftsmelding._updatedAt.toString())})`;
     }
-    return `(Oppdatert: ${getFormattedDatetimeString(updated)})`;
+    return `(Oppdatert: ${getFormattedDatetimeString(gjeldendeStatus.tidspunkt)})`;
+}
+
+const konsekvensTitler: Record<string, string> = {
+    treghet: 'Treghet i speil',
+    delvisMulig: 'Delvis mulig å saksbehandle i speil',
+    ikkeMulig: 'Ikke mulig å saksbehandle i speil',
+};
+
+function konsekvensTittel(konsekvens?: string): string {
+    return (konsekvens && konsekvensTitler[konsekvens]) || 'Driftsmelding';
+}
+
+/**
+ * Konsekvensen settes bare når den endrer seg, så vi går bakover i historikken til vi finner
+ * den siste som faktisk er satt. Den bestemmer tittel og farge på hele driftsmeldingen.
+ */
+function gjeldendeKonsekvens(statuserNyesteFørst: Driftsstatus[]): string | undefined {
+    return statuserNyesteFørst.find((status) => status.konsekvens)?.konsekvens;
+}
+
+function medPunktum(uryddetTekst?: string): string {
+    const ryddetTekst = uryddetTekst?.trim();
+    if (!ryddetTekst) return '';
+    return ryddetTekst.endsWith('.') ? `${ryddetTekst} ` : `${ryddetTekst}. `;
 }
