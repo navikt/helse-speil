@@ -16,19 +16,27 @@ import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 import { getPeriodState, getPeriodStateText } from '@utils/mapping';
 import { cn } from '@utils/tw';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 interface PeriodPopoverProps {
     element: TidslinjeElement;
     person: PersonFragment;
     erSelvstendigNæring?: boolean;
+    visVedtaksperiodeId?: boolean;
 }
 
-export function PeriodPopover({ element, person, erSelvstendigNæring = false }: PeriodPopoverProps): ReactElement {
+export function PeriodPopover({
+    element,
+    person,
+    erSelvstendigNæring = false,
+    visVedtaksperiodeId = false,
+}: PeriodPopoverProps): ReactElement {
     const period = element.periode ?? element.ghostPeriode;
     const fom = somNorskDato(element.fom) ?? '-';
     const tom = somNorskDato(element.tom) ?? '-';
     const state = getPeriodState(period);
+    const vedtaksperiodeId =
+        period && (isBeregnetPeriode(period) || isUberegnetPeriode(period)) ? period.vedtaksperiodeId : undefined;
 
     return (
         <HGrid columns={2} gap="space-4 space-24">
@@ -45,6 +53,12 @@ export function PeriodPopover({ element, person, erSelvstendigNæring = false }:
                 <GhostPopover fom={fom} tom={tom} />
             ) : (
                 <UberegnetPopover state={state} fom={fom} tom={tom} />
+            )}
+            {visVedtaksperiodeId && vedtaksperiodeId && (
+                <>
+                    <BodyShort size="small">Vedtaksperiode-ID:</BodyShort>
+                    <BodyShort size="small">{vedtaksperiodeId}</BodyShort>
+                </>
             )}
         </HGrid>
     );
