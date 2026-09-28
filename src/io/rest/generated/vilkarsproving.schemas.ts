@@ -5,7 +5,9 @@
  * OpenAPI spec version: 1.0.0
  */
 export type ApiOpptjeningsvurdering =
-    ApiOpptjeningsvurderingOverførtFraInfotrygd | ApiOpptjeningsvurderingVurdertISpeil;
+    | ApiOpptjeningsvurderingOverførtFraInfotrygd
+    | ApiOpptjeningsvurderingOverførtFraSpleis
+    | ApiOpptjeningsvurderingVurdertISpVilkarproving;
 
 export interface ApiOpptjeningsvurderingOverførtFraInfotrygd {
     id: string;
@@ -25,17 +27,18 @@ export type ApiKravkilde = (typeof ApiKravkilde)[keyof typeof ApiKravkilde];
 
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export const ApiKravkilde = {
-    VURDERT_I_SPEIL: 'VURDERT_I_SPEIL',
+    VURDERT_I_SP_VILKARSPROVING: 'VURDERT_I_SP_VILKARSPROVING',
+    OVERFORT_FRA_SPLEIS: 'OVERFORT_FRA_SPLEIS',
     OVERFOERT_FRA_INFOTRYGD: 'OVERFOERT_FRA_INFOTRYGD',
 } as const;
 
-export type ApiOpptjeningsvurderingVurdertISpeilAvgjørendeVilkårskode = null | ApiVilkårskode;
+export type ApiOpptjeningsvurderingOverførtFraSpleisAvgjørendeVilkårskode = null | ApiVilkårskode;
 
-export interface ApiOpptjeningsvurderingVurdertISpeil {
+export interface ApiOpptjeningsvurderingOverførtFraSpleis {
     id: string;
     kravkode: ApiKravkode;
     opptjeningOk: boolean;
-    avgjørendeVilkårskode?: ApiOpptjeningsvurderingVurdertISpeilAvgjørendeVilkårskode;
+    avgjørendeVilkårskode?: ApiOpptjeningsvurderingOverførtFraSpleisAvgjørendeVilkårskode;
     vurderinger: ApiVilkårsvurdering[];
     kravkilde: ApiKravkilde;
 }
@@ -54,6 +57,7 @@ export interface ApiVilkårsvurdering {
     vilkårskode: ApiVilkårskode;
     utfall: ApiUtfall;
     vurdertTidspunkt?: ApiVilkårsvurderingVurdertTidspunkt;
+    lovreferanse: ApiLovreferanse;
     kilde: ApiVurderingskilde;
 }
 
@@ -64,6 +68,21 @@ export const ApiUtfall = {
     OPPFYLT: 'OPPFYLT',
     IKKE_OPPFYLT: 'IKKE_OPPFYLT',
 } as const;
+
+export type ApiLovreferanseAvsnitt = null | number;
+
+export type ApiLovreferanseSetning = null | number;
+
+export type ApiLovreferanseBokstav = null | string;
+
+export interface ApiLovreferanse {
+    lov: string;
+    paragraf: string;
+    avsnitt?: ApiLovreferanseAvsnitt;
+    setning?: ApiLovreferanseSetning;
+    bokstav?: ApiLovreferanseBokstav;
+    iKraftFra: string;
+}
 
 export type ApiVurderingskilde =
     ApiVurderingskildeAutomatisk | ApiVurderingskildeOverførtFraSpleis | ApiVurderingskildeSaksbehandler;
@@ -142,6 +161,17 @@ export interface ApiVurderingskildeSaksbehandler {
     fritekstbegrunnelse: string;
     journalpostId: string[];
     kildetype: ApiKildetype;
+}
+
+export type ApiOpptjeningsvurderingVurdertISpVilkarprovingAvgjørendeVilkårskode = null | ApiVilkårskode;
+
+export interface ApiOpptjeningsvurderingVurdertISpVilkarproving {
+    id: string;
+    kravkode: ApiKravkode;
+    opptjeningOk: boolean;
+    avgjørendeVilkårskode?: ApiOpptjeningsvurderingVurdertISpVilkarprovingAvgjørendeVilkårskode;
+    vurderinger: ApiVilkårsvurdering[];
+    kravkilde: ApiKravkilde;
 }
 
 export interface ApiVilkårsvurderingerForPersonResponse {

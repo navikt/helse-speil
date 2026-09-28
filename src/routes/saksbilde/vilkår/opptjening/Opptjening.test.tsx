@@ -44,7 +44,7 @@ const ingenAutomatiskeVurderinger: ApiVilkårsvurderingerForPersonResponse = {
             kravkode: ApiKravkode.OPPTJENING,
             opptjeningOk: false,
             avgjørendeVilkårskode: null,
-            kravkilde: ApiKravkilde.VURDERT_I_SPEIL,
+            kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
             vurderinger: [],
         },
     ],
@@ -58,13 +58,18 @@ const automatiskVurdertArbeidMinst4Uker: ApiVilkårsvurderingerForPersonResponse
             kravkode: ApiKravkode.OPPTJENING,
             opptjeningOk: true,
             avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
-            kravkilde: ApiKravkilde.VURDERT_I_SPEIL,
+            kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
             vurderinger: [
                 {
                     id: 'vurdering-1',
                     vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                     utfall: ApiUtfall.OPPFYLT,
                     vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
+                    lovreferanse: {
+                        lov: 'folketrygdloven',
+                        paragraf: '8-2',
+                        iKraftFra: '1997-05-01',
+                    },
                     kilde: {
                         versjonAvKildekode: 'v1',
                         grunnlag: {
@@ -87,6 +92,36 @@ const automatiskVurdertArbeidMinst4Uker: ApiVilkårsvurderingerForPersonResponse
                             grunnlagstype: 'ARBEIDSFORHOLD',
                         },
                         kildetype: ApiKildetype.AUTOMATISK,
+                    },
+                },
+            ],
+        },
+    ],
+};
+
+const overførtFraSpleis: ApiVilkårsvurderingerForPersonResponse = {
+    skjæringstidspunkt: '2024-01-01',
+    krav: [
+        {
+            id: 'krav-spleis',
+            kravkode: ApiKravkode.OPPTJENING,
+            opptjeningOk: true,
+            avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+            kravkilde: ApiKravkilde.OVERFORT_FRA_SPLEIS,
+            vurderinger: [
+                {
+                    id: 'vurdering-spleis',
+                    vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+                    utfall: ApiUtfall.OPPFYLT,
+                    vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
+                    lovreferanse: {
+                        lov: 'folketrygdloven',
+                        paragraf: '8-2',
+                        iKraftFra: '1997-05-01',
+                    },
+                    kilde: {
+                        grunnlag: { grunnlagstype: 'SELVSTENDIG_NAERINGSDRIVENDE' },
+                        kildetype: ApiKildetype.OVERFOERT_FRA_SPLEIS,
                     },
                 },
             ],
@@ -297,13 +332,18 @@ describe('Opptjening', () => {
                     kravkode: ApiKravkode.OPPTJENING,
                     opptjeningOk: true,
                     avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
-                    kravkilde: ApiKravkilde.VURDERT_I_SPEIL,
+                    kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
                     vurderinger: [
                         {
                             id: 'vurdering-2',
                             vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                             utfall: ApiUtfall.OPPFYLT,
                             vurdertTidspunkt: '2024-01-03T10:00:00.000Z',
+                            lovreferanse: {
+                                lov: 'folketrygdloven',
+                                paragraf: '8-2',
+                                iKraftFra: '1997-05-01',
+                            },
                             kilde: {
                                 ident: 'S123456',
                                 fritekstbegrunnelse: 'Dokumentert via vedtak',
@@ -381,6 +421,17 @@ describe('Opptjening', () => {
 
         await startVurdering();
         expect(screen.getByText('Vurder om søkeren har hatt arbeid i minst 4 uker')).toBeVisible();
+    });
+
+    it('viser vurderinger overført fra Spleis på samme måte som vurderinger fra sp-vilkårsprøving', async () => {
+        mockVilkårsvurderinger(overførtFraSpleis);
+
+        renderOpptjening(false);
+
+        expect(within(arbeidsvilkår()).getByText(/Vurdert automatisk/, { selector: 'span' })).toHaveAttribute(
+            'data-color',
+            'success',
+        );
     });
 
     it('viser feilmelding når vilkårsvurderingen ikke kan hentes', async () => {

@@ -5,7 +5,7 @@ import {
     ApiKravkilde,
     ApiKravkode,
     ApiManuellVilkårsvurderingRequest,
-    ApiOpptjeningsvurderingVurdertISpeil,
+    ApiOpptjeningsvurderingVurdertISpVilkarproving,
     ApiUtfall,
     ApiVilkårskode,
     ApiVilkårsvurdering,
@@ -26,6 +26,11 @@ let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
                     vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                     utfall: ApiUtfall.OPPFYLT,
                     vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
+                    lovreferanse: {
+                        lov: 'folketrygdloven',
+                        paragraf: '8-2',
+                        iKraftFra: '1997-05-01',
+                    },
                     kilde: {
                         versjonAvKildekode: 'v1',
                         grunnlag: {
@@ -54,7 +59,7 @@ let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
                     },
                 },
             ],
-            kravkilde: ApiKravkilde.VURDERT_I_SPEIL,
+            kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
         },
     ],
 };
@@ -67,6 +72,11 @@ export const overstyrVilkårsvurdering = (request: ApiManuellVilkårsvurderingRe
         vilkårskode: request.vilkårskode,
         utfall: request.utfall,
         vurdertTidspunkt: new Date().toISOString(),
+        lovreferanse: {
+            lov: 'folketrygdloven',
+            paragraf: '8-2',
+            iKraftFra: '1997-05-01',
+        },
         kilde: {
             ident: 'S123456',
             fritekstbegrunnelse: request.fritekstbegrunnelse,
@@ -84,13 +94,13 @@ export const overstyrVilkårsvurdering = (request: ApiManuellVilkårsvurderingRe
     const nyeVurderinger = [...tidligereVurderinger, nyVurdering];
     const oppfyltVurdering = nyeVurderinger.find((vurdering) => vurdering.utfall === ApiUtfall.OPPFYLT);
 
-    const nyttKrav: ApiOpptjeningsvurderingVurdertISpeil = {
+    const nyttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
         id: v4(),
         kravkode: ApiKravkode.OPPTJENING,
         opptjeningOk: oppfyltVurdering !== undefined,
         avgjørendeVilkårskode: (oppfyltVurdering ?? nyVurdering).vilkårskode,
         vurderinger: nyeVurderinger,
-        kravkilde: ApiKravkilde.VURDERT_I_SPEIL,
+        kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
 
     vilkårsvurderinger = {
