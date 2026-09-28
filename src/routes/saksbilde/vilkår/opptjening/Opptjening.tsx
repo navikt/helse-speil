@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
-import { Alert, Heading, Loader, VStack } from '@navikt/ds-react';
+import { Alert, HStack, Heading, Loader, VStack } from '@navikt/ds-react';
 
 import { manueltVurderbareVilkårskoder } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import {
@@ -72,7 +72,7 @@ export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }:
 
     return (
         <VStack gap="space-16" data-testid="opptjening" className="w-full">
-            <div className="flex items-center gap-3.5">
+            <HStack align="center" gap="space-16">
                 {isLoading ? (
                     <Loader size="medium" title="Henter opptjeningsvurdering" />
                 ) : (
@@ -83,7 +83,7 @@ export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }:
                 <Heading level="3" size="xsmall">
                     Opptjeningstid
                 </Heading>
-            </div>
+            </HStack>
             <VStack gap="space-0" className="w-full border-t border-ax-border-neutral-subtle">
                 {isLoading ? (
                     <Loader size="small" title="Henter opptjeningsvurdering" />
@@ -92,22 +92,20 @@ export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }:
                         Kunne ikke hente opptjeningsvurderingen
                     </Alert>
                 ) : (
-                    <div className="bg-ax-bg-info-soft px-4 py-4">
-                        <ul className="m-0 flex list-none flex-col gap-4 p-0">
-                            {manueltVurderbareVilkårskoder.map((vilkårskode) => (
-                                <OpptjeningVilkårsrad
-                                    key={vilkårskode}
-                                    personPseudoId={personPseudoId}
-                                    skjæringstidspunkt={data.skjæringstidspunkt}
-                                    vilkårskode={vilkårskode}
-                                    vurdering={vurderinger.find((it) => it.vilkårskode === vilkårskode)}
-                                    erAvgjørende={avgjørendeVilkårskode === vilkårskode}
-                                    readOnly={readOnly}
-                                    onOverstyrt={setOverstyrtOpptjeningsvurderingId}
-                                />
-                            ))}
-                        </ul>
-                    </div>
+                    <VStack as="ul" padding="space-0" margin="space-0" marginInline="space-16 space-0">
+                        {manueltVurderbareVilkårskoder.map((vilkårskode) => (
+                            <OpptjeningVilkårsrad
+                                key={vilkårskode}
+                                personPseudoId={personPseudoId}
+                                skjæringstidspunkt={data.skjæringstidspunkt}
+                                vilkårskode={vilkårskode}
+                                vurdering={vurderinger.find((it) => it.vilkårskode === vilkårskode)}
+                                erAvgjørende={avgjørendeVilkårskode === vilkårskode}
+                                readOnly={readOnly}
+                                onOverstyrt={setOverstyrtOpptjeningsvurderingId}
+                            />
+                        ))}
+                    </VStack>
                 )}
             </VStack>
         </VStack>

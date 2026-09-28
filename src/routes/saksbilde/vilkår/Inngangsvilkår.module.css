@@ -17,7 +17,7 @@
 }
 
 .strek {
-    border-right: 3px solid var(--ax-neutral-300);
+    border-right: 3px solid var(--ax-border-accent-strong);
     display: inline-block;
     align-self: stretch;
 }

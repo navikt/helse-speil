@@ -208,8 +208,8 @@ function VurderingspanelContent({
 
     return (
         <HStack wrap={false} gap="space-0" align="start">
-            <VStack className="min-w-160 divide-y divide-ax-border-neutral-subtle">
-                <div className="py-6 first:pt-0 last:pb-0">{opptjening}</div>
+            <VStack className="min-w-160 divide-y divide-ax-border-neutral-strong">
+                <div className="first:pt-0 last:pb-0">{opptjening}</div>
                 <div className="py-6 first:pt-0 last:pb-0">
                     <SykepengegrunnlagVilkår
                         oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}

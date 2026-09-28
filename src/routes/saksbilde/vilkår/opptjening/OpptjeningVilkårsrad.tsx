@@ -14,6 +14,7 @@ import {
     ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import { VurderingspanelContext } from '../VurderingspanelContext';
 import { ArbeidsforholdIGrunnlaget } from './ArbeidsforholdIGrunnlaget';
@@ -162,12 +163,21 @@ export const OpptjeningVilkårsrad = ({
     readOnly,
     onOverstyrt,
 }: OpptjeningVilkårsradProps): ReactElement => {
-    const { visVurderingspanel, lukkVurderingspanel } = useContext(VurderingspanelContext);
+    const { aktivNøkkel, visVurderingspanel, lukkVurderingspanel } = useContext(VurderingspanelContext);
     const vilkårsnavn = vilkårskodeLabels[vilkårskode];
     const titleId = `opptjeningsvilkår-tittel-${vilkårskode}`;
 
     return (
-        <VStack as="li" gap="space-8" data-testid={`opptjeningsvilkår-${vilkårskode}`}>
+        <VStack
+            as="li"
+            gap="space-8"
+            paddingBlock="space-16"
+            paddingInline="space-16"
+            data-testid={`opptjeningsvilkår-${vilkårskode}`}
+            className={cn('z-10 -mr-[3px] border-b-ax-border-neutral-subtle not-last:border-b', {
+                'bg-ax-bg-accent-soft': aktivNøkkel === vilkårskode,
+            })}
+        >
             <HStack gap="space-8" align="center" wrap={false}>
                 <span className="flex w-6 shrink-0 items-center justify-center">
                     <Utfallsikon utfall={vurdering?.utfall} />
