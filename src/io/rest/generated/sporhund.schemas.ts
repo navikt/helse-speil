@@ -23,6 +23,7 @@ export const ApiFagomrade = {
     YRKESSKADE: 'YRKESSKADE',
     BESTRIDELSE: 'BESTRIDELSE',
     UNNTAK_FRA_ARBEIDSGIVERANSVAR: 'UNNTAK_FRA_ARBEIDSGIVERANSVAR',
+    KLAGE: 'KLAGE',
 } as const;
 
 export interface ApiSoker {
