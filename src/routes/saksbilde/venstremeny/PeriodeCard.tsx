@@ -248,22 +248,25 @@ const PeriodeCardBeregnet = ({
     const jordbrukerReindrift = egenskaper.includes(Egenskap.JordbrukerReindrift);
 
     const egenskaperForVisning = periode.egenskaper
-        .filter((it) => it.kategori !== Kategori.Mottaker && it.kategori !== Kategori.Inntektskilde)
-        .filter((it) => it.egenskap !== Egenskap.Forsikring)
-        // filtrerer vekk SN-tag hvis personen er Jordbruker/Reindrift
-        .filter((it) => !jordbrukerReindrift || it.egenskap !== Egenskap.SelvstendigNaeringsdrivende)
+        .filter((it) => {
+            const erMottaker = it.kategori === Kategori.Mottaker;
+            const erInntektskilde = it.kategori === Kategori.Inntektskilde;
+            const erForsikring = it.egenskap === Egenskap.Forsikring;
+            const erJordbrukerReindrift = jordbrukerReindrift && it.egenskap === Egenskap.SelvstendigNaeringsdrivende;
+
+            return !erMottaker && !erInntektskilde && !erForsikring && !erJordbrukerReindrift;
+        })
         .map((it) => it.egenskap);
+
+    const erVenteperiode = [
+        Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+        Periodetilstand.VenterPaEnAnnenPeriode,
+    ].includes(periode.periodetilstand);
     return (
         <div>
             <ArbeidsforholdOpphørt arbeidsforhold={arbeidsforhold} periode={periode} />
             <span className={styles.egenskaper}>
-                {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
-                    periode.periodetilstand,
-                ) ? (
-                    <VentepølseRow />
-                ) : (
-                    <EgenskaperTags egenskaper={egenskaperForVisning} />
-                )}
+                {erVenteperiode ? <VentepølseRow /> : <EgenskaperTags egenskaper={egenskaperForVisning} />}
             </span>
             <section className={styles.grid}>
                 <SykmeldingsperiodeRow periode={periode} />
