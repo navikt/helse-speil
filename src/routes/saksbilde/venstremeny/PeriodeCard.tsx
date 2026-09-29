@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { ClockDashedIcon } from '@navikt/aksel-icons';
+import { ClockDashedIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Tag, Tooltip } from '@navikt/ds-react';
 
 import { EgenskaperTags } from '@components/EgenskaperTags';
@@ -24,6 +24,7 @@ import {
 } from '@io/graphql';
 import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { isForkastet } from '@state/selectors/period';
 import { ActivePeriod, DatePeriod, DateString } from '@typer/shared';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somNorskDato } from '@utils/date';
 import { cn } from '@utils/tw';
@@ -198,13 +199,22 @@ interface PeriodeCardUberegnetProps {
 
 const PeriodeCardUberegnet = ({ periode, inntektsforhold }: PeriodeCardUberegnetProps): ReactElement => {
     const arbeidsforhold = isArbeidsgiver(inntektsforhold) ? inntektsforhold.arbeidsforhold : [];
+    const erVenteperiode = [
+        Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+        Periodetilstand.VenterPaEnAnnenPeriode,
+    ].includes(periode.periodetilstand);
     return (
         <div>
+            {isForkastet(periode) && (
+                <Box paddingBlock="space-0 space-8">
+                    <Tag variant="strong" data-color="danger" size="small" icon={<XMarkIcon />}>
+                        Tatt ut av speil
+                    </Tag>
+                </Box>
+            )}
             <ArbeidsforholdOpphørt arbeidsforhold={arbeidsforhold} periode={periode} />
             <section className={styles.grid}>
-                {[Periodetilstand.UtbetaltVenterPaEnAnnenPeriode, Periodetilstand.VenterPaEnAnnenPeriode].includes(
-                    periode.periodetilstand,
-                ) ? (
+                {erVenteperiode ? (
                     <VentepølseRow />
                 ) : (
                     <>
@@ -262,6 +272,7 @@ const PeriodeCardBeregnet = ({
         Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
         Periodetilstand.VenterPaEnAnnenPeriode,
     ].includes(periode.periodetilstand);
+
     return (
         <div>
             <ArbeidsforholdOpphørt arbeidsforhold={arbeidsforhold} periode={periode} />
