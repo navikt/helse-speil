@@ -420,7 +420,7 @@ describe('Opptjening', () => {
 
         expect(within(arbeidsvilkår()).getByText(/Vurdert automatisk/, { selector: 'span' })).toHaveAttribute(
             'data-color',
-            'success',
+            'neutral',
         );
     });
 
