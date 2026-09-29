@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
-import { Alert, HStack, Heading, Loader, VStack } from '@navikt/ds-react';
+import { Alert, HStack, Heading, Loader, Skeleton, VStack } from '@navikt/ds-react';
 
 import {
     ManueltVurderbarVilkårskode,
@@ -67,7 +67,11 @@ export const Opptjening = ({
             </HStack>
             <VStack gap="space-0" className="w-full border-t border-ax-border-neutral-subtle">
                 {isLoading ? (
-                    <Loader size="small" title="Henter opptjeningsvurdering" />
+                    <VStack gap="space-16" paddingBlock="space-16" marginInline="space-16 space-0">
+                        {manueltVurderbareVilkårskoder.map((vilkårskode) => (
+                            <Skeleton key={vilkårskode} variant="rounded" height={56} />
+                        ))}
+                    </VStack>
                 ) : isError || !data ? (
                     <Alert variant="error" size="small">
                         Kunne ikke hente opptjeningsvurderingen
