@@ -20,7 +20,7 @@ import { ListItem } from '@navikt/ds-react/List';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
-import { Arsak, useArsaker } from '@external/sanity';
+import { useArsaker } from '@external/sanity';
 import { AnnulleringSkjema, annulleringSkjema } from '@form-schemas/annulleringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
@@ -70,7 +70,7 @@ export function AnnulleringsDialogInnhold({
     const harValgtAnnet = arsakerValue.some((it) => JSON.parse(it).arsak === 'Annet');
 
     function onSubmit(values: AnnulleringSkjema) {
-        const parsedArsaker: Arsak[] = values.arsaker.map((it) => JSON.parse(it));
+        const parsedArsaker = values.arsaker.map((it) => JSON.parse(it));
         mutate(
             {
                 vedtaksperiodeId,
@@ -124,7 +124,7 @@ export function AnnulleringsDialogInnhold({
                                         onChange={field.onChange}
                                     >
                                         {!arsakerLoading &&
-                                            arsaker[0]?.arsaker.map((årsak) => (
+                                            arsaker[0]?.arsaker?.map((årsak) => (
                                                 <Checkbox key={årsak._key} value={JSON.stringify(årsak)}>
                                                     {årsak.arsak}
                                                 </Checkbox>

@@ -4,13 +4,13 @@ import { useFormContext, useWatch } from 'react-hook-form';
 import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Radio, RadioGroup } from '@navikt/ds-react';
 
-import { SkjønnsfastsettingMal } from '@external/sanity';
+import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 
 import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 
 type Props = {
-    maler: SkjønnsfastsettingMal[] | undefined;
+    maler: SkjonnsfastsettelseMalerQueryResult | undefined;
 };
 
 export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {

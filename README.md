@@ -121,6 +121,18 @@ pnpm run generate-rest:spesialist
 pnpm run generate-rest:sporhund
 ```
 
+### Oppdatere Sanity-typer
+
+```shell
+pnpm run generate-sanity
+```
+
+Speil genererer typer fra sanity schema definisjonene i [helse-spalten](https://github.com/navikt/helse-spalten) og GROQ-spørringene i
+`src/app/api/sanity/`. Skriptet forventer at spalten lever i samme directory som speil. Ligger repoet et annet sted, sett `SPALTEN_DIR` når du kjører skriptet.
+
+Skriptet kjører `sanity schema extract --enforce-required-fields` med spaltens Sanity CLI og legger et
+skjema i `src/io/sanity/schema.json`. Dette er en lokal, git-ignorert mellomfil; den skal ikke redigeres eller sjekkes inn. `--enforce-required-fields` gjør felter markert som påkrevd i spalten, til påkrevde felter i de genererte typene. Kjør skriptet på nytt når skjemaet i spalten eller GROQ-spørringene i speil endres.
+
 ## Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub.

@@ -5,21 +5,25 @@ import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { Button, Dialog, HStack, Heading } from '@navikt/ds-react';
 
 import { portableTextComponents } from '@components/header/nyheter/portableTextComponents';
-import { NyhetModalType } from '@external/sanity';
+import type { NyheterQueryResult } from '@io/sanity/generated/sanity.types';
 import { PortableText } from '@portabletext/react';
 import { cn } from '@utils/tw';
 
 interface NyhetDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
-    nyhetModal: NyhetModalType;
+    nyhetModal: NyheterQueryResult[number]['modal'];
 }
 
-export function NyhetDialog({ open, onOpenChange, nyhetModal }: NyhetDialogProps): ReactElement {
-    const slides = [nyhetModal.modalSlide1, nyhetModal.modalSlide2, nyhetModal.modalSlide3].filter(
-        (slide) => slide !== null,
-    );
+export function NyhetDialog({ open, onOpenChange, nyhetModal }: NyhetDialogProps): ReactElement | null {
     const [slideIndex, setSlideIndex] = useState(0);
+
+    if (!nyhetModal) return null;
+
+    const slides = [nyhetModal.modalSlide1, nyhetModal.modalSlide2, nyhetModal.modalSlide3].flatMap((slide) =>
+        slide ? [slide] : [],
+    );
+    const activeSlide = slides[slideIndex];
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange} aria-label="Nyhet modal">
@@ -29,20 +33,17 @@ export function NyhetDialog({ open, onOpenChange, nyhetModal }: NyhetDialogProps
                 </Dialog.Header>
                 <Dialog.Body className="flex min-h-40 flex-col gap-4">
                     <Heading level="2" size="small">
-                        {slides[slideIndex]?.slideOverskrift}
+                        {activeSlide?.slideOverskrift}
                     </Heading>
-                    {slides[slideIndex]?.slideBeskrivelse && (
-                        <PortableText
-                            value={slides[slideIndex]?.slideBeskrivelse}
-                            components={portableTextComponents}
-                        />
+                    {activeSlide?.slideBeskrivelse && (
+                        <PortableText value={activeSlide.slideBeskrivelse} components={portableTextComponents} />
                     )}
-                    {slides[slideIndex]?.bildeUrl && (
+                    {activeSlide?.bildeUrl && (
                         <div className="flex max-h-87.5 w-full justify-center overflow-hidden">
                             <Image
                                 className="relative! h-auto! w-auto! object-contain"
-                                src={slides[slideIndex]?.bildeUrl}
-                                alt={slides[slideIndex]?.altTekst}
+                                src={activeSlide.bildeUrl}
+                                alt={activeSlide.altTekst ?? ''}
                                 fill
                                 unoptimized
                             />

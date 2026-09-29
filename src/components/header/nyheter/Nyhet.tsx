@@ -5,19 +5,20 @@ import { BodyShort, Button, HStack, Heading, Link, VStack } from '@navikt/ds-rea
 
 import { NyhetDialog } from '@components/header/nyheter/NyhetDialog';
 import { portableTextComponents } from '@components/header/nyheter/portableTextComponents';
-import { NyhetType } from '@external/sanity';
+import type { NyheterQueryResult } from '@io/sanity/generated/sanity.types';
 import { PortableText } from '@portabletext/react';
 import { getFormattedDateString } from '@utils/date';
 
 const LUKKEDE_TVUNGNE_MODALER_KEY = 'nyhetIderForLukkedeTvungneModaler';
 
 interface NyhetProps {
-    nyhet: NyhetType;
+    nyhet: NyheterQueryResult[number];
 }
 
 export function Nyhet({ nyhet }: NyhetProps): ReactElement {
     const [showModal, setShowModal] = useState(false);
     const [tvungenModalLukket, setTvungenModalLukket] = useState(false);
+    const modal = nyhet.modal;
 
     useEffect(() => {
         ryddOppLocalStorage(nyhet);
@@ -35,26 +36,26 @@ export function Nyhet({ nyhet }: NyhetProps): ReactElement {
             </Heading>
             <PortableText value={nyhet.beskrivelse} components={portableTextComponents} />
             <HStack justify="space-between" gap="space-12 space-0">
-                {nyhet.modal.antallSlides > 0 && (
+                {modal && modal.antallSlides > 0 && (
                     <Button variant="secondary" size="small" onClick={() => setShowModal(true)}>
                         Se hvordan
                     </Button>
                 )}
-                {nyhet.lenke && (
+                {nyhet.lenke?.lenkeUrl && (
                     <Link href={nyhet.lenke.lenkeUrl} target="_blank" rel="noopener noreferrer">
                         {nyhet.lenke.lenkeTekst}
                         <ExternalLinkIcon />
                     </Link>
                 )}
             </HStack>
-            {visModal && (
+            {visModal && modal && (
                 <NyhetDialog
-                    nyhetModal={nyhet.modal}
+                    nyhetModal={modal}
                     open
                     onOpenChange={(nextOpen) => {
                         if (!nextOpen) {
                             setShowModal(false);
-                            if (nyhet.modal.tvungenModal) {
+                            if (modal.tvungenModal) {
                                 setTvungenModalLukket(true);
                                 lagreTvungenModalLukket(nyhet._id);
                             }
@@ -71,8 +72,8 @@ const hentLukkedeModalIder = (): string[] => {
     return raw ? JSON.parse(raw) : [];
 };
 
-const skalViseTvungenModal = (nyhet: NyhetType): boolean => {
-    if (!nyhet.modal.tvungenModal) return false;
+const skalViseTvungenModal = (nyhet: NyheterQueryResult[number]): boolean => {
+    if (!nyhet.modal?.tvungenModal) return false;
     const lagrede = hentLukkedeModalIder();
     return !lagrede.includes(nyhet._id);
 };
@@ -82,8 +83,8 @@ const lagreTvungenModalLukket = (id: string): void => {
     localStorage.setItem(LUKKEDE_TVUNGNE_MODALER_KEY, JSON.stringify([...eksisterende, id]));
 };
 
-const ryddOppLocalStorage = (nyhet: NyhetType) => {
-    if (nyhet.modal.tvungenModal) return;
+const ryddOppLocalStorage = (nyhet: NyheterQueryResult[number]) => {
+    if (nyhet.modal?.tvungenModal) return;
     const eksisterende = hentLukkedeModalIder();
     if (eksisterende.includes(nyhet._id)) {
         localStorage.setItem(

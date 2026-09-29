@@ -14,11 +14,12 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
-import { Arsak, useArsaker } from '@external/sanity';
+import { useArsaker } from '@external/sanity';
 import { ForkastingSkjema, forkastingSkjema } from '@form-schemas/forkastingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UberegnetPeriodeFragment } from '@io/graphql';
 import { usePostAnmodOmForkasting } from '@io/rest/generated/vedtaksperioder/vedtaksperioder';
+import type { ArsakerQueryResult } from '@io/sanity/generated/sanity.types';
 import {
     visningenErOppdatertToast,
     visningenErOppdatertToastKey,
@@ -52,7 +53,9 @@ export const ForkastFraUberegnetDialogInnhold = ({
     const harValgtAnnet = arsakerValue.some((it) => JSON.parse(it).arsak === 'Annet');
 
     function onSubmit(values: ForkastingSkjema) {
-        const parsedArsaker: Arsak[] = values.arsaker.map((it) => JSON.parse(it));
+        const parsedArsaker: NonNullable<ArsakerQueryResult[number]['arsaker']> = values.arsaker.map((it) =>
+            JSON.parse(it),
+        );
         addToast(visningenOppdateresToast({}));
         mutate(
             {
@@ -107,7 +110,7 @@ export const ForkastFraUberegnetDialogInnhold = ({
                                     onChange={field.onChange}
                                 >
                                     {!arsakerLoading &&
-                                        arsaker[0]?.arsaker.map((årsak: Arsak) => (
+                                        arsaker[0]?.arsaker?.map((årsak) => (
                                             <Checkbox key={årsak._key} value={JSON.stringify(årsak)}>
                                                 {årsak.arsak}
                                             </Checkbox>

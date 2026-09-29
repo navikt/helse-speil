@@ -42,3 +42,6 @@ next-env.d.ts
 
 secure.log
 .env
+
+# Lokalt skjema hentet fra helse-spalten ved generering av Sanity-typer
+/src/io/sanity/schema.json

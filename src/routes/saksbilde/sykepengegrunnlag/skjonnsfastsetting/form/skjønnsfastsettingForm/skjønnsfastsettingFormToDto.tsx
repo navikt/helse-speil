@@ -1,5 +1,5 @@
-import { SkjønnsfastsettingMal } from '@external/sanity';
 import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
+import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { SkjønnsfastsattSykepengegrunnlagDTO, SkjønnsfastsettingstypeDTO } from '@typer/overstyring';
@@ -16,7 +16,7 @@ export const skjønnsfastsettingFormToDto = (
     period: ActivePeriod,
     omregnetÅrsinntekt: number,
     sammenligningsgrunnlag: number,
-    malFraSanity?: SkjønnsfastsettingMal,
+    malFraSanity?: SkjonnsfastsettelseMalerQueryResult[number],
 ): SkjønnsfastsattSykepengegrunnlagDTO | undefined => {
     const manueltBeløp = form.arbeidsgivere.reduce((n: number, { årlig }: { årlig: number }) => n + årlig, 0);
     const skjønnsfastsatt =
@@ -45,8 +45,13 @@ export const skjønnsfastsettingFormToDto = (
             .replace('${omregnetMånedsinntekt}', toKronerOgØre(omregnetÅrsinntekt / 12))
             .replace('${sammenligningsgrunnlag}', toKronerOgØre(sammenligningsgrunnlag)),
         begrunnelseFritekst: form.begrunnelseFritekst,
-        lovhjemmel: { ...malFraSanity.lovhjemmel },
-        begrunnelseKonklusjon: malFraSanity?.konklusjon.replace(
+        lovhjemmel: {
+            paragraf: malFraSanity.lovhjemmel.paragraf ?? '',
+            ledd: malFraSanity.lovhjemmel.ledd,
+            lovverk: malFraSanity.lovhjemmel.lovverk ?? '',
+            lovverksversjon: malFraSanity.lovhjemmel.lovverksversjon ?? '',
+        },
+        begrunnelseKonklusjon: malFraSanity.konklusjon.replace(
             '${skjønnsfastsattÅrsinntekt}',
             toKronerOgØre(skjønnsfastsatt),
         ),

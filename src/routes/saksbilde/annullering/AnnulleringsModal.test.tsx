@@ -5,7 +5,8 @@ import { Mock, vi } from 'vitest';
 import { Dialog } from '@navikt/ds-react';
 
 import { customAxios } from '@app/axios/axiosClient';
-import { ArsakerQueryResult } from '@external/sanity';
+import { SanityResponse } from '@external/sanity';
+import type { ArsakerQueryResult } from '@io/sanity/generated/sanity.types';
 import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { enBeregnetPeriode } from '@test-data/periode';
@@ -38,7 +39,7 @@ const defaultProps = {
 
 const addToastMock = vi.fn();
 
-const stubbedeÅrsaker: ArsakerQueryResult = {
+const stubbedeÅrsaker: SanityResponse<ArsakerQueryResult> = {
     result: [
         {
             _id: 'foo',

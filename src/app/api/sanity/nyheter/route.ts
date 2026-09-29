@@ -1,10 +1,10 @@
+import { defineQuery } from 'groq';
 import { NextResponse } from 'next/server';
 
 import { stubEllerVideresendTilSanity } from '@app/api/sanity/stubEllerVideresendTilSanity';
-import { NyheterQueryResult } from '@external/sanity';
+import { NyheterQueryResult } from '@io/sanity/generated/sanity.types';
 
-export const GET = async () => {
-    const response = await stubEllerVideresendTilSanity<NyheterQueryResult>(`*[_type == "nyhet"]{
+const nyheterQuery = defineQuery(`*[_type == "nyhet"]{
                     _id,
                     _createdAt,
                     iProd,
@@ -39,5 +39,8 @@ export const GET = async () => {
                         }
                     }
                 } | order(_createdAt desc)`);
+
+export const GET = async () => {
+    const response = await stubEllerVideresendTilSanity<NyheterQueryResult>(nyheterQuery);
     return NextResponse.json(response.data);
 };
