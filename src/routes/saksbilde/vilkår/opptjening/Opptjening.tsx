@@ -23,7 +23,7 @@ export function Opptjening({ opptjeningsvurdering, readOnly, aktivtVilkår, onVu
     const tittelId = useId();
 
     return (
-        <VStack as="section" aria-labelledby={tittelId} gap="space-16" className="w-full">
+        <VStack as="section" aria-labelledby={tittelId} gap="space-4" className="w-full">
             <HStack align="center" gap="space-12">
                 {isLoading ? (
                     <Loader size="medium" title="Henter opptjeningsvurdering" />
