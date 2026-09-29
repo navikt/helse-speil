@@ -6,6 +6,7 @@ import React, { ReactElement } from 'react';
 import { ArchiveIcon } from '@navikt/aksel-icons';
 import { Skeleton } from '@navikt/ds-react';
 
+import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { PersonFragment } from '@io/graphql';
 import { useGetGraderteAndreYtelserForPerson } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { useGetInfotrygdperioderForPerson } from '@io/rest/generated/personer/personer';
@@ -41,6 +42,7 @@ import {
     useTilkommenInntektIdFraUrl,
 } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useUtviklersnacks } from '@state/toggles';
 import { PeriodCategory } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
 import { erPåEgenUnderside } from '@utils/undersider';
@@ -67,6 +69,8 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
     const activeGraderteAndreYtelserId = useGraderteAndreYtelserIdFraUrl();
     const navigerTilGraderteAndreYtelser = useNavigerTilGraderteAndreYtelser();
     const [zoomLevel, setZoomLevel] = useAtom(zoomLevelAtom);
+    const harUtviklerrolle = useHarUtviklerRolle();
+    const utviklersnacksAktivert = useUtviklersnacks();
 
     const { arbeidsgiverRader, tilkommenRader, andreYtelserRader } = useTidslinjeRader(
         inntektsforhold,
@@ -115,6 +119,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                                         element={element}
                                         person={person}
                                         erSelvstendigNæring={rad.navn === 'Selvstendig næring'}
+                                        visVedtaksperiodeId={harUtviklerrolle && utviklersnacksAktivert}
                                     />
                                 </TimelinePeriod>
                             );

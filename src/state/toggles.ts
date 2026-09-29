@@ -8,11 +8,13 @@ import { atomWithSessionStorage } from '@state/jotai';
 export type ToggleState = {
     kanBeslutteEgne: boolean;
     nyOpptjeningVisning: boolean;
+    utviklersnacks: boolean;
 };
 
 const defaultToggleState: ToggleState = {
     kanBeslutteEgne: false,
     nyOpptjeningVisning: false,
+    utviklersnacks: false,
 };
 
 const toggleState = atomWithSessionStorage<ToggleState>('toggleState', defaultToggleState);
@@ -22,7 +24,9 @@ export function hydrateToggleState(): [WritableAtom<ToggleState, [SetStateAction
 
     return [
         toggleState,
-        sessionStorageState && erUtvikling ? JSON.parse(sessionStorageState) : { ...defaultToggleState },
+        sessionStorageState && erUtvikling
+            ? { ...defaultToggleState, ...JSON.parse(sessionStorageState) }
+            : { ...defaultToggleState },
     ];
 }
 
@@ -42,3 +46,5 @@ export const useToggle = (): { value: ToggleState; toggle: (property: keyof Togg
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
 
 export const useNyOpptjeningVisning = (): boolean => useAtomValue(toggleState).nyOpptjeningVisning;
+
+export const useUtviklersnacks = (): boolean => useAtomValue(toggleState).utviklersnacks;

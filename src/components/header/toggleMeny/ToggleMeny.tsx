@@ -2,10 +2,12 @@ import React, { ReactElement } from 'react';
 
 import { Checkbox, CheckboxGroup, Dialog } from '@navikt/ds-react';
 
+import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { ToggleState, useToggle } from '@state/toggles';
 
 export function ToggleMeny(): ReactElement {
     const { value, toggle } = useToggle();
+    const harUtviklerRolle = useHarUtviklerRolle();
 
     return (
         <Dialog.Popup width="small">
@@ -14,13 +16,22 @@ export function ToggleMeny(): ReactElement {
             </Dialog.Header>
             <Dialog.Body>
                 <form>
-                    <CheckboxGroup legend="Toggles" hideLegend value={toggleStateToCheckboxValue(value)}>
+                    <CheckboxGroup
+                        legend="Toggles"
+                        hideLegend
+                        value={toggleStateToCheckboxValue(value, harUtviklerRolle)}
+                    >
                         <Checkbox value="kanBeslutteEgne" onChange={toggle('kanBeslutteEgne')}>
                             Kan beslutte egen beslutteroppgave
                         </Checkbox>
                         <Checkbox value="nyOpptjeningVisning" onChange={toggle('nyOpptjeningVisning')}>
                             Ny opptjeningsvisning
                         </Checkbox>
+                        {harUtviklerRolle && (
+                            <Checkbox value="utviklersnacks" onChange={toggle('utviklersnacks')}>
+                                Utviklersnacks
+                            </Checkbox>
+                        )}
                     </CheckboxGroup>
                 </form>
             </Dialog.Body>
@@ -28,9 +39,10 @@ export function ToggleMeny(): ReactElement {
     );
 }
 
-const toggleStateToCheckboxValue = (state: ToggleState): string[] => {
+const toggleStateToCheckboxValue = (state: ToggleState, harUtviklerRolle: boolean): string[] => {
     const array: string[] = [];
     if (state.kanBeslutteEgne) array.push('kanBeslutteEgne');
     if (state.nyOpptjeningVisning) array.push('nyOpptjeningVisning');
+    if (harUtviklerRolle && state.utviklersnacks) array.push('utviklersnacks');
     return array;
 };
