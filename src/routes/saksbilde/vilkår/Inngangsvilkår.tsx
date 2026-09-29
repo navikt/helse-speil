@@ -82,23 +82,19 @@ export function InngangsvilkårWithContent({
                             aktivtVilkår={aktivtVilkår}
                             onVurder={setAktivtVilkår}
                         />
-                        <div className="py-6 first:pt-0 last:pb-0">
-                            <SykepengegrunnlagVilkår
-                                oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}
-                                sykepengegrunnlag={spleisgrunnlag?.sykepengegrunnlag}
-                                grunnbeløp={spleisgrunnlag?.grunnbelop}
-                                alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
-                                vurdertIInfotrygd={vurdertIInfotrygd}
-                                vurdering={vurdering}
-                            />
-                        </div>
-                        <div className="py-6 first:pt-0 last:pb-0">
-                            <MedlemskapVilkår
-                                oppfylt={medlemskapOppfylt(vilkårsgrunnlag)}
-                                vurdertIInfotrygd={vurdertIInfotrygd}
-                                vurdering={vurdering}
-                            />
-                        </div>
+                        <SykepengegrunnlagVilkår
+                            oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}
+                            sykepengegrunnlag={spleisgrunnlag?.sykepengegrunnlag}
+                            grunnbeløp={spleisgrunnlag?.grunnbelop}
+                            alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                            vurdertIInfotrygd={vurdertIInfotrygd}
+                            vurdering={vurdering}
+                        />
+                        <MedlemskapVilkår
+                            oppfylt={medlemskapOppfylt(vilkårsgrunnlag)}
+                            vurdertIInfotrygd={vurdertIInfotrygd}
+                            vurdering={vurdering}
+                        />
                     </VStack>
                     {aktivtVilkår !== null && skjæringstidspunkt !== undefined && (
                         <>

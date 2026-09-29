@@ -80,7 +80,7 @@ export const VilkårsutfallKort = ({
     testId,
     children,
 }: VilkårsutfallKortProps): ReactElement => (
-    <VStack gap="space-16" data-testid={testId} className="w-full">
+    <VStack gap="space-16" data-testid={testId} className="w-full pt-6 not-last:pb-6">
         <HStack gap="space-8" className="gap-3.5" align="center" wrap={false}>
             <span className="flex shrink-0 items-center justify-center">
                 <VilkårsutfallIkon utfall={utfall} />
