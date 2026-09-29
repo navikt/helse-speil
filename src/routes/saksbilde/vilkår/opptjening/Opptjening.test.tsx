@@ -201,7 +201,8 @@ describe('Opptjening', () => {
     it('viser oppsummering av opptjeningsgrunnlaget', async () => {
         renderOpptjening(false);
 
-        expect(within(arbeidsvilkår()).getByText('Opptjening fra 01.01.2023 (120 dager)')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('Opptjening fra')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('01.01.2023 (120 dager)')).toBeVisible();
     });
 
     it('skjuler vurder vilkår-knappen når vi ikke er i utvikling', async () => {
@@ -215,7 +216,8 @@ describe('Opptjening', () => {
     it('viser grunnlagsdata for automatisk vurdering', async () => {
         renderOpptjening(true);
 
-        expect(within(arbeidsvilkår()).getByText('Opptjening fra 01.01.2023 (120 dager)')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('Opptjening fra')).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('01.01.2023 (120 dager)')).toBeVisible();
         expect(within(arbeidsvilkår()).getByText(/Vurdert automatisk/, { selector: 'span' })).toBeVisible();
     });
 

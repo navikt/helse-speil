@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import { HStack, VStack } from '@navikt/ds-react';
+
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Vurdering } from '@io/graphql';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -7,8 +9,6 @@ import { somPenger } from '@utils/locale';
 
 import { EndretParagrafContainer } from './EndretParagrafContainer';
 import { VilkårsutfallKort, utfallForOppfylt } from './VilkårsutfallKort';
-
-import styles from './vilkår.module.css';
 
 interface SykepengegrunnlagVilkårProps {
     oppfylt: boolean | null;
@@ -50,12 +50,17 @@ export const SykepengegrunnlagVilkår = ({
             vurdertTagTekst={vurdertTagTekst}
         >
             {sykepengegrunnlag !== undefined && grunnbeløp !== undefined && (
-                <div className={styles.grid}>
-                    <span>Sykepengegrunnlaget</span>
-                    <span>{sykepengegrunnlag ? somPenger(sykepengegrunnlag) : 'Ikke funnet'}</span>
-                    <span>{alderVedSkjæringstidspunkt >= 67 ? '2G er' : '0,5G er'}</span>
-                    <span>{somPenger(alderVedSkjæringstidspunkt >= 67 ? grunnbeløp * 2 : grunnbeløp / 2)}</span>
-                </div>
+                <VStack gap="space-4">
+                    <HStack gap="space-56">
+                        <span>Sykepengegrunnlaget</span>
+                        <span>{sykepengegrunnlag ? somPenger(sykepengegrunnlag) : 'Ikke funnet'}</span>
+                    </HStack>
+                    <span>
+                        {alderVedSkjæringstidspunkt >= 67
+                            ? `2G er ${somPenger(grunnbeløp * 2)}`
+                            : `0,5G er ${somPenger(grunnbeløp / 2)}`}
+                    </span>
+                </VStack>
             )}
         </VilkårsutfallKort>
     );

@@ -134,9 +134,12 @@ const Vurderingsdetaljer = ({ vurdering }: VurderingsdetaljerProps): ReactElemen
             {arbeidsforholdgrunnlag && (
                 <VStack gap="space-4">
                     {opptjeningsgrunnlag && (
-                        <BodyShort>
-                            {`Opptjening fra ${somNorskDato(opptjeningsgrunnlag.fom) ?? 'ukjent'} (${opptjeningsgrunnlag.opptjeningsdager} dager)`}
-                        </BodyShort>
+                        <HStack gap="space-24">
+                            <BodyShort>Opptjening fra</BodyShort>
+                            <BodyShort>
+                                {`${somNorskDato(opptjeningsgrunnlag.fom) ?? 'ukjent'} (${opptjeningsgrunnlag.opptjeningsdager} dager)`}
+                            </BodyShort>
+                        </HStack>
                     )}
                     <ArbeidsforholdIGrunnlaget arbeidsforhold={arbeidsforholdgrunnlag.arbeidsforhold} />
                 </VStack>
