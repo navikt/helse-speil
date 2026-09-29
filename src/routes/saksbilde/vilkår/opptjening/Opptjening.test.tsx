@@ -227,10 +227,7 @@ describe('Opptjening', () => {
         await startVurdering();
 
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
-        await userEvent.type(
-            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
-            'Har likestilt ytelse',
-        );
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Har likestilt ytelse');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(mutate).toHaveBeenCalledWith({
@@ -251,10 +248,7 @@ describe('Opptjening', () => {
         await startVurdering();
 
         await userEvent.click(screen.getByRole('radio', { name: 'Ikke oppfylt' }));
-        await userEvent.type(
-            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
-            'Mangler opptjening',
-        );
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Mangler opptjening');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(mutate).toHaveBeenCalledWith({
@@ -275,10 +269,7 @@ describe('Opptjening', () => {
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '12345');
-        await userEvent.type(
-            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
-            'Dokumentert via vedtak',
-        );
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(mutate).toHaveBeenCalledWith({
@@ -299,10 +290,7 @@ describe('Opptjening', () => {
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), 'JP-123');
-        await userEvent.type(
-            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
-            'Dokumentert via vedtak',
-        );
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(await screen.findByText('Dokument-ID må være 1 til 11 siffer')).toBeVisible();
@@ -315,10 +303,7 @@ describe('Opptjening', () => {
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '123456789012');
-        await userEvent.type(
-            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
-            'Dokumentert via vedtak',
-        );
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(await screen.findByText('Dokument-ID må være 1 til 11 siffer')).toBeVisible();
@@ -373,10 +358,7 @@ describe('Opptjening', () => {
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '12345');
-        await userEvent.type(
-            screen.getByRole('textbox', { name: /Begrunnelse for vurderingen/ }),
-            'Dokumentert via vedtak',
-        );
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(await within(arbeidsvilkår()).findByText('Dokument-ID')).toBeVisible();
