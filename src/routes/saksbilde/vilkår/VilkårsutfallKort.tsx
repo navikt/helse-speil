@@ -1,117 +1,42 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { PropsWithChildren, ReactElement, ReactNode, useId } from 'react';
 
-import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
-import { BodyShort, HStack, Heading, Spacer, Tag, VStack } from '@navikt/ds-react';
+import { HStack, Heading, VStack } from '@navikt/ds-react';
 
-export type VilkårsutfallKortUtfall = 'Oppfylt' | 'IkkeOppfylt' | 'IkkeVurdert';
-
-export const utfallForOppfylt = (oppfylt: boolean | null): VilkårsutfallKortUtfall =>
-    oppfylt === true ? 'Oppfylt' : oppfylt === false ? 'IkkeOppfylt' : 'IkkeVurdert';
-
-const utfallstekst = (utfall: VilkårsutfallKortUtfall): string => {
-    switch (utfall) {
-        case 'Oppfylt':
-            return 'Oppfylt';
-        case 'IkkeOppfylt':
-            return 'Ikke oppfylt';
-        case 'IkkeVurdert':
-            return 'Ikke vurdert';
-    }
-};
-
-const utfallTagVariant = (utfall: VilkårsutfallKortUtfall): 'neutral' | 'error' | 'warning' => {
-    switch (utfall) {
-        case 'Oppfylt':
-            return 'neutral';
-        case 'IkkeOppfylt':
-            return 'error';
-        case 'IkkeVurdert':
-            return 'warning';
-    }
-};
-
-interface VilkårsutfallIkonProps {
-    utfall: VilkårsutfallKortUtfall;
-}
-
-export const VilkårsutfallIkon = ({ utfall }: VilkårsutfallIkonProps): ReactElement => {
-    switch (utfall) {
-        case 'Oppfylt':
-            return (
-                <CheckmarkCircleFillIcon title="Oppfylt" className="text-ax-text-success-decoration" fontSize="24" />
-            );
-        case 'IkkeOppfylt':
-            return (
-                <XMarkOctagonFillIcon title="Ikke oppfylt" className="text-ax-text-danger-decoration" fontSize="24" />
-            );
-        case 'IkkeVurdert':
-            return (
-                <ExclamationmarkTriangleFillIcon
-                    title="Ikke vurdert"
-                    className="text-ax-text-warning-decoration"
-                    fontSize="24"
-                />
-            );
-    }
-};
+import { Vilkårsutfall, VilkårsutfallIkon, VilkårsutfallTag } from './vilkårsutfall';
 
 interface VilkårsutfallKortProps {
-    titleId: string;
     tittel: ReactNode;
     paragraf?: ReactNode;
-    utfall: VilkårsutfallKortUtfall;
-    vurdertTagTekst?: string;
-    erAvgjørende?: boolean;
-    visVurderVilkårKnapp?: boolean;
-    onVurderVilkår?: () => void;
-    testId?: string;
-    children?: ReactNode;
+    utfall: Vilkårsutfall;
+    vurdertTekst?: string;
 }
 
-export const VilkårsutfallKort = ({
-    titleId,
+export function VilkårsutfallKort({
     tittel,
     paragraf,
     utfall,
-    vurdertTagTekst,
-    erAvgjørende,
-    visVurderVilkårKnapp = false,
-    onVurderVilkår,
-    testId,
+    vurdertTekst,
     children,
-}: VilkårsutfallKortProps): ReactElement => (
-    <VStack gap="space-16" data-testid={testId} className="w-full pt-6 not-last:pb-6">
-        <HStack gap="space-8" className="gap-3.5" align="center" wrap={false}>
-            <span className="flex shrink-0 items-center justify-center">
-                <VilkårsutfallIkon utfall={utfall} />
-            </span>
-            <Heading id={titleId} level="3" size="xsmall">
-                {tittel}
-            </Heading>
-            {paragraf}
-            <Spacer />
-            {visVurderVilkårKnapp && (
-                <button
-                    type="button"
-                    className="shrink-0 cursor-pointer rounded border-2 border-ax-border-accent bg-transparent px-3 py-1.5 text-sm font-semibold text-ax-text-accent-decoration hover:bg-ax-bg-accent-moderate"
-                    onClick={onVurderVilkår}
-                >
-                    Vurder vilkår
-                </button>
-            )}
-        </HStack>
-        <VStack gap="space-8" className="pl-9.5">
-            <HStack gap="space-8" align="center">
-                <Tag size="xsmall" variant={utfallTagVariant(utfall)}>
-                    {vurdertTagTekst ?? utfallstekst(utfall)}
-                </Tag>
-                {erAvgjørende !== undefined && (
-                    <Tag size="xsmall" variant="info">
-                        {erAvgjørende ? 'Avgjørende vilkår' : 'Ikke avgjørende vilkår'}
-                    </Tag>
-                )}
+}: PropsWithChildren<VilkårsutfallKortProps>): ReactElement {
+    const tittelId = useId();
+
+    return (
+        <VStack as="section" aria-labelledby={tittelId} gap="space-16" className="w-full pt-6 not-last:pb-6">
+            <HStack gap="space-12" align="center" wrap={false}>
+                <span className="flex shrink-0 items-center justify-center">
+                    <VilkårsutfallIkon utfall={utfall} />
+                </span>
+                <Heading id={tittelId} level="3" size="xsmall">
+                    {tittel}
+                </Heading>
+                {paragraf}
             </HStack>
-            {children && <BodyShort as="div">{children}</BodyShort>}
+            <VStack gap="space-8" className="pl-9">
+                <HStack gap="space-8" align="center">
+                    <VilkårsutfallTag utfall={utfall}>{vurdertTekst}</VilkårsutfallTag>
+                </HStack>
+                {children}
+            </VStack>
         </VStack>
-    </VStack>
-);
+    );
+}

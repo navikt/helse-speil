@@ -8,14 +8,13 @@ import {
     ApiVilkårsvurderingerForPersonResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
-
-export type Opptjeningsstatus = 'IkkeVurdert' | 'VurdertOk' | 'VurdertIkkeOk';
+import { Vilkårsutfall, utfallFraOppfylt } from '@saksbilde/vilkår/vilkårsutfall';
 
 export interface Opptjeningsvurdering {
     data?: ApiVilkårsvurderingerForPersonResponse;
     isLoading: boolean;
     isError: boolean;
-    status: Opptjeningsstatus;
+    utfall: Vilkårsutfall;
     vurderingFor: (vilkårskode: ApiVilkårskode) => ApiVilkårsvurdering | undefined;
     avgjørendeVilkårskode?: ApiVilkårskode;
     onOverstyrt: (opptjeningsvurderingId: string) => void;
@@ -35,7 +34,7 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
         data,
         isLoading,
         isError,
-        status: krav === undefined ? 'IkkeVurdert' : krav.opptjeningOk ? 'VurdertOk' : 'VurdertIkkeOk',
+        utfall: utfallFraOppfylt(krav?.opptjeningOk),
         vurderingFor: (vilkårskode) => vurderinger.find((it) => it.vilkårskode === vilkårskode),
         avgjørendeVilkårskode: avgjørendeVilkårskodeFor(krav),
         onOverstyrt: setOverstyrtOpptjeningsvurderingId,

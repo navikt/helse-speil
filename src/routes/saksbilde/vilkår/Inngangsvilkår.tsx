@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useState } from 'react';
 
 import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
@@ -12,13 +12,12 @@ import {
     PersonFragment,
     VilkarsgrunnlagInfotrygdV2,
     VilkarsgrunnlagSpleisV2,
-    VilkarsgrunnlagVurdering,
     Vurdering,
 } from '@io/graphql';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
-import { getFormattedDateString } from '@utils/date';
+import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 
 import { MedlemskapVilkår } from './MedlemskapVilkår';
 import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
@@ -60,8 +59,7 @@ export function InngangsvilkårWithContent({
     const [aktivtVilkår, setAktivtVilkår] = useState<ManueltVurderbarVilkårskode | null>(null);
     const skjæringstidspunkt = opptjeningsvurdering.data?.skjæringstidspunkt;
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
-    const vurdertIInfotrygd = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2';
-    const spleisgrunnlag = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' ? vilkårsgrunnlag : undefined;
+    const vurdertTekst = vurdertTekstFor(vilkårsgrunnlag, vurdering);
 
     return (
         <Box paddingBlock="space-32 space-64" paddingInline="space-24">
@@ -83,39 +81,24 @@ export function InngangsvilkårWithContent({
                             onVurder={setAktivtVilkår}
                         />
                         <SykepengegrunnlagVilkår
-                            oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}
-                            sykepengegrunnlag={spleisgrunnlag?.sykepengegrunnlag}
-                            grunnbeløp={spleisgrunnlag?.grunnbelop}
+                            vilkårsgrunnlag={vilkårsgrunnlag}
                             alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
-                            vurdertIInfotrygd={vurdertIInfotrygd}
-                            vurdering={vurdering}
+                            vurdertTekst={vurdertTekst}
                         />
-                        <MedlemskapVilkår
-                            oppfylt={medlemskapOppfylt(vilkårsgrunnlag)}
-                            vurdertIInfotrygd={vurdertIInfotrygd}
-                            vurdering={vurdering}
-                        />
+                        <MedlemskapVilkår vilkårsgrunnlag={vilkårsgrunnlag} vurdertTekst={vurdertTekst} />
                     </VStack>
                     {aktivtVilkår !== null && skjæringstidspunkt !== undefined && (
-                        <>
-                            <span className="inline-block self-stretch border-r-[3px] border-ax-border-accent-strong" />
-                            <Box
-                                className="w-130 min-w-130 self-stretch"
-                                background="accent-soft"
-                                paddingBlock="space-32 space-64"
-                                paddingInline="space-32"
-                            >
-                                <ManuellVurderingAvVilkårSkjema
-                                    key={aktivtVilkår}
-                                    personPseudoId={personPseudoId}
-                                    skjæringstidspunkt={skjæringstidspunkt}
-                                    vilkårskode={aktivtVilkår}
-                                    eksisterendeUtfall={opptjeningsvurdering.vurderingFor(aktivtVilkår)?.utfall}
-                                    onOverstyrt={opptjeningsvurdering.onOverstyrt}
-                                    onLukk={() => setAktivtVilkår(null)}
-                                />
-                            </Box>
-                        </>
+                        <Vurderingspanel>
+                            <ManuellVurderingAvVilkårSkjema
+                                key={aktivtVilkår}
+                                personPseudoId={personPseudoId}
+                                skjæringstidspunkt={skjæringstidspunkt}
+                                vilkårskode={aktivtVilkår}
+                                eksisterendeUtfall={opptjeningsvurdering.vurderingFor(aktivtVilkår)?.utfall}
+                                onOverstyrt={opptjeningsvurdering.onOverstyrt}
+                                onLukk={() => setAktivtVilkår(null)}
+                            />
+                        </Vurderingspanel>
                     )}
                 </HStack>
             </VStack>
@@ -158,23 +141,34 @@ function InngangsvilkårError(): ReactElement {
     );
 }
 
-function sykepengegrunnlagOppfylt(vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2): boolean {
-    return vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' ? vilkårsgrunnlag.oppfyllerKravOmMinstelonn : true;
+function Vurderingspanel({ children }: PropsWithChildren): ReactElement {
+    return (
+        <>
+            <span className="inline-block self-stretch border-r-[3px] border-ax-border-accent-strong" />
+            <Box
+                className="w-130 min-w-130 self-stretch"
+                background="accent-soft"
+                paddingBlock="space-32 space-64"
+                paddingInline="space-32"
+            >
+                {children}
+            </Box>
+        </>
+    );
 }
 
-function medlemskapOppfylt(vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2): boolean | null {
-    return vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
-        ? medlemskapVurderingTilOppfylt(vilkårsgrunnlag.vurderingAvKravOmMedlemskap)
-        : true;
-}
-
-function medlemskapVurderingTilOppfylt(vurdering: VilkarsgrunnlagVurdering): boolean | null {
-    switch (vurdering) {
-        case VilkarsgrunnlagVurdering.Oppfylt:
-            return true;
-        case VilkarsgrunnlagVurdering.IkkeOppfylt:
-            return false;
-        case VilkarsgrunnlagVurdering.IkkeVurdert:
-            return null;
+function vurdertTekstFor(
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
+    vurdering?: Vurdering | null,
+): string | undefined {
+    if (vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2') {
+        return 'Vurdert i Infotrygd';
     }
+    if (!vurdering) {
+        return undefined;
+    }
+
+    const tidspunkt = getFormattedDatetimeString(vurdering.tidsstempel);
+
+    return vurdering.automatisk ? `Vurdert automatisk ${tidspunkt}` : `Vurdert ${tidspunkt} – ${vurdering.ident}`;
 }

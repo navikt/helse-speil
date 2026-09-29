@@ -67,13 +67,13 @@ describe('Inngangsvilkår', () => {
             />,
         );
 
-        expect(screen.getByTestId('opptjening')).toBeVisible();
+        expect(screen.getByRole('region', { name: 'Opptjeningstid' })).toBeVisible();
 
-        const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+        const sykepengegrunnlag = screen.getByRole('region', { name: 'Krav til minste sykepengegrunnlag' });
         expect(within(sykepengegrunnlag).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
         expect(within(sykepengegrunnlag).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
 
-        const medlemskap = screen.getByTestId('medlemskap');
+        const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
         expect(within(medlemskap).getByText('Lovvalg og medlemskap')).toBeVisible();
         expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
     });
@@ -90,10 +90,10 @@ describe('Inngangsvilkår', () => {
             />,
         );
 
-        const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+        const sykepengegrunnlag = screen.getByRole('region', { name: 'Krav til minste sykepengegrunnlag' });
         expect(within(sykepengegrunnlag).getByText('Ikke oppfylt', { selector: '.aksel-tag' })).toBeVisible();
 
-        const medlemskap = screen.getByTestId('medlemskap');
+        const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
         expect(within(medlemskap).getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
     });
 
@@ -106,10 +106,10 @@ describe('Inngangsvilkår', () => {
             />,
         );
 
-        const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+        const sykepengegrunnlag = screen.getByRole('region', { name: 'Krav til minste sykepengegrunnlag' });
         expect(within(sykepengegrunnlag).getByText('Vurdert i Infotrygd')).toBeVisible();
 
-        const medlemskap = screen.getByTestId('medlemskap');
+        const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
         expect(within(medlemskap).getByText('Vurdert i Infotrygd')).toBeVisible();
     });
 });

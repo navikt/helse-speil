@@ -1,15 +1,15 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useId } from 'react';
 
-import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { Alert, HStack, Heading, Loader, Skeleton, VStack } from '@navikt/ds-react';
 
 import {
     ManueltVurderbarVilkårskode,
     manueltVurderbareVilkårskoder,
 } from '@form-schemas/manuellVurderingAvVilkårSkjema';
+import { VilkårsutfallIkon } from '@saksbilde/vilkår/vilkårsutfall';
 
 import { OpptjeningVilkårsrad } from './OpptjeningVilkårsrad';
-import { Opptjeningsstatus, Opptjeningsvurdering } from './useOpptjeningsvurdering';
+import { Opptjeningsvurdering } from './useOpptjeningsvurdering';
 
 interface OpptjeningProps {
     opptjeningsvurdering: Opptjeningsvurdering;
@@ -19,19 +19,20 @@ interface OpptjeningProps {
 }
 
 export function Opptjening({ opptjeningsvurdering, readOnly, aktivtVilkår, onVurder }: OpptjeningProps): ReactElement {
-    const { data, isLoading, isError, status, vurderingFor, avgjørendeVilkårskode } = opptjeningsvurdering;
+    const { data, isLoading, isError, utfall, vurderingFor, avgjørendeVilkårskode } = opptjeningsvurdering;
+    const tittelId = useId();
 
     return (
-        <VStack gap="space-16" data-testid="opptjening" className="w-full">
-            <HStack align="center" gap="space-16">
+        <VStack as="section" aria-labelledby={tittelId} gap="space-16" className="w-full">
+            <HStack align="center" gap="space-12">
                 {isLoading ? (
                     <Loader size="medium" title="Henter opptjeningsvurdering" />
                 ) : (
                     <span className="flex shrink-0 items-center justify-center">
-                        <OpptjeningsgruppeIkon status={status} />
+                        <VilkårsutfallIkon utfall={utfall} />
                     </span>
                 )}
-                <Heading level="3" size="xsmall">
+                <Heading id={tittelId} level="3" size="xsmall">
                     Opptjeningstid
                 </Heading>
             </HStack>
@@ -64,25 +65,4 @@ export function Opptjening({ opptjeningsvurdering, readOnly, aktivtVilkår, onVu
             </VStack>
         </VStack>
     );
-}
-
-function OpptjeningsgruppeIkon({ status }: { status: Opptjeningsstatus }): ReactElement {
-    switch (status) {
-        case 'IkkeVurdert':
-            return (
-                <ExclamationmarkTriangleFillIcon
-                    title="Ikke vurdert"
-                    className="text-ax-text-warning-decoration"
-                    fontSize="24"
-                />
-            );
-        case 'VurdertOk':
-            return (
-                <CheckmarkCircleFillIcon title="Oppfylt" className="text-ax-text-success-decoration" fontSize="24" />
-            );
-        case 'VurdertIkkeOk':
-            return (
-                <XMarkOctagonFillIcon title="Ikke oppfylt" className="text-ax-text-danger-decoration" fontSize="24" />
-            );
-    }
 }

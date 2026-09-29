@@ -153,7 +153,7 @@ const mockVilkårsvurderinger = (
     });
 };
 
-const arbeidsvilkår = () => screen.getByTestId(`opptjeningsvilkår-${ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}`);
+const arbeidsvilkår = () => screen.getByRole('listitem', { name: 'Arbeid i minst 4 uker' });
 
 const vilkårsgrunnlag: VilkarsgrunnlagInfotrygdV2 = {
     __typename: 'VilkarsgrunnlagInfotrygdV2',

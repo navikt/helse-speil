@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
+import React, { PropsWithChildren, ReactElement, useId } from 'react';
 
 import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
@@ -6,13 +6,13 @@ import { BodyShort, Button, HStack, Spacer, Tag, VStack } from '@navikt/ds-react
 import { erUtvikling } from '@/env';
 import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import {
-    ApiUtfall,
     ApiVilkårsvurdering,
     ApiVurderingsgrunnlag,
     ApiVurderingsgrunnlagArbeidsforhold,
     ApiVurderingskilde,
     ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/vilkarsproving.schemas';
+import { Vilkårsutfall, VilkårsutfallTag, utfallFraApi } from '@saksbilde/vilkår/vilkårsutfall';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -30,12 +30,14 @@ interface OpptjeningVilkårsradProps {
 export function OpptjeningVilkårsrad({
     vilkårskode,
     vurdering,
+    erAvgjørende,
     readOnly,
     erAktiv,
     onVurder,
 }: OpptjeningVilkårsradProps): ReactElement {
     const vilkårsnavn = vilkårskodeLabels[vilkårskode];
-    const titleId = `opptjeningsvilkår-tittel-${vilkårskode}`;
+    const utfall = utfallFraApi(vurdering?.utfall);
+    const navnId = useId();
 
     return (
         <VStack
@@ -43,16 +45,16 @@ export function OpptjeningVilkårsrad({
             gap="space-8"
             paddingBlock="space-16"
             paddingInline="space-16 space-32"
-            data-testid={`opptjeningsvilkår-${vilkårskode}`}
+            aria-labelledby={navnId}
             className={cn('z-10 -mr-[3px] border-b-ax-border-neutral-subtle not-last:border-b', {
                 'bg-ax-bg-accent-soft': erAktiv,
             })}
         >
             <HStack gap="space-8" align="center" wrap={false}>
                 <span className="flex w-6 shrink-0 items-center justify-center">
-                    <Utfallsikon utfall={vurdering?.utfall} />
+                    <Utfallsikon utfall={utfall} />
                 </span>
-                <BodyShort id={titleId} weight="semibold">
+                <BodyShort id={navnId} weight="semibold">
                     {vilkårsnavn}
                 </BodyShort>
                 <Spacer />
@@ -64,8 +66,9 @@ export function OpptjeningVilkårsrad({
             </HStack>
             <VStack gap="space-8">
                 <HStack gap="space-8" align="center">
-                    <Tag size="xsmall" variant={utfallTagVariant(vurdering?.utfall)}>
-                        {vurdertTagTekst(vurdering)}
+                    <VilkårsutfallTag utfall={utfall}>{vurdertTekst(vurdering)}</VilkårsutfallTag>
+                    <Tag size="xsmall" variant="outline" data-color="info">
+                        {erAvgjørende ? 'Avgjørende vilkår' : 'Ikke avgjørende vilkår'}
                     </Tag>
                 </HStack>
                 {vurdering && <Vurderingsdetaljer vurdering={vurdering} />}
@@ -124,20 +127,20 @@ function Detaljrad({ label, children }: PropsWithChildren<{ label: string }>): R
     );
 }
 
-function Utfallsikon({ utfall }: { utfall?: ApiUtfall }): ReactElement {
+function Utfallsikon({ utfall }: { utfall: Vilkårsutfall }): ReactElement {
     switch (utfall) {
-        case ApiUtfall.OPPFYLT:
-            return <CheckmarkCircleIcon title="Vurdert automatisk" className="text-ax-text-neutral" fontSize="24" />;
-        case ApiUtfall.IKKE_OPPFYLT:
+        case 'Oppfylt':
+            return <CheckmarkCircleIcon title="Oppfylt" className="text-ax-text-neutral" fontSize="24" />;
+        case 'IkkeOppfylt':
             return <XMarkOctagonIcon title="Ikke oppfylt" className="text-ax-text-neutral" fontSize="24" />;
-        default:
+        case 'IkkeVurdert':
             return <ExclamationmarkTriangleIcon title="Ikke vurdert" className="text-ax-text-neutral" fontSize="24" />;
     }
 }
 
-function vurdertTagTekst(vurdering?: ApiVilkårsvurdering): string {
-    if (!vurdering || !vurdering.vurdertTidspunkt) {
-        return utfallstekst(vurdering?.utfall);
+function vurdertTekst(vurdering?: ApiVilkårsvurdering): string | undefined {
+    if (!vurdering?.vurdertTidspunkt) {
+        return undefined;
     }
 
     const tidspunkt = getFormattedDatetimeString(vurdering.vurdertTidspunkt);
@@ -145,28 +148,6 @@ function vurdertTagTekst(vurdering?: ApiVilkårsvurdering): string {
     return erSaksbehandlerkilde(vurdering.kilde)
         ? `Vurdert ${tidspunkt} – ${vurdering.kilde.ident}`
         : `Vurdert automatisk ${tidspunkt}`;
-}
-
-function utfallstekst(utfall?: ApiUtfall): string {
-    switch (utfall) {
-        case ApiUtfall.OPPFYLT:
-            return 'Oppfylt';
-        case ApiUtfall.IKKE_OPPFYLT:
-            return 'Ikke oppfylt';
-        default:
-            return 'Ikke vurdert';
-    }
-}
-
-function utfallTagVariant(utfall?: ApiUtfall): 'neutral' | 'error' | 'warning' {
-    switch (utfall) {
-        case ApiUtfall.OPPFYLT:
-            return 'neutral';
-        case ApiUtfall.IKKE_OPPFYLT:
-            return 'error';
-        default:
-            return 'warning';
-    }
 }
 
 function opptjeningsgrunnlagFor(

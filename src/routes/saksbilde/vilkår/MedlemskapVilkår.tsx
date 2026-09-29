@@ -1,34 +1,36 @@
 import React, { ReactElement } from 'react';
 
-import { Vurdering } from '@io/graphql';
-import { getFormattedDatetimeString } from '@utils/date';
+import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering } from '@io/graphql';
 
-import { VilkårsutfallKort, utfallForOppfylt } from './VilkårsutfallKort';
+import { VilkårsutfallKort } from './VilkårsutfallKort';
+import { utfallFraOppfylt } from './vilkårsutfall';
 
 interface MedlemskapVilkårProps {
-    oppfylt: boolean | null;
-    vurdertIInfotrygd: boolean;
-    vurdering?: Vurdering | null;
+    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
+    vurdertTekst?: string;
 }
 
-export const MedlemskapVilkår = ({ oppfylt, vurdertIInfotrygd, vurdering }: MedlemskapVilkårProps): ReactElement => {
-    const utfall = utfallForOppfylt(oppfylt);
-
-    const vurdertTagTekst = vurdertIInfotrygd
-        ? 'Vurdert i Infotrygd'
-        : vurdering?.automatisk
-          ? `Vurdert automatisk ${getFormattedDatetimeString(vurdering.tidsstempel)}`
-          : vurdering
-            ? `Vurdert ${getFormattedDatetimeString(vurdering.tidsstempel)} – ${vurdering.ident}`
-            : undefined;
-
+export function MedlemskapVilkår({ vilkårsgrunnlag, vurdertTekst }: MedlemskapVilkårProps): ReactElement {
     return (
         <VilkårsutfallKort
-            titleId="medlemskap-tittel"
-            testId="medlemskap"
             tittel="Lovvalg og medlemskap"
-            utfall={utfall}
-            vurdertTagTekst={vurdertTagTekst}
+            utfall={utfallFraOppfylt(medlemskapOppfylt(vilkårsgrunnlag))}
+            vurdertTekst={vurdertTekst}
         />
     );
-};
+}
+
+function medlemskapOppfylt(vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2): boolean | null {
+    if (vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2') {
+        return true;
+    }
+
+    switch (vilkårsgrunnlag.vurderingAvKravOmMedlemskap) {
+        case VilkarsgrunnlagVurdering.Oppfylt:
+            return true;
+        case VilkarsgrunnlagVurdering.IkkeOppfylt:
+            return false;
+        case VilkarsgrunnlagVurdering.IkkeVurdert:
+            return null;
+    }
+}
