@@ -206,7 +206,7 @@ function VurderingspanelContent({
 
     return (
         <HStack wrap={false} gap="space-0" align="start">
-            <VStack className="min-w-160 divide-y divide-ax-border-neutral-strong">
+            <VStack className="min-w-164 divide-y divide-ax-border-neutral-strong">
                 <div className="first:pt-0 last:pb-0">{opptjening}</div>
                 <div className="py-6 first:pt-0 last:pb-0">
                     <SykepengegrunnlagVilkår
@@ -237,7 +237,7 @@ function VurderingspanelContent({
             {innhold && <span className="inline-block self-stretch border-r-[3px] border-ax-border-accent-strong" />}
             {innhold && (
                 <Box
-                    className="w-[522px] min-w-[522px]"
+                    className="w-130 min-w-130"
                     background="accent-soft"
                     paddingBlock="space-32 space-64"
                     paddingInline="space-32"
