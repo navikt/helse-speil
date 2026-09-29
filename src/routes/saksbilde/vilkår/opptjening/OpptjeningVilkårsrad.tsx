@@ -172,7 +172,7 @@ export const OpptjeningVilkårsrad = ({
             as="li"
             gap="space-8"
             paddingBlock="space-16"
-            paddingInline="space-16"
+            paddingInline="space-16 space-32"
             data-testid={`opptjeningsvilkår-${vilkårskode}`}
             className={cn('z-10 -mr-[3px] border-b-ax-border-neutral-subtle not-last:border-b', {
                 'bg-ax-bg-accent-soft': aktivNøkkel === vilkårskode,

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
-import { Alert, BodyShort, HStack, Heading, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
@@ -37,8 +37,6 @@ import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
 import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
 
-import styles from './Inngangsvilkår.module.css';
-
 const harVilkår = (vilkår?: Vilkårdata[]): vilkår is Vilkårdata[] =>
     vilkår !== undefined && vilkår !== null && vilkår.length > 0;
 
@@ -68,7 +66,7 @@ export const InngangsvilkårWithContent = ({
 
         return (
             <VurderingspanelProvider>
-                <div className={styles.Inngangsvilkår}>
+                <Box paddingBlock="space-32 space-64" paddingInline="space-24">
                     <VStack gap="space-16">
                         <VStack gap="space-4">
                             <BodyShort spacing>
@@ -86,7 +84,7 @@ export const InngangsvilkårWithContent = ({
                             vurdering={vurdering}
                         />
                     </VStack>
-                </div>
+                </Box>
             </VurderingspanelProvider>
         );
     }
@@ -106,17 +104,17 @@ export const InngangsvilkårWithContent = ({
     const harAlleredeVurderteVilkår = harVilkår(vilkårVurdertISpleis) || harVilkår(vilkårVurdertIInfotrygd);
 
     return (
-        <div className={styles.Inngangsvilkår}>
+        <Box paddingBlock="space-32 space-64" paddingInline="space-24">
             {opptjening}
             {harBehandledeVilkår && (
-                <div className={styles.Flex}>
+                <HStack wrap={false} gap="space-16">
                     {harVilkår(ikkeVurderteVilkår) && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår} />}
                     {harVilkår(ikkeOppfylteVilkår) && <IkkeOppfylteVilkår vilkår={ikkeOppfylteVilkår} />}
                     {harVilkår(oppfylteVilkår) && <OppfylteVilkår vilkår={oppfylteVilkår} />}
-                </div>
+                </HStack>
             )}
             {harAlleredeVurderteVilkår && (
-                <div className={styles.VurderteVilkår}>
+                <VStack className="w-max">
                     {harVilkår(vilkårVurdertISpleis) && vurdering && (
                         <VurdertISpleis
                             vilkår={vilkårVurdertISpleis}
@@ -127,9 +125,9 @@ export const InngangsvilkårWithContent = ({
                         />
                     )}
                     {harVilkår(vilkårVurdertIInfotrygd) && <VurdertIInfotrygd vilkår={vilkårVurdertIInfotrygd} />}
-                </div>
+                </VStack>
             )}
-        </div>
+        </Box>
     );
 };
 
@@ -236,10 +234,17 @@ function VurderingspanelContent({
                     />
                 </div>
             </VStack>
-            {innhold && <span className={styles.strek} />}
-            <div className={styles.vurderingspanel}>
-                {innhold && <div className={styles.vurderingspanelAktiv}>{innhold}</div>}
-            </div>
+            {innhold && <span className="inline-block self-stretch border-r-[3px] border-ax-border-accent-strong" />}
+            {innhold && (
+                <Box
+                    className="w-[522px] min-w-[522px]"
+                    background="accent-soft"
+                    paddingBlock="space-32 space-64"
+                    paddingInline="space-32"
+                >
+                    {innhold}
+                </Box>
+            )}
         </HStack>
     );
 }
