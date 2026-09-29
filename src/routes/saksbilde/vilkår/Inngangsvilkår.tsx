@@ -17,7 +17,6 @@ import {
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { OppfylteVilkår } from '@saksbilde/vilkår/vilkårsgrupper/OppfylteVilkår';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useNyOpptjeningVisning } from '@state/toggles';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { Vilkårdata } from '@typer/vilkår';
@@ -135,7 +134,6 @@ interface InngangsvilkårContainerProps {
 
 const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerProps): ReactElement | null => {
     const inntektsforhold = useAktivtInntektsforhold(person);
-    const nyOpptjeningVisning = useNyOpptjeningVisning();
     const readOnly = useIsReadOnlyOppgave(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
@@ -153,7 +151,7 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
             periodeFom={periode.fom}
             vilkårsgrunnlag={vilkårsgrunnlag}
             fødselsdato={apiPerson.fødselsdato}
-            opptjening={nyOpptjeningVisning ? { personPseudoId, opptjeningsvurderingId, readOnly } : null}
+            opptjening={{ personPseudoId, opptjeningsvurderingId, readOnly }}
         />
     );
 };
