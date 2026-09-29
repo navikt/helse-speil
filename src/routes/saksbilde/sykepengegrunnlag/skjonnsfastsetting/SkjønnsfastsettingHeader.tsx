@@ -6,13 +6,13 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
     BeregnetPeriodeFragment,
     PersonFragment,
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
+import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { EndringsloggSkjønnsfastsettingButton } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/EndringsloggSkjønnsfastsettingButton';
 import {
     InntektsforholdReferanse,
@@ -32,7 +32,7 @@ interface SkjønnsfastsettingHeaderProps {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     editing: boolean;
     openForm: () => void;
-    maler: SkjønnsfastsettingMal[] | undefined;
+    maler: SkjonnsfastsettelseMalerQueryResult | undefined;
     malerError: string | undefined;
     organisasjonsnummer: string;
     closeAndResetForm: () => void;

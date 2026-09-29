@@ -2,7 +2,7 @@ import { createStore } from 'jotai';
 import React from 'react';
 import { Mock, vi } from 'vitest';
 
-import { SkjønnsfastsettingMal } from '@external/sanity';
+import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { SkjønnsfastsettingForm } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { usePostSkjønnsfastsattSykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { PersonStoreContext } from '@state/contexts/personStore';
@@ -59,6 +59,11 @@ describe('SkjønnsfastsettingForm', () => {
         begrunnelse: 'Testbegrunnelse med 25 % avvik',
         konklusjon: 'Testkonklusjon med 25 % avvik',
         lovhjemmel: {
+            _id: 'lovhjemmel-2',
+            _type: 'lovhjemmel' as const,
+            _createdAt: '',
+            _updatedAt: '',
+            _rev: '',
             ledd: '2',
             bokstav: 'bokstav',
             lovverk: 'lovverk',
@@ -74,6 +79,11 @@ describe('SkjønnsfastsettingForm', () => {
         begrunnelse: 'Testbegrunnelse',
         konklusjon: 'Testkonklusjon',
         lovhjemmel: {
+            _id: 'lovhjemmel-1',
+            _type: 'lovhjemmel' as const,
+            _createdAt: '',
+            _updatedAt: '',
+            _rev: '',
             ledd: 'ledd',
             bokstav: 'bokstav',
             lovverk: 'lovverk',
@@ -81,7 +91,7 @@ describe('SkjønnsfastsettingForm', () => {
             paragraf: 'paragraf',
         },
     };
-    const maler: SkjønnsfastsettingMal[] = [enMal, malMed25Avvik];
+    const maler: SkjonnsfastsettelseMalerQueryResult = [enMal, malMed25Avvik];
 
     beforeEach(() => {
         (usePostSkjønnsfastsattSykepengegrunnlag as Mock).mockReturnValue({

@@ -5,7 +5,7 @@ import { BodyShort, HelpText, Textarea, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { VisesIVedtakTag } from '@components/tags/VisesIVedtakTag';
-import { SkjønnsfastsettingMal } from '@external/sanity';
+import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { toKronerOgØre } from '@utils/locale';
 
 import { Skjønnsfastsettingstype } from '../skjønnsfastsetting';
@@ -16,7 +16,7 @@ import styles from './SkjønnsfastsettingBegrunnelse.module.scss';
 type SkjønnsfastsettingBegrunnelseProps = {
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
-    valgtMal: SkjønnsfastsettingMal | undefined;
+    valgtMal: SkjonnsfastsettelseMalerQueryResult[number] | undefined;
 };
 
 export const SkjønnsfastsettingBegrunnelse = ({

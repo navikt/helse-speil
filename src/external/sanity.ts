@@ -2,131 +2,17 @@ import dayjs from 'dayjs';
 
 import { erProd, erUtvikling } from '@/env';
 import { customAxios } from '@app/axios/axiosClient';
-import { PortableTextBlock } from '@portabletext/react';
+import {
+    ArsakerQueryResult,
+    DialogmeldingMalerQueryResult,
+    DriftsmeldingerQueryResult,
+    InformasjonsmeldingerQueryResult,
+    NyheterQueryResult,
+    SkjonnsfastsettelseMalerQueryResult,
+} from '@io/sanity/generated/sanity.types';
 import { useQuery } from '@tanstack/react-query';
-import { Lovhjemmel } from '@typer/overstyring';
-import { DateString } from '@typer/shared';
 
-export type ArbeidsforholdMal = 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE';
-
-export interface SkjønnsfastsettingMal {
-    _id: string;
-    begrunnelse: string;
-    konklusjon: string;
-    arsak: string;
-    iProd: boolean;
-    lovhjemmel: Lovhjemmel;
-    arbeidsforholdMal: ArbeidsforholdMal[];
-}
-
-export interface Driftsmelding {
-    _id: string;
-    _rev: string;
-    iProd: 'true' | 'false';
-    iDev: 'true' | 'false';
-    lost: 'true' | 'false';
-    statuser?: Driftsstatus[];
-    _updatedAt: DateString;
-    _createdAt: DateString;
-}
-
-/**
- * En status er en versjon av driftsmeldingen på et gitt tidspunkt. Kun den første statusen må være
- * komplett — senere statuser fyller bare ut det som har endret seg, og arver resten fra forrige status.
- */
-export interface Driftsstatus {
-    _key: string;
-    tidspunkt: DateString;
-    konsekvens?: string;
-    arsak?: string;
-    tiltak?: string;
-    oppdatering?: string;
-    cta?: string;
-}
-export interface Informasjonsmelding {
-    _id: string;
-    _rev: string;
-    iProd: 'true' | 'false';
-    iDev: 'true' | 'false';
-    tittel: string;
-    beskrivelse: string;
-    synligTil: DateString;
-    _updatedAt: DateString;
-    _createdAt: DateString;
-}
-
-export interface Arsaker {
-    _id: string;
-    arsaker: Arsak[];
-}
-
-export interface Arsak {
-    _key: string;
-    arsak: string;
-}
-
-export type NyhetType = {
-    _id: string;
-    _createdAt: string;
-    iProd: boolean;
-    tittel: string;
-    beskrivelse: PortableTextBlock[];
-    dato: DateString;
-    lenke: Lenke | null;
-    modal: NyhetModalType;
-};
-
-type Lenke = {
-    lenkeTekst: string;
-    lenkeUrl: string;
-};
-
-export type NyhetModalType = {
-    antallSlides: number;
-    tvungenModal: boolean;
-    modalOverskrift: string;
-    modalSlide1: NyhetModalSlide | null;
-    modalSlide2: NyhetModalSlide | null;
-    modalSlide3: NyhetModalSlide | null;
-};
-
-type NyhetModalSlide = {
-    slideOverskrift: string;
-    altTekst: string;
-    bildeUrl: string;
-    slideBeskrivelse: PortableTextBlock[];
-};
-
-export interface DialogmeldingMal {
-    _id: string;
-    tittel: string;
-    tekst: string;
-    iProd: boolean;
-}
-
-export type DialogmeldingMalerQueryResult = {
-    result: DialogmeldingMal[];
-};
-
-export type SkjønnsfastsettelseMalerQueryResult = {
-    result: SkjønnsfastsettingMal[];
-};
-
-export type DriftsmeldingerQueryResult = {
-    result: Driftsmelding[];
-};
-
-export type InformasjonsmeldingerQueryResult = {
-    result: Informasjonsmelding[];
-};
-
-export type ArsakerQueryResult = {
-    result: Arsaker[];
-};
-
-export type NyheterQueryResult = {
-    result: NyhetType[];
-};
+export type SanityResponse<T> = { result: T };
 
 export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, harFlereArbeidsgivere: boolean) {
     const {
@@ -135,7 +21,7 @@ export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, har
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'skjønnsfastsettelsesMaler'],
-        queryFn: async (): Promise<SkjønnsfastsettelseMalerQueryResult> =>
+        queryFn: async (): Promise<SanityResponse<SkjonnsfastsettelseMalerQueryResult>> =>
             (await customAxios.get('/api/sanity/skjonnsfastsettelse-maler')).data,
         staleTime: Infinity,
         gcTime: 0,
@@ -164,7 +50,7 @@ export function useDriftsmelding() {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'driftsmeldinger'],
-        queryFn: async (): Promise<DriftsmeldingerQueryResult> =>
+        queryFn: async (): Promise<SanityResponse<DriftsmeldingerQueryResult>> =>
             (await customAxios.get('/api/sanity/driftsmeldinger')).data,
         staleTime: 60 * 1000,
         refetchInterval: 60 * 1000,
@@ -173,8 +59,8 @@ export function useDriftsmelding() {
 
     const aktiveDriftsmeldinger =
         data?.result
-            .filter((it: Driftsmelding) => !erProd || it.iProd === 'true')
-            .filter((it: Driftsmelding) => !erUtvikling || it.iDev === 'true')
+            .filter((it) => !erProd || it.iProd === 'true')
+            .filter((it) => !erUtvikling || it.iDev === 'true')
             .filter(
                 (driftsmelding) =>
                     !(
@@ -197,7 +83,7 @@ export function useInformasjonsmelding() {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'informasjonsmeldinger'],
-        queryFn: async (): Promise<InformasjonsmeldingerQueryResult> =>
+        queryFn: async (): Promise<SanityResponse<InformasjonsmeldingerQueryResult>> =>
             (await customAxios.get('/api/sanity/informasjonsmeldinger')).data,
         staleTime: Infinity,
         gcTime: 0,
@@ -205,8 +91,8 @@ export function useInformasjonsmelding() {
 
     const aktiveInformasjonsmeldinger =
         data?.result
-            .filter((it: Informasjonsmelding) => !erProd || it.iProd === 'true')
-            .filter((it: Informasjonsmelding) => !erUtvikling || it.iDev === 'true')
+            .filter((it) => !erProd || it.iProd === 'true')
+            .filter((it) => !erUtvikling || it.iDev === 'true')
             .filter((informasjonsmelding) => dayjs(informasjonsmelding.synligTil).isAfter(dayjs())) ?? [];
 
     return {
@@ -223,7 +109,8 @@ export function useArsaker(id: string) {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'årsaker', id],
-        queryFn: async (): Promise<ArsakerQueryResult> => (await customAxios.get(`/api/sanity/arsaker/${id}`)).data,
+        queryFn: async (): Promise<SanityResponse<ArsakerQueryResult>> =>
+            (await customAxios.get(`/api/sanity/arsaker/${id}`)).data,
         staleTime: Infinity,
         gcTime: 0,
     });
@@ -242,12 +129,13 @@ export function useNyheter() {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'nyheter'],
-        queryFn: async (): Promise<NyheterQueryResult> => (await customAxios.get('/api/sanity/nyheter')).data,
+        queryFn: async (): Promise<SanityResponse<NyheterQueryResult>> =>
+            (await customAxios.get('/api/sanity/nyheter')).data,
         staleTime: Infinity,
         gcTime: 0,
     });
 
-    const nyheter = data?.result.filter((it: NyhetType) => (erProd ? it.iProd : true)) ?? [];
+    const nyheter = data?.result.filter((it) => (erProd ? it.iProd : true)) ?? [];
 
     return {
         nyheter,
@@ -259,14 +147,14 @@ export function useNyheter() {
 export function useDialogmeldingMaler() {
     const { data, error, isPending, refetch } = useQuery({
         queryKey: ['sanity', 'dialogmeldingMaler'],
-        queryFn: async (): Promise<DialogmeldingMalerQueryResult> =>
+        queryFn: async (): Promise<SanityResponse<DialogmeldingMalerQueryResult>> =>
             (await customAxios.get('/api/sanity/dialogmelding-maler')).data,
         staleTime: Infinity,
         gcTime: 0,
     });
 
     return {
-        maler: data?.result.filter((it: DialogmeldingMal) => (erProd ? it.iProd : true)) ?? [],
+        maler: data?.result.filter((it) => (erProd ? it.iProd : true)) ?? [],
         isPending,
         error,
         refetch,
@@ -274,14 +162,14 @@ export function useDialogmeldingMaler() {
 }
 
 function filterRelevantMaler(
-    sanityResult: SkjønnsfastsettingMal[],
+    sanityResult: SkjonnsfastsettelseMalerQueryResult,
     opts: {
         skalVise828AndreLedd: boolean;
-        arbeidsforholdMal: ArbeidsforholdMal;
+        arbeidsforholdMal: 'EN_ARBEIDSGIVER' | 'FLERE_ARBEIDSGIVERE';
     },
-): SkjønnsfastsettingMal[] {
+): SkjonnsfastsettelseMalerQueryResult {
     return sanityResult
-        .filter((it: SkjønnsfastsettingMal) => (!opts.skalVise828AndreLedd ? it.lovhjemmel.ledd !== '2' : true))
-        .filter((it: SkjønnsfastsettingMal) => it.arbeidsforholdMal.includes(opts.arbeidsforholdMal))
-        .filter((it: SkjønnsfastsettingMal) => (erProd ? it.iProd : true));
+        .filter((it) => (!opts.skalVise828AndreLedd ? it.lovhjemmel?.ledd !== '2' : true))
+        .filter((it) => it.arbeidsforholdMal?.includes(opts.arbeidsforholdMal))
+        .filter((it) => (erProd ? it.iProd : true));
 }

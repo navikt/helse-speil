@@ -36,6 +36,7 @@
         "generate-rest:sporhund": "orval --project sporhund",
         "generate-rest:vilkarsproving": "orval --project vilkarsproving",
         "generate-graphql": "BEARER_TOKEN=$(curl http://localhost:8080/local-token) graphql-codegen --config graphql-codegen.yml",
+        "generate-sanity": "SPALTEN_DIR=${SPALTEN_DIR:-../spalten}; [ -d \"$SPALTEN_DIR\" ] || { echo \"Fant ikke spalten i '$SPALTEN_DIR'.\"; exit 1; }; pnpm --dir \"$SPALTEN_DIR\" exec sanity schema extract --enforce-required-fields --path \"$PWD/src/io/sanity/schema.json\" && \"$SPALTEN_DIR/node_modules/.bin/sanity\" typegen generate && prettier --write src/io/sanity/generated",
         "install-precommit-hooks": "husky",
         "lint-staged": "lint-staged"
     },
@@ -69,6 +70,7 @@
         "dayjs": "^1.11.23",
         "graphql": "^16.14.2",
         "graphql-yoga": "^5.24.0",
+        "groq": "^6.16.0",
         "jose": "^6.2.12",
         "jotai": "^3.0.0",
         "jotai-family": "^1.1.0",

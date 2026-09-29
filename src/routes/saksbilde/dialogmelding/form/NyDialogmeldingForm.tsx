@@ -8,12 +8,13 @@ import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, HStack, Heading, Loader, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
-import { DialogmeldingMal, useDialogmeldingMaler } from '@external/sanity';
+import { useDialogmeldingMaler } from '@external/sanity';
 import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getGetDialogmeldingerQueryKey, usePostNyDialogmelding } from '@io/rest/generated/default/default';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiFagomrade } from '@io/rest/generated/sporhund.schemas';
+import type { DialogmeldingMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { useQueryClient } from '@tanstack/react-query';
 
 import { BehandlerSearch } from './BehandlerSearch';
@@ -26,7 +27,7 @@ export function NyDialogmeldingForm(): ReactElement {
     const { maler, error: malerError, isPending: malerIsPending, refetch } = useDialogmeldingMaler();
     const [enkeltstandeType, setEnkeltstandeType] = useState<EnkeltståndeType | null>(null);
     const [unntakType, setUnntakType] = useState<UnntakFraArbeidsgiveransvarType | null>(null);
-    const malerById = Object.fromEntries(maler.map((mal: DialogmeldingMal) => [mal._id, mal]));
+    const malerById = Object.fromEntries(maler.map((mal: DialogmeldingMalerQueryResult[number]) => [mal._id, mal]));
 
     const { mutateAsync, isPending } = usePostNyDialogmelding({
         mutation: {
@@ -112,7 +113,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                         if (!harSubtyper) {
                                             const malId = fagområdeToMalId[value as keyof typeof fagområdeToMalId];
                                             const mal = malId ? malerById[malId] : undefined;
-                                            form.setValue('melding', mal ? mal.tekst : '', {
+                                            form.setValue('melding', mal?.tekst ?? '', {
                                                 shouldValidate: true,
                                             });
                                         } else {
@@ -140,7 +141,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                     setUnntakType(value);
                                     const malId = unntakFraArbeidsgiveransvarMalId[value];
                                     const mal = malId ? malerById[malId] : undefined;
-                                    form.setValue('melding', mal ? mal.tekst : '', {
+                                    form.setValue('melding', mal?.tekst ?? '', {
                                         shouldValidate: true,
                                     });
                                 }}
@@ -168,7 +169,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                     setEnkeltstandeType(value);
                                     const malId = enkeltståndeMalId[value];
                                     const mal = malId ? malerById[malId] : undefined;
-                                    form.setValue('melding', mal ? mal.tekst : '', {
+                                    form.setValue('melding', mal?.tekst ?? '', {
                                         shouldValidate: true,
                                     });
                                 }}

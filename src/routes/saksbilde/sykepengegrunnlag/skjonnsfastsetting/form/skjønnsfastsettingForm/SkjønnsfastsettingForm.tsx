@@ -4,7 +4,6 @@ import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatc
 import { Button, ErrorMessage, HStack, HelpText } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
-import { SkjønnsfastsettingMal } from '@external/sanity';
 import {
     Arbeidsgiverinntekt,
     BeregnetPeriodeFragment,
@@ -14,6 +13,7 @@ import {
     Sykepengegrunnlagsgrense,
     Sykepengegrunnlagskjonnsfastsetting,
 } from '@io/graphql';
+import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingÅrsak';
@@ -39,7 +39,7 @@ interface SkjønnsfastsettingFormProps {
     sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
     onEndretSykepengegrunnlag: (endretSykepengegrunnlag: number | null) => void;
     closeAndResetForm: () => void;
-    maler: SkjønnsfastsettingMal[];
+    maler: SkjonnsfastsettelseMalerQueryResult;
     sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null;
     formValues: SkjønnsfastsettingFormFields | null;
     setFormValues: (skjønnsfastsettingFormFields: SkjønnsfastsettingFormFields) => void;

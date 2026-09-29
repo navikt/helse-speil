@@ -3,11 +3,11 @@ import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox, CheckboxGroup, HStack, Skeleton, VStack } from '@navikt/ds-react';
 
-import { Arsak } from '@external/sanity';
 import { PåVentSkjema } from '@form-schemas/påVentSkjema';
+import type { ArsakerQueryResult } from '@io/sanity/generated/sanity.types';
 
 interface ÅrsakerProps {
-    årsaker: Arsak[] | undefined;
+    årsaker: ArsakerQueryResult[number]['arsaker'] | undefined;
     årsakerLoading: boolean;
 }
 

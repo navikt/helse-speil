@@ -8,23 +8,20 @@ import { BodyShort, Box, GlobalAlert, HStack, InfoCard, VStack } from '@navikt/d
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import {
-    Driftsmelding,
-    Driftsstatus,
-    Informasjonsmelding,
-    useDriftsmelding,
-    useInformasjonsmelding,
-} from '@external/sanity';
+import { useDriftsmelding, useInformasjonsmelding } from '@external/sanity';
+import type { DriftsmeldingerQueryResult, InformasjonsmeldingerQueryResult } from '@io/sanity/generated/sanity.types';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
 import styles from './Driftsmeldinger.module.scss';
 
+type Driftsstatus = DriftsmeldingerQueryResult[number]['statuser'][number];
+
 interface DriftsmeldingProps {
-    driftsmelding: Driftsmelding;
+    driftsmelding: DriftsmeldingerQueryResult[number];
 }
 interface InformasjonsmeldingProps {
-    informasjonsmelding: Informasjonsmelding;
+    informasjonsmelding: InformasjonsmeldingerQueryResult[number];
 }
 
 export const Driftsmeldinger = (): ReactElement => (
@@ -167,7 +164,11 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
     );
 };
 
-function dato(driftsmelding: Driftsmelding, gjeldendeStatus: Driftsstatus, erLøst: boolean): string {
+function dato(
+    driftsmelding: DriftsmeldingerQueryResult[number],
+    gjeldendeStatus: Driftsstatus,
+    erLøst: boolean,
+): string {
     if (erLøst) {
         return `(Løst: ${getFormattedDatetimeString(driftsmelding._updatedAt.toString())})`;
     }
@@ -180,7 +181,7 @@ const konsekvensTitler: Record<string, string> = {
     ikkeMulig: 'Ikke mulig å saksbehandle i speil',
 };
 
-function konsekvensTittel(konsekvens?: string): string {
+function konsekvensTittel(konsekvens?: string | null): string {
     return (konsekvens && konsekvensTitler[konsekvens]) || 'Driftsmelding';
 }
 
@@ -188,11 +189,11 @@ function konsekvensTittel(konsekvens?: string): string {
  * Konsekvensen settes bare når den endrer seg, så vi går bakover i historikken til vi finner
  * den siste som faktisk er satt. Den bestemmer tittel og farge på hele driftsmeldingen.
  */
-function gjeldendeKonsekvens(statuserNyesteFørst: Driftsstatus[]): string | undefined {
+function gjeldendeKonsekvens(statuserNyesteFørst: Driftsstatus[]): string | null | undefined {
     return statuserNyesteFørst.find((status) => status.konsekvens)?.konsekvens;
 }
 
-function medPunktum(uryddetTekst?: string): string {
+function medPunktum(uryddetTekst?: string | null): string {
     const ryddetTekst = uryddetTekst?.trim();
     if (!ryddetTekst) return '';
     return ryddetTekst.endsWith('.') ? `${ryddetTekst} ` : `${ryddetTekst}. `;
