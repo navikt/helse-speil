@@ -1,9 +1,10 @@
 import React, { ReactElement, useContext } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
-import { EyeSlashIcon, PlusIcon } from '@navikt/aksel-icons';
-import { Alert, Button, HStack, Radio, RadioGroup, Tag, TextField, Textarea, VStack } from '@navikt/ds-react';
+import { PlusIcon } from '@navikt/aksel-icons';
+import { Alert, Button, HStack, Radio, RadioGroup, TextField, Textarea, VStack } from '@navikt/ds-react';
 
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
     ManuellVurderingAvVilkårSchema,
     ManueltVurderbarVilkårskode,
@@ -98,14 +99,7 @@ export const ManuellVurderingAvVilkårSkjema = ({
                 render={({ field, fieldState }) => (
                     <Textarea
                         {...field}
-                        label={
-                            <VStack gap="space-4">
-                                <span>Begrunnelse for vurderingen</span>
-                                <Tag size="xsmall" variant="alt1" icon={<EyeSlashIcon aria-hidden />}>
-                                    Vises ikke i vedtaket
-                                </Tag>
-                            </VStack>
-                        }
+                        label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
                         description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
                         size="small"
                         minRows={3}
