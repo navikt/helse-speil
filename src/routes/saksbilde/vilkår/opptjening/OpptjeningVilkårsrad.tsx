@@ -125,7 +125,7 @@ const Vurderingsdetaljer = ({ vurdering }: VurderingsdetaljerProps): ReactElemen
                 <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
                     <Detaljrad label="Begrunnelse">{vurdering.kilde.fritekstbegrunnelse}</Detaljrad>
                     {journalpostIder.length > 0 && (
-                        <Detaljrad label="Dokument-ID">{journalpostIder.join(', ')}</Detaljrad>
+                        <Detaljrad label="Journalpost-ID">{journalpostIder.join(', ')}</Detaljrad>
                     )}
                 </dl>
             )}

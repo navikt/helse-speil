@@ -40,11 +40,11 @@ export const ManuellVurderingAvVilkårSkjema = ({
 
     const form = useForm<ManuellVurderingAvVilkårSchema>({
         resolver: zodResolver(manuellVurderingAvVilkårSkjema),
-        defaultValues: { utfall: eksisterendeUtfall, fritekstbegrunnelse: '', dokumentIder: [{ verdi: '' }] },
+        defaultValues: { utfall: eksisterendeUtfall, fritekstbegrunnelse: '', journalpostIder: [{ verdi: '' }] },
     });
-    const { fields, append, remove } = useFieldArray<ManuellVurderingAvVilkårSchema, 'dokumentIder'>({
+    const { fields, append, remove } = useFieldArray<ManuellVurderingAvVilkårSchema, 'journalpostIder'>({
         control: form.control,
-        name: 'dokumentIder',
+        name: 'journalpostIder',
     });
 
     const { mutate, isPending, isError } = usePostManuellVilkårsvurderingBehandler({
@@ -59,7 +59,7 @@ export const ManuellVurderingAvVilkårSkjema = ({
         },
     });
 
-    function onSubmit({ utfall, fritekstbegrunnelse, dokumentIder }: ManuellVurderingAvVilkårSchema) {
+    function onSubmit({ utfall, fritekstbegrunnelse, journalpostIder }: ManuellVurderingAvVilkårSchema) {
         mutate({
             personId: personPseudoId,
             data: {
@@ -67,7 +67,9 @@ export const ManuellVurderingAvVilkårSkjema = ({
                 vilkårskode,
                 utfall,
                 fritekstbegrunnelse,
-                journalpostId: dokumentIder.map((dokumentId) => dokumentId.verdi).filter((verdi) => verdi !== ''),
+                journalpostId: journalpostIder
+                    .map((journalpostId) => journalpostId.verdi)
+                    .filter((verdi) => verdi !== ''),
             },
         });
     }
@@ -97,7 +99,11 @@ export const ManuellVurderingAvVilkårSkjema = ({
                     <Textarea
                         {...field}
                         label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
-                        description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
+                        description={
+                            <span className="mt-2 block">
+                                Begrunnelsen blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.
+                            </span>
+                        }
                         size="small"
                         minRows={3}
                         className="max-w-150"
@@ -110,28 +116,29 @@ export const ManuellVurderingAvVilkårSkjema = ({
                     <HStack key={field.id} gap="space-8" align="end">
                         <Controller
                             control={form.control}
-                            name={`dokumentIder.${index}.verdi` as const}
+                            name={`journalpostIder.${index}.verdi` as const}
                             rules={{
                                 pattern: {
                                     value: /^\d*$/,
-                                    message: 'Dokument-ID kan bare inneholde tall',
+                                    message: 'Journalpost-ID kan bare inneholde tall',
                                 },
                             }}
-                            render={({ field: documentField, fieldState }) => {
-                                const dokumentIdFeil =
+                            render={({ field: journalpostField, fieldState }) => {
+                                const journalpostIdFeil =
                                     fieldState.error?.message ??
-                                    (/^(?:\d{1,11})?$/.test(documentField.value)
+                                    (/^(?:\d{1,11})?$/.test(journalpostField.value)
                                         ? undefined
-                                        : 'Dokument-ID må være 1 til 11 siffer');
+                                        : 'Journalpost-ID må være 1 til 11 siffer');
 
                                 return (
                                     <TextField
-                                        {...documentField}
-                                        label={index === 0 ? 'Dokument-ID' : undefined}
+                                        {...journalpostField}
+                                        label={index === 0 ? 'Journalpost-ID' : undefined}
+                                        description="Denne finner du i Gosys"
                                         size="small"
                                         inputMode="numeric"
                                         pattern="[0-9]{0,11}"
-                                        error={dokumentIdFeil}
+                                        error={journalpostIdFeil}
                                     />
                                 );
                             }}
@@ -152,7 +159,7 @@ export const ManuellVurderingAvVilkårSkjema = ({
                         onClick={() => append({ verdi: '' })}
                         style={{ justifySelf: 'start', paddingInlineStart: 'var(--ax-space-0)' }}
                     >
-                        Legg til flere dokument-ID
+                        Legg til flere Journalpost-ID
                     </Button>
                 </div>
             </VStack>

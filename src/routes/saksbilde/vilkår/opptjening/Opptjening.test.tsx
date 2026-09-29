@@ -263,7 +263,7 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
-        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '12345');
+        await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), '12345');
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
@@ -284,11 +284,11 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
-        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), 'JP-123');
+        await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), 'JP-123');
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
-        expect(await screen.findByText('Dokument-ID må være 1 til 11 siffer')).toBeVisible();
+        expect(await screen.findByText('Journalpost-ID må være 1 til 11 siffer')).toBeVisible();
         expect(mutate).not.toHaveBeenCalled();
     });
 
@@ -297,11 +297,11 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
-        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '123456789012');
+        await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), '123456789012');
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
-        expect(await screen.findByText('Dokument-ID må være 1 til 11 siffer')).toBeVisible();
+        expect(await screen.findByText('Journalpost-ID må være 1 til 11 siffer')).toBeVisible();
         expect(mutate).not.toHaveBeenCalled();
     });
 
@@ -352,11 +352,11 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
-        await userEvent.type(screen.getByRole('textbox', { name: 'Dokument-ID' }), '12345');
+        await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), '12345');
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
-        expect(await within(arbeidsvilkår()).findByText('Dokument-ID')).toBeVisible();
+        expect(await within(arbeidsvilkår()).findByText('Journalpost-ID')).toBeVisible();
         expect(within(arbeidsvilkår()).getByText('12345')).toBeVisible();
         expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
     });
