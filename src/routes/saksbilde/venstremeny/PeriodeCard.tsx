@@ -321,16 +321,9 @@ const PeriodeCardTilkommen = ({ arbeidsgiver, inntektsforhold }: PeriodeCardTilk
 const PeriodeCardSkeleton = (): ReactElement => {
     return (
         <section className={cn(styles.skeleton, styles.grid)}>
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
-            <LoadingShimmer />
+            {Array.from({ length: 10 }, (_, index) => (
+                <LoadingShimmer key={index} />
+            ))}
         </section>
     );
 };

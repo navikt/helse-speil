@@ -5,13 +5,9 @@ import { HStack, Skeleton, Table } from '@navikt/ds-react';
 export function OppgaverBodySkeleton() {
     return (
         <>
-            <BodyRowSkeleton />
-            <BodyRowSkeleton />
-            <BodyRowSkeleton />
-            <BodyRowSkeleton />
-            <BodyRowSkeleton />
-            <BodyRowSkeleton />
-            <BodyRowSkeleton />
+            {Array.from({ length: 7 }, (_, index) => (
+                <BodyRowSkeleton key={index} />
+            ))}
         </>
     );
 }

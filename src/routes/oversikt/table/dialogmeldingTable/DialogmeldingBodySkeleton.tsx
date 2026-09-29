@@ -5,13 +5,9 @@ import { Skeleton, Table } from '@navikt/ds-react';
 export function DialogmeldingBodySkeleton(): ReactElement {
     return (
         <>
-            <DialogmeldingSkeletonRow />
-            <DialogmeldingSkeletonRow />
-            <DialogmeldingSkeletonRow />
-            <DialogmeldingSkeletonRow />
-            <DialogmeldingSkeletonRow />
-            <DialogmeldingSkeletonRow />
-            <DialogmeldingSkeletonRow />
+            {Array.from({ length: 7 }, (_, index) => (
+                <DialogmeldingSkeletonRow key={index} />
+            ))}
         </>
     );
 }

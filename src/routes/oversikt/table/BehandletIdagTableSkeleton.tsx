@@ -15,13 +15,9 @@ export const BehandletIdagTableSkeleton = (): ReactElement => (
                         <SortHeaderRowSkeleton />
                     </Table.Header>
                     <Table.Body>
-                        <BodyRowSkeleton />
-                        <BodyRowSkeleton />
-                        <BodyRowSkeleton />
-                        <BodyRowSkeleton />
-                        <BodyRowSkeleton />
-                        <BodyRowSkeleton />
-                        <BodyRowSkeleton />
+                        {Array.from({ length: 7 }, (_, index) => (
+                            <BodyRowSkeleton key={index} />
+                        ))}
                     </Table.Body>
                 </Table>
             </div>
