@@ -19,10 +19,10 @@ const utfallstekst = (utfall: VilkårsutfallKortUtfall): string => {
     }
 };
 
-const utfallTagVariant = (utfall: VilkårsutfallKortUtfall): 'success' | 'error' | 'warning' => {
+const utfallTagVariant = (utfall: VilkårsutfallKortUtfall): 'neutral' | 'error' | 'warning' => {
     switch (utfall) {
         case 'Oppfylt':
-            return 'success';
+            return 'neutral';
         case 'IkkeOppfylt':
             return 'error';
         case 'IkkeVurdert':

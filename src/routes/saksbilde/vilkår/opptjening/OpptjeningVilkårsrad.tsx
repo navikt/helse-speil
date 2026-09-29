@@ -63,10 +63,10 @@ const vurdertTagTekst = (vurdering?: ApiVilkårsvurdering): string => {
         : `Vurdert automatisk ${tidspunkt}`;
 };
 
-const utfallTagVariant = (utfall?: ApiUtfall): 'success' | 'error' | 'warning' => {
+const utfallTagVariant = (utfall?: ApiUtfall): 'neutral' | 'error' | 'warning' => {
     switch (utfall) {
         case ApiUtfall.OPPFYLT:
-            return 'success';
+            return 'neutral';
         case ApiUtfall.IKKE_OPPFYLT:
             return 'error';
         default:

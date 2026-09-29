@@ -75,7 +75,7 @@ export const ManuellVurderingAvVilkårSkjema = ({
     }
 
     return (
-        <VStack as="form" gap="space-16" onSubmit={form.handleSubmit(onSubmit)}>
+        <VStack as="form" gap="space-20" onSubmit={form.handleSubmit(onSubmit)}>
             <Controller
                 control={form.control}
                 name="utfall"

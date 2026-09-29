@@ -18,37 +18,7 @@ interface OpptjeningProps {
     onVurder: (vilkårskode: ManueltVurderbarVilkårskode) => void;
 }
 
-interface OpptjeningsgruppeIkonProps {
-    status: Opptjeningsstatus;
-}
-
-const OpptjeningsgruppeIkon = ({ status }: OpptjeningsgruppeIkonProps): ReactElement => {
-    switch (status) {
-        case 'IkkeVurdert':
-            return (
-                <ExclamationmarkTriangleFillIcon
-                    title="Ikke vurdert"
-                    className="text-ax-text-warning-decoration"
-                    fontSize="24"
-                />
-            );
-        case 'VurdertOk':
-            return (
-                <CheckmarkCircleFillIcon title="Oppfylt" className="text-ax-text-success-decoration" fontSize="24" />
-            );
-        case 'VurdertIkkeOk':
-            return (
-                <XMarkOctagonFillIcon title="Ikke oppfylt" className="text-ax-text-danger-decoration" fontSize="24" />
-            );
-    }
-};
-
-export const Opptjening = ({
-    opptjeningsvurdering,
-    readOnly,
-    aktivtVilkår,
-    onVurder,
-}: OpptjeningProps): ReactElement => {
+export function Opptjening({ opptjeningsvurdering, readOnly, aktivtVilkår, onVurder }: OpptjeningProps): ReactElement {
     const { data, isLoading, isError, status, vurderingFor, avgjørendeVilkårskode } = opptjeningsvurdering;
 
     return (
@@ -94,4 +64,25 @@ export const Opptjening = ({
             </VStack>
         </VStack>
     );
-};
+}
+
+function OpptjeningsgruppeIkon({ status }: { status: Opptjeningsstatus }): ReactElement {
+    switch (status) {
+        case 'IkkeVurdert':
+            return (
+                <ExclamationmarkTriangleFillIcon
+                    title="Ikke vurdert"
+                    className="text-ax-text-warning-decoration"
+                    fontSize="24"
+                />
+            );
+        case 'VurdertOk':
+            return (
+                <CheckmarkCircleFillIcon title="Oppfylt" className="text-ax-text-success-decoration" fontSize="24" />
+            );
+        case 'VurdertIkkeOk':
+            return (
+                <XMarkOctagonFillIcon title="Ikke oppfylt" className="text-ax-text-danger-decoration" fontSize="24" />
+            );
+    }
+}

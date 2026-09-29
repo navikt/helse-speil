@@ -198,14 +198,12 @@ function VilkårMedVurderingspanel({
     return (
         <HStack wrap={false} gap="space-0" align="start">
             <VStack className="min-w-164 divide-y divide-ax-border-neutral-strong">
-                <div>
-                    <Opptjening
-                        opptjeningsvurdering={opptjeningsvurdering}
-                        readOnly={opptjening.readOnly}
-                        aktivtVilkår={aktivtVilkår}
-                        onVurder={setAktivtVilkår}
-                    />
-                </div>
+                <Opptjening
+                    opptjeningsvurdering={opptjeningsvurdering}
+                    readOnly={opptjening.readOnly}
+                    aktivtVilkår={aktivtVilkår}
+                    onVurder={setAktivtVilkår}
+                />
                 <div className="py-6 first:pt-0 last:pb-0">
                     <SykepengegrunnlagVilkår
                         oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}
@@ -228,7 +226,7 @@ function VilkårMedVurderingspanel({
                 <>
                     <span className="inline-block self-stretch border-r-[3px] border-ax-border-accent-strong" />
                     <Box
-                        className="w-130 min-w-130"
+                        className="w-130 min-w-130 self-stretch"
                         background="accent-soft"
                         paddingBlock="space-32 space-64"
                         paddingInline="space-32"
