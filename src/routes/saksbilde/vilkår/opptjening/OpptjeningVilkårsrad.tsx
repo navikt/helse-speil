@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useContext } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
@@ -16,9 +16,7 @@ import {
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { cn } from '@utils/tw';
 
-import { VurderingspanelContext } from '../VurderingspanelContext';
 import { ArbeidsforholdIGrunnlaget } from './ArbeidsforholdIGrunnlaget';
-import { ManuellVurderingAvVilkårSkjema } from './ManuellVurderingAvVilkårSkjema';
 
 const erSaksbehandlerkilde = (kilde: ApiVurderingskilde): kilde is ApiVurderingskildeSaksbehandler => 'ident' in kilde;
 
@@ -149,24 +147,21 @@ const Vurderingsdetaljer = ({ vurdering }: VurderingsdetaljerProps): ReactElemen
 };
 
 interface OpptjeningVilkårsradProps {
-    personPseudoId: string;
-    skjæringstidspunkt: string;
     vilkårskode: ManueltVurderbarVilkårskode;
     vurdering?: ApiVilkårsvurdering;
     erAvgjørende: boolean;
     readOnly: boolean;
-    onOverstyrt: (opptjeningsvurderingId: string) => void;
+    erAktiv: boolean;
+    onVurder: () => void;
 }
 
 export const OpptjeningVilkårsrad = ({
-    personPseudoId,
-    skjæringstidspunkt,
     vilkårskode,
     vurdering,
     readOnly,
-    onOverstyrt,
+    erAktiv,
+    onVurder,
 }: OpptjeningVilkårsradProps): ReactElement => {
-    const { aktivNøkkel, visVurderingspanel, lukkVurderingspanel } = useContext(VurderingspanelContext);
     const vilkårsnavn = vilkårskodeLabels[vilkårskode];
     const titleId = `opptjeningsvilkår-tittel-${vilkårskode}`;
 
@@ -178,7 +173,7 @@ export const OpptjeningVilkårsrad = ({
             paddingInline="space-16 space-32"
             data-testid={`opptjeningsvilkår-${vilkårskode}`}
             className={cn('z-10 -mr-[3px] border-b-ax-border-neutral-subtle not-last:border-b', {
-                'bg-ax-bg-accent-soft': aktivNøkkel === vilkårskode,
+                'bg-ax-bg-accent-soft': erAktiv,
             })}
         >
             <HStack gap="space-8" align="center" wrap={false}>
@@ -190,24 +185,7 @@ export const OpptjeningVilkårsrad = ({
                 </BodyShort>
                 <Spacer />
                 {!readOnly && erUtvikling && (
-                    <Button
-                        type="button"
-                        variant="secondary"
-                        size="small"
-                        onClick={() =>
-                            visVurderingspanel(
-                                vilkårskode,
-                                <ManuellVurderingAvVilkårSkjema
-                                    personPseudoId={personPseudoId}
-                                    skjæringstidspunkt={skjæringstidspunkt}
-                                    vilkårskode={vilkårskode}
-                                    eksisterendeUtfall={vurdering?.utfall}
-                                    onOverstyrt={onOverstyrt}
-                                    onAvbryt={lukkVurderingspanel}
-                                />,
-                            )
-                        }
-                    >
+                    <Button type="button" variant="secondary" size="small" onClick={onVurder}>
                         Vurder vilkår
                     </Button>
                 )}

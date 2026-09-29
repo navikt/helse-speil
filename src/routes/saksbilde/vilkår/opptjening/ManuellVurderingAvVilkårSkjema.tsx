@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext } from 'react';
+import React, { ReactElement } from 'react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 
 import { PlusIcon } from '@navikt/aksel-icons';
@@ -19,15 +19,13 @@ import {
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { useQueryClient } from '@tanstack/react-query';
 
-import { VurderingspanelContext } from '../VurderingspanelContext';
-
 interface ManuellVurderingAvVilkårSkjemaProps {
     personPseudoId: string;
     skjæringstidspunkt: string;
     vilkårskode: ManueltVurderbarVilkårskode;
     eksisterendeUtfall?: ApiUtfall;
     onOverstyrt: (opptjeningsvurderingId: string) => void;
-    onAvbryt: () => void;
+    onLukk: () => void;
 }
 
 export const ManuellVurderingAvVilkårSkjema = ({
@@ -36,10 +34,9 @@ export const ManuellVurderingAvVilkårSkjema = ({
     vilkårskode,
     eksisterendeUtfall,
     onOverstyrt,
-    onAvbryt,
+    onLukk,
 }: ManuellVurderingAvVilkårSkjemaProps): ReactElement => {
     const queryClient = useQueryClient();
-    const { lukkVurderingspanel } = useContext(VurderingspanelContext);
 
     const form = useForm<ManuellVurderingAvVilkårSchema>({
         resolver: zodResolver(manuellVurderingAvVilkårSkjema),
@@ -57,7 +54,7 @@ export const ManuellVurderingAvVilkårSkjema = ({
                     queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
                 });
                 onOverstyrt(response.opptjeningsvurderingId);
-                lukkVurderingspanel();
+                onLukk();
             },
         },
     });
@@ -163,15 +160,7 @@ export const ManuellVurderingAvVilkårSkjema = ({
                 <Button type="submit" variant="primary" size="small" loading={isPending}>
                     Lagre
                 </Button>
-                <Button
-                    type="button"
-                    variant="tertiary"
-                    size="small"
-                    onClick={() => {
-                        lukkVurderingspanel();
-                        onAvbryt();
-                    }}
-                >
+                <Button type="button" variant="tertiary" size="small" onClick={onLukk}>
                     Avbryt
                 </Button>
             </HStack>

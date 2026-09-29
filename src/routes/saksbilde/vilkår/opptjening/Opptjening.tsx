@@ -1,41 +1,29 @@
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement } from 'react';
 
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { Alert, HStack, Heading, Loader, VStack } from '@navikt/ds-react';
 
-import { manueltVurderbareVilkårskoder } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import {
-    ApiKravkode,
-    ApiOpptjeningsvurdering,
-    ApiVilkårskode,
-    ApiVilkårsvurdering,
-    ApiVilkårsvurderingerForPersonResponse,
-} from '@io/rest/generated/vilkarsproving.schemas';
-import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+    ManueltVurderbarVilkårskode,
+    manueltVurderbareVilkårskoder,
+} from '@form-schemas/manuellVurderingAvVilkårSkjema';
 
 import { OpptjeningVilkårsrad } from './OpptjeningVilkårsrad';
-
-const finnOpptjeningskrav = (data: ApiVilkårsvurderingerForPersonResponse): ApiOpptjeningsvurdering | undefined =>
-    data.krav.find((krav) => krav.kravkode === ApiKravkode.OPPTJENING);
-
-const vurderingerFor = (krav?: ApiOpptjeningsvurdering): ApiVilkårsvurdering[] =>
-    krav && 'vurderinger' in krav ? krav.vurderinger : [];
-
-const avgjørendeVilkårskodeFor = (krav?: ApiOpptjeningsvurdering): ApiVilkårskode | undefined =>
-    krav && 'avgjørendeVilkårskode' in krav ? (krav.avgjørendeVilkårskode ?? undefined) : undefined;
+import { Opptjeningsstatus, Opptjeningsvurdering } from './useOpptjeningsvurdering';
 
 interface OpptjeningProps {
-    personPseudoId: string;
-    opptjeningsvurderingId: string;
+    opptjeningsvurdering: Opptjeningsvurdering;
     readOnly: boolean;
+    aktivtVilkår: ManueltVurderbarVilkårskode | null;
+    onVurder: (vilkårskode: ManueltVurderbarVilkårskode) => void;
 }
 
 interface OpptjeningsgruppeIkonProps {
-    vurdering: 'IkkeVurdert' | 'VurdertOk' | 'VurdertIkkeOk';
+    status: Opptjeningsstatus;
 }
 
-const OpptjeningsgruppeIkon = ({ vurdering }: OpptjeningsgruppeIkonProps): ReactElement => {
-    switch (vurdering) {
+const OpptjeningsgruppeIkon = ({ status }: OpptjeningsgruppeIkonProps): ReactElement => {
+    switch (status) {
         case 'IkkeVurdert':
             return (
                 <ExclamationmarkTriangleFillIcon
@@ -55,20 +43,13 @@ const OpptjeningsgruppeIkon = ({ vurdering }: OpptjeningsgruppeIkonProps): React
     }
 };
 
-export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }: OpptjeningProps): ReactElement => {
-    const [overstyrtOpptjeningsvurderingId, setOverstyrtOpptjeningsvurderingId] = useState<string | null>(null);
-
-    const aktivOpptjeningsvurderingId = overstyrtOpptjeningsvurderingId ?? opptjeningsvurderingId;
-
-    const { data, isLoading, isError } = useGetVilkårsvurderingerForPersonBehandler(personPseudoId, {
-        opptjeningsvurderingId: aktivOpptjeningsvurderingId,
-    });
-
-    const krav = data && finnOpptjeningskrav(data);
-    const vurderinger = vurderingerFor(krav);
-    const avgjørendeVilkårskode = avgjørendeVilkårskodeFor(krav);
-
-    const vurdering = krav === undefined ? 'IkkeVurdert' : krav.opptjeningOk ? 'VurdertOk' : 'VurdertIkkeOk';
+export const Opptjening = ({
+    opptjeningsvurdering,
+    readOnly,
+    aktivtVilkår,
+    onVurder,
+}: OpptjeningProps): ReactElement => {
+    const { data, isLoading, isError, status, vurderingFor, avgjørendeVilkårskode } = opptjeningsvurdering;
 
     return (
         <VStack gap="space-16" data-testid="opptjening" className="w-full">
@@ -77,7 +58,7 @@ export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }:
                     <Loader size="medium" title="Henter opptjeningsvurdering" />
                 ) : (
                     <span className="flex shrink-0 items-center justify-center">
-                        <OpptjeningsgruppeIkon vurdering={vurdering} />
+                        <OpptjeningsgruppeIkon status={status} />
                     </span>
                 )}
                 <Heading level="3" size="xsmall">
@@ -96,13 +77,12 @@ export const Opptjening = ({ personPseudoId, opptjeningsvurderingId, readOnly }:
                         {manueltVurderbareVilkårskoder.map((vilkårskode) => (
                             <OpptjeningVilkårsrad
                                 key={vilkårskode}
-                                personPseudoId={personPseudoId}
-                                skjæringstidspunkt={data.skjæringstidspunkt}
                                 vilkårskode={vilkårskode}
-                                vurdering={vurderinger.find((it) => it.vilkårskode === vilkårskode)}
+                                vurdering={vurderingFor(vilkårskode)}
                                 erAvgjørende={avgjørendeVilkårskode === vilkårskode}
                                 readOnly={readOnly}
-                                onOverstyrt={setOverstyrtOpptjeningsvurderingId}
+                                erAktiv={aktivtVilkår === vilkårskode}
+                                onVurder={() => onVurder(vilkårskode)}
                             />
                         ))}
                     </VStack>

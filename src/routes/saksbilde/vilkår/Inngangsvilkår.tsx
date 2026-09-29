@@ -1,10 +1,11 @@
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { ManueltVurderbarVilkårskode } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import {
     BeregnetPeriodeFragment,
@@ -25,13 +26,14 @@ import { isSelvstendigNaering } from '@utils/typeguards';
 
 import { MedlemskapVilkår } from './MedlemskapVilkår';
 import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
-import { VurderingspanelContext, VurderingspanelProvider } from './VurderingspanelContext';
 import {
     kategoriserteInngangsvilkår,
     medlemskapOppfylt,
     sykepengegrunnlagOppfylt,
 } from './kategoriserteInngangsvilkår';
+import { ManuellVurderingAvVilkårSkjema } from './opptjening/ManuellVurderingAvVilkårSkjema';
 import { Opptjening } from './opptjening/Opptjening';
+import { useOpptjeningsvurdering } from './opptjening/useOpptjeningsvurdering';
 import { IkkeOppfylteVilkår } from './vilkårsgrupper/IkkeOppfylteVilkår';
 import { IkkeVurderteVilkår } from './vilkårsgrupper/IkkeVurderteVilkår';
 import { VurdertIInfotrygd } from './vilkårsgrupper/VurdertIInfotrygd';
@@ -40,14 +42,19 @@ import { VurdertISpleis } from './vilkårsgrupper/VurdertISpleis';
 const harVilkår = (vilkår?: Vilkårdata[]): vilkår is Vilkårdata[] =>
     vilkår !== undefined && vilkår !== null && vilkår.length > 0;
 
+interface OpptjeningParametre {
+    personPseudoId: string;
+    opptjeningsvurderingId: string;
+    readOnly: boolean;
+}
+
 interface InngangsvilkårWithContentProps {
     erSelvstendigNæring: boolean;
     periodeFom: DateString;
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
     fødselsdato: DateString;
     vurdering?: Vurdering | null;
-    opptjening?: ReactElement | null;
-    nyttVilkårsdesign?: boolean;
+    opptjening?: OpptjeningParametre | null;
 }
 
 export const InngangsvilkårWithContent = ({
@@ -57,46 +64,37 @@ export const InngangsvilkårWithContent = ({
     fødselsdato,
     vurdering,
     opptjening,
-    nyttVilkårsdesign = false,
 }: InngangsvilkårWithContentProps) => {
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
 
-    if (nyttVilkårsdesign) {
+    if (opptjening) {
         const vurdertIInfotrygd = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2';
 
         return (
-            <VurderingspanelProvider>
-                <Box paddingBlock="space-32 space-64" paddingInline="space-24">
-                    <VStack gap="space-16">
-                        <VStack gap="space-4">
-                            <BodyShort spacing>
-                                {`Inngangsvilkår ved skjæringstidspunktet ${getFormattedDateString(vilkårsgrunnlag.skjaeringstidspunkt)}`}
-                            </BodyShort>
-                            <Heading level="2" size="medium">
-                                Inngangsvilkår
-                            </Heading>
-                        </VStack>
-                        <VurderingspanelContent
-                            opptjening={opptjening}
-                            vurdertIInfotrygd={vurdertIInfotrygd}
-                            vilkårsgrunnlag={vilkårsgrunnlag}
-                            alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
-                            vurdering={vurdering}
-                        />
+            <Box paddingBlock="space-32 space-64" paddingInline="space-24">
+                <VStack gap="space-16">
+                    <VStack gap="space-4">
+                        <BodyShort spacing>
+                            {`Inngangsvilkår ved skjæringstidspunktet ${getFormattedDateString(vilkårsgrunnlag.skjaeringstidspunkt)}`}
+                        </BodyShort>
+                        <Heading level="2" size="medium">
+                            Inngangsvilkår
+                        </Heading>
                     </VStack>
-                </Box>
-            </VurderingspanelProvider>
+                    <VilkårMedVurderingspanel
+                        opptjening={opptjening}
+                        vurdertIInfotrygd={vurdertIInfotrygd}
+                        vilkårsgrunnlag={vilkårsgrunnlag}
+                        alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                        vurdering={vurdering}
+                    />
+                </VStack>
+            </Box>
         );
     }
 
     const { oppfylteVilkår, ikkeVurderteVilkår, ikkeOppfylteVilkår, vilkårVurdertIInfotrygd, vilkårVurdertISpleis } =
-        kategoriserteInngangsvilkår(
-            erSelvstendigNæring,
-            vilkårsgrunnlag,
-            alderVedSkjæringstidspunkt,
-            vurdering,
-            opptjening != null,
-        );
+        kategoriserteInngangsvilkår(erSelvstendigNæring, vilkårsgrunnlag, alderVedSkjæringstidspunkt, vurdering);
 
     const harBehandledeVilkår =
         harVilkår(ikkeVurderteVilkår) || harVilkår(ikkeOppfylteVilkår) || harVilkår(oppfylteVilkår);
@@ -105,7 +103,6 @@ export const InngangsvilkårWithContent = ({
 
     return (
         <Box paddingBlock="space-32 space-64" paddingInline="space-24">
-            {opptjening}
             {harBehandledeVilkår && (
                 <HStack wrap={false} gap="space-16">
                     {harVilkår(ikkeVurderteVilkår) && <IkkeVurderteVilkår vilkår={ikkeVurderteVilkår} />}
@@ -156,16 +153,7 @@ const InngangsvilkårContainer = ({ person, periode }: InngangsvilkårContainerP
             periodeFom={periode.fom}
             vilkårsgrunnlag={vilkårsgrunnlag}
             fødselsdato={apiPerson.fødselsdato}
-            opptjening={
-                nyOpptjeningVisning ? (
-                    <Opptjening
-                        personPseudoId={personPseudoId}
-                        opptjeningsvurderingId={opptjeningsvurderingId}
-                        readOnly={readOnly}
-                    />
-                ) : null
-            }
-            nyttVilkårsdesign={nyOpptjeningVisning}
+            opptjening={nyOpptjeningVisning ? { personPseudoId, opptjeningsvurderingId, readOnly } : null}
         />
     );
 };
@@ -187,40 +175,42 @@ export const Inngangsvilkår = ({ person, periode }: InngangsvilkårProps): Reac
     </ErrorBoundary>
 );
 
-interface VurderingspanelContentProps {
-    opptjening?: ReactElement | null;
+interface VilkårMedVurderingspanelProps {
+    opptjening: OpptjeningParametre;
     vurdertIInfotrygd: boolean;
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
     alderVedSkjæringstidspunkt: number;
     vurdering?: Vurdering | null;
 }
 
-function VurderingspanelContent({
+function VilkårMedVurderingspanel({
     opptjening,
     vurdertIInfotrygd,
     vilkårsgrunnlag,
     alderVedSkjæringstidspunkt,
     vurdering,
-}: VurderingspanelContentProps): ReactElement {
-    const { innhold } = React.useContext(VurderingspanelContext);
+}: VilkårMedVurderingspanelProps): ReactElement {
+    const opptjeningsvurdering = useOpptjeningsvurdering(opptjening.personPseudoId, opptjening.opptjeningsvurderingId);
+    const [aktivtVilkår, setAktivtVilkår] = useState<ManueltVurderbarVilkårskode | null>(null);
+    const skjæringstidspunkt = opptjeningsvurdering.data?.skjæringstidspunkt;
+    const spleisgrunnlag = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' ? vilkårsgrunnlag : undefined;
 
     return (
         <HStack wrap={false} gap="space-0" align="start">
             <VStack className="min-w-164 divide-y divide-ax-border-neutral-strong">
-                <div className="first:pt-0 last:pb-0">{opptjening}</div>
+                <div>
+                    <Opptjening
+                        opptjeningsvurdering={opptjeningsvurdering}
+                        readOnly={opptjening.readOnly}
+                        aktivtVilkår={aktivtVilkår}
+                        onVurder={setAktivtVilkår}
+                    />
+                </div>
                 <div className="py-6 first:pt-0 last:pb-0">
                     <SykepengegrunnlagVilkår
                         oppfylt={sykepengegrunnlagOppfylt(vilkårsgrunnlag)}
-                        sykepengegrunnlag={
-                            vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
-                                ? vilkårsgrunnlag.sykepengegrunnlag
-                                : undefined
-                        }
-                        grunnbeløp={
-                            vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
-                                ? vilkårsgrunnlag.grunnbelop
-                                : undefined
-                        }
+                        sykepengegrunnlag={spleisgrunnlag?.sykepengegrunnlag}
+                        grunnbeløp={spleisgrunnlag?.grunnbelop}
                         alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
                         vurdertIInfotrygd={vurdertIInfotrygd}
                         vurdering={vurdering}
@@ -234,16 +224,26 @@ function VurderingspanelContent({
                     />
                 </div>
             </VStack>
-            {innhold && <span className="inline-block self-stretch border-r-[3px] border-ax-border-accent-strong" />}
-            {innhold && (
-                <Box
-                    className="w-130 min-w-130"
-                    background="accent-soft"
-                    paddingBlock="space-32 space-64"
-                    paddingInline="space-32"
-                >
-                    {innhold}
-                </Box>
+            {aktivtVilkår !== null && skjæringstidspunkt !== undefined && (
+                <>
+                    <span className="inline-block self-stretch border-r-[3px] border-ax-border-accent-strong" />
+                    <Box
+                        className="w-130 min-w-130"
+                        background="accent-soft"
+                        paddingBlock="space-32 space-64"
+                        paddingInline="space-32"
+                    >
+                        <ManuellVurderingAvVilkårSkjema
+                            key={aktivtVilkår}
+                            personPseudoId={opptjening.personPseudoId}
+                            skjæringstidspunkt={skjæringstidspunkt}
+                            vilkårskode={aktivtVilkår}
+                            eksisterendeUtfall={opptjeningsvurdering.vurderingFor(aktivtVilkår)?.utfall}
+                            onOverstyrt={opptjeningsvurdering.onOverstyrt}
+                            onLukk={() => setAktivtVilkår(null)}
+                        />
+                    </Box>
+                </>
             )}
         </HStack>
     );

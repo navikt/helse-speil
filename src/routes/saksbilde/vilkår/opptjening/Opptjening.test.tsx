@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mock } from 'vitest';
 
+import { VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
 import {
     ApiKildetype,
     ApiKravkilde,
@@ -13,11 +14,9 @@ import {
     useGetVilkårsvurderingerForPersonBehandler,
     usePostManuellVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+import { InngangsvilkårWithContent } from '@saksbilde/vilkår/Inngangsvilkår';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
-
-import { VurderingspanelContext, VurderingspanelProvider } from '../VurderingspanelContext';
-import { Opptjening } from './Opptjening';
 
 vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
@@ -156,30 +155,26 @@ const mockVilkårsvurderinger = (
 
 const arbeidsvilkår = () => screen.getByTestId(`opptjeningsvilkår-${ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}`);
 
-function VurderingspanelTestRamme({ children }: React.PropsWithChildren): React.ReactElement {
-    return (
-        <VurderingspanelProvider>
-            <VurderingspanelInnhold>{children}</VurderingspanelInnhold>
-        </VurderingspanelProvider>
-    );
-}
-
-function VurderingspanelInnhold({ children }: React.PropsWithChildren): React.ReactElement {
-    const { innhold } = React.useContext(VurderingspanelContext);
-
-    return (
-        <>
-            {children}
-            <div>{innhold}</div>
-        </>
-    );
-}
+const vilkårsgrunnlag: VilkarsgrunnlagInfotrygdV2 = {
+    __typename: 'VilkarsgrunnlagInfotrygdV2',
+    id: 'en-id',
+    arbeidsgiverrefusjoner: [],
+    inntekter: [],
+    skjaeringstidspunkt: '2024-01-01',
+    sykepengegrunnlag: 1234567,
+    omregnetArsinntekt: 1234567,
+    opptjeningsvurderingId: 'en-id',
+};
 
 const renderOpptjening = (readOnly: boolean) =>
     render(
-        <VurderingspanelTestRamme>
-            <Opptjening personPseudoId="en-person" opptjeningsvurderingId="en-id" readOnly={readOnly} />
-        </VurderingspanelTestRamme>,
+        <InngangsvilkårWithContent
+            erSelvstendigNæring={false}
+            periodeFom="2024-01-01"
+            vilkårsgrunnlag={vilkårsgrunnlag}
+            fødselsdato="1980-01-01"
+            opptjening={{ personPseudoId: 'en-person', opptjeningsvurderingId: 'en-id', readOnly }}
+        />,
     );
 
 const startVurdering = async () => {
@@ -363,6 +358,17 @@ describe('Opptjening', () => {
 
         expect(await within(arbeidsvilkår()).findByText('Dokument-ID')).toBeVisible();
         expect(within(arbeidsvilkår()).getByText('12345')).toBeVisible();
+        expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
+    });
+
+    it('markerer vilkåret som vurderes', async () => {
+        renderOpptjening(false);
+
+        expect(arbeidsvilkår()).not.toHaveClass('bg-ax-bg-accent-soft');
+
+        await startVurdering();
+
+        expect(arbeidsvilkår()).toHaveClass('bg-ax-bg-accent-soft');
     });
 
     it('validerer at utfall og begrunnelse er fylt ut', async () => {

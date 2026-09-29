@@ -142,14 +142,13 @@ export const kategoriserteInngangsvilkår = (
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
     alderVedSkjæringstidspunkt: number,
     vurdering?: Vurdering | null,
-    visOpptjeningSeparat = false,
 ): KategoriserteVilkår => {
     const vurdertIInfotrygd = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2';
     const vurdertISpleis = !vurdertIInfotrygd && vurdering;
     const ikkeVurdert = !vurdertIInfotrygd && !vurdertISpleis;
 
     const inngangsvilkår = [
-        ...(visOpptjeningSeparat ? [] : [opptjeningstid(erSelvstendigNæring, vilkårsgrunnlag)]),
+        opptjeningstid(erSelvstendigNæring, vilkårsgrunnlag),
         sykepengegrunnlag(alderVedSkjæringstidspunkt, vilkårsgrunnlag),
         medlemskap(vilkårsgrunnlag),
     ];

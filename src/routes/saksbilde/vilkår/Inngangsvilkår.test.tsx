@@ -5,6 +5,13 @@ import { render, screen, within } from '@testing-library/react';
 
 import { InngangsvilkårWithContent } from './Inngangsvilkår';
 
+vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
+    useGetVilkårsvurderingerForPersonBehandler: () => ({ data: undefined, isLoading: true, isError: false }),
+}));
+
+const opptjening = { personPseudoId: 'en-person', opptjeningsvurderingId: 'en-id', readOnly: false };
+
 const getVilkårsgrunnlagSpleis = (
     // TODO: Erstatte global type med query type
     overrides?: Partial<VilkarsgrunnlagSpleisV2>,
@@ -185,25 +192,6 @@ describe('Inngangsvilkår', () => {
         expect(within(gruppe).getByText('Antall dager (>28)')).toBeVisible();
     });
 
-    it('rendrer opptjening separat og utelater opptjeningstid fra kolonnene', () => {
-        render(
-            <InngangsvilkårWithContent
-                periodeFom="2022-01-01"
-                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
-                fødselsdato="1900-01-01"
-                erSelvstendigNæring={false}
-                opptjening={<div data-testid="opptjening" />}
-            />,
-        );
-
-        expect(screen.getByTestId('opptjening')).toBeVisible();
-
-        const gruppe = screen.getByTestId('oppfylte-vilkår');
-        expect(within(gruppe).queryByText('Opptjeningstid')).not.toBeInTheDocument();
-        expect(within(gruppe).getByText('Lovvalg og medlemskap')).toBeVisible();
-        expect(within(gruppe).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
-    });
-
     describe('nytt vilkårsdesign', () => {
         it('rendrer sykepengegrunnlag og medlemskap som flate kort i stedet for kolonner', () => {
             render(
@@ -212,8 +200,7 @@ describe('Inngangsvilkår', () => {
                     vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
                     fødselsdato="1900-01-01"
                     erSelvstendigNæring={false}
-                    nyttVilkårsdesign={true}
-                    opptjening={<div data-testid="opptjening" />}
+                    opptjening={opptjening}
                 />,
             );
 
@@ -240,7 +227,7 @@ describe('Inngangsvilkår', () => {
                     })}
                     fødselsdato="1900-01-01"
                     erSelvstendigNæring={false}
-                    nyttVilkårsdesign={true}
+                    opptjening={opptjening}
                 />,
             );
 
@@ -258,7 +245,7 @@ describe('Inngangsvilkår', () => {
                     vilkårsgrunnlag={getVilkårsgrunnlagInfotrygd()}
                     fødselsdato="1900-01-01"
                     erSelvstendigNæring={false}
-                    nyttVilkårsdesign={true}
+                    opptjening={opptjening}
                 />,
             );
 
