@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering, Vurdering } from '@io/graphql';
+import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering } from '@io/graphql';
 import { render, screen, within } from '@testing-library/react';
 
 import { InngangsvilkårWithContent } from './Inngangsvilkår';
@@ -10,7 +10,7 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     useGetVilkårsvurderingerForPersonBehandler: () => ({ data: undefined, isLoading: true, isError: false }),
 }));
 
-const opptjening = { personPseudoId: 'en-person', opptjeningsvurderingId: 'en-id', readOnly: false };
+const opptjeningProps = { personPseudoId: 'en-person', opptjeningsvurderingId: 'en-id', readOnly: false };
 
 const getVilkårsgrunnlagSpleis = (
     // TODO: Erstatte global type med query type
@@ -57,203 +57,59 @@ const getVilkårsgrunnlagInfotrygd = (): VilkarsgrunnlagInfotrygdV2 => ({
     omregnetArsinntekt: 1234567,
     opptjeningsvurderingId: 'en-opptjeningsvurdering-id',
 });
-
-const getVurdering = (overrides?: Partial<Vurdering>): Vurdering => ({
-    __typename: 'Vurdering',
-    godkjent: true,
-    ident: 'en-saksbehandler',
-    automatisk: false,
-    tidsstempel: '2020-01-01',
-    ...overrides,
-});
-
 describe('Inngangsvilkår', () => {
-    it('rendrer oppfylte vilkår', () => {
+    it('rendrer opptjening, sykepengegrunnlag og medlemskap', () => {
         render(
             <InngangsvilkårWithContent
-                periodeFom="2022-01-01"
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
                 fødselsdato="1900-01-01"
-                erSelvstendigNæring={false}
+                {...opptjeningProps}
             />,
         );
 
-        const gruppe = screen.getByTestId('oppfylte-vilkår');
-        expect(gruppe).toBeVisible();
-        expect(within(gruppe).getByText('Opptjeningstid')).toBeVisible();
-        expect(within(gruppe).getByText('Lovvalg og medlemskap')).toBeVisible();
-        expect(within(gruppe).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
+        expect(screen.getByTestId('opptjening')).toBeVisible();
+
+        const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+        expect(within(sykepengegrunnlag).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
+        expect(within(sykepengegrunnlag).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
+
+        const medlemskap = screen.getByTestId('medlemskap');
+        expect(within(medlemskap).getByText('Lovvalg og medlemskap')).toBeVisible();
+        expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
     });
 
-    it('rendrer ikke oppfylte vilkår', () => {
+    it('viser ikke oppfylt/ikke vurdert-utfall for sykepengegrunnlag og medlemskap', () => {
         render(
             <InngangsvilkårWithContent
-                periodeFom="2022-01-01"
-                vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ oppfyllerKravOmOpptjening: false })}
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis({
+                    oppfyllerKravOmMinstelonn: false,
+                    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.IkkeVurdert,
+                })}
                 fødselsdato="1900-01-01"
-                erSelvstendigNæring={false}
+                {...opptjeningProps}
             />,
         );
 
-        const oppfylteVilkår = screen.getByTestId('oppfylte-vilkår');
-        expect(oppfylteVilkår).toBeVisible();
+        const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+        expect(within(sykepengegrunnlag).getByText('Ikke oppfylt', { selector: '.aksel-tag' })).toBeVisible();
 
-        expect(within(oppfylteVilkår).queryByText('Opptjeningstid')).not.toBeInTheDocument();
-        expect(within(oppfylteVilkår).getByText('Lovvalg og medlemskap')).toBeVisible();
-        expect(within(oppfylteVilkår).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
-
-        const ikkeOppfylteVilkår = screen.getByTestId('ikke-oppfylte-vilkår');
-        expect(ikkeOppfylteVilkår).toBeVisible();
-        expect(within(ikkeOppfylteVilkår).getByText('Opptjeningstid')).toBeVisible();
+        const medlemskap = screen.getByTestId('medlemskap');
+        expect(within(medlemskap).getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
     });
 
-    it('rendrer vilkår vurdert av saksbehandler', async () => {
+    it('viser "Vurdert i Infotrygd" som utfall-tag når vilkårsgrunnlaget er fra Infotrygd', () => {
         render(
             <InngangsvilkårWithContent
-                periodeFom="2022-01-01"
-                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
-                fødselsdato="1900-01-01"
-                vurdering={getVurdering()}
-                erSelvstendigNæring={false}
-            />,
-        );
-
-        const gruppe = screen.getByTestId('vurdert-av-saksbehandler');
-        expect(gruppe).toBeVisible();
-        expect(within(gruppe).getByText('Opptjeningstid')).toBeVisible();
-        expect(within(gruppe).getByText('Lovvalg og medlemskap')).toBeVisible();
-        expect(within(gruppe).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
-    });
-
-    it('rendrer automatisk vurderte vilkår', async () => {
-        render(
-            <InngangsvilkårWithContent
-                periodeFom="2022-01-01"
-                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
-                fødselsdato="1900-01-01"
-                vurdering={getVurdering({ automatisk: true })}
-                erSelvstendigNæring={false}
-            />,
-        );
-
-        const gruppe = screen.getByTestId('vurdert-automatisk');
-        expect(gruppe).toBeVisible();
-        expect(within(gruppe).getByText('Opptjeningstid')).toBeVisible();
-        expect(within(gruppe).getByText('Lovvalg og medlemskap')).toBeVisible();
-        expect(within(gruppe).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
-    });
-
-    it('rendrer vilkår vurdert i Infotrygd', async () => {
-        render(
-            <InngangsvilkårWithContent
-                periodeFom="2022-01-01"
                 vilkårsgrunnlag={getVilkårsgrunnlagInfotrygd()}
                 fødselsdato="1900-01-01"
-                erSelvstendigNæring={false}
+                {...opptjeningProps}
             />,
         );
 
-        const gruppe = screen.getByTestId('vurdert-i-infotrygd');
-        expect(gruppe).toBeVisible();
-        expect(within(gruppe).getByText('Opptjeningstid')).toBeVisible();
-        expect(within(gruppe).getByText('Lovvalg og medlemskap')).toBeVisible();
-        expect(within(gruppe).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
-    });
+        const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
+        expect(within(sykepengegrunnlag).getByText('Vurdert i Infotrygd')).toBeVisible();
 
-    it('rendrer opptjeningstid ved selvstendig næring', async () => {
-        render(
-            <InngangsvilkårWithContent
-                periodeFom="2022-01-01"
-                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
-                fødselsdato="1900-01-01"
-                erSelvstendigNæring={true}
-            />,
-        );
-
-        const gruppe = screen.getByTestId('oppfylte-vilkår');
-        expect(gruppe).toBeVisible();
-        expect(within(gruppe).queryByText('Opptjening fra')).not.toBeInTheDocument();
-        expect(within(gruppe).queryByText('Antall dager (>28)')).not.toBeInTheDocument();
-    });
-
-    it('rendrer opptjeningstid ved arbeidstaker', async () => {
-        render(
-            <InngangsvilkårWithContent
-                periodeFom="2022-01-01"
-                vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
-                fødselsdato="1900-01-01"
-                erSelvstendigNæring={false}
-            />,
-        );
-
-        const gruppe = screen.getByTestId('oppfylte-vilkår');
-        expect(gruppe).toBeVisible();
-        expect(within(gruppe).getByText('Opptjening fra')).toBeVisible();
-        expect(within(gruppe).getByText('Antall dager (>28)')).toBeVisible();
-    });
-
-    describe('nytt vilkårsdesign', () => {
-        it('rendrer sykepengegrunnlag og medlemskap som flate kort i stedet for kolonner', () => {
-            render(
-                <InngangsvilkårWithContent
-                    periodeFom="2022-01-01"
-                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
-                    fødselsdato="1900-01-01"
-                    erSelvstendigNæring={false}
-                    opptjening={opptjening}
-                />,
-            );
-
-            expect(screen.getByTestId('opptjening')).toBeVisible();
-            expect(screen.queryByTestId('oppfylte-vilkår')).not.toBeInTheDocument();
-            expect(screen.queryByTestId('vurdert-automatisk')).not.toBeInTheDocument();
-
-            const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
-            expect(within(sykepengegrunnlag).getByText('Krav til minste sykepengegrunnlag')).toBeVisible();
-            expect(within(sykepengegrunnlag).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
-
-            const medlemskap = screen.getByTestId('medlemskap');
-            expect(within(medlemskap).getByText('Lovvalg og medlemskap')).toBeVisible();
-            expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
-        });
-
-        it('viser ikke oppfylt/ikke vurdert-utfall for sykepengegrunnlag og medlemskap', () => {
-            render(
-                <InngangsvilkårWithContent
-                    periodeFom="2022-01-01"
-                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis({
-                        oppfyllerKravOmMinstelonn: false,
-                        vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.IkkeVurdert,
-                    })}
-                    fødselsdato="1900-01-01"
-                    erSelvstendigNæring={false}
-                    opptjening={opptjening}
-                />,
-            );
-
-            const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
-            expect(within(sykepengegrunnlag).getByText('Ikke oppfylt', { selector: '.aksel-tag' })).toBeVisible();
-
-            const medlemskap = screen.getByTestId('medlemskap');
-            expect(within(medlemskap).getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
-        });
-
-        it('viser "Vurdert i Infotrygd" som utfall-tag når vilkårsgrunnlaget er fra Infotrygd', () => {
-            render(
-                <InngangsvilkårWithContent
-                    periodeFom="2022-01-01"
-                    vilkårsgrunnlag={getVilkårsgrunnlagInfotrygd()}
-                    fødselsdato="1900-01-01"
-                    erSelvstendigNæring={false}
-                    opptjening={opptjening}
-                />,
-            );
-
-            const sykepengegrunnlag = screen.getByTestId('sykepengegrunnlag');
-            expect(within(sykepengegrunnlag).getByText('Vurdert i Infotrygd')).toBeVisible();
-
-            const medlemskap = screen.getByTestId('medlemskap');
-            expect(within(medlemskap).getByText('Vurdert i Infotrygd')).toBeVisible();
-        });
+        const medlemskap = screen.getByTestId('medlemskap');
+        expect(within(medlemskap).getByText('Vurdert i Infotrygd')).toBeVisible();
     });
 });

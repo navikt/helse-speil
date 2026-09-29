@@ -169,11 +169,11 @@ const vilkårsgrunnlag: VilkarsgrunnlagInfotrygdV2 = {
 const renderOpptjening = (readOnly: boolean) =>
     render(
         <InngangsvilkårWithContent
-            erSelvstendigNæring={false}
-            periodeFom="2024-01-01"
             vilkårsgrunnlag={vilkårsgrunnlag}
             fødselsdato="1980-01-01"
-            opptjening={{ personPseudoId: 'en-person', opptjeningsvurderingId: 'en-id', readOnly }}
+            personPseudoId="en-person"
+            opptjeningsvurderingId="en-id"
+            readOnly={readOnly}
         />,
     );
 
