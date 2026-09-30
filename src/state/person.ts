@@ -1,6 +1,6 @@
 import { useParams } from 'next/navigation';
 
-import { QueryResult, useQuery } from '@apollo/client';
+import { NetworkStatus, QueryResult, useQuery } from '@apollo/client';
 import { FetchPersonDocument, FetchPersonQuery, FetchPersonQueryVariables } from '@io/graphql';
 
 export const useFetchPersonQuery = (): QueryResult<FetchPersonQuery, FetchPersonQueryVariables> => {
@@ -14,3 +14,17 @@ export const useFetchPersonQuery = (): QueryResult<FetchPersonQuery, FetchPerson
         skip: !personPseudoId,
     });
 };
+
+export function useErPersonUnderLasting(): boolean {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+
+    const { networkStatus } = useQuery(FetchPersonDocument, {
+        fetchPolicy: 'cache-first',
+        variables: {
+            personPseudoId: personPseudoId!,
+        },
+        skip: !personPseudoId,
+        notifyOnNetworkStatusChange: true,
+    });
+    return networkStatus === NetworkStatus.loading || networkStatus === NetworkStatus.refetch;
+}
