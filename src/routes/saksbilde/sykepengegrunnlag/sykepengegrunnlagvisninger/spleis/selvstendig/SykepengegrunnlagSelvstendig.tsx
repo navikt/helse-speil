@@ -10,7 +10,7 @@ import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { BeregnetPeriodeFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
+import { BeregnetPeriodeFragment, PersonFragment, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
 import { ForsikringSeksjon } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/ForsikringSeksjon';
 import { SykepengegrunnlagSelvstendigPanel } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendigPanel';
 import { somPenger } from '@utils/locale';
@@ -18,14 +18,10 @@ import { somPenger } from '@utils/locale';
 interface SykepengegrunnlagProps extends HTMLAttributes<HTMLDivElement> {
     vilkårsgrunnlag: VilkarsgrunnlagSpleisV2;
     beregnetPeriode: BeregnetPeriodeFragment;
-    identitetsnummer: string;
+    person: PersonFragment;
 }
 
-export const SykepengegrunnlagSelvstendig = ({
-    vilkårsgrunnlag,
-    beregnetPeriode,
-    identitetsnummer,
-}: SykepengegrunnlagProps) => {
+export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode, person }: SykepengegrunnlagProps) => {
     return (
         <HStack>
             <Box
@@ -78,7 +74,7 @@ export const SykepengegrunnlagSelvstendig = ({
                         skjæringstidspunkt={vilkårsgrunnlag.skjaeringstidspunkt}
                         vedtaksperiodeId={beregnetPeriode.vedtaksperiodeId}
                         behandlingId={beregnetPeriode.behandlingId}
-                        identitetsnummer={identitetsnummer}
+                        person={person}
                     />
                 </VStack>
             </Box>

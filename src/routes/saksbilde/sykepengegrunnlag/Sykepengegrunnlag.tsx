@@ -41,7 +41,7 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
                     <SykepengegrunnlagSelvstendig
                         vilkårsgrunnlag={vilkårsgrunnlag}
                         beregnetPeriode={periode}
-                        identitetsnummer={person.fodselsnummer}
+                        person={person}
                     />
                 );
             }

@@ -6,6 +6,7 @@ import { BodyShort, Detail, HStack, Heading, InlineMessage, VStack } from '@navi
 import { erUtvikling } from '@/env';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
+import { PersonFragment } from '@io/graphql';
 import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
 import {
     ApiFolketrygdlovenreferanse,
@@ -14,7 +15,10 @@ import {
     ApiKollektivForsikring,
 } from '@io/rest/generated/spesialist.schemas';
 import { EndringssjekkKnapp } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/EndringssjekkKnapp';
+import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useActivePeriod } from '@state/periode';
 import { useErPersonUnderLasting } from '@state/person';
+import { isInCurrentGeneration } from '@state/selectors/period';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 
 interface ForsikringSeksjonProps {
@@ -22,7 +26,7 @@ interface ForsikringSeksjonProps {
     skjæringstidspunkt: string;
     vedtaksperiodeId: string;
     behandlingId: string;
-    identitetsnummer: string;
+    person: PersonFragment;
 }
 
 export const ForsikringSeksjon = ({
@@ -30,7 +34,7 @@ export const ForsikringSeksjon = ({
     skjæringstidspunkt,
     vedtaksperiodeId,
     behandlingId,
-    identitetsnummer,
+    person,
 }: ForsikringSeksjonProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const isPersonLoading = useErPersonUnderLasting();
@@ -39,14 +43,22 @@ export const ForsikringSeksjon = ({
             enabled: !!forsikringsvurderingId,
         },
     });
+    const aktivPeriode = useActivePeriod(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
+    if (aktivPeriode == null || inntektsforhold == undefined) return <></>;
+    const skalViseEndringssjekkKnapp =
+        isInCurrentGeneration(aktivPeriode, inntektsforhold) &&
+        data !== undefined &&
+        forsikringsvurderingId !== null &&
+        erUtvikling;
 
     return (
         <VStack gap="space-8">
             <HStack gap="space-8" align="center">
                 <Heading size="xsmall">Forsikring</Heading>
-                {erUtvikling && data && forsikringsvurderingId && (
+                {skalViseEndringssjekkKnapp && (
                     <EndringssjekkKnapp
-                        identitetsnummer={identitetsnummer}
+                        identitetsnummer={person.fodselsnummer}
                         skjæringstidspunkt={skjæringstidspunkt}
                         behandlingId={behandlingId}
                         vedtaksperiodeId={vedtaksperiodeId}
