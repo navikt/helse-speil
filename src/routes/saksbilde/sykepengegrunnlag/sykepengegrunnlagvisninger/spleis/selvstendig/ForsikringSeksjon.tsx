@@ -14,6 +14,7 @@ import {
     ApiKollektivForsikring,
 } from '@io/rest/generated/spesialist.schemas';
 import { EndringssjekkKnapp } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/EndringssjekkKnapp';
+import { useFetchPersonQuery } from '@state/person';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 
 interface ForsikringSeksjonProps {
@@ -32,6 +33,7 @@ export const ForsikringSeksjon = ({
     identitetsnummer,
 }: ForsikringSeksjonProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const { loading: isPersonLoading } = useFetchPersonQuery();
     const { data, isLoading, error } = useGetForsikringsvurderingForPerson(personPseudoId, forsikringsvurderingId!, {
         query: {
             enabled: !!forsikringsvurderingId,
@@ -57,7 +59,7 @@ export const ForsikringSeksjon = ({
                 </Detail>
             )}
 
-            {isLoading ? (
+            {isLoading || isPersonLoading ? (
                 <LoadingShimmer />
             ) : error ? (
                 <HStack align="center" gap="space-8">
