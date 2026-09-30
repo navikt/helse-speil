@@ -37,6 +37,7 @@ export function OpptjeningVilkårsrad({
     const vilkårsnavn = vilkårskodeLabels[vilkårskode];
     const utfall = utfallFraApi(vurdering?.utfall);
     const navnId = useId();
+    const erAutomatiskOppfylt = utfall === 'Oppfylt' && !!vurdering && !erSaksbehandlerkilde(vurdering.kilde);
 
     return (
         <VStack
@@ -57,7 +58,7 @@ export function OpptjeningVilkårsrad({
                     {vilkårsnavn}
                 </BodyShort>
                 <Spacer />
-                {!readOnly && erUtvikling && (
+                {!readOnly && erUtvikling && !erAutomatiskOppfylt && (
                     <Button type="button" variant="secondary" size="small" onClick={onVurder}>
                         Vurder vilkår
                     </Button>

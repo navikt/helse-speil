@@ -8,6 +8,7 @@ import {
     ApiKravkode,
     ApiUtfall,
     ApiVilkårskode,
+    ApiVilkårsvurdering,
     ApiVilkårsvurderingerForPersonResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import {
@@ -98,6 +99,19 @@ const automatiskVurdertArbeidMinst4Uker: ApiVilkårsvurderingerForPersonResponse
     ],
 };
 
+const automatiskIkkeOppfyltArbeidMinst4Uker = medEndretVurdering(automatiskVurdertArbeidMinst4Uker, {
+    utfall: ApiUtfall.IKKE_OPPFYLT,
+});
+
+const saksbehandlerOppfyltArbeidMinst4Uker = medEndretVurdering(automatiskVurdertArbeidMinst4Uker, {
+    kilde: {
+        ident: 'S123456',
+        fritekstbegrunnelse: 'Har likestilt ytelse',
+        journalpostId: [],
+        kildetype: ApiKildetype.SAKSBEHANDLER,
+    },
+});
+
 const overførtFraSpleis: ApiVilkårsvurderingerForPersonResponse = {
     skjæringstidspunkt: '2024-01-01',
     krav: [
@@ -184,7 +198,7 @@ const startVurdering = async () => {
 beforeEach(() => {
     mutate.mockClear();
     envMock.erUtvikling = true;
-    mockVilkårsvurderinger(automatiskVurdertArbeidMinst4Uker);
+    mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
     (usePostManuellVilkårsvurderingBehandler as Mock).mockReturnValue({
         mutate,
         isPending: false,
@@ -242,8 +256,8 @@ describe('Opptjening', () => {
 
         await startVurdering();
 
-        await userEvent.click(screen.getByRole('radio', { name: 'Ikke oppfylt' }));
-        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Mangler opptjening');
+        await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Har opptjening');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(mutate).toHaveBeenCalledWith({
@@ -251,11 +265,35 @@ describe('Opptjening', () => {
             data: {
                 skjæringstidspunkt: '2024-01-01',
                 vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
-                utfall: ApiUtfall.IKKE_OPPFYLT,
-                fritekstbegrunnelse: 'Mangler opptjening',
+                utfall: ApiUtfall.OPPFYLT,
+                fritekstbegrunnelse: 'Har opptjening',
                 journalpostId: [],
             },
         });
+    });
+
+    it('skjuler vurder vilkår-knappen når vilkåret er automatisk oppfylt', async () => {
+        mockVilkårsvurderinger(automatiskVurdertArbeidMinst4Uker);
+
+        renderOpptjening(false);
+
+        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
+    });
+
+    it('skjuler vurder vilkår-knappen når vilkåret er overført fra Spleis som oppfylt', async () => {
+        mockVilkårsvurderinger(overførtFraSpleis);
+
+        renderOpptjening(false);
+
+        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
+    });
+
+    it('viser vurder vilkår-knappen når saksbehandler har vurdert vilkåret som oppfylt', async () => {
+        mockVilkårsvurderinger(saksbehandlerOppfyltArbeidMinst4Uker);
+
+        renderOpptjening(false);
+
+        expect(screen.getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
     });
 
     it('sender dokument-id som journalpostId', async () => {
@@ -478,3 +516,17 @@ describe('Opptjening', () => {
         expect(screen.getByText('Kunne ikke hente opptjeningsvurderingen')).toBeVisible();
     });
 });
+
+function medEndretVurdering(
+    data: ApiVilkårsvurderingerForPersonResponse,
+    endring: Partial<ApiVilkårsvurdering>,
+): ApiVilkårsvurderingerForPersonResponse {
+    return {
+        ...data,
+        krav: data.krav.map((krav) =>
+            'vurderinger' in krav
+                ? { ...krav, vurderinger: krav.vurderinger.map((vurdering) => ({ ...vurdering, ...endring })) }
+                : krav,
+        ),
+    };
+}
