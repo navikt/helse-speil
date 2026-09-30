@@ -6,34 +6,32 @@ registries:
     token: ${{ secrets.READER_TOKEN }}
 updates:
   # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: 'github-actions'
+    directory: '/'
     cooldown:
       default-days: 7 # Delay all updates by 7 days by default
     commit-message:
-      prefix: "⬆ "
+      prefix: '⬆ '
     schedule:
-      interval: "daily"
+      interval: 'daily'
 
   # Maintain dependencies for docker
-  - package-ecosystem: "docker"
-    directory: "/"
+  - package-ecosystem: 'docker'
+    directory: '/'
     commit-message:
-      prefix: "⬆ "
+      prefix: '⬆ '
     schedule:
-      interval: "daily"
+      interval: 'daily'
 
   # Maintain dependencies for npm
-  - package-ecosystem: "npm"
-    directory: "/"
+  - package-ecosystem: 'npm'
+    directory: '/'
     cooldown:
       default-days: 7 # Delay all updates by 7 days by default
     commit-message:
-      prefix: "⬆ "
+      prefix: '⬆ '
     schedule:
-      interval: "daily"
+      interval: 'daily'
     registries: '*'
     ignore:
       - dependency-name: '@type/node'
-      - dependency-name: 'eslint'
-        version: ['9.x']

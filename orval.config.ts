@@ -1,6 +1,11 @@
-// noinspection ES6PreferShortImport
-import { spesialistOpenAPITransformer, sporhundOpenAPITransformer, vilkarsprovingOpenAPITransformer } from './src/io/rest/spesialist-openapi-transformer';
 import { defineConfig } from 'orval';
+
+// noinspection ES6PreferShortImport
+import {
+    spesialistOpenAPITransformer,
+    sporhundOpenAPITransformer,
+    vilkarsprovingOpenAPITransformer,
+} from './src/io/rest/spesialist-openapi-transformer';
 
 const sharedOutput = {
     mode: 'tags-split',
@@ -24,8 +29,8 @@ const sharedOutput = {
 } as const;
 
 const sharedHooks = {
-    // Kjør prettier på alle genererte filer etter generering
-    afterAllFilesWrite: 'prettier --write',
+    // Formater alle genererte filer etter generering
+    afterAllFilesWrite: 'oxfmt',
 };
 
 export default defineConfig({

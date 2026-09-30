@@ -1,0 +1,45 @@
+{
+    "$schema": "./node_modules/oxlint/configuration_schema.json",
+    "plugins": ["eslint", "typescript", "react", "nextjs", "jsx-a11y", "import"],
+    "jsPlugins": [
+        { "name": "import-alias", "specifier": "@limegrass/eslint-plugin-import-alias" },
+        { "name": "import-js", "specifier": "eslint-plugin-import" }
+    ],
+    "ignorePatterns": [
+        "src/io/graphql/generated/graphql.ts",
+        "src/io/rest/generated/**",
+        "src/io/sanity/generated/**",
+        "src/spesialist-mock/schemaTypes.ts"
+    ],
+    "rules": {
+        "react/refs": "off",
+        "eslint/no-unused-vars": "off",
+        "typescript/no-unused-vars": [
+            "error",
+            {
+                "args": "all",
+                "argsIgnorePattern": "^_",
+                "caughtErrors": "all",
+                "caughtErrorsIgnorePattern": "^_",
+                "destructuredArrayIgnorePattern": "^_",
+                "varsIgnorePattern": "^_",
+                "ignoreRestSiblings": true
+            }
+        ],
+        "typescript/array-type": "error",
+        "import-js/no-extraneous-dependencies": "error"
+    },
+    "overrides": [
+        {
+            "files": ["src/**/*.ts", "src/**/*.tsx"],
+            "rules": {
+                "import-alias/import-alias": [
+                    "error",
+                    {
+                        "relativeImportOverrides": [{ "depth": 1, "path": "." }]
+                    }
+                ]
+            }
+        }
+    ]
+}

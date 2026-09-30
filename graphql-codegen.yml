@@ -2,7 +2,7 @@ overwrite: true
 schema:
   - 'http://localhost:8080/graphql':
       headers:
-        Authorization: "Bearer ${BEARER_TOKEN}"
+        Authorization: 'Bearer ${BEARER_TOKEN}'
   - './src/io/graphql/rest/sparkel-aareg/schema.graphql'
   - './src/io/graphql/rest/spesialist/schema.graphql'
 documents: 'src/io/graphql/**/*.graphql'
@@ -38,4 +38,4 @@ generates:
       - 'typescript'
 hooks:
   afterAllFileWrite:
-    - prettier --write
+    - oxfmt

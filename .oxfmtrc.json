@@ -1,0 +1,62 @@
+{
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 120,
+    "tabWidth": 4,
+    "sortImports": {
+        "internalPattern": [
+            "@/",
+            "@app/",
+            "@assets/",
+            "@auth/",
+            "@components/",
+            "@external/",
+            "@form-schemas/",
+            "@hookform/",
+            "@hooks/",
+            "@io/",
+            "@nais/",
+            "@observability/",
+            "@oversikt/",
+            "@routes/",
+            "@saksbilde/",
+            "@spesialist-mock/",
+            "@state/",
+            "@test-",
+            "@typer/",
+            "@utils/"
+        ],
+        "customGroups": [{ "groupName": "navikt", "elementNamePattern": ["@navikt/**"] }],
+        "groups": [
+            "side_effect",
+            ["builtin", "external"],
+            "navikt",
+            "internal",
+            ["parent", "sibling", "index"],
+            "style",
+            "unknown"
+        ]
+    },
+    "sortPackageJson": false,
+    "sortTailwindcss": {
+        "stylesheet": "./src/app/globals.css",
+        "functions": ["classNames", "cn"]
+    },
+    "overrides": [
+        {
+            "files": ["*.yml", "*.yaml"],
+            "options": {
+                "bracketSpacing": false,
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": ["*.scss"],
+            "options": {
+                "tabWidth": 2
+            }
+        }
+    ]
+}

@@ -6,11 +6,9 @@ Saksbehandlerverktøy for sykepenger.
 
 ## Kodeformatering
 
-Dette repoet bruker [prettier](https://prettier.io/)
-med [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier)
-for å sikre at all koden er på likt format. Hvordan utviklerne velger å overholde disse reglene er opp til den enkelte,
-men
-Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette konfigureres avhenger av IDE / Editor.
+Repoet bruker Oxfmt til formatering og Oxlint til linting. Kjør `pnpm run format` for å formatere filer,
+`pnpm run format:check` for å sjekke formatering og `pnpm run lint` for å kjøre linting.
+Du kan også sette opp Oxfmt til å formatere automatisk ved lagring i editoren.
 
 ## Gi tilgang til Speil i dev (aka preprod) via AD:
 

@@ -22,7 +22,6 @@ overrides:
   flatted: '>=3.3.4'
   protobufjs: '>=8.0.1'
 minimumReleaseAgeExclude:
-  - '@tanstack/eslint-plugin-query@5.103.1'
   - '@envelop/core@5.6.1'
   - '@envelop/instrumentation@1.0.1'
   - '@envelop/types@5.2.2'

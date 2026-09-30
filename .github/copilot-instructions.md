@@ -8,8 +8,10 @@ Speil is a sickness benefit case processing tool ("saksbehandlerverktøy for syk
 pnpm install          # Install dependencies (requires NPM_AUTH_TOKEN for @navikt packages)
 pnpm run dev          # Start dev server on port 1234 (uses Turbopack)
 pnpm run build        # Production build (Next.js standalone)
-pnpm run lint         # ESLint
-pnpm run lint:fix     # ESLint with auto-fix
+pnpm run lint         # Oxlint
+pnpm run lint:fix     # Oxlint with auto-fix
+pnpm run format       # Format with Oxfmt
+pnpm run format:check # Check formatting with Oxfmt
 pnpm run tsc          # Type-check
 pnpm run test         # Run all tests (Vitest)
 pnpm run test -- src/utils/date.test.ts              # Run a single test file
@@ -63,7 +65,7 @@ Place exported components at the top of the file and helper functions at the bot
 
 ### Path aliases
 
-Always use path aliases for imports (enforced by `eslint-plugin-import-alias`). Relative imports are only allowed within the same directory (depth 1). Key aliases:
+Always use path aliases for imports (enforced by `@limegrass/eslint-plugin-import-alias` through Oxlint). Relative imports are only allowed within the same directory (depth 1). Key aliases:
 
 - `@/` → `src/`
 - `@components/`, `@hooks/`, `@io/`, `@state/`, `@utils/`, `@routes/`, `@typer/` → corresponding `src/` subdirectories
@@ -89,7 +91,7 @@ Uses **Tailwind CSS v4** with NAV's design system (`@navikt/ds-react`, `@navikt/
 
 ### Code formatting
 
-Prettier is configured with 4-space indentation, single quotes, 120 char print width, trailing commas, and automatic import sorting via `@trivago/prettier-plugin-sort-imports`. Import order: globals → third-party → `@navikt/*` → project aliases → relative imports → styles.
+Oxfmt is configured with 4-space indentation, single quotes, 120 char print width, trailing commas, and built-in import and Tailwind class sorting. Import order: side-effect imports → third-party → `@navikt/*` → project aliases → relative imports → styles.
 
 ### React Compiler
 
