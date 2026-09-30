@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Detail, HStack, Heading, InlineMessage, VStack } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { PersonFragment } from '@io/graphql';
@@ -43,10 +42,7 @@ export const ForsikringSeksjon = ({
     const inntektsforhold = useAktivtInntektsforhold(person);
     if (aktivPeriode == null || inntektsforhold == undefined) return <></>;
     const skalViseEndringssjekkKnapp =
-        isInCurrentGeneration(aktivPeriode, inntektsforhold) &&
-        data !== undefined &&
-        forsikringsvurderingId !== null &&
-        erUtvikling;
+        isInCurrentGeneration(aktivPeriode, inntektsforhold) && data !== undefined && forsikringsvurderingId !== null;
 
     return (
         <VStack gap="space-8">
@@ -60,7 +56,7 @@ export const ForsikringSeksjon = ({
                     />
                 )}
             </HStack>
-            {erUtvikling && data && (
+            {data && (
                 <Detail textColor="subtle">
                     {`Hentet ${getFormattedDatetimeString(data.sistHentet?.tidspunkt)} og vurdert ${getFormattedDatetimeString(data.vurdertTidspunkt)}`}
                 </Detail>
