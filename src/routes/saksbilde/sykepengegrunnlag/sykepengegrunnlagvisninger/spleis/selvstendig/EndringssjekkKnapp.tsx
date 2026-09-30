@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React from 'react';
 
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
@@ -5,6 +6,7 @@ import { Button } from '@navikt/ds-react';
 
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import { usePostSjekkEndringForsikring } from '@io/rest/forsikring';
+import { getGetForsikringsvurderingForPersonQueryKey } from '@io/rest/generated/forsikringer/forsikringer';
 import {
     visningenErOppdatertToast,
     visningenErOppdatertToastKey,
@@ -13,6 +15,7 @@ import {
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
+import { useQueryClient } from '@tanstack/react-query';
 import { generateId } from '@utils/generateId';
 
 interface EndringssjekkKnappProps {
@@ -20,6 +23,7 @@ interface EndringssjekkKnappProps {
     skjæringstidspunkt: string;
     behandlingId: string;
     vedtaksperiodeId: string;
+    forsikringsvurderingId: string;
 }
 
 export function EndringssjekkKnapp({
@@ -27,11 +31,14 @@ export function EndringssjekkKnapp({
     skjæringstidspunkt,
     behandlingId,
     vedtaksperiodeId,
+    forsikringsvurderingId,
 }: EndringssjekkKnappProps) {
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
     const { mutate, isPending } = usePostSjekkEndringForsikring();
+    const queryClient = useQueryClient();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && visningenOppdateres) {
@@ -53,11 +60,17 @@ export function EndringssjekkKnapp({
                 },
             },
             {
-                onSuccess: ({ vurderingErEndret }) => {
+                onSuccess: async ({ vurderingErEndret }) => {
                     if (vurderingErEndret) {
                         setVisningenOppdateres(true);
                         addToast(visningenOppdateresToast({}));
                     } else {
+                        await queryClient.invalidateQueries({
+                            queryKey: getGetForsikringsvurderingForPersonQueryKey(
+                                personPseudoId,
+                                forsikringsvurderingId,
+                            ),
+                        });
                         addToast(ingenEndringVedEndringssjekkToast);
                     }
                 },

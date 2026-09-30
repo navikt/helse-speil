@@ -44,12 +44,13 @@ export const ForsikringSeksjon = ({
         <VStack gap="space-8">
             <HStack gap="space-8" align="center">
                 <Heading size="xsmall">Forsikring</Heading>
-                {erUtvikling && data && (
+                {erUtvikling && data && forsikringsvurderingId && (
                     <EndringssjekkKnapp
                         identitetsnummer={identitetsnummer}
                         skjæringstidspunkt={skjæringstidspunkt}
                         behandlingId={behandlingId}
                         vedtaksperiodeId={vedtaksperiodeId}
+                        forsikringsvurderingId={forsikringsvurderingId}
                     />
                 )}
             </HStack>
