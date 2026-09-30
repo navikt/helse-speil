@@ -110,10 +110,6 @@ const IndividuellForsikringInnhold = ({ forsikring }: { forsikring: ApiIndividue
             {somNorskDato(forsikring.virkningsdato)} — {somNorskDato(forsikring.opphørsdato ?? undefined)}
         </BodyShort>
         <BodyShort>
-            <BodyShort as="span" weight="semibold">
-                Selvstendig næringsdrivende
-            </BodyShort>
-            {', '}
             {forsikring.navn} <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />
         </BodyShort>
     </VStack>
