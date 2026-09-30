@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement, useId } from 'react';
 
 import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, HStack, Spacer, Tag, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, HStack, Spacer, VStack } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
 import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
@@ -30,7 +30,6 @@ interface OpptjeningVilkårsradProps {
 export function OpptjeningVilkårsrad({
     vilkårskode,
     vurdering,
-    erAvgjørende,
     readOnly,
     erAktiv,
     onVurder,
@@ -67,9 +66,6 @@ export function OpptjeningVilkårsrad({
             <VStack gap="space-8">
                 <HStack gap="space-8" align="center">
                     <VilkårsutfallTag utfall={utfall}>{vurdertTekst(vurdering)}</VilkårsutfallTag>
-                    <Tag size="xsmall" variant="outline" data-color="info">
-                        {erAvgjørende ? 'Avgjørende vilkår' : 'Ikke avgjørende vilkår'}
-                    </Tag>
                 </HStack>
                 {vurdering && <Vurderingsdetaljer vurdering={vurdering} />}
             </VStack>
