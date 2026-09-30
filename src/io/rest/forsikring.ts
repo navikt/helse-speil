@@ -10,8 +10,6 @@ import {
 export type ApiSjekkEndringForsikringRequest = {
     identitetsnummer: string;
     skjæringstidspunkt: string;
-    vedtaksperiodeId: string;
-    behandlingId: string;
 };
 
 export type ApiSjekkEndringForsikringResponse = {

@@ -24,16 +24,12 @@ import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 interface ForsikringSeksjonProps {
     forsikringsvurderingId: string | null;
     skjæringstidspunkt: string;
-    vedtaksperiodeId: string;
-    behandlingId: string;
     person: PersonFragment;
 }
 
 export const ForsikringSeksjon = ({
     forsikringsvurderingId,
     skjæringstidspunkt,
-    vedtaksperiodeId,
-    behandlingId,
     person,
 }: ForsikringSeksjonProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
@@ -60,8 +56,6 @@ export const ForsikringSeksjon = ({
                     <EndringssjekkKnapp
                         identitetsnummer={person.fodselsnummer}
                         skjæringstidspunkt={skjæringstidspunkt}
-                        behandlingId={behandlingId}
-                        vedtaksperiodeId={vedtaksperiodeId}
                         forsikringsvurderingId={forsikringsvurderingId}
                     />
                 )}

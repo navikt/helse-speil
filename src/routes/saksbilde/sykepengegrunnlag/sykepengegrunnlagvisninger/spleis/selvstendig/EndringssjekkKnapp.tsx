@@ -21,16 +21,12 @@ import { generateId } from '@utils/generateId';
 interface EndringssjekkKnappProps {
     identitetsnummer: string;
     skjæringstidspunkt: string;
-    behandlingId: string;
-    vedtaksperiodeId: string;
     forsikringsvurderingId: string;
 }
 
 export function EndringssjekkKnapp({
     identitetsnummer,
     skjæringstidspunkt,
-    behandlingId,
-    vedtaksperiodeId,
     forsikringsvurderingId,
 }: EndringssjekkKnappProps) {
     const addToast = useAddToast();
@@ -55,8 +51,6 @@ export function EndringssjekkKnapp({
                 data: {
                     identitetsnummer,
                     skjæringstidspunkt,
-                    behandlingId,
-                    vedtaksperiodeId,
                 },
             },
             {

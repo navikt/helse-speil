@@ -72,8 +72,6 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
                     <ForsikringSeksjon
                         forsikringsvurderingId={vilkårsgrunnlag.forsikringsvurderingId}
                         skjæringstidspunkt={vilkårsgrunnlag.skjaeringstidspunkt}
-                        vedtaksperiodeId={beregnetPeriode.vedtaksperiodeId}
-                        behandlingId={beregnetPeriode.behandlingId}
                         person={person}
                     />
                 </VStack>

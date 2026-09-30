@@ -7,11 +7,9 @@ import { ServerSentEventsMock } from '@spesialist-mock/storage/events';
 let antallRevurderinger = 0;
 
 export async function stub(request: NextRequest) {
-    const { skjæringstidspunkt, identitetsnummer, behandlingId, vedtaksperiodeId }: ApiSjekkEndringForsikringRequest =
-        await request.json();
+    const { skjæringstidspunkt, identitetsnummer }: ApiSjekkEndringForsikringRequest = await request.json();
 
-    if (skjæringstidspunkt == null || identitetsnummer == null || behandlingId == null || vedtaksperiodeId == null)
-        return new Response(null, { status: 400 });
+    if (skjæringstidspunkt == null || identitetsnummer == null) return new Response(null, { status: 400 });
 
     // Annenhver revurdering gir ny vurdering, slik at begge utfall kan testes lokalt
     antallRevurderinger += 1;
