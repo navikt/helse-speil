@@ -263,6 +263,7 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Legg til journalpost-ID' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), '12345');
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
@@ -279,11 +280,54 @@ describe('Opptjening', () => {
         });
     });
 
+    it('viser journalpost-ID-feltet bare når saksbehandler velger å legge til journalpost-ID', async () => {
+        renderOpptjening(false);
+
+        await startVurdering();
+
+        expect(screen.getByRole('radio', { name: 'Saken er godt nok opplyst i Speil' })).toBeChecked();
+        expect(screen.queryByRole('textbox', { name: 'Journalpost-ID' })).not.toBeInTheDocument();
+
+        await userEvent.click(screen.getByRole('radio', { name: 'Legg til journalpost-ID' }));
+
+        expect(screen.getByRole('textbox', { name: 'Journalpost-ID' })).toBeVisible();
+    });
+
+    it('sender ikke journalpost-ID når saksbehandler bytter tilbake til at saken er godt nok opplyst', async () => {
+        renderOpptjening(false);
+
+        await startVurdering();
+        await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Legg til journalpost-ID' }));
+        await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), '12345');
+        await userEvent.click(screen.getByRole('radio', { name: 'Saken er godt nok opplyst i Speil' }));
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Opplyst i Speil');
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(mutate).toHaveBeenCalledWith(
+            expect.objectContaining({ data: expect.objectContaining({ journalpostId: [] }) }),
+        );
+    });
+
+    it('krever journalpost-ID når saksbehandler har valgt å legge til journalpost-ID', async () => {
+        renderOpptjening(false);
+
+        await startVurdering();
+        await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Legg til journalpost-ID' }));
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Mangler journalpost');
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(await screen.findByText('Fyll inn journalpost-ID')).toBeVisible();
+        expect(mutate).not.toHaveBeenCalled();
+    });
+
     it('viser validering når dokument-id inneholder andre tegn enn tall', async () => {
         renderOpptjening(false);
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Legg til journalpost-ID' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), 'JP-123');
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
@@ -297,6 +341,7 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Legg til journalpost-ID' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), '123456789012');
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
@@ -352,6 +397,7 @@ describe('Opptjening', () => {
 
         await startVurdering();
         await userEvent.click(screen.getByRole('radio', { name: 'Oppfylt' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Legg til journalpost-ID' }));
         await userEvent.type(screen.getByRole('textbox', { name: 'Journalpost-ID' }), '12345');
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
