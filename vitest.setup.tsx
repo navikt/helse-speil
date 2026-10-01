@@ -63,43 +63,45 @@ vi.mock('next/image', () => ({
     },
 }));
 
-// Default AxiosResponse to prevent React Query "Query data cannot be undefined" warning
-export const defaultAxiosResponse = {
-    data: [],
-    status: 200,
-    statusText: 'OK',
-    headers: {},
-    config: { headers: {} },
-};
+// All HTTP calls go through the global fetch, both the Orval-generated functions and getJson/postJson
+export const fetchMock = vi.fn<typeof fetch>();
+vi.stubGlobal('fetch', fetchMock);
 
-type MockFn = ReturnType<typeof vi.fn>;
-type CustomAxiosMock = MockFn & {
-    get: MockFn;
-    delete: MockFn;
-    head: MockFn;
-    options: MockFn;
-    post: MockFn;
-    put: MockFn;
-    patch: MockFn;
-};
-
-function createCustomAxiosMock(): CustomAxiosMock {
-    const mockFn = vi.fn() as unknown as CustomAxiosMock;
-    mockFn.get = vi.fn();
-    mockFn.delete = vi.fn();
-    mockFn.head = vi.fn();
-    mockFn.options = vi.fn();
-    mockFn.post = vi.fn();
-    mockFn.put = vi.fn();
-    mockFn.patch = vi.fn();
-    return mockFn;
+// Responds to every fetch call with the given JSON body. A new Response is needed per call, since a body can only be read once
+export function mockFetchResponse(body: unknown, status = 200) {
+    fetchMock.mockImplementation(() => Promise.resolve(jsonResponse(body, status)));
 }
 
-const customAxiosMock = createCustomAxiosMock();
+export function jsonResponse(body: unknown, status = 200): Response {
+    return new Response(body === undefined ? null : JSON.stringify(body), {
+        status,
+        headers: { 'Content-Type': 'application/json' },
+    });
+}
 
-vi.mock('@app/axios/axiosClient', () => ({
-    customAxios: customAxiosMock,
-}));
+// Matches the JSON body of a fetch call against an object, regardless of key order
+export function jsonBody(expected: unknown) {
+    return {
+        asymmetricMatch: (body: unknown) =>
+            typeof body === 'string' &&
+            JSON.stringify(sortKeys(JSON.parse(body))) ===
+                JSON.stringify(sortKeys(JSON.parse(JSON.stringify(expected)))),
+        toString: () => 'jsonBody',
+        toAsymmetricMatcher: () => `jsonBody(${JSON.stringify(expected)})`,
+    };
+}
+
+function sortKeys(value: unknown): unknown {
+    if (Array.isArray(value)) return value.map(sortKeys);
+    if (value && typeof value === 'object') {
+        return Object.fromEntries(
+            Object.keys(value)
+                .sort()
+                .map((key) => [key, sortKeys((value as Record<string, unknown>)[key])]),
+        );
+    }
+    return value;
+}
 
 // Node 26 defines an un-writable localStorage getter that defaults to undefined.
 // We force-override it with jsdom's isolated localStorage instance.
@@ -119,6 +121,8 @@ Object.defineProperty(globalThis, 'sessionStorage', {
 
 beforeEach(() => {
     vi.clearAllMocks();
+    // Default response to prevent React Query "Query data cannot be undefined" warning
+    mockFetchResponse([]);
     localStorage.clear();
 });
 

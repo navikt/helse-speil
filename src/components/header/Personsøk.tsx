@@ -60,8 +60,8 @@ export const Personsøk = (): ReactElement => {
                         router.push(`/person/${data.personPseudoId}`);
                     },
                     onError: (error) => {
-                        if (error.response) {
-                            if (error.response.status >= 400 && error.response.status < 500) {
+                        if (error.status !== undefined) {
+                            if (error.status >= 400 && error.status < 500) {
                                 teamLogger.warn(
                                     error,
                                     'Fikk klientfeil fra søk etter person, viser at person ikke finnes',

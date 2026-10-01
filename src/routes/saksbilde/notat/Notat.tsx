@@ -78,7 +78,7 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
                 )}
                 {open && error && (
                     <ErrorMessage>
-                        {error.response?.status === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres'}
+                        {error.status === 401 ? 'Du har blitt logget ut' : 'Notatet kunne ikke lagres'}
                     </ErrorMessage>
                 )}
             </VStack>

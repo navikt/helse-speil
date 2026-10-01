@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { PostSendIReturMutationBody } from '@io/rest/generated/oppgaver/oppgaver';
+import { ApiSendIReturRequest } from '@io/rest/generated/spesialist.schemas';
 import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
@@ -9,7 +9,7 @@ import { Oppgave } from '@typer/spesialist-mock';
 
 export const postStub = async (request: NextRequest, params: Promise<{ oppgaveId: string }>) => {
     const { oppgaveId } = await params;
-    const { notatTekst }: PostSendIReturMutationBody = await request.json();
+    const { notatTekst }: ApiSendIReturRequest = await request.json();
 
     const tidligereSaksbehandler = OppgaveMock.getOppgave(oppgaveId)?.totrinnsvurdering?.saksbehandler;
     const oppgave: Oppgave = {

@@ -1,7 +1,7 @@
 import { useAtom } from 'jotai';
 import { useEffect, useMemo } from 'react';
 
-import { ErrorType } from '@app/axios/orval-mutator';
+import { HttpError } from '@app/fetch/fetchClient';
 import { useBruker } from '@auth/brukerContext';
 import { useHarPorteføljestyringrolle } from '@hooks/brukerrolleHooks';
 import { Kategori } from '@io/graphql';
@@ -35,7 +35,7 @@ export type FetchMoreArgs = {
 
 interface OppgaveFeedResponse {
     oppgaver?: ApiOppgaveProjeksjon[];
-    error: ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
+    error: HttpError<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
     loading: boolean;
     antallOppgaver: number;
 }

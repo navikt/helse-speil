@@ -1,11 +1,13 @@
 import type {
-    OpenAPIObject,
-    OperationObject,
-    ParameterObject,
-    PathItemObject,
-    PathsObject,
-    ReferenceObject,
-} from 'openapi3-ts/oas30';
+    OpenApiDocument as OpenAPIObject,
+    OpenApiOperationObject as OperationObject,
+    OpenApiParameterObject as ParameterObject,
+    OpenApiPathItemObject as PathItemObject,
+    OpenApiPathsObject as PathsObject,
+    OpenApiReferenceObject as ReferenceObject,
+} from 'orval';
+
+import { encodeComponentKeysInSpec } from './componentKeys';
 
 const erstattÆØÅ = (text: string): string =>
     text
@@ -38,7 +40,7 @@ const transformPathItem = (pathItem: PathItemObject): PathItemObject => {
         endretPathItem.parameters = erstattÆØÅIURLParametere(endretPathItem.parameters);
     }
 
-    const metoder: (keyof PathItemObject)[] = ['get', 'put', 'post', 'patch', 'delete', 'options', 'head', 'trace'];
+    const metoder = ['get', 'put', 'post', 'patch', 'delete', 'options', 'head', 'trace'] as const;
     for (const metode of metoder) {
         const operasjon = endretPathItem[metode] as OperationObject | undefined;
         if (operasjon) {
@@ -68,14 +70,14 @@ const lagOpenAPITransformer =
 
         const endredePaths: PathsObject = {};
 
-        for (const [path, item] of Object.entries(api.paths)) {
+        for (const [path, item] of Object.entries(api.paths ?? {})) {
             // Endre fra /api/* til /api/spesialist/*
             const speilPath = path.replace(/^\/api\//, `/api/${apiPrefix}/`);
             // Erstatt ÆØÅ i paths siden Orval ikke takler det
             const pathUtenÆØÅ = erstattÆØÅ(speilPath);
             endredePaths[pathUtenÆØÅ] = transformPathItem(item);
         }
-        return { ...api, paths: endredePaths, components: components };
+        return encodeComponentKeysInSpec({ ...api, paths: endredePaths, components: components });
     };
 
 export const spesialistOpenAPITransformer = lagOpenAPITransformer('spesialist');

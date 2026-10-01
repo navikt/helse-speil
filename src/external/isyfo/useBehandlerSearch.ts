@@ -1,4 +1,4 @@
-import { customAxios } from '@app/axios/axiosClient';
+import { postJson } from '@app/fetch/fetchClient';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 
 export type IsyfoBehandler = {
@@ -22,7 +22,7 @@ export const useBehandlerSearch = (searchTerm: string) =>
     useQuery({
         queryKey: ['/api/isyfo/behandler/search', searchTerm],
         queryFn: async (): Promise<IsyfoBehandler[]> =>
-            (await customAxios.post('/api/isyfo/behandler/search', { searchstring: searchTerm })).data,
+            postJson('/api/isyfo/behandler/search', { searchstring: searchTerm }),
         enabled: searchTerm.length >= 3,
         placeholderData: keepPreviousData,
     });

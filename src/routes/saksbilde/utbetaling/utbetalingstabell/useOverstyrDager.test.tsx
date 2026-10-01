@@ -1,6 +1,6 @@
+import { fetchMock, jsonBody, mockFetchResponse } from '../../../../../vitest.setup';
 import { Mock, vi } from 'vitest';
 
-import { customAxios } from '@app/axios/axiosClient';
 import { Kildetype } from '@io/graphql';
 import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -39,7 +39,7 @@ describe('useOverstyrDager', () => {
     });
 
     test('skal poste overstyring av tidslinje til REST-endepunktet', async () => {
-        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+        mockFetchResponse(undefined);
         const { result } = renderHook(() => useOverstyrDager());
 
         const callback = vi.fn();
@@ -47,21 +47,21 @@ describe('useOverstyrDager', () => {
             result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID, callback),
         );
 
-        expect(customAxios).toHaveBeenCalledWith(
+        expect(fetchMock).toHaveBeenCalledWith(
+            `/api/spesialist/vedtaksperioder/${VEDTAKSPERIODE_ID}/overstyringer/tidslinje`,
             expect.objectContaining({
-                url: `/api/spesialist/vedtaksperioder/${VEDTAKSPERIODE_ID}/overstyringer/tidslinje`,
                 method: 'POST',
-                data: {
+                body: jsonBody({
                     begrunnelse: BEGRUNNELSE,
                     dager: tilOverstyrteDager(dager, oversyrteDager),
-                },
+                }),
             }),
         );
         await waitFor(() => expect(callback).toHaveBeenCalledTimes(1));
     });
 
     test('skal ha done lik true etter ny saksbehandleroppgave-event', async () => {
-        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+        mockFetchResponse(undefined);
 
         (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {
             onNyttEvent({
@@ -78,7 +78,7 @@ describe('useOverstyrDager', () => {
     });
 
     test('skal ha error hvis REST-overstyringen feiler', async () => {
-        (customAxios as unknown as Mock).mockRejectedValue({ response: { status: 500, data: undefined } });
+        mockFetchResponse(undefined, 500);
         const { result, rerender } = renderHook(() => useOverstyrDager());
 
         await act(() => result.current.postOverstyring(dager, oversyrteDager, BEGRUNNELSE, VEDTAKSPERIODE_ID));

@@ -114,7 +114,7 @@ export const SendTilGodkjenningButton = ({
 };
 
 const somRestBackendfeil = (error: PostSendTilGodkjenningMutationError): BackendFeil => {
-    const problemDetailsCode = error.response?.data?.code;
+    const problemDetailsCode = error.info?.code;
     if (!problemDetailsCode)
         return {
             message: 'Kunne ikke sende oppgaven til godkjenning',

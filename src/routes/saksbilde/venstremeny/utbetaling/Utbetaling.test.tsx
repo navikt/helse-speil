@@ -1,8 +1,7 @@
-import { defaultAxiosResponse } from '../../../../../vitest.setup';
+import { fetchMock, jsonBody } from '../../../../../vitest.setup';
 import { createStore } from 'jotai';
-import { Mock, describe, expect, it, vi } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 
-import { customAxios } from '@app/axios/axiosClient';
 import { Utbetaling } from '@saksbilde/venstremeny/utbetaling/Utbetaling';
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
@@ -39,8 +38,6 @@ describe('Utbetaling', () => {
         );
 
         const store = createStore();
-
-        (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
 
         const { rerender } = render(
             <PersonStoreContext.Provider value={store}>
@@ -92,8 +89,6 @@ describe('Utbetaling', () => {
             arbeidsgiver.navn,
         );
 
-        (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
-
         render(
             <PersonStoreContext.Provider value={createStore()}>
                 <Utbetaling period={periode} person={person} inntektsforholdReferanse={inntektsforholdReferanse} />
@@ -104,10 +99,10 @@ describe('Utbetaling', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Ja' }));
 
         await waitFor(() =>
-            expect(customAxios).toHaveBeenCalledWith(
+            expect(fetchMock).toHaveBeenCalledWith(
+                '/api/spesialist/oppgaver/1234/totrinnsvurdering/send-til-godkjenning',
                 expect.objectContaining({
                     method: 'POST',
-                    url: '/api/spesialist/oppgaver/1234/totrinnsvurdering/send-til-godkjenning',
                 }),
             ),
         );
@@ -132,8 +127,6 @@ describe('Utbetaling', () => {
             arbeidsgiver.navn,
         );
 
-        (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
-
         render(
             <PersonStoreContext.Provider value={createStore()}>
                 <Utbetaling period={periode} person={person} inntektsforholdReferanse={inntektsforholdReferanse} />
@@ -148,11 +141,11 @@ describe('Utbetaling', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Lagre notat og returner' }));
 
         await waitFor(() =>
-            expect(customAxios).toHaveBeenCalledWith(
+            expect(fetchMock).toHaveBeenCalledWith(
+                '/api/spesialist/oppgaver/1234/totrinnsvurdering/send-i-retur',
                 expect.objectContaining({
                     method: 'POST',
-                    url: '/api/spesialist/oppgaver/1234/totrinnsvurdering/send-i-retur',
-                    data: { notatTekst: 'Dette må vurderes på nytt' },
+                    body: jsonBody({ notatTekst: 'Dette må vurderes på nytt' }),
                 }),
             ),
         );

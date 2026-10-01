@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { PutPåVentMutationBody } from '@io/rest/generated/oppgaver/oppgaver';
+import { ApiPutPåVentRequest } from '@io/rest/generated/spesialist.schemas';
 import { oppgaver } from '@spesialist-mock/data/oppgaver';
 import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
@@ -11,7 +11,7 @@ import { TildelingMock } from '@spesialist-mock/storage/tildeling';
 
 export const putStub = async (request: NextRequest, params: Promise<{ oppgaveId: string }>) => {
     const { oppgaveId } = await params;
-    const { frist, skalTildeles, notattekst, årsaker }: PutPåVentMutationBody = await request.json();
+    const { frist, skalTildeles, notattekst, årsaker }: ApiPutPåVentRequest = await request.json();
     PaVentMock.setPåVent(oppgaveId, { frist: frist, oid: '11111111-2222-3333-4444-555555555555' });
     const oppgave = oppgaver.find((it) => it.id === oppgaveId);
     if (!oppgave) {

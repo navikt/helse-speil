@@ -1,4 +1,4 @@
-import { type ErrorType, callCustomAxios } from '@app/axios/orval-mutator';
+import { type HttpError, postJson } from '@app/fetch/fetchClient';
 import {
     type MutationFunction,
     type QueryClient,
@@ -17,15 +17,11 @@ export type ApiSjekkEndringForsikringResponse = {
 };
 
 const postSjekkEndringForsikring = (apiEndringssjekkRequest?: ApiSjekkEndringForsikringRequest, signal?: AbortSignal) =>
-    callCustomAxios<ApiSjekkEndringForsikringResponse>({
-        url: `/api/sp-forsikring/endringssjekk`,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        data: apiEndringssjekkRequest,
+    postJson<ApiSjekkEndringForsikringResponse>(`/api/sp-forsikring/endringssjekk`, apiEndringssjekkRequest, {
         signal,
     });
 
-export const usePostSjekkEndringForsikring = <TError = ErrorType<ForsikringApiProblemResponse>, TContext = unknown>(
+export const usePostSjekkEndringForsikring = <TError = HttpError<ForsikringApiProblemResponse>, TContext = unknown>(
     options?: {
         mutation?: UseMutationOptions<
             Awaited<ReturnType<typeof postSjekkEndringForsikring>>,
@@ -47,7 +43,7 @@ export const usePostSjekkEndringForsikring = <TError = ErrorType<ForsikringApiPr
 };
 
 export const getPostSjekkEndringForsikringMutationOptions = <
-    TError = ErrorType<ForsikringApiProblemResponse>,
+    TError = HttpError<ForsikringApiProblemResponse>,
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<

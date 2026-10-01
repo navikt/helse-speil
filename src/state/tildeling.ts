@@ -37,7 +37,7 @@ export const useTildel = (): [
             },
             {
                 onError: (error) => {
-                    const code = error.response.data.code;
+                    const code = error.info?.code;
                     if (code === 'OPPGAVE_TILDELT_ANNEN_SAKSBEHANDLER') {
                         leggTilTildelingsvarsel(`Oppgaven er allerede tildelt en annen saksbehandler.`);
                     } else if (code === 'MANGLER_TILGANG_TIL_PERSON') {
@@ -73,7 +73,7 @@ export const useAvmeld = (): [
             },
             {
                 onError: (error) => {
-                    const code = error.response.data.code;
+                    const code = error.info?.code;
                     if (code === 'MANGLER_TILGANG_TIL_PERSON') {
                         leggTilTildelingsvarsel(`Du har ikke tilgang til personen.`);
                     } else if (code === 'OPPGAVE_IKKE_FUNNET') {

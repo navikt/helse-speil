@@ -56,19 +56,19 @@ describe('Personlinje', () => {
 });
 
 function mockPersonHeaderKall() {
-    (useGetBehandlendeEnhetForPerson as Mock).mockReturnValueOnce({
+    (useGetBehandlendeEnhetForPerson as Mock).mockReturnValue({
         data: {
             enhetNr: '1234',
             navn: 'Nav Andeby',
             type: 'LOKAL',
         },
     });
-    (useGetSaksbehandlerStans as Mock).mockReturnValueOnce({
+    (useGetSaksbehandlerStans as Mock).mockReturnValue({
         data: {
             erStanset: false,
         },
     });
-    (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValueOnce({
+    (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValue({
         data: ApiKrrRegistrertStatus.RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING,
     });
 }

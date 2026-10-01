@@ -1,6 +1,6 @@
+import { fetchMock, jsonBody, mockFetchResponse } from '../../../../vitest.setup';
 import { Mock, vi } from 'vitest';
 
-import { customAxios } from '@app/axios/axiosClient';
 import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { visningenErOppdatertToastKey, visningenOppdateresToastKey } from '@state/oppdateringToasts';
 import { useSlettLokaleOverstyringer } from '@state/overstyring';
@@ -45,7 +45,7 @@ describe('usePostOverstyrtInntektOgRefusjon', () => {
     });
 
     it('skal poste overstyring av inntekt og refusjon til REST-endepunktet', async () => {
-        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+        mockFetchResponse(undefined);
         const { result } = renderHook(usePostOverstyrtInntektOgRefusjon);
 
         await act(() =>
@@ -70,11 +70,11 @@ describe('usePostOverstyrtInntektOgRefusjon', () => {
             }),
         );
 
-        expect(customAxios).toHaveBeenCalledWith(
+        expect(fetchMock).toHaveBeenCalledWith(
+            `/api/spesialist/vedtaksperioder/${VEDTAKSPERIODE_ID}/overstyringer/inntekt-og-refusjon`,
             expect.objectContaining({
-                url: `/api/spesialist/vedtaksperioder/${VEDTAKSPERIODE_ID}/overstyringer/inntekt-og-refusjon`,
                 method: 'POST',
-                data: {
+                body: jsonBody({
                     skjæringstidspunkt: '2020-01-01',
                     arbeidsgivere: [
                         {
@@ -90,7 +90,7 @@ describe('usePostOverstyrtInntektOgRefusjon', () => {
                             tom: null,
                         },
                     ],
-                },
+                }),
             }),
         );
 
@@ -105,7 +105,7 @@ describe('usePostOverstyrtInntektOgRefusjon', () => {
     });
 
     it('viser fullført toast og resetter lokale overstyringer når event mottas', async () => {
-        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+        mockFetchResponse(undefined);
         (useHåndterNyttEvent as Mock).mockImplementation((onNyttEvent: (o: ApiServerSentEvent) => void) => {
             onNyttEvent({
                 event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,
@@ -151,7 +151,7 @@ describe('usePostOverstyrtInntektOgRefusjon', () => {
     });
 
     it('setter error om REST-overstyringen feiler', async () => {
-        (customAxios as unknown as Mock).mockRejectedValue({ response: { status: 500, data: undefined } });
+        mockFetchResponse(undefined, 500);
         const { result, rerender } = renderHook(usePostOverstyrtInntektOgRefusjon);
 
         await act(() =>

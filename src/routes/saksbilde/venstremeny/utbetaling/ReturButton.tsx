@@ -104,7 +104,7 @@ export const ReturButton = ({
 };
 
 const somRestFeilmelding = (error: PostSendIReturMutationError): string => {
-    const problemDetailsCode = error.response?.data?.code;
+    const problemDetailsCode = error.info?.code;
     if (!problemDetailsCode) return 'En feil oppsto, oppgaven kunne ikke returneres';
 
     switch (problemDetailsCode) {

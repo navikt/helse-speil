@@ -1,6 +1,6 @@
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 
-import { ErrorType } from '@app/axios/orval-mutator';
+import { HttpError } from '@app/fetch/fetchClient';
 import { useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
@@ -57,7 +57,7 @@ export const useSubmitOppgavelisteSok = () => {
 
 interface OppgaveFeedResponse {
     oppgaver?: ApiOppgaveProjeksjon[];
-    error: ErrorType<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
+    error: HttpError<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;
     loading: boolean;
     antallOppgaver: number;
     aktivOppgaveliste: Oppgaveliste | null;

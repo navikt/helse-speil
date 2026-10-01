@@ -1,5 +1,5 @@
 import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
-import { spesialistOpenAPITransformer } from '@io/rest/spesialist-openapi-transformer';
+import { spesialistOpenAPITransformer } from '@io/rest/openapi-transformer';
 
 export const dynamic = 'force-dynamic';
 

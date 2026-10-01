@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 
 import { erProd, erUtvikling } from '@/env';
-import { customAxios } from '@app/axios/axiosClient';
+import { getJson } from '@app/fetch/fetchClient';
 import {
     ArsakerQueryResult,
     DialogmeldingMalerQueryResult,
@@ -22,7 +22,7 @@ export function useSkjønnsfastsettelsesMaler(skalVise828AndreLedd: boolean, har
     } = useQuery({
         queryKey: ['sanity', 'skjønnsfastsettelsesMaler'],
         queryFn: async (): Promise<SanityResponse<SkjonnsfastsettelseMalerQueryResult>> =>
-            (await customAxios.get('/api/sanity/skjonnsfastsettelse-maler')).data,
+            getJson('/api/sanity/skjonnsfastsettelse-maler'),
         staleTime: Infinity,
         gcTime: 0,
     });
@@ -51,7 +51,7 @@ export function useDriftsmelding() {
     } = useQuery({
         queryKey: ['sanity', 'driftsmeldinger'],
         queryFn: async (): Promise<SanityResponse<DriftsmeldingerQueryResult>> =>
-            (await customAxios.get('/api/sanity/driftsmeldinger')).data,
+            getJson('/api/sanity/driftsmeldinger'),
         staleTime: 60 * 1000,
         refetchInterval: 60 * 1000,
         gcTime: 0,
@@ -84,7 +84,7 @@ export function useInformasjonsmelding() {
     } = useQuery({
         queryKey: ['sanity', 'informasjonsmeldinger'],
         queryFn: async (): Promise<SanityResponse<InformasjonsmeldingerQueryResult>> =>
-            (await customAxios.get('/api/sanity/informasjonsmeldinger')).data,
+            getJson('/api/sanity/informasjonsmeldinger'),
         staleTime: Infinity,
         gcTime: 0,
     });
@@ -109,8 +109,7 @@ export function useArsaker(id: string) {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'årsaker', id],
-        queryFn: async (): Promise<SanityResponse<ArsakerQueryResult>> =>
-            (await customAxios.get(`/api/sanity/arsaker/${id}`)).data,
+        queryFn: async (): Promise<SanityResponse<ArsakerQueryResult>> => getJson(`/api/sanity/arsaker/${id}`),
         staleTime: Infinity,
         gcTime: 0,
     });
@@ -129,8 +128,7 @@ export function useNyheter() {
         isPending: loading,
     } = useQuery({
         queryKey: ['sanity', 'nyheter'],
-        queryFn: async (): Promise<SanityResponse<NyheterQueryResult>> =>
-            (await customAxios.get('/api/sanity/nyheter')).data,
+        queryFn: async (): Promise<SanityResponse<NyheterQueryResult>> => getJson('/api/sanity/nyheter'),
         staleTime: Infinity,
         gcTime: 0,
     });
@@ -148,7 +146,7 @@ export function useDialogmeldingMaler() {
     const { data, error, isPending, refetch } = useQuery({
         queryKey: ['sanity', 'dialogmeldingMaler'],
         queryFn: async (): Promise<SanityResponse<DialogmeldingMalerQueryResult>> =>
-            (await customAxios.get('/api/sanity/dialogmelding-maler')).data,
+            getJson('/api/sanity/dialogmelding-maler'),
         staleTime: Infinity,
         gcTime: 0,
     });

@@ -1,4 +1,4 @@
-import type { ErrorType } from '@app/axios/orval-mutator';
+import type { HttpError } from '@app/fetch/fetchClient';
 import {
     ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
@@ -28,9 +28,9 @@ export const opphevStansAutomatiskBehandlingVeilederToast: ToastObject = {
 };
 
 export const somVeilederBackendfeil = (
-    error: ErrorType<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
+    error: HttpError<ApiHttpProblemDetailsApiPatchVeilederStansErrorCode>,
 ): string => {
-    const problemDetailsCode = error.response?.data?.code;
+    const problemDetailsCode = error.info?.code;
     if (!problemDetailsCode) return 'Feil ved oppretting av stans. Kontakt utviklerteamet.';
 
     switch (problemDetailsCode) {
@@ -44,9 +44,9 @@ export const somVeilederBackendfeil = (
 };
 
 export const somSaksbehandlerBackendfeil = (
-    error: ErrorType<ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode>,
+    error: HttpError<ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode>,
 ): string => {
-    const problemDetailsCode = error.response?.data?.code;
+    const problemDetailsCode = error.info?.code;
     if (!problemDetailsCode) return 'Feil ved oppretting av stans. Kontakt utviklerteamet.';
 
     switch (problemDetailsCode) {

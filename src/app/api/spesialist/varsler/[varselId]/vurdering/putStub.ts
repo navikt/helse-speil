@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { PutVarselvurderingMutationBody } from '@io/rest/generated/varsler/varsler';
+import { ApiVarselvurdering } from '@io/rest/generated/spesialist.schemas';
 import { fetchPersondata } from '@spesialist-mock/graphql';
 import { Varselstatus } from '@spesialist-mock/schemaTypes';
 import { VarselMock } from '@spesialist-mock/storage/varsel';
 
 export const putStub = async (request: NextRequest, params: Promise<{ varselId: string }>) => {
     const { varselId } = await params;
-    const { definisjonId }: PutVarselvurderingMutationBody = await request.json();
+    const { definisjonId }: ApiVarselvurdering = await request.json();
     const personer = Object.values(fetchPersondata());
     const funnetVarsel = personer
         .flatMap((it) =>

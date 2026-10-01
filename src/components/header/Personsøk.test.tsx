@@ -1,8 +1,8 @@
+import { mockFetchResponse } from '../../../vitest.setup';
 import mockRouter from 'next-router-mock';
 import React from 'react';
 import { Mock } from 'vitest';
 
-import { customAxios } from '@app/axios/axiosClient';
 import { Varsler } from '@components/Varsler';
 import { useFetchPersonQuery } from '@state/person';
 import { render, screen } from '@test-utils';
@@ -15,10 +15,8 @@ vi.mock('@state/person');
 
 describe('Personsøk', () => {
     it('finds a personPseudoId and redirects to person page', async () => {
-        (customAxios as unknown as Mock).mockResolvedValue({
-            data: {
-                personPseudoId: 'en random uuid',
-            },
+        mockFetchResponse({
+            personPseudoId: 'en random uuid',
         });
 
         render(<Personsøk />);
@@ -37,10 +35,8 @@ describe('Personsøk', () => {
             'saksbildeTabPerPerson',
             JSON.stringify({ personPseudoId: 'forrige-person', tab: 'sykepengegrunnlag' }),
         );
-        (customAxios as unknown as Mock).mockResolvedValue({
-            data: {
-                personPseudoId: 'en random uuid',
-            },
+        mockFetchResponse({
+            personPseudoId: 'en random uuid',
         });
 
         render(<Personsøk />);
@@ -54,7 +50,7 @@ describe('Personsøk', () => {
     });
 
     it('displays varsel when person is not found', async () => {
-        (customAxios as unknown as Mock).mockRejectedValue({ response: { status: 404 } });
+        mockFetchResponse(undefined, 404);
         (useFetchPersonQuery as Mock).mockReturnValue({});
 
         render(

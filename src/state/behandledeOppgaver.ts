@@ -1,7 +1,7 @@
 import dayjs, { Dayjs } from 'dayjs';
 import { useState } from 'react';
 
-import { ErrorType } from '@app/axios/orval-mutator';
+import { HttpError } from '@app/fetch/fetchClient';
 import { useGetBehandledeOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiBehandletOppgaveProjeksjon,
@@ -12,7 +12,7 @@ import { ISO_DATOFORMAT } from '@utils/date';
 
 interface BehandledeOppgaverFeed {
     oppgaver?: ApiBehandletOppgaveProjeksjon[];
-    error: ErrorType<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode> | null;
+    error: HttpError<ApiHttpProblemDetailsApiGetBehandletOppgaverErrorCode> | null;
     loading: boolean;
     antallOppgaver: number;
     refetch: (fom: Dayjs, tom: Dayjs) => void;

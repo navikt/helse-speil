@@ -35,3 +35,17 @@ minimumReleaseAgeExclude:
   - graphql-yoga@5.24.0
   - jsdom@30.1.0
   - motion@13.4.0
+  - '@orval/angular@8.39.0'
+  - '@orval/axios@8.39.0'
+  - '@orval/core@8.39.0'
+  - '@orval/effect@8.39.0'
+  - '@orval/fetch@8.39.0'
+  - '@orval/hono@8.39.0'
+  - '@orval/mcp@8.39.0'
+  - '@orval/mock@8.39.0'
+  - '@orval/pinia-colada@8.39.0'
+  - '@orval/query@8.39.0'
+  - '@orval/solid-start@8.39.0'
+  - '@orval/swr@8.39.0'
+  - '@orval/zod@8.39.0'
+  - orval@8.39.0

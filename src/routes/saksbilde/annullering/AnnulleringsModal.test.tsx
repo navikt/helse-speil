@@ -1,10 +1,9 @@
-import { defaultAxiosResponse } from '../../../../vitest.setup';
+import { fetchMock, jsonBody, jsonResponse } from '../../../../vitest.setup';
 import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { Dialog } from '@navikt/ds-react';
 
-import { customAxios } from '@app/axios/axiosClient';
 import { SanityResponse } from '@external/sanity';
 import type { ArsakerQueryResult } from '@io/sanity/generated/sanity.types';
 import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
@@ -54,12 +53,9 @@ const stubbedeÅrsaker: SanityResponse<ArsakerQueryResult> = {
 describe('Annulleringsmodal', () => {
     beforeEach(() => {
         (useAddToast as Mock).mockReturnValue(addToastMock);
-        (customAxios.get as Mock).mockImplementation((url: string) => {
-            if (url.startsWith('/api/sanity/arsaker/')) {
-                return Promise.resolve({ data: stubbedeÅrsaker });
-            }
-            return Promise.reject();
-        });
+        fetchMock.mockImplementation((input) =>
+            Promise.resolve(jsonResponse(String(input).startsWith('/api/sanity/arsaker/') ? stubbedeÅrsaker : [])),
+        );
     });
     it('viser feilmelding ved manglende årsak', async () => {
         render(
@@ -92,7 +88,6 @@ describe('Annulleringsmodal', () => {
     });
 
     test('gjør annulleringsmutation på annuller', async () => {
-        (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
         render(
             <Dialog defaultOpen>
                 <AnnulleringsDialogInnhold {...defaultProps} />
@@ -102,22 +97,21 @@ describe('Annulleringsmodal', () => {
         await userEvent.click(await screen.findByRole('checkbox', { name: 'Ferie' }));
         await userEvent.click(await screen.findByRole('button', { name: 'Annuller' }));
 
-        expect(customAxios).toHaveBeenCalledWith(
+        expect(fetchMock).toHaveBeenCalledWith(
+            '/api/spesialist/vedtaksperioder/EN-VEDTAKSPERIODEID/annuller',
             expect.objectContaining({
                 method: 'POST',
-                url: '/api/spesialist/vedtaksperioder/EN-VEDTAKSPERIODEID/annuller',
-                data: {
+                body: jsonBody({
                     arbeidsgiverFagsystemId: 'EN-FAGSYSTEMID',
                     personFagsystemId: 'EN-FAGSYSTEMID',
                     årsaker: [{ key: 'key01', årsak: 'Ferie' }],
                     kommentar: undefined,
-                },
+                }),
             }),
         );
     });
 
     test('viser toast etter at annullering-kallet er gjort', async () => {
-        (customAxios as unknown as Mock).mockResolvedValue(defaultAxiosResponse);
         render(
             <Dialog defaultOpen>
                 <AnnulleringsDialogInnhold {...defaultProps} />
@@ -135,10 +129,10 @@ describe('Annulleringsmodal', () => {
             ),
         );
 
-        expect(customAxios).toHaveBeenCalledWith(
+        expect(fetchMock).toHaveBeenCalledWith(
+            '/api/spesialist/vedtaksperioder/EN-VEDTAKSPERIODEID/annuller',
             expect.objectContaining({
                 method: 'POST',
-                url: '/api/spesialist/vedtaksperioder/EN-VEDTAKSPERIODEID/annuller',
             }),
         );
     });

@@ -1,6 +1,6 @@
-import { Mock, vi } from 'vitest';
+import { mockFetchResponse } from '../../../../../vitest.setup';
+import { vi } from 'vitest';
 
-import { customAxios } from '@app/axios/axiosClient';
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -19,7 +19,7 @@ vi.mock('@hooks/brukerrolleHooks', () => ({
 
 describe('OverstyrArbeidsforholdUtenSykdom Tests', () => {
     beforeEach(() => {
-        (customAxios as unknown as Mock).mockResolvedValue({ data: undefined, status: 204 });
+        mockFetchResponse(undefined);
     });
 
     it('skal vise ikke bruk arbeidsforholdet knap om arbeidsforholdet ikke er deaktivert og knappen ikke er trykket', () => {
