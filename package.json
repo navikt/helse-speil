@@ -59,7 +59,7 @@
         "@navikt/aksel-icons": "^8.16.2",
         "@navikt/ds-css": "^8.16.2",
         "@navikt/ds-react": "^8.16.2",
-        "@navikt/ds-tailwind": "^8.16.2",
+        "@navikt/ds-tailwind": "^8.17.2",
         "@navikt/next-logger": "^5.0.1",
         "@navikt/oasis": "^4.2.2",
         "@portabletext/react": "^8.0.1",
