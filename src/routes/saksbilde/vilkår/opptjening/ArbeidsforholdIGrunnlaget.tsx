@@ -25,7 +25,7 @@ export function ArbeidsforholdIGrunnlaget({ arbeidsforhold }: { arbeidsforhold: 
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {arbeidsforhold.map((it) => (
+                            {arbeidsforhold.toSorted(sortArbeidsforhold).map((it) => (
                                 <Table.Row key={`${it.organisasjonsnummer}-${it.fom}-${it.tom ?? ''}`}>
                                     <Table.DataCell className="max-w-36">
                                         <Organisasjonsnavn
@@ -60,3 +60,13 @@ const arbeidsforholdtypeLabels: Record<ApiArbeidsforholdtype, string> = {
     [ApiArbeidsforholdtype.ORDINÆRT]: 'Ordinært',
     [ApiArbeidsforholdtype.UKJENT]: 'Ukjent',
 };
+
+// Løpende først, deretter nyeste tom, deretter nyeste fom. Datoene er ISO-strenger, så strengsammenligning holder.
+function sortArbeidsforhold(a: ApiArbeidsforhold, b: ApiArbeidsforhold): number {
+    if (a.tom == null || b.tom == null) {
+        if (a.tom != b.tom) return a.tom == null ? -1 : 1;
+    } else if (a.tom !== b.tom) {
+        return b.tom.localeCompare(a.tom);
+    }
+    return b.fom.localeCompare(a.fom);
+}
