@@ -197,8 +197,8 @@ importers:
         specifier: ^8.16.2
         version: 8.16.2(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@navikt/ds-tailwind':
-        specifier: ^8.16.2
-        version: 8.16.2
+        specifier: ^8.17.2
+        version: 8.17.2
       '@navikt/next-logger':
         specifier: ^5.0.1
         version: 5.0.1(next@16.3.5(@babel/core@7.29.0(supports-color@7.2.0))(@opentelemetry/api@1.9.0)(@types/node@24.13.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.104.1))(pino@10.3.1)
@@ -1665,8 +1665,8 @@ packages:
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
 
-  '@navikt/ds-tailwind@8.16.2':
-    resolution: {integrity: sha512-Wdmb/ik6ai4o+EJQgceNh7XQD+ZYsDtoiou1wzu9BaykYHzwNNrZhE3o224624rYANo2orBn+wBExAOF9a1NHA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.16.2/ca9f0b867b730e1d1b4c51a01daec6795523f7ac}
+  '@navikt/ds-tailwind@8.17.2':
+    resolution: {integrity: sha512-vnk1Rh10u58SArtWY1eoVRc3W5pvQIcb6XLwmTicCO0nSnMhTSPOFnrtTLaMxj0yqwncunQgu7L3ziN5EZ1MsQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.17.2/27c852f81b6fe3333ba7f876b2950dfb457e9cf3}
 
   '@navikt/ds-tokens@8.16.2':
     resolution: {integrity: sha512-WXtLRb034uUN1SUBEg+AYUrAu0zm+P0xuUheIWABEDpWnVGmfXDng7lIW5JDFbut3rQIa1xfzvUfeL3ghc4eng==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.16.2/a22ed996203e7730664ed43d7025c68609c937a8}
@@ -6748,7 +6748,7 @@ snapshots:
       react-day-picker: 10.0.1(@types/react@19.3.0)(react@19.3.0)
       react-dom: 19.3.0(react@19.3.0)
 
-  '@navikt/ds-tailwind@8.16.2': {}
+  '@navikt/ds-tailwind@8.17.2': {}
 
   '@navikt/ds-tokens@8.16.2': {}
 
