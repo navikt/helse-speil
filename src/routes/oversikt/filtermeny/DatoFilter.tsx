@@ -35,7 +35,7 @@ export const DatoFilter = (): ReactElement => {
         useSetDatofilter();
 
     return (
-        <Accordion indent={false}>
+        <>
             <Accordion.Item defaultOpen className={styles.liste}>
                 <Accordion.Header className={styles.header}>
                     <BodyShort weight="semibold">Oppgave klar</BodyShort>
@@ -92,6 +92,6 @@ export const DatoFilter = (): ReactElement => {
                     </Accordion.Content>
                 </Accordion.Item>
             )}
-        </Accordion>
+        </>
     );
 };
