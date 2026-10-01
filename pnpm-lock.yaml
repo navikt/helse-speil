@@ -194,8 +194,8 @@ importers:
         specifier: ^8.16.2
         version: 8.16.2
       '@navikt/ds-react':
-        specifier: ^8.16.2
-        version: 8.16.2(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
+        specifier: ^8.17.2
+        version: 8.17.2(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@navikt/ds-tailwind':
         specifier: ^8.17.2
         version: 8.17.2
@@ -1658,8 +1658,8 @@ packages:
   '@navikt/ds-css@8.16.2':
     resolution: {integrity: sha512-RMKKQ1OTXGPwSGPsWEvOXpRTxA+QhnHc4oGG0ePg7AeeGQvYE/VjtySL2ddOYwAR8BygyvuB/sDrjm5AkQQ0cw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.16.2/a132ee47c528af289b89dd5d806ac1abfc937e44}
 
-  '@navikt/ds-react@8.16.2':
-    resolution: {integrity: sha512-pJGVltBJT5hNwo+fZee5qaM+Kc+hZZgPU7WoXbUbZxUtTbhHM+5uFo4J5ceMU2KBUhamtqtRGso2dXdztyEiHQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.16.2/212af8009cab85a672faa15f0a039eaabec9cbc7}
+  '@navikt/ds-react@8.17.2':
+    resolution: {integrity: sha512-gVCKqF0rwlclmwpd3U3vAO1db49RhOpzVw+lCBz05RGCxH4ynmeTakuy2xI7MUsnIbiTB3LeBvnOsA23ynh1Dw==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.17.2/aff1f3f872620b72f91f14126b3169e34821408e}
     peerDependencies:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
@@ -1668,8 +1668,8 @@ packages:
   '@navikt/ds-tailwind@8.17.2':
     resolution: {integrity: sha512-vnk1Rh10u58SArtWY1eoVRc3W5pvQIcb6XLwmTicCO0nSnMhTSPOFnrtTLaMxj0yqwncunQgu7L3ziN5EZ1MsQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tailwind/8.17.2/27c852f81b6fe3333ba7f876b2950dfb457e9cf3}
 
-  '@navikt/ds-tokens@8.16.2':
-    resolution: {integrity: sha512-WXtLRb034uUN1SUBEg+AYUrAu0zm+P0xuUheIWABEDpWnVGmfXDng7lIW5JDFbut3rQIa1xfzvUfeL3ghc4eng==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.16.2/a22ed996203e7730664ed43d7025c68609c937a8}
+  '@navikt/ds-tokens@8.17.2':
+    resolution: {integrity: sha512-oDKFZxlgt/L2zNPCma03fo1sls5E9bUTybMh8/ELh7btS3Kurv7fvwlF7CMW8mWTa+/yh1oqLXY/ONp4+/mPTg==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.17.2/6d44d329afac5ae8d729cdf2f1c83d009dfd2c80}
 
   '@navikt/next-logger@5.0.1':
     resolution: {integrity: sha512-3P9ygoIGJ5u8REkYG7lCd/GDsmnfdfEAgmVvb1GjEFdWXaWgpXBCHhiaXfXlCu3szO6/fuJDW7XeOFec4owCVQ==, tarball: https://npm.pkg.github.com/download/@navikt/next-logger/5.0.1/9b62906c0f9db26caae24c314197f3e33f016474}
@@ -6736,12 +6736,12 @@ snapshots:
 
   '@navikt/ds-css@8.16.2': {}
 
-  '@navikt/ds-react@8.16.2(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
+  '@navikt/ds-react@8.17.2(@types/react@19.3.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)':
     dependencies:
       '@floating-ui/react': 0.27.20(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@floating-ui/react-dom': 2.1.9(react-dom@19.3.0(react@19.3.0))(react@19.3.0)
       '@navikt/aksel-icons': 8.17.2
-      '@navikt/ds-tokens': 8.16.2
+      '@navikt/ds-tokens': 8.17.2
       '@types/react': 19.3.0
       date-fns: 4.1.0
       react: 19.3.0
@@ -6750,7 +6750,7 @@ snapshots:
 
   '@navikt/ds-tailwind@8.17.2': {}
 
-  '@navikt/ds-tokens@8.16.2': {}
+  '@navikt/ds-tokens@8.17.2': {}
 
   '@navikt/next-logger@5.0.1(next@16.3.5(@babel/core@7.29.0(supports-color@7.2.0))(@opentelemetry/api@1.9.0)(@types/node@24.13.5)(babel-plugin-react-compiler@1.0.0)(react-dom@19.3.0(react@19.3.0))(react@19.3.0)(sass@1.104.1))(pino@10.3.1)':
     dependencies:
