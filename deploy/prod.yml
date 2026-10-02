@@ -24,6 +24,8 @@ spec:
         - application: isdialogmelding
           namespace: teamsykefravr
           cluster: prod-gcp
+        - application: sp-forsikring
+          namespace: tbd
         - application: sparkel-aareg
           namespace: tbd
           cluster: prod-gcp
