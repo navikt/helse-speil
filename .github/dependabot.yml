@@ -4,34 +4,35 @@ registries:
     type: npm-registry
     url: https://npm.pkg.github.com
     token: ${{ secrets.READER_TOKEN }}
-updates:
-  # Maintain dependencies for GitHub Actions
-  - package-ecosystem: "github-actions"
-    directory: "/"
-    cooldown:
-      default-days: 7 # Delay all updates by 7 days by default
-    commit-message:
-      prefix: "⬆ "
+multi-ecosystem-groups:
+  dependencies:
     schedule:
       interval: "daily"
+    commit-message:
+      prefix: "⬆ "
+updates:
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+      - "/.github/actions/*"
+    multi-ecosystem-group: "dependencies"
+    patterns: ["*"]
+    cooldown:
+      default-days: 7
+      exclude:
+        - "navikt/sykepenger-github-workflows*"
 
-  # Maintain dependencies for docker
   - package-ecosystem: "docker"
     directory: "/"
-    commit-message:
-      prefix: "⬆ "
-    schedule:
-      interval: "daily"
+    multi-ecosystem-group: "dependencies"
+    patterns: ["*"]
 
-  # Maintain dependencies for npm
   - package-ecosystem: "npm"
     directory: "/"
+    multi-ecosystem-group: "dependencies"
+    patterns: ["*"]
     cooldown:
-      default-days: 7 # Delay all updates by 7 days by default
-    commit-message:
-      prefix: "⬆ "
-    schedule:
-      interval: "daily"
+      default-days: 7
     registries: '*'
     ignore:
       - dependency-name: '@type/node'
