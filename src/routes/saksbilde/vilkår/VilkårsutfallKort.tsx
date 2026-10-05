@@ -21,7 +21,7 @@ export function VilkårsutfallKort({
     const tittelId = useId();
 
     return (
-        <VStack as="section" aria-labelledby={tittelId} gap="space-16" className="w-full pt-6 not-last:pb-6">
+        <VStack as="section" aria-labelledby={tittelId} gap="space-16" className="w-full not-first:pt-6 not-last:pb-6">
             <HStack gap="space-12" align="center" wrap={false}>
                 <span className="flex shrink-0 items-center justify-center">
                     <VilkårsutfallIkon utfall={utfall} />

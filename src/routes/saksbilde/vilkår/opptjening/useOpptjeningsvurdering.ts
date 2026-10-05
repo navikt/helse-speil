@@ -1,6 +1,7 @@
 import { useState } from 'react';
 
 import {
+    ApiKravkilde,
     ApiKravkode,
     ApiOpptjeningsvurdering,
     ApiVilkårskode,
@@ -15,6 +16,7 @@ export interface Opptjeningsvurdering {
     isLoading: boolean;
     isError: boolean;
     utfall: Vilkårsutfall;
+    erOverførtFraInfotrygd: boolean;
     vurderingFor: (vilkårskode: ApiVilkårskode) => ApiVilkårsvurdering | undefined;
     avgjørendeVilkårskode?: ApiVilkårskode;
     onOverstyrt: (opptjeningsvurderingId: string) => void;
@@ -35,6 +37,7 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
         isLoading,
         isError,
         utfall: utfallFraOppfylt(krav?.opptjeningOk),
+        erOverførtFraInfotrygd: krav?.kravkilde === ApiKravkilde.OVERFOERT_FRA_INFOTRYGD,
         vurderingFor: (vilkårskode) => vurderinger.find((it) => it.vilkårskode === vilkårskode),
         avgjørendeVilkårskode: avgjørendeVilkårskodeFor(krav),
         onOverstyrt: setOverstyrtOpptjeningsvurderingId,

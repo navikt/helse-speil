@@ -21,6 +21,7 @@ import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date'
 
 import { MedlemskapVilkår } from './MedlemskapVilkår';
 import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
+import { VilkårsutfallKort } from './VilkårsutfallKort';
 import { ManuellVurderingAvVilkårSkjema } from './opptjening/ManuellVurderingAvVilkårSkjema';
 import { Opptjening } from './opptjening/Opptjening';
 import { useOpptjeningsvurdering } from './opptjening/useOpptjeningsvurdering';
@@ -74,12 +75,20 @@ export function InngangsvilkårWithContent({
                 </VStack>
                 <HStack wrap={false} gap="space-0" align="start">
                     <VStack className="min-w-164 divide-y divide-ax-border-neutral-strong">
-                        <Opptjening
-                            opptjeningsvurdering={opptjeningsvurdering}
-                            readOnly={readOnly}
-                            aktivtVilkår={aktivtVilkår}
-                            onVurder={setAktivtVilkår}
-                        />
+                        {opptjeningsvurdering.erOverførtFraInfotrygd ? (
+                            <VilkårsutfallKort
+                                tittel="Opptjeningstid"
+                                utfall={opptjeningsvurdering.utfall}
+                                vurdertTekst="Vurdert i Infotrygd"
+                            />
+                        ) : (
+                            <Opptjening
+                                opptjeningsvurdering={opptjeningsvurdering}
+                                readOnly={readOnly}
+                                aktivtVilkår={aktivtVilkår}
+                                onVurder={setAktivtVilkår}
+                            />
+                        )}
                         <SykepengegrunnlagVilkår
                             vilkårsgrunnlag={vilkårsgrunnlag}
                             alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}

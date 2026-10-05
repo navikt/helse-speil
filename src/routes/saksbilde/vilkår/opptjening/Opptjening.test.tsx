@@ -486,15 +486,15 @@ describe('Opptjening', () => {
         expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 
-    it('lar saksbehandler vurdere vilkårene når kravet er overført fra Infotrygd', async () => {
+    it('viser "Vurdert i Infotrygd" uten enkeltvilkår når kravet er overført fra Infotrygd', () => {
         mockVilkårsvurderinger(overførtFraInfotrygd);
 
         renderOpptjening(false);
 
-        expect(within(arbeidsvilkår()).getByText('Ikke vurdert', { selector: 'span' })).toBeVisible();
-
-        await startVurdering();
-        expect(screen.getByText('Vurder om søkeren har hatt arbeid i minst 4 uker')).toBeVisible();
+        const opptjening = screen.getByRole('region', { name: 'Opptjeningstid' });
+        expect(within(opptjening).getByText('Vurdert i Infotrygd')).toBeVisible();
+        expect(within(opptjening).queryByRole('listitem')).not.toBeInTheDocument();
+        expect(within(opptjening).queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 
     it('viser vurderinger overført fra Spleis på samme måte som vurderinger fra sp-vilkårsprøving', async () => {
