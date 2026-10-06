@@ -20,6 +20,7 @@ import {
     utledSykefraværstilfelleperioder,
 } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useSistValgtePeriode } from '@state/periode';
 import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
 import { DatePeriod, DateString } from '@typer/shared';
 import { erIPeriode, norskDatoTilIsoDato, somNorskDato } from '@utils/date';
@@ -56,6 +57,7 @@ export const TilkommenInntektSkjema = ({
 }: TilkommenInntektProps): ReactElement => {
     const sykefraværstilfelleperioder = utledSykefraværstilfelleperioder(person);
     const eksisterendePerioder = tilPerioderPerOrganisasjonsnummer(andreTilkomneInntekter);
+    const aktivPeriode = useSistValgtePeriode(person);
 
     const { draft, setDraft } = useTilkommenInntektFormDraft(draftStorageKey);
 
@@ -167,6 +169,7 @@ export const TilkommenInntektSkjema = ({
                             sykefraværstilfelleperioder={sykefraværstilfelleperioder}
                             isSubmitting={isSubmitting}
                             startPeriodebeløp={draft?.periodebeløp ?? startPeriodebeløp}
+                            aktivPeriode={aktivPeriode}
                             onCancel={cancel}
                         />
                     </VStack>

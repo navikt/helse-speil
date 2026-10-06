@@ -11,7 +11,7 @@ import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/Control
 import { LeggTilTilkommenInntektSkjemaState } from '@saksbilde/tilkommenInntekt/skjema/useLeggTilTilkommenInntektSkjema';
 import { kronerOgØreTilNumber, toKronerOgØre } from '@utils/locale';
 
-export const LeggTilTilkommenInntektSkjemaFelter = ({
+export const LeggTilTilkommenInntektSkjemaFelterV2 = ({
     skjema,
 }: {
     skjema: LeggTilTilkommenInntektSkjemaState;
@@ -74,7 +74,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
                     </VStack>
 
                     <VStack gap="space-8">
-                        <HGrid columns={2} width="75%">
+                        <HGrid columns={2} width="90%">
                             <ControlledDatePicker
                                 name="fom"
                                 label="Periode f.o.m."
@@ -104,7 +104,7 @@ export const LeggTilTilkommenInntektSkjemaFelter = ({
                     </VStack>
 
                     <VStack gap="space-8">
-                        <HGrid columns={2} width="75%">
+                        <HGrid columns={2} width="90%">
                             <Controller
                                 control={form.control}
                                 name="periodebeløp"

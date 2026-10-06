@@ -8,6 +8,7 @@ import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { TilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
 import { ControlledDatePicker } from '@saksbilde/tilkommenInntekt/skjema/ControlledDatePicker';
+import { useSistValgtePeriode } from '@state/periode';
 import { DatePeriod } from '@typer/shared';
 import { kronerOgØreTilNumber, toKronerOgØre } from '@utils/locale';
 
@@ -21,6 +22,7 @@ interface TilkommenInntektSkjemaProps {
     sykefraværstilfelleperioder: DatePeriod[];
     isSubmitting: boolean;
     startPeriodebeløp: number;
+    aktivPeriode: ReturnType<typeof useSistValgtePeriode>;
     onCancel: () => void;
 }
 
@@ -34,6 +36,7 @@ export const TilkommenInntektSkjemafelter = ({
     sykefraværstilfelleperioder,
     isSubmitting,
     startPeriodebeløp,
+    aktivPeriode,
     onCancel,
 }: TilkommenInntektSkjemaProps): ReactElement | null => {
     const [periodebeløpVisningsverdi, setPeriodebeløpVisningsverdi] = useState<string>(
@@ -46,7 +49,6 @@ export const TilkommenInntektSkjemafelter = ({
     const organisasjonsnummerFeil = form.formState.errors.organisasjonsnummer?.message;
     const periodebeløpFeil = form.formState.errors.periodebeløp?.message;
 
-    const fom = useWatch({ name: 'fom', control: form.control });
     const organisasjonsnummer = useWatch({ name: 'organisasjonsnummer', control: form.control });
 
     return (
@@ -59,155 +61,160 @@ export const TilkommenInntektSkjemafelter = ({
                     width="460px"
                     className="inset-shadow-[3px_0px] inset-shadow-ax-border-accent-strong"
                 >
-                    <VStack gap="space-8">
-                        <HStack gap="space-4" align="end">
-                            <Controller
-                                control={form.control}
-                                name="organisasjonsnummer"
-                                render={({ field, fieldState }) => (
-                                    <TextField
-                                        {...field}
-                                        style={{ width: '90px' }}
-                                        error={fieldState.error?.message != undefined}
-                                        label="Organisasjonsnummer"
-                                        size="small"
-                                        type="text"
-                                        inputMode="numeric"
-                                        id="organisasjonsnummer"
-                                    />
-                                )}
-                            />
-                            {erGyldigOrganisasjonsnummer(organisasjonsnummer) && (
-                                <div style={{ marginBottom: 'var(--ax-space-4)' }}>
-                                    <Organisasjonsnavn maxWidth="225px" organisasjonsnummer={organisasjonsnummer} />
-                                </div>
-                            )}
-                        </HStack>
-                        {organisasjonsnummerFeil != undefined && (
-                            <HStack align="center" gap="space-4">
-                                <ErrorMessage showIcon size="small">
-                                    {organisasjonsnummerFeil}
-                                </ErrorMessage>
-                            </HStack>
-                        )}
-                    </VStack>
-                    <VStack marginBlock="space-16" gap="space-8">
-                        <HGrid columns={2} width="75%">
-                            <ControlledDatePicker
-                                name="fom"
-                                label="Periode f.o.m."
-                                gyldigePerioder={sykefraværstilfelleperioder}
-                                erGyldigDato={erGyldigFom}
-                                id="fom"
-                                error
-                            />
-                            <ControlledDatePicker
-                                name="tom"
-                                label="Periode t.o.m."
-                                gyldigePerioder={sykefraværstilfelleperioder}
-                                erGyldigDato={erGyldigTom}
-                                id="tom"
-                                defaultMonth={fom === '' ? undefined : fom}
-                                error
-                            />
-                        </HGrid>
-                        {datofeil.length > 0 &&
-                            datofeil.map((feil) => (
-                                <ErrorMessage key={feil} showIcon size="small">
-                                    {feil}
-                                </ErrorMessage>
-                            ))}
-                    </VStack>
-                    <VStack marginBlock="space-16" gap="space-8">
-                        <HGrid columns={2} width="75%">
-                            <Controller
-                                control={form.control}
-                                name="periodebeløp"
-                                render={({ field, fieldState }) => (
-                                    <TextField
-                                        {...field}
-                                        value={periodebeløpVisningsverdi}
-                                        onChange={(event) => {
-                                            const nyttBeløp = kronerOgØreTilNumber(event.target.value);
-                                            setPeriodebeløpVisningsverdi(event.target.value);
-                                            field.onChange(nyttBeløp);
-                                        }}
-                                        onBlur={(event) => {
-                                            const nyttBeløp = kronerOgØreTilNumber(event.target.value);
-                                            setPeriodebeløpVisningsverdi(
-                                                Number.isNaN(nyttBeløp) ? event.target.value : toKronerOgØre(nyttBeløp),
-                                            );
-                                            field.onChange(Number(nyttBeløp.toFixed(2)));
-                                            field.onBlur();
-                                        }}
-                                        error={fieldState.error?.message != undefined}
-                                        label="Inntekt for perioden"
-                                        size="small"
-                                        style={{ width: '80px' }}
-                                        id="periodebeløp"
-                                        onFocus={(e) => e.target.select()}
-                                    />
-                                )}
-                            />
-                            <TextField
-                                label="Inntekt per dag"
-                                size="small"
-                                readOnly
-                                style={{ width: '80px' }}
-                                value={
-                                    inntektPerDag === undefined ||
-                                    Number.isNaN(inntektPerDag) ||
-                                    !Number.isFinite(inntektPerDag)
-                                        ? ''
-                                        : toKronerOgØre(inntektPerDag)
-                                }
-                            />
-                        </HGrid>
-                        {periodebeløpFeil != undefined && (
-                            <HStack align="center" gap="space-4">
-                                <ErrorMessage showIcon size="small">
-                                    {periodebeløpFeil}
-                                </ErrorMessage>
-                            </HStack>
-                        )}
-                    </VStack>
-                    <Box maxWidth="380px">
-                        <Controller
-                            control={form.control}
-                            name="notat"
-                            render={({ field, fieldState }) => (
-                                <Textarea
-                                    {...field}
-                                    error={fieldState.error?.message}
-                                    label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
-                                    description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
-                                    size="small"
-                                    id="notat"
+                    <VStack gap="space-16">
+                        <VStack gap="space-8">
+                            <HStack gap="space-4" align="end">
+                                <Controller
+                                    control={form.control}
+                                    name="organisasjonsnummer"
+                                    render={({ field, fieldState }) => (
+                                        <TextField
+                                            {...field}
+                                            style={{ width: '90px' }}
+                                            error={fieldState.error?.message != undefined}
+                                            label="Organisasjonsnummer"
+                                            size="small"
+                                            type="text"
+                                            inputMode="numeric"
+                                            id="organisasjonsnummer"
+                                        />
+                                    )}
                                 />
+                                {erGyldigOrganisasjonsnummer(organisasjonsnummer) && (
+                                    <div style={{ marginBottom: 'var(--ax-space-4)' }}>
+                                        <Organisasjonsnavn maxWidth="225px" organisasjonsnummer={organisasjonsnummer} />
+                                    </div>
+                                )}
+                            </HStack>
+                            {organisasjonsnummerFeil != undefined && (
+                                <HStack align="center" gap="space-4">
+                                    <ErrorMessage showIcon size="small">
+                                        {organisasjonsnummerFeil}
+                                    </ErrorMessage>
+                                </HStack>
                             )}
-                        />
-                    </Box>
-                    {Object.values(form.formState.errors).length > 0 && (
-                        <Box marginBlock="space-16 space-24">
-                            <TilkommenInntektFeiloppsummering errors={form.formState.errors} />
+                        </VStack>
+                        <VStack gap="space-8">
+                            <HGrid columns={2} gap="space-12" width="90%">
+                                <ControlledDatePicker
+                                    name="fom"
+                                    label="Periode f.o.m."
+                                    gyldigePerioder={sykefraværstilfelleperioder}
+                                    erGyldigDato={erGyldigFom}
+                                    id="fom"
+                                    defaultMonth={aktivPeriode?.fom}
+                                    error
+                                />
+                                <ControlledDatePicker
+                                    name="tom"
+                                    label="Periode t.o.m."
+                                    gyldigePerioder={sykefraværstilfelleperioder}
+                                    erGyldigDato={erGyldigTom}
+                                    id="tom"
+                                    defaultMonth={aktivPeriode?.tom}
+                                    error
+                                />
+                            </HGrid>
+                            {datofeil.length > 0 &&
+                                datofeil.map((feil) => (
+                                    <ErrorMessage key={feil} showIcon size="small">
+                                        {feil}
+                                    </ErrorMessage>
+                                ))}
+                        </VStack>
+                        <VStack gap="space-8">
+                            <HGrid columns={2} gap="space-12" width="90%">
+                                <Controller
+                                    control={form.control}
+                                    name="periodebeløp"
+                                    render={({ field, fieldState }) => (
+                                        <TextField
+                                            {...field}
+                                            value={periodebeløpVisningsverdi}
+                                            onChange={(event) => {
+                                                const nyttBeløp = kronerOgØreTilNumber(event.target.value);
+                                                setPeriodebeløpVisningsverdi(event.target.value);
+                                                field.onChange(nyttBeløp);
+                                            }}
+                                            onBlur={(event) => {
+                                                const nyttBeløp = kronerOgØreTilNumber(event.target.value);
+                                                setPeriodebeløpVisningsverdi(
+                                                    Number.isNaN(nyttBeløp)
+                                                        ? event.target.value
+                                                        : toKronerOgØre(nyttBeløp),
+                                                );
+                                                field.onChange(Number(nyttBeløp.toFixed(2)));
+                                                field.onBlur();
+                                            }}
+                                            error={fieldState.error?.message != undefined}
+                                            label="Inntekt for perioden"
+                                            size="small"
+                                            style={{ width: '80px' }}
+                                            id="periodebeløp"
+                                            onFocus={(e) => e.target.select()}
+                                        />
+                                    )}
+                                />
+                                <TextField
+                                    label="Inntekt per dag"
+                                    size="small"
+                                    readOnly
+                                    style={{ width: '80px' }}
+                                    value={
+                                        inntektPerDag === undefined ||
+                                        Number.isNaN(inntektPerDag) ||
+                                        !Number.isFinite(inntektPerDag)
+                                            ? ''
+                                            : toKronerOgØre(inntektPerDag)
+                                    }
+                                />
+                            </HGrid>
+                            {periodebeløpFeil != undefined && (
+                                <HStack align="center" gap="space-4">
+                                    <ErrorMessage showIcon size="small">
+                                        {periodebeløpFeil}
+                                    </ErrorMessage>
+                                </HStack>
+                            )}
+                        </VStack>
+                        <Box maxWidth="380px">
+                            <Controller
+                                control={form.control}
+                                name="notat"
+                                render={({ field, fieldState }) => (
+                                    <Textarea
+                                        {...field}
+                                        error={fieldState.error?.message}
+                                        label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
+                                        description="Teksten blir ikke vist til den sykmeldte, med mindre hen ber om innsyn."
+                                        size="small"
+                                        id="notat"
+                                    />
+                                )}
+                            />
                         </Box>
-                    )}
-                    <VStack>
-                        <HStack gap="space-8" marginBlock="space-16">
-                            <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
-                                Lagre
-                            </Button>
-                            <Button
-                                size="small"
-                                variant="tertiary"
-                                type="button"
-                                onClick={onCancel}
-                                disabled={isSubmitting}
-                            >
-                                Avbryt
-                            </Button>
-                        </HStack>
-                        {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
+                        {Object.values(form.formState.errors).length > 0 && (
+                            <Box marginBlock="space-16 space-24">
+                                <TilkommenInntektFeiloppsummering errors={form.formState.errors} />
+                            </Box>
+                        )}
+                        <VStack>
+                            <HStack gap="space-8" marginBlock="space-16">
+                                <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
+                                    Lagre
+                                </Button>
+                                <Button
+                                    size="small"
+                                    variant="tertiary"
+                                    type="button"
+                                    onClick={onCancel}
+                                    disabled={isSubmitting}
+                                >
+                                    Avbryt
+                                </Button>
+                            </HStack>
+                            {submitError && <ErrorMessage>{submitError}</ErrorMessage>}
+                        </VStack>
                     </VStack>
                 </Box>
             </form>

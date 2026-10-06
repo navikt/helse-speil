@@ -7,7 +7,7 @@ import { HStack, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
 import { LeggTilAndreYtelserView } from '@saksbilde/andreYtelser/LeggTilAndreYtelserView';
-import { LeggTilTilkommenInntektSkjemaFelter } from '@saksbilde/tilkommenInntekt/skjema/LeggTilTilkommenInntektSkjemaV2';
+import { LeggTilTilkommenInntektSkjemaFelterV2 } from '@saksbilde/tilkommenInntekt/skjema/LeggTilTilkommenInntektSkjemaV2';
 import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemaTabell';
 import { useLeggTilTilkommenInntektSkjema } from '@saksbilde/tilkommenInntekt/skjema/useLeggTilTilkommenInntektSkjema';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -45,7 +45,7 @@ export const LeggTilPeriodeView = (): ReactElement => {
                             <Radio value="annen-ytelse">Annen ytelse</Radio>
                         </RadioGroup>
                         {type === 'tilkommen-inntekt' && tilkommenInntektSkjema && (
-                            <LeggTilTilkommenInntektSkjemaFelter skjema={tilkommenInntektSkjema} />
+                            <LeggTilTilkommenInntektSkjemaFelterV2 skjema={tilkommenInntektSkjema} />
                         )}
                         {type === 'annen-ytelse' && <LeggTilAndreYtelserView />}
                     </VStack>
