@@ -58,7 +58,11 @@ export function InngangsvilkårWithContent({
     readOnly,
 }: InngangsvilkårWithContentProps): ReactElement {
     const opptjeningsvurdering = useOpptjeningsvurdering(personPseudoId, opptjeningsvurderingId);
-    const opptjeningsendringer = useOpptjeningshistorikk(personPseudoId, vilkårsgrunnlag.skjaeringstidspunkt);
+    const opptjeningsendringer = useOpptjeningshistorikk(
+        personPseudoId,
+        vilkårsgrunnlag.skjaeringstidspunkt,
+        opptjeningsvurdering.data !== undefined && !opptjeningsvurdering.isFetching && !opptjeningsvurdering.isError,
+    );
     const [aktivtVilkår, setAktivtVilkår] = useState<ManueltVurderbarVilkårskode | null>(null);
     const skjæringstidspunkt = opptjeningsvurdering.data?.skjæringstidspunkt;
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');

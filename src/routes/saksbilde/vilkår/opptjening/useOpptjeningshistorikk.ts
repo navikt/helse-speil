@@ -17,8 +17,16 @@ export interface Opptjeningsendring {
     kilde: string;
 }
 
-export function useOpptjeningshistorikk(personPseudoId: string, skjæringstidspunkt: string): Opptjeningsendring[] {
-    const { data } = useGetOpptjeningshistorikkBehandler(personPseudoId, { skjæringstidspunkt });
+export function useOpptjeningshistorikk(
+    personPseudoId: string,
+    skjæringstidspunkt: string,
+    enabled: boolean,
+): Opptjeningsendring[] {
+    const { data } = useGetOpptjeningshistorikkBehandler(
+        personPseudoId,
+        { skjæringstidspunkt },
+        { query: { enabled } },
+    );
     const historikk = data?.historikk ?? [];
 
     return harFlereOpptjeningsvurderinger(historikk) ? tilEndringer(historikk) : [];

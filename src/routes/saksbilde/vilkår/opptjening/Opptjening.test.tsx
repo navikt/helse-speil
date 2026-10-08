@@ -161,11 +161,12 @@ const mutate = vi.fn();
 
 const mockVilkårsvurderinger = (
     data: ApiVilkårsvurderingerForPersonResponse | undefined,
-    overrides?: { isLoading?: boolean; isError?: boolean },
+    overrides?: { isLoading?: boolean; isFetching?: boolean; isError?: boolean },
 ) => {
     (useGetVilkårsvurderingerForPersonBehandler as Mock).mockReturnValue({
         data,
         isLoading: overrides?.isLoading ?? false,
+        isFetching: overrides?.isFetching ?? false,
         isError: overrides?.isError ?? false,
     });
 };
@@ -219,6 +220,56 @@ beforeEach(() => {
 });
 
 describe('Opptjening', () => {
+    it('henter historikk først når opptjeningsvurderingen er hentet', () => {
+        mockVilkårsvurderinger(undefined, { isLoading: true, isFetching: true });
+        const { rerender } = renderOpptjening(false);
+
+        expect(useGetOpptjeningshistorikkBehandler).toHaveBeenLastCalledWith(
+            'en-person',
+            { skjæringstidspunkt: '2024-01-01' },
+            { query: { enabled: false } },
+        );
+
+        mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
+        rerender(
+            <InngangsvilkårWithContent
+                vilkårsgrunnlag={vilkårsgrunnlag}
+                fødselsdato="1980-01-01"
+                personPseudoId="en-person"
+                opptjeningsvurderingId="en-id"
+                readOnly={false}
+            />,
+        );
+
+        expect(useGetOpptjeningshistorikkBehandler).toHaveBeenLastCalledWith(
+            'en-person',
+            { skjæringstidspunkt: '2024-01-01' },
+            { query: { enabled: true } },
+        );
+    });
+
+    it('venter med historikk mens opptjeningsvurderingen hentes på nytt', () => {
+        mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker, { isFetching: true });
+        renderOpptjening(false);
+
+        expect(useGetOpptjeningshistorikkBehandler).toHaveBeenLastCalledWith(
+            'en-person',
+            { skjæringstidspunkt: '2024-01-01' },
+            { query: { enabled: false } },
+        );
+    });
+
+    it('henter ikke historikk når opptjeningsvurderingen feiler', () => {
+        mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker, { isError: true });
+        renderOpptjening(false);
+
+        expect(useGetOpptjeningshistorikkBehandler).toHaveBeenLastCalledWith(
+            'en-person',
+            { skjæringstidspunkt: '2024-01-01' },
+            { query: { enabled: false } },
+        );
+    });
+
     it('viser oppsummering av opptjeningsgrunnlaget', async () => {
         renderOpptjening(false);
 

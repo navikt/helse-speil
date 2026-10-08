@@ -14,6 +14,7 @@ import { Vilkårsutfall, utfallFraOppfylt } from '@saksbilde/vilkår/vilkårsutf
 export interface Opptjeningsvurdering {
     data?: ApiVilkårsvurderingerForPersonResponse;
     isLoading: boolean;
+    isFetching: boolean;
     isError: boolean;
     utfall: Vilkårsutfall;
     erOverførtFraInfotrygd: boolean;
@@ -25,7 +26,7 @@ export interface Opptjeningsvurdering {
 export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurderingId: string): Opptjeningsvurdering {
     const [overstyrtOpptjeningsvurderingId, setOverstyrtOpptjeningsvurderingId] = useState<string | null>(null);
 
-    const { data, isLoading, isError } = useGetVilkårsvurderingerForPersonBehandler(personPseudoId, {
+    const { data, isLoading, isFetching, isError } = useGetVilkårsvurderingerForPersonBehandler(personPseudoId, {
         opptjeningsvurderingId: overstyrtOpptjeningsvurderingId ?? opptjeningsvurderingId,
     });
 
@@ -35,6 +36,7 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
     return {
         data,
         isLoading,
+        isFetching,
         isError,
         utfall: utfallFraOppfylt(krav?.opptjeningOk),
         erOverførtFraInfotrygd: krav?.kravkilde === ApiKravkilde.OVERFOERT_FRA_INFOTRYGD,
