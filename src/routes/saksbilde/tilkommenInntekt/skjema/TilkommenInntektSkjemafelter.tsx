@@ -131,12 +131,12 @@ export const TilkommenInntektSkjemafelter = ({
                                         <TextField
                                             {...field}
                                             value={periodebeløpVisningsverdi}
-                                            onChange={(event) => {
+                                            onChange={(event: React.ChangeEvent<HTMLInputElement>) => {
                                                 const nyttBeløp = kronerOgØreTilNumber(event.target.value);
                                                 setPeriodebeløpVisningsverdi(event.target.value);
                                                 field.onChange(nyttBeløp);
                                             }}
-                                            onBlur={(event) => {
+                                            onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
                                                 const nyttBeløp = kronerOgØreTilNumber(event.target.value);
                                                 setPeriodebeløpVisningsverdi(
                                                     Number.isNaN(nyttBeløp)
@@ -151,7 +151,9 @@ export const TilkommenInntektSkjemafelter = ({
                                             size="small"
                                             style={{ width: '80px' }}
                                             id="periodebeløp"
-                                            onFocus={(e) => e.target.select()}
+                                            onFocus={(event: React.FocusEvent<HTMLInputElement>) =>
+                                                event.target.select()
+                                            }
                                         />
                                     )}
                                 />

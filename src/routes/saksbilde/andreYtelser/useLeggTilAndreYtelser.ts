@@ -1,7 +1,4 @@
-'use client';
-
-import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { AndreYtelserSchema } from '@form-schemas/andreYtelserSchema';
 import {
@@ -9,13 +6,17 @@ import {
     usePostGraderteAndreYtelser,
 } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
-import { AndreYtelserSkjema } from '@saksbilde/andreYtelser/skjema/AndreYtelserSkjema';
-import { tilGraderteAndreYtelserRequest } from '@saksbilde/andreYtelser/skjema/andreYtelserMapping';
+import { tilGraderteAndreYtelserRequest } from '@saksbilde/andreYtelser/skjema/andreYtelserUtils';
 import { useQueryClient } from '@tanstack/react-query';
 
-export function LeggTilAndreYtelserView(): ReactElement {
+type LeggTilAndreYtelserResultat = {
+    onSubmit: (values: AndreYtelserSchema) => void;
+    isPending: boolean;
+    isError: boolean;
+};
+
+export const useLeggTilAndreYtelser = (personPseudoId: string): LeggTilAndreYtelserResultat => {
     const router = useRouter();
-    const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
     const { data: person } = useGetPerson(personPseudoId);
 
@@ -35,12 +36,5 @@ export function LeggTilAndreYtelserView(): ReactElement {
         mutate({ data: tilGraderteAndreYtelserRequest(values, person.identitetsnummer) });
     }
 
-    return (
-        <AndreYtelserSkjema
-            onSubmit={onSubmit}
-            onAvbryt={() => router.back()}
-            isPending={isPending}
-            isError={isError}
-        />
-    );
-}
+    return { onSubmit, isPending, isError };
+};

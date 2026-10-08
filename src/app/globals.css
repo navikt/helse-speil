@@ -141,8 +141,7 @@ body {
     --period-icon-fill: var(--ax-border-neutral);
 }
 
-[data-period-variant='tilkommen'],
-[data-period-variant='graderte_andre_ytelser'] {
+[data-period-variant='tilkommen'] {
     --ax-bg-moderate: var(--ax-bg-meta-purple-moderate);
     --ax-bg-moderate-hover: var(--ax-bg-meta-purple-moderate-hover);
     --ax-text-default: var(--ax-text-meta-purple);
@@ -154,8 +153,7 @@ body {
     --period-icon-fill: var(--ax-text-neutral-contrast);
 }
 
-[data-period-variant='tilkommen_fjernet'],
-[data-period-variant='graderte_andre_ytelser_fjernet'] {
+[data-period-variant='tilkommen_fjernet'] {
     --ax-bg-moderate: var(--ax-bg-meta-purple-moderate);
     --ax-bg-moderate-hover: var(--ax-bg-meta-purple-moderate-hover);
     --ax-text-default: var(--ax-text-meta-purple);

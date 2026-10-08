@@ -9,7 +9,6 @@ import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import { BeregnetPeriodeFragment, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { useGetNotatVedtaksperiodeIderForPerson } from '@io/rest/generated/notater/notater';
 import { ApiNotatType, ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
-import { andreYtelserTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
 import { TidslinjeElement } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
@@ -83,31 +82,6 @@ export function TilkommenInntektPopover({ tilkommenInntekt, element }: Tilkommen
             <BodyShort size="small">
                 {fom} - {tom}
             </BodyShort>
-        </HGrid>
-    );
-}
-
-interface GraderteAndreYtelserPopoverProps {
-    element: TidslinjeElement;
-}
-
-export function GraderteAndreYtelserPopover({ element }: GraderteAndreYtelserPopoverProps): ReactElement {
-    const fom = somNorskDato(element.fom) ?? '-';
-    const tom = somNorskDato(element.tom) ?? '-';
-    const gradertAndreYtelser = element.gradertAndreYtelser;
-
-    return (
-        <HGrid columns={2} gap="space-4 space-24">
-            <BodyShort size="small" className="col-span-2" weight="semibold">
-                {gradertAndreYtelser ? andreYtelserTypeTilNavn[gradertAndreYtelser.andreYtelserType] : 'Andre ytelser'}
-                {gradertAndreYtelser?.fjernet ? ' (fjernet)' : ''}
-            </BodyShort>
-            <BodyShort size="small">Periode:</BodyShort>
-            <BodyShort size="small">
-                {fom} - {tom}
-            </BodyShort>
-            <BodyShort size="small">Grad:</BodyShort>
-            <BodyShort size="small">{gradertAndreYtelser ? `${gradertAndreYtelser.grad} %` : '-'}</BodyShort>
         </HGrid>
     );
 }

@@ -32,7 +32,7 @@ export const OppgavelisteCombobox = ({ harFeil = false, ref }: OppgavelisteCombo
                 size="small"
                 options={options}
                 selectedOptions={valgtOppgaveliste ? options.filter((o) => o.value === valgtOppgaveliste.id) : []}
-                onToggleSelected={(option, isSelected) => {
+                onToggleSelected={(option: string, isSelected: boolean) => {
                     if (isSelected) {
                         setOppgavelisteId(option);
                     }

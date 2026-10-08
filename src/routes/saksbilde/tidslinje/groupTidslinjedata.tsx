@@ -8,14 +8,7 @@ import { useOrganisasjonerQuery } from '@external/sparkel-aareg/useOrganisasjonQ
 import { harUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
 import { Arbeidsgiver, GhostPeriode, Periode, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { useGetNotatVedtaksperiodeIderForPerson } from '@io/rest/generated/notater/notater';
-import {
-    ApiGraderteAndreYtelser,
-    ApiGraderteAndreYtelserType,
-    ApiTilkommenInntekt,
-    ApiTilkommenInntektskilde,
-} from '@io/rest/generated/spesialist.schemas';
-import { andreYtelserTypeTilNavn } from '@saksbilde/andreYtelser/andreYtelserLabels';
-import { IconAndreYtelser } from '@saksbilde/table/icons/IconAndreYtelser';
+import { ApiTilkommenInntekt, ApiTilkommenInntektskilde } from '@io/rest/generated/spesialist.schemas';
 import { PeriodPins } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { InfotrygdPeriod, PeriodCategory, getPeriodCategory } from '@typer/shared';
@@ -32,16 +25,8 @@ export type TidslinjeElement = {
     ghostPeriode?: GhostPeriode;
     infotrygdPeriode?: InfotrygdPeriod;
     tilkommenInntekt?: ApiTilkommenInntekt;
-    gradertAndreYtelser?: GradertAndreYtelserElement;
     periodPins?: PeriodPins[];
     generasjonIndex: number;
-};
-
-export type GradertAndreYtelserElement = {
-    andreYtelserId: string;
-    andreYtelserType: ApiGraderteAndreYtelserType;
-    grad: number;
-    fjernet?: boolean;
 };
 
 export type TidslinjeRad = {
@@ -79,7 +64,6 @@ const getPeriodPins = (periode: Periode, harNotat: boolean): PeriodPins[] => {
 export function useTidslinjeRader(
     inntektsforhold: Inntektsforhold[],
     tilkomneInntektskilder: ApiTilkommenInntektskilde[],
-    graderteAndreYtelser: ApiGraderteAndreYtelser[],
 ) {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: notatVedtaksperiodeIder, isLoading: isLoadingNotater } =
@@ -156,38 +140,5 @@ export function useTidslinjeRader(
             .sort((a, b) => a.fom.localeCompare(b.fom)),
     }));
 
-    const andreYtelserRader: TidslinjeRad[] = Object.values(
-        graderteAndreYtelser.reduce<Record<string, TidslinjeElement[]>>((grupper, ytelse) => {
-            const elementer = ytelse.perioder.map((periode) => ({
-                fom: periode.fom,
-                tom: periode.tom,
-                status: (ytelse.fjernet
-                    ? 'graderte_andre_ytelser_fjernet'
-                    : 'graderte_andre_ytelser') as PeriodCategory,
-                gradertAndreYtelser: {
-                    andreYtelserId: ytelse.andreYtelserId,
-                    andreYtelserType: ytelse.andreYtelserType,
-                    grad: periode.grad,
-                    fjernet: ytelse.fjernet,
-                },
-                generasjonIndex: 0,
-            }));
-
-            return {
-                ...grupper,
-                [ytelse.andreYtelserType]: [...(grupper[ytelse.andreYtelserType] ?? []), ...elementer],
-            };
-        }, {}),
-    ).map((tidslinjeElementer) => {
-        const andreYtelserType = tidslinjeElementer[0]!.gradertAndreYtelser!.andreYtelserType;
-
-        return {
-            id: andreYtelserType,
-            navn: andreYtelserTypeTilNavn[andreYtelserType],
-            icon: <IconAndreYtelser alt="Andre ytelser" />,
-            tidslinjeElementer: tidslinjeElementer.sort((a, b) => a.fom.localeCompare(b.fom)),
-        };
-    });
-
-    return { arbeidsgiverRader, tilkommenRader, andreYtelserRader, isLoading };
+    return { arbeidsgiverRader, tilkommenRader, isLoading };
 }

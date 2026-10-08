@@ -36,7 +36,7 @@ export const SøkefeltSaksbehandlere = () => {
                 selectedOptions={saksbehandlereOptions.filter(
                     (saksbehandler) => saksbehandler.value === valgtSaksbehandler?.oid,
                 )}
-                onToggleSelected={(option, isSelected) => {
+                onToggleSelected={(option: string, isSelected: boolean) => {
                     if (!isSelected) {
                         setValgtSaksbehandler(null);
                     } else {

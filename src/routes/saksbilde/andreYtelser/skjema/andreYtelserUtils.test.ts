@@ -1,19 +1,18 @@
-import { AndreYtelserSchema } from '@form-schemas/andreYtelserSchema';
+import type { AndreYtelserSchema } from '@form-schemas/andreYtelserSchema';
 import { ApiGraderteAndreYtelserType } from '@io/rest/generated/spesialist.schemas';
 import {
     tilAndreYtelserSkjemaverdier,
     tilEndreGraderteAndreYtelserRequest,
     tilGjenopprettGraderteAndreYtelserRequest,
     tilGraderteAndreYtelserRequest,
-} from '@saksbilde/andreYtelser/skjema/andreYtelserMapping';
+} from '@saksbilde/andreYtelser/skjema/andreYtelserUtils';
 
-const etSkjema = (overstyringer: Partial<AndreYtelserSchema> = {}): AndreYtelserSchema =>
-    ({
-        ytelse: 'Pleiepenger',
-        perioder: [{ fom: '01.01.2020', tom: '03.01.2020', grad: 50 }],
-        notat: 'Et notat',
-        ...overstyringer,
-    }) as AndreYtelserSchema;
+const etSkjema = (overstyringer: Partial<AndreYtelserSchema> = {}): AndreYtelserSchema => ({
+    ytelse: 'Pleiepenger',
+    perioder: [{ fom: '01.01.2020', tom: '03.01.2020', grad: 50 }],
+    notat: 'Et notat',
+    ...overstyringer,
+});
 
 describe('tilGraderteAndreYtelserRequest', () => {
     it('mapper ytelse-label til API-enum', () => {
