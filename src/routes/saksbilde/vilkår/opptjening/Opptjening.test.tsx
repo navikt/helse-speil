@@ -6,12 +6,14 @@ import {
     ApiKildetype,
     ApiKravkilde,
     ApiKravkode,
+    ApiOpptjeningshistorikkInnslag,
     ApiUtfall,
     ApiVilkårskode,
     ApiVilkårsvurdering,
     ApiVilkårsvurderingerForPersonResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import {
+    useGetOpptjeningshistorikkBehandler,
     useGetVilkårsvurderingerForPersonBehandler,
     usePostManuellVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
@@ -22,6 +24,7 @@ import userEvent from '@testing-library/user-event';
 vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
     useGetVilkårsvurderingerForPersonBehandler: vi.fn(),
+    useGetOpptjeningshistorikkBehandler: vi.fn(),
     usePostManuellVilkårsvurderingBehandler: vi.fn(),
 }));
 
@@ -167,6 +170,14 @@ const mockVilkårsvurderinger = (
     });
 };
 
+const mockOpptjeningshistorikk = (historikk: ApiOpptjeningshistorikkInnslag[]) => {
+    (useGetOpptjeningshistorikkBehandler as Mock).mockReturnValue({
+        data: { skjæringstidspunkt: '2024-01-01', historikk },
+        isLoading: false,
+        isError: false,
+    });
+};
+
 const arbeidsvilkår = () => screen.getByRole('listitem', { name: 'Arbeid i minst 4 uker' });
 
 const vilkårsgrunnlag: VilkarsgrunnlagInfotrygdV2 = {
@@ -199,6 +210,7 @@ beforeEach(() => {
     mutate.mockClear();
     envMock.erUtvikling = true;
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
+    mockOpptjeningshistorikk([]);
     (usePostManuellVilkårsvurderingBehandler as Mock).mockReturnValue({
         mutate,
         isPending: false,
@@ -515,6 +527,78 @@ describe('Opptjening', () => {
 
         expect(screen.getByText('Kunne ikke hente opptjeningsvurderingen')).toBeVisible();
     });
+    describe('endringslogg', () => {
+        const automatiskInnslag: ApiOpptjeningshistorikkInnslag = {
+            vurdertTidspunkt: '2025-04-01T10:03:00.000Z',
+            opptjeningsvurdering: medId(automatiskIkkeOppfyltArbeidMinst4Uker, 'opptjeningsvurdering-1', {
+                id: 'vilkårsvurdering-1',
+                vurdertTidspunkt: '2025-04-01T10:03:00.000Z',
+            }),
+        };
+
+        const manuellInnslag: ApiOpptjeningshistorikkInnslag = {
+            vurdertTidspunkt: '2025-07-25T12:21:00.000Z',
+            opptjeningsvurdering: medId(saksbehandlerOppfyltArbeidMinst4Uker, 'opptjeningsvurdering-2', {
+                id: 'vilkårsvurdering-2',
+                vurdertTidspunkt: '2025-07-25T12:21:00.000Z',
+            }),
+        };
+
+        const endringsloggknapp = () => screen.queryByRole('button', { name: 'Vis endringslogg for opptjeningstid' });
+        const endringsloggrader = () => within(screen.getByRole('dialog')).getAllByRole('row').slice(1);
+
+        it('viser ikke endringslogg når det bare finnes én opptjeningsvurdering', () => {
+            mockOpptjeningshistorikk([automatiskInnslag]);
+
+            renderOpptjening(true);
+
+            expect(endringsloggknapp()).not.toBeInTheDocument();
+        });
+
+        it('viser alle vurderingene, nyeste først, når det finnes flere opptjeningsvurderinger', async () => {
+            mockOpptjeningshistorikk([automatiskInnslag, manuellInnslag]);
+
+            renderOpptjening(true);
+            await userEvent.click(endringsloggknapp()!);
+
+            const [nyeste, eldste] = endringsloggrader();
+            expect(endringsloggrader()).toHaveLength(2);
+            expect(within(nyeste!).getByText(/^25.07.2025/)).toBeVisible();
+            expect(within(nyeste!).getByText('Opptjeningstid – arbeid i minst 4 uker')).toBeVisible();
+            expect(within(nyeste!).getByText('Oppfylt')).toBeVisible();
+            expect(within(nyeste!).getByText('Har likestilt ytelse')).toBeVisible();
+            expect(within(nyeste!).getByText('S123456')).toBeVisible();
+            expect(within(eldste!).getByText('Ikke oppfylt')).toBeVisible();
+            expect(within(eldste!).getByText('Automatisk')).toBeVisible();
+        });
+
+        it('viser en videreført vilkårsvurdering bare én gang', async () => {
+            const videreført: ApiOpptjeningshistorikkInnslag = {
+                ...manuellInnslag,
+                opptjeningsvurdering: { ...manuellInnslag.opptjeningsvurdering, id: 'opptjeningsvurdering-3' },
+            };
+            mockOpptjeningshistorikk([videreført, manuellInnslag]);
+
+            renderOpptjening(true);
+            await userEvent.click(endringsloggknapp()!);
+
+            expect(endringsloggrader()).toHaveLength(1);
+        });
+
+        it('viser opptjeningsvurderinger fra Infotrygd uten enkeltvurderinger', async () => {
+            mockOpptjeningshistorikk([
+                manuellInnslag,
+                { vurdertTidspunkt: '2020-01-01T10:00:00.000Z', opptjeningsvurdering: overførtFraInfotrygd.krav[0]! },
+            ]);
+
+            renderOpptjening(true);
+            await userEvent.click(endringsloggknapp()!);
+
+            const infotrygdrad = endringsloggrader()[1]!;
+            expect(within(infotrygdrad).getByText('Opptjeningstid')).toBeVisible();
+            expect(within(infotrygdrad).getByText('Infotrygd')).toBeVisible();
+        });
+    });
 });
 
 function medEndretVurdering(
@@ -529,4 +613,14 @@ function medEndretVurdering(
                 : krav,
         ),
     };
+}
+
+function medId(
+    response: ApiVilkårsvurderingerForPersonResponse,
+    opptjeningsvurderingId: string,
+    vurdering: Partial<ApiVilkårsvurdering>,
+): ApiOpptjeningshistorikkInnslag['opptjeningsvurdering'] {
+    const krav = response.krav[0]!;
+    if (!('vurderinger' in krav)) throw new Error('Forventet krav med enkeltvurderinger');
+    return { ...krav, id: opptjeningsvurderingId, vurderinger: [{ ...krav.vurderinger[0]!, ...vurdering }] };
 }

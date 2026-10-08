@@ -24,6 +24,7 @@ import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
 import { VilkårsutfallKort } from './VilkårsutfallKort';
 import { ManuellVurderingAvVilkårSkjema } from './opptjening/ManuellVurderingAvVilkårSkjema';
 import { Opptjening } from './opptjening/Opptjening';
+import { useOpptjeningshistorikk } from './opptjening/useOpptjeningshistorikk';
 import { useOpptjeningsvurdering } from './opptjening/useOpptjeningsvurdering';
 
 interface InngangsvilkårProps {
@@ -57,6 +58,7 @@ export function InngangsvilkårWithContent({
     readOnly,
 }: InngangsvilkårWithContentProps): ReactElement {
     const opptjeningsvurdering = useOpptjeningsvurdering(personPseudoId, opptjeningsvurderingId);
+    const opptjeningsendringer = useOpptjeningshistorikk(personPseudoId, vilkårsgrunnlag.skjaeringstidspunkt);
     const [aktivtVilkår, setAktivtVilkår] = useState<ManueltVurderbarVilkårskode | null>(null);
     const skjæringstidspunkt = opptjeningsvurdering.data?.skjæringstidspunkt;
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
@@ -84,6 +86,7 @@ export function InngangsvilkårWithContent({
                         ) : (
                             <Opptjening
                                 opptjeningsvurdering={opptjeningsvurdering}
+                                endringer={opptjeningsendringer}
                                 readOnly={readOnly}
                                 aktivtVilkår={aktivtVilkår}
                                 onVurder={setAktivtVilkår}

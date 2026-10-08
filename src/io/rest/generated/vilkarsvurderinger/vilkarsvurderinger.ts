@@ -7,11 +7,14 @@
 import type {
     ApiManuellVilkårsvurderingRequest,
     ApiManuellVilkårsvurderingResponse,
+    ApiOpptjeningshistorikkResponse,
     ApiVilkårsvurderingerForPersonResponse,
+    GetOpptjeningshistorikkBehandlerParams,
     GetVilkårsvurderingerForPersonBehandlerParams,
     ProblemDetails,
 } from '../vilkarsproving.schemas';
 
+import { useMutation, useQuery } from '@tanstack/react-query';
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -26,7 +29,6 @@ import type {
     UseQueryOptions,
     UseQueryResult,
 } from '@tanstack/react-query';
-import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { withDefaultQueryOptions } from '../../defaultQueryOptions';
 
@@ -210,6 +212,169 @@ export function useGetVilkårsvurderingerForPersonBehandler<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetVilkårsvurderingerForPersonBehandlerQueryOptions(personId, params, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetOpptjeningshistorikkBehandlerUrl = (
+    personId: string,
+    params: GetOpptjeningshistorikkBehandlerParams,
+) => {
+    const normalizedParams = new URLSearchParams();
+
+    Object.entries(params || {}).forEach(([key, value]) => {
+        if (value !== undefined) {
+            normalizedParams.append(key, value === null ? 'null' : String(value));
+        }
+    });
+
+    const stringifiedParams = normalizedParams.toString();
+
+    return stringifiedParams.length > 0
+        ? `/api/vilkarsproving/personer/${personId}/opptjeningsvurderinger/historikk?${stringifiedParams}`
+        : `/api/vilkarsproving/personer/${personId}/opptjeningsvurderinger/historikk`;
+};
+
+export const getOpptjeningshistorikkBehandler = async (
+    personId: string,
+    params: GetOpptjeningshistorikkBehandlerParams,
+    options?: RequestInit,
+): Promise<ApiOpptjeningshistorikkResponse> => {
+    const res = await fetch(getGetOpptjeningshistorikkBehandlerUrl(personId, params), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiOpptjeningshistorikkResponse; status?: number } =
+            new globalThis.Error();
+        const data: ApiOpptjeningshistorikkResponse = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiOpptjeningshistorikkResponse = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetOpptjeningshistorikkBehandlerQueryKey = (
+    personId: string,
+    params?: GetOpptjeningshistorikkBehandlerParams,
+) => {
+    return [
+        `/api/vilkarsproving/personer/${personId}/opptjeningsvurderinger/historikk`,
+        ...(params ? [params] : []),
+    ] as const;
+};
+
+export const useGetOpptjeningshistorikkBehandlerQueryOptions = <
+    TData = Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personId: string,
+    params: GetOpptjeningshistorikkBehandlerParams,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetOpptjeningshistorikkBehandlerQueryKey(personId, params);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>> = ({ signal }) =>
+        getOpptjeningshistorikkBehandler(personId, params, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: personId !== null && personId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<
+        Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetOpptjeningshistorikkBehandlerQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>
+>;
+export type GetOpptjeningshistorikkBehandlerQueryError = globalThis.Error & { info?: ProblemDetails; status?: number };
+
+export function useGetOpptjeningshistorikkBehandler<
+    TData = Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personId: string,
+    params: GetOpptjeningshistorikkBehandlerParams,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>,
+                    TError,
+                    Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetOpptjeningshistorikkBehandler<
+    TData = Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personId: string,
+    params: GetOpptjeningshistorikkBehandlerParams,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>,
+                    TError,
+                    Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetOpptjeningshistorikkBehandler<
+    TData = Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personId: string,
+    params: GetOpptjeningshistorikkBehandlerParams,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetOpptjeningshistorikkBehandler<
+    TData = Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personId: string,
+    params: GetOpptjeningshistorikkBehandlerParams,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOpptjeningshistorikkBehandler>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetOpptjeningshistorikkBehandlerQueryOptions(personId, params, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

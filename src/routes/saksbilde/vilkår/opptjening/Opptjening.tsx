@@ -8,17 +8,26 @@ import {
 } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { VilkårsutfallIkon } from '@saksbilde/vilkår/vilkårsutfall';
 
+import { EndringsloggOpptjeningButton } from './EndringsloggOpptjeningButton';
 import { OpptjeningVilkårsrad } from './OpptjeningVilkårsrad';
+import { Opptjeningsendring } from './useOpptjeningshistorikk';
 import { Opptjeningsvurdering } from './useOpptjeningsvurdering';
 
 interface OpptjeningProps {
     opptjeningsvurdering: Opptjeningsvurdering;
+    endringer: Opptjeningsendring[];
     readOnly: boolean;
     aktivtVilkår: ManueltVurderbarVilkårskode | null;
     onVurder: (vilkårskode: ManueltVurderbarVilkårskode) => void;
 }
 
-export function Opptjening({ opptjeningsvurdering, readOnly, aktivtVilkår, onVurder }: OpptjeningProps): ReactElement {
+export function Opptjening({
+    opptjeningsvurdering,
+    endringer,
+    readOnly,
+    aktivtVilkår,
+    onVurder,
+}: OpptjeningProps): ReactElement {
     const { data, isLoading, isError, utfall, vurderingFor, avgjørendeVilkårskode } = opptjeningsvurdering;
     const tittelId = useId();
 
@@ -35,6 +44,7 @@ export function Opptjening({ opptjeningsvurdering, readOnly, aktivtVilkår, onVu
                 <Heading id={tittelId} level="3" size="xsmall">
                     Opptjeningstid
                 </Heading>
+                <EndringsloggOpptjeningButton endringer={endringer} />
             </HStack>
             <VStack gap="space-0" className="w-full border-t border-ax-border-neutral-subtle">
                 {isLoading ? (
