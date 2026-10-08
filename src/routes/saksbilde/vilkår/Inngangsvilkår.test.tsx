@@ -8,6 +8,7 @@ import { InngangsvilkårWithContent } from './Inngangsvilkår';
 vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
     useGetVilkårsvurderingerForPersonBehandler: () => ({ data: undefined, isLoading: true, isError: false }),
+    useGetOpptjeningshistorikkBehandler: () => ({ data: undefined, isLoading: true, isError: false }),
 }));
 
 const opptjeningProps = { personPseudoId: 'en-person', opptjeningsvurderingId: 'en-id', readOnly: false };

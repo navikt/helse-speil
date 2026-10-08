@@ -127,8 +127,7 @@ export interface ApiVilkårsvurdering {
     id: string;
     vilkårskode: ApiVilkårskode;
     utfall: ApiUtfall;
-    /** @nullable */
-    vurdertTidspunkt?: string | null;
+    vurdertTidspunkt: string;
     lovreferanse: ApiLovreferanse;
     kilde: ApiVurderingskilde;
 }
@@ -170,6 +169,16 @@ export interface ProblemDetails {
     instance: string;
 }
 
+export interface ApiOpptjeningshistorikkInnslag {
+    vurdertTidspunkt: string;
+    opptjeningsvurdering: ApiOpptjeningsvurdering;
+}
+
+export interface ApiOpptjeningshistorikkResponse {
+    skjæringstidspunkt: string;
+    historikk: ApiOpptjeningshistorikkInnslag[];
+}
+
 export interface ApiManuellVilkårsvurderingRequest {
     skjæringstidspunkt: string;
     vilkårskode: ApiVilkårskode;
@@ -184,4 +193,8 @@ export interface ApiManuellVilkårsvurderingResponse {
 
 export type GetVilkårsvurderingerForPersonBehandlerParams = {
     opptjeningsvurderingId: string;
+};
+
+export type GetOpptjeningshistorikkBehandlerParams = {
+    skjæringstidspunkt: string;
 };

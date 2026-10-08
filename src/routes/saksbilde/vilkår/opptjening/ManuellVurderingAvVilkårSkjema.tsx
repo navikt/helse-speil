@@ -15,6 +15,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
 import {
+    getGetOpptjeningshistorikkBehandlerQueryKey,
     getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     usePostManuellVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
@@ -60,6 +61,9 @@ export function ManuellVurderingAvVilkårSkjema({
             onSuccess: (response) => {
                 queryClient.invalidateQueries({
                     queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
+                });
+                queryClient.invalidateQueries({
+                    queryKey: getGetOpptjeningshistorikkBehandlerQueryKey(personPseudoId),
                 });
                 onOverstyrt(response.opptjeningsvurderingId);
                 onLukk();

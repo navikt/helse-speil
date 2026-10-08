@@ -5,6 +5,8 @@ import {
     ApiKravkilde,
     ApiKravkode,
     ApiManuellVilkårsvurderingRequest,
+    ApiOpptjeningshistorikkInnslag,
+    ApiOpptjeningshistorikkResponse,
     ApiOpptjeningsvurderingVurdertISpVilkarproving,
     ApiUtfall,
     ApiVilkårskode,
@@ -64,7 +66,17 @@ let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
     ],
 };
 
+let opptjeningshistorikk: ApiOpptjeningshistorikkInnslag[] = vilkårsvurderinger.krav.map((krav) => ({
+    vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
+    opptjeningsvurdering: krav,
+}));
+
 export const hentVilkårsvurderinger = (): ApiVilkårsvurderingerForPersonResponse => vilkårsvurderinger;
+
+export const hentOpptjeningshistorikk = (skjæringstidspunkt: string): ApiOpptjeningshistorikkResponse => ({
+    skjæringstidspunkt,
+    historikk: opptjeningshistorikk,
+});
 
 export const overstyrVilkårsvurdering = (request: ApiManuellVilkårsvurderingRequest): string => {
     const nyVurdering: ApiVilkårsvurdering = {
@@ -107,6 +119,11 @@ export const overstyrVilkårsvurdering = (request: ApiManuellVilkårsvurderingRe
         skjæringstidspunkt: request.skjæringstidspunkt,
         krav: [...vilkårsvurderinger.krav.filter((krav) => krav.kravkode !== ApiKravkode.OPPTJENING), nyttKrav],
     };
+
+    opptjeningshistorikk = [
+        { vurdertTidspunkt: nyVurdering.vurdertTidspunkt, opptjeningsvurdering: nyttKrav },
+        ...opptjeningshistorikk,
+    ];
 
     return nyttKrav.id;
 };

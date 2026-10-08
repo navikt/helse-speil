@@ -56,7 +56,7 @@ export function utfallFraApi(utfall?: ApiUtfall): Vilkårsutfall {
     }
 }
 
-function utfallstekst(utfall: Vilkårsutfall): string {
+export function utfallstekst(utfall: Vilkårsutfall): string {
     switch (utfall) {
         case 'Oppfylt':
             return 'Oppfylt';
