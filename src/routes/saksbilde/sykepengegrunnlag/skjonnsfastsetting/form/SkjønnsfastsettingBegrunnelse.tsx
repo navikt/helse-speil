@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
-import { BodyShort, HelpText, Textarea, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, HelpText, Textarea, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { VisesIVedtakTag } from '@components/tags/VisesIVedtakTag';
@@ -58,8 +58,8 @@ export const SkjønnsfastsettingBegrunnelse = ({
                 label={
                     <VisesIVedtakTag
                         label={
-                            <span className={styles.fritekstlabel}>
-                                Nærmere begrunnelse for skjønnsvurderingen&nbsp;
+                            <HStack as="span" gap="space-4" className={styles.fritekstlabel}>
+                                Nærmere begrunnelse for skjønnsvurderingen
                                 <HelpText title="Veiledning">
                                     <VStack gap="space-16">
                                         <BodyShort>
@@ -77,7 +77,7 @@ export const SkjønnsfastsettingBegrunnelse = ({
                                         </VStack>
                                     </VStack>
                                 </HelpText>
-                            </span>
+                            </HStack>
                         }
                     />
                 }

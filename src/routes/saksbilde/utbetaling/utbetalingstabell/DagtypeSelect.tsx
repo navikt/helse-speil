@@ -49,8 +49,8 @@ export function DagtypeSelect({
 
 function DagtypevelgerLabel({ erSelvstendig }: { erSelvstendig: boolean }) {
     return (
-        <HStack as="span" align="center" className="[&_label]:leading-ax-large">
-            Dagtype&nbsp;
+        <HStack as="span" align="center" gap="space-4">
+            Dagtype
             {!erSelvstendig && (
                 <HelpText title="Forklaring av dagtyper">
                     <VStack gap="space-16">
