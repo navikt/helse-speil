@@ -1,10 +1,9 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
-import Script from 'next/script';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { backend, browserEnv, erDev, erProd } from '@/env';
+import { backend, browserEnv } from '@/env';
 import { Preload } from '@app/preload';
 import { Providers } from '@app/providers';
 import { getTokenPayload } from '@auth/token';
@@ -29,25 +28,8 @@ export const metadata: Metadata = {
 export default async function RootLayout({ children }: Readonly<PropsWithChildren>): Promise<ReactElement> {
     const payload = await getTokenPayload();
 
-    function umamiAnalytics() {
-        if (!erDev) {
-            return <></>;
-        }
-        return (
-            <Script
-                defer
-                strategy="afterInteractive"
-                src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
-                data-host-url={erProd ? 'https://umami.nav.no' : 'https://reops-event-proxy.ekstern.dev.nav.no/'}
-                data-website-id="79077f8d-4fe9-4ef1-82e1-dde6af454cd3"
-                data-auto-track="false"
-            />
-        );
-    }
-
     return (
         <html lang="no" suppressHydrationWarning>
-            <head>{umamiAnalytics()}</head>
             <Preload />
             <body>
                 <Providers
