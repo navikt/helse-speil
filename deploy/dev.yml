@@ -26,6 +26,8 @@ spec:
           cluster: dev-gcp
         - application: sp-forsikring
           namespace: tbd
+        - application: spout
+          namespace: tbd
         - application: sp-vilkarsproving
       external:
         - host: api.sanity.io
@@ -103,6 +105,10 @@ spec:
       value: api://dev-gcp.tbd.sp-forsikring/.default
     - name: SP_FORSIKRING_BASE_URL
       value: http://sp-forsikring
+    - name: CLIENT_ID_SPOUT
+      value: api://dev-gcp.tbd.spout/.default
+    - name: SPOUT_BASE_URL
+      value: http://spout
     - name: SANITY_DATASET
       value: production
     - name: SPARKEL_AAREG_SCOPE
