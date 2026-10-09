@@ -5,6 +5,7 @@ import { BodyShort, Box, Loader, Tabs } from '@navikt/ds-react';
 import { useSpleisVedtaksperiodeQuery } from '@io/rest/spleis';
 import { Handlinger } from '@saksbilde/utvikler/Handlinger';
 import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
+import { Hendelser } from '@saksbilde/utvikler/hendelser/Hendelser';
 
 interface UtviklerProps {
     vedtaksperiodeId: string;
@@ -24,11 +25,17 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) =>
                 <Tabs defaultValue="spleisdata" size="small">
                     <Tabs.List>
                         <Tabs.Tab value="spleisdata" label="Spleis-data" />
+                        <Tabs.Tab value="hendelser" label="Hendelser" />
                         <Tabs.Tab value="handlinger" label="Handlinger" />
                     </Tabs.List>
                     <Tabs.Panel value="spleisdata">
                         <Box paddingBlock="space-16">
                             <JsonVisning data={data} />
+                        </Box>
+                    </Tabs.Panel>
+                    <Tabs.Panel value="hendelser">
+                        <Box paddingBlock="space-16">
+                            <Hendelser vedtaksperiodeId={vedtaksperiodeId} fødselsnummer={fødselsnummer} />
                         </Box>
                     </Tabs.Panel>
                     <Tabs.Panel value="handlinger">

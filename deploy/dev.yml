@@ -30,6 +30,7 @@ spec:
           namespace: tbd
         - application: sp-vilkarsproving
         - application: spleis-api
+        - application: sparsom-api
       external:
         - host: api.sanity.io
         - host: z9kr8ddn.api.sanity.io
@@ -114,6 +115,10 @@ spec:
       value: api://dev-gcp.tbd.spleis-api/.default
     - name: SPLEIS_API_BASE_URL
       value: http://spleis-api
+    - name: CLIENT_ID_SPARSOM_API
+      value: api://dev-gcp.tbd.sparsom-api/.default
+    - name: SPARSOM_API_BASE_URL
+      value: http://sparsom-api
     - name: SANITY_DATASET
       value: production
     - name: SPARKEL_AAREG_SCOPE

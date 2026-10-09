@@ -1,4 +1,4 @@
-import { postJson } from '@app/fetch/fetchClient';
+import { getJson, postJson } from '@app/fetch/fetchClient';
 import { useQuery } from '@tanstack/react-query';
 
 import { withDefaultQueryOptions } from './defaultQueryOptions';
@@ -40,3 +40,18 @@ export const useSpleisVedtaksperiodeQuery = (vedtaksperiodeId?: string, fødsels
             enabled: !!vedtaksperiodeId && !!fødselsnummer,
         }),
     );
+
+export function getSpleisHendelseQueryKey(meldingsreferanse?: string) {
+    return ['/api/spleis/hendelse-json/{meldingsreferanse}', meldingsreferanse] as const;
+}
+
+export function useSpleisHendelseQuery(meldingsreferanse?: string) {
+    return useQuery(
+        withDefaultQueryOptions({
+            queryKey: getSpleisHendelseQueryKey(meldingsreferanse),
+            queryFn: ({ signal }) =>
+                getJson<object>(`/api/spleis/hendelse-json/${encodeURIComponent(meldingsreferanse!)}`, { signal }),
+            enabled: !!meldingsreferanse,
+        }),
+    );
+}
