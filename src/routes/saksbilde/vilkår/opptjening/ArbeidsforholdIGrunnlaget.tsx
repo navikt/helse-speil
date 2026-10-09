@@ -28,8 +28,10 @@ export function ArbeidsforholdIGrunnlaget({ arbeidsforhold }: { arbeidsforhold: 
                             {arbeidsforhold.toSorted(sortArbeidsforhold).map((it) => (
                                 <Table.Row key={`${it.organisasjonsnummer}-${it.fom}-${it.tom ?? ''}`}>
                                     <Table.DataCell className="max-w-36">
-                                        {it.organisasjonsnummer === UKJENT_PRIVAT ? (
-                                            <BodyShort size="small">{UKJENT_PRIVAT}</BodyShort>
+                                        {erUtenOrganisasjonsnavn(it.organisasjonsnummer) ? (
+                                            <BodyShort data-sensitive size="small">
+                                                {it.organisasjonsnummer}
+                                            </BodyShort>
                                         ) : (
                                             <Organisasjonsnavn
                                                 organisasjonsnummer={it.organisasjonsnummer}
@@ -59,6 +61,11 @@ export function ArbeidsforholdIGrunnlaget({ arbeidsforhold }: { arbeidsforhold: 
 
 // Spleis manglet orgnummer for enkelte private arbeidsgivere; sp-vilkarsproving lagrer dem som UKJENT_PRIVAT.
 const UKJENT_PRIVAT = 'UKJENT_PRIVAT';
+
+// 11 siffer er et personnummer for en privat arbeidsgiver, som ikke har noe organisasjonsnavn å slå opp.
+function erUtenOrganisasjonsnavn(organisasjonsnummer: string): boolean {
+    return organisasjonsnummer === UKJENT_PRIVAT || /^\d{11}$/.test(organisasjonsnummer);
+}
 
 const arbeidsforholdtypeLabels: Record<ApiArbeidsforholdtype, string> = {
     [ApiArbeidsforholdtype.FORENKLET_OPPGJØRSORDNING]: 'Forenklet oppgjørsordning',

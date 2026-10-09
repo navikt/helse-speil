@@ -53,6 +53,21 @@ describe('ArbeidsforholdIGrunnlaget', () => {
         expect(celler[1]?.textContent).toBe('UKJENT_PRIVAT');
         expect(useOrganisasjonQuery).not.toHaveBeenCalledWith('UKJENT_PRIVAT');
     });
+
+    it('viser 11-sifret arbeidsgivernummer uten å slå opp organisasjonsnavn', async () => {
+        render(
+            <ArbeidsforholdIGrunnlaget
+                arbeidsforhold={[{ ...etArbeidsforhold('2020-01-01', null), organisasjonsnummer: '12345678901' }]}
+            />,
+        );
+
+        await userEvent.click(screen.getByRole('button', { name: /Arbeidsforhold i grunnlaget/ }));
+
+        const celler = within(within(screen.getByRole('table')).getAllByRole('row')[1]!).getAllByRole('cell');
+        expect(celler[0]?.textContent).toBe('12345678901');
+        expect(celler[1]?.textContent).toBe('12345678901');
+        expect(useOrganisasjonQuery).not.toHaveBeenCalledWith('12345678901');
+    });
 });
 
 function etArbeidsforhold(fom: string, tom: string | null | undefined): ApiArbeidsforhold {
