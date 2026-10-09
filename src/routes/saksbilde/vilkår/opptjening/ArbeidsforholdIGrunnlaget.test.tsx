@@ -1,10 +1,13 @@
 import React from 'react';
 
+import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { ApiArbeidsforhold, ApiArbeidsforholdtype } from '@io/rest/generated/vilkarsproving.schemas';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
 import { ArbeidsforholdIGrunnlaget } from './ArbeidsforholdIGrunnlaget';
+
+vi.mock('@external/sparkel-aareg/useOrganisasjonQuery', { spy: true });
 
 describe('ArbeidsforholdIGrunnlaget', () => {
     it('sorterer løpende først, deretter nyeste tom og nyeste fom', async () => {
@@ -34,6 +37,21 @@ describe('ArbeidsforholdIGrunnlaget', () => {
             '01.01.2021 – 31.12.2023',
             '01.01.2020 – 31.12.2022',
         ]);
+    });
+
+    it('viser UKJENT_PRIVAT som arbeidsgiver uten å slå opp organisasjonsnavn', async () => {
+        render(
+            <ArbeidsforholdIGrunnlaget
+                arbeidsforhold={[{ ...etArbeidsforhold('2020-01-01', null), organisasjonsnummer: 'UKJENT_PRIVAT' }]}
+            />,
+        );
+
+        await userEvent.click(screen.getByRole('button', { name: /Arbeidsforhold i grunnlaget/ }));
+
+        const celler = within(within(screen.getByRole('table')).getAllByRole('row')[1]!).getAllByRole('cell');
+        expect(celler[0]?.textContent).toBe('UKJENT_PRIVAT');
+        expect(celler[1]?.textContent).toBe('UKJENT_PRIVAT');
+        expect(useOrganisasjonQuery).not.toHaveBeenCalledWith('UKJENT_PRIVAT');
     });
 });
 

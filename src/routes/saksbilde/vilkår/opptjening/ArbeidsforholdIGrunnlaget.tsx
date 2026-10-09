@@ -28,11 +28,15 @@ export function ArbeidsforholdIGrunnlaget({ arbeidsforhold }: { arbeidsforhold: 
                             {arbeidsforhold.toSorted(sortArbeidsforhold).map((it) => (
                                 <Table.Row key={`${it.organisasjonsnummer}-${it.fom}-${it.tom ?? ''}`}>
                                     <Table.DataCell className="max-w-36">
-                                        <Organisasjonsnavn
-                                            organisasjonsnummer={it.organisasjonsnummer}
-                                            maxWidth="14rem"
-                                            size="small"
-                                        />
+                                        {it.organisasjonsnummer === UKJENT_PRIVAT ? (
+                                            <BodyShort size="small">{UKJENT_PRIVAT}</BodyShort>
+                                        ) : (
+                                            <Organisasjonsnavn
+                                                organisasjonsnummer={it.organisasjonsnummer}
+                                                maxWidth="14rem"
+                                                size="small"
+                                            />
+                                        )}
                                     </Table.DataCell>
                                     <Table.DataCell>
                                         <BodyShort data-sensitive size="small">
@@ -52,6 +56,9 @@ export function ArbeidsforholdIGrunnlaget({ arbeidsforhold }: { arbeidsforhold: 
         </ReadMore>
     );
 }
+
+// Spleis manglet orgnummer for enkelte private arbeidsgivere; sp-vilkarsproving lagrer dem som UKJENT_PRIVAT.
+const UKJENT_PRIVAT = 'UKJENT_PRIVAT';
 
 const arbeidsforholdtypeLabels: Record<ApiArbeidsforholdtype, string> = {
     [ApiArbeidsforholdtype.FORENKLET_OPPGJØRSORDNING]: 'Forenklet oppgjørsordning',
