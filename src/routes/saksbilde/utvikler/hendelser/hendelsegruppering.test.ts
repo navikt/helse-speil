@@ -6,7 +6,7 @@ const vedtaksperiodeId = 'en-vedtaksperiode-id';
 
 function enAktivitet(overrides: Partial<SparsomAktivitet>): SparsomAktivitet {
     return {
-        id: 1,
+        id: '1',
         tidsstempel: '2026-02-01T10:00:00',
         nivå: 'INFO',
         tekst: 'En aktivitet',
@@ -20,13 +20,13 @@ describe('hendelserForVedtaksperiode', () => {
         const hendelser = hendelserForVedtaksperiode(
             [
                 enAktivitet({
-                    id: 2,
+                    id: '2',
                     tidsstempel: '2026-02-01T10:00:02',
                     nivå: 'VARSEL',
                     kontekster: { Søknad: { meldingsreferanseId: 'søknad' } },
                 }),
                 enAktivitet({
-                    id: 1,
+                    id: '1',
                     tidsstempel: '2026-02-01T10:00:01',
                     kontekster: { Søknad: { meldingsreferanseId: 'søknad' }, Vedtaksperiode: { vedtaksperiodeId } },
                 }),
@@ -44,8 +44,8 @@ describe('hendelserForVedtaksperiode', () => {
             harFeil: false,
         });
         expect(søknad!.aktiviteter.map((it) => [it.id, it.gjelderVedtaksperioden])).toEqual([
-            [1, true],
-            [2, false],
+            ['1', true],
+            ['2', false],
         ]);
     });
 

@@ -13,14 +13,14 @@ const fødselsnummer = '12345678910';
 const aktiviteter: SparsomAktiviteterResponse = {
     aktiviteter: [
         {
-            id: 1,
+            id: '1',
             tidsstempel: '2026-02-01T10:00:00',
             nivå: 'INFO',
             tekst: 'Søknad mottatt',
             kontekster: { Søknad: { meldingsreferanseId: 'en-søknad' }, Vedtaksperiode: { vedtaksperiodeId } },
         },
         {
-            id: 2,
+            id: '2',
             tidsstempel: '2026-02-02T10:00:00',
             nivå: 'VARSEL',
             tekst: 'Varsel fra påminnelse',

@@ -32,28 +32,28 @@ export async function stub(request: NextRequest) {
             const vedtaksperiode = { vedtaksperiodeId, tilstand: 'AVVENTER_GODKJENNING' };
             return [
                 {
-                    id: id++,
+                    id: `${id++}`,
                     tidsstempel: '2026-02-01T10:00:00.000',
                     nivå: 'INFO',
                     tekst: 'Søknad mottatt',
                     kontekster: { Søknad: søknad, Vedtaksperiode: vedtaksperiode },
                 },
                 {
-                    id: id++,
+                    id: `${id++}`,
                     tidsstempel: '2026-02-01T10:00:01.000',
                     nivå: 'BEHOV',
                     tekst: 'Trenger inntektsmelding',
                     kontekster: { Søknad: søknad, Vedtaksperiode: vedtaksperiode },
                 },
                 {
-                    id: id++,
+                    id: `${id++}`,
                     tidsstempel: '2026-02-03T08:30:00.000',
                     nivå: 'VARSEL',
                     tekst: 'Arbeidsgiver er ikke registrert i Aa-registeret.',
                     kontekster: { Inntektsmelding: inntektsmelding, Vedtaksperiode: vedtaksperiode },
                 },
                 {
-                    id: id++,
+                    id: `${id++}`,
                     tidsstempel: '2026-02-04T06:00:00.000',
                     nivå: 'INFO',
                     tekst: 'Forsøker å gjenoppta behandling',

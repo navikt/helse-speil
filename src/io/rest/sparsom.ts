@@ -12,7 +12,7 @@ export type SparsomAktivitetNivå = 'INFO' | 'BEHOV' | 'VARSEL' | 'FUNKSJONELL_F
 export type SparsomKontekst = Record<string, string | undefined>;
 
 export type SparsomAktivitet = {
-    id: number;
+    id: string;
     tidsstempel: string;
     nivå: SparsomAktivitetNivå;
     tekst: string;
