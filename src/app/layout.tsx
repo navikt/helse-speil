@@ -1,9 +1,10 @@
 import './globals.css';
 
 import type { Metadata } from 'next';
+import Script from 'next/script';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { backend, browserEnv } from '@/env';
+import { backend, erDev, erUtvikling } from '@/env';
 import { Preload } from '@app/preload';
 import { Providers } from '@app/providers';
 import { getTokenPayload } from '@auth/token';
@@ -13,15 +14,9 @@ import { Driftsmeldinger } from '@components/driftsmeldinger/Driftsmeldinger';
 import { Header } from '@components/header/Header';
 
 export const metadata: Metadata = {
-    title: `Speil ${backend !== 'deployed' ? ' - localhost' : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev' ? ' - dev' : ''}`,
+    title: `Speil ${backend !== 'deployed' ? ' - localhost' : erDev ? ' - dev' : ''}`,
     icons: {
-        icon: `/favicons/${
-            backend !== 'deployed'
-                ? 'favicon-local.ico'
-                : browserEnv.NEXT_PUBLIC_RUNTIME_ENV === 'dev'
-                  ? 'favicon-dev.ico'
-                  : 'favicon.ico'
-        }`,
+        icon: `/favicons/${backend !== 'deployed' ? 'favicon-local.ico' : erDev ? 'favicon-dev.ico' : 'favicon.ico'}`,
     },
 };
 
@@ -30,6 +25,14 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
 
     return (
         <html lang="no" suppressHydrationWarning>
+            {erUtvikling && (
+                <Script
+                    defer
+                    strategy="afterInteractive"
+                    src={`https://cdn.nav.no/team-researchops/sporing/sporing${erUtvikling ? '-dev' : ''}.js`}
+                    data-website-id={process.env.NEXT_INNBLIKK_CODE}
+                />
+            )}
             <Preload />
             <body>
                 <Providers
