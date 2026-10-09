@@ -3,21 +3,27 @@ import { useAtom, useAtomValue } from 'jotai';
 import type { SetStateAction } from 'react';
 
 import { erUtvikling } from '@/env';
-import { atomWithSessionStorage } from '@state/jotai';
+import { atomWithLocalStorage, atomWithSessionStorage } from '@state/jotai';
 
 export type ToggleState = {
     kanBeslutteEgne: boolean;
     utviklersnacks: boolean;
 };
 
-const defaultToggleState: ToggleState = {
+type SessionToggleState = Omit<ToggleState, 'utviklersnacks'>;
+
+const defaultToggleState: SessionToggleState = {
     kanBeslutteEgne: false,
-    utviklersnacks: false,
 };
 
-const toggleState = atomWithSessionStorage<ToggleState>('toggleState', defaultToggleState);
+const toggleState = atomWithSessionStorage<SessionToggleState>('toggleState', defaultToggleState);
 
-export function hydrateToggleState(): [WritableAtom<ToggleState, [SetStateAction<ToggleState>], void>, ToggleState] {
+const utviklersnacksState = atomWithLocalStorage<boolean>('utviklersnacks', false);
+
+export function hydrateToggleState(): [
+    WritableAtom<SessionToggleState, [SetStateAction<SessionToggleState>], void>,
+    SessionToggleState,
+] {
     const sessionStorageState = sessionStorage.getItem('toggleState');
 
     return [
@@ -30,17 +36,23 @@ export function hydrateToggleState(): [WritableAtom<ToggleState, [SetStateAction
 
 export const useToggle = (): { value: ToggleState; toggle: (property: keyof ToggleState) => () => void } => {
     const [toggleStateValue, setToggleState] = useAtom(toggleState);
+    const [utviklersnacks, setUtviklersnacks] = useAtom(utviklersnacksState);
 
     return {
-        value: toggleStateValue,
-        toggle: (property: keyof ToggleState) => () =>
+        value: { ...toggleStateValue, utviklersnacks },
+        toggle: (property: keyof ToggleState) => () => {
+            if (property === 'utviklersnacks') {
+                setUtviklersnacks((prev) => !prev);
+                return;
+            }
             setToggleState((prevState) => ({
                 ...prevState,
                 [property]: !prevState[property],
-            })),
+            }));
+        },
     };
 };
 
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
 
-export const useUtviklersnacks = (): boolean => useAtomValue(toggleState).utviklersnacks;
+export const useUtviklersnacks = (): boolean => useAtomValue(utviklersnacksState);

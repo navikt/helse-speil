@@ -39,6 +39,7 @@ next-env.d.ts
 .env.production
 
 .idea
+.pnpm-store
 
 secure.log
 .env
