@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { BodyShort, Box, Heading, Loader, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, Loader, Tabs } from '@navikt/ds-react';
 
 import { useSpleisVedtaksperiodeQuery } from '@io/rest/spleis';
+import { Handlinger } from '@saksbilde/utvikler/Handlinger';
 import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
-import { PåminnVedtaksperiode } from '@saksbilde/utvikler/PåminnVedtaksperiode';
 
 interface UtviklerProps {
     vedtaksperiodeId: string;
@@ -21,15 +21,22 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) =>
             ) : error ? (
                 <BodyShort>Kunne ikke hente data fra Spleis: {error.message}</BodyShort>
             ) : (
-                <VStack gap="space-32">
-                    <PåminnVedtaksperiode vedtaksperiode={data} fødselsnummer={fødselsnummer} />
-                    <VStack gap="space-8">
-                        <Heading level="2" size="small">
-                            Data fra Spleis
-                        </Heading>
-                        <JsonVisning data={data} />
-                    </VStack>
-                </VStack>
+                <Tabs defaultValue="spleisdata" size="small">
+                    <Tabs.List>
+                        <Tabs.Tab value="spleisdata" label="Spleis-data" />
+                        <Tabs.Tab value="handlinger" label="Handlinger" />
+                    </Tabs.List>
+                    <Tabs.Panel value="spleisdata">
+                        <Box paddingBlock="space-16">
+                            <JsonVisning data={data} />
+                        </Box>
+                    </Tabs.Panel>
+                    <Tabs.Panel value="handlinger">
+                        <Box paddingBlock="space-16">
+                            <Handlinger vedtaksperiode={data} fødselsnummer={fødselsnummer} />
+                        </Box>
+                    </Tabs.Panel>
+                </Tabs>
             )}
         </Box>
     );

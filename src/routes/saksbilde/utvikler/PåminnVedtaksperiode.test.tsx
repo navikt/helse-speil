@@ -79,6 +79,20 @@ describe('PåminnVedtaksperiode', () => {
         });
     });
 
+    it('setter flagget ønskerReberegning når det er valgt', async () => {
+        render(<PåminnVedtaksperiode vedtaksperiode={vedtaksperiode} fødselsnummer={fødselsnummer} />);
+
+        await userEvent.click(screen.getByRole('checkbox', { name: /Ønsker reberegning/ }));
+        await userEvent.type(screen.getByLabelText('Begrunnelse'), 'Perioden må beregnes på nytt');
+        await userEvent.click(screen.getByRole('button', { name: 'Påminn vedtaksperiode' }));
+
+        expect(await screen.findByText('Påminnelse sendt')).toBeInTheDocument();
+
+        const [request] = sendtePåminnelser();
+        const body = request?.body as URLSearchParams;
+        expect(JSON.parse(body.get('json')!).json.flagg).toEqual(['ønskerReberegning']);
+    });
+
     it('viser feilmeldingen fra spout', async () => {
         fetchMock.mockImplementation(() =>
             Promise.resolve(jsonResponse({ meldinger: [{ feil: 'Noe gikk galt i Spout' }] }, 400)),
