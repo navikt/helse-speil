@@ -4,6 +4,7 @@ import { BodyShort, Button, Heading, Link, LocalAlert, ReadMore, TextField, Text
 
 import { SpleisVedtaksperiode, getSpleisVedtaksperiodeQueryKey } from '@io/rest/spleis';
 import { SPOUT_MINSTE_LENGDE_BEGRUNNELSE, SpoutMeldingResponse, usePostSpoutMelding } from '@io/rest/spout';
+import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface PåminnVedtaksperiodeProps {
@@ -88,9 +89,7 @@ export const PåminnVedtaksperiode = ({ vedtaksperiode, fødselsnummer }: Påmin
                 onChange={(event) => setSlacklenke(event.target.value)}
             />
             <ReadMore header="Vis meldingen som sendes" size="small">
-                <pre className="text-sm">
-                    <code>{JSON.stringify(påminnelse, null, 2)}</code>
-                </pre>
+                <JsonVisning data={påminnelse} />
             </ReadMore>
             <div>
                 <Button type="submit" size="small" variant="secondary" loading={isPending}>

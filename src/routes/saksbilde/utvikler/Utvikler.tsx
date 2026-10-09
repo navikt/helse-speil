@@ -3,6 +3,7 @@ import React from 'react';
 import { BodyShort, Box, Heading, Loader, VStack } from '@navikt/ds-react';
 
 import { useSpleisVedtaksperiodeQuery } from '@io/rest/spleis';
+import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
 import { PåminnVedtaksperiode } from '@saksbilde/utvikler/PåminnVedtaksperiode';
 
 interface UtviklerProps {
@@ -26,9 +27,7 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) =>
                         <Heading level="2" size="small">
                             Data fra Spleis
                         </Heading>
-                        <pre className="text-sm">
-                            <code>{JSON.stringify(data, null, 2)}</code>
-                        </pre>
+                        <JsonVisning data={data} />
                     </VStack>
                 </VStack>
             )}
