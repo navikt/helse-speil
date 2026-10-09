@@ -35,6 +35,8 @@ export const serverEnvSchema = z.object({
     SP_FORSIKRING_SCOPE: z.string(),
     SPOUT_SCOPE: z.string(),
     SPOUT_BASEURL: z.string(),
+    SPLEIS_SCOPE: z.string(),
+    SPLEIS_BASEURL: z.string(),
     VILKARSPROVING_SCOPE: z.string(),
     VILKARSPROVING_BASEURL: z.string(),
     SYFO_SCOPE: z.string().optional(),
@@ -99,6 +101,9 @@ const getRawServerConfig = (): Partial<unknown> => {
         SPOUT_SCOPE: process.env.CLIENT_ID_SPOUT,
         // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpout returnerer stub-svar direkte
         SPOUT_BASEURL: backend === 'deployed' ? process.env.SPOUT_BASE_URL : 'http://localhost:8181',
+        SPLEIS_SCOPE: process.env.CLIENT_ID_SPLEIS_API,
+        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpleis returnerer stub-svar direkte
+        SPLEIS_BASEURL: backend === 'deployed' ? process.env.SPLEIS_API_BASE_URL : 'http://localhost:8181',
         SYFO_SCOPE: process.env.SYFO_SCOPE,
         SYFO_BASEURL: process.env.SYFO_BASE_URL,
         // Provided by nais

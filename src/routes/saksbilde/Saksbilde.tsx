@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
-import { InformationSquareIcon } from '@navikt/aksel-icons';
-import { Box, HStack, InfoCard, Tabs, VStack } from '@navikt/ds-react';
+import { InformationSquareIcon, TerminalIcon } from '@navikt/aksel-icons';
+import { Box, HStack, InfoCard, Tabs, Tooltip, VStack } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Periodetilstand, PersonFragment } from '@io/graphql';
@@ -10,6 +10,7 @@ import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
+import { SpleisData } from '@saksbilde/spleisdata/SpleisData';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
@@ -20,11 +21,15 @@ import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold'
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { SaksbildeTab, useSaksbildeTab } from '@state/tab';
+import { useUtviklersnacks } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
+type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean };
+
 const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
-    if (!aktivPeriode) return { tabs: [] as { value: SaksbildeTab; label: string }[], erAnnullert: false };
+    const utviklersnacks = useUtviklersnacks();
+    if (!aktivPeriode) return { tabs: [] as TilgjengeligTab[], erAnnullert: false };
 
     const erBeregnetPeriode = isBeregnetPeriode(aktivPeriode);
     const erPeriode = erBeregnetPeriode || isUberegnetPeriode(aktivPeriode);
@@ -37,12 +42,13 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
         (aktivPeriode.periodetilstand === Periodetilstand.Annullert ||
             aktivPeriode.periodetilstand === Periodetilstand.TilAnnullering);
 
-    const tabs: { value: SaksbildeTab; label: string }[] = [];
+    const tabs: TilgjengeligTab[] = [];
 
     if (!erAnnullert) {
         if (erPeriode) tabs.push({ value: 'dagoversikt', label: 'Dagoversikt' });
         if (erBeregnetPeriode) tabs.push({ value: 'inngangsvilkår', label: 'Inngangsvilkår' });
         if (erVilkårsvurdert) tabs.push({ value: 'sykepengegrunnlag', label: 'Sykepengegrunnlag' });
+        if (utviklersnacks && erPeriode) tabs.push({ value: 'spleisdata', label: 'Data fra Spleis', kunIkon: true });
         if (harRisikofunn) tabs.push({ value: 'vurderingsmomenter', label: 'Vurderingsmomenter' });
     }
 
@@ -121,9 +127,15 @@ export const Saksbilde = () => {
                     className="w-full inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA [&>*:first-child]:w-fit [&>*:first-child]:inset-shadow-none"
                 >
                     <Tabs.List>
-                        {availableTabs.map((t) => (
-                            <Tabs.Tab key={t.value} value={t.value} label={t.label} />
-                        ))}
+                        {availableTabs.map((t) =>
+                            t.kunIkon ? (
+                                <Tooltip key={t.value} content={t.label}>
+                                    <Tabs.Tab value={t.value} icon={<TerminalIcon title={t.label} />} />
+                                </Tooltip>
+                            ) : (
+                                <Tabs.Tab key={t.value} value={t.value} label={t.label} />
+                            ),
+                        )}
                     </Tabs.List>
                     <HStack align="center" wrap={false}>
                         <VisHvisSkrivetilgang>
@@ -143,6 +155,12 @@ export const Saksbilde = () => {
                             <Tabs.Panel value="sykepengegrunnlag">
                                 <Sykepengegrunnlag person={person} periode={aktivPeriode} />
                             </Tabs.Panel>
+                            <Tabs.Panel value="spleisdata">
+                                <SpleisData
+                                    vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
+                                    fødselsnummer={person.fodselsnummer}
+                                />
+                            </Tabs.Panel>
                             <Tabs.Panel value="vurderingsmomenter">
                                 <Vurderingsmomenter periode={aktivPeriode} />
                             </Tabs.Panel>
@@ -154,9 +172,17 @@ export const Saksbilde = () => {
                         </Tabs.Panel>
                     )}
                     {isUberegnetPeriode(aktivPeriode) && (
-                        <Tabs.Panel value="dagoversikt">
-                            <Utbetaling person={person} periode={aktivPeriode} />
-                        </Tabs.Panel>
+                        <>
+                            <Tabs.Panel value="dagoversikt">
+                                <Utbetaling person={person} periode={aktivPeriode} />
+                            </Tabs.Panel>
+                            <Tabs.Panel value="spleisdata">
+                                <SpleisData
+                                    vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
+                                    fødselsnummer={person.fodselsnummer}
+                                />
+                            </Tabs.Panel>
+                        </>
                     )}
                 </Box>
             </Tabs>
