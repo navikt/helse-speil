@@ -9,6 +9,8 @@ export type SpleisVedtaksperiodeRequest = {
 
 // Responsen inneholder flere felter (behandlinger, gjeldende m.m.), men vi typer bare det vi bruker
 export type SpleisVedtaksperiode = {
+    organisasjonsnummer: string;
+    yrkesaktivitetstype: string;
     id: string;
     tilstand: string;
     skjæringstidspunkt: string;

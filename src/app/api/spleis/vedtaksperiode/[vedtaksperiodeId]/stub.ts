@@ -9,6 +9,8 @@ export async function stub(request: NextRequest, params: Promise<{ vedtaksperiod
     if (fødselsnummer == null) return new Response(null, { status: 400 });
 
     const vedtaksperiode: SpleisVedtaksperiode = {
+        organisasjonsnummer: '987654321',
+        yrkesaktivitetstype: 'ARBEIDSTAKER',
         id: vedtaksperiodeId,
         tilstand: 'AVVENTER_GODKJENNING',
         skjæringstidspunkt: '2026-01-01',

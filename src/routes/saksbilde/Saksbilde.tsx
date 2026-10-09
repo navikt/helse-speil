@@ -10,11 +10,11 @@ import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
 import { PeriodeViewSkeleton } from '@saksbilde/saksbilder/PeriodeViewSkeleton';
-import { SpleisData } from '@saksbilde/spleisdata/SpleisData';
 import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnlag';
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
+import { Utvikler } from '@saksbilde/utvikler/Utvikler';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -48,7 +48,7 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
         if (erPeriode) tabs.push({ value: 'dagoversikt', label: 'Dagoversikt' });
         if (erBeregnetPeriode) tabs.push({ value: 'inngangsvilkår', label: 'Inngangsvilkår' });
         if (erVilkårsvurdert) tabs.push({ value: 'sykepengegrunnlag', label: 'Sykepengegrunnlag' });
-        if (utviklersnacks && erPeriode) tabs.push({ value: 'spleisdata', label: 'Data fra Spleis', kunIkon: true });
+        if (utviklersnacks && erPeriode) tabs.push({ value: 'utvikler', label: 'Utvikler', kunIkon: true });
         if (harRisikofunn) tabs.push({ value: 'vurderingsmomenter', label: 'Vurderingsmomenter' });
     }
 
@@ -155,8 +155,8 @@ export const Saksbilde = () => {
                             <Tabs.Panel value="sykepengegrunnlag">
                                 <Sykepengegrunnlag person={person} periode={aktivPeriode} />
                             </Tabs.Panel>
-                            <Tabs.Panel value="spleisdata">
-                                <SpleisData
+                            <Tabs.Panel value="utvikler">
+                                <Utvikler
                                     vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                                     fødselsnummer={person.fodselsnummer}
                                 />
@@ -176,8 +176,8 @@ export const Saksbilde = () => {
                             <Tabs.Panel value="dagoversikt">
                                 <Utbetaling person={person} periode={aktivPeriode} />
                             </Tabs.Panel>
-                            <Tabs.Panel value="spleisdata">
-                                <SpleisData
+                            <Tabs.Panel value="utvikler">
+                                <Utvikler
                                     vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                                     fødselsnummer={person.fodselsnummer}
                                 />

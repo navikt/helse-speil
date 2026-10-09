@@ -4,7 +4,7 @@ import { useParams } from 'next/navigation';
 
 import { atomWithSessionStorage } from '@state/jotai';
 
-export type SaksbildeTab = 'dagoversikt' | 'inngangsvilkår' | 'sykepengegrunnlag' | 'spleisdata' | 'vurderingsmomenter';
+export type SaksbildeTab = 'dagoversikt' | 'inngangsvilkår' | 'sykepengegrunnlag' | 'utvikler' | 'vurderingsmomenter';
 
 export const saksbildeTabs: SaksbildeTab[] = [
     'dagoversikt',
