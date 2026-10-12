@@ -5,6 +5,7 @@ import { BodyShort, Button, HStack, Spacer, VStack } from '@navikt/ds-react';
 
 import { erUtvikling } from '@/env';
 import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
+import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import {
     ApiVilkårsvurdering,
     ApiVurderingsgrunnlag,
@@ -38,6 +39,7 @@ export function OpptjeningVilkårsrad({
     const utfall = utfallFraApi(vurdering?.utfall);
     const navnId = useId();
     const erAutomatiskOppfylt = utfall === 'Oppfylt' && !!vurdering && !erSaksbehandlerkilde(vurdering.kilde);
+    const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
 
     return (
         <VStack
@@ -58,7 +60,7 @@ export function OpptjeningVilkårsrad({
                     {vilkårsnavn}
                 </BodyShort>
                 <Spacer />
-                {!readOnly && erUtvikling && !erAutomatiskOppfylt && (
+                {!readOnly && erUtvikling && !erAutomatiskOppfylt && erCoachFagkoordinatorEllerSupersaksbehandler && (
                     <Button type="button" variant="secondary" size="small" onClick={onVurder}>
                         Vurder vilkår
                     </Button>

@@ -34,3 +34,12 @@ export const useHarPorteføljestyringrolle = () => {
 export const useHarGraderteAndreYtelserTilgang = () => {
     return useErBrukerrolle(ApiBrukerrolle.GRADERTE_ANDRE_YTELSER);
 };
+
+export const useErCoachFagkoordinatorEllerSupersaksbehandler = () => {
+    const { data: bruker } = useGetBruker();
+    return (
+        bruker?.brukerroller?.includes(ApiBrukerrolle.COACH) ||
+        bruker?.brukerroller?.includes(ApiBrukerrolle.FAGKOORDINATOR) ||
+        bruker?.brukerroller?.includes(ApiBrukerrolle.SUPERSAKSBEHANDLER)
+    );
+};
