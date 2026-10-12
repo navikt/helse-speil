@@ -54,6 +54,9 @@ export const ApiBrukerrolle = {
     DIALOGMELDING: 'DIALOGMELDING',
     PORTEFØLJESTYRING: 'PORTEFØLJESTYRING',
     GRADERTE_ANDRE_YTELSER: 'GRADERTE_ANDRE_YTELSER',
+    COACH: 'COACH',
+    FAGKOORDINATOR: 'FAGKOORDINATOR',
+    SUPERSAKSBEHANDLER: 'SUPERSAKSBEHANDLER',
 } as const;
 
 export type ApiTilgang = (typeof ApiTilgang)[keyof typeof ApiTilgang];

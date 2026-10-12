@@ -11,6 +11,9 @@ export const stub = async () => {
             ApiBrukerrolle.DIALOGMELDING,
             ApiBrukerrolle.GRADERTE_ANDRE_YTELSER,
             ApiBrukerrolle.PORTEFØLJESTYRING,
+            ApiBrukerrolle.COACH,
+            ApiBrukerrolle.FAGKOORDINATOR,
+            ApiBrukerrolle.SUPERSAKSBEHANDLER,
         ],
         tilganger: [ApiTilgang.SKRIV, ApiTilgang.LES],
     };

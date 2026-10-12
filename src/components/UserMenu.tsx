@@ -90,6 +90,9 @@ const BRUKERROLLE_REKKEFØLGE: ApiBrukerrolle[] = [
     ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA,
     ApiBrukerrolle.UTVIKLER,
     ApiBrukerrolle.PORTEFØLJESTYRING,
+    ApiBrukerrolle.SUPERSAKSBEHANDLER,
+    ApiBrukerrolle.FAGKOORDINATOR,
+    ApiBrukerrolle.COACH,
 ];
 
 const useBrukerinfo = () => {
@@ -130,6 +133,12 @@ function brukerrolleVisningstekst(brukerrolle: ApiBrukerrolle): string {
             return 'Porteføljestyring';
         case ApiBrukerrolle.GRADERTE_ANDRE_YTELSER:
             return 'Graderte andre ytelser';
+        case ApiBrukerrolle.COACH:
+            return 'Coach';
+        case ApiBrukerrolle.FAGKOORDINATOR:
+            return 'Fagkoordinator';
+        case ApiBrukerrolle.SUPERSAKSBEHANDLER:
+            return 'Supersaksbehandler';
         default:
             return brukerrolle;
     }
