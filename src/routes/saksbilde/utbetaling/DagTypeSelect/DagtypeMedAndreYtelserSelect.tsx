@@ -40,6 +40,7 @@ function DagtypeMedAndreYtelserSelectAktivert({
     });
     const { field: gradAndreYtelserField, fieldState: gradAndreYtelserFieldState } = useController({
         name: 'gradAndreYtelser',
+        rules: { deps: ['sykepengerGrad'] as string[] }, // revalider når sykepengerGrad endres
     });
 
     const gradererAnnenYtelse = valgtGradertAnnenYtelse.value;
@@ -63,7 +64,7 @@ function DagtypeMedAndreYtelserSelectAktivert({
             onChange(Number.isNaN(grad) ? null : grad);
         };
 
-    const samletGrad = (sykepengerGradField.value ?? 0) + (gradAndreYtelserField.value ?? 0);
+    const arbeidsgrad = 100 - (sykepengerGradField.value ?? 0) - (gradAndreYtelserField.value ?? 0);
     const feilmeldinger = [sykepengerGradFieldState.error?.message, gradAndreYtelserFieldState.error?.message].filter(
         (feil) => feil != undefined,
     );
@@ -150,7 +151,7 @@ function DagtypeMedAndreYtelserSelectAktivert({
                                 inputMode="numeric"
                                 id="arbeid"
                                 readOnly
-                                value={samletGrad}
+                                value={arbeidsgrad}
                             />
                         </HStack>
                         {feilmeldinger.map((feil) => (
