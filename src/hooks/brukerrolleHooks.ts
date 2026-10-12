@@ -31,10 +31,6 @@ export const useHarPorteføljestyringrolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.PORTEFØLJESTYRING);
 };
 
-export const useHarGraderteAndreYtelserTilgang = () => {
-    return useErBrukerrolle(ApiBrukerrolle.GRADERTE_ANDRE_YTELSER);
-};
-
 export const useErCoachFagkoordinatorEllerSupersaksbehandler = () => {
     const { data: bruker } = useGetBruker();
     return (
