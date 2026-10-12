@@ -56,6 +56,56 @@ describe('lagDagEndringSchema', () => {
         });
     });
 
+    describe('gradert annen ytelse', () => {
+        const gyldig = {
+            dagtype: 'Foreldrepenger',
+            grad: null,
+            innvigletGrad: 80,
+            sykepengerGrad: 30,
+            gradAndreYtelser: 40,
+            gradererAnnenYtelse: true,
+        };
+
+        it('godtar gyldige prosenter', () => {
+            expect(lagDagEndringSchema(50, []).safeParse(gyldig).success).toBe(true);
+        });
+
+        it('krever verdi i alle feltene', () => {
+            const resultat = lagDagEndringSchema(50, []).safeParse({
+                ...gyldig,
+                innvigletGrad: null,
+                sykepengerGrad: null,
+                gradAndreYtelser: null,
+            });
+
+            expect(resultat.error?.issues.map((issue) => issue.message)).toEqual([
+                'Innvilget grad er påkrevd',
+                'Grad for sykepenger er påkrevd',
+                'Grad for annen ytelse er påkrevd',
+            ]);
+        });
+
+        it.each([0, 101])('rapporterer feil når prosent er %i', (verdi) => {
+            const resultat = lagDagEndringSchema(50, []).safeParse({ ...gyldig, innvigletGrad: verdi });
+
+            expect(resultat.error?.issues.map((issue) => issue.message)).toEqual([
+                'Innvilget grad må være mellom 1 og 100',
+            ]);
+        });
+
+        it('rapporterer feil når samlet grad er høyere enn 100', () => {
+            const resultat = lagDagEndringSchema(50, []).safeParse({
+                ...gyldig,
+                sykepengerGrad: 60,
+                gradAndreYtelser: 50,
+            });
+
+            expect(resultat.error?.issues.map((issue) => issue.message)).toEqual([
+                'Samlet grad kan ikke overstige 100 %',
+            ]);
+        });
+    });
+
     describe('egenmelding kan ikke overstyres til Syk eller SykNav', () => {
         it('rapporterer feil når en egenmeldingsdag endres til Syk', () => {
             const markerteDager = [lagDag({ dato: '2020-01-01', dag: Egenmeldingsdag })];

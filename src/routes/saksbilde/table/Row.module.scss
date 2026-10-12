@@ -1,57 +1,57 @@
 @mixin left-aligned($color) {
-  > td:first-of-type {
-    position: relative;
-  }
-
-  > td:first-of-type:before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    background-color: $color;
-    width: 3px;
-    height: 2rem;
-  }
+    > td:first-of-type:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        background-color: $color;
+        width: 3px;
+        height: 2rem;
+    }
 }
 
 .row {
-  position: relative;
-
-  > td {
     position: relative;
-    height: 2rem;
-    padding: 0 1rem;
 
-    &:not(:first-of-type):not(:last-of-type) {
-      padding-right: 1rem;
+    > td {
+        position: relative;
+        height: 2rem;
+        padding: 0 1rem;
     }
-  }
 
-  &.markert > td {
-    background: var(--ax-bg-neutral-moderate);
-  }
+    &.markert > td {
+        background: var(--ax-bg-default);
+    }
 
-  &.helg {
-    background: repeating-linear-gradient(
-                    123deg,
-                    var(--ax-border-neutral-subtle),
-                    var(--ax-border-neutral-subtle) 1px,
-                    transparent 1px,
-                    transparent 9px
-    );
-  }
+    &.helg {
+        background: repeating-linear-gradient(
+            123deg,
+            var(--ax-border-neutral-subtle),
+            var(--ax-border-neutral-subtle) 1px,
+            transparent 1px,
+            transparent 9px
+        );
+    }
 
-  &.avvist {
-    background-color: var(--ax-bg-danger-moderate);
-    @include left-aligned(var(--ax-border-danger))
-  }
+    &.avvist {
+        background-color: var(--ax-bg-danger-moderate);
+        @include left-aligned(var(--ax-border-danger));
+    }
 
-  &.agpEllerVentetid {
-    background-color: var(--ax-bg-neutral-soft);
-    @include left-aligned(var(--ax-text-neutral-subtle))
-  }
+    &.agpEllerVentetid {
+        background-color: var(--ax-bg-neutral-soft);
+        @include left-aligned(var(--ax-text-neutral-subtle));
+    }
 
-  &.nydag {
-    background-color: var(--ax-bg-default);
-  }
+    &.nydag {
+        background-color: var(--ax-bg-default);
+    }
+
+    &.overstyrer {
+        background-color: var(--ax-bg-info-soft);
+
+        &:not(.helg):hover {
+            background-color: var(--ax-bg-info-moderate);
+        }
+    }
 }

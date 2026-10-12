@@ -1,11 +1,11 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
 import { DagEndringArbeidstakerFormFields, lagDagEndringSchema } from '@form-schemas/dagEndringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DagtypeSelect } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeSelect';
+import { DagtypeMedAndreYtelserSelect } from '@saksbilde/utbetaling/DagTypeSelect/DagtypeMedAndreYtelserSelect';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
 import {
     alleTypeendringer,
@@ -32,14 +32,21 @@ export const EndreDagerArbeidstakerForm = ({
         defaultValues: {
             dagtype: 'Syk',
             grad: 100,
+            innvigletGrad: null,
+            sykepengerGrad: null,
+            gradAndreYtelser: null,
+            gradererAnnenYtelse: false,
         },
     });
 
     const watchDagtype = useWatch({ name: 'dagtype', control: form.control });
+    const gradererAnnenYtelse = useWatch({ name: 'gradererAnnenYtelse', control: form.control });
 
     const handleSubmit = (values: DagEndringArbeidstakerFormFields) => {
         onSubmitEndring({
-            grad: values.grad,
+            grad: values.gradererAnnenYtelse
+                ? (values.sykepengerGrad ?? 0) + (values.gradAndreYtelser ?? 0)
+                : values.grad,
             dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!,
             erAvvist: false,
             erForeldet: false,
@@ -55,13 +62,15 @@ export const EndreDagerArbeidstakerForm = ({
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                     <HStack gap="space-16">
-                        <DagtypeSelect
+                        <DagtypeMedAndreYtelserSelect
                             name="dagtype"
                             erSelvstendig={false}
                             overstyringsdagtyper={overstyringsdagtyperArbeidstaker}
                             hideError
                         />
-                        <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
+                        {!gradererAnnenYtelse && (
+                            <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
+                        )}
                         <VStack align="end" justify="end">
                             <Button
                                 size="small"

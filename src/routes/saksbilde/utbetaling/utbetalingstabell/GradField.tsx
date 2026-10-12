@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { useController, useFormContext } from 'react-hook-form';
+import { useController } from 'react-hook-form';
 
 import { TextField } from '@navikt/ds-react';
 
@@ -11,7 +11,6 @@ interface GradFieldProps {
 }
 
 export function GradField({ name, kanIkkeVelgeDagtype, className, hideError = false }: GradFieldProps): ReactElement {
-    const { setValue } = useFormContext();
     const { field, fieldState } = useController({ name });
     const [display, setDisplay] = React.useState<string>(field.value == null ? '' : field.value.toString());
 
@@ -21,9 +20,7 @@ export function GradField({ name, kanIkkeVelgeDagtype, className, hideError = fa
         return parsed;
     };
 
-    if (kanIkkeVelgeDagtype && field.value != null) {
-        field.onChange(null);
-        setValue(name, null);
+    if (kanIkkeVelgeDagtype && display !== '') {
         setDisplay('');
     }
 

@@ -12,9 +12,10 @@ interface RowProps extends PropsWithChildren {
     dag: Utbetalingstabelldag;
     erMarkert: boolean;
     erOverstyrt: boolean;
+    overstyrer: boolean;
 }
 
-export const Row = ({ children, dag, erMarkert, erOverstyrt }: RowProps): ReactElement => {
+export const Row = ({ children, dag, erMarkert, erOverstyrt, overstyrer }: RowProps): ReactElement => {
     return (
         <Table.Row
             className={cn(
@@ -24,6 +25,7 @@ export const Row = ({ children, dag, erMarkert, erOverstyrt }: RowProps): ReactE
                 !erOverstyrt && (dag.erAvvist || dag.erForeldet) && styles.avvist,
                 (dag.erAGP || dag.erVentetid) && styles.agpEllerVentetid,
                 (dag.erNyDag ?? false) && styles.nydag,
+                overstyrer && styles.overstyrer,
             )}
         >
             {children}

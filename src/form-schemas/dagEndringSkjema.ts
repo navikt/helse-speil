@@ -44,14 +44,69 @@ const lagGradValidering = (minimumGrad: number) => (grad: number | null, ctx: z.
     }
 };
 
+type GradertAnnenYtelseFelt = 'innvigletGrad' | 'sykepengerGrad' | 'gradAndreYtelser';
+
+const gradertAnnenYtelseFeltnavn: Record<GradertAnnenYtelseFelt, string> = {
+    innvigletGrad: 'Innvilget grad',
+    sykepengerGrad: 'Grad for sykepenger',
+    gradAndreYtelser: 'Grad for annen ytelse',
+};
+
+const validerProsent = (felt: GradertAnnenYtelseFelt, verdi: number | null | undefined, ctx: z.RefinementCtx) => {
+    if (verdi == null) {
+        ctx.addIssue({
+            code: 'custom',
+            message: `${gradertAnnenYtelseFeltnavn[felt]} er påkrevd`,
+            input: verdi,
+            path: [felt],
+        });
+    } else if (verdi < 1 || verdi > 100) {
+        ctx.addIssue({
+            code: 'custom',
+            message: `${gradertAnnenYtelseFeltnavn[felt]} må være mellom 1 og 100`,
+            input: verdi,
+            path: [felt],
+        });
+    }
+};
+
+const validerGradertAnnenYtelse = (
+    felter: Partial<Record<GradertAnnenYtelseFelt, number | null>>,
+    ctx: z.RefinementCtx,
+) => {
+    validerProsent('innvigletGrad', felter.innvigletGrad, ctx);
+    validerProsent('sykepengerGrad', felter.sykepengerGrad, ctx);
+    validerProsent('gradAndreYtelser', felter.gradAndreYtelser, ctx);
+
+    const { sykepengerGrad, gradAndreYtelser } = felter;
+    if (sykepengerGrad && gradAndreYtelser && sykepengerGrad + gradAndreYtelser > 100) {
+        ctx.addIssue({
+            code: 'custom',
+            message: 'Samlet grad kan ikke overstige 100 %',
+            input: sykepengerGrad + gradAndreYtelser,
+            path: ['sykepengerGrad'],
+        });
+    }
+};
+
+const gradertAnnenYtelseFelter = {
+    innvigletGrad: z.number().nullable().optional(),
+    sykepengerGrad: z.number().nullable().optional(),
+    gradAndreYtelser: z.number().nullable().optional(),
+    gradererAnnenYtelse: z.boolean().optional(),
+};
+
 export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetalingstabelldag[]) =>
     z
         .object({
             dagtype: z.enum(utbetalingstabelldagtypeValues),
             grad: z.nullable(z.number()),
+            ...gradertAnnenYtelseFelter,
         })
-        .superRefine(({ dagtype, grad }, ctx) => {
-            if (kanVelgeGrad(dagtype)) {
+        .superRefine(({ dagtype, grad, gradererAnnenYtelse, ...gradertAnnenYtelse }, ctx) => {
+            if (gradererAnnenYtelse) {
+                validerGradertAnnenYtelse(gradertAnnenYtelse, ctx);
+            } else if (kanVelgeGrad(dagtype)) {
                 lagGradValidering(minimumGrad)(grad, ctx);
             }
             if (
@@ -76,9 +131,12 @@ export const lagDagEndringSelvstendigSchema = (minimumGrad: number, markerteDage
         .object({
             dagtype: z.enum(utbetalingstabelldagtypeSelvstendigValues),
             grad: z.nullable(z.number()),
+            ...gradertAnnenYtelseFelter,
         })
-        .superRefine(({ dagtype, grad }, ctx) => {
-            if (kanVelgeGrad(dagtype)) {
+        .superRefine(({ dagtype, grad, gradererAnnenYtelse, ...gradertAnnenYtelse }, ctx) => {
+            if (gradererAnnenYtelse) {
+                validerGradertAnnenYtelse(gradertAnnenYtelse, ctx);
+            } else if (kanVelgeGrad(dagtype)) {
                 lagGradValidering(minimumGrad)(grad, ctx);
             }
 

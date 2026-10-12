@@ -10,7 +10,7 @@ import {
 } from '@form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Kilde, Kildetype } from '@io/graphql';
-import { DagtypeSelect } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeSelect';
+import { DagtypeSelect } from '@saksbilde/utbetaling/DagTypeSelect/DagtypeSelect';
 import { DateField } from '@saksbilde/utbetaling/utbetalingstabell/DateField';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
 import {

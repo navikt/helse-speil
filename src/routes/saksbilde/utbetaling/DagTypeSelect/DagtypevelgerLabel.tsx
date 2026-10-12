@@ -1,53 +1,8 @@
 import React, { ReactElement } from 'react';
-import { useController } from 'react-hook-form';
 
-import { BodyShort, HStack, HelpText, Select, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, HelpText, VStack } from '@navikt/ds-react';
 
-import { typeendringerAndreYtelser } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
-import { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
-
-interface DagtypeSelecProps {
-    name: string;
-    erSelvstendig: boolean;
-    className?: string;
-    hideError?: boolean;
-    overstyringsdagtyper: Speildag[];
-}
-
-export function DagtypeSelect({
-    name,
-    erSelvstendig,
-    overstyringsdagtyper,
-    className,
-    hideError = false,
-}: DagtypeSelecProps): ReactElement {
-    const { field, fieldState } = useController({ name });
-
-    return (
-        <Select
-            size="small"
-            label={<DagtypevelgerLabel erSelvstendig={erSelvstendig} />}
-            error={hideError ? fieldState.error?.message != undefined : fieldState.error?.message}
-            data-testid="dagtypevelger"
-            className={className}
-            {...field}
-        >
-            {overstyringsdagtyper.map((dag) => (
-                <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                    {dag.speilDagtype === 'AvslattMeldingTilNav' ? 'Avslått melding til Nav' : dag.visningstekst}
-                </option>
-            ))}
-            <option disabled>-- Andre ytelser --</option>
-            {typeendringerAndreYtelser.map((dag) => (
-                <option key={dag.speilDagtype} value={dag.speilDagtype}>
-                    {dag.visningstekst}
-                </option>
-            ))}
-        </Select>
-    );
-}
-
-function DagtypevelgerLabel({ erSelvstendig }: { erSelvstendig: boolean }) {
+export function DagtypevelgerLabel({ erSelvstendig }: { erSelvstendig: boolean }): ReactElement {
     return (
         <HStack as="span" align="center" gap="space-4">
             Dagtype

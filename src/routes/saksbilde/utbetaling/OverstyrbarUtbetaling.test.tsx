@@ -19,6 +19,10 @@ vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarBeslutterrolle: () => true,
 }));
 
+vi.mock('@utils/featureToggles', () => ({
+    useSkalSeGraderteAndreYtelser: () => false,
+}));
+
 vi.mock('./utbetalingstabell/useOverstyrDager', () => ({
     useOverstyrDager: () => ({
         postOverstyring: (_: Utbetalingstabelldag[], overstyrteDager: Utbetalingstabelldag[], begrunnelse: string) => {

@@ -1,4 +1,5 @@
 import React from 'react';
+import { vi } from 'vitest';
 
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -22,6 +23,10 @@ import {
 } from '../utbetalingstabelldager';
 import { EndreDagerForm } from './EndreDagerForm';
 import { alleTypeendringer } from './endringFormUtils';
+
+vi.mock('@utils/featureToggles', () => ({
+    useSkalSeGraderteAndreYtelser: () => false,
+}));
 
 describe('Typeendringer', () => {
     it('returnerer typeendringer for dagtypevelgeren under overstyring', () => {
@@ -63,6 +68,7 @@ describe('EndringForm', () => {
 
         await waitFor(() => {
             expect(screen.getByTestId('gradvelger')).toBeDisabled();
+            expect(screen.getByTestId('gradvelger')).toHaveValue('');
         });
         expect(screen.getByTestId('endre')).toBeEnabled();
     });

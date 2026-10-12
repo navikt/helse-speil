@@ -5,7 +5,7 @@ import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-reac
 
 import { DagEndringSelvstendigFormFields, lagDagEndringSelvstendigSchema } from '@form-schemas/dagEndringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DagtypeSelect } from '@saksbilde/utbetaling/utbetalingstabell/DagtypeSelect';
+import { DagtypeMedAndreYtelserSelect } from '@saksbilde/utbetaling/DagTypeSelect/DagtypeMedAndreYtelserSelect';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -30,14 +30,21 @@ export const EndreDagerSelvstendigForm = ({
         defaultValues: {
             dagtype: 'MeldingTilNav',
             grad: null,
+            innvigletGrad: null,
+            sykepengerGrad: null,
+            gradAndreYtelser: null,
+            gradererAnnenYtelse: false,
         },
     });
 
     const watchDagtype = useWatch({ name: 'dagtype', control: form.control });
+    const gradererAnnenYtelse = useWatch({ name: 'gradererAnnenYtelse', control: form.control });
 
     const handleSubmit = (values: DagEndringSelvstendigFormFields) => {
         onSubmitEndring({
-            grad: values.grad,
+            grad: values.gradererAnnenYtelse
+                ? (values.sykepengerGrad ?? 0) + (values.gradAndreYtelser ?? 0)
+                : values.grad,
             dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!,
             erAvvist: false,
             erForeldet: false,
@@ -53,13 +60,15 @@ export const EndreDagerSelvstendigForm = ({
             <FormProvider {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} autoComplete="off">
                     <HStack gap="space-16">
-                        <DagtypeSelect
+                        <DagtypeMedAndreYtelserSelect
                             name="dagtype"
                             erSelvstendig={true}
                             overstyringsdagtyper={overstyringsdagtyperSelvstendig}
                             hideError
                         />
-                        <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
+                        {!gradererAnnenYtelse && (
+                            <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
+                        )}
                         <VStack align="end" justify="end">
                             <Button
                                 size="small"

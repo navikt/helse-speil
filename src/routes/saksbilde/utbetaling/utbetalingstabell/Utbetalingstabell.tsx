@@ -118,6 +118,7 @@ export const Utbetalingstabell = ({
                                 dag={tabelldag}
                                 erMarkert={markerteDager?.get(tabelldag.dato) !== undefined}
                                 erOverstyrt={lokaleOverstyringer?.get(tabelldag.dato) !== undefined}
+                                overstyrer={overstyrer}
                             >
                                 <DateCell date={tabelldag.dato} />
                                 <DagtypeCell

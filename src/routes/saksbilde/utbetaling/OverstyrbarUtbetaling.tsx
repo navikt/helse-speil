@@ -270,11 +270,11 @@ export function OverstyrbarUtbetaling({
     const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Utbetalt;
     return (
         <VStack
-            as="article"
+            as="section"
             gap="space-16"
             className={cn(
                 'relative h-full px-6 pt-8 pb-16',
-                overstyrer && 'h-max overflow-y-hidden bg-ax-bg-neutral-soft pr-8 pl-0',
+                overstyrer && 'h-max overflow-y-hidden bg-ax-bg-info-soft pr-8 pl-0',
             )}
             data-testid="utbetaling"
         >
