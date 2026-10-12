@@ -1,5 +1,6 @@
 import { useState } from 'react';
 
+import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import {
     ApiKravkilde,
     ApiKravkode,
@@ -10,6 +11,14 @@ import {
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { Vilkårsutfall, utfallFraOppfylt } from '@saksbilde/vilkår/vilkårsutfall';
+import {
+    visningenErOppdatertToast,
+    visningenErOppdatertToastKey,
+    visningenOppdateresToast,
+} from '@state/oppdateringToasts';
+import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
+import { useAddToast, useRemoveToast } from '@state/toasts';
+import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 
 export interface Opptjeningsvurdering {
     data?: ApiVilkårsvurderingerForPersonResponse;
@@ -25,6 +34,18 @@ export interface Opptjeningsvurdering {
 
 export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurderingId: string): Opptjeningsvurdering {
     const [overstyrtOpptjeningsvurderingId, setOverstyrtOpptjeningsvurderingId] = useState<string | null>(null);
+    const addToast = useAddToast();
+    const removeToast = useRemoveToast();
+    const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
+
+    useHåndterNyttEvent((event) => {
+        if (erNyOppgaveEvent(event) && visningenOppdateres) {
+            addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
+            setVisningenOppdateres(false);
+        }
+    });
+
+    useFjernOppdatererToast(visningenOppdateres);
 
     const { data, isLoading, isFetching, isError } = useGetVilkårsvurderingerForPersonBehandler(personPseudoId, {
         opptjeningsvurderingId: overstyrtOpptjeningsvurderingId ?? opptjeningsvurderingId,
@@ -42,7 +63,11 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
         erOverførtFraInfotrygd: krav?.kravkilde === ApiKravkilde.OVERFOERT_FRA_INFOTRYGD,
         vurderingFor: (vilkårskode) => vurderinger.find((it) => it.vilkårskode === vilkårskode),
         avgjørendeVilkårskode: avgjørendeVilkårskodeFor(krav),
-        onOverstyrt: setOverstyrtOpptjeningsvurderingId,
+        onOverstyrt: (opptjeningsvurderingId) => {
+            setOverstyrtOpptjeningsvurderingId(opptjeningsvurderingId);
+            setVisningenOppdateres(true);
+            addToast(visningenOppdateresToast({}));
+        },
     };
 }
 
