@@ -5,7 +5,6 @@ export const stub = async () => {
         brukerroller: [
             ApiBrukerrolle.UTVIKLER,
             ApiBrukerrolle.BESLUTTER,
-            ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA,
             ApiBrukerrolle.EGEN_ANSATT,
             ApiBrukerrolle.STIKKPRØVE,
             ApiBrukerrolle.DIALOGMELDING,

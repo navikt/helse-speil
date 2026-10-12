@@ -23,10 +23,6 @@ export const useHarSkrivetilgang = () => {
     return bruker?.tilganger?.includes(ApiTilgang.SKRIV) ?? false;
 };
 
-export const useHarBetabrukerrolle = () => {
-    return useErBrukerrolle(ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA);
-};
-
 export const useHarPorteføljestyringrolle = () => {
     return useErBrukerrolle(ApiBrukerrolle.PORTEFØLJESTYRING);
 };

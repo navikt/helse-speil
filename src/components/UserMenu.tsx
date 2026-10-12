@@ -87,7 +87,6 @@ const BRUKERROLLE_REKKEFØLGE: ApiBrukerrolle[] = [
     ApiBrukerrolle.STIKKPRØVE,
     ApiBrukerrolle.EGEN_ANSATT,
     ApiBrukerrolle.KODE_7,
-    ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA,
     ApiBrukerrolle.UTVIKLER,
     ApiBrukerrolle.PORTEFØLJESTYRING,
     ApiBrukerrolle.SUPERSAKSBEHANDLER,
@@ -115,8 +114,6 @@ function sorterBrukerroller(roller: ApiBrukerrolle[]): ApiBrukerrolle[] {
 
 function brukerrolleVisningstekst(brukerrolle: ApiBrukerrolle): string {
     switch (brukerrolle) {
-        case ApiBrukerrolle.SELVSTENDIG_NÆRINGSDRIVENDE_BETA:
-            return 'Selvstendig næringsdrivende';
         case ApiBrukerrolle.EGEN_ANSATT:
             return 'Egen ansatt';
         case ApiBrukerrolle.STIKKPRØVE:

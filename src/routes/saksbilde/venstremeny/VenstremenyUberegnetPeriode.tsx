@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { useHarBetabrukerrolle, useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
+import { useErCoachFagkoordinatorEllerSupersaksbehandler, useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
 import { Periodetilstand, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
@@ -22,10 +22,10 @@ export const VenstremenyUberegnetPeriode = ({
     inntektsforhold,
     currentPerson,
 }: VenstremenyUberegnetPeriodeProps): ReactElement => {
-    const harBetabrukerrolle = useHarBetabrukerrolle();
+    const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
     const harSkrivetilgang = useHarSkrivetilgang();
     const skalViseForkastknapp =
-        harBetabrukerrolle &&
+        erCoachFagkoordinatorEllerSupersaksbehandler &&
         harSkrivetilgang &&
         [
             Periodetilstand.AvventerInntektsopplysninger,

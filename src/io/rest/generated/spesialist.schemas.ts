@@ -45,7 +45,6 @@ export interface ApiHttpProblemDetailsApiGetAktiveSaksbehandlereErrorCode {
 export type ApiBrukerrolle = (typeof ApiBrukerrolle)[keyof typeof ApiBrukerrolle];
 
 export const ApiBrukerrolle = {
-    SELVSTENDIG_NÆRINGSDRIVENDE_BETA: 'SELVSTENDIG_NÆRINGSDRIVENDE_BETA',
     BESLUTTER: 'BESLUTTER',
     EGEN_ANSATT: 'EGEN_ANSATT',
     KODE_7: 'KODE_7',
