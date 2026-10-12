@@ -39,6 +39,15 @@ vi.mock('@/env', async (importOriginal) => ({
     },
 }));
 
+const brukerrolleMock = vi.hoisted(() => ({
+    erCoachFagkoordinatorEllerSupersaksbehandler: true,
+}));
+
+vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
+    useErCoachFagkoordinatorEllerSupersaksbehandler: () => brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler,
+}));
+
 const ingenAutomatiskeVurderinger: ApiVilkårsvurderingerForPersonResponse = {
     skjæringstidspunkt: '2024-01-01',
     krav: [
@@ -210,6 +219,7 @@ const startVurdering = async () => {
 beforeEach(() => {
     mutate.mockClear();
     envMock.erUtvikling = true;
+    brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = true;
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
     mockOpptjeningshistorikk([]);
     (usePostManuellVilkårsvurderingBehandler as Mock).mockReturnValue({
@@ -279,6 +289,14 @@ describe('Opptjening', () => {
 
     it('skjuler vurder vilkår-knappen når vi ikke er i utvikling', async () => {
         envMock.erUtvikling = false;
+
+        renderOpptjening(false);
+
+        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
+    });
+
+    it('skjuler vurder vilkår-knappen når saksbehandler ikke er coach, fagkoordinator eller supersaksbehandler', async () => {
+        brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = false;
 
         renderOpptjening(false);
 
