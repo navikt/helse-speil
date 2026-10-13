@@ -51,7 +51,7 @@ type GradertAnnenYtelseFelt = 'innvigletGrad' | 'sykepengerGrad' | 'gradAndreYte
 const gradertAnnenYtelseFeltnavn = (ytelse?: string) => ({
     innvigletGrad: 'Innvilget grad',
     sykepengerGrad: 'Grad for sykepenger',
-    gradAndreYtelser: `Grad for ${ytelse}`,
+    gradAndreYtelser: `Grad for ${ytelse?.toLocaleLowerCase()}`,
 });
 
 const validerProsent = (

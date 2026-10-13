@@ -87,7 +87,7 @@ describe('lagDagEndringSchema', () => {
             expect(resultat.error?.issues.map((issue) => issue.message)).toEqual([
                 'Innvilget grad er påkrevd',
                 'Grad for sykepenger er påkrevd',
-                'Grad for Foreldrepenger er påkrevd',
+                'Grad for foreldrepenger er påkrevd',
             ]);
         });
 
