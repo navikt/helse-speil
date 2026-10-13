@@ -5,6 +5,7 @@ import {
     ApiKravkilde,
     ApiKravkode,
     ApiManuellVilkårsvurderingRequest,
+    ApiNyAutomatiskVilkårsvurderingRequest,
     ApiOpptjeningshistorikkInnslag,
     ApiOpptjeningshistorikkResponse,
     ApiOpptjeningsvurderingVurdertISpVilkarproving,
@@ -22,45 +23,7 @@ let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
             kravkode: ApiKravkode.OPPTJENING,
             opptjeningOk: true,
             avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
-            vurderinger: [
-                {
-                    id: 'vurdering-1',
-                    vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
-                    utfall: ApiUtfall.OPPFYLT,
-                    vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
-                    lovreferanse: {
-                        lov: 'folketrygdloven',
-                        paragraf: '8-2',
-                        iKraftFra: '1997-05-01',
-                    },
-                    kilde: {
-                        versjonAvKildekode: 'v1',
-                        grunnlag: {
-                            arbeidsforhold: [
-                                {
-                                    organisasjonsnummer: '967170232',
-                                    fom: '2023-01-01',
-                                    tom: null,
-                                    type: 'ORDINÆRT',
-                                },
-                                {
-                                    organisasjonsnummer: '311927825',
-                                    fom: '2022-03-01',
-                                    tom: '2022-12-31',
-                                    type: 'FRILANSER',
-                                },
-                            ],
-                            opptjeningsperiode: {
-                                fom: '2023-01-01',
-                                tom: '2023-12-31',
-                            },
-                            opptjeningsdager: 120,
-                            grunnlagstype: 'ARBEIDSFORHOLD',
-                        },
-                        kildetype: ApiKildetype.AUTOMATISK,
-                    },
-                },
-            ],
+            vurderinger: [automatiskVurdering('vurdering-1', '2024-01-02T10:00:00.000Z')],
             kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
         },
     ],
@@ -127,3 +90,68 @@ export const overstyrVilkårsvurdering = (request: ApiManuellVilkårsvurderingRe
 
     return nyttKrav.id;
 };
+
+export const vurderAutomatiskPåNytt = (request: ApiNyAutomatiskVilkårsvurderingRequest): string => {
+    const nyVurdering = automatiskVurdering(v4(), new Date().toISOString());
+
+    const nyttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
+        id: v4(),
+        kravkode: ApiKravkode.OPPTJENING,
+        opptjeningOk: true,
+        avgjørendeVilkårskode: nyVurdering.vilkårskode,
+        vurderinger: [nyVurdering],
+        kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
+    };
+
+    vilkårsvurderinger = {
+        skjæringstidspunkt: request.skjæringstidspunkt,
+        krav: [...vilkårsvurderinger.krav.filter((krav) => krav.kravkode !== ApiKravkode.OPPTJENING), nyttKrav],
+    };
+
+    opptjeningshistorikk = [
+        { vurdertTidspunkt: nyVurdering.vurdertTidspunkt, opptjeningsvurdering: nyttKrav },
+        ...opptjeningshistorikk,
+    ];
+
+    return nyttKrav.id;
+};
+
+function automatiskVurdering(id: string, vurdertTidspunkt: string): ApiVilkårsvurdering {
+    return {
+        id,
+        vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+        utfall: ApiUtfall.OPPFYLT,
+        vurdertTidspunkt,
+        lovreferanse: {
+            lov: 'folketrygdloven',
+            paragraf: '8-2',
+            iKraftFra: '1997-05-01',
+        },
+        kilde: {
+            versjonAvKildekode: 'v1',
+            grunnlag: {
+                arbeidsforhold: [
+                    {
+                        organisasjonsnummer: '967170232',
+                        fom: '2023-01-01',
+                        tom: null,
+                        type: 'ORDINÆRT',
+                    },
+                    {
+                        organisasjonsnummer: '311927825',
+                        fom: '2022-03-01',
+                        tom: '2022-12-31',
+                        type: 'FRILANSER',
+                    },
+                ],
+                opptjeningsperiode: {
+                    fom: '2023-01-01',
+                    tom: '2023-12-31',
+                },
+                opptjeningsdager: 120,
+                grunnlagstype: 'ARBEIDSFORHOLD',
+            },
+            kildetype: ApiKildetype.AUTOMATISK,
+        },
+    };
+}

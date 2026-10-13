@@ -191,6 +191,24 @@ export interface ApiManuellVilkårsvurderingResponse {
     opptjeningsvurderingId: string;
 }
 
+export interface ApiNyAutomatiskVilkårsvurderingRequest {
+    skjæringstidspunkt: string;
+}
+
+export type ApiNyAutomatiskVilkårsvurderingStatus =
+    (typeof ApiNyAutomatiskVilkårsvurderingStatus)[keyof typeof ApiNyAutomatiskVilkårsvurderingStatus];
+
+export const ApiNyAutomatiskVilkårsvurderingStatus = {
+    VURDERT: 'VURDERT',
+    VENTER_PÅ_GRUNNLAG: 'VENTER_PÅ_GRUNNLAG',
+} as const;
+
+export interface ApiNyAutomatiskVilkårsvurderingResponse {
+    status: ApiNyAutomatiskVilkårsvurderingStatus;
+    /** @nullable */
+    opptjeningsvurderingId?: string | null;
+}
+
 export type GetVilkårsvurderingerForPersonBehandlerParams = {
     opptjeningsvurderingId: string;
 };

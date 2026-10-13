@@ -89,6 +89,7 @@ export function InngangsvilkårWithContent({
                             />
                         ) : (
                             <Opptjening
+                                personPseudoId={personPseudoId}
                                 opptjeningsvurdering={opptjeningsvurdering}
                                 endringer={opptjeningsendringer}
                                 readOnly={readOnly}

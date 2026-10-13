@@ -16,6 +16,7 @@ import {
     useGetOpptjeningshistorikkBehandler,
     useGetVilkårsvurderingerForPersonBehandler,
     usePostManuellVilkårsvurderingBehandler,
+    usePostNyAutomatiskVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { InngangsvilkårWithContent } from '@saksbilde/vilkår/Inngangsvilkår';
 import { render, screen, within } from '@test-utils';
@@ -26,6 +27,7 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     useGetVilkårsvurderingerForPersonBehandler: vi.fn(),
     useGetOpptjeningshistorikkBehandler: vi.fn(),
     usePostManuellVilkårsvurderingBehandler: vi.fn(),
+    usePostNyAutomatiskVilkårsvurderingBehandler: vi.fn(),
 }));
 
 const envMock = vi.hoisted(() => ({
@@ -167,6 +169,7 @@ const overførtFraInfotrygd: ApiVilkårsvurderingerForPersonResponse = {
 };
 
 const mutate = vi.fn();
+const mutateNyAutomatisk = vi.fn();
 
 const mockVilkårsvurderinger = (
     data: ApiVilkårsvurderingerForPersonResponse | undefined,
@@ -218,6 +221,7 @@ const startVurdering = async () => {
 
 beforeEach(() => {
     mutate.mockClear();
+    mutateNyAutomatisk.mockClear();
     envMock.erUtvikling = true;
     brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = true;
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
@@ -226,6 +230,10 @@ beforeEach(() => {
         mutate,
         isPending: false,
         isError: false,
+    });
+    (usePostNyAutomatiskVilkårsvurderingBehandler as Mock).mockReturnValue({
+        mutate: mutateNyAutomatisk,
+        isPending: false,
     });
 });
 
@@ -666,6 +674,43 @@ describe('Opptjening', () => {
             const infotrygdrad = endringsloggrader()[1]!;
             expect(within(infotrygdrad).getByText('Opptjeningstid')).toBeVisible();
             expect(within(infotrygdrad).getByText('Infotrygd')).toBeVisible();
+        });
+    });
+
+    describe('vurder automatisk på nytt', () => {
+        const vurderAutomatiskPåNyttKnapp = () => screen.queryByRole('button', { name: 'Vurder automatisk på nytt' });
+
+        it('ber om ny automatisk vurdering for skjæringstidspunktet', async () => {
+            renderOpptjening(false);
+
+            await userEvent.click(vurderAutomatiskPåNyttKnapp()!);
+
+            expect(mutateNyAutomatisk).toHaveBeenCalledWith(
+                { personId: 'en-person', data: { skjæringstidspunkt: '2024-01-01' } },
+                expect.anything(),
+            );
+        });
+
+        it('skjules når vi ikke er i utvikling', () => {
+            envMock.erUtvikling = false;
+
+            renderOpptjening(false);
+
+            expect(vurderAutomatiskPåNyttKnapp()).not.toBeInTheDocument();
+        });
+
+        it('skjules når saksbehandler ikke er coach, fagkoordinator eller supersaksbehandler', () => {
+            brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = false;
+
+            renderOpptjening(false);
+
+            expect(vurderAutomatiskPåNyttKnapp()).not.toBeInTheDocument();
+        });
+
+        it('skjules når oppgaven er skrivebeskyttet', () => {
+            renderOpptjening(true);
+
+            expect(vurderAutomatiskPåNyttKnapp()).not.toBeInTheDocument();
         });
     });
 });

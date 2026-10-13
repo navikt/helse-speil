@@ -2,18 +2,22 @@ import React, { ReactElement, useId } from 'react';
 
 import { Alert, HStack, Heading, Loader, Skeleton, VStack } from '@navikt/ds-react';
 
+import { erUtvikling } from '@/env';
 import {
     ManueltVurderbarVilkårskode,
     manueltVurderbareVilkårskoder,
 } from '@form-schemas/manuellVurderingAvVilkårSkjema';
+import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { VilkårsutfallIkon } from '@saksbilde/vilkår/vilkårsutfall';
 
 import { EndringsloggOpptjeningButton } from './EndringsloggOpptjeningButton';
 import { OpptjeningVilkårsrad } from './OpptjeningVilkårsrad';
+import { VurderAutomatiskPåNyttKnapp } from './VurderAutomatiskPåNyttKnapp';
 import { Opptjeningsendring } from './useOpptjeningshistorikk';
 import { Opptjeningsvurdering } from './useOpptjeningsvurdering';
 
 interface OpptjeningProps {
+    personPseudoId: string;
     opptjeningsvurdering: Opptjeningsvurdering;
     endringer: Opptjeningsendring[];
     readOnly: boolean;
@@ -22,6 +26,7 @@ interface OpptjeningProps {
 }
 
 export function Opptjening({
+    personPseudoId,
     opptjeningsvurdering,
     endringer,
     readOnly,
@@ -30,6 +35,7 @@ export function Opptjening({
 }: OpptjeningProps): ReactElement {
     const { data, isLoading, isError, utfall, vurderingFor, avgjørendeVilkårskode } = opptjeningsvurdering;
     const tittelId = useId();
+    const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
 
     return (
         <VStack as="section" aria-labelledby={tittelId} gap="space-4" className="w-full">
@@ -45,6 +51,13 @@ export function Opptjening({
                     Opptjeningstid
                 </Heading>
                 <EndringsloggOpptjeningButton endringer={endringer} />
+                {!readOnly && erUtvikling && erCoachFagkoordinatorEllerSupersaksbehandler && data && (
+                    <VurderAutomatiskPåNyttKnapp
+                        personPseudoId={personPseudoId}
+                        skjæringstidspunkt={data.skjæringstidspunkt}
+                        onVurdert={opptjeningsvurdering.onOverstyrt}
+                    />
+                )}
             </HStack>
             <VStack gap="space-0" className="w-full border-t border-ax-border-neutral-subtle">
                 {isLoading ? (

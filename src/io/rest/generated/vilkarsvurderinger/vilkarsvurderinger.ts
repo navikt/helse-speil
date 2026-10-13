@@ -7,6 +7,8 @@
 import type {
     ApiManuellVilkårsvurderingRequest,
     ApiManuellVilkårsvurderingResponse,
+    ApiNyAutomatiskVilkårsvurderingRequest,
+    ApiNyAutomatiskVilkårsvurderingResponse,
     ApiOpptjeningshistorikkResponse,
     ApiVilkårsvurderingerForPersonResponse,
     GetOpptjeningshistorikkBehandlerParams,
@@ -499,4 +501,121 @@ export const usePostManuellVilkårsvurderingBehandler = <
     TContext
 > => {
     return useMutation(getPostManuellVilkårsvurderingBehandlerMutationOptions(options), queryClient);
+};
+export const getPostNyAutomatiskVilkårsvurderingBehandlerUrl = (personId: string) => {
+    return `/api/vilkarsproving/personer/${personId}/vilkarsvurderinger/automatisk`;
+};
+
+export const postNyAutomatiskVilkårsvurderingBehandler = async (
+    personId: string,
+    apiNyAutomatiskVilkårsvurderingRequest?: ApiNyAutomatiskVilkårsvurderingRequest,
+    options?: RequestInit,
+): Promise<ApiNyAutomatiskVilkårsvurderingResponse> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+        if (!h) return {};
+        if (h instanceof Headers) return Object.fromEntries(h.entries());
+        if (Symbol.iterator in h) {
+            return Object.fromEntries(
+                Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+            );
+        }
+        const headers: Record<string, string | readonly string[]> = {};
+        for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+            if (value !== undefined) headers[name] = value;
+        }
+        return headers;
+    };
+    const res = await fetch(getPostNyAutomatiskVilkårsvurderingBehandlerUrl(personId), {
+        ...options,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+        body: JSON.stringify(apiNyAutomatiskVilkårsvurderingRequest),
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiNyAutomatiskVilkårsvurderingResponse; status?: number } =
+            new globalThis.Error();
+        const data: ApiNyAutomatiskVilkårsvurderingResponse = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiNyAutomatiskVilkårsvurderingResponse = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getPostNyAutomatiskVilkårsvurderingBehandlerMutationKey = () =>
+    ['postNyAutomatiskVilkårsvurderingBehandler'] as const;
+
+export const getPostNyAutomatiskVilkårsvurderingBehandlerMutationOptions = <
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postNyAutomatiskVilkårsvurderingBehandler>>,
+        TError,
+        PostNyAutomatiskVilkårsvurderingBehandlerMutationVariables,
+        TContext
+    >;
+    fetch?: RequestInit;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postNyAutomatiskVilkårsvurderingBehandler>>,
+    TError,
+    PostNyAutomatiskVilkårsvurderingBehandlerMutationVariables,
+    TContext
+> => {
+    const mutationKey = getPostNyAutomatiskVilkårsvurderingBehandlerMutationKey();
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey }, fetch: undefined };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postNyAutomatiskVilkårsvurderingBehandler>>,
+        PostNyAutomatiskVilkårsvurderingBehandlerMutationVariables
+    > = (props) => {
+        const { personId, data } = props ?? {};
+
+        return postNyAutomatiskVilkårsvurderingBehandler(personId, data, fetchOptions);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostNyAutomatiskVilkårsvurderingBehandlerMutationResult = NonNullable<
+    Awaited<ReturnType<typeof postNyAutomatiskVilkårsvurderingBehandler>>
+>;
+export type PostNyAutomatiskVilkårsvurderingBehandlerMutationBody = ApiNyAutomatiskVilkårsvurderingRequest | undefined;
+export type PostNyAutomatiskVilkårsvurderingBehandlerMutationError = globalThis.Error & {
+    info?: ProblemDetails;
+    status?: number;
+};
+export type PostNyAutomatiskVilkårsvurderingBehandlerMutationVariables = {
+    personId: string;
+    data?: ApiNyAutomatiskVilkårsvurderingRequest;
+};
+
+export const usePostNyAutomatiskVilkårsvurderingBehandler = <
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postNyAutomatiskVilkårsvurderingBehandler>>,
+            TError,
+            PostNyAutomatiskVilkårsvurderingBehandlerMutationVariables,
+            TContext
+        >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postNyAutomatiskVilkårsvurderingBehandler>>,
+    TError,
+    PostNyAutomatiskVilkårsvurderingBehandlerMutationVariables,
+    TContext
+> => {
+    return useMutation(getPostNyAutomatiskVilkårsvurderingBehandlerMutationOptions(options), queryClient);
 };
