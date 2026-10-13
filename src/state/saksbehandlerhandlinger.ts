@@ -26,6 +26,8 @@ export function tilSaksbehandlerhandlingTekst(handlingType: ApiHandlingType): st
     switch (handlingType) {
         case ApiHandlingType.MANUELT_VURDERT_OPPTJENING:
             return 'Opptjening vurdert manuelt';
+        case ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING:
+            return 'Opptjening vurdert automatisk på nytt';
     }
 }
 
@@ -33,5 +35,7 @@ export function tilSaksbehandlerhandlingKontrolltekst(handlingType: ApiHandlingT
     switch (handlingType) {
         case ApiHandlingType.MANUELT_VURDERT_OPPTJENING:
             return 'Manuell vurdering av opptjening';
+        case ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING:
+            return 'Ny automatisk vurdering av opptjening';
     }
 }

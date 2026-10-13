@@ -483,6 +483,7 @@ export type ApiHandlingType = (typeof ApiHandlingType)[keyof typeof ApiHandlingT
 
 export const ApiHandlingType = {
     MANUELT_VURDERT_OPPTJENING: 'MANUELT_VURDERT_OPPTJENING',
+    NY_AUTOMATISK_OPPTJENINGSVURDERING: 'NY_AUTOMATISK_OPPTJENINGSVURDERING',
 } as const;
 
 export interface ApiSaksbehandlerhandling {

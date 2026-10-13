@@ -1,5 +1,5 @@
 import { ApiHandlingType, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
-import { saksbehandlerhandlingGjelderPeriode } from '@state/saksbehandlerhandlinger';
+import { saksbehandlerhandlingGjelderPeriode, tilSaksbehandlerhandlingTekst } from '@state/saksbehandlerhandlinger';
 
 describe('saksbehandlerhandlingGjelderPeriode', () => {
     const periode = { behandlingId: 'behandling-1', skjaeringstidspunkt: '2024-01-01' };
@@ -25,6 +25,17 @@ describe('saksbehandlerhandlingGjelderPeriode', () => {
         expect(
             saksbehandlerhandlingGjelderPeriode(handling, { behandlingId: 'annen', skjaeringstidspunkt: '2020-01-01' }),
         ).toBe(true);
+    });
+});
+
+describe('tilSaksbehandlerhandlingTekst', () => {
+    test('har tekst for alle handlingstyper', () => {
+        expect(tilSaksbehandlerhandlingTekst(ApiHandlingType.MANUELT_VURDERT_OPPTJENING)).toBe(
+            'Opptjening vurdert manuelt',
+        );
+        expect(tilSaksbehandlerhandlingTekst(ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING)).toBe(
+            'Opptjening vurdert automatisk på nytt',
+        );
     });
 });
 

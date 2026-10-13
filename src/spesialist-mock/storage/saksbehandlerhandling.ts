@@ -38,6 +38,15 @@ export class SaksbehandlerhandlingMock {
                     behandlingId: null,
                     erDelAvAktivTotrinnsvurdering: false,
                 },
+                {
+                    handlingId: 'a1f1c0de-0000-4000-8000-000000000004',
+                    handlingType: ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING,
+                    saksbehandlerIdent: 'S123456',
+                    tidspunkt: '2024-09-05T13:45:00.000',
+                    skjæringstidspunkt: '2024-07-01',
+                    behandlingId: null,
+                    erDelAvAktivTotrinnsvurdering: false,
+                },
             ],
         ],
     ]);
