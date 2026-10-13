@@ -12,6 +12,7 @@ import { Arbeidsforholdoverstyringhendelse } from './hendelser/Arbeidsforholdove
 import { Dagoverstyringhendelse } from './hendelser/Dagoverstyringhendelse';
 import { Inntektoverstyringhendelse } from './hendelser/Inntektoverstyringhendelse';
 import { Notathendelse } from './hendelser/Notathendelse';
+import { Saksbehandlerhandlinghendelse } from './hendelser/Saksbehandlerhandlinghendelse';
 import { SykepengegrunnlagSkjønnsfastsatthendelse } from './hendelser/SykepengegrunnlagSkjønnsfastsatthendelse';
 import { Utbetalinghendelse } from './hendelser/Utbetalinghendelse';
 import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse';
@@ -52,6 +53,8 @@ export function HendelseRenderer({
             return <VedtakBegrunnelsehendelse hendelse={hendelse} />;
         case 'Annullering':
             return <Annulleringhendelse hendelse={hendelse} erAnnullertBeregnetPeriode={erAnnullertBeregnetPeriode} />;
+        case 'Saksbehandlerhandling':
+            return <Saksbehandlerhandlinghendelse hendelse={hendelse} />;
         default:
             return null;
     }

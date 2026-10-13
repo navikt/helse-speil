@@ -14,34 +14,36 @@ import {
     ApiVilkårsvurdering,
     ApiVilkårsvurderingerForPersonResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
+import { PersonMock } from '@spesialist-mock/storage/person';
 
-let vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
-    skjæringstidspunkt: '2024-01-01',
-    krav: [
-        {
-            id: 'krav-2',
-            kravkode: ApiKravkode.OPPTJENING,
-            opptjeningOk: true,
-            avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
-            vurderinger: [automatiskVurdering('vurdering-1', '2024-01-02T10:00:00.000Z')],
-            kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
-        },
-    ],
+interface Opptjeningstilstand {
+    vilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse;
+    opptjeningshistorikk: ApiOpptjeningshistorikkInnslag[];
+}
+
+// punktlig_jakke.json starter med opptjening ikke vurdert, så man kan teste manuell vurdering
+const PERSONER_MED_OPPTJENING_IKKE_VURDERT: Record<string, string> = {
+    '2805594640665': '2023-03-01',
 };
 
-let opptjeningshistorikk: ApiOpptjeningshistorikkInnslag[] = vilkårsvurderinger.krav.map((krav) => ({
-    vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
-    opptjeningsvurdering: krav,
-}));
+const tilstandPerPerson = new Map<string, Opptjeningstilstand>();
 
-export const hentVilkårsvurderinger = (): ApiVilkårsvurderingerForPersonResponse => vilkårsvurderinger;
+export const hentVilkårsvurderinger = (personPseudoId: string): ApiVilkårsvurderingerForPersonResponse =>
+    hentTilstand(personPseudoId).vilkårsvurderinger;
 
-export const hentOpptjeningshistorikk = (skjæringstidspunkt: string): ApiOpptjeningshistorikkResponse => ({
+export const hentOpptjeningshistorikk = (
+    personPseudoId: string,
+    skjæringstidspunkt: string,
+): ApiOpptjeningshistorikkResponse => ({
     skjæringstidspunkt,
-    historikk: opptjeningshistorikk,
+    historikk: hentTilstand(personPseudoId).opptjeningshistorikk,
 });
 
-export const overstyrVilkårsvurdering = (request: ApiManuellVilkårsvurderingRequest): string => {
+export const overstyrVilkårsvurdering = (
+    personPseudoId: string,
+    request: ApiManuellVilkårsvurderingRequest,
+): string => {
+    const { vilkårsvurderinger, opptjeningshistorikk } = hentTilstand(personPseudoId);
     const nyVurdering: ApiVilkårsvurdering = {
         id: v4(),
         vilkårskode: request.vilkårskode,
@@ -78,20 +80,25 @@ export const overstyrVilkårsvurdering = (request: ApiManuellVilkårsvurderingRe
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
 
-    vilkårsvurderinger = {
-        skjæringstidspunkt: request.skjæringstidspunkt,
-        krav: [...vilkårsvurderinger.krav.filter((krav) => krav.kravkode !== ApiKravkode.OPPTJENING), nyttKrav],
-    };
-
-    opptjeningshistorikk = [
-        { vurdertTidspunkt: nyVurdering.vurdertTidspunkt, opptjeningsvurdering: nyttKrav },
-        ...opptjeningshistorikk,
-    ];
+    tilstandPerPerson.set(personPseudoId, {
+        vilkårsvurderinger: {
+            skjæringstidspunkt: request.skjæringstidspunkt,
+            krav: [...vilkårsvurderinger.krav.filter((krav) => krav.kravkode !== ApiKravkode.OPPTJENING), nyttKrav],
+        },
+        opptjeningshistorikk: [
+            { vurdertTidspunkt: nyVurdering.vurdertTidspunkt, opptjeningsvurdering: nyttKrav },
+            ...opptjeningshistorikk,
+        ],
+    });
 
     return nyttKrav.id;
 };
 
-export const vurderAutomatiskPåNytt = (request: ApiNyAutomatiskVilkårsvurderingRequest): string => {
+export const vurderAutomatiskPåNytt = (
+    personPseudoId: string,
+    request: ApiNyAutomatiskVilkårsvurderingRequest,
+): string => {
+    const { vilkårsvurderinger, opptjeningshistorikk } = hentTilstand(personPseudoId);
     const nyVurdering = automatiskVurdering(v4(), new Date().toISOString());
 
     const nyttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
@@ -103,18 +110,52 @@ export const vurderAutomatiskPåNytt = (request: ApiNyAutomatiskVilkårsvurderin
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
 
-    vilkårsvurderinger = {
-        skjæringstidspunkt: request.skjæringstidspunkt,
-        krav: [...vilkårsvurderinger.krav.filter((krav) => krav.kravkode !== ApiKravkode.OPPTJENING), nyttKrav],
-    };
-
-    opptjeningshistorikk = [
-        { vurdertTidspunkt: nyVurdering.vurdertTidspunkt, opptjeningsvurdering: nyttKrav },
-        ...opptjeningshistorikk,
-    ];
+    tilstandPerPerson.set(personPseudoId, {
+        vilkårsvurderinger: {
+            skjæringstidspunkt: request.skjæringstidspunkt,
+            krav: [...vilkårsvurderinger.krav.filter((krav) => krav.kravkode !== ApiKravkode.OPPTJENING), nyttKrav],
+        },
+        opptjeningshistorikk: [
+            { vurdertTidspunkt: nyVurdering.vurdertTidspunkt, opptjeningsvurdering: nyttKrav },
+            ...opptjeningshistorikk,
+        ],
+    });
 
     return nyttKrav.id;
 };
+
+function hentTilstand(personPseudoId: string): Opptjeningstilstand {
+    const eksisterende = tilstandPerPerson.get(personPseudoId);
+    if (eksisterende) return eksisterende;
+
+    const tilstand = initiellTilstand(personPseudoId);
+    tilstandPerPerson.set(personPseudoId, tilstand);
+    return tilstand;
+}
+
+function initiellTilstand(personPseudoId: string): Opptjeningstilstand {
+    const aktørId = PersonMock.findAktørIdForPersonPseudoId(personPseudoId);
+    const skjæringstidspunktIkkeVurdert = aktørId ? PERSONER_MED_OPPTJENING_IKKE_VURDERT[aktørId] : undefined;
+    if (skjæringstidspunktIkkeVurdert) {
+        return {
+            vilkårsvurderinger: { skjæringstidspunkt: skjæringstidspunktIkkeVurdert, krav: [] },
+            opptjeningshistorikk: [],
+        };
+    }
+
+    const krav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
+        id: 'krav-2',
+        kravkode: ApiKravkode.OPPTJENING,
+        opptjeningOk: true,
+        avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+        vurderinger: [automatiskVurdering('vurdering-1', '2024-01-02T10:00:00.000Z')],
+        kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
+    };
+    return {
+        vilkårsvurderinger: { skjæringstidspunkt: '2024-01-01', krav: [krav] },
+        opptjeningshistorikk: [{ vurdertTidspunkt: '2024-01-02T10:00:00.000Z', opptjeningsvurdering: krav }],
+    };
+}
 
 function automatiskVurdering(id: string, vurdertTidspunkt: string): ApiVilkårsvurdering {
     return {

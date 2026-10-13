@@ -8,12 +8,13 @@ import {
 
 import { vurderAutomatiskPåNytt } from '../vilkarsvurderingerMock';
 
-export const stub = async (request: NextRequest) => {
+export const stub = async (request: NextRequest, params: Promise<{ personPseudoId: string }>) => {
+    const { personPseudoId } = await params;
     const body: ApiNyAutomatiskVilkårsvurderingRequest = await request.json();
 
     const response: ApiNyAutomatiskVilkårsvurderingResponse = {
         status: ApiNyAutomatiskVilkårsvurderingStatus.VURDERT,
-        opptjeningsvurderingId: vurderAutomatiskPåNytt(body),
+        opptjeningsvurderingId: vurderAutomatiskPåNytt(personPseudoId, body),
     };
 
     return Response.json(response);

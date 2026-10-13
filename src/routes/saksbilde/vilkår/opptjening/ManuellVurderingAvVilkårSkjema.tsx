@@ -13,6 +13,7 @@ import {
     vilkårsspørsmål,
 } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { getGetSaksbehandlerhandlingerForPersonQueryKey } from '@io/rest/generated/personer/personer';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
 import {
     getGetOpptjeningshistorikkBehandlerQueryKey,
@@ -64,6 +65,9 @@ export function ManuellVurderingAvVilkårSkjema({
                 });
                 queryClient.invalidateQueries({
                     queryKey: getGetOpptjeningshistorikkBehandlerQueryKey(personPseudoId),
+                });
+                queryClient.invalidateQueries({
+                    queryKey: getGetSaksbehandlerhandlingerForPersonQueryKey(personPseudoId),
                 });
                 onOverstyrt(response.opptjeningsvurderingId);
                 onLukk();

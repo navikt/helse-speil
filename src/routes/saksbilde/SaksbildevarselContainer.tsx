@@ -20,6 +20,7 @@ import {
     finnAlleInntektsforhold,
     useHarDagOverstyringer,
 } from '@state/inntektsforhold/inntektsforhold';
+import { tilSaksbehandlerhandlingKontrolltekst, useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { ActivePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
@@ -37,6 +38,14 @@ export const SaksbildevarselContainer = ({ person, periode }: SaksbildevarselCon
         tilkommenInntektData?.some((inntektkilde) =>
             inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),
         ) ?? false;
+    const { data: saksbehandlerhandlinger } = useHentSaksbehandlerhandlinger(personPseudoId);
+    const saksbehandlerhandlingerTilKontroll = [
+        ...new Set(
+            (saksbehandlerhandlinger ?? [])
+                .filter((handling) => handling.erDelAvAktivTotrinnsvurdering)
+                .map((handling) => tilSaksbehandlerhandlingKontrolltekst(handling.handlingType)),
+        ),
+    ];
 
     if (isAnnullertBeregnetPeriode(periode)) {
         return (
@@ -56,6 +65,7 @@ export const SaksbildevarselContainer = ({ person, periode }: SaksbildevarselCon
                 person={person}
                 periode={periode as UberegnetPeriodeFragment}
                 harTilkommenInntektEndring={harTilkommenInntektEndring}
+                saksbehandlerhandlingerTilKontroll={saksbehandlerhandlingerTilKontroll}
             />
         );
     }
@@ -74,6 +84,7 @@ export const SaksbildevarselContainer = ({ person, periode }: SaksbildevarselCon
                 periode={periode as BeregnetPeriodeFragment}
                 person={person}
                 harTilkommenInntektEndring={harTilkommenInntektEndring}
+                saksbehandlerhandlingerTilKontroll={saksbehandlerhandlingerTilKontroll}
             />
         );
     } else if (isGhostPeriode(periode)) {
@@ -111,6 +122,7 @@ interface BeregnetSaksbildevarslerProps {
     person: PersonFragment;
     periode: BeregnetPeriodeFragment;
     harTilkommenInntektEndring: boolean;
+    saksbehandlerhandlingerTilKontroll: string[];
 }
 
 function getÅpneEndringerForPeriode(arbeidsgivere: Inntektsforhold[], vedtaksperiodeId: string) {
@@ -119,7 +131,12 @@ function getÅpneEndringerForPeriode(arbeidsgivere: Inntektsforhold[], vedtakspe
         .filter((overstyring) => !overstyring.ferdigstilt && overstyring.vedtaksperiodeId === vedtaksperiodeId);
 }
 
-const BeregnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring }: BeregnetSaksbildevarslerProps) => {
+const BeregnetSaksbildevarsler = ({
+    person,
+    periode,
+    harTilkommenInntektEndring,
+    saksbehandlerhandlingerTilKontroll,
+}: BeregnetSaksbildevarslerProps) => {
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
@@ -143,6 +160,7 @@ const BeregnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring 
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
             harTotrinnsvurdering={harTotrinnsvurdering}
             harTilkommenInntektEndring={harTilkommenInntektEndring}
+            saksbehandlerhandlingerTilKontroll={saksbehandlerhandlingerTilKontroll}
         />
     );
 };
@@ -151,9 +169,15 @@ interface UberegnetSaksbildevarslerProps {
     person: PersonFragment;
     periode: UberegnetPeriodeFragment;
     harTilkommenInntektEndring: boolean;
+    saksbehandlerhandlingerTilKontroll: string[];
 }
 
-const UberegnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring }: UberegnetSaksbildevarslerProps) => {
+const UberegnetSaksbildevarsler = ({
+    person,
+    periode,
+    harTilkommenInntektEndring,
+    saksbehandlerhandlingerTilKontroll,
+}: UberegnetSaksbildevarslerProps) => {
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
@@ -172,6 +196,7 @@ const UberegnetSaksbildevarsler = ({ person, periode, harTilkommenInntektEndring
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
             harTotrinnsvurdering={harTotrinnsvurdering}
             harTilkommenInntektEndring={harTilkommenInntektEndring}
+            saksbehandlerhandlingerTilKontroll={saksbehandlerhandlingerTilKontroll}
         />
     );
 };

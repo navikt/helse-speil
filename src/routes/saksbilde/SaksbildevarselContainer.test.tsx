@@ -1,8 +1,10 @@
 import { Mock, vi } from 'vitest';
 
 import { Dagoverstyring, Dagtype, Periodetilstand, VarselDto, Varselstatus } from '@io/graphql';
+import { ApiHandlingType, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
 import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { useInntektOgRefusjon } from '@state/overstyring';
+import { useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
@@ -13,10 +15,15 @@ import { render, screen } from '@test-utils';
 
 vi.mock('@state/overstyring');
 vi.mock('@state/tilkommenInntekt');
+vi.mock('@state/saksbehandlerhandlinger', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@state/saksbehandlerhandlinger')>()),
+    useHentSaksbehandlerhandlinger: vi.fn(),
+}));
 
 describe('SaksbildevarselContainer', () => {
     beforeEach(() => {
         (useHentTilkommenInntektQuery as Mock).mockReturnValue({ data: [] });
+        (useHentSaksbehandlerhandlinger as Mock).mockReturnValue({ data: [] });
     });
 
     it('skal kaste feil om beregnet periode mangler skjæringstidspunkt', () => {
@@ -85,6 +92,28 @@ describe('SaksbildevarselContainer', () => {
         expect(overstyringAvDagerElement).toBeVisible();
         expect(kontrollerElement.parentElement).toContainElement(overstyringAvDagerElement);
     });
+    it('viser kontrollrad når en saksbehandlerhandling er del av aktiv totrinnsvurdering', () => {
+        (useHentSaksbehandlerhandlinger as Mock).mockReturnValue({
+            data: [enSaksbehandlerhandling({ erDelAvAktivTotrinnsvurdering: true })],
+        });
+        const periode = enBeregnetPeriodeMedTotrinnsvurdering();
+        render(<SaksbildevarselContainer person={enPersonMedPeriode(periode)} periode={periode} />);
+
+        const kontrollerElement = screen.getByText('Kontroller:');
+        const handlingElement = screen.getByText('Manuell vurdering av opptjening');
+        expect(kontrollerElement.parentElement).toContainElement(handlingElement);
+    });
+
+    it('viser ikke kontrollrad når ingen saksbehandlerhandling er del av aktiv totrinnsvurdering', () => {
+        (useHentSaksbehandlerhandlinger as Mock).mockReturnValue({
+            data: [enSaksbehandlerhandling({ erDelAvAktivTotrinnsvurdering: false })],
+        });
+        const periode = enBeregnetPeriodeMedTotrinnsvurdering();
+        render(<SaksbildevarselContainer person={enPersonMedPeriode(periode)} periode={periode} />);
+
+        expect(screen.queryByText('Manuell vurdering av opptjening')).not.toBeInTheDocument();
+    });
+
     it('skal rendre eget varsel for ghost periode', () => {
         const arbeidsgiver = enArbeidsgiver();
         const person = enPerson({ arbeidsgivere: [arbeidsgiver] });
@@ -160,3 +189,36 @@ const enDagoverstyring: Dagoverstyring = {
     },
     ferdigstilt: false,
 };
+
+function enBeregnetPeriodeMedTotrinnsvurdering() {
+    return enBeregnetPeriode({
+        periodetilstand: Periodetilstand.TilGodkjenning,
+        totrinnsvurdering: {
+            __typename: 'Totrinnsvurdering',
+            erBeslutteroppgave: true,
+            erRetur: false,
+            saksbehandler: null,
+            beslutter: null,
+        },
+        oppgave: enOppgave(),
+    });
+}
+
+function enPersonMedPeriode(periode: ReturnType<typeof enBeregnetPeriode>) {
+    return enPerson({
+        arbeidsgivere: [enArbeidsgiver({ behandlinger: [enBehandling({ perioder: [periode] })] })],
+    });
+}
+
+function enSaksbehandlerhandling(overrides?: Partial<ApiSaksbehandlerhandling>): ApiSaksbehandlerhandling {
+    return {
+        handlingId: 'handling-id',
+        handlingType: ApiHandlingType.MANUELT_VURDERT_OPPTJENING,
+        saksbehandlerIdent: 'S123456',
+        tidspunkt: '2020-01-01T12:00:00',
+        skjæringstidspunkt: null,
+        behandlingId: null,
+        erDelAvAktivTotrinnsvurdering: false,
+        ...overrides,
+    };
+}

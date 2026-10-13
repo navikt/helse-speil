@@ -7,6 +7,7 @@ import {
     Utbetalingtype,
     VedtakUtfall,
 } from '@io/graphql';
+import { ApiHandlingType } from '@io/rest/generated/spesialist.schemas';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Kommentar } from '@typer/notat';
 
@@ -27,7 +28,8 @@ export type Hendelsetype =
     | 'Historikk'
     | 'VedtakBegrunnelse'
     | 'Annullering'
-    | 'TilkommenInntekt';
+    | 'TilkommenInntekt'
+    | 'Saksbehandlerhandling';
 
 export type ArbeidsgiverSkjønnHendelse = {
     inntektsforholdReferanse: InntektsforholdReferanse;
@@ -147,6 +149,13 @@ export type VedtakBegrunnelseObject = BaseHendelseObject & {
     saksbehandler: string;
 };
 
+export type SaksbehandlerhandlinghendelseObject = BaseHendelseObject & {
+    type: 'Saksbehandlerhandling';
+    handlingType: ApiHandlingType;
+    timestamp: DateString;
+    saksbehandler: string;
+};
+
 export type AnnulleringhendelseObject = BaseHendelseObject & {
     type: 'Annullering';
     årsaker: string[];
@@ -167,4 +176,5 @@ export type HendelseObject =
     | UtbetalinghendelseObject
     | HistorikkhendelseObject
     | VedtakBegrunnelseObject
-    | AnnulleringhendelseObject;
+    | AnnulleringhendelseObject
+    | SaksbehandlerhandlinghendelseObject;

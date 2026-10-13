@@ -119,4 +119,33 @@ describe('Saksbildevarsler', () => {
         expect(tilkommenInntektElement).toBeVisible();
         expect(kontrollerElement.parentElement).toContainElement(tilkommenInntektElement);
     });
+
+    test('viser besluttervarsler for saksbehandlerhandlinger', () => {
+        render(
+            <Saksbildevarsler
+                periodState="utbetalt"
+                varsler={[]}
+                harTotrinnsvurdering={true}
+                harTilkommenInntektEndring={false}
+                saksbehandlerhandlingerTilKontroll={['Manuell vurdering av opptjening']}
+            />,
+        );
+        const kontrollerElement = screen.getByText('Kontroller:');
+        const handlingElement = screen.getByText('Manuell vurdering av opptjening');
+        expect(handlingElement).toBeVisible();
+        expect(kontrollerElement.parentElement).toContainElement(handlingElement);
+    });
+
+    test('viser ikke besluttervarsler for saksbehandlerhandlinger uten totrinnsvurdering', () => {
+        render(
+            <Saksbildevarsler
+                periodState="utbetalt"
+                varsler={[]}
+                harTotrinnsvurdering={false}
+                harTilkommenInntektEndring={false}
+                saksbehandlerhandlingerTilKontroll={['Manuell vurdering av opptjening']}
+            />,
+        );
+        expect(screen.queryByText('Manuell vurdering av opptjening')).not.toBeInTheDocument();
+    });
 });

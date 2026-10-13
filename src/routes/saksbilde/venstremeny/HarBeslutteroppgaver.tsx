@@ -14,6 +14,7 @@ import {
     tilReferanse,
 } from '@state/inntektsforhold/inntektsforhold';
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
+import { saksbehandlerhandlingGjelderPeriode, useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { somNorskDato } from '@utils/date';
 
@@ -28,6 +29,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(personPseudoId);
+    const { data: saksbehandlerhandlinger } = useHentSaksbehandlerhandlinger(personPseudoId);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const navigerTilPeriode = useNavigerTilPeriode();
 
@@ -38,6 +40,9 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
     );
 
     const harTilkommenInntektEndring = endredeTilkomneInntektskilder.length > 0;
+    const saksbehandlerhandlingerTilKontroll = (saksbehandlerhandlinger ?? []).filter(
+        (handling) => handling.erDelAvAktivTotrinnsvurdering,
+    );
 
     const perioderTilKontroll = finnAlleInntektsforhold(person)
         .map((inntektsforhold): PeriodeinformasjonInnslag => ({
@@ -50,7 +55,12 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
                             inntektsforhold.overstyringer
                                 .filter((overstyring) => !overstyring.ferdigstilt)
                                 .some((overstyring) => overstyring.vedtaksperiodeId === periode.vedtaksperiodeId) ||
-                            (periodeTilGodkjenning.id === periode.id && harTilkommenInntektEndring),
+                            (periodeTilGodkjenning.id === periode.id && harTilkommenInntektEndring) ||
+                            saksbehandlerhandlingerTilKontroll.some((handling) =>
+                                handling.behandlingId || handling.skjæringstidspunkt
+                                    ? saksbehandlerhandlingGjelderPeriode(handling, periode)
+                                    : periodeTilGodkjenning.id === periode.id,
+                            ),
                     )
                     .map((periode) => ({
                         id: periode.id,

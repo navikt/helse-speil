@@ -1,3 +1,4 @@
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -15,9 +16,11 @@ import {
 } from '@saksbilde/historikk/state';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { isGhostPeriode } from '@utils/typeguards';
 
 function HistorikkWithContent(): ReactElement | null {
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { loading, data } = useFetchPersonQuery();
     const person = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
@@ -27,7 +30,9 @@ function HistorikkWithContent(): ReactElement | null {
         isLoading: notaterLoading,
         isError: harNotatError,
     } = useGetNotaterForVedtaksperiode(vedtaksperiodeId);
-    const historikk = useFilteredHistorikk(person, notatData ?? []);
+    const { data: saksbehandlerhandlinger, isLoading: saksbehandlerhandlingerLoading } =
+        useHentSaksbehandlerhandlinger(personPseudoId);
+    const historikk = useFilteredHistorikk(person, notatData ?? [], saksbehandlerhandlinger ?? []);
     const [filter] = useFilterState();
     const [showHistorikk, setShowHistorikk] = useShowHistorikkState();
     const [showHøyremeny] = useShowHøyremenyState();
@@ -41,7 +46,7 @@ function HistorikkWithContent(): ReactElement | null {
         },
     ]);
 
-    if (loading || notaterLoading) return <HistorikkSkeleton />;
+    if (loading || notaterLoading || saksbehandlerhandlingerLoading) return <HistorikkSkeleton />;
     else if (aktivPeriode == null || person == null || isGhostPeriode(aktivPeriode)) return null;
 
     return (

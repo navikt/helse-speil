@@ -2,4 +2,4 @@ import { stubEllerVideresendTilVilkarsproving } from '@app/api/vilkarsproving/co
 
 import { stub } from './stub';
 
-export const GET = stubEllerVideresendTilVilkarsproving(stub);
+export const GET = stubEllerVideresendTilVilkarsproving<{ personPseudoId: string }>(stub);

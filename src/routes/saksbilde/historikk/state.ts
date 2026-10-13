@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import { atom, useAtom, useAtomValue } from 'jotai';
 
 import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
-import { ApiNotat } from '@io/rest/generated/spesialist.schemas';
+import { ApiNotat, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
 import { finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold, finnInntektsforholdForPeriode } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithSessionStorage } from '@state/jotai';
@@ -22,6 +22,7 @@ import {
     getInntektoverstyringerForGhost,
     getMeldingOmVedtak,
     getMinimumSykdomsgradoverstyring,
+    getSaksbehandlerhandlinger,
     getSykepengegrunnlagskjønnsfastsetting,
     getUtbetalingshendelse,
     getVedtakBegrunnelser,
@@ -36,6 +37,7 @@ const getHendelserForBeregnetPeriode = (
     periode: BeregnetPeriodeFragment,
     person: PersonFragment,
     notater: ApiNotat[],
+    saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
 ): HendelseObject[] => {
     const inntektsforhold = finnInntektsforholdForPeriode(person, periode);
     if (!inntektsforhold) {
@@ -54,6 +56,7 @@ const getHendelserForBeregnetPeriode = (
         ...getSykepengegrunnlagskjønnsfastsetting(periode, inntektsforhold, andreInntektsforhold),
         ...getMinimumSykdomsgradoverstyring(periode, inntektsforhold),
         ...getVedtakBegrunnelser(periode),
+        ...getSaksbehandlerhandlinger(saksbehandlerhandlinger, periode),
     ].filter(hendelseTidspunktLiktEllerFørUtbetalingForPeriode(periode));
 
     const hendelserForAlleUtbetalinger = [
@@ -92,6 +95,7 @@ const getHendelserForUberegnetPeriode = (
     periode: UberegnetPeriodeFragment,
     person: PersonFragment,
     notater: ApiNotat[],
+    saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
 ): HendelseObject[] => {
     const inntektsforhold = finnInntektsforholdForPeriode(person, periode);
     if (!inntektsforhold) {
@@ -106,20 +110,25 @@ const getHendelserForUberegnetPeriode = (
         ...getInntektoverstyringer(periode, inntektsforhold),
         ...getSykepengegrunnlagskjønnsfastsetting(periode, inntektsforhold, andreInntektsforhold),
         ...tilNotathendelse(notater),
+        ...getSaksbehandlerhandlinger(saksbehandlerhandlinger, periode),
         ...getHistorikkinnslag(periode),
     ].sort(byTimestamp);
 };
 
-const useHistorikk = (person: PersonFragment | null, notater: ApiNotat[]): HendelseObject[] => {
+const useHistorikk = (
+    person: PersonFragment | null,
+    notater: ApiNotat[],
+    saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
+): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
     if (!person || !activePeriod) {
         return [];
     }
 
     if (isBeregnetPeriode(activePeriod)) {
-        return getHendelserForBeregnetPeriode(activePeriod, person, notater);
+        return getHendelserForBeregnetPeriode(activePeriod, person, notater, saksbehandlerhandlinger);
     } else if (isUberegnetPeriode(activePeriod)) {
-        return getHendelserForUberegnetPeriode(activePeriod, person, notater);
+        return getHendelserForUberegnetPeriode(activePeriod, person, notater, saksbehandlerhandlinger);
     } else if (isGhostPeriode(activePeriod)) {
         return getHendelserForGhostPeriode(activePeriod, person);
     } else {
@@ -137,6 +146,7 @@ const filterMap: Record<Filtertype, Hendelsetype[]> = {
         'Inntektoverstyring',
         'Sykepengegrunnlagskjonnsfastsetting',
         'MinimumSykdomsgradoverstyring',
+        'Saksbehandlerhandling',
         'Dokument',
         'Utbetaling',
         'Historikk',
@@ -153,6 +163,7 @@ const filterMap: Record<Filtertype, Hendelsetype[]> = {
         'Inntektoverstyring',
         'Sykepengegrunnlagskjonnsfastsetting',
         'MinimumSykdomsgradoverstyring',
+        'Saksbehandlerhandling',
     ],
 };
 
@@ -160,9 +171,13 @@ const showHistorikkState = atomWithSessionStorage('showHistorikkState', true);
 
 export const useShowHistorikkState = () => useAtom(showHistorikkState);
 
-export const useFilteredHistorikk = (person: PersonFragment | null, notater: ApiNotat[]): HendelseObject[] => {
+export const useFilteredHistorikk = (
+    person: PersonFragment | null,
+    notater: ApiNotat[],
+    saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
+): HendelseObject[] => {
     const filter = useAtomValue(filterState);
-    const historikk = useHistorikk(person, notater);
+    const historikk = useHistorikk(person, notater, saksbehandlerhandlinger);
 
     return historikk.filter((hendelse) => filterMap[filter].includes(hendelse.type));
 };

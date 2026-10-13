@@ -82,11 +82,18 @@ const beslutteroppgave = (
     varsler: VarselDto[],
     harDagOverstyringer = false,
     harTilkommenInntektEndring: boolean,
+    saksbehandlerhandlingerTilKontroll: string[],
     åpneEndringerPåPerson?: Overstyring[] | null,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): string[] | null => {
-    if (!harTotrinnsvurdering || (åpneEndringerPåPerson == null && !harTilkommenInntektEndring)) return null;
+    if (
+        !harTotrinnsvurdering ||
+        (åpneEndringerPåPerson == null &&
+            !harTilkommenInntektEndring &&
+            saksbehandlerhandlingerTilKontroll.length === 0)
+    )
+        return null;
     const aktuelleOverstyringer = åpneEndringerPåPerson?.filter((overstyring) => !overstyring.ferdigstilt) ?? [];
 
     const årsaker: string[] = [];
@@ -153,6 +160,8 @@ const beslutteroppgave = (
         årsaker.push('Tilkommen inntekt');
     }
 
+    årsaker.push(...saksbehandlerhandlingerTilKontroll);
+
     return årsaker;
 };
 
@@ -176,6 +185,7 @@ interface SaksbildevarslerProps {
     navnPåDeaktiverteGhostArbeidsgivere?: string;
     harTotrinnsvurdering: boolean;
     harTilkommenInntektEndring: boolean;
+    saksbehandlerhandlingerTilKontroll?: string[];
 }
 
 export const Saksbildevarsler = ({
@@ -191,6 +201,7 @@ export const Saksbildevarsler = ({
     navnPåDeaktiverteGhostArbeidsgivere,
     harTotrinnsvurdering,
     harTilkommenInntektEndring,
+    saksbehandlerhandlingerTilKontroll = [],
 }: SaksbildevarslerProps) => {
     const [open, setOpen] = useState(true);
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
@@ -201,6 +212,7 @@ export const Saksbildevarsler = ({
             varsler ?? [],
             harDagOverstyringer,
             harTilkommenInntektEndring,
+            saksbehandlerhandlingerTilKontroll,
             åpneEndringerPåPerson,
             activePeriodTom,
             navnPåDeaktiverteGhostArbeidsgivere,

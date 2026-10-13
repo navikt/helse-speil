@@ -32,8 +32,9 @@ import {
     UberegnetPeriodeFragment,
     Vurdering,
 } from '@io/graphql';
-import { ApiKommentar, ApiNotat } from '@io/rest/generated/spesialist.schemas';
+import { ApiKommentar, ApiNotat, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { saksbehandlerhandlingGjelderPeriode } from '@state/saksbehandlerhandlinger';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
     AnnulleringhendelseObject,
@@ -45,6 +46,7 @@ import {
     InntektoverstyringhendelseObject,
     MinimumSykdomsgradhendelseObject,
     NotathendelseObject,
+    SaksbehandlerhandlinghendelseObject,
     SykepengegrunnlagskjonnsfastsettinghendelseObject,
     UtbetalinghendelseObject,
     VedtakBegrunnelseObject,
@@ -667,6 +669,21 @@ export const tilNotathendelse = (apiNotater: ApiNotat[]) => {
             }) satisfies NotathendelseObject,
     );
 };
+
+export function getSaksbehandlerhandlinger(
+    handlinger: ApiSaksbehandlerhandling[],
+    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+): SaksbehandlerhandlinghendelseObject[] {
+    return handlinger
+        .filter((handling) => saksbehandlerhandlingGjelderPeriode(handling, periode))
+        .map((handling) => ({
+            id: handling.handlingId,
+            type: 'Saksbehandlerhandling',
+            handlingType: handling.handlingType,
+            saksbehandler: handling.saksbehandlerIdent,
+            timestamp: handling.tidspunkt,
+        }));
+}
 
 const toNotat = (apiNotat: ApiNotat): Notat => ({
     id: `${apiNotat.id}`,
