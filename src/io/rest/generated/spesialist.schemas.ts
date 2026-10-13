@@ -479,6 +479,41 @@ export interface ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode {
     code?: null | ApiPatchSaksbehandlerStansErrorCode;
 }
 
+export type ApiHandlingType = (typeof ApiHandlingType)[keyof typeof ApiHandlingType];
+
+export const ApiHandlingType = {
+    MANUELT_VURDERT_OPPTJENING: 'MANUELT_VURDERT_OPPTJENING',
+} as const;
+
+export interface ApiSaksbehandlerhandling {
+    handlingId: string;
+    handlingType: ApiHandlingType;
+    saksbehandlerIdent: string;
+    tidspunkt: string;
+    /** @nullable */
+    skjæringstidspunkt?: string | null;
+    /** @nullable */
+    behandlingId?: string | null;
+    erDelAvAktivTotrinnsvurdering: boolean;
+}
+
+export type ApiGetSaksbehandlerhandlingerForPersonErrorCode =
+    (typeof ApiGetSaksbehandlerhandlingerForPersonErrorCode)[keyof typeof ApiGetSaksbehandlerhandlingerForPersonErrorCode];
+
+export const ApiGetSaksbehandlerhandlingerForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetSaksbehandlerhandlingerForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetSaksbehandlerhandlingerForPersonErrorCode;
+}
+
 export type ApiVeilederStansÅrsak = (typeof ApiVeilederStansÅrsak)[keyof typeof ApiVeilederStansÅrsak];
 
 export const ApiVeilederStansÅrsak = {

@@ -8,6 +8,7 @@ import { readFile, readdir, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { defineConfig } from 'orval';
 
+// noinspection ES6PreferShortImport
 import { decodeComponentKeys } from './src/io/rest/componentKeys';
 
 const sharedOutput = {
@@ -36,8 +37,8 @@ const sharedOutput = {
 } as const;
 
 const sharedHooks = {
-    // Restore ÆØÅ in type names (see componentKeys.ts), then run prettier on all generated files
-    afterAllFilesWrite: [restoreNorwegianCharacters, 'prettier --write'],
+    // Restore ÆØÅ in type names (see componentKeys.ts), put type imports first, then run prettier on all generated files
+    afterAllFilesWrite: [restoreNorwegianCharacters, putTypeImportsFirst, 'prettier --write'],
 };
 
 export default defineConfig({
@@ -88,6 +89,21 @@ async function restoreNorwegianCharacters(paths: unknown) {
         const content = await readFile(file, 'utf8');
         const restored = decodeComponentKeys(content);
         if (restored !== content) await writeFile(file, restored);
+    }
+}
+
+// Orval writes `import { ... } from 'x'` before `import type { ... } from 'x'`. The import sort plugin keeps the
+// input order for imports from the same module, so we swap them to match IntelliJ's Optimize imports.
+async function putTypeImportsFirst(paths: unknown) {
+    const files = (await Promise.all((paths as string[]).map(findTsFiles))).flat();
+    for (const file of files) {
+        const content = await readFile(file, 'utf8');
+        const reordered = content.replace(
+            /^(import \{[^}]*} from '([^']+)';)\n(import type \{[^}]*} from '([^']+)';)$/gm,
+            (match, valueImport, valueModule, typeImport, typeModule) =>
+                valueModule === typeModule ? `${typeImport}\n${valueImport}` : match,
+        );
+        if (reordered !== content) await writeFile(file, reordered);
     }
 }
 
