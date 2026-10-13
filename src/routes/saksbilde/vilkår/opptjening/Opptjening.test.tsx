@@ -16,6 +16,7 @@ import {
 } from '@io/rest/generated/vilkarsproving.schemas';
 import {
     getGetOpptjeningshistorikkBehandlerQueryKey,
+    getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     useGetOpptjeningshistorikkBehandler,
     useGetVilkårsvurderingerForPersonBehandler,
     usePostManuellVilkårsvurderingBehandler,
@@ -764,6 +765,70 @@ describe('Opptjening', () => {
             } finally {
                 invalidateQueries.mockRestore();
             }
+        });
+
+        it('invaliderer opptjeningsvurderingen når grunnlaget er reberegnet', async () => {
+            const invalidateQueries = vi.spyOn(QueryClient.prototype, 'invalidateQueries');
+            try {
+                renderOpptjening(false);
+
+                await bekreftVurderAutomatiskPåNytt();
+
+                const [variables, options] = mutateNyAutomatisk.mock.calls[0]!;
+                act(() =>
+                    options.onSuccess?.(
+                        { status: ApiNyAutomatiskVilkårsvurderingStatus.VENTER_PÅ_GRUNNLAG },
+                        variables,
+                        undefined,
+                        undefined,
+                    ),
+                );
+                act(() =>
+                    serverSentEventMock.onEvent?.({
+                        event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,
+                        data: null,
+                    }),
+                );
+
+                expect(invalidateQueries).toHaveBeenCalledWith({
+                    queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey('en-person'),
+                });
+            } finally {
+                invalidateQueries.mockRestore();
+            }
+        });
+
+        it('henter nyeste opptjeningsvurdering fra spleis selv om den er overstyrt tidligere', async () => {
+            const { rerender } = renderOpptjening(false);
+
+            await bekreftVurderAutomatiskPåNytt();
+            const [variables, options] = mutateNyAutomatisk.mock.calls[0]!;
+            act(() =>
+                options.onSuccess?.(
+                    { status: ApiNyAutomatiskVilkårsvurderingStatus.VURDERT, opptjeningsvurderingId: 'overstyrt-id' },
+                    variables,
+                    undefined,
+                    undefined,
+                ),
+            );
+
+            expect(useGetVilkårsvurderingerForPersonBehandler).toHaveBeenLastCalledWith('en-person', {
+                opptjeningsvurderingId: 'overstyrt-id',
+            });
+
+            rerender(
+                <InngangsvilkårWithContent
+                    vilkårsgrunnlag={vilkårsgrunnlag}
+                    fødselsdato="1980-01-01"
+                    personPseudoId="en-person"
+                    opptjeningsvurderingId="ny-id-fra-spleis"
+                    readOnly={false}
+                />,
+            );
+
+            expect(useGetVilkårsvurderingerForPersonBehandler).toHaveBeenLastCalledWith('en-person', {
+                opptjeningsvurderingId: 'ny-id-fra-spleis',
+            });
         });
 
         it('er deaktivert mens visningen oppdateres', async () => {

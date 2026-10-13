@@ -11,6 +11,7 @@ import {
 } from '@io/rest/generated/vilkarsproving.schemas';
 import {
     getGetOpptjeningshistorikkBehandlerQueryKey,
+    getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     useGetVilkårsvurderingerForPersonBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { Vilkårsutfall, utfallFraOppfylt } from '@saksbilde/vilkår/vilkårsutfall';
@@ -37,8 +38,13 @@ export interface Opptjeningsvurdering {
     onVenterPåGrunnlag: () => void;
 }
 
+interface Overstyring {
+    opptjeningsvurderingId: string;
+    opptjeningsvurderingIdFørOverstyring: string;
+}
+
 export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurderingId: string): Opptjeningsvurdering {
-    const [overstyrtOpptjeningsvurderingId, setOverstyrtOpptjeningsvurderingId] = useState<string | null>(null);
+    const [overstyring, setOverstyring] = useState<Overstyring | null>(null);
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
@@ -51,13 +57,22 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
             void queryClient.invalidateQueries({
                 queryKey: getGetOpptjeningshistorikkBehandlerQueryKey(personPseudoId),
             });
+            void queryClient.invalidateQueries({
+                queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
+            });
         }
     });
 
     useFjernOppdatererToast(visningenOppdateres);
 
+    // Overstyringen gjelder bare til spleis har en nyere opptjeningsvurderingId, f.eks. etter asynkron ny vurdering
+    const gjeldendeOpptjeningsvurderingId =
+        overstyring?.opptjeningsvurderingIdFørOverstyring === opptjeningsvurderingId
+            ? overstyring.opptjeningsvurderingId
+            : opptjeningsvurderingId;
+
     const { data, isLoading, isFetching, isError } = useGetVilkårsvurderingerForPersonBehandler(personPseudoId, {
-        opptjeningsvurderingId: overstyrtOpptjeningsvurderingId ?? opptjeningsvurderingId,
+        opptjeningsvurderingId: gjeldendeOpptjeningsvurderingId,
     });
 
     const krav = data && finnOpptjeningskrav(data);
@@ -77,8 +92,11 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
         erOverførtFraInfotrygd: krav?.kravkilde === ApiKravkilde.OVERFOERT_FRA_INFOTRYGD,
         vurderingFor: (vilkårskode) => vurderinger.find((it) => it.vilkårskode === vilkårskode),
         avgjørendeVilkårskode: avgjørendeVilkårskodeFor(krav),
-        onOverstyrt: (opptjeningsvurderingId) => {
-            setOverstyrtOpptjeningsvurderingId(opptjeningsvurderingId);
+        onOverstyrt: (nyOpptjeningsvurderingId) => {
+            setOverstyring({
+                opptjeningsvurderingId: nyOpptjeningsvurderingId,
+                opptjeningsvurderingIdFørOverstyring: opptjeningsvurderingId,
+            });
             onVenterPåGrunnlag();
         },
         onVenterPåGrunnlag,
