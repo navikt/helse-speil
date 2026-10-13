@@ -76,5 +76,6 @@ export type Utbetalingstabelldag = {
     personbeløp?: number | null;
     begrunnelser?: Begrunnelse[] | null;
     erNyDag?: boolean;
+    erGradertAnnenYtelse?: boolean;
     fraType?: Utbetalingstabelldagtype;
 };

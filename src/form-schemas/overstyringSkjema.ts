@@ -164,16 +164,18 @@ const sjekkAndreYtelser = (
 ): void => {
     const alleOverstyrteDager = Array.from(overstyrteDager.values());
     const overstyrtTilAnnenYtelsesdag = alleOverstyrteDager
-        .filter((overstyrtDag) =>
-            [
-                'Foreldrepenger',
-                'AAP',
-                'Dagpenger',
-                'Svangerskapspenger',
-                'Pleiepenger',
-                'Omsorgspenger',
-                'Opplæringspenger',
-            ].includes(overstyrtDag.dag.speilDagtype),
+        .filter(
+            (overstyrtDag) =>
+                !overstyrtDag.erGradertAnnenYtelse &&
+                [
+                    'AAP',
+                    'Dagpenger',
+                    'Foreldrepenger',
+                    'Svangerskapspenger',
+                    'Pleiepenger',
+                    'Omsorgspenger',
+                    'Opplæringspenger',
+                ].includes(overstyrtDag.dag.speilDagtype),
         )
         .sort(sorterEtterDato);
 

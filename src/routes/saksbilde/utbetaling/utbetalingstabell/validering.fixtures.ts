@@ -216,6 +216,12 @@ export const andreYtelserScenarioer: ValideringScenario[] = [
         },
     },
     {
+        navn: 'gradert annen ytelse, selv om den er midt i perioden',
+        alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' }), lagDag({ dato: '2020-01-03' })],
+        overstyrteDager: [lagDag({ dato: '2020-01-02', dag: Foreldrepengerdag, erGradertAnnenYtelse: true })],
+        forventet: { gyldig: true },
+    },
+    {
         navn: 'ny dag, selv om den er midt i perioden',
         alleDager: [lagDag({ dato: '2020-01-01' }), lagDag({ dato: '2020-01-02' }), lagDag({ dato: '2020-01-03' })],
         overstyrteDager: [lagDag({ dato: '2020-01-02', dag: Foreldrepengerdag, erNyDag: true })],
