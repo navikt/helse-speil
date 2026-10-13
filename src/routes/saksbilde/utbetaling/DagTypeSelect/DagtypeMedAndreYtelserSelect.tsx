@@ -125,7 +125,7 @@ function DagtypeMedAndreYtelserSelectAktivert({
                     </VStack>
 
                     <Fieldset legend="Prosentvis fordeling mellom ytelser og arbeid" size="medium">
-                        <HStack gap="space-20">
+                        <HStack gap="space-20" align="end">
                             <TextField
                                 label="Sykepenger"
                                 size="small"
