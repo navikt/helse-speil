@@ -9,7 +9,10 @@ import {
     ApiVilkårsvurdering,
     ApiVilkårsvurderingerForPersonResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
-import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+import {
+    getGetOpptjeningshistorikkBehandlerQueryKey,
+    useGetVilkårsvurderingerForPersonBehandler,
+} from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { Vilkårsutfall, utfallFraOppfylt } from '@saksbilde/vilkår/vilkårsutfall';
 import {
     visningenErOppdatertToast,
@@ -19,6 +22,7 @@ import {
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
+import { useQueryClient } from '@tanstack/react-query';
 
 export interface Opptjeningsvurdering {
     data?: ApiVilkårsvurderingerForPersonResponse;
@@ -30,6 +34,7 @@ export interface Opptjeningsvurdering {
     vurderingFor: (vilkårskode: ApiVilkårskode) => ApiVilkårsvurdering | undefined;
     avgjørendeVilkårskode?: ApiVilkårskode;
     onOverstyrt: (opptjeningsvurderingId: string) => void;
+    onVenterPåGrunnlag: () => void;
 }
 
 export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurderingId: string): Opptjeningsvurdering {
@@ -37,11 +42,15 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
+    const queryClient = useQueryClient();
 
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && visningenOppdateres) {
             addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
             setVisningenOppdateres(false);
+            void queryClient.invalidateQueries({
+                queryKey: getGetOpptjeningshistorikkBehandlerQueryKey(personPseudoId),
+            });
         }
     });
 
@@ -54,6 +63,11 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
     const krav = data && finnOpptjeningskrav(data);
     const vurderinger = vurderingerFor(krav);
 
+    function onVenterPåGrunnlag() {
+        setVisningenOppdateres(true);
+        addToast(visningenOppdateresToast({}));
+    }
+
     return {
         data,
         isLoading,
@@ -65,9 +79,9 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
         avgjørendeVilkårskode: avgjørendeVilkårskodeFor(krav),
         onOverstyrt: (opptjeningsvurderingId) => {
             setOverstyrtOpptjeningsvurderingId(opptjeningsvurderingId);
-            setVisningenOppdateres(true);
-            addToast(visningenOppdateresToast({}));
+            onVenterPåGrunnlag();
         },
+        onVenterPåGrunnlag,
     };
 }
 

@@ -56,6 +56,7 @@ export function Opptjening({
                         personPseudoId={personPseudoId}
                         skjæringstidspunkt={data.skjæringstidspunkt}
                         onVurdert={opptjeningsvurdering.onOverstyrt}
+                        onVenterPåGrunnlag={opptjeningsvurdering.onVenterPåGrunnlag}
                     />
                 )}
             </HStack>

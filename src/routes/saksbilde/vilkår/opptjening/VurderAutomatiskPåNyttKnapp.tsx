@@ -8,7 +8,6 @@ import {
     ApiNyAutomatiskVilkårsvurderingStatus,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import {
-    getGetOpptjeningshistorikkBehandlerQueryKey,
     getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     usePostNyAutomatiskVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
@@ -20,12 +19,14 @@ interface VurderAutomatiskPåNyttKnappProps {
     personPseudoId: string;
     skjæringstidspunkt: string;
     onVurdert: (opptjeningsvurderingId: string) => void;
+    onVenterPåGrunnlag: () => void;
 }
 
 export function VurderAutomatiskPåNyttKnapp({
     personPseudoId,
     skjæringstidspunkt,
     onVurdert,
+    onVenterPåGrunnlag,
 }: VurderAutomatiskPåNyttKnappProps): ReactElement {
     const queryClient = useQueryClient();
     const addToast = useAddToast();
@@ -36,11 +37,9 @@ export function VurderAutomatiskPåNyttKnapp({
             void queryClient.invalidateQueries({
                 queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
             });
-            void queryClient.invalidateQueries({
-                queryKey: getGetOpptjeningshistorikkBehandlerQueryKey(personPseudoId),
-            });
             onVurdert(opptjeningsvurderingId);
         } else {
+            onVenterPåGrunnlag();
             addToast(venterPåGrunnlagToast);
         }
     }

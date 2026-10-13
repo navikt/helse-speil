@@ -2,10 +2,12 @@ import React from 'react';
 import { Mock } from 'vitest';
 
 import { VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
+import { ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import {
     ApiKildetype,
     ApiKravkilde,
     ApiKravkode,
+    ApiNyAutomatiskVilkårsvurderingStatus,
     ApiOpptjeningshistorikkInnslag,
     ApiUtfall,
     ApiVilkårskode,
@@ -13,14 +15,20 @@ import {
     ApiVilkårsvurderingerForPersonResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import {
+    getGetOpptjeningshistorikkBehandlerQueryKey,
     useGetOpptjeningshistorikkBehandler,
     useGetVilkårsvurderingerForPersonBehandler,
     usePostManuellVilkårsvurderingBehandler,
     usePostNyAutomatiskVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { InngangsvilkårWithContent } from '@saksbilde/vilkår/Inngangsvilkår';
-import { render, screen, within } from '@test-utils';
+import { QueryClient } from '@tanstack/react-query';
+import { act, render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
+
+const serverSentEventMock = vi.hoisted(() => ({
+    onEvent: undefined as ((event: { event: string; data: null }) => void) | undefined,
+}));
 
 vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
@@ -28,6 +36,13 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     useGetOpptjeningshistorikkBehandler: vi.fn(),
     usePostManuellVilkårsvurderingBehandler: vi.fn(),
     usePostNyAutomatiskVilkårsvurderingBehandler: vi.fn(),
+}));
+
+vi.mock('@state/serverSentEvents', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@state/serverSentEvents')>()),
+    useHåndterNyttEvent: (onEvent: (event: { event: string; data: null }) => void) => {
+        serverSentEventMock.onEvent = onEvent;
+    },
 }));
 
 const envMock = vi.hoisted(() => ({
@@ -689,6 +704,42 @@ describe('Opptjening', () => {
                 { personId: 'en-person', data: { skjæringstidspunkt: '2024-01-01' } },
                 expect.anything(),
             );
+        });
+
+        it('invaliderer historikken når grunnlaget er reberegnet', async () => {
+            const invalidateQueries = vi.spyOn(QueryClient.prototype, 'invalidateQueries');
+            try {
+                renderOpptjening(false);
+
+                await userEvent.click(vurderAutomatiskPåNyttKnapp()!);
+
+                const [variables, options] = mutateNyAutomatisk.mock.calls[0]!;
+                act(() =>
+                    options.onSuccess?.(
+                        { status: ApiNyAutomatiskVilkårsvurderingStatus.VENTER_PÅ_GRUNNLAG },
+                        variables,
+                        undefined,
+                        undefined,
+                    ),
+                );
+
+                expect(invalidateQueries).not.toHaveBeenCalledWith({
+                    queryKey: getGetOpptjeningshistorikkBehandlerQueryKey('en-person'),
+                });
+
+                act(() =>
+                    serverSentEventMock.onEvent?.({
+                        event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,
+                        data: null,
+                    }),
+                );
+
+                expect(invalidateQueries).toHaveBeenCalledWith({
+                    queryKey: getGetOpptjeningshistorikkBehandlerQueryKey('en-person'),
+                });
+            } finally {
+                invalidateQueries.mockRestore();
+            }
         });
 
         it('skjules når vi ikke er i utvikling', () => {
