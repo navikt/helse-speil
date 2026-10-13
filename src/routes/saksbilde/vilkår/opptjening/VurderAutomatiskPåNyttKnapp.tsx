@@ -12,6 +12,7 @@ import {
     usePostNyAutomatiskVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { ToastObject, useAddToast } from '@state/toasts';
+import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { useQueryClient } from '@tanstack/react-query';
 import { somNorskDato } from '@utils/date';
 import { generateId } from '@utils/generateId';
@@ -31,6 +32,7 @@ export function VurderAutomatiskPåNyttKnapp({
 }: VurderAutomatiskPåNyttKnappProps): ReactElement {
     const queryClient = useQueryClient();
     const addToast = useAddToast();
+    const visningenOppdateres = useVisningenOppdateresValue();
     const { mutate, isPending } = usePostNyAutomatiskVilkårsvurderingBehandler();
 
     function håndterRespons({ status, opptjeningsvurderingId }: ApiNyAutomatiskVilkårsvurderingResponse) {
@@ -61,6 +63,7 @@ export function VurderAutomatiskPåNyttKnapp({
                     variant="tertiary"
                     icon={<ArrowsCirclepathIcon />}
                     loading={isPending}
+                    disabled={visningenOppdateres}
                 >
                     Vurder automatisk på nytt
                 </Button>

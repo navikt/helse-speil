@@ -766,6 +766,32 @@ describe('Opptjening', () => {
             }
         });
 
+        it('er deaktivert mens visningen oppdateres', async () => {
+            renderOpptjening(false);
+
+            await bekreftVurderAutomatiskPåNytt();
+            const [variables, options] = mutateNyAutomatisk.mock.calls[0]!;
+            act(() =>
+                options.onSuccess?.(
+                    { status: ApiNyAutomatiskVilkårsvurderingStatus.VENTER_PÅ_GRUNNLAG },
+                    variables,
+                    undefined,
+                    undefined,
+                ),
+            );
+
+            expect(vurderAutomatiskPåNyttKnapp()).toBeDisabled();
+
+            act(() =>
+                serverSentEventMock.onEvent?.({
+                    event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE,
+                    data: null,
+                }),
+            );
+
+            expect(vurderAutomatiskPåNyttKnapp()).toBeEnabled();
+        });
+
         it('skjules når vi ikke er i utvikling', () => {
             envMock.erUtvikling = false;
 

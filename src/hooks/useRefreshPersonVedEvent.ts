@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useApolloClient } from '@apollo/client';
 import { FetchPersonDocument } from '@io/graphql';
 import { getGetNotatVedtaksperiodeIderForPersonQueryKey } from '@io/rest/generated/notater/notater';
+import { getGetSaksbehandlerhandlingerForPersonQueryKey } from '@io/rest/generated/personer/personer';
 import { useSelectPeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
@@ -30,6 +31,9 @@ export const useRefreshPersonVedEvent = () => {
         }
         await queryClient.invalidateQueries({
             queryKey: getGetNotatVedtaksperiodeIderForPersonQueryKey(personPseudoId),
+        });
+        await queryClient.invalidateQueries({
+            queryKey: getGetSaksbehandlerhandlingerForPersonQueryKey(personPseudoId),
         });
         if (erNyOppgaveEvent(event)) {
             const person = apolloClient.readQuery({
