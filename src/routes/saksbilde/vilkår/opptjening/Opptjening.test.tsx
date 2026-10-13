@@ -23,7 +23,7 @@ import {
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { InngangsvilkårWithContent } from '@saksbilde/vilkår/Inngangsvilkår';
 import { QueryClient } from '@tanstack/react-query';
-import { act, render, screen, within } from '@test-utils';
+import { act, render, screen, waitFor, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
 const serverSentEventMock = vi.hoisted(() => ({
@@ -695,10 +695,34 @@ describe('Opptjening', () => {
     describe('vurder automatisk på nytt', () => {
         const vurderAutomatiskPåNyttKnapp = () => screen.queryByRole('button', { name: 'Vurder automatisk på nytt' });
 
-        it('ber om ny automatisk vurdering for skjæringstidspunktet', async () => {
+        async function bekreftVurderAutomatiskPåNytt() {
+            await userEvent.click(vurderAutomatiskPåNyttKnapp()!);
+            await userEvent.click(await screen.findByRole('button', { name: 'Ja' }));
+        }
+
+        it('ber om bekreftelse før ny automatisk vurdering', async () => {
             renderOpptjening(false);
 
             await userEvent.click(vurderAutomatiskPåNyttKnapp()!);
+
+            expect(await screen.findByRole('dialog', { name: 'Er du sikker?' })).toBeVisible();
+            expect(mutateNyAutomatisk).not.toHaveBeenCalled();
+        });
+
+        it('sender ikke ny automatisk vurdering når saksbehandler avbryter', async () => {
+            renderOpptjening(false);
+
+            await userEvent.click(vurderAutomatiskPåNyttKnapp()!);
+            await userEvent.click(await screen.findByRole('button', { name: 'Avbryt' }));
+
+            await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+            expect(mutateNyAutomatisk).not.toHaveBeenCalled();
+        });
+
+        it('ber om ny automatisk vurdering for skjæringstidspunktet', async () => {
+            renderOpptjening(false);
+
+            await bekreftVurderAutomatiskPåNytt();
 
             expect(mutateNyAutomatisk).toHaveBeenCalledWith(
                 { personId: 'en-person', data: { skjæringstidspunkt: '2024-01-01' } },
@@ -711,7 +735,7 @@ describe('Opptjening', () => {
             try {
                 renderOpptjening(false);
 
-                await userEvent.click(vurderAutomatiskPåNyttKnapp()!);
+                await bekreftVurderAutomatiskPåNytt();
 
                 const [variables, options] = mutateNyAutomatisk.mock.calls[0]!;
                 act(() =>

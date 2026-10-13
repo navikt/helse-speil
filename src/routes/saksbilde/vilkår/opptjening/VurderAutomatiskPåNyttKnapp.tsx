@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, Dialog } from '@navikt/ds-react';
 
 import {
     ApiNyAutomatiskVilkårsvurderingResponse,
@@ -13,6 +13,7 @@ import {
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { ToastObject, useAddToast } from '@state/toasts';
 import { useQueryClient } from '@tanstack/react-query';
+import { somNorskDato } from '@utils/date';
 import { generateId } from '@utils/generateId';
 
 interface VurderAutomatiskPåNyttKnappProps {
@@ -44,22 +45,49 @@ export function VurderAutomatiskPåNyttKnapp({
         }
     }
 
+    function vurderPåNytt() {
+        mutate(
+            { personId: personPseudoId, data: { skjæringstidspunkt } },
+            { onSuccess: håndterRespons, onError: () => addToast(feilVedNyVurderingToast) },
+        );
+    }
+
     return (
-        <Button
-            type="button"
-            size="xsmall"
-            variant="tertiary"
-            icon={<ArrowsCirclepathIcon />}
-            loading={isPending}
-            onClick={() =>
-                mutate(
-                    { personId: personPseudoId, data: { skjæringstidspunkt } },
-                    { onSuccess: håndterRespons, onError: () => addToast(feilVedNyVurderingToast) },
-                )
-            }
-        >
-            Vurder automatisk på nytt
-        </Button>
+        <Dialog>
+            <Dialog.Trigger>
+                <Button
+                    type="button"
+                    size="xsmall"
+                    variant="tertiary"
+                    icon={<ArrowsCirclepathIcon />}
+                    loading={isPending}
+                >
+                    Vurder automatisk på nytt
+                </Button>
+            </Dialog.Trigger>
+            <Dialog.Popup>
+                <Dialog.Header>
+                    <Dialog.Title>Er du sikker?</Dialog.Title>
+                </Dialog.Header>
+                <Dialog.Body>
+                    Opptjeningstid blir vurdert automatisk på nytt for skjæringstidspunkt{' '}
+                    {somNorskDato(skjæringstidspunkt)}. <br /> Den nåværende vurderingen, også manuelle vurderinger,
+                    blir erstattet.
+                </Dialog.Body>
+                <Dialog.Footer>
+                    <Dialog.CloseTrigger>
+                        <Button type="button" variant="tertiary">
+                            Avbryt
+                        </Button>
+                    </Dialog.CloseTrigger>
+                    <Dialog.CloseTrigger>
+                        <Button type="button" variant="primary" onClick={vurderPåNytt}>
+                            Ja
+                        </Button>
+                    </Dialog.CloseTrigger>
+                </Dialog.Footer>
+            </Dialog.Popup>
+        </Dialog>
     );
 }
 
