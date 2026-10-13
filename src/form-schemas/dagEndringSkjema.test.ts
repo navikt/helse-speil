@@ -70,6 +70,12 @@ describe('lagDagEndringSchema', () => {
             expect(lagDagEndringSchema(50, []).safeParse(gyldig).success).toBe(true);
         });
 
+        it('krever at annen ytelse er valgt', () => {
+            const resultat = lagDagEndringSchema(50, []).safeParse({ ...gyldig, dagtype: '' });
+
+            expect(resultat.error?.issues.map((issue) => issue.message)).toEqual(['Annen ytelse er påkrevd']);
+        });
+
         it('krever verdi i alle feltene', () => {
             const resultat = lagDagEndringSchema(50, []).safeParse({
                 ...gyldig,
@@ -81,7 +87,7 @@ describe('lagDagEndringSchema', () => {
             expect(resultat.error?.issues.map((issue) => issue.message)).toEqual([
                 'Innvilget grad er påkrevd',
                 'Grad for sykepenger er påkrevd',
-                'Grad for annen ytelse er påkrevd',
+                'Grad for Foreldrepenger er påkrevd',
             ]);
         });
 
@@ -89,7 +95,7 @@ describe('lagDagEndringSchema', () => {
             const resultat = lagDagEndringSchema(50, []).safeParse({ ...gyldig, innvigletGrad: verdi });
 
             expect(resultat.error?.issues.map((issue) => issue.message)).toEqual([
-                'Innvilget grad må være mellom 1 og 100',
+                'Innvilget grad må være mellom 1 og 100 %',
             ]);
         });
 

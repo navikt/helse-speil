@@ -29,8 +29,13 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
     const visFeilOppsummering = !formState.isValid && Object.entries(formState.errors).length > 0;
 
     return (
-        <VStack marginInline="space-32" width="640px" gap="space-32">
-            <VStack align="start" gap="space-8">
+        <VStack
+            marginInline="space-32"
+            width="640px"
+            gap="space-32"
+            style={{ width: 'auto', borderTop: '1px solid var(--ax-border-neutral-subtle)' }}
+        >
+            <VStack align="start" gap="space-8" paddingBlock="space-8">
                 <Textarea
                     id="begrunnelse"
                     label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
@@ -57,12 +62,12 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
             <HStack gap="space-8" marginBlock="space-0 space-8">
                 <Button
                     size="small"
-                    variant="secondary"
+                    variant="primary"
                     type="submit"
                     data-testid="oppdater"
                     disabled={overstyrteDager.size < 1}
                 >
-                    Ferdig ({overstyrteDager.size})
+                    Lagre
                 </Button>
                 <Button size="small" variant="tertiary" type="button" onClick={toggleOverstyring}>
                     Avbryt

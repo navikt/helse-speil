@@ -44,26 +44,32 @@ const lagGradValidering = (minimumGrad: number) => (grad: number | null, ctx: z.
     }
 };
 
+const dagtypeFeilmelding = (issue: { input?: unknown }) => (issue.input === '' ? 'Annen ytelse er påkrevd' : undefined);
+
 type GradertAnnenYtelseFelt = 'innvigletGrad' | 'sykepengerGrad' | 'gradAndreYtelser';
 
-const gradertAnnenYtelseFeltnavn: Record<GradertAnnenYtelseFelt, string> = {
+const gradertAnnenYtelseFeltnavn = (ytelse?: string) => ({
     innvigletGrad: 'Innvilget grad',
     sykepengerGrad: 'Grad for sykepenger',
-    gradAndreYtelser: 'Grad for annen ytelse',
-};
+    gradAndreYtelser: `Grad for ${ytelse}`,
+});
 
-const validerProsent = (felt: GradertAnnenYtelseFelt, verdi: number | null | undefined, ctx: z.RefinementCtx) => {
+const validerProsent = (
+    felt: GradertAnnenYtelseFelt,
+    verdi: number | null | undefined,
+    ctx: z.RefinementCtx<{ dagtype: string }>,
+) => {
     if (verdi == null) {
         ctx.addIssue({
             code: 'custom',
-            message: `${gradertAnnenYtelseFeltnavn[felt]} er påkrevd`,
+            message: `${gradertAnnenYtelseFeltnavn(ctx.value.dagtype)[felt]} er påkrevd`,
             input: verdi,
             path: [felt],
         });
     } else if (verdi < 1 || verdi > 100) {
         ctx.addIssue({
             code: 'custom',
-            message: `${gradertAnnenYtelseFeltnavn[felt]} må være mellom 1 og 100`,
+            message: `${gradertAnnenYtelseFeltnavn(ctx.value.dagtype)[felt]} må være mellom 1 og 100 %`,
             input: verdi,
             path: [felt],
         });
@@ -72,7 +78,7 @@ const validerProsent = (felt: GradertAnnenYtelseFelt, verdi: number | null | und
 
 const validerGradertAnnenYtelse = (
     felter: Partial<Record<GradertAnnenYtelseFelt, number | null>>,
-    ctx: z.RefinementCtx,
+    ctx: z.RefinementCtx<{ dagtype: string }>,
 ) => {
     validerProsent('innvigletGrad', felter.innvigletGrad, ctx);
     validerProsent('sykepengerGrad', felter.sykepengerGrad, ctx);
@@ -99,7 +105,7 @@ const gradertAnnenYtelseFelter = {
 export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetalingstabelldag[]) =>
     z
         .object({
-            dagtype: z.enum(utbetalingstabelldagtypeValues),
+            dagtype: z.enum(utbetalingstabelldagtypeValues, { error: dagtypeFeilmelding }),
             grad: z.nullable(z.number()),
             ...gradertAnnenYtelseFelter,
         })
@@ -129,7 +135,7 @@ const erMeldingTilNavtype = (dagtype: string): boolean =>
 export const lagDagEndringSelvstendigSchema = (minimumGrad: number, markerteDager: Utbetalingstabelldag[]) =>
     z
         .object({
-            dagtype: z.enum(utbetalingstabelldagtypeSelvstendigValues),
+            dagtype: z.enum(utbetalingstabelldagtypeSelvstendigValues, { error: dagtypeFeilmelding }),
             grad: z.nullable(z.number()),
             ...gradertAnnenYtelseFelter,
         })

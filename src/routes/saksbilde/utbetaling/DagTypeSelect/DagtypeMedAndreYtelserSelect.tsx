@@ -55,7 +55,7 @@ function DagtypeMedAndreYtelserSelectAktivert({
             gradAndreYtelserField.onChange(null);
             if (!kanVelgeGrad(event.target.value as Utbetalingstabelldagtype)) setValue('grad', null);
         }
-        field.onChange(isAnnenYtelse ? typeendringerAndreYtelser[0]!.speilDagtype : event.target.value);
+        field.onChange(isAnnenYtelse ? '' : event.target.value);
     };
 
     const oppdaterProsent =
@@ -64,7 +64,7 @@ function DagtypeMedAndreYtelserSelectAktivert({
             onChange(Number.isNaN(grad) ? null : grad);
         };
 
-    const arbeidsgrad = 100 - (sykepengerGradField.value ?? 0) - (gradAndreYtelserField.value ?? 0);
+    const arbeidsgrad = Math.max(0, 100 - (sykepengerGradField.value ?? 0) - (gradAndreYtelserField.value ?? 0));
     const feilmeldinger = [sykepengerGradFieldState.error?.message, gradAndreYtelserFieldState.error?.message].filter(
         (feil) => feil != undefined,
     );
@@ -75,7 +75,7 @@ function DagtypeMedAndreYtelserSelectAktivert({
                 erSelvstendig={erSelvstendig}
                 overstyringsdagtyper={overstyringsdagtyper}
                 className={className}
-                error={fieldState.error?.message}
+                error={gradererAnnenYtelse ? undefined : fieldState.error?.message}
                 hideError={hideError}
                 style={{ width: 'auto' }}
                 field={{
@@ -97,7 +97,9 @@ function DagtypeMedAndreYtelserSelectAktivert({
                         onChange={field.onChange}
                         onBlur={field.onBlur}
                         disabled={field.disabled}
+                        error={fieldState.error != undefined}
                     >
+                        <option value="">- Velg -</option>
                         {typeendringerAndreYtelser.map((dag) => (
                             <option key={dag.speilDagtype} value={dag.speilDagtype}>
                                 {dag.visningstekst}
