@@ -46,17 +46,6 @@ vi.mock('@state/serverSentEvents', async (importOriginal) => ({
     },
 }));
 
-const envMock = vi.hoisted(() => ({
-    erUtvikling: true,
-}));
-
-vi.mock('@/env', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@/env')>()),
-    get erUtvikling() {
-        return envMock.erUtvikling;
-    },
-}));
-
 const brukerrolleMock = vi.hoisted(() => ({
     erCoachFagkoordinatorEllerSupersaksbehandler: true,
 }));
@@ -238,7 +227,6 @@ const startVurdering = async () => {
 beforeEach(() => {
     mutate.mockClear();
     mutateNyAutomatisk.mockClear();
-    envMock.erUtvikling = true;
     brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = true;
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
     mockOpptjeningshistorikk([]);
@@ -311,12 +299,10 @@ describe('Opptjening', () => {
         expect(within(arbeidsvilkår()).getByText('01.01.2023 (120 dager)')).toBeVisible();
     });
 
-    it('skjuler vurder vilkår-knappen når vi ikke er i utvikling', async () => {
-        envMock.erUtvikling = false;
-
+    it('viser vurder vilkår-knappen i produksjon', async () => {
         renderOpptjening(false);
 
-        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
     });
 
     it('skjuler vurder vilkår-knappen når saksbehandler ikke er coach, fagkoordinator eller supersaksbehandler', async () => {
@@ -857,12 +843,10 @@ describe('Opptjening', () => {
             expect(vurderAutomatiskPåNyttKnapp()).toBeEnabled();
         });
 
-        it('skjules når vi ikke er i utvikling', () => {
-            envMock.erUtvikling = false;
-
+        it('vises i produksjon', () => {
             renderOpptjening(false);
 
-            expect(vurderAutomatiskPåNyttKnapp()).not.toBeInTheDocument();
+            expect(vurderAutomatiskPåNyttKnapp()).toBeVisible();
         });
 
         it('skjules når saksbehandler ikke er coach, fagkoordinator eller supersaksbehandler', () => {

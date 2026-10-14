@@ -3,7 +3,6 @@ import React, { PropsWithChildren, ReactElement, useId } from 'react';
 import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Spacer, VStack } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
 import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import {
@@ -60,7 +59,7 @@ export function OpptjeningVilkårsrad({
                     {vilkårsnavn}
                 </BodyShort>
                 <Spacer />
-                {!readOnly && erUtvikling && !erAutomatiskOppfylt && erCoachFagkoordinatorEllerSupersaksbehandler && (
+                {!readOnly && !erAutomatiskOppfylt && erCoachFagkoordinatorEllerSupersaksbehandler && (
                     <Button type="button" variant="secondary" size="small" onClick={onVurder}>
                         Vurder vilkår
                     </Button>

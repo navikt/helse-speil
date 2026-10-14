@@ -2,7 +2,6 @@ import React, { ReactElement, useId } from 'react';
 
 import { Alert, HStack, Heading, Loader, Skeleton, VStack } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
 import {
     ManueltVurderbarVilkårskode,
     manueltVurderbareVilkårskoder,
@@ -51,7 +50,7 @@ export function Opptjening({
                     Opptjeningstid
                 </Heading>
                 <EndringsloggOpptjeningButton endringer={endringer} />
-                {!readOnly && erUtvikling && erCoachFagkoordinatorEllerSupersaksbehandler && data && (
+                {!readOnly && erCoachFagkoordinatorEllerSupersaksbehandler && data && (
                     <VurderAutomatiskPåNyttKnapp
                         personPseudoId={personPseudoId}
                         skjæringstidspunkt={data.skjæringstidspunkt}
