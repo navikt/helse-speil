@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
+import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { Tag } from '@navikt/ds-react';
 
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
@@ -14,9 +14,7 @@ export function VilkårsutfallIkon({ utfall }: { utfall: Vilkårsutfall }): Reac
                 <CheckmarkCircleFillIcon title="Oppfylt" className="text-ax-text-success-decoration" fontSize="24" />
             );
         case 'IkkeOppfylt':
-            return (
-                <XMarkOctagonFillIcon title="Ikke oppfylt" className="text-ax-text-danger-decoration" fontSize="24" />
-            );
+            return <XMarkOctagonIcon title="Ikke oppfylt" className="text-ax-text-neutral" fontSize="24" />;
         case 'IkkeVurdert':
             return (
                 <ExclamationmarkTriangleFillIcon
@@ -35,7 +33,7 @@ export function VilkårsutfallTag({
     utfall: Vilkårsutfall;
 }>): ReactElement {
     return (
-        <Tag size="xsmall" variant="outline" data-color={tagfarge(utfall)}>
+        <Tag size="xsmall" variant="outline" data-color="neutral">
             {children ?? utfallstekst(utfall)}
         </Tag>
     );
@@ -64,16 +62,5 @@ export function utfallstekst(utfall: Vilkårsutfall): string {
             return 'Ikke oppfylt';
         case 'IkkeVurdert':
             return 'Ikke vurdert';
-    }
-}
-
-function tagfarge(utfall: Vilkårsutfall): 'neutral' | 'danger' | 'warning' {
-    switch (utfall) {
-        case 'Oppfylt':
-            return 'neutral';
-        case 'IkkeOppfylt':
-            return 'danger';
-        case 'IkkeVurdert':
-            return 'warning';
     }
 }

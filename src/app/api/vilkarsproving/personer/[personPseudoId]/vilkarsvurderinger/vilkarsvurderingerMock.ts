@@ -26,6 +26,11 @@ const PERSONER_MED_OPPTJENING_IKKE_VURDERT: Record<string, string> = {
     '2805594640665': '2023-03-01',
 };
 
+// streng_kaktus.json har opptjening automatisk vurdert til ikke oppfylt
+const PERSONER_MED_OPPTJENING_AUTOMATISK_AVSLÅTT: Record<string, string> = {
+    '2805594640777': '2023-03-01',
+};
+
 const tilstandPerPerson = new Map<string, Opptjeningstilstand>();
 
 export const hentVilkårsvurderinger = (personPseudoId: string): ApiVilkårsvurderingerForPersonResponse =>
@@ -99,12 +104,16 @@ export const vurderAutomatiskPåNytt = (
     request: ApiNyAutomatiskVilkårsvurderingRequest,
 ): string => {
     const { vilkårsvurderinger, opptjeningshistorikk } = hentTilstand(personPseudoId);
-    const nyVurdering = automatiskVurdering(v4(), new Date().toISOString());
+    const aktørId = PersonMock.findAktørIdForPersonPseudoId(personPseudoId);
+    const erAvslått = aktørId !== null && aktørId in PERSONER_MED_OPPTJENING_AUTOMATISK_AVSLÅTT;
+    const nyVurdering = erAvslått
+        ? automatiskAvslåttVurdering(v4(), new Date().toISOString())
+        : automatiskVurdering(v4(), new Date().toISOString());
 
     const nyttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
         id: v4(),
         kravkode: ApiKravkode.OPPTJENING,
-        opptjeningOk: true,
+        opptjeningOk: !erAvslått,
         avgjørendeVilkårskode: nyVurdering.vilkårskode,
         vurderinger: [nyVurdering],
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
@@ -140,6 +149,23 @@ function initiellTilstand(personPseudoId: string): Opptjeningstilstand {
         return {
             vilkårsvurderinger: { skjæringstidspunkt: skjæringstidspunktIkkeVurdert, krav: [] },
             opptjeningshistorikk: [],
+        };
+    }
+
+    const skjæringstidspunktAvslått = aktørId ? PERSONER_MED_OPPTJENING_AUTOMATISK_AVSLÅTT[aktørId] : undefined;
+    if (skjæringstidspunktAvslått) {
+        const vurdertTidspunkt = '2023-04-03T10:00:00.000Z';
+        const avslåttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
+            id: 'krav-avslått',
+            kravkode: ApiKravkode.OPPTJENING,
+            opptjeningOk: false,
+            avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+            vurderinger: [automatiskAvslåttVurdering('vurdering-avslått', vurdertTidspunkt)],
+            kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
+        };
+        return {
+            vilkårsvurderinger: { skjæringstidspunkt: skjæringstidspunktAvslått, krav: [avslåttKrav] },
+            opptjeningshistorikk: [{ vurdertTidspunkt, opptjeningsvurdering: avslåttKrav }],
         };
     }
 
@@ -190,6 +216,40 @@ function automatiskVurdering(id: string, vurdertTidspunkt: string): ApiVilkårsv
                     tom: '2023-12-31',
                 },
                 opptjeningsdager: 120,
+                grunnlagstype: 'ARBEIDSFORHOLD',
+            },
+            kildetype: ApiKildetype.AUTOMATISK,
+        },
+    };
+}
+
+function automatiskAvslåttVurdering(id: string, vurdertTidspunkt: string): ApiVilkårsvurdering {
+    return {
+        id,
+        vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+        utfall: ApiUtfall.IKKE_OPPFYLT,
+        vurdertTidspunkt,
+        lovreferanse: {
+            lov: 'folketrygdloven',
+            paragraf: '8-2',
+            iKraftFra: '1997-05-01',
+        },
+        kilde: {
+            versjonAvKildekode: 'v1',
+            grunnlag: {
+                arbeidsforhold: [
+                    {
+                        organisasjonsnummer: '896929119',
+                        fom: '2023-02-15',
+                        tom: null,
+                        type: 'ORDINÆRT',
+                    },
+                ],
+                opptjeningsperiode: {
+                    fom: '2023-02-15',
+                    tom: '2023-02-28',
+                },
+                opptjeningsdager: 14,
                 grunnlagstype: 'ARBEIDSFORHOLD',
             },
             kildetype: ApiKildetype.AUTOMATISK,

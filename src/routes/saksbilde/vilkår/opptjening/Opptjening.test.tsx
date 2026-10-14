@@ -387,6 +387,16 @@ describe('Opptjening', () => {
         expect(screen.getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
     });
 
+    it('forhåndsvelger ikke utfall fra eksisterende vurdering', async () => {
+        mockVilkårsvurderinger(saksbehandlerOppfyltArbeidMinst4Uker);
+
+        renderOpptjening(false);
+        await startVurdering();
+
+        expect(screen.getByRole('radio', { name: 'Oppfylt' })).not.toBeChecked();
+        expect(screen.getByRole('radio', { name: 'Ikke oppfylt' })).not.toBeChecked();
+    });
+
     it('sender dokument-id som journalpostId', async () => {
         renderOpptjening(false);
 

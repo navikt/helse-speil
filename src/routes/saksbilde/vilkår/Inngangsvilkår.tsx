@@ -111,7 +111,6 @@ export function InngangsvilkårWithContent({
                                 personPseudoId={personPseudoId}
                                 skjæringstidspunkt={skjæringstidspunkt}
                                 vilkårskode={aktivtVilkår}
-                                eksisterendeUtfall={opptjeningsvurdering.vurderingFor(aktivtVilkår)?.utfall}
                                 onOverstyrt={opptjeningsvurdering.onOverstyrt}
                                 onLukk={() => setAktivtVilkår(null)}
                             />

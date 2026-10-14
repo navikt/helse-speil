@@ -10,6 +10,10 @@ export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] 
         vedtaksperiodeId: '5decb2f6-163b-469f-b733-84d9b20eb9ce',
     },
     {
+        id: '6890',
+        vedtaksperiodeId: '61788607-2448-432f-9d8a-5991fa3047f3',
+    },
+    {
         id: '44201',
         vedtaksperiodeId: '5a494c03-a9a1-08c3-885f-aeffa447d7d2',
     },
@@ -108,6 +112,24 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
                 },
             ],
         },
+    },
+    {
+        id: '6890',
+        personPseudoId: '', // id-en injectes i syncMock
+        aktorId: '2805594640777',
+        opprettetTidspunkt: '2023-04-03T11:09:57',
+        behandlingOpprettetTidspunkt: '2022-04-19 09:48:33.10625',
+        navn: {
+            fornavn: 'STRENG',
+            mellomnavn: null,
+            etternavn: 'KAKTUS',
+        },
+        egenskaper: [
+            ApiEgenskap.FORSTEGANGSBEHANDLING,
+            ApiEgenskap.SOKNAD,
+            ApiEgenskap.UTBETALING_TIL_SYKMELDT,
+            ApiEgenskap.EN_ARBEIDSGIVER,
+        ],
     },
     {
         // En ganske urealistisk oppgave, for å kunne fremprovosere en graphql-error fra oppgavelista
