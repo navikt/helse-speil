@@ -661,6 +661,34 @@ describe('Opptjening', () => {
             expect(within(eldste!).getByText('Automatisk')).toBeVisible();
         });
 
+        it('viser vilkårsvurderingen uten vurder vilkår-knapp når raden ekspanderes', async () => {
+            mockOpptjeningshistorikk([automatiskInnslag, manuellInnslag]);
+
+            renderOpptjening(false);
+            await userEvent.click(endringsloggknapp()!);
+            const dialog = screen.getByRole('dialog');
+            await userEvent.click(within(endringsloggrader()[1]!).getByRole('button'));
+
+            const vilkårsrad = within(dialog).getByRole('listitem', { name: 'Arbeid i minst 4 uker' });
+            expect(within(vilkårsrad).getByText(/^Vurdert automatisk/)).toBeVisible();
+            expect(
+                within(dialog).queryByRole('button', { name: 'Vurder vilkår', hidden: true }),
+            ).not.toBeInTheDocument();
+        });
+
+        it('kan ikke ekspandere opptjeningsvurderinger fra Infotrygd', async () => {
+            mockOpptjeningshistorikk([
+                manuellInnslag,
+                { vurdertTidspunkt: '2020-01-01T10:00:00.000Z', opptjeningsvurdering: overførtFraInfotrygd.krav[0]! },
+            ]);
+
+            renderOpptjening(true);
+            await userEvent.click(endringsloggknapp()!);
+
+            expect(within(endringsloggrader()[0]!).getByRole('button')).toBeEnabled();
+            expect(within(endringsloggrader()[1]!).queryByRole('button')).not.toBeInTheDocument();
+        });
+
         it('viser en videreført vilkårsvurdering bare én gang', async () => {
             const videreført: ApiOpptjeningshistorikkInnslag = {
                 ...manuellInnslag,

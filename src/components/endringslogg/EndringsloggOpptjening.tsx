@@ -1,7 +1,8 @@
 import React, { ReactElement } from 'react';
 
-import { BodyShort, Dialog, Table } from '@navikt/ds-react';
+import { BodyShort, Dialog, Table, VStack } from '@navikt/ds-react';
 
+import { OpptjeningVilkårsrad } from '@saksbilde/vilkår/opptjening/OpptjeningVilkårsrad';
 import { Opptjeningsendring } from '@saksbilde/vilkår/opptjening/useOpptjeningshistorikk';
 import { utfallstekst } from '@saksbilde/vilkår/vilkårsutfall';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -22,6 +23,7 @@ export function EndringsloggOpptjening({ endringer, onOpenChange }: Endringslogg
                     <Table zebraStripes>
                         <Table.Header>
                             <Table.Row>
+                                <Table.HeaderCell />
                                 <Table.HeaderCell>Dato</Table.HeaderCell>
                                 <Table.HeaderCell>Vilkår</Table.HeaderCell>
                                 <Table.HeaderCell>Vurdering</Table.HeaderCell>
@@ -31,7 +33,24 @@ export function EndringsloggOpptjening({ endringer, onOpenChange }: Endringslogg
                         </Table.Header>
                         <Table.Body>
                             {endringer.map((endring) => (
-                                <Table.Row key={endring.id}>
+                                <Table.ExpandableRow
+                                    key={endring.id}
+                                    expansionDisabled={!endring.vurdering}
+                                    content={
+                                        endring.vurdering && (
+                                            <VStack as="ul" padding="space-0" margin="space-0">
+                                                <OpptjeningVilkårsrad
+                                                    vilkårskode={endring.vurdering.vilkårskode}
+                                                    vurdering={endring.vurdering}
+                                                    erAvgjørende={false}
+                                                    readOnly
+                                                    erAktiv={false}
+                                                    onVurder={() => {}}
+                                                />
+                                            </VStack>
+                                        )
+                                    }
+                                >
                                     <Table.DataCell>{getFormattedDatetimeString(endring.tidspunkt)}</Table.DataCell>
                                     <Table.DataCell>{endring.vilkår}</Table.DataCell>
                                     <Table.DataCell>{utfallstekst(endring.utfall)}</Table.DataCell>
@@ -39,7 +58,7 @@ export function EndringsloggOpptjening({ endringer, onOpenChange }: Endringslogg
                                         <BodyShort className="max-w-75">{endring.begrunnelse}</BodyShort>
                                     </Table.DataCell>
                                     <Table.DataCell>{endring.kilde}</Table.DataCell>
-                                </Table.Row>
+                                </Table.ExpandableRow>
                             ))}
                         </Table.Body>
                     </Table>

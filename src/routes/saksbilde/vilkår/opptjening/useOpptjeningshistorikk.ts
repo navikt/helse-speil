@@ -15,6 +15,7 @@ export interface Opptjeningsendring {
     utfall: Vilkårsutfall;
     begrunnelse?: string;
     kilde: string;
+    vurdering?: ApiVilkårsvurdering;
 }
 
 export function useOpptjeningshistorikk(
@@ -67,6 +68,7 @@ function vilkårsvurderingTilEndring(vurdering: ApiVilkårsvurdering): Opptjenin
         utfall: utfallFraApi(vurdering.utfall),
         begrunnelse: 'fritekstbegrunnelse' in vurdering.kilde ? vurdering.kilde.fritekstbegrunnelse : undefined,
         kilde: kildetekst(vurdering.kilde),
+        vurdering,
     };
 }
 
