@@ -40,7 +40,7 @@ export const AnnetArbeidsforholdoverstyringhendelse = ({
             <HistorikkSection tittel="Arbeidsgiver">
                 <Inntektsforholdnavn inntektsforholdReferanse={inntektsforholdReferanse} />
             </HistorikkSection>
-            <HistorikkSection tittel="Begrunnelse">
+            <HistorikkSection tittel="Årsak">
                 <BodyShort>{begrunnelse}</BodyShort>
             </HistorikkSection>
             <HistorikkSection tittel="Begrunnelse">
