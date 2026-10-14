@@ -252,6 +252,7 @@ const fagområdeToMalId: Record<
     [ApiFagomrade.YRKESSKADE]: 'dialogmeldingmalYrkesskade',
     [ApiFagomrade.TILBAKEDATERING]: 'dialogmeldingmalTilbakedatering',
     [ApiFagomrade.KLAGE]: 'dialogmeldingmalKlage',
+    [ApiFagomrade.REISETILSKUDD]: 'dialogmeldingmalReisetilskudd',
 };
 
 const enkeltståndeMalId: Record<EnkeltståndeType, string> = {

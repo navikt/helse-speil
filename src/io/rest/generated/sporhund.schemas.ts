@@ -13,6 +13,7 @@ export const ApiFagomrade = {
     BESTRIDELSE: 'BESTRIDELSE',
     UNNTAK_FRA_ARBEIDSGIVERANSVAR: 'UNNTAK_FRA_ARBEIDSGIVERANSVAR',
     KLAGE: 'KLAGE',
+    REISETILSKUDD: 'REISETILSKUDD',
 } as const;
 
 export interface ApiNavn {

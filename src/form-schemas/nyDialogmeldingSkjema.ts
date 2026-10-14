@@ -46,6 +46,7 @@ export const fagomradeLabels: Record<ApiFagomrade, string> = {
     [ApiFagomrade.YRKESSKADE]: 'Yrkesskade',
     [ApiFagomrade.BESTRIDELSE]: 'Bestridelse',
     [ApiFagomrade.KLAGE]: 'Klage',
+    [ApiFagomrade.REISETILSKUDD]: 'Reisetilskudd',
     [ApiFagomrade.UNNTAK_FRA_ARBEIDSGIVERANSVAR]: 'Unntak fra arbeidsgiveransvar',
 };
 
