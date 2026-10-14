@@ -1006,13 +1006,10 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         navn: 'Manglende opptjening',
         params: {
             erTildelt: false,
-            ingenAvEgenskapene: ingen(
-                ApiEgenskap.BESLUTTER,
-                ApiEgenskap.REVURDERING,
-            ),
+            ingenAvEgenskapene: ingen(ApiEgenskap.BESLUTTER, ApiEgenskap.REVURDERING),
             sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
             sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
-            tillatteVarsler: varsler('RV_OV_1'),
+            minstEttAvVarslene: varsler('RV_OV_1'),
         },
     },
 ];
