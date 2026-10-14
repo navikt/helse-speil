@@ -57,7 +57,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
                                 .some((overstyring) => overstyring.vedtaksperiodeId === periode.vedtaksperiodeId) ||
                             (periodeTilGodkjenning.id === periode.id && harTilkommenInntektEndring) ||
                             saksbehandlerhandlingerTilKontroll.some((handling) =>
-                                handling.behandlingId || handling.skjæringstidspunkt
+                                handling.behandlingId
                                     ? saksbehandlerhandlingGjelderPeriode(handling, periode)
                                     : periodeTilGodkjenning.id === periode.id,
                             ),
