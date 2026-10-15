@@ -8,6 +8,7 @@ import {
     ApiNyAutomatiskVilkårsvurderingRequest,
     ApiOpptjeningshistorikkInnslag,
     ApiOpptjeningshistorikkResponse,
+    ApiOpptjeningsvurdering,
     ApiOpptjeningsvurderingVurdertISpVilkarproving,
     ApiUtfall,
     ApiVilkårskode,
@@ -23,12 +24,42 @@ interface Opptjeningstilstand {
 
 // punktlig_jakke.json starter med opptjening ikke vurdert, så man kan teste manuell vurdering
 const PERSONER_MED_OPPTJENING_IKKE_VURDERT: Record<string, string> = {
-    '2805594640665': '2023-03-01',
+    '2805594640777': '2023-03-01',
 };
 
 // streng_kaktus.json har opptjening automatisk vurdert til ikke oppfylt
 const PERSONER_MED_OPPTJENING_AUTOMATISK_AVSLÅTT: Record<string, string> = {
-    '2805594640777': '2023-03-01',
+    '2805594640665': '2023-03-01',
+};
+
+const SEEDEDE_OPPTJENINGSVURDERINGER: Record<string, ApiOpptjeningsvurderingVurdertISpVilkarproving> = {
+    'a1f1c0de-0000-4000-8000-000000000001': manueltVurdertKrav('a1f1c0de-0000-4000-8000-000000000001', {
+        utfall: ApiUtfall.OPPFYLT,
+        vurdertTidspunkt: '2024-09-10T10:15:00.000',
+        fritekstbegrunnelse:
+            'Søker har arbeidet hos samme arbeidsgiver i 6 uker før sykmeldingen.\nBekreftet med arbeidsavtale.',
+        journalpostId: ['598373838', '598373839'],
+    }),
+    'a1f1c0de-0000-4000-8000-000000000002': manueltVurdertKrav('a1f1c0de-0000-4000-8000-000000000002', {
+        utfall: ApiUtfall.IKKE_OPPFYLT,
+        vurdertTidspunkt: '2024-07-20T09:00:00.000',
+        fritekstbegrunnelse: 'Fant ikke dokumentasjon på arbeid i perioden.',
+        journalpostId: [],
+    }),
+    'a1f1c0de-0000-4000-8000-000000000003': manueltVurdertKrav('a1f1c0de-0000-4000-8000-000000000003', {
+        utfall: ApiUtfall.OPPFYLT,
+        vurdertTidspunkt: '2024-07-10T08:30:00.000',
+        fritekstbegrunnelse: 'Arbeidsforholdet er bekreftet av arbeidsgiver.',
+        journalpostId: ['598373840'],
+    }),
+    'a1f1c0de-0000-4000-8000-000000000004': {
+        id: 'a1f1c0de-0000-4000-8000-000000000004',
+        kravkode: ApiKravkode.OPPTJENING,
+        opptjeningOk: true,
+        avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+        vurderinger: [automatiskVurdering('vurdering-seed-4', '2024-09-05T13:45:00.000')],
+        kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
+    },
 };
 
 const tilstandPerPerson = new Map<string, Opptjeningstilstand>();
@@ -43,6 +74,15 @@ export const hentOpptjeningshistorikk = (
     skjæringstidspunkt,
     historikk: hentTilstand(personPseudoId).opptjeningshistorikk,
 });
+
+export const hentOpptjeningsvurdering = (
+    personPseudoId: string,
+    opptjeningsvurderingId: string,
+): ApiOpptjeningsvurdering | undefined =>
+    hentTilstand(personPseudoId)
+        .opptjeningshistorikk.map((innslag) => innslag.opptjeningsvurdering)
+        .find((vurdering) => vurdering.id === opptjeningsvurderingId) ??
+    SEEDEDE_OPPTJENINGSVURDERINGER[opptjeningsvurderingId];
 
 export const overstyrVilkårsvurdering = (
     personPseudoId: string,
@@ -180,6 +220,34 @@ function initiellTilstand(personPseudoId: string): Opptjeningstilstand {
     return {
         vilkårsvurderinger: { skjæringstidspunkt: '2024-01-01', krav: [krav] },
         opptjeningshistorikk: [{ vurdertTidspunkt: '2024-01-02T10:00:00.000Z', opptjeningsvurdering: krav }],
+    };
+}
+
+function manueltVurdertKrav(
+    id: string,
+    vurdering: { utfall: ApiUtfall; vurdertTidspunkt: string; fritekstbegrunnelse: string; journalpostId: string[] },
+): ApiOpptjeningsvurderingVurdertISpVilkarproving {
+    return {
+        id,
+        kravkode: ApiKravkode.OPPTJENING,
+        opptjeningOk: vurdering.utfall === ApiUtfall.OPPFYLT,
+        avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+        vurderinger: [
+            {
+                id: `vurdering-${id}`,
+                vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+                utfall: vurdering.utfall,
+                vurdertTidspunkt: vurdering.vurdertTidspunkt,
+                lovreferanse: { lov: 'folketrygdloven', paragraf: '8-2', iKraftFra: '1997-05-01' },
+                kilde: {
+                    ident: 'S123456',
+                    fritekstbegrunnelse: vurdering.fritekstbegrunnelse,
+                    journalpostId: vurdering.journalpostId,
+                    kildetype: ApiKildetype.SAKSBEHANDLER,
+                },
+            },
+        ],
+        kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
 }
 

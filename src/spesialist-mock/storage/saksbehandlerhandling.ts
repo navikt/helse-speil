@@ -1,5 +1,3 @@
-import { v4 } from 'uuid';
-
 import { ApiHandlingType, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
@@ -59,13 +57,12 @@ export class SaksbehandlerhandlingMock {
 
     static leggTilHandling(
         personPseudoId: string,
-        handling: Omit<ApiSaksbehandlerhandling, 'handlingId' | 'tidspunkt' | 'saksbehandlerIdent'>,
+        handling: Omit<ApiSaksbehandlerhandling, 'tidspunkt' | 'saksbehandlerIdent'>,
     ): void {
         const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
         if (fødselsnummer === null) return;
         const nyHandling: ApiSaksbehandlerhandling = {
             ...handling,
-            handlingId: v4(),
             saksbehandlerIdent: 'S123456',
             tidspunkt: new Date().toISOString(),
         };

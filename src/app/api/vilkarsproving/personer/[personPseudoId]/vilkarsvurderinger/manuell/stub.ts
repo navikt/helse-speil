@@ -13,11 +13,11 @@ export const stub = async (request: NextRequest, params: Promise<{ personPseudoI
     const { personPseudoId } = await params;
     const body: ApiManuellVilkårsvurderingRequest = await request.json();
 
-    const response: ApiManuellVilkårsvurderingResponse = {
-        opptjeningsvurderingId: overstyrVilkårsvurdering(personPseudoId, body),
-    };
+    const opptjeningsvurderingId = overstyrVilkårsvurdering(personPseudoId, body);
+    const response: ApiManuellVilkårsvurderingResponse = { opptjeningsvurderingId };
 
     SaksbehandlerhandlingMock.leggTilHandling(personPseudoId, {
+        handlingId: opptjeningsvurderingId,
         handlingType: ApiHandlingType.MANUELT_VURDERT_OPPTJENING,
         skjæringstidspunkt: body.skjæringstidspunkt,
         behandlingId: null,

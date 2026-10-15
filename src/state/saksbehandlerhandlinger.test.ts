@@ -1,5 +1,21 @@
 import { ApiHandlingType, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
-import { saksbehandlerhandlingGjelderPeriode, tilSaksbehandlerhandlingTekst } from '@state/saksbehandlerhandlinger';
+import {
+    saksbehandlerhandlingGjelderPeriode,
+    tilSaksbehandlerhandlingTekst,
+    tilVisningUrl,
+} from '@state/saksbehandlerhandlinger';
+
+describe('tilVisningUrl', () => {
+    test('manuell vurdering av opptjening hentes fra sp-vilkarsproving', () => {
+        expect(tilVisningUrl(ApiHandlingType.MANUELT_VURDERT_OPPTJENING, 'person-1', 'handling-1')).toBe(
+            '/api/vilkarsproving/personer/person-1/saksbehandlerhandlinger/handling-1/visning',
+        );
+    });
+
+    test('ny automatisk vurdering av opptjening har ingen detaljer', () => {
+        expect(tilVisningUrl(ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING, 'person-1', 'handling-1')).toBeNull();
+    });
+});
 
 describe('saksbehandlerhandlingGjelderPeriode', () => {
     const periode = { behandlingId: 'behandling-1', skjaeringstidspunkt: '2024-01-01' };
