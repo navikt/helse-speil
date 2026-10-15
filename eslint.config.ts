@@ -12,6 +12,7 @@ const eslintConfig = defineConfig([
     {
         ignores: [
             'src/io/graphql/generated/graphql.ts',
+            'src/io/graphql/generated/schema.ts',
             'src/io/rest/generated/**',
             'src/io/sanity/generated/**',
             'src/spesialist-mock/schemaTypes.ts',
