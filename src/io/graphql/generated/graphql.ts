@@ -1,1097 +1,11 @@
 import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/core';
 
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
+import type * as Types from './schema';
+
+/** Internal type. DO NOT USE DIRECTLY. */
+type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
+/** Internal type. DO NOT USE DIRECTLY. */
 export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
-/** All built-in and custom scalars, mapped to their actual values */
-export type Scalars = {
-    ID: { input: string; output: string };
-    String: { input: string; output: string };
-    Boolean: { input: boolean; output: boolean };
-    Int: { input: number; output: number };
-    Float: { input: number; output: number };
-    BigDecimal: { input: string; output: string };
-    LocalDate: { input: string; output: string };
-    LocalDateTime: { input: string; output: string };
-    UUID: { input: string; output: string };
-    YearMonth: { input: string; output: string };
-};
-
-export enum Adressebeskyttelse {
-    Fortrolig = 'Fortrolig',
-    StrengtFortrolig = 'StrengtFortrolig',
-    StrengtFortroligUtland = 'StrengtFortroligUtland',
-    Ugradert = 'Ugradert',
-    Ukjent = 'Ukjent',
-}
-
-export type Alder = {
-    __typename: 'Alder';
-    alderSisteSykedag: Scalars['Int']['output'];
-    oppfylt: Scalars['Boolean']['output'];
-};
-
-export type AnnetFodselsnummer = {
-    __typename: 'AnnetFodselsnummer';
-    fodselsnummer: Scalars['String']['output'];
-    personPseudoId: Scalars['UUID']['output'];
-};
-
-export type Annullering = {
-    __typename: 'Annullering';
-    arbeidsgiverFagsystemId: Maybe<Scalars['String']['output']>;
-    arsaker: Array<Scalars['String']['output']>;
-    begrunnelse: Maybe<Scalars['String']['output']>;
-    personFagsystemId: Maybe<Scalars['String']['output']>;
-    saksbehandlerIdent: Scalars['String']['output'];
-    tidspunkt: Scalars['LocalDateTime']['output'];
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type Annulleringskandidat = {
-    __typename: 'Annulleringskandidat';
-    fom: Scalars['LocalDate']['output'];
-    organisasjonsnummer: Scalars['String']['output'];
-    tom: Scalars['LocalDate']['output'];
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type Arbeidsforhold = {
-    __typename: 'Arbeidsforhold';
-    sluttdato: Maybe<Scalars['LocalDate']['output']>;
-    startdato: Scalars['LocalDate']['output'];
-    stillingsprosent: Scalars['Int']['output'];
-    stillingstittel: Scalars['String']['output'];
-};
-
-export type Arbeidsforholdoverstyring = Overstyring & {
-    __typename: 'Arbeidsforholdoverstyring';
-    begrunnelse: Scalars['String']['output'];
-    deaktivert: Scalars['Boolean']['output'];
-    ferdigstilt: Scalars['Boolean']['output'];
-    forklaring: Scalars['String']['output'];
-    hendelseId: Scalars['UUID']['output'];
-    saksbehandler: Saksbehandler;
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    timestamp: Scalars['LocalDateTime']['output'];
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type Arbeidsgiver = {
-    __typename: 'Arbeidsgiver';
-    arbeidsforhold: Array<Arbeidsforhold>;
-    behandlinger: Array<Behandling>;
-    ghostPerioder: Array<GhostPeriode>;
-    inntekterFraAordningen: Array<ArbeidsgiverInntekterFraAOrdningen>;
-    navn: Scalars['String']['output'];
-    organisasjonsnummer: Scalars['String']['output'];
-    overstyringer: Array<Overstyring>;
-};
-
-export type ArbeidsgiverInntekterFraAOrdningen = {
-    __typename: 'ArbeidsgiverInntekterFraAOrdningen';
-    inntekter: Array<InntektFraAOrdningen>;
-    skjaeringstidspunkt: Scalars['String']['output'];
-};
-
-export type Arbeidsgiverinntekt = {
-    __typename: 'Arbeidsgiverinntekt';
-    arbeidsgiver: Scalars['String']['output'];
-    deaktivert: Maybe<Scalars['Boolean']['output']>;
-    fom: Maybe<Scalars['LocalDate']['output']>;
-    omregnetArsinntekt: Maybe<OmregnetArsinntekt>;
-    sammenligningsgrunnlag: Maybe<Sammenligningsgrunnlag>;
-    skjonnsmessigFastsatt: Maybe<OmregnetArsinntekt>;
-    tom: Maybe<Scalars['LocalDate']['output']>;
-};
-
-export type Arbeidsgiverrefusjon = {
-    __typename: 'Arbeidsgiverrefusjon';
-    arbeidsgiver: Scalars['String']['output'];
-    refusjonsopplysninger: Array<Refusjonselement>;
-};
-
-export type Avslag = {
-    __typename: 'Avslag';
-    begrunnelse: Scalars['String']['output'];
-    invalidert: Scalars['Boolean']['output'];
-    opprettet: Scalars['LocalDateTime']['output'];
-    saksbehandlerIdent: Scalars['String']['output'];
-    type: Avslagstype;
-};
-
-export enum Avslagstype {
-    Avslag = 'AVSLAG',
-    DelvisAvslag = 'DELVIS_AVSLAG',
-}
-
-export enum Begrunnelse {
-    Andreytelser = 'ANDREYTELSER',
-    AvslattMeldingTilNavDag = 'AVSLATT_MELDING_TIL_NAV_DAG',
-    EgenmeldingUtenforArbeidsgiverperiode = 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE',
-    EtterDodsdato = 'ETTER_DODSDATO',
-    ManglerMedlemskap = 'MANGLER_MEDLEMSKAP',
-    ManglerOpptjening = 'MANGLER_OPPTJENING',
-    MeldingTilNavDagUtenforVentetid = 'MELDING_TIL_NAV_DAG_UTENFOR_VENTETID',
-    MinimumInntekt = 'MINIMUM_INNTEKT',
-    MinimumInntektOver_67 = 'MINIMUM_INNTEKT_OVER_67',
-    MinimumSykdomsgrad = 'MINIMUM_SYKDOMSGRAD',
-    Over_70 = 'OVER_70',
-    SykepengedagerOppbrukt = 'SYKEPENGEDAGER_OPPBRUKT',
-    SykepengedagerOppbruktOver_67 = 'SYKEPENGEDAGER_OPPBRUKT_OVER_67',
-    Ukjent = 'UKJENT',
-}
-
-export type Behandling = {
-    __typename: 'Behandling';
-    id: Scalars['UUID']['output'];
-    perioder: Array<Periode>;
-};
-
-export type BeregnetPeriode = Periode & {
-    __typename: 'BeregnetPeriode';
-    annullering: Maybe<Annullering>;
-    annulleringskandidater: Array<Annulleringskandidat>;
-    avslag: Array<Avslag>;
-    behandlingId: Scalars['UUID']['output'];
-    egenskaper: Array<Oppgaveegenskap>;
-    erForkastet: Scalars['Boolean']['output'];
-    fom: Scalars['LocalDate']['output'];
-    forbrukteSykedager: Maybe<Scalars['Int']['output']>;
-    gjenstaendeSykedager: Maybe<Scalars['Int']['output']>;
-    handlinger: Array<Handling>;
-    hendelser: Array<Hendelse>;
-    historikkinnslag: Array<Historikkinnslag>;
-    id: Scalars['UUID']['output'];
-    inntektstype: Inntektstype;
-    maksdato: Scalars['LocalDate']['output'];
-    oppgave: Maybe<OppgaveForPeriodevisning>;
-    opprettet: Scalars['LocalDateTime']['output'];
-    paVent: Maybe<PaVent>;
-    pensjonsgivendeInntekter: Array<PensjonsgivendeInntekt>;
-    periodetilstand: Periodetilstand;
-    periodetype: Periodetype;
-    periodevilkar: Periodevilkar;
-    risikovurdering: Maybe<Risikovurdering>;
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    tidslinje: Array<Dag>;
-    tom: Scalars['LocalDate']['output'];
-    totrinnsvurdering: Maybe<Totrinnsvurdering>;
-    utbetaling: Utbetaling;
-    varsler: Array<VarselDto>;
-    vedtakBegrunnelser: Array<VedtakBegrunnelse>;
-    vedtaksperiodeId: Scalars['UUID']['output'];
-    vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
-};
-
-export type Dag = {
-    __typename: 'Dag';
-    begrunnelser: Maybe<Array<Begrunnelse>>;
-    dato: Scalars['LocalDate']['output'];
-    grad: Maybe<Scalars['Float']['output']>;
-    kilde: Kilde;
-    sykdomsdagtype: Sykdomsdagtype;
-    utbetalingsdagtype: Utbetalingsdagtype;
-    utbetalingsinfo: Maybe<Utbetalingsinfo>;
-};
-
-export type Dagoverstyring = Overstyring & {
-    __typename: 'Dagoverstyring';
-    begrunnelse: Scalars['String']['output'];
-    dager: Array<OverstyrtDag>;
-    ferdigstilt: Scalars['Boolean']['output'];
-    hendelseId: Scalars['UUID']['output'];
-    saksbehandler: Saksbehandler;
-    timestamp: Scalars['LocalDateTime']['output'];
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export enum Dagtype {
-    AaPdag = 'AAPdag',
-    ArbeidIkkeGjenopptattDag = 'ArbeidIkkeGjenopptattDag',
-    Arbeidsdag = 'Arbeidsdag',
-    AvslattMeldingTilNavdag = 'AvslattMeldingTilNavdag',
-    Avvistdag = 'Avvistdag',
-    Dagpengerdag = 'Dagpengerdag',
-    Egenmeldingsdag = 'Egenmeldingsdag',
-    Feriedag = 'Feriedag',
-    Foreldrepengerdag = 'Foreldrepengerdag',
-    Helg = 'Helg',
-    MeldingTilNavdag = 'MeldingTilNavdag',
-    Omsorgspengerdag = 'Omsorgspengerdag',
-    Opplaringspengerdag = 'Opplaringspengerdag',
-    Permisjonsdag = 'Permisjonsdag',
-    Pleiepengerdag = 'Pleiepengerdag',
-    Svangerskapspengerdag = 'Svangerskapspengerdag',
-    Sykedag = 'Sykedag',
-    SykedagNav = 'SykedagNav',
-}
-
-export enum Egenskap {
-    Arbeidstaker = 'ARBEIDSTAKER',
-    Beslutter = 'BESLUTTER',
-    DelvisRefusjon = 'DELVIS_REFUSJON',
-    EgenAnsatt = 'EGEN_ANSATT',
-    EnArbeidsgiver = 'EN_ARBEIDSGIVER',
-    FlereArbeidsgivere = 'FLERE_ARBEIDSGIVERE',
-    Forlengelse = 'FORLENGELSE',
-    Forsikring = 'FORSIKRING',
-    Forstegangsbehandling = 'FORSTEGANGSBEHANDLING',
-    FortroligAdresse = 'FORTROLIG_ADRESSE',
-    Gosys = 'GOSYS',
-    Grunnbelopsregulering = 'GRUNNBELOPSREGULERING',
-    Haster = 'HASTER',
-    Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
-    IngenUtbetaling = 'INGEN_UTBETALING',
-    JordbrukerReindrift = 'JORDBRUKER_REINDRIFT',
-    ManglerIm = 'MANGLER_IM',
-    Medlemskap = 'MEDLEMSKAP',
-    OvergangFraIt = 'OVERGANG_FRA_IT',
-    PaVent = 'PA_VENT',
-    Retur = 'RETUR',
-    Revurdering = 'REVURDERING',
-    RiskQa = 'RISK_QA',
-    SelvstendigNaeringsdrivende = 'SELVSTENDIG_NAERINGSDRIVENDE',
-    Skjonnsfastsettelse = 'SKJONNSFASTSETTELSE',
-    Soknad = 'SOKNAD',
-    Spesialsak = 'SPESIALSAK',
-    Stikkprove = 'STIKKPROVE',
-    StrengtFortroligAdresse = 'STRENGT_FORTROLIG_ADRESSE',
-    Tilbakedatert = 'TILBAKEDATERT',
-    UtbetalingTilArbeidsgiver = 'UTBETALING_TIL_ARBEIDSGIVER',
-    UtbetalingTilSykmeldt = 'UTBETALING_TIL_SYKMELDT',
-    Utland = 'UTLAND',
-    Vergemal = 'VERGEMAL',
-}
-
-export type EndrePaVent = Historikkinnslag & {
-    __typename: 'EndrePaVent';
-    arsaker: Array<Scalars['String']['output']>;
-    dialogRef: Maybe<Scalars['Int']['output']>;
-    frist: Maybe<Scalars['LocalDate']['output']>;
-    id: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    notattekst: Maybe<Scalars['String']['output']>;
-    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
-};
-
-export type Faresignal = {
-    __typename: 'Faresignal';
-    beskrivelse: Scalars['String']['output'];
-    kategori: Array<Scalars['String']['output']>;
-};
-
-export type FjernetFraPaVent = Historikkinnslag & {
-    __typename: 'FjernetFraPaVent';
-    dialogRef: Maybe<Scalars['Int']['output']>;
-    id: Scalars['Int']['output'];
-    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
-};
-
-export type GhostPeriode = {
-    __typename: 'GhostPeriode';
-    deaktivert: Scalars['Boolean']['output'];
-    fom: Scalars['LocalDate']['output'];
-    id: Scalars['String']['output'];
-    organisasjonsnummer: Scalars['String']['output'];
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    tom: Scalars['LocalDate']['output'];
-    vilkarsgrunnlagId: Maybe<Scalars['UUID']['output']>;
-};
-
-export type Handling = {
-    __typename: 'Handling';
-    begrunnelse: Maybe<Scalars['String']['output']>;
-    tillatt: Scalars['Boolean']['output'];
-    type: Periodehandling;
-};
-
-export type Hendelse = {
-    id: Scalars['UUID']['output'];
-    type: Hendelsetype;
-};
-
-export enum Hendelsetype {
-    Inntektsmelding = 'INNTEKTSMELDING',
-    InntektHentetFraAordningen = 'INNTEKT_HENTET_FRA_AORDNINGEN',
-    NySoknad = 'NY_SOKNAD',
-    SendtSoknadArbeidsgiver = 'SENDT_SOKNAD_ARBEIDSGIVER',
-    SendtSoknadArbeidsledig = 'SENDT_SOKNAD_ARBEIDSLEDIG',
-    SendtSoknadFrilans = 'SENDT_SOKNAD_FRILANS',
-    SendtSoknadNav = 'SENDT_SOKNAD_NAV',
-    SendtSoknadSelvstendig = 'SENDT_SOKNAD_SELVSTENDIG',
-    Ukjent = 'UKJENT',
-}
-
-export type Historikkinnslag = {
-    dialogRef: Maybe<Scalars['Int']['output']>;
-    id: Scalars['Int']['output'];
-    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
-};
-
-export type InntektFraAOrdningen = {
-    __typename: 'InntektFraAOrdningen';
-    maned: Scalars['YearMonth']['output'];
-    sum: Scalars['Float']['output'];
-};
-
-export type InntektHentetFraAOrdningen = Hendelse & {
-    __typename: 'InntektHentetFraAOrdningen';
-    id: Scalars['UUID']['output'];
-    mottattDato: Scalars['LocalDateTime']['output'];
-    type: Hendelsetype;
-};
-
-export type Inntektoverstyring = Overstyring & {
-    __typename: 'Inntektoverstyring';
-    ferdigstilt: Scalars['Boolean']['output'];
-    hendelseId: Scalars['UUID']['output'];
-    inntekt: OverstyrtInntekt;
-    saksbehandler: Saksbehandler;
-    timestamp: Scalars['LocalDateTime']['output'];
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export enum Inntektskilde {
-    Aordningen = 'AORDNINGEN',
-    IkkeRapportert = 'IKKE_RAPPORTERT',
-    Infotrygd = 'INFOTRYGD',
-    Inntektsmelding = 'INNTEKTSMELDING',
-    Saksbehandler = 'SAKSBEHANDLER',
-    SkjonnsmessigFastsatt = 'SKJONNSMESSIG_FASTSATT',
-}
-
-export type Inntektsmelding = Hendelse & {
-    __typename: 'Inntektsmelding';
-    beregnetInntekt: Scalars['Float']['output'];
-    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
-    id: Scalars['UUID']['output'];
-    mottattDato: Scalars['LocalDateTime']['output'];
-    type: Hendelsetype;
-};
-
-export enum Inntektstype {
-    Enarbeidsgiver = 'ENARBEIDSGIVER',
-    Flerearbeidsgivere = 'FLEREARBEIDSGIVERE',
-}
-
-export enum Kategori {
-    Arbeidssituasjon = 'Arbeidssituasjon',
-    Inntektsforhold = 'Inntektsforhold',
-    Inntektskilde = 'Inntektskilde',
-    Mottaker = 'Mottaker',
-    Oppgavetype = 'Oppgavetype',
-    Periodetype = 'Periodetype',
-    Status = 'Status',
-    Ukategorisert = 'Ukategorisert',
-}
-
-export type Kilde = {
-    __typename: 'Kilde';
-    id: Scalars['UUID']['output'];
-    type: Kildetype;
-};
-
-export enum Kildetype {
-    Inntektsmelding = 'INNTEKTSMELDING',
-    Saksbehandler = 'SAKSBEHANDLER',
-    Soknad = 'SOKNAD',
-    Sykmelding = 'SYKMELDING',
-    Ukjent = 'UKJENT',
-}
-
-export enum Kjonn {
-    Kvinne = 'Kvinne',
-    Mann = 'Mann',
-    Ukjent = 'Ukjent',
-}
-
-export type Kommentar = {
-    __typename: 'Kommentar';
-    feilregistrert_tidspunkt: Maybe<Scalars['LocalDateTime']['output']>;
-    id: Scalars['Int']['output'];
-    opprettet: Scalars['LocalDateTime']['output'];
-    saksbehandlerident: Scalars['String']['output'];
-    tekst: Scalars['String']['output'];
-};
-
-export type LagtPaVent = Historikkinnslag & {
-    __typename: 'LagtPaVent';
-    arsaker: Array<Scalars['String']['output']>;
-    dialogRef: Maybe<Scalars['Int']['output']>;
-    frist: Maybe<Scalars['LocalDate']['output']>;
-    id: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    notattekst: Maybe<Scalars['String']['output']>;
-    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
-};
-
-export type MinimumSykdomsgradOverstyring = Overstyring & {
-    __typename: 'MinimumSykdomsgradOverstyring';
-    ferdigstilt: Scalars['Boolean']['output'];
-    hendelseId: Scalars['UUID']['output'];
-    minimumSykdomsgrad: OverstyrtMinimumSykdomsgrad;
-    saksbehandler: Saksbehandler;
-    timestamp: Scalars['LocalDateTime']['output'];
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type OmregnetArsinntekt = {
-    __typename: 'OmregnetArsinntekt';
-    belop: Scalars['Float']['output'];
-    inntektFraAOrdningen: Maybe<Array<InntektFraAOrdningen>>;
-    kilde: Inntektskilde;
-    manedsbelop: Scalars['Float']['output'];
-};
-
-export type OppgaveForPeriodevisning = {
-    __typename: 'OppgaveForPeriodevisning';
-    id: Scalars['String']['output'];
-};
-
-export type Oppgaveegenskap = {
-    __typename: 'Oppgaveegenskap';
-    egenskap: Egenskap;
-    kategori: Kategori;
-};
-
-export type OpphevStansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
-    __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
-    dialogRef: Maybe<Scalars['Int']['output']>;
-    id: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    notattekst: Maybe<Scalars['String']['output']>;
-    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
-};
-
-export type Overstyring = {
-    ferdigstilt: Scalars['Boolean']['output'];
-    hendelseId: Scalars['UUID']['output'];
-    saksbehandler: Saksbehandler;
-    timestamp: Scalars['LocalDateTime']['output'];
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type OverstyrtDag = {
-    __typename: 'OverstyrtDag';
-    dato: Scalars['LocalDate']['output'];
-    fraGrad: Maybe<Scalars['Int']['output']>;
-    fraType: Maybe<Dagtype>;
-    grad: Maybe<Scalars['Int']['output']>;
-    type: Dagtype;
-};
-
-export type OverstyrtInntekt = {
-    __typename: 'OverstyrtInntekt';
-    begrunnelse: Scalars['String']['output'];
-    forklaring: Scalars['String']['output'];
-    fraManedligInntekt: Maybe<Scalars['Float']['output']>;
-    fraRefusjonsopplysninger: Maybe<Array<Refusjonsopplysning>>;
-    manedligInntekt: Scalars['Float']['output'];
-    refusjonsopplysninger: Maybe<Array<Refusjonsopplysning>>;
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-};
-
-export type OverstyrtMinimumSykdomsgrad = {
-    __typename: 'OverstyrtMinimumSykdomsgrad';
-    begrunnelse: Scalars['String']['output'];
-    /** @deprecated Bruk vedtaksperiodeId i stedet */
-    initierendeVedtaksperiodeId: Scalars['UUID']['output'];
-    perioderVurdertIkkeOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
-    perioderVurdertOk: Array<OverstyrtMinimumSykdomsgradPeriode>;
-};
-
-export type OverstyrtMinimumSykdomsgradPeriode = {
-    __typename: 'OverstyrtMinimumSykdomsgradPeriode';
-    fom: Scalars['LocalDate']['output'];
-    tom: Scalars['LocalDate']['output'];
-};
-
-export type PaVent = {
-    __typename: 'PaVent';
-    frist: Maybe<Scalars['LocalDate']['output']>;
-    oid: Scalars['UUID']['output'];
-};
-
-export type PensjonsgivendeInntekt = {
-    __typename: 'PensjonsgivendeInntekt';
-    arligBelop: Scalars['BigDecimal']['output'];
-    inntektsar: Scalars['Int']['output'];
-};
-
-export type Periode = {
-    behandlingId: Scalars['UUID']['output'];
-    erForkastet: Scalars['Boolean']['output'];
-    fom: Scalars['LocalDate']['output'];
-    hendelser: Array<Hendelse>;
-    historikkinnslag: Array<Historikkinnslag>;
-    id: Scalars['UUID']['output'];
-    inntektstype: Inntektstype;
-    opprettet: Scalars['LocalDateTime']['output'];
-    periodetilstand: Periodetilstand;
-    periodetype: Periodetype;
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    tidslinje: Array<Dag>;
-    tom: Scalars['LocalDate']['output'];
-    varsler: Array<VarselDto>;
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type PeriodeHistorikkElementNy = Historikkinnslag & {
-    __typename: 'PeriodeHistorikkElementNy';
-    dialogRef: Maybe<Scalars['Int']['output']>;
-    id: Scalars['Int']['output'];
-    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
-};
-
-export enum Periodehandling {
-    Avvise = 'AVVISE',
-    Utbetale = 'UTBETALE',
-}
-
-export enum PeriodehistorikkType {
-    EndrePaVent = 'ENDRE_PA_VENT',
-    FjernFraPaVent = 'FJERN_FRA_PA_VENT',
-    LeggPaVent = 'LEGG_PA_VENT',
-    OpphevStansAutomatiskBehandlingSaksbehandler = 'OPPHEV_STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER',
-    StansAutomatiskBehandling = 'STANS_AUTOMATISK_BEHANDLING',
-    StansAutomatiskBehandlingSaksbehandler = 'STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER',
-    TotrinnsvurderingAttestert = 'TOTRINNSVURDERING_ATTESTERT',
-    TotrinnsvurderingRetur = 'TOTRINNSVURDERING_RETUR',
-    TotrinnsvurderingTilGodkjenning = 'TOTRINNSVURDERING_TIL_GODKJENNING',
-    VedtaksperiodeReberegnet = 'VEDTAKSPERIODE_REBEREGNET',
-}
-
-export enum Periodetilstand {
-    AnnulleringFeilet = 'AnnulleringFeilet',
-    Annullert = 'Annullert',
-    AvventerAnnullering = 'AvventerAnnullering',
-    AvventerInntektsopplysninger = 'AvventerInntektsopplysninger',
-    ForberederGodkjenning = 'ForberederGodkjenning',
-    IngenUtbetaling = 'IngenUtbetaling',
-    ManglerInformasjon = 'ManglerInformasjon',
-    RevurderingFeilet = 'RevurderingFeilet',
-    TilAnnullering = 'TilAnnullering',
-    TilGodkjenning = 'TilGodkjenning',
-    TilInfotrygd = 'TilInfotrygd',
-    TilSkjonnsfastsettelse = 'TilSkjonnsfastsettelse',
-    TilUtbetaling = 'TilUtbetaling',
-    Ukjent = 'Ukjent',
-    UtbetalingFeilet = 'UtbetalingFeilet',
-    Utbetalt = 'Utbetalt',
-    UtbetaltVenterPaEnAnnenPeriode = 'UtbetaltVenterPaEnAnnenPeriode',
-    VenterPaEnAnnenPeriode = 'VenterPaEnAnnenPeriode',
-}
-
-export enum Periodetype {
-    Forlengelse = 'FORLENGELSE',
-    Forstegangsbehandling = 'FORSTEGANGSBEHANDLING',
-    Infotrygdforlengelse = 'INFOTRYGDFORLENGELSE',
-    OvergangFraIt = 'OVERGANG_FRA_IT',
-}
-
-export type Periodevilkar = {
-    __typename: 'Periodevilkar';
-    alder: Alder;
-    sykepengedager: Sykepengedager;
-};
-
-export type Person = {
-    __typename: 'Person';
-    aktorId: Scalars['String']['output'];
-    andreFodselsnummer: Array<AnnetFodselsnummer>;
-    arbeidsgivere: Array<Arbeidsgiver>;
-    dodsdato: Maybe<Scalars['LocalDate']['output']>;
-    fodselsnummer: Scalars['String']['output'];
-    personinfo: Personinfo;
-    selvstendigNaering: Maybe<SelvstendigNaering>;
-    tildeling: Maybe<Tildeling>;
-    tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
-    vilkarsgrunnlagV2: Array<VilkarsgrunnlagV2>;
-};
-
-export type Personinfo = {
-    __typename: 'Personinfo';
-    adressebeskyttelse: Adressebeskyttelse;
-    etternavn: Scalars['String']['output'];
-    fodselsdato: Scalars['LocalDate']['output'];
-    fornavn: Scalars['String']['output'];
-    fullmakt: Maybe<Scalars['Boolean']['output']>;
-    kjonn: Kjonn;
-    mellomnavn: Maybe<Scalars['String']['output']>;
-};
-
-export type Query = {
-    __typename: 'Query';
-    person: Maybe<Person>;
-};
-
-export type QueryPersonArgs = {
-    personPseudoId: Scalars['String']['input'];
-};
-
-export type Refusjonselement = {
-    __typename: 'Refusjonselement';
-    belop: Scalars['Float']['output'];
-    fom: Scalars['LocalDate']['output'];
-    meldingsreferanseId: Scalars['UUID']['output'];
-    tom: Maybe<Scalars['LocalDate']['output']>;
-};
-
-export type Refusjonsopplysning = {
-    __typename: 'Refusjonsopplysning';
-    belop: Scalars['Float']['output'];
-    fom: Scalars['LocalDate']['output'];
-    tom: Maybe<Scalars['LocalDate']['output']>;
-};
-
-export type Risikovurdering = {
-    __typename: 'Risikovurdering';
-    funn: Maybe<Array<Faresignal>>;
-    kontrollertOk: Array<Faresignal>;
-};
-
-export type Saksbehandler = {
-    __typename: 'Saksbehandler';
-    ident: Maybe<Scalars['String']['output']>;
-    navn: Scalars['String']['output'];
-};
-
-export type Sammenligningsgrunnlag = {
-    __typename: 'Sammenligningsgrunnlag';
-    belop: Scalars['Float']['output'];
-    inntektFraAOrdningen: Array<InntektFraAOrdningen>;
-};
-
-export type SelvstendigNaering = {
-    __typename: 'SelvstendigNaering';
-    behandlinger: Array<Behandling>;
-    overstyringer: Array<Overstyring>;
-};
-
-export type Simulering = {
-    __typename: 'Simulering';
-    fagsystemId: Scalars['String']['output'];
-    perioder: Maybe<Array<Simuleringsperiode>>;
-    tidsstempel: Scalars['LocalDateTime']['output'];
-    totalbelop: Maybe<Scalars['Int']['output']>;
-    utbetalingslinjer: Array<Simuleringslinje>;
-};
-
-export type Simuleringsdetaljer = {
-    __typename: 'Simuleringsdetaljer';
-    antallSats: Scalars['Int']['output'];
-    belop: Scalars['Int']['output'];
-    fom: Scalars['LocalDate']['output'];
-    klassekode: Scalars['String']['output'];
-    klassekodebeskrivelse: Scalars['String']['output'];
-    konto: Scalars['String']['output'];
-    refunderesOrgNr: Scalars['String']['output'];
-    sats: Scalars['Float']['output'];
-    tilbakeforing: Scalars['Boolean']['output'];
-    tom: Scalars['LocalDate']['output'];
-    typeSats: Scalars['String']['output'];
-    uforegrad: Scalars['Int']['output'];
-    utbetalingstype: Scalars['String']['output'];
-};
-
-export type Simuleringslinje = {
-    __typename: 'Simuleringslinje';
-    dagsats: Scalars['Int']['output'];
-    fom: Scalars['LocalDate']['output'];
-    grad: Scalars['Int']['output'];
-    tom: Scalars['LocalDate']['output'];
-};
-
-export type Simuleringsperiode = {
-    __typename: 'Simuleringsperiode';
-    fom: Scalars['LocalDate']['output'];
-    tom: Scalars['LocalDate']['output'];
-    utbetalinger: Array<Simuleringsutbetaling>;
-};
-
-export type Simuleringsutbetaling = {
-    __typename: 'Simuleringsutbetaling';
-    detaljer: Array<Simuleringsdetaljer>;
-    feilkonto: Scalars['Boolean']['output'];
-    forfall: Scalars['LocalDate']['output'];
-    mottakerId: Scalars['String']['output'];
-    mottakerNavn: Scalars['String']['output'];
-};
-
-export type SkjonnsfastsattSykepengegrunnlag = {
-    __typename: 'SkjonnsfastsattSykepengegrunnlag';
-    arlig: Scalars['Float']['output'];
-    arsak: Scalars['String']['output'];
-    begrunnelse: Maybe<Scalars['String']['output']>;
-    begrunnelseFritekst: Maybe<Scalars['String']['output']>;
-    begrunnelseKonklusjon: Maybe<Scalars['String']['output']>;
-    begrunnelseMal: Maybe<Scalars['String']['output']>;
-    fraArlig: Maybe<Scalars['Float']['output']>;
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    type: Maybe<Skjonnsfastsettingstype>;
-};
-
-export enum Skjonnsfastsettingstype {
-    Annet = 'ANNET',
-    OmregnetArsinntekt = 'OMREGNET_ARSINNTEKT',
-    RapportertArsinntekt = 'RAPPORTERT_ARSINNTEKT',
-}
-
-export type SoknadArbeidsgiver = Hendelse & {
-    __typename: 'SoknadArbeidsgiver';
-    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
-    fom: Scalars['LocalDate']['output'];
-    id: Scalars['UUID']['output'];
-    rapportertDato: Scalars['LocalDateTime']['output'];
-    sendtArbeidsgiver: Scalars['LocalDateTime']['output'];
-    tom: Scalars['LocalDate']['output'];
-    type: Hendelsetype;
-};
-
-export type SoknadArbeidsledig = Hendelse & {
-    __typename: 'SoknadArbeidsledig';
-    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
-    fom: Scalars['LocalDate']['output'];
-    id: Scalars['UUID']['output'];
-    rapportertDato: Scalars['LocalDateTime']['output'];
-    sendtNav: Scalars['LocalDateTime']['output'];
-    tom: Scalars['LocalDate']['output'];
-    type: Hendelsetype;
-};
-
-export type SoknadFrilans = Hendelse & {
-    __typename: 'SoknadFrilans';
-    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
-    fom: Scalars['LocalDate']['output'];
-    id: Scalars['UUID']['output'];
-    rapportertDato: Scalars['LocalDateTime']['output'];
-    sendtNav: Scalars['LocalDateTime']['output'];
-    tom: Scalars['LocalDate']['output'];
-    type: Hendelsetype;
-};
-
-export type SoknadNav = Hendelse & {
-    __typename: 'SoknadNav';
-    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
-    fom: Scalars['LocalDate']['output'];
-    id: Scalars['UUID']['output'];
-    rapportertDato: Scalars['LocalDateTime']['output'];
-    sendtNav: Scalars['LocalDateTime']['output'];
-    tom: Scalars['LocalDate']['output'];
-    type: Hendelsetype;
-};
-
-export type SoknadSelvstendig = Hendelse & {
-    __typename: 'SoknadSelvstendig';
-    eksternDokumentId: Maybe<Scalars['UUID']['output']>;
-    fom: Scalars['LocalDate']['output'];
-    id: Scalars['UUID']['output'];
-    rapportertDato: Scalars['LocalDateTime']['output'];
-    sendtNav: Scalars['LocalDateTime']['output'];
-    tom: Scalars['LocalDate']['output'];
-    type: Hendelsetype;
-};
-
-export type StansAutomatiskBehandlingSaksbehandler = Historikkinnslag & {
-    __typename: 'StansAutomatiskBehandlingSaksbehandler';
-    dialogRef: Maybe<Scalars['Int']['output']>;
-    id: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    notattekst: Maybe<Scalars['String']['output']>;
-    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
-};
-
-export enum Sykdomsdagtype {
-    AndreYtelserAap = 'ANDRE_YTELSER_AAP',
-    AndreYtelserDagpenger = 'ANDRE_YTELSER_DAGPENGER',
-    AndreYtelserForeldrepenger = 'ANDRE_YTELSER_FORELDREPENGER',
-    AndreYtelserOmsorgspenger = 'ANDRE_YTELSER_OMSORGSPENGER',
-    AndreYtelserOpplaringspenger = 'ANDRE_YTELSER_OPPLARINGSPENGER',
-    AndreYtelserPleiepenger = 'ANDRE_YTELSER_PLEIEPENGER',
-    AndreYtelserSvangerskapspenger = 'ANDRE_YTELSER_SVANGERSKAPSPENGER',
-    Arbeidikkegjenopptattdag = 'ARBEIDIKKEGJENOPPTATTDAG',
-    Arbeidsdag = 'ARBEIDSDAG',
-    Arbeidsgiverdag = 'ARBEIDSGIVERDAG',
-    Avslatt = 'AVSLATT',
-    Avslattmeldingtilnavdag = 'AVSLATTMELDINGTILNAVDAG',
-    Feriedag = 'FERIEDAG',
-    ForeldetSykedag = 'FORELDET_SYKEDAG',
-    FriskHelgedag = 'FRISK_HELGEDAG',
-    Meldingtilnavdag = 'MELDINGTILNAVDAG',
-    Permisjonsdag = 'PERMISJONSDAG',
-    Sykedag = 'SYKEDAG',
-    SykedagNav = 'SYKEDAG_NAV',
-    SykHelgedag = 'SYK_HELGEDAG',
-    Ubestemtdag = 'UBESTEMTDAG',
-    Ukjent = 'UKJENT',
-}
-
-export type Sykepengedager = {
-    __typename: 'Sykepengedager';
-    forbrukteSykedager: Maybe<Scalars['Int']['output']>;
-    gjenstaendeSykedager: Maybe<Scalars['Int']['output']>;
-    maksdato: Scalars['LocalDate']['output'];
-    oppfylt: Scalars['Boolean']['output'];
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-};
-
-export type Sykepengegrunnlagsgrense = {
-    __typename: 'Sykepengegrunnlagsgrense';
-    grense: Scalars['Int']['output'];
-    grunnbelop: Scalars['Int']['output'];
-    virkningstidspunkt: Scalars['LocalDate']['output'];
-};
-
-export type Sykepengegrunnlagskjonnsfastsetting = Overstyring & {
-    __typename: 'Sykepengegrunnlagskjonnsfastsetting';
-    ferdigstilt: Scalars['Boolean']['output'];
-    hendelseId: Scalars['UUID']['output'];
-    saksbehandler: Saksbehandler;
-    skjonnsfastsatt: SkjonnsfastsattSykepengegrunnlag;
-    timestamp: Scalars['LocalDateTime']['output'];
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type Sykmelding = Hendelse & {
-    __typename: 'Sykmelding';
-    fom: Scalars['LocalDate']['output'];
-    id: Scalars['UUID']['output'];
-    rapportertDato: Scalars['LocalDateTime']['output'];
-    tom: Scalars['LocalDate']['output'];
-    type: Hendelsetype;
-};
-
-export type Tildeling = {
-    __typename: 'Tildeling';
-    epost: Scalars['String']['output'];
-    navn: Scalars['String']['output'];
-    oid: Scalars['UUID']['output'];
-};
-
-export type TilleggsinfoForInntektskilde = {
-    __typename: 'TilleggsinfoForInntektskilde';
-    navn: Scalars['String']['output'];
-    orgnummer: Scalars['String']['output'];
-};
-
-export type Totrinnsvurdering = {
-    __typename: 'Totrinnsvurdering';
-    beslutter: Maybe<Scalars['UUID']['output']>;
-    erBeslutteroppgave: Scalars['Boolean']['output'];
-    erRetur: Scalars['Boolean']['output'];
-    saksbehandler: Maybe<Scalars['UUID']['output']>;
-};
-
-export type TotrinnsvurderingRetur = Historikkinnslag & {
-    __typename: 'TotrinnsvurderingRetur';
-    dialogRef: Maybe<Scalars['Int']['output']>;
-    id: Scalars['Int']['output'];
-    kommentarer: Array<Kommentar>;
-    notattekst: Maybe<Scalars['String']['output']>;
-    saksbehandlerIdent: Maybe<Scalars['String']['output']>;
-    timestamp: Scalars['LocalDateTime']['output'];
-    type: PeriodehistorikkType;
-};
-
-export type UberegnetPeriode = Periode & {
-    __typename: 'UberegnetPeriode';
-    behandlingId: Scalars['UUID']['output'];
-    erForkastet: Scalars['Boolean']['output'];
-    fom: Scalars['LocalDate']['output'];
-    hendelser: Array<Hendelse>;
-    historikkinnslag: Array<Historikkinnslag>;
-    id: Scalars['UUID']['output'];
-    inntektstype: Inntektstype;
-    opprettet: Scalars['LocalDateTime']['output'];
-    periodetilstand: Periodetilstand;
-    periodetype: Periodetype;
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    tidslinje: Array<Dag>;
-    tom: Scalars['LocalDate']['output'];
-    varsler: Array<VarselDto>;
-    vedtaksperiodeId: Scalars['UUID']['output'];
-};
-
-export type Utbetaling = {
-    __typename: 'Utbetaling';
-    arbeidsgiverFagsystemId: Scalars['String']['output'];
-    arbeidsgiverNettoBelop: Scalars['Int']['output'];
-    arbeidsgiversimulering: Maybe<Simulering>;
-    id: Scalars['UUID']['output'];
-    personFagsystemId: Scalars['String']['output'];
-    personNettoBelop: Scalars['Int']['output'];
-    personsimulering: Maybe<Simulering>;
-    status: Utbetalingstatus;
-    type: Utbetalingtype;
-    vurdering: Maybe<Vurdering>;
-};
-
-export enum Utbetalingsdagtype {
-    Arbeidsdag = 'ARBEIDSDAG',
-    Arbeidsgiverperiodedag = 'ARBEIDSGIVERPERIODEDAG',
-    AvvistDag = 'AVVIST_DAG',
-    Feriedag = 'FERIEDAG',
-    ForeldetDag = 'FORELDET_DAG',
-    Helgedag = 'HELGEDAG',
-    Navdag = 'NAVDAG',
-    Navhelgdag = 'NAVHELGDAG',
-    UkjentDag = 'UKJENT_DAG',
-    Ventetidsdag = 'VENTETIDSDAG',
-}
-
-export type Utbetalingsinfo = {
-    __typename: 'Utbetalingsinfo';
-    arbeidsgiverbelop: Maybe<Scalars['Int']['output']>;
-    inntekt: Maybe<Scalars['Int']['output']>;
-    personbelop: Maybe<Scalars['Int']['output']>;
-    refusjonsbelop: Maybe<Scalars['Int']['output']>;
-    totalGrad: Maybe<Scalars['Float']['output']>;
-    utbetaling: Maybe<Scalars['Int']['output']>;
-};
-
-export enum Utbetalingstatus {
-    Annullert = 'ANNULLERT',
-    Forkastet = 'FORKASTET',
-    Godkjent = 'GODKJENT',
-    Godkjentutenutbetaling = 'GODKJENTUTENUTBETALING',
-    Ikkegodkjent = 'IKKEGODKJENT',
-    Overfort = 'OVERFORT',
-    Sendt = 'SENDT',
-    Ubetalt = 'UBETALT',
-    Ukjent = 'UKJENT',
-    Utbetalingfeilet = 'UTBETALINGFEILET',
-    Utbetalt = 'UTBETALT',
-}
-
-export enum Utbetalingtype {
-    Annullering = 'ANNULLERING',
-    Etterutbetaling = 'ETTERUTBETALING',
-    Feriepenger = 'FERIEPENGER',
-    Revurdering = 'REVURDERING',
-    Ukjent = 'UKJENT',
-    Utbetaling = 'UTBETALING',
-}
-
-export type VarselDto = {
-    __typename: 'VarselDTO';
-    behandlingId: Scalars['UUID']['output'];
-    definisjonId: Scalars['UUID']['output'];
-    forklaring: Maybe<Scalars['String']['output']>;
-    handling: Maybe<Scalars['String']['output']>;
-    id: Scalars['UUID']['output'];
-    kode: Scalars['String']['output'];
-    opprettet: Scalars['LocalDateTime']['output'];
-    tittel: Scalars['String']['output'];
-    vurdering: Maybe<VarselvurderingDto>;
-};
-
-export enum Varselstatus {
-    Aktiv = 'AKTIV',
-    Avvist = 'AVVIST',
-    Godkjent = 'GODKJENT',
-    Vurdert = 'VURDERT',
-}
-
-export type VarselvurderingDto = {
-    __typename: 'VarselvurderingDTO';
-    ident: Scalars['String']['output'];
-    status: Varselstatus;
-    tidsstempel: Scalars['LocalDateTime']['output'];
-};
-
-export type VedtakBegrunnelse = {
-    __typename: 'VedtakBegrunnelse';
-    begrunnelse: Maybe<Scalars['String']['output']>;
-    opprettet: Scalars['LocalDateTime']['output'];
-    saksbehandlerIdent: Scalars['String']['output'];
-    utfall: VedtakUtfall;
-};
-
-export enum VedtakUtfall {
-    Avslag = 'AVSLAG',
-    DelvisInnvilgelse = 'DELVIS_INNVILGELSE',
-    Innvilgelse = 'INNVILGELSE',
-}
-
-export type VilkarsgrunnlagAvviksvurdering = {
-    __typename: 'VilkarsgrunnlagAvviksvurdering';
-    avviksprosent: Scalars['BigDecimal']['output'];
-    beregningsgrunnlag: Scalars['BigDecimal']['output'];
-    sammenligningsgrunnlag: Scalars['BigDecimal']['output'];
-};
-
-export type VilkarsgrunnlagInfotrygdV2 = VilkarsgrunnlagV2 & {
-    __typename: 'VilkarsgrunnlagInfotrygdV2';
-    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    id: Scalars['UUID']['output'];
-    inntekter: Array<Arbeidsgiverinntekt>;
-    omregnetArsinntekt: Scalars['Float']['output'];
-    opptjeningsvurderingId: Scalars['UUID']['output'];
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    sykepengegrunnlag: Scalars['Float']['output'];
-};
-
-export type VilkarsgrunnlagSpleisV2 = VilkarsgrunnlagV2 & {
-    __typename: 'VilkarsgrunnlagSpleisV2';
-    antallOpptjeningsdagerErMinst: Scalars['Int']['output'];
-    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    avviksvurdering: Maybe<VilkarsgrunnlagAvviksvurdering>;
-    beregningsgrunnlag: Scalars['BigDecimal']['output'];
-    forsikringsvurderingId: Maybe<Scalars['UUID']['output']>;
-    grunnbelop: Scalars['Int']['output'];
-    id: Scalars['UUID']['output'];
-    inntekter: Array<Arbeidsgiverinntekt>;
-    oppfyllerKravOmMinstelonn: Scalars['Boolean']['output'];
-    oppfyllerKravOmOpptjening: Scalars['Boolean']['output'];
-    opptjeningFra: Scalars['LocalDate']['output'];
-    opptjeningsvurderingId: Scalars['UUID']['output'];
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    skjonnsmessigFastsattAarlig: Maybe<Scalars['Float']['output']>;
-    sykepengegrunnlag: Scalars['Float']['output'];
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
-    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
-};
-
-export type VilkarsgrunnlagV2 = {
-    arbeidsgiverrefusjoner: Array<Arbeidsgiverrefusjon>;
-    id: Scalars['UUID']['output'];
-    inntekter: Array<Arbeidsgiverinntekt>;
-    skjaeringstidspunkt: Scalars['LocalDate']['output'];
-    sykepengegrunnlag: Scalars['Float']['output'];
-};
-
-export enum VilkarsgrunnlagVurdering {
-    IkkeOppfylt = 'IKKE_OPPFYLT',
-    IkkeVurdert = 'IKKE_VURDERT',
-    Oppfylt = 'OPPFYLT',
-}
-
-export type Vurdering = {
-    __typename: 'Vurdering';
-    automatisk: Scalars['Boolean']['output'];
-    godkjent: Scalars['Boolean']['output'];
-    ident: Scalars['String']['output'];
-    tidsstempel: Scalars['LocalDateTime']['output'];
-};
 
 export type SimuleringFragment = {
     __typename: 'Simulering';
@@ -1160,8 +74,8 @@ export type Overstyring_Dagoverstyring_Fragment = {
         grad: number | null;
         fraGrad: number | null;
         dato: string;
-        type: Dagtype;
-        fraType: Dagtype | null;
+        type: Types.Dagtype;
+        fraType: Types.Dagtype | null;
     }>;
     saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
 };
@@ -1220,7 +134,7 @@ export type Overstyring_Sykepengegrunnlagskjonnsfastsetting_Fragment = {
     skjonnsfastsatt: {
         __typename: 'SkjonnsfastsattSykepengegrunnlag';
         arsak: string;
-        type: Skjonnsfastsettingstype | null;
+        type: Types.Skjonnsfastsettingstype | null;
         begrunnelse: string | null;
         begrunnelseMal: string | null;
         begrunnelseFritekst: string | null;
@@ -1278,18 +192,19 @@ export type ArbeidsgiverFragment = {
                   vedtaksperiodeId: string;
                   maksdato: string;
                   vilkarsgrunnlagId: string | null;
+                  grunnbelopsjustertGjennomsnitt: string | null;
                   behandlingId: string;
                   fom: string;
                   tom: string;
                   erForkastet: boolean;
-                  inntektstype: Inntektstype;
+                  inntektstype: Types.Inntektstype;
                   opprettet: string;
-                  periodetype: Periodetype;
-                  periodetilstand: Periodetilstand;
+                  periodetype: Types.Periodetype;
+                  periodetilstand: Types.Periodetilstand;
                   skjaeringstidspunkt: string;
                   handlinger: Array<{
                       __typename: 'Handling';
-                      type: Periodehandling;
+                      type: Types.Periodehandling;
                       tillatt: boolean;
                       begrunnelse: string | null;
                   }>;
@@ -1300,7 +215,7 @@ export type ArbeidsgiverFragment = {
                             arsaker: Array<string>;
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1316,7 +231,7 @@ export type ArbeidsgiverFragment = {
                       | {
                             __typename: 'FjernetFraPaVent';
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1327,7 +242,7 @@ export type ArbeidsgiverFragment = {
                             arsaker: Array<string>;
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1344,7 +259,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1360,7 +275,7 @@ export type ArbeidsgiverFragment = {
                       | {
                             __typename: 'PeriodeHistorikkElementNy';
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1369,7 +284,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'StansAutomatiskBehandlingSaksbehandler';
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1386,7 +301,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'TotrinnsvurderingRetur';
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1424,8 +339,8 @@ export type ArbeidsgiverFragment = {
                       arbeidsgiverNettoBelop: number;
                       personFagsystemId: string;
                       personNettoBelop: number;
-                      status: Utbetalingstatus;
-                      type: Utbetalingtype;
+                      status: Types.Utbetalingstatus;
+                      type: Types.Utbetalingtype;
                       vurdering: {
                           __typename: 'Vurdering';
                           automatisk: boolean;
@@ -1525,10 +440,14 @@ export type ArbeidsgiverFragment = {
                       saksbehandler: string | null;
                       beslutter: string | null;
                   } | null;
-                  egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+                  egenskaper: Array<{
+                      __typename: 'Oppgaveegenskap';
+                      egenskap: Types.Egenskap;
+                      kategori: Types.Kategori;
+                  }>;
                   avslag: Array<{
                       __typename: 'Avslag';
-                      type: Avslagstype;
+                      type: Types.Avslagstype;
                       begrunnelse: string;
                       opprettet: string;
                       saksbehandlerIdent: string;
@@ -1536,7 +455,7 @@ export type ArbeidsgiverFragment = {
                   }>;
                   vedtakBegrunnelser: Array<{
                       __typename: 'VedtakBegrunnelse';
-                      utfall: VedtakUtfall;
+                      utfall: Types.VedtakUtfall;
                       begrunnelse: string | null;
                       opprettet: string;
                       saksbehandlerIdent: string;
@@ -1567,10 +486,10 @@ export type ArbeidsgiverFragment = {
                       __typename: 'Dag';
                       dato: string;
                       grad: number | null;
-                      sykdomsdagtype: Sykdomsdagtype;
-                      utbetalingsdagtype: Utbetalingsdagtype;
-                      begrunnelser: Array<Begrunnelse> | null;
-                      kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                      sykdomsdagtype: Types.Sykdomsdagtype;
+                      utbetalingsdagtype: Types.Utbetalingsdagtype;
+                      begrunnelser: Array<Types.Begrunnelse> | null;
+                      kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                       utbetalingsinfo: {
                           __typename: 'Utbetalingsinfo';
                           arbeidsgiverbelop: number | null;
@@ -1594,7 +513,7 @@ export type ArbeidsgiverFragment = {
                       vurdering: {
                           __typename: 'VarselvurderingDTO';
                           ident: string;
-                          status: Varselstatus;
+                          status: Types.Varselstatus;
                           tidsstempel: string;
                       } | null;
                   }>;
@@ -1603,7 +522,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'InntektHentetFraAOrdningen';
                             mottattDato: string;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'Inntektsmelding';
@@ -1611,7 +530,7 @@ export type ArbeidsgiverFragment = {
                             mottattDato: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadArbeidsgiver';
@@ -1621,7 +540,7 @@ export type ArbeidsgiverFragment = {
                             sendtArbeidsgiver: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadArbeidsledig';
@@ -1631,7 +550,7 @@ export type ArbeidsgiverFragment = {
                             sendtNav: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadFrilans';
@@ -1641,7 +560,7 @@ export type ArbeidsgiverFragment = {
                             sendtNav: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadNav';
@@ -1651,7 +570,7 @@ export type ArbeidsgiverFragment = {
                             sendtNav: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadSelvstendig';
@@ -1661,7 +580,7 @@ export type ArbeidsgiverFragment = {
                             sendtNav: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'Sykmelding';
@@ -1669,7 +588,7 @@ export type ArbeidsgiverFragment = {
                             tom: string;
                             rapportertDato: string;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                   >;
               }
@@ -1680,11 +599,11 @@ export type ArbeidsgiverFragment = {
                   fom: string;
                   tom: string;
                   erForkastet: boolean;
-                  inntektstype: Inntektstype;
+                  inntektstype: Types.Inntektstype;
                   opprettet: string;
-                  periodetype: Periodetype;
+                  periodetype: Types.Periodetype;
                   vedtaksperiodeId: string;
-                  periodetilstand: Periodetilstand;
+                  periodetilstand: Types.Periodetilstand;
                   skjaeringstidspunkt: string;
                   historikkinnslag: Array<
                       | {
@@ -1693,7 +612,7 @@ export type ArbeidsgiverFragment = {
                             arsaker: Array<string>;
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1709,7 +628,7 @@ export type ArbeidsgiverFragment = {
                       | {
                             __typename: 'FjernetFraPaVent';
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1720,7 +639,7 @@ export type ArbeidsgiverFragment = {
                             arsaker: Array<string>;
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1737,7 +656,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1753,7 +672,7 @@ export type ArbeidsgiverFragment = {
                       | {
                             __typename: 'PeriodeHistorikkElementNy';
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1762,7 +681,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'StansAutomatiskBehandlingSaksbehandler';
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1779,7 +698,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'TotrinnsvurderingRetur';
                             notattekst: string | null;
                             id: number;
-                            type: PeriodehistorikkType;
+                            type: Types.PeriodehistorikkType;
                             timestamp: string;
                             saksbehandlerIdent: string | null;
                             dialogRef: number | null;
@@ -1797,10 +716,10 @@ export type ArbeidsgiverFragment = {
                       __typename: 'Dag';
                       dato: string;
                       grad: number | null;
-                      sykdomsdagtype: Sykdomsdagtype;
-                      utbetalingsdagtype: Utbetalingsdagtype;
-                      begrunnelser: Array<Begrunnelse> | null;
-                      kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                      sykdomsdagtype: Types.Sykdomsdagtype;
+                      utbetalingsdagtype: Types.Utbetalingsdagtype;
+                      begrunnelser: Array<Types.Begrunnelse> | null;
+                      kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                       utbetalingsinfo: {
                           __typename: 'Utbetalingsinfo';
                           arbeidsgiverbelop: number | null;
@@ -1824,7 +743,7 @@ export type ArbeidsgiverFragment = {
                       vurdering: {
                           __typename: 'VarselvurderingDTO';
                           ident: string;
-                          status: Varselstatus;
+                          status: Types.Varselstatus;
                           tidsstempel: string;
                       } | null;
                   }>;
@@ -1833,7 +752,7 @@ export type ArbeidsgiverFragment = {
                             __typename: 'InntektHentetFraAOrdningen';
                             mottattDato: string;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'Inntektsmelding';
@@ -1841,7 +760,7 @@ export type ArbeidsgiverFragment = {
                             mottattDato: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadArbeidsgiver';
@@ -1851,7 +770,7 @@ export type ArbeidsgiverFragment = {
                             sendtArbeidsgiver: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadArbeidsledig';
@@ -1861,7 +780,7 @@ export type ArbeidsgiverFragment = {
                             sendtNav: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadFrilans';
@@ -1871,7 +790,7 @@ export type ArbeidsgiverFragment = {
                             sendtNav: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadNav';
@@ -1881,7 +800,7 @@ export type ArbeidsgiverFragment = {
                             sendtNav: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'SoknadSelvstendig';
@@ -1891,7 +810,7 @@ export type ArbeidsgiverFragment = {
                             sendtNav: string;
                             eksternDokumentId: string | null;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                       | {
                             __typename: 'Sykmelding';
@@ -1899,7 +818,7 @@ export type ArbeidsgiverFragment = {
                             tom: string;
                             rapportertDato: string;
                             id: string;
-                            type: Hendelsetype;
+                            type: Types.Hendelsetype;
                         }
                   >;
               }
@@ -1930,8 +849,8 @@ export type ArbeidsgiverFragment = {
                   grad: number | null;
                   fraGrad: number | null;
                   dato: string;
-                  type: Dagtype;
-                  fraType: Dagtype | null;
+                  type: Types.Dagtype;
+                  fraType: Types.Dagtype | null;
               }>;
               saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
           }
@@ -1995,7 +914,7 @@ export type ArbeidsgiverFragment = {
               skjonnsfastsatt: {
                   __typename: 'SkjonnsfastsattSykepengegrunnlag';
                   arsak: string;
-                  type: Skjonnsfastsettingstype | null;
+                  type: Types.Skjonnsfastsettingstype | null;
                   begrunnelse: string | null;
                   begrunnelseMal: string | null;
                   begrunnelseFritekst: string | null;
@@ -2036,14 +955,14 @@ export type VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment = {
             __typename: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
-            kilde: Inntektskilde;
+            kilde: Types.Inntektskilde;
             inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
         skjonnsmessigFastsatt: {
             __typename: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
-            kilde: Inntektskilde;
+            kilde: Types.Inntektskilde;
             inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
     }>;
@@ -2063,7 +982,7 @@ export type VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment = {
 export type VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment = {
     __typename: 'VilkarsgrunnlagSpleisV2';
     skjonnsmessigFastsattAarlig: number | null;
-    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
+    vurderingAvKravOmMedlemskap: Types.VilkarsgrunnlagVurdering;
     oppfyllerKravOmMinstelonn: boolean;
     oppfyllerKravOmOpptjening: boolean;
     antallOpptjeningsdagerErMinst: number;
@@ -2102,14 +1021,14 @@ export type VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment = {
             __typename: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
-            kilde: Inntektskilde;
+            kilde: Types.Inntektskilde;
             inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
         skjonnsmessigFastsatt: {
             __typename: 'OmregnetArsinntekt';
             belop: number;
             manedsbelop: number;
-            kilde: Inntektskilde;
+            kilde: Types.Inntektskilde;
             inntektFraAOrdningen: Array<{ __typename: 'InntektFraAOrdningen'; maned: string; sum: number }> | null;
         } | null;
     }>;
@@ -2127,8 +1046,7 @@ export type VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment = {
 };
 
 export type VilkarsgrunnlagV2Fragment =
-    | VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment
-    | VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment;
+    VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment | VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment;
 
 export type KommentarFragment = {
     __typename: 'Kommentar';
@@ -2157,11 +1075,11 @@ export type UberegnetPeriodeFragment = {
     fom: string;
     tom: string;
     erForkastet: boolean;
-    inntektstype: Inntektstype;
+    inntektstype: Types.Inntektstype;
     opprettet: string;
-    periodetype: Periodetype;
+    periodetype: Types.Periodetype;
     vedtaksperiodeId: string;
-    periodetilstand: Periodetilstand;
+    periodetilstand: Types.Periodetilstand;
     skjaeringstidspunkt: string;
     historikkinnslag: Array<
         | {
@@ -2170,7 +1088,7 @@ export type UberegnetPeriodeFragment = {
               arsaker: Array<string>;
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2186,7 +1104,7 @@ export type UberegnetPeriodeFragment = {
         | {
               __typename: 'FjernetFraPaVent';
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2197,7 +1115,7 @@ export type UberegnetPeriodeFragment = {
               arsaker: Array<string>;
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2214,7 +1132,7 @@ export type UberegnetPeriodeFragment = {
               __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2230,7 +1148,7 @@ export type UberegnetPeriodeFragment = {
         | {
               __typename: 'PeriodeHistorikkElementNy';
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2239,7 +1157,7 @@ export type UberegnetPeriodeFragment = {
               __typename: 'StansAutomatiskBehandlingSaksbehandler';
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2256,7 +1174,7 @@ export type UberegnetPeriodeFragment = {
               __typename: 'TotrinnsvurderingRetur';
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2274,10 +1192,10 @@ export type UberegnetPeriodeFragment = {
         __typename: 'Dag';
         dato: string;
         grad: number | null;
-        sykdomsdagtype: Sykdomsdagtype;
-        utbetalingsdagtype: Utbetalingsdagtype;
-        begrunnelser: Array<Begrunnelse> | null;
-        kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+        sykdomsdagtype: Types.Sykdomsdagtype;
+        utbetalingsdagtype: Types.Utbetalingsdagtype;
+        begrunnelser: Array<Types.Begrunnelse> | null;
+        kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
         utbetalingsinfo: {
             __typename: 'Utbetalingsinfo';
             arbeidsgiverbelop: number | null;
@@ -2301,19 +1219,19 @@ export type UberegnetPeriodeFragment = {
         vurdering: {
             __typename: 'VarselvurderingDTO';
             ident: string;
-            status: Varselstatus;
+            status: Types.Varselstatus;
             tidsstempel: string;
         } | null;
     }>;
     hendelser: Array<
-        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Hendelsetype }
+        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Types.Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
               mottattDato: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadArbeidsgiver';
@@ -2323,7 +1241,7 @@ export type UberegnetPeriodeFragment = {
               sendtArbeidsgiver: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadArbeidsledig';
@@ -2333,7 +1251,7 @@ export type UberegnetPeriodeFragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadFrilans';
@@ -2343,7 +1261,7 @@ export type UberegnetPeriodeFragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadNav';
@@ -2353,7 +1271,7 @@ export type UberegnetPeriodeFragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadSelvstendig';
@@ -2363,9 +1281,16 @@ export type UberegnetPeriodeFragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
-        | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
+        | {
+              __typename: 'Sykmelding';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              id: string;
+              type: Types.Hendelsetype;
+          }
     >;
 };
 
@@ -2377,16 +1302,22 @@ export type BeregnetPeriodeFragment = {
     vedtaksperiodeId: string;
     maksdato: string;
     vilkarsgrunnlagId: string | null;
+    grunnbelopsjustertGjennomsnitt: string | null;
     behandlingId: string;
     fom: string;
     tom: string;
     erForkastet: boolean;
-    inntektstype: Inntektstype;
+    inntektstype: Types.Inntektstype;
     opprettet: string;
-    periodetype: Periodetype;
-    periodetilstand: Periodetilstand;
+    periodetype: Types.Periodetype;
+    periodetilstand: Types.Periodetilstand;
     skjaeringstidspunkt: string;
-    handlinger: Array<{ __typename: 'Handling'; type: Periodehandling; tillatt: boolean; begrunnelse: string | null }>;
+    handlinger: Array<{
+        __typename: 'Handling';
+        type: Types.Periodehandling;
+        tillatt: boolean;
+        begrunnelse: string | null;
+    }>;
     historikkinnslag: Array<
         | {
               __typename: 'EndrePaVent';
@@ -2394,7 +1325,7 @@ export type BeregnetPeriodeFragment = {
               arsaker: Array<string>;
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2410,7 +1341,7 @@ export type BeregnetPeriodeFragment = {
         | {
               __typename: 'FjernetFraPaVent';
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2421,7 +1352,7 @@ export type BeregnetPeriodeFragment = {
               arsaker: Array<string>;
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2438,7 +1369,7 @@ export type BeregnetPeriodeFragment = {
               __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2454,7 +1385,7 @@ export type BeregnetPeriodeFragment = {
         | {
               __typename: 'PeriodeHistorikkElementNy';
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2463,7 +1394,7 @@ export type BeregnetPeriodeFragment = {
               __typename: 'StansAutomatiskBehandlingSaksbehandler';
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2480,7 +1411,7 @@ export type BeregnetPeriodeFragment = {
               __typename: 'TotrinnsvurderingRetur';
               notattekst: string | null;
               id: number;
-              type: PeriodehistorikkType;
+              type: Types.PeriodehistorikkType;
               timestamp: string;
               saksbehandlerIdent: string | null;
               dialogRef: number | null;
@@ -2518,8 +1449,8 @@ export type BeregnetPeriodeFragment = {
         arbeidsgiverNettoBelop: number;
         personFagsystemId: string;
         personNettoBelop: number;
-        status: Utbetalingstatus;
-        type: Utbetalingtype;
+        status: Types.Utbetalingstatus;
+        type: Types.Utbetalingtype;
         vurdering: {
             __typename: 'Vurdering';
             automatisk: boolean;
@@ -2619,10 +1550,10 @@ export type BeregnetPeriodeFragment = {
         saksbehandler: string | null;
         beslutter: string | null;
     } | null;
-    egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+    egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Types.Egenskap; kategori: Types.Kategori }>;
     avslag: Array<{
         __typename: 'Avslag';
-        type: Avslagstype;
+        type: Types.Avslagstype;
         begrunnelse: string;
         opprettet: string;
         saksbehandlerIdent: string;
@@ -2630,7 +1561,7 @@ export type BeregnetPeriodeFragment = {
     }>;
     vedtakBegrunnelser: Array<{
         __typename: 'VedtakBegrunnelse';
-        utfall: VedtakUtfall;
+        utfall: Types.VedtakUtfall;
         begrunnelse: string | null;
         opprettet: string;
         saksbehandlerIdent: string;
@@ -2657,10 +1588,10 @@ export type BeregnetPeriodeFragment = {
         __typename: 'Dag';
         dato: string;
         grad: number | null;
-        sykdomsdagtype: Sykdomsdagtype;
-        utbetalingsdagtype: Utbetalingsdagtype;
-        begrunnelser: Array<Begrunnelse> | null;
-        kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+        sykdomsdagtype: Types.Sykdomsdagtype;
+        utbetalingsdagtype: Types.Utbetalingsdagtype;
+        begrunnelser: Array<Types.Begrunnelse> | null;
+        kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
         utbetalingsinfo: {
             __typename: 'Utbetalingsinfo';
             arbeidsgiverbelop: number | null;
@@ -2684,19 +1615,19 @@ export type BeregnetPeriodeFragment = {
         vurdering: {
             __typename: 'VarselvurderingDTO';
             ident: string;
-            status: Varselstatus;
+            status: Types.Varselstatus;
             tidsstempel: string;
         } | null;
     }>;
     hendelser: Array<
-        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Hendelsetype }
+        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Types.Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
               mottattDato: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadArbeidsgiver';
@@ -2706,7 +1637,7 @@ export type BeregnetPeriodeFragment = {
               sendtArbeidsgiver: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadArbeidsledig';
@@ -2716,7 +1647,7 @@ export type BeregnetPeriodeFragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadFrilans';
@@ -2726,7 +1657,7 @@ export type BeregnetPeriodeFragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadNav';
@@ -2736,7 +1667,7 @@ export type BeregnetPeriodeFragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadSelvstendig';
@@ -2746,9 +1677,16 @@ export type BeregnetPeriodeFragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
-        | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
+        | {
+              __typename: 'Sykmelding';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              id: string;
+              type: Types.Hendelsetype;
+          }
     >;
 };
 
@@ -2758,20 +1696,20 @@ export type Periode_BeregnetPeriode_Fragment = {
     fom: string;
     tom: string;
     erForkastet: boolean;
-    inntektstype: Inntektstype;
+    inntektstype: Types.Inntektstype;
     opprettet: string;
-    periodetype: Periodetype;
+    periodetype: Types.Periodetype;
     vedtaksperiodeId: string;
-    periodetilstand: Periodetilstand;
+    periodetilstand: Types.Periodetilstand;
     skjaeringstidspunkt: string;
     tidslinje: Array<{
         __typename: 'Dag';
         dato: string;
         grad: number | null;
-        sykdomsdagtype: Sykdomsdagtype;
-        utbetalingsdagtype: Utbetalingsdagtype;
-        begrunnelser: Array<Begrunnelse> | null;
-        kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+        sykdomsdagtype: Types.Sykdomsdagtype;
+        utbetalingsdagtype: Types.Utbetalingsdagtype;
+        begrunnelser: Array<Types.Begrunnelse> | null;
+        kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
         utbetalingsinfo: {
             __typename: 'Utbetalingsinfo';
             arbeidsgiverbelop: number | null;
@@ -2795,19 +1733,19 @@ export type Periode_BeregnetPeriode_Fragment = {
         vurdering: {
             __typename: 'VarselvurderingDTO';
             ident: string;
-            status: Varselstatus;
+            status: Types.Varselstatus;
             tidsstempel: string;
         } | null;
     }>;
     hendelser: Array<
-        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Hendelsetype }
+        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Types.Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
               mottattDato: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadArbeidsgiver';
@@ -2817,7 +1755,7 @@ export type Periode_BeregnetPeriode_Fragment = {
               sendtArbeidsgiver: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadArbeidsledig';
@@ -2827,7 +1765,7 @@ export type Periode_BeregnetPeriode_Fragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadFrilans';
@@ -2837,7 +1775,7 @@ export type Periode_BeregnetPeriode_Fragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadNav';
@@ -2847,7 +1785,7 @@ export type Periode_BeregnetPeriode_Fragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadSelvstendig';
@@ -2857,9 +1795,16 @@ export type Periode_BeregnetPeriode_Fragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
-        | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
+        | {
+              __typename: 'Sykmelding';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              id: string;
+              type: Types.Hendelsetype;
+          }
     >;
 };
 
@@ -2869,20 +1814,20 @@ export type Periode_UberegnetPeriode_Fragment = {
     fom: string;
     tom: string;
     erForkastet: boolean;
-    inntektstype: Inntektstype;
+    inntektstype: Types.Inntektstype;
     opprettet: string;
-    periodetype: Periodetype;
+    periodetype: Types.Periodetype;
     vedtaksperiodeId: string;
-    periodetilstand: Periodetilstand;
+    periodetilstand: Types.Periodetilstand;
     skjaeringstidspunkt: string;
     tidslinje: Array<{
         __typename: 'Dag';
         dato: string;
         grad: number | null;
-        sykdomsdagtype: Sykdomsdagtype;
-        utbetalingsdagtype: Utbetalingsdagtype;
-        begrunnelser: Array<Begrunnelse> | null;
-        kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+        sykdomsdagtype: Types.Sykdomsdagtype;
+        utbetalingsdagtype: Types.Utbetalingsdagtype;
+        begrunnelser: Array<Types.Begrunnelse> | null;
+        kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
         utbetalingsinfo: {
             __typename: 'Utbetalingsinfo';
             arbeidsgiverbelop: number | null;
@@ -2906,19 +1851,19 @@ export type Periode_UberegnetPeriode_Fragment = {
         vurdering: {
             __typename: 'VarselvurderingDTO';
             ident: string;
-            status: Varselstatus;
+            status: Types.Varselstatus;
             tidsstempel: string;
         } | null;
     }>;
     hendelser: Array<
-        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Hendelsetype }
+        | { __typename: 'InntektHentetFraAOrdningen'; mottattDato: string; id: string; type: Types.Hendelsetype }
         | {
               __typename: 'Inntektsmelding';
               beregnetInntekt: number;
               mottattDato: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadArbeidsgiver';
@@ -2928,7 +1873,7 @@ export type Periode_UberegnetPeriode_Fragment = {
               sendtArbeidsgiver: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadArbeidsledig';
@@ -2938,7 +1883,7 @@ export type Periode_UberegnetPeriode_Fragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadFrilans';
@@ -2948,7 +1893,7 @@ export type Periode_UberegnetPeriode_Fragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadNav';
@@ -2958,7 +1903,7 @@ export type Periode_UberegnetPeriode_Fragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
         | {
               __typename: 'SoknadSelvstendig';
@@ -2968,9 +1913,16 @@ export type Periode_UberegnetPeriode_Fragment = {
               sendtNav: string;
               eksternDokumentId: string | null;
               id: string;
-              type: Hendelsetype;
+              type: Types.Hendelsetype;
           }
-        | { __typename: 'Sykmelding'; fom: string; tom: string; rapportertDato: string; id: string; type: Hendelsetype }
+        | {
+              __typename: 'Sykmelding';
+              fom: string;
+              tom: string;
+              rapportertDato: string;
+              id: string;
+              type: Types.Hendelsetype;
+          }
     >;
 };
 
@@ -2996,18 +1948,19 @@ export type PersonFragment = {
                       vedtaksperiodeId: string;
                       maksdato: string;
                       vilkarsgrunnlagId: string | null;
+                      grunnbelopsjustertGjennomsnitt: string | null;
                       behandlingId: string;
                       fom: string;
                       tom: string;
                       erForkastet: boolean;
-                      inntektstype: Inntektstype;
+                      inntektstype: Types.Inntektstype;
                       opprettet: string;
-                      periodetype: Periodetype;
-                      periodetilstand: Periodetilstand;
+                      periodetype: Types.Periodetype;
+                      periodetilstand: Types.Periodetilstand;
                       skjaeringstidspunkt: string;
                       handlinger: Array<{
                           __typename: 'Handling';
-                          type: Periodehandling;
+                          type: Types.Periodehandling;
                           tillatt: boolean;
                           begrunnelse: string | null;
                       }>;
@@ -3018,7 +1971,7 @@ export type PersonFragment = {
                                 arsaker: Array<string>;
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3034,7 +1987,7 @@ export type PersonFragment = {
                           | {
                                 __typename: 'FjernetFraPaVent';
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3045,7 +1998,7 @@ export type PersonFragment = {
                                 arsaker: Array<string>;
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3062,7 +2015,7 @@ export type PersonFragment = {
                                 __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3078,7 +2031,7 @@ export type PersonFragment = {
                           | {
                                 __typename: 'PeriodeHistorikkElementNy';
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3087,7 +2040,7 @@ export type PersonFragment = {
                                 __typename: 'StansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3104,7 +2057,7 @@ export type PersonFragment = {
                                 __typename: 'TotrinnsvurderingRetur';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3150,8 +2103,8 @@ export type PersonFragment = {
                           arbeidsgiverNettoBelop: number;
                           personFagsystemId: string;
                           personNettoBelop: number;
-                          status: Utbetalingstatus;
-                          type: Utbetalingtype;
+                          status: Types.Utbetalingstatus;
+                          type: Types.Utbetalingtype;
                           vurdering: {
                               __typename: 'Vurdering';
                               automatisk: boolean;
@@ -3251,10 +2204,14 @@ export type PersonFragment = {
                           saksbehandler: string | null;
                           beslutter: string | null;
                       } | null;
-                      egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+                      egenskaper: Array<{
+                          __typename: 'Oppgaveegenskap';
+                          egenskap: Types.Egenskap;
+                          kategori: Types.Kategori;
+                      }>;
                       avslag: Array<{
                           __typename: 'Avslag';
-                          type: Avslagstype;
+                          type: Types.Avslagstype;
                           begrunnelse: string;
                           opprettet: string;
                           saksbehandlerIdent: string;
@@ -3262,7 +2219,7 @@ export type PersonFragment = {
                       }>;
                       vedtakBegrunnelser: Array<{
                           __typename: 'VedtakBegrunnelse';
-                          utfall: VedtakUtfall;
+                          utfall: Types.VedtakUtfall;
                           begrunnelse: string | null;
                           opprettet: string;
                           saksbehandlerIdent: string;
@@ -3293,10 +2250,10 @@ export type PersonFragment = {
                           __typename: 'Dag';
                           dato: string;
                           grad: number | null;
-                          sykdomsdagtype: Sykdomsdagtype;
-                          utbetalingsdagtype: Utbetalingsdagtype;
-                          begrunnelser: Array<Begrunnelse> | null;
-                          kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                          sykdomsdagtype: Types.Sykdomsdagtype;
+                          utbetalingsdagtype: Types.Utbetalingsdagtype;
+                          begrunnelser: Array<Types.Begrunnelse> | null;
+                          kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                           utbetalingsinfo: {
                               __typename: 'Utbetalingsinfo';
                               arbeidsgiverbelop: number | null;
@@ -3320,7 +2277,7 @@ export type PersonFragment = {
                           vurdering: {
                               __typename: 'VarselvurderingDTO';
                               ident: string;
-                              status: Varselstatus;
+                              status: Types.Varselstatus;
                               tidsstempel: string;
                           } | null;
                       }>;
@@ -3329,7 +2286,7 @@ export type PersonFragment = {
                                 __typename: 'InntektHentetFraAOrdningen';
                                 mottattDato: string;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'Inntektsmelding';
@@ -3337,7 +2294,7 @@ export type PersonFragment = {
                                 mottattDato: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadArbeidsgiver';
@@ -3347,7 +2304,7 @@ export type PersonFragment = {
                                 sendtArbeidsgiver: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadArbeidsledig';
@@ -3357,7 +2314,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadFrilans';
@@ -3367,7 +2324,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadNav';
@@ -3377,7 +2334,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadSelvstendig';
@@ -3387,7 +2344,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'Sykmelding';
@@ -3395,7 +2352,7 @@ export type PersonFragment = {
                                 tom: string;
                                 rapportertDato: string;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                       >;
                   }
@@ -3406,11 +2363,11 @@ export type PersonFragment = {
                       fom: string;
                       tom: string;
                       erForkastet: boolean;
-                      inntektstype: Inntektstype;
+                      inntektstype: Types.Inntektstype;
                       opprettet: string;
-                      periodetype: Periodetype;
+                      periodetype: Types.Periodetype;
                       vedtaksperiodeId: string;
-                      periodetilstand: Periodetilstand;
+                      periodetilstand: Types.Periodetilstand;
                       skjaeringstidspunkt: string;
                       historikkinnslag: Array<
                           | {
@@ -3419,7 +2376,7 @@ export type PersonFragment = {
                                 arsaker: Array<string>;
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3435,7 +2392,7 @@ export type PersonFragment = {
                           | {
                                 __typename: 'FjernetFraPaVent';
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3446,7 +2403,7 @@ export type PersonFragment = {
                                 arsaker: Array<string>;
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3463,7 +2420,7 @@ export type PersonFragment = {
                                 __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3479,7 +2436,7 @@ export type PersonFragment = {
                           | {
                                 __typename: 'PeriodeHistorikkElementNy';
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3488,7 +2445,7 @@ export type PersonFragment = {
                                 __typename: 'StansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3505,7 +2462,7 @@ export type PersonFragment = {
                                 __typename: 'TotrinnsvurderingRetur';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3523,10 +2480,10 @@ export type PersonFragment = {
                           __typename: 'Dag';
                           dato: string;
                           grad: number | null;
-                          sykdomsdagtype: Sykdomsdagtype;
-                          utbetalingsdagtype: Utbetalingsdagtype;
-                          begrunnelser: Array<Begrunnelse> | null;
-                          kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                          sykdomsdagtype: Types.Sykdomsdagtype;
+                          utbetalingsdagtype: Types.Utbetalingsdagtype;
+                          begrunnelser: Array<Types.Begrunnelse> | null;
+                          kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                           utbetalingsinfo: {
                               __typename: 'Utbetalingsinfo';
                               arbeidsgiverbelop: number | null;
@@ -3550,7 +2507,7 @@ export type PersonFragment = {
                           vurdering: {
                               __typename: 'VarselvurderingDTO';
                               ident: string;
-                              status: Varselstatus;
+                              status: Types.Varselstatus;
                               tidsstempel: string;
                           } | null;
                       }>;
@@ -3559,7 +2516,7 @@ export type PersonFragment = {
                                 __typename: 'InntektHentetFraAOrdningen';
                                 mottattDato: string;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'Inntektsmelding';
@@ -3567,7 +2524,7 @@ export type PersonFragment = {
                                 mottattDato: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadArbeidsgiver';
@@ -3577,7 +2534,7 @@ export type PersonFragment = {
                                 sendtArbeidsgiver: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadArbeidsledig';
@@ -3587,7 +2544,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadFrilans';
@@ -3597,7 +2554,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadNav';
@@ -3607,7 +2564,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadSelvstendig';
@@ -3617,7 +2574,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'Sykmelding';
@@ -3625,7 +2582,7 @@ export type PersonFragment = {
                                 tom: string;
                                 rapportertDato: string;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                       >;
                   }
@@ -3656,8 +2613,8 @@ export type PersonFragment = {
                       grad: number | null;
                       fraGrad: number | null;
                       dato: string;
-                      type: Dagtype;
-                      fraType: Dagtype | null;
+                      type: Types.Dagtype;
+                      fraType: Types.Dagtype | null;
                   }>;
                   saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
               }
@@ -3721,7 +2678,7 @@ export type PersonFragment = {
                   skjonnsfastsatt: {
                       __typename: 'SkjonnsfastsattSykepengegrunnlag';
                       arsak: string;
-                      type: Skjonnsfastsettingstype | null;
+                      type: Types.Skjonnsfastsettingstype | null;
                       begrunnelse: string | null;
                       begrunnelseMal: string | null;
                       begrunnelseFritekst: string | null;
@@ -3758,7 +2715,7 @@ export type PersonFragment = {
                       __typename: 'OmregnetArsinntekt';
                       belop: number;
                       manedsbelop: number;
-                      kilde: Inntektskilde;
+                      kilde: Types.Inntektskilde;
                       inntektFraAOrdningen: Array<{
                           __typename: 'InntektFraAOrdningen';
                           maned: string;
@@ -3769,7 +2726,7 @@ export type PersonFragment = {
                       __typename: 'OmregnetArsinntekt';
                       belop: number;
                       manedsbelop: number;
-                      kilde: Inntektskilde;
+                      kilde: Types.Inntektskilde;
                       inntektFraAOrdningen: Array<{
                           __typename: 'InntektFraAOrdningen';
                           maned: string;
@@ -3792,7 +2749,7 @@ export type PersonFragment = {
         | {
               __typename: 'VilkarsgrunnlagSpleisV2';
               skjonnsmessigFastsattAarlig: number | null;
-              vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
+              vurderingAvKravOmMedlemskap: Types.VilkarsgrunnlagVurdering;
               oppfyllerKravOmMinstelonn: boolean;
               oppfyllerKravOmOpptjening: boolean;
               antallOpptjeningsdagerErMinst: number;
@@ -3831,7 +2788,7 @@ export type PersonFragment = {
                       __typename: 'OmregnetArsinntekt';
                       belop: number;
                       manedsbelop: number;
-                      kilde: Inntektskilde;
+                      kilde: Types.Inntektskilde;
                       inntektFraAOrdningen: Array<{
                           __typename: 'InntektFraAOrdningen';
                           maned: string;
@@ -3842,7 +2799,7 @@ export type PersonFragment = {
                       __typename: 'OmregnetArsinntekt';
                       belop: number;
                       manedsbelop: number;
-                      kilde: Inntektskilde;
+                      kilde: Types.Inntektskilde;
                       inntektFraAOrdningen: Array<{
                           __typename: 'InntektFraAOrdningen';
                           maned: string;
@@ -3896,18 +2853,19 @@ export type PersonFragment = {
                       vedtaksperiodeId: string;
                       maksdato: string;
                       vilkarsgrunnlagId: string | null;
+                      grunnbelopsjustertGjennomsnitt: string | null;
                       behandlingId: string;
                       fom: string;
                       tom: string;
                       erForkastet: boolean;
-                      inntektstype: Inntektstype;
+                      inntektstype: Types.Inntektstype;
                       opprettet: string;
-                      periodetype: Periodetype;
-                      periodetilstand: Periodetilstand;
+                      periodetype: Types.Periodetype;
+                      periodetilstand: Types.Periodetilstand;
                       skjaeringstidspunkt: string;
                       handlinger: Array<{
                           __typename: 'Handling';
-                          type: Periodehandling;
+                          type: Types.Periodehandling;
                           tillatt: boolean;
                           begrunnelse: string | null;
                       }>;
@@ -3918,7 +2876,7 @@ export type PersonFragment = {
                                 arsaker: Array<string>;
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3934,7 +2892,7 @@ export type PersonFragment = {
                           | {
                                 __typename: 'FjernetFraPaVent';
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3945,7 +2903,7 @@ export type PersonFragment = {
                                 arsaker: Array<string>;
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3962,7 +2920,7 @@ export type PersonFragment = {
                                 __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3978,7 +2936,7 @@ export type PersonFragment = {
                           | {
                                 __typename: 'PeriodeHistorikkElementNy';
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -3987,7 +2945,7 @@ export type PersonFragment = {
                                 __typename: 'StansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4004,7 +2962,7 @@ export type PersonFragment = {
                                 __typename: 'TotrinnsvurderingRetur';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4050,8 +3008,8 @@ export type PersonFragment = {
                           arbeidsgiverNettoBelop: number;
                           personFagsystemId: string;
                           personNettoBelop: number;
-                          status: Utbetalingstatus;
-                          type: Utbetalingtype;
+                          status: Types.Utbetalingstatus;
+                          type: Types.Utbetalingtype;
                           vurdering: {
                               __typename: 'Vurdering';
                               automatisk: boolean;
@@ -4151,10 +3109,14 @@ export type PersonFragment = {
                           saksbehandler: string | null;
                           beslutter: string | null;
                       } | null;
-                      egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+                      egenskaper: Array<{
+                          __typename: 'Oppgaveegenskap';
+                          egenskap: Types.Egenskap;
+                          kategori: Types.Kategori;
+                      }>;
                       avslag: Array<{
                           __typename: 'Avslag';
-                          type: Avslagstype;
+                          type: Types.Avslagstype;
                           begrunnelse: string;
                           opprettet: string;
                           saksbehandlerIdent: string;
@@ -4162,7 +3124,7 @@ export type PersonFragment = {
                       }>;
                       vedtakBegrunnelser: Array<{
                           __typename: 'VedtakBegrunnelse';
-                          utfall: VedtakUtfall;
+                          utfall: Types.VedtakUtfall;
                           begrunnelse: string | null;
                           opprettet: string;
                           saksbehandlerIdent: string;
@@ -4193,10 +3155,10 @@ export type PersonFragment = {
                           __typename: 'Dag';
                           dato: string;
                           grad: number | null;
-                          sykdomsdagtype: Sykdomsdagtype;
-                          utbetalingsdagtype: Utbetalingsdagtype;
-                          begrunnelser: Array<Begrunnelse> | null;
-                          kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                          sykdomsdagtype: Types.Sykdomsdagtype;
+                          utbetalingsdagtype: Types.Utbetalingsdagtype;
+                          begrunnelser: Array<Types.Begrunnelse> | null;
+                          kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                           utbetalingsinfo: {
                               __typename: 'Utbetalingsinfo';
                               arbeidsgiverbelop: number | null;
@@ -4220,7 +3182,7 @@ export type PersonFragment = {
                           vurdering: {
                               __typename: 'VarselvurderingDTO';
                               ident: string;
-                              status: Varselstatus;
+                              status: Types.Varselstatus;
                               tidsstempel: string;
                           } | null;
                       }>;
@@ -4229,7 +3191,7 @@ export type PersonFragment = {
                                 __typename: 'InntektHentetFraAOrdningen';
                                 mottattDato: string;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'Inntektsmelding';
@@ -4237,7 +3199,7 @@ export type PersonFragment = {
                                 mottattDato: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadArbeidsgiver';
@@ -4247,7 +3209,7 @@ export type PersonFragment = {
                                 sendtArbeidsgiver: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadArbeidsledig';
@@ -4257,7 +3219,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadFrilans';
@@ -4267,7 +3229,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadNav';
@@ -4277,7 +3239,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadSelvstendig';
@@ -4287,7 +3249,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'Sykmelding';
@@ -4295,7 +3257,7 @@ export type PersonFragment = {
                                 tom: string;
                                 rapportertDato: string;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                       >;
                   }
@@ -4306,11 +3268,11 @@ export type PersonFragment = {
                       fom: string;
                       tom: string;
                       erForkastet: boolean;
-                      inntektstype: Inntektstype;
+                      inntektstype: Types.Inntektstype;
                       opprettet: string;
-                      periodetype: Periodetype;
+                      periodetype: Types.Periodetype;
                       vedtaksperiodeId: string;
-                      periodetilstand: Periodetilstand;
+                      periodetilstand: Types.Periodetilstand;
                       skjaeringstidspunkt: string;
                       historikkinnslag: Array<
                           | {
@@ -4319,7 +3281,7 @@ export type PersonFragment = {
                                 arsaker: Array<string>;
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4335,7 +3297,7 @@ export type PersonFragment = {
                           | {
                                 __typename: 'FjernetFraPaVent';
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4346,7 +3308,7 @@ export type PersonFragment = {
                                 arsaker: Array<string>;
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4363,7 +3325,7 @@ export type PersonFragment = {
                                 __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4379,7 +3341,7 @@ export type PersonFragment = {
                           | {
                                 __typename: 'PeriodeHistorikkElementNy';
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4388,7 +3350,7 @@ export type PersonFragment = {
                                 __typename: 'StansAutomatiskBehandlingSaksbehandler';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4405,7 +3367,7 @@ export type PersonFragment = {
                                 __typename: 'TotrinnsvurderingRetur';
                                 notattekst: string | null;
                                 id: number;
-                                type: PeriodehistorikkType;
+                                type: Types.PeriodehistorikkType;
                                 timestamp: string;
                                 saksbehandlerIdent: string | null;
                                 dialogRef: number | null;
@@ -4423,10 +3385,10 @@ export type PersonFragment = {
                           __typename: 'Dag';
                           dato: string;
                           grad: number | null;
-                          sykdomsdagtype: Sykdomsdagtype;
-                          utbetalingsdagtype: Utbetalingsdagtype;
-                          begrunnelser: Array<Begrunnelse> | null;
-                          kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                          sykdomsdagtype: Types.Sykdomsdagtype;
+                          utbetalingsdagtype: Types.Utbetalingsdagtype;
+                          begrunnelser: Array<Types.Begrunnelse> | null;
+                          kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                           utbetalingsinfo: {
                               __typename: 'Utbetalingsinfo';
                               arbeidsgiverbelop: number | null;
@@ -4450,7 +3412,7 @@ export type PersonFragment = {
                           vurdering: {
                               __typename: 'VarselvurderingDTO';
                               ident: string;
-                              status: Varselstatus;
+                              status: Types.Varselstatus;
                               tidsstempel: string;
                           } | null;
                       }>;
@@ -4459,7 +3421,7 @@ export type PersonFragment = {
                                 __typename: 'InntektHentetFraAOrdningen';
                                 mottattDato: string;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'Inntektsmelding';
@@ -4467,7 +3429,7 @@ export type PersonFragment = {
                                 mottattDato: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadArbeidsgiver';
@@ -4477,7 +3439,7 @@ export type PersonFragment = {
                                 sendtArbeidsgiver: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadArbeidsledig';
@@ -4487,7 +3449,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadFrilans';
@@ -4497,7 +3459,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadNav';
@@ -4507,7 +3469,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'SoknadSelvstendig';
@@ -4517,7 +3479,7 @@ export type PersonFragment = {
                                 sendtNav: string;
                                 eksternDokumentId: string | null;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                           | {
                                 __typename: 'Sykmelding';
@@ -4525,7 +3487,7 @@ export type PersonFragment = {
                                 tom: string;
                                 rapportertDato: string;
                                 id: string;
-                                type: Hendelsetype;
+                                type: Types.Hendelsetype;
                             }
                       >;
                   }
@@ -4556,8 +3518,8 @@ export type PersonFragment = {
                       grad: number | null;
                       fraGrad: number | null;
                       dato: string;
-                      type: Dagtype;
-                      fraType: Dagtype | null;
+                      type: Types.Dagtype;
+                      fraType: Types.Dagtype | null;
                   }>;
                   saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
               }
@@ -4621,7 +3583,7 @@ export type PersonFragment = {
                   skjonnsfastsatt: {
                       __typename: 'SkjonnsfastsattSykepengegrunnlag';
                       arsak: string;
-                      type: Skjonnsfastsettingstype | null;
+                      type: Types.Skjonnsfastsettingstype | null;
                       begrunnelse: string | null;
                       begrunnelseMal: string | null;
                       begrunnelseFritekst: string | null;
@@ -4647,7 +3609,7 @@ export type PersonFragment = {
 };
 
 export type FetchPersonQueryVariables = Exact<{
-    personPseudoId: Scalars['String']['input'];
+    personPseudoId: string;
 }>;
 
 export type FetchPersonQuery = {
@@ -4672,18 +3634,19 @@ export type FetchPersonQuery = {
                           vedtaksperiodeId: string;
                           maksdato: string;
                           vilkarsgrunnlagId: string | null;
+                          grunnbelopsjustertGjennomsnitt: string | null;
                           behandlingId: string;
                           fom: string;
                           tom: string;
                           erForkastet: boolean;
-                          inntektstype: Inntektstype;
+                          inntektstype: Types.Inntektstype;
                           opprettet: string;
-                          periodetype: Periodetype;
-                          periodetilstand: Periodetilstand;
+                          periodetype: Types.Periodetype;
+                          periodetilstand: Types.Periodetilstand;
                           skjaeringstidspunkt: string;
                           handlinger: Array<{
                               __typename: 'Handling';
-                              type: Periodehandling;
+                              type: Types.Periodehandling;
                               tillatt: boolean;
                               begrunnelse: string | null;
                           }>;
@@ -4694,7 +3657,7 @@ export type FetchPersonQuery = {
                                     arsaker: Array<string>;
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -4710,7 +3673,7 @@ export type FetchPersonQuery = {
                               | {
                                     __typename: 'FjernetFraPaVent';
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -4721,7 +3684,7 @@ export type FetchPersonQuery = {
                                     arsaker: Array<string>;
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -4738,7 +3701,7 @@ export type FetchPersonQuery = {
                                     __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -4754,7 +3717,7 @@ export type FetchPersonQuery = {
                               | {
                                     __typename: 'PeriodeHistorikkElementNy';
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -4763,7 +3726,7 @@ export type FetchPersonQuery = {
                                     __typename: 'StansAutomatiskBehandlingSaksbehandler';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -4780,7 +3743,7 @@ export type FetchPersonQuery = {
                                     __typename: 'TotrinnsvurderingRetur';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -4826,8 +3789,8 @@ export type FetchPersonQuery = {
                               arbeidsgiverNettoBelop: number;
                               personFagsystemId: string;
                               personNettoBelop: number;
-                              status: Utbetalingstatus;
-                              type: Utbetalingtype;
+                              status: Types.Utbetalingstatus;
+                              type: Types.Utbetalingtype;
                               vurdering: {
                                   __typename: 'Vurdering';
                                   automatisk: boolean;
@@ -4927,10 +3890,14 @@ export type FetchPersonQuery = {
                               saksbehandler: string | null;
                               beslutter: string | null;
                           } | null;
-                          egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+                          egenskaper: Array<{
+                              __typename: 'Oppgaveegenskap';
+                              egenskap: Types.Egenskap;
+                              kategori: Types.Kategori;
+                          }>;
                           avslag: Array<{
                               __typename: 'Avslag';
-                              type: Avslagstype;
+                              type: Types.Avslagstype;
                               begrunnelse: string;
                               opprettet: string;
                               saksbehandlerIdent: string;
@@ -4938,7 +3905,7 @@ export type FetchPersonQuery = {
                           }>;
                           vedtakBegrunnelser: Array<{
                               __typename: 'VedtakBegrunnelse';
-                              utfall: VedtakUtfall;
+                              utfall: Types.VedtakUtfall;
                               begrunnelse: string | null;
                               opprettet: string;
                               saksbehandlerIdent: string;
@@ -4969,10 +3936,10 @@ export type FetchPersonQuery = {
                               __typename: 'Dag';
                               dato: string;
                               grad: number | null;
-                              sykdomsdagtype: Sykdomsdagtype;
-                              utbetalingsdagtype: Utbetalingsdagtype;
-                              begrunnelser: Array<Begrunnelse> | null;
-                              kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                              sykdomsdagtype: Types.Sykdomsdagtype;
+                              utbetalingsdagtype: Types.Utbetalingsdagtype;
+                              begrunnelser: Array<Types.Begrunnelse> | null;
+                              kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                               utbetalingsinfo: {
                                   __typename: 'Utbetalingsinfo';
                                   arbeidsgiverbelop: number | null;
@@ -4996,7 +3963,7 @@ export type FetchPersonQuery = {
                               vurdering: {
                                   __typename: 'VarselvurderingDTO';
                                   ident: string;
-                                  status: Varselstatus;
+                                  status: Types.Varselstatus;
                                   tidsstempel: string;
                               } | null;
                           }>;
@@ -5005,7 +3972,7 @@ export type FetchPersonQuery = {
                                     __typename: 'InntektHentetFraAOrdningen';
                                     mottattDato: string;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'Inntektsmelding';
@@ -5013,7 +3980,7 @@ export type FetchPersonQuery = {
                                     mottattDato: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadArbeidsgiver';
@@ -5023,7 +3990,7 @@ export type FetchPersonQuery = {
                                     sendtArbeidsgiver: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadArbeidsledig';
@@ -5033,7 +4000,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadFrilans';
@@ -5043,7 +4010,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadNav';
@@ -5053,7 +4020,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadSelvstendig';
@@ -5063,7 +4030,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'Sykmelding';
@@ -5071,7 +4038,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                           >;
                       }
@@ -5082,11 +4049,11 @@ export type FetchPersonQuery = {
                           fom: string;
                           tom: string;
                           erForkastet: boolean;
-                          inntektstype: Inntektstype;
+                          inntektstype: Types.Inntektstype;
                           opprettet: string;
-                          periodetype: Periodetype;
+                          periodetype: Types.Periodetype;
                           vedtaksperiodeId: string;
-                          periodetilstand: Periodetilstand;
+                          periodetilstand: Types.Periodetilstand;
                           skjaeringstidspunkt: string;
                           historikkinnslag: Array<
                               | {
@@ -5095,7 +4062,7 @@ export type FetchPersonQuery = {
                                     arsaker: Array<string>;
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5111,7 +4078,7 @@ export type FetchPersonQuery = {
                               | {
                                     __typename: 'FjernetFraPaVent';
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5122,7 +4089,7 @@ export type FetchPersonQuery = {
                                     arsaker: Array<string>;
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5139,7 +4106,7 @@ export type FetchPersonQuery = {
                                     __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5155,7 +4122,7 @@ export type FetchPersonQuery = {
                               | {
                                     __typename: 'PeriodeHistorikkElementNy';
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5164,7 +4131,7 @@ export type FetchPersonQuery = {
                                     __typename: 'StansAutomatiskBehandlingSaksbehandler';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5181,7 +4148,7 @@ export type FetchPersonQuery = {
                                     __typename: 'TotrinnsvurderingRetur';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5199,10 +4166,10 @@ export type FetchPersonQuery = {
                               __typename: 'Dag';
                               dato: string;
                               grad: number | null;
-                              sykdomsdagtype: Sykdomsdagtype;
-                              utbetalingsdagtype: Utbetalingsdagtype;
-                              begrunnelser: Array<Begrunnelse> | null;
-                              kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                              sykdomsdagtype: Types.Sykdomsdagtype;
+                              utbetalingsdagtype: Types.Utbetalingsdagtype;
+                              begrunnelser: Array<Types.Begrunnelse> | null;
+                              kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                               utbetalingsinfo: {
                                   __typename: 'Utbetalingsinfo';
                                   arbeidsgiverbelop: number | null;
@@ -5226,7 +4193,7 @@ export type FetchPersonQuery = {
                               vurdering: {
                                   __typename: 'VarselvurderingDTO';
                                   ident: string;
-                                  status: Varselstatus;
+                                  status: Types.Varselstatus;
                                   tidsstempel: string;
                               } | null;
                           }>;
@@ -5235,7 +4202,7 @@ export type FetchPersonQuery = {
                                     __typename: 'InntektHentetFraAOrdningen';
                                     mottattDato: string;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'Inntektsmelding';
@@ -5243,7 +4210,7 @@ export type FetchPersonQuery = {
                                     mottattDato: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadArbeidsgiver';
@@ -5253,7 +4220,7 @@ export type FetchPersonQuery = {
                                     sendtArbeidsgiver: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadArbeidsledig';
@@ -5263,7 +4230,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadFrilans';
@@ -5273,7 +4240,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadNav';
@@ -5283,7 +4250,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadSelvstendig';
@@ -5293,7 +4260,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'Sykmelding';
@@ -5301,7 +4268,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                           >;
                       }
@@ -5332,8 +4299,8 @@ export type FetchPersonQuery = {
                           grad: number | null;
                           fraGrad: number | null;
                           dato: string;
-                          type: Dagtype;
-                          fraType: Dagtype | null;
+                          type: Types.Dagtype;
+                          fraType: Types.Dagtype | null;
                       }>;
                       saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
@@ -5397,7 +4364,7 @@ export type FetchPersonQuery = {
                       skjonnsfastsatt: {
                           __typename: 'SkjonnsfastsattSykepengegrunnlag';
                           arsak: string;
-                          type: Skjonnsfastsettingstype | null;
+                          type: Types.Skjonnsfastsettingstype | null;
                           begrunnelse: string | null;
                           begrunnelseMal: string | null;
                           begrunnelseFritekst: string | null;
@@ -5438,7 +4405,7 @@ export type FetchPersonQuery = {
                           __typename: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
-                          kilde: Inntektskilde;
+                          kilde: Types.Inntektskilde;
                           inntektFraAOrdningen: Array<{
                               __typename: 'InntektFraAOrdningen';
                               maned: string;
@@ -5449,7 +4416,7 @@ export type FetchPersonQuery = {
                           __typename: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
-                          kilde: Inntektskilde;
+                          kilde: Types.Inntektskilde;
                           inntektFraAOrdningen: Array<{
                               __typename: 'InntektFraAOrdningen';
                               maned: string;
@@ -5472,7 +4439,7 @@ export type FetchPersonQuery = {
             | {
                   __typename: 'VilkarsgrunnlagSpleisV2';
                   skjonnsmessigFastsattAarlig: number | null;
-                  vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering;
+                  vurderingAvKravOmMedlemskap: Types.VilkarsgrunnlagVurdering;
                   oppfyllerKravOmMinstelonn: boolean;
                   oppfyllerKravOmOpptjening: boolean;
                   antallOpptjeningsdagerErMinst: number;
@@ -5515,7 +4482,7 @@ export type FetchPersonQuery = {
                           __typename: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
-                          kilde: Inntektskilde;
+                          kilde: Types.Inntektskilde;
                           inntektFraAOrdningen: Array<{
                               __typename: 'InntektFraAOrdningen';
                               maned: string;
@@ -5526,7 +4493,7 @@ export type FetchPersonQuery = {
                           __typename: 'OmregnetArsinntekt';
                           belop: number;
                           manedsbelop: number;
-                          kilde: Inntektskilde;
+                          kilde: Types.Inntektskilde;
                           inntektFraAOrdningen: Array<{
                               __typename: 'InntektFraAOrdningen';
                               maned: string;
@@ -5580,18 +4547,19 @@ export type FetchPersonQuery = {
                           vedtaksperiodeId: string;
                           maksdato: string;
                           vilkarsgrunnlagId: string | null;
+                          grunnbelopsjustertGjennomsnitt: string | null;
                           behandlingId: string;
                           fom: string;
                           tom: string;
                           erForkastet: boolean;
-                          inntektstype: Inntektstype;
+                          inntektstype: Types.Inntektstype;
                           opprettet: string;
-                          periodetype: Periodetype;
-                          periodetilstand: Periodetilstand;
+                          periodetype: Types.Periodetype;
+                          periodetilstand: Types.Periodetilstand;
                           skjaeringstidspunkt: string;
                           handlinger: Array<{
                               __typename: 'Handling';
-                              type: Periodehandling;
+                              type: Types.Periodehandling;
                               tillatt: boolean;
                               begrunnelse: string | null;
                           }>;
@@ -5602,7 +4570,7 @@ export type FetchPersonQuery = {
                                     arsaker: Array<string>;
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5618,7 +4586,7 @@ export type FetchPersonQuery = {
                               | {
                                     __typename: 'FjernetFraPaVent';
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5629,7 +4597,7 @@ export type FetchPersonQuery = {
                                     arsaker: Array<string>;
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5646,7 +4614,7 @@ export type FetchPersonQuery = {
                                     __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5662,7 +4630,7 @@ export type FetchPersonQuery = {
                               | {
                                     __typename: 'PeriodeHistorikkElementNy';
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5671,7 +4639,7 @@ export type FetchPersonQuery = {
                                     __typename: 'StansAutomatiskBehandlingSaksbehandler';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5688,7 +4656,7 @@ export type FetchPersonQuery = {
                                     __typename: 'TotrinnsvurderingRetur';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -5734,8 +4702,8 @@ export type FetchPersonQuery = {
                               arbeidsgiverNettoBelop: number;
                               personFagsystemId: string;
                               personNettoBelop: number;
-                              status: Utbetalingstatus;
-                              type: Utbetalingtype;
+                              status: Types.Utbetalingstatus;
+                              type: Types.Utbetalingtype;
                               vurdering: {
                                   __typename: 'Vurdering';
                                   automatisk: boolean;
@@ -5835,10 +4803,14 @@ export type FetchPersonQuery = {
                               saksbehandler: string | null;
                               beslutter: string | null;
                           } | null;
-                          egenskaper: Array<{ __typename: 'Oppgaveegenskap'; egenskap: Egenskap; kategori: Kategori }>;
+                          egenskaper: Array<{
+                              __typename: 'Oppgaveegenskap';
+                              egenskap: Types.Egenskap;
+                              kategori: Types.Kategori;
+                          }>;
                           avslag: Array<{
                               __typename: 'Avslag';
-                              type: Avslagstype;
+                              type: Types.Avslagstype;
                               begrunnelse: string;
                               opprettet: string;
                               saksbehandlerIdent: string;
@@ -5846,7 +4818,7 @@ export type FetchPersonQuery = {
                           }>;
                           vedtakBegrunnelser: Array<{
                               __typename: 'VedtakBegrunnelse';
-                              utfall: VedtakUtfall;
+                              utfall: Types.VedtakUtfall;
                               begrunnelse: string | null;
                               opprettet: string;
                               saksbehandlerIdent: string;
@@ -5877,10 +4849,10 @@ export type FetchPersonQuery = {
                               __typename: 'Dag';
                               dato: string;
                               grad: number | null;
-                              sykdomsdagtype: Sykdomsdagtype;
-                              utbetalingsdagtype: Utbetalingsdagtype;
-                              begrunnelser: Array<Begrunnelse> | null;
-                              kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                              sykdomsdagtype: Types.Sykdomsdagtype;
+                              utbetalingsdagtype: Types.Utbetalingsdagtype;
+                              begrunnelser: Array<Types.Begrunnelse> | null;
+                              kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                               utbetalingsinfo: {
                                   __typename: 'Utbetalingsinfo';
                                   arbeidsgiverbelop: number | null;
@@ -5904,7 +4876,7 @@ export type FetchPersonQuery = {
                               vurdering: {
                                   __typename: 'VarselvurderingDTO';
                                   ident: string;
-                                  status: Varselstatus;
+                                  status: Types.Varselstatus;
                                   tidsstempel: string;
                               } | null;
                           }>;
@@ -5913,7 +4885,7 @@ export type FetchPersonQuery = {
                                     __typename: 'InntektHentetFraAOrdningen';
                                     mottattDato: string;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'Inntektsmelding';
@@ -5921,7 +4893,7 @@ export type FetchPersonQuery = {
                                     mottattDato: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadArbeidsgiver';
@@ -5931,7 +4903,7 @@ export type FetchPersonQuery = {
                                     sendtArbeidsgiver: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadArbeidsledig';
@@ -5941,7 +4913,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadFrilans';
@@ -5951,7 +4923,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadNav';
@@ -5961,7 +4933,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadSelvstendig';
@@ -5971,7 +4943,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'Sykmelding';
@@ -5979,7 +4951,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                           >;
                       }
@@ -5990,11 +4962,11 @@ export type FetchPersonQuery = {
                           fom: string;
                           tom: string;
                           erForkastet: boolean;
-                          inntektstype: Inntektstype;
+                          inntektstype: Types.Inntektstype;
                           opprettet: string;
-                          periodetype: Periodetype;
+                          periodetype: Types.Periodetype;
                           vedtaksperiodeId: string;
-                          periodetilstand: Periodetilstand;
+                          periodetilstand: Types.Periodetilstand;
                           skjaeringstidspunkt: string;
                           historikkinnslag: Array<
                               | {
@@ -6003,7 +4975,7 @@ export type FetchPersonQuery = {
                                     arsaker: Array<string>;
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -6019,7 +4991,7 @@ export type FetchPersonQuery = {
                               | {
                                     __typename: 'FjernetFraPaVent';
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -6030,7 +5002,7 @@ export type FetchPersonQuery = {
                                     arsaker: Array<string>;
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -6047,7 +5019,7 @@ export type FetchPersonQuery = {
                                     __typename: 'OpphevStansAutomatiskBehandlingSaksbehandler';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -6063,7 +5035,7 @@ export type FetchPersonQuery = {
                               | {
                                     __typename: 'PeriodeHistorikkElementNy';
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -6072,7 +5044,7 @@ export type FetchPersonQuery = {
                                     __typename: 'StansAutomatiskBehandlingSaksbehandler';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -6089,7 +5061,7 @@ export type FetchPersonQuery = {
                                     __typename: 'TotrinnsvurderingRetur';
                                     notattekst: string | null;
                                     id: number;
-                                    type: PeriodehistorikkType;
+                                    type: Types.PeriodehistorikkType;
                                     timestamp: string;
                                     saksbehandlerIdent: string | null;
                                     dialogRef: number | null;
@@ -6107,10 +5079,10 @@ export type FetchPersonQuery = {
                               __typename: 'Dag';
                               dato: string;
                               grad: number | null;
-                              sykdomsdagtype: Sykdomsdagtype;
-                              utbetalingsdagtype: Utbetalingsdagtype;
-                              begrunnelser: Array<Begrunnelse> | null;
-                              kilde: { __typename: 'Kilde'; id: string; type: Kildetype };
+                              sykdomsdagtype: Types.Sykdomsdagtype;
+                              utbetalingsdagtype: Types.Utbetalingsdagtype;
+                              begrunnelser: Array<Types.Begrunnelse> | null;
+                              kilde: { __typename: 'Kilde'; id: string; type: Types.Kildetype };
                               utbetalingsinfo: {
                                   __typename: 'Utbetalingsinfo';
                                   arbeidsgiverbelop: number | null;
@@ -6134,7 +5106,7 @@ export type FetchPersonQuery = {
                               vurdering: {
                                   __typename: 'VarselvurderingDTO';
                                   ident: string;
-                                  status: Varselstatus;
+                                  status: Types.Varselstatus;
                                   tidsstempel: string;
                               } | null;
                           }>;
@@ -6143,7 +5115,7 @@ export type FetchPersonQuery = {
                                     __typename: 'InntektHentetFraAOrdningen';
                                     mottattDato: string;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'Inntektsmelding';
@@ -6151,7 +5123,7 @@ export type FetchPersonQuery = {
                                     mottattDato: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadArbeidsgiver';
@@ -6161,7 +5133,7 @@ export type FetchPersonQuery = {
                                     sendtArbeidsgiver: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadArbeidsledig';
@@ -6171,7 +5143,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadFrilans';
@@ -6181,7 +5153,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadNav';
@@ -6191,7 +5163,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'SoknadSelvstendig';
@@ -6201,7 +5173,7 @@ export type FetchPersonQuery = {
                                     sendtNav: string;
                                     eksternDokumentId: string | null;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                               | {
                                     __typename: 'Sykmelding';
@@ -6209,7 +5181,7 @@ export type FetchPersonQuery = {
                                     tom: string;
                                     rapportertDato: string;
                                     id: string;
-                                    type: Hendelsetype;
+                                    type: Types.Hendelsetype;
                                 }
                           >;
                       }
@@ -6240,8 +5212,8 @@ export type FetchPersonQuery = {
                           grad: number | null;
                           fraGrad: number | null;
                           dato: string;
-                          type: Dagtype;
-                          fraType: Dagtype | null;
+                          type: Types.Dagtype;
+                          fraType: Types.Dagtype | null;
                       }>;
                       saksbehandler: { __typename: 'Saksbehandler'; ident: string | null; navn: string };
                   }
@@ -6305,7 +5277,7 @@ export type FetchPersonQuery = {
                       skjonnsfastsatt: {
                           __typename: 'SkjonnsfastsattSykepengegrunnlag';
                           arsak: string;
-                          type: Skjonnsfastsettingstype | null;
+                          type: Types.Skjonnsfastsettingstype | null;
                           begrunnelse: string | null;
                           begrunnelseMal: string | null;
                           begrunnelseFritekst: string | null;
@@ -7440,6 +6412,7 @@ export const BeregnetPeriodeFragmentDoc = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunnbelopsjustertGjennomsnitt' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'annulleringskandidater' },
@@ -9159,6 +8132,7 @@ export const ArbeidsgiverFragmentDoc = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunnbelopsjustertGjennomsnitt' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'annulleringskandidater' },
@@ -10400,6 +9374,7 @@ export const PersonFragmentDoc = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunnbelopsjustertGjennomsnitt' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'annulleringskandidater' },
@@ -11795,6 +10770,7 @@ export const FetchPersonDocument = {
                             ],
                         },
                     },
+                    { kind: 'Field', name: { kind: 'Name', value: 'grunnbelopsjustertGjennomsnitt' } },
                     {
                         kind: 'Field',
                         name: { kind: 'Name', value: 'annulleringskandidater' },

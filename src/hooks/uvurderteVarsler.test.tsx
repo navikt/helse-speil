@@ -73,6 +73,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         vilkarsgrunnlagId: null,
         pensjonsgivendeInntekter: [],
         annulleringskandidater: [],
+        grunnbelopsjustertGjennomsnitt: null,
     };
 };
 
