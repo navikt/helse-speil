@@ -22,16 +22,18 @@ export const AnimatedExpandableDiv = ({ expanded, children }: AnimatedExpandable
                     key="div"
                     ref={ref}
                     style={{ overflow: 'visible' }}
-                    initial={{ height: 0 }}
-                    exit={{ height: 0 }}
-                    animate={{ height: 'auto' }}
+                    variants={{ lukket: { height: 0 }, åpen: { height: 'auto' } }}
+                    initial="lukket"
+                    exit="lukket"
+                    animate="åpen"
                     onAnimationStart={() => {
                         if (ref.current) {
                             ref.current.style.overflow = 'hidden';
                         }
                     }}
-                    onAnimationComplete={() => {
-                        if (ref.current) {
+                    onAnimationComplete={(definition) => {
+                        // Etter lukking er høyden 0, så synlig overflow ville vist innholdet et øyeblikk før det fjernes
+                        if (ref.current && definition === 'åpen') {
                             ref.current.style.overflow = 'visible';
                         }
                     }}
