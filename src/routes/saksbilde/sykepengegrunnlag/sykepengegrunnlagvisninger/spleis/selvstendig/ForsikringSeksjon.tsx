@@ -107,7 +107,7 @@ const Forsikringsinnhold = ({
 const IndividuellForsikringInnhold = ({ forsikring }: { forsikring: ApiIndividuellForsikring }): ReactElement => (
     <VStack>
         <BodyShort as="span" weight="semibold">
-            {somNorskDato(forsikring.virkningsdato)} — {somNorskDato(forsikring.opphørsdato ?? undefined)}
+            {somNorskDato(forsikring.virkningsdato)} – {somNorskDato(forsikring.opphørsdato ?? undefined)}
         </BodyShort>
         <BodyShort>
             {forsikring.navn} <FolketrygdlovenLenke referanse={forsikring.dekningFolketrygdlovenreferanse} />

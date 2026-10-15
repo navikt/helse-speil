@@ -176,6 +176,7 @@
                                         "inntektsar": 2022
                                     }
                                 ],
+                                "grunnbelopsjustertGjennomsnitt": "796000.0",
                                 "annulleringskandidater": [
                                     {
                                         "__typename": "Annulleringskandidat",

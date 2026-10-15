@@ -64,6 +64,16 @@ export const SykepengegrunnlagSelvstendig = ({ vilkårsgrunnlag, beregnetPeriode
                                     </HStack>
                                 ))}
                         </VStack>
+
+                        {beregnetPeriode.grunnbelopsjustertGjennomsnitt && (
+                            <HStack gap="space-24">
+                                <BodyShort weight="semibold">Grunnbeløpsjustert gjennomsnitt</BodyShort>
+                                <BodyShort>
+                                    {somPenger(Number(beregnetPeriode.grunnbelopsjustertGjennomsnitt))}
+                                </BodyShort>
+                            </HStack>
+                        )}
+
                         <HStack gap="space-24">
                             <BodyShort weight="semibold">Beregnet årsinntekt</BodyShort>
                             <BodyShort>{somPenger(Number(vilkårsgrunnlag.beregningsgrunnlag))}</BodyShort>

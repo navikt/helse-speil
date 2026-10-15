@@ -16,12 +16,19 @@ config:
     YearMonth: 'string'
     BigDecimal: 'string'
 generates:
-  ./src/io/graphql/generated/graphql.ts:
+  ./src/io/graphql/generated/schema.ts:
     plugins:
       - 'typescript'
+    config:
+      nonOptionalTypename: true
+      avoidOptionals:
+        field: true
+  ./src/io/graphql/generated/graphql.ts:
+    plugins:
       - 'typescript-operations'
       - 'typed-document-node'
     config:
+      importSchemaTypesFrom: './src/io/graphql/generated/schema'
       nonOptionalTypename: true
       exportFragmentSpreadSubTypes: true
       dedupeFragments: true

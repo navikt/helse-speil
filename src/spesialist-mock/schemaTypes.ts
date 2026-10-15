@@ -1,10 +1,5 @@
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
-export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-export type MakeEmpty<T extends { [key: string]: unknown }, K extends keyof T> = { [_ in K]?: never };
-export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' | '__typename' ? T[P] : never };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
     ID: { input: string; output: string };
@@ -18,14 +13,6 @@ export type Scalars = {
     UUID: { input: string; output: string };
     YearMonth: { input: string; output: string };
 };
-
-export enum Adressebeskyttelse {
-    Fortrolig = 'Fortrolig',
-    StrengtFortrolig = 'StrengtFortrolig',
-    StrengtFortroligUtland = 'StrengtFortroligUtland',
-    Ugradert = 'Ugradert',
-    Ukjent = 'Ukjent',
-}
 
 export type Alder = {
     __typename?: 'Alder';
@@ -161,6 +148,7 @@ export type BeregnetPeriode = Periode & {
     fom: Scalars['LocalDate']['output'];
     forbrukteSykedager?: Maybe<Scalars['Int']['output']>;
     gjenstaendeSykedager?: Maybe<Scalars['Int']['output']>;
+    grunnbelopsjustertGjennomsnitt?: Maybe<Scalars['BigDecimal']['output']>;
     handlinger: Array<Handling>;
     hendelser: Array<Hendelse>;
     historikkinnslag: Array<Historikkinnslag>;
@@ -408,12 +396,6 @@ export enum Kildetype {
     Ukjent = 'UKJENT',
 }
 
-export enum Kjonn {
-    Kvinne = 'Kvinne',
-    Mann = 'Mann',
-    Ukjent = 'Ukjent',
-}
-
 export type Kommentar = {
     __typename?: 'Kommentar';
     feilregistrert_tidspunkt?: Maybe<Scalars['LocalDateTime']['output']>;
@@ -617,22 +599,10 @@ export type Person = {
     arbeidsgivere: Array<Arbeidsgiver>;
     dodsdato?: Maybe<Scalars['LocalDate']['output']>;
     fodselsnummer: Scalars['String']['output'];
-    personinfo: Personinfo;
     selvstendigNaering?: Maybe<SelvstendigNaering>;
     tildeling?: Maybe<Tildeling>;
     tilleggsinfoForInntektskilder: Array<TilleggsinfoForInntektskilde>;
     vilkarsgrunnlagV2: Array<VilkarsgrunnlagV2>;
-};
-
-export type Personinfo = {
-    __typename?: 'Personinfo';
-    adressebeskyttelse: Adressebeskyttelse;
-    etternavn: Scalars['String']['output'];
-    fodselsdato: Scalars['LocalDate']['output'];
-    fornavn: Scalars['String']['output'];
-    fullmakt?: Maybe<Scalars['Boolean']['output']>;
-    kjonn: Kjonn;
-    mellomnavn?: Maybe<Scalars['String']['output']>;
 };
 
 export type Query = {
