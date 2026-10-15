@@ -35,13 +35,11 @@ export const JusterbarSidemeny = ({
     });
 
     const separatorClassName = cn(
-        'relative z-2 flex cursor-col-resize items-stretch transition-[width,border-color,border-left-width] duration-200 ease-in-out',
+        'relative z-2 flex cursor-col-resize items-stretch transition-[width] duration-200 ease-in-out',
         !visSidemeny && 'w-0',
-        visSidemeny && 'w-2 border-l',
-        visSidemeny && isDragging && 'border-l-3 border-ax-border-accent',
         visSidemeny &&
-            !isDragging &&
-            'border-l-ax-border-neutral-subtle hover:border-l-3 hover:border-ax-border-accent',
+            "w-2 border-l border-l-ax-border-neutral-subtle before:absolute before:inset-y-0 before:-left-px before:w-[3px] before:origin-left before:scale-x-0 before:bg-ax-border-accent before:opacity-0 before:transition-[transform,opacity] before:duration-200 before:ease-in-out before:content-[''] hover:before:scale-x-100 hover:before:opacity-100",
+        visSidemeny && isDragging && 'before:scale-x-100 before:opacity-100',
     );
 
     const innholdClassName = cn(
