@@ -83,6 +83,7 @@ export function ManuellVurderingAvVilkårSkjema({
                             {...field}
                             value={field.value ?? null}
                             legend={vilkårsspørsmål[vilkårskode]}
+                            description="Søkeren må ha vært i arbeid minst 4 uker umiddelbart før arbeidsuførheten"
                             size="small"
                             error={fieldState.error?.message}
                         >
