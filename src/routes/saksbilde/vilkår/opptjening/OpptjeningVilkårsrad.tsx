@@ -3,9 +3,11 @@ import React, { PropsWithChildren, ReactElement, useId } from 'react';
 import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Spacer, VStack } from '@navikt/ds-react';
 
-import { ManueltVurderbarVilkårskode, vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
+import { likestiltYtelseLabels } from '@form-schemas/likestiltYtelseSkjema';
+import { vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import {
+    ApiVilkårskode,
     ApiVilkårsvurdering,
     ApiVurderingsgrunnlag,
     ApiVurderingsgrunnlagArbeidsforhold,
@@ -19,7 +21,7 @@ import { cn } from '@utils/tw';
 import { ArbeidsforholdIGrunnlaget } from './ArbeidsforholdIGrunnlaget';
 
 interface OpptjeningVilkårsradProps {
-    vilkårskode: ManueltVurderbarVilkårskode;
+    vilkårskode: ApiVilkårskode;
     vurdering?: ApiVilkårsvurdering;
     erAvgjørende: boolean;
     readOnly: boolean;
@@ -80,6 +82,7 @@ function Vurderingsdetaljer({ vurdering }: { vurdering: ApiVilkårsvurdering }):
     const arbeidsforholdgrunnlag = grunnlag && erArbeidsforholdgrunnlag(grunnlag) ? grunnlag : undefined;
     const opptjeningsgrunnlag = opptjeningsgrunnlagFor(vurdering);
     const journalpostIder = erSaksbehandlerkilde(vurdering.kilde) ? vurdering.kilde.journalpostId : [];
+    const ytelser = erSaksbehandlerkilde(vurdering.kilde) ? vurdering.kilde.ytelser : [];
 
     if (!erSaksbehandlerkilde(vurdering.kilde) && !arbeidsforholdgrunnlag) {
         return null;
@@ -89,6 +92,11 @@ function Vurderingsdetaljer({ vurdering }: { vurdering: ApiVilkårsvurdering }):
         <VStack gap="space-12">
             {erSaksbehandlerkilde(vurdering.kilde) && (
                 <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
+                    {ytelser.length > 0 && (
+                        <Detaljrad label="Likestilte ytelser">
+                            {ytelser.map((ytelse) => likestiltYtelseLabels[ytelse]).join(', ')}
+                        </Detaljrad>
+                    )}
                     <Detaljrad label="Begrunnelse">{vurdering.kilde.fritekstbegrunnelse}</Detaljrad>
                     {journalpostIder.length > 0 && (
                         <Detaljrad label="Journalpost-ID">{journalpostIder.join(', ')}</Detaljrad>
@@ -112,7 +120,7 @@ function Vurderingsdetaljer({ vurdering }: { vurdering: ApiVilkårsvurdering }):
     );
 }
 
-function Detaljrad({ label, children }: PropsWithChildren<{ label: string }>): ReactElement {
+export function Detaljrad({ label, children }: PropsWithChildren<{ label: string }>): ReactElement {
     return (
         <>
             <BodyShort as="dt" size="small" textColor="subtle">
@@ -125,7 +133,7 @@ function Detaljrad({ label, children }: PropsWithChildren<{ label: string }>): R
     );
 }
 
-function Utfallsikon({ utfall }: { utfall: Vilkårsutfall }): ReactElement {
+export function Utfallsikon({ utfall }: { utfall: Vilkårsutfall }): ReactElement {
     switch (utfall) {
         case 'Oppfylt':
             return <CheckmarkCircleIcon title="Oppfylt" className="text-ax-text-neutral" fontSize="24" />;
@@ -136,7 +144,7 @@ function Utfallsikon({ utfall }: { utfall: Vilkårsutfall }): ReactElement {
     }
 }
 
-function vurdertTekst(vurdering?: ApiVilkårsvurdering): string | undefined {
+export function vurdertTekst(vurdering?: ApiVilkårsvurdering): string | undefined {
     if (!vurdering?.vurdertTidspunkt) {
         return undefined;
     }
@@ -162,7 +170,7 @@ function opptjeningsgrunnlagFor(
         : undefined;
 }
 
-function erSaksbehandlerkilde(kilde: ApiVurderingskilde): kilde is ApiVurderingskildeSaksbehandler {
+export function erSaksbehandlerkilde(kilde: ApiVurderingskilde): kilde is ApiVurderingskildeSaksbehandler {
     return 'ident' in kilde;
 }
 

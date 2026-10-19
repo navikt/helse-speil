@@ -1,31 +1,27 @@
 import React, { ReactElement } from 'react';
-import { Controller, useFieldArray, useForm, useWatch } from 'react-hook-form';
+import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { PlusIcon } from '@navikt/aksel-icons';
-import { Alert, Button, HStack, LocalAlert, Radio, RadioGroup, TextField, Textarea, VStack } from '@navikt/ds-react';
+import { Alert, Button, HStack, LocalAlert, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 
-import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
-    Journalpostvalg,
+    EnkeltvurderbarVilkårskode,
     ManuellVurderingAvVilkårSchema,
-    ManueltVurderbarVilkårskode,
+    begrunnelseOgJournalpostDefaultValues,
+    journalpostIderTilRequest,
     manuellVurderingAvVilkårSkjema,
     vilkårsspørsmål,
 } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getGetSaksbehandlerhandlingerForPersonQueryKey } from '@io/rest/generated/personer/personer';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
-import {
-    getGetOpptjeningshistorikkBehandlerQueryKey,
-    getGetVilkårsvurderingerForPersonBehandlerQueryKey,
-    usePostManuellVilkårsvurderingBehandler,
-} from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
-import { useQueryClient } from '@tanstack/react-query';
+import { usePostManuellVilkårsvurderingBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+
+import { BegrunnelseOgJournalpost } from './BegrunnelseOgJournalpost';
+import { useInvaliderOpptjening } from './useInvaliderOpptjening';
 
 interface ManuellVurderingAvVilkårSkjemaProps {
     personPseudoId: string;
     skjæringstidspunkt: string;
-    vilkårskode: ManueltVurderbarVilkårskode;
+    vilkårskode: EnkeltvurderbarVilkårskode;
     onOverstyrt: (opptjeningsvurderingId: string) => void;
     onLukk: () => void;
 }
@@ -37,37 +33,21 @@ export function ManuellVurderingAvVilkårSkjema({
     onOverstyrt,
     onLukk,
 }: ManuellVurderingAvVilkårSkjemaProps): ReactElement {
-    const queryClient = useQueryClient();
+    const invaliderOpptjening = useInvaliderOpptjening(personPseudoId);
 
     const form = useForm<ManuellVurderingAvVilkårSchema>({
         resolver: zodResolver(manuellVurderingAvVilkårSkjema),
         defaultValues: {
             utfall: undefined,
-            fritekstbegrunnelse: '',
-            journalpostvalg: Journalpostvalg.OPPLYST_I_SPEIL,
-            journalpostIder: [{ verdi: '' }],
+            ...begrunnelseOgJournalpostDefaultValues,
         },
     });
     const erIkkeOppfylt = useWatch({ control: form.control, name: 'utfall' }) === ApiUtfall.IKKE_OPPFYLT;
-    const skalLeggeTilJournalpost =
-        useWatch({ control: form.control, name: 'journalpostvalg' }) === Journalpostvalg.LEGG_TIL_JOURNALPOST;
-    const { fields, append, remove } = useFieldArray<ManuellVurderingAvVilkårSchema, 'journalpostIder'>({
-        control: form.control,
-        name: 'journalpostIder',
-    });
 
     const { mutate, isPending, isError } = usePostManuellVilkårsvurderingBehandler({
         mutation: {
             onSuccess: (response) => {
-                queryClient.invalidateQueries({
-                    queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
-                });
-                queryClient.invalidateQueries({
-                    queryKey: getGetOpptjeningshistorikkBehandlerQueryKey(personPseudoId),
-                });
-                queryClient.invalidateQueries({
-                    queryKey: getGetSaksbehandlerhandlingerForPersonQueryKey(personPseudoId),
-                });
+                invaliderOpptjening();
                 onOverstyrt(response.opptjeningsvurderingId);
                 onLukk();
             },
@@ -87,158 +67,59 @@ export function ManuellVurderingAvVilkårSkjema({
                 vilkårskode,
                 utfall,
                 fritekstbegrunnelse,
-                journalpostId:
-                    journalpostvalg === Journalpostvalg.LEGG_TIL_JOURNALPOST
-                        ? journalpostIder.map((journalpostId) => journalpostId.verdi).filter((verdi) => verdi !== '')
-                        : [],
+                journalpostId: journalpostIderTilRequest({ journalpostvalg, journalpostIder }),
             },
         });
     }
 
     return (
-        <VStack as="form" gap="space-20" onSubmit={form.handleSubmit(onSubmit)}>
-            <Controller
-                control={form.control}
-                name="utfall"
-                render={({ field, fieldState }) => (
-                    <RadioGroup
-                        {...field}
-                        value={field.value ?? null}
-                        legend={vilkårsspørsmål[vilkårskode]}
-                        size="small"
-                        error={fieldState.error?.message}
-                    >
-                        <Radio value={ApiUtfall.OPPFYLT}>Oppfylt</Radio>
-                        <Radio value={ApiUtfall.IKKE_OPPFYLT}>Ikke oppfylt</Radio>
-                    </RadioGroup>
-                )}
-            />
-            {erIkkeOppfylt ? (
-                <LocalAlert status="warning" size="small">
-                    <LocalAlert.Header>
-                        <LocalAlert.Title>
-                            Det er ennå ikke støtte for å manuelt vurdere vilkåret til ikke oppfylt
-                        </LocalAlert.Title>
-                    </LocalAlert.Header>
-                </LocalAlert>
-            ) : (
-                <>
-                    <Controller
-                        control={form.control}
-                        name="fritekstbegrunnelse"
-                        render={({ field, fieldState }) => (
-                            <Textarea
-                                {...field}
-                                label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
-                                description={
-                                    <span className="mt-2 block">
-                                        Begrunnelsen blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.
-                                    </span>
-                                }
-                                size="small"
-                                minRows={3}
-                                className="max-w-150"
-                                error={fieldState.error?.message}
-                            />
-                        )}
-                    />
-                    <Controller
-                        control={form.control}
-                        name="journalpostvalg"
-                        render={({ field, fieldState }) => (
-                            <RadioGroup
-                                {...field}
-                                legend="Journalpost-ID"
-                                description="Velg om du vil legge til en journalpost-ID eller vurdere at saken er godt nok opplyst i Speil"
-                                size="small"
-                                error={fieldState.error?.message}
-                            >
-                                <Radio
-                                    value={Journalpostvalg.OPPLYST_I_SPEIL}
-                                    description="Velg dette alternativet hvis saken allerede er godt nok opplyst i Speil uten at en journalpost-ID må legges til"
-                                >
-                                    Saken er godt nok opplyst i Speil
-                                </Radio>
-                                <Radio
-                                    value={Journalpostvalg.LEGG_TIL_JOURNALPOST}
-                                    description="Bruk dette alternativet hvis det er nødvendig å legge til en journalpost-ID i saken"
-                                >
-                                    Legg til journalpost-ID
-                                </Radio>
-                            </RadioGroup>
-                        )}
-                    />
-                    {skalLeggeTilJournalpost && (
-                        <VStack gap="space-4">
-                            {fields.map((field, index) => (
-                                <HStack key={field.id} gap="space-8" align="end">
-                                    <Controller
-                                        control={form.control}
-                                        name={`journalpostIder.${index}.verdi` as const}
-                                        rules={{
-                                            pattern: {
-                                                value: /^\d*$/,
-                                                message: 'Journalpost-ID kan bare inneholde tall',
-                                            },
-                                        }}
-                                        render={({ field: journalpostField, fieldState }) => {
-                                            const journalpostIdFeil =
-                                                fieldState.error?.message ??
-                                                (/^(?:\d{1,11})?$/.test(journalpostField.value)
-                                                    ? undefined
-                                                    : 'Journalpost-ID må være 1 til 11 siffer');
-
-                                            return (
-                                                <TextField
-                                                    {...journalpostField}
-                                                    label={index === 0 ? 'Journalpost-ID' : undefined}
-                                                    description="Denne finner du i Gosys"
-                                                    size="small"
-                                                    inputMode="numeric"
-                                                    pattern="[0-9]{0,11}"
-                                                    error={journalpostIdFeil}
-                                                />
-                                            );
-                                        }}
-                                    />
-                                    {index > 0 && (
-                                        <Button variant="tertiary" size="small" onClick={() => remove(index)}>
-                                            Fjern
-                                        </Button>
-                                    )}
-                                </HStack>
-                            ))}
-                            <div className="w-fit">
-                                <Button
-                                    type="button"
-                                    variant="tertiary"
-                                    size="xsmall"
-                                    icon={<PlusIcon />}
-                                    onClick={() => append({ verdi: '' })}
-                                    style={{ justifySelf: 'start', paddingInlineStart: 'var(--ax-space-0)' }}
-                                >
-                                    Legg til flere Journalpost-ID
-                                </Button>
-                            </div>
-                        </VStack>
+        <FormProvider {...form}>
+            <VStack as="form" gap="space-20" onSubmit={form.handleSubmit(onSubmit)}>
+                <Controller
+                    control={form.control}
+                    name="utfall"
+                    render={({ field, fieldState }) => (
+                        <RadioGroup
+                            {...field}
+                            value={field.value ?? null}
+                            legend={vilkårsspørsmål[vilkårskode]}
+                            size="small"
+                            error={fieldState.error?.message}
+                        >
+                            <Radio value={ApiUtfall.OPPFYLT}>Oppfylt</Radio>
+                            <Radio value={ApiUtfall.IKKE_OPPFYLT}>Ikke oppfylt</Radio>
+                        </RadioGroup>
                     )}
-                </>
-            )}
-            <HStack gap="space-8">
-                {!erIkkeOppfylt && (
-                    <Button type="submit" variant="primary" size="small" loading={isPending}>
-                        Lagre
+                />
+                {erIkkeOppfylt ? <IkkeOppfyltStøttesIkkeAlert /> : <BegrunnelseOgJournalpost />}
+                <HStack gap="space-8">
+                    {!erIkkeOppfylt && (
+                        <Button type="submit" variant="primary" size="small" loading={isPending}>
+                            Lagre
+                        </Button>
+                    )}
+                    <Button type="button" variant="tertiary" size="small" onClick={onLukk}>
+                        Avbryt
                     </Button>
+                </HStack>
+                {isError && (
+                    <Alert variant="error" size="small" inline>
+                        Kunne ikke lagre vurderingen
+                    </Alert>
                 )}
-                <Button type="button" variant="tertiary" size="small" onClick={onLukk}>
-                    Avbryt
-                </Button>
-            </HStack>
-            {isError && (
-                <Alert variant="error" size="small" inline>
-                    Kunne ikke lagre vurderingen
-                </Alert>
-            )}
-        </VStack>
+            </VStack>
+        </FormProvider>
+    );
+}
+
+export function IkkeOppfyltStøttesIkkeAlert(): ReactElement {
+    return (
+        <LocalAlert status="warning" size="small">
+            <LocalAlert.Header>
+                <LocalAlert.Title>
+                    Det er ennå ikke støtte for å manuelt vurdere vilkåret til ikke oppfylt
+                </LocalAlert.Title>
+            </LocalAlert.Header>
+        </LocalAlert>
     );
 }

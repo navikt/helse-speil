@@ -64,7 +64,7 @@ function vilkårsvurderingTilEndring(vurdering: ApiVilkårsvurdering): Opptjenin
     return {
         id: vurdering.id,
         tidspunkt: vurdering.vurdertTidspunkt,
-        vilkår: `Opptjeningstid – ${vilkårskodeLabels[vurdering.vilkårskode].toLowerCase()}`,
+        vilkår: `Opptjeningstid – ${medLitenForbokstav(vilkårskodeLabels[vurdering.vilkårskode])}`,
         utfall: utfallFraApi(vurdering.utfall),
         begrunnelse: 'fritekstbegrunnelse' in vurdering.kilde ? vurdering.kilde.fritekstbegrunnelse : undefined,
         kilde: kildetekst(vurdering.kilde),
@@ -81,4 +81,9 @@ function kildetekst(kilde: ApiVurderingskilde): string {
         case ApiKildetype.OVERFOERT_FRA_SPLEIS:
             return 'Spleis';
     }
+}
+
+// Beholder forkortelser som AAP
+function medLitenForbokstav(tekst: string): string {
+    return tekst.charAt(0).toLowerCase() + tekst.slice(1);
 }

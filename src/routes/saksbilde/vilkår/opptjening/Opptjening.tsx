@@ -7,9 +7,12 @@ import {
     manueltVurderbareVilkårskoder,
 } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
+import { ApiVilkårskode } from '@io/rest/generated/vilkarsproving.schemas';
 import { VilkårsutfallIkon } from '@saksbilde/vilkår/vilkårsutfall';
+import { kanVurdereLikestilteYtelser } from '@utils/featureToggles';
 
 import { EndringsloggOpptjeningButton } from './EndringsloggOpptjeningButton';
+import { LikestiltYtelseVilkårsrad } from './LikestiltYtelseVilkårsrad';
 import { OpptjeningVilkårsrad } from './OpptjeningVilkårsrad';
 import { VurderAutomatiskPåNyttKnapp } from './VurderAutomatiskPåNyttKnapp';
 import { Opptjeningsendring } from './useOpptjeningshistorikk';
@@ -72,17 +75,22 @@ export function Opptjening({
                     </Alert>
                 ) : (
                     <VStack as="ul" padding="space-0" margin="space-0" marginInline="space-16 space-0">
-                        {manueltVurderbareVilkårskoder.map((vilkårskode) => (
-                            <OpptjeningVilkårsrad
-                                key={vilkårskode}
-                                vilkårskode={vilkårskode}
-                                vurdering={vurderingFor(vilkårskode)}
-                                erAvgjørende={avgjørendeVilkårskode === vilkårskode}
+                        <OpptjeningVilkårsrad
+                            vilkårskode={ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}
+                            vurdering={vurderingFor(ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER)}
+                            erAvgjørende={avgjørendeVilkårskode === ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}
+                            readOnly={readOnly}
+                            erAktiv={aktivtVilkår === ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}
+                            onVurder={() => onVurder(ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER)}
+                        />
+                        {kanVurdereLikestilteYtelser() && (
+                            <LikestiltYtelseVilkårsrad
+                                vurderingFor={vurderingFor}
                                 readOnly={readOnly}
-                                erAktiv={aktivtVilkår === vilkårskode}
-                                onVurder={() => onVurder(vilkårskode)}
+                                erAktiv={aktivtVilkår === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER}
+                                onVurder={() => onVurder(ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER)}
                             />
-                        ))}
+                        )}
                     </VStack>
                 )}
             </VStack>

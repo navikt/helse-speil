@@ -15,6 +15,7 @@ import {
     Vurdering,
 } from '@io/graphql';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
+import { ApiVilkårskode } from '@io/rest/generated/vilkarsproving.schemas';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
@@ -22,6 +23,7 @@ import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date'
 import { MedlemskapVilkår } from './MedlemskapVilkår';
 import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
 import { VilkårsutfallKort } from './VilkårsutfallKort';
+import { LikestiltYtelseSkjema } from './opptjening/LikestiltYtelseSkjema';
 import { ManuellVurderingAvVilkårSkjema } from './opptjening/ManuellVurderingAvVilkårSkjema';
 import { Opptjening } from './opptjening/Opptjening';
 import { useOpptjeningshistorikk } from './opptjening/useOpptjeningshistorikk';
@@ -106,14 +108,24 @@ export function InngangsvilkårWithContent({
                     </VStack>
                     {aktivtVilkår !== null && skjæringstidspunkt !== undefined && (
                         <Vurderingspanel>
-                            <ManuellVurderingAvVilkårSkjema
-                                key={aktivtVilkår}
-                                personPseudoId={personPseudoId}
-                                skjæringstidspunkt={skjæringstidspunkt}
-                                vilkårskode={aktivtVilkår}
-                                onOverstyrt={opptjeningsvurdering.onOverstyrt}
-                                onLukk={() => setAktivtVilkår(null)}
-                            />
+                            {aktivtVilkår === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER ? (
+                                <LikestiltYtelseSkjema
+                                    key={aktivtVilkår}
+                                    personPseudoId={personPseudoId}
+                                    skjæringstidspunkt={skjæringstidspunkt}
+                                    onOverstyrt={opptjeningsvurdering.onOverstyrt}
+                                    onLukk={() => setAktivtVilkår(null)}
+                                />
+                            ) : (
+                                <ManuellVurderingAvVilkårSkjema
+                                    key={aktivtVilkår}
+                                    personPseudoId={personPseudoId}
+                                    skjæringstidspunkt={skjæringstidspunkt}
+                                    vilkårskode={aktivtVilkår}
+                                    onOverstyrt={opptjeningsvurdering.onOverstyrt}
+                                    onLukk={() => setAktivtVilkår(null)}
+                                />
+                            )}
                         </Vurderingspanel>
                     )}
                 </HStack>

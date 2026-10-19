@@ -7,6 +7,7 @@ import {
     ApiKildetype,
     ApiKravkilde,
     ApiKravkode,
+    ApiLikestiltYtelse,
     ApiNyAutomatiskVilkårsvurderingStatus,
     ApiOpptjeningshistorikkInnslag,
     ApiUtfall,
@@ -19,6 +20,7 @@ import {
     getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     useGetOpptjeningshistorikkBehandler,
     useGetVilkårsvurderingerForPersonBehandler,
+    usePostManuellLikestiltYtelseVurderingBehandler,
     usePostManuellVilkårsvurderingBehandler,
     usePostNyAutomatiskVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
@@ -35,6 +37,7 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
     useGetVilkårsvurderingerForPersonBehandler: vi.fn(),
     useGetOpptjeningshistorikkBehandler: vi.fn(),
+    usePostManuellLikestiltYtelseVurderingBehandler: vi.fn(),
     usePostManuellVilkårsvurderingBehandler: vi.fn(),
     usePostNyAutomatiskVilkårsvurderingBehandler: vi.fn(),
 }));
@@ -53,6 +56,15 @@ const brukerrolleMock = vi.hoisted(() => ({
 vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
     useErCoachFagkoordinatorEllerSupersaksbehandler: () => brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler,
+}));
+
+const featureToggleMock = vi.hoisted(() => ({
+    kanVurdereLikestilteYtelser: true,
+}));
+
+vi.mock('@utils/featureToggles', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@utils/featureToggles')>()),
+    kanVurdereLikestilteYtelser: () => featureToggleMock.kanVurdereLikestilteYtelser,
 }));
 
 const ingenAutomatiskeVurderinger: ApiVilkårsvurderingerForPersonResponse = {
@@ -127,6 +139,7 @@ const saksbehandlerOppfyltArbeidMinst4Uker = medEndretVurdering(automatiskVurder
         ident: 'S123456',
         fritekstbegrunnelse: 'Har likestilt ytelse',
         journalpostId: [],
+        ytelser: [],
         kildetype: ApiKildetype.SAKSBEHANDLER,
     },
 });
@@ -174,6 +187,7 @@ const overførtFraInfotrygd: ApiVilkårsvurderingerForPersonResponse = {
 };
 
 const mutate = vi.fn();
+const mutateLikestilt = vi.fn();
 const mutateNyAutomatisk = vi.fn();
 
 const mockVilkårsvurderinger = (
@@ -221,17 +235,23 @@ const renderOpptjening = (readOnly: boolean) =>
     );
 
 const startVurdering = async () => {
-    await userEvent.click(screen.getByRole('button', { name: 'Vurder vilkår' }));
+    await userEvent.click(within(arbeidsvilkår()).getByRole('button', { name: 'Vurder vilkår' }));
 };
 
 beforeEach(() => {
     mutate.mockClear();
+    mutateLikestilt.mockClear();
     mutateNyAutomatisk.mockClear();
     brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = true;
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
     mockOpptjeningshistorikk([]);
     (usePostManuellVilkårsvurderingBehandler as Mock).mockReturnValue({
         mutate,
+        isPending: false,
+        isError: false,
+    });
+    (usePostManuellLikestiltYtelseVurderingBehandler as Mock).mockReturnValue({
+        mutate: mutateLikestilt,
         isPending: false,
         isError: false,
     });
@@ -302,7 +322,7 @@ describe('Opptjening', () => {
     it('viser vurder vilkår-knappen i produksjon', async () => {
         renderOpptjening(false);
 
-        expect(screen.getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
+        expect(within(arbeidsvilkår()).getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
     });
 
     it('skjuler vurder vilkår-knappen når saksbehandler ikke er coach, fagkoordinator eller supersaksbehandler', async () => {
@@ -368,7 +388,7 @@ describe('Opptjening', () => {
 
         renderOpptjening(false);
 
-        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
+        expect(within(arbeidsvilkår()).queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 
     it('skjuler vurder vilkår-knappen når vilkåret er overført fra Spleis som oppfylt', async () => {
@@ -376,7 +396,7 @@ describe('Opptjening', () => {
 
         renderOpptjening(false);
 
-        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
+        expect(within(arbeidsvilkår()).queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 
     it('viser vurder vilkår-knappen når saksbehandler har vurdert vilkåret som oppfylt', async () => {
@@ -384,7 +404,7 @@ describe('Opptjening', () => {
 
         renderOpptjening(false);
 
-        expect(screen.getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
+        expect(within(arbeidsvilkår()).getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
     });
 
     it('forhåndsvelger ikke utfall fra eksisterende vurdering', async () => {
@@ -514,6 +534,7 @@ describe('Opptjening', () => {
                                 ident: 'S123456',
                                 fritekstbegrunnelse: 'Dokumentert via vedtak',
                                 journalpostId: ['12345'],
+                                ytelser: [],
                                 kildetype: ApiKildetype.SAKSBEHANDLER,
                             },
                         },
@@ -578,7 +599,7 @@ describe('Opptjening', () => {
         await userEvent.click(screen.getByRole('button', { name: 'Avbryt' }));
 
         expect(screen.queryByText('Vurder om søkeren har hatt arbeid i minst 4 uker')).not.toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
+        expect(within(arbeidsvilkår()).getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
     });
 
     it('skjuler vurderingsknappene når saken er read only', async () => {
@@ -901,7 +922,178 @@ describe('Opptjening', () => {
             expect(vurderAutomatiskPåNyttKnapp()).not.toBeInTheDocument();
         });
     });
+
+    describe('likestilt ytelse', () => {
+        const likestiltYtelse = () => screen.getByRole('listitem', { name: 'Likestilt ytelse' });
+        const svar = (spørsmål: RegExp, svar: 'Ja' | 'Nei') =>
+            userEvent.click(
+                within(screen.getByRole('radiogroup', { name: spørsmål })).getByRole('radio', { name: svar }),
+            );
+        const sammenlagt = /arbeid og\/eller likestilt ytelse i minst 4 uker/;
+        const opptjentPåAap = /opptjent på grunnlag av arbeidsavklaringspenger/;
+        const yrkesaktiv = /sammenhengende yrkesaktiv/;
+
+        const startLikestiltVurdering = () =>
+            userEvent.click(within(likestiltYtelse()).getByRole('button', { name: 'Vurder vilkår' }));
+
+        afterEach(() => {
+            featureToggleMock.kanVurdereLikestilteYtelser = true;
+        });
+
+        it('skjuler raden når likestilte ytelser ikke er slått på i miljøet', () => {
+            featureToggleMock.kanVurdereLikestilteYtelser = false;
+
+            renderOpptjening(false);
+
+            expect(screen.queryByRole('listitem', { name: 'Likestilt ytelse' })).not.toBeInTheDocument();
+            expect(screen.getByRole('listitem', { name: 'Arbeid i minst 4 uker' })).toBeVisible();
+        });
+
+        it('viser raden som ikke vurdert når ingen punktum er vurdert', () => {
+            renderOpptjening(false);
+
+            expect(within(likestiltYtelse()).getByText('§ 8-2 andre ledd')).toBeVisible();
+            expect(within(likestiltYtelse()).getByText('Ikke vurdert', { selector: 'span' })).toBeVisible();
+        });
+
+        it('viser vurder vilkår-knappen selv om arbeid er automatisk oppfylt', () => {
+            mockVilkårsvurderinger(automatiskVurdertArbeidMinst4Uker);
+
+            renderOpptjening(false);
+
+            expect(within(likestiltYtelse()).getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
+        });
+
+        it('viser bare oppfølgingsspørsmålene som er aktuelle', async () => {
+            renderOpptjening(false);
+            await startLikestiltVurdering();
+
+            expect(screen.queryByRole('group', { name: /Hvilke likestilte ytelser/ })).not.toBeInTheDocument();
+
+            await svar(sammenlagt, 'Ja');
+            expect(screen.getByRole('group', { name: /Hvilke likestilte ytelser/ })).toBeVisible();
+            expect(screen.queryByRole('radiogroup', { name: opptjentPåAap })).not.toBeInTheDocument();
+
+            await userEvent.click(screen.getByRole('checkbox', { name: 'Foreldrepenger (kap. 14)' }));
+            expect(screen.getByRole('radiogroup', { name: opptjentPåAap })).toBeVisible();
+            expect(screen.queryByRole('radiogroup', { name: yrkesaktiv })).not.toBeInTheDocument();
+
+            await svar(opptjentPåAap, 'Ja');
+            expect(screen.getByRole('radiogroup', { name: yrkesaktiv })).toBeVisible();
+        });
+
+        it('sender svarene til endepunktet for likestilte ytelser', async () => {
+            renderOpptjening(false);
+            await startLikestiltVurdering();
+
+            await svar(sammenlagt, 'Ja');
+            await userEvent.click(screen.getByRole('checkbox', { name: 'Sykepenger (kap. 8)' }));
+            await userEvent.click(screen.getByRole('checkbox', { name: 'Foreldrepenger (kap. 14)' }));
+            await svar(opptjentPåAap, 'Ja');
+            await svar(yrkesaktiv, 'Ja');
+            await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Hadde FP etter jobb');
+            await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+            expect(mutateLikestilt).toHaveBeenCalledWith({
+                personId: 'en-person',
+                data: {
+                    skjæringstidspunkt: '2024-01-01',
+                    sammenlagtMinst4Uker: true,
+                    ytelser: [ApiLikestiltYtelse.SYKEPENGER, ApiLikestiltYtelse.FORELDREPENGER],
+                    foreldrepengerOpptjentPåAap: true,
+                    yrkesaktivMinst4UkerFørUttak: true,
+                    fritekstbegrunnelse: 'Hadde FP etter jobb',
+                    journalpostId: [],
+                },
+            });
+            expect(mutate).not.toHaveBeenCalled();
+        });
+
+        it('viser advarsel og kan ikke lagre når svarene gir ikke oppfylt', async () => {
+            renderOpptjening(false);
+            await startLikestiltVurdering();
+
+            await svar(sammenlagt, 'Nei');
+
+            expect(screen.getByText(/ennå ikke støtte for å manuelt vurdere vilkåret til ikke oppfylt/)).toBeVisible();
+            expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
+        });
+
+        it('viser advarsel når foreldrepenger opptjent på AAP mangler yrkesaktivitet før uttak', async () => {
+            renderOpptjening(false);
+            await startLikestiltVurdering();
+
+            await svar(sammenlagt, 'Ja');
+            await userEvent.click(screen.getByRole('checkbox', { name: 'Foreldrepenger (kap. 14)' }));
+            await svar(opptjentPåAap, 'Ja');
+            await svar(yrkesaktiv, 'Nei');
+
+            expect(screen.getByText(/ennå ikke støtte for å manuelt vurdere vilkåret til ikke oppfylt/)).toBeVisible();
+            expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
+        });
+
+        it('krever minst én ytelse', async () => {
+            renderOpptjening(false);
+            await startLikestiltVurdering();
+
+            await svar(sammenlagt, 'Ja');
+            await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Begrunnelse');
+            await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+            expect(await screen.findByText('Velg minst én ytelse')).toBeVisible();
+            expect(mutateLikestilt).not.toHaveBeenCalled();
+        });
+
+        it('viser svarene og hjemmelen etter lagring', () => {
+            mockVilkårsvurderinger(
+                medLikestiltYtelse([
+                    [ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER, ApiUtfall.OPPFYLT],
+                    [ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP, ApiUtfall.IKKE_OPPFYLT],
+                    [ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER, ApiUtfall.OPPFYLT],
+                ]),
+            );
+
+            renderOpptjening(false);
+
+            const rad = within(likestiltYtelse());
+            expect(rad.getByTitle('Oppfylt')).toBeInTheDocument();
+            expect(rad.getByText('Foreldrepenger')).toBeVisible();
+            expect(rad.getByText('Foreldrepenger opptjent på AAP').nextSibling).toHaveTextContent('Ja');
+            expect(rad.getByText('Yrkesaktiv 4 uker før uttak').nextSibling).toHaveTextContent('Ja');
+            expect(rad.getByText('§ 8-2 andre ledd tredje punktum')).toBeVisible();
+            expect(rad.getByText('Hadde FP etter jobb')).toBeVisible();
+        });
+    });
 });
+
+function medLikestiltYtelse(vurderinger: [ApiVilkårskode, ApiUtfall][]): ApiVilkårsvurderingerForPersonResponse {
+    return {
+        skjæringstidspunkt: '2024-01-01',
+        krav: [
+            {
+                id: 'krav-likestilt',
+                kravkode: ApiKravkode.OPPTJENING,
+                opptjeningOk: true,
+                avgjørendeVilkårskode: null,
+                kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
+                vurderinger: vurderinger.map(([vilkårskode, utfall]) => ({
+                    id: vilkårskode,
+                    vilkårskode,
+                    utfall,
+                    vurdertTidspunkt: '2024-01-03T10:00:00.000Z',
+                    lovreferanse: { lov: 'folketrygdloven', paragraf: '8-2', avsnitt: 2, iKraftFra: '2018-01-01' },
+                    kilde: {
+                        ident: 'S123456',
+                        fritekstbegrunnelse: 'Hadde FP etter jobb',
+                        journalpostId: [],
+                        ytelser: [ApiLikestiltYtelse.FORELDREPENGER],
+                        kildetype: ApiKildetype.SAKSBEHANDLER,
+                    },
+                })),
+            },
+        ],
+    };
+}
 
 function medEndretVurdering(
     data: ApiVilkårsvurderingerForPersonResponse,

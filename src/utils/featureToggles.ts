@@ -6,3 +6,5 @@ export const useSkalSeGraderteAndreYtelser = () =>
 
 export const kanLeggeTilTilkommenInntekt = (harSelvstendingNæringsinntekt: boolean) =>
     erUtvikling || !harSelvstendingNæringsinntekt;
+
+export const kanVurdereLikestilteYtelser = () => erUtvikling;

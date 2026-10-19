@@ -29,6 +29,10 @@ export type ApiVilkårskode = (typeof ApiVilkårskode)[keyof typeof ApiVilkårsk
 
 export const ApiVilkårskode = {
     OPPTJENING_ARBEID_MINST_4_UKER: 'OPPTJENING_ARBEID_MINST_4_UKER',
+    OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER: 'OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER',
+    OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP: 'OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP',
+    OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER:
+        'OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER',
 } as const;
 
 export type ApiUtfall = (typeof ApiUtfall)[keyof typeof ApiUtfall];
@@ -113,10 +117,21 @@ export interface ApiVurderingskildeOverførtFraSpleis {
     kildetype: ApiKildetype;
 }
 
+export type ApiLikestiltYtelse = (typeof ApiLikestiltYtelse)[keyof typeof ApiLikestiltYtelse];
+
+export const ApiLikestiltYtelse = {
+    DAGPENGER: 'DAGPENGER',
+    SYKEPENGER: 'SYKEPENGER',
+    KAPITTEL_9: 'KAPITTEL_9',
+    FORELDREPENGER: 'FORELDREPENGER',
+    SVANGERSKAPSPENGER: 'SVANGERSKAPSPENGER',
+} as const;
+
 export interface ApiVurderingskildeSaksbehandler {
     ident: string;
     fritekstbegrunnelse: string;
     journalpostId: string[];
+    ytelser: ApiLikestiltYtelse[];
     kildetype: ApiKildetype;
 }
 
@@ -179,6 +194,31 @@ export interface ApiOpptjeningshistorikkResponse {
     historikk: ApiOpptjeningshistorikkInnslag[];
 }
 
+export type ApiVisningsfelttype = (typeof ApiVisningsfelttype)[keyof typeof ApiVisningsfelttype];
+
+export const ApiVisningsfelttype = {
+    TEKST: 'TEKST',
+    LISTE: 'LISTE',
+} as const;
+
+export interface ApiVisningsfeltListe {
+    tittel: string;
+    elementer: string[];
+    type: ApiVisningsfelttype;
+}
+
+export interface ApiVisningsfeltTekst {
+    tittel: string;
+    tekst: string;
+    type: ApiVisningsfelttype;
+}
+
+export type ApiVisningsfelt = ApiVisningsfeltListe | ApiVisningsfeltTekst;
+
+export interface ApiSaksbehandlerhandlingVisningResponse {
+    felter: ApiVisningsfelt[];
+}
+
 export interface ApiManuellVilkårsvurderingRequest {
     skjæringstidspunkt: string;
     vilkårskode: ApiVilkårskode;
@@ -189,6 +229,18 @@ export interface ApiManuellVilkårsvurderingRequest {
 
 export interface ApiManuellVilkårsvurderingResponse {
     opptjeningsvurderingId: string;
+}
+
+export interface ApiManuellLikestiltYtelseVurderingRequest {
+    skjæringstidspunkt: string;
+    sammenlagtMinst4Uker: boolean;
+    ytelser: ApiLikestiltYtelse[];
+    /** @nullable */
+    foreldrepengerOpptjentPåAap?: boolean | null;
+    /** @nullable */
+    yrkesaktivMinst4UkerFørUttak?: boolean | null;
+    fritekstbegrunnelse: string;
+    journalpostId: string[];
 }
 
 export interface ApiNyAutomatiskVilkårsvurderingRequest {
