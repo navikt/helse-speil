@@ -118,7 +118,7 @@ function Detaljrad({ label, children }: PropsWithChildren<{ label: string }>): R
             <BodyShort as="dt" size="small" textColor="subtle">
                 {label}
             </BodyShort>
-            <BodyShort as="dd" size="small">
+            <BodyShort as="dd" size="small" className="wrap-anywhere">
                 {children}
             </BodyShort>
         </>

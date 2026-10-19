@@ -80,7 +80,7 @@ export function InngangsvilkårWithContent({
                     </Heading>
                 </VStack>
                 <HStack wrap={false} gap="space-0" align="start">
-                    <VStack className="min-w-164 divide-y divide-ax-border-neutral-strong">
+                    <VStack className="w-164 shrink-0 divide-y divide-ax-border-neutral-strong">
                         {opptjeningsvurdering.erOverførtFraInfotrygd ? (
                             <VilkårsutfallKort
                                 tittel="Opptjeningstid"
