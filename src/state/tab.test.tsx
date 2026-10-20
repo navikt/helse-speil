@@ -2,7 +2,7 @@ import mockRouter from 'next-router-mock';
 
 import { act, renderHook } from '@test-utils';
 
-import { useNullstillSaksbildeTab, useSaksbildeTab } from './tab';
+import { ankerTilTab, useLagreTabFraAnker, useNullstillSaksbildeTab, useSaksbildeTab } from './tab';
 
 function useTabOgNullstill() {
     const [tab, setTab] = useSaksbildeTab();
@@ -62,5 +62,87 @@ describe('useSaksbildeTab', () => {
         act(() => mockRouter.setCurrentUrl('/person/person-a'));
         etterRefresh.rerender();
         expect(etterRefresh.result.current[0]).toBe('inngangsvilkår');
+    });
+});
+
+describe('saksbildefane i URL-anker', () => {
+    beforeEach(() => {
+        sessionStorage.clear();
+        window.history.replaceState(null, '', '/');
+    });
+
+    it('leser fanen fra ankeret på periodesiden', () => {
+        mockRouter.setCurrentUrl('/person/person-a/periode/vedtaksperiode-1');
+        window.history.replaceState(null, '', '/person/person-a/periode/vedtaksperiode-1#inngangsvilkar');
+
+        const { result } = renderHook(() => useSaksbildeTab());
+
+        expect(result.current[0]).toBe('inngangsvilkår');
+    });
+
+    it('oppdaterer ankeret når fanen byttes', () => {
+        mockRouter.setCurrentUrl('/person/person-a/periode/vedtaksperiode-1');
+        window.history.replaceState(null, '', '/person/person-a/periode/vedtaksperiode-1');
+
+        const { result } = renderHook(() => useSaksbildeTab());
+        act(() => result.current[1]('sykepengegrunnlag'));
+
+        expect(window.location.hash).toBe('#sykepengegrunnlag');
+        expect(result.current[0]).toBe('sykepengegrunnlag');
+    });
+
+    it('følger ankeret ved navigering i historikken', () => {
+        mockRouter.setCurrentUrl('/person/person-a/periode/vedtaksperiode-1');
+        window.history.replaceState(null, '', '/person/person-a/periode/vedtaksperiode-1#dagoversikt');
+
+        const { result } = renderHook(() => useSaksbildeTab());
+        act(() => {
+            window.location.hash = '#vurderingsmomenter';
+            window.dispatchEvent(new HashChangeEvent('hashchange'));
+        });
+
+        expect(result.current[0]).toBe('vurderingsmomenter');
+    });
+
+    it('husker fanen fra ankeret etter navigering i historikken når man går tilbake til personen', () => {
+        mockRouter.setCurrentUrl('/person/person-a/periode/vedtaksperiode-1');
+        window.history.replaceState(null, '', '/person/person-a/periode/vedtaksperiode-1#inngangsvilkar');
+
+        const { result, rerender } = renderHook(() => {
+            useLagreTabFraAnker();
+            return useSaksbildeTab();
+        });
+        act(() => {
+            window.location.hash = '#sykepengegrunnlag';
+            window.dispatchEvent(new HashChangeEvent('hashchange'));
+        });
+        expect(result.current[0]).toBe('sykepengegrunnlag');
+
+        act(() => {
+            mockRouter.setCurrentUrl('/person/person-a');
+            window.history.replaceState(null, '', '/person/person-a');
+            window.dispatchEvent(new PopStateEvent('popstate'));
+        });
+        rerender();
+        expect(result.current[0]).toBe('sykepengegrunnlag');
+    });
+
+    it('setter ikke anker utenfor periodesiden', () => {
+        mockRouter.setCurrentUrl('/person/person-a/dialogmelding');
+        window.history.replaceState(null, '', '/person/person-a/dialogmelding');
+
+        const { result } = renderHook(() => useSaksbildeTab());
+        act(() => result.current[1]('sykepengegrunnlag'));
+
+        expect(window.location.hash).toBe('');
+    });
+});
+
+describe('ankerTilTab', () => {
+    it('godtar både ASCII-anker og prosentkodet fanenavn', () => {
+        expect(ankerTilTab('#inngangsvilkar')).toBe('inngangsvilkår');
+        expect(ankerTilTab('#inngangsvilk%C3%A5r')).toBe('inngangsvilkår');
+        expect(ankerTilTab('#ukjent')).toBeNull();
+        expect(ankerTilTab('')).toBeNull();
     });
 });

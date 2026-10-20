@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
-import { useParams, usePathname, useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ArchiveIcon } from '@navikt/aksel-icons';
@@ -28,13 +28,11 @@ import { TimelineRow } from '@saksbilde/tidslinje/timeline/row/TimelineRow';
 import { TimelineZoom, ZoomLevel } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithLocalStorage } from '@state/jotai';
-import { useSetActivePeriodId } from '@state/periode';
-import { useNavigerTilTilkommenInntekt, useTilkommenInntektIdFraUrl } from '@state/routing';
+import { useNavigerTilTilkommenInntekt, useNavigerTilValgtPeriode, useTilkommenInntektIdFraUrl } from '@state/routing';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { useUtviklersnacks } from '@state/toggles';
 import { PeriodCategory } from '@typer/shared';
 import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
-import { erPåEgenUnderside } from '@utils/undersider';
 
 interface TidslinjeProps {
     inntektsforhold: Inntektsforhold[];
@@ -45,10 +43,8 @@ interface TidslinjeProps {
 const zoomLevelAtom = atomWithLocalStorage<ZoomLevel>('tidslinje-zoom-level', '6 mnd');
 
 export function TidslinjeContent({ inntektsforhold, activePeriod, person }: TidslinjeProps): ReactElement {
-    const pathname = usePathname();
-    const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const setActivePeriodId = useSetActivePeriodId(person);
+    const navigerTilValgtPeriode = useNavigerTilValgtPeriode();
     const { data: infotrygdperioder, isLoading: infotrygdperioderLoading } =
         useGetInfotrygdperioderForPerson(personPseudoId);
     const { data: tilkomneInntekter } = useHentTilkommenInntektQuery(personPseudoId);
@@ -84,12 +80,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                                     endDate={dayjs(element.tom)}
                                     skjæringstidspunkt={dayjs(element.skjæringstidspunkt)}
                                     onSelectPeriod={() => {
-                                        if (id) {
-                                            setActivePeriodId(id);
-                                            if (erPåEgenUnderside(pathname)) {
-                                                router.push(`/person/${personPseudoId}`);
-                                            }
-                                        }
+                                        if (id) navigerTilValgtPeriode(id);
                                     }}
                                     activePeriod={!!(activePeriod && 'id' in activePeriod && activePeriod.id === id)}
                                     icon={statusTilIkon[element.status]}
