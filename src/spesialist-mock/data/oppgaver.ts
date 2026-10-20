@@ -1,4 +1,7 @@
 import { ApiEgenskap, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { lokalSaksbehandlerOid } from '@spesialist-mock/constants';
+
+const lokalSaksbehandler = { epost: 'epost@nav.no', navn: 'Utvikler, Lokal', oid: lokalSaksbehandlerOid };
 
 export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] = [
     {
@@ -26,12 +29,20 @@ export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] 
         vedtaksperiodeId: 'beab6f33-b26b-44e1-9098-52019181c720',
     },
     {
-        id: '5917',
-        vedtaksperiodeId: 'beab6f33-b26b-44e1-9098-52019181c719',
+        id: '5343',
+        vedtaksperiodeId: '546cb550-bcd0-4b95-abc0-d17bf6818bf7',
     },
     {
-        id: '90021',
-        vedtaksperiodeId: 'eee7b58b-4d41-481f-ab27-a68aba84f914',
+        id: '1669',
+        vedtaksperiodeId: '77b462eb-0d6a-4ce1-a30f-107adccccaf4',
+    },
+    {
+        id: '4104',
+        vedtaksperiodeId: '7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff',
+    },
+    {
+        id: '4788',
+        vedtaksperiodeId: 'eace1b7f-5c4e-46c0-886a-002e806de583',
     },
 ];
 
@@ -59,6 +70,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
             ApiEgenskap.BESLUTTER,
             ApiEgenskap.PA_VENT,
         ],
+        tildeling: lokalSaksbehandler,
         påVentInfo: {
             arsaker: ['§ 8-4 Avklare aktivitetskrav/medisinske vilkår'],
             dialogRef: 1,
@@ -95,6 +107,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
             ApiEgenskap.EN_ARBEIDSGIVER,
             ApiEgenskap.VERGEMAL,
         ],
+        tildeling: lokalSaksbehandler,
         påVentInfo: {
             arsaker: ['Inntektsmelding - etterspurt'],
             dialogRef: 222,
@@ -183,7 +196,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         ],
     },
     {
-        id: '5917',
+        id: '5343',
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2407074650987',
         opprettetTidspunkt: '2023-01-02T11:09:57',
@@ -201,7 +214,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         ],
     },
     {
-        id: '90021',
+        id: '1669',
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '2117136462117',
         opprettetTidspunkt: '2023-07-02T11:08:58',
@@ -218,5 +231,44 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
             ApiEgenskap.EN_ARBEIDSGIVER,
         ],
         tildeling: null,
+    },
+    {
+        id: '4104',
+        personPseudoId: '', // id-en injectes i syncMock
+        aktorId: '2948505693240',
+        opprettetTidspunkt: '2025-09-25T12:42:28',
+        behandlingOpprettetTidspunkt: '2025-09-25 12:42:28.697712',
+        navn: {
+            fornavn: 'KVART',
+            mellomnavn: null,
+            etternavn: 'ARBEIDSKRAFT',
+        },
+        egenskaper: [
+            ApiEgenskap.FORSTEGANGSBEHANDLING,
+            ApiEgenskap.SOKNAD,
+            ApiEgenskap.UTBETALING_TIL_SYKMELDT,
+            ApiEgenskap.EN_ARBEIDSGIVER,
+            ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE,
+        ],
+    },
+    {
+        id: '4788',
+        personPseudoId: '', // id-en injectes i syncMock
+        aktorId: '2037105535448',
+        opprettetTidspunkt: '2025-12-16T10:58:54',
+        behandlingOpprettetTidspunkt: '2025-12-16 10:58:54.387439',
+        navn: {
+            fornavn: 'NYSGJERRIG',
+            mellomnavn: null,
+            etternavn: 'AKTØR',
+        },
+        egenskaper: [
+            ApiEgenskap.FORSTEGANGSBEHANDLING,
+            ApiEgenskap.SOKNAD,
+            ApiEgenskap.UTBETALING_TIL_SYKMELDT,
+            ApiEgenskap.EN_ARBEIDSGIVER,
+            ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE,
+            ApiEgenskap.JORDBRUKER_REINDRIFT,
+        ],
     },
 ];
