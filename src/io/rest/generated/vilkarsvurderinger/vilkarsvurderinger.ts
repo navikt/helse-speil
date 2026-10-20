@@ -5,9 +5,10 @@
  * OpenAPI spec version: 1.0.0
  */
 import type {
+    ApiManuellArbeidMinstFireUkerVurderingRequest,
     ApiManuellLikestiltYtelseVurderingRequest,
+    ApiManuellOpptjeningsvurderingResponse,
     ApiManuellVilkårsvurderingRequest,
-    ApiManuellVilkårsvurderingResponse,
     ApiNyAutomatiskVilkårsvurderingRequest,
     ApiNyAutomatiskVilkårsvurderingResponse,
     ApiOpptjeningshistorikkResponse,
@@ -394,7 +395,7 @@ export const postManuellVilkårsvurderingBehandler = async (
     personId: string,
     apiManuellVilkårsvurderingRequest?: ApiManuellVilkårsvurderingRequest,
     options?: RequestInit,
-): Promise<ApiManuellVilkårsvurderingResponse> => {
+): Promise<ApiManuellOpptjeningsvurderingResponse> => {
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
         if (!h) return {};
         if (h instanceof Headers) return Object.fromEntries(h.entries());
@@ -418,14 +419,14 @@ export const postManuellVilkårsvurderingBehandler = async (
 
     const body = [204, 205, 304].includes(res.status) ? null : await res.text();
     if (!res.ok) {
-        const err: globalThis.Error & { info?: ApiManuellVilkårsvurderingResponse; status?: number } =
+        const err: globalThis.Error & { info?: ApiManuellOpptjeningsvurderingResponse; status?: number } =
             new globalThis.Error();
-        const data: ApiManuellVilkårsvurderingResponse = body ? JSON.parse(body) : {};
+        const data: ApiManuellOpptjeningsvurderingResponse = body ? JSON.parse(body) : {};
         err.info = data;
         err.status = res.status;
         throw err;
     }
-    const data: ApiManuellVilkårsvurderingResponse = body ? JSON.parse(body) : {};
+    const data: ApiManuellOpptjeningsvurderingResponse = body ? JSON.parse(body) : {};
     return data;
 };
 
@@ -503,6 +504,124 @@ export const usePostManuellVilkårsvurderingBehandler = <
 > => {
     return useMutation(getPostManuellVilkårsvurderingBehandlerMutationOptions(options), queryClient);
 };
+export const getPostManuellArbeidMinstFireUkerVurderingBehandlerUrl = (personId: string) => {
+    return `/api/vilkarsproving/personer/${personId}/vilkarsvurderinger/manuell/arbeid-minst-fire-uker`;
+};
+
+export const postManuellArbeidMinstFireUkerVurderingBehandler = async (
+    personId: string,
+    apiManuellArbeidMinstFireUkerVurderingRequest?: ApiManuellArbeidMinstFireUkerVurderingRequest,
+    options?: RequestInit,
+): Promise<ApiManuellOpptjeningsvurderingResponse> => {
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+        if (!h) return {};
+        if (h instanceof Headers) return Object.fromEntries(h.entries());
+        if (Symbol.iterator in h) {
+            return Object.fromEntries(
+                Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+            );
+        }
+        const headers: Record<string, string | readonly string[]> = {};
+        for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+            if (value !== undefined) headers[name] = value;
+        }
+        return headers;
+    };
+    const res = await fetch(getPostManuellArbeidMinstFireUkerVurderingBehandlerUrl(personId), {
+        ...options,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+        body: JSON.stringify(apiManuellArbeidMinstFireUkerVurderingRequest),
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiManuellOpptjeningsvurderingResponse; status?: number } =
+            new globalThis.Error();
+        const data: ApiManuellOpptjeningsvurderingResponse = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiManuellOpptjeningsvurderingResponse = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getPostManuellArbeidMinstFireUkerVurderingBehandlerMutationKey = () =>
+    ['postManuellArbeidMinstFireUkerVurderingBehandler'] as const;
+
+export const getPostManuellArbeidMinstFireUkerVurderingBehandlerMutationOptions = <
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+    TContext = unknown,
+>(options?: {
+    mutation?: UseMutationOptions<
+        Awaited<ReturnType<typeof postManuellArbeidMinstFireUkerVurderingBehandler>>,
+        TError,
+        PostManuellArbeidMinstFireUkerVurderingBehandlerMutationVariables,
+        TContext
+    >;
+    fetch?: RequestInit;
+}): UseMutationOptions<
+    Awaited<ReturnType<typeof postManuellArbeidMinstFireUkerVurderingBehandler>>,
+    TError,
+    PostManuellArbeidMinstFireUkerVurderingBehandlerMutationVariables,
+    TContext
+> => {
+    const mutationKey = getPostManuellArbeidMinstFireUkerVurderingBehandlerMutationKey();
+    const { mutation: mutationOptions, fetch: fetchOptions } = options
+        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
+            ? options
+            : { ...options, mutation: { ...options.mutation, mutationKey } }
+        : { mutation: { mutationKey }, fetch: undefined };
+
+    const mutationFn: MutationFunction<
+        Awaited<ReturnType<typeof postManuellArbeidMinstFireUkerVurderingBehandler>>,
+        PostManuellArbeidMinstFireUkerVurderingBehandlerMutationVariables
+    > = (props) => {
+        const { personId, data } = props ?? {};
+
+        return postManuellArbeidMinstFireUkerVurderingBehandler(personId, data, fetchOptions);
+    };
+
+    return { mutationFn, ...mutationOptions };
+};
+
+export type PostManuellArbeidMinstFireUkerVurderingBehandlerMutationResult = NonNullable<
+    Awaited<ReturnType<typeof postManuellArbeidMinstFireUkerVurderingBehandler>>
+>;
+export type PostManuellArbeidMinstFireUkerVurderingBehandlerMutationBody =
+    ApiManuellArbeidMinstFireUkerVurderingRequest | undefined;
+export type PostManuellArbeidMinstFireUkerVurderingBehandlerMutationError = globalThis.Error & {
+    info?: ProblemDetails;
+    status?: number;
+};
+export type PostManuellArbeidMinstFireUkerVurderingBehandlerMutationVariables = {
+    personId: string;
+    data?: ApiManuellArbeidMinstFireUkerVurderingRequest;
+};
+
+export const usePostManuellArbeidMinstFireUkerVurderingBehandler = <
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+    TContext = unknown,
+>(
+    options?: {
+        mutation?: UseMutationOptions<
+            Awaited<ReturnType<typeof postManuellArbeidMinstFireUkerVurderingBehandler>>,
+            TError,
+            PostManuellArbeidMinstFireUkerVurderingBehandlerMutationVariables,
+            TContext
+        >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseMutationResult<
+    Awaited<ReturnType<typeof postManuellArbeidMinstFireUkerVurderingBehandler>>,
+    TError,
+    PostManuellArbeidMinstFireUkerVurderingBehandlerMutationVariables,
+    TContext
+> => {
+    return useMutation(getPostManuellArbeidMinstFireUkerVurderingBehandlerMutationOptions(options), queryClient);
+};
 export const getPostManuellLikestiltYtelseVurderingBehandlerUrl = (personId: string) => {
     return `/api/vilkarsproving/personer/${personId}/vilkarsvurderinger/manuell/likestilte-ytelser`;
 };
@@ -511,7 +630,7 @@ export const postManuellLikestiltYtelseVurderingBehandler = async (
     personId: string,
     apiManuellLikestiltYtelseVurderingRequest?: ApiManuellLikestiltYtelseVurderingRequest,
     options?: RequestInit,
-): Promise<ApiManuellVilkårsvurderingResponse> => {
+): Promise<ApiManuellOpptjeningsvurderingResponse> => {
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
         if (!h) return {};
         if (h instanceof Headers) return Object.fromEntries(h.entries());
@@ -535,14 +654,14 @@ export const postManuellLikestiltYtelseVurderingBehandler = async (
 
     const body = [204, 205, 304].includes(res.status) ? null : await res.text();
     if (!res.ok) {
-        const err: globalThis.Error & { info?: ApiManuellVilkårsvurderingResponse; status?: number } =
+        const err: globalThis.Error & { info?: ApiManuellOpptjeningsvurderingResponse; status?: number } =
             new globalThis.Error();
-        const data: ApiManuellVilkårsvurderingResponse = body ? JSON.parse(body) : {};
+        const data: ApiManuellOpptjeningsvurderingResponse = body ? JSON.parse(body) : {};
         err.info = data;
         err.status = res.status;
         throw err;
     }
-    const data: ApiManuellVilkårsvurderingResponse = body ? JSON.parse(body) : {};
+    const data: ApiManuellOpptjeningsvurderingResponse = body ? JSON.parse(body) : {};
     return data;
 };
 

@@ -13,7 +13,7 @@ import {
 } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
-import { usePostManuellVilkårsvurderingBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+import { usePostManuellArbeidMinstFireUkerVurderingBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 
 import { BegrunnelseOgJournalpost } from './BegrunnelseOgJournalpost';
 import { useInvaliderOpptjening } from './useInvaliderOpptjening';
@@ -44,7 +44,7 @@ export function ManuellVurderingAvVilkårSkjema({
     });
     const erIkkeOppfylt = useWatch({ control: form.control, name: 'utfall' }) === ApiUtfall.IKKE_OPPFYLT;
 
-    const { mutate, isPending, isError } = usePostManuellVilkårsvurderingBehandler({
+    const { mutate, isPending, isError } = usePostManuellArbeidMinstFireUkerVurderingBehandler({
         mutation: {
             onSuccess: (response) => {
                 invaliderOpptjening();
@@ -64,7 +64,6 @@ export function ManuellVurderingAvVilkårSkjema({
             personId: personPseudoId,
             data: {
                 skjæringstidspunkt,
-                vilkårskode,
                 utfall,
                 fritekstbegrunnelse,
                 journalpostId: journalpostIderTilRequest({ journalpostvalg, journalpostIder }),

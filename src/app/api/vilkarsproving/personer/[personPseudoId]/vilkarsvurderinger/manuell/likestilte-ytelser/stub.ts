@@ -4,7 +4,7 @@ import { vurderLikestiltYtelse } from '@app/api/vilkarsproving/personer/[personP
 import { ApiHandlingType } from '@io/rest/generated/spesialist.schemas';
 import {
     ApiManuellLikestiltYtelseVurderingRequest,
-    ApiManuellVilkårsvurderingResponse,
+    ApiManuellOpptjeningsvurderingResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { SaksbehandlerhandlingMock } from '@spesialist-mock/storage/saksbehandlerhandling';
 
@@ -13,7 +13,7 @@ export const stub = async (request: NextRequest, params: Promise<{ personPseudoI
     const body: ApiManuellLikestiltYtelseVurderingRequest = await request.json();
 
     const opptjeningsvurderingId = vurderLikestiltYtelse(personPseudoId, body);
-    const response: ApiManuellVilkårsvurderingResponse = { opptjeningsvurderingId };
+    const response: ApiManuellOpptjeningsvurderingResponse = { opptjeningsvurderingId };
 
     SaksbehandlerhandlingMock.leggTilHandling(personPseudoId, {
         handlingId: opptjeningsvurderingId,

@@ -227,8 +227,15 @@ export interface ApiManuellVilkårsvurderingRequest {
     journalpostId: string[];
 }
 
-export interface ApiManuellVilkårsvurderingResponse {
+export interface ApiManuellOpptjeningsvurderingResponse {
     opptjeningsvurderingId: string;
+}
+
+export interface ApiManuellArbeidMinstFireUkerVurderingRequest {
+    skjæringstidspunkt: string;
+    utfall: ApiUtfall;
+    fritekstbegrunnelse: string;
+    journalpostId: string[];
 }
 
 export interface ApiManuellLikestiltYtelseVurderingRequest {

@@ -20,8 +20,8 @@ import {
     getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     useGetOpptjeningshistorikkBehandler,
     useGetVilkårsvurderingerForPersonBehandler,
+    usePostManuellArbeidMinstFireUkerVurderingBehandler,
     usePostManuellLikestiltYtelseVurderingBehandler,
-    usePostManuellVilkårsvurderingBehandler,
     usePostNyAutomatiskVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { InngangsvilkårWithContent } from '@saksbilde/vilkår/Inngangsvilkår';
@@ -38,7 +38,7 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     useGetVilkårsvurderingerForPersonBehandler: vi.fn(),
     useGetOpptjeningshistorikkBehandler: vi.fn(),
     usePostManuellLikestiltYtelseVurderingBehandler: vi.fn(),
-    usePostManuellVilkårsvurderingBehandler: vi.fn(),
+    usePostManuellArbeidMinstFireUkerVurderingBehandler: vi.fn(),
     usePostNyAutomatiskVilkårsvurderingBehandler: vi.fn(),
 }));
 
@@ -245,7 +245,7 @@ beforeEach(() => {
     brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = true;
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
     mockOpptjeningshistorikk([]);
-    (usePostManuellVilkårsvurderingBehandler as Mock).mockReturnValue({
+    (usePostManuellArbeidMinstFireUkerVurderingBehandler as Mock).mockReturnValue({
         mutate,
         isPending: false,
         isError: false,
@@ -354,7 +354,6 @@ describe('Opptjening', () => {
             personId: 'en-person',
             data: {
                 skjæringstidspunkt: '2024-01-01',
-                vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                 utfall: ApiUtfall.OPPFYLT,
                 fritekstbegrunnelse: 'Har likestilt ytelse',
                 journalpostId: [],
@@ -375,7 +374,6 @@ describe('Opptjening', () => {
             personId: 'en-person',
             data: {
                 skjæringstidspunkt: '2024-01-01',
-                vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                 utfall: ApiUtfall.OPPFYLT,
                 fritekstbegrunnelse: 'Har opptjening',
                 journalpostId: [],
@@ -431,7 +429,6 @@ describe('Opptjening', () => {
             personId: 'en-person',
             data: {
                 skjæringstidspunkt: '2024-01-01',
-                vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                 utfall: ApiUtfall.OPPFYLT,
                 fritekstbegrunnelse: 'Dokumentert via vedtak',
                 journalpostId: ['12345'],
@@ -543,7 +540,7 @@ describe('Opptjening', () => {
             ],
         };
 
-        (usePostManuellVilkårsvurderingBehandler as Mock).mockImplementation((options) => ({
+        (usePostManuellArbeidMinstFireUkerVurderingBehandler as Mock).mockImplementation((options) => ({
             mutate: (variables: { personId: string; data: unknown }) => {
                 mutate(variables);
                 mockVilkårsvurderinger(oppdatertVilkårsvurderinger);

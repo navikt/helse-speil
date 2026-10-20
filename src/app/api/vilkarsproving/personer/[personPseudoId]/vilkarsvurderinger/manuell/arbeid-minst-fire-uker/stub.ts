@@ -1,20 +1,19 @@
 import { NextRequest } from 'next/server';
 
+import { overstyrVilkårsvurdering } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
 import { ApiHandlingType } from '@io/rest/generated/spesialist.schemas';
 import {
-    ApiManuellVilkårsvurderingRequest,
-    ApiManuellVilkårsvurderingResponse,
+    ApiManuellArbeidMinstFireUkerVurderingRequest,
+    ApiManuellOpptjeningsvurderingResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { SaksbehandlerhandlingMock } from '@spesialist-mock/storage/saksbehandlerhandling';
 
-import { overstyrVilkårsvurdering } from '../vilkarsvurderingerMock';
-
 export const stub = async (request: NextRequest, params: Promise<{ personPseudoId: string }>) => {
     const { personPseudoId } = await params;
-    const body: ApiManuellVilkårsvurderingRequest = await request.json();
+    const body: ApiManuellArbeidMinstFireUkerVurderingRequest = await request.json();
 
     const opptjeningsvurderingId = overstyrVilkårsvurdering(personPseudoId, body);
-    const response: ApiManuellVilkårsvurderingResponse = { opptjeningsvurderingId };
+    const response: ApiManuellOpptjeningsvurderingResponse = { opptjeningsvurderingId };
 
     SaksbehandlerhandlingMock.leggTilHandling(personPseudoId, {
         handlingId: opptjeningsvurderingId,

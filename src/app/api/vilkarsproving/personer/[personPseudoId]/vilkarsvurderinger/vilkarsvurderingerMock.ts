@@ -4,8 +4,8 @@ import {
     ApiKildetype,
     ApiKravkilde,
     ApiKravkode,
+    ApiManuellArbeidMinstFireUkerVurderingRequest,
     ApiManuellLikestiltYtelseVurderingRequest,
-    ApiManuellVilkårsvurderingRequest,
     ApiNyAutomatiskVilkårsvurderingRequest,
     ApiOpptjeningshistorikkInnslag,
     ApiOpptjeningshistorikkResponse,
@@ -88,11 +88,11 @@ export const hentOpptjeningsvurdering = (
 
 export const overstyrVilkårsvurdering = (
     personPseudoId: string,
-    request: ApiManuellVilkårsvurderingRequest,
+    request: ApiManuellArbeidMinstFireUkerVurderingRequest,
 ): string => {
     const nyVurdering: ApiVilkårsvurdering = {
         id: v4(),
-        vilkårskode: request.vilkårskode,
+        vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
         utfall: request.utfall,
         vurdertTidspunkt: new Date().toISOString(),
         lovreferanse: {
@@ -109,7 +109,12 @@ export const overstyrVilkårsvurdering = (
         },
     };
 
-    return lagreManuelleVurderinger(personPseudoId, request.skjæringstidspunkt, [nyVurdering], [request.vilkårskode]);
+    return lagreManuelleVurderinger(
+        personPseudoId,
+        request.skjæringstidspunkt,
+        [nyVurdering],
+        [ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER],
+    );
 };
 
 const ANDRE_LEDD: ApiVilkårskode[] = [
