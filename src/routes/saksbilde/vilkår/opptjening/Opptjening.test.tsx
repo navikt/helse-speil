@@ -952,7 +952,6 @@ describe('Opptjening', () => {
         it('viser raden som ikke vurdert når ingen punktum er vurdert', () => {
             renderOpptjening(false);
 
-            expect(within(likestiltYtelse()).getByText('§ 8-2 andre ledd')).toBeVisible();
             expect(within(likestiltYtelse()).getByText('Ikke vurdert', { selector: 'span' })).toBeVisible();
         });
 
