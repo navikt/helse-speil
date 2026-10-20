@@ -5,7 +5,12 @@ import { HttpError } from '@app/fetch/fetchClient';
 import { useBruker } from '@auth/brukerContext';
 import { useHarPorteføljestyringrolle } from '@hooks/brukerrolleHooks';
 import { Kategori } from '@io/graphql';
-import { useGetAntallOppgaver, useGetOppgaver } from '@io/rest/generated/oppgaver/oppgaver';
+import {
+    getGetAntallOppgaverQueryKey,
+    getGetOppgaverQueryKey,
+    useGetAntallOppgaver,
+    useGetOppgaver,
+} from '@io/rest/generated/oppgaver/oppgaver';
 import {
     ApiEgenskap,
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
@@ -25,6 +30,7 @@ import {
 } from '@oversikt/table/state/filter';
 import { limit, useCurrentPageValue, useResetToFirstPageOnHashChange } from '@oversikt/table/state/pagination';
 import { SortKey, useSorteringValue } from '@oversikt/table/state/sortation';
+import { useQueryClient } from '@tanstack/react-query';
 import { InfoAlert } from '@utils/error';
 
 export type FetchMoreArgs = {
@@ -112,8 +118,8 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     ]);
 
     useEffect(() => {
-        createHash(variables).then(resetToFirstPageOnHashChange);
-    }, [resetToFirstPageOnHashChange, variables]);
+        resetToFirstPageOnHashChange(aktivTab, JSON.stringify(variables));
+    }, [resetToFirstPageOnHashChange, aktivTab, variables]);
 
     const {
         data,
@@ -140,7 +146,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
 };
 
 export const useAntallOppgaver = () => {
-    const { data } = useGetAntallOppgaver();
+    const { data } = useGetAntallOppgaver({ query: { staleTime: 0 } });
 
     return {
         antallMineSaker: data?.antallMineSaker ?? 0,
@@ -148,6 +154,18 @@ export const useAntallOppgaver = () => {
         antallPåVentNåddFrist: data?.antallMineSakerPåVentNåddFrist ?? 0,
     };
 };
+
+// Oppgaver flytter seg mellom benkene (Til godkjenning, Mine oppgaver, På vent) når tildeling, på vent eller
+// oppgavens status endres. Kall denne etter slike mutasjoner, så oversikten ikke viser oppgaven på feil benk.
+export function useInvaliderOppgaver() {
+    const queryClient = useQueryClient();
+    return async () => {
+        await Promise.all([
+            queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
+            queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
+        ]);
+    };
+}
 
 export class TildelingAlert extends InfoAlert {
     name = 'tildeling';
@@ -251,9 +269,4 @@ const finnSorteringsNøkkel = (sortKey: SortKey) => {
         default:
             return ApiOppgaveSorteringsfelt.opprettetTidspunkt;
     }
-};
-
-const createHash = async (variables: GetOppgaverParams) => {
-    const digest = await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(JSON.stringify(variables)));
-    return new Uint8Array(digest).toString();
 };

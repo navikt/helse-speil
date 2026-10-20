@@ -6,6 +6,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Utbetaling } from '@io/graphql';
 import { PostVedtakMutationError, usePostVedtak } from '@io/rest/generated/behandlinger/behandlinger';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
@@ -51,6 +52,7 @@ export const GodkjenningButton = ({
     useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
 
     const addUtbetalingstoast = useAddUtbetalingstoast();
+    const invaliderOppgaver = useInvaliderOppgaver();
 
     const godkjennUtbetaling = () => {
         void mutate(
@@ -62,6 +64,7 @@ export const GodkjenningButton = ({
             },
             {
                 onSuccess: () => {
+                    void invaliderOppgaver();
                     addUtbetalingstoast();
                     onSuccess?.();
                     setShowModal(false);

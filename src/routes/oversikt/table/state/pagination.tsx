@@ -1,4 +1,4 @@
-import { atom, useAtom, useAtomValue } from 'jotai';
+import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 
 import { TabType, tabState } from '@oversikt/tabState';
 import { atomWithSessionStorage } from '@state/jotai';
@@ -27,13 +27,13 @@ const pagination = atom(
         set(currentPagePerTab, (prevState) => ({ ...prevState, [get(tabState)]: newValue })),
 );
 
-export const useResetToFirstPageOnHashChange = () => {
-    const [pageState, setPageState] = useAtom(pagination);
+const resetToFirstPageOnHashChange = atom(null, (get, set, tab: TabType, hash: string) => {
+    const pageState = get(currentPagePerTab)[tab] ?? defaultPageState;
+    if (hash !== pageState.hash) set(currentPagePerTab, (prevState) => ({ ...prevState, [tab]: { hash, page: 1 } }));
+});
 
-    return (hash: string) => {
-        if (hash !== pageState.hash) setPageState({ hash: hash, page: 1 });
-    };
-};
+// Fanen sendes inn eksplisitt, slik at hashen alltid lagres på fanen variablene ble regnet ut for
+export const useResetToFirstPageOnHashChange = () => useSetAtom(resetToFirstPageOnHashChange);
 
 export const useCurrentPageState: () => [number, (newValue: number) => void] = () => {
     const [value, setValue] = useAtom(pagination);

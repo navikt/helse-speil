@@ -20,6 +20,7 @@ import {
     tilReferanse,
     useAktivtInntektsforhold,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useFetchPersonQuery } from '@state/person';
 import { useAvmeld, useTildel } from '@state/tildeling';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -67,6 +68,7 @@ function SaksbildeDropdownMenuContent({
     const router = useRouter();
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();
+    const invaliderOppgaver = useInvaliderOppgaver();
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
     const personIsAssignedUser = person.tildeling?.oid === user.oid;
@@ -92,7 +94,10 @@ function SaksbildeDropdownMenuContent({
         fjernPåVent(
             { oppgaveId: Number.parseInt(oppgaveId) },
             {
-                onSuccess: () => refetch(),
+                onSuccess: () => {
+                    void invaliderOppgaver();
+                    void refetch();
+                },
                 onError: (error) => errorHandler(new Error(error.message)),
             },
         );

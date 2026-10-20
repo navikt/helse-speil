@@ -1,5 +1,6 @@
 import { useDeleteTildeling, usePutTildeling } from '@io/rest/generated/personer/personer';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { InfoAlert } from '@utils/error';
 
@@ -18,15 +19,16 @@ const useLeggTilTildelingsvarsel = () => {
 };
 
 export const useTildel = (): [
-    (personPseudoId: string, onUtført: () => void) => Promise<void>,
+    (personPseudoId: string, onUtført?: () => void) => Promise<void>,
     { loading: boolean },
 ] => {
     const { mutate, isPending } = usePutTildeling();
     const saksbehandler = useInnloggetSaksbehandler();
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
+    const invaliderOppgaver = useInvaliderOppgaver();
 
-    const tildel = async (personPseudoId: string, onUtført: () => void) => {
+    const tildel = async (personPseudoId: string, onUtført?: () => void) => {
         fjernTildelingsvarsel();
         return mutate(
             {
@@ -50,22 +52,26 @@ export const useTildel = (): [
                         leggTilTildelingsvarsel('Kunne ikke tildele oppgave.');
                     }
                 },
-                onSettled: onUtført,
+                onSettled: () => {
+                    void invaliderOppgaver();
+                    onUtført?.();
+                },
             },
         );
     };
     return [tildel, { loading: isPending }];
 };
 export const useAvmeld = (): [
-    (personPseudoId: string, onUtført: () => void) => Promise<void>,
+    (personPseudoId: string, onUtført?: () => void) => Promise<void>,
     { loading: boolean },
 ] => {
     const { mutate, isPending } = useDeleteTildeling();
 
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
+    const invaliderOppgaver = useInvaliderOppgaver();
 
-    const avmeld = async (personPseudoId: string, onUtført: () => void) => {
+    const avmeld = async (personPseudoId: string, onUtført?: () => void) => {
         fjernTildelingsvarsel();
         return mutate(
             {
@@ -82,7 +88,10 @@ export const useAvmeld = (): [
                         leggTilTildelingsvarsel('Kunne ikke avmelde oppgave.');
                     }
                 },
-                onSettled: onUtført,
+                onSettled: () => {
+                    void invaliderOppgaver();
+                    onUtført?.();
+                },
             },
         );
     };

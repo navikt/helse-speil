@@ -10,6 +10,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { usePutPåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn, ApiTildeling } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
@@ -23,7 +24,7 @@ interface LeggPåVentDialogProps {
     navn: ApiPersonnavn;
     utgangspunktTildeling: ApiTildeling | null;
     onClose: () => void;
-    onLeggPåVentSuccess: () => void;
+    onLeggPåVentSuccess?: () => void;
 }
 
 export const LeggPåVentDialog = ({
@@ -49,7 +50,7 @@ export const LeggPåVentDialog = ({
                 utgangspunktTildeling={utgangspunktTildeling}
                 submitKnappTekst="Legg på vent"
                 onSuccess={() => {
-                    onLeggPåVentSuccess();
+                    onLeggPåVentSuccess?.();
                     onClose();
                 }}
                 oppgaveId={oppgaveId}
@@ -131,6 +132,7 @@ const PåVentDialogInnhold = ({
     const saksbehandler = useInnloggetSaksbehandler();
     const { arsaker: årsaker, loading: årsakerLoading } = useArsaker('paventarsaker');
     const { mutate, isPending, error } = usePutPåVent();
+    const invaliderOppgaver = useInvaliderOppgaver();
 
     const opprinneligTildeltSaksbehandler = utgangspunktTildeling
         ? utgangspunktTildeling.oid === saksbehandler.oid
@@ -165,6 +167,7 @@ const PåVentDialogInnhold = ({
             },
             {
                 onSuccess: () => {
+                    void invaliderOppgaver();
                     onSuccess();
                 },
             },

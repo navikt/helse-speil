@@ -5,15 +5,11 @@ import { ActionMenu, Button, Table } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
-import {
-    getGetAntallOppgaverQueryKey,
-    getGetOppgaverQueryKey,
-    useDeletePåVent,
-} from '@io/rest/generated/oppgaver/oppgaver';
+import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAvmeld, useTildel } from '@state/tildeling';
-import { useQueryClient } from '@tanstack/react-query';
 
 interface OptionsButtonProps {
     oppgave: ApiOppgaveProjeksjon;
@@ -27,28 +23,21 @@ export function OptionsCell({ oppgave, navn }: OptionsButtonProps): ReactElement
     const erTildelt = !!oppgave.tildeling?.oid;
     const erPåVent = oppgave.egenskaper.includes(ApiEgenskap.PA_VENT);
 
-    const queryClient = useQueryClient();
+    const invaliderOppgaver = useInvaliderOppgaver();
     const [tildelOppgave] = useTildel();
     const [avmeldOppgave] = useAvmeld();
     const { mutate: fjernPåVent } = useDeletePåVent();
 
-    async function invalidateOppgaver() {
-        await Promise.all([
-            queryClient.invalidateQueries({ queryKey: getGetOppgaverQueryKey() }),
-            queryClient.invalidateQueries({ queryKey: getGetAntallOppgaverQueryKey() }),
-        ]);
-    }
-
     async function tildel() {
-        await tildelOppgave(oppgave.personPseudoId, invalidateOppgaver);
+        await tildelOppgave(oppgave.personPseudoId);
     }
 
     async function avmeld() {
-        await avmeldOppgave(oppgave.personPseudoId, invalidateOppgaver);
+        await avmeldOppgave(oppgave.personPseudoId);
     }
 
     function fjernFraPåVent() {
-        fjernPåVent({ oppgaveId: Number.parseInt(oppgave.id) }, { onSuccess: invalidateOppgaver });
+        fjernPåVent({ oppgaveId: Number.parseInt(oppgave.id) }, { onSuccess: invaliderOppgaver });
     }
 
     return (
@@ -84,7 +73,6 @@ export function OptionsCell({ oppgave, navn }: OptionsButtonProps): ReactElement
                         navn={navn}
                         utgangspunktTildeling={oppgave?.tildeling ?? null}
                         onClose={() => setShowModal(false)}
-                        onLeggPåVentSuccess={invalidateOppgaver}
                     />
                 )}
             </span>

@@ -9,6 +9,7 @@ import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useFetchPersonQuery } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
@@ -34,6 +35,7 @@ export const LagtPåVentDropdown = ({
 
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();
+    const invaliderOppgaver = useInvaliderOppgaver();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
     const router = useRouter();
@@ -56,7 +58,10 @@ export const LagtPåVentDropdown = ({
                 oppgaveId: Number.parseInt(oppgaveId),
             },
             {
-                onSuccess: () => refetch(),
+                onSuccess: () => {
+                    void invaliderOppgaver();
+                    void refetch();
+                },
                 onError: (error) => errorHandler(new Error(error.message)),
             },
         );

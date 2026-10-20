@@ -5,6 +5,7 @@ import { Button } from '@navikt/ds-react';
 import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { PostSendIReturMutationError, usePostSendIRetur } from '@io/rest/generated/oppgaver/oppgaver';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
@@ -41,6 +42,7 @@ export const ReturButton = ({
     const [error, setError] = useState<string | undefined>();
 
     const addReturtoast = useAddReturtoast();
+    const invaliderOppgaver = useInvaliderOppgaver();
 
     const { mutate: sendIRetur, isPending: loading } = usePostSendIRetur();
 
@@ -64,6 +66,7 @@ export const ReturButton = ({
                 },
                 {
                     onSuccess: () => {
+                        void invaliderOppgaver();
                         addReturtoast();
                         closeNotat();
                         onSuccess?.();

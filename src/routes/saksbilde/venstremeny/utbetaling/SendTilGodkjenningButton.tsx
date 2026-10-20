@@ -6,6 +6,7 @@ import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { Utbetaling } from '@io/graphql';
 import { PostSendTilGodkjenningMutationError, usePostSendTilGodkjenning } from '@io/rest/generated/oppgaver/oppgaver';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
@@ -48,6 +49,7 @@ export const SendTilGodkjenningButton = ({
 }: SendTilGodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
     const addToast = useAddSendtTilGodkjenningtoast();
+    const invaliderOppgaver = useInvaliderOppgaver();
 
     const {
         mutate: sendTilGodkjenning,
@@ -74,6 +76,7 @@ export const SendTilGodkjenningButton = ({
             },
             {
                 onSuccess: () => {
+                    void invaliderOppgaver();
                     addToast();
                     onSuccess?.();
                     setShowModal(false);

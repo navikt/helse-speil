@@ -7,6 +7,7 @@ import { AvvisningSkjema, avvisningSkjema } from '@form-schemas/avvisningSkjema'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { BeregnetPeriodeFragment } from '@io/graphql';
 import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
+import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
@@ -21,6 +22,7 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
     const router = useRouter();
     const { mutate, isPending, error } = usePostForkasting();
     const addToast = useAddToast();
+    const invaliderOppgaver = useInvaliderOppgaver();
     const form = useForm<AvvisningSkjema>({
         resolver: zodResolver(avvisningSkjema),
         defaultValues: {
@@ -42,6 +44,7 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
             },
             {
                 onSuccess: () => {
+                    void invaliderOppgaver();
                     addToast({
                         message: 'Oppgaven er sendt til behandling i Infotrygd',
                         timeToLiveMs: 5000,
