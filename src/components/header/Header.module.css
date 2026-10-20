@@ -4,6 +4,13 @@
     flex-shrink: 0;
 }
 
+.søkefelter {
+    display: flex;
+    align-items: center;
+    gap: var(--ax-space-8);
+    margin-right: auto;
+}
+
 .devHeader {
     background: repeating-linear-gradient(
         -45deg,

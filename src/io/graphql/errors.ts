@@ -31,6 +31,14 @@ export class NotFoundError extends FetchError {
     }
 }
 
+export class VedtaksperiodeIkkeFunnetError extends FetchError {
+    constructor(vedtaksperiodeId: string) {
+        super(`Fant ikke vedtaksperiode "${vedtaksperiodeId}" i Spoogle`);
+        this.severity = 'info';
+        this.scope = '/';
+    }
+}
+
 export class NotReadyError extends FetchError {
     constructor() {
         super(

@@ -28,6 +28,8 @@ spec:
           namespace: tbd
         - application: spout
           namespace: tbd
+        - application: spoogle
+          namespace: tbd
         - application: sparkel-aareg
           namespace: tbd
           cluster: prod-gcp
@@ -120,6 +122,10 @@ spec:
       value: api://prod-gcp.tbd.spout/.default
     - name: SPOUT_BASE_URL
       value: http://spout
+    - name: CLIENT_ID_SPOOGLE
+      value: api://prod-gcp.tbd.spoogle/.default
+    - name: SPOOGLE_BASE_URL
+      value: http://spoogle
     - name: CLIENT_ID_SPLEIS_API
       value: api://prod-gcp.tbd.spleis-api/.default
     - name: SPLEIS_API_BASE_URL

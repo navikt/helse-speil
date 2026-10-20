@@ -35,6 +35,8 @@ export const serverEnvSchema = z.object({
     SP_FORSIKRING_SCOPE: z.string(),
     SPOUT_SCOPE: z.string(),
     SPOUT_BASEURL: z.string(),
+    SPOOGLE_SCOPE: z.string(),
+    SPOOGLE_BASEURL: z.string(),
     SPLEIS_SCOPE: z.string(),
     SPLEIS_BASEURL: z.string(),
     SPARSOM_SCOPE: z.string(),
@@ -103,6 +105,9 @@ const getRawServerConfig = (): Partial<unknown> => {
         SPOUT_SCOPE: process.env.CLIENT_ID_SPOUT,
         // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpout returnerer stub-svar direkte
         SPOUT_BASEURL: backend === 'deployed' ? process.env.SPOUT_BASE_URL : 'http://localhost:8181',
+        SPOOGLE_SCOPE: process.env.CLIENT_ID_SPOOGLE,
+        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpoogle returnerer stub-svar direkte
+        SPOOGLE_BASEURL: backend === 'deployed' ? process.env.SPOOGLE_BASE_URL : 'http://localhost:8181',
         SPLEIS_SCOPE: process.env.CLIENT_ID_SPLEIS_API,
         // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpleis returnerer stub-svar direkte
         SPLEIS_BASEURL: backend === 'deployed' ? process.env.SPLEIS_API_BASE_URL : 'http://localhost:8181',
