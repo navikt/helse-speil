@@ -12,3 +12,23 @@ export const erPåEgenUnderside = (pathname: string): boolean =>
  */
 export const erPåSideUtenAktivPeriode = (pathname: string): boolean =>
     pathname.includes('/tilkommeninntekt/') || pathname.endsWith(LEGG_TIL_SEGMENT);
+
+/**
+ * Saksbildet for en person, med eller uten valgt periode i URL-en.
+ */
+export const erPåPeriodeside = (pathname: string): boolean =>
+    /^\/person\/[^/]+(\/periode\/[^/]+(\/behandling\/[^/]+)?)?\/?$/.test(pathname);
+
+export type PeriodeUrlId = {
+    periodeId: string;
+    behandlingId?: string;
+};
+
+export function lagPeriodeUrl(
+    personPseudoId: string,
+    { periodeId, behandlingId }: PeriodeUrlId,
+    tabAnker?: string,
+): string {
+    const behandlingSegment = behandlingId ? `/behandling/${behandlingId}` : '';
+    return `/person/${personPseudoId}/periode/${periodeId}${behandlingSegment}${tabAnker ? `#${tabAnker}` : ''}`;
+}
