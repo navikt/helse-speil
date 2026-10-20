@@ -34,10 +34,10 @@ export const FilterChips = ({
         resetDatofilter,
     } = useSetDatofilter();
     const erFiltrertPåSaksbehandler = valgtSaksbehandler && aktivTab === TabType.TilGodkjenning;
+    const visOppgaveKlarfilter = aktivTab === TabType.TilGodkjenning;
     const visStartdatofilter = harPorteføljestyringrolle && aktivTab === TabType.TilGodkjenning;
     const harDatofilter =
-        !!datofilter.oppgaveKlarFom ||
-        !!datofilter.oppgaveKlarTom ||
+        (visOppgaveKlarfilter && (!!datofilter.oppgaveKlarFom || !!datofilter.oppgaveKlarTom)) ||
         (visStartdatofilter && (!!datofilter.behandlingOpprettetFom || !!datofilter.behandlingOpprettetTom));
     if (activeFilters.length > 0 || erFiltrertPåSaksbehandler || harDatofilter) {
         return (
@@ -59,12 +59,12 @@ export const FilterChips = ({
                         {filter.label}
                     </Chips.Removable>
                 ))}
-                {datofilter.oppgaveKlarFom && (
+                {visOppgaveKlarfilter && datofilter.oppgaveKlarFom && (
                     <Chips.Removable key="oppgaveKlarFom" onClick={() => setOppgaveKlarFom(undefined)}>
                         {`Oppgave klar fra: ${datofilter.oppgaveKlarFom.split('-').reverse().join('.')}`}
                     </Chips.Removable>
                 )}
-                {datofilter.oppgaveKlarTom && (
+                {visOppgaveKlarfilter && datofilter.oppgaveKlarTom && (
                     <Chips.Removable key="oppgaveKlarTom" onClick={() => setOppgaveKlarTom(undefined)}>
                         {`Oppgave klar til: ${datofilter.oppgaveKlarTom.split('-').reverse().join('.')}`}
                     </Chips.Removable>
@@ -84,7 +84,7 @@ export const FilterChips = ({
                         onClick={() => {
                             setMultipleFilters(FilterStatus.OFF, ...activeFilters.map((filter) => filter.key));
                             setValgtSaksbehandler(null);
-                            resetDatofilter();
+                            if (harDatofilter) resetDatofilter();
                         }}
                         data-color="neutral"
                     >

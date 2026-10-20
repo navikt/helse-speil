@@ -44,6 +44,8 @@ export const JusterbarSidemeny = ({
 
     const innholdClassName = cn(
         'relative z-1 min-h-0 transition-[margin] duration-200 ease-in-out',
+        // Åpne popovere (f.eks. datovelger) skal ligge over dra-linja
+        'has-[.aksel-popover:not(.aksel-popover--hidden)]:z-3',
         visSidemeny ? (åpnesTilVenstre ? 'ml-0' : 'mr-0') : åpnesTilVenstre ? '-ml-80' : '-mr-80',
     );
 

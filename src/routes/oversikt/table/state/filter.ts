@@ -319,7 +319,7 @@ type Datofilter = {
     behandlingOpprettetTom?: string;
 };
 
-const datofilterAtom = atomWithLocalStorage<Datofilter>('datofilter', {});
+export const datofilterAtom = atomWithLocalStorage<Datofilter>('datofilter', {});
 
 export const useDatofilter = () => useAtomValue(datofilterAtom);
 

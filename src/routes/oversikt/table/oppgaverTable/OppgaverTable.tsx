@@ -3,6 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { SortState, VStack } from '@navikt/ds-react';
 
+import { useHarPorteføljestyringrolle } from '@hooks/brukerrolleHooks';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { IngenOppgaver } from '@oversikt/IngenOppgaver';
 import { TabType, useAktivTab } from '@oversikt/tabState';
@@ -13,7 +14,13 @@ import { useOppgaveFeed } from '@state/oppgaver';
 import { cn } from '@utils/tw';
 
 import { Pagination } from '../Pagination';
-import { useFilters, useSetMultipleFilters, useToggleFilter, valgtSaksbehandlerAtom } from '../state/filter';
+import {
+    useDatofilter,
+    useFilters,
+    useSetMultipleFilters,
+    useToggleFilter,
+    valgtSaksbehandlerAtom,
+} from '../state/filter';
 import { FilterChips } from './FilterChips';
 import { MineSakerTable } from './mineSaker/MineSakerTable';
 import { PåVentTable } from './påVent/PåVentTable';
@@ -39,6 +46,12 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
 
     useLoadingToast({ isLoading: harIkkeHentetOppgaverForGjeldendeQuery, message: 'Henter oppgaver' });
     const valgtSaksbehandler = useAtomValue(valgtSaksbehandlerAtom);
+    const datofilter = useDatofilter();
+    const harPorteføljestyringrolle = useHarPorteføljestyringrolle();
+    const harDatofilter =
+        !!datofilter.oppgaveKlarFom ||
+        !!datofilter.oppgaveKlarTom ||
+        (harPorteføljestyringrolle && (!!datofilter.behandlingOpprettetFom || !!datofilter.behandlingOpprettetTom));
 
     if (
         oppgaver !== undefined &&
@@ -48,6 +61,7 @@ export const OppgaverTable = ({ antallMineSaker, antallPåVent, sort }: Oppgaver
                 antallOppgaver === 0 &&
                 activeFilters.length === 0 &&
                 valgtSaksbehandler === null &&
+                !harDatofilter &&
                 currentPage === 1))
     ) {
         return <IngenOppgaver />;

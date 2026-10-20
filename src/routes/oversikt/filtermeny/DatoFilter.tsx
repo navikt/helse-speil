@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useState } from 'react';
 
 import { Accordion, BodyShort, DatePicker, VStack, useDatepicker } from '@navikt/ds-react';
 
@@ -8,28 +8,7 @@ import { useSetDatofilter } from '@oversikt/table/state/filter';
 
 import styles from './FilterList.module.css';
 
-type DatoRadProps = {
-    label: string;
-    defaultSelected?: Date;
-    onChange: (dato: string | undefined) => void;
-};
-
-const DatoRad = ({ label, defaultSelected, onChange }: DatoRadProps): ReactElement => {
-    const datepicker = useDatepicker({
-        defaultSelected,
-        onDateChange: (dato) => {
-            onChange(dato ? dayjs(dato).format('YYYY-MM-DD') : undefined);
-        },
-    });
-
-    return (
-        <DatePicker {...datepicker.datepickerProps} dropdownCaption>
-            <DatePicker.Input {...datepicker.inputProps} label={label} size="small" />
-        </DatePicker>
-    );
-};
-
-export const DatoFilter = (): ReactElement => {
+export function DatoFilter(): ReactElement {
     const harPorteføljestyringrolle = useHarPorteføljestyringrolle();
     const { datofilter, setOppgaveKlarFom, setOppgaveKlarTom, setBehandlingOpprettetFom, setBehandlingOpprettetTom } =
         useSetDatofilter();
@@ -42,22 +21,8 @@ export const DatoFilter = (): ReactElement => {
                 </Accordion.Header>
                 <Accordion.Content className={styles.innhold}>
                     <VStack gap="space-8">
-                        <DatoRad
-                            key={datofilter.oppgaveKlarFom}
-                            label="Fra og med"
-                            defaultSelected={
-                                datofilter.oppgaveKlarFom ? new Date(datofilter.oppgaveKlarFom) : undefined
-                            }
-                            onChange={setOppgaveKlarFom}
-                        />
-                        <DatoRad
-                            key={datofilter.oppgaveKlarTom}
-                            label="Til og med"
-                            defaultSelected={
-                                datofilter.oppgaveKlarTom ? new Date(datofilter.oppgaveKlarTom) : undefined
-                            }
-                            onChange={setOppgaveKlarTom}
-                        />
+                        <DatoRad label="Fra og med" value={datofilter.oppgaveKlarFom} onChange={setOppgaveKlarFom} />
+                        <DatoRad label="Til og med" value={datofilter.oppgaveKlarTom} onChange={setOppgaveKlarTom} />
                     </VStack>
                 </Accordion.Content>
             </Accordion.Item>
@@ -69,23 +34,13 @@ export const DatoFilter = (): ReactElement => {
                     <Accordion.Content className={styles.innhold}>
                         <VStack gap="space-8">
                             <DatoRad
-                                key={datofilter.behandlingOpprettetFom}
                                 label="Fra og med"
-                                defaultSelected={
-                                    datofilter.behandlingOpprettetFom
-                                        ? new Date(datofilter.behandlingOpprettetFom)
-                                        : undefined
-                                }
+                                value={datofilter.behandlingOpprettetFom}
                                 onChange={setBehandlingOpprettetFom}
                             />
                             <DatoRad
-                                key={datofilter.behandlingOpprettetTom}
                                 label="Til og med"
-                                defaultSelected={
-                                    datofilter.behandlingOpprettetTom
-                                        ? new Date(datofilter.behandlingOpprettetTom)
-                                        : undefined
-                                }
+                                value={datofilter.behandlingOpprettetTom}
                                 onChange={setBehandlingOpprettetTom}
                             />
                         </VStack>
@@ -94,4 +49,42 @@ export const DatoFilter = (): ReactElement => {
             )}
         </>
     );
+}
+
+type DatoRadProps = {
+    label: string;
+    value?: string;
+    onChange: (dato: string | undefined) => void;
 };
+
+function DatoRad({ label, value, onChange }: DatoRadProps): ReactElement {
+    const [forrigeValue, setForrigeValue] = useState(value);
+
+    const { datepickerProps, inputProps, selectedDay, setSelected } = useDatepicker({
+        defaultSelected: tilDate(value),
+        onDateChange: (dato) => {
+            const filterverdi = tilFilterverdi(dato);
+            if (filterverdi !== value) onChange(filterverdi);
+        },
+    });
+
+    // Synk inn endringer gjort utenfor feltet (fjernet chip, «Nullstill alle»)
+    if (value !== forrigeValue) {
+        setForrigeValue(value);
+        if (value !== tilFilterverdi(selectedDay)) setSelected(tilDate(value));
+    }
+
+    return (
+        <DatePicker {...datepickerProps} strategy="fixed" dropdownCaption>
+            <DatePicker.Input {...inputProps} label={label} size="small" />
+        </DatePicker>
+    );
+}
+
+function tilDate(dato: string | undefined): Date | undefined {
+    return dato ? dayjs(dato).toDate() : undefined;
+}
+
+function tilFilterverdi(dato: Date | undefined): string | undefined {
+    return dato ? dayjs(dato).format('YYYY-MM-DD') : undefined;
+}
