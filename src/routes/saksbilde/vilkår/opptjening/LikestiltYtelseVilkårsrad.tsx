@@ -53,9 +53,6 @@ export function LikestiltYtelseVilkårsrad({
                     <BodyShort id={navnId} weight="semibold">
                         Likestilt ytelse
                     </BodyShort>
-                    <BodyShort size="small" textColor="subtle">
-                        § 8-2 andre ledd
-                    </BodyShort>
                 </VStack>
                 <Spacer />
                 {!readOnly && erCoachFagkoordinatorEllerSupersaksbehandler && (
