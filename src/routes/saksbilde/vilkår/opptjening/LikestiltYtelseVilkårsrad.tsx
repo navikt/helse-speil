@@ -5,13 +5,14 @@ import { BodyShort, Button, HStack, Spacer, VStack } from '@navikt/ds-react';
 import { likestiltYtelseLabels } from '@form-schemas/likestiltYtelseSkjema';
 import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { ApiUtfall, ApiVilkårskode, ApiVilkårsvurdering } from '@io/rest/generated/vilkarsproving.schemas';
-import { Vilkårsutfall, VilkårsutfallTag } from '@saksbilde/vilkår/vilkårsutfall';
+import { AvgjørendeVilkårTag, Vilkårsutfall, VilkårsutfallTag } from '@saksbilde/vilkår/vilkårsutfall';
 import { cn } from '@utils/tw';
 
 import { Detaljrad, Utfallsikon, erSaksbehandlerkilde, vurdertTekst } from './OpptjeningVilkårsrad';
 
 interface LikestiltYtelseVilkårsradProps {
     vurderingFor: (vilkårskode: ApiVilkårskode) => ApiVilkårsvurdering | undefined;
+    erAvgjørende: boolean;
     readOnly: boolean;
     erAktiv: boolean;
     onVurder: () => void;
@@ -19,6 +20,7 @@ interface LikestiltYtelseVilkårsradProps {
 
 export function LikestiltYtelseVilkårsrad({
     vurderingFor,
+    erAvgjørende,
     readOnly,
     erAktiv,
     onVurder,
@@ -64,6 +66,7 @@ export function LikestiltYtelseVilkårsrad({
             </HStack>
             <HStack gap="space-8" align="center">
                 <VilkårsutfallTag utfall={utfall}>{vurdertTekst(punktum.første)}</VilkårsutfallTag>
+                {erAvgjørende && <AvgjørendeVilkårTag />}
             </HStack>
             {punktum.første && erSaksbehandlerkilde(punktum.første.kilde) && (
                 <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">

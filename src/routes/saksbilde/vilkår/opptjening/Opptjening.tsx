@@ -86,6 +86,10 @@ export function Opptjening({
                         {kanVurdereLikestilteYtelser() && (
                             <LikestiltYtelseVilkårsrad
                                 vurderingFor={vurderingFor}
+                                erAvgjørende={
+                                    !!avgjørendeVilkårskode &&
+                                    likestiltYtelseVilkårskoder.includes(avgjørendeVilkårskode)
+                                }
                                 readOnly={readOnly}
                                 erAktiv={aktivtVilkår === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER}
                                 onVurder={() => onVurder(ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER)}
@@ -97,3 +101,9 @@ export function Opptjening({
         </VStack>
     );
 }
+
+const likestiltYtelseVilkårskoder: ApiVilkårskode[] = [
+    ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER,
+    ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP,
+    ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER,
+];

@@ -39,6 +39,14 @@ export function VilkårsutfallTag({
     );
 }
 
+export function AvgjørendeVilkårTag(): ReactElement {
+    return (
+        <Tag size="xsmall" variant="outline" data-color="info">
+            Avgjørende vilkår
+        </Tag>
+    );
+}
+
 export function utfallFraOppfylt(oppfylt: boolean | null | undefined): Vilkårsutfall {
     return oppfylt === true ? 'Oppfylt' : oppfylt === false ? 'IkkeOppfylt' : 'IkkeVurdert';
 }

@@ -14,7 +14,7 @@ import {
     ApiVurderingskilde,
     ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/vilkarsproving.schemas';
-import { Vilkårsutfall, VilkårsutfallTag, utfallFraApi } from '@saksbilde/vilkår/vilkårsutfall';
+import { AvgjørendeVilkårTag, Vilkårsutfall, VilkårsutfallTag, utfallFraApi } from '@saksbilde/vilkår/vilkårsutfall';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -35,6 +35,7 @@ export function OpptjeningVilkårsrad({
     readOnly,
     erAktiv,
     onVurder,
+    erAvgjørende,
 }: OpptjeningVilkårsradProps): ReactElement {
     const vilkårsnavn = vilkårskodeLabels[vilkårskode];
     const utfall = utfallFraApi(vurdering?.utfall);
@@ -70,6 +71,7 @@ export function OpptjeningVilkårsrad({
             <VStack gap="space-8">
                 <HStack gap="space-8" align="center">
                     <VilkårsutfallTag utfall={utfall}>{vurdertTekst(vurdering)}</VilkårsutfallTag>
+                    {erAvgjørende && <AvgjørendeVilkårTag />}
                 </HStack>
                 {vurdering && <Vurderingsdetaljer vurdering={vurdering} />}
             </VStack>
