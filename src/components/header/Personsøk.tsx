@@ -3,29 +3,17 @@ import React, { FormEvent, ReactElement, useRef } from 'react';
 import { validate as validateUuid } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
-import { teamLogger } from '@navikt/next-logger/team-log';
 
-import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FetchError, NotFoundError, UgyldigFødselsnummerError, UgyldigIdentifikatorError } from '@io/graphql/errors';
-import { usePostPersonSok } from '@io/rest/generated/personer/personer';
-import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
 import { useNullstillSaksbildeTab } from '@state/tab';
-import { useAddVarsel } from '@state/varsler';
 
-import { validerFødselsnummer } from './validering';
+import { usePersonsøk } from './usePersonsøk';
 
 import styles from './Personsøk.module.css';
 
-const kanVæreFødselsnummer = (value: string) => value.match(/^\d{11}$/);
-const kanVæreAktørId = (value: string) => value.match(/^\d{13}$/);
-
 export const Personsøk = (): ReactElement => {
-    const addVarsel = useAddVarsel();
     const router = useRouter();
     const nullstillSaksbildeTab = useNullstillSaksbildeTab();
-    const { mutate, isPending: loading } = usePostPersonSok();
-
-    useLoadingToast({ isLoading: loading, message: 'Henter person' });
+    const { søkPersonMedFødselsnummerEllerAktørId, loading } = usePersonsøk();
 
     const searchRef = useRef<HTMLInputElement>(null);
 
@@ -41,41 +29,7 @@ export const Personsøk = (): ReactElement => {
             router.push(`/person/${søketekst}`);
             return;
         }
-        if (!(kanVæreAktørId(søketekst) || kanVæreFødselsnummer(søketekst))) {
-            router.push('/');
-            addVarsel(new UgyldigIdentifikatorError(søketekst));
-        } else if (kanVæreFødselsnummer(søketekst) && !validerFødselsnummer(søketekst)) {
-            router.push('/');
-            addVarsel(new UgyldigFødselsnummerError(søketekst));
-        } else {
-            const personsøkVariables: ApiPersonSokRequest = kanVæreFødselsnummer(søketekst)
-                ? { identitetsnummer: søketekst }
-                : { aktørId: søketekst };
-
-            void mutate(
-                { data: personsøkVariables },
-                {
-                    onSuccess: (data) => {
-                        nullstillSaksbildeTab();
-                        router.push(`/person/${data.personPseudoId}`);
-                    },
-                    onError: (error) => {
-                        if (error.status !== undefined) {
-                            if (error.status >= 400 && error.status < 500) {
-                                teamLogger.warn(
-                                    error,
-                                    'Fikk klientfeil fra søk etter person, viser at person ikke finnes',
-                                );
-                                addVarsel(new NotFoundError());
-                            } else {
-                                teamLogger.error(error, 'Fikk serverfeil fra søk etter person, viser feilmelding');
-                                addVarsel(new FetchError());
-                            }
-                        }
-                    },
-                },
-            );
-        }
+        søkPersonMedFødselsnummerEllerAktørId(søketekst);
     };
 
     return (

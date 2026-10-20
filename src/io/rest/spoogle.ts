@@ -13,20 +13,20 @@ export type SpoogleSøkResponse = {
     path: string[];
 };
 
-const finnFødselsnummerForVedtaksperiode = async (vedtaksperiodeId: string): Promise<string> => {
+const finnFødselsnummerISpoogle = async (id: string): Promise<string> => {
     // Spoogle svarer med text/plain selv om innholdet er JSON
-    const svar = await getJson<SpoogleSøkResponse | string>(`/api/spoogle/sok/${encodeURIComponent(vedtaksperiodeId)}`);
+    const svar = await getJson<SpoogleSøkResponse | string>(`/api/spoogle/sok/${encodeURIComponent(id)}`);
     const { tree }: SpoogleSøkResponse = typeof svar === 'string' ? JSON.parse(svar) : svar;
     if (tree.type !== 'FØDSELSNUMMER') {
-        const error: HttpError = new Error('Fant ikke fødselsnummer for vedtaksperioden');
+        const error: HttpError = new Error('Fant ikke fødselsnummer for ID-en');
         error.status = 404;
         throw error;
     }
     return tree.id;
 };
 
-export const useFinnFødselsnummerForVedtaksperiode = () =>
+export const useFinnFødselsnummerISpoogle = () =>
     useMutation<string, HttpError, string>({
-        mutationKey: ['finnFødselsnummerForVedtaksperiode'],
-        mutationFn: finnFødselsnummerForVedtaksperiode,
+        mutationKey: ['finnFødselsnummerISpoogle'],
+        mutationFn: finnFødselsnummerISpoogle,
     });
