@@ -1,7 +1,7 @@
 import { Dayjs } from 'dayjs';
 import { RefObject, useEffect, useRef, useState } from 'react';
 
-import { getNumberOfDays } from '@saksbilde/tidslinje/timeline/index';
+import { ParsedRow, getNumberOfDays } from '@saksbilde/tidslinje/timeline/index';
 import { ZoomLevel, zoomLevels } from '@saksbilde/tidslinje/timeline/zoom/TimelineZoom';
 
 export interface TimelineZoomOptions {
@@ -73,8 +73,23 @@ function useResizeObserver(ref: RefObject<HTMLElement | null>) {
     return width;
 }
 
-export function useExpandableRows() {
-    const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
+export function useExpandableRows(parsedRows: ParsedRow[]) {
+    const aktivHistoriskPeriode = finnAktivHistoriskPeriode(parsedRows);
+    const [expandedRows, setExpandedRows] = useState<Set<number>>(() =>
+        aktivHistoriskPeriode === null ? new Set() : new Set([aktivHistoriskPeriode.rowIndex]),
+    );
+    const [prevAktivHistoriskPeriodeId, setPrevAktivHistoriskPeriodeId] = useState(
+        aktivHistoriskPeriode?.periodId ?? null,
+    );
+
+    // Justeres under render så den aktive historiske perioden finnes i DOM-en før scroll-til-aktiv-periode kjører
+    const aktivHistoriskPeriodeId = aktivHistoriskPeriode?.periodId ?? null;
+    if (aktivHistoriskPeriodeId !== prevAktivHistoriskPeriodeId) {
+        setPrevAktivHistoriskPeriodeId(aktivHistoriskPeriodeId);
+        if (aktivHistoriskPeriode !== null && !expandedRows.has(aktivHistoriskPeriode.rowIndex)) {
+            setExpandedRows(new Set(expandedRows).add(aktivHistoriskPeriode.rowIndex));
+        }
+    }
 
     function toggleRowExpanded(rowIndex: number) {
         setExpandedRows((prev) => {
@@ -89,6 +104,16 @@ export function useExpandableRows() {
     }
 
     return { expandedRows, toggleRowExpanded };
+}
+
+function finnAktivHistoriskPeriode(parsedRows: ParsedRow[]): { rowIndex: number; periodId: string } | null {
+    for (const [rowIndex, row] of parsedRows.entries()) {
+        for (const periods of row.generasjonPeriodsByLevel.values()) {
+            const aktiv = periods.find((period) => period.isActive);
+            if (aktiv) return { rowIndex, periodId: aktiv.id };
+        }
+    }
+    return null;
 }
 
 export function useScrollToActivePeriod(

@@ -1,3 +1,4 @@
+import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
 import { InformationSquareIcon, TerminalIcon } from '@navikt/aksel-icons';
@@ -18,12 +19,18 @@ import { Utvikler } from '@saksbilde/utvikler/Utvikler';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { useActivePeriod } from '@state/periode';
+import {
+    periodeUrlIdFor,
+    useActivePeriod,
+    usePeriodeUrlIdFraUrl,
+    useSynkroniserValgtPeriodeMedUrl,
+} from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { SaksbildeTab, useSaksbildeTab } from '@state/tab';
+import { SaksbildeTab, tabTilAnker, useLagreTabFraAnker, useSaksbildeTab, useTabFraAnker } from '@state/tab';
 import { useUtviklersnacks } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
+import { lagPeriodeUrl } from '@utils/undersider';
 
 type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean };
 
@@ -58,19 +65,38 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
 export const Saksbilde = () => {
     const { loading, data: person = null, error } = useFetchPersonQuery();
     const [tab, setTab] = useSaksbildeTab();
+    const tabFraAnker = useTabFraAnker();
+    const router = useRouter();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const periodeUrlId = usePeriodeUrlIdFraUrl();
 
     const aktivPeriode = useActivePeriod(person);
+    useSynkroniserValgtPeriodeMedUrl(aktivPeriode);
+    useLagreTabFraAnker();
 
     const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode);
 
-    // Correct tab if current tab is not available for this period type
+    const harPeriodeIUrl = periodeUrlId !== null;
+    const behandlingIdFraUrl = periodeUrlId?.behandlingId;
     useEffect(() => {
-        if (!aktivPeriode || availableTabs.length === 0) return;
-        const tabIsAvailable = availableTabs.some((t) => t.value === tab);
-        if (!tabIsAvailable) {
-            setTab(availableTabs[0]!.value);
+        if (!aktivPeriode) return;
+        const aktivPeriodeUrlId = periodeUrlIdFor(aktivPeriode);
+        const ukjentBehandlingIUrl =
+            behandlingIdFraUrl !== undefined && behandlingIdFraUrl !== aktivPeriodeUrlId.behandlingId;
+        if (harPeriodeIUrl && !ukjentBehandlingIUrl) return;
+        router.replace(lagPeriodeUrl(personPseudoId, aktivPeriodeUrlId, tabTilAnker(tab)), {
+            scroll: false,
+        });
+    }, [aktivPeriode, harPeriodeIUrl, behandlingIdFraUrl, personPseudoId, router, tab]);
+
+    // Velger første tilgjengelige fane hvis gjeldende fane ikke finnes for periodetypen, og holder ankeret i URL-en i synk
+    useEffect(() => {
+        if (!aktivPeriode || !harPeriodeIUrl || availableTabs.length === 0) return;
+        const gyldigTab = availableTabs.some((t) => t.value === tab) ? tab : availableTabs[0]!.value;
+        if (gyldigTab !== tab || gyldigTab !== tabFraAnker) {
+            setTab(gyldigTab, { erstatt: true });
         }
-    }, [aktivPeriode, availableTabs, tab, setTab]);
+    }, [aktivPeriode, harPeriodeIUrl, availableTabs, tab, tabFraAnker, setTab]);
 
     if (loading) {
         return <PeriodeViewSkeleton />;
@@ -78,6 +104,16 @@ export const Saksbilde = () => {
 
     if (error || !person) {
         return <PeriodeViewError />;
+    }
+
+    if (!aktivPeriode && periodeUrlId) {
+        return (
+            <InfoCard data-color="warning" className="m-8 [grid-area:content]">
+                <InfoCard.Message icon={<InformationSquareIcon aria-hidden />}>
+                    Fant ikke perioden i Speil
+                </InfoCard.Message>
+            </InfoCard>
+        );
     }
 
     if (!aktivPeriode) {

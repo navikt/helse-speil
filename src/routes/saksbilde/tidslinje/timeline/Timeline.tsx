@@ -20,7 +20,7 @@ type TimelineProps = PropsWithChildren<TimelineZoomOptions>;
 
 export function Timeline({ children, zoomLevel, onZoomLevelChange, defaultZoomLevel }: TimelineProps): ReactElement {
     const { rowLabels, earliestDate, latestDate, parsedRows, zoomComponent, pins } = useParsedRows(children);
-    const { expandedRows, toggleRowExpanded } = useExpandableRows();
+    const { expandedRows, toggleRowExpanded } = useExpandableRows(parsedRows);
     const {
         startDate,
         endDate,
