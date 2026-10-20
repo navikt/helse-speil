@@ -219,9 +219,8 @@ export interface ApiSaksbehandlerhandlingVisningResponse {
     felter: ApiVisningsfelt[];
 }
 
-export interface ApiManuellVilkårsvurderingRequest {
+export interface ApiManuellArbeidMinstFireUkerVurderingRequest {
     skjæringstidspunkt: string;
-    vilkårskode: ApiVilkårskode;
     utfall: ApiUtfall;
     fritekstbegrunnelse: string;
     journalpostId: string[];
@@ -229,13 +228,6 @@ export interface ApiManuellVilkårsvurderingRequest {
 
 export interface ApiManuellOpptjeningsvurderingResponse {
     opptjeningsvurderingId: string;
-}
-
-export interface ApiManuellArbeidMinstFireUkerVurderingRequest {
-    skjæringstidspunkt: string;
-    utfall: ApiUtfall;
-    fritekstbegrunnelse: string;
-    journalpostId: string[];
 }
 
 export interface ApiManuellLikestiltYtelseVurderingRequest {
