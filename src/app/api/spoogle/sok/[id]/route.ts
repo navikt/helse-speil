@@ -1,5 +1,3 @@
 import { stubEllerVideresendTilSpoogle } from '@app/api/spoogle/common';
 
-import { stub } from './stub';
-
-export const GET = stubEllerVideresendTilSpoogle(stub);
+export const GET = stubEllerVideresendTilSpoogle(() => import('./stub').then((m) => m.stub));

@@ -1,5 +1,3 @@
 import { stubEllerVideresendTilSpesialist } from '@app/api/spesialist/common';
 
-import { stub } from './stub';
-
-export const GET = stubEllerVideresendTilSpesialist<{ pseudoId: string }>(stub);
+export const GET = stubEllerVideresendTilSpesialist<{ pseudoId: string }>(() => import('./stub').then((m) => m.stub));

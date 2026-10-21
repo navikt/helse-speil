@@ -1,11 +1,12 @@
 import { NextRequest } from 'next/server';
 
 import { stubEllerVideresendSseTilSpesialist } from '@app/api/spesialist/common';
-import { stub } from '@app/api/spesialist/personer/[pseudoId]/sse/stub';
 
 export async function GET(request: NextRequest, context: { params: Promise<{ pseudoId: string }> }) {
     request.headers.set('Accept', 'text/event-stream');
-    const response = await stubEllerVideresendSseTilSpesialist<{ pseudoId: string }>(stub)(request, context);
+    const response = await stubEllerVideresendSseTilSpesialist<{ pseudoId: string }>(() =>
+        import('./stub').then((m) => m.stub),
+    )(request, context);
     let reader: ReadableStreamDefaultReader<Uint8Array> | undefined;
     const stream = new ReadableStream({
         async start(controller) {

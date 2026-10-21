@@ -3,7 +3,6 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { backend, getServerEnv } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
-import { PersonMock } from '@spesialist-mock/storage/person';
 
 // Endepunkt for å kunne søke opp personer på fødselsnummer eller aktørID.
 // Ble laget for å dyplenke fra spanner til aktuell person i speil.
@@ -15,6 +14,7 @@ export async function POST(request: NextRequest) {
     const aktørId = formData.get('aktørId')?.toString();
 
     if (backend === 'mock') {
+        const { PersonMock } = await import('@spesialist-mock/storage/person');
         personPseudoId = PersonMock.findPersonPseudoId(identitetsnummer ?? aktørId ?? '');
     } else {
         const spesialistBaseUrl = getServerEnv().SPESIALIST_BASEURL;

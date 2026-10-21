@@ -1,6 +1,5 @@
 import { ServerEnv, getServerEnv, sanityBaseUrl } from '@/env';
 import { postJson } from '@app/fetch/fetchClient';
-import { SanityMock } from '@spesialist-mock/storage/sanity';
 
 type SanityParams = Record<string, string>;
 type SanityResponse<T> = { data: T };
@@ -14,7 +13,8 @@ export const stubEllerVideresendTilSanity = async <T>(
     else return sanityResponse(dataset, query, params);
 };
 
-function localResponse<T>(params?: SanityParams) {
+async function localResponse<T>(params?: SanityParams) {
+    const { SanityMock } = await import('@spesialist-mock/storage/sanity');
     const handlers = [
         ['forkastingarsaker', () => SanityMock.forkastingarsaker()],
         ['paventarsaker', () => SanityMock.paventarsaker()],

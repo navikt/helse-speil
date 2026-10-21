@@ -62,6 +62,27 @@ const eslintConfig = defineConfig([
             ],
         },
     },
+    {
+        files: [
+            'src/app/**/route.ts',
+            'src/app/api/**/common.ts',
+            'src/app/api/sanity/stubEllerVideresendTilSanity.ts',
+        ],
+        rules: {
+            'no-restricted-imports': [
+                'error',
+                {
+                    patterns: [
+                        {
+                            group: ['**/stub', '**/*Stub', '@spesialist-mock/*', '!@spesialist-mock/constants'],
+                            message:
+                                'Mockkode skal ikke lastes i produksjon. Last den med import() inne i mock-grenen, f.eks. via stubEllerVideresend*.',
+                        },
+                    ],
+                },
+            ],
+        },
+    },
 ]);
 
 export default eslintConfig;

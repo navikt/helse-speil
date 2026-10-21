@@ -1,5 +1,3 @@
 import { stubEllerVideresendTilSpForsikring } from '@app/api/sp-forsikring/common';
 
-import { stub } from './stub';
-
-export const POST = stubEllerVideresendTilSpForsikring(stub);
+export const POST = stubEllerVideresendTilSpForsikring(() => import('./stub').then((m) => m.stub));

@@ -1,5 +1,3 @@
 import { stubEllerVideresendTilSpleis } from '@app/api/spleis/common';
 
-import { stub } from './stub';
-
-export const GET = stubEllerVideresendTilSpleis(stub);
+export const GET = stubEllerVideresendTilSpleis(() => import('./stub').then((m) => m.stub));

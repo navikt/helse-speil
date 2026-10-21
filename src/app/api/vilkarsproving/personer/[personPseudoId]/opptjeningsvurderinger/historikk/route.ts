@@ -1,5 +1,5 @@
 import { stubEllerVideresendTilVilkarsproving } from '@app/api/vilkarsproving/common';
 
-import { stub } from './stub';
-
-export const GET = stubEllerVideresendTilVilkarsproving<{ personPseudoId: string }>(stub);
+export const GET = stubEllerVideresendTilVilkarsproving<{ personPseudoId: string }>(() =>
+    import('./stub').then((m) => m.stub),
+);

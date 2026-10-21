@@ -2,7 +2,6 @@ import { createYoga } from 'graphql-yoga';
 import { notFound } from 'next/navigation';
 
 import { erDev, erProd } from '@/env';
-import { buildSchema } from '@spesialist-mock/graphql';
 
 interface NextContext {
     params: Promise<Record<string, string>>;
@@ -10,8 +9,9 @@ interface NextContext {
 
 let yogaRequestHandler: ((req: Request, ctx: NextContext) => Response | Promise<Response>) | null;
 
-function getRequestHandler() {
+async function getRequestHandler() {
     if (yogaRequestHandler == null) {
+        const { buildSchema } = await import('@spesialist-mock/graphql');
         const { handleRequest } = createYoga<NextContext>({
             schema: buildSchema(),
             graphqlEndpoint: '/api/spesialist',
@@ -24,12 +24,12 @@ function getRequestHandler() {
     return yogaRequestHandler;
 }
 
-function handleRequest(req: Request, ctx: NextContext) {
+async function handleRequest(req: Request, ctx: NextContext) {
     if (erProd || erDev) {
         notFound();
     }
 
-    const requestHandler = getRequestHandler();
+    const requestHandler = await getRequestHandler();
 
     if (requestHandler == null) {
         throw new Error('Request handler is not initialized, that should not be possible');
