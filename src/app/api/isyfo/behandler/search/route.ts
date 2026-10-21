@@ -7,7 +7,13 @@ import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 import { sleep } from '@spesialist-mock/constants';
 
 export async function POST(req: Request) {
-    if (backend === 'mock' || backend === 'lokal' || backend === 'lokal-spesialist' || backend === 'lokal-sporhund') {
+    if (
+        backend === 'mock' ||
+        backend === 'lokal' ||
+        backend === 'lokal-spesialist' ||
+        backend === 'lokal-sporhund' ||
+        backend === 'lokal-vilkarsproving'
+    ) {
         logger.info('Mocker isyfo behandler/search lokalt / i dev');
         await sleep(200 + Math.random() * 300);
         const body = await req.json();

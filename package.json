@@ -20,6 +20,7 @@
         "lokal-backend": "NEXT_PUBLIC_RUNTIME_ENV=lokal PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "lokal-spesialist": "NEXT_PUBLIC_RUNTIME_ENV=lokal-spesialist PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "lokal-sporhund": "NEXT_PUBLIC_RUNTIME_ENV=lokal-sporhund PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
+        "lokal-vilkarsproving": "NEXT_PUBLIC_RUNTIME_ENV=lokal-vilkarsproving PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "import-testperson": "dev/importer-testdata.sh",
         "prebuild": "next telemetry disable",
         "preinstall": "npx only-allow pnpm",

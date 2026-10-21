@@ -52,12 +52,13 @@ Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesial
 
 ### Utvikle lokalt mot lokalt kjørende backend
 
-| Script                      | Spesialist     | Sporhund       |
-| --------------------------- | -------------- | -------------- |
-| `pnpm run dev`              | mocked (stub)  | mocked (stub)  |
-| `pnpm run lokal-backend`    | localhost:8080 | localhost:8282 |
-| `pnpm run lokal-spesialist` | localhost:8080 | mocked (stub)  |
-| `pnpm run lokal-sporhund`   | mocked (stub)  | localhost:8282 |
+| Script                          | Spesialist     | Sporhund       | Vilkårsprøving |
+| ------------------------------- | -------------- | -------------- | -------------- |
+| `pnpm run dev`                  | mocked (stub)  | mocked (stub)  | mocked (stub)  |
+| `pnpm run lokal-backend`        | localhost:8080 | localhost:8282 | localhost:8181 |
+| `pnpm run lokal-spesialist`     | localhost:8080 | mocked (stub)  | mocked (stub)  |
+| `pnpm run lokal-sporhund`       | mocked (stub)  | localhost:8282 | mocked (stub)  |
+| `pnpm run lokal-vilkarsproving` | mocked (stub)  | mocked (stub)  | localhost:8181 |
 
 ### Legge til en testperson lokalt:
 

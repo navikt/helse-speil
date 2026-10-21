@@ -112,7 +112,10 @@ export const createApolloClient = (): ApolloClient<NormalizedCacheObject> =>
                 attempts: { max: 5 },
             }),
             new HttpLink({
-                uri: backend === 'mock' || backend === 'lokal-sporhund' ? '/api/spesialist' : `/api/graphql`,
+                uri:
+                    backend === 'mock' || backend === 'lokal-sporhund' || backend === 'lokal-vilkarsproving'
+                        ? '/api/spesialist'
+                        : `/api/graphql`,
             }),
         ]),
         cache: new InMemoryCache(apolloCacheConfig),
