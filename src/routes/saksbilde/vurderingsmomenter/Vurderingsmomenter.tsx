@@ -7,18 +7,18 @@ import { Advarselikon } from '@components/ikoner/Advarselikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
-import { BeregnetPeriodeFragment, Faresignal, Risikovurdering } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiFaresignal, ApiRisikovurdering } from '@io/rest/generated/spesialist.schemas';
 
 import styles from './Vurderingsmomenter.module.scss';
 
-const harFunn = (funn?: Faresignal[] | null): funn is Faresignal[] => {
+const harFunn = (funn?: ApiFaresignal[] | null): funn is ApiFaresignal[] => {
     return typeof funn === 'object';
 };
 
 interface VurderingsmomenterkategoriProps {
     ikon: ReactNode;
     overskrift: string;
-    vurderingsmomenter: Faresignal[];
+    vurderingsmomenter: ApiFaresignal[];
     vurderingIkon: ReactNode;
 }
 
@@ -43,7 +43,7 @@ const VurderingsmomentKategori = ({
 );
 
 interface VurderingsmomenterWithContentProps {
-    risikovurdering: Risikovurdering;
+    risikovurdering: ApiRisikovurdering;
 }
 
 export const VurderingsmomenterWithContent = ({
@@ -70,7 +70,7 @@ export const VurderingsmomenterWithContent = ({
 );
 
 interface VurderingsmomenterContainerProps {
-    periode: BeregnetPeriodeFragment;
+    periode: ApiBeregnetPeriode;
 }
 
 const VurderingsmomenterContainer = ({ periode }: VurderingsmomenterContainerProps): ReactElement | null =>
@@ -83,7 +83,7 @@ const VilkårsmomenterError = (): ReactElement => (
 );
 
 interface VurderingsmomenterProps {
-    periode: BeregnetPeriodeFragment;
+    periode: ApiBeregnetPeriode;
 }
 
 export const Vurderingsmomenter = ({ periode }: VurderingsmomenterProps): ReactElement => (

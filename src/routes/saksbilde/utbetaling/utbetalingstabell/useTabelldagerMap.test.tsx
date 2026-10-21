@@ -1,27 +1,33 @@
-import { Dag, Dagoverstyring, Dagtype, Kildetype, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import {
+    ApiDag,
+    ApiDagoverstyring,
+    ApiDagtype,
+    ApiKildetype,
+    ApiSykdomsdagtype,
+    ApiUtbetalingsdagtype,
+} from '@io/rest/generated/spesialist.schemas';
 import { renderHook } from '@testing-library/react';
 import { DateString } from '@typer/shared';
 
 import { antallSykedagerTilOgMedMaksdato, createDagerMap, useTabelldagerMap } from './useTabelldagerMap';
 
-const getDag = (dato: DateString, overrides?: Partial<Dag>): Dag => ({
-    __typename: 'Dag',
+const getDag = (dato: DateString, overrides?: Partial<ApiDag>): ApiDag => ({
     dato: dato,
-    kilde: { __typename: 'Kilde', id: 'en-id', type: Kildetype.Inntektsmelding },
-    sykdomsdagtype: Sykdomsdagtype.Sykedag,
-    utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+    kilde: { id: 'en-id', type: ApiKildetype.INNTEKTSMELDING },
+    sykdomsdagtype: ApiSykdomsdagtype.SYKEDAG,
+    utbetalingsdagtype: ApiUtbetalingsdagtype.NAVDAG,
     begrunnelser: null,
     grad: null,
     utbetalingsinfo: null,
     ...overrides,
 });
 
-const dager: Dag[] = [
+const dager: ApiDag[] = [
     getDag('2021-01-01'),
-    getDag('2021-01-02', { utbetalingsdagtype: Utbetalingsdagtype.AvvistDag }),
+    getDag('2021-01-02', { utbetalingsdagtype: ApiUtbetalingsdagtype.AVVIST_DAG }),
     getDag('2021-01-03'),
-    getDag('2021-01-04', { utbetalingsdagtype: Utbetalingsdagtype.Helgedag }),
-    getDag('2021-01-05', { utbetalingsdagtype: Utbetalingsdagtype.Helgedag }),
+    getDag('2021-01-04', { utbetalingsdagtype: ApiUtbetalingsdagtype.HELGEDAG }),
+    getDag('2021-01-05', { utbetalingsdagtype: ApiUtbetalingsdagtype.HELGEDAG }),
     getDag('2021-01-06'),
     getDag('2021-01-07'),
     getDag('2021-01-08'),
@@ -65,25 +71,23 @@ describe('useTabelldagerMap', () => {
     });
 
     it('mapper overstyringer', () => {
-        const overstyringer: Dagoverstyring[] = [
+        const overstyringer: ApiDagoverstyring[] = [
             {
-                __typename: 'Dagoverstyring',
+                type: 'ApiDagoverstyring',
                 vedtaksperiodeId: '',
                 hendelseId: 'en-id',
                 timestamp: '2020-01-01',
                 begrunnelse: 'Fordi',
                 dager: [
                     {
-                        __typename: 'OverstyrtDag',
                         dato: '2021-01-02',
-                        type: Dagtype.Sykedag,
+                        type: ApiDagtype.Sykedag,
                         grad: 80,
                         fraGrad: null,
                         fraType: null,
                     },
                 ],
                 saksbehandler: {
-                    __typename: 'Saksbehandler',
                     navn: 'et-navn',
                     ident: 'en-ident',
                 },

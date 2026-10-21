@@ -1,29 +1,25 @@
 import React from 'react';
 
-import { Risikovurdering } from '@io/graphql';
+import { ApiRisikovurdering } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@testing-library/react';
 
 import { VurderingsmomenterWithContent } from './Vurderingsmomenter';
 
 describe('Vurderingsmomenter', () => {
     test('rendrer Vurderingsmomenter oppdaget og kontrollert', async () => {
-        const enRisikovurdering: Risikovurdering = {
-            __typename: 'Risikovurdering',
+        const enRisikovurdering: ApiRisikovurdering = {
             funn: [
                 {
-                    __typename: 'Faresignal',
                     beskrivelse: 'Går alltid med solbriller',
                     kategori: ['8-4'],
                 },
                 {
-                    __typename: 'Faresignal',
                     beskrivelse: 'Spiser aldri lunsj',
                     kategori: ['8-4'],
                 },
             ],
             kontrollertOk: [
                 {
-                    __typename: 'Faresignal',
                     beskrivelse: 'Er fra Vinderen',
                     kategori: [],
                 },
@@ -38,8 +34,7 @@ describe('Vurderingsmomenter', () => {
     });
 
     test('rendrer ikke Vurderingsmomenter kontrollert eller oppdaget', async () => {
-        const enRisikovurdering: Risikovurdering = {
-            __typename: 'Risikovurdering',
+        const enRisikovurdering: ApiRisikovurdering = {
             kontrollertOk: [],
             funn: [],
         };

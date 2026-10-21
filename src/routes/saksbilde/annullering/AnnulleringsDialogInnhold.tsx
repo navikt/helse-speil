@@ -24,7 +24,7 @@ import { useArsaker } from '@external/sanity';
 import { AnnulleringSkjema, annulleringSkjema } from '@form-schemas/annulleringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { usePostVedtaksperiodeAnnuller } from '@io/rest/generated/vedtaksperioder/vedtaksperioder';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
@@ -37,8 +37,8 @@ interface AnnulleringsDialogInnholdProps {
     vedtaksperiodeId: string;
     arbeidsgiverFagsystemId: string;
     personFagsystemId: string;
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode;
     onSuccess: () => void;
 }
 
@@ -195,8 +195,8 @@ function Annulleringsinformasjon({
     periode,
     inntektsforholdReferanse,
 }: {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode;
     inntektsforholdReferanse: InntektsforholdReferanse;
 }): ReactElement | null {
     const { totalbeløp, førsteUtbetalingsdag, sisteUtbetalingsdag } = useTotaltUtbetaltForSykefraværstilfellet(person);

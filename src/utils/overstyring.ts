@@ -1,4 +1,4 @@
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { erPeriodeIFørsteBehandling } from '@state/inntektsforhold/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
 import { getPeriodState } from '@utils/mapping';
@@ -15,7 +15,7 @@ type OverstyringValidationError = {
 
 type OverstyringValidation = OverstyringValidationSuccess | OverstyringValidationError;
 
-const validateTilstand = (periode: BeregnetPeriodeFragment): void => {
+const validateTilstand = (periode: ApiBeregnetPeriode): void => {
     if (
         !['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet', 'revurderes', 'venterPåKiling'].includes(
             getPeriodState(periode),
@@ -28,7 +28,7 @@ const validateTilstand = (periode: BeregnetPeriodeFragment): void => {
     }
 };
 
-const validateBeslutter = (periode: BeregnetPeriodeFragment): void => {
+const validateBeslutter = (periode: ApiBeregnetPeriode): void => {
     if (periode.totrinnsvurdering?.erBeslutteroppgave) {
         throw {
             value: false,
@@ -37,7 +37,7 @@ const validateBeslutter = (periode: BeregnetPeriodeFragment): void => {
     }
 };
 
-export const kanOverstyres = (periode: BeregnetPeriodeFragment): OverstyringValidation => {
+export const kanOverstyres = (periode: ApiBeregnetPeriode): OverstyringValidation => {
     try {
         validateBeslutter(periode);
         validateTilstand(periode);
@@ -48,7 +48,7 @@ export const kanOverstyres = (periode: BeregnetPeriodeFragment): OverstyringVali
     return { value: true };
 };
 
-const validateIkkeForkastet = (periode: BeregnetPeriodeFragment): void => {
+const validateIkkeForkastet = (periode: ApiBeregnetPeriode): void => {
     if (isForkastet(periode)) {
         throw {
             value: false,
@@ -57,7 +57,7 @@ const validateIkkeForkastet = (periode: BeregnetPeriodeFragment): void => {
     }
 };
 
-const validateGodkjent = (periode: BeregnetPeriodeFragment): void => {
+const validateGodkjent = (periode: ApiBeregnetPeriode): void => {
     if (!isGodkjent(periode)) {
         throw {
             value: false,
@@ -67,7 +67,7 @@ const validateGodkjent = (periode: BeregnetPeriodeFragment): void => {
     }
 };
 
-const validatePeriodeTilhørerNyesteBehandling = (person: PersonFragment, periode: BeregnetPeriodeFragment): void => {
+const validatePeriodeTilhørerNyesteBehandling = (person: ApiSaksbildePerson, periode: ApiBeregnetPeriode): void => {
     if (!erPeriodeIFørsteBehandling(person, periode)) {
         throw {
             value: false,
@@ -76,7 +76,7 @@ const validatePeriodeTilhørerNyesteBehandling = (person: PersonFragment, period
     }
 };
 
-export const kanRevurderes = (person: PersonFragment, periode: BeregnetPeriodeFragment): OverstyringValidation => {
+export const kanRevurderes = (person: ApiSaksbildePerson, periode: ApiBeregnetPeriode): OverstyringValidation => {
     try {
         validatePeriodeTilhørerNyesteBehandling(person, periode);
         validateBeslutter(periode);
@@ -89,7 +89,7 @@ export const kanRevurderes = (person: PersonFragment, periode: BeregnetPeriodeFr
     return { value: true };
 };
 
-const validateRevurderes = (periode: BeregnetPeriodeFragment): void => {
+const validateRevurderes = (periode: ApiBeregnetPeriode): void => {
     if (getPeriodState(periode) !== 'revurderes') {
         throw {
             value: false,
@@ -99,8 +99,8 @@ const validateRevurderes = (periode: BeregnetPeriodeFragment): void => {
 };
 
 const validateOverlappendePerioderErTilRevurdering = (
-    person: PersonFragment,
-    periode: BeregnetPeriodeFragment,
+    person: ApiSaksbildePerson,
+    periode: ApiBeregnetPeriode,
 ): void => {
     const tilstander = getOverlappendePerioder(person, periode).map((it) => getPeriodState(it));
 
@@ -115,8 +115,8 @@ const validateOverlappendePerioderErTilRevurdering = (
 };
 
 export const kanOverstyreRevurdering = (
-    person: PersonFragment,
-    periode: BeregnetPeriodeFragment,
+    person: ApiSaksbildePerson,
+    periode: ApiBeregnetPeriode,
 ): OverstyringValidation => {
     try {
         validateBeslutter(periode);

@@ -4,15 +4,15 @@ import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
 
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {
-    BeregnetPeriodeFragment,
-    Dag,
-    Handling,
-    Periode,
-    Periodehandling,
-    Periodetilstand,
-    PersonFragment,
-    Utbetalingsdagtype,
-} from '@io/graphql';
+    ApiBeregnetPeriode,
+    ApiDag,
+    ApiHandling,
+    ApiPeriode,
+    ApiPeriodehandling,
+    ApiPeriodetilstand,
+    ApiSaksbildePerson,
+    ApiUtbetalingsdagtype,
+} from '@io/rest/generated/spesialist.schemas';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
 import {
@@ -33,13 +33,13 @@ import { Utbetaling } from './utbetaling/Utbetaling';
 import styles from './Venstremeny.module.css';
 
 interface VenstremenyBeregnetPeriodeProps {
-    activePeriod: BeregnetPeriodeFragment;
-    currentPerson: PersonFragment;
+    activePeriod: ApiBeregnetPeriode;
+    currentPerson: ApiSaksbildePerson;
     inntektsforhold: Inntektsforhold;
 }
 
-const finnUtbetaleTilgang = ({ handlinger }: BeregnetPeriodeFragment): Handling =>
-    handlinger.find((handling) => handling.type === Periodehandling.Utbetale) as Handling;
+const finnUtbetaleTilgang = ({ handlinger }: ApiBeregnetPeriode): ApiHandling =>
+    handlinger.find((handling) => handling.type === ApiPeriodehandling.UTBETALE) as ApiHandling;
 
 export const VenstremenyBeregnetPeriode = ({
     activePeriod,
@@ -53,7 +53,7 @@ export const VenstremenyBeregnetPeriode = ({
         activePeriod.tidslinje,
     );
 
-    const forrigeBehandlingPeriode: Periode | null | undefined = finnForrigeEllerNyesteBehandling(
+    const forrigeBehandlingPeriode: ApiPeriode | null | undefined = finnForrigeEllerNyesteBehandling(
         activePeriod,
         inntektsforhold,
     )?.perioder.find((periode) => periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId);
@@ -78,7 +78,7 @@ export const VenstremenyBeregnetPeriode = ({
             />
             <UtbetalingCard.Beregnet
                 vilkårsgrunnlag={vilkårsgrunnlag}
-                antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, Utbetalingsdagtype.Navdag)}
+                antallUtbetalingsdager={getNumberOfDaysWithType(activePeriod.tidslinje, ApiUtbetalingsdagtype.NAVDAG)}
                 utbetaling={activePeriod.utbetaling}
                 arbeidsgiversimulering={activePeriod.utbetaling.arbeidsgiversimulering}
                 personsimulering={activePeriod.utbetaling.personsimulering}
@@ -87,7 +87,7 @@ export const VenstremenyBeregnetPeriode = ({
                 gammeltTotalbeløp={forrigeBehandlingPeriode ? gammeltTotalbeløp : undefined}
                 inntektsforhold={inntektsforhold}
             />
-            {activePeriod.periodetilstand === Periodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
+            {activePeriod.periodetilstand === ApiPeriodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
                 <ErrorMessage>Du har ikke tilgang til å behandle denne oppgaven</ErrorMessage>
             ) : (
                 <>
@@ -109,7 +109,7 @@ export const VenstremenyBeregnetPeriode = ({
     );
 };
 
-const getNumberOfDaysWithType = (timeline: Dag[], type: Utbetalingsdagtype): number =>
+const getNumberOfDaysWithType = (timeline: ApiDag[], type: ApiUtbetalingsdagtype): number =>
     timeline.filter((it) => it.utbetalingsdagtype === type).length;
 
 const utbetaling = (state: PeriodState): VarselObject | null =>

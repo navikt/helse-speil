@@ -5,7 +5,7 @@ import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
-import { Kildetype } from '@io/graphql';
+import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -35,8 +35,8 @@ export const Refusjonslinje = ({ fom, tom, beløp, kilde, lokalEndring }: Refusj
                 <BodyShort>{beløp ? somPenger(beløp) : 'Ingen refusjon'}</BodyShort>
             </Table.DataCell>
             <Table.DataCell>
-                {kilde === Kildetype.Inntektsmelding && <Kilde type="Inntektsmelding">IM</Kilde>}
-                {kilde === Kildetype.Saksbehandler && (
+                {kilde === ApiKildetype.INNTEKTSMELDING && <Kilde type="Inntektsmelding">IM</Kilde>}
+                {kilde === ApiKildetype.SAKSBEHANDLER && (
                     <Kilde type="Saksbehandler">
                         <PersonPencilFillIcon title="Saksbehandler ikon" />
                     </Kilde>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { vi } from 'vitest';
 
-import { Periodetype } from '@io/graphql';
+import { ApiPeriodetype } from '@io/rest/generated/spesialist.schemas';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -91,7 +91,7 @@ describe('OverstyrbarUtbetaling', () => {
     test('Legg til dager vises ikke for forlengelser', async () => {
         const person = enPerson();
         const arbeidsgiver = enArbeidsgiver();
-        const periode = enBeregnetPeriode({ periodetype: Periodetype.Forlengelse });
+        const periode = enBeregnetPeriode({ periodetype: ApiPeriodetype.FORLENGELSE });
         render(
             <OverstyrbarUtbetaling inntektsforhold={arbeidsgiver} person={person} dager={dager} periode={periode} />,
         );

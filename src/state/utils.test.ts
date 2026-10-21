@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { getLatestUtbetalingTimestamp, getRequiredVilkårsgrunnlag } from '@state/utils';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
@@ -12,13 +12,13 @@ import { generateId } from '@utils/generateId';
 describe('getRequiredVilkårsgrunnlag', () => {
     it('returnerer vilkårsgrunnlaget for gitt id hvis den finnes', () => {
         const grunnlag = etVilkårsgrunnlagFraSpleis();
-        const person = enPerson({ vilkarsgrunnlagV2: [grunnlag] }) as unknown as PersonFragment;
+        const person = enPerson({ vilkarsgrunnlagV2: [grunnlag] }) as unknown as ApiSaksbildePerson;
 
         expect(getRequiredVilkårsgrunnlag(person, grunnlag.id)).toEqual(grunnlag);
     });
 
     it('thrower når vilkårsgrunnlaget ikke finnes', () => {
-        const person = enPerson() as unknown as PersonFragment;
+        const person = enPerson() as unknown as ApiSaksbildePerson;
 
         expect(() => getRequiredVilkårsgrunnlag(person, generateId())).toThrow();
     });
@@ -37,7 +37,7 @@ describe('getLatestUtbetalingTimestamp', () => {
             enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2021-01-01' }) })),
             enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: enVurdering({ tidsstempel: '2003-01-01' }) })),
         ]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiverB, arbeidsgiverA]) as PersonFragment;
+        const person = enPerson().medArbeidsgivere([arbeidsgiverB, arbeidsgiverA]) as ApiSaksbildePerson;
 
         expect(getLatestUtbetalingTimestamp(person)).toEqual(dayjs(siste));
     });
@@ -46,7 +46,7 @@ describe('getLatestUtbetalingTimestamp', () => {
         const siste = dayjs('1970-01-01');
         const periodeUtenUtbetaling = enBeregnetPeriode().medUtbetaling(enUtbetaling({ vurdering: null }));
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeUtenUtbetaling]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as PersonFragment;
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as ApiSaksbildePerson;
 
         expect(getLatestUtbetalingTimestamp(person)).toEqual(siste);
     });

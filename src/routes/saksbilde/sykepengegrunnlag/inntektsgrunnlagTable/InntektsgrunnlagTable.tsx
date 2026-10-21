@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 
 import { BodyShort, Detail, Table } from '@navikt/ds-react';
 
-import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
+import { ApiArbeidsgiverinntekt, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { somPenger } from '@utils/locale';
 
 import { Inntektssammenligning } from './Inntektssammenligning';
@@ -11,10 +11,10 @@ import { TableCell } from './TableCell';
 import styles from './SykepengegrunnlagPanel.module.css';
 
 interface InntektsgrunnlagTableProps {
-    person: PersonFragment;
-    inntekter: Arbeidsgiverinntekt[];
-    aktivInntektskilde: Arbeidsgiverinntekt;
-    setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
+    person: ApiSaksbildePerson;
+    inntekter: ApiArbeidsgiverinntekt[];
+    aktivInntektskilde: ApiArbeidsgiverinntekt;
+    setAktivInntektskilde: Dispatch<SetStateAction<ApiArbeidsgiverinntekt>>;
     omregnetÅrsinntekt?: number | null;
     sammenligningsgrunnlag?: number | null;
     skjønnsmessigFastsattÅrlig?: number | null;

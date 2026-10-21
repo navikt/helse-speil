@@ -15,10 +15,10 @@ import { stub as overstyrTidslinjeStub } from '@app/api/spesialist/vedtaksperiod
 import { stub as manuellArbeidStub } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/manuell/arbeid-minst-fire-uker/stub';
 import { hentVilkårsvurderinger } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
 import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
-import { fetchPersondata } from '@spesialist-mock/graphql';
 import { hentSynkedeOppgaver } from '@spesialist-mock/oppgaveliste';
 import { finnNyestePeriodeForVedtaksperiodeId, finnPeriodeForBehandlingId } from '@spesialist-mock/periodeoppslag';
 import { opprettTotrinnsvurderingHvisMangler } from '@spesialist-mock/saksbehandling';
+import { fetchPersondata } from '@spesialist-mock/saksbilde';
 import {
     Dag,
     Egenskap,

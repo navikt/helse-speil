@@ -4,7 +4,7 @@ import { Dialog } from '@navikt/ds-react';
 
 import { useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { BegrunnelseDialog } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseDialog';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
 
@@ -12,8 +12,8 @@ interface BegrunnelseVedtakProps {
     defaultÅpen: boolean;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
-    periode: BeregnetPeriodeFragment;
-    person: PersonFragment;
+    periode: ApiBeregnetPeriode;
+    person: ApiSaksbildePerson;
 }
 
 export const IndividuellBegrunnelse = ({

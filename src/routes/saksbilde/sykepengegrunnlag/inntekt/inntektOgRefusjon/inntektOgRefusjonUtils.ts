@@ -1,7 +1,12 @@
 import dayjs from 'dayjs';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { BeregnetPeriodeFragment, Periode, Periodetilstand, PersonFragment } from '@io/graphql';
+import {
+    ApiBeregnetPeriode,
+    ApiPeriode,
+    ApiPeriodetilstand,
+    ApiSaksbildePerson,
+} from '@io/rest/generated/spesialist.schemas';
 import {
     finnArbeidsgiverMedOrganisasjonsnummer,
     harSykefraværMedSkjæringstidspunkt,
@@ -18,31 +23,33 @@ import { ÅrsakForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const harIngenUtbetaltePerioderFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean =>
+export const harIngenUtbetaltePerioderFor = (person: ApiSaksbildePerson, skjæringstidspunkt: DateString): boolean =>
     finnAlleInntektsforhold(person)
         .flatMap((it) => it.behandlinger[0]?.perioder)
         .filter(isBeregnetPeriode)
         .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
         .every((it) =>
-            [
-                Periodetilstand.TilGodkjenning,
-                Periodetilstand.VenterPaEnAnnenPeriode,
-                Periodetilstand.ForberederGodkjenning,
-                Periodetilstand.ManglerInformasjon,
-                Periodetilstand.AvventerInntektsopplysninger,
-            ].includes(it.periodetilstand),
+            (
+                [
+                    ApiPeriodetilstand.TilGodkjenning,
+                    ApiPeriodetilstand.VenterPaEnAnnenPeriode,
+                    ApiPeriodetilstand.ForberederGodkjenning,
+                    ApiPeriodetilstand.ManglerInformasjon,
+                    ApiPeriodetilstand.AvventerInntektsopplysninger,
+                ] as ApiPeriodetilstand[]
+            ).includes(it.periodetilstand),
         ) ?? false;
-export const harPeriodeTilBeslutterFor = (person: PersonFragment, skjæringstidspunkt: DateString): boolean =>
+export const harPeriodeTilBeslutterFor = (person: ApiSaksbildePerson, skjæringstidspunkt: DateString): boolean =>
     (
         finnAlleInntektsforhold(person)
             .flatMap((it) => it.behandlinger[0]?.perioder)
             .filter(
                 (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt,
-            ) as unknown as BeregnetPeriodeFragment[]
+            ) as unknown as ApiBeregnetPeriode[]
     ).some((it) => it.totrinnsvurdering?.erBeslutteroppgave) ?? false;
 
 export const useGhostInntektKanOverstyres = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
 ): boolean => {
@@ -67,19 +74,20 @@ export const useGhostInntektKanOverstyres = (
 };
 
 export const maybePeriodeTilGodkjenning = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     skjæringstidspunkt: DateString,
-): BeregnetPeriodeFragment | null =>
+): ApiBeregnetPeriode | null =>
     (
         finnAlleInntektsforhold(person)
             .flatMap((it) => it.behandlinger[0]?.perioder)
-            .filter(isBeregnetPeriode) as unknown as BeregnetPeriodeFragment[]
+            .filter(isBeregnetPeriode) as unknown as ApiBeregnetPeriode[]
     ).find(
-        (it) => it.periodetilstand === Periodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt,
+        (it) =>
+            it.periodetilstand === ApiPeriodetilstand.TilGodkjenning && it.skjaeringstidspunkt === skjæringstidspunkt,
     ) ?? null;
 
 export const useArbeidsforholdKanOverstyres = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
 ): boolean => {
@@ -97,7 +105,7 @@ export const useArbeidsforholdKanOverstyres = (
         return false;
     }
 
-    const perioderISisteGen: Periode[] =
+    const perioderISisteGen: ApiPeriode[] =
         finnAlleInntektsforhold(person)
             .flatMap((it) => it.behandlinger[0]?.perioder)
             .filter((periode) => periode != undefined) ?? [];
@@ -107,10 +115,10 @@ export const useArbeidsforholdKanOverstyres = (
     return !harPeriodeTilBeslutter && harBeregnetPeriode && erGhostLikEllerEtterPeriodeTilGodkjenning;
 };
 
-const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: Periode[], skjæringstidspunkt: DateString): boolean =>
+const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: ApiPeriode[], skjæringstidspunkt: DateString): boolean =>
     perioder.filter(isBeregnetPeriode).find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) !== undefined;
 
-export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspunkt: DateString): boolean => {
+export const useInntektKanRevurderes = (person: ApiSaksbildePerson, skjæringstidspunkt: DateString): boolean => {
     const isReadOnlyOppgave = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
@@ -119,7 +127,7 @@ export const useInntektKanRevurderes = (person: PersonFragment, skjæringstidspu
 
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
 
-    const periodeVedSkjæringstidspunkt: Periode | null =
+    const periodeVedSkjæringstidspunkt: ApiPeriode | null =
         inntektsforhold?.behandlinger[0]?.perioder
             .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
             .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())

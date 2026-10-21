@@ -3,7 +3,7 @@ import React from 'react';
 import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
+import { ApiPeriodehistorikkType, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { LagtPåVentDropdown } from '@saksbilde/historikk/hendelser/påvent/LagtPåVentDropdown';
 import { ÅrsakListe } from '@saksbilde/historikk/hendelser/påvent/ÅrsakListe';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
@@ -18,7 +18,7 @@ import { isBeregnetPeriode } from '@utils/typeguards';
 
 interface LagtPåVentHendelseProps {
     hendelse: HistorikkhendelseObject;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelseProps) => {
@@ -27,7 +27,7 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
     return (
         <Historikkhendelse
             icon={<HistorikkHourglassTopFilledIkon />}
-            title={`Lagt på vent${hendelse.historikktype === PeriodehistorikkType.EndrePaVent ? ' – endret' : ''}`}
+            title={`Lagt på vent${hendelse.historikktype === ApiPeriodehistorikkType.ENDRE_PA_VENT ? ' – endret' : ''}`}
             timestamp={hendelse.timestamp}
             saksbehandler={hendelse.saksbehandler ?? undefined}
             kontekstknapp={
@@ -59,7 +59,6 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
                     kommentarer={hendelse.kommentarer!}
                     dialogRef={hendelse.dialogRef}
                     historikkinnslagId={hendelse.historikkinnslagId!}
-                    historikktype={hendelse.historikktype}
                 />
             )}
             {!hendelse.erNyestePåVentInnslag && hendelse.kommentarer && hendelse.dialogRef && (

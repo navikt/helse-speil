@@ -5,7 +5,7 @@ import { validate as validateUuid } from 'uuid';
 import { Search } from '@navikt/ds-react';
 import { teamLogger } from '@navikt/next-logger/team-log';
 
-import { FetchError } from '@io/graphql/errors';
+import { FetchError } from '@io/errors';
 import { useFinnFødselsnummerISpoogle } from '@io/rest/spoogle';
 import { useNullstillSaksbildeTab } from '@state/tab';
 import { useAddVarsel } from '@state/varsler';

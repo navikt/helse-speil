@@ -4,6 +4,7 @@ import {
     useGetBehandlendeEnhetForPerson,
     useGetKrrRegistrertStatusForPerson,
     useGetSaksbehandlerStans,
+    useGetSaksbildeForPerson,
 } from '@io/rest/generated/personer/personer';
 import {
     ApiKrrRegistrertStatus,
@@ -71,4 +72,5 @@ function mockPersonHeaderKall() {
     (useGetKrrRegistrertStatusForPerson as Mock).mockReturnValue({
         data: ApiKrrRegistrertStatus.RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING,
     });
+    (useGetSaksbildeForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
 }

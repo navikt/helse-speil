@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Begrunnelse } from '@io/graphql';
+import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { TestCellWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
@@ -27,17 +27,17 @@ describe('MerknaderCell', () => {
     });
 
     test('rendrer avvisningsårsaker', () => {
-        const begrunnelser: Begrunnelse[] = [
-            Begrunnelse.EtterDodsdato,
-            Begrunnelse.EgenmeldingUtenforArbeidsgiverperiode,
-            Begrunnelse.MinimumSykdomsgrad,
-            Begrunnelse.MinimumInntekt,
-            Begrunnelse.MinimumInntektOver_67,
-            Begrunnelse.ManglerOpptjening,
-            Begrunnelse.ManglerMedlemskap,
-            Begrunnelse.SykepengedagerOppbrukt,
-            Begrunnelse.SykepengedagerOppbruktOver_67,
-            Begrunnelse.Over_70,
+        const begrunnelser: ApiBegrunnelse[] = [
+            ApiBegrunnelse.ETTER_DODSDATO,
+            ApiBegrunnelse.EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE,
+            ApiBegrunnelse.MINIMUM_SYKDOMSGRAD,
+            ApiBegrunnelse.MINIMUM_INNTEKT,
+            ApiBegrunnelse.MINIMUM_INNTEKT_OVER_67,
+            ApiBegrunnelse.MANGLER_OPPTJENING,
+            ApiBegrunnelse.MANGLER_MEDLEMSKAP,
+            ApiBegrunnelse.SYKEPENGEDAGER_OPPBRUKT,
+            ApiBegrunnelse.SYKEPENGEDAGER_OPPBRUKT_OVER_67,
+            ApiBegrunnelse.OVER_70,
         ];
 
         render(
@@ -63,7 +63,7 @@ describe('MerknaderCell', () => {
         const { rerender } = render(
             <TestCellWrapper>
                 <MerknaderCell
-                    dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
+                    dag={getUtbetalingstabellDag({ begrunnelser: [ApiBegrunnelse.MINIMUM_INNTEKT] })}
                     alderVedSkjæringstidspunkt={69}
                 />
             </TestCellWrapper>,
@@ -75,7 +75,7 @@ describe('MerknaderCell', () => {
         rerender(
             <TestCellWrapper>
                 <MerknaderCell
-                    dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntekt] })}
+                    dag={getUtbetalingstabellDag({ begrunnelser: [ApiBegrunnelse.MINIMUM_INNTEKT] })}
                     alderVedSkjæringstidspunkt={66}
                 />
             </TestCellWrapper>,
@@ -86,7 +86,7 @@ describe('MerknaderCell', () => {
         rerender(
             <TestCellWrapper>
                 <MerknaderCell
-                    dag={getUtbetalingstabellDag({ begrunnelser: [Begrunnelse.MinimumInntektOver_67] })}
+                    dag={getUtbetalingstabellDag({ begrunnelser: [ApiBegrunnelse.MINIMUM_INNTEKT_OVER_67] })}
                     alderVedSkjæringstidspunkt={69}
                 />
             </TestCellWrapper>,

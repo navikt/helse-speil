@@ -7,7 +7,7 @@ import { BodyShort } from '@navikt/ds-react';
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde, Refusjonsopplysning } from '@io/graphql';
+import { ApiInntektskilde, ApiRefusjonsopplysning } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
@@ -69,13 +69,13 @@ export const Inntektoverstyringhendelse = ({
                 JSON.stringify(
                     inntekt?.refusjonsopplysninger &&
                         [...inntekt.refusjonsopplysninger].sort(
-                            (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                            (a: ApiRefusjonsopplysning, b: ApiRefusjonsopplysning) =>
                                 new Date(b.fom).getTime() - new Date(a.fom).getTime(),
                         ),
                 ) && (
                 <Historikkhendelse
                     icon={
-                        <Kilde type={Inntektskilde.Saksbehandler}>
+                        <Kilde type={ApiInntektskilde.SAKSBEHANDLER}>
                             <PersonPencilFillIcon title="Saksbehandler ikon" />
                         </Kilde>
                     }
@@ -106,7 +106,7 @@ export const Inntektoverstyringhendelse = ({
                             {inntekt.fraRefusjonsopplysninger &&
                                 [...inntekt.fraRefusjonsopplysninger]
                                     .sort(
-                                        (a: Refusjonsopplysning, b: Refusjonsopplysning) =>
+                                        (a: ApiRefusjonsopplysning, b: ApiRefusjonsopplysning) =>
                                             new Date(b.fom).getTime() - new Date(a.fom).getTime(),
                                     )
                                     .map((fraRefusjonsopplysning, index) => {

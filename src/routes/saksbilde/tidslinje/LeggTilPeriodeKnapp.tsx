@@ -6,13 +6,13 @@ import { Button } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
 interface LeggTilPeriodeKnappProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     personPseudoId: string;
     inntektsforhold: Inntektsforhold[];
 }

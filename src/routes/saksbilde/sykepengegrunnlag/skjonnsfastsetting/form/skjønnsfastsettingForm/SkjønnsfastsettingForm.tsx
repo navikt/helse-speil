@@ -5,14 +5,14 @@ import { Button, ErrorMessage, HStack, HelpText } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import {
-    Arbeidsgiverinntekt,
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    PersonFragment,
-    Skjonnsfastsettingstype,
-    Sykepengegrunnlagsgrense,
-    Sykepengegrunnlagskjonnsfastsetting,
-} from '@io/graphql';
+    ApiArbeidsgiverinntekt,
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiSaksbildePerson,
+    ApiSkjonnsfastsettingstype,
+    ApiSykepengegrunnlagsgrense,
+    ApiSykepengegrunnlagskjonnsfastsetting,
+} from '@io/rest/generated/spesialist.schemas';
 import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingType';
@@ -31,16 +31,16 @@ import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 import styles from './SkjønnsfastsettingForm.module.css';
 
 interface SkjønnsfastsettingFormProps {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
-    inntekter: Arbeidsgiverinntekt[];
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode | ApiGhostPeriode;
+    inntekter: ApiArbeidsgiverinntekt[];
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag: number;
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
     onEndretSykepengegrunnlag: (endretSykepengegrunnlag: number | null) => void;
     closeAndResetForm: () => void;
     maler: SkjonnsfastsettelseMalerQueryResult;
-    sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null;
+    sisteSkjønnsfastsettelse: ApiSykepengegrunnlagskjonnsfastsetting | null;
     formValues: SkjønnsfastsettingFormFields | null;
     setFormValues: (skjønnsfastsettingFormFields: SkjønnsfastsettingFormFields) => void;
 }
@@ -198,13 +198,13 @@ export const SkjønnsfastsettingForm = ({
     );
 };
 
-export const finnAktiveInntekter = (inntekter: Arbeidsgiverinntekt[]): Arbeidsgiverinntekt[] =>
+export const finnAktiveInntekter = (inntekter: ApiArbeidsgiverinntekt[]): ApiArbeidsgiverinntekt[] =>
     inntekter.filter((inntekt) => !inntekt.deaktivert && inntekt.omregnetArsinntekt !== null);
 
 function useFormDefaults(
     skjønnsfastsettelseFormState: SkjønnsfastsettingFormFields | null,
-    aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
-    forrigeSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null,
+    aktiveArbeidsgivereInntekter: ApiArbeidsgiverinntekt[],
+    forrigeSkjønnsfastsettelse: ApiSykepengegrunnlagskjonnsfastsetting | null,
     avrundetSammenligningsgrunnlag: number,
 ): SkjønnsfastsettingFormFields {
     if (skjønnsfastsettelseFormState) {
@@ -236,13 +236,15 @@ function useFormDefaults(
     }
 }
 
-const mapType = (type: Skjonnsfastsettingstype | null = Skjonnsfastsettingstype.Annet): Skjønnsfastsettingstype => {
+const mapType = (
+    type: ApiSkjonnsfastsettingstype | null = ApiSkjonnsfastsettingstype.ANNET,
+): Skjønnsfastsettingstype => {
     switch (type) {
-        case Skjonnsfastsettingstype.OmregnetArsinntekt:
+        case ApiSkjonnsfastsettingstype.OMREGNET_ARSINNTEKT:
             return Skjønnsfastsettingstype.OMREGNET_ÅRSINNTEKT;
-        case Skjonnsfastsettingstype.RapportertArsinntekt:
+        case ApiSkjonnsfastsettingstype.RAPPORTERT_ARSINNTEKT:
             return Skjønnsfastsettingstype.RAPPORTERT_ÅRSINNTEKT;
-        case Skjonnsfastsettingstype.Annet:
+        case ApiSkjonnsfastsettingstype.ANNET:
         default:
             return Skjønnsfastsettingstype.ANNET;
     }
@@ -261,7 +263,7 @@ export interface SkjønnsfastsettingFormFieldsArbeidsgiver {
 }
 
 const initielleInntektsutfyllinger = (
-    aktiveArbeidsgivereInntekter: Arbeidsgiverinntekt[],
+    aktiveArbeidsgivereInntekter: ApiArbeidsgiverinntekt[],
     avrundetSammenligningsgrunnlag: number,
     valgtType: Skjønnsfastsettingstype | null,
 ) =>
@@ -276,7 +278,7 @@ const initielleInntektsutfyllinger = (
     })) ?? [];
 
 const initiellInntektsutfylling = (
-    inntekt: Arbeidsgiverinntekt,
+    inntekt: ApiArbeidsgiverinntekt,
     antallAktiveArbeidsgivere: number,
     totaltSammenligningsgrunnlag: number,
     type: Skjønnsfastsettingstype | null,

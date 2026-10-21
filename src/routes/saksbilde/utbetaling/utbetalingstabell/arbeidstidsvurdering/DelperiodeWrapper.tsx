@@ -2,7 +2,11 @@ import dayjs from 'dayjs';
 import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { BeregnetPeriodeFragment, MinimumSykdomsgradOverstyring, PersonFragment } from '@io/graphql';
+import {
+    ApiBeregnetPeriode,
+    ApiMinimumSykdomsgradOverstyring,
+    ApiSaksbildePerson,
+} from '@io/rest/generated/spesialist.schemas';
 import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/Delperiode';
 import { finnOverstyringerForAktivInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
@@ -11,7 +15,7 @@ import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';
 import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 interface Props {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     aktivPeriode: ActivePeriod;
     delperiode: DatePeriod;
 }
@@ -44,7 +48,7 @@ export const DelperiodeWrapper = ({ person, aktivPeriode, delperiode }: Props) =
                 : 'Nei'
             : undefined;
 
-    const overlappendePerioder = getOverlappendePerioder(person, aktivPeriode as BeregnetPeriodeFragment);
+    const overlappendePerioder = getOverlappendePerioder(person, aktivPeriode as ApiBeregnetPeriode);
     const erAktivPeriodeIkkeBestemmendeForDelperioden =
         isBeregnetPeriode(aktivPeriode) &&
         overlappendePerioder
@@ -80,11 +84,11 @@ export const DelperiodeWrapper = ({ person, aktivPeriode, delperiode }: Props) =
     );
 };
 
-export const byTimestamp = (a: MinimumSykdomsgradOverstyring, b: MinimumSykdomsgradOverstyring): number => {
+export const byTimestamp = (a: ApiMinimumSykdomsgradOverstyring, b: ApiMinimumSykdomsgradOverstyring): number => {
     return dayjs(a.timestamp, ISO_TIDSPUNKTFORMAT).isAfter(dayjs(b.timestamp, ISO_TIDSPUNKTFORMAT)) ? -1 : 1;
 };
 
-export const byPeriodeEier = (a: BeregnetPeriodeFragment, b: BeregnetPeriodeFragment): number => {
+export const byPeriodeEier = (a: ApiBeregnetPeriode, b: ApiBeregnetPeriode): number => {
     return dayjs(a.fom, ISO_DATOFORMAT).isSameOrAfter(b.fom)
         ? a.fom === b.fom && dayjs(a.tom, ISO_DATOFORMAT).isBefore(b.tom)
             ? -1

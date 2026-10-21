@@ -7,8 +7,8 @@ import { ArchiveIcon } from '@navikt/aksel-icons';
 import { Skeleton } from '@navikt/ds-react';
 
 import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
-import { PersonFragment } from '@io/graphql';
 import { useGetInfotrygdperioderForPerson } from '@io/rest/generated/personer/personer';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { LeggTilPeriodeKnapp } from '@saksbilde/tidslinje/LeggTilPeriodeKnapp';
 import { InfotrygdPopover, PeriodPopover, TilkommenInntektPopover } from '@saksbilde/tidslinje/PeriodPopover';
 import { useTidslinjeRader } from '@saksbilde/tidslinje/groupTidslinjedata';
@@ -39,7 +39,7 @@ import { erPåEgenUnderside } from '@utils/undersider';
 interface TidslinjeProps {
     inntektsforhold: Inntektsforhold[];
     activePeriod: TimelinePeriodType | null;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 const zoomLevelAtom = atomWithLocalStorage<ZoomLevel>('tidslinje-zoom-level', '6 mnd');

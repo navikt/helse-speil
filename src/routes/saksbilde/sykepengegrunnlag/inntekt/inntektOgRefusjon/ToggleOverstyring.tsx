@@ -3,7 +3,7 @@ import React from 'react';
 import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { Button, HelpText } from '@navikt/ds-react';
 
-import { PersonFragment, Utbetalingstatus } from '@io/graphql';
+import { ApiSaksbildePerson, ApiUtbetalingstatus } from '@io/rest/generated/spesialist.schemas';
 import {
     useGhostInntektKanOverstyres,
     useInntektKanRevurderes,
@@ -18,7 +18,7 @@ import { DateString } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 interface ToggleOverstyringProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     skjæringstidspunkt: DateString;
     vilkårsgrunnlagId?: string | null;
     organisasjonsnummer: string;
@@ -59,7 +59,7 @@ export const ToggleOverstyring = ({
             .filter(isBeregnetPeriode)
             .reverse()
             .find((beregnetPeriode) => beregnetPeriode.skjaeringstidspunkt === skjæringstidspunkt)?.utbetaling ?? null;
-    const erRevurdering = utbetalingForSkjæringstidspunkt?.status === Utbetalingstatus.Utbetalt;
+    const erRevurdering = utbetalingForSkjæringstidspunkt?.status === ApiUtbetalingstatus.UTBETALT;
 
     return kanOverstyres ? (
         !editing ? (

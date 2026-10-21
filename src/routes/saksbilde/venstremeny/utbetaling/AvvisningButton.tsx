@@ -2,12 +2,12 @@ import React, { ReactElement, useState } from 'react';
 
 import { Button, Dialog } from '@navikt/ds-react';
 
-import { BeregnetPeriodeFragment } from '@io/graphql';
+import { ApiBeregnetPeriode } from '@io/rest/generated/spesialist.schemas';
 
 import { AvvisningDialogInnhold } from './AvvisningDialogInnhold';
 
 interface AvvisningButtonProps {
-    activePeriod: BeregnetPeriodeFragment;
+    activePeriod: ApiBeregnetPeriode;
     disabled: boolean;
 }
 

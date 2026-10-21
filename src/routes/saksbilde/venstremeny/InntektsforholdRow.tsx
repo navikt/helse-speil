@@ -4,7 +4,7 @@ import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-re
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Arbeidsforhold } from '@io/graphql';
+import { ApiArbeidsforhold } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { somNorskDato } from '@utils/date';
 import { capitalizeName } from '@utils/locale';
@@ -13,7 +13,7 @@ import { isArbeidsgiver } from '@utils/typeguards';
 import styles from './ArbeidsgiverRow.module.scss';
 
 interface ArbeidsforholdRowProps {
-    arbeidsforhold: Arbeidsforhold[];
+    arbeidsforhold: ApiArbeidsforhold[];
 }
 
 const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactElement => {
@@ -44,7 +44,7 @@ const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactEle
 };
 
 interface InntektsforholdRowProps {
-    arbeidsforhold: Arbeidsforhold[];
+    arbeidsforhold: ApiArbeidsforhold[];
     inntektsforhold: Inntektsforhold;
 }
 

@@ -3,14 +3,14 @@ import React, { ReactElement } from 'react';
 import { Alert, Link } from '@navikt/ds-react';
 
 import { PopupWindowPortal, usePopupWindow } from '@components/PopupWindow';
-import { Simulering, Utbetaling } from '@io/graphql';
+import { ApiSimulering, ApiUtbetaling } from '@io/rest/generated/spesialist.schemas';
 import { cn } from '@utils/tw';
 
 import { SimuleringView } from './SimuleringView';
 
 interface OpenSimuleringButtonProps {
-    simulering: Simulering;
-    utbetaling: Utbetaling;
+    simulering: ApiSimulering;
+    utbetaling: ApiUtbetaling;
     className?: string;
 }
 

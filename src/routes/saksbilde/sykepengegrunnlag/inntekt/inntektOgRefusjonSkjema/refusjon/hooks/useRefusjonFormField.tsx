@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useFieldArray } from 'react-hook-form';
 
-import { Kildetype } from '@io/graphql';
+import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { avrundetToDesimaler } from '@utils/tall';
 
@@ -42,7 +42,7 @@ export function useRefusjonFormField(initialRefusjonsopplysninger: Refusjonsoppl
             fom: '',
             tom: null,
             beløp: 0,
-            kilde: Kildetype.Saksbehandler,
+            kilde: ApiKildetype.SAKSBEHANDLER,
         });
     };
 
@@ -55,7 +55,7 @@ export function useRefusjonFormField(initialRefusjonsopplysninger: Refusjonsoppl
         tom: string | null,
         beløp: number,
         index: number,
-        kilde = Kildetype.Saksbehandler,
+        kilde = ApiKildetype.SAKSBEHANDLER,
     ) => {
         update(index, { fom, tom, beløp, kilde });
     };

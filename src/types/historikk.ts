@@ -1,13 +1,13 @@
 import {
-    OverstyrtDag,
-    OverstyrtInntekt,
-    OverstyrtMinimumSykdomsgrad,
-    PeriodehistorikkType,
-    SkjonnsfastsattSykepengegrunnlag,
-    Utbetalingtype,
-    VedtakUtfall,
-} from '@io/graphql';
-import { ApiHandlingType } from '@io/rest/generated/spesialist.schemas';
+    ApiHandlingType,
+    ApiOverstyrtDag,
+    ApiOverstyrtInntekt,
+    ApiOverstyrtMinimumSykdomsgrad,
+    ApiPeriodehistorikkType,
+    ApiSkjonnsfastsattSykepengegrunnlag,
+    ApiUtbetalingtype,
+    ApiVedtakUtfall,
+} from '@io/rest/generated/spesialist.schemas';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Kommentar } from '@typer/notat';
 
@@ -50,7 +50,7 @@ export type DagoverstyringhendelseObject = BaseHendelseObject & {
     saksbehandler: string;
     timestamp: DateString;
     begrunnelse: string;
-    dager: OverstyrtDag[];
+    dager: ApiOverstyrtDag[];
 };
 
 export type ArbeidsforholdoverstyringhendelseObject = BaseHendelseObject & {
@@ -79,7 +79,7 @@ export type InntektoverstyringhendelseObject = BaseHendelseObject & {
     erRevurdering: boolean;
     saksbehandler: string;
     timestamp: DateString;
-    inntekt: OverstyrtInntekt;
+    inntekt: ApiOverstyrtInntekt;
     inntektsforholdReferanse: InntektsforholdReferanse;
 };
 
@@ -87,7 +87,7 @@ export type SykepengegrunnlagskjonnsfastsettinghendelseObject = BaseHendelseObje
     type: 'Sykepengegrunnlagskjonnsfastsetting';
     saksbehandler: string;
     timestamp: DateString;
-    skjønnsfastsatt: SkjonnsfastsattSykepengegrunnlag;
+    skjønnsfastsatt: ApiSkjonnsfastsattSykepengegrunnlag;
     arbeidsgivere: ArbeidsgiverSkjønnHendelse[];
 };
 
@@ -95,7 +95,7 @@ export type MinimumSykdomsgradhendelseObject = BaseHendelseObject & {
     type: 'MinimumSykdomsgradoverstyring';
     saksbehandler: string;
     timestamp: DateString;
-    minimumSykdomsgrad: OverstyrtMinimumSykdomsgrad;
+    minimumSykdomsgrad: ApiOverstyrtMinimumSykdomsgrad;
 };
 
 export type DokumenthendelseObject = BaseHendelseObject & {
@@ -122,7 +122,7 @@ export type UtbetalinghendelseObject = BaseHendelseObject & {
     type: 'Utbetaling';
     automatisk: boolean;
     godkjent: boolean;
-    utbetalingstype: Utbetalingtype;
+    utbetalingstype: ApiUtbetalingtype;
     saksbehandler: string;
     timestamp: DateString;
 };
@@ -130,7 +130,7 @@ export type UtbetalinghendelseObject = BaseHendelseObject & {
 export type HistorikkhendelseObject = BaseHendelseObject & {
     historikkinnslagId: number;
     type: 'Historikk';
-    historikktype: PeriodehistorikkType;
+    historikktype: ApiPeriodehistorikkType;
     timestamp: DateString;
     dialogRef: number | null;
     saksbehandler: string | null;
@@ -143,7 +143,7 @@ export type HistorikkhendelseObject = BaseHendelseObject & {
 
 export type VedtakBegrunnelseObject = BaseHendelseObject & {
     type: 'VedtakBegrunnelse';
-    utfall: VedtakUtfall;
+    utfall: ApiVedtakUtfall;
     begrunnelse: string;
     timestamp: DateString;
     saksbehandler: string;

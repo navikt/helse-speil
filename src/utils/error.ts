@@ -1,5 +1,3 @@
-import { ApolloError } from '@apollo/client';
-
 type Severity = 'warning' | 'error' | 'info' | 'success';
 
 type SpeilErrorOptions = {
@@ -28,8 +26,4 @@ export class InfoAlert extends SpeilError {
         super(message, options);
         this.severity = 'info';
     }
-}
-
-export function apolloExtensionValue<T>(error: ApolloError | undefined, field: string): T | null {
-    return error?.graphQLErrors?.[0]?.extensions?.[field] as T;
 }

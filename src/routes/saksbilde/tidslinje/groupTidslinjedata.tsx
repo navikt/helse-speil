@@ -6,9 +6,16 @@ import { BriefcaseIcon, SackKronerIcon } from '@navikt/aksel-icons';
 import { capitalizeArbeidsgiver } from '@components/Inntektsforholdnavn';
 import { useOrganisasjonerQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { harUvurderteVarslerPåPeriode } from '@hooks/uvurderteVarsler';
-import { Arbeidsgiver, GhostPeriode, Periode, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
 import { useGetNotatVedtaksperiodeIderForPerson } from '@io/rest/generated/notater/notater';
-import { ApiTilkommenInntekt, ApiTilkommenInntektskilde } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiArbeidsgiver,
+    ApiGhostPeriode,
+    ApiPeriode,
+    ApiSykdomsdagtype,
+    ApiTilkommenInntekt,
+    ApiTilkommenInntektskilde,
+    ApiUtbetalingsdagtype,
+} from '@io/rest/generated/spesialist.schemas';
 import { PeriodPins } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { InfotrygdPeriod, PeriodCategory, getPeriodCategory } from '@typer/shared';
@@ -21,8 +28,8 @@ export type TidslinjeElement = {
     skjæringstidspunkt?: string;
     behandlingId?: string;
     status: PeriodCategory;
-    periode?: Periode;
-    ghostPeriode?: GhostPeriode;
+    periode?: ApiPeriode;
+    ghostPeriode?: ApiGhostPeriode;
     infotrygdPeriode?: InfotrygdPeriod;
     tilkommenInntekt?: ApiTilkommenInntekt;
     periodPins?: PeriodPins[];
@@ -37,23 +44,28 @@ export type TidslinjeRad = {
     organisasjonsnummer?: string;
 };
 
-const isArbeidsgiver = (f: Inntektsforhold): f is Arbeidsgiver => 'navn' in f;
+const isArbeidsgiver = (f: Inntektsforhold): f is ApiArbeidsgiver => 'navn' in f;
 
-const getVedtaksperiodeId = (periode: Periode): string | undefined =>
+const getVedtaksperiodeId = (periode: ApiPeriode): string | undefined =>
     isBeregnetPeriode(periode) || isUberegnetPeriode(periode) ? periode.vedtaksperiodeId : undefined;
 
-const shouldShowInfoPin = (periode: Periode): boolean => {
+const shouldShowInfoPin = (periode: ApiPeriode): boolean => {
     if (!isBeregnetPeriode(periode)) return false;
 
     return periode.tidslinje.some(
         (dag) =>
-            ![Utbetalingsdagtype.Helgedag, Utbetalingsdagtype.Navdag, Utbetalingsdagtype.Navhelgdag].includes(
-                dag.utbetalingsdagtype,
-            ) || [Sykdomsdagtype.Permisjonsdag].includes(dag.sykdomsdagtype),
+            !(
+                [
+                    ApiUtbetalingsdagtype.HELGEDAG,
+                    ApiUtbetalingsdagtype.NAVDAG,
+                    ApiUtbetalingsdagtype.NAVHELGDAG,
+                ] as ApiUtbetalingsdagtype[]
+            ).includes(dag.utbetalingsdagtype) ||
+            ([ApiSykdomsdagtype.PERMISJONSDAG] as ApiSykdomsdagtype[]).includes(dag.sykdomsdagtype),
     );
 };
 
-const getPeriodPins = (periode: Periode, harNotat: boolean): PeriodPins[] => {
+const getPeriodPins = (periode: ApiPeriode, harNotat: boolean): PeriodPins[] => {
     const pins: PeriodPins[] = [];
     if (harUvurderteVarslerPåPeriode(periode)) pins.push('warning');
     if (shouldShowInfoPin(periode)) pins.push('info');
@@ -102,8 +114,8 @@ export function useTidslinjeRader(
 
         const ghostElements: TidslinjeElement[] = isArbeidsgiver(forhold)
             ? forhold.ghostPerioder
-                  .filter((ghostPeriode: GhostPeriode) => !ghostPeriode.deaktivert)
-                  .map((ghostPeriode: GhostPeriode) => ({
+                  .filter((ghostPeriode: ApiGhostPeriode) => !ghostPeriode.deaktivert)
+                  .map((ghostPeriode: ApiGhostPeriode) => ({
                       fom: ghostPeriode.fom,
                       tom: ghostPeriode.tom,
                       skjæringstidspunkt: ghostPeriode.skjaeringstidspunkt,

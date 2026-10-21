@@ -1,4 +1,4 @@
-import { Dag } from '@io/graphql';
+import { ApiDag } from '@io/rest/generated/spesialist.schemas';
 import {
     getDagerMedUtbetaling,
     getTotalArbeidsgiverbeløp,
@@ -12,7 +12,7 @@ type Totalbeløp = {
     totalbeløp: number;
 };
 
-export const useTotalbeløp = (erSelvstendigNæringsdrivede: boolean, tidslinje?: Dag[] | null): Totalbeløp => {
+export const useTotalbeløp = (erSelvstendigNæringsdrivede: boolean, tidslinje?: ApiDag[] | null): Totalbeløp => {
     const dager = useTabelldagerMap({
         tidslinje: tidslinje ?? [],
         erSelvstendigNæringsdrivende: erSelvstendigNæringsdrivede,

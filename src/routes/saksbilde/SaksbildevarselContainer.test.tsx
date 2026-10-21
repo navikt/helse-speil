@@ -1,7 +1,14 @@
 import { Mock, vi } from 'vitest';
 
-import { Dagoverstyring, Dagtype, Periodetilstand, VarselDto, Varselstatus } from '@io/graphql';
-import { ApiHandlingType, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiDagoverstyring,
+    ApiDagtype,
+    ApiHandlingType,
+    ApiPeriodetilstand,
+    ApiSaksbehandlerhandling,
+    ApiSaksbildeVarselstatus,
+    ApiVarselDTO,
+} from '@io/rest/generated/spesialist.schemas';
 import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
@@ -44,7 +51,7 @@ describe('SaksbildevarselContainer', () => {
         render(
             <SaksbildevarselContainer
                 person={enPerson()}
-                periode={enBeregnetPeriode({ periodetilstand: Periodetilstand.Annullert })}
+                periode={enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.Annullert })}
             />,
         );
 
@@ -54,7 +61,7 @@ describe('SaksbildevarselContainer', () => {
         render(
             <SaksbildevarselContainer
                 person={enPerson()}
-                periode={enBeregnetPeriode({ periodetilstand: Periodetilstand.TilAnnullering })}
+                periode={enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.TilAnnullering })}
             />,
         );
 
@@ -62,9 +69,8 @@ describe('SaksbildevarselContainer', () => {
     });
     it('skal rendre eget varsel for beregnet periode', () => {
         const periode = enBeregnetPeriode({
-            periodetilstand: Periodetilstand.TilGodkjenning,
+            periodetilstand: ApiPeriodetilstand.TilGodkjenning,
             totrinnsvurdering: {
-                __typename: 'Totrinnsvurdering',
                 erBeslutteroppgave: true,
                 erRetur: false,
                 saksbehandler: null,
@@ -144,9 +150,8 @@ describe('SaksbildevarselContainer', () => {
     });
 });
 
-const getVarsel = (status?: Varselstatus): VarselDto => {
+const getVarsel = (status?: ApiSaksbildeVarselstatus): ApiVarselDTO => {
     return {
-        __typename: 'VarselDTO',
         id: '5d372089-5999-43ad-b4b6-06b8c913006a',
         definisjonId: 'en verdi',
         behandlingId: 'en verdi',
@@ -155,7 +160,6 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
         tittel: 'Et varsel',
         vurdering: status
             ? {
-                  __typename: 'VarselvurderingDTO',
                   ident: 'en ident',
                   status: status,
                   tidsstempel: 'et tidsstempel',
@@ -166,24 +170,22 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
     };
 };
 
-const enDagoverstyring: Dagoverstyring = {
-    __typename: 'Dagoverstyring',
+const enDagoverstyring: ApiDagoverstyring = {
+    type: 'ApiDagoverstyring',
     vedtaksperiodeId: '',
     hendelseId: 'en-id',
     timestamp: '2020-01-01',
     begrunnelse: 'Fordi',
     dager: [
         {
-            __typename: 'OverstyrtDag',
             dato: '2020-01-02',
-            type: Dagtype.Sykedag,
+            type: ApiDagtype.Sykedag,
             grad: 80,
             fraGrad: null,
             fraType: null,
         },
     ],
     saksbehandler: {
-        __typename: 'Saksbehandler',
         navn: 'et-navn',
         ident: 'en-ident',
     },
@@ -192,9 +194,8 @@ const enDagoverstyring: Dagoverstyring = {
 
 function enBeregnetPeriodeMedTotrinnsvurdering() {
     return enBeregnetPeriode({
-        periodetilstand: Periodetilstand.TilGodkjenning,
+        periodetilstand: ApiPeriodetilstand.TilGodkjenning,
         totrinnsvurdering: {
-            __typename: 'Totrinnsvurdering',
             erBeslutteroppgave: true,
             erRetur: false,
             saksbehandler: null,

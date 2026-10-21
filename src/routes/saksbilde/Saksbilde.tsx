@@ -4,7 +4,7 @@ import { InformationSquareIcon, TerminalIcon } from '@navikt/aksel-icons';
 import { Box, HStack, InfoCard, Tabs, Tooltip, VStack } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { Periodetilstand, PersonFragment } from '@io/graphql';
+import { ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
@@ -39,8 +39,8 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
 
     const erAnnullert =
         isBeregnetPeriode(aktivPeriode) &&
-        (aktivPeriode.periodetilstand === Periodetilstand.Annullert ||
-            aktivPeriode.periodetilstand === Periodetilstand.TilAnnullering);
+        (aktivPeriode.periodetilstand === ApiPeriodetilstand.Annullert ||
+            aktivPeriode.periodetilstand === ApiPeriodetilstand.TilAnnullering);
 
     const tabs: TilgjengeligTab[] = [];
 
@@ -59,7 +59,7 @@ export const Saksbilde = () => {
     const { loading, data, error } = useFetchPersonQuery();
     const [tab, setTab] = useSaksbildeTab();
 
-    const person: PersonFragment | null = data?.person ?? null;
+    const person: ApiSaksbildePerson | null = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
 
     const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode);

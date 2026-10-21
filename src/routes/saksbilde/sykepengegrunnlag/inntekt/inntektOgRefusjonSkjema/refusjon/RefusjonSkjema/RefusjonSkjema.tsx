@@ -4,7 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import { PlusIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Label } from '@navikt/ds-react';
 
-import { Kildetype } from '@io/graphql';
+import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { RefusjonFeiloppsummering } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonFeiloppsumering';
 import { RefusjonKilde } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonKilde';
 import { RefusjonsBeløpInput } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/RefusjonsBeløpInput';
@@ -50,7 +50,7 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
                             <RefusjonsperiodeInput index={index} refusjonsopplysning={refusjonsopplysning} />
                             <RefusjonsBeløpInput index={index} refusjonsopplysning={refusjonsopplysning} />
                             <RefusjonKilde
-                                kilde={refusjonsopplysning.kilde as Kildetype}
+                                kilde={refusjonsopplysning.kilde as ApiKildetype}
                                 harLokaleOpplysninger={lokaleRefusjonsopplysninger.length > 0}
                                 harEndringer={
                                     JSON.stringify(lokaleRefusjonsopplysninger?.[index]) !==

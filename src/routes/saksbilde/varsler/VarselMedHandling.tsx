@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 
 import { Tag } from '@navikt/ds-react';
 
-import { VarselDto } from '@io/graphql';
+import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -15,7 +15,7 @@ import { VarselstatusType } from './Varsler';
 import styles from './VarselMedHandling.module.css';
 
 interface VarselMedHandlingProps {
-    varsel: VarselDto;
+    varsel: ApiVarselDTO;
     type: VarselstatusType;
 }
 

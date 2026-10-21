@@ -1,8 +1,8 @@
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { finnBehandlingerForAktivPeriode } from '@state/inntektsforhold/inntektsforhold';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useForrigeBehandlingPeriodeMedPeriode = (periode: BeregnetPeriodeFragment, person: PersonFragment) => {
+export const useForrigeBehandlingPeriodeMedPeriode = (periode: ApiBeregnetPeriode, person: ApiSaksbildePerson) => {
     const behandlinger = finnBehandlingerForAktivPeriode(periode, person);
 
     const aktuellBehandling = behandlinger.findIndex((behandling) =>

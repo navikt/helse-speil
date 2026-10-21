@@ -1,4 +1,10 @@
-import { Arbeidsgiver, GhostPeriodeFragment, Hendelse, Periode, PersonFragment } from '@io/graphql';
+import {
+    ApiArbeidsgiver,
+    ApiGhostPeriode,
+    ApiHendelse,
+    ApiPeriode,
+    ApiSaksbildePerson,
+} from '@io/rest/generated/spesialist.schemas';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -13,7 +19,7 @@ import { DateString } from '@typer/shared';
  * ikke alltid lager en ghost-periode, for eksempel når dagtypen er helg.
  */
 export const harSykefraværMedSkjæringstidspunkt = (
-    arbeidsgiver: Arbeidsgiver | null,
+    arbeidsgiver: ApiArbeidsgiver | null,
     skjæringstidspunkt: DateString,
 ): boolean =>
     !!arbeidsgiver?.behandlinger[0]?.perioder.some((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt);
@@ -22,9 +28,9 @@ export const harSykefraværMedSkjæringstidspunkt = (
  * Perioder ligger nyeste først, så den første treffer på skjæringstidspunktet er den siste i sykefraværstilfellet.
  */
 export const finnSistePeriodeForSkjæringstidspunkt = (
-    arbeidsgiver: Arbeidsgiver | null,
+    arbeidsgiver: ApiArbeidsgiver | null,
     skjæringstidspunkt: DateString,
-): Periode | null =>
+): ApiPeriode | null =>
     arbeidsgiver?.behandlinger[0]?.perioder.find((it) => it.skjaeringstidspunkt === skjæringstidspunkt) ?? null;
 
 export const useLokaleRefusjonsopplysninger = (
@@ -44,7 +50,7 @@ export const useLokaleRefusjonsopplysninger = (
     );
 };
 
-export const erPeriodeIFørsteBehandling = (person: PersonFragment, period: Periode): boolean =>
+export const erPeriodeIFørsteBehandling = (person: ApiSaksbildePerson, period: ApiPeriode): boolean =>
     !!finnAlleInntektsforhold(person).find((inntektsforhold) =>
         inntektsforhold.behandlinger[0]?.perioder.find((it) => it.id === period.id),
     );
@@ -65,10 +71,10 @@ export const erPeriodeIFørsteBehandling = (person: PersonFragment, period: Peri
  * @param arbeidsgiver Arbeidsgiver som kan inneholde behandlinger med perioder og hendelser.
  * @returns Liste av unike 'INNTEKTSMELDING'-hendelser (kan være tom liste).
  */
-export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Arbeidsgiver | null): Hendelse[] => {
+export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: ApiArbeidsgiver | null): ApiHendelse[] => {
     if (!arbeidsgiver) return [];
 
-    const hendelser = new Map<string, Hendelse>();
+    const hendelser = new Map<string, ApiHendelse>();
     arbeidsgiver.behandlinger
         .flatMap((g) => g.perioder.flatMap((p) => p.hendelser))
         .forEach((h) => {
@@ -76,22 +82,22 @@ export const dedupliserteInntektsmeldingHendelser = (arbeidsgiver: Arbeidsgiver 
         });
     const hendelserDeduplisert = [...hendelser.values()];
 
-    return hendelserDeduplisert.filter((h) => h.type === 'INNTEKTSMELDING');
+    return hendelserDeduplisert.filter((h) => h.hendelsetype === 'INNTEKTSMELDING');
 };
 
 export const finnArbeidsgiverForGhostPeriode = (
-    person: PersonFragment,
-    periode: GhostPeriodeFragment,
-): Arbeidsgiver | undefined =>
+    person: ApiSaksbildePerson,
+    periode: ApiGhostPeriode,
+): ApiArbeidsgiver | undefined =>
     finnAlleArbeidsgivere(person).find((arbeidsgiver) => arbeidsgiver.ghostPerioder.find((p) => p.id === periode.id));
 
-export const finnAlleArbeidsgivere = (person?: PersonFragment | null): Arbeidsgiver[] =>
+export const finnAlleArbeidsgivere = (person?: ApiSaksbildePerson | null): ApiArbeidsgiver[] =>
     person?.arbeidsgivere.filter((arbeidsgiver) => arbeidsgiver.organisasjonsnummer !== 'SELVSTENDIG') ?? [];
 
 export const finnArbeidsgiverMedOrganisasjonsnummer = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     organisasjonsnummer: string,
-): Arbeidsgiver | null =>
+): ApiArbeidsgiver | null =>
     finnAlleArbeidsgivere(person).find((it) => it.organisasjonsnummer === organisasjonsnummer) ?? null;
 
 export const useLokaltMånedsbeløp = (organisasjonsnummer: string, skjæringstidspunkt: string): number | null => {

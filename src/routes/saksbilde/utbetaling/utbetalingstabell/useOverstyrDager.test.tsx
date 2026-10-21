@@ -1,8 +1,7 @@
 import { fetchMock, jsonBody, mockFetchResponse } from '../../../../../vitest.setup';
 import { Mock, vi } from 'vitest';
 
-import { Kildetype } from '@io/graphql';
-import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
+import { ApiKildetype, ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
@@ -97,7 +96,7 @@ const dager: Utbetalingstabelldag[] = [
         },
         dato: '2020-01-01',
         grad: 100,
-        kilde: { __typename: 'Kilde', id: '1', type: Kildetype.Soknad },
+        kilde: { id: '1', type: ApiKildetype.SOKNAD },
         erForeldet: false,
         erAGP: false,
         erVentetid: false,
@@ -114,7 +113,7 @@ const oversyrteDager: Utbetalingstabelldag[] = [
         },
         dato: '2020-01-01',
         grad: undefined,
-        kilde: { __typename: 'Kilde', id: '2', type: Kildetype.Saksbehandler },
+        kilde: { id: '2', type: ApiKildetype.SAKSBEHANDLER },
         erForeldet: false,
         erAGP: false,
         erVentetid: false,

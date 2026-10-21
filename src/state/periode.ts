@@ -3,7 +3,7 @@
 import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { usePathname } from 'next/navigation';
 
-import { Periodetilstand, PersonFragment } from '@io/graphql';
+import { ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod } from '@typer/shared';
 import { raise } from '@utils/ts';
@@ -12,7 +12,7 @@ import { erPåSideUtenAktivPeriode } from '@utils/undersider';
 
 const activePeriodIdState = atom<string | null>(null);
 
-export const useSetActivePeriodId = (person: PersonFragment) => {
+export const useSetActivePeriodId = (person: ApiSaksbildePerson) => {
     const [activePeriodId, setActivePeriodId] = useAtom(activePeriodIdState);
 
     return (periodeId: string) => {
@@ -32,7 +32,7 @@ export const useSetActivePeriodIdUtenPerson = () => {
     };
 };
 
-export const useActivePeriod = (person: PersonFragment | null): ActivePeriod | null => {
+export const useActivePeriod = (person: ApiSaksbildePerson | null): ActivePeriod | null => {
     const activePeriodId = useAtomValue(activePeriodIdState);
     const pathname = usePathname();
     const erUtenAktivPeriode = erPåSideUtenAktivPeriode(pathname);
@@ -42,15 +42,15 @@ export const useActivePeriod = (person: PersonFragment | null): ActivePeriod | n
     return findPeriod(activePeriodId, person) ?? findPeriodToSelect(person);
 };
 
-export const useActivePeriodWithPerson = (person: PersonFragment): ActivePeriod | null => useActivePeriod(person);
+export const useActivePeriodWithPerson = (person: ApiSaksbildePerson): ActivePeriod | null => useActivePeriod(person);
 
 // siste periode brukeren har klikket på i tidslinjen
-export const useSistValgtePeriode = (person: PersonFragment | null): ActivePeriod | null =>
+export const useSistValgtePeriode = (person: ApiSaksbildePerson | null): ActivePeriod | null =>
     findPeriod(useAtomValue(activePeriodIdState), person);
 
 export const useSelectPeriod = () => {
     const setActivePeriodId = useSetAtom(activePeriodIdState);
-    return (person: PersonFragment) => {
+    return (person: ApiSaksbildePerson) => {
         const periodToSelect = findPeriodToSelect(person);
         if (periodToSelect) {
             setActivePeriodId(periodToSelect.id);
@@ -58,7 +58,7 @@ export const useSelectPeriod = () => {
     };
 };
 
-const findPeriodToSelect = (person: PersonFragment): ActivePeriod | null => {
+const findPeriodToSelect = (person: ApiSaksbildePerson): ActivePeriod | null => {
     const perioderINyesteBehandlinger = finnAlleInntektsforhold(person)
         .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder ?? [])
         .filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode));
@@ -68,7 +68,7 @@ const findPeriodToSelect = (person: PersonFragment): ActivePeriod | null => {
         .filter(
             (period) =>
                 (isBeregnetPeriode(period) || isUberegnetPeriode(period)) &&
-                period.periodetilstand !== Periodetilstand.TilInfotrygd,
+                period.periodetilstand !== ApiPeriodetilstand.TilInfotrygd,
         );
 
     const venteperioder = perioderINyesteBehandlinger
@@ -82,7 +82,7 @@ const findPeriodToSelect = (person: PersonFragment): ActivePeriod | null => {
     return periodeTilBehandling ?? venteperioder[0] ?? aktuellePerioder[0] ?? null;
 };
 
-const findPeriod = (periodeId: string | null, person: PersonFragment | null) => {
+const findPeriod = (periodeId: string | null, person: ApiSaksbildePerson | null) => {
     if (periodeId == null || person == null) return null;
 
     return (
@@ -100,11 +100,14 @@ const findPeriod = (periodeId: string | null, person: PersonFragment | null) => 
     );
 };
 
-const tilBehandlingTilstander = [Periodetilstand.TilGodkjenning, Periodetilstand.TilUtbetaling];
-const venterTilstander = [
-    Periodetilstand.VenterPaEnAnnenPeriode,
-    Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
-    Periodetilstand.AvventerInntektsopplysninger,
-    Periodetilstand.ForberederGodkjenning,
-    Periodetilstand.AvventerAnnullering,
+const tilBehandlingTilstander: ApiPeriodetilstand[] = [
+    ApiPeriodetilstand.TilGodkjenning,
+    ApiPeriodetilstand.TilUtbetaling,
+];
+const venterTilstander: ApiPeriodetilstand[] = [
+    ApiPeriodetilstand.VenterPaEnAnnenPeriode,
+    ApiPeriodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+    ApiPeriodetilstand.AvventerInntektsopplysninger,
+    ApiPeriodetilstand.ForberederGodkjenning,
+    ApiPeriodetilstand.AvventerAnnullering,
 ];

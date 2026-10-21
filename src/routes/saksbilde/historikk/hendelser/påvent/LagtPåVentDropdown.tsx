@@ -5,18 +5,17 @@ import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Loader } from '@navikt/ds-react';
 
 import { EndrePåVentDialog } from '@components/påvent/PåVentDialoger';
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
-import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
+import { ApiBeregnetPeriode, ApiPersonnavn, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useFetchPersonQuery } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
 
 interface LagtPåVentDropdownProps {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode;
     årsaker: string[];
     notattekst: string | null;
     frist: DateString | null;
@@ -93,7 +92,7 @@ export const LagtPåVentDropdown = ({
                     utgangspunktÅrsaker={årsaker}
                     utgangspunktNotattekst={notattekst}
                     utgangspunktFrist={frist!}
-                    utgangspunktTildeling={tildeling}
+                    utgangspunktTildeling={tildeling ?? null}
                     onClose={() => setShowEndreModal(false)}
                     onLeggPåVentSuccess={() => router.push('/')}
                 />

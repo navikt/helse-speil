@@ -7,7 +7,6 @@ import { SortState } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
-import { useFjernPersonFraApolloCache } from '@hooks/useFjernPersonFraApolloCache';
 import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { BehandlingsstatistikkView } from '@oversikt/behandlingsstatistikk/BehandlingsstatistikkView';
 import { FiltermenySkeleton } from '@oversikt/filtermeny/Filtermeny';
@@ -65,7 +64,6 @@ export const Oversikt = (): ReactElement => {
     const sort = useSorteringValue();
 
     useKeyboardShortcuts();
-    useFjernPersonFraApolloCache();
 
     return (
         <main className={styles.Oversikt}>

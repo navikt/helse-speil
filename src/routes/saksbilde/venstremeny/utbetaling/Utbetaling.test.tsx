@@ -75,7 +75,6 @@ describe('Utbetaling', () => {
             .medOppgave(enOppgave({ id: '1234' }))
             .somErTilGodkjenning();
         periode.totrinnsvurdering = {
-            __typename: 'Totrinnsvurdering',
             beslutter: null,
             erBeslutteroppgave: false,
             erRetur: false,
@@ -113,7 +112,6 @@ describe('Utbetaling', () => {
             .medOppgave(enOppgave({ id: '1234' }))
             .somErTilGodkjenning();
         periode.totrinnsvurdering = {
-            __typename: 'Totrinnsvurdering',
             beslutter: null,
             erBeslutteroppgave: true,
             erRetur: false,

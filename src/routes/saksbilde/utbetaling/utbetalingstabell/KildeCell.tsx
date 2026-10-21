@@ -4,7 +4,7 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { Table } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { Kildetype } from '@io/graphql';
+import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { EndringsloggButton } from '@saksbilde/sykepengegrunnlag/inntekt/EndringsloggButton';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { OverstyringerPrDag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
@@ -14,7 +14,7 @@ import { erHelgDagtype } from './helgUtils';
 import styles from './KildeCell.module.css';
 
 interface KildeTypeIconProps {
-    kilde?: Kildetype;
+    kilde?: ApiKildetype;
     overstyringer?: OverstyringerPrDag[];
 }
 
@@ -47,7 +47,7 @@ const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): ReactEleme
 
 interface KildeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     type: Utbetalingstabelldagtype;
-    kilde?: Kildetype;
+    kilde?: ApiKildetype;
     overstyringer?: OverstyringerPrDag[];
 }
 

@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiGhostPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { SykepengegrunnlagSelvstendig } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/SykepengegrunnlagSelvstendig';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isArbeidsgiver, isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
@@ -13,8 +13,8 @@ import { SykepengegrunnlagFraSpleis } from './sykepengegrunnlagvisninger/spleis/
 import { useVilkårsgrunnlag } from './useVilkårsgrunnlag';
 
 type SykepengegrunnlagProps = {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode | ApiGhostPeriode;
 };
 
 const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps): ReactElement | null => {
@@ -23,8 +23,8 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
 
     if (!inntektsforhold) return null;
 
-    switch (vilkårsgrunnlag?.__typename) {
-        case 'VilkarsgrunnlagSpleisV2':
+    switch (vilkårsgrunnlag?.type) {
+        case 'ApiVilkårsgrunnlagSpleisV2':
             if (isArbeidsgiver(inntektsforhold)) {
                 return (
                     <SykepengegrunnlagFraSpleis
@@ -46,7 +46,7 @@ const SykepengegrunnlagContainer = ({ person, periode }: SykepengegrunnlagProps)
                 );
             }
             return null;
-        case 'VilkarsgrunnlagInfotrygdV2':
+        case 'ApiVilkårsgrunnlagInfotrygdV2':
             if (isArbeidsgiver(inntektsforhold)) {
                 return (
                     <SykepengegrunnlagFraInfogtrygd

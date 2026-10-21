@@ -1,6 +1,6 @@
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
-import { PersonFragment } from '@io/graphql';
 import { usePostOverstyrArbeidsforhold } from '@io/rest/generated/overstyringer/overstyringer';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
     visningenErOppdatertToast,
@@ -25,7 +25,7 @@ type OverstyrtArbeidsforholdGetter = (
     bokstav?: string,
 ) => OverstyrtArbeidsforholdDTO;
 
-export const useGetOverstyrtArbeidsforhold = (person: PersonFragment): OverstyrtArbeidsforholdGetter => {
+export const useGetOverstyrtArbeidsforhold = (person: ApiSaksbildePerson): OverstyrtArbeidsforholdGetter => {
     const valgtVedtaksperiode = useActivePeriodWithPerson(person);
 
     return (organisasjonsnummerGhost, skjæringstidspunkt, arbeidsforholdSkalDeaktiveres, begrunnelse, årsak) => ({

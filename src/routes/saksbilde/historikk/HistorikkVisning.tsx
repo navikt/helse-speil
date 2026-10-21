@@ -5,7 +5,7 @@ import { BodyShort, HStack, LocalAlert, VStack } from '@navikt/ds-react';
 
 import { OpenedDokument } from '@components/OpenedDokument';
 import { JusterbarSidemeny } from '@components/justerbarSidemeny/JusterbarSidemeny';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { HendelseRenderer } from '@saksbilde/historikk/HendelseRenderer';
 import { Historikkmeny } from '@saksbilde/historikk/Historikkmeny';
 import { XKnapp } from '@saksbilde/historikk/XKnapp';
@@ -14,7 +14,7 @@ import { Notat } from '@saksbilde/notat/Notat';
 import { Filtertype, HendelseObject } from '@typer/historikk';
 
 export interface HistorikkVisningProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     historikk: HendelseObject[];
     filter: Filtertype;
     vedtaksperiodeId: string;

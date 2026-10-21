@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { VarselDto, Varselstatus, VarselvurderingDto } from '@io/graphql';
+import { ApiSaksbildeVarselstatus, ApiVarselDTO, ApiVarselvurderingDTO } from '@io/rest/generated/spesialist.schemas';
 import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 import { cn } from '@utils/tw';
 
@@ -10,19 +10,19 @@ import { useSkalViseAvviksvarselSomFeil } from './useSkalViseAvviksvarselSomFeil
 
 import styles from './Varsler.module.css';
 
-const finnType = (varselvurdering: VarselvurderingDto | null | undefined) => {
+const finnType = (varselvurdering: ApiVarselvurderingDTO | null | undefined) => {
     if (!varselvurdering) return 'aktiv';
     switch (varselvurdering.status) {
-        case Varselstatus.Vurdert:
+        case ApiSaksbildeVarselstatus.VURDERT:
             return 'vurdert';
-        case Varselstatus.Godkjent:
+        case ApiSaksbildeVarselstatus.GODKJENT:
             return 'ferdig-behandlet';
-        case Varselstatus.Avvist:
-        case Varselstatus.Aktiv:
+        case ApiSaksbildeVarselstatus.AVVIST:
+        case ApiSaksbildeVarselstatus.AKTIV:
             return 'aktiv';
     }
 };
-const byKode = (a: VarselDto, b: VarselDto) => {
+const byKode = (a: ApiVarselDTO, b: ApiVarselDTO) => {
     if (a.kode > b.kode) return 1;
     if (a.kode < b.kode) return -1;
     return 0;
@@ -31,7 +31,7 @@ const byKode = (a: VarselDto, b: VarselDto) => {
 export type VarselstatusType = 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
 
 interface VarslerProps {
-    varsler: VarselDto[];
+    varsler: ApiVarselDTO[];
 }
 
 export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {

@@ -2,7 +2,7 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 
-import { Inntektskilde } from '@io/graphql';
+import { ApiInntektskilde } from '@io/rest/generated/spesialist.schemas';
 import { Kildetype } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { cn } from '@utils/tw';
 
@@ -13,7 +13,7 @@ interface KildeProps {
     className?: string;
 }
 
-type KildeikonType = Kildetype | Inntektskilde | 'AINNTEKT' | 'VEDTAK' | undefined;
+type KildeikonType = Kildetype | ApiInntektskilde | 'AINNTEKT' | 'VEDTAK' | undefined;
 
 const finnCSSklasse = (type: KildeikonType) => {
     switch (type) {
@@ -22,17 +22,17 @@ const finnCSSklasse = (type: KildeikonType) => {
         case 'VEDTAK':
             return 'melding om vedtak';
         case 'InntektHentetFraAordningen':
-        case Inntektskilde.Aordningen:
+        case ApiInntektskilde.AORDNINGEN:
             return 'aordningen';
         case 'Sykmelding':
             return 'sykmelding';
         case 'Soknad':
             return 'søknad';
         case 'Inntektsmelding':
-        case Inntektskilde.Inntektsmelding:
+        case ApiInntektskilde.INNTEKTSMELDING:
             return 'inntektsmelding';
         case 'Saksbehandler':
-        case Inntektskilde.SkjonnsmessigFastsatt:
+        case ApiInntektskilde.SKJONNSMESSIG_FASTSATT:
             return 'saksbehandler';
         case 'Skatteetaten':
             return 'skatteetaten';
@@ -43,7 +43,7 @@ const finnCSSklasse = (type: KildeikonType) => {
 
 const getKildeTypeTooltip = (kilde: KildeikonType): string => {
     switch (kilde) {
-        case Inntektskilde.Inntektsmelding:
+        case ApiInntektskilde.INNTEKTSMELDING:
         case 'Inntektsmelding':
             return 'Inntektsmelding';
         case 'Soknad':
@@ -53,15 +53,15 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
         case 'Saksbehandler':
             return 'Saksbehandler';
         case 'InntektHentetFraAordningen':
-        case Inntektskilde.Aordningen:
+        case ApiInntektskilde.AORDNINGEN:
             return 'A-ordningen';
-        case Inntektskilde.IkkeRapportert:
+        case ApiInntektskilde.IKKE_RAPPORTERT:
             return 'Ikke rapportert';
-        case Inntektskilde.Saksbehandler:
+        case ApiInntektskilde.SAKSBEHANDLER:
             return 'Saksbehandler';
         case 'AINNTEKT':
             return 'A-inntekt';
-        case Inntektskilde.SkjonnsmessigFastsatt:
+        case ApiInntektskilde.SKJONNSMESSIG_FASTSATT:
             return 'Skjønnsmessig fastsatt';
         case 'Skatteetaten':
             return 'Skatteetaten';
@@ -71,7 +71,9 @@ const getKildeTypeTooltip = (kilde: KildeikonType): string => {
 };
 
 const erTekst = (kilde: KildeikonType): boolean =>
-    kilde !== 'Saksbehandler' && kilde !== Inntektskilde.Saksbehandler && kilde !== Inntektskilde.SkjonnsmessigFastsatt;
+    kilde !== 'Saksbehandler' &&
+    kilde !== ApiInntektskilde.SAKSBEHANDLER &&
+    kilde !== ApiInntektskilde.SKJONNSMESSIG_FASTSATT;
 
 export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProps>): ReactElement => (
     <Tooltip content={getKildeTypeTooltip(type)}>

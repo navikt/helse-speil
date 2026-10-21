@@ -1,54 +1,20 @@
-import { error } from 'console';
 import type { WritableAtom } from 'jotai';
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { ApolloLink, Cache, InMemoryCache } from '@apollo/client';
-import { onError } from '@apollo/client/link/error';
-import { MockLink, MockedResponse } from '@apollo/client/testing';
-import { apolloCacheConfig } from '@app/apollo/apolloClient';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ApolloWrapper } from '@test-wrappers';
+import { JotaiWrapper } from '@test-wrappers';
 import { RenderHookOptions, RenderHookResult, RenderOptions, render, renderHook, screen } from '@testing-library/react';
 
 type ProviderProps = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    readonly initialQueries?: Cache.WriteQueryOptions<any, any>[];
-    readonly mocks?: MockedResponse[];
     readonly atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
 };
 
-const errorLoggingLink = onError(({ graphQLErrors, networkError }) => {
-    if (graphQLErrors) {
-        graphQLErrors.forEach(({ message, locations, path, extensions }) => {
-            if (extensions?.dontLog) {
-                error('[GraphQL error]:' + `Message: ${message},` + `Location: ${locations},` + `Path: ${path}`);
-            }
-        });
-    }
-
-    if (networkError) {
-        error(`[Network error]: ${networkError}`);
-    }
-});
-
-const AllTheProviders = ({
-    children,
-    mocks,
-    initialQueries,
-    atomValues,
-}: PropsWithChildren<ProviderProps>): ReactElement => {
+const AllTheProviders = ({ children, atomValues }: PropsWithChildren<ProviderProps>): ReactElement => {
     const queryClient = new QueryClient({ defaultOptions: { queries: { retry: false } } });
-    const mockLink = new MockLink(mocks ?? []);
-    const link = ApolloLink.from([errorLoggingLink, mockLink]);
-
-    const cache = new InMemoryCache(apolloCacheConfig);
-    initialQueries?.forEach((it) => cache.writeQuery(it));
 
     return (
         <QueryClientProvider client={queryClient}>
-            <ApolloWrapper link={link} mocks={mocks} cache={cache} atomValues={atomValues}>
-                {children}
-            </ApolloWrapper>
+            <JotaiWrapper atomValues={atomValues}>{children}</JotaiWrapper>
         </QueryClientProvider>
     );
 };
@@ -57,12 +23,10 @@ function customRender(
     ui: ReactElement,
     options: Omit<RenderOptions, 'wrapper'> & ProviderProps = {},
 ): ReturnType<typeof render> {
-    const { initialQueries, mocks, atomValues, ...renderOptions } = options;
+    const { atomValues, ...renderOptions } = options;
 
     return render(ui, {
-        wrapper: (props) => (
-            <AllTheProviders {...props} initialQueries={initialQueries} mocks={mocks} atomValues={atomValues} />
-        ),
+        wrapper: (props) => <AllTheProviders {...props} atomValues={atomValues} />,
         ...renderOptions,
     });
 }
@@ -71,12 +35,10 @@ function customRenderHook<Result, Props>(
     render: (initialProps: Props) => Result,
     options: Omit<RenderHookOptions<Props>, 'wrapper'> & ProviderProps = {},
 ): RenderHookResult<Result, Props> {
-    const { initialQueries, mocks, atomValues, ...renderOptions } = options;
+    const { atomValues, ...renderOptions } = options;
 
     return renderHook(render, {
-        wrapper: (props) => (
-            <AllTheProviders {...props} initialQueries={initialQueries} mocks={mocks} atomValues={atomValues} />
-        ),
+        wrapper: (props) => <AllTheProviders {...props} atomValues={atomValues} />,
         ...renderOptions,
     });
 }

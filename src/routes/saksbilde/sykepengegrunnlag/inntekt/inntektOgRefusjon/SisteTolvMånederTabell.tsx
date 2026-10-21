@@ -5,15 +5,15 @@ import { ChevronDownIcon, ChevronUpIcon } from '@navikt/aksel-icons';
 import { Button, Table, VStack } from '@navikt/ds-react';
 import { TableBody, TableDataCell, TableHeader, TableHeaderCell, TableRow } from '@navikt/ds-react/Table';
 
-import { InntektFraAOrdningen } from '@io/graphql';
+import { ApiInntektFraAOrdningen } from '@io/rest/generated/spesialist.schemas';
 import { getMonthName, somPenger } from '@utils/locale';
 
 import styles from './SisteTolvMånederTabell.module.css';
 
 interface SisteTolvMånederTabellProps {
     harInntekterForSammenligningsgrunnlag: boolean;
-    sisteXmåneder: (InntektFraAOrdningen | { maned: string; sum: null })[];
-    inntekterForSammenligningsgrunnlag: InntektFraAOrdningen[];
+    sisteXmåneder: (ApiInntektFraAOrdningen | { maned: string; sum: null })[];
+    inntekterForSammenligningsgrunnlag: ApiInntektFraAOrdningen[];
 }
 
 export function SisteTolvMånederTabell({
@@ -100,9 +100,9 @@ export function SisteTolvMånederTabell({
 }
 
 interface InntektRowProps {
-    inntekt: InntektFraAOrdningen | { maned: string; sum: null };
+    inntekt: ApiInntektFraAOrdningen | { maned: string; sum: null };
     harInntekterForSammenligningsgrunnlag: boolean;
-    inntekterForSammenligningsgrunnlag: InntektFraAOrdningen[];
+    inntekterForSammenligningsgrunnlag: ApiInntektFraAOrdningen[];
 }
 
 function InntektRow({
@@ -130,7 +130,7 @@ function InntektRow({
 }
 
 function visningSammenligningsgrunnlag(
-    inntekterForSammenligningsgrunnlag: InntektFraAOrdningen[],
+    inntekterForSammenligningsgrunnlag: ApiInntektFraAOrdningen[],
     maned: string,
 ): string {
     const inntekt = inntekterForSammenligningsgrunnlag.filter((d) => dayjs(d.maned, 'YYYY-MM').isSame(maned));

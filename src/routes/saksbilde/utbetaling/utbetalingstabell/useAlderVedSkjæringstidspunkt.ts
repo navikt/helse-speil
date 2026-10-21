@@ -1,10 +1,13 @@
 import dayjs from 'dayjs';
 
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useAlderVedSkjæringstidspunkt = (person: PersonFragment, fødselsdato?: string | null): number | null => {
+export const useAlderVedSkjæringstidspunkt = (
+    person: ApiSaksbildePerson,
+    fødselsdato?: string | null,
+): number | null => {
     const period = useActivePeriod(person);
 
     if (typeof fødselsdato === 'string' && isBeregnetPeriode(period)) {

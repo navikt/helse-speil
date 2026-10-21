@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { HStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { XKnapp } from '@saksbilde/historikk/XKnapp';
 import { Inntektsmeldingsinnhold } from '@saksbilde/historikk/hendelser/dokument/Inntektsmeldingsinnhold';
 import { Søknadsinnhold } from '@saksbilde/historikk/hendelser/dokument/Søknadsinnhold';
@@ -20,7 +20,7 @@ import { cn } from '@utils/tw';
 import styles from './ÅpnetDokument.module.scss';
 
 interface OpenedDokumentProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 export const OpenedDokument = ({ person }: OpenedDokumentProps): ReactElement | null => {

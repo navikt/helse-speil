@@ -8,8 +8,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { TilkommenInntektSchema, lagTilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { PersonFragment } from '@io/graphql';
-import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
+import { ApiSaksbildePerson, ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { TilkommenInntektSkjemaTabell } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemaTabell';
 import { TilkommenInntektSkjemafelter } from '@saksbilde/tilkommenInntekt/skjema/TilkommenInntektSkjemafelter';
 import {
@@ -27,7 +26,7 @@ import { erIPeriode, norskDatoTilIsoDato, somNorskDato } from '@utils/date';
 import { isNumber } from '@utils/typeguards';
 
 interface TilkommenInntektProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     andreTilkomneInntekter: ApiTilkommenInntekt[];
     startOrganisasjonsnummer: string;
     startFom: DateString;

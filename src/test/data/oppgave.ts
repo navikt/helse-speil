@@ -1,5 +1,4 @@
-import { OppgaveForPeriodevisning } from '@io/graphql';
-import { ApiEgenskap, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import { ApiEgenskap, ApiOppgaveForPeriodevisning, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { OverridableConstructor } from '@typer/shared';
 import { generateId } from '@utils/generateId';
 
@@ -25,8 +24,7 @@ export const enOppgaveForOversikten: OverridableConstructor<ApiOppgaveProjeksjon
     ...overrides,
 });
 
-export const enOppgave: OverridableConstructor<OppgaveForPeriodevisning> = (overrides) => ({
-    __typename: 'OppgaveForPeriodevisning',
+export const enOppgave: OverridableConstructor<ApiOppgaveForPeriodevisning> = (overrides) => ({
     id: generateId(),
     ...overrides,
 });

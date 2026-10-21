@@ -1,17 +1,17 @@
 import React, { ReactElement } from 'react';
 
-import { Utbetalingtype } from '@io/graphql';
+import { ApiUtbetalingtype } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkCheckmarkCircleIkon, HistorikkXMarkOctagonIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { UtbetalinghendelseObject } from '@typer/historikk';
 
-const getTittel = (type: Utbetalingtype, automatisk: boolean, godkjent: boolean): string => {
+const getTittel = (type: ApiUtbetalingtype, automatisk: boolean, godkjent: boolean): string => {
     if (godkjent) {
-        return Utbetalingtype.Revurdering === type ? 'Revurdering godkjent' : 'Godkjent';
+        return ApiUtbetalingtype.REVURDERING === type ? 'Revurdering godkjent' : 'Godkjent';
     } else if (automatisk) {
         return 'Kunne ikke behandles her';
     } else {
-        return Utbetalingtype.Annullering === type ? 'Annullert' : 'Ikke godkjent';
+        return ApiUtbetalingtype.ANNULLERING === type ? 'Annullert' : 'Ikke godkjent';
     }
 };
 

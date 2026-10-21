@@ -1,5 +1,5 @@
 import { oppgaveVedtaksperioder, oppgaver } from '@spesialist-mock/data/oppgaver';
-import { fetchPersondata } from '@spesialist-mock/graphql';
+import { fetchPersondata } from '@spesialist-mock/saksbilde';
 import { BeregnetPeriode, Periode, Person } from '@spesialist-mock/schemaTypes';
 import { PersonMock, alleInntektsforhold } from '@spesialist-mock/storage/person';
 

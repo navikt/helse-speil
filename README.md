@@ -48,7 +48,7 @@ echo '//npm.pkg.github.com/:_authToken=${NPM_AUTH_TOKEN}' >> ~/.npmrc
 3. Installer pre-commit hook - `pnpm run install-precommit-hooks`
 4. Kjør Speil lokalt med next dev server - `pnpm run dev`
 
-Default i lokal utvikling er at Apollo går mot spesialist-mock på /api/spesialist.
+Default i lokal utvikling er at kall mot /api/spesialist blir besvart av stubber basert på spesialist-mock.
 
 ### Utvikle lokalt mot lokalt kjørende backend
 
@@ -83,21 +83,6 @@ Deretter kan nextjs produksjonsbygg kjøres med:
 
 ```shell
 pnpm run build
-```
-
-## Hente og oppdaterte GraphQL-typer
-
-Schema hentes fra spesialist på lokal maskin. Før man kjører skriptet for å generere GraphQL-typer, må man starte
-spesialist på lokal maskin (se etter fila LocalApp.kt). `generate-graphql` henter først et token fra spesialist og gjør
-deretter et autentisert introspection-kall.
-
-For å generere DocumentNodes som brukes i apollo queries og mutations må man først skrive en GraphQL spørring
-i [GraphQL mappen](src/io/graphql).
-
-**Kommando for å oppdatere GraphQL-typer:**
-
-```shell
-pnpm run generate-graphql
 ```
 
 ## Oppdatere REST-typer og genererte Tanstack Query-hooks

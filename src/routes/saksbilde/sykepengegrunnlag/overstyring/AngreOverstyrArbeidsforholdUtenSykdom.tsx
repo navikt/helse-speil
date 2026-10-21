@@ -4,14 +4,14 @@ import { ArrowUndoIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { ÅrsakForOverstyring } from '@typer/overstyring';
 
 import { BrukArbeidsforholdILikevelDialog } from './BrukArbeidsforholdILikevelDialog';
 import { useGetOverstyrtArbeidsforhold, usePostOverstyrtArbeidsforhold } from './overstyrArbeidsforholdHooks';
 
 interface AngreOverstyrArbeidsforholdUtenSykdomProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;
     onClick: () => void;

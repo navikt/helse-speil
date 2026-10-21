@@ -6,7 +6,7 @@ import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiSaksbildePerson, ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader.module.css';
 import {
     Inntektsforhold,
@@ -29,7 +29,7 @@ import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 
-const useIsInCurrentBehandling = (person: PersonFragment): boolean => {
+const useIsInCurrentBehandling = (person: ApiSaksbildePerson): boolean => {
     const period = useActivePeriod(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
 
@@ -44,7 +44,7 @@ interface ReadonlyUtbetalingProps {
     fom: DateString;
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     inntektsforholdReferanse: InntektsforholdReferanse;
 }
 
@@ -94,8 +94,8 @@ const ReadonlyUtbetaling = ({
 };
 
 interface UtbetalingBeregnetPeriodeProps {
-    period: BeregnetPeriodeFragment;
-    person: PersonFragment;
+    period: ApiBeregnetPeriode;
+    person: ApiSaksbildePerson;
     inntektsforhold: Inntektsforhold;
 }
 
@@ -137,8 +137,8 @@ const UtbetalingBeregnetPeriode = ({
 const UtbetalingBeregnetPeriodeMemoized = React.memo(UtbetalingBeregnetPeriode);
 
 interface UtbetalingUberegnetPeriodeProps {
-    person: PersonFragment;
-    periode: UberegnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiUberegnetPeriode;
     inntektsforhold: Inntektsforhold;
 }
 
@@ -173,8 +173,8 @@ const UtbetalingUberegnetPeriode = ({
 };
 
 type UtbetalingProps = {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode | ApiUberegnetPeriode;
 };
 
 const UtbetalingContainer = ({ person, periode }: UtbetalingProps): ReactElement | null => {

@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Heading, VStack } from '@navikt/ds-react';
 
-import { Simulering } from '@io/graphql';
+import { ApiSimulering } from '@io/rest/generated/spesialist.schemas';
 import { somPenger } from '@utils/locale';
 import { cn } from '@utils/tw';
 import { isNumber } from '@utils/typeguards';
@@ -10,7 +10,7 @@ import { isNumber } from '@utils/typeguards';
 import { SimuleringsperiodeView } from './SimuleringsperiodeView';
 
 interface SimuleringViewProps {
-    simulering: Simulering;
+    simulering: ApiSimulering;
     utbetalingId: string;
 }
 

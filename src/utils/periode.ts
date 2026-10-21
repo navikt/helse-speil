@@ -1,10 +1,7 @@
-import { UberegnetPeriodeFragment, Utbetalingsdagtype } from '@io/graphql';
+import { ApiUberegnetPeriode, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 
-export const getAntallAGPDagerBruktFørPerioden = (
-    inntektsforhold: Inntektsforhold,
-    periode: UberegnetPeriodeFragment,
-) =>
+export const getAntallAGPDagerBruktFørPerioden = (inntektsforhold: Inntektsforhold, periode: ApiUberegnetPeriode) =>
     inntektsforhold.behandlinger[0]?.perioder
         .filter((it) => it.skjaeringstidspunkt === periode.skjaeringstidspunkt)
         .filter((it) => it.fom < periode.fom)
@@ -14,5 +11,5 @@ export const getAntallAGPDagerBruktFørPerioden = (
             (dag) =>
                 dag.utbetalingsdagtype === 'ARBEIDSGIVERPERIODEDAG' ||
                 (['SYKEDAG', 'SYK_HELGEDAG'].includes(dag.sykdomsdagtype) &&
-                    dag.utbetalingsdagtype === Utbetalingsdagtype.UkjentDag),
+                    dag.utbetalingsdagtype === ApiUtbetalingsdagtype.UKJENT_DAG),
         ).length;

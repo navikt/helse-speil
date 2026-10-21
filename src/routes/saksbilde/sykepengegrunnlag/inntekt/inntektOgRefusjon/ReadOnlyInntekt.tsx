@@ -4,7 +4,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
-import { Inntektoverstyring, Inntektskilde, OmregnetArsinntekt } from '@io/graphql';
+import { ApiInntektoverstyring, ApiInntektskilde, ApiOmregnetArsinntekt } from '@io/rest/generated/spesialist.schemas';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 
@@ -13,10 +13,10 @@ import { EndringsloggButton } from '../EndringsloggButton';
 import styles from './ReadOnlyInntekt.module.css';
 
 interface ReadOnlyInntektProps {
-    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
+    omregnetÅrsinntekt?: ApiOmregnetArsinntekt | null;
     lokaltMånedsbeløp: number | null;
     endret: boolean;
-    inntektsendringer: Inntektoverstyring[];
+    inntektsendringer: ApiInntektoverstyring[];
 }
 
 export const ReadOnlyInntekt = ({
@@ -25,7 +25,7 @@ export const ReadOnlyInntekt = ({
     endret,
     inntektsendringer,
 }: ReadOnlyInntektProps): ReactElement => {
-    const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
+    const harInntektskildeAOrdningen = omregnetÅrsinntekt?.kilde === ApiInntektskilde.AORDNINGEN;
 
     return (
         <>
@@ -40,7 +40,7 @@ export const ReadOnlyInntekt = ({
                     </div>
                 </div>
                 <div style={{ paddingLeft: '0.5rem' }}>
-                    {endret || lokaltMånedsbeløp || omregnetÅrsinntekt?.kilde === Inntektskilde.Saksbehandler ? (
+                    {endret || lokaltMånedsbeløp || omregnetÅrsinntekt?.kilde === ApiInntektskilde.SAKSBEHANDLER ? (
                         <EndringsloggButton endringer={inntektsendringer} />
                     ) : (
                         <Kilde type={omregnetÅrsinntekt?.kilde}>{kildeForkortelse(omregnetÅrsinntekt?.kilde)}</Kilde>

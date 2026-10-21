@@ -1,24 +1,24 @@
 import dayjs from 'dayjs';
 
 import {
-    Arbeidsforholdoverstyring,
-    BeregnetPeriodeFragment,
-    Dagoverstyring,
-    Inntektoverstyring,
-    Overstyring,
-    PersonFragment,
-} from '@io/graphql';
+    ApiArbeidsforholdoverstyring,
+    ApiBeregnetPeriode,
+    ApiDagoverstyring,
+    ApiInntektoverstyring,
+    ApiOverstyring,
+    ApiSaksbildePerson,
+} from '@io/rest/generated/spesialist.schemas';
 import { useActivePeriod } from '@state/periode';
 import { isArbeidsforholdoverstyring, isDagoverstyring, isGhostPeriode, isInntektoverstyring } from '@utils/typeguards';
 
 type UseEndringerForPeriodeResult = {
-    inntektsendringer: Inntektoverstyring[];
-    arbeidsforholdendringer: Arbeidsforholdoverstyring[];
-    dagendringer: Dagoverstyring[];
+    inntektsendringer: ApiInntektoverstyring[];
+    arbeidsforholdendringer: ApiArbeidsforholdoverstyring[];
+    dagendringer: ApiDagoverstyring[];
 };
 export const useEndringerForPeriode = (
-    endringer: Overstyring[] | undefined,
-    person: PersonFragment,
+    endringer: ApiOverstyring[] | undefined,
+    person: ApiSaksbildePerson,
 ): UseEndringerForPeriodeResult => {
     const periode = useActivePeriod(person);
 
@@ -51,7 +51,7 @@ export const useEndringerForPeriode = (
         .filter(isInntektoverstyring);
 
     const arbeidsforhold = endringer
-        .filter((it) => dayjs((periode as BeregnetPeriodeFragment).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
+        .filter((it) => dayjs((periode as ApiBeregnetPeriode).skjaeringstidspunkt).isSameOrBefore(it.timestamp))
         .filter(isArbeidsforholdoverstyring);
 
     const dager = endringer

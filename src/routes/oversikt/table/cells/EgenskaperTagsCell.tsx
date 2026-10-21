@@ -3,8 +3,7 @@ import React, { ReactElement } from 'react';
 import { Table } from '@navikt/ds-react';
 
 import { EgenskaperTags } from '@components/EgenskaperTags';
-import { Kategori } from '@io/graphql';
-import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
+import { ApiEgenskap, ApiKategori } from '@io/rest/generated/spesialist.schemas';
 import { kategoriForEgenskap } from '@state/oppgaver';
 
 import styles from '../table.module.css';
@@ -20,7 +19,7 @@ export const EgenskaperTagsCell = ({ egenskaper }: EgenskaperTagsCellProps): Rea
                 <EgenskaperTags
                     egenskaper={egenskaper.filter(
                         (egenskap) =>
-                            ![Kategori.Inntektsforhold, Kategori.Arbeidssituasjon].includes(
+                            !([ApiKategori.Inntektsforhold, ApiKategori.Arbeidssituasjon] as ApiKategori[]).includes(
                                 kategoriForEgenskap(egenskap),
                             ),
                     )}

@@ -1,4 +1,4 @@
-import { Dag, Periode, PersonFragment } from '@io/graphql';
+import { ApiDag, ApiPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold, useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -12,7 +12,7 @@ import {
 } from '../utbetaling/utbetalingstabell/dagerUtils';
 import { useTabelldagerMap } from '../utbetaling/utbetalingstabell/useTabelldagerMap';
 
-export const useTotaltUtbetaltForSykefraværstilfellet = (person: PersonFragment) => {
+export const useTotaltUtbetaltForSykefraværstilfellet = (person: ApiSaksbildePerson) => {
     const inntektsforhold = useAktivtInntektsforhold(person);
     const tidslinjeForSykefraværstilfellet = useUtbetaltTidslinjeForSykefraværstilfellet(person, inntektsforhold);
 
@@ -32,9 +32,9 @@ export const useTotaltUtbetaltForSykefraværstilfellet = (person: PersonFragment
 };
 
 const useUtbetaltTidslinjeForSykefraværstilfellet = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     inntektsforhold?: Inntektsforhold,
-): Dag[] | null => {
+): ApiDag[] | null => {
     const skjæringstidspunkt = useActivePeriod(person)?.skjaeringstidspunkt;
 
     if (!inntektsforhold || !skjæringstidspunkt) return null;
@@ -73,7 +73,7 @@ const finnFørsteUtbetalingsdag = (utbetalingsdager: Utbetalingstabelldag[]): st
         .sort(dateDescending)
         .pop();
 
-const finnUtbetaltePerioderPåSkjæringstidspunkt = (skjæringstidspunkt: string, perioder?: Periode[]): Periode[] =>
+const finnUtbetaltePerioderPåSkjæringstidspunkt = (skjæringstidspunkt: string, perioder?: ApiPeriode[]): ApiPeriode[] =>
     perioder?.filter(
         (it) =>
             isBeregnetPeriode(it) &&

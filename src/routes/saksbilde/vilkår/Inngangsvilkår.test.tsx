@@ -1,6 +1,10 @@
 import React from 'react';
 
-import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering } from '@io/graphql';
+import {
+    ApiVilkårsgrunnlagInfotrygdV2,
+    ApiVilkårsgrunnlagSpleisV2,
+    ApiVilkårsgrunnlagVurdering,
+} from '@io/rest/generated/spesialist.schemas';
 import { render, screen, within } from '@test-utils';
 
 import { InngangsvilkårWithContent } from './Inngangsvilkår';
@@ -15,15 +19,15 @@ const opptjeningProps = { personPseudoId: 'en-person', opptjeningsvurderingId: '
 
 const getVilkårsgrunnlagSpleis = (
     // TODO: Erstatte global type med query type
-    overrides?: Partial<VilkarsgrunnlagSpleisV2>,
-): VilkarsgrunnlagSpleisV2 => ({
-    __typename: 'VilkarsgrunnlagSpleisV2',
+    overrides?: Partial<ApiVilkårsgrunnlagSpleisV2>,
+): ApiVilkårsgrunnlagSpleisV2 => ({
+    type: 'ApiVilkårsgrunnlagSpleisV2',
     id: 'en-id',
     antallOpptjeningsdagerErMinst: 100,
     arbeidsgiverrefusjoner: [],
     grunnbelop: 100000,
     inntekter: [],
-    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.Oppfylt,
+    vurderingAvKravOmMedlemskap: ApiVilkårsgrunnlagVurdering.OPPFYLT,
     oppfyllerKravOmMinstelonn: true,
     oppfyllerKravOmOpptjening: true,
     opptjeningFra: '2000-01-01',
@@ -33,14 +37,12 @@ const getVilkårsgrunnlagSpleis = (
     beregningsgrunnlag: '1234567',
     forsikringsvurderingId: null,
     avviksvurdering: {
-        __typename: 'VilkarsgrunnlagAvviksvurdering',
         avviksprosent: '0',
         beregningsgrunnlag: '1234567',
         sammenligningsgrunnlag: '1234567',
     },
     skjonnsmessigFastsattAarlig: null,
     sykepengegrunnlagsgrense: {
-        __typename: 'Sykepengegrunnlagsgrense',
         grunnbelop: 106399,
         grense: 6 * 106399,
         virkningstidspunkt: '2021-05-01',
@@ -48,8 +50,8 @@ const getVilkårsgrunnlagSpleis = (
     ...overrides,
 });
 
-const getVilkårsgrunnlagInfotrygd = (): VilkarsgrunnlagInfotrygdV2 => ({
-    __typename: 'VilkarsgrunnlagInfotrygdV2',
+const getVilkårsgrunnlagInfotrygd = (): ApiVilkårsgrunnlagInfotrygdV2 => ({
+    type: 'ApiVilkårsgrunnlagInfotrygdV2',
     id: 'en-id',
     arbeidsgiverrefusjoner: [],
     inntekter: [],
@@ -84,7 +86,7 @@ describe('Inngangsvilkår', () => {
             <InngangsvilkårWithContent
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis({
                     oppfyllerKravOmMinstelonn: false,
-                    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.IkkeVurdert,
+                    vurderingAvKravOmMedlemskap: ApiVilkårsgrunnlagVurdering.IKKE_VURDERT,
                 })}
                 fødselsdato="1900-01-01"
                 {...opptjeningProps}

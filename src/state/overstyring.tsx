@@ -1,7 +1,14 @@
 import { useAtom, useAtomValue } from 'jotai';
 import { atomWithReset, useResetAtom } from 'jotai/utils';
 
-import { Arbeidsgiver, Arbeidsgiverrefusjon, Hendelse, Kildetype, PersonFragment, Refusjonselement } from '@io/graphql';
+import {
+    ApiArbeidsgiver,
+    ApiArbeidsgiverrefusjon,
+    ApiHendelse,
+    ApiKildetype,
+    ApiRefusjonselement,
+    ApiSaksbildePerson,
+} from '@io/rest/generated/spesialist.schemas';
 import { dedupliserteInntektsmeldingHendelser } from '@state/inntektsforhold/arbeidsgiver';
 import {
     OverstyrtInntektOgRefusjonArbeidsgiver,
@@ -16,7 +23,7 @@ export const useInntektOgRefusjon = () => useAtomValue(inntektOgRefusjonState);
 export const useSlettLokaleOverstyringer = () => useResetAtom(inntektOgRefusjonState);
 
 export const useLokaleInntektOverstyringer = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     showSlettLokaleOverstyringerModal: boolean,
     setShowSlettLokaleOverstyringerModal: (data: boolean) => void,
 ) => {
@@ -85,30 +92,30 @@ type OverstyrtInntektMetadata = {
 };
 
 export const mapOgSorterRefusjoner = (
-    inntektsmeldinger: Hendelse[],
-    refusjonselementer: Refusjonselement[],
+    inntektsmeldinger: ApiHendelse[],
+    refusjonselementer: ApiRefusjonselement[],
 ): Refusjonsopplysning[] => {
     if (refusjonselementer.length === 0) return [];
 
     const hendelseIderForInntektsmelding: string[] = inntektsmeldinger.map((im) => im.id);
     return [...refusjonselementer]
-        .sort((a: Refusjonselement, b: Refusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
+        .sort((a: ApiRefusjonselement, b: ApiRefusjonselement) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .map((it) => ({
             fom: it.fom,
             tom: it.tom,
             beløp: it.belop,
             kilde: hendelseIderForInntektsmelding.includes(it.meldingsreferanseId)
-                ? Kildetype.Inntektsmelding
-                : Kildetype.Saksbehandler,
+                ? ApiKildetype.INNTEKTSMELDING
+                : ApiKildetype.SAKSBEHANDLER,
         }));
 };
 export const lagOverstyrtInntektMetadata = (
-    person: PersonFragment,
-    arbeidsgiver: Arbeidsgiver,
+    person: ApiSaksbildePerson,
+    arbeidsgiver: ApiArbeidsgiver,
     skjæringstidspunkt: DateString,
     vilkårsgrunnlagId?: string | null,
 ): OverstyrtInntektMetadata => {
-    const vilkårsgrunnlagRefusjonsopplysninger: Arbeidsgiverrefusjon | undefined = person.vilkarsgrunnlagV2
+    const vilkårsgrunnlagRefusjonsopplysninger: ApiArbeidsgiverrefusjon | undefined = person.vilkarsgrunnlagV2
         .find((it) => it.id === vilkårsgrunnlagId)
         ?.arbeidsgiverrefusjoner.find(
             (arbeidsgiverrefusjon) => arbeidsgiverrefusjon.arbeidsgiver === arbeidsgiver.organisasjonsnummer,

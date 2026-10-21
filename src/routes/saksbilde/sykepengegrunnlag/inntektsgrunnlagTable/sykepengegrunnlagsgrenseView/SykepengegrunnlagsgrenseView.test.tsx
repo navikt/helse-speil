@@ -9,7 +9,6 @@ describe('Sykepengegrunnlagsgrense', () => {
         render(
             <SykepengegrunnlagsgrenseView
                 sykepengegrunnlagsgrense={{
-                    __typename: 'Sykepengegrunnlagsgrense',
                     grunnbelop: 106399,
                     grense: 638394,
                     virkningstidspunkt: '2021-05-01',
@@ -26,7 +25,6 @@ describe('Sykepengegrunnlagsgrense', () => {
         render(
             <SykepengegrunnlagsgrenseView
                 sykepengegrunnlagsgrense={{
-                    __typename: 'Sykepengegrunnlagsgrense',
                     grunnbelop: 106399,
                     grense: 638394,
                     virkningstidspunkt: '2021-05-01',

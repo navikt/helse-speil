@@ -1,19 +1,18 @@
 import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    Overstyring,
-    OverstyringFragment,
-} from '@io/graphql';
+    ApiArbeidsgiver,
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiOverstyring,
+} from '@io/rest/generated/spesialist.schemas';
 import { enBehandling } from '@test-data/behandling';
 import { enGhostPeriode } from '@test-data/periode';
 import { OverridableConstructor } from '@typer/shared';
 
 type Extensions = {
-    medPerioder(perioder: BeregnetPeriodeFragment[]): ArbeidsgiverFragment & Extensions;
-    medGhostPerioder(ghostPerioder: GhostPeriodeFragment[]): ArbeidsgiverFragment & Extensions;
-    medOverstyringer(overstyringer: Overstyring[]): ArbeidsgiverFragment & Extensions;
-    medOrganisasjonsnummer(organisasjonsnummer: string): ArbeidsgiverFragment & Extensions;
+    medPerioder(perioder: ApiBeregnetPeriode[]): ApiArbeidsgiver & Extensions;
+    medGhostPerioder(ghostPerioder: ApiGhostPeriode[]): ApiArbeidsgiver & Extensions;
+    medOverstyringer(overstyringer: ApiOverstyring[]): ApiArbeidsgiver & Extensions;
+    medOrganisasjonsnummer(organisasjonsnummer: string): ApiArbeidsgiver & Extensions;
 };
 
 function genererTilfeldigSiffer() {
@@ -28,8 +27,7 @@ function genererOrganisasjonsnummer(): string {
     return value;
 }
 
-export const enArbeidsgiver: OverridableConstructor<ArbeidsgiverFragment, Extensions> = (overrides) => ({
-    __typename: 'Arbeidsgiver',
+export const enArbeidsgiver: OverridableConstructor<ApiArbeidsgiver, Extensions> = (overrides) => ({
     navn: 'Sjokkerende Elektriker',
     organisasjonsnummer: genererOrganisasjonsnummer(),
     arbeidsforhold: [],
@@ -38,15 +36,15 @@ export const enArbeidsgiver: OverridableConstructor<ArbeidsgiverFragment, Extens
     overstyringer: [],
     inntekterFraAordningen: [],
     ...overrides,
-    medPerioder(perioder: BeregnetPeriodeFragment[]) {
+    medPerioder(perioder: ApiBeregnetPeriode[]) {
         this.behandlinger = [enBehandling({ perioder })];
         return this;
     },
-    medGhostPerioder(ghostPerioder: GhostPeriodeFragment[]) {
+    medGhostPerioder(ghostPerioder: ApiGhostPeriode[]) {
         this.ghostPerioder = ghostPerioder;
         return this;
     },
-    medOverstyringer(overstyringer: OverstyringFragment[]) {
+    medOverstyringer(overstyringer: ApiOverstyring[]) {
         this.overstyringer = overstyringer;
         return this;
     },

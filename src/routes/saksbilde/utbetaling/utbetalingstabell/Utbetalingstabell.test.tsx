@@ -1,7 +1,7 @@
 import React from 'react';
 import { vi } from 'vitest';
 
-import { Kildetype } from '@io/graphql';
+import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
@@ -16,7 +16,7 @@ vi.mock('./useAlderVedSkjæringstidspunkt', () => ({
 
 const enUtbetalingstabelldag = (dato: string, overrides?: Partial<Utbetalingstabelldag>): Utbetalingstabelldag => ({
     dato: dato,
-    kilde: { __typename: 'Kilde', id: 'Sasdadgf', type: Kildetype.Inntektsmelding },
+    kilde: { id: 'Sasdadgf', type: ApiKildetype.INNTEKTSMELDING },
     dag: Sykedag,
     erAGP: false,
     erVentetid: false,

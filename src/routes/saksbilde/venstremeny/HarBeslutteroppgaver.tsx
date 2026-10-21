@@ -5,7 +5,7 @@ import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn, Organisasjonsnavn } from '@components/Inntektsforholdnavn';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { PeriodeinformasjonInnslag } from '@saksbilde/venstremeny/PeriodeinformasjonInnslag';
 import {
     finnAlleInntektsforhold,
@@ -21,7 +21,7 @@ import { somNorskDato } from '@utils/date';
 import styles from './HarBeslutteroppgaver.module.scss';
 
 interface HarBeslutteroppgaverProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): ReactElement | null => {

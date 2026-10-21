@@ -2,8 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { Tag, TagProps, Tooltip } from '@navikt/ds-react';
 
-import { Kategori } from '@io/graphql';
-import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
+import { ApiEgenskap, ApiKategori } from '@io/rest/generated/spesialist.schemas';
 import { kategoriForEgenskap } from '@state/oppgaver';
 
 const tilTekst = (egenskap: ApiEgenskap) => {
@@ -81,16 +80,16 @@ const tilTooltip = (egenskap: ApiEgenskap) => {
     }
 };
 
-const tilDataColor = (kategori: Kategori): TagProps['data-color'] =>
-    kategori === Kategori.Ukategorisert
+const tilDataColor = (kategori: ApiKategori): TagProps['data-color'] =>
+    kategori === ApiKategori.Ukategorisert
         ? 'brand-magenta'
-        : kategori === Kategori.Oppgavetype
+        : kategori === ApiKategori.Oppgavetype
           ? 'info'
-          : kategori === Kategori.Mottaker
+          : kategori === ApiKategori.Mottaker
             ? 'meta-purple'
-            : kategori === Kategori.Status
+            : kategori === ApiKategori.Status
               ? 'brand-beige'
-              : kategori === Kategori.Inntektsforhold || kategori === Kategori.Arbeidssituasjon
+              : kategori === ApiKategori.Inntektsforhold || kategori === ApiKategori.Arbeidssituasjon
                 ? 'info'
                 : 'neutral';
 
@@ -99,13 +98,13 @@ const getData = (egenskaper: ApiEgenskap[]) => {
         .map((egenskap) => ({ egenskap: egenskap, kategori: kategoriForEgenskap(egenskap) }))
         .filter(
             ({ kategori }) =>
-                kategori === Kategori.Ukategorisert ||
-                kategori === Kategori.Status ||
-                kategori === Kategori.Periodetype ||
-                kategori === Kategori.Oppgavetype ||
-                kategori === Kategori.Inntektsforhold ||
-                kategori === Kategori.Arbeidssituasjon ||
-                kategori === Kategori.Mottaker,
+                kategori === ApiKategori.Ukategorisert ||
+                kategori === ApiKategori.Status ||
+                kategori === ApiKategori.Periodetype ||
+                kategori === ApiKategori.Oppgavetype ||
+                kategori === ApiKategori.Inntektsforhold ||
+                kategori === ApiKategori.Arbeidssituasjon ||
+                kategori === ApiKategori.Mottaker,
         )
         .map(({ kategori, egenskap }) => ({
             kategori,
@@ -116,15 +115,17 @@ const getData = (egenskaper: ApiEgenskap[]) => {
         .sort((a, b) => {
             let kategoriVerdi = 0;
             if (a.kategori !== b.kategori) {
-                if (a.kategori === Kategori.Inntektsforhold) kategoriVerdi = -1;
-                else if (b.kategori === Kategori.Inntektsforhold) kategoriVerdi = 1;
-                else if (b.kategori === Kategori.Arbeidssituasjon) kategoriVerdi = 1;
-                else if (a.kategori === Kategori.Periodetype && b.kategori !== Kategori.Status) kategoriVerdi = -1;
-                else if (a.kategori === Kategori.Periodetype) kategoriVerdi = 1;
-                else if (a.kategori === Kategori.Ukategorisert) kategoriVerdi = 1;
-                else if (b.kategori === Kategori.Oppgavetype && a.kategori === Kategori.Mottaker) kategoriVerdi = 1;
-                else if (b.kategori === Kategori.Periodetype) kategoriVerdi = 1;
-                else if (b.kategori === Kategori.Status) kategoriVerdi = 1;
+                if (a.kategori === ApiKategori.Inntektsforhold) kategoriVerdi = -1;
+                else if (b.kategori === ApiKategori.Inntektsforhold) kategoriVerdi = 1;
+                else if (b.kategori === ApiKategori.Arbeidssituasjon) kategoriVerdi = 1;
+                else if (a.kategori === ApiKategori.Periodetype && b.kategori !== ApiKategori.Status)
+                    kategoriVerdi = -1;
+                else if (a.kategori === ApiKategori.Periodetype) kategoriVerdi = 1;
+                else if (a.kategori === ApiKategori.Ukategorisert) kategoriVerdi = 1;
+                else if (b.kategori === ApiKategori.Oppgavetype && a.kategori === ApiKategori.Mottaker)
+                    kategoriVerdi = 1;
+                else if (b.kategori === ApiKategori.Periodetype) kategoriVerdi = 1;
+                else if (b.kategori === ApiKategori.Status) kategoriVerdi = 1;
                 else kategoriVerdi = -1;
             }
             if (kategoriVerdi === 0) return a.tekst.localeCompare(b.tekst);

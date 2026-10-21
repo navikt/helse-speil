@@ -15,7 +15,7 @@ import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea,
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
-import { ArbeidsgiverFragment, PersonFragment } from '@io/graphql';
+import { ApiArbeidsgiver, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
 import { overlapper } from '@state/selectors/period';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
@@ -30,10 +30,10 @@ interface ArbeidstidsvurderingFormFields {
 }
 
 interface ArbeidstidsvurderingFormProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     aktivPeriode: ActivePeriod;
     oppkuttedePerioder: DatePeriod[] | null;
-    overlappendeArbeidsgivere: ArbeidsgiverFragment[];
+    overlappendeArbeidsgivere: ApiArbeidsgiver[];
     initierendeVedtaksperiodeId: string;
     setVurdererArbeidstid: (vurderer: boolean) => void;
 }
@@ -157,7 +157,7 @@ const formErrorsTilFeilliste = (errors: FieldErrors<ArbeidstidsvurderingFormFiel
 
 interface DelperiodeTabellProps {
     oppkuttedePerioder: DatePeriod[] | null;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     aktivPeriode: ActivePeriod;
 }
 

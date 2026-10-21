@@ -2,14 +2,14 @@ import React, { ReactElement } from 'react';
 
 import { HGrid } from '@navikt/ds-react';
 
-import { Simuleringsperiode } from '@io/graphql';
+import { ApiSimuleringsperiode } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedDateString } from '@utils/date';
 
 import { SimuleringsperiodeValue } from './SimuleringsperiodeValue';
 import { SimuleringsutbetalingView } from './SimuleringsutbetalingView';
 
 interface SimuleringsperiodeProps {
-    periode: Simuleringsperiode;
+    periode: ApiSimuleringsperiode;
 }
 
 export function SimuleringsperiodeView({ periode }: SimuleringsperiodeProps): ReactElement {

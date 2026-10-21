@@ -17,7 +17,7 @@ import {
 import { useArsaker } from '@external/sanity';
 import { ForkastingSkjema, forkastingSkjema } from '@form-schemas/forkastingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { UberegnetPeriodeFragment } from '@io/graphql';
+import { ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 import { usePostAnmodOmForkasting } from '@io/rest/generated/vedtaksperioder/vedtaksperioder';
 import type { ArsakerQueryResult } from '@io/sanity/generated/sanity.types';
 import {
@@ -29,7 +29,7 @@ import {
 import { useAddToast, useRemoveToast } from '@state/toasts';
 
 type ForkastFraUberegnetDialogInnholdProps = {
-    activePeriod: UberegnetPeriodeFragment;
+    activePeriod: ApiUberegnetPeriode;
     onSuccess: () => void;
 };
 

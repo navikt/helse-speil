@@ -1,5 +1,5 @@
 import { lokalSaksbehandlerIdent } from '@spesialist-mock/constants';
-import { finnOppgaveId } from '@spesialist-mock/graphql';
+import { finnOppgaveId } from '@spesialist-mock/saksbilde';
 import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';

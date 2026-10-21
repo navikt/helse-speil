@@ -6,9 +6,8 @@ import { BodyShort, Button, Dialog, ErrorMessage, HStack, Spacer, VStack } from 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
-import { Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
-import { ApiPerson } from '@io/rest/generated/spesialist.schemas';
+import { ApiPerson, ApiUtbetaling, ApiUtbetalingstatus } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedName } from '@saksbilde/venstremeny/personnavn';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName, somPenger } from '@utils/locale';
@@ -20,7 +19,7 @@ type UtbetalingDialogProps = {
     onOpenChange: (open: boolean) => void;
     error: BackendFeil | null;
     totrinnsvurdering: boolean;
-    utbetaling?: Utbetaling;
+    utbetaling?: ApiUtbetaling;
     inntektsforholdReferanse: InntektsforholdReferanse;
 };
 
@@ -77,7 +76,7 @@ export function UtbetalingDialog({
 }
 
 type TilUtbetalingProps = {
-    utbetaling: Utbetaling;
+    utbetaling: ApiUtbetaling;
     inntektsforholdReferanse: InntektsforholdReferanse;
     person: ApiPerson;
 };
@@ -87,7 +86,7 @@ function TilUtbetaling({ utbetaling, inntektsforholdReferanse, person }: TilUtbe
         <VStack gap="space-4">
             <HStack align="center" gap="space-16" className="[&>svg]:w-4">
                 <BodyShort weight="semibold">
-                    {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt beløp' : 'Beløp til utbetaling'}
+                    {utbetaling.status !== ApiUtbetalingstatus.UBETALT ? 'Utbetalt beløp' : 'Beløp til utbetaling'}
                 </BodyShort>
                 <Spacer />
                 <BodyShort weight="semibold">

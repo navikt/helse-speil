@@ -1,14 +1,14 @@
-import { Inntektskilde } from '@io/graphql';
+import { ApiInntektskilde } from '@io/rest/generated/spesialist.schemas';
 
-export const kildeForkortelse = (kilde?: Inntektskilde) => {
+export const kildeForkortelse = (kilde?: ApiInntektskilde) => {
     switch (kilde) {
-        case Inntektskilde.Saksbehandler:
+        case ApiInntektskilde.SAKSBEHANDLER:
             return 'SB';
-        case Inntektskilde.Inntektsmelding:
+        case ApiInntektskilde.INNTEKTSMELDING:
             return 'IM';
-        case Inntektskilde.Infotrygd:
+        case ApiInntektskilde.INFOTRYGD:
             return 'IT';
-        case Inntektskilde.Aordningen:
+        case ApiInntektskilde.AORDNINGEN:
             return 'AO';
         default:
             return '-';

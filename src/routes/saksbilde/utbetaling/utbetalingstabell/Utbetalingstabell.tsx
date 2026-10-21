@@ -5,8 +5,8 @@ import { HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
-import { PersonFragment } from '@io/graphql';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -35,7 +35,7 @@ interface UtbetalingstabellProps {
     markerteDager?: Map<string, Utbetalingstabelldag>;
     overstyrer?: boolean;
     slettSisteNyeDag?: () => void;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     erSelvstendigNæring: boolean;
 }
 

@@ -3,8 +3,8 @@ import React, { ReactElement, ReactNode, useState } from 'react';
 import { Button } from '@navikt/ds-react';
 
 import { Key, useKeyboard } from '@hooks/useKeyboard';
-import { Utbetaling } from '@io/graphql';
 import { PostVedtakMutationError, usePostVedtak } from '@io/rest/generated/behandlinger/behandlinger';
+import { ApiUtbetaling } from '@io/rest/generated/spesialist.schemas';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
@@ -30,7 +30,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     behandlingId: string;
     disabled: boolean;
     onSuccess?: () => void;
-    utbetaling: Utbetaling;
+    utbetaling: ApiUtbetaling;
     inntektsforholdReferanse: InntektsforholdReferanse;
     vedtakBegrunnelseTekst: string;
     size: 'small' | 'medium';

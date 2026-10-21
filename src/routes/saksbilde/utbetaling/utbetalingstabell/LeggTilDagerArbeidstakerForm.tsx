@@ -9,7 +9,7 @@ import {
     lagLeggTilDagerArbeidstakerSchema,
 } from '@form-schemas/leggTilDagerSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Kilde, Kildetype } from '@io/graphql';
+import { ApiKilde, ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { DagtypeSelect } from '@saksbilde/utbetaling/DagTypeSelect/DagtypeSelect';
 import { DateField } from '@saksbilde/utbetaling/utbetalingstabell/DateField';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
@@ -58,7 +58,7 @@ export const LeggTilDagerArbeidstakerForm = ({
         while (endringFom.isBefore(dayjs(periodeFom, ISO_DATOFORMAT))) {
             nyeDagerMap.set(endringFom.format(ISO_DATOFORMAT), {
                 dato: endringFom.format(ISO_DATOFORMAT),
-                kilde: { type: Kildetype.Saksbehandler } as Kilde,
+                kilde: { type: ApiKildetype.SAKSBEHANDLER } as ApiKilde,
                 dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!,
                 erAGP: false,
                 erVentetid: false,

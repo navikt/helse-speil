@@ -3,7 +3,7 @@ import React, { MouseEvent, ReactElement } from 'react';
 import { XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 
 import { useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
-import { Varselstatus } from '@io/graphql';
+import { ApiSaksbildeVarselstatus } from '@io/rest/generated/spesialist.schemas';
 import { CheckIcon } from '@saksbilde/tidslinje/icons';
 import { cn } from '@utils/tw';
 
@@ -13,7 +13,7 @@ import styles from './Avhuking.module.css';
 
 type AvhukingProps = {
     type: VarselstatusType;
-    varselstatus: Varselstatus;
+    varselstatus: ApiSaksbildeVarselstatus;
     settVarselstatusAktiv: () => void;
     settVarselstatusVurdert: () => void;
 };
@@ -25,7 +25,7 @@ export const Avhuking = ({
     settVarselstatusVurdert,
 }: AvhukingProps): ReactElement => {
     const harSkrivetilgang = useHarSkrivetilgang();
-    const disabledButton = varselstatus === Varselstatus.Godkjent || type === 'feil' || !harSkrivetilgang;
+    const disabledButton = varselstatus === ApiSaksbildeVarselstatus.GODKJENT || type === 'feil' || !harSkrivetilgang;
 
     const clickEvent = (event: MouseEvent<HTMLSpanElement>) => {
         if (disabledButton) return;
@@ -44,9 +44,9 @@ export const Avhuking = ({
     };
 
     const endreVarselStatus = () => {
-        if (varselstatus === Varselstatus.Aktiv) {
+        if (varselstatus === ApiSaksbildeVarselstatus.AKTIV) {
             settVarselstatusVurdert();
-        } else if (varselstatus === Varselstatus.Vurdert) {
+        } else if (varselstatus === ApiSaksbildeVarselstatus.VURDERT) {
             settVarselstatusAktiv();
         }
     };

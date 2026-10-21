@@ -1,38 +1,40 @@
 import dayjs from 'dayjs';
 
 import {
-    Arbeidsgiver,
-    Behandling,
-    BeregnetPeriodeFragment,
-    EndrePaVent,
-    FjernetFraPaVent,
-    GhostPeriodeFragment,
-    Kommentar as GraphQLKommentar,
-    Hendelse,
-    Historikkinnslag,
-    InntektHentetFraAOrdningen,
-    Inntektoverstyring,
-    Inntektsmelding,
-    LagtPaVent,
-    OpphevStansAutomatiskBehandlingSaksbehandler,
-    Overstyring,
-    Periode,
-    PeriodeHistorikkElementNy,
-    PeriodehistorikkType,
-    PersonFragment,
-    SoknadArbeidsgiver,
-    SoknadArbeidsledig,
-    SoknadFrilans,
-    SoknadNav,
-    SoknadSelvstendig,
-    StansAutomatiskBehandlingSaksbehandler,
-    Sykepengegrunnlagskjonnsfastsetting,
-    Sykmelding,
-    TotrinnsvurderingRetur,
-    UberegnetPeriodeFragment,
-    Vurdering,
-} from '@io/graphql';
-import { ApiKommentar, ApiNotat, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
+    ApiArbeidsgiver,
+    ApiBehandling,
+    ApiBeregnetPeriode,
+    ApiEndrePaVent,
+    ApiFjernetFraPaVent,
+    ApiGhostPeriode,
+    ApiHendelse,
+    ApiHistorikkinnslag,
+    ApiInntektHentetFraAOrdningen,
+    ApiInntektoverstyring,
+    ApiInntektsmelding,
+    ApiKommentar,
+    ApiLagtPaVent,
+    ApiNotat,
+    ApiOpphevStansAutomatiskBehandlingSaksbehandler,
+    ApiOverstyring,
+    ApiPeriode,
+    ApiPeriodeHistorikkElementNy,
+    ApiPeriodehistorikkType,
+    ApiSaksbehandlerhandling,
+    ApiSaksbildeKommentar,
+    ApiSaksbildePerson,
+    ApiSoknadArbeidsgiver,
+    ApiSoknadArbeidsledig,
+    ApiSoknadFrilans,
+    ApiSoknadNav,
+    ApiSoknadSelvstendig,
+    ApiStansAutomatiskBehandlingSaksbehandler,
+    ApiSykepengegrunnlagskjonnsfastsetting,
+    ApiSykmelding,
+    ApiTotrinnsvurderingRetur,
+    ApiUberegnetPeriode,
+    ApiVurdering,
+} from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { saksbehandlerhandlingGjelderPeriode } from '@state/saksbehandlerhandlinger';
 import {
@@ -66,49 +68,49 @@ import {
 
 import { harIngenUtbetaltePerioderFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 
-const isInntektsmelding = (hendelse: Hendelse): hendelse is Inntektsmelding => {
-    return hendelse.type === 'INNTEKTSMELDING';
+const isInntektsmelding = (hendelse: ApiHendelse): hendelse is ApiInntektsmelding => {
+    return hendelse.hendelsetype === 'INNTEKTSMELDING';
 };
 
-const isSykmelding = (hendelse: Hendelse): hendelse is Sykmelding => {
-    return hendelse.type === 'NY_SOKNAD';
+const isSykmelding = (hendelse: ApiHendelse): hendelse is ApiSykmelding => {
+    return hendelse.hendelsetype === 'NY_SOKNAD';
 };
 
-const isInntektHentetFraAordningen = (hendelse: Hendelse): hendelse is InntektHentetFraAOrdningen => {
-    return hendelse.type === 'INNTEKT_HENTET_FRA_AORDNINGEN';
+const isInntektHentetFraAordningen = (hendelse: ApiHendelse): hendelse is ApiInntektHentetFraAOrdningen => {
+    return hendelse.hendelsetype === 'INNTEKT_HENTET_FRA_AORDNINGEN';
 };
 
-const isSøknadNav = (hendelse: Hendelse): hendelse is SoknadNav => {
-    return hendelse.type === 'SENDT_SOKNAD_NAV';
+const isSøknadNav = (hendelse: ApiHendelse): hendelse is ApiSoknadNav => {
+    return hendelse.hendelsetype === 'SENDT_SOKNAD_NAV';
 };
 
-const isSøknadArbeidsgiver = (hendelse: Hendelse): hendelse is SoknadArbeidsgiver => {
-    return hendelse.type === 'SENDT_SOKNAD_ARBEIDSGIVER';
+const isSøknadArbeidsgiver = (hendelse: ApiHendelse): hendelse is ApiSoknadArbeidsgiver => {
+    return hendelse.hendelsetype === 'SENDT_SOKNAD_ARBEIDSGIVER';
 };
 
-const isSøknadArbeidsledig = (hendelse: Hendelse): hendelse is SoknadArbeidsgiver => {
-    return hendelse.type === 'SENDT_SOKNAD_ARBEIDSLEDIG';
+const isSøknadArbeidsledig = (hendelse: ApiHendelse): hendelse is ApiSoknadArbeidsgiver => {
+    return hendelse.hendelsetype === 'SENDT_SOKNAD_ARBEIDSLEDIG';
 };
 
-const isSøknadFrilans = (hendelse: Hendelse): hendelse is SoknadFrilans => {
-    return hendelse.type === 'SENDT_SOKNAD_FRILANS';
+const isSøknadFrilans = (hendelse: ApiHendelse): hendelse is ApiSoknadFrilans => {
+    return hendelse.hendelsetype === 'SENDT_SOKNAD_FRILANS';
 };
 
-const isSøknadSelvstendig = (hendelse: Hendelse): hendelse is SoknadSelvstendig => {
-    return hendelse.type === 'SENDT_SOKNAD_SELVSTENDIG';
+const isSøknadSelvstendig = (hendelse: ApiHendelse): hendelse is ApiSoknadSelvstendig => {
+    return hendelse.hendelsetype === 'SENDT_SOKNAD_SELVSTENDIG';
 };
 
 const isDokument = (
-    hendelse: Hendelse,
+    hendelse: ApiHendelse,
 ): hendelse is
-    | Inntektsmelding
-    | Sykmelding
-    | SoknadNav
-    | SoknadArbeidsgiver
-    | SoknadArbeidsledig
-    | SoknadFrilans
-    | SoknadSelvstendig
-    | InntektHentetFraAOrdningen => {
+    | ApiInntektsmelding
+    | ApiSykmelding
+    | ApiSoknadNav
+    | ApiSoknadArbeidsgiver
+    | ApiSoknadArbeidsledig
+    | ApiSoknadFrilans
+    | ApiSoknadSelvstendig
+    | ApiInntektHentetFraAOrdningen => {
     return (
         isInntektsmelding(hendelse) ||
         isSykmelding(hendelse) ||
@@ -121,7 +123,7 @@ const isDokument = (
     );
 };
 
-export const getDokumenter = (periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment): DokumenthendelseObject[] =>
+export const getDokumenter = (periode: ApiBeregnetPeriode | ApiUberegnetPeriode): DokumenthendelseObject[] =>
     periode.hendelser.filter(isDokument).map((hendelse) => {
         if (isInntektsmelding(hendelse)) {
             return {
@@ -156,7 +158,7 @@ export const getDokumenter = (periode: BeregnetPeriodeFragment | UberegnetPeriod
         }
     });
 
-export const getMeldingOmVedtak = (periode: BeregnetPeriodeFragment): DokumenthendelseObject[] =>
+export const getMeldingOmVedtak = (periode: ApiBeregnetPeriode): DokumenthendelseObject[] =>
     periode.utbetaling.vurdering?.godkjent
         ? [
               {
@@ -169,10 +171,10 @@ export const getMeldingOmVedtak = (periode: BeregnetPeriodeFragment): Dokumenthe
           ]
         : [];
 
-export const getVedtakBegrunnelser = (period: BeregnetPeriodeFragment): VedtakBegrunnelseObject[] =>
+export const getVedtakBegrunnelser = (period: ApiBeregnetPeriode): VedtakBegrunnelseObject[] =>
     period.vedtakBegrunnelser
         .filter((vedtakBegrunnelse) => {
-            return isNonEmpty(vedtakBegrunnelse.begrunnelse);
+            return isNonEmpty(vedtakBegrunnelse.begrunnelse ?? null);
         })
         .map((vedtakBegrunnelse, index) => {
             return {
@@ -185,7 +187,7 @@ export const getVedtakBegrunnelser = (period: BeregnetPeriodeFragment): VedtakBe
             };
         });
 
-export const getAnnullering = (period: BeregnetPeriodeFragment): AnnulleringhendelseObject | null => {
+export const getAnnullering = (period: ApiBeregnetPeriode): AnnulleringhendelseObject | null => {
     if (!period.annullering) return null;
 
     const { arsaker, begrunnelse, saksbehandlerIdent, tidspunkt } = period.annullering;
@@ -194,23 +196,21 @@ export const getAnnullering = (period: BeregnetPeriodeFragment): Annulleringhend
         id: `annullering-${period.annullering.arbeidsgiverFagsystemId}`,
         type: 'Annullering',
         årsaker: arsaker,
-        begrunnelse: begrunnelse,
+        begrunnelse: begrunnelse ?? null,
         saksbehandler: saksbehandlerIdent,
         timestamp: tidspunkt,
     };
 };
 
-export const getHistorikkinnslag = (
-    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
-): HistorikkhendelseObject[] =>
+export const getHistorikkinnslag = (periode: ApiBeregnetPeriode | ApiUberegnetPeriode): HistorikkhendelseObject[] =>
     periode.historikkinnslag.map((historikkelement, index): HistorikkhendelseObject => {
         return {
             id: `historikkinnslag-${index}`,
             historikkinnslagId: historikkelement.id,
             type: 'Historikk',
-            historikktype: historikkelement.type,
-            saksbehandler: historikkelement.saksbehandlerIdent,
-            dialogRef: historikkelement.dialogRef,
+            historikktype: historikkelement.historikktype,
+            saksbehandler: historikkelement.saksbehandlerIdent ?? null,
+            dialogRef: historikkelement.dialogRef ?? null,
             timestamp: historikkelement.timestamp as DateString,
             årsaker: årsaker(historikkelement),
             frist: frist(historikkelement),
@@ -219,96 +219,102 @@ export const getHistorikkinnslag = (
             erNyestePåVentInnslag:
                 [...periode.historikkinnslag]
                     .sort(byTimestampHistorikkinnslag)
-                    .find((it) => [PeriodehistorikkType.LeggPaVent, PeriodehistorikkType.EndrePaVent].includes(it.type))
-                    ?.id === historikkelement.id,
+                    .find((it) =>
+                        (
+                            [
+                                ApiPeriodehistorikkType.LEGG_PA_VENT,
+                                ApiPeriodehistorikkType.ENDRE_PA_VENT,
+                            ] as ApiPeriodehistorikkType[]
+                        ).includes(it.historikktype),
+                    )?.id === historikkelement.id,
         };
     });
 
 const årsaker = (
     historikkelement:
-        | LagtPaVent
-        | FjernetFraPaVent
-        | EndrePaVent
-        | TotrinnsvurderingRetur
-        | StansAutomatiskBehandlingSaksbehandler
-        | OpphevStansAutomatiskBehandlingSaksbehandler
-        | PeriodeHistorikkElementNy
+        | ApiLagtPaVent
+        | ApiFjernetFraPaVent
+        | ApiEndrePaVent
+        | ApiTotrinnsvurderingRetur
+        | ApiStansAutomatiskBehandlingSaksbehandler
+        | ApiOpphevStansAutomatiskBehandlingSaksbehandler
+        | ApiPeriodeHistorikkElementNy
         | null
         | undefined,
 ): string[] => {
     if (!historikkelement) return [];
-    return historikkelement.__typename === 'LagtPaVent' || historikkelement.__typename === 'EndrePaVent'
+    return historikkelement.type === 'ApiLagtPaVent' || historikkelement.type === 'ApiEndrePaVent'
         ? historikkelement.arsaker
         : [];
 };
 
 const frist = (
     historikkelement:
-        | LagtPaVent
-        | EndrePaVent
-        | FjernetFraPaVent
-        | TotrinnsvurderingRetur
-        | StansAutomatiskBehandlingSaksbehandler
-        | OpphevStansAutomatiskBehandlingSaksbehandler
-        | PeriodeHistorikkElementNy
+        | ApiLagtPaVent
+        | ApiEndrePaVent
+        | ApiFjernetFraPaVent
+        | ApiTotrinnsvurderingRetur
+        | ApiStansAutomatiskBehandlingSaksbehandler
+        | ApiOpphevStansAutomatiskBehandlingSaksbehandler
+        | ApiPeriodeHistorikkElementNy
         | null
         | undefined,
 ): string | null => {
-    return historikkelement?.__typename === 'LagtPaVent' || historikkelement?.__typename === 'EndrePaVent'
-        ? historikkelement.frist
+    return historikkelement?.type === 'ApiLagtPaVent' || historikkelement?.type === 'ApiEndrePaVent'
+        ? (historikkelement.frist ?? null)
         : null;
 };
 
 const notattekst = (
     historikkelement:
-        | LagtPaVent
-        | EndrePaVent
-        | FjernetFraPaVent
-        | TotrinnsvurderingRetur
-        | StansAutomatiskBehandlingSaksbehandler
-        | OpphevStansAutomatiskBehandlingSaksbehandler
-        | PeriodeHistorikkElementNy
+        | ApiLagtPaVent
+        | ApiEndrePaVent
+        | ApiFjernetFraPaVent
+        | ApiTotrinnsvurderingRetur
+        | ApiStansAutomatiskBehandlingSaksbehandler
+        | ApiOpphevStansAutomatiskBehandlingSaksbehandler
+        | ApiPeriodeHistorikkElementNy
         | null
         | undefined,
 ): string | null => {
     const automatiskReturTekst = 'Perioden er automatisk reberegnet etter at den ble sendt til beslutter.';
     if (
-        historikkelement?.__typename === 'LagtPaVent' ||
-        historikkelement?.__typename === 'EndrePaVent' ||
-        historikkelement?.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
-        historikkelement?.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
+        historikkelement?.type === 'ApiLagtPaVent' ||
+        historikkelement?.type === 'ApiEndrePaVent' ||
+        historikkelement?.type === 'ApiStansAutomatiskBehandlingSaksbehandler' ||
+        historikkelement?.type === 'ApiOpphevStansAutomatiskBehandlingSaksbehandler'
     ) {
-        return historikkelement.notattekst;
+        return historikkelement.notattekst ?? null;
     }
-    if (historikkelement?.__typename === 'TotrinnsvurderingRetur') {
-        return historikkelement.notattekst !== null ? historikkelement.notattekst : automatiskReturTekst;
+    if (historikkelement?.type === 'ApiTotrinnsvurderingRetur') {
+        return historikkelement.notattekst ?? automatiskReturTekst;
     }
     return null;
 };
 
 const kommentarer = (
     historikkelement:
-        | LagtPaVent
-        | EndrePaVent
-        | FjernetFraPaVent
-        | TotrinnsvurderingRetur
-        | StansAutomatiskBehandlingSaksbehandler
-        | OpphevStansAutomatiskBehandlingSaksbehandler
-        | PeriodeHistorikkElementNy
+        | ApiLagtPaVent
+        | ApiEndrePaVent
+        | ApiFjernetFraPaVent
+        | ApiTotrinnsvurderingRetur
+        | ApiStansAutomatiskBehandlingSaksbehandler
+        | ApiOpphevStansAutomatiskBehandlingSaksbehandler
+        | ApiPeriodeHistorikkElementNy
         | null
         | undefined,
 ): Kommentar[] =>
-    historikkelement?.__typename === 'LagtPaVent' ||
-    historikkelement?.__typename === 'EndrePaVent' ||
-    historikkelement?.__typename === 'TotrinnsvurderingRetur' ||
-    historikkelement?.__typename === 'StansAutomatiskBehandlingSaksbehandler' ||
-    historikkelement?.__typename === 'OpphevStansAutomatiskBehandlingSaksbehandler'
+    historikkelement?.type === 'ApiLagtPaVent' ||
+    historikkelement?.type === 'ApiEndrePaVent' ||
+    historikkelement?.type === 'ApiTotrinnsvurderingRetur' ||
+    historikkelement?.type === 'ApiStansAutomatiskBehandlingSaksbehandler' ||
+    historikkelement?.type === 'ApiOpphevStansAutomatiskBehandlingSaksbehandler'
         ? (historikkelement.kommentarer ?? []).map(toKommentar)
         : [];
 
 const getTidligsteVurderingstidsstempelForPeriode = (
-    period: BeregnetPeriodeFragment,
-    behandlinger: Behandling[],
+    period: ApiBeregnetPeriode,
+    behandlinger: ApiBehandling[],
 ): string | null =>
     [...behandlinger]
         ?.reverse()
@@ -316,7 +322,7 @@ const getTidligsteVurderingstidsstempelForPeriode = (
             it?.perioder
                 .filter(isBeregnetPeriode)
                 .find(
-                    (periode: BeregnetPeriodeFragment) =>
+                    (periode: ApiBeregnetPeriode) =>
                         periode.vedtaksperiodeId === period.vedtaksperiodeId &&
                         periode.utbetaling.vurdering?.godkjent === true,
                 ),
@@ -325,11 +331,11 @@ const getTidligsteVurderingstidsstempelForPeriode = (
         ?.shift()?.utbetaling.vurdering?.tidsstempel ?? null;
 
 export const getDagoverstyringer = (
-    period: BeregnetPeriodeFragment,
+    period: ApiBeregnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): DagoverstyringhendelseObject[] => {
-    const behandlinger: Behandling[] = inntektsforhold.behandlinger;
-    const overstyringer: Overstyring[] = inntektsforhold.overstyringer;
+    const behandlinger: ApiBehandling[] = inntektsforhold.behandlinger;
+    const overstyringer: ApiOverstyring[] = inntektsforhold.overstyringer;
     const vurderingstidsstempel = getTidligsteVurderingstidsstempelForPeriode(period, behandlinger);
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         period.skjaeringstidspunkt,
@@ -361,7 +367,7 @@ export const getDagoverstyringer = (
 };
 
 export const getDagoverstyringerForAUU = (
-    period: UberegnetPeriodeFragment,
+    period: ApiUberegnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): DagoverstyringhendelseObject[] => {
     const behandlinger = inntektsforhold.behandlinger;
@@ -388,13 +394,13 @@ export const getDagoverstyringerForAUU = (
         }));
 };
 
-const periodeErAttestert = (periode: BeregnetPeriodeFragment): boolean => {
+const periodeErAttestert = (periode: ApiBeregnetPeriode): boolean => {
     return periode.historikkinnslag.some(
-        (historikkelement) => historikkelement.type === PeriodehistorikkType.TotrinnsvurderingAttestert,
+        (historikkelement) => historikkelement.historikktype === ApiPeriodehistorikkType.TOTRINNSVURDERING_ATTESTERT,
     );
 };
 
-export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): UtbetalinghendelseObject | null => {
+export const getUtbetalingshendelse = (periode: ApiBeregnetPeriode): UtbetalinghendelseObject | null => {
     if (!periode.utbetaling.vurdering || periodeErAttestert(periode)) {
         return null;
     }
@@ -414,11 +420,13 @@ export const getUtbetalingshendelse = (periode: BeregnetPeriodeFragment): Utbeta
 
 const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    behandlinger: Behandling[],
-): BeregnetPeriodeFragment | undefined =>
+    behandlinger: ApiBehandling[],
+): ApiBeregnetPeriode | undefined =>
     [...behandlinger]
-        .flatMap<Periode | undefined>((behandling: Behandling) =>
-            behandling.perioder.flatMap((p: Periode) => (p.skjaeringstidspunkt === skjæringstidspunkt ? p : undefined)),
+        .flatMap<ApiPeriode | undefined>((behandling: ApiBehandling) =>
+            behandling.perioder.flatMap((p: ApiPeriode) =>
+                p.skjaeringstidspunkt === skjæringstidspunkt ? p : undefined,
+            ),
         )
         .filter((period) => period !== undefined)
         .filter(isBeregnetPeriode)
@@ -428,7 +436,7 @@ const getFørsteVurdertePeriodeForSkjæringstidspunktet = (
 export const getFørstePeriodeForSkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
     arbeidsgiver: Inntektsforhold,
-): Periode | undefined =>
+): ApiPeriode | undefined =>
     arbeidsgiver.behandlinger.length
         ? [...arbeidsgiver.behandlinger][0]?.perioder
               .filter((periode) => periode.skjaeringstidspunkt === skjæringstidspunkt)
@@ -436,7 +444,7 @@ export const getFørstePeriodeForSkjæringstidspunkt = (
         : undefined;
 
 export const kanStrekkes = (
-    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    periode: ApiBeregnetPeriode | ApiUberegnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): boolean => {
     const erFørstePeriodePåSkjæringstidspunkt =
@@ -454,28 +462,28 @@ export const kanStrekkes = (
 
 const getSisteVurdertePeriodeForSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    behandling: Behandling,
-): BeregnetPeriodeFragment | undefined =>
+    behandling: ApiBehandling,
+): ApiBeregnetPeriode | undefined =>
     behandling.perioder
         .filter(isBeregnetPeriode)
         .filter(
-            (beregnetPeriodeFragment: BeregnetPeriodeFragment) =>
+            (beregnetPeriodeFragment: ApiBeregnetPeriode) =>
                 beregnetPeriodeFragment.skjaeringstidspunkt === skjæringstidspunkt,
         )
         .shift();
 
 const getSisteTomForIkkeGhostsPåSkjæringstidspunktet = (
     skjæringstidspunkt: DateString,
-    behandling: Behandling,
-): Periode | undefined =>
+    behandling: ApiBehandling,
+): ApiPeriode | undefined =>
     behandling.perioder
         .filter((periode) => !isGhostPeriode(periode) && periode.skjaeringstidspunkt === skjæringstidspunkt)
         .shift();
 
 const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
     skjæringstidspunkt: DateString,
-    behandlinger: Behandling[],
-): Vurdering | null => {
+    behandlinger: ApiBehandling[],
+): ApiVurdering | null => {
     const førsteVurdertePeriodeForSkjæringstidspunktet = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         skjæringstidspunkt,
         behandlinger,
@@ -485,7 +493,7 @@ const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
 };
 
 export const getInntektoverstyringer = (
-    period: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    period: ApiBeregnetPeriode | ApiUberegnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): InntektoverstyringhendelseObject[] => {
     const skjæringstidspunkt = period.skjaeringstidspunkt;
@@ -497,7 +505,7 @@ export const getInntektoverstyringer = (
     return inntektsforhold.overstyringer
         .filter(isInntektoverstyring)
         .filter((it) => it.inntekt.skjaeringstidspunkt === skjæringstidspunkt)
-        .map((overstyring: Inntektoverstyring) => ({
+        .map((overstyring: ApiInntektoverstyring) => ({
             id: overstyring.hendelseId,
             type: 'Inntektoverstyring',
             erRevurdering: dayjs(overstyring.timestamp).isAfter(vurdering?.tidsstempel),
@@ -510,13 +518,13 @@ export const getInntektoverstyringer = (
 
 export const getInntektoverstyringerForGhost = (
     skjaeringstidspunkt: string,
-    arbeidsgiver: Arbeidsgiver,
-    person: PersonFragment,
+    arbeidsgiver: ApiArbeidsgiver,
+    person: ApiSaksbildePerson,
 ): InntektoverstyringhendelseObject[] => {
     return arbeidsgiver.overstyringer
         .filter(isInntektoverstyring)
         .filter((it) => it.inntekt.skjaeringstidspunkt === skjaeringstidspunkt)
-        .map((overstyring: Inntektoverstyring) => ({
+        .map((overstyring: ApiInntektoverstyring) => ({
             id: overstyring.hendelseId,
             type: 'Inntektoverstyring',
             erRevurdering: !harIngenUtbetaltePerioderFor(person, skjaeringstidspunkt),
@@ -528,7 +536,7 @@ export const getInntektoverstyringerForGhost = (
 };
 
 export const getArbeidsforholdoverstyringhendelser = (
-    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
+    period: ApiBeregnetPeriode | ApiGhostPeriode,
     inntektsforhold: Inntektsforhold,
 ): ArbeidsforholdoverstyringhendelseObject[] => {
     return inntektsforhold.overstyringer
@@ -547,7 +555,7 @@ export const getArbeidsforholdoverstyringhendelser = (
 };
 
 export const getAnnetArbeidsforholdoverstyringhendelser = (
-    period: BeregnetPeriodeFragment | GhostPeriodeFragment,
+    period: ApiBeregnetPeriode | ApiGhostPeriode,
     andreInntektsforhold: Inntektsforhold[],
 ): AnnetArbeidsforholdoverstyringhendelseObject[] =>
     andreInntektsforhold
@@ -574,14 +582,14 @@ export const getAnnetArbeidsforholdoverstyringhendelser = (
         );
 
 export const getSykepengegrunnlagskjønnsfastsetting = (
-    period: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    period: ApiBeregnetPeriode | ApiUberegnetPeriode,
     inntektsforhold: Inntektsforhold,
     andreInntektsforhold: Inntektsforhold[],
 ): SykepengegrunnlagskjonnsfastsettinghendelseObject[] =>
     inntektsforhold.overstyringer
         .filter(isSykepengegrunnlagskjønnsfastsetting)
         .filter((it) => it.skjonnsfastsatt.skjaeringstidspunkt === period.skjaeringstidspunkt)
-        .map((overstyring: Sykepengegrunnlagskjonnsfastsetting) => ({
+        .map((overstyring: ApiSykepengegrunnlagskjonnsfastsetting) => ({
             id: overstyring.hendelseId,
             type: 'Sykepengegrunnlagskjonnsfastsetting',
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
@@ -614,7 +622,7 @@ const getAlleInntektsforholdÅrsinntekter = (
     }, []);
 
 export const getMinimumSykdomsgradoverstyring = (
-    period: BeregnetPeriodeFragment,
+    period: ApiBeregnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): MinimumSykdomsgradhendelseObject[] => {
     const behandlinger = inntektsforhold.behandlinger;
@@ -672,7 +680,7 @@ export const tilNotathendelse = (apiNotater: ApiNotat[]) => {
 
 export function getSaksbehandlerhandlinger(
     handlinger: ApiSaksbehandlerhandling[],
-    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    periode: ApiBeregnetPeriode | ApiUberegnetPeriode,
 ): SaksbehandlerhandlinghendelseObject[] {
     return handlinger
         .filter((handling) => saksbehandlerhandlingGjelderPeriode(handling, periode))
@@ -702,7 +710,7 @@ const toNotat = (apiNotat: ApiNotat): Notat => ({
     kommentarer: apiNotat.kommentarer.map(toKommentar) ?? [],
 });
 
-const toKommentar = (apiKommentar: ApiKommentar | GraphQLKommentar): Kommentar => ({
+const toKommentar = (apiKommentar: ApiKommentar | ApiSaksbildeKommentar): Kommentar => ({
     id: apiKommentar.id,
     tekst: apiKommentar.tekst,
     opprettet: apiKommentar.opprettet,
@@ -714,7 +722,7 @@ const byTimestamp = (a: Notat, b: Notat): number => {
     return dayjs(b.opprettet).diff(dayjs(a.opprettet));
 };
 
-const byTimestampHistorikkinnslag = (a: Historikkinnslag, b: Historikkinnslag): number => {
+const byTimestampHistorikkinnslag = (a: ApiHistorikkinnslag, b: ApiHistorikkinnslag): number => {
     return dayjs(b.timestamp).diff(dayjs(a.timestamp));
 };
 

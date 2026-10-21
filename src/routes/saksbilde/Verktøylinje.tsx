@@ -4,7 +4,7 @@ import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { ArbeidstidsvurderingForm } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/ArbeidstidsvurderingForm';
 import { ArbeidstidsvurderingVisning } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/ArbeidstidsvurderingVisning';
@@ -26,7 +26,7 @@ import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring, isUberegnetPeriode } from '@utils/typeguards';
 
 interface VerktøylinjeProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     aktivPeriode: ActivePeriod;
     initierendeVedtaksperiodeId: string;
 }
@@ -67,7 +67,7 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
         }) ??
             false);
     const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, aktivPeriode.skjaeringstidspunkt);
-    const overlappendePerioder = getOverlappendePerioder(person, aktivPeriode as BeregnetPeriodeFragment);
+    const overlappendePerioder = getOverlappendePerioder(person, aktivPeriode as ApiBeregnetPeriode);
     // bestemmende periode er den første/tidligste perioden som inneholder delperiode på person
     const erAktivperiodeBestemmendeForMinstEnDelperiode = oppkuttedePerioder?.some((dp) => {
         if (!isBeregnetPeriode(aktivPeriode) && !isUberegnetPeriode(aktivPeriode)) return;

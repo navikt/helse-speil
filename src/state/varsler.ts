@@ -1,8 +1,7 @@
-import { GraphQLFormattedError } from 'graphql/error';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
 import { useSearchParams } from 'next/navigation';
 
-import { FetchError, FlereFodselsnumreError, NotFoundError, NotReadyError, ProtectedError } from '@io/graphql/errors';
+import { FetchError, NotFoundError, ProtectedError } from '@io/errors';
 import { useFetchPersonQuery } from '@state/person';
 import { SpeilError } from '@utils/error';
 
@@ -12,7 +11,7 @@ export const useVarsler = (): SpeilError[] => {
     const params = useSearchParams();
     const { error } = useFetchPersonQuery();
 
-    const errors: SpeilError[] = error?.graphQLErrors.map(mapError()) ?? [];
+    const errors: SpeilError[] = error ? [tilSpeilError(error.status)] : [];
 
     return useAtomValue(varslerState).concat(params.get('personPseudoId') !== undefined ? errors : []);
 };
@@ -49,27 +48,13 @@ export const useSetVarsler = () => {
     return useSetAtom(varslerState);
 };
 
-const mapError =
-    () =>
-    (error: GraphQLFormattedError): FetchError => {
-        switch (error.extensions?.code) {
-            case 403: {
-                return new ProtectedError();
-            }
-            case 404: {
-                return new NotFoundError();
-            }
-            case 409: {
-                return new NotReadyError();
-            }
-            case 500: {
-                if (error.extensions.feilkode === 'HarFlereFodselsnumre') {
-                    const fodselsnumre = error.extensions.fodselsnumre;
-                    return new FlereFodselsnumreError(fodselsnumre as string[]);
-                } else return new FetchError();
-            }
-            default: {
-                return new FetchError();
-            }
-        }
-    };
+const tilSpeilError = (status?: number): FetchError => {
+    switch (status) {
+        case 403:
+            return new ProtectedError();
+        case 404:
+            return new NotFoundError();
+        default:
+            return new FetchError();
+    }
+};

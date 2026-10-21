@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import type { PeriodeinformasjonInnslag } from '@saksbilde/venstremeny/PeriodeinformasjonInnslag';
 import { Periodeinformasjon } from '@saksbilde/venstremeny/PeriodeinformasjonInnslag';
 import {
@@ -10,7 +10,7 @@ import {
 } from '@state/inntektsforhold/inntektsforhold';
 
 interface HarVurderbareVarslerProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 export const HarVurderbareVarsler = ({ person }: HarVurderbareVarslerProps): ReactElement | null => {

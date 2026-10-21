@@ -15,7 +15,6 @@ pnpm run test         # Run all tests (Vitest)
 pnpm run test -- src/utils/date.test.ts              # Run a single test file
 pnpm run test -- --testNamePattern="rendrer"          # Run tests matching a name pattern
 pnpm run test:watch                                   # Watch mode
-pnpm run generate-graphql   # Regenerate GraphQL types (requires local spesialist running)
 pnpm run generate-rest      # Regenerate REST types and React Query hooks via Orval
 ```
 
@@ -30,14 +29,11 @@ The main routes are:
 - `/` — Task overview (`src/routes/oversikt/`)
 - `/person/[personPseudoId]/*` — Case view ("saksbilde") with sub-routes for daily overview, eligibility criteria, sickness benefit basis, assessment criteria, and additional income
 
-### API layer: REST (React Query / Orval) — GraphQL is being phased out
+### API layer: REST (React Query / Orval)
 
-The app communicates with the backend ("spesialist") via two mechanisms, but **GraphQL is being phased out in favor of REST**. New features should always use REST.
+The app talks to the backend ("spesialist") over REST via TanStack React Query. Hooks and types are generated from spesialist's OpenAPI spec with Orval into `src/io/rest/generated/`. Never edit these files manually.
 
-- **REST** via TanStack React Query (preferred) — generated hooks and types in `src/io/rest/generated/` from an OpenAPI spec using Orval
-- **GraphQL** via Apollo Client (legacy, being removed) — queries/mutations in `src/io/graphql/*.graphql`, with generated types in `src/io/graphql/generated/graphql.ts`
-
-Both `src/io/graphql/generated/` and `src/io/rest/generated/` are auto-generated. Never edit these files manually.
+The person shown in the case view comes from `GET /api/personer/{pseudoId}/saksbilde`. Use `useFetchPersonQuery` in `src/state/person.ts` to read it, and `useOppdaterPersonICache`/`useRefetchPerson` to update it after mutations. Polymorphic types (periods, vilkårsgrunnlag, hendelser, overstyringer, historikkinnslag) are discriminated on the `type` field, e.g. `'ApiBeregnetPeriode'`.
 
 ### Backend proxy pattern
 
@@ -45,7 +41,7 @@ REST API routes under `src/app/api/spesialist/` act as a proxy: in local dev the
 
 ### State management: Jotai
 
-Client-side state is managed with **Jotai** atoms (not Redux or Zustand). Atoms live in `src/state/`. Helper functions `atomWithSessionStorage` and `atomWithLocalStorage` in `src/state/jotai.ts` provide persistent storage variants. The provider tree in `src/app/providers.tsx` wraps Apollo, React Query, Jotai, and theme providers.
+Client-side state is managed with **Jotai** atoms (not Redux or Zustand). Atoms live in `src/state/`. Helper functions `atomWithSessionStorage` and `atomWithLocalStorage` in `src/state/jotai.ts` provide persistent storage variants. The provider tree in `src/app/providers.tsx` wraps React Query, Jotai, and theme providers.
 
 ### Environment configuration
 
@@ -73,7 +69,7 @@ Always use path aliases for imports (enforced by `eslint-plugin-import-alias`). 
 
 ### Testing
 
-Tests use **Vitest** with **Testing Library** and **vitest-axe** for accessibility checks. Import `render`, `renderHook`, and `screen` from `@test-utils` (not directly from `@testing-library/react`) — this custom wrapper auto-provides Apollo MockedProvider, React Query client, Jotai provider, and BrukerContext. You can pass `mocks`, `initialQueries`, and `atomValues` as options to `render()`.
+Tests use **Vitest** with **Testing Library** and **vitest-axe** for accessibility checks. Import `render`, `renderHook`, and `screen` from `@test-utils` (not directly from `@testing-library/react`) — this custom wrapper auto-provides a React Query client, Jotai provider, and BrukerContext. You can pass `atomValues` as an option to `render()`.
 
 `next/navigation` is globally mocked via `next-router-mock` in `vitest.setup.tsx`.
 

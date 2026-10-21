@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { HStack, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
+import { ApiVilkårsgrunnlagInfotrygdV2, ApiVilkårsgrunnlagSpleisV2 } from '@io/rest/generated/spesialist.schemas';
 import { somPenger } from '@utils/locale';
 
 import { EndretParagraf } from './EndretParagraf';
@@ -11,7 +11,7 @@ import { VilkårsutfallKort } from './VilkårsutfallKort';
 import { utfallFraOppfylt } from './vilkårsutfall';
 
 interface SykepengegrunnlagVilkårProps {
-    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2;
     alderVedSkjæringstidspunkt: number;
     vurdertTekst?: string;
 }
@@ -21,7 +21,7 @@ export function SykepengegrunnlagVilkår({
     alderVedSkjæringstidspunkt,
     vurdertTekst,
 }: SykepengegrunnlagVilkårProps): ReactElement {
-    const spleisgrunnlag = vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2' ? vilkårsgrunnlag : undefined;
+    const spleisgrunnlag = vilkårsgrunnlag.type === 'ApiVilkårsgrunnlagSpleisV2' ? vilkårsgrunnlag : undefined;
     const harEndretParagraf = alderVedSkjæringstidspunkt < 70 && alderVedSkjæringstidspunkt >= 67;
 
     return (

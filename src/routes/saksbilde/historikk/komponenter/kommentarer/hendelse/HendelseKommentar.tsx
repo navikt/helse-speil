@@ -1,10 +1,10 @@
 import dayjs from 'dayjs';
 import React, { useState } from 'react';
 
-import { useApolloClient } from '@apollo/client';
 import { usePatchKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { KommentarVisning } from '@saksbilde/historikk/komponenter/kommentarer/KommentarVisning';
 import { useInnloggetSaksbehandler } from '@state/authentication';
+import { mapPerioder, useOppdaterPersonICache } from '@state/person';
 import { Kommentar as KommentarType } from '@typer/notat';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
@@ -31,7 +31,7 @@ export const HendelseKommentar = ({ kommentar, dialogRef }: HendelseKommentarPro
 
 function useFeilregistrerKommentar(kommentarId: number, dialogRef: number) {
     const { mutate, error } = usePatchKommentar();
-    const { cache } = useApolloClient();
+    const oppdaterPersonICache = useOppdaterPersonICache();
     const [loading, setLoading] = useState(false);
 
     function feilregistrerKommentar() {
@@ -46,14 +46,24 @@ function useFeilregistrerKommentar(kommentarId: number, dialogRef: number) {
             },
             {
                 onSuccess: async () => {
-                    cache.modify({
-                        id: cache.identify({ __typename: 'Kommentar', id: kommentarId }),
-                        fields: {
-                            feilregistrert_tidspunkt() {
-                                return dayjs().format(ISO_TIDSPUNKTFORMAT) ?? '';
-                            },
-                        },
-                    });
+                    const feilregistrertTidspunkt = dayjs().format(ISO_TIDSPUNKTFORMAT);
+                    oppdaterPersonICache((person) =>
+                        mapPerioder(person, (periode) => ({
+                            ...periode,
+                            historikkinnslag: periode.historikkinnslag.map((innslag) =>
+                                'kommentarer' in innslag
+                                    ? {
+                                          ...innslag,
+                                          kommentarer: innslag.kommentarer.map((it) =>
+                                              it.id === kommentarId
+                                                  ? { ...it, feilregistrert_tidspunkt: feilregistrertTidspunkt }
+                                                  : it,
+                                          ),
+                                      }
+                                    : innslag,
+                            ),
+                        })),
+                    );
                     setLoading(false);
                 },
                 onError: () => {

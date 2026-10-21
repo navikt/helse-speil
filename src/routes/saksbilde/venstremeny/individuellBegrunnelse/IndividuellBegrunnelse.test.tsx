@@ -1,6 +1,6 @@
 import { vi } from 'vitest';
 
-import { Avslagstype, Utbetalingsdagtype, VedtakUtfall } from '@io/graphql';
+import { ApiAvslagstype, ApiUtbetalingsdagtype, ApiVedtakUtfall } from '@io/rest/generated/spesialist.schemas';
 import { IndividuellBegrunnelse } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelse';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -18,7 +18,6 @@ describe('IndividuellBegrunnelse', () => {
             tidslinje: [
                 enDag({
                     utbetalingsinfo: {
-                        __typename: 'Utbetalingsinfo',
                         personbelop: null,
                         arbeidsgiverbelop: 1000,
                         inntekt: 1000,
@@ -26,13 +25,12 @@ describe('IndividuellBegrunnelse', () => {
                         totalGrad: 19,
                         utbetaling: 1000,
                     },
-                    utbetalingsdagtype: Utbetalingsdagtype.AvvistDag,
+                    utbetalingsdagtype: ApiUtbetalingsdagtype.AVVIST_DAG,
                 }),
             ],
             avslag: [
                 {
-                    __typename: 'Avslag',
-                    type: Avslagstype.DelvisAvslag,
+                    type: ApiAvslagstype.DELVIS_AVSLAG,
                     begrunnelse: 'en begrunnelse',
                     opprettet: '',
                     saksbehandlerIdent: '',
@@ -41,8 +39,7 @@ describe('IndividuellBegrunnelse', () => {
             ],
             vedtakBegrunnelser: [
                 {
-                    __typename: 'VedtakBegrunnelse',
-                    utfall: VedtakUtfall.DelvisInnvilgelse,
+                    utfall: ApiVedtakUtfall.DELVIS_INNVILGELSE,
                     begrunnelse: 'en begrunnelse',
                     opprettet: '',
                     saksbehandlerIdent: '',
@@ -70,7 +67,6 @@ describe('IndividuellBegrunnelse', () => {
             tidslinje: [
                 enDag({
                     utbetalingsinfo: {
-                        __typename: 'Utbetalingsinfo',
                         personbelop: null,
                         arbeidsgiverbelop: 1000,
                         inntekt: 1000,
@@ -78,13 +74,12 @@ describe('IndividuellBegrunnelse', () => {
                         totalGrad: 19,
                         utbetaling: 1000,
                     },
-                    utbetalingsdagtype: Utbetalingsdagtype.AvvistDag,
+                    utbetalingsdagtype: ApiUtbetalingsdagtype.AVVIST_DAG,
                 }),
             ],
             avslag: [
                 {
-                    __typename: 'Avslag',
-                    type: Avslagstype.DelvisAvslag,
+                    type: ApiAvslagstype.DELVIS_AVSLAG,
                     begrunnelse: 'en begrunnelse',
                     opprettet: '',
                     saksbehandlerIdent: '',
@@ -93,8 +88,7 @@ describe('IndividuellBegrunnelse', () => {
             ],
             vedtakBegrunnelser: [
                 {
-                    __typename: 'VedtakBegrunnelse',
-                    utfall: VedtakUtfall.DelvisInnvilgelse,
+                    utfall: ApiVedtakUtfall.DELVIS_INNVILGELSE,
                     begrunnelse: 'en begrunnelse',
                     opprettet: '',
                     saksbehandlerIdent: '',

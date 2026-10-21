@@ -2,9 +2,9 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Loader } from '@navikt/ds-react';
 
-import { useApolloClient } from '@apollo/client';
-import { VarselDto, Varselstatus } from '@io/graphql';
+import { ApiSaksbildeVarselstatus, ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { getVarsel, useDeleteVarselvurdering, usePutVarselvurdering } from '@io/rest/generated/varsler/varsler';
+import { mapPerioder, useOppdaterPersonICache } from '@state/person';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -15,7 +15,7 @@ import styles from './Varsel.module.css';
 
 interface VarselProps {
     className?: string;
-    varsel: VarselDto;
+    varsel: ApiVarselDTO;
     type: VarselstatusType;
 }
 
@@ -33,8 +33,8 @@ const getErrorMessage = (errorCode: number): string => {
 export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement => {
     const [isLoading, setIsLoading] = React.useState(false);
     const varselVurdering = varsel.vurdering;
-    const varselStatus = varselVurdering?.status ?? Varselstatus.Aktiv;
-    const apolloClient = useApolloClient();
+    const varselStatus = varselVurdering?.status ?? ApiSaksbildeVarselstatus.AKTIV;
+    const oppdaterPersonICache = useOppdaterPersonICache();
 
     const { mutate: putVurdering, error: putError } = usePutVarselvurdering();
 
@@ -43,20 +43,15 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
     const refetchVarsel = async () => {
         const data = await getVarsel(varsel.id);
         if (data !== undefined) {
-            apolloClient.cache.modify({
-                id: apolloClient.cache.identify(varsel),
-                fields: {
-                    vurdering() {
-                        return data.vurdering
-                            ? {
-                                  ident: data.vurdering.ident,
-                                  status: data.status,
-                                  tidsstempel: data.vurdering.tidsstempel,
-                              }
-                            : null;
-                    },
-                },
-            });
+            const vurdering = data.vurdering
+                ? { ident: data.vurdering.ident, status: data.status, tidsstempel: data.vurdering.tidsstempel }
+                : null;
+            oppdaterPersonICache((person) =>
+                mapPerioder(person, (periode) => ({
+                    ...periode,
+                    varsler: periode.varsler.map((it) => (it.id === varsel.id ? { ...it, vurdering } : it)),
+                })),
+            );
         }
         setIsLoading(false);
     };
@@ -107,7 +102,8 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
             )}
             <div className={styles.wrapper}>
                 <BodyShort className={styles.tittel}>{varsel.tittel}</BodyShort>
-                {(varselStatus === Varselstatus.Vurdert || varselStatus === Varselstatus.Godkjent) && (
+                {(varselStatus === ApiSaksbildeVarselstatus.VURDERT ||
+                    varselStatus === ApiSaksbildeVarselstatus.GODKJENT) && (
                     <BodyShort className={styles.vurdering}>
                         {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
                     </BodyShort>

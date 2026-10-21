@@ -3,8 +3,8 @@ import path from 'path';
 import { cwd } from 'process';
 import { v5 as uuidv5 } from 'uuid';
 
-import { Person } from '@io/graphql';
 import { ApiPerson } from '@io/rest/generated/spesialist.schemas';
+import { Person } from '@spesialist-mock/schemaTypes';
 import { UUID } from '@typer/spesialist-mock';
 
 type PersonIdentifikatorer = {

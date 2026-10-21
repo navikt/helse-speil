@@ -4,7 +4,7 @@ import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
-import { Arbeidsgiverinntekt, VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
+import { ApiArbeidsgiverinntekt, ApiVilkårsgrunnlagInfotrygdV2 } from '@io/rest/generated/spesialist.schemas';
 import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
@@ -13,7 +13,7 @@ import { cn } from '@utils/tw';
 import styles from './SykepengegrunnlagFraInfotrygd.module.css';
 
 interface SykepengegrunnlagInfotrygdProps {
-    vilkårsgrunnlag: VilkarsgrunnlagInfotrygdV2;
+    vilkårsgrunnlag: ApiVilkårsgrunnlagInfotrygdV2;
     organisasjonsnummer: string;
     arbeidsgivernavn?: string;
 }
@@ -78,7 +78,7 @@ export const SykepengegrunnlagInfotrygd = ({
 interface InfotrygdInntektProps {
     aktivtOrgnummer: string;
     arbeidsgivernavn?: string;
-    inntekt: Arbeidsgiverinntekt;
+    inntekt: ApiArbeidsgiverinntekt;
 }
 
 const InfotrygdInntekt = ({ aktivtOrgnummer, arbeidsgivernavn, inntekt }: InfotrygdInntektProps): ReactElement => (

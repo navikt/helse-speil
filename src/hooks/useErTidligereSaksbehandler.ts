@@ -1,10 +1,10 @@
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { useKanBeslutteEgneOppgaver } from '@state/toggles';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useErTidligereSaksbehandler = (person: PersonFragment): boolean => {
+export const useErTidligereSaksbehandler = (person: ApiSaksbildePerson): boolean => {
     const activePeriod = useActivePeriod(person);
     const currentSaksbehandler = useInnloggetSaksbehandler();
     const kanBeslutteEgenBeslutteroppgave = useKanBeslutteEgneOppgaver();

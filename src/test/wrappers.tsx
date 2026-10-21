@@ -4,34 +4,12 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
-import type { ApolloLink, InMemoryCache } from '@apollo/client';
-import { MockedProvider, type MockedResponse } from '@apollo/client/testing';
 import { BrukerContext } from '@auth/brukerContext';
 import { AnonymizationProvider } from '@components/anonymization/context';
 
 interface JotaiProps {
     atomValues?: Iterable<readonly [WritableAtom<unknown, [never], unknown>, unknown]>;
 }
-
-export type ApolloProps = JotaiProps & {
-    mocks?: MockedResponse[];
-    link?: ApolloLink;
-    cache?: InMemoryCache;
-};
-
-export const ApolloWrapper = ({
-    children,
-    atomValues,
-    mocks,
-    link,
-    cache,
-}: PropsWithChildren<ApolloProps>): ReactElement => {
-    return (
-        <MockedProvider mocks={mocks} link={link} cache={cache}>
-            <JotaiWrapper atomValues={atomValues}>{children}</JotaiWrapper>
-        </MockedProvider>
-    );
-};
 
 export const JotaiWrapper = ({ children, atomValues }: PropsWithChildren<JotaiProps>): ReactElement => {
     return (

@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { DokumenthendelseObject } from '@typer/historikk';
 
 import { InntektHentetFraAordningenhendelse } from './InntektHentetFraAordningenhendelse';
@@ -11,7 +11,7 @@ import { SøknadMottatthendelse } from './SøknadMottatthendelse';
 
 interface DokumentHendelseProps {
     hendelse: DokumenthendelseObject;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 export function DokumentHendelse({ hendelse, person }: DokumentHendelseProps): ReactElement | null {

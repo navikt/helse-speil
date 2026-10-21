@@ -4,20 +4,20 @@ import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { Kilde } from '@components/Kilde';
-import { Kildetype } from '@io/graphql';
+import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 
 import styles from './RefusjonSkjema/RefusjonSkjema.module.scss';
 
 interface RefusjonKildeProps {
-    kilde: Kildetype;
+    kilde: ApiKildetype;
     harLokaleOpplysninger: boolean;
     harEndringer: boolean;
 }
 
 export const RefusjonKilde = ({ kilde, harLokaleOpplysninger, harEndringer }: RefusjonKildeProps) => (
     <div className={styles.refusjonsopplysninger}>
-        {kilde === Kildetype.Inntektsmelding && <Kilde type="Inntektsmelding">IM</Kilde>}
-        {kilde === Kildetype.Saksbehandler &&
+        {kilde === ApiKildetype.INNTEKTSMELDING && <Kilde type="Inntektsmelding">IM</Kilde>}
+        {kilde === ApiKildetype.SAKSBEHANDLER &&
             (harLokaleOpplysninger && harEndringer ? (
                 <div style={{ position: 'relative', width: '20px' }}>
                     <Endringstrekant />

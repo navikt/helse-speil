@@ -1,12 +1,16 @@
 import React, { ReactElement } from 'react';
 
-import { VilkarsgrunnlagInfotrygdV2, VilkarsgrunnlagSpleisV2, VilkarsgrunnlagVurdering } from '@io/graphql';
+import {
+    ApiVilkårsgrunnlagInfotrygdV2,
+    ApiVilkårsgrunnlagSpleisV2,
+    ApiVilkårsgrunnlagVurdering,
+} from '@io/rest/generated/spesialist.schemas';
 
 import { VilkårsutfallKort } from './VilkårsutfallKort';
 import { utfallFraOppfylt } from './vilkårsutfall';
 
 interface MedlemskapVilkårProps {
-    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2;
     vurdertTekst?: string;
 }
 
@@ -20,17 +24,19 @@ export function MedlemskapVilkår({ vilkårsgrunnlag, vurdertTekst }: Medlemskap
     );
 }
 
-function medlemskapOppfylt(vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2): boolean | null {
-    if (vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2') {
+function medlemskapOppfylt(
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2,
+): boolean | null {
+    if (vilkårsgrunnlag.type === 'ApiVilkårsgrunnlagInfotrygdV2') {
         return true;
     }
 
     switch (vilkårsgrunnlag.vurderingAvKravOmMedlemskap) {
-        case VilkarsgrunnlagVurdering.Oppfylt:
+        case ApiVilkårsgrunnlagVurdering.OPPFYLT:
             return true;
-        case VilkarsgrunnlagVurdering.IkkeOppfylt:
+        case ApiVilkårsgrunnlagVurdering.IKKE_OPPFYLT:
             return false;
-        case VilkarsgrunnlagVurdering.IkkeVurdert:
+        case ApiVilkårsgrunnlagVurdering.IKKE_VURDERT:
             return null;
     }
 }

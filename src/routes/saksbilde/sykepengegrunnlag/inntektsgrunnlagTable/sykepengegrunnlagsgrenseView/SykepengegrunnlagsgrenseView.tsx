@@ -3,7 +3,7 @@ import React from 'react';
 import { Detail } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Sykepengegrunnlagsgrense } from '@io/graphql';
+import { ApiSykepengegrunnlagsgrense } from '@io/rest/generated/spesialist.schemas';
 import { somDato } from '@utils/date';
 import { somPengerUtenDesimaler } from '@utils/locale';
 
@@ -15,7 +15,7 @@ export const SykepengegrunnlagsgrenseView = ({
     sykepengegrunnlagsgrense,
     sykepengegrunnlagFørBegrensning,
 }: {
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
     sykepengegrunnlagFørBegrensning: number;
 }) => (
     <>

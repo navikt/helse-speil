@@ -1,7 +1,7 @@
 import React from 'react';
 import { vi } from 'vitest';
 
-import { Inntektstype, Utbetalingsdagtype } from '@io/graphql';
+import { ApiInntektstype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
@@ -54,7 +54,7 @@ describe('Utbetaling', () => {
 
     it('rendrer utbetaling for periode med kun AGP', () => {
         const tidslinje = [
-            enDag({ dato: '2020-01-01', utbetalingsdagtype: Utbetalingsdagtype.Arbeidsgiverperiodedag }),
+            enDag({ dato: '2020-01-01', utbetalingsdagtype: ApiUtbetalingsdagtype.ARBEIDSGIVERPERIODEDAG }),
         ];
         const periode = enBeregnetPeriode({ tidslinje }).medOppgave().somErTilGodkjenning();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
@@ -88,11 +88,11 @@ describe('Utbetaling', () => {
     });
 
     it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {
-        const periodeA = enBeregnetPeriode({ inntektstype: Inntektstype.Flerearbeidsgivere })
+        const periodeA = enBeregnetPeriode({ inntektstype: ApiInntektstype.FLEREARBEIDSGIVERE })
             .medOppgave()
             .somErTilGodkjenning();
         const periodeB = enBeregnetPeriode({
-            inntektstype: Inntektstype.Flerearbeidsgivere,
+            inntektstype: ApiInntektstype.FLEREARBEIDSGIVERE,
             fom: '2024-01-01',
             tom: '2024-01-31',
             skjaeringstidspunkt: '2024-01-01',

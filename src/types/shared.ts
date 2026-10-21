@@ -1,4 +1,4 @@
-import { BeregnetPeriodeFragment, GhostPeriodeFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiGhostPeriode, ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 
 export type DateString = string;
 
@@ -106,6 +106,6 @@ export const getPeriodCategory = (periodState: PeriodState): PeriodCategory => {
     }
 };
 
-export type ActivePeriod = BeregnetPeriodeFragment | UberegnetPeriodeFragment | GhostPeriodeFragment;
+export type ActivePeriod = ApiBeregnetPeriode | ApiUberegnetPeriode | ApiGhostPeriode;
 
 export type OverridableConstructor<T, E = object> = (overrides?: Partial<T>) => T & E;

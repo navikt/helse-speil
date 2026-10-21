@@ -2,13 +2,13 @@ import React from 'react';
 
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import {
-    Arbeidsgiver,
-    InntektFraAOrdningen,
-    Inntektskilde,
-    OmregnetArsinntekt,
-    PersonFragment,
-    VilkarsgrunnlagSpleisV2,
-} from '@io/graphql';
+    ApiArbeidsgiver,
+    ApiInntektFraAOrdningen,
+    ApiInntektskilde,
+    ApiOmregnetArsinntekt,
+    ApiSaksbildePerson,
+    ApiVilkårsgrunnlagSpleisV2,
+} from '@io/rest/generated/spesialist.schemas';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
 import { OverstyrArbeidsforholdUtenSykdom } from '@saksbilde/sykepengegrunnlag/overstyring/OverstyrArbeidsforholdUtenSykdom';
 import { Refusjonsoversikt } from '@saksbilde/sykepengegrunnlag/refusjon/Refusjonsoversikt';
@@ -26,16 +26,16 @@ import { SisteTolvMånedersInntekt } from './SisteTolvMånedersInntekt';
 import { useArbeidsforholdKanOverstyres } from './inntektOgRefusjonUtils';
 
 interface InntektOgRefusjonVisningProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     skjæringstidspunkt: DateString;
-    omregnetÅrsinntekt: OmregnetArsinntekt | null;
+    omregnetÅrsinntekt: ApiOmregnetArsinntekt | null;
     endret: boolean;
     refusjon?: Refusjonsopplysning[] | null;
     vilkårsgrunnlagId?: string | null;
-    inntektFraAOrdningen?: InntektFraAOrdningen[];
+    inntektFraAOrdningen?: ApiInntektFraAOrdningen[];
     erDeaktivert: boolean;
-    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
-    arbeidsgiver: Arbeidsgiver;
+    inntekterForSammenligningsgrunnlag?: ApiInntektFraAOrdningen[];
+    arbeidsgiver: ApiArbeidsgiver;
 }
 
 export const InntektOgRefusjonVisning = ({
@@ -57,14 +57,14 @@ export const InntektOgRefusjonVisning = ({
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const utenSykefravær = !harSykefraværMedSkjæringstidspunkt(arbeidsgiver, skjæringstidspunkt);
-    const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === Inntektskilde.Aordningen;
+    const erInntektskildeAordningen = omregnetÅrsinntekt?.kilde === ApiInntektskilde.AORDNINGEN;
     const skalVise12mnd828 =
         Number(
-            (getVilkårsgrunnlag(person, vilkårsgrunnlagId) as VilkarsgrunnlagSpleisV2)?.avviksvurdering
+            (getVilkårsgrunnlag(person, vilkårsgrunnlagId) as ApiVilkårsgrunnlagSpleisV2)?.avviksvurdering
                 ?.avviksprosent ?? 0,
         ) > 25;
 
-    function finnInntektFraAOrdningen(): InntektFraAOrdningen[] | undefined {
+    function finnInntektFraAOrdningen(): ApiInntektFraAOrdningen[] | undefined {
         if (
             erInntektskildeAordningen &&
             !skalVise12mnd828 &&

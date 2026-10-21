@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 
-import { Overstyring, VarselDto, Varselstatus } from '@io/graphql';
+import { ApiOverstyring, ApiSaksbildeVarselstatus, ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { DateString, PeriodState } from '@typer/shared';
 import { cn } from '@utils/tw';
@@ -79,11 +79,11 @@ const ukjentTilstand = (state: PeriodState): VarselObject | null =>
 
 const beslutteroppgave = (
     harTotrinnsvurdering: boolean,
-    varsler: VarselDto[],
+    varsler: ApiVarselDTO[],
     harDagOverstyringer = false,
     harTilkommenInntektEndring: boolean,
     saksbehandlerhandlingerTilKontroll: string[],
-    åpneEndringerPåPerson?: Overstyring[] | null,
+    åpneEndringerPåPerson?: ApiOverstyring[] | null,
     activePeriodTom?: string,
     navnPåDeaktiverteGhostArbeidsgivere?: string,
 ): string[] | null => {
@@ -165,7 +165,7 @@ const beslutteroppgave = (
     return årsaker;
 };
 
-const harRelevanteDagoverstyringer = (overstyringer: Overstyring[], tom?: DateString): boolean => {
+const harRelevanteDagoverstyringer = (overstyringer: ApiOverstyring[], tom?: DateString): boolean => {
     return (
         typeof tom === 'string' &&
         overstyringer.some((it) => isDagoverstyring(it) && dayjs(it.dager[0]?.dato).isSameOrBefore(tom))
@@ -175,10 +175,10 @@ const harRelevanteDagoverstyringer = (overstyringer: Overstyring[], tom?: DateSt
 interface SaksbildevarslerProps {
     periodState: PeriodState;
     oppgavereferanse?: string | null;
-    varsler?: VarselDto[] | null;
+    varsler?: ApiVarselDTO[] | null;
     erTidligereSaksbehandler?: boolean;
     erBeslutteroppgave?: boolean;
-    åpneEndringerPåPerson?: Overstyring[] | null;
+    åpneEndringerPåPerson?: ApiOverstyring[] | null;
     harDagOverstyringer?: boolean;
     activePeriodTom?: string;
     skjæringstidspunkt?: string;
@@ -249,8 +249,8 @@ export const Saksbildevarsler = ({
             ? `Vis varsler (${
                   varsler.filter(
                       (it) =>
-                          it.vurdering?.status === Varselstatus.Vurdert ||
-                          it.vurdering?.status === Varselstatus.Godkjent,
+                          it.vurdering?.status === ApiSaksbildeVarselstatus.VURDERT ||
+                          it.vurdering?.status === ApiSaksbildeVarselstatus.GODKJENT,
                   ).length
               } av ${varsler.length} varsler er sjekket)`
             : 'Vis varsler';

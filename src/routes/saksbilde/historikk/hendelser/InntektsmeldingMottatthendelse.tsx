@@ -4,7 +4,7 @@ import React, { ReactElement } from 'react';
 import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkKildeInntektsmeldingIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
 import { DateString } from '@typer/shared';
@@ -14,7 +14,7 @@ import { useAddOpenedDocument, useOpenedDocuments, useRemoveOpenedDocument } fro
 
 type InntektsmeldingMottatthendelseProps = {
     dokumentId: string;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     timestamp: DateString;
 };
 

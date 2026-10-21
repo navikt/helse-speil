@@ -6,10 +6,9 @@ import { ActionMenu, Dialog, HStack, Loader } from '@navikt/ds-react';
 
 import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import { Periodetilstand, PersonFragment } from '@io/graphql';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { useGetPerson, useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
-import { ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
+import { ApiPeriodetilstand, ApiPersonnavn, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { AnnulleringsDialogInnhold } from '@saksbilde/annullering/AnnulleringsDialogInnhold';
 import { OpphevStansAutomatiskBehandlingDialogInnhold } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingDialogInnhold';
 import { StansAutomatiskBehandlingDialogInnhold } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingDialogInnhold';
@@ -33,7 +32,7 @@ export function SaksbildeDropdownMenu({
     person,
     activePeriod,
 }: {
-    person?: PersonFragment | null;
+    person?: ApiSaksbildePerson | null;
     activePeriod?: ActivePeriod;
 }): ReactElement | null {
     if (!isPerson(person)) {
@@ -46,7 +45,7 @@ function SaksbildeDropdownMenuContent({
     person,
     activePeriod,
 }: {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     activePeriod?: ActivePeriod;
 }): ReactElement {
     const [showLeggPåVentModal, setShowLeggPåVentModal] = useState(false);
@@ -79,8 +78,8 @@ function SaksbildeDropdownMenuContent({
 
     const kanAnnulleres =
         isBeregnetPeriode(activePeriod) &&
-        (activePeriod.periodetilstand === Periodetilstand.IngenUtbetaling ||
-            activePeriod.periodetilstand === Periodetilstand.Utbetalt) &&
+        (activePeriod.periodetilstand === ApiPeriodetilstand.IngenUtbetaling ||
+            activePeriod.periodetilstand === ApiPeriodetilstand.Utbetalt) &&
         !behandlingHarAnnullering;
 
     const navn: ApiPersonnavn | undefined = apiPerson && {
@@ -195,7 +194,7 @@ function SaksbildeDropdownMenuContent({
                 <LeggPåVentDialog
                     oppgaveId={oppgaveId}
                     navn={navn}
-                    utgangspunktTildeling={person.tildeling}
+                    utgangspunktTildeling={person.tildeling ?? null}
                     onClose={() => setShowLeggPåVentModal(false)}
                     onLeggPåVentSuccess={() => router.push('/')}
                 />
@@ -236,7 +235,7 @@ function SaksbildeDropdownMenuContent({
     );
 }
 
-function harAnnulleringForPeriode(person: PersonFragment, activePeriod?: ActivePeriod): boolean {
+function harAnnulleringForPeriode(person: ApiSaksbildePerson, activePeriod?: ActivePeriod): boolean {
     if (!isBeregnetPeriode(activePeriod)) return false;
 
     return finnAlleInntektsforhold(person).some((ag) =>
@@ -244,9 +243,9 @@ function harAnnulleringForPeriode(person: PersonFragment, activePeriod?: ActiveP
             behandling.perioder.some(
                 (periode) =>
                     periode.vedtaksperiodeId === activePeriod.vedtaksperiodeId &&
-                    (periode.periodetilstand === Periodetilstand.Annullert ||
-                        periode.periodetilstand === Periodetilstand.TilAnnullering ||
-                        periode.periodetilstand === Periodetilstand.AvventerAnnullering),
+                    (periode.periodetilstand === ApiPeriodetilstand.Annullert ||
+                        periode.periodetilstand === ApiPeriodetilstand.TilAnnullering ||
+                        periode.periodetilstand === ApiPeriodetilstand.AvventerAnnullering),
             ),
         ),
     );

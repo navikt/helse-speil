@@ -1,11 +1,11 @@
-import { Utbetaling } from '@io/graphql';
+import { ApiUtbetaling } from '@io/rest/generated/spesialist.schemas';
 import { DateString } from '@typer/shared';
 
-export const isGodkjent = (utbetaling: Utbetaling): boolean => {
+export const isGodkjent = (utbetaling: ApiUtbetaling): boolean => {
     return utbetaling.vurdering?.godkjent ?? false;
 };
 
-export const getRequiredTimestamp = (utbetaling: Utbetaling): DateString => {
+export const getRequiredTimestamp = (utbetaling: ApiUtbetaling): DateString => {
     return (
         utbetaling.vurdering?.tidsstempel ??
         (() => {
@@ -14,6 +14,6 @@ export const getRequiredTimestamp = (utbetaling: Utbetaling): DateString => {
     );
 };
 
-export const isRevurdering = (utbetaling: Utbetaling): boolean => {
+export const isRevurdering = (utbetaling: ApiUtbetaling): boolean => {
     return utbetaling.type === 'REVURDERING';
 };

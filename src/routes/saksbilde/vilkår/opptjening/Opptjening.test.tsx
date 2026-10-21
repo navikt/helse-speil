@@ -1,8 +1,7 @@
 import React from 'react';
 import { Mock } from 'vitest';
 
-import { VilkarsgrunnlagInfotrygdV2 } from '@io/graphql';
-import { ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
+import { ApiServerSentEventEvent, ApiVilkårsgrunnlagInfotrygdV2 } from '@io/rest/generated/spesialist.schemas';
 import {
     ApiKildetype,
     ApiKravkilde,
@@ -212,8 +211,8 @@ const mockOpptjeningshistorikk = (historikk: ApiOpptjeningshistorikkInnslag[]) =
 
 const arbeidsvilkår = () => screen.getByRole('listitem', { name: 'Arbeid i minst 4 uker' });
 
-const vilkårsgrunnlag: VilkarsgrunnlagInfotrygdV2 = {
-    __typename: 'VilkarsgrunnlagInfotrygdV2',
+const vilkårsgrunnlag: ApiVilkårsgrunnlagInfotrygdV2 = {
+    type: 'ApiVilkårsgrunnlagInfotrygdV2',
     id: 'en-id',
     arbeidsgiverrefusjoner: [],
     inntekter: [],

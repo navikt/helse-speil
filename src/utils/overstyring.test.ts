@@ -1,4 +1,4 @@
-import { Inntektstype, Periodetilstand, PersonFragment } from '@io/graphql';
+import { ApiInntektstype, ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
 import { enOppgave } from '@test-data/oppgave';
@@ -9,36 +9,36 @@ import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/ov
 describe('kanOverstyres', () => {
     it('returnerer true om personen har flere arbeidsgivere', () => {
         const periode = enBeregnetPeriode({
-            periodetilstand: Periodetilstand.TilGodkjenning,
+            periodetilstand: ApiPeriodetilstand.TilGodkjenning,
             oppgave: enOppgave(),
-            inntektstype: Inntektstype.Flerearbeidsgivere,
+            inntektstype: ApiInntektstype.FLEREARBEIDSGIVERE,
         });
 
         expect(kanOverstyres(periode)).toEqual({ value: true });
     });
 
     it('returnerer true om perioden venter', () => {
-        const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.VenterPaEnAnnenPeriode });
+        const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.VenterPaEnAnnenPeriode });
         expect(kanOverstyres(periode)).toEqual({ value: true });
     });
 
     it('returnerer true for beregnede perioder som er til godkjenning', () => {
         const oppgave = enOppgave();
-        const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.TilGodkjenning, oppgave });
+        const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.TilGodkjenning, oppgave });
         const expected = { value: true };
 
         expect(kanOverstyres(periode)).toEqual(expected);
     });
 
     it('returnerer true for beregnede perioder som ikke har utbetaling', () => {
-        const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.IngenUtbetaling });
+        const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.IngenUtbetaling });
         const expected = { value: true };
 
         expect(kanOverstyres(periode)).toEqual(expected);
     });
 
     it('returnerer true for beregnede perioder som har en feilende utbetaling', () => {
-        const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.UtbetalingFeilet });
+        const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.UtbetalingFeilet });
         const expected = { value: true };
 
         expect(kanOverstyres(periode)).toEqual(expected);
@@ -47,7 +47,7 @@ describe('kanOverstyres', () => {
 
 describe('kanRevurderes', () => {
     it('returnerer false om perioden ikke er godkjent', () => {
-        const periode = enBeregnetPeriode({ periodetilstand: Periodetilstand.IngenUtbetaling });
+        const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.IngenUtbetaling });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
         const expected = {
@@ -76,7 +76,7 @@ describe('kanRevurderes', () => {
     it('returnerer false om perioden er forkastet', () => {
         const periode = enBeregnetPeriode({ erForkastet: true });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as PersonFragment;
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]) as unknown as ApiSaksbildePerson;
         const expected = {
             value: false,
             technical: 'Forkastet periode',
@@ -89,7 +89,7 @@ describe('kanRevurderes', () => {
 describe('kanOverstyreRevurdering', () => {
     it('returnerer false om perioden ikke er til revurdering', () => {
         const periode = enBeregnetPeriode();
-        const person = enPerson() as unknown as PersonFragment;
+        const person = enPerson() as unknown as ApiSaksbildePerson;
         const expected = {
             value: false,
             technical: 'Kan ikke overstyre revurdering om perioden ikke er til revurdering',
@@ -103,7 +103,7 @@ describe('kanOverstyreRevurdering', () => {
         const periodeB = enBeregnetPeriode();
         const arbeidsgiverA = enArbeidsgiver().medPerioder([periodeA]);
         const arbeidsgiverB = enArbeidsgiver().medPerioder([periodeB]);
-        const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]) as unknown as PersonFragment;
+        const person = enPerson().medArbeidsgivere([arbeidsgiverA, arbeidsgiverB]) as unknown as ApiSaksbildePerson;
         const expected = {
             value: false,
             technical: 'Ikke alle overlappende perioder er til revurdering',

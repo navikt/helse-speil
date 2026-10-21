@@ -1,9 +1,13 @@
-import { Utbetaling, Utbetalingstatus, Utbetalingtype, Vurdering } from '@io/graphql';
+import {
+    ApiUtbetaling,
+    ApiUtbetalingstatus,
+    ApiUtbetalingtype,
+    ApiVurdering,
+} from '@io/rest/generated/spesialist.schemas';
 import { OverridableConstructor } from '@typer/shared';
 import { generateId } from '@utils/generateId';
 
-export const enVurdering: OverridableConstructor<Vurdering> = (overrides) => ({
-    __typename: 'Vurdering',
+export const enVurdering: OverridableConstructor<ApiVurdering> = (overrides) => ({
     automatisk: false,
     godkjent: true,
     ident: 'N123456',
@@ -11,15 +15,14 @@ export const enVurdering: OverridableConstructor<Vurdering> = (overrides) => ({
     ...overrides,
 });
 
-export const enUtbetaling: OverridableConstructor<Utbetaling> = (overrides) => ({
-    __typename: 'Utbetaling',
+export const enUtbetaling: OverridableConstructor<ApiUtbetaling> = (overrides) => ({
     id: generateId(),
     arbeidsgiverFagsystemId: 'en-arbeidsgivers-fagsystemid',
     arbeidsgiverNettoBelop: 30000,
     personFagsystemId: 'en-persons-fagsystemid',
     personNettoBelop: 0,
-    status: Utbetalingstatus.Utbetalt,
-    type: Utbetalingtype.Utbetaling,
+    status: ApiUtbetalingstatus.UTBETALT,
+    type: ApiUtbetalingtype.UTBETALING,
     vurdering: enVurdering(),
     arbeidsgiversimulering: null,
     personsimulering: null,

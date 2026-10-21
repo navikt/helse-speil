@@ -31,31 +31,9 @@ export class NotFoundError extends FetchError {
     }
 }
 
-export class NotReadyError extends FetchError {
-    constructor() {
-        super(
-            `Det er ikke mottatt korrekt inntektsmelding eller søknad utover arbeidsgiverperioden for denne personen.
-             Se i Gosys.`,
-        );
-        this.severity = 'info';
-        this.scope = '/';
-    }
-}
-
 export class ProtectedError extends FetchError {
     constructor() {
         super('Du har ikke tilgang til å søke opp denne personen');
         this.severity = 'info';
-    }
-}
-
-export class FlereFodselsnumreError extends FetchError {
-    constructor(fodselsnumre: string[]) {
-        super(
-            `Denne aktør-ID-en er registrert med flere fødselsnumre: ${fodselsnumre.join(
-                ', ',
-            )}. Fordi fødselsnumrene er behandlet hver for seg, må du sjekke om systemet har beregnet en periode feil.`,
-        );
-        this.severity = 'error';
     }
 }

@@ -4,7 +4,6 @@ import { useEffect, useMemo } from 'react';
 import { HttpError } from '@app/fetch/fetchClient';
 import { useBruker } from '@auth/brukerContext';
 import { useHarPorteføljestyringrolle } from '@hooks/brukerrolleHooks';
-import { Kategori } from '@io/graphql';
 import {
     getGetAntallOppgaverQueryKey,
     getGetOppgaverQueryKey,
@@ -14,6 +13,7 @@ import {
 import {
     ApiEgenskap,
     ApiHttpProblemDetailsApiGetOppgaverErrorCode,
+    ApiKategori,
     ApiOppgaveProjeksjon,
     ApiOppgaveSorteringsfelt,
     ApiSorteringsrekkefølge,
@@ -182,61 +182,61 @@ const tildeltFiltrering = (activeFilters: Filter[]) => {
     }
 };
 
-export const kategoriForEgenskap = (egenskap: ApiEgenskap): Kategori => {
+export const kategoriForEgenskap = (egenskap: ApiEgenskap): ApiKategori => {
     switch (egenskap) {
         case ApiEgenskap.ARBEIDSTAKER:
         case ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE:
-            return Kategori.Inntektsforhold;
+            return ApiKategori.Inntektsforhold;
 
         case ApiEgenskap.EN_ARBEIDSGIVER:
         case ApiEgenskap.FLERE_ARBEIDSGIVERE:
-            return Kategori.Inntektskilde;
+            return ApiKategori.Inntektskilde;
 
         case ApiEgenskap.DELVIS_REFUSJON:
         case ApiEgenskap.INGEN_UTBETALING:
         case ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER:
         case ApiEgenskap.UTBETALING_TIL_SYKMELDT:
-            return Kategori.Mottaker;
+            return ApiKategori.Mottaker;
 
         case ApiEgenskap.REVURDERING:
         case ApiEgenskap.SOKNAD:
-            return Kategori.Oppgavetype;
+            return ApiKategori.Oppgavetype;
 
         case ApiEgenskap.FORLENGELSE:
         case ApiEgenskap.FORSTEGANGSBEHANDLING:
         case ApiEgenskap.INFOTRYGDFORLENGELSE:
         case ApiEgenskap.OVERGANG_FRA_IT:
-            return Kategori.Periodetype;
+            return ApiKategori.Periodetype;
 
         case ApiEgenskap.BESLUTTER:
         case ApiEgenskap.PA_VENT:
         case ApiEgenskap.RETUR:
-            return Kategori.Status;
+            return ApiKategori.Status;
         case ApiEgenskap.JORDBRUKER_REINDRIFT:
-            return Kategori.Arbeidssituasjon;
+            return ApiKategori.Arbeidssituasjon;
 
         default:
-            return Kategori.Ukategorisert;
+            return ApiKategori.Ukategorisert;
     }
 };
 
 export const finnKategori = (kolonne: string) => {
     switch (kolonne) {
         case Oppgaveoversiktkolonne.PERIODETYPE:
-            return Kategori.Periodetype;
+            return ApiKategori.Periodetype;
         case Oppgaveoversiktkolonne.OPPGAVETYPE:
-            return Kategori.Oppgavetype;
+            return ApiKategori.Oppgavetype;
         case Oppgaveoversiktkolonne.MOTTAKER:
-            return Kategori.Mottaker;
+            return ApiKategori.Mottaker;
         case Oppgaveoversiktkolonne.ANTALLARBEIDSFORHOLD:
-            return Kategori.Inntektskilde;
+            return ApiKategori.Inntektskilde;
         case Oppgaveoversiktkolonne.STATUS:
         case Oppgaveoversiktkolonne.PÅVENT:
-            return Kategori.Status;
+            return ApiKategori.Status;
         case Oppgaveoversiktkolonne.INNTEKTSFORHOLD:
-            return Kategori.Inntektsforhold;
+            return ApiKategori.Inntektsforhold;
         default:
-            return Kategori.Ukategorisert;
+            return ApiKategori.Ukategorisert;
     }
 };
 

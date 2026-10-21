@@ -10,8 +10,6 @@ import { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 
 
 import { configureLogger } from '@navikt/next-logger';
 
-import { ApolloProvider } from '@apollo/client';
-import { createApolloClient } from '@app/apollo/apolloClient';
 import useExposeQueryClient from '@app/useExposeQueryClient';
 import { Bruker, BrukerContext } from '@auth/brukerContext';
 import { AnonymizationProvider } from '@components/anonymization/context';
@@ -34,25 +32,22 @@ type Props = {
 
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
     const [queryClient] = useState(() => new QueryClient());
-    const [apolloClient] = useState(() => createApolloClient());
     useExposeQueryClient(queryClient);
 
     return (
         <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light" disableTransitionOnChange={false}>
             <QueryClientProvider client={queryClient}>
-                <ApolloProvider client={apolloClient}>
-                    <Provider>
-                        <AtomsHydrator atomValues={getAtomValues()}>
-                            <SyncAlerts>
-                                <AnonymizationProvider>
-                                    <div id="root">
-                                        <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
-                                    </div>
-                                </AnonymizationProvider>
-                            </SyncAlerts>
-                        </AtomsHydrator>
-                    </Provider>
-                </ApolloProvider>
+                <Provider>
+                    <AtomsHydrator atomValues={getAtomValues()}>
+                        <SyncAlerts>
+                            <AnonymizationProvider>
+                                <div id="root">
+                                    <BrukerContext.Provider value={bruker}>{children}</BrukerContext.Provider>
+                                </div>
+                            </AnonymizationProvider>
+                        </SyncAlerts>
+                    </AtomsHydrator>
+                </Provider>
             </QueryClientProvider>
         </ThemeProvider>
     );

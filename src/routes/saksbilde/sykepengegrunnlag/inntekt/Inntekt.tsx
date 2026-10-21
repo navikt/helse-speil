@@ -4,12 +4,12 @@ import { Alert, Box } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import {
-    Arbeidsgiverinntekt,
-    Inntektskilde,
-    PersonFragment,
-    VilkarsgrunnlagInfotrygdV2,
-    VilkarsgrunnlagSpleisV2,
-} from '@io/graphql';
+    ApiArbeidsgiverinntekt,
+    ApiInntektskilde,
+    ApiSaksbildePerson,
+    ApiVilkårsgrunnlagInfotrygdV2,
+    ApiVilkårsgrunnlagSpleisV2,
+} from '@io/rest/generated/spesialist.schemas';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import {
     dedupliserteInntektsmeldingHendelser,
@@ -24,9 +24,9 @@ import { InntektOgRefusjon } from './inntektOgRefusjon/InntektOgRefusjon';
 import styles from './Inntekt.module.css';
 
 interface InntektContainerProps {
-    person: PersonFragment;
-    inntekt: Arbeidsgiverinntekt;
-    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
+    person: ApiSaksbildePerson;
+    inntekt: ApiArbeidsgiverinntekt;
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2;
 }
 
 const InntektContainer = ({ person, inntekt, vilkårsgrunnlag }: InntektContainerProps): ReactElement => {
@@ -51,7 +51,7 @@ const InntektContainer = ({ person, inntekt, vilkårsgrunnlag }: InntektContaine
 
     const inntekterForSammenligningsgrunnlag =
         Number(
-            vilkårsgrunnlag.__typename === 'VilkarsgrunnlagSpleisV2'
+            vilkårsgrunnlag.type === 'ApiVilkårsgrunnlagSpleisV2'
                 ? (vilkårsgrunnlag.avviksvurdering?.avviksprosent ?? 0)
                 : 0,
         ) > 25
@@ -75,7 +75,7 @@ const InntektContainer = ({ person, inntekt, vilkårsgrunnlag }: InntektContaine
             ) : (
                 <InntektOgRefusjonHeader
                     arbeidsgiverReferanse={lagArbeidsgiverReferanse(inntekt.arbeidsgiver, arbeidsgiver?.navn)}
-                    kilde={Inntektskilde.Aordningen}
+                    kilde={ApiInntektskilde.AORDNINGEN}
                 />
             )}
         </Box>
@@ -91,9 +91,9 @@ const InntektError = (): ReactElement => {
 };
 
 interface InntektProps {
-    person: PersonFragment;
-    inntekt: Arbeidsgiverinntekt;
-    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
+    person: ApiSaksbildePerson;
+    inntekt: ApiArbeidsgiverinntekt;
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2;
 }
 
 export const Inntekt = ({ person, inntekt, vilkårsgrunnlag }: InntektProps): ReactElement => {

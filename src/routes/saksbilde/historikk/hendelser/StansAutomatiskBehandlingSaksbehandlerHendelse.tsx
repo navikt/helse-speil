@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { PeriodehistorikkType } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkTimerPauseIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
@@ -42,7 +41,6 @@ export function StansAutomatiskBehandlingSaksbehandlerHendelse({
                     kommentarer={kommentarer}
                     dialogRef={dialogRef}
                     historikkinnslagId={historikkinnslagId}
-                    historikktype={PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler}
                 />
             )}
         </Historikkhendelse>

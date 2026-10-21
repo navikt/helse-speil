@@ -3,8 +3,12 @@ import { atom, useAtomValue, useSetAtom } from 'jotai';
 import * as R from 'remeda';
 
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
-import { ArbeidsgiverFragment, PeriodeFragment, PersonFragment } from '@io/graphql';
-import { ApiArbeidstidsvurderingRequest } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiArbeidsgiver,
+    ApiArbeidstidsvurderingRequest,
+    ApiPeriode,
+    ApiSaksbildePerson,
+} from '@io/rest/generated/spesialist.schemas';
 import { usePostArbeidstidsvurdering } from '@io/rest/generated/vurderinger/vurderinger';
 import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
@@ -61,7 +65,7 @@ export const usePostArbeidstidsvurderingMedToast = (personPseudoId: string, onVi
     };
 };
 
-export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: ActivePeriod) =>
+export const getOverlappendeArbeidsgivere = (person: ApiSaksbildePerson, periode: ActivePeriod) =>
     finnAlleInntektsforhold(person).filter(
         (inntektsforhold) =>
             (
@@ -69,14 +73,14 @@ export const getOverlappendeArbeidsgivere = (person: PersonFragment, periode: Ac
                     ?.filter(isBeregnetPeriode || isUberegnetPeriode)
                     ?.filter(overlapper(periode)) ?? []
             ).length > 0,
-    ) as ArbeidsgiverFragment[];
+    ) as ApiArbeidsgiver[];
 
 export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
     periode: DatePeriod,
     arbeidsgivere: Inntektsforhold[],
     skjæringstidspunkt: string,
 ): boolean => {
-    const alleOverlappendePerioderPåSkjæringstidspunkt: PeriodeFragment[] = R.pipe(
+    const alleOverlappendePerioderPåSkjæringstidspunkt: ApiPeriode[] = R.pipe(
         arbeidsgivere,
         R.flatMap((ag) => ag.behandlinger?.[0]?.perioder),
         R.filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it)),
@@ -134,12 +138,12 @@ const kappOverlappendePerioder = (
 };
 
 export const getOppkuttedePerioder = (
-    overlappendeArbeidsgivere: ArbeidsgiverFragment[],
+    overlappendeArbeidsgivere: ApiArbeidsgiver[],
     aktivPeriode: ActivePeriod,
 ): DatePeriod[] | undefined =>
     kappOverlappendePerioder(allePerioder(overlappendeArbeidsgivere), tilDatePeriod(aktivPeriode));
 
-const allePerioder = (overlappendeArbeidsgivere: ArbeidsgiverFragment[]): DatePeriod[] =>
+const allePerioder = (overlappendeArbeidsgivere: ApiArbeidsgiver[]): DatePeriod[] =>
     R.pipe(
         overlappendeArbeidsgivere,
         R.flatMap((ag) => ag.behandlinger[0]?.perioder),

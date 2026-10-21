@@ -1,12 +1,12 @@
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 
 type AndreYtelserTilgang = {
     kanEndres: boolean;
     kanGjenopprettes: boolean;
 };
 
-export const useAndreYtelserTilgang = (person: PersonFragment | null, fjernet: boolean): AndreYtelserTilgang => {
+export const useAndreYtelserTilgang = (person: ApiSaksbildePerson | null, fjernet: boolean): AndreYtelserTilgang => {
     const erReadOnly = useHarTotrinnsvurdering(person);
 
     return {

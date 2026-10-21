@@ -1,9 +1,9 @@
 import { useHarBeslutteroppgavetilgang } from '@hooks/useHarBeslutteroppgavetilgang';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useErBeslutteroppgaveOgHarTilgang = (person: PersonFragment): boolean => {
+export const useErBeslutteroppgaveOgHarTilgang = (person: ApiSaksbildePerson): boolean => {
     const periode = useActivePeriod(person);
     const harBeslutteroppgaveTilgang = useHarBeslutteroppgavetilgang(person);
 

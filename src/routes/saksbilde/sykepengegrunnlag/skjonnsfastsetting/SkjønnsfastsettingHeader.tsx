@@ -7,11 +7,11 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import {
-    BeregnetPeriodeFragment,
-    PersonFragment,
-    Sykepengegrunnlagsgrense,
-    Sykepengegrunnlagskjonnsfastsetting,
-} from '@io/graphql';
+    ApiBeregnetPeriode,
+    ApiSaksbildePerson,
+    ApiSykepengegrunnlagsgrense,
+    ApiSykepengegrunnlagskjonnsfastsetting,
+} from '@io/rest/generated/spesialist.schemas';
 import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { EndringsloggSkjønnsfastsettingButton } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/EndringsloggSkjønnsfastsettingButton';
 import {
@@ -26,10 +26,10 @@ import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 import styles from './SkjønnsfastsettingHeader.module.css';
 
 interface SkjønnsfastsettingHeaderProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     sykepengegrunnlag: number;
     endretSykepengegrunnlag: number | null;
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
     editing: boolean;
     openForm: () => void;
     maler: SkjonnsfastsettelseMalerQueryResult | undefined;
@@ -67,7 +67,7 @@ export const SkjønnsfastsettingHeader = ({
                 })),
         );
 
-    const erBeslutteroppgave = (aktivPeriode as BeregnetPeriodeFragment).totrinnsvurdering?.erBeslutteroppgave ?? false;
+    const erBeslutteroppgave = (aktivPeriode as ApiBeregnetPeriode).totrinnsvurdering?.erBeslutteroppgave ?? false;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
         ? endretSykepengegrunnlag > sykepengegrunnlagsgrense.grense
             ? sykepengegrunnlagsgrense.grense
@@ -128,6 +128,6 @@ export const SkjønnsfastsettingHeader = ({
     );
 };
 
-export interface SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo extends Sykepengegrunnlagskjonnsfastsetting {
+export interface SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo extends ApiSykepengegrunnlagskjonnsfastsetting {
     inntektsforholdReferanse: InntektsforholdReferanse;
 }

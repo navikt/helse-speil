@@ -2,13 +2,13 @@ import React, { ReactElement } from 'react';
 
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';
-import { Egenskap } from '@io/graphql';
+import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 // Props som blir sendt med til Flexjar
-type FeedbackProps = { erOppgaveOversikt: boolean } | { egenskaper: Egenskap[] };
+type FeedbackProps = { erOppgaveOversikt: boolean } | { egenskaper: ApiEgenskap[] };
 
 const SpeilEmojiTilbakemelding = (feedbackProps: FeedbackProps): ReactElement => (
     <Widget>

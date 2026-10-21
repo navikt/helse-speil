@@ -1,10 +1,10 @@
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useHarBeslutteroppgavetilgang } from '@hooks/useHarBeslutteroppgavetilgang';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { useActivePeriod } from '@state/periode';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
-export const useIsReadOnlyOppgave = (person: PersonFragment): boolean => {
+export const useIsReadOnlyOppgave = (person: ApiSaksbildePerson): boolean => {
     const periode = useActivePeriod(person);
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
     const harBeslutteroppgavetilgang = useHarBeslutteroppgavetilgang(person);
@@ -13,8 +13,5 @@ export const useIsReadOnlyOppgave = (person: PersonFragment): boolean => {
         return false;
     }
 
-    return (
-        erTidligereSaksbehandler ||
-        (periode.totrinnsvurdering?.erBeslutteroppgave === true && !harBeslutteroppgavetilgang)
-    );
+    return erTidligereSaksbehandler || (periode.totrinnsvurdering?.erBeslutteroppgave && !harBeslutteroppgavetilgang);
 };

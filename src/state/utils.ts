@@ -1,33 +1,32 @@
 import dayjs, { Dayjs } from 'dayjs';
 
 import {
-    Arbeidsgiverinntekt,
-    Maybe,
-    PersonFragment,
-    VilkarsgrunnlagInfotrygdV2,
-    VilkarsgrunnlagSpleisV2,
-} from '@io/graphql';
+    ApiArbeidsgiverinntekt,
+    ApiSaksbildePerson,
+    ApiVilkårsgrunnlagInfotrygdV2,
+    ApiVilkårsgrunnlagSpleisV2,
+} from '@io/rest/generated/spesialist.schemas';
 import { getRequiredTimestamp, isGodkjent } from '@state/selectors/utbetaling';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 export const getActiveInntekt = (
-    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2,
     organisasjonsnummer: string,
-): Arbeidsgiverinntekt =>
+): ApiArbeidsgiverinntekt =>
     vilkårsgrunnlag.inntekter.find((it) => it.arbeidsgiver === organisasjonsnummer) ?? vilkårsgrunnlag.inntekter[0]!;
 
 export const getVilkårsgrunnlag = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     grunnlagId?: string | null,
-): Maybe<VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2> => {
+): ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2 | null => {
     return person.vilkarsgrunnlagV2.find(({ id }) => id === grunnlagId) ?? null;
 };
 
 export const getRequiredVilkårsgrunnlag = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     grunnlagId?: string | null,
-): VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2 => {
+): ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2 => {
     return (
         getVilkårsgrunnlag(person, grunnlagId) ??
         (() => {
@@ -36,7 +35,7 @@ export const getRequiredVilkårsgrunnlag = (
     );
 };
 
-export const getLatestUtbetalingTimestamp = (person: PersonFragment, after: DateString = '1970-01-01'): Dayjs => {
+export const getLatestUtbetalingTimestamp = (person: ApiSaksbildePerson, after: DateString = '1970-01-01'): Dayjs => {
     let latest: Dayjs = dayjs(after);
 
     for (const arbeidsgiver of person.arbeidsgivere) {

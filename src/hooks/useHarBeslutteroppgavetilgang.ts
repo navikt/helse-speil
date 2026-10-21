@@ -1,8 +1,8 @@
 import { useHarBeslutterrolle } from '@hooks/brukerrolleHooks';
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 
-export const useHarBeslutteroppgavetilgang = (person: PersonFragment): boolean => {
+export const useHarBeslutteroppgavetilgang = (person: ApiSaksbildePerson): boolean => {
     const harBeslutterRolle = useHarBeslutterrolle();
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
 

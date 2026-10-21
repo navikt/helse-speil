@@ -2,7 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { ActionMenu } from '@navikt/ds-react';
 
-import { BeregnetPeriodeFragment, PersonFragment, Utbetalingstatus } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiSaksbildePerson, ApiUtbetalingstatus } from '@io/rest/generated/spesialist.schemas';
 import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -12,8 +12,8 @@ const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUt
 };
 
 interface AnnullerButtonProps {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode;
     inntektsforhold: Inntektsforhold;
     showModal: () => void;
 }
@@ -32,7 +32,7 @@ export const AnnullerButton = ({
                     isBeregnetPeriode(it) &&
                     it.skjaeringstidspunkt === periode.skjaeringstidspunkt &&
                     it.utbetaling.vurdering?.godkjent === true &&
-                    it.utbetaling.status !== Utbetalingstatus.Annullert,
+                    it.utbetaling.status !== ApiUtbetalingstatus.ANNULLERT,
             ).length !== 0;
     const harBeslutteroppgavePåSykefraværet = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 

@@ -4,8 +4,8 @@ import { BodyShort, HStack } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { PersonFragment } from '@io/graphql';
 import { useGetInntektsmelding } from '@io/rest/generated/dokumenter/dokumenter';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Endringsårsaker } from '@saksbilde/historikk/hendelser/dokument/Endringsårsaker';
 import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { ArbeidsgiverReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
@@ -22,7 +22,7 @@ import styles from './Inntektsmeldingsinnhold.module.css';
 type InntektsmeldinginnholdProps = {
     dokumentId: string;
     personPseudoId: string;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 };
 
 export const Inntektsmeldingsinnhold = ({

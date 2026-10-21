@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { VedtakUtfall } from '@io/graphql';
+import { ApiVedtakUtfall } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
@@ -34,13 +34,13 @@ export const VedtakBegrunnelsehendelse = ({
     );
 };
 
-const tekstForUtfall = (utfall: VedtakUtfall) => {
+const tekstForUtfall = (utfall: ApiVedtakUtfall) => {
     switch (utfall) {
-        case VedtakUtfall.Avslag:
+        case ApiVedtakUtfall.AVSLAG:
             return 'Avslag';
-        case VedtakUtfall.DelvisInnvilgelse:
+        case ApiVedtakUtfall.DELVIS_INNVILGELSE:
             return 'Delvis innvilgelse';
-        case VedtakUtfall.Innvilgelse:
+        case ApiVedtakUtfall.INNVILGELSE:
             return 'Innvilgelse';
     }
 };

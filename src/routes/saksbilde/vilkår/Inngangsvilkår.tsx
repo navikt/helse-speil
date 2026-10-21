@@ -7,14 +7,14 @@ import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { ManueltVurderbarVilkårskode } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
-import {
-    BeregnetPeriodeFragment,
-    PersonFragment,
-    VilkarsgrunnlagInfotrygdV2,
-    VilkarsgrunnlagSpleisV2,
-    Vurdering,
-} from '@io/graphql';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
+import {
+    ApiBeregnetPeriode,
+    ApiSaksbildePerson,
+    ApiVilkårsgrunnlagInfotrygdV2,
+    ApiVilkårsgrunnlagSpleisV2,
+    ApiVurdering,
+} from '@io/rest/generated/spesialist.schemas';
 import { ApiVilkårskode } from '@io/rest/generated/vilkarsproving.schemas';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
@@ -30,8 +30,8 @@ import { useOpptjeningshistorikk } from './opptjening/useOpptjeningshistorikk';
 import { useOpptjeningsvurdering } from './opptjening/useOpptjeningsvurdering';
 
 interface InngangsvilkårProps {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode;
 }
 
 export function Inngangsvilkår({ person, periode }: InngangsvilkårProps): ReactElement {
@@ -43,9 +43,9 @@ export function Inngangsvilkår({ person, periode }: InngangsvilkårProps): Reac
 }
 
 interface InngangsvilkårWithContentProps {
-    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2;
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2;
     fødselsdato: DateString;
-    vurdering?: Vurdering | null;
+    vurdering?: ApiVurdering | null;
     personPseudoId: string;
     opptjeningsvurderingId: string;
     readOnly: boolean;
@@ -135,8 +135,8 @@ export function InngangsvilkårWithContent({
 }
 
 interface InngangsvilkårContainerProps {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode;
 }
 
 function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerProps): ReactElement | null {
@@ -186,10 +186,10 @@ function Vurderingspanel({ children }: PropsWithChildren): ReactElement {
 }
 
 function vurdertTekstFor(
-    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2,
-    vurdering?: Vurdering | null,
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2,
+    vurdering?: ApiVurdering | null,
 ): string | undefined {
-    if (vilkårsgrunnlag.__typename === 'VilkarsgrunnlagInfotrygdV2') {
+    if (vilkårsgrunnlag.type === 'ApiVilkårsgrunnlagInfotrygdV2') {
         return 'Vurdert i Infotrygd';
     }
     if (!vurdering) {

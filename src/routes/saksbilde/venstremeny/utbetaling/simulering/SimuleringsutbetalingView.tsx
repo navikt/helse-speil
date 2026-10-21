@@ -1,12 +1,12 @@
 import React, { ReactElement } from 'react';
 
-import { Simuleringsutbetaling } from '@io/graphql';
+import { ApiSimuleringsutbetaling } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedDateString } from '@utils/date';
 
 import { SimuleringsperiodeValue } from './SimuleringsperiodeValue';
 
 interface SimuleringsutbetalingViewProps {
-    utbetaling: Simuleringsutbetaling;
+    utbetaling: ApiSimuleringsutbetaling;
 }
 
 export function SimuleringsutbetalingView({ utbetaling }: SimuleringsutbetalingViewProps): ReactElement {

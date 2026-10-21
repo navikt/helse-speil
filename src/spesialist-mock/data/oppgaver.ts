@@ -142,7 +142,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
         ],
     },
     {
-        // En ganske urealistisk oppgave, for å kunne fremprovosere en graphql-error fra oppgavelista
+        // En ganske urealistisk oppgave, for å kunne fremprovosere en feil fra oppgavelista
         id: '44201',
         personPseudoId: '', // id-en injectes i syncMock
         aktorId: '1000000000003',

@@ -1,4 +1,4 @@
-import { ArbeidsgiverFragment, BeregnetPeriodeFragment } from '@io/graphql';
+import { ApiArbeidsgiver, ApiBeregnetPeriode } from '@io/rest/generated/spesialist.schemas';
 
-export type TestBehandling = ArbeidsgiverFragment['behandlinger'][0];
-export type TestDag = BeregnetPeriodeFragment['tidslinje'][0];
+export type TestBehandling = ApiArbeidsgiver['behandlinger'][0];
+export type TestDag = ApiBeregnetPeriode['tidslinje'][0];

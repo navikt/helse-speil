@@ -6,7 +6,12 @@ import { VStack } from '@navikt/ds-react';
 
 import { OverstyringFormFields, lagOverstyringSchema } from '@form-schemas/overstyringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BeregnetPeriodeFragment, PersonFragment, UberegnetPeriodeFragment, Utbetalingstatus } from '@io/graphql';
+import {
+    ApiBeregnetPeriode,
+    ApiSaksbildePerson,
+    ApiUberegnetPeriode,
+    ApiUtbetalingstatus,
+} from '@io/rest/generated/spesialist.schemas';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
@@ -172,10 +177,10 @@ const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
 };
 
 interface OverstyrbarUtbetalingProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     inntektsforhold: Inntektsforhold;
     dager: Map<string, Utbetalingstabelldag>;
-    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment;
+    periode: ApiBeregnetPeriode | ApiUberegnetPeriode;
 }
 
 export function OverstyrbarUtbetaling({
@@ -267,7 +272,7 @@ export function OverstyrbarUtbetaling({
     const periodeFom = Array.from(alleDager.values())[0];
     if (periodeFom == undefined) return <></>;
 
-    const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Utbetalt;
+    const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === ApiUtbetalingstatus.UTBETALT;
     return (
         <VStack
             as="section"
@@ -281,7 +286,7 @@ export function OverstyrbarUtbetaling({
             {!overstyrer && (
                 <UtbetalingHeader
                     periodeErForkastet={
-                        isBeregnetPeriode(periode) && periode.utbetaling.status === Utbetalingstatus.Forkastet
+                        isBeregnetPeriode(periode) && periode.utbetaling.status === ApiUtbetalingstatus.FORKASTET
                     }
                     toggleOverstyring={toggleOverstyring}
                     inntektsforholdReferanse={tilReferanse(inntektsforhold)}

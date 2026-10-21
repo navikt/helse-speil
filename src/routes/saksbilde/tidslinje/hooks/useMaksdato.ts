@@ -1,4 +1,4 @@
-import { BeregnetPeriodeFragment, Periode } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiPeriode } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -7,11 +7,11 @@ const isValidDate = (date?: DateString | null): boolean => {
     return typeof date === 'string' && !isNaN(new Date(date).getTime());
 };
 
-const hasValidMaksdato = (period: BeregnetPeriodeFragment): boolean => {
+const hasValidMaksdato = (period: ApiBeregnetPeriode): boolean => {
     return isValidDate(period.maksdato);
 };
 
-const byFomDescending = (a: Periode, b: Periode): number => {
+const byFomDescending = (a: ApiPeriode, b: ApiPeriode): number => {
     return new Date(b.fom).getTime() - new Date(a.fom).getTime();
 };
 

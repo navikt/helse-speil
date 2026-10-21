@@ -4,7 +4,7 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
-import { Skjonnsfastsettingstype } from '@io/graphql';
+import { ApiSkjonnsfastsettingstype } from '@io/rest/generated/spesialist.schemas';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
@@ -19,7 +19,7 @@ type SykepengegrunnlagSkjønnsfastsatthendelseProps = {
     hendelse: SykepengegrunnlagskjonnsfastsettinghendelseObject;
 };
 
-export const getSkjønnsfastsettelseTypeTekst = (type?: Skjonnsfastsettingstype | null) => {
+export const getSkjønnsfastsettelseTypeTekst = (type?: ApiSkjonnsfastsettingstype | null) => {
     switch (type) {
         case 'ANNET':
             return 'Annet';

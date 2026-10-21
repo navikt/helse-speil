@@ -1,5 +1,4 @@
-import { PersonFragment } from '@io/graphql';
-import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
+import { ApiSaksbildePerson, ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
 import { useTabelldagerMap } from '@saksbilde/utbetaling/utbetalingstabell/useTabelldagerMap';
 import {
     Inntektsforhold,
@@ -51,7 +50,7 @@ export function erGyldigTomForSykefraværstilfelle(
     );
 }
 
-export function utledSykefraværstilfelleperioder(person: PersonFragment): DatePeriod[] {
+export function utledSykefraværstilfelleperioder(person: ApiSaksbildePerson): DatePeriod[] {
     const vedtaksperioder = finnAlleInntektsforhold(person)
         .flatMap((ag) => ag.behandlinger[0]?.perioder)
         .filter((periode) => periode != null)

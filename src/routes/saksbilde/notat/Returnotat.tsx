@@ -4,7 +4,7 @@ import { FieldValues, SubmitHandler } from 'react-hook-form';
 import { ErrorMessage, VStack } from '@navikt/ds-react';
 
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { NotatSkjema } from '@saksbilde/notat/NotatSkjema';
 import { useActivePeriod } from '@state/periode';
 import { KladdNotatType } from '@typer/notat';
@@ -14,7 +14,7 @@ interface ReturnotatProps {
     onSubmit: (returtekst: string) => Promise<unknown>;
     setShowNotat: Dispatch<SetStateAction<boolean>>;
     error?: string | undefined;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     loading: boolean;
 }
 

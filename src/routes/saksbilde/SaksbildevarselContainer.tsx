@@ -6,12 +6,12 @@ import { Alert } from '@navikt/ds-react';
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import {
-    BeregnetPeriodeFragment,
-    Overstyring,
-    Periodetilstand,
-    PersonFragment,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
+    ApiBeregnetPeriode,
+    ApiOverstyring,
+    ApiPeriodetilstand,
+    ApiSaksbildePerson,
+    ApiUberegnetPeriode,
+} from '@io/rest/generated/spesialist.schemas';
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
@@ -27,7 +27,7 @@ import { getPeriodState } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 interface SaksbildevarselContainerProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     periode: ActivePeriod;
 }
 
@@ -63,7 +63,7 @@ export const SaksbildevarselContainer = ({ person, periode }: SaksbildevarselCon
         return (
             <UberegnetSaksbildevarsler
                 person={person}
-                periode={periode as UberegnetPeriodeFragment}
+                periode={periode as ApiUberegnetPeriode}
                 harTilkommenInntektEndring={harTilkommenInntektEndring}
                 saksbehandlerhandlingerTilKontroll={saksbehandlerhandlingerTilKontroll}
             />
@@ -81,7 +81,7 @@ export const SaksbildevarselContainer = ({ person, periode }: SaksbildevarselCon
     if (isBeregnetPeriode(periode)) {
         return (
             <BeregnetSaksbildevarsler
-                periode={periode as BeregnetPeriodeFragment}
+                periode={periode as ApiBeregnetPeriode}
                 person={person}
                 harTilkommenInntektEndring={harTilkommenInntektEndring}
                 saksbehandlerhandlingerTilKontroll={saksbehandlerhandlingerTilKontroll}
@@ -102,11 +102,11 @@ export const SaksbildevarselContainer = ({ person, periode }: SaksbildevarselCon
 };
 
 const useNavnPåDeaktiverteGhostArbeidsgivere = (
-    person: PersonFragment,
-    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
+    person: ApiSaksbildePerson,
+    periode: ApiBeregnetPeriode | ApiUberegnetPeriode,
 ) => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
-    return vilkårsgrunnlag?.__typename === 'VilkarsgrunnlagSpleisV2'
+    return vilkårsgrunnlag?.type === 'ApiVilkårsgrunnlagSpleisV2'
         ? finnAlleArbeidsgivere(person)
               .filter((arbeidsgiver) =>
                   arbeidsgiver.overstyringer.find(
@@ -119,8 +119,8 @@ const useNavnPåDeaktiverteGhostArbeidsgivere = (
 };
 
 interface BeregnetSaksbildevarslerProps {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode;
     harTilkommenInntektEndring: boolean;
     saksbehandlerhandlingerTilKontroll: string[];
 }
@@ -141,7 +141,7 @@ const BeregnetSaksbildevarsler = ({
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
-    const åpneEndringerPåPerson: Overstyring[] = getÅpneEndringerForPeriode(
+    const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(
         finnAlleInntektsforhold(person),
         periode.vedtaksperiodeId,
     );
@@ -166,8 +166,8 @@ const BeregnetSaksbildevarsler = ({
 };
 
 interface UberegnetSaksbildevarslerProps {
-    person: PersonFragment;
-    periode: UberegnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiUberegnetPeriode;
     harTilkommenInntektEndring: boolean;
     saksbehandlerhandlingerTilKontroll: string[];
 }
@@ -181,7 +181,7 @@ const UberegnetSaksbildevarsler = ({
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
-    const åpneEndringerPåPerson: Overstyring[] = getÅpneEndringerForPeriode(
+    const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(
         finnAlleInntektsforhold(person),
         periode.vedtaksperiodeId,
     );
@@ -202,7 +202,7 @@ const UberegnetSaksbildevarsler = ({
 };
 
 export const isAnnullertBeregnetPeriode = (activePeriod: ActivePeriod) =>
-    isBeregnetPeriode(activePeriod) && activePeriod.periodetilstand === Periodetilstand.Annullert;
+    isBeregnetPeriode(activePeriod) && activePeriod.periodetilstand === ApiPeriodetilstand.Annullert;
 
 const isTilAnnulleringBeregnetPeriode = (activePeriod: ActivePeriod) =>
-    isBeregnetPeriode(activePeriod) && activePeriod.periodetilstand === Periodetilstand.TilAnnullering;
+    isBeregnetPeriode(activePeriod) && activePeriod.periodetilstand === ApiPeriodetilstand.TilAnnullering;

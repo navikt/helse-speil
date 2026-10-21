@@ -6,7 +6,7 @@ import { BodyShort, Button, ErrorMessage, ErrorSummary, HStack } from '@navikt/d
 
 import { BegrunnelseTextarea } from '@components/BegrunnelseTextarea';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
 import { ÅrsakForOverstyring } from '@typer/overstyring';
 import { cn } from '@utils/tw';
@@ -21,7 +21,7 @@ interface OverstyrArbeidsforholdUtenSykdomProps {
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;
     arbeidsforholdErDeaktivert: boolean;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 export const OverstyrArbeidsforholdUtenSykdom = ({
@@ -97,7 +97,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
 };
 
 interface OverstyrArbeidsforholdSkjemaProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     onClose: () => void;
     organisasjonsnummerAktivPeriode: string;
     skjæringstidspunkt: string;

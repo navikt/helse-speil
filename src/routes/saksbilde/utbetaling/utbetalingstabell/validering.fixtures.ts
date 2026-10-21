@@ -1,4 +1,4 @@
-import { Kildetype } from '@io/graphql';
+import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import {
@@ -22,7 +22,7 @@ import {
 export const lagDag = (overrides: Partial<Utbetalingstabelldag> & { dato: string }): Utbetalingstabelldag =>
     ({
         dag: Sykedag,
-        kilde: { __typename: 'Kilde', id: '123', type: Kildetype.Soknad },
+        kilde: { id: '123', type: ApiKildetype.SOKNAD },
         erAGP: false,
         erVentetid: false,
         erAvvist: false,
@@ -252,7 +252,7 @@ export const arbeidIkkeGjenopptattScenarioer: ValideringScenario[] = [
             lagDag({
                 dato: '2020-01-01',
                 dag: ArbeidIkkeGjenopptattDag,
-                kilde: { __typename: 'Kilde', id: '123', type: Kildetype.Soknad },
+                kilde: { id: '123', type: ApiKildetype.SOKNAD },
             }),
         ],
         forventet: {
@@ -269,7 +269,7 @@ export const arbeidIkkeGjenopptattScenarioer: ValideringScenario[] = [
             lagDag({
                 dato: '2020-01-01',
                 dag: ArbeidIkkeGjenopptattDag,
-                kilde: { __typename: 'Kilde', id: '123', type: Kildetype.Saksbehandler },
+                kilde: { id: '123', type: ApiKildetype.SAKSBEHANDLER },
             }),
         ],
         forventet: { gyldig: true },

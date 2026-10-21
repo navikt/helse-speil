@@ -2,14 +2,14 @@ import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
 import {
-    Arbeidsgiver,
-    Behandling,
-    BeregnetPeriodeFragment,
-    Dagoverstyring,
-    PersonFragment,
-    SelvstendigNaering,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
+    ApiArbeidsgiver,
+    ApiBehandling,
+    ApiBeregnetPeriode,
+    ApiDagoverstyring,
+    ApiSaksbildePerson,
+    ApiSelvstendigNaering,
+    ApiUberegnetPeriode,
+} from '@io/rest/generated/spesialist.schemas';
 import { finnAlleArbeidsgivere, finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere } from '@state/selectors/period';
@@ -22,15 +22,15 @@ import {
     isUberegnetPeriode,
 } from '@utils/typeguards';
 
-export type Inntektsforhold = Arbeidsgiver | SelvstendigNaering;
+export type Inntektsforhold = ApiArbeidsgiver | ApiSelvstendigNaering;
 
-export const useAktivtInntektsforhold = (person: PersonFragment | null): Inntektsforhold | undefined => {
+export const useAktivtInntektsforhold = (person: ApiSaksbildePerson | null): Inntektsforhold | undefined => {
     const aktivPeriode = useActivePeriod(person);
     if (!person || !aktivPeriode) return undefined;
     return finnInntektsforholdForPeriode(person, aktivPeriode);
 };
 
-export const finnAlleInntektsforhold = (person: PersonFragment | null): Inntektsforhold[] => {
+export const finnAlleInntektsforhold = (person: ApiSaksbildePerson | null): Inntektsforhold[] => {
     return [
         ...(person?.selvstendigNaering != undefined ? [person.selvstendigNaering] : []),
         ...finnAlleArbeidsgivere(person),
@@ -38,7 +38,7 @@ export const finnAlleInntektsforhold = (person: PersonFragment | null): Inntekts
 };
 
 export const finnInntektsforholdForPeriode = (
-    person: PersonFragment,
+    person: ApiSaksbildePerson,
     periode: ActivePeriod,
 ): Inntektsforhold | undefined => {
     if (isBeregnetPeriode(periode) || isUberegnetPeriode(periode)) {
@@ -52,7 +52,7 @@ export const finnInntektsforholdForPeriode = (
     return undefined;
 };
 
-export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: PersonFragment): boolean => {
+export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: ApiSaksbildePerson): boolean => {
     const aktivPeriode = useActivePeriod(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
     if (!aktivPeriode || !inntektsforhold) return false;
@@ -69,7 +69,7 @@ export const useDagoverstyringer = (
     fom: DateString,
     tom: DateString,
     inntektsforhold?: Inntektsforhold | null,
-): Dagoverstyring[] => {
+): ApiDagoverstyring[] => {
     return useMemo(() => {
         if (!inntektsforhold) return [];
 
@@ -85,8 +85,8 @@ export const useDagoverstyringer = (
 };
 
 export const useHarDagOverstyringer = (
-    periode: BeregnetPeriodeFragment | UberegnetPeriodeFragment,
-    person: PersonFragment,
+    periode: ApiBeregnetPeriode | ApiUberegnetPeriode,
+    person: ApiSaksbildePerson,
 ): boolean => {
     const inntektsforhold = useAktivtInntektsforhold(person);
     const dagendringer = useDagoverstyringer(periode.fom, periode.tom, inntektsforhold);
@@ -98,7 +98,7 @@ export const useHarDagOverstyringer = (
     return !harBlittUtbetaltTidligere(periode, inntektsforhold) && (dagendringer?.length ?? 0) > 0;
 };
 
-export const finnPeriodeTilGodkjenning = (person: PersonFragment | null): BeregnetPeriodeFragment | null => {
+export const finnPeriodeTilGodkjenning = (person: ApiSaksbildePerson | null): ApiBeregnetPeriode | null => {
     if (!person) return null;
 
     return (
@@ -106,7 +106,7 @@ export const finnPeriodeTilGodkjenning = (person: PersonFragment | null): Beregn
             ?.flatMap((arbeidsgiver) => arbeidsgiver.behandlinger[0]?.perioder)
             .filter(
                 (periode) => isBeregnetPeriode(periode) && periode.periodetilstand === 'TilGodkjenning',
-            )?.[0] as BeregnetPeriodeFragment) ?? null
+            )?.[0] as ApiBeregnetPeriode) ?? null
     );
 };
 
@@ -120,10 +120,10 @@ export type SelvstendigNæringReferanse = {
     type: 'Selvstendig Næring';
 };
 
-export const finnBehandlingerForAktivPeriode = (periode: ActivePeriod, person: PersonFragment): Behandling[] =>
+export const finnBehandlingerForAktivPeriode = (periode: ActivePeriod, person: ApiSaksbildePerson): ApiBehandling[] =>
     finnInntektsforholdForPeriode(person, periode)?.behandlinger ?? [];
 
-export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePeriod, person: PersonFragment) =>
+export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePeriod, person: ApiSaksbildePerson) =>
     finnInntektsforholdForPeriode(person, aktivPeriode)?.overstyringer ?? [];
 /**
  * Henter forrige (eldre) behandling relativt til behandlingen som inneholder den oppgitte perioden.
@@ -137,7 +137,7 @@ export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePer
 export const finnForrigeEllerNyesteBehandling = (
     periode: ActivePeriod,
     inntektsforhold: Inntektsforhold,
-): Behandling | null => finnNteEllerNyesteBehandling(periode, inntektsforhold, 1);
+): ApiBehandling | null => finnNteEllerNyesteBehandling(periode, inntektsforhold, 1);
 /**
  * Henter en behandling relativt til behandlingen som inneholder den oppgitte perioden.
  *
@@ -158,7 +158,7 @@ export const finnNteEllerNyesteBehandling = (
     periode: ActivePeriod,
     inntektsforhold: Inntektsforhold,
     n: number = 0,
-): Behandling | null => {
+): ApiBehandling | null => {
     const aktivBehandlingIndex = inntektsforhold.behandlinger.findIndex((g) =>
         g.perioder.some((p) => isBeregnetPeriode(periode) && p.id === periode.id),
     );
@@ -177,7 +177,7 @@ export const lagArbeidsgiverReferanse = (organisasjonsnummer: string, navn?: str
     navn: navn,
 });
 
-export const arbeidsgiverTilReferanse = (arbeidsgiver: Arbeidsgiver): ArbeidsgiverReferanse =>
+export const arbeidsgiverTilReferanse = (arbeidsgiver: ApiArbeidsgiver): ArbeidsgiverReferanse =>
     lagArbeidsgiverReferanse(arbeidsgiver.organisasjonsnummer, arbeidsgiver.navn);
 
 export const tilReferanse = (inntektsforhold: Inntektsforhold): InntektsforholdReferanse =>

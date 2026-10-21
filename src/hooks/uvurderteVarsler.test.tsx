@@ -1,23 +1,23 @@
 import { harUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import {
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    Inntektstype,
-    Kilde,
-    Periodetilstand,
-    Periodetype,
-    Periodevilkar,
-    Sykdomsdagtype,
-    Utbetalingsdagtype,
-    Utbetalingstatus,
-    Utbetalingtype,
-    VarselDto,
-    Varselstatus,
-} from '@io/graphql';
+    ApiArbeidsgiver,
+    ApiBeregnetPeriode,
+    ApiInntektstype,
+    ApiKilde,
+    ApiPeriodetilstand,
+    ApiPeriodetype,
+    ApiPeriodevilkar,
+    ApiSaksbildeVarselstatus,
+    ApiSykdomsdagtype,
+    ApiUtbetalingsdagtype,
+    ApiUtbetalingstatus,
+    ApiUtbetalingtype,
+    ApiVarselDTO,
+} from '@io/rest/generated/spesialist.schemas';
 
-const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto): BeregnetPeriodeFragment => {
+const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: ApiVarselDTO): ApiBeregnetPeriode => {
     return {
-        __typename: 'BeregnetPeriode',
+        type: 'ApiBeregnetPeriode',
         behandlingId: 'EN_BEHANDLING_ID',
         erForkastet: false,
         fom: fom,
@@ -25,35 +25,33 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
         handlinger: [],
         hendelser: [],
         id: 'EN_ID',
-        inntektstype: Inntektstype.Enarbeidsgiver,
+        inntektstype: ApiInntektstype.ENARBEIDSGIVER,
         maksdato: '2023-01-01',
         opprettet: '2020-01-01',
         historikkinnslag: [],
-        periodetilstand: Periodetilstand.TilGodkjenning,
-        periodetype: Periodetype.Forstegangsbehandling,
-        periodevilkar: {} as Periodevilkar,
+        periodetilstand: ApiPeriodetilstand.TilGodkjenning,
+        periodetype: ApiPeriodetype.FORSTEGANGSBEHANDLING,
+        periodevilkar: {} as ApiPeriodevilkar,
         skjaeringstidspunkt: 'ET_SKJAERINGSTIDSPUNKT',
         tidslinje: [
             {
-                __typename: 'Dag',
                 dato: '2022-01-01',
                 utbetalingsinfo: null,
                 begrunnelser: null,
                 grad: null,
-                kilde: {} as Kilde,
-                sykdomsdagtype: Sykdomsdagtype.Arbeidsgiverdag,
-                utbetalingsdagtype: Utbetalingsdagtype.Arbeidsgiverperiodedag,
+                kilde: {} as ApiKilde,
+                sykdomsdagtype: ApiSykdomsdagtype.ARBEIDSGIVERDAG,
+                utbetalingsdagtype: ApiUtbetalingsdagtype.ARBEIDSGIVERPERIODEDAG,
             },
         ],
         utbetaling: {
-            __typename: 'Utbetaling',
             arbeidsgiverFagsystemId: 'EN_ID',
             arbeidsgiverNettoBelop: 0,
             id: 'EN_ID',
             personFagsystemId: 'EN_ID',
             personNettoBelop: 0,
-            status: Utbetalingstatus.Ubetalt,
-            type: Utbetalingtype.Utbetaling,
+            status: ApiUtbetalingstatus.UBETALT,
+            type: ApiUtbetalingtype.UTBETALING,
             arbeidsgiversimulering: null,
             personsimulering: null,
             vurdering: null,
@@ -77,9 +75,8 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: VarselDto)
     };
 };
 
-const getVarsel = (status?: Varselstatus): VarselDto => {
+const getVarsel = (status?: ApiSaksbildeVarselstatus): ApiVarselDTO => {
     return {
-        __typename: 'VarselDTO',
         id: 'd58b0cbe-8fe6-495b-b312-4e8a8f4db3dd',
         definisjonId: 'en verdi',
         behandlingId: 'en verdi',
@@ -88,7 +85,6 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
         tittel: '',
         vurdering: status
             ? {
-                  __typename: 'VarselvurderingDTO',
                   ident: 'en ident',
                   status: status,
                   tidsstempel: 'et tidsstempel',
@@ -101,10 +97,9 @@ const getVarsel = (status?: Varselstatus): VarselDto => {
 
 const getArbeidsgiver = (
     organisasjonsnummer: string,
-    behandlinger: ArbeidsgiverFragment['behandlinger'],
-): ArbeidsgiverFragment => {
+    behandlinger: ApiArbeidsgiver['behandlinger'],
+): ApiArbeidsgiver => {
     return {
-        __typename: 'Arbeidsgiver',
         arbeidsforhold: [],
         behandlinger: behandlinger,
         ghostPerioder: [],
@@ -115,10 +110,9 @@ const getArbeidsgiver = (
     };
 };
 
-const getBehandlinger = (periods: BeregnetPeriodeFragment[]) => {
+const getBehandlinger = (periods: ApiBeregnetPeriode[]) => {
     return [
         {
-            __typename: 'Behandling' as const,
             id: 'EN_ID',
             perioder: periods,
         },
@@ -127,8 +121,8 @@ const getBehandlinger = (periods: BeregnetPeriodeFragment[]) => {
 
 describe('harUvurderteVarslerPåEllerFør', () => {
     it('Arbeidsgiver uten behandlinger filtreres vekk før sjekk av uvurderte varsler', () => {
-        const period: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
-        const arbeidsgivere: ArbeidsgiverFragment[] = [
+        const period: ApiBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
+        const arbeidsgivere: ApiArbeidsgiver[] = [
             getArbeidsgiver('et orgnr1', []),
             getArbeidsgiver(
                 'et annet orgnr',
@@ -145,8 +139,8 @@ describe('harUvurderteVarslerPåEllerFør', () => {
         expect(result).toEqual(false);
     });
     it('Kan godkjenne varsler dersom det ikke finnes uvurderte varsler', () => {
-        const period: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
-        const arbeidsgivere: ArbeidsgiverFragment[] = [
+        const period: ApiBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
+        const arbeidsgivere: ApiArbeidsgiver[] = [
             getArbeidsgiver('et orgnr', getBehandlinger([period])),
             getArbeidsgiver(
                 'et annet orgnr',
@@ -163,25 +157,25 @@ describe('harUvurderteVarslerPåEllerFør', () => {
         expect(result).toEqual(false);
     });
     it('Kan ikke godkjenne periode dersom det finnes varsel som ikke er vurdert', () => {
-        const period: BeregnetPeriodeFragment = getFetchedBeregnetPeriode(
+        const period: ApiBeregnetPeriode = getFetchedBeregnetPeriode(
             '2018-01-01',
             '2018-01-31',
-            getVarsel(Varselstatus.Aktiv),
+            getVarsel(ApiSaksbildeVarselstatus.AKTIV),
         );
-        const arbeidsgivere: ArbeidsgiverFragment[] = [getArbeidsgiver('et orgnr', getBehandlinger([period]))];
+        const arbeidsgivere: ApiArbeidsgiver[] = [getArbeidsgiver('et orgnr', getBehandlinger([period]))];
 
         const result = harUvurderteVarslerPåEllerFør(period, arbeidsgivere);
 
         expect(result).toEqual(true);
     });
     it('Kan ikke godkjenne periode dersom det finnes varsel på tidligere periode som ikke er vurdert', () => {
-        const period: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
-        const arbeidsgivere: ArbeidsgiverFragment[] = [
+        const period: ApiBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
+        const arbeidsgivere: ApiArbeidsgiver[] = [
             getArbeidsgiver(
                 'et orgnr',
                 getBehandlinger([
                     period,
-                    getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv)),
+                    getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(ApiSaksbildeVarselstatus.AKTIV)),
                 ]),
             ),
         ];
@@ -191,13 +185,13 @@ describe('harUvurderteVarslerPåEllerFør', () => {
         expect(result).toEqual(true);
     });
     it('Kan godkjenne periode dersom det kun finnes uvurderte varsler på perioder som ligger senere i tid', () => {
-        const activePeriod: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
-        const arbeidsgivere: ArbeidsgiverFragment[] = [
+        const activePeriod: ApiBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
+        const arbeidsgivere: ApiArbeidsgiver[] = [
             getArbeidsgiver(
                 'et orgnr',
                 getBehandlinger([
                     activePeriod,
-                    getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv)),
+                    getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(ApiSaksbildeVarselstatus.AKTIV)),
                 ]),
             ),
         ];
@@ -207,12 +201,14 @@ describe('harUvurderteVarslerPåEllerFør', () => {
         expect(result).toEqual(false);
     });
     it('Kan ikke godkjenne periode dersom det finnes uvurderte varsler på perioder på andre arbeidsgivere som ligger før eller samtidig i tid', () => {
-        const activePeriod: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
-        const arbeidsgivere: ArbeidsgiverFragment[] = [
+        const activePeriod: ApiBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
+        const arbeidsgivere: ApiArbeidsgiver[] = [
             getArbeidsgiver('et orgnr', getBehandlinger([activePeriod])),
             getArbeidsgiver(
                 'et annet orgnr',
-                getBehandlinger([getFetchedBeregnetPeriode('2018-01-01', '2018-01-31', getVarsel(Varselstatus.Aktiv))]),
+                getBehandlinger([
+                    getFetchedBeregnetPeriode('2018-01-01', '2018-01-31', getVarsel(ApiSaksbildeVarselstatus.AKTIV)),
+                ]),
             ),
         ];
 
@@ -221,12 +217,14 @@ describe('harUvurderteVarslerPåEllerFør', () => {
         expect(result).toEqual(true);
     });
     it('Kan ikke godkjenne periode dersom det finnes varsel på tidligere perioder på andre arbeidsgivere som som ikke er vurdert', () => {
-        const activePeriod: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
-        const arbeidsgivere: ArbeidsgiverFragment[] = [
+        const activePeriod: ApiBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
+        const arbeidsgivere: ApiArbeidsgiver[] = [
             getArbeidsgiver('et orgnr', getBehandlinger([activePeriod])),
             getArbeidsgiver(
                 'et annet orgnr',
-                getBehandlinger([getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(Varselstatus.Aktiv))]),
+                getBehandlinger([
+                    getFetchedBeregnetPeriode('2017-12-01', '2017-12-16', getVarsel(ApiSaksbildeVarselstatus.AKTIV)),
+                ]),
             ),
         ];
 
@@ -235,12 +233,14 @@ describe('harUvurderteVarslerPåEllerFør', () => {
         expect(result).toEqual(true);
     });
     it('Kan godkjenne periode dersom det finnes uvurderte varsler på perioder på andre arbeidsgivere som ligger senere i tid', () => {
-        const activePeriod: BeregnetPeriodeFragment = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
-        const arbeidsgivere: ArbeidsgiverFragment[] = [
+        const activePeriod: ApiBeregnetPeriode = getFetchedBeregnetPeriode('2018-01-01', '2018-01-31');
+        const arbeidsgivere: ApiArbeidsgiver[] = [
             getArbeidsgiver('et orgnr', getBehandlinger([activePeriod])),
             getArbeidsgiver(
                 'et annet orgnr',
-                getBehandlinger([getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(Varselstatus.Aktiv))]),
+                getBehandlinger([
+                    getFetchedBeregnetPeriode('2018-02-01', '2018-02-28', getVarsel(ApiSaksbildeVarselstatus.AKTIV)),
+                ]),
             ),
         ];
 

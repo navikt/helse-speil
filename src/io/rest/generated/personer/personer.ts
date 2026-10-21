@@ -13,6 +13,7 @@ import type {
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingerForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode,
     ApiHttpProblemDetailsApiGetVeilederStansErrorCode,
     ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
@@ -26,6 +27,7 @@ import type {
     ApiPersonSokResponse,
     ApiSaksbehandlerStans,
     ApiSaksbehandlerhandling,
+    ApiSaksbildePerson,
     ApiServerSentEvent,
     ApiStansRequest,
     ApiSykepengegrunnlagRequest,
@@ -1695,6 +1697,137 @@ export function useGetPerson<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetSaksbildeForPersonUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/saksbilde`;
+};
+
+export const getSaksbildeForPerson = async (pseudoId: string, options?: RequestInit): Promise<ApiSaksbildePerson> => {
+    const res = await fetch(getGetSaksbildeForPersonUrl(pseudoId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiSaksbildePerson; status?: number } = new globalThis.Error();
+        const data: ApiSaksbildePerson = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiSaksbildePerson = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetSaksbildeForPersonQueryKey = (pseudoId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/saksbilde`] as const;
+};
+
+export const useGetSaksbildeForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getSaksbildeForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbildeForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetSaksbildeForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSaksbildeForPerson>>> = ({ signal }) =>
+        getSaksbildeForPerson(pseudoId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<Awaited<ReturnType<typeof getSaksbildeForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetSaksbildeForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getSaksbildeForPerson>>>;
+export type GetSaksbildeForPersonQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode;
+    status?: number;
+};
+
+export function useGetSaksbildeForPerson<
+    TData = Awaited<ReturnType<typeof getSaksbildeForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbildeForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getSaksbildeForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getSaksbildeForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetSaksbildeForPerson<
+    TData = Awaited<ReturnType<typeof getSaksbildeForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbildeForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getSaksbildeForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getSaksbildeForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetSaksbildeForPerson<
+    TData = Awaited<ReturnType<typeof getSaksbildeForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbildeForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetSaksbildeForPerson<
+    TData = Awaited<ReturnType<typeof getSaksbildeForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbildeForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetSaksbildeForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

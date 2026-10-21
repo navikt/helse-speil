@@ -1,20 +1,17 @@
 import {
-    Arbeidsforholdoverstyring,
-    Arbeidsgiver,
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    Dagoverstyring,
-    GhostPeriodeFragment,
-    Inntektoverstyring,
-    Maybe,
-    MinimumSykdomsgradOverstyring,
-    Overstyring,
-    Person,
-    PersonFragment,
-    SelvstendigNaering,
-    Sykepengegrunnlagskjonnsfastsetting,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
+    ApiArbeidsforholdoverstyring,
+    ApiArbeidsgiver,
+    ApiBeregnetPeriode,
+    ApiDagoverstyring,
+    ApiGhostPeriode,
+    ApiInntektoverstyring,
+    ApiMinimumSykdomsgradOverstyring,
+    ApiOverstyring,
+    ApiSaksbildePerson,
+    ApiSelvstendigNaering,
+    ApiSykepengegrunnlagskjonnsfastsetting,
+    ApiUberegnetPeriode,
+} from '@io/rest/generated/spesialist.schemas';
 import {
     ApiDialogmelding,
     ApiDialogmeldingFraBehandler,
@@ -29,50 +26,53 @@ import { OverstyringerPrDag } from '@typer/utbetalingstabell';
 export const isInfotrygdPeriod = (period?: TimelinePeriod | null): period is InfotrygdPeriod =>
     (period as InfotrygdPeriod)?.typetekst !== undefined && (period as InfotrygdPeriod)?.typetekst !== null;
 
-export const isBeregnetPeriode = (periode?: TimelinePeriod | null): periode is BeregnetPeriodeFragment =>
-    (periode as BeregnetPeriodeFragment)?.__typename === 'BeregnetPeriode';
+export const isBeregnetPeriode = (periode?: TimelinePeriod | null): periode is ApiBeregnetPeriode =>
+    (periode as ApiBeregnetPeriode)?.type === 'ApiBeregnetPeriode';
 
-export const isGhostPeriode = (period?: TimelinePeriod | null): period is GhostPeriodeFragment =>
-    (period as GhostPeriodeFragment)?.__typename === 'GhostPeriode';
+export const isGhostPeriode = (period?: TimelinePeriod | null): period is ApiGhostPeriode =>
+    period != null && 'deaktivert' in period && !('type' in period);
 
-export const isUberegnetPeriode = (period?: TimelinePeriod | null): period is UberegnetPeriodeFragment =>
-    (period as UberegnetPeriodeFragment)?.__typename === 'UberegnetPeriode';
+export const isUberegnetPeriode = (period?: TimelinePeriod | null): period is ApiUberegnetPeriode =>
+    (period as ApiUberegnetPeriode)?.type === 'ApiUberegnetPeriode';
 
-export const isDagoverstyring = (overstyring?: Overstyring | null): overstyring is Dagoverstyring =>
-    (overstyring as Dagoverstyring)?.__typename === 'Dagoverstyring';
+export const isDagoverstyring = (overstyring?: ApiOverstyring | null): overstyring is ApiDagoverstyring =>
+    (overstyring as ApiDagoverstyring)?.type === 'ApiDagoverstyring';
 
-const isOverstyringPrDag = (overstyring?: Overstyring | null): overstyring is OverstyringerPrDag =>
-    typeof (overstyring as Dagoverstyring)?.__typename !== 'string';
+const isOverstyringPrDag = (
+    overstyring?: ApiOverstyring | OverstyringerPrDag | null,
+): overstyring is OverstyringerPrDag => typeof (overstyring as ApiDagoverstyring)?.type !== 'string';
 
-export const isOverstyringerPrDag = (overstyringer?: Overstyring[] | null): overstyringer is OverstyringerPrDag[] =>
-    overstyringer?.every(isOverstyringPrDag) ?? false;
+export const isOverstyringerPrDag = (
+    overstyringer?: (ApiOverstyring | OverstyringerPrDag)[] | null,
+): overstyringer is OverstyringerPrDag[] => overstyringer?.every(isOverstyringPrDag) ?? false;
 
-export const isInntektoverstyring = (overstyring?: Overstyring | null): overstyring is Inntektoverstyring =>
-    (overstyring as Inntektoverstyring)?.__typename === 'Inntektoverstyring';
+export const isInntektoverstyring = (overstyring?: ApiOverstyring | null): overstyring is ApiInntektoverstyring =>
+    (overstyring as ApiInntektoverstyring)?.type === 'ApiInntektoverstyring';
 
-export const isInntektoverstyringer = (overstyringer?: Overstyring[] | null): overstyringer is Inntektoverstyring[] =>
-    overstyringer?.every(isInntektoverstyring) ?? false;
+export const isInntektoverstyringer = (
+    overstyringer?: ApiOverstyring[] | null,
+): overstyringer is ApiInntektoverstyring[] => overstyringer?.every(isInntektoverstyring) ?? false;
 
 export const isArbeidsforholdoverstyring = (
-    overstyring?: Overstyring | null,
-): overstyring is Arbeidsforholdoverstyring =>
-    (overstyring as Arbeidsforholdoverstyring)?.__typename === 'Arbeidsforholdoverstyring';
+    overstyring?: ApiOverstyring | null,
+): overstyring is ApiArbeidsforholdoverstyring =>
+    (overstyring as ApiArbeidsforholdoverstyring)?.type === 'ApiArbeidsforholdoverstyring';
 
 export const isArbeidsforholdoverstyringer = (
-    overstyringer?: Overstyring[] | null,
-): overstyringer is Arbeidsforholdoverstyring[] => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
+    overstyringer?: ApiOverstyring[] | null,
+): overstyringer is ApiArbeidsforholdoverstyring[] => overstyringer?.every(isArbeidsforholdoverstyring) ?? false;
 
 export const isSykepengegrunnlagskjønnsfastsetting = (
-    overstyring?: Overstyring | null,
-): overstyring is Sykepengegrunnlagskjonnsfastsetting =>
-    (overstyring as Sykepengegrunnlagskjonnsfastsetting)?.__typename === 'Sykepengegrunnlagskjonnsfastsetting';
+    overstyring?: ApiOverstyring | null,
+): overstyring is ApiSykepengegrunnlagskjonnsfastsetting =>
+    (overstyring as ApiSykepengegrunnlagskjonnsfastsetting)?.type === 'ApiSykepengegrunnlagskjonnsfastsetting';
 
 export const isMinimumSykdomsgradsoverstyring = (
-    overstyring?: Overstyring | null,
-): overstyring is MinimumSykdomsgradOverstyring =>
-    (overstyring as MinimumSykdomsgradOverstyring)?.__typename === 'MinimumSykdomsgradOverstyring';
+    overstyring?: ApiOverstyring | null,
+): overstyring is ApiMinimumSykdomsgradOverstyring =>
+    (overstyring as ApiMinimumSykdomsgradOverstyring)?.type === 'ApiMinimumSykdomsgradOverstyring';
 
-export const isPerson = (person?: Maybe<PersonFragment | Person>): person is PersonFragment => {
+export const isPerson = (person?: ApiSaksbildePerson | null): person is ApiSaksbildePerson => {
     return person !== undefined && person !== null && typeof person['fodselsnummer'] === 'string';
 };
 
@@ -84,16 +84,16 @@ export const isNumber = (aNumber: unknown): aNumber is number => {
     return aNumber !== undefined && aNumber !== null && typeof aNumber === 'number';
 };
 
-export const isArbeidsgiver = (inntektsforhold?: Inntektsforhold | null): inntektsforhold is Arbeidsgiver => {
-    return (inntektsforhold as Arbeidsgiver)?.organisasjonsnummer != undefined;
+export const isArbeidsgiver = (inntektsforhold?: Inntektsforhold | null): inntektsforhold is ApiArbeidsgiver => {
+    return (inntektsforhold as ApiArbeidsgiver)?.organisasjonsnummer != undefined;
 };
 
 export const isSelvstendigNaering = (
     inntektsforhold?: Inntektsforhold | null,
-): inntektsforhold is SelvstendigNaering => {
+): inntektsforhold is ApiSelvstendigNaering => {
     return (
-        (inntektsforhold as ArbeidsgiverFragment).organisasjonsnummer == undefined &&
-        (inntektsforhold as SelvstendigNaering).behandlinger !== undefined
+        (inntektsforhold as ApiArbeidsgiver).organisasjonsnummer == undefined &&
+        (inntektsforhold as ApiSelvstendigNaering).behandlinger !== undefined
     );
 };
 

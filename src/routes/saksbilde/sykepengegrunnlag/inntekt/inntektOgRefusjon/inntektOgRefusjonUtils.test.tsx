@@ -1,6 +1,6 @@
 import { Mock, vi } from 'vitest';
 
-import { Periodetilstand, Utbetalingstatus } from '@io/graphql';
+import { ApiPeriodetilstand, ApiUtbetalingstatus } from '@io/rest/generated/spesialist.schemas';
 import {
     useArbeidsforholdKanOverstyres,
     useGhostInntektKanOverstyres,
@@ -55,7 +55,6 @@ describe('useArbeidsforholdKanOverstyres', () => {
             ghostPerioder: [],
             periodeOverrides: {
                 totrinnsvurdering: {
-                    __typename: 'Totrinnsvurdering',
                     erBeslutteroppgave: true,
                     erRetur: false,
                     saksbehandler: null,
@@ -142,7 +141,6 @@ describe('useGhostInntektKanOverstyres', () => {
             ghostPerioder: [],
             periodeOverrides: {
                 totrinnsvurdering: {
-                    __typename: 'Totrinnsvurdering',
                     erBeslutteroppgave: true,
                     erRetur: false,
                     saksbehandler: null,
@@ -172,8 +170,8 @@ function enPersonMedSykmeldtOgArbeidsforholdUtenSykdom({
 }) {
     const sykmeldtPeriode = enBeregnetPeriode({
         skjaeringstidspunkt: skjæringstidspunkt,
-        periodetilstand: Periodetilstand.Utbetalt,
-        utbetaling: enUtbetaling({ status: Utbetalingstatus.Utbetalt }),
+        periodetilstand: ApiPeriodetilstand.Utbetalt,
+        utbetaling: enUtbetaling({ status: ApiUtbetalingstatus.UTBETALT }),
         ...periodeOverrides,
     });
     const sykmeldtArbeidsgiver = enArbeidsgiver({

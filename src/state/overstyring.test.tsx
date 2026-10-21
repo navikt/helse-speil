@@ -1,4 +1,4 @@
-import { Kildetype } from '@io/graphql';
+import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { lagOverstyrtInntektMetadata } from '@state/overstyring';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enPerson } from '@test-data/person';
@@ -33,7 +33,7 @@ describe('lagOverstyrtInntektMetadata', () => {
         const metadata = lagOverstyrtInntektMetadata(person, arbeidsgiver, skjæringstidspunkt, 'gjeldende');
 
         expect(metadata.fraRefusjonsopplysninger).toEqual([
-            { fom: '2020-01-01', tom: null, beløp: 30000, kilde: Kildetype.Saksbehandler },
+            { fom: '2020-01-01', tom: null, beløp: 30000, kilde: ApiKildetype.SAKSBEHANDLER },
         ]);
     });
 
@@ -59,7 +59,7 @@ describe('lagOverstyrtInntektMetadata', () => {
         const metadata = lagOverstyrtInntektMetadata(person, arbeidsgiver, skjæringstidspunkt, 'gjeldende');
 
         expect(metadata.fraRefusjonsopplysninger).toEqual([
-            { fom: '2020-01-01', tom: null, beløp: 30000, kilde: Kildetype.Saksbehandler },
+            { fom: '2020-01-01', tom: null, beløp: 30000, kilde: ApiKildetype.SAKSBEHANDLER },
         ]);
     });
 
@@ -122,10 +122,8 @@ function enArbeidsgiverrefusjon(
     refusjonsopplysninger: { fom: string; tom: string | null; belop: number }[],
 ) {
     return {
-        __typename: 'Arbeidsgiverrefusjon' as const,
         arbeidsgiver: organisasjonsnummer,
         refusjonsopplysninger: refusjonsopplysninger.map((it) => ({
-            __typename: 'Refusjonselement' as const,
             ...it,
             meldingsreferanseId: 'en-meldingsreferanseId',
         })),

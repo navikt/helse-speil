@@ -1,11 +1,11 @@
 import dayjs from 'dayjs';
 
-import { BeregnetPeriodeFragment, Varselstatus } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiSaksbildeVarselstatus } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { DatePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
-export const harUvurderteVarslerPåPeriode = (periode: BeregnetPeriodeFragment | DatePeriod): boolean => {
+export const harUvurderteVarslerPåPeriode = (periode: ApiBeregnetPeriode | DatePeriod): boolean => {
     if (!isBeregnetPeriode(periode) && !isUberegnetPeriode(periode)) {
         return false;
     }
@@ -14,12 +14,13 @@ export const harUvurderteVarslerPåPeriode = (periode: BeregnetPeriodeFragment |
         .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
         .some(
             (varsel) =>
-                varsel.vurdering?.status !== Varselstatus.Vurdert && varsel.vurdering?.status !== Varselstatus.Godkjent,
+                varsel.vurdering?.status !== ApiSaksbildeVarselstatus.VURDERT &&
+                varsel.vurdering?.status !== ApiSaksbildeVarselstatus.GODKJENT,
         );
 };
 
 export const harUvurderteVarslerPåEllerFør = (
-    activePeriod: BeregnetPeriodeFragment,
+    activePeriod: ApiBeregnetPeriode,
     inntektsforhold: Inntektsforhold[],
 ): boolean => {
     return inntektsforhold
@@ -32,8 +33,8 @@ export const harUvurderteVarslerPåEllerFør = (
                 .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
                 .some(
                     (varsel) =>
-                        varsel.vurdering?.status !== Varselstatus.Vurdert &&
-                        varsel.vurdering?.status !== Varselstatus.Godkjent,
+                        varsel.vurdering?.status !== ApiSaksbildeVarselstatus.VURDERT &&
+                        varsel.vurdering?.status !== ApiSaksbildeVarselstatus.GODKJENT,
                 );
         });
 };

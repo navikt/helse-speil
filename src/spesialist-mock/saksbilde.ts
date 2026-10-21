@@ -1,8 +1,4 @@
-import spesialistSchema from './graphql.schema.json';
-import { GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
-
-import { makeExecutableSchema } from '@graphql-tools/schema';
-import type { IResolvers } from '@graphql-tools/utils';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { leggPåDagoverstyringer } from '@spesialist-mock/dagoverstyring';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
@@ -12,8 +8,7 @@ import { UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
-import { ManglendeAvviksvurderingError, NotReadyError } from './errors';
-import { BeregnetPeriode, Egenskap, Historikkinnslag, Person, Utbetaling } from './schemaTypes';
+import { BeregnetPeriode, Egenskap, Historikkinnslag, Person } from './schemaTypes';
 import { BehandlingMock } from './storage/behandling';
 import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
@@ -80,95 +75,19 @@ export const fetchPersondata = (): Record<string, Person> => {
 };
 
 let valgtPerson: Person | undefined;
+let historikkinnslagErLastet = false;
 
-const getResolvers = (): IResolvers => ({
-    Query: {
-        person: async (_, { personPseudoId }: { personPseudoId: string }) => {
-            if (personPseudoId == '64b51f30-2f3f-4872-afb9-8f7f31ab6c36') return new NotReadyError();
-            if (personPseudoId == 'b99b7845-f892-484c-b1d8-e070d2821bb6') return new ManglendeAvviksvurderingError();
-
-            const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
-            if (!fødselsnummer) throw Error('personPseudoId i person-query skal vel alltid tilhøre en person?');
-            const person = fetchPersondata()[fødselsnummer];
-
-            valgtPerson = person;
-            return person;
-        },
-    },
-    Periode: {
-        __resolveType: (periode: { utbetaling: Utbetaling; vilkarsgrunnlagId: string }) => {
-            return periode.utbetaling?.id ? 'BeregnetPeriode' : 'UberegnetPeriode';
-        },
-    },
-    VilkarsgrunnlagV2: {
-        __resolveType: (grunnlag: { grunnbelop?: number }) => {
-            return typeof grunnlag.grunnbelop === 'number' ? 'VilkarsgrunnlagSpleisV2' : 'VilkarsgrunnlagInfotrygdV2';
-        },
-    },
-    Hendelse: {
-        __resolveType: (hendelse: { type: string }) => {
-            return (() => {
-                switch (hendelse.type) {
-                    case 'INNTEKTSMELDING':
-                        return 'Inntektsmelding';
-                    case 'NY_SOKNAD':
-                        return 'Sykmelding';
-                    case 'SENDT_SOKNAD_ARBEIDSGIVER':
-                        return 'SoknadArbeidsgiver';
-                    case 'SENDT_SOKNAD_NAV':
-                        return 'SoknadNav';
-                    case 'SENDT_SOKNAD_ARBEIDSLEDIG':
-                        return 'SoknadArbeidsledig';
-                    case 'SENDT_SOKNAD_FRILANS':
-                        return 'SoknadFrilans';
-                    case 'INNTEKT_HENTET_FRA_AORDNINGEN':
-                        return 'InntektHentetFraAOrdningen';
-                    case 'SENDT_SOKNAD_SELVSTENDIG':
-                        return 'SoknadSelvstendig';
-                    default:
-                        throw Error(`Fant hendelse med ukjent type: ${hendelse.type}`);
-                }
-            })();
-        },
-    },
-    Overstyring: {
-        __resolveType: (overstyring: {
-            dager?: object[];
-            inntekt?: object;
-            skjonnsfastsatt?: object;
-            minimumSykdomsgrad?: object;
-        }) =>
-            overstyring.dager
-                ? 'Dagoverstyring'
-                : overstyring.inntekt
-                  ? 'Inntektoverstyring'
-                  : overstyring.skjonnsfastsatt
-                    ? 'Sykepengegrunnlagskjonnsfastsetting'
-                    : overstyring.minimumSykdomsgrad
-                      ? 'MinimumSykdomsgradOverstyring'
-                      : 'Arbeidsforholdoverstyring',
-    },
-    Historikkinnslag: {
-        __resolveType: (historikkinnslag: { type: string }) => {
-            switch (historikkinnslag.type) {
-                case 'LEGG_PA_VENT':
-                    return 'LagtPaVent';
-                case 'ENDRE_PA_VENT':
-                    return 'EndrePaVent';
-                case 'FJERN_FRA_PA_VENT':
-                    return 'FjernetFraPaVent';
-                case 'TOTRINNSVURDERING_RETUR':
-                    return 'TotrinnsvurderingRetur';
-                case 'STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER':
-                    return 'StansAutomatiskBehandlingSaksbehandler';
-                case 'OPPHEV_STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER':
-                    return 'OpphevStansAutomatiskBehandlingSaksbehandler';
-                default:
-                    return 'PeriodeHistorikkElementNy';
-            }
-        },
-    },
-});
+export function hentSaksbilde(personPseudoId: string): ApiSaksbildePerson | undefined {
+    if (!historikkinnslagErLastet) {
+        puttHistorikkinnslagFraTestpersonerIMock();
+        historikkinnslagErLastet = true;
+    }
+    const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
+    if (!fødselsnummer) return undefined;
+    const person = fetchPersondata()[fødselsnummer];
+    valgtPerson = person;
+    return person ? tilSaksbilde(person) : undefined;
+}
 
 export const finnOppgaveId = (): string | null => {
     if (!valgtPerson) return null;
@@ -213,10 +132,102 @@ const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
     });
 };
 
-export const buildSchema = (): GraphQLSchema => {
-    puttHistorikkinnslagFraTestpersonerIMock();
-    return makeExecutableSchema({
-        typeDefs: buildClientSchema(spesialistSchema as unknown as IntrospectionQuery),
-        resolvers: getResolvers(),
-    });
-};
+type JsonObjekt = Record<string, unknown>;
+
+function tilSaksbilde(person: Person): ApiSaksbildePerson {
+    const kopi = utenTypename(structuredClone(person)) as JsonObjekt;
+    const inntektsforhold = [
+        ...(kopi.arbeidsgivere as JsonObjekt[]),
+        ...(kopi.selvstendigNaering ? [kopi.selvstendigNaering as JsonObjekt] : []),
+    ];
+    for (const forhold of inntektsforhold) {
+        for (const overstyring of forhold.overstyringer as JsonObjekt[])
+            overstyring.type = overstyringstype(overstyring);
+        for (const behandling of forhold.behandlinger as JsonObjekt[]) {
+            for (const periode of behandling.perioder as JsonObjekt[]) {
+                periode.type = (periode.utbetaling as JsonObjekt | undefined)?.id
+                    ? 'ApiBeregnetPeriode'
+                    : 'ApiUberegnetPeriode';
+                for (const hendelse of (periode.hendelser as JsonObjekt[] | undefined) ?? []) {
+                    hendelse.hendelsetype = hendelse.type;
+                    hendelse.type = hendelsestype(hendelse.type as string);
+                }
+                for (const innslag of (periode.historikkinnslag as JsonObjekt[] | undefined) ?? []) {
+                    innslag.historikktype = innslag.type;
+                    innslag.type = historikkinnslagtype(innslag.type as string);
+                }
+            }
+        }
+    }
+    for (const grunnlag of kopi.vilkarsgrunnlagV2 as JsonObjekt[]) {
+        grunnlag.type =
+            typeof grunnlag.grunnbelop === 'number' ? 'ApiVilkårsgrunnlagSpleisV2' : 'ApiVilkårsgrunnlagInfotrygdV2';
+    }
+    return kopi as unknown as ApiSaksbildePerson;
+}
+
+function utenTypename(verdi: unknown): unknown {
+    if (Array.isArray(verdi)) return verdi.map(utenTypename);
+    if (verdi !== null && typeof verdi === 'object') {
+        return Object.fromEntries(
+            Object.entries(verdi)
+                .filter(([nøkkel]) => nøkkel !== '__typename')
+                .map(([nøkkel, v]) => [nøkkel, utenTypename(v)]),
+        );
+    }
+    return verdi;
+}
+
+function overstyringstype(overstyring: JsonObjekt): string {
+    return overstyring.dager
+        ? 'ApiDagoverstyring'
+        : overstyring.inntekt
+          ? 'ApiInntektoverstyring'
+          : overstyring.skjonnsfastsatt
+            ? 'ApiSykepengegrunnlagskjonnsfastsetting'
+            : overstyring.minimumSykdomsgrad
+              ? 'ApiMinimumSykdomsgradOverstyring'
+              : 'ApiArbeidsforholdoverstyring';
+}
+
+function hendelsestype(type: string): string {
+    switch (type) {
+        case 'INNTEKTSMELDING':
+            return 'ApiInntektsmelding';
+        case 'NY_SOKNAD':
+            return 'ApiSykmelding';
+        case 'SENDT_SOKNAD_ARBEIDSGIVER':
+            return 'ApiSoknadArbeidsgiver';
+        case 'SENDT_SOKNAD_NAV':
+            return 'ApiSoknadNav';
+        case 'SENDT_SOKNAD_ARBEIDSLEDIG':
+            return 'ApiSoknadArbeidsledig';
+        case 'SENDT_SOKNAD_FRILANS':
+            return 'ApiSoknadFrilans';
+        case 'INNTEKT_HENTET_FRA_AORDNINGEN':
+            return 'ApiInntektHentetFraAOrdningen';
+        case 'SENDT_SOKNAD_SELVSTENDIG':
+            return 'ApiSoknadSelvstendig';
+        default:
+            throw Error(`Fant hendelse med ukjent type: ${type}`);
+    }
+}
+
+function historikkinnslagtype(type: string): string {
+    switch (type) {
+        case 'LEGG_PA_VENT':
+            return 'ApiLagtPaVent';
+        case 'ENDRE_PA_VENT':
+            return 'ApiEndrePaVent';
+        case 'FJERN_FRA_PA_VENT':
+            return 'ApiFjernetFraPaVent';
+        case 'TOTRINNSVURDERING_RETUR':
+            return 'ApiTotrinnsvurderingRetur';
+        case 'STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER':
+            return 'ApiStansAutomatiskBehandlingSaksbehandler';
+        case 'OPPHEV_STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER':
+            return 'ApiOpphevStansAutomatiskBehandlingSaksbehandler';
+        default:
+            return 'ApiPeriodeHistorikkElementNy';
+    }
+}

@@ -1,8 +1,14 @@
 import dayjs from 'dayjs';
 import { atom, useAtom, useAtomValue } from 'jotai';
 
-import { BeregnetPeriodeFragment, GhostPeriodeFragment, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
-import { ApiNotat, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiNotat,
+    ApiSaksbehandlerhandling,
+    ApiSaksbildePerson,
+    ApiUberegnetPeriode,
+} from '@io/rest/generated/spesialist.schemas';
 import { finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold, finnInntektsforholdForPeriode } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithSessionStorage } from '@state/jotai';
@@ -34,8 +40,8 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
 };
 
 const getHendelserForBeregnetPeriode = (
-    periode: BeregnetPeriodeFragment,
-    person: PersonFragment,
+    periode: ApiBeregnetPeriode,
+    person: ApiSaksbildePerson,
     notater: ApiNotat[],
     saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
 ): HendelseObject[] => {
@@ -69,14 +75,13 @@ const getHendelserForBeregnetPeriode = (
     return [...hendelserTomUtbetalingstidspunkt, ...hendelserForAlleUtbetalinger].sort(byTimestamp);
 };
 
-const hendelseTidspunktLiktEllerFørUtbetalingForPeriode =
-    (period: BeregnetPeriodeFragment) => (hendelse: HendelseObject) =>
-        period.utbetaling.vurdering?.tidsstempel
-            ? hendelse.timestamp &&
-              dayjs(hendelse.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
-            : true;
+const hendelseTidspunktLiktEllerFørUtbetalingForPeriode = (period: ApiBeregnetPeriode) => (hendelse: HendelseObject) =>
+    period.utbetaling.vurdering?.tidsstempel
+        ? hendelse.timestamp &&
+          dayjs(hendelse.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
+        : true;
 
-const getHendelserForGhostPeriode = (periode: GhostPeriodeFragment, person: PersonFragment): HendelseObject[] => {
+const getHendelserForGhostPeriode = (periode: ApiGhostPeriode, person: ApiSaksbildePerson): HendelseObject[] => {
     const arbeidsgiver = finnArbeidsgiverForGhostPeriode(person, periode);
     if (!arbeidsgiver) {
         return [];
@@ -92,8 +97,8 @@ const getHendelserForGhostPeriode = (periode: GhostPeriodeFragment, person: Pers
 };
 
 const getHendelserForUberegnetPeriode = (
-    periode: UberegnetPeriodeFragment,
-    person: PersonFragment,
+    periode: ApiUberegnetPeriode,
+    person: ApiSaksbildePerson,
     notater: ApiNotat[],
     saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
 ): HendelseObject[] => {
@@ -116,7 +121,7 @@ const getHendelserForUberegnetPeriode = (
 };
 
 const useHistorikk = (
-    person: PersonFragment | null,
+    person: ApiSaksbildePerson | null,
     notater: ApiNotat[],
     saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
 ): HendelseObject[] => {
@@ -172,7 +177,7 @@ const showHistorikkState = atomWithSessionStorage('showHistorikkState', true);
 export const useShowHistorikkState = () => useAtom(showHistorikkState);
 
 export const useFilteredHistorikk = (
-    person: PersonFragment | null,
+    person: ApiSaksbildePerson | null,
     notater: ApiNotat[],
     saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
 ): HendelseObject[] => {

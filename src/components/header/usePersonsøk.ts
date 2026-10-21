@@ -3,7 +3,7 @@ import { useRouter } from 'next/navigation';
 import { teamLogger } from '@navikt/next-logger/team-log';
 
 import { useLoadingToast } from '@hooks/useLoadingToast';
-import { FetchError, NotFoundError, UgyldigFødselsnummerError, UgyldigIdentifikatorError } from '@io/graphql/errors';
+import { FetchError, NotFoundError, UgyldigFødselsnummerError, UgyldigIdentifikatorError } from '@io/errors';
 import { usePostPersonSok } from '@io/rest/generated/personer/personer';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
 import { useNullstillSaksbildeTab } from '@state/tab';

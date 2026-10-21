@@ -1,6 +1,6 @@
 import { Mock, vi } from 'vitest';
 
-import { Periodetilstand } from '@io/graphql';
+import { ApiPeriodetilstand } from '@io/rest/generated/spesialist.schemas';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
@@ -74,7 +74,7 @@ describe('ToggleOverstyring', () => {
     describe('skal vise help text når perioden ikke kan overstyres på grunn av', () => {
         it('perioden er uberegnet og ikke lik eller før periode til godkjenning', () => {
             const beregnetPeriode = enBeregnetPeriode({
-                periodetilstand: Periodetilstand.TilGodkjenning,
+                periodetilstand: ApiPeriodetilstand.TilGodkjenning,
                 fom: '2020-01-01',
                 tom: '2020-01-31',
             }).medOppgave();

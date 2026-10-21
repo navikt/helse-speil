@@ -4,13 +4,13 @@ import { VStack } from '@navikt/ds-react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
 import {
-    Arbeidsgiverinntekt,
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    PersonFragment,
-    Sykepengegrunnlagsgrense,
-    Sykepengegrunnlagskjonnsfastsetting,
-} from '@io/graphql';
+    ApiArbeidsgiverinntekt,
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiSaksbildePerson,
+    ApiSykepengegrunnlagsgrense,
+    ApiSykepengegrunnlagskjonnsfastsetting,
+} from '@io/rest/generated/spesialist.schemas';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import {
     useAtomEditingForPersonOgSkjæringstidspunkt,
@@ -30,14 +30,14 @@ import { SkjønnsfastsettingSammendrag } from './SkjønnsfastsettingSammendrag';
 import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
 
 interface SkjønnsfastsettingSykepengegrunnlagProps {
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode | ApiGhostPeriode;
     sykepengegrunnlag: number;
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
     omregnetÅrsinntekt: number;
     sammenligningsgrunnlag?: number | null;
     skjønnsmessigFastsattÅrlig?: number | null;
-    inntekter: Arbeidsgiverinntekt[];
+    inntekter: ApiArbeidsgiverinntekt[];
     avviksprosent: number;
     organisasjonsnummer: string;
 }
@@ -76,7 +76,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
         setEndretSykepengegrunnlag(null);
     };
 
-    const sisteSkjønnsfastsettelse: Sykepengegrunnlagskjonnsfastsetting | null =
+    const sisteSkjønnsfastsettelse: ApiSykepengegrunnlagskjonnsfastsetting | null =
         useAktivtInntektsforhold(person)
             ?.overstyringer.filter(isSykepengegrunnlagskjønnsfastsetting)
             .sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1))

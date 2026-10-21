@@ -5,13 +5,13 @@ import { BodyShort, Detail, HStack, Heading, InlineMessage, VStack } from '@navi
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import { LovdataLenke } from '@components/LovdataLenke';
-import { PersonFragment } from '@io/graphql';
 import { useGetForsikringsvurderingForPerson } from '@io/rest/generated/forsikringer/forsikringer';
 import {
     ApiFolketrygdlovenreferanse,
     ApiForsikringsvurdering,
     ApiIndividuellForsikring,
     ApiKollektivForsikring,
+    ApiSaksbildePerson,
 } from '@io/rest/generated/spesialist.schemas';
 import { EndringssjekkKnapp } from '@saksbilde/sykepengegrunnlag/sykepengegrunnlagvisninger/spleis/selvstendig/EndringssjekkKnapp';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -23,7 +23,7 @@ import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 interface ForsikringSeksjonProps {
     forsikringsvurderingId: string | null;
     skjæringstidspunkt: string;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 export const ForsikringSeksjon = ({

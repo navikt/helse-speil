@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { PeriodehistorikkType, PersonFragment } from '@io/graphql';
+import { ApiPeriodehistorikkType, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { FjernetFraPåVentHendelse } from '@saksbilde/historikk/hendelser/FjernetFraPåVentHendelse';
 import { LagtPåVentHendelse } from '@saksbilde/historikk/hendelser/LagtPåVentHendelse';
 import { OpphevStansAutomatiskBehandlingSaksbehandlerHendelse } from '@saksbilde/historikk/hendelser/OpphevStansAutomatiskBehandlingSaksbehandlerHendelse';
@@ -14,7 +14,7 @@ import { HistorikkhendelseObject } from '@typer/historikk';
 
 interface HistorikkHendelseProps {
     hendelse: HistorikkhendelseObject;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
 }
 
 export const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps): ReactElement => {
@@ -22,15 +22,15 @@ export const HistorikkHendelse = ({ hendelse, person }: HistorikkHendelseProps):
     return <HendelseComponent person={person} hendelse={hendelse} />;
 };
 const historikkhendelseComponents = {
-    [PeriodehistorikkType.LeggPaVent]: LagtPåVentHendelse,
-    [PeriodehistorikkType.EndrePaVent]: LagtPåVentHendelse,
-    [PeriodehistorikkType.FjernFraPaVent]: FjernetFraPåVentHendelse,
-    [PeriodehistorikkType.TotrinnsvurderingAttestert]: TotrinnsvurderingAttestertHendelse,
-    [PeriodehistorikkType.TotrinnsvurderingTilGodkjenning]: TotrinnsvurderingTilGodkjenningHendelse,
-    [PeriodehistorikkType.VedtaksperiodeReberegnet]: VedtaksperiodeReberegnetHendelse,
-    [PeriodehistorikkType.StansAutomatiskBehandling]: StansAutomatiskBehandlingHendelse,
-    [PeriodehistorikkType.TotrinnsvurderingRetur]: TotrinnsvurderingReturHendelse,
-    [PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler]: StansAutomatiskBehandlingSaksbehandlerHendelse,
-    [PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler]:
+    [ApiPeriodehistorikkType.LEGG_PA_VENT]: LagtPåVentHendelse,
+    [ApiPeriodehistorikkType.ENDRE_PA_VENT]: LagtPåVentHendelse,
+    [ApiPeriodehistorikkType.FJERN_FRA_PA_VENT]: FjernetFraPåVentHendelse,
+    [ApiPeriodehistorikkType.TOTRINNSVURDERING_ATTESTERT]: TotrinnsvurderingAttestertHendelse,
+    [ApiPeriodehistorikkType.TOTRINNSVURDERING_TIL_GODKJENNING]: TotrinnsvurderingTilGodkjenningHendelse,
+    [ApiPeriodehistorikkType.VEDTAKSPERIODE_REBEREGNET]: VedtaksperiodeReberegnetHendelse,
+    [ApiPeriodehistorikkType.STANS_AUTOMATISK_BEHANDLING]: StansAutomatiskBehandlingHendelse,
+    [ApiPeriodehistorikkType.TOTRINNSVURDERING_RETUR]: TotrinnsvurderingReturHendelse,
+    [ApiPeriodehistorikkType.STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER]: StansAutomatiskBehandlingSaksbehandlerHendelse,
+    [ApiPeriodehistorikkType.OPPHEV_STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER]:
         OpphevStansAutomatiskBehandlingSaksbehandlerHendelse,
 };

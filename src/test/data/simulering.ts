@@ -1,8 +1,12 @@
-import { Simulering, Simuleringsdetaljer, Simuleringsperiode, Simuleringsutbetaling } from '@io/graphql';
+import {
+    ApiSimulering,
+    ApiSimuleringsdetaljer,
+    ApiSimuleringsperiode,
+    ApiSimuleringsutbetaling,
+} from '@io/rest/generated/spesialist.schemas';
 import { OverridableConstructor } from '@typer/shared';
 
-export const enSimuleringsdetalj: OverridableConstructor<Simuleringsdetaljer> = (overrides) => ({
-    __typename: 'Simuleringsdetaljer',
+export const enSimuleringsdetalj: OverridableConstructor<ApiSimuleringsdetaljer> = (overrides) => ({
     fom: '2023-01-01',
     tom: '2023-01-31',
     antallSats: 31,
@@ -19,8 +23,7 @@ export const enSimuleringsdetalj: OverridableConstructor<Simuleringsdetaljer> = 
     ...overrides,
 });
 
-export const enSimuleringsutbetaling: OverridableConstructor<Simuleringsutbetaling> = (overrides) => ({
-    __typename: 'Simuleringsutbetaling',
+export const enSimuleringsutbetaling: OverridableConstructor<ApiSimuleringsutbetaling> = (overrides) => ({
     mottakerId: '987654321',
     mottakerNavn: 'EN ARBEIDSGIVER AS',
     forfall: '2023-02-01',
@@ -29,16 +32,14 @@ export const enSimuleringsutbetaling: OverridableConstructor<Simuleringsutbetali
     ...overrides,
 });
 
-export const enSimuleringsperiode: OverridableConstructor<Simuleringsperiode> = (overrides) => ({
-    __typename: 'Simuleringsperiode',
+export const enSimuleringsperiode: OverridableConstructor<ApiSimuleringsperiode> = (overrides) => ({
     fom: '2023-01-01',
     tom: '2023-01-31',
     utbetalinger: [enSimuleringsutbetaling()],
     ...overrides,
 });
 
-export const enSimulering: OverridableConstructor<Simulering> = (overrides) => ({
-    __typename: 'Simulering',
+export const enSimulering: OverridableConstructor<ApiSimulering> = (overrides) => ({
     fagsystemId: 'en-fagsystemid',
     totalbelop: 15000,
     tidsstempel: '2023-02-01T12:00:00',

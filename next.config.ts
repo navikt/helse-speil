@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     experimental: {
         optimizePackageImports: ['@navikt/ds-react', '@navikt/aksel-icons'],
     },
-    serverExternalPackages: ['graphql-yoga', 'graphql', '@grafana/faro-web-tracing'],
+    serverExternalPackages: ['@grafana/faro-web-tracing'],
     images: {
         remotePatterns: [
             {

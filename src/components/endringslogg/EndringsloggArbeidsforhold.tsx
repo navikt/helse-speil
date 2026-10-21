@@ -3,12 +3,12 @@ import React, { ReactElement } from 'react';
 import { Dialog, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
-import { Arbeidsforholdoverstyring } from '@io/graphql';
+import { ApiArbeidsforholdoverstyring } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 
 type EndringsloggArbeidsforholdProps = {
     onOpenChange: (open: boolean) => void;
-    endringer: Arbeidsforholdoverstyring[];
+    endringer: ApiArbeidsforholdoverstyring[];
 };
 
 export function EndringsloggArbeidsforhold({ endringer, onOpenChange }: EndringsloggArbeidsforholdProps): ReactElement {

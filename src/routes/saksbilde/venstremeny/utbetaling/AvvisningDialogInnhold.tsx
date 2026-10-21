@@ -5,8 +5,8 @@ import { BodyShort, Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Texta
 
 import { AvvisningSkjema, avvisningSkjema } from '@form-schemas/avvisningSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { BeregnetPeriodeFragment } from '@io/graphql';
 import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
+import { ApiBeregnetPeriode } from '@io/rest/generated/spesialist.schemas';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
@@ -14,7 +14,7 @@ import { generateId } from '@utils/generateId';
 import { ÅrsakTilAvvisning } from './årsakTilAvvisning';
 
 type AvvisningDialogInnholdProps = {
-    activePeriod: BeregnetPeriodeFragment;
+    activePeriod: ApiBeregnetPeriode;
     onSuccess: () => void;
 };
 
@@ -140,7 +140,7 @@ type ÅrsakerValg = {
     label: React.ReactNode;
 };
 
-const hentÅrsakerValg = (activePeriod: BeregnetPeriodeFragment) => {
+const hentÅrsakerValg = (activePeriod: ApiBeregnetPeriode) => {
     const valg: ÅrsakerValg[] = [];
 
     const funn = activePeriod.risikovurdering?.funn;

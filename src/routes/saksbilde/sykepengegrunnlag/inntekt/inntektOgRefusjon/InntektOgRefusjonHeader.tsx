@@ -5,12 +5,12 @@ import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Kilde } from '@components/Kilde';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Inntektskilde } from '@io/graphql';
+import { ApiInntektskilde } from '@io/rest/generated/spesialist.schemas';
 import { ArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 
 interface InntektOgRefusjonHeaderProps {
     arbeidsgiverReferanse: ArbeidsgiverReferanse;
-    kilde: Inntektskilde.Aordningen | 'AINNTEKT';
+    kilde: typeof ApiInntektskilde.AORDNINGEN | 'AINNTEKT';
 }
 
 export const InntektOgRefusjonHeader = ({ arbeidsgiverReferanse, kilde }: InntektOgRefusjonHeaderProps) => (
@@ -25,8 +25,8 @@ export const InntektOgRefusjonHeader = ({ arbeidsgiverReferanse, kilde }: Inntek
             </Tooltip>
             <BodyShort>)</BodyShort>
         </HStack>
-        {kilde === Inntektskilde.Aordningen ? (
-            <Kilde type={Inntektskilde.Aordningen}>AO</Kilde>
+        {kilde === ApiInntektskilde.AORDNINGEN ? (
+            <Kilde type={ApiInntektskilde.AORDNINGEN}>AO</Kilde>
         ) : (
             <Kilde type="AINNTEKT">AA</Kilde>
         )}

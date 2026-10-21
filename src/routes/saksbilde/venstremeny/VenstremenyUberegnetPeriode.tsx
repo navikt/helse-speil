@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { useErCoachFagkoordinatorEllerSupersaksbehandler, useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
-import { Periodetilstand, PersonFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { ApiPeriodetilstand, ApiSaksbildePerson, ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
 import { ForkastFraUberegnetButton } from '@saksbilde/venstremeny/utbetaling/ForkastFraUberegnetButton';
@@ -12,9 +12,9 @@ import { PeriodeCard } from './PeriodeCard';
 import styles from './Venstremeny.module.css';
 
 interface VenstremenyUberegnetPeriodeProps {
-    activePeriod: UberegnetPeriodeFragment;
+    activePeriod: ApiUberegnetPeriode;
     inntektsforhold: Inntektsforhold;
-    currentPerson: PersonFragment;
+    currentPerson: ApiSaksbildePerson;
 }
 
 export const VenstremenyUberegnetPeriode = ({
@@ -27,13 +27,15 @@ export const VenstremenyUberegnetPeriode = ({
     const skalViseForkastknapp =
         erCoachFagkoordinatorEllerSupersaksbehandler &&
         harSkrivetilgang &&
-        [
-            Periodetilstand.AvventerInntektsopplysninger,
-            Periodetilstand.ForberederGodkjenning,
-            Periodetilstand.ManglerInformasjon,
-            Periodetilstand.VenterPaEnAnnenPeriode,
-            Periodetilstand.IngenUtbetaling,
-        ].includes(activePeriod.periodetilstand);
+        (
+            [
+                ApiPeriodetilstand.AvventerInntektsopplysninger,
+                ApiPeriodetilstand.ForberederGodkjenning,
+                ApiPeriodetilstand.ManglerInformasjon,
+                ApiPeriodetilstand.VenterPaEnAnnenPeriode,
+                ApiPeriodetilstand.IngenUtbetaling,
+            ] as ApiPeriodetilstand[]
+        ).includes(activePeriod.periodetilstand);
     return (
         <section className={styles.Venstremeny}>
             <PeriodeCard.Uberegnet periode={activePeriod} inntektsforhold={inntektsforhold} />

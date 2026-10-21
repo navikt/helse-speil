@@ -1,18 +1,21 @@
-import { Arbeidsforholdoverstyring, Dagoverstyring, Inntektoverstyring } from '@io/graphql';
+import {
+    ApiArbeidsforholdoverstyring,
+    ApiDagoverstyring,
+    ApiInntektoverstyring,
+} from '@io/rest/generated/spesialist.schemas';
 import { OverridableConstructor } from '@typer/shared';
 import { generateId } from '@utils/generateId';
 
 export const enDagoverstyring: OverridableConstructor<
     // TODO: Erstatte global type med query type
-    Dagoverstyring
+    ApiDagoverstyring
 > = (overrides) => ({
-    __typename: 'Dagoverstyring',
+    type: 'ApiDagoverstyring',
     vedtaksperiodeId: '',
     begrunnelse: 'En begrunnelse',
     dager: [],
     hendelseId: generateId(),
     saksbehandler: {
-        __typename: 'Saksbehandler',
         ident: 'A123456',
         navn: 'En saksbehandler',
     },
@@ -21,15 +24,14 @@ export const enDagoverstyring: OverridableConstructor<
     ...overrides,
 });
 
-export const enArbeidsforholdoverstyring: OverridableConstructor<Arbeidsforholdoverstyring> = (overrides) => ({
-    __typename: 'Arbeidsforholdoverstyring',
+export const enArbeidsforholdoverstyring: OverridableConstructor<ApiArbeidsforholdoverstyring> = (overrides) => ({
+    type: 'ApiArbeidsforholdoverstyring',
     vedtaksperiodeId: '',
     begrunnelse: 'En begrunnelse',
     deaktivert: false,
     forklaring: 'En forklaring',
     hendelseId: generateId(),
     saksbehandler: {
-        __typename: 'Saksbehandler',
         ident: 'A123456',
         navn: 'En saksbehandler',
     },
@@ -39,13 +41,12 @@ export const enArbeidsforholdoverstyring: OverridableConstructor<Arbeidsforholdo
     ...overrides,
 });
 
-export const enInntektoverstyring: OverridableConstructor<Inntektoverstyring> = (overrides) => ({
-    __typename: 'Inntektoverstyring',
+export const enInntektoverstyring: OverridableConstructor<ApiInntektoverstyring> = (overrides) => ({
+    type: 'ApiInntektoverstyring',
     vedtaksperiodeId: '',
     begrunnelse: 'En begrunnelse',
     hendelseId: generateId(),
     inntekt: {
-        __typename: 'OverstyrtInntekt',
         forklaring: 'En forklaring',
         fraManedligInntekt: 30000,
         manedligInntekt: 30000,
@@ -55,7 +56,6 @@ export const enInntektoverstyring: OverridableConstructor<Inntektoverstyring> = 
         begrunnelse: 'En begrunnelse',
     },
     saksbehandler: {
-        __typename: 'Saksbehandler',
         ident: 'A123456',
         navn: 'En saksbehandler',
     },

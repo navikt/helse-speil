@@ -1,19 +1,19 @@
 import {
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    Inntektstype,
-    Kildetype,
-    OppgaveForPeriodevisning,
-    Periodetilstand,
-    Periodetype,
-    Sykdomsdagtype,
-    UberegnetPeriodeFragment,
-    Utbetaling,
-    Utbetalingsdagtype,
-    Utbetalingstatus,
-    Utbetalingtype,
-    VarselDto,
-} from '@io/graphql';
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiInntektstype,
+    ApiKildetype,
+    ApiOppgaveForPeriodevisning,
+    ApiPeriodetilstand,
+    ApiPeriodetype,
+    ApiSykdomsdagtype,
+    ApiUberegnetPeriode,
+    ApiUtbetaling,
+    ApiUtbetalingsdagtype,
+    ApiUtbetalingstatus,
+    ApiUtbetalingtype,
+    ApiVarselDTO,
+} from '@io/rest/generated/spesialist.schemas';
 import { enOppgave } from '@test-data/oppgave';
 import { TestDag } from '@test-data/person-query-types';
 import { enUtbetaling } from '@test-data/utbetaling';
@@ -21,19 +21,16 @@ import { OverridableConstructor } from '@typer/shared';
 import { generateId } from '@utils/generateId';
 
 export const enDag: OverridableConstructor<TestDag> = (overrides) => ({
-    __typename: 'Dag',
     dato: '2020-01-01',
     grad: 100,
     kilde: {
-        __typename: 'Kilde',
         id: generateId(),
-        type: Kildetype.Soknad,
+        type: ApiKildetype.SOKNAD,
     },
-    sykdomsdagtype: Sykdomsdagtype.Sykedag,
-    utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+    sykdomsdagtype: ApiSykdomsdagtype.SYKEDAG,
+    utbetalingsdagtype: ApiUtbetalingsdagtype.NAVDAG,
     begrunnelser: null,
     utbetalingsinfo: {
-        __typename: 'Utbetalingsinfo',
         personbelop: null,
         arbeidsgiverbelop: 1000,
         inntekt: 1000,
@@ -45,17 +42,17 @@ export const enDag: OverridableConstructor<TestDag> = (overrides) => ({
 });
 
 type Extensions = {
-    medUtbetaling(utbetaling: Utbetaling): BeregnetPeriodeFragment & Extensions;
-    medSkjæringstidspunkt(skjæringstidspunkt: string): BeregnetPeriodeFragment & Extensions;
-    medOppgave(oppgave?: OppgaveForPeriodevisning): BeregnetPeriodeFragment & Extensions;
-    medVarsler(varseler: VarselDto[]): BeregnetPeriodeFragment & Extensions;
-    somErForkastet(): BeregnetPeriodeFragment & Extensions;
-    somErTilGodkjenning(): BeregnetPeriodeFragment & Extensions;
-    somErTilRevurdering(): BeregnetPeriodeFragment & Extensions;
+    medUtbetaling(utbetaling: ApiUtbetaling): ApiBeregnetPeriode & Extensions;
+    medSkjæringstidspunkt(skjæringstidspunkt: string): ApiBeregnetPeriode & Extensions;
+    medOppgave(oppgave?: ApiOppgaveForPeriodevisning): ApiBeregnetPeriode & Extensions;
+    medVarsler(varseler: ApiVarselDTO[]): ApiBeregnetPeriode & Extensions;
+    somErForkastet(): ApiBeregnetPeriode & Extensions;
+    somErTilGodkjenning(): ApiBeregnetPeriode & Extensions;
+    somErTilRevurdering(): ApiBeregnetPeriode & Extensions;
 };
 
-export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, Extensions> = (overrides) => ({
-    __typename: 'BeregnetPeriode',
+export const enBeregnetPeriode: OverridableConstructor<ApiBeregnetPeriode, Extensions> = (overrides) => ({
+    type: 'ApiBeregnetPeriode',
     id: generateId(),
     behandlingId: generateId(),
     fom: '2020-01-01',
@@ -73,21 +70,18 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     totrinnsvurdering: null,
     paVent: null,
     risikovurdering: null,
-    inntektstype: Inntektstype.Enarbeidsgiver,
+    inntektstype: ApiInntektstype.ENARBEIDSGIVER,
     maksdato: '2020-12-30',
     notater: [],
     historikkinnslag: [],
-    periodetilstand: Periodetilstand.Utbetalt,
-    periodetype: Periodetype.Forstegangsbehandling,
+    periodetilstand: ApiPeriodetilstand.Utbetalt,
+    periodetype: ApiPeriodetype.FORSTEGANGSBEHANDLING,
     periodevilkar: {
-        __typename: 'Periodevilkar',
         alder: {
-            __typename: 'Alder',
             alderSisteSykedag: 30,
             oppfylt: true,
         },
         sykepengedager: {
-            __typename: 'Sykepengedager',
             forbrukteSykedager: 0,
             gjenstaendeSykedager: 200,
             maksdato: '2020-12-30',
@@ -102,11 +96,11 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     avslag: [],
     vedtakBegrunnelser: [],
     ...overrides,
-    medVarsler(varseler: VarselDto[]) {
+    medVarsler(varseler: ApiVarselDTO[]) {
         this.varsler = varseler;
         return this;
     },
-    medUtbetaling(utbetaling: Utbetaling) {
+    medUtbetaling(utbetaling: ApiUtbetaling) {
         this.utbetaling = utbetaling;
         return this;
     },
@@ -114,24 +108,24 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
         this.skjaeringstidspunkt = skjæringstidspunkt;
         return this;
     },
-    medOppgave(oppgave: OppgaveForPeriodevisning = enOppgave()) {
+    medOppgave(oppgave: ApiOppgaveForPeriodevisning = enOppgave()) {
         this.oppgave = oppgave;
         return this;
     },
     somErForkastet() {
         this.utbetaling = this.utbetaling ?? enUtbetaling();
-        this.utbetaling.status = Utbetalingstatus.Forkastet;
+        this.utbetaling.status = ApiUtbetalingstatus.FORKASTET;
         this.erForkastet = true;
         return this;
     },
     somErTilGodkjenning() {
-        this.periodetilstand = Periodetilstand.TilGodkjenning;
+        this.periodetilstand = ApiPeriodetilstand.TilGodkjenning;
         return this;
     },
     somErTilRevurdering() {
-        this.periodetilstand = Periodetilstand.TilGodkjenning;
+        this.periodetilstand = ApiPeriodetilstand.TilGodkjenning;
         this.utbetaling = this.utbetaling ?? enUtbetaling();
-        this.utbetaling.type = Utbetalingtype.Revurdering;
+        this.utbetaling.type = ApiUtbetalingtype.REVURDERING;
         return this;
     },
     egenskaper: [],
@@ -141,18 +135,18 @@ export const enBeregnetPeriode: OverridableConstructor<BeregnetPeriodeFragment, 
     grunnbelopsjustertGjennomsnitt: null,
 });
 
-export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriodeFragment> = (overrides) => ({
-    __typename: 'UberegnetPeriode',
+export const enUberegnetPeriode: OverridableConstructor<ApiUberegnetPeriode> = (overrides) => ({
+    type: 'ApiUberegnetPeriode',
     behandlingId: generateId(),
     erForkastet: false,
     fom: '2020-01-01',
     hendelser: [],
     id: generateId(),
-    inntektstype: Inntektstype.Enarbeidsgiver,
+    inntektstype: ApiInntektstype.ENARBEIDSGIVER,
     notater: [],
     opprettet: '2020-01-01',
-    periodetilstand: Periodetilstand.IngenUtbetaling,
-    periodetype: Periodetype.Forstegangsbehandling,
+    periodetilstand: ApiPeriodetilstand.IngenUtbetaling,
+    periodetype: ApiPeriodetype.FORSTEGANGSBEHANDLING,
     skjaeringstidspunkt: '2020-01-01',
     tidslinje: [enDag()],
     tom: '2020-01-30',
@@ -163,8 +157,7 @@ export const enUberegnetPeriode: OverridableConstructor<UberegnetPeriodeFragment
     ...overrides,
 });
 
-export const enGhostPeriode: OverridableConstructor<GhostPeriodeFragment> = (overrides) => ({
-    __typename: 'GhostPeriode',
+export const enGhostPeriode: OverridableConstructor<ApiGhostPeriode> = (overrides) => ({
     id: generateId(),
     fom: '2020-01-01',
     tom: '2020-01-30',

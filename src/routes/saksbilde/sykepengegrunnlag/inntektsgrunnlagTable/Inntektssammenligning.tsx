@@ -8,12 +8,12 @@ import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Errorikon } from '@components/ikoner/Errorikon';
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import {
-    Inntektskilde,
-    OmregnetArsinntekt,
-    OverstyringFragment,
-    PersonFragment,
-    Sammenligningsgrunnlag,
-} from '@io/graphql';
+    ApiInntektskilde,
+    ApiOmregnetArsinntekt,
+    ApiOverstyring,
+    ApiSaksbildePerson,
+    ApiSammenligningsgrunnlag,
+} from '@io/rest/generated/spesialist.schemas';
 import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { kildeForkortelse } from '@utils/inntektskilde';
@@ -26,11 +26,11 @@ import { TableCell } from './TableCell';
 import styles from './Inntektssammenligning.module.css';
 
 interface InntektssammenligningProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     organisasjonsnummer: string;
-    omregnetÅrsinntekt?: OmregnetArsinntekt | null;
-    skjønnsmessigFastsatt?: OmregnetArsinntekt | null;
-    sammenligningsgrunnlag?: Sammenligningsgrunnlag | null;
+    omregnetÅrsinntekt?: ApiOmregnetArsinntekt | null;
+    skjønnsmessigFastsatt?: ApiOmregnetArsinntekt | null;
+    sammenligningsgrunnlag?: ApiSammenligningsgrunnlag | null;
     arbeidsforholdErDeaktivert?: boolean | null;
     erGjeldende: boolean;
     onSetAktivInntektskilde: () => void;
@@ -94,7 +94,7 @@ export const Inntektssammenligning = ({
             />
             <TableCell
                 content={<BodyShort>{somPenger(sammenligningsgrunnlag?.belop)}</BodyShort>}
-                ikon={<Kilde type={Inntektskilde.Aordningen}>AO</Kilde>}
+                ikon={<Kilde type={ApiInntektskilde.AORDNINGEN}>AO</Kilde>}
             />
             <TableCell
                 content={
@@ -120,25 +120,25 @@ const OmregnetÅrsinntektContent = ({ arbeidsforholdErDeaktivert, beløp }: Omre
 
 interface OmregnetÅrsinntektIkonProps {
     arbeidsforholdErDeaktivert?: boolean | null;
-    endringer: OverstyringFragment[];
-    kilde?: Inntektskilde;
+    endringer: ApiOverstyring[];
+    kilde?: ApiInntektskilde;
 }
 
 const OmregnetÅrsinntektIkon = ({ arbeidsforholdErDeaktivert, endringer, kilde }: OmregnetÅrsinntektIkonProps) =>
-    kilde === Inntektskilde.Saksbehandler || arbeidsforholdErDeaktivert ? (
+    kilde === ApiInntektskilde.SAKSBEHANDLER || arbeidsforholdErDeaktivert ? (
         <EndringsloggButton endringer={endringer} />
     ) : (
-        kilde && kilde !== Inntektskilde.IkkeRapportert && <Kilde type={kilde}>{kildeForkortelse(kilde)}</Kilde>
+        kilde && kilde !== ApiInntektskilde.IKKE_RAPPORTERT && <Kilde type={kilde}>{kildeForkortelse(kilde)}</Kilde>
     );
 
 interface SkjønnsfastsettingContentProps {
     arbeidsforholdErDeaktivert?: boolean | null;
-    kilde?: Inntektskilde;
+    kilde?: ApiInntektskilde;
     beløp?: number;
 }
 
 const SkjønnsfastsettingContent = ({ arbeidsforholdErDeaktivert, kilde, beløp }: SkjønnsfastsettingContentProps) => (
     <BodyShort>
-        {!arbeidsforholdErDeaktivert && kilde === Inntektskilde.SkjonnsmessigFastsatt ? somPenger(beløp) : '-'}
+        {!arbeidsforholdErDeaktivert && kilde === ApiInntektskilde.SKJONNSMESSIG_FASTSATT ? somPenger(beløp) : '-'}
     </BodyShort>
 );

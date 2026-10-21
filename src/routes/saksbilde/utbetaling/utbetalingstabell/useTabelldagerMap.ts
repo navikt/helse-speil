@@ -1,7 +1,14 @@
 import dayjs from 'dayjs';
 import { useMemo } from 'react';
 
-import { Dag, Dagoverstyring, Dagtype, OverstyrtDag, Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import {
+    ApiDag,
+    ApiDagoverstyring,
+    ApiDagtype,
+    ApiOverstyrtDag,
+    ApiSykdomsdagtype,
+    ApiUtbetalingsdagtype,
+} from '@io/rest/generated/spesialist.schemas';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
@@ -30,64 +37,64 @@ import {
     getSpeildag,
 } from './utbetalingstabelldager';
 
-const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: OverstyrtDag): Speildag => {
+const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: ApiOverstyrtDag): Speildag => {
     switch (dag.type) {
-        case Dagtype.Helg:
+        case ApiDagtype.Helg:
             return Helgedag;
-        case Dagtype.AaPdag:
+        case ApiDagtype.AAPdag:
             return AAPdag;
-        case Dagtype.Dagpengerdag:
+        case ApiDagtype.Dagpengerdag:
             return Dagpengerdag;
-        case Dagtype.Foreldrepengerdag:
+        case ApiDagtype.Foreldrepengerdag:
             return Foreldrepengerdag;
-        case Dagtype.Omsorgspengerdag:
+        case ApiDagtype.Omsorgspengerdag:
             return Omsorgspengerdag;
-        case Dagtype.Opplaringspengerdag:
+        case ApiDagtype.Opplaringspengerdag:
             return Opplæringspengerdag;
-        case Dagtype.Pleiepengerdag:
+        case ApiDagtype.Pleiepengerdag:
             return Pleiepengerdag;
-        case Dagtype.Svangerskapspengerdag:
+        case ApiDagtype.Svangerskapspengerdag:
             return Svangerskapspengerdag;
-        case Dagtype.ArbeidIkkeGjenopptattDag:
+        case ApiDagtype.ArbeidIkkeGjenopptattDag:
             return ArbeidIkkeGjenopptattDag;
-        case Dagtype.Egenmeldingsdag:
+        case ApiDagtype.Egenmeldingsdag:
             return Egenmeldingsdag;
-        case Dagtype.Feriedag:
+        case ApiDagtype.Feriedag:
             return Feriedag;
-        case Dagtype.Permisjonsdag:
+        case ApiDagtype.Permisjonsdag:
             return Permisjonsdag;
-        case Dagtype.Sykedag:
+        case ApiDagtype.Sykedag:
             return Sykedag;
-        case Dagtype.Arbeidsdag:
+        case ApiDagtype.Arbeidsdag:
             return Arbeidsdag;
-        case Dagtype.SykedagNav:
+        case ApiDagtype.SykedagNav:
             return SykedagNav;
-        case Dagtype.Avvistdag:
+        case ApiDagtype.Avvistdag:
             return Avslåttdag;
-        case Dagtype.MeldingTilNavdag:
+        case ApiDagtype.MeldingTilNavdag:
             return MeldingTilNavdag;
-        case Dagtype.AvslattMeldingTilNavdag:
+        case ApiDagtype.AvslattMeldingTilNavdag:
             return AvslattMeldingTilNavdag;
     }
 };
 
-const getUtbetalingstabelldag = (dag: Dag): Speildag => {
+const getUtbetalingstabelldag = (dag: ApiDag): Speildag => {
     switch (dag.utbetalingsdagtype) {
-        case Utbetalingsdagtype.Arbeidsdag:
+        case ApiUtbetalingsdagtype.ARBEIDSDAG:
             return Arbeidsdag;
-        case Utbetalingsdagtype.Navhelgdag:
+        case ApiUtbetalingsdagtype.NAVHELGDAG:
             return Navhelgedag;
-        case Utbetalingsdagtype.Navdag:
+        case ApiUtbetalingsdagtype.NAVDAG:
             return Sykedag;
-        case Utbetalingsdagtype.AvvistDag:
+        case ApiUtbetalingsdagtype.AVVIST_DAG:
             if (
-                dag.sykdomsdagtype === Sykdomsdagtype.Avslattmeldingtilnavdag ||
-                dag.sykdomsdagtype === Sykdomsdagtype.Meldingtilnavdag
+                dag.sykdomsdagtype === ApiSykdomsdagtype.AVSLATTMELDINGTILNAVDAG ||
+                dag.sykdomsdagtype === ApiSykdomsdagtype.MELDINGTILNAVDAG
             ) {
                 return AvslattMeldingTilNavdag;
             }
             return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
-        case Utbetalingsdagtype.ForeldetDag:
+        case ApiUtbetalingsdagtype.FORELDET_DAG:
             return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
     }
 
@@ -95,7 +102,7 @@ const getUtbetalingstabelldag = (dag: Dag): Speildag => {
 };
 
 export const createDagerMap = (
-    dager: Dag[],
+    dager: ApiDag[],
     erSelvstendigNæringsdrivende: boolean,
     totaltAntallDagerIgjen: number | null,
     antallAGPDagerBruktFørPerioden?: number,
@@ -118,7 +125,7 @@ export const createDagerMap = (
             !erSelvstendigNæringsdrivende &&
             dagnummerAGP < 16 &&
             ['SYKEDAG', 'SYK_HELGEDAG'].includes(currentDag.sykdomsdagtype) &&
-            currentDag.utbetalingsdagtype === Utbetalingsdagtype.UkjentDag
+            currentDag.utbetalingsdagtype === ApiUtbetalingsdagtype.UKJENT_DAG
         ) {
             erAGP = true;
             dagnummerAGP++;
@@ -144,15 +151,15 @@ export const createDagerMap = (
     return map;
 };
 
-export const antallSykedagerTilOgMedMaksdato = (dager: Dag[], maksdato?: DateString): number =>
+export const antallSykedagerTilOgMedMaksdato = (dager: ApiDag[], maksdato?: DateString): number =>
     maksdato
         ? dager.filter((it) => it.utbetalingsdagtype === 'NAVDAG' && dayjs(it.dato).isSameOrBefore(maksdato)).length
         : 0;
 
 type UseTabelldagerMapOptions = {
-    tidslinje: Dag[];
+    tidslinje: ApiDag[];
     gjenståendeDager?: number | null;
-    overstyringer?: Dagoverstyring[];
+    overstyringer?: ApiDagoverstyring[];
     maksdato?: DateString;
     skjæringstidspunkt?: DateString;
     antallAGPDagerBruktFørPerioden?: number;

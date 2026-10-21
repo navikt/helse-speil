@@ -3,7 +3,7 @@ import React, { ReactElement } from 'react';
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { OverstyrtDag } from '@io/graphql';
+import { ApiOverstyrtDag } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkKildeSaksbehandlerIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HistorikkSection } from '@saksbilde/historikk/komponenter/HistorikkSection';
 import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhendelse';
@@ -24,7 +24,7 @@ const getDagtypeVisningstekst = (dagtype: string): string => {
     return visningstekst;
 };
 
-type Endring = Pick<OverstyrtDag, 'grad' | 'type' | 'fraGrad' | 'fraType'>;
+type Endring = Pick<ApiOverstyrtDag, 'grad' | 'type' | 'fraGrad' | 'fraType'>;
 
 type GroupedDays = {
     start: DateString;
@@ -35,12 +35,12 @@ const areSimilar = (a: Endring, b: Endring): boolean => {
     return a.grad === b.grad && a.type === b.type && a.fraType === b.fraType && a.fraGrad === b.fraGrad;
 };
 
-const byDate = (a: OverstyrtDag, b: OverstyrtDag): number => {
+const byDate = (a: ApiOverstyrtDag, b: ApiOverstyrtDag): number => {
     return new Date(a.dato).getTime() - new Date(b.dato).getTime();
 };
 
-const groupSimilarDays = (days: OverstyrtDag[]): GroupedDays[] => {
-    return [...days].sort(byDate).reduce((groups: GroupedDays[], day: OverstyrtDag) => {
+const groupSimilarDays = (days: ApiOverstyrtDag[]): GroupedDays[] => {
+    return [...days].sort(byDate).reduce((groups: GroupedDays[], day: ApiOverstyrtDag) => {
         const group = groups[groups.length - 1];
         if (!group || !areSimilar(group, day)) {
             return [

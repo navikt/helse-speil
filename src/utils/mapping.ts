@@ -1,19 +1,18 @@
 import {
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    Maybe,
-    Periode,
-    Periodetilstand,
-    UberegnetPeriodeFragment,
-    Utbetalingtype,
-} from '@io/graphql';
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiPeriode,
+    ApiPeriodetilstand,
+    ApiUberegnetPeriode,
+    ApiUtbetalingtype,
+} from '@io/rest/generated/spesialist.schemas';
 import { DatePeriod, InfotrygdPeriod, PeriodState } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriode } from '@utils/typeguards';
 
-const hasBeenAssessedAutomatically = (period: BeregnetPeriodeFragment): boolean =>
+const hasBeenAssessedAutomatically = (period: ApiBeregnetPeriode): boolean =>
     period.utbetaling.vurdering?.automatisk ?? false;
 
-const hasOppgave = (period: BeregnetPeriodeFragment): boolean => typeof period.oppgave?.id === 'string';
+const hasOppgave = (period: ApiBeregnetPeriode): boolean => typeof period.oppgave?.id === 'string';
 
 const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
     switch (period.typetekst) {
@@ -27,32 +26,32 @@ const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
     }
 };
 
-const getGhostPeriodState = (period: GhostPeriodeFragment): PeriodState => {
+const getGhostPeriodState = (period: ApiGhostPeriode): PeriodState => {
     return period.deaktivert ? 'utenSykefraværDeaktivert' : 'utenSykefravær';
 };
 
-export const getUberegnetPeriodState = (period: UberegnetPeriodeFragment): PeriodState => {
+export const getUberegnetPeriodState = (period: ApiUberegnetPeriode): PeriodState => {
     switch (period.periodetilstand) {
-        case Periodetilstand.IngenUtbetaling:
+        case ApiPeriodetilstand.IngenUtbetaling:
             return 'ingenUtbetaling';
-        case Periodetilstand.AvventerInntektsopplysninger:
+        case ApiPeriodetilstand.AvventerInntektsopplysninger:
             return 'venterPåInntektsopplysninger';
-        case Periodetilstand.ManglerInformasjon:
+        case ApiPeriodetilstand.ManglerInformasjon:
             return 'venter';
-        case Periodetilstand.ForberederGodkjenning:
-        case Periodetilstand.VenterPaEnAnnenPeriode:
-        case Periodetilstand.UtbetaltVenterPaEnAnnenPeriode:
+        case ApiPeriodetilstand.ForberederGodkjenning:
+        case ApiPeriodetilstand.VenterPaEnAnnenPeriode:
+        case ApiPeriodetilstand.UtbetaltVenterPaEnAnnenPeriode:
             return 'venterPåKiling';
-        case Periodetilstand.Annullert:
+        case ApiPeriodetilstand.Annullert:
             return 'forkastetIngenUtbetaling';
-        case Periodetilstand.AvventerAnnullering:
+        case ApiPeriodetilstand.AvventerAnnullering:
             return 'avventerAnnullering';
         default:
             return 'ukjent';
     }
 };
 
-export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodState => {
+export const getPeriodState = (period?: ApiPeriode | DatePeriod | null): PeriodState => {
     if (!period) return 'ukjent';
     if (isGhostPeriode(period)) return getGhostPeriodState(period);
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
@@ -60,61 +59,61 @@ export const getPeriodState = (period?: Maybe<Periode | DatePeriod>): PeriodStat
     if (!isBeregnetPeriode(period)) return 'ukjent';
 
     switch (period.periodetilstand) {
-        case Periodetilstand.AvventerInntektsopplysninger:
+        case ApiPeriodetilstand.AvventerInntektsopplysninger:
             return 'venterPåInntektsopplysninger';
-        case Periodetilstand.ManglerInformasjon:
+        case ApiPeriodetilstand.ManglerInformasjon:
             return 'venter';
-        case Periodetilstand.ForberederGodkjenning:
-        case Periodetilstand.VenterPaEnAnnenPeriode:
-        case Periodetilstand.UtbetaltVenterPaEnAnnenPeriode:
+        case ApiPeriodetilstand.ForberederGodkjenning:
+        case ApiPeriodetilstand.VenterPaEnAnnenPeriode:
+        case ApiPeriodetilstand.UtbetaltVenterPaEnAnnenPeriode:
             return 'venterPåKiling';
-        case Periodetilstand.RevurderingFeilet:
+        case ApiPeriodetilstand.RevurderingFeilet:
             return 'revurderingFeilet';
-        case Periodetilstand.UtbetalingFeilet:
+        case ApiPeriodetilstand.UtbetalingFeilet:
             return 'utbetalingFeilet';
-        case Periodetilstand.AnnulleringFeilet:
+        case ApiPeriodetilstand.AnnulleringFeilet:
             return 'annulleringFeilet';
-        case Periodetilstand.Annullert:
+        case ApiPeriodetilstand.Annullert:
             return 'annullert';
-        case Periodetilstand.TilAnnullering:
+        case ApiPeriodetilstand.TilAnnullering:
             return 'tilAnnullering';
-        case Periodetilstand.IngenUtbetaling:
+        case ApiPeriodetilstand.IngenUtbetaling:
             switch (period.utbetaling.type) {
-                case Utbetalingtype.Revurdering:
+                case ApiUtbetalingtype.REVURDERING:
                     return 'revurdertIngenUtbetaling';
-                case Utbetalingtype.Utbetaling:
+                case ApiUtbetalingtype.UTBETALING:
                     return 'ingenUtbetaling';
                 default:
                     return 'ukjent';
             }
-        case Periodetilstand.TilGodkjenning:
+        case ApiPeriodetilstand.TilGodkjenning:
             switch (period.utbetaling.type) {
-                case Utbetalingtype.Revurdering:
+                case ApiUtbetalingtype.REVURDERING:
                     return 'revurderes';
-                case Utbetalingtype.Utbetaling:
+                case ApiUtbetalingtype.UTBETALING:
                     return hasOppgave(period) ? 'tilGodkjenning' : 'venter';
                 default:
                     return 'ukjent';
             }
-        case Periodetilstand.TilUtbetaling:
+        case ApiPeriodetilstand.TilUtbetaling:
             switch (period.utbetaling.type) {
-                case Utbetalingtype.Utbetaling:
+                case ApiUtbetalingtype.UTBETALING:
                     return hasBeenAssessedAutomatically(period) ? 'tilUtbetalingAutomatisk' : 'tilUtbetaling';
-                case Utbetalingtype.Revurdering:
+                case ApiUtbetalingtype.REVURDERING:
                     return 'revurdert';
                 default:
                     return 'ukjent';
             }
-        case Periodetilstand.Utbetalt:
+        case ApiPeriodetilstand.Utbetalt:
             switch (period.utbetaling.type) {
-                case Utbetalingtype.Revurdering:
+                case ApiUtbetalingtype.REVURDERING:
                     return 'revurdert';
-                case Utbetalingtype.Utbetaling:
+                case ApiUtbetalingtype.UTBETALING:
                     return hasBeenAssessedAutomatically(period) ? 'utbetaltAutomatisk' : 'utbetalt';
                 default:
                     return 'ukjent';
             }
-        case Periodetilstand.TilSkjonnsfastsettelse:
+        case ApiPeriodetilstand.TilSkjonnsfastsettelse:
             return 'tilSkjønnsfastsettelse';
         default:
             return 'ukjent';

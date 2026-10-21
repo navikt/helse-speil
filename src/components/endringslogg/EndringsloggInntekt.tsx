@@ -3,13 +3,13 @@ import React, { ReactElement } from 'react';
 import { Dialog, Table } from '@navikt/ds-react';
 
 import { sortTimestampDesc } from '@components/endringslogg/endringsloggUtils';
-import { Inntektoverstyring } from '@io/graphql';
+import { ApiInntektoverstyring } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
 type EndringsloggInntektProps = {
     onOpenChange: (open: boolean) => void;
-    endringer: Inntektoverstyring[];
+    endringer: ApiInntektoverstyring[];
 };
 
 export function EndringsloggInntekt({ endringer, onOpenChange }: EndringsloggInntektProps): ReactElement {

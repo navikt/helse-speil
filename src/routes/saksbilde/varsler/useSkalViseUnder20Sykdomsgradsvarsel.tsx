@@ -1,6 +1,6 @@
 import { useParams } from 'next/navigation';
 
-import { GhostPeriode, Periode } from '@io/graphql';
+import { ApiGhostPeriode, ApiPeriode } from '@io/rest/generated/spesialist.schemas';
 import {
     getOppkuttedePerioder,
     getOverlappendeArbeidsgivere,
@@ -82,5 +82,5 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     );
 };
 
-const erPeriodePåSkjæringstidspunkt = (skjæringstidspunkt: string) => (periode: Periode | GhostPeriode) =>
+const erPeriodePåSkjæringstidspunkt = (skjæringstidspunkt: string) => (periode: ApiPeriode | ApiGhostPeriode) =>
     periode.skjaeringstidspunkt === skjæringstidspunkt;

@@ -9,7 +9,7 @@ import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { harUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
-import { BeregnetPeriodeFragment, Periodetilstand, PersonFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { usePersonStore } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useInntektOgRefusjon } from '@state/overstyring';
@@ -28,8 +28,8 @@ import { SendTilGodkjenningButton } from './SendTilGodkjenningButton';
 import styles from './Utbetaling.module.css';
 
 interface UtbetalingProps {
-    period: BeregnetPeriodeFragment;
-    person: PersonFragment;
+    period: ApiBeregnetPeriode;
+    person: ApiSaksbildePerson;
     inntektsforholdReferanse: InntektsforholdReferanse;
 }
 
@@ -76,7 +76,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
 
     const periodeEndret =
         godkjentPeriode !== undefined &&
-        (godkjentPeriode !== period.vedtaksperiodeId || period.periodetilstand !== Periodetilstand.TilGodkjenning);
+        (godkjentPeriode !== period.vedtaksperiodeId || period.periodetilstand !== ApiPeriodetilstand.TilGodkjenning);
 
     const periodenErSendt = godkjentPeriode === period.vedtaksperiodeId && !periodeEndret;
 
@@ -191,21 +191,23 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     );
 };
 
-const skalVentePåNestePeriode = (person: PersonFragment) =>
+const skalVentePåNestePeriode = (person: ApiSaksbildePerson) =>
     finnAlleInntektsforhold(person)
         .flatMap((inntektskilde) => inntektskilde.behandlinger[0]?.perioder ?? [])
         .some((periode) =>
-            [
-                Periodetilstand.VenterPaEnAnnenPeriode,
-                Periodetilstand.ForberederGodkjenning,
-                Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
-            ].includes(periode.periodetilstand),
+            (
+                [
+                    ApiPeriodetilstand.VenterPaEnAnnenPeriode,
+                    ApiPeriodetilstand.ForberederGodkjenning,
+                    ApiPeriodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+                ] as ApiPeriodetilstand[]
+            ).includes(periode.periodetilstand),
         );
 
-const hasOppgave = (period: BeregnetPeriodeFragment): boolean =>
+const hasOppgave = (period: ApiBeregnetPeriode): boolean =>
     typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
-const useOnGodkjenn = (period: BeregnetPeriodeFragment, person: PersonFragment): (() => void) => {
+const useOnGodkjenn = (period: ApiBeregnetPeriode, person: ApiSaksbildePerson): (() => void) => {
     const router = useRouter();
 
     return () => {
@@ -221,7 +223,7 @@ const useOnAvvis = (): (() => void) => {
     return () => router.push('/');
 };
 
-const harNyereUtbetaltPeriodePåPerson = (period: BeregnetPeriodeFragment, person: PersonFragment): boolean => {
+const harNyereUtbetaltPeriodePåPerson = (period: ApiBeregnetPeriode, person: ApiSaksbildePerson): boolean => {
     const nyesteUtbetaltPeriodePåPerson = finnAlleInntektsforhold(person)
         .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder)
         .filter((periode) => isBeregnetPeriode(periode) && isGodkjent(periode.utbetaling))

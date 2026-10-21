@@ -27,7 +27,6 @@ describe('HarBeslutteroppgaver', () => {
         tom: '2024-02-29',
         skjaeringstidspunkt: '2024-01-01',
         totrinnsvurdering: {
-            __typename: 'Totrinnsvurdering',
             erBeslutteroppgave: true,
             erRetur: false,
             saksbehandler: null,

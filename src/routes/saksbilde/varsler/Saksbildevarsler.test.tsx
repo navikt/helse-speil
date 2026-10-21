@@ -72,7 +72,6 @@ describe('Saksbildevarsler', () => {
                 periodState="utbetalt"
                 varsler={[
                     {
-                        __typename: 'VarselDTO',
                         id: '61b4e00e-497b-4454-ba9b-c59cda9a462f',
                         definisjonId: 'EN_ID',
                         behandlingId: 'EN_ID',
@@ -84,7 +83,6 @@ describe('Saksbildevarsler', () => {
                         vurdering: null,
                     },
                     {
-                        __typename: 'VarselDTO',
                         id: 'fcce7e53-6a16-4d16-a770-9f4400c62167',
                         definisjonId: 'EN_ID',
                         behandlingId: 'EN_ID',

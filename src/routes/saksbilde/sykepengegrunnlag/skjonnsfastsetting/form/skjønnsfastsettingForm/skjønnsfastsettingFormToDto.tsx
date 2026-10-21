@@ -1,4 +1,4 @@
-import { Arbeidsgiverinntekt, PersonFragment } from '@io/graphql';
+import { ApiArbeidsgiverinntekt, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -11,8 +11,8 @@ import { SkjønnsfastsettingFormFields, SkjønnsfastsettingFormFieldsArbeidsgive
 
 export const skjønnsfastsettingFormToDto = (
     form: SkjønnsfastsettingFormFields,
-    inntekter: Arbeidsgiverinntekt[],
-    person: PersonFragment,
+    inntekter: ApiArbeidsgiverinntekt[],
+    person: ApiSaksbildePerson,
     period: ActivePeriod,
     omregnetÅrsinntekt: number,
     sammenligningsgrunnlag: number,

@@ -2,8 +2,8 @@ import React, { ReactElement, useState } from 'react';
 
 import { Button } from '@navikt/ds-react';
 
-import { BeregnetPeriodeFragment, PersonFragment } from '@io/graphql';
 import { PostSendIReturMutationError, usePostSendIRetur } from '@io/rest/generated/oppgaver/oppgaver';
+import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
@@ -23,8 +23,8 @@ const useAddReturtoast = () => {
 };
 
 interface ReturButtonProps extends Omit<React.HTMLAttributes<HTMLButtonElement>, 'children'> {
-    person: PersonFragment;
-    activePeriod: BeregnetPeriodeFragment;
+    person: ApiSaksbildePerson;
+    activePeriod: ApiBeregnetPeriode;
     disabled: boolean;
     onSuccess?: () => void;
     size: 'small' | 'medium';

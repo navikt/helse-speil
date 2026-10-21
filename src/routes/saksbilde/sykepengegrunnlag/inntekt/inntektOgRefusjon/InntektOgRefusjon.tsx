@@ -3,7 +3,13 @@ import React, { useState } from 'react';
 import { HStack, Label, Tag } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { Arbeidsgiver, Arbeidsgiverinntekt, InntektFraAOrdningen, Inntektstype, PersonFragment } from '@io/graphql';
+import {
+    ApiArbeidsgiver,
+    ApiArbeidsgiverinntekt,
+    ApiInntektFraAOrdningen,
+    ApiInntektstype,
+    ApiSaksbildePerson,
+} from '@io/rest/generated/spesialist.schemas';
 import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonHeader';
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
@@ -16,14 +22,14 @@ import { DateString } from '@typer/shared';
 import { endreInntektMedSykefraværÅrsaker, endreInntektUtenSykefraværÅrsaker } from './inntektOgRefusjonUtils';
 
 interface InntektUtenSykefraværProps {
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     skjæringstidspunkt: DateString;
-    inntekt: Arbeidsgiverinntekt;
+    inntekt: ApiArbeidsgiverinntekt;
     vilkårsgrunnlagId?: string | null;
-    inntektstype?: Inntektstype | null;
-    arbeidsgiver: Arbeidsgiver;
+    inntektstype?: ApiInntektstype | null;
+    arbeidsgiver: ApiArbeidsgiver;
     refusjon?: Refusjonsopplysning[] | null;
-    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
+    inntekterForSammenligningsgrunnlag?: ApiInntektFraAOrdningen[];
     editing: boolean;
     setEditing: (isEditing: boolean) => void;
 }
@@ -81,8 +87,8 @@ export const InntektOgRefusjon = ({
                     vilkårsgrunnlagId={vilkårsgrunnlagId}
                     person={person}
                     arbeidsgiver={arbeidsgiver}
-                    inntektFom={inntekt.fom}
-                    inntektTom={inntekt.tom}
+                    inntektFom={inntekt.fom ?? null}
+                    inntektTom={inntekt.tom ?? null}
                     erDeaktivert={erDeaktivert ?? false}
                     inntektFraAOrdningen={inntektFraAOrdningen}
                     inntekterForSammenligningsgrunnlag={inntekterForSammenligningsgrunnlag}
@@ -92,7 +98,7 @@ export const InntektOgRefusjon = ({
                 <InntektOgRefusjonVisning
                     person={person}
                     skjæringstidspunkt={skjæringstidspunkt}
-                    omregnetÅrsinntekt={omregnetÅrsinntekt}
+                    omregnetÅrsinntekt={omregnetÅrsinntekt ?? null}
                     endret={endret}
                     refusjon={refusjon}
                     vilkårsgrunnlagId={vilkårsgrunnlagId}

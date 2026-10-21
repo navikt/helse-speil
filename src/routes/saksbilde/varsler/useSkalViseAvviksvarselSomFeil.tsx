@@ -1,4 +1,4 @@
-import { Inntektskilde, VilkarsgrunnlagSpleisV2 } from '@io/graphql';
+import { ApiInntektskilde, ApiVilkårsgrunnlagSpleisV2 } from '@io/rest/generated/spesialist.schemas';
 import { finnPeriodeTilGodkjenning, useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
@@ -19,11 +19,11 @@ export const useSkalViseAvviksvarselSomFeil = () => {
         vilkårsgrunnlag?.inntekter.find(
             (aginntekt) =>
                 isArbeidsgiver(inntektsforhold) && aginntekt.arbeidsgiver === inntektsforhold?.organisasjonsnummer,
-        )?.skjonnsmessigFastsatt?.kilde === Inntektskilde.SkjonnsmessigFastsatt;
+        )?.skjonnsmessigFastsatt?.kilde === ApiInntektskilde.SKJONNSMESSIG_FASTSATT;
 
     return (
         aktivPeriode?.skjaeringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt &&
-        Number((vilkårsgrunnlag as VilkarsgrunnlagSpleisV2)?.avviksvurdering?.avviksprosent ?? 0) >= 25 &&
+        Number((vilkårsgrunnlag as ApiVilkårsgrunnlagSpleisV2)?.avviksvurdering?.avviksprosent ?? 0) >= 25 &&
         getPeriodState(periodeTilGodkjenning) !== 'tilSkjønnsfastsettelse' &&
         !harBlittSkjønnsmessigFastsatt
     );

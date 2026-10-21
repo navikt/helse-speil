@@ -4,7 +4,7 @@ import { BodyShort, Box, Detail, HStack, HelpText, Table, VStack } from '@navikt
 
 import { LovdataLenke } from '@components/LovdataLenke';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { Sykepengegrunnlagsgrense } from '@io/graphql';
+import { ApiSykepengegrunnlagsgrense } from '@io/rest/generated/spesialist.schemas';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import { somPenger } from '@utils/locale';
 
@@ -13,7 +13,7 @@ import styles from './SykepengegrunnlagSelvstendigPanel.module.css';
 interface SykepengegrunnlagSelvstendigPanelProps {
     beregningsgrunnlag: string;
     sykepengegrunnlag: number;
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
 }
 
 export const SykepengegrunnlagSelvstendigPanel = ({

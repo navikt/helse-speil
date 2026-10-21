@@ -3,12 +3,12 @@ import React, { HTMLAttributes, ReactElement, useState } from 'react';
 import { HStack } from '@navikt/ds-react';
 
 import {
-    Arbeidsgiverinntekt,
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    PersonFragment,
-    VilkarsgrunnlagSpleisV2,
-} from '@io/graphql';
+    ApiArbeidsgiverinntekt,
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiSaksbildePerson,
+    ApiVilkårsgrunnlagSpleisV2,
+} from '@io/rest/generated/spesialist.schemas';
 import { Inntekt } from '@saksbilde/sykepengegrunnlag/inntekt/Inntekt';
 import { SykepengegrunnlagPanel } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/SykepengegrunnlagPanel';
 import { getActiveInntekt } from '@state/utils';
@@ -16,10 +16,10 @@ import { getActiveInntekt } from '@state/utils';
 import styles from './SykepengegrunnlagFraSpleis.module.css';
 
 interface SykepengegrunnlagFraSpleisProps extends HTMLAttributes<HTMLDivElement> {
-    vilkårsgrunnlag: VilkarsgrunnlagSpleisV2;
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2;
     organisasjonsnummer: string;
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode | ApiGhostPeriode;
 }
 
 export const SykepengegrunnlagFraSpleis = ({
@@ -29,7 +29,7 @@ export const SykepengegrunnlagFraSpleis = ({
     periode,
     ...rest
 }: SykepengegrunnlagFraSpleisProps): ReactElement => {
-    const [aktivInntektskilde, setAktivInntektskilde] = useState<Arbeidsgiverinntekt>(
+    const [aktivInntektskilde, setAktivInntektskilde] = useState<ApiArbeidsgiverinntekt>(
         getActiveInntekt(vilkårsgrunnlag, organisasjonsnummer),
     );
 
@@ -38,7 +38,7 @@ export const SykepengegrunnlagFraSpleis = ({
             <SykepengegrunnlagPanel
                 inntekter={vilkårsgrunnlag.inntekter}
                 periode={periode}
-                avviksvurdering={vilkårsgrunnlag.avviksvurdering}
+                avviksvurdering={vilkårsgrunnlag.avviksvurdering ?? null}
                 sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
                 setAktivInntektskilde={setAktivInntektskilde}
                 aktivInntektskilde={aktivInntektskilde}

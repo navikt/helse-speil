@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { fetchPersondata } from '@spesialist-mock/graphql';
+import { fetchPersondata } from '@spesialist-mock/saksbilde';
 import { Varselstatus } from '@spesialist-mock/schemaTypes';
 import { alleBehandlinger } from '@spesialist-mock/storage/person';
 import { VarselMock } from '@spesialist-mock/storage/varsel';

@@ -2,12 +2,12 @@ import React, { ReactElement, useState } from 'react';
 
 import { Button, Dialog } from '@navikt/ds-react';
 
-import { UberegnetPeriodeFragment } from '@io/graphql';
+import { ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 
 import { ForkastFraUberegnetDialogInnhold } from './ForkastFraUberegnetDialogInnhold';
 
 interface ForkastFraUberegnetButtonProps {
-    activePeriod: UberegnetPeriodeFragment;
+    activePeriod: ApiUberegnetPeriode;
 }
 
 export const ForkastFraUberegnetButton = ({ activePeriod }: ForkastFraUberegnetButtonProps): ReactElement => {

@@ -1,6 +1,6 @@
 import { Dayjs } from 'dayjs';
 
-import { BeregnetPeriodeFragment, GhostPeriodeFragment, UberegnetPeriodeFragment } from '@io/graphql';
+import { ApiBeregnetPeriode, ApiGhostPeriode, ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 
 import { DatePeriod, InfotrygdPeriod } from './shared';
 
@@ -11,7 +11,7 @@ export type TimelineZoomLevel = {
 };
 
 export type TimelinePeriod = (
-    GhostPeriodeFragment | BeregnetPeriodeFragment | UberegnetPeriodeFragment | InfotrygdPeriod | DatePeriod
+    ApiGhostPeriode | ApiBeregnetPeriode | ApiUberegnetPeriode | InfotrygdPeriod | DatePeriod
 ) & {
     isFirst?: boolean;
     hasLeftNeighbour?: boolean;

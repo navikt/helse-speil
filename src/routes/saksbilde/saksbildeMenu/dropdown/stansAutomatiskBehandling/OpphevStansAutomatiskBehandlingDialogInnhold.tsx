@@ -4,15 +4,17 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { Button, Dialog, ErrorMessage, Textarea } from '@navikt/ds-react';
 
-import { useApolloClient } from '@apollo/client';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
     StansAutomatiskBehandlingSchema,
     stansAutomatiskBehandlingSchema,
 } from '@form-schemas/stansAutomatiskBehandlingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FetchPersonDocument } from '@io/graphql';
-import { getGetSaksbehandlerStansQueryKey, usePatchSaksbehandlerStans } from '@io/rest/generated/personer/personer';
+import {
+    getGetSaksbehandlerStansQueryKey,
+    getGetSaksbildeForPersonQueryKey,
+    usePatchSaksbehandlerStans,
+} from '@io/rest/generated/personer/personer';
 import {
     opphevStansAutomatiskBehandlingToast,
     somSaksbehandlerBackendfeil,
@@ -31,7 +33,6 @@ export function OpphevStansAutomatiskBehandlingDialogInnhold({
 }: OpphevStansAutomatiskBehandlingDialogInnholdProps): ReactElement {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const queryClient = useQueryClient();
-    const apolloClient = useApolloClient();
     const { mutate, isPending, error } = usePatchSaksbehandlerStans();
     const addToast = useAddToast();
     const form = useForm<StansAutomatiskBehandlingSchema>({
@@ -54,9 +55,7 @@ export function OpphevStansAutomatiskBehandlingDialogInnhold({
             {
                 onSuccess: () => {
                     void queryClient.invalidateQueries({ queryKey: getGetSaksbehandlerStansQueryKey(personPseudoId) });
-                    apolloClient.refetchQueries({
-                        include: [FetchPersonDocument],
-                    });
+                    void queryClient.refetchQueries({ queryKey: getGetSaksbildeForPersonQueryKey(personPseudoId) });
                     onSuccess();
                     addToast(opphevStansAutomatiskBehandlingToast);
                 },

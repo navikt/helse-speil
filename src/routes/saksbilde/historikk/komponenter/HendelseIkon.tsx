@@ -13,7 +13,7 @@ import {
 } from '@navikt/aksel-icons';
 
 import { Kilde } from '@components/Kilde';
-import { Inntektskilde } from '@io/graphql';
+import { ApiInntektskilde } from '@io/rest/generated/spesialist.schemas';
 
 import styles from './HendelseIkon.module.css';
 
@@ -34,7 +34,7 @@ export const HistorikkHourglassTopFilledIkon = (): ReactElement => <HourglassTop
 export const HistorikkXMarkOctagonIkon = (): ReactElement => <XMarkOctagonIcon className={styles.ikon} />;
 
 export const HistorikkKildeSaksbehandlerIkon = (): ReactElement => (
-    <Kilde type={Inntektskilde.Saksbehandler}>
+    <Kilde type={ApiInntektskilde.SAKSBEHANDLER}>
         <PersonPencilFillIcon />
     </Kilde>
 );

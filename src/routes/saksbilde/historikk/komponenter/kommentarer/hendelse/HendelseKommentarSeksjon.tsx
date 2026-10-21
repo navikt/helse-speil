@@ -2,7 +2,6 @@ import React, { ReactElement, useState } from 'react';
 
 import { ReadMore } from '@navikt/ds-react';
 
-import { PeriodehistorikkType } from '@io/graphql';
 import { HendelseKommentarer } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarer';
 import { LeggTilHendelseKommentar } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/LeggTilHendelseKommentar';
 import { Kommentar } from '@typer/notat';
@@ -11,14 +10,12 @@ type HendelseKommentarSeksjonProps = {
     kommentarer: Kommentar[];
     dialogRef: number;
     historikkinnslagId: number;
-    historikktype?: PeriodehistorikkType;
 };
 
 export const HendelseKommentarSeksjon = ({
     kommentarer,
     dialogRef,
     historikkinnslagId,
-    historikktype,
 }: HendelseKommentarSeksjonProps): ReactElement | null => {
     const [open, setOpen] = useState(false);
     const antall = kommentarer?.length ?? 0;
@@ -39,7 +36,6 @@ export const HendelseKommentarSeksjon = ({
                 dialogRef={dialogRef}
                 historikkinnslagId={historikkinnslagId}
                 åpneKommentarvisning={() => setOpen(true)}
-                historikktype={historikktype}
             />
         </>
     );

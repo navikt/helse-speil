@@ -3,14 +3,14 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { Alert, Box } from '@navikt/ds-react';
 
 import {
-    Arbeidsgiver,
-    Arbeidsgiverinntekt,
-    BeregnetPeriodeFragment,
-    GhostPeriodeFragment,
-    PersonFragment,
-    Sykepengegrunnlagsgrense,
-    VilkarsgrunnlagAvviksvurdering,
-} from '@io/graphql';
+    ApiArbeidsgiver,
+    ApiArbeidsgiverinntekt,
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiSaksbildePerson,
+    ApiSykepengegrunnlagsgrense,
+    ApiVilkårsgrunnlagAvviksvurdering,
+} from '@io/rest/generated/spesialist.schemas';
 import { SkjønnsfastsettingSykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 
@@ -20,24 +20,24 @@ import { InntektsgrunnlagoppsummeringTable } from './Inntektsgrunnlagoppsummerin
 import styles from './SykepengegrunnlagPanel.module.css';
 
 interface SykepengegrunnlagPanelProps {
-    inntekter: Arbeidsgiverinntekt[];
+    inntekter: ApiArbeidsgiverinntekt[];
     skjønnsmessigFastsattÅrlig?: number | null;
-    avviksvurdering: VilkarsgrunnlagAvviksvurdering | null;
+    avviksvurdering: ApiVilkårsgrunnlagAvviksvurdering | null;
     sykepengegrunnlag: number;
-    setAktivInntektskilde: Dispatch<SetStateAction<Arbeidsgiverinntekt>>;
-    aktivInntektskilde: Arbeidsgiverinntekt;
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
-    person: PersonFragment;
-    periode: BeregnetPeriodeFragment | GhostPeriodeFragment;
+    setAktivInntektskilde: Dispatch<SetStateAction<ApiArbeidsgiverinntekt>>;
+    aktivInntektskilde: ApiArbeidsgiverinntekt;
+    sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
+    person: ApiSaksbildePerson;
+    periode: ApiBeregnetPeriode | ApiGhostPeriode;
     organisasjonsnummer: string;
 }
 
 // Inntekter fra vilkårsgrunnlaget er ikke nødvendigvis i samme rekkefølge som arbeidsgiverne på personen. Det er viktig
 // at arbeidsgiverne vises i samme rekkefølge på sykepengegrunnlag-fanen som i tidslinja.
 const getSorterteInntekter = (
-    inntekter: Arbeidsgiverinntekt[],
-    arbeidsgivere: Arbeidsgiver[],
-): Arbeidsgiverinntekt[] => {
+    inntekter: ApiArbeidsgiverinntekt[],
+    arbeidsgivere: ApiArbeidsgiver[],
+): ApiArbeidsgiverinntekt[] => {
     const orgnumre = arbeidsgivere.map((ag) => ag.organisasjonsnummer);
 
     const inntekterFraAndre = inntekter.filter((inntekt) => !orgnumre.includes(inntekt.arbeidsgiver));

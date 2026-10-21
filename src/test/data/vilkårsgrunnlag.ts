@@ -1,29 +1,26 @@
 import {
-    Arbeidsgiverinntekt,
-    VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment,
-    VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment,
-    VilkarsgrunnlagVurdering,
-} from '@io/graphql';
+    ApiArbeidsgiverinntekt,
+    ApiVilkårsgrunnlagInfotrygdV2,
+    ApiVilkårsgrunnlagSpleisV2,
+    ApiVilkårsgrunnlagVurdering,
+} from '@io/rest/generated/spesialist.schemas';
 import { enArbeidsgiverinntekt } from '@test-data/arbeidsgiverinntekt';
 import { OverridableConstructor } from '@typer/shared';
 import { generateId } from '@utils/generateId';
 
 type VilkarsgrunnlagSpleisExtensions = {
-    medInntekter: (
-        inntekter: Arbeidsgiverinntekt[],
-    ) => VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment & VilkarsgrunnlagSpleisExtensions;
+    medInntekter: (inntekter: ApiArbeidsgiverinntekt[]) => ApiVilkårsgrunnlagSpleisV2 & VilkarsgrunnlagSpleisExtensions;
 };
 
 export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
-    VilkarsgrunnlagV2_VilkarsgrunnlagSpleisV2_Fragment,
+    ApiVilkårsgrunnlagSpleisV2,
     VilkarsgrunnlagSpleisExtensions
 > = (overrides) => ({
-    __typename: 'VilkarsgrunnlagSpleisV2',
+    type: 'ApiVilkårsgrunnlagSpleisV2',
     id: generateId(),
     antallOpptjeningsdagerErMinst: 1234,
     arbeidsgiverrefusjoner: [],
     avviksvurdering: {
-        __typename: 'VilkarsgrunnlagAvviksvurdering',
         avviksprosent: '0',
         beregningsgrunnlag: '600000',
         sammenligningsgrunnlag: '600000',
@@ -32,7 +29,7 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     forsikringsvurderingId: null,
     grunnbelop: 100000,
     inntekter: [enArbeidsgiverinntekt()],
-    vurderingAvKravOmMedlemskap: VilkarsgrunnlagVurdering.Oppfylt,
+    vurderingAvKravOmMedlemskap: ApiVilkårsgrunnlagVurdering.OPPFYLT,
     oppfyllerKravOmMinstelonn: true,
     oppfyllerKravOmOpptjening: true,
     opptjeningFra: '2000-01-01',
@@ -41,7 +38,6 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     sykepengegrunnlag: 600000,
     skjonnsmessigFastsattAarlig: null,
     sykepengegrunnlagsgrense: {
-        __typename: 'Sykepengegrunnlagsgrense',
         grense: 600000,
         grunnbelop: 100000,
         virkningstidspunkt: '2020-01-01',
@@ -53,10 +49,8 @@ export const etVilkårsgrunnlagFraSpleis: OverridableConstructor<
     },
 });
 
-export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<
-    VilkarsgrunnlagV2_VilkarsgrunnlagInfotrygdV2_Fragment
-> = (overrides) => ({
-    __typename: 'VilkarsgrunnlagInfotrygdV2',
+export const etVilkårsgrunnlagFraInfotrygd: OverridableConstructor<ApiVilkårsgrunnlagInfotrygdV2> = (overrides) => ({
+    type: 'ApiVilkårsgrunnlagInfotrygdV2',
     id: generateId(),
     inntekter: [enArbeidsgiverinntekt()],
     omregnetArsinntekt: 600000,

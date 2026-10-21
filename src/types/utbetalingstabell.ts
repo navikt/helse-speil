@@ -1,4 +1,4 @@
-import { Begrunnelse, Kilde } from '@io/graphql';
+import { ApiBegrunnelse, ApiKilde } from '@io/rest/generated/spesialist.schemas';
 import { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 
 import { DateString } from './shared';
@@ -47,8 +47,7 @@ export type OverstyringerPrDag = {
     hendelseId: string;
     begrunnelse: string;
     saksbehandler: {
-        __typename: 'Saksbehandler';
-        ident: string | null;
+        ident?: string | null;
         navn: string;
     };
     timestamp: DateString;
@@ -61,7 +60,7 @@ export type OverstyringerPrDag = {
 
 export type Utbetalingstabelldag = {
     dato: DateString;
-    kilde: Kilde;
+    kilde: ApiKilde;
     dag: Speildag;
     erAGP: boolean;
     erVentetid: boolean;
@@ -74,7 +73,7 @@ export type Utbetalingstabelldag = {
     totalGradering?: number | null;
     arbeidsgiverbeløp?: number | null;
     personbeløp?: number | null;
-    begrunnelser?: Begrunnelse[] | null;
+    begrunnelser?: ApiBegrunnelse[] | null;
     erNyDag?: boolean;
     erGradertAnnenYtelse?: boolean;
     fraType?: Utbetalingstabelldagtype;

@@ -6,8 +6,8 @@ import { BodyShort, HStack, Spacer, VStack } from '@navikt/ds-react';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
-import { Simulering, Utbetaling, Utbetalingstatus } from '@io/graphql';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
+import { ApiSimulering, ApiUtbetaling, ApiUtbetalingstatus } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { capitalizeName, somPenger } from '@utils/locale';
 import { isArbeidsgiver } from '@utils/typeguards';
@@ -16,9 +16,9 @@ import { getFormattedName } from './personnavn';
 import { OpenSimuleringButton } from './utbetaling/simulering/OpenSimuleringButton';
 
 type BeløpTilUtbetalingProps = {
-    utbetaling: Utbetaling;
-    arbeidsgiversimulering?: Simulering | null;
-    personsimulering?: Simulering | null;
+    utbetaling: ApiUtbetaling;
+    arbeidsgiversimulering?: ApiSimulering | null;
+    personsimulering?: ApiSimulering | null;
     periodePersonNettoBeløp: number;
     periodeArbeidsgiverNettoBeløp: number;
     inntektsforhold: Inntektsforhold;
@@ -39,7 +39,7 @@ export const BeløpTilUtbetaling = ({
         <VStack gap="space-4">
             <HStack align="center" gap="space-16" className="[&>svg]:w-4">
                 <BodyShort weight="semibold">
-                    {utbetaling.status !== Utbetalingstatus.Ubetalt ? 'Utbetalt for perioden' : 'Beløp for perioden'}
+                    {utbetaling.status !== ApiUtbetalingstatus.UBETALT ? 'Utbetalt for perioden' : 'Beløp for perioden'}
                 </BodyShort>
                 <Spacer />
                 <BodyShort weight="semibold">
@@ -85,6 +85,6 @@ export const BeløpTilUtbetaling = ({
     );
 };
 
-const isSimulering = (simulering?: Simulering | null): simulering is Simulering => {
+const isSimulering = (simulering?: ApiSimulering | null): simulering is ApiSimulering => {
     return Array.isArray(simulering?.perioder);
 };

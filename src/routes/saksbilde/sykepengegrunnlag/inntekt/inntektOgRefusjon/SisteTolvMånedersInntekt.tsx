@@ -4,7 +4,7 @@ import React from 'react';
 import { Detail, HStack } from '@navikt/ds-react';
 
 import { Kilde } from '@components/Kilde';
-import { InntektFraAOrdningen, Inntektskilde } from '@io/graphql';
+import { ApiInntektFraAOrdningen, ApiInntektskilde } from '@io/rest/generated/spesialist.schemas';
 import { SisteTolvMånederTabell } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånederTabell';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
@@ -12,7 +12,7 @@ import { kildeForkortelse } from '@utils/inntektskilde';
 
 import styles from './SisteTolvMånedersInntekt.module.css';
 
-const getSorterteInntekter = (inntekterFraAOrdningen: InntektFraAOrdningen[]): InntektFraAOrdningen[] => {
+const getSorterteInntekter = (inntekterFraAOrdningen: ApiInntektFraAOrdningen[]): ApiInntektFraAOrdningen[] => {
     return [...inntekterFraAOrdningen].sort((a, b) =>
         dayjs(a.maned, 'YYYY-MM').isAfter(dayjs(b.maned, 'YYYY-MM')) ? -1 : 1,
     );
@@ -20,7 +20,7 @@ const getSorterteInntekter = (inntekterFraAOrdningen: InntektFraAOrdningen[]): I
 
 const leggInnIkkeRapporterteMåneder = (
     skjæringstidspunkt: DateString,
-    inntekterFraAordningen: InntektFraAOrdningen[],
+    inntekterFraAordningen: ApiInntektFraAOrdningen[],
     antallMåneder: number = 12,
 ) =>
     [...Array(antallMåneder)].map((_, i) => {
@@ -37,9 +37,9 @@ const leggInnIkkeRapporterteMåneder = (
 
 type InntektFraAOrdningenProps = {
     skjæringstidspunkt: string;
-    inntektFraAOrdningen?: InntektFraAOrdningen[];
+    inntektFraAOrdningen?: ApiInntektFraAOrdningen[];
     erAktivGhost?: boolean | null;
-    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
+    inntekterForSammenligningsgrunnlag?: ApiInntektFraAOrdningen[];
 };
 
 export const SisteTolvMånedersInntekt = ({
@@ -65,7 +65,7 @@ export const SisteTolvMånedersInntekt = ({
                 <Detail as="h2" uppercase weight="semibold" textColor="subtle">
                     RAPPORTERT SISTE {antallMåneder} MÅNEDER
                 </Detail>
-                <Kilde type={Inntektskilde.Aordningen}>{kildeForkortelse(Inntektskilde.Aordningen)}</Kilde>
+                <Kilde type={ApiInntektskilde.AORDNINGEN}>{kildeForkortelse(ApiInntektskilde.AORDNINGEN)}</Kilde>
             </HStack>
             <SisteTolvMånederTabell
                 sisteXmåneder={sisteXmåneder}

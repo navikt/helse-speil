@@ -3,14 +3,14 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Link, Table, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Begrunnelse } from '@io/graphql';
+import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import styles from './MerknaderCell.module.css';
 
 interface MerknadProps {
-    begrunnelse: Begrunnelse;
+    begrunnelse: ApiBegrunnelse;
     alderVedSkjæringstidspunkt?: number | null;
 }
 
@@ -122,7 +122,7 @@ const foreldetDagMerknad = (isForeldet: boolean): ReactElement | null =>
     ) : null;
 
 const avvisningsårsakerMerknad = (
-    begrunnelser: Begrunnelse[] | null,
+    begrunnelser: ApiBegrunnelse[] | null,
     alderVedSkjæringstidspunkt?: number | null,
 ): ReactElement[] | undefined =>
     begrunnelser?.map((begrunnelse, i) => (

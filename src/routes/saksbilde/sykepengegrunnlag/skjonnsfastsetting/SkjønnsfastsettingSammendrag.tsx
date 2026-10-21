@@ -1,11 +1,14 @@
 import React from 'react';
 
-import { Skjonnsfastsettingstype, Sykepengegrunnlagskjonnsfastsetting } from '@io/graphql';
+import {
+    ApiSkjonnsfastsettingstype,
+    ApiSykepengegrunnlagskjonnsfastsetting,
+} from '@io/rest/generated/spesialist.schemas';
 
 import styles from './SkjønnsfastsettingSammendrag.module.css';
 
 type Props = {
-    sisteSkjønnsfastsetting: Sykepengegrunnlagskjonnsfastsetting;
+    sisteSkjønnsfastsetting: ApiSykepengegrunnlagskjonnsfastsetting;
 };
 export const SkjønnsfastsettingSammendrag = ({ sisteSkjønnsfastsetting }: Props) => (
     <div className={styles.sammendrag}>
@@ -14,13 +17,13 @@ export const SkjønnsfastsettingSammendrag = ({ sisteSkjønnsfastsetting }: Prop
     </div>
 );
 
-const tilType = (type: Skjonnsfastsettingstype) => {
+const tilType = (type: ApiSkjonnsfastsettingstype) => {
     switch (type) {
-        case Skjonnsfastsettingstype.Annet:
+        case ApiSkjonnsfastsettingstype.ANNET:
             return 'Skjønnsfastsatt til annet';
-        case Skjonnsfastsettingstype.RapportertArsinntekt:
+        case ApiSkjonnsfastsettingstype.RAPPORTERT_ARSINNTEKT:
             return 'Skjønnsfastsatt til rapportert årsinntekt';
-        case Skjonnsfastsettingstype.OmregnetArsinntekt:
+        case ApiSkjonnsfastsettingstype.OMREGNET_ARSINNTEKT:
             return 'Skjønnsfastsatt til omregnet årsinntekt';
     }
 };

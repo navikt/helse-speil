@@ -4,13 +4,12 @@ import { BodyShort } from '@navikt/ds-react';
 
 import { LoadingShimmer } from '@components/LoadingShimmer';
 import {
-    Maybe,
-    Simulering,
-    Utbetaling,
-    Utbetalingstatus,
-    VilkarsgrunnlagInfotrygdV2,
-    VilkarsgrunnlagSpleisV2,
-} from '@io/graphql';
+    ApiSimulering,
+    ApiUtbetaling,
+    ApiUtbetalingstatus,
+    ApiVilkårsgrunnlagInfotrygdV2,
+    ApiVilkårsgrunnlagSpleisV2,
+} from '@io/rest/generated/spesialist.schemas';
 import { Forsikring } from '@saksbilde/venstremeny/Forsikring';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { somPenger } from '@utils/locale';
@@ -23,11 +22,11 @@ import { CardTitle } from './CardTitle';
 import styles from './UtbetalingCard.module.css';
 
 interface UtbetalingCardProps {
-    vilkårsgrunnlag?: Maybe<VilkarsgrunnlagSpleisV2 | VilkarsgrunnlagInfotrygdV2>;
+    vilkårsgrunnlag?: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2 | null;
     antallUtbetalingsdager: number;
-    utbetaling: Utbetaling;
-    arbeidsgiversimulering?: Simulering | null;
-    personsimulering?: Simulering | null;
+    utbetaling: ApiUtbetaling;
+    arbeidsgiversimulering?: ApiSimulering | null;
+    personsimulering?: ApiSimulering | null;
     periodePersonNettoBeløp: number;
     periodeArbeidsgiverNettoBeløp: number;
     gammeltTotalbeløp?: number;
@@ -53,7 +52,9 @@ const UtbetalingCardBeregnet = ({
                 <BodyShort>{somPenger(vilkårsgrunnlag?.sykepengegrunnlag)}</BodyShort>
                 {isSelvstendigNaering(inntektsforhold) && (
                     <Forsikring
-                        forsikringsvurderingId={(vilkårsgrunnlag as VilkarsgrunnlagSpleisV2)?.forsikringsvurderingId}
+                        forsikringsvurderingId={
+                            (vilkårsgrunnlag as ApiVilkårsgrunnlagSpleisV2)?.forsikringsvurderingId ?? null
+                        }
                     />
                 )}
                 <BodyShort>Utbetalingsdager</BodyShort>
@@ -73,7 +74,7 @@ const UtbetalingCardBeregnet = ({
                 periodeArbeidsgiverNettoBeløp={periodeArbeidsgiverNettoBeløp}
                 inntektsforhold={inntektsforhold}
             />
-            {!arbeidsgiversimulering && !personsimulering && utbetaling.status !== Utbetalingstatus.Annullert && (
+            {!arbeidsgiversimulering && !personsimulering && utbetaling.status !== ApiUtbetalingstatus.ANNULLERT && (
                 <BodyShort className={styles.ErrorMessage}>Mangler simulering</BodyShort>
             )}
         </section>

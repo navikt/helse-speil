@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 import { Detail, Fieldset, Label, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
-import { Arbeidsgiver, Sykepengegrunnlagsgrense } from '@io/graphql';
+import { ApiArbeidsgiver, ApiSykepengegrunnlagsgrense } from '@io/rest/generated/spesialist.schemas';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import styles from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm.module.css';
 import { Skjønnsfastsettingstype } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
@@ -15,9 +15,9 @@ import { avrundetToDesimaler } from '@utils/tall';
 import { ArbeidsgiverRad } from './ArbeidsgiverRad';
 
 interface SkjønnsfastsettingArbeidsgivereProps {
-    arbeidsgivere: Arbeidsgiver[];
+    arbeidsgivere: ApiArbeidsgiver[];
     sammenligningsgrunnlag: number;
-    sykepengegrunnlagsgrense: Sykepengegrunnlagsgrense;
+    sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
 }
 
 export const SkjønnsfastsettingArbeidsgivere = ({

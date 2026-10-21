@@ -15,7 +15,12 @@ import { Alert, Button, HStack } from '@navikt/ds-react';
 
 import { BegrunnelseTextarea } from '@components/BegrunnelseTextarea';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
-import { Arbeidsgiver, InntektFraAOrdningen, OmregnetArsinntekt, PersonFragment } from '@io/graphql';
+import {
+    ApiArbeidsgiver,
+    ApiInntektFraAOrdningen,
+    ApiOmregnetArsinntekt,
+    ApiSaksbildePerson,
+} from '@io/rest/generated/spesialist.schemas';
 import { getFørstePeriodeForSkjæringstidspunkt } from '@saksbilde/historikk/mapping';
 import { OmregnetÅrsinntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/OmregetÅrsinntekt';
 import { SisteTolvMånedersInntekt } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/SisteTolvMånedersInntekt';
@@ -51,14 +56,14 @@ export interface InntektFormFields {
 }
 
 interface EditableInntektProps {
-    person: PersonFragment;
-    arbeidsgiver: Arbeidsgiver;
-    omregnetÅrsinntekt: OmregnetArsinntekt;
+    person: ApiSaksbildePerson;
+    arbeidsgiver: ApiArbeidsgiver;
+    omregnetÅrsinntekt: ApiOmregnetArsinntekt;
     årsaker: ÅrsakForOverstyring[];
     skjæringstidspunkt: DateString;
     vilkårsgrunnlagId?: string | null;
-    inntektFraAOrdningen?: InntektFraAOrdningen[];
-    inntekterForSammenligningsgrunnlag?: InntektFraAOrdningen[];
+    inntektFraAOrdningen?: ApiInntektFraAOrdningen[];
+    inntekterForSammenligningsgrunnlag?: ApiInntektFraAOrdningen[];
     inntektFom: string | null;
     inntektTom: string | null;
     close: () => void;

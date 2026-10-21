@@ -12,17 +12,15 @@ import { Maksdatoikon } from '@components/ikoner/Maksdatoikon';
 import { Skjæringstidspunktikon } from '@components/ikoner/Skjæringstidspunktikon';
 import { Sykmeldingsperiodeikon } from '@components/ikoner/Sykmeldingsperiodeikon';
 import {
-    Arbeidsforhold,
-    Arbeidsgiver,
-    ArbeidsgiverFragment,
-    BeregnetPeriodeFragment,
-    Egenskap,
-    Kategori,
-    Periodetilstand,
-    Periodetype,
-    UberegnetPeriodeFragment,
-} from '@io/graphql';
-import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
+    ApiArbeidsforhold,
+    ApiArbeidsgiver,
+    ApiBeregnetPeriode,
+    ApiEgenskap,
+    ApiKategori,
+    ApiPeriodetilstand,
+    ApiPeriodetype,
+    ApiUberegnetPeriode,
+} from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { isForkastet } from '@state/selectors/period';
 import { ActivePeriod, DatePeriod, DateString } from '@typer/shared';
@@ -67,7 +65,7 @@ const SykmeldingsperiodeRow = ({ periode }: SykmeldingsperiodeRowProps): ReactEl
 };
 
 interface SkjæringstidspunktRowProps {
-    periodetype: Periodetype;
+    periodetype: ApiPeriodetype;
     skjæringstidspunkt: DateString;
 }
 
@@ -79,7 +77,7 @@ const SkjæringstidspunktRow = ({ periodetype, skjæringstidspunkt }: Skjærings
                     <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
                 </div>
             </Tooltip>
-            {periodetype === Periodetype.OvergangFraIt ? (
+            {periodetype === ApiPeriodetype.OVERGANG_FRA_IT ? (
                 <BodyShort>Skjæringstidspunkt i Infotrygd/Gosys</BodyShort>
             ) : (
                 <BodyShort>{somNorskDato(skjæringstidspunkt)}</BodyShort>
@@ -88,7 +86,7 @@ const SkjæringstidspunktRow = ({ periodetype, skjæringstidspunkt }: Skjærings
     );
 };
 
-const harRedusertAntallSykepengedager = (periode: BeregnetPeriodeFragment): boolean => {
+const harRedusertAntallSykepengedager = (periode: ApiBeregnetPeriode): boolean => {
     const { forbrukteSykedager, gjenstaendeSykedager } = periode.periodevilkar.sykepengedager;
     return (
         typeof forbrukteSykedager === 'number' &&
@@ -98,7 +96,7 @@ const harRedusertAntallSykepengedager = (periode: BeregnetPeriodeFragment): bool
 };
 
 interface MaksdatoRowProps {
-    activePeriod: BeregnetPeriodeFragment;
+    activePeriod: ApiBeregnetPeriode;
     dødsdato?: DateString;
 }
 
@@ -124,11 +122,7 @@ const MaksdatoRow = ({ activePeriod, dødsdato }: MaksdatoRowProps): ReactElemen
     );
 };
 
-function maksdatoToolTip(
-    alderVedSisteSykedag: number,
-    activePeriod: BeregnetPeriodeFragment,
-    dødsdato: string | undefined,
-) {
+function maksdatoToolTip(alderVedSisteSykedag: number, activePeriod: ApiBeregnetPeriode, dødsdato: string | undefined) {
     if (dødsdato) {
         return (
             <Tooltip content={`Personen døde ${dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}`}>
@@ -168,7 +162,7 @@ const ArbeidsforholdOpphørt = ({
     arbeidsforhold,
     periode,
 }: {
-    arbeidsforhold: Arbeidsforhold[];
+    arbeidsforhold: ApiArbeidsforhold[];
     periode: ActivePeriod;
 }) => {
     const erAlleArbeidsforholdPåArbeidsgiverOpphørt = [...arbeidsforhold].every(
@@ -192,17 +186,19 @@ const ArbeidsforholdOpphørt = ({
 };
 
 interface PeriodeCardUberegnetProps {
-    periode: UberegnetPeriodeFragment;
+    periode: ApiUberegnetPeriode;
     inntektsforhold: Inntektsforhold;
     månedsbeløp?: number;
 }
 
 const PeriodeCardUberegnet = ({ periode, inntektsforhold }: PeriodeCardUberegnetProps): ReactElement => {
     const arbeidsforhold = isArbeidsgiver(inntektsforhold) ? inntektsforhold.arbeidsforhold : [];
-    const erVenteperiode = [
-        Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
-        Periodetilstand.VenterPaEnAnnenPeriode,
-    ].includes(periode.periodetilstand);
+    const erVenteperiode = (
+        [
+            ApiPeriodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+            ApiPeriodetilstand.VenterPaEnAnnenPeriode,
+        ] as ApiPeriodetilstand[]
+    ).includes(periode.periodetilstand);
     return (
         <div>
             {isForkastet(periode) && (
@@ -221,7 +217,7 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold }: PeriodeCardUberegnet
                         <span className={styles.egenskaper}>
                             <EgenskaperTags
                                 egenskaper={[
-                                    periode.periodetype === Periodetype.Forlengelse
+                                    periode.periodetype === ApiPeriodetype.FORLENGELSE
                                         ? ApiEgenskap.FORLENGELSE
                                         : ApiEgenskap.FORSTEGANGSBEHANDLING,
                                 ]}
@@ -242,8 +238,8 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold }: PeriodeCardUberegnet
 };
 
 interface PeriodeCardBeregnetProps {
-    periode: BeregnetPeriodeFragment;
-    arbeidsforhold: Arbeidsforhold[];
+    periode: ApiBeregnetPeriode;
+    arbeidsforhold: ApiArbeidsforhold[];
     inntektsforhold: Inntektsforhold;
     dødsdato?: DateString;
 }
@@ -255,23 +251,26 @@ const PeriodeCardBeregnet = ({
     dødsdato,
 }: PeriodeCardBeregnetProps): ReactElement => {
     const egenskaper = periode.egenskaper.map((it) => it.egenskap);
-    const jordbrukerReindrift = egenskaper.includes(Egenskap.JordbrukerReindrift);
+    const jordbrukerReindrift = egenskaper.includes(ApiEgenskap.JORDBRUKER_REINDRIFT);
 
     const egenskaperForVisning = periode.egenskaper
         .filter((it) => {
-            const erMottaker = it.kategori === Kategori.Mottaker;
-            const erInntektskilde = it.kategori === Kategori.Inntektskilde;
-            const erForsikring = it.egenskap === Egenskap.Forsikring;
-            const erJordbrukerReindrift = jordbrukerReindrift && it.egenskap === Egenskap.SelvstendigNaeringsdrivende;
+            const erMottaker = it.kategori === ApiKategori.Mottaker;
+            const erInntektskilde = it.kategori === ApiKategori.Inntektskilde;
+            const erForsikring = it.egenskap === ApiEgenskap.FORSIKRING;
+            const erJordbrukerReindrift =
+                jordbrukerReindrift && it.egenskap === ApiEgenskap.SELVSTENDIG_NAERINGSDRIVENDE;
 
             return !erMottaker && !erInntektskilde && !erForsikring && !erJordbrukerReindrift;
         })
         .map((it) => it.egenskap);
 
-    const erVenteperiode = [
-        Periodetilstand.UtbetaltVenterPaEnAnnenPeriode,
-        Periodetilstand.VenterPaEnAnnenPeriode,
-    ].includes(periode.periodetilstand);
+    const erVenteperiode = (
+        [
+            ApiPeriodetilstand.UtbetaltVenterPaEnAnnenPeriode,
+            ApiPeriodetilstand.VenterPaEnAnnenPeriode,
+        ] as ApiPeriodetilstand[]
+    ).includes(periode.periodetilstand);
 
     return (
         <div>
@@ -293,7 +292,7 @@ const PeriodeCardBeregnet = ({
 };
 
 interface PeriodeCardGhostProps {
-    arbeidsgiver: Arbeidsgiver;
+    arbeidsgiver: ApiArbeidsgiver;
     inntektsforhold: Inntektsforhold;
 }
 
@@ -306,7 +305,7 @@ const PeriodeCardGhost = ({ arbeidsgiver, inntektsforhold }: PeriodeCardGhostPro
 };
 
 interface PeriodeCardTilkommenProps {
-    arbeidsgiver: ArbeidsgiverFragment;
+    arbeidsgiver: ApiArbeidsgiver;
     inntektsforhold: Inntektsforhold;
 }
 

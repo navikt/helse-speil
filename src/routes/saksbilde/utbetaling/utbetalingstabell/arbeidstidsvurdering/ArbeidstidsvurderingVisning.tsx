@@ -3,7 +3,7 @@ import React from 'react';
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, List, ReadMore, Table } from '@navikt/ds-react';
 
-import { MinimumSykdomsgradOverstyring } from '@io/graphql';
+import { ApiMinimumSykdomsgradOverstyring } from '@io/rest/generated/spesialist.schemas';
 import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/Delperiode';
 import { byTimestamp } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
 import { DatePeriod } from '@typer/shared';
@@ -13,7 +13,7 @@ import styles from './ArbeidstidsvurderingVisning.module.scss';
 
 interface Props {
     oppkuttedePerioder: DatePeriod[] | null;
-    minimumSykdomsgradsoverstyringer: MinimumSykdomsgradOverstyring[];
+    minimumSykdomsgradsoverstyringer: ApiMinimumSykdomsgradOverstyring[];
 }
 
 export const ArbeidstidsvurderingVisning = ({ oppkuttedePerioder, minimumSykdomsgradsoverstyringer }: Props) => {

@@ -6,9 +6,15 @@ import { BodyShort, HGrid } from '@navikt/ds-react';
 
 import { useForrigeBehandlingPeriodeMedPeriode } from '@hooks/useForrigeBehandlingPeriode';
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
-import { BeregnetPeriodeFragment, PersonFragment, Utbetalingsdagtype, Utbetalingstatus } from '@io/graphql';
 import { useGetNotatVedtaksperiodeIderForPerson } from '@io/rest/generated/notater/notater';
-import { ApiNotatType, ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiBeregnetPeriode,
+    ApiNotatType,
+    ApiSaksbildePerson,
+    ApiTilkommenInntekt,
+    ApiUtbetalingsdagtype,
+    ApiUtbetalingstatus,
+} from '@io/rest/generated/spesialist.schemas';
 import { TidslinjeElement } from '@saksbilde/tidslinje/groupTidslinjedata';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
@@ -19,7 +25,7 @@ import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/ty
 
 interface PeriodPopoverProps {
     element: TidslinjeElement;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     erSelvstendigNæring?: boolean;
     visVedtaksperiodeId?: boolean;
 }
@@ -110,9 +116,9 @@ export function InfotrygdPopover({ fom, tom }: DatePeriod): ReactElement {
 }
 
 interface SpleisPopoverProps extends DatePeriod {
-    period: BeregnetPeriodeFragment;
+    period: ApiBeregnetPeriode;
     state: PeriodState;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     erSelvstendigNæringsdrivende: boolean;
 }
 
@@ -126,9 +132,9 @@ function BeregnetPopover({
 }: SpleisPopoverProps): ReactElement {
     const dayTypes = groupDayTypes(period);
 
-    const arbeidsgiverperiode = getDayTypesRender(Utbetalingsdagtype.Arbeidsgiverperiodedag, dayTypes);
-    const ferieperiode = getDayTypesRender(Utbetalingsdagtype.Feriedag, dayTypes);
-    const avslåttperiode = getDayTypesRender(Utbetalingsdagtype.AvvistDag, dayTypes);
+    const arbeidsgiverperiode = getDayTypesRender(ApiUtbetalingsdagtype.ARBEIDSGIVERPERIODEDAG, dayTypes);
+    const ferieperiode = getDayTypesRender(ApiUtbetalingsdagtype.FERIEDAG, dayTypes);
+    const avslåttperiode = getDayTypesRender(ApiUtbetalingsdagtype.AVVIST_DAG, dayTypes);
     const harGenereltNotat = useHarGenereltNotat(period);
 
     const { personTotalbeløp, arbeidsgiverTotalbeløp, totalbeløp } = useTotalbeløp(
@@ -173,7 +179,7 @@ function BeregnetPopover({
                     <BodyShort size="small">{somPenger(arbeidsgiverTotalbeløp)}</BodyShort>
                 </>
             )}
-            {forrigePeriode && period.utbetaling.status === Utbetalingstatus.Ubetalt && (
+            {forrigePeriode && period.utbetaling.status === ApiUtbetalingstatus.UBETALT && (
                 <>
                     <BodyShort size="small">Differanse</BodyShort>
                     <BodyShort
@@ -261,13 +267,13 @@ function UberegnetPopover({ fom, tom, state }: UberegnetPopoverProps): ReactElem
     );
 }
 
-function groupDayTypes(period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype, DatePeriod[]> {
-    const map = new Map<Utbetalingsdagtype, DatePeriod[]>();
+function groupDayTypes(period: ApiBeregnetPeriode): Map<ApiUtbetalingsdagtype, DatePeriod[]> {
+    const map = new Map<ApiUtbetalingsdagtype, DatePeriod[]>();
 
-    let currentDayType: Utbetalingsdagtype | undefined = period.tidslinje[0]?.utbetalingsdagtype;
+    let currentDayType: ApiUtbetalingsdagtype | undefined = period.tidslinje[0]?.utbetalingsdagtype;
     let currentFom: DateString | undefined = period.tidslinje[0]?.dato;
 
-    const updateDayTypesMap = (i: number, map: Map<Utbetalingsdagtype, DatePeriod[]>): void => {
+    const updateDayTypesMap = (i: number, map: Map<ApiUtbetalingsdagtype, DatePeriod[]>): void => {
         if (!currentDayType || !currentFom) return;
         if (!map.has(currentDayType)) {
             map.set(currentDayType, []);
@@ -290,7 +296,7 @@ function groupDayTypes(period: BeregnetPeriodeFragment): Map<Utbetalingsdagtype,
     return map;
 }
 
-function getDayTypesRender(dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagtype, DatePeriod[]>): ReactNode {
+function getDayTypesRender(dayType: ApiUtbetalingsdagtype, map: Map<ApiUtbetalingsdagtype, DatePeriod[]>): ReactNode {
     const periods = map.get(dayType);
     if (!periods || periods.length === 0) return undefined;
     if (periods.length === 1) {
@@ -306,7 +312,7 @@ function getDayTypesRender(dayType: Utbetalingsdagtype, map: Map<Utbetalingsdagt
     return `${antallDager} dager`;
 }
 
-function useHarGenereltNotat(period: BeregnetPeriodeFragment) {
+function useHarGenereltNotat(period: ApiBeregnetPeriode) {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data } = useGetNotatVedtaksperiodeIderForPerson(personPseudoId);
 

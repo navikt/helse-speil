@@ -4,7 +4,6 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
-import { useApolloClient } from '@apollo/client';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
@@ -12,8 +11,11 @@ import {
     stansAutomatiskBehandlingSchema,
 } from '@form-schemas/stansAutomatiskBehandlingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { FetchPersonDocument } from '@io/graphql';
-import { getGetVeilederStansQueryKey, usePatchVeilederStans } from '@io/rest/generated/personer/personer';
+import {
+    getGetSaksbildeForPersonQueryKey,
+    getGetVeilederStansQueryKey,
+    usePatchVeilederStans,
+} from '@io/rest/generated/personer/personer';
 import {
     opphevStansAutomatiskBehandlingVeilederToast,
     somVeilederBackendfeil,
@@ -38,7 +40,6 @@ export function UnntattFraAutomatisering({
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { mutate, isPending, error } = usePatchVeilederStans();
     const queryClient = useQueryClient();
-    const apolloClient = useApolloClient();
     const addToast = useAddToast();
 
     const form = useForm<StansAutomatiskBehandlingSchema>({
@@ -65,9 +66,7 @@ export function UnntattFraAutomatisering({
                         årsaker: [],
                         tidspunkt: null,
                     });
-                    apolloClient.refetchQueries({
-                        include: [FetchPersonDocument],
-                    });
+                    void queryClient.refetchQueries({ queryKey: getGetSaksbildeForPersonQueryKey(personPseudoId) });
                     addToast(opphevStansAutomatiskBehandlingVeilederToast);
                 },
             },

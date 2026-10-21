@@ -1,10 +1,12 @@
 import { useParams } from 'next/navigation';
 import { useRef } from 'react';
 
-import { useApolloClient } from '@apollo/client';
-import { FetchPersonDocument } from '@io/graphql';
 import { getGetNotatVedtaksperiodeIderForPersonQueryKey } from '@io/rest/generated/notater/notater';
-import { getGetSaksbehandlerhandlingerForPersonQueryKey } from '@io/rest/generated/personer/personer';
+import {
+    getGetSaksbehandlerhandlingerForPersonQueryKey,
+    getGetSaksbildeForPersonQueryKey,
+} from '@io/rest/generated/personer/personer';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { useSelectPeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
@@ -13,7 +15,6 @@ import { useQueryClient } from '@tanstack/react-query';
 
 export const useRefreshPersonVedEvent = () => {
     const { data } = useFetchPersonQuery();
-    const apolloClient = useApolloClient();
     const refetchPågår = useRef(false);
     const selectPeriod = useSelectPeriod();
     const addToast = useAddToast();
@@ -25,7 +26,7 @@ export const useRefreshPersonVedEvent = () => {
         if (data === undefined || refetchPågår.current) return;
         refetchPågår.current = true;
         try {
-            await apolloClient.refetchQueries({ include: [FetchPersonDocument] });
+            await queryClient.refetchQueries({ queryKey: getGetSaksbildeForPersonQueryKey(personPseudoId) });
         } finally {
             refetchPågår.current = false;
         }
@@ -36,10 +37,9 @@ export const useRefreshPersonVedEvent = () => {
             queryKey: getGetSaksbehandlerhandlingerForPersonQueryKey(personPseudoId),
         });
         if (erNyOppgaveEvent(event)) {
-            const person = apolloClient.readQuery({
-                query: FetchPersonDocument,
-                variables: { personPseudoId },
-            })?.person;
+            const person = queryClient.getQueryData<ApiSaksbildePerson>(
+                getGetSaksbildeForPersonQueryKey(personPseudoId),
+            );
             if (person) selectPeriod(person);
             if (toasts.length === 0) {
                 addToast({

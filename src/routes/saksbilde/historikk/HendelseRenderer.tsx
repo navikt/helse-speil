@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { PersonFragment } from '@io/graphql';
+import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkHendelse } from '@saksbilde/historikk/HistorikkHendelse';
 import { Annulleringhendelse } from '@saksbilde/historikk/hendelser/Annulleringhendelse';
 import { ArbeidstidVurderthendelse } from '@saksbilde/historikk/hendelser/ArbeidstidVurderthendelse';
@@ -19,7 +19,7 @@ import { VedtakBegrunnelsehendelse } from './hendelser/VedtakBegrunnelsehendelse
 
 interface HendelseRendererProps {
     hendelse: HendelseObject;
-    person: PersonFragment;
+    person: ApiSaksbildePerson;
     erAnnullertBeregnetPeriode: boolean;
 }
 

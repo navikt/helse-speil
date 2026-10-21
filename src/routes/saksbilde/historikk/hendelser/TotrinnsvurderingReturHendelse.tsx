@@ -3,7 +3,6 @@ import React, { ReactElement } from 'react';
 import { VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
-import { PeriodehistorikkType } from '@io/graphql';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkArrowUndoIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
 import { HendelseKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarSeksjon';
@@ -44,7 +43,6 @@ export const TotrinnsvurderingReturHendelse = ({
                     kommentarer={kommentarer}
                     dialogRef={dialogRef}
                     historikkinnslagId={historikkinnslagId}
-                    historikktype={PeriodehistorikkType.TotrinnsvurderingRetur}
                 />
             )}
         </Historikkhendelse>

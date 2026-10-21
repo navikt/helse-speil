@@ -1,4 +1,4 @@
-import { Sykdomsdagtype, Utbetalingsdagtype } from '@io/graphql';
+import { ApiSykdomsdagtype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
 import { OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
@@ -141,8 +141,8 @@ export const Ukjentdag: Speildag = {
 };
 
 export const AvvistEllerForeldetDag = (
-    sykdomsdagtype: Sykdomsdagtype,
-    utbetalingsdagtype: Utbetalingsdagtype,
+    sykdomsdagtype: ApiSykdomsdagtype,
+    utbetalingsdagtype: ApiUtbetalingsdagtype,
 ): Speildag => {
     return {
         speilDagtype: 'Avslått',
@@ -151,49 +151,49 @@ export const AvvistEllerForeldetDag = (
     };
 };
 
-export const getSpeildag = (sykdomsdagtype: Sykdomsdagtype, utbetalingsdagtype: Utbetalingsdagtype): Speildag => {
+export const getSpeildag = (sykdomsdagtype: ApiSykdomsdagtype, utbetalingsdagtype: ApiUtbetalingsdagtype): Speildag => {
     switch (sykdomsdagtype) {
-        case Sykdomsdagtype.AndreYtelserAap:
+        case ApiSykdomsdagtype.ANDRE_YTELSER_AAP:
             return AAPdag;
-        case Sykdomsdagtype.AndreYtelserDagpenger:
+        case ApiSykdomsdagtype.ANDRE_YTELSER_DAGPENGER:
             return Dagpengerdag;
-        case Sykdomsdagtype.AndreYtelserForeldrepenger:
+        case ApiSykdomsdagtype.ANDRE_YTELSER_FORELDREPENGER:
             return Foreldrepengerdag;
-        case Sykdomsdagtype.AndreYtelserOmsorgspenger:
+        case ApiSykdomsdagtype.ANDRE_YTELSER_OMSORGSPENGER:
             return Omsorgspengerdag;
-        case Sykdomsdagtype.AndreYtelserOpplaringspenger:
+        case ApiSykdomsdagtype.ANDRE_YTELSER_OPPLARINGSPENGER:
             return Opplæringspengerdag;
-        case Sykdomsdagtype.AndreYtelserPleiepenger:
+        case ApiSykdomsdagtype.ANDRE_YTELSER_PLEIEPENGER:
             return Pleiepengerdag;
-        case Sykdomsdagtype.AndreYtelserSvangerskapspenger:
+        case ApiSykdomsdagtype.ANDRE_YTELSER_SVANGERSKAPSPENGER:
             return Svangerskapspengerdag;
-        case Sykdomsdagtype.Arbeidikkegjenopptattdag:
+        case ApiSykdomsdagtype.ARBEIDIKKEGJENOPPTATTDAG:
             return ArbeidIkkeGjenopptattDag;
-        case Sykdomsdagtype.Arbeidsdag:
-            return utbetalingsdagtype === Utbetalingsdagtype.Helgedag ? Helgedag : Arbeidsdag;
-        case Sykdomsdagtype.Feriedag:
-            return utbetalingsdagtype === Utbetalingsdagtype.Helgedag ? Feriehelgedag : Feriedag;
-        case Sykdomsdagtype.Permisjonsdag:
+        case ApiSykdomsdagtype.ARBEIDSDAG:
+            return utbetalingsdagtype === ApiUtbetalingsdagtype.HELGEDAG ? Helgedag : Arbeidsdag;
+        case ApiSykdomsdagtype.FERIEDAG:
+            return utbetalingsdagtype === ApiUtbetalingsdagtype.HELGEDAG ? Feriehelgedag : Feriedag;
+        case ApiSykdomsdagtype.PERMISJONSDAG:
             return Permisjonsdag;
-        case Sykdomsdagtype.Arbeidsgiverdag: // Spleis bruker bare "Arbeidsgiverdag" om egenmeldingsdager
+        case ApiSykdomsdagtype.ARBEIDSGIVERDAG: // Spleis bruker bare "Arbeidsgiverdag" om egenmeldingsdager
             return Egenmeldingsdag;
-        case Sykdomsdagtype.SykedagNav:
+        case ApiSykdomsdagtype.SYKEDAG_NAV:
             return SykedagNav;
-        case Sykdomsdagtype.Sykedag:
-        case Sykdomsdagtype.ForeldetSykedag:
+        case ApiSykdomsdagtype.SYKEDAG:
+        case ApiSykdomsdagtype.FORELDET_SYKEDAG:
             return Sykedag;
-        case Sykdomsdagtype.SykHelgedag:
+        case ApiSykdomsdagtype.SYK_HELGEDAG:
             return Navhelgedag;
-        case Sykdomsdagtype.FriskHelgedag:
+        case ApiSykdomsdagtype.FRISK_HELGEDAG:
             return FriskHelgedag;
-        case Sykdomsdagtype.Avslatt:
+        case ApiSykdomsdagtype.AVSLATT:
             return Avslåttdag;
-        case Sykdomsdagtype.Meldingtilnavdag:
+        case ApiSykdomsdagtype.MELDINGTILNAVDAG:
             return MeldingTilNavdag;
-        case Sykdomsdagtype.Avslattmeldingtilnavdag:
+        case ApiSykdomsdagtype.AVSLATTMELDINGTILNAVDAG:
             return AvslattMeldingTilNavdag;
-        case Sykdomsdagtype.Ubestemtdag:
+        case ApiSykdomsdagtype.UBESTEMTDAG:
         default:
-            return utbetalingsdagtype === Utbetalingsdagtype.Helgedag ? Helgedag : Ukjentdag;
+            return utbetalingsdagtype === ApiUtbetalingsdagtype.HELGEDAG ? Helgedag : Ukjentdag;
     }
 };
