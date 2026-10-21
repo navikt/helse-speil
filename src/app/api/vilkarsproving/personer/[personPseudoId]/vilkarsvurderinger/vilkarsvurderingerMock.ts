@@ -17,6 +17,7 @@ import {
     ApiVilkårsvurderingerForPersonResponse,
     ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/vilkarsproving.schemas';
+import { finnPerioderMedOppgave } from '@spesialist-mock/periodeoppslag';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
 interface Opptjeningstilstand {
@@ -314,7 +315,7 @@ function initiellTilstand(personPseudoId: string): Opptjeningstilstand {
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
     return {
-        vilkårsvurderinger: { skjæringstidspunkt: '2024-01-01', krav: [krav] },
+        vilkårsvurderinger: { skjæringstidspunkt: skjæringstidspunktForPerson(personPseudoId), krav: [krav] },
         opptjeningshistorikk: [{ vurdertTidspunkt: '2024-01-02T10:00:00.000Z', opptjeningsvurdering: krav }],
     };
 }
@@ -420,4 +421,11 @@ function automatiskAvslåttVurdering(id: string, vurdertTidspunkt: string): ApiV
             kildetype: ApiKildetype.AUTOMATISK,
         },
     };
+}
+
+// Personer uten seedet opptjening får skjæringstidspunktet til perioden med oppgave, så handlinger treffer perioden
+function skjæringstidspunktForPerson(personPseudoId: string): string {
+    const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
+    const periode = fødselsnummer ? finnPerioderMedOppgave(fødselsnummer)[0]?.periode : undefined;
+    return periode?.skjaeringstidspunkt ?? '2024-01-01';
 }

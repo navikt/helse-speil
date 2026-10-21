@@ -9,6 +9,7 @@ import { lokalSaksbehandlerOid } from '@spesialist-mock/constants';
 import { tilfeldigeOppgaver } from '@spesialist-mock/data/mockDataGenerator';
 import { oppgaveVedtaksperioder, oppgaver } from '@spesialist-mock/data/oppgaver';
 import { LagtPaVent } from '@spesialist-mock/schemaTypes';
+import { BehandlingMock, erTotrinnsegenskap, totrinnsegenskap } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { PersonMock } from '@spesialist-mock/storage/person';
 import { PaVentMock } from '@spesialist-mock/storage/påvent';
@@ -62,64 +63,75 @@ export function filtrerOppgaver(
 }
 
 function syncMock(oppgaver: ApiOppgaveProjeksjon[]) {
-    return oppgaver.map((oppgave) => {
-        const personPseudoId = PersonMock.findPersonPseudoId(oppgave.aktorId);
-        if (personPseudoId != null) oppgave.personPseudoId = personPseudoId;
-        else logger.error(`Fant ikke personPseudoId for oppgave med aktørId ${oppgave.aktorId}`);
-        if (
-            oppgave.tildeling !== undefined &&
-            oppgave.tildeling !== null &&
-            !TildelingMock.harTildeling(oppgave.personPseudoId)
-        ) {
-            TildelingMock.setTildeling(oppgave.personPseudoId, oppgave.tildeling);
-        }
-
-        let påVentInfo: ApiOppgaveProjeksjonPåVentInfo | null = oppgave.påVentInfo ?? null;
-        let egenskaper = oppgave.egenskaper;
-
-        if (PaVentMock.finnesIMock(oppgave.id)) {
-            if (!PaVentMock.erPåVent(oppgave.id)) {
-                påVentInfo = null;
-                egenskaper = egenskaper.filter((e) => e !== ApiEgenskap.PA_VENT);
-            } else {
-                const historikkinnslag = HistorikkinnslagMock.getSisteLagtPåVentHistorikkinnslag(
-                    oppgaveVedtaksperioder.find((it) => it.id === oppgave.id)!.vedtaksperiodeId,
-                ) as LagtPaVent;
-
-                if (historikkinnslag) {
-                    påVentInfo = {
-                        arsaker: historikkinnslag.arsaker,
-                        tekst: historikkinnslag.notattekst,
-                        dialogRef: historikkinnslag.dialogRef!,
-                        opprettet: historikkinnslag.timestamp,
-                        saksbehandler: historikkinnslag.saksbehandlerIdent!,
-                        tidsfrist: historikkinnslag.frist!,
-                        kommentarer: historikkinnslag.kommentarer.map((kommentar) => ({
-                            __typename: 'OppgaveProjeksjonPaaVentKommentar',
-                            feilregistrert_tidspunkt: kommentar.feilregistrert_tidspunkt,
-                            id: kommentar.id,
-                            opprettet: kommentar.opprettet,
-                            saksbehandlerident: kommentar.saksbehandlerident,
-                            tekst: kommentar.tekst,
-                        })),
-                    };
-                    egenskaper = !egenskaper.some((e) => e === ApiEgenskap.PA_VENT)
-                        ? [...egenskaper, ApiEgenskap.PA_VENT]
-                        : egenskaper;
-                }
+    return oppgaver
+        .filter((oppgave) => !BehandlingMock.erOppgaveFerdigstilt(oppgave.id))
+        .map((oppgave) => {
+            const personPseudoId = PersonMock.findPersonPseudoId(oppgave.aktorId);
+            if (personPseudoId != null) oppgave.personPseudoId = personPseudoId;
+            else logger.error(`Fant ikke personPseudoId for oppgave med aktørId ${oppgave.aktorId}`);
+            if (
+                oppgave.tildeling !== undefined &&
+                oppgave.tildeling !== null &&
+                !TildelingMock.harTildeling(oppgave.personPseudoId)
+            ) {
+                TildelingMock.setTildeling(oppgave.personPseudoId, oppgave.tildeling);
             }
-        } else if (oppgave.påVentInfo !== undefined && oppgave.påVentInfo !== null) {
-            PaVentMock.setPåVent(oppgave.id, {
-                frist: oppgave.påVentInfo?.tidsfrist,
-                oid: lokalSaksbehandlerOid,
-            });
-        }
 
-        return {
-            ...oppgave,
-            tildeling: TildelingMock.getTildeling(oppgave.personPseudoId),
-            egenskaper: egenskaper,
-            påVentInfo: påVentInfo,
-        } as ApiOppgaveProjeksjon;
-    });
+            let påVentInfo: ApiOppgaveProjeksjonPåVentInfo | null = oppgave.påVentInfo ?? null;
+            let egenskaper = oppgave.egenskaper;
+
+            if (PaVentMock.finnesIMock(oppgave.id)) {
+                if (!PaVentMock.erPåVent(oppgave.id)) {
+                    påVentInfo = null;
+                    egenskaper = egenskaper.filter((e) => e !== ApiEgenskap.PA_VENT);
+                } else {
+                    const historikkinnslag = HistorikkinnslagMock.getSisteLagtPåVentHistorikkinnslag(
+                        oppgaveVedtaksperioder.find((it) => it.id === oppgave.id)!.vedtaksperiodeId,
+                    ) as LagtPaVent;
+
+                    if (historikkinnslag) {
+                        påVentInfo = {
+                            arsaker: historikkinnslag.arsaker,
+                            tekst: historikkinnslag.notattekst,
+                            dialogRef: historikkinnslag.dialogRef!,
+                            opprettet: historikkinnslag.timestamp,
+                            saksbehandler: historikkinnslag.saksbehandlerIdent!,
+                            tidsfrist: historikkinnslag.frist!,
+                            kommentarer: historikkinnslag.kommentarer.map((kommentar) => ({
+                                __typename: 'OppgaveProjeksjonPaaVentKommentar',
+                                feilregistrert_tidspunkt: kommentar.feilregistrert_tidspunkt,
+                                id: kommentar.id,
+                                opprettet: kommentar.opprettet,
+                                saksbehandlerident: kommentar.saksbehandlerident,
+                                tekst: kommentar.tekst,
+                            })),
+                        };
+                        egenskaper = !egenskaper.some((e) => e === ApiEgenskap.PA_VENT)
+                            ? [...egenskaper, ApiEgenskap.PA_VENT]
+                            : egenskaper;
+                    }
+                }
+            } else if (oppgave.påVentInfo !== undefined && oppgave.påVentInfo !== null) {
+                PaVentMock.setPåVent(oppgave.id, {
+                    frist: oppgave.påVentInfo?.tidsfrist,
+                    oid: lokalSaksbehandlerOid,
+                });
+            }
+
+            return {
+                ...oppgave,
+                tildeling: TildelingMock.getTildeling(oppgave.personPseudoId),
+                egenskaper: medTotrinnsegenskaper(oppgave.id, egenskaper),
+                påVentInfo: påVentInfo,
+            } as ApiOppgaveProjeksjon;
+        });
+}
+
+function medTotrinnsegenskaper(oppgaveId: string, egenskaper: ApiEgenskap[]): ApiEgenskap[] {
+    const totrinnsvurdering = BehandlingMock.getTotrinnsvurderingForOppgave(oppgaveId);
+    if (totrinnsvurdering === undefined) return egenskaper;
+
+    const utenTotrinnsegenskaper = egenskaper.filter((egenskap) => !erTotrinnsegenskap(egenskap));
+    const egenskap = totrinnsegenskap(totrinnsvurdering);
+    return egenskap ? [...utenTotrinnsegenskaper, ApiEgenskap[egenskap]] : utenTotrinnsegenskaper;
 }

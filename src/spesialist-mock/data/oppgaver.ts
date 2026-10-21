@@ -1,7 +1,5 @@
 import { ApiEgenskap, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
-import { lokalSaksbehandlerOid } from '@spesialist-mock/constants';
-
-const lokalSaksbehandler = { epost: 'epost@nav.no', navn: 'Utvikler, Lokal', oid: lokalSaksbehandlerOid };
+import { lokalSaksbehandlerIdent, lokalTildeling } from '@spesialist-mock/constants';
 
 export const oppgaveVedtaksperioder: { id: string; vedtaksperiodeId: string }[] = [
     {
@@ -67,22 +65,21 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
             ApiEgenskap.VERGEMAL,
             ApiEgenskap.UTLAND,
             ApiEgenskap.MANGLER_IM,
-            ApiEgenskap.BESLUTTER,
             ApiEgenskap.PA_VENT,
         ],
-        tildeling: lokalSaksbehandler,
+        tildeling: lokalTildeling,
         påVentInfo: {
             arsaker: ['§ 8-4 Avklare aktivitetskrav/medisinske vilkår'],
             dialogRef: 1,
             opprettet: '2023-01-23T11:09:57',
-            saksbehandler: 'A123456',
+            saksbehandler: lokalSaksbehandlerIdent,
             tekst: 'En notattekst',
             tidsfrist: '2023-01-24',
             kommentarer: [
                 {
                     id: 1,
                     opprettet: '2023-01-24T15:09:30.090206',
-                    saksbehandlerident: 'A123456',
+                    saksbehandlerident: lokalSaksbehandlerIdent,
                     tekst: 'Kommentar 1',
                 },
             ],
@@ -107,12 +104,12 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
             ApiEgenskap.EN_ARBEIDSGIVER,
             ApiEgenskap.VERGEMAL,
         ],
-        tildeling: lokalSaksbehandler,
+        tildeling: lokalTildeling,
         påVentInfo: {
             arsaker: ['Inntektsmelding - etterspurt'],
             dialogRef: 222,
             opprettet: '2023-04-02T11:09:57',
-            saksbehandler: 'A123456',
+            saksbehandler: lokalSaksbehandlerIdent,
             tekst: null,
             tidsfrist: '2023-02-21',
             kommentarer: [
@@ -120,7 +117,7 @@ export const oppgaver: ApiOppgaveProjeksjon[] = [
                     id: 223,
                     tekst: 'En liten kommentar',
                     opprettet: '2023-01-24T15:09:30.090206',
-                    saksbehandlerident: 'A123456',
+                    saksbehandlerident: lokalSaksbehandlerIdent,
                     feilregistrert_tidspunkt: null,
                 },
             ],

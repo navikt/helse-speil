@@ -2,15 +2,14 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { fetchPersondata } from '@spesialist-mock/graphql';
 import { Varselstatus } from '@spesialist-mock/schemaTypes';
+import { alleBehandlinger } from '@spesialist-mock/storage/person';
 import { VarselMock } from '@spesialist-mock/storage/varsel';
 
 export const deleteStub = async (_: NextRequest, params: Promise<{ varselId: string }>) => {
     const { varselId } = await params;
     const personer = Object.values(fetchPersondata());
     const funnetVarsel = personer
-        .flatMap((it) =>
-            it.arbeidsgivere.flatMap((it) => it.behandlinger.flatMap((it) => it.perioder.flatMap((it) => it.varsler))),
-        )
+        .flatMap((it) => alleBehandlinger(it).flatMap((it) => it.perioder.flatMap((it) => it.varsler)))
         .find((it) => it.id === varselId);
     if (!funnetVarsel) {
         return NextResponse.json({

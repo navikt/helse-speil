@@ -5,7 +5,47 @@ import { PersonMock } from '@spesialist-mock/storage/person';
 const SINDIG_GLOBUS_FØDSELSNUMMER = '19886497256';
 
 export class SaksbehandlerhandlingMock {
-    private static handlinger: Map<string, ApiSaksbehandlerhandling[]> = new Map([
+    private static handlinger: Map<string, ApiSaksbehandlerhandling[]> = seededeHandlinger();
+
+    static nullstill(): void {
+        SaksbehandlerhandlingMock.handlinger = seededeHandlinger();
+    }
+
+    static hentHandlinger(personPseudoId: string): ApiSaksbehandlerhandling[] {
+        const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
+        if (fødselsnummer === null) return [];
+        return SaksbehandlerhandlingMock.handlinger.get(fødselsnummer) ?? [];
+    }
+
+    static leggTilHandling(
+        personPseudoId: string,
+        handling: Omit<ApiSaksbehandlerhandling, 'tidspunkt' | 'saksbehandlerIdent'>,
+    ): void {
+        const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
+        if (fødselsnummer === null) return;
+        const nyHandling: ApiSaksbehandlerhandling = {
+            ...handling,
+            saksbehandlerIdent: 'S123456',
+            tidspunkt: new Date().toISOString(),
+        };
+        SaksbehandlerhandlingMock.handlinger.set(fødselsnummer, [
+            ...(SaksbehandlerhandlingMock.handlinger.get(fødselsnummer) ?? []),
+            nyHandling,
+        ]);
+    }
+
+    static avsluttTotrinnsvurdering(fødselsnummer: string): void {
+        const handlinger = SaksbehandlerhandlingMock.handlinger.get(fødselsnummer);
+        if (!handlinger) return;
+        SaksbehandlerhandlingMock.handlinger.set(
+            fødselsnummer,
+            handlinger.map((handling) => ({ ...handling, erDelAvAktivTotrinnsvurdering: false })),
+        );
+    }
+}
+
+function seededeHandlinger(): Map<string, ApiSaksbehandlerhandling[]> {
+    return new Map([
         [
             SINDIG_GLOBUS_FØDSELSNUMMER,
             [
@@ -48,27 +88,4 @@ export class SaksbehandlerhandlingMock {
             ],
         ],
     ]);
-
-    static hentHandlinger(personPseudoId: string): ApiSaksbehandlerhandling[] {
-        const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
-        if (fødselsnummer === null) return [];
-        return SaksbehandlerhandlingMock.handlinger.get(fødselsnummer) ?? [];
-    }
-
-    static leggTilHandling(
-        personPseudoId: string,
-        handling: Omit<ApiSaksbehandlerhandling, 'tidspunkt' | 'saksbehandlerIdent'>,
-    ): void {
-        const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
-        if (fødselsnummer === null) return;
-        const nyHandling: ApiSaksbehandlerhandling = {
-            ...handling,
-            saksbehandlerIdent: 'S123456',
-            tidspunkt: new Date().toISOString(),
-        };
-        SaksbehandlerhandlingMock.handlinger.set(fødselsnummer, [
-            ...(SaksbehandlerhandlingMock.handlinger.get(fødselsnummer) ?? []),
-            nyHandling,
-        ]);
-    }
 }

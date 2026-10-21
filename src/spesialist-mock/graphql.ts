@@ -3,16 +3,18 @@ import { GraphQLSchema, IntrospectionQuery, buildClientSchema } from 'graphql';
 
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import type { IResolvers } from '@graphql-tools/utils';
+import { leggPåDagoverstyringer } from '@spesialist-mock/dagoverstyring';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
-import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person';
-import { Oppgave, UUID } from '@typer/spesialist-mock';
+import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
+import { PersonMock, SELVSTENDIG_NÆRING, alleBehandlinger, lesTestpersonfiler } from '@spesialist-mock/storage/person';
+import { UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { ManglendeAvviksvurderingError, NotReadyError } from './errors';
-import { Arbeidsgiver, BeregnetPeriode, Egenskap, Historikkinnslag, Person, Utbetaling } from './schemaTypes';
-import { OppgaveMock } from './storage/oppgave';
+import { BeregnetPeriode, Egenskap, Historikkinnslag, Person, Utbetaling } from './schemaTypes';
+import { BehandlingMock } from './storage/behandling';
 import { PaVentMock } from './storage/påvent';
 import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
@@ -21,32 +23,44 @@ const leggTilLagretData = (person: Person): void => {
     let tildeling = person.tildeling;
     const pseudoId = PersonMock.findPersonPseudoId(person.fodselsnummer)!;
 
-    for (const arbeidsgiver of person.arbeidsgivere) {
-        for (const behandling of arbeidsgiver.behandlinger) {
-            for (const periode of behandling.perioder as BeregnetPeriode[]) {
-                if (periode.oppgave?.id && TildelingMock.harTildeling(pseudoId)) {
-                    tildeling = TildelingMock.getTildeling(pseudoId);
-                }
+    for (const behandling of alleBehandlinger(person)) {
+        for (const periode of behandling.perioder as BeregnetPeriode[]) {
+            // Hentes før endringene legges på, siden en ferdigstilt oppgave fjernes fra perioden
+            const oppgaveId = periode.oppgave?.id;
+            BehandlingMock.leggPåEndringer(periode);
 
-                if (periode.oppgave?.id && PaVentMock.finnesIMock(periode.oppgave.id)) {
-                    periode.paVent = PaVentMock.getPåVent(periode.oppgave.id);
-                    if (periode.paVent === null || periode.paVent === undefined) {
-                        periode.egenskaper = periode.egenskaper.filter((e) => e.egenskap !== Egenskap.PaVent);
-                    }
-                }
+            if (periode.oppgave?.id && TildelingMock.harTildeling(pseudoId)) {
+                tildeling = TildelingMock.getTildeling(pseudoId);
+            }
 
-                periode.historikkinnslag = HistorikkinnslagMock.getHistorikkinnslag(
-                    periode.vedtaksperiodeId,
-                ) as Historikkinnslag[];
-                periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
-                const oppgavereferanse: string | null = periode.oppgave?.id ?? null;
-                const oppgave: Oppgave | null = oppgavereferanse ? OppgaveMock.getOppgave(oppgavereferanse) : null;
-
-                if (oppgave !== null && periode.oppgave === null) {
-                    periode.oppgave = { id: oppgave.id };
+            if (oppgaveId && PaVentMock.finnesIMock(oppgaveId)) {
+                periode.paVent = PaVentMock.getPåVent(oppgaveId);
+                if (periode.paVent === null || periode.paVent === undefined) {
+                    periode.egenskaper = periode.egenskaper.filter((e) => e.egenskap !== Egenskap.PaVent);
                 }
             }
+
+            periode.historikkinnslag = HistorikkinnslagMock.getHistorikkinnslag(
+                periode.vedtaksperiodeId,
+            ) as Historikkinnslag[];
+            periode.varsler = VarselMock.getVarslerForPeriode(periode.varsler);
         }
+    }
+
+    for (const arbeidsgiver of person.arbeidsgivere) {
+        const mockOverstyringer = OverstyringMock.hentFor(person.fodselsnummer, arbeidsgiver.organisasjonsnummer);
+        arbeidsgiver.overstyringer = [...(arbeidsgiver.overstyringer ?? []), ...mockOverstyringer];
+        // Seedede overstyringer er allerede med i tidslinja i testdataene
+        leggPåDagoverstyringer(arbeidsgiver, mockOverstyringer);
+    }
+    const selvstendigErArbeidsgiver = person.arbeidsgivere.some((it) => it.organisasjonsnummer === SELVSTENDIG_NÆRING);
+    if (person.selvstendigNaering && !selvstendigErArbeidsgiver) {
+        const mockOverstyringer = OverstyringMock.hentFor(person.fodselsnummer, SELVSTENDIG_NÆRING);
+        person.selvstendigNaering.overstyringer = [
+            ...(person.selvstendigNaering.overstyringer ?? []),
+            ...mockOverstyringer,
+        ];
+        leggPåDagoverstyringer(person.selvstendigNaering, mockOverstyringer);
     }
 
     person.tildeling = tildeling;
@@ -158,8 +172,8 @@ const getResolvers = (): IResolvers => ({
 
 export const finnOppgaveId = (): string | null => {
     if (!valgtPerson) return null;
-    const periode = valgtPerson.arbeidsgivere
-        .flatMap((a) => a.behandlinger.flatMap((g) => g.perioder))
+    const periode = alleBehandlinger(valgtPerson)
+        .flatMap((g) => g.perioder)
         .find((periode) => isNotNullOrUndefined((periode as BeregnetPeriode).oppgave));
 
     return (periode as BeregnetPeriode)?.oppgave?.id ?? null;
@@ -171,13 +185,11 @@ const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
     personer.forEach((person) => {
         const vedtaksperiodeHistorikkinnslag = new Map<UUID, Historikkinnslag[]>();
 
-        person.arbeidsgivere.forEach((ag: Arbeidsgiver) => {
-            ag.behandlinger.forEach((g) => {
-                g.perioder.forEach((p) => {
-                    if ((p as BeregnetPeriode).historikkinnslag) {
-                        vedtaksperiodeHistorikkinnslag.set(p.vedtaksperiodeId, (p as BeregnetPeriode).historikkinnslag);
-                    }
-                });
+        alleBehandlinger(person).forEach((g) => {
+            g.perioder.forEach((p) => {
+                if ((p as BeregnetPeriode).historikkinnslag) {
+                    vedtaksperiodeHistorikkinnslag.set(p.vedtaksperiodeId, (p as BeregnetPeriode).historikkinnslag);
+                }
             });
         });
 

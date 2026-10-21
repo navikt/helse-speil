@@ -18,4 +18,8 @@ export class PaVentMock {
     static setPåVent = (oppgaveId: string, påVent: PaVent) => PaVentMock.lagtPåVent.set(oppgaveId, påVent);
 
     static fjernPåVent = (oppgaveId: string) => PaVentMock.lagtPåVent.set(oppgaveId, null);
+
+    static nullstill = (): void => {
+        PaVentMock.lagtPåVent.clear();
+    };
 }

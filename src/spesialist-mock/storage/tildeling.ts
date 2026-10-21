@@ -12,4 +12,8 @@ export class TildelingMock {
         TildelingMock.tildelinger.set(personPseudoId, tildeling);
 
     static fjernTildeling = (personPseudoId: string) => TildelingMock.tildelinger.delete(personPseudoId);
+
+    static nullstill = (): void => {
+        TildelingMock.tildelinger.clear();
+    };
 }

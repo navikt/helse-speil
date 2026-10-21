@@ -1,36 +1,32 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ApiPutPåVentRequest } from '@io/rest/generated/spesialist.schemas';
-import { oppgaver } from '@spesialist-mock/data/oppgaver';
+import { ApiPutPåVentErrorCode, ApiPutPåVentRequest } from '@io/rest/generated/spesialist.schemas';
+import { lokalSaksbehandlerOid, lokalTildeling } from '@spesialist-mock/constants';
+import { finnOppgavereferanse } from '@spesialist-mock/periodeoppslag';
+import { problemDetails } from '@spesialist-mock/problemDetails';
 import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
-import { PersonMock } from '@spesialist-mock/storage/person';
 import { PaVentMock } from '@spesialist-mock/storage/påvent';
 import { TildelingMock } from '@spesialist-mock/storage/tildeling';
 
 export const putStub = async (request: NextRequest, params: Promise<{ oppgaveId: string }>) => {
     const { oppgaveId } = await params;
     const { frist, skalTildeles, notattekst, årsaker }: ApiPutPåVentRequest = await request.json();
-    PaVentMock.setPåVent(oppgaveId, { frist: frist, oid: '11111111-2222-3333-4444-555555555555' });
-    const oppgave = oppgaver.find((it) => it.id === oppgaveId);
-    if (!oppgave) {
-        return new NextResponse(null, { status: 500 });
+
+    const oppgavereferanse = finnOppgavereferanse(oppgaveId);
+    if (!oppgavereferanse) {
+        return problemDetails(404, ApiPutPåVentErrorCode.OPPGAVE_IKKE_FUNNET, 'Oppgave ikke funnet');
     }
-    const personPseudoId = PersonMock.findPersonPseudoId(oppgave.aktorId);
-    if (!personPseudoId) {
-        return new NextResponse(null, { status: 500 });
-    }
+    const { personPseudoId, vedtaksperiodeId } = oppgavereferanse;
+
+    PaVentMock.setPåVent(oppgaveId, { frist: frist, oid: lokalSaksbehandlerOid });
     if (skalTildeles) {
-        TildelingMock.setTildeling(personPseudoId, {
-            epost: 'epost@nav.no',
-            navn: 'Utvikler, Lokal',
-            oid: '11111111-2222-3333-4444-555555555555',
-        });
+        TildelingMock.setTildeling(personPseudoId, lokalTildeling);
     } else {
         TildelingMock.fjernTildeling(personPseudoId);
     }
-    HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
+    HistorikkinnslagMock.addHistorikkinnslag(vedtaksperiodeId, {
         notattekst: notattekst,
         frist: frist,
         arsaker: årsaker ? årsaker.map((årsak) => årsak.årsak) : [],

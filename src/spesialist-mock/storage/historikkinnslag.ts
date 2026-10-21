@@ -76,6 +76,10 @@ export class HistorikkinnslagMock {
         return null;
     };
 
+    static nullstill = (): void => {
+        HistorikkinnslagMock.historikkinnslagMap.clear();
+    };
+
     private static getMockedHistorikkinnslag = (overrides?: Partial<Historikkinnslag>): HistorikkinnslagUnion => ({
         id: HistorikkinnslagMock.historikkinnslagCounter++,
         type: PeriodehistorikkType.LeggPaVent,

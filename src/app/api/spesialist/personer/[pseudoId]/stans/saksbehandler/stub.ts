@@ -1,3 +1,4 @@
+import { lokalSaksbehandlerIdent } from '@spesialist-mock/constants';
 import { finnOppgaveId } from '@spesialist-mock/graphql';
 import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
@@ -11,7 +12,7 @@ export async function patchStub(_request: Request, params: Promise<{ pseudoId: s
     const oppgaveId = finnOppgaveId();
 
     if (stans) {
-        SaksbehandlerStansMock.opprettStans(pseudoId, begrunnelse, 'A123456');
+        SaksbehandlerStansMock.opprettStans(pseudoId, begrunnelse, lokalSaksbehandlerIdent);
     } else {
         SaksbehandlerStansMock.opphevStans(pseudoId);
     }

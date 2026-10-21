@@ -806,10 +806,6 @@
                                         },
                                         {
                                             "kategori": "Status",
-                                            "egenskap": "BESLUTTER"
-                                        },
-                                        {
-                                            "kategori": "Status",
                                             "egenskap": "PA_VENT"
                                         }
                                     ],

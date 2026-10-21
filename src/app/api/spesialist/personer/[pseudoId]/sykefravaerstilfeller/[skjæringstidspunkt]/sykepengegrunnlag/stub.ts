@@ -1,5 +1,54 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-export const stub = async (_request: NextRequest) => {
+import {
+    ApiServerSentEventEvent,
+    ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype as ApiSkjønnsfastsettelsestype,
+    ApiSykepengegrunnlagRequest,
+} from '@io/rest/generated/spesialist.schemas';
+import { opprettTotrinnsvurderingHvisMangler, pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
+import { Skjonnsfastsettingstype } from '@spesialist-mock/schemaTypes';
+import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
+import { PersonMock } from '@spesialist-mock/storage/person';
+
+export const stub = async (request: NextRequest, params: Promise<{ pseudoId: string; skjæringstidspunkt: string }>) => {
+    const { pseudoId, skjæringstidspunkt } = await params;
+    const body: ApiSykepengegrunnlagRequest = await request.json();
+
+    const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(pseudoId);
+    if (fødselsnummer) {
+        const { skjønnsfastsettelsestype, skjønnsfastsatteInntekter } = body.sykepengegrunnlagstype;
+        // Spesialist lagrer én skjønnsfastsetting per arbeidsgiver
+        skjønnsfastsatteInntekter.forEach((inntekt) =>
+            OverstyringMock.leggTil(fødselsnummer, inntekt.organisasjonsnummer, {
+                __typename: 'Sykepengegrunnlagskjonnsfastsetting',
+                vedtaksperiodeId: body.intierendeVedtaksperiodeId,
+                skjonnsfastsatt: {
+                    arsak: body.årsak,
+                    type: tilSkjønnsfastsettingstype(skjønnsfastsettelsestype),
+                    begrunnelse: body.begrunnelseFritekst ?? null,
+                    begrunnelseMal: body.begrunnelseMal ?? null,
+                    begrunnelseFritekst: body.begrunnelseFritekst ?? null,
+                    begrunnelseKonklusjon: body.begrunnelseKonklusjon ?? null,
+                    arlig: inntekt.årlig,
+                    fraArlig: inntekt.fraÅrlig,
+                    skjaeringstidspunkt: decodeURIComponent(skjæringstidspunkt),
+                },
+            }),
+        );
+        opprettTotrinnsvurderingHvisMangler(fødselsnummer);
+        pushEventEtterForsinkelse(fødselsnummer, ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE);
+    }
+
     return new NextResponse(null, { status: 204 });
 };
+
+function tilSkjønnsfastsettingstype(type: ApiSkjønnsfastsettelsestype): Skjonnsfastsettingstype {
+    switch (type) {
+        case 'OMREGNET_ÅRSINNTEKT':
+            return Skjonnsfastsettingstype.OmregnetArsinntekt;
+        case 'RAPPORTERT_ÅRSINNTEKT':
+            return Skjonnsfastsettingstype.RapportertArsinntekt;
+        case 'ANNET':
+            return Skjonnsfastsettingstype.Annet;
+    }
+}

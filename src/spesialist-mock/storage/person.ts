@@ -76,10 +76,41 @@ export class PersonMock {
 }
 
 export const finnFødselsnummerForVedtaksperiodeId = (vedtaksperiodeId: string) =>
-    lesPersoner().find((person) => {
-        return person.arbeidsgivere.some((arbeidsgiver) =>
-            arbeidsgiver.behandlinger.some((behandling) =>
-                behandling.perioder.some((periode) => periode.vedtaksperiodeId === vedtaksperiodeId),
-            ),
+    lesPersoner().find((person) =>
+        alleBehandlinger(person).some((behandling) =>
+            behandling.perioder.some((periode) => periode.vedtaksperiodeId === vedtaksperiodeId),
+        ),
+    )?.['fodselsnummer'];
+
+// Selvstendig næringsdrivende har ikke organisasjonsnummer, så spesialist bruker en egen nøkkel
+export const SELVSTENDIG_NÆRING = 'SELVSTENDIG';
+
+export const finnOrganisasjonsnummerForVedtaksperiodeId = (vedtaksperiodeId: string): string | undefined => {
+    const harPerioden = (inntektsforhold: { behandlinger: { perioder: { vedtaksperiodeId: string }[] }[] }) =>
+        inntektsforhold.behandlinger.some((behandling) =>
+            behandling.perioder.some((periode) => periode.vedtaksperiodeId === vedtaksperiodeId),
         );
-    })?.['fodselsnummer'];
+    for (const person of lesPersoner()) {
+        const arbeidsgiver = person.arbeidsgivere.find(harPerioden);
+        if (arbeidsgiver) return arbeidsgiver.organisasjonsnummer;
+        if (person.selvstendigNaering && harPerioden(person.selvstendigNaering)) return SELVSTENDIG_NÆRING;
+    }
+    return undefined;
+};
+
+type Inntektsforhold<B> = { behandlinger: B[] };
+
+// Generisk fordi både GraphQL-typene og mockens schemaTypes har samme struktur
+export function alleInntektsforhold<B>(person: {
+    arbeidsgivere: Inntektsforhold<B>[];
+    selvstendigNaering?: Inntektsforhold<B> | null;
+}): Inntektsforhold<B>[] {
+    return [...person.arbeidsgivere, ...(person.selvstendigNaering ? [person.selvstendigNaering] : [])];
+}
+
+export function alleBehandlinger<B>(person: {
+    arbeidsgivere: Inntektsforhold<B>[];
+    selvstendigNaering?: Inntektsforhold<B> | null;
+}): B[] {
+    return alleInntektsforhold(person).flatMap((inntektsforhold) => inntektsforhold.behandlinger);
+}
