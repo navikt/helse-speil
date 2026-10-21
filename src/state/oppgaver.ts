@@ -24,7 +24,7 @@ import {
     Filter,
     FilterStatus,
     Oppgaveoversiktkolonne,
-    useAllFilters,
+    useActiveFilters,
     useDatofilter,
     valgtSaksbehandlerAtom,
 } from '@oversikt/table/state/filter';
@@ -52,13 +52,12 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
     const resetToFirstPageOnHashChange = useResetToFirstPageOnHashChange();
     const sort = useSorteringValue();
     const aktivTab = useAktivTab();
-    const allFilters = useAllFilters();
+    const activeFilters = useActiveFilters();
     const datofilter = useDatofilter();
     const harPorteføljestyringrolle = useHarPorteføljestyringrolle();
     const { oid: innloggetSaksbehandlerOid } = useBruker();
 
     const variables = useMemo<GetOppgaverParams>(() => {
-        const activeFilters = allFilters.filter((filter) => filter.status !== FilterStatus.OFF);
         const minusEgenskaper = hackInnInfotrygdforlengelse(activeFilters)
             .filter(
                 (filter) =>
@@ -109,7 +108,7 @@ export const useOppgaveFeed = (): OppgaveFeedResponse => {
         };
     }, [
         aktivTab,
-        allFilters,
+        activeFilters,
         sort,
         innloggetSaksbehandlerOid,
         valgtSaksbehandler,

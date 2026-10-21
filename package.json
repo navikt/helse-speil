@@ -72,7 +72,7 @@
         "graphql-yoga": "^5.24.0",
         "groq": "^6.16.0",
         "jose": "^6.2.12",
-        "jotai": "^3.0.0",
+        "jotai": "^3.0.1",
         "jotai-family": "^1.1.0",
         "json-edit-react": "^2.0.4",
         "motion": "^13.4.4",

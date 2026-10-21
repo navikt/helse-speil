@@ -276,12 +276,25 @@ const filtersState = atom(
     },
 );
 
-export const useFilters = () => ({
-    allFilters: useAtomValue(filtersState),
-    activeFilters: useAtomValue(filtersState).filter((filter) => filter.status !== FilterStatus.OFF),
+// Tildelt- og På vent-filtrene vises bare på Til godkjenning, men kan ligge lagret som aktive på andre faner.
+// Der gir de bare tomme eller selvmotsigende spørringer (f.eks. erTildelt=false + tildeltTilOid=meg), så de ignoreres.
+const kolonnerKunForTilGodkjenning: string[] = [Oppgaveoversiktkolonne.TILDELING, Oppgaveoversiktkolonne.PÅVENT];
+
+const activeFiltersState = atom((get) => {
+    const tab = get(tabState);
+    return get(filtersState).filter(
+        (filter) =>
+            filter.status !== FilterStatus.OFF &&
+            (tab === TabType.TilGodkjenning || !kolonnerKunForTilGodkjenning.includes(filter.column)),
+    );
 });
 
-export const useAllFilters = () => useAtomValue(filtersState);
+export const useFilters = () => ({
+    allFilters: useAtomValue(filtersState),
+    activeFilters: useAtomValue(activeFiltersState),
+});
+
+export const useActiveFilters = () => useAtomValue(activeFiltersState);
 
 export const useSetMultipleFilters = () => {
     const [filters, setFilters] = useAtom(filtersState);

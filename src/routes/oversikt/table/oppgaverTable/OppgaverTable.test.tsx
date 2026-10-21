@@ -1,11 +1,12 @@
 import React from 'react';
-import { Mock, vi } from 'vitest';
+import { Mock, beforeEach, vi } from 'vitest';
 
 import { SortState } from '@navikt/ds-react';
 
 import { axe } from '@/test/axe';
+import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
 import { TabType, tabState } from '@oversikt/tabState';
-import { datofilterAtom } from '@oversikt/table/state/filter';
+import { FilterStatus, datofilterAtom, hydrateFilters } from '@oversikt/table/state/filter';
 import { useOppgaveFeed } from '@state/oppgaver';
 import { enOppgaveForOversikten } from '@test-data/oppgave';
 import { render } from '@test-utils';
@@ -100,5 +101,38 @@ describe('OppgaverTable med datofilter', () => {
         expect(screen.queryByText(/Oppgave klar fra/)).not.toBeInTheDocument();
         expect(screen.queryByText(/Oppgave klar til/)).not.toBeInTheDocument();
         expect(screen.getByText('Ingen aktive filter')).toBeVisible();
+    });
+});
+
+describe('OppgaverTable med filtre som bare gjelder Til godkjenning', () => {
+    beforeEach(() => {
+        localStorage.clear();
+    });
+
+    it('viser ikke lagret Tildelt-filter som chip på Mine oppgaver', () => {
+        localStorage.setItem(
+            'filtersPerTab',
+            JSON.stringify({
+                [TabType.TilGodkjenning]: [],
+                [TabType.Ventende]: [],
+                [TabType.Mine]: [
+                    { key: 'TILDELTE_SAKER', status: FilterStatus.MINUS },
+                    { key: ApiEgenskap.UTBETALING_TIL_ARBEIDSGIVER, status: FilterStatus.PLUS },
+                ],
+            }),
+        );
+        (useOppgaveFeed as Mock).mockReturnValue({
+            oppgaver: [enOppgaveForOversikten()],
+            antallOppgaver: 1,
+            error: undefined,
+            loading: false,
+        });
+
+        render(<OppgaverTable antallMineSaker={1} antallPåVent={0} sort={mockSort} />, {
+            atomValues: [[tabState, TabType.Mine], hydrateFilters()],
+        });
+
+        expect(screen.queryByText('Tildelte oppgaver')).not.toBeInTheDocument();
+        expect(screen.getByText('Arbeidsgiver')).toBeVisible();
     });
 });
