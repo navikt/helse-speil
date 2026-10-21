@@ -34,8 +34,9 @@ export function PeriodPopover({
     const fom = somNorskDato(element.fom) ?? '-';
     const tom = somNorskDato(element.tom) ?? '-';
     const state = getPeriodState(period);
-    const vedtaksperiodeId =
-        period && (isBeregnetPeriode(period) || isUberegnetPeriode(period)) ? period.vedtaksperiodeId : undefined;
+    const spleisperiode = period && (isBeregnetPeriode(period) || isUberegnetPeriode(period)) ? period : undefined;
+    const vedtaksperiodeId = spleisperiode?.vedtaksperiodeId;
+    const behandlingId = spleisperiode?.behandlingId;
 
     return (
         <HGrid columns={2} gap="space-4 space-24">
@@ -57,6 +58,12 @@ export function PeriodPopover({
                 <>
                     <BodyShort size="small">Vedtaksperiode-ID:</BodyShort>
                     <BodyShort size="small">{vedtaksperiodeId}</BodyShort>
+                </>
+            )}
+            {visVedtaksperiodeId && behandlingId && (
+                <>
+                    <BodyShort size="small">Behandling-ID:</BodyShort>
+                    <BodyShort size="small">{behandlingId}</BodyShort>
                 </>
             )}
         </HGrid>
