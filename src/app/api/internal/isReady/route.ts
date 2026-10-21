@@ -1,7 +1,5 @@
 import { getServerEnv } from '@/env';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(): Promise<Response> {
     try {
         getServerEnv();

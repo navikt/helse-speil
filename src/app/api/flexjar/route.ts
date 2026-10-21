@@ -3,8 +3,6 @@ import { logger } from '@navikt/next-logger';
 import { backend } from '@/env';
 import { postOpprett } from '@app/api/flexjar/flexjar';
 
-export const dynamic = 'force-dynamic';
-
 export async function POST(request: Request) {
     if (backend !== 'deployed') {
         logger.info(`Mocker flexjar lokalt, mottok feedback: ${JSON.stringify(await request.json(), null, 2)}`);

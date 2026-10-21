@@ -3,7 +3,5 @@ import { deleteStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/pa-vent/del
 
 import { putStub } from './putStub';
 
-export const dynamic = 'force-dynamic';
-
 export const PUT = stubEllerVideresendTilSpesialist(putStub);
 export const DELETE = stubEllerVideresendTilSpesialist(deleteStub);

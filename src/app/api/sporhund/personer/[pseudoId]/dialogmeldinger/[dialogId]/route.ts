@@ -48,8 +48,6 @@ async function patchStub(
     return Response.json(result);
 }
 
-export const dynamic = 'force-dynamic';
-
 export const GET = stubEllerVideresendTilSporhund(getStub);
 export const POST = stubEllerVideresendTilSporhund(postStub);
 export const PATCH = stubEllerVideresendTilSporhund(patchStub);

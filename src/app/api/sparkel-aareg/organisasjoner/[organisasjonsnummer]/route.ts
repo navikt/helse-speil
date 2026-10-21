@@ -7,8 +7,6 @@ import { stubnavnForOrganisasjonsnummer } from '@app/api/sparkel-aareg/organisas
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 import { sleep } from '@spesialist-mock/constants';
 
-export const dynamic = 'force-dynamic';
-
 export async function GET(req: Request, { params }: { params: Promise<{ organisasjonsnummer: string }> }) {
     const { organisasjonsnummer } = await params;
 

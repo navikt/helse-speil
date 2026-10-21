@@ -3,8 +3,6 @@ import { logger } from '@navikt/next-logger';
 import { backend } from '@/env';
 import { postOppdater } from '@app/api/flexjar/flexjar';
 
-export const dynamic = 'force-dynamic';
-
 export async function POST(request: Request, props: { params: Promise<{ id: string }> }) {
     const params = await props.params;
     if (backend !== 'deployed') {

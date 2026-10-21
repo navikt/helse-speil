@@ -8,6 +8,4 @@ async function stub(_request: NextRequest, params: Promise<{ pseudoId: string }>
     return Response.json(DialogmeldingMock.getAllForPerson(pseudoId));
 }
 
-export const dynamic = 'force-dynamic';
-
 export const GET = stubEllerVideresendTilSporhund(stub);

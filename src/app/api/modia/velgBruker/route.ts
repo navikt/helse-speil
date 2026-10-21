@@ -3,7 +3,6 @@ import { logger } from '@navikt/next-logger';
 import { Handling, kallModia } from '@app/api/modia/modia';
 import { hentWonderwallToken } from '@auth/token';
 
-export const dynamic = 'force-dynamic'; // defaults to auto
 export const POST = async (req: Request): Promise<Response> => {
     const token = hentWonderwallToken(req);
     if (!token) {

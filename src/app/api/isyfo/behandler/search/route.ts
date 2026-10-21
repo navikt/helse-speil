@@ -6,8 +6,6 @@ import { backend, getServerEnv } from '@/env';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 import { sleep } from '@spesialist-mock/constants';
 
-export const dynamic = 'force-dynamic';
-
 export async function POST(req: Request) {
     if (backend === 'mock' || backend === 'lokal' || backend === 'lokal-spesialist' || backend === 'lokal-sporhund') {
         logger.info('Mocker isyfo behandler/search lokalt / i dev');

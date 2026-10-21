@@ -11,6 +11,4 @@ async function stub(request: NextRequest, params: Promise<{ pseudoId: string }>)
     return Response.json(dialog);
 }
 
-export const dynamic = 'force-dynamic';
-
 export const POST = stubEllerVideresendTilSporhund(stub);

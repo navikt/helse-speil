@@ -38,6 +38,4 @@ async function stub(
     });
 }
 
-export const dynamic = 'force-dynamic';
-
 export const GET = stubEllerVideresendTilSporhund(stub);
