@@ -13,8 +13,7 @@ const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, personTilBehandli
 };
 
 export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
-    const { data } = useFetchPersonQuery();
-    const personTilBehandling = data?.person ?? null;
+    const { data: personTilBehandling = null } = useFetchPersonQuery();
     const saksbehandler = useInnloggetSaksbehandler();
 
     const addVarsel = useAddVarsel();

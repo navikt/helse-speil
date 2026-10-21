@@ -323,10 +323,10 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
     });
 
     it('lar tidslinja i testdataene være uendret når mocken ikke har overstyringer', () => {
-        const fil = lesTestpersonfiler().find((it) => it.data.person.fodselsnummer === sindigGlobusFødselsnummer)!;
+        const fil = lesTestpersonfiler().find((it) => it.saksbilde.fodselsnummer === sindigGlobusFødselsnummer)!;
         const persondata = fetchPersondata()[sindigGlobusFødselsnummer]!;
 
-        fil.data.person.arbeidsgivere.forEach((arbeidsgiver, index) =>
+        fil.saksbilde.arbeidsgivere.forEach((arbeidsgiver, index) =>
             expect(persondata.arbeidsgivere[index]!.behandlinger[0]?.perioder.map((it) => it.tidslinje)).toEqual(
                 arbeidsgiver.behandlinger[0]?.perioder.map((it) => it.tidslinje),
             ),
@@ -378,7 +378,7 @@ function historikktyper(): ApiPeriodehistorikkType[] {
 
 function finnUtbetaltVedtaksperiodeId(): string {
     const vedtaksperiodeId = lesTestpersonfiler()
-        .flatMap((fil) => fil.data.person.arbeidsgivere)
+        .flatMap((fil) => fil.saksbilde.arbeidsgivere)
         .flatMap((arbeidsgiver) => arbeidsgiver.behandlinger[0]?.perioder ?? [])
         .find((periode) => periode.periodetilstand === ApiPeriodetilstand.Utbetalt)?.vedtaksperiodeId;
     if (!vedtaksperiodeId) throw Error('Fant ingen utbetalt periode i testdataene');

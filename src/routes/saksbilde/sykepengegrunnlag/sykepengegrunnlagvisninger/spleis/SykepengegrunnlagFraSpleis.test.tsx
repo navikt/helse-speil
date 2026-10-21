@@ -52,7 +52,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
         const inntekter = [inntektFraIM];
         const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt }).medInntekter(inntekter);
 
-        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: person } });
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: person });
         (useActivePeriod as Mock).mockReturnValue(enBeregnetPeriode());
         (useEndringerForPeriode as Mock).mockReturnValue({
             inntektsendringer: [],
@@ -184,7 +184,7 @@ describe('SykepengegrunnlagFraSpleis', () => {
             enArbeidsgiverinntekt({ arbeidsgiver: arbeidsgiverUtenPølse.organisasjonsnummer }),
         ]);
 
-        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: person } });
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: person });
         (useActivePeriod as Mock).mockReturnValue(enBeregnetPeriode());
         (useEndringerForPeriode as Mock).mockReturnValue({
             inntektsendringer: [],
@@ -277,7 +277,7 @@ function etGrunnlagMedArbeidsforholdUtenPølse({ deaktivert }: { deaktivert: boo
     ]);
     const aktivPeriode = arbeidsgiverMedSykdom.behandlinger[0]!.perioder[0]!;
 
-    (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: person } });
+    (useFetchPersonQuery as Mock).mockReturnValue({ data: person });
     (useActivePeriod as Mock).mockReturnValue(aktivPeriode);
     (useActivePeriodWithPerson as Mock).mockReturnValue(aktivPeriode);
     (useEndringerForPeriode as Mock).mockReturnValue({

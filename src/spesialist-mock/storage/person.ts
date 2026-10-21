@@ -12,9 +12,10 @@ type PersonIdentifikatorer = {
     personPseudoId: UUID;
 };
 
+// Svarene fra GET /api/personer/{pseudoId}/saksbilde og GET /api/personer/{pseudoId}
 export type Testpersonfil = {
-    data: { person: ApiSaksbildePerson };
-    rest?: { person?: ApiPerson };
+    saksbilde: ApiSaksbildePerson;
+    person: ApiPerson;
 };
 
 export function lesTestpersonfiler(): Testpersonfil[] {
@@ -26,7 +27,7 @@ export function lesTestpersonfiler(): Testpersonfil[] {
     });
 }
 
-const lesPersoner = (): ApiSaksbildePerson[] => lesTestpersonfiler().map((fil) => fil.data.person);
+const lesPersoner = (): ApiSaksbildePerson[] => lesTestpersonfiler().map((fil) => fil.saksbilde);
 
 const UUID_NAMESPACE = '0e4ec8b1-8fad-4003-b4a4-69d90be4eee0';
 
@@ -63,7 +64,7 @@ export class PersonMock {
     };
 
     static finnApiPerson = (fødselsnummer: string): ApiPerson | null =>
-        lesTestpersonfiler().find((fil) => fil.data.person.fodselsnummer === fødselsnummer)?.rest?.person ?? null;
+        lesTestpersonfiler().find((fil) => fil.saksbilde.fodselsnummer === fødselsnummer)?.person ?? null;
 
     static findAktørIdForPersonPseudoId = (personPseudoId: string): string | null => {
         return (

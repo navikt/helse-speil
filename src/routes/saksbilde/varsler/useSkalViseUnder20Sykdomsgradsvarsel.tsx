@@ -17,8 +17,7 @@ import { perioderOverlapper } from '@utils/date';
 import { isArbeidsgiver, isMinimumSykdomsgradsoverstyring } from '@utils/typeguards';
 
 export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
+    const { data: person = null } = useFetchPersonQuery();
     const aktivPeriode = useActivePeriod(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: tilkommenData } = useHentTilkommenInntektQuery(personPseudoId);

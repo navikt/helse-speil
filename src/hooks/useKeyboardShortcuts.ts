@@ -51,7 +51,7 @@ const useCopyFødselsnummer = (): (() => void) => {
 
 const useCopyVedtaksperiodeId = (): (() => void) => {
     const { loading, data } = useFetchPersonQuery();
-    const person = !loading && isNotNullOrUndefined(data) && isPerson(data.person) ? data.person : null;
+    const person = !loading && isPerson(data) ? data : null;
     const periode = useActivePeriod(person);
     const addToast = useAddToast();
 
@@ -75,13 +75,14 @@ const useCopyVedtaksperiodeId = (): (() => void) => {
 
 const useCopyPersondata = (): (() => void) => {
     const { personPseudoId } = useParams<{ personPseudoId?: string }>();
-    const { loading, data } = useFetchPersonQuery();
-    const { data: apiPerson } = useGetPerson(personPseudoId ?? '');
+    const { loading, data: saksbilde } = useFetchPersonQuery();
+    const { data: person } = useGetPerson(personPseudoId ?? '');
     const addToast = useAddToast();
 
     return () => {
-        if (!loading && isNotNullOrUndefined(data) && isNotNullOrUndefined(apiPerson)) {
-            void copyString(JSON.stringify({ data, rest: { person: apiPerson } }, null, 2), true);
+        if (!loading && isNotNullOrUndefined(saksbilde) && isNotNullOrUndefined(person)) {
+            // Samme format som testpersonfilene i src/spesialist-mock/data/personer
+            void copyString(JSON.stringify({ saksbilde, person }, null, 2), true);
             addToast({
                 key: 'kopierPersondataToastKey',
                 message: 'Persondata er kopiert',
@@ -120,8 +121,7 @@ const useCopyAktørId = (): (() => void) => {
 };
 
 const useCopyBehandlingId = (): (() => void) => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
+    const { data: person = null } = useFetchPersonQuery();
     const periode = useActivePeriod(person);
     const behandlingId = isBeregnetPeriode(periode) || isUberegnetPeriode(periode) ? periode.behandlingId : null;
     const addToast = useAddToast();

@@ -37,7 +37,7 @@ The person shown in the case view comes from `GET /api/personer/{pseudoId}/saksb
 
 ### Backend proxy pattern
 
-REST API routes under `src/app/api/spesialist/` act as a proxy: in local dev they return mock data from `src/spesialist-mock/`, in deployed environments they forward requests to the real spesialist backend with OBO (On-Behalf-Of) token exchange. This is handled by `stubEllerVideresendTilSpesialist` in `src/app/api/spesialist/common.ts`.
+REST API routes under `src/app/api/spesialist/` act as a proxy: in local dev they return mock data from `src/spesialist-mock/`, in deployed environments they forward requests to the real spesialist backend with OBO (On-Behalf-Of) token exchange. This is handled by `stubEllerVideresendTilSpesialist` in `src/app/api/spesialist/common.ts`. Test persons for the mock live in `src/spesialist-mock/data/personer/*.json` as `{ saksbilde, person }`, the responses from `GET /api/personer/{pseudoId}/saksbilde` and `GET /api/personer/{pseudoId}`. The "Kopier persondata" shortcut (Alt+P) copies a person in this format, and `pnpm run import-testperson` saves it as a new file.
 
 ### State management: Jotai
 

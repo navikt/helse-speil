@@ -21,8 +21,7 @@ const SpeilEmojiTilbakemelding = (feedbackProps: FeedbackProps): ReactElement =>
 );
 
 const EmojiTilbakemeldingForSaksbilde = (): ReactElement => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
+    const { data: person = null } = useFetchPersonQuery();
     const aktivPeriode = useActivePeriod(person);
     const egenskaper = isBeregnetPeriode(aktivPeriode) ? aktivPeriode.egenskaper.map((it) => it.egenskap) : [];
     return <SpeilEmojiTilbakemelding egenskaper={egenskaper}></SpeilEmojiTilbakemelding>;

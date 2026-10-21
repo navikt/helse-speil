@@ -23,7 +23,7 @@ import { toKronerOgØre } from '@utils/locale';
 import { isNumber } from '@utils/typeguards';
 
 export interface LeggTilTilkommenInntektSkjemaState {
-    person: NonNullable<ReturnType<typeof useFetchPersonQuery>['data']>['person'];
+    person: NonNullable<ReturnType<typeof useFetchPersonQuery>['data']>;
     aktivPeriode: ReturnType<typeof useSistValgtePeriode>;
     sykefraværstilfelleperioder: ReturnType<typeof utledSykefraværstilfelleperioder>;
     erGyldigFom: (fom: string) => boolean;
@@ -41,8 +41,7 @@ export interface LeggTilTilkommenInntektSkjemaState {
 }
 
 export const useLeggTilTilkommenInntektSkjema = (): LeggTilTilkommenInntektSkjemaState | null => {
-    const { data: personData } = useFetchPersonQuery();
-    const person = personData?.person ?? null;
+    const { data: person = null } = useFetchPersonQuery();
     const aktivPeriode = useSistValgtePeriode(person);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const [isSubmitting, setIsSubmitting] = useState(false);

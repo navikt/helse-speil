@@ -4,7 +4,7 @@ import { InformationSquareIcon, TerminalIcon } from '@navikt/aksel-icons';
 import { Box, HStack, InfoCard, Tabs, Tooltip, VStack } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import { ApiPeriodetilstand } from '@io/rest/generated/spesialist.schemas';
 import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
@@ -56,10 +56,9 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
 };
 
 export const Saksbilde = () => {
-    const { loading, data, error } = useFetchPersonQuery();
+    const { loading, data: person = null, error } = useFetchPersonQuery();
     const [tab, setTab] = useSaksbildeTab();
 
-    const person: ApiSaksbildePerson | null = data?.person ?? null;
     const aktivPeriode = useActivePeriod(person);
 
     const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode);

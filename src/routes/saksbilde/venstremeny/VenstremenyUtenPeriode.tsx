@@ -7,8 +7,7 @@ import { useFetchPersonQuery } from '@state/person';
 import styles from './Venstremeny.module.css';
 
 export const VenstremenyUtenPeriode = (): ReactElement | null => {
-    const { data } = useFetchPersonQuery();
-    const currentPerson = data?.person ?? null;
+    const { data: currentPerson = null } = useFetchPersonQuery();
 
     if (!currentPerson) {
         return null;

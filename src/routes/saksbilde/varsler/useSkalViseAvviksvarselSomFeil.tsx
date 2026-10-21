@@ -9,8 +9,7 @@ import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
 
 // Forhåpentligvis midlertidig; tar utgangspunkt i periode til godkjenning da varselet kan havne på AUU (som ikke har avviksprosent)
 export const useSkalViseAvviksvarselSomFeil = () => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
+    const { data: person = null } = useFetchPersonQuery();
     const inntektsforhold = useAktivtInntektsforhold(person);
     const aktivPeriode = useActivePeriod(person);
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);

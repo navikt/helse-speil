@@ -18,9 +18,9 @@ pbpaste > $tempFile
 
 felter="$(node -e '
 const fil = JSON.parse(require("fs").readFileSync(process.argv[1], "utf-8"));
-const person = fil?.data?.person;
-if (!person?.aktorId || !person?.fodselsnummer) { console.error("Fant ikke data.person med aktorId og fodselsnummer i clipboard-innholdet"); process.exit(1); }
-console.log(person.aktorId, person.fodselsnummer);
+const saksbilde = fil?.saksbilde;
+if (!saksbilde?.aktorId || !saksbilde?.fodselsnummer || !fil?.person) { console.error("Fant ikke saksbilde med aktorId og fodselsnummer, og person, i clipboard-innholdet"); process.exit(1); }
+console.log(saksbilde.aktorId, saksbilde.fodselsnummer);
 ' "$tempFile")" || { rm -f $tempFile; giOpp "Clipboard-innholdet er ikke persondata kopiert med ALT+P."; }
 
 aktorId="${felter% *}"

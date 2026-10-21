@@ -6,8 +6,8 @@ import { lesTestpersonfiler } from '@spesialist-mock/storage/person';
 export async function stub(_request: NextRequest, params: Promise<{ id: string }>) {
     const { id } = await params;
 
-    for (const { data } of lesTestpersonfiler()) {
-        const { fodselsnummer, arbeidsgivere } = data.person;
+    for (const { saksbilde } of lesTestpersonfiler()) {
+        const { fodselsnummer, arbeidsgivere } = saksbilde;
         for (const arbeidsgiver of arbeidsgivere) {
             const finnesPåArbeidsgiver = arbeidsgiver.behandlinger
                 .flatMap((behandling) => behandling.perioder)

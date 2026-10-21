@@ -34,12 +34,12 @@ describe('UtlandTag', () => {
         vi.clearAllMocks();
     });
     it('rendrer tag når det finnes en periode til godkjenning med varsel for utlandsenhet', () => {
-        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: personMedVarsel } });
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: personMedVarsel });
         render(<UtlandTag />);
         expect(screen.queryByText('Utland')).toBeVisible();
     });
     it('rendrer ikke tag når det ikke finnes varsel for utlandsenhet på periode til godkjenning', () => {
-        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: personUtenVarsel } });
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: personUtenVarsel });
         render(<UtlandTag />);
         expect(screen.queryByText('Utland')).not.toBeInTheDocument();
     });

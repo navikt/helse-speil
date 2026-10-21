@@ -34,12 +34,12 @@ describe('VergemålTag', () => {
     ]);
 
     it('rendrer tag når det finnes en periode til godkjenning med varsel for vergemål', () => {
-        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: personMedVarsel } });
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: personMedVarsel });
         render(<VergemålTag />);
         expect(screen.queryByText('Vergemål')).toBeVisible();
     });
     it('rendrer ikke tag når det ikke finnes varsel for vergemål på periode til godkjenning', () => {
-        (useFetchPersonQuery as Mock).mockReturnValue({ data: { person: personUtenVarsel } });
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: personUtenVarsel });
         render(<VergemålTag />);
         expect(screen.queryByText('Vergemål')).not.toBeInTheDocument();
     });

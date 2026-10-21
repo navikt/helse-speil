@@ -18,8 +18,7 @@ import { VenstremenyUberegnetPeriode } from './VenstremenyUberegnetPeriode';
 import styles from './Venstremeny.module.css';
 
 const VenstremenyContainer = (): ReactElement | null => {
-    const { loading, data } = useFetchPersonQuery();
-    const currentPerson = data?.person ?? null;
+    const { loading, data: currentPerson = null } = useFetchPersonQuery();
     const activePeriod = useActivePeriod(currentPerson);
     const inntektsforhold = useAktivtInntektsforhold(currentPerson);
 

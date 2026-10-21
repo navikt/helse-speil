@@ -13,7 +13,7 @@ export const stub = async (_request: Request, params: Promise<{ pseudoId: string
 
     const apiPerson = PersonMock.finnApiPerson(identitetsnummer);
     if (!apiPerson) {
-        logger.warn(`Testpersonen med pseudoId ${pseudoId} mangler rest.person i testdatafila`);
+        logger.warn(`Testpersonen med pseudoId ${pseudoId} mangler person i testdatafila`);
         const problem: ApiHttpProblemDetailsApiGetPersonErrorCode = {
             type: 'about:blank',
             status: 404,

@@ -14,8 +14,7 @@ import { useTilkommenInntektFormDraft } from '@state/tilkommenInntektSkjema';
 import { norskDatoTilIsoDato } from '@utils/date';
 
 export const LeggTilTilkommenInntektView = (): ReactElement | null => {
-    const { data: personData } = useFetchPersonQuery();
-    const person = personData?.person ?? null;
+    const { data: person = null } = useFetchPersonQuery();
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
     const [submitError, setSubmitError] = useState<string | undefined>(undefined);

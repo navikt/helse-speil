@@ -7,7 +7,7 @@ import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/Saksbil
 import { useFetchPersonQuery } from '@state/person';
 
 export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
-    const { data: personData } = useFetchPersonQuery();
+    const { data: person } = useFetchPersonQuery();
 
     return (
         <VStack className="h-full min-w-0 flex-1 [grid-area:content]">
@@ -20,7 +20,7 @@ export const TilkommenInntektSaksbilde = ({ children }: PropsWithChildren) => {
                         <Tabs.Tab value="tilkommen-inntekt" label="Tilkommen inntekt" />
                     </Tabs.List>
                     <VisHvisSkrivetilgang>
-                        <SaksbildeDropdownMenu person={personData?.person} />
+                        <SaksbildeDropdownMenu person={person} />
                     </VisHvisSkrivetilgang>
                 </HStack>
                 <Box overflowX="auto">

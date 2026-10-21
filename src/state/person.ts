@@ -6,12 +6,10 @@ import { useQueryClient } from '@tanstack/react-query';
 
 const usePersonPseudoId = (): string | undefined => useParams<{ personPseudoId?: string }>().personPseudoId;
 
-const velgPerson = (person: ApiSaksbildePerson) => ({ person });
-
 export const useFetchPersonQuery = () => {
     const personPseudoId = usePersonPseudoId();
     const query = useGetSaksbildeForPerson(personPseudoId!, {
-        query: { enabled: !!personPseudoId, select: velgPerson },
+        query: { enabled: !!personPseudoId },
     });
 
     return {

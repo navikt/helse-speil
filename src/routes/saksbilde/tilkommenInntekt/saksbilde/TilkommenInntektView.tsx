@@ -24,8 +24,7 @@ interface TilkommenInntektVisningProps {
 }
 
 export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVisningProps): ReactElement | null => {
-    const { data: personData } = useFetchPersonQuery();
-    const person = personData?.person ?? null;
+    const { data: person = null } = useFetchPersonQuery();
     const router = useRouter();
     const erReadOnly = useHarTotrinnsvurdering(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();

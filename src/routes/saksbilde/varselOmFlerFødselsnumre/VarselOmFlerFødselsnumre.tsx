@@ -8,9 +8,9 @@ import { useFetchPersonQuery } from '@state/person';
 import { useNullstillSaksbildeTab } from '@state/tab';
 
 export function VarselOmFlerFødselsnumre(): ReactElement | null {
-    const { data } = useFetchPersonQuery();
+    const { data: person } = useFetchPersonQuery();
     const nullstillSaksbildeTab = useNullstillSaksbildeTab();
-    const andreFødselsnumre = data?.person?.andreFodselsnummer ?? [];
+    const andreFødselsnumre = person?.andreFodselsnummer ?? [];
 
     if (andreFødselsnumre.length === 0) {
         return null;

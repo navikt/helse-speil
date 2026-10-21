@@ -21,8 +21,7 @@ import { isGhostPeriode } from '@utils/typeguards';
 
 function HistorikkWithContent(): ReactElement | null {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
-    const { loading, data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
+    const { loading, data: person = null } = useFetchPersonQuery();
     const aktivPeriode = useActivePeriod(person);
     const vedtaksperiodeId = (isGhostPeriode(aktivPeriode) ? undefined : aktivPeriode?.vedtaksperiodeId) ?? '';
     const {

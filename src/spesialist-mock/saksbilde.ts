@@ -63,7 +63,7 @@ const leggTilLagretData = (person: ApiSaksbildePerson): void => {
     person.tildeling = tildeling;
 };
 
-const lesTestpersoner = (): ApiSaksbildePerson[] => lesTestpersonfiler().map((fil) => fil.data.person);
+const lesTestpersoner = (): ApiSaksbildePerson[] => lesTestpersonfiler().map((fil) => fil.saksbilde);
 
 export const fetchPersondata = (): Record<string, ApiSaksbildePerson> => {
     const personer = lesTestpersoner();

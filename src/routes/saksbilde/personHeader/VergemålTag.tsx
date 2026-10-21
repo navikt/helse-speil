@@ -6,8 +6,7 @@ import { useFetchPersonQuery } from '@state/person';
 import { TagMedTooltip } from './TagMedTooltip';
 
 export const VergemålTag = (): ReactElement | null => {
-    const { data } = useFetchPersonQuery();
-    const person = data?.person;
+    const { data: person } = useFetchPersonQuery();
     if (!person) return null;
 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);

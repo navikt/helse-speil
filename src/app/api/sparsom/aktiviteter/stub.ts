@@ -8,7 +8,7 @@ export async function stub(request: NextRequest) {
     const { ident }: Partial<SparsomAktiviteterRequest> = await request.json();
     if (ident == null) return new Response(null, { status: 400 });
 
-    const person = lesTestpersonfiler().find((fil) => fil.data.person.fodselsnummer === ident)?.data.person;
+    const person = lesTestpersonfiler().find((fil) => fil.saksbilde.fodselsnummer === ident)?.saksbilde;
     const vedtaksperioder =
         person?.arbeidsgivere.flatMap((arbeidsgiver) =>
             arbeidsgiver.behandlinger

@@ -17,8 +17,7 @@ export function Tidslinje(): ReactElement {
 }
 
 function TidslinjeContainer(): ReactElement | null {
-    const { loading, data } = useFetchPersonQuery();
-    const person = data?.person ?? null;
+    const { loading, data: person = null } = useFetchPersonQuery();
     const activePeriod = useActivePeriod(person);
 
     if (loading) {

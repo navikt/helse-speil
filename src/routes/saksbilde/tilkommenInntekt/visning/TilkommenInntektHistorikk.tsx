@@ -20,8 +20,7 @@ import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { TilkommenInntektHistorikkmeny } from './TilkommenInntektHistorikkmeny';
 
 const TilkommenInntektHistorikkWithContent = (): ReactElement => {
-    const { loading: fetchPersonLoading, data: fetchPersonData } = useFetchPersonQuery();
-    const person = fetchPersonData?.person ?? null;
+    const { loading: fetchPersonLoading, data: person = null } = useFetchPersonQuery();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { isFetching: hentTilkommenInntektLoading, data: tilkommenInntektData } =
         useHentTilkommenInntektQuery(personPseudoId);
