@@ -1,24 +1,24 @@
 import {
-    Annullering,
-    BeregnetPeriode,
-    Egenskap,
-    Kategori,
-    Oppgaveegenskap,
-    Periodetilstand,
-    Totrinnsvurdering,
-    Utbetalingstatus,
-    Vurdering,
-} from '@spesialist-mock/schemaTypes';
+    ApiAnnullering,
+    ApiBeregnetPeriode,
+    ApiEgenskap,
+    ApiKategori,
+    ApiOppgaveegenskap,
+    ApiPeriodetilstand,
+    ApiTotrinnsvurdering,
+    ApiUtbetalingstatus,
+    ApiVurdering,
+} from '@io/rest/generated/spesialist.schemas';
 
 export type Behandlingsendring = {
-    periodetilstand?: Periodetilstand;
-    utbetalingstatus?: Utbetalingstatus;
-    utbetalingsvurdering?: Vurdering;
+    periodetilstand?: ApiPeriodetilstand;
+    utbetalingstatus?: ApiUtbetalingstatus;
+    utbetalingsvurdering?: ApiVurdering;
     oppgaveFerdigstilt?: boolean;
     vedtakFattet?: boolean;
     erForkastet?: boolean;
-    totrinnsvurdering?: Totrinnsvurdering | null;
-    annullering?: Annullering;
+    totrinnsvurdering?: ApiTotrinnsvurdering | null;
+    annullering?: ApiAnnullering;
 };
 
 type Oppgaveendring = 'oppgaveFerdigstilt' | 'totrinnsvurdering';
@@ -47,7 +47,7 @@ export class BehandlingMock {
     static settTotrinnsvurdering = (
         behandlingId: string,
         oppgaveId: string,
-        totrinnsvurdering: Totrinnsvurdering | null,
+        totrinnsvurdering: ApiTotrinnsvurdering | null,
     ): void => {
         BehandlingMock.behandlingForOppgave.set(oppgaveId, behandlingId);
         BehandlingMock.lagre(behandlingId, { totrinnsvurdering });
@@ -62,7 +62,7 @@ export class BehandlingMock {
         BehandlingMock.endringForOppgave(oppgaveId)?.oppgaveFerdigstilt === true;
 
     // undefined betyr at mocken ikke har endret totrinnsvurderingen for oppgaven
-    static getTotrinnsvurderingForOppgave = (oppgaveId: string): Totrinnsvurdering | null | undefined =>
+    static getTotrinnsvurderingForOppgave = (oppgaveId: string): ApiTotrinnsvurdering | null | undefined =>
         BehandlingMock.endringForOppgave(oppgaveId)?.totrinnsvurdering;
 
     static leggTilBehandletOppgave = (oppgave: BehandletOppgave): void => {
@@ -71,7 +71,7 @@ export class BehandlingMock {
 
     static getBehandledeOppgaver = (): BehandletOppgave[] => [...BehandlingMock.behandledeOppgaver];
 
-    static leggPåEndringer = (periode: BeregnetPeriode): void => {
+    static leggPåEndringer = (periode: ApiBeregnetPeriode): void => {
         const endring = BehandlingMock.endringer.get(periode.behandlingId);
         if (!endring) return;
 
@@ -108,24 +108,24 @@ export class BehandlingMock {
     };
 }
 
-// Felles for persondata og oppgavelista, som bruker hver sin egenskap-enum med samme verdier
+// Felles for persondata og oppgavelista
 export function totrinnsegenskap(
-    totrinnsvurdering: Totrinnsvurdering | null,
-): Egenskap.Beslutter | Egenskap.Retur | null {
-    if (totrinnsvurdering?.erBeslutteroppgave) return Egenskap.Beslutter;
-    if (totrinnsvurdering?.erRetur) return Egenskap.Retur;
+    totrinnsvurdering: ApiTotrinnsvurdering | null,
+): typeof ApiEgenskap.BESLUTTER | typeof ApiEgenskap.RETUR | null {
+    if (totrinnsvurdering?.erBeslutteroppgave) return ApiEgenskap.BESLUTTER;
+    if (totrinnsvurdering?.erRetur) return ApiEgenskap.RETUR;
     return null;
 }
 
 export function erTotrinnsegenskap(egenskap: string): boolean {
-    return egenskap === Egenskap.Beslutter || egenskap === Egenskap.Retur;
+    return egenskap === ApiEgenskap.BESLUTTER || egenskap === ApiEgenskap.RETUR;
 }
 
 function medTotrinnsegenskaper(
-    egenskaper: Oppgaveegenskap[],
-    totrinnsvurdering: Totrinnsvurdering | null,
-): Oppgaveegenskap[] {
+    egenskaper: ApiOppgaveegenskap[],
+    totrinnsvurdering: ApiTotrinnsvurdering | null,
+): ApiOppgaveegenskap[] {
     const utenTotrinnsegenskaper = egenskaper.filter(({ egenskap }) => !erTotrinnsegenskap(egenskap));
     const egenskap = totrinnsegenskap(totrinnsvurdering);
-    return egenskap ? [...utenTotrinnsegenskaper, { kategori: Kategori.Status, egenskap }] : utenTotrinnsegenskaper;
+    return egenskap ? [...utenTotrinnsegenskaper, { kategori: ApiKategori.Status, egenskap }] : utenTotrinnsegenskaper;
 }

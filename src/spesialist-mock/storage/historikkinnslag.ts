@@ -1,40 +1,32 @@
 import dayjs from 'dayjs';
 
 import {
-    EndrePaVent,
-    FjernetFraPaVent,
-    Historikkinnslag,
-    Kommentar,
-    LagtPaVent,
-    OpphevStansAutomatiskBehandlingSaksbehandler,
-    PeriodeHistorikkElementNy,
-    PeriodehistorikkType,
-    StansAutomatiskBehandlingSaksbehandler,
-    TotrinnsvurderingRetur,
-} from '@spesialist-mock/schemaTypes';
+    ApiEndrePaVent,
+    ApiHistorikkinnslag,
+    ApiLagtPaVent,
+    ApiOpphevStansAutomatiskBehandlingSaksbehandler,
+    ApiPeriodehistorikkType,
+    ApiStansAutomatiskBehandlingSaksbehandler,
+    ApiTotrinnsvurderingRetur,
+} from '@io/rest/generated/spesialist.schemas';
 import { findVedtaksperiodeId } from '@spesialist-mock/storage/notat';
 import { UUID } from '@typer/spesialist-mock';
 
-export type HistorikkinnslagUnion =
-    | LagtPaVent
-    | EndrePaVent
-    | FjernetFraPaVent
-    | TotrinnsvurderingRetur
-    | StansAutomatiskBehandlingSaksbehandler
-    | OpphevStansAutomatiskBehandlingSaksbehandler
-    | PeriodeHistorikkElementNy;
 export type HistorikkinnslagMedKommentarer =
-    | LagtPaVent
-    | EndrePaVent
-    | TotrinnsvurderingRetur
-    | StansAutomatiskBehandlingSaksbehandler
-    | OpphevStansAutomatiskBehandlingSaksbehandler;
+    | ApiLagtPaVent
+    | ApiEndrePaVent
+    | ApiTotrinnsvurderingRetur
+    | ApiStansAutomatiskBehandlingSaksbehandler
+    | ApiOpphevStansAutomatiskBehandlingSaksbehandler;
+
+// Typen (discriminatoren) utledes av historikktype
+export type HistorikkinnslagFelter = Partial<Omit<ApiLagtPaVent, 'type'>>;
 
 export class HistorikkinnslagMock {
-    private static historikkinnslagMap: Map<UUID, HistorikkinnslagUnion[]> = new Map();
+    private static historikkinnslagMap: Map<UUID, ApiHistorikkinnslag[]> = new Map();
     private static historikkinnslagCounter: number = 0;
 
-    static addHistorikkinnslag = (id: string, historikkinnslagProps?: Partial<HistorikkinnslagUnion>) => {
+    static addHistorikkinnslag = (id: string, historikkinnslagProps?: HistorikkinnslagFelter) => {
         const vedtaksperiodeId = findVedtaksperiodeId(id) ?? id;
         const historikkinnslag = HistorikkinnslagMock.getMockedHistorikkinnslag(historikkinnslagProps);
         HistorikkinnslagMock.historikkinnslagMap.set(vedtaksperiodeId, [
@@ -43,7 +35,7 @@ export class HistorikkinnslagMock {
         ]);
     };
 
-    static getHistorikkinnslag = (vedtaksperiodeId: UUID): HistorikkinnslagUnion[] =>
+    static getHistorikkinnslag = (vedtaksperiodeId: UUID): ApiHistorikkinnslag[] =>
         HistorikkinnslagMock.historikkinnslagMap.get(vedtaksperiodeId) ?? [];
 
     static getHistorikkinnslagMedDialogId = (dialogId: number): HistorikkinnslagMedKommentarer | undefined =>
@@ -51,19 +43,19 @@ export class HistorikkinnslagMock {
             .flat()
             .find((h) => h.dialogRef === dialogId) as HistorikkinnslagMedKommentarer;
 
-    static getSisteLagtPåVentHistorikkinnslag = (vedtaksperiodeId: UUID): HistorikkinnslagUnion | null => {
+    static getSisteLagtPåVentHistorikkinnslag = (vedtaksperiodeId: UUID): ApiHistorikkinnslag | null => {
         const historikkinnslag = HistorikkinnslagMock.historikkinnslagMap.get(vedtaksperiodeId);
         if (!historikkinnslag) return null;
         return historikkinnslag[historikkinnslag.length - 1] ?? null;
     };
 
-    static updateHistorikkinnslag = (id: string, dialogId: number, overrides: Partial<HistorikkinnslagUnion>): void => {
+    static updateHistorikkinnslag = (id: string, dialogId: number, overrides: HistorikkinnslagFelter): void => {
         const vedtaksperiodeId = findVedtaksperiodeId(id) ?? id;
         HistorikkinnslagMock.historikkinnslagMap.set(
             vedtaksperiodeId,
             HistorikkinnslagMock.getHistorikkinnslag(vedtaksperiodeId).map((h) =>
-                h.dialogRef === dialogId ? { ...h, ...overrides } : h,
-            ) as HistorikkinnslagUnion[],
+                h.dialogRef === dialogId ? ({ ...h, ...overrides } as ApiHistorikkinnslag) : h,
+            ),
         );
     };
 
@@ -80,16 +72,41 @@ export class HistorikkinnslagMock {
         HistorikkinnslagMock.historikkinnslagMap.clear();
     };
 
-    private static getMockedHistorikkinnslag = (overrides?: Partial<Historikkinnslag>): HistorikkinnslagUnion => ({
-        id: HistorikkinnslagMock.historikkinnslagCounter++,
-        type: PeriodehistorikkType.LeggPaVent,
-        saksbehandlerIdent: 'A123456',
-        timestamp: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
-        dialogRef: null,
-        frist: null,
-        notattekst: null,
-        arsaker: [] as string[],
-        kommentarer: [] as Kommentar[],
-        ...overrides,
-    });
+    private static getMockedHistorikkinnslag = (overrides?: HistorikkinnslagFelter): ApiHistorikkinnslag => {
+        const historikkinnslag = {
+            id: HistorikkinnslagMock.historikkinnslagCounter++,
+            historikktype: ApiPeriodehistorikkType.LEGG_PA_VENT,
+            saksbehandlerIdent: 'A123456',
+            timestamp: dayjs().format('YYYY-MM-DDTHH:mm:ss'),
+            dialogRef: null,
+            frist: null,
+            notattekst: null,
+            arsaker: [] as string[],
+            kommentarer: [],
+            ...overrides,
+        };
+        return {
+            ...historikkinnslag,
+            type: historikkinnslagtype(historikkinnslag.historikktype),
+        } as ApiHistorikkinnslag;
+    };
+}
+
+function historikkinnslagtype(historikktype: ApiPeriodehistorikkType): ApiHistorikkinnslag['type'] {
+    switch (historikktype) {
+        case ApiPeriodehistorikkType.LEGG_PA_VENT:
+            return 'ApiLagtPaVent';
+        case ApiPeriodehistorikkType.ENDRE_PA_VENT:
+            return 'ApiEndrePaVent';
+        case ApiPeriodehistorikkType.FJERN_FRA_PA_VENT:
+            return 'ApiFjernetFraPaVent';
+        case ApiPeriodehistorikkType.TOTRINNSVURDERING_RETUR:
+            return 'ApiTotrinnsvurderingRetur';
+        case ApiPeriodehistorikkType.STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER:
+            return 'ApiStansAutomatiskBehandlingSaksbehandler';
+        case ApiPeriodehistorikkType.OPPHEV_STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER:
+            return 'ApiOpphevStansAutomatiskBehandlingSaksbehandler';
+        default:
+            return 'ApiPeriodeHistorikkElementNy';
+    }
 }

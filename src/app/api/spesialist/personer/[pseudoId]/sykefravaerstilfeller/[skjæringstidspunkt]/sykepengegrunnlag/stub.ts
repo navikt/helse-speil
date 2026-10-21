@@ -2,11 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import {
     ApiServerSentEventEvent,
+    ApiSkjonnsfastsettingstype,
     ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype as ApiSkjønnsfastsettelsestype,
     ApiSykepengegrunnlagRequest,
 } from '@io/rest/generated/spesialist.schemas';
 import { opprettTotrinnsvurderingHvisMangler, pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
-import { Skjonnsfastsettingstype } from '@spesialist-mock/schemaTypes';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
@@ -20,7 +20,7 @@ export const stub = async (request: NextRequest, params: Promise<{ pseudoId: str
         // Spesialist lagrer én skjønnsfastsetting per arbeidsgiver
         skjønnsfastsatteInntekter.forEach((inntekt) =>
             OverstyringMock.leggTil(fødselsnummer, inntekt.organisasjonsnummer, {
-                __typename: 'Sykepengegrunnlagskjonnsfastsetting',
+                type: 'ApiSykepengegrunnlagskjonnsfastsetting',
                 vedtaksperiodeId: body.intierendeVedtaksperiodeId,
                 skjonnsfastsatt: {
                     arsak: body.årsak,
@@ -42,13 +42,13 @@ export const stub = async (request: NextRequest, params: Promise<{ pseudoId: str
     return new NextResponse(null, { status: 204 });
 };
 
-function tilSkjønnsfastsettingstype(type: ApiSkjønnsfastsettelsestype): Skjonnsfastsettingstype {
+function tilSkjønnsfastsettingstype(type: ApiSkjønnsfastsettelsestype): ApiSkjonnsfastsettingstype {
     switch (type) {
         case 'OMREGNET_ÅRSINNTEKT':
-            return Skjonnsfastsettingstype.OmregnetArsinntekt;
+            return ApiSkjonnsfastsettingstype.OMREGNET_ARSINNTEKT;
         case 'RAPPORTERT_ÅRSINNTEKT':
-            return Skjonnsfastsettingstype.RapportertArsinntekt;
+            return ApiSkjonnsfastsettingstype.RAPPORTERT_ARSINNTEKT;
         case 'ANNET':
-            return Skjonnsfastsettingstype.Annet;
+            return ApiSkjonnsfastsettingstype.ANNET;
     }
 }

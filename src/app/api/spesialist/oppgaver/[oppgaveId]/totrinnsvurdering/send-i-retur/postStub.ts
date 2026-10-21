@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import {
+    ApiPeriodehistorikkType,
     ApiPostSendIReturErrorCode,
     ApiSendIReturRequest,
     ApiServerSentEventEvent,
@@ -9,7 +10,6 @@ import { lokalSaksbehandlerOid, lokalTildeling } from '@spesialist-mock/constant
 import { finnPeriodeForOppgaveId } from '@spesialist-mock/periodeoppslag';
 import { problemDetails } from '@spesialist-mock/problemDetails';
 import { pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
-import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
@@ -62,7 +62,7 @@ export const postStub = async (request: NextRequest, params: Promise<{ oppgaveId
     PaVentMock.fjernPåVent(oppgaveId);
 
     HistorikkinnslagMock.addHistorikkinnslag(periode.vedtaksperiodeId, {
-        type: PeriodehistorikkType.TotrinnsvurderingRetur,
+        historikktype: ApiPeriodehistorikkType.TOTRINNSVURDERING_RETUR,
         notattekst: notatTekst,
         dialogRef: DialogMock.addDialog(),
     });

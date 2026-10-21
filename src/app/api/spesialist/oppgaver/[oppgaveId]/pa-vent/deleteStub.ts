@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ApiDeletePåVentErrorCode } from '@io/rest/generated/spesialist.schemas';
+import { ApiDeletePåVentErrorCode, ApiPeriodehistorikkType } from '@io/rest/generated/spesialist.schemas';
 import { finnOppgavereferanse } from '@spesialist-mock/periodeoppslag';
 import { problemDetails } from '@spesialist-mock/problemDetails';
-import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { PaVentMock } from '@spesialist-mock/storage/påvent';
 
@@ -17,7 +16,7 @@ export const deleteStub = async (_: NextRequest, params: Promise<{ oppgaveId: st
 
     PaVentMock.fjernPåVent(oppgaveId);
     HistorikkinnslagMock.addHistorikkinnslag(oppgavereferanse.vedtaksperiodeId, {
-        type: PeriodehistorikkType.FjernFraPaVent,
+        historikktype: ApiPeriodehistorikkType.FJERN_FRA_PA_VENT,
     });
     return new NextResponse(null, { status: 204 });
 };

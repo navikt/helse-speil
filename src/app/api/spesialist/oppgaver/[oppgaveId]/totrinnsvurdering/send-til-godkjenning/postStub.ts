@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 import {
+    ApiPeriodehistorikkType,
     ApiPostSendTilGodkjenningErrorCode,
     ApiSendTilGodkjenningRequest,
     ApiServerSentEventEvent,
@@ -9,7 +10,6 @@ import { lokalSaksbehandlerOid, lokalTildeling } from '@spesialist-mock/constant
 import { finnPeriodeForOppgaveId, harUvurderteVarsler } from '@spesialist-mock/periodeoppslag';
 import { problemDetails } from '@spesialist-mock/problemDetails';
 import { pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
-import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { PaVentMock } from '@spesialist-mock/storage/påvent';
@@ -66,7 +66,7 @@ export const postStub = async (request: NextRequest, params: Promise<{ oppgaveId
     PaVentMock.fjernPåVent(oppgaveId);
 
     HistorikkinnslagMock.addHistorikkinnslag(periode.vedtaksperiodeId, {
-        type: PeriodehistorikkType.TotrinnsvurderingTilGodkjenning,
+        historikktype: ApiPeriodehistorikkType.TOTRINNSVURDERING_TIL_GODKJENNING,
     });
 
     pushEventEtterForsinkelse(person.fodselsnummer, ApiServerSentEventEvent.PERSONDATA_OPPDATERT);

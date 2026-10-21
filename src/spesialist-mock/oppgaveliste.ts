@@ -2,13 +2,13 @@ import { logger } from '@navikt/next-logger';
 
 import {
     ApiEgenskap,
+    ApiLagtPaVent,
     ApiOppgaveProjeksjon,
     ApiOppgaveProjeksjonPåVentInfo,
 } from '@io/rest/generated/spesialist.schemas';
 import { lokalSaksbehandlerOid } from '@spesialist-mock/constants';
 import { tilfeldigeOppgaver } from '@spesialist-mock/data/mockDataGenerator';
 import { oppgaveVedtaksperioder, oppgaver } from '@spesialist-mock/data/oppgaver';
-import { LagtPaVent } from '@spesialist-mock/schemaTypes';
 import { BehandlingMock, erTotrinnsegenskap, totrinnsegenskap } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { PersonMock } from '@spesialist-mock/storage/person';
@@ -87,7 +87,7 @@ function syncMock(oppgaver: ApiOppgaveProjeksjon[]) {
                 } else {
                     const historikkinnslag = HistorikkinnslagMock.getSisteLagtPåVentHistorikkinnslag(
                         oppgaveVedtaksperioder.find((it) => it.id === oppgave.id)!.vedtaksperiodeId,
-                    ) as LagtPaVent;
+                    ) as ApiLagtPaVent;
 
                     if (historikkinnslag) {
                         påVentInfo = {
@@ -98,7 +98,6 @@ function syncMock(oppgaver: ApiOppgaveProjeksjon[]) {
                             saksbehandler: historikkinnslag.saksbehandlerIdent!,
                             tidsfrist: historikkinnslag.frist!,
                             kommentarer: historikkinnslag.kommentarer.map((kommentar) => ({
-                                __typename: 'OppgaveProjeksjonPaaVentKommentar',
                                 feilregistrert_tidspunkt: kommentar.feilregistrert_tidspunkt,
                                 id: kommentar.id,
                                 opprettet: kommentar.opprettet,

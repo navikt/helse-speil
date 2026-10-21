@@ -2,15 +2,16 @@ import dayjs from 'dayjs';
 import { NextResponse } from 'next/server';
 
 import {
+    ApiPeriodetilstand,
     ApiPostVedtaksperiodeAnnullerErrorCode,
     ApiServerSentEventEvent,
+    ApiUtbetalingstatus,
     ApiVedtaksperiodeAnnullerRequest,
 } from '@io/rest/generated/spesialist.schemas';
 import { lokalSaksbehandlerIdent } from '@spesialist-mock/constants';
 import { finnNyestePeriodeForVedtaksperiodeId } from '@spesialist-mock/periodeoppslag';
 import { problemDetails } from '@spesialist-mock/problemDetails';
 import { pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
-import { Periodetilstand, Utbetalingstatus } from '@spesialist-mock/schemaTypes';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 
 export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId: string }>) => {
@@ -45,7 +46,7 @@ export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId:
 
     behandlingIder.forEach((behandlingId) =>
         BehandlingMock.oppdater(behandlingId, {
-            periodetilstand: Periodetilstand.TilAnnullering,
+            periodetilstand: ApiPeriodetilstand.TilAnnullering,
             annullering: {
                 arbeidsgiverFagsystemId: periode.utbetaling.arbeidsgiverFagsystemId,
                 personFagsystemId: periode.utbetaling.personFagsystemId,
@@ -61,8 +62,8 @@ export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId:
     pushEventEtterForsinkelse(person.fodselsnummer, ApiServerSentEventEvent.UTBETALING_ANNULLERING_OK, () =>
         behandlingIder.forEach((behandlingId) =>
             BehandlingMock.oppdater(behandlingId, {
-                periodetilstand: Periodetilstand.Annullert,
-                utbetalingstatus: Utbetalingstatus.Annullert,
+                periodetilstand: ApiPeriodetilstand.Annullert,
+                utbetalingstatus: ApiUtbetalingstatus.ANNULLERT,
             }),
         ),
     );

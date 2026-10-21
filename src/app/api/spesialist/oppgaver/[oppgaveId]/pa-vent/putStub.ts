@@ -1,10 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ApiPutPåVentErrorCode, ApiPutPåVentRequest } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiPeriodehistorikkType,
+    ApiPutPåVentErrorCode,
+    ApiPutPåVentRequest,
+} from '@io/rest/generated/spesialist.schemas';
 import { lokalSaksbehandlerOid, lokalTildeling } from '@spesialist-mock/constants';
 import { finnOppgavereferanse } from '@spesialist-mock/periodeoppslag';
 import { problemDetails } from '@spesialist-mock/problemDetails';
-import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { PaVentMock } from '@spesialist-mock/storage/påvent';
@@ -30,7 +33,7 @@ export const putStub = async (request: NextRequest, params: Promise<{ oppgaveId:
         notattekst: notattekst,
         frist: frist,
         arsaker: årsaker ? årsaker.map((årsak) => årsak.årsak) : [],
-        type: PeriodehistorikkType.LeggPaVent,
+        historikktype: ApiPeriodehistorikkType.LEGG_PA_VENT,
         dialogRef: DialogMock.addDialog(),
     });
 

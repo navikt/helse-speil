@@ -1,6 +1,6 @@
+import { ApiPeriodehistorikkType } from '@io/rest/generated/spesialist.schemas';
 import { lokalSaksbehandlerIdent } from '@spesialist-mock/constants';
 import { finnOppgaveId } from '@spesialist-mock/saksbilde';
-import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { SaksbehandlerStansMock } from '@spesialist-mock/storage/saksbehandlerstans';
@@ -19,9 +19,9 @@ export async function patchStub(_request: Request, params: Promise<{ pseudoId: s
 
     if (oppgaveId) {
         HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
-            type: stans
-                ? PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler
-                : PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler,
+            historikktype: stans
+                ? ApiPeriodehistorikkType.STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER
+                : ApiPeriodehistorikkType.OPPHEV_STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER,
             notattekst: begrunnelse,
             dialogRef: DialogMock.addDialog(),
         });

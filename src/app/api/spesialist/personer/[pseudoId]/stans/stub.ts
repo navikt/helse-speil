@@ -1,5 +1,5 @@
+import { ApiPeriodehistorikkType } from '@io/rest/generated/spesialist.schemas';
 import { finnOppgaveId } from '@spesialist-mock/saksbilde';
-import { PeriodehistorikkType } from '@spesialist-mock/schemaTypes';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { StansAutomatiskBehandlingMock } from '@spesialist-mock/storage/stansautomatiskbehandling';
@@ -14,9 +14,9 @@ export const stub = async (_request: Request, params: Promise<{ pseudoId: string
         StansAutomatiskBehandlingMock.stansAutomatiskBehandling(pseudoId, saksbehandlerStans);
         if (oppgaveId) {
             HistorikkinnslagMock.addHistorikkinnslag(oppgaveId, {
-                type: saksbehandlerStans
-                    ? PeriodehistorikkType.StansAutomatiskBehandlingSaksbehandler
-                    : PeriodehistorikkType.OpphevStansAutomatiskBehandlingSaksbehandler,
+                historikktype: saksbehandlerStans
+                    ? ApiPeriodehistorikkType.STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER
+                    : ApiPeriodehistorikkType.OPPHEV_STANS_AUTOMATISK_BEHANDLING_SAKSBEHANDLER,
                 notattekst: begrunnelse,
                 dialogRef: DialogMock.addDialog(),
             });

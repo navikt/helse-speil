@@ -1,22 +1,22 @@
 import dayjs from 'dayjs';
 
 import {
-    Dag,
-    Dagoverstyring,
-    Dagtype,
-    Kildetype,
-    Overstyring,
-    OverstyrtDag,
-    Periode,
-    Sykdomsdagtype,
-    Utbetalingsdagtype,
-} from '@spesialist-mock/schemaTypes';
+    ApiDag,
+    ApiDagoverstyring,
+    ApiDagtype,
+    ApiKildetype,
+    ApiOverstyring,
+    ApiOverstyrtDag,
+    ApiPeriode,
+    ApiSykdomsdagtype,
+    ApiUtbetalingsdagtype,
+} from '@io/rest/generated/spesialist.schemas';
 
 // Spleis beregner perioden på nytt etter en dagoverstyring. Mocken skriver bare de overstyrte dagene inn i
 // tidslinja til nyeste behandling, uten å regne ut beløp, totaler eller arbeidsgiverperiode på nytt.
 export function leggPåDagoverstyringer(
-    inntektsforhold: { behandlinger: { perioder: Periode[] }[] },
-    overstyringer: Overstyring[],
+    inntektsforhold: { behandlinger: { perioder: ApiPeriode[] }[] },
+    overstyringer: ApiOverstyring[],
 ): void {
     const perioder = inntektsforhold.behandlinger[0]?.perioder ?? [];
     // Hver overstyring regnes fra den opprinnelige dagen, slik at en ny overstyring ikke arver forrige
@@ -37,93 +37,93 @@ export function leggPåDagoverstyringer(
         );
 }
 
-function overstyrDag(dag: Dag, overstyrtDag: OverstyrtDag, hendelseId: string): Dag {
+function overstyrDag(dag: ApiDag, overstyrtDag: ApiOverstyrtDag, hendelseId: string): ApiDag {
     const erHelg = [0, 6].includes(dayjs(dag.dato).day());
     const sykdomsdagtype = tilSykdomsdagtype(overstyrtDag.type, erHelg);
     const utbetalingsdagtype = tilUtbetalingsdagtype(sykdomsdagtype, dag.utbetalingsdagtype, erHelg);
-    const utbetales = utbetalingsdagtype === Utbetalingsdagtype.Navdag;
+    const utbetales = utbetalingsdagtype === ApiUtbetalingsdagtype.NAVDAG;
     return {
         ...dag,
         sykdomsdagtype,
         utbetalingsdagtype,
         grad: overstyrtDag.grad ?? null,
-        kilde: { id: hendelseId, type: Kildetype.Saksbehandler },
+        kilde: { id: hendelseId, type: ApiKildetype.SAKSBEHANDLER },
         utbetalingsinfo: utbetales ? dag.utbetalingsinfo : null,
     };
 }
 
-function tilSykdomsdagtype(dagtype: Dagtype, erHelg: boolean): Sykdomsdagtype {
+function tilSykdomsdagtype(dagtype: ApiDagtype, erHelg: boolean): ApiSykdomsdagtype {
     switch (dagtype) {
-        case Dagtype.Sykedag:
-            return erHelg ? Sykdomsdagtype.SykHelgedag : Sykdomsdagtype.Sykedag;
-        case Dagtype.SykedagNav:
-            return Sykdomsdagtype.SykedagNav;
-        case Dagtype.Arbeidsdag:
-            return erHelg ? Sykdomsdagtype.FriskHelgedag : Sykdomsdagtype.Arbeidsdag;
-        case Dagtype.Helg:
-            return Sykdomsdagtype.FriskHelgedag;
-        case Dagtype.Feriedag:
-            return Sykdomsdagtype.Feriedag;
-        case Dagtype.Permisjonsdag:
-            return Sykdomsdagtype.Permisjonsdag;
-        case Dagtype.Egenmeldingsdag:
-            return Sykdomsdagtype.Arbeidsgiverdag;
-        case Dagtype.ArbeidIkkeGjenopptattDag:
-            return Sykdomsdagtype.Arbeidikkegjenopptattdag;
-        case Dagtype.MeldingTilNavdag:
-            return Sykdomsdagtype.Meldingtilnavdag;
-        case Dagtype.AvslattMeldingTilNavdag:
-            return Sykdomsdagtype.Avslattmeldingtilnavdag;
-        case Dagtype.Avvistdag:
-            return Sykdomsdagtype.Avslatt;
-        case Dagtype.AaPdag:
-            return Sykdomsdagtype.AndreYtelserAap;
-        case Dagtype.Dagpengerdag:
-            return Sykdomsdagtype.AndreYtelserDagpenger;
-        case Dagtype.Foreldrepengerdag:
-            return Sykdomsdagtype.AndreYtelserForeldrepenger;
-        case Dagtype.Omsorgspengerdag:
-            return Sykdomsdagtype.AndreYtelserOmsorgspenger;
-        case Dagtype.Opplaringspengerdag:
-            return Sykdomsdagtype.AndreYtelserOpplaringspenger;
-        case Dagtype.Pleiepengerdag:
-            return Sykdomsdagtype.AndreYtelserPleiepenger;
-        case Dagtype.Svangerskapspengerdag:
-            return Sykdomsdagtype.AndreYtelserSvangerskapspenger;
+        case ApiDagtype.Sykedag:
+            return erHelg ? ApiSykdomsdagtype.SYK_HELGEDAG : ApiSykdomsdagtype.SYKEDAG;
+        case ApiDagtype.SykedagNav:
+            return ApiSykdomsdagtype.SYKEDAG_NAV;
+        case ApiDagtype.Arbeidsdag:
+            return erHelg ? ApiSykdomsdagtype.FRISK_HELGEDAG : ApiSykdomsdagtype.ARBEIDSDAG;
+        case ApiDagtype.Helg:
+            return ApiSykdomsdagtype.FRISK_HELGEDAG;
+        case ApiDagtype.Feriedag:
+            return ApiSykdomsdagtype.FERIEDAG;
+        case ApiDagtype.Permisjonsdag:
+            return ApiSykdomsdagtype.PERMISJONSDAG;
+        case ApiDagtype.Egenmeldingsdag:
+            return ApiSykdomsdagtype.ARBEIDSGIVERDAG;
+        case ApiDagtype.ArbeidIkkeGjenopptattDag:
+            return ApiSykdomsdagtype.ARBEIDIKKEGJENOPPTATTDAG;
+        case ApiDagtype.MeldingTilNavdag:
+            return ApiSykdomsdagtype.MELDINGTILNAVDAG;
+        case ApiDagtype.AvslattMeldingTilNavdag:
+            return ApiSykdomsdagtype.AVSLATTMELDINGTILNAVDAG;
+        case ApiDagtype.Avvistdag:
+            return ApiSykdomsdagtype.AVSLATT;
+        case ApiDagtype.AAPdag:
+            return ApiSykdomsdagtype.ANDRE_YTELSER_AAP;
+        case ApiDagtype.Dagpengerdag:
+            return ApiSykdomsdagtype.ANDRE_YTELSER_DAGPENGER;
+        case ApiDagtype.Foreldrepengerdag:
+            return ApiSykdomsdagtype.ANDRE_YTELSER_FORELDREPENGER;
+        case ApiDagtype.Omsorgspengerdag:
+            return ApiSykdomsdagtype.ANDRE_YTELSER_OMSORGSPENGER;
+        case ApiDagtype.Opplaringspengerdag:
+            return ApiSykdomsdagtype.ANDRE_YTELSER_OPPLARINGSPENGER;
+        case ApiDagtype.Pleiepengerdag:
+            return ApiSykdomsdagtype.ANDRE_YTELSER_PLEIEPENGER;
+        case ApiDagtype.Svangerskapspengerdag:
+            return ApiSykdomsdagtype.ANDRE_YTELSER_SVANGERSKAPSPENGER;
     }
 }
 
 function tilUtbetalingsdagtype(
-    sykdomsdagtype: Sykdomsdagtype,
-    tidligere: Utbetalingsdagtype,
+    sykdomsdagtype: ApiSykdomsdagtype,
+    tidligere: ApiUtbetalingsdagtype,
     erHelg: boolean,
-): Utbetalingsdagtype {
+): ApiUtbetalingsdagtype {
     switch (sykdomsdagtype) {
-        case Sykdomsdagtype.Sykedag:
-        case Sykdomsdagtype.SykedagNav:
-        case Sykdomsdagtype.SykHelgedag:
+        case ApiSykdomsdagtype.SYKEDAG:
+        case ApiSykdomsdagtype.SYKEDAG_NAV:
+        case ApiSykdomsdagtype.SYK_HELGEDAG:
             if (
-                tidligere === Utbetalingsdagtype.Navdag ||
-                tidligere === Utbetalingsdagtype.Navhelgdag ||
-                tidligere === Utbetalingsdagtype.Arbeidsgiverperiodedag
+                tidligere === ApiUtbetalingsdagtype.NAVDAG ||
+                tidligere === ApiUtbetalingsdagtype.NAVHELGDAG ||
+                tidligere === ApiUtbetalingsdagtype.ARBEIDSGIVERPERIODEDAG
             )
                 return tidligere;
-            return erHelg ? Utbetalingsdagtype.Navhelgdag : Utbetalingsdagtype.Navdag;
-        case Sykdomsdagtype.Arbeidsgiverdag:
-            return Utbetalingsdagtype.Arbeidsgiverperiodedag;
-        case Sykdomsdagtype.Feriedag:
-        case Sykdomsdagtype.Permisjonsdag:
-            return Utbetalingsdagtype.Feriedag;
-        case Sykdomsdagtype.Arbeidsdag:
-        case Sykdomsdagtype.Arbeidikkegjenopptattdag:
-            return Utbetalingsdagtype.Arbeidsdag;
-        case Sykdomsdagtype.FriskHelgedag:
-            return Utbetalingsdagtype.Helgedag;
+            return erHelg ? ApiUtbetalingsdagtype.NAVHELGDAG : ApiUtbetalingsdagtype.NAVDAG;
+        case ApiSykdomsdagtype.ARBEIDSGIVERDAG:
+            return ApiUtbetalingsdagtype.ARBEIDSGIVERPERIODEDAG;
+        case ApiSykdomsdagtype.FERIEDAG:
+        case ApiSykdomsdagtype.PERMISJONSDAG:
+            return ApiUtbetalingsdagtype.FERIEDAG;
+        case ApiSykdomsdagtype.ARBEIDSDAG:
+        case ApiSykdomsdagtype.ARBEIDIKKEGJENOPPTATTDAG:
+            return ApiUtbetalingsdagtype.ARBEIDSDAG;
+        case ApiSykdomsdagtype.FRISK_HELGEDAG:
+            return ApiUtbetalingsdagtype.HELGEDAG;
         default:
-            return Utbetalingsdagtype.AvvistDag;
+            return ApiUtbetalingsdagtype.AVVIST_DAG;
     }
 }
 
-function erDagoverstyring(overstyring: Overstyring): overstyring is Dagoverstyring {
-    return (overstyring as Dagoverstyring).__typename === 'Dagoverstyring';
+function erDagoverstyring(overstyring: ApiOverstyring): overstyring is ApiDagoverstyring {
+    return overstyring.type === 'ApiDagoverstyring';
 }

@@ -1,12 +1,17 @@
 import dayjs from 'dayjs';
 import { NextResponse } from 'next/server';
 
-import { ApiPostVedtakErrorCode, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiPeriodehistorikkType,
+    ApiPeriodetilstand,
+    ApiPostVedtakErrorCode,
+    ApiServerSentEventEvent,
+    ApiUtbetalingstatus,
+} from '@io/rest/generated/spesialist.schemas';
 import { lokalSaksbehandlerIdent, lokalSaksbehandlerNavn } from '@spesialist-mock/constants';
 import { finnPeriodeForBehandlingId, harUvurderteVarsler } from '@spesialist-mock/periodeoppslag';
 import { problemDetails } from '@spesialist-mock/problemDetails';
 import { ferdigstillOppgave, pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
-import { PeriodehistorikkType, Periodetilstand, Utbetalingstatus } from '@spesialist-mock/schemaTypes';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
@@ -35,7 +40,7 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
     if (!periode.oppgave) {
         return problemDetails(400, ApiPostVedtakErrorCode.OPPGAVE_IKKE_FUNNET, 'Fant ikke oppgave');
     }
-    if (periode.periodetilstand !== Periodetilstand.TilGodkjenning) {
+    if (periode.periodetilstand !== ApiPeriodetilstand.TilGodkjenning) {
         return problemDetails(400, ApiPostVedtakErrorCode.OPPGAVE_FEIL_TILSTAND, 'Oppgaven er i feil tilstand');
     }
     if (harUvurderteVarsler(periode)) {
@@ -57,7 +62,7 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
     // Lokalt finnes bare én saksbehandler, så mocken lar deg beslutte din egen oppgave
     if (totrinnsvurdering) {
         HistorikkinnslagMock.addHistorikkinnslag(periode.vedtaksperiodeId, {
-            type: PeriodehistorikkType.TotrinnsvurderingAttestert,
+            historikktype: ApiPeriodehistorikkType.TOTRINNSVURDERING_ATTESTERT,
         });
         SaksbehandlerhandlingMock.avsluttTotrinnsvurdering(person.fodselsnummer);
         OverstyringMock.ferdigstillForPerson(person.fodselsnummer);
@@ -73,15 +78,15 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
     };
     BehandlingMock.oppdater(behandlingId, {
         vedtakFattet: true,
-        periodetilstand: Periodetilstand.TilUtbetaling,
-        utbetalingstatus: Utbetalingstatus.Sendt,
+        periodetilstand: ApiPeriodetilstand.TilUtbetaling,
+        utbetalingstatus: ApiUtbetalingstatus.SENDT,
         utbetalingsvurdering: vurdering,
     });
 
     pushEventEtterForsinkelse(person.fodselsnummer, ApiServerSentEventEvent.FERDIGBEHANDLET_GODKJENNINGSBEHOV, () =>
         BehandlingMock.oppdater(behandlingId, {
-            periodetilstand: Periodetilstand.Utbetalt,
-            utbetalingstatus: Utbetalingstatus.Utbetalt,
+            periodetilstand: ApiPeriodetilstand.Utbetalt,
+            utbetalingstatus: ApiUtbetalingstatus.UTBETALT,
         }),
     );
 

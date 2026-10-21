@@ -1,32 +1,26 @@
 {
     "data": {
         "person": {
-            "__typename": "Person",
             "fodselsnummer": "23817999700",
             "andreFodselsnummer": [],
             "dodsdato": null,
             "selvstendigNaering": {
-                "__typename": "SelvstendigNaering",
                 "behandlinger": [
                     {
-                        "__typename": "Behandling",
                         "id": "21c94f02-9c3f-419c-8457-b350b17c6b16",
                         "perioder": [
                             {
-                                "__typename": "BeregnetPeriode",
                                 "id": "f70c42a5-454d-386a-a50c-cf1b36d9d5a0",
                                 "forbrukteSykedager": 9,
                                 "gjenstaendeSykedager": 239,
                                 "vedtaksperiodeId": "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff",
                                 "handlinger": [
                                     {
-                                        "__typename": "Handling",
                                         "type": "UTBETALE",
                                         "tillatt": true,
                                         "begrunnelse": null
                                     },
                                     {
-                                        "__typename": "Handling",
                                         "type": "AVVISE",
                                         "tillatt": true,
                                         "begrunnelse": null
@@ -36,14 +30,11 @@
                                 "historikkinnslag": [],
                                 "maksdato": "2026-05-29",
                                 "periodevilkar": {
-                                    "__typename": "Periodevilkar",
                                     "alder": {
-                                        "__typename": "Alder",
                                         "alderSisteSykedag": 46,
                                         "oppfylt": true
                                     },
                                     "sykepengedager": {
-                                        "__typename": "Sykepengedager",
                                         "forbrukteSykedager": 9,
                                         "gjenstaendeSykedager": 239,
                                         "maksdato": "2026-05-29",
@@ -52,12 +43,10 @@
                                     }
                                 },
                                 "risikovurdering": {
-                                    "__typename": "Risikovurdering",
                                     "funn": [],
                                     "kontrollertOk": []
                                 },
                                 "utbetaling": {
-                                    "__typename": "Utbetaling",
                                     "id": "b1521742-b72b-46ff-8fe3-9d0f4ed4c312",
                                     "arbeidsgiverFagsystemId": "TAULXPQZQNG6DMVRL2HJ4BJPXQ",
                                     "arbeidsgiverNettoBelop": 0,
@@ -67,7 +56,6 @@
                                     "type": "UTBETALING",
                                     "vurdering": null,
                                     "arbeidsgiversimulering": {
-                                        "__typename": "Simulering",
                                         "fagsystemId": "TAULXPQZQNG6DMVRL2HJ4BJPXQ",
                                         "totalbelop": null,
                                         "tidsstempel": "2025-09-25T16:33:04.009856123",
@@ -75,26 +63,22 @@
                                         "perioder": null
                                     },
                                     "personsimulering": {
-                                        "__typename": "Simulering",
                                         "fagsystemId": "J3YR72T6XBAINKV3P2K5TYDX2M",
                                         "totalbelop": 21627,
                                         "tidsstempel": "2025-09-25T16:33:04.009938373",
                                         "utbetalingslinjer": [],
                                         "perioder": [
                                             {
-                                                "__typename": "Simuleringsperiode",
                                                 "fom": "2025-06-17",
                                                 "tom": "2025-06-27",
                                                 "utbetalinger": [
                                                     {
-                                                        "__typename": "Simuleringsutbetaling",
                                                         "mottakerId": "23817999700",
                                                         "mottakerNavn": "ARBEIDSKRAFT KVART",
                                                         "forfall": "2025-09-25",
                                                         "feilkonto": false,
                                                         "detaljer": [
                                                             {
-                                                                "__typename": "Simuleringsdetaljer",
                                                                 "fom": "2025-06-17",
                                                                 "tom": "2025-06-27",
                                                                 "utbetalingstype": "YTEL",
@@ -118,12 +102,10 @@
                                 },
                                 "vilkarsgrunnlagId": "ad7305d9-620d-4e87-ae75-d9d3980ad733",
                                 "oppgave": {
-                                    "__typename": "OppgaveForPeriodevisning",
                                     "id": "4104"
                                 },
                                 "paVent": null,
                                 "totrinnsvurdering": {
-                                    "__typename": "Totrinnsvurdering",
                                     "erBeslutteroppgave": false,
                                     "erRetur": false,
                                     "saksbehandler": null,
@@ -131,27 +113,22 @@
                                 },
                                 "egenskaper": [
                                     {
-                                        "__typename": "Oppgaveegenskap",
                                         "egenskap": "SOKNAD",
                                         "kategori": "Oppgavetype"
                                     },
                                     {
-                                        "__typename": "Oppgaveegenskap",
                                         "egenskap": "UTBETALING_TIL_SYKMELDT",
                                         "kategori": "Mottaker"
                                     },
                                     {
-                                        "__typename": "Oppgaveegenskap",
                                         "egenskap": "EN_ARBEIDSGIVER",
                                         "kategori": "Inntektskilde"
                                     },
                                     {
-                                        "__typename": "Oppgaveegenskap",
                                         "egenskap": "SELVSTENDIG_NAERINGSDRIVENDE",
                                         "kategori": "Inntektsforhold"
                                     },
                                     {
-                                        "__typename": "Oppgaveegenskap",
                                         "egenskap": "FORSTEGANGSBEHANDLING",
                                         "kategori": "Periodetype"
                                     }
@@ -161,17 +138,14 @@
                                 "annullering": null,
                                 "pensjonsgivendeInntekter": [
                                     {
-                                        "__typename": "PensjonsgivendeInntekt",
                                         "arligBelop": "796000.0",
                                         "inntektsar": 2024
                                     },
                                     {
-                                        "__typename": "PensjonsgivendeInntekt",
                                         "arligBelop": "796000.0",
                                         "inntektsar": 2023
                                     },
                                     {
-                                        "__typename": "PensjonsgivendeInntekt",
                                         "arligBelop": "796000.0",
                                         "inntektsar": 2022
                                     }
@@ -179,7 +153,6 @@
                                 "grunnbelopsjustertGjennomsnitt": "796000.0",
                                 "annulleringskandidater": [
                                     {
-                                        "__typename": "Annulleringskandidat",
                                         "fom": "2025-06-01",
                                         "organisasjonsnummer": "SELVSTENDIG",
                                         "tom": "2025-06-30",
@@ -195,11 +168,9 @@
                                 "periodetype": "FORSTEGANGSBEHANDLING",
                                 "tidslinje": [
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-01",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -209,11 +180,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-02",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -223,11 +192,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-03",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -237,11 +204,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-04",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -251,11 +216,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-05",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -265,11 +228,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-06",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -279,11 +240,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-07",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -293,11 +252,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-08",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -307,11 +264,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-09",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -321,11 +276,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-10",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -335,11 +288,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-11",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -349,11 +300,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-12",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -363,11 +312,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-13",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -377,11 +324,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-14",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -391,11 +336,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-15",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -405,11 +348,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-16",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -419,18 +360,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-17",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -441,18 +379,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-18",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -463,18 +398,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-19",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -485,18 +417,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-20",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -507,11 +436,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-21",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -521,11 +448,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-22",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -535,18 +460,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-23",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -557,18 +479,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-24",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -579,18 +498,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-25",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -601,18 +517,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-26",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -623,18 +536,15 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-27",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
                                         "sykdomsdagtype": "SYKEDAG",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
-                                            "__typename": "Utbetalingsinfo",
                                             "arbeidsgiverbelop": 0,
                                             "inntekt": null,
                                             "personbelop": 2403,
@@ -645,11 +555,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-28",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -659,11 +567,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-29",
                                         "grad": 100,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
                                             "type": "SOKNAD"
                                         },
@@ -673,11 +579,9 @@
                                         "begrunnelser": null
                                     },
                                     {
-                                        "__typename": "Dag",
                                         "dato": "2025-06-30",
                                         "grad": null,
                                         "kilde": {
-                                            "__typename": "Kilde",
                                             "id": "4730ff2c-587f-4072-8c66-314f2f381a41",
                                             "type": "SAKSBEHANDLER"
                                         },
@@ -692,36 +596,35 @@
                                 "varsler": [],
                                 "hendelser": [
                                     {
-                                        "__typename": "SoknadSelvstendig",
                                         "id": "30786859-e714-40b7-8a94-3176cef07b49",
-                                        "type": "SENDT_SOKNAD_SELVSTENDIG",
+                                        "type": "ApiSoknadSelvstendig",
                                         "fom": "2025-06-01",
                                         "tom": "2025-06-30",
                                         "rapportertDato": "2025-07-01T00:00",
                                         "sendtNav": "2025-07-01T00:00",
-                                        "eksternDokumentId": "5c4d2ab6-8477-435d-842b-765858f5cec9"
+                                        "eksternDokumentId": "5c4d2ab6-8477-435d-842b-765858f5cec9",
+                                        "hendelsetype": "SENDT_SOKNAD_SELVSTENDIG"
                                     },
                                     {
-                                        "__typename": "SoknadSelvstendig",
                                         "id": "82a2042d-5b01-4688-bef3-7aa9a2092627",
-                                        "type": "SENDT_SOKNAD_SELVSTENDIG",
+                                        "type": "ApiSoknadSelvstendig",
                                         "fom": "2025-06-01",
                                         "tom": "2025-06-30",
                                         "rapportertDato": "2025-07-01T00:00",
                                         "sendtNav": "2025-07-01T00:00",
-                                        "eksternDokumentId": "6d97b464-89b5-4098-9f10-6243cdd1fe4d"
+                                        "eksternDokumentId": "6d97b464-89b5-4098-9f10-6243cdd1fe4d",
+                                        "hendelsetype": "SENDT_SOKNAD_SELVSTENDIG"
                                     }
-                                ]
+                                ],
+                                "type": "ApiBeregnetPeriode"
                             }
                         ]
                     }
                 ],
                 "overstyringer": [
                     {
-                        "__typename": "Dagoverstyring",
                         "hendelseId": "9f64e004-1e9c-4811-8c59-fb59718aecba",
                         "saksbehandler": {
-                            "__typename": "Saksbehandler",
                             "ident": "S149030",
                             "navn": "Solheim, Martin Remøy"
                         },
@@ -731,26 +634,24 @@
                         "begrunnelse": "hei",
                         "dager": [
                             {
-                                "__typename": "OverstyrtDag",
                                 "grad": null,
                                 "fraGrad": 100,
                                 "dato": "2025-06-30",
                                 "type": "Arbeidsdag",
                                 "fraType": "Sykedag"
                             }
-                        ]
+                        ],
+                        "type": "ApiDagoverstyring"
                     }
                 ]
             },
             "tildeling": {
-                "__typename": "Tildeling",
                 "navn": "Solheim, Martin Remøy",
                 "epost": "Martin.Remoy.Solheim@nav.no",
                 "oid": "9c3d9ee4-e487-4e43-b6ab-432743f5863b"
             },
             "vilkarsgrunnlagV2": [
                 {
-                    "__typename": "VilkarsgrunnlagSpleisV2",
                     "id": "ad7305d9-620d-4e87-ae75-d9d3980ad733",
                     "sykepengegrunnlag": 780960,
                     "skjaeringstidspunkt": "2025-06-01",
@@ -758,7 +659,6 @@
                     "forsikringsvurderingId": "8be29a1e-73ea-11f1-845f-d3f88899f167",
                     "arbeidsgiverrefusjoner": [
                         {
-                            "__typename": "Arbeidsgiverrefusjon",
                             "arbeidsgiver": "SELVSTENDIG",
                             "refusjonsopplysninger": []
                         }
@@ -772,13 +672,13 @@
                     "opptjeningsvurderingId": "b956a88d-91c2-4b99-9269-e19aaf2592bc",
                     "opptjeningFra": "2025-06-01",
                     "sykepengegrunnlagsgrense": {
-                        "__typename": "Sykepengegrunnlagsgrense",
                         "grunnbelop": 130160,
                         "grense": 780960,
                         "virkningstidspunkt": "2025-05-01"
                     },
                     "beregningsgrunnlag": "818722.0",
-                    "avviksvurdering": null
+                    "avviksvurdering": null,
+                    "type": "ApiVilkårsgrunnlagSpleisV2"
                 }
             ],
             "aktorId": "2948505693240",

@@ -1,12 +1,12 @@
+import { ApiBeregnetPeriode, ApiPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { oppgaveVedtaksperioder, oppgaver } from '@spesialist-mock/data/oppgaver';
 import { fetchPersondata } from '@spesialist-mock/saksbilde';
-import { BeregnetPeriode, Periode, Person } from '@spesialist-mock/schemaTypes';
 import { PersonMock, alleInntektsforhold } from '@spesialist-mock/storage/person';
 
 export type Periodeoppslag = {
-    person: Person;
+    person: ApiSaksbildePerson;
     personPseudoId: string;
-    periode: BeregnetPeriode;
+    periode: ApiBeregnetPeriode;
     erNyesteBehandling: boolean;
 };
 
@@ -54,7 +54,7 @@ export function finnPerioderMedOppgave(fødselsnummer: string): Periodeoppslag[]
     );
 }
 
-export function harUvurderteVarsler(periode: BeregnetPeriode): boolean {
+export function harUvurderteVarsler(periode: ApiBeregnetPeriode): boolean {
     return (periode.varsler ?? [])
         .filter((varsel) => !varsel.kode.startsWith('SB_BO_'))
         .some((varsel) => varsel.vurdering?.status !== 'VURDERT' && varsel.vurdering?.status !== 'GODKJENT');
@@ -77,6 +77,6 @@ function alleOppslag(): Periodeoppslag[] {
     });
 }
 
-function erBeregnetPeriode(periode: Periode): periode is BeregnetPeriode {
-    return typeof (periode as BeregnetPeriode).utbetaling?.id === 'string';
+function erBeregnetPeriode(periode: ApiPeriode): periode is ApiBeregnetPeriode {
+    return periode.type === 'ApiBeregnetPeriode';
 }

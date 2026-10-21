@@ -126,18 +126,6 @@ beforeEach(() => {
     localStorage.clear();
 });
 
-// TODO: Remove when Apollo/GraphQL is fully phased out
-// eslint-disable-next-line no-console
-const originalConsoleError = console.error;
-// eslint-disable-next-line no-console
-console.error = (...args: unknown[]) => {
-    const message = typeof args[0] === 'string' ? args[0] : '';
-    if (message.includes('canonizeResults') || message.includes('go.apollo.dev')) {
-        return;
-    }
-    originalConsoleError(...args);
-};
-
 // Aksel sin <Accordion> logger en dev-warning (med hele DOM-noden/Fiber-treet som argument) når
 // den kun har ett Accordion.Item. Dette er en designanbefaling, ikke en testfeil, så vi filtrerer
 // bort støyen den skaper i test-output.

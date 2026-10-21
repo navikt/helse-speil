@@ -2,13 +2,14 @@ import { NextResponse } from 'next/server';
 
 import {
     ApiForkastingRequest,
+    ApiPeriodetilstand,
     ApiPostForkastingErrorCode,
     ApiServerSentEventEvent,
+    ApiUtbetalingstatus,
 } from '@io/rest/generated/spesialist.schemas';
 import { finnPeriodeForBehandlingId } from '@spesialist-mock/periodeoppslag';
 import { problemDetails } from '@spesialist-mock/problemDetails';
 import { ferdigstillOppgave, pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
-import { Periodetilstand, Utbetalingstatus } from '@spesialist-mock/schemaTypes';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
 
@@ -24,7 +25,7 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
     if (!periode.oppgave) {
         return problemDetails(400, ApiPostForkastingErrorCode.OPPGAVE_IKKE_FUNNET, 'Fant ikke oppgave.');
     }
-    if (periode.periodetilstand !== Periodetilstand.TilGodkjenning) {
+    if (periode.periodetilstand !== ApiPeriodetilstand.TilGodkjenning) {
         return problemDetails(400, ApiPostForkastingErrorCode.OPPGAVE_FEIL_TILSTAND, 'Oppgaven er i feil tilstand.');
     }
     if (periode.totrinnsvurdering?.erBeslutteroppgave) {
@@ -39,8 +40,8 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
     OverstyringMock.ferdigstillForPerson(person.fodselsnummer);
     BehandlingMock.oppdater(behandlingId, {
         erForkastet: true,
-        periodetilstand: Periodetilstand.TilInfotrygd,
-        utbetalingstatus: Utbetalingstatus.Forkastet,
+        periodetilstand: ApiPeriodetilstand.TilInfotrygd,
+        utbetalingstatus: ApiUtbetalingstatus.FORKASTET,
     });
 
     pushEventEtterForsinkelse(person.fodselsnummer, ApiServerSentEventEvent.FERDIGBEHANDLET_GODKJENNINGSBEHOV);

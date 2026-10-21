@@ -14,21 +14,19 @@ import { stub as overstyrInntektStub } from '@app/api/spesialist/vedtaksperioder
 import { stub as overstyrTidslinjeStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/tidslinje/stub';
 import { stub as manuellArbeidStub } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/manuell/arbeid-minst-fire-uker/stub';
 import { hentVilkårsvurderinger } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
-import { ApiEgenskap } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiDag,
+    ApiEgenskap,
+    ApiKildetype,
+    ApiPeriodehistorikkType,
+    ApiPeriodetilstand,
+    ApiSykdomsdagtype,
+    ApiUtbetalingsdagtype,
+} from '@io/rest/generated/spesialist.schemas';
 import { hentSynkedeOppgaver } from '@spesialist-mock/oppgaveliste';
 import { finnNyestePeriodeForVedtaksperiodeId, finnPeriodeForBehandlingId } from '@spesialist-mock/periodeoppslag';
 import { opprettTotrinnsvurderingHvisMangler } from '@spesialist-mock/saksbehandling';
 import { fetchPersondata } from '@spesialist-mock/saksbilde';
-import {
-    Dag,
-    Egenskap,
-    Kildetype,
-    Overstyring,
-    PeriodehistorikkType,
-    Periodetilstand,
-    Sykdomsdagtype,
-    Utbetalingsdagtype,
-} from '@spesialist-mock/schemaTypes';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
@@ -65,13 +63,13 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         const response = await fattVedtak(behandlingId);
 
         expect(response.status).toBe(204);
-        expect(periode(behandlingId).periodetilstand).toBe(Periodetilstand.TilUtbetaling);
+        expect(periode(behandlingId).periodetilstand).toBe(ApiPeriodetilstand.TilUtbetaling);
         expect(periode(behandlingId).oppgave).toBeNull();
         expect(hentSynkedeOppgaver().map((it) => it.id)).not.toContain(oppgaveId);
         expect(BehandlingMock.getBehandledeOppgaver().map((it) => it.oppgaveId)).toContain(oppgaveId);
 
         vi.advanceTimersByTime(2000);
-        expect(periode(behandlingId).periodetilstand).toBe(Periodetilstand.Utbetalt);
+        expect(periode(behandlingId).periodetilstand).toBe(ApiPeriodetilstand.Utbetalt);
     });
 
     it('avviser vedtak som allerede er fattet', async () => {
@@ -104,8 +102,8 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         expect((await sendTilGodkjenning(oppgaveId)).status).toBe(204);
         expect(periode(behandlingId).totrinnsvurdering).toMatchObject({ erBeslutteroppgave: true, erRetur: false });
         expect(egenskaperForOppgave()).toContain(ApiEgenskap.BESLUTTER);
-        expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).toContain(Egenskap.Beslutter);
-        expect(historikktyper()).toContain(PeriodehistorikkType.TotrinnsvurderingTilGodkjenning);
+        expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).toContain(ApiEgenskap.BESLUTTER);
+        expect(historikktyper()).toContain(ApiPeriodehistorikkType.TOTRINNSVURDERING_TIL_GODKJENNING);
         await forventFeil(sendTilGodkjenning(oppgaveId), 409, 'OPPGAVE_ALLEREDE_SENDT_TIL_BESLUTTER');
         await forventFeil(forkast(behandlingId), 400, 'TOTRINNSVURDERING_SENDT_TIL_BESLUTTER');
 
@@ -113,12 +111,12 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         expect(periode(behandlingId).totrinnsvurdering).toMatchObject({ erBeslutteroppgave: false, erRetur: true });
         expect(egenskaperForOppgave()).toContain(ApiEgenskap.RETUR);
         expect(egenskaperForOppgave()).not.toContain(ApiEgenskap.BESLUTTER);
-        expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(Egenskap.Beslutter);
+        expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(ApiEgenskap.BESLUTTER);
         await forventFeil(sendIRetur(oppgaveId), 409, 'OPPGAVE_ALLEREDE_SENDT_I_RETUR');
 
         expect((await sendTilGodkjenning(oppgaveId)).status).toBe(204);
         expect((await fattVedtak(behandlingId)).status).toBe(204);
-        expect(historikktyper()).toContain(PeriodehistorikkType.TotrinnsvurderingAttestert);
+        expect(historikktyper()).toContain(ApiPeriodehistorikkType.TOTRINNSVURDERING_ATTESTERT);
         expect(BehandlingMock.getBehandledeOppgaver().find((it) => it.oppgaveId === oppgaveId)?.beslutter).toBe(
             'Utvikler, Lokal',
         );
@@ -131,19 +129,19 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
         expect((await sendTilGodkjenning(oppgaveId)).status).toBe(204);
         expect(periode(behandlingId).paVent).toBeNull();
-        expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(Egenskap.PaVent);
+        expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(ApiEgenskap.PA_VENT);
         expect(egenskaperForOppgave()).not.toContain(ApiEgenskap.PA_VENT);
 
         expect((await fattVedtak(behandlingId)).status).toBe(204);
         expect(periode(behandlingId).paVent).toBeNull();
-        expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(Egenskap.PaVent);
+        expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(ApiEgenskap.PA_VENT);
     });
 
     it('legger oppgaven på vent med historikkinnslag på vedtaksperioden', async () => {
         expect((await leggPåVent(oppgaveId)).status).toBe(204);
 
         expect(periode(behandlingId).paVent).toBeTruthy();
-        expect(historikktyper()).toContain(PeriodehistorikkType.LeggPaVent);
+        expect(historikktyper()).toContain(ApiPeriodehistorikkType.LEGG_PA_VENT);
         expect(TildelingMock.harTildeling(personPseudoId())).toBe(true);
     });
 
@@ -155,7 +153,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         expect((await forkast(behandlingId)).status).toBe(204);
 
         expect(periode(behandlingId)).toMatchObject({
-            periodetilstand: Periodetilstand.TilInfotrygd,
+            periodetilstand: ApiPeriodetilstand.TilInfotrygd,
             erForkastet: true,
             oppgave: null,
         });
@@ -167,13 +165,13 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
         expect((await annuller(vedtaksperiodeId)).status).toBe(204);
         expect(finnNyestePeriodeForVedtaksperiodeId(vedtaksperiodeId)?.periode).toMatchObject({
-            periodetilstand: Periodetilstand.TilAnnullering,
+            periodetilstand: ApiPeriodetilstand.TilAnnullering,
             annullering: { vedtaksperiodeId, arsaker: ['Feil'] },
         });
 
         vi.advanceTimersByTime(2000);
         expect(finnNyestePeriodeForVedtaksperiodeId(vedtaksperiodeId)?.periode.periodetilstand).toBe(
-            Periodetilstand.Annullert,
+            ApiPeriodetilstand.Annullert,
         );
         await forventFeil(annuller(vedtaksperiodeId), 409, 'ALLEREDE_ANNULLERT');
     });
@@ -254,13 +252,13 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
             Promise.resolve({ pseudoId: personPseudoId(), skjæringstidspunkt: skjaeringstidspunkt }),
         );
 
-        const overstyringer = arbeidsgiverForBehandling().overstyringer as (Overstyring & { __typename: string })[];
-        expect(overstyringer.map((it) => it.__typename)).toEqual(
+        const overstyringer = arbeidsgiverForBehandling().overstyringer;
+        expect(overstyringer.map((it) => it.type)).toEqual(
             expect.arrayContaining([
-                'Dagoverstyring',
-                'Inntektoverstyring',
-                'Arbeidsforholdoverstyring',
-                'Sykepengegrunnlagskjonnsfastsetting',
+                'ApiDagoverstyring',
+                'ApiInntektoverstyring',
+                'ApiArbeidsforholdoverstyring',
+                'ApiSykepengegrunnlagskjonnsfastsetting',
             ]),
         );
         const mockOverstyringer = overstyringer.filter((it) => it.saksbehandler.navn === 'Utvikler, Lokal');
@@ -268,7 +266,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         expect(mockOverstyringer.every((it) => it.vedtaksperiodeId === vedtaksperiodeId && !it.ferdigstilt)).toBe(true);
         expect(mockOverstyringer).toContainEqual(
             expect.objectContaining({
-                __typename: 'Inntektoverstyring',
+                type: 'ApiInntektoverstyring',
                 inntekt: expect.objectContaining({
                     manedligInntekt: 50000,
                     refusjonsopplysninger: [{ fom: skjaeringstidspunkt, tom: null, belop: 50000 }],
@@ -277,7 +275,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         );
         expect(mockOverstyringer).toContainEqual(
             expect.objectContaining({
-                __typename: 'Sykepengegrunnlagskjonnsfastsetting',
+                type: 'ApiSykepengegrunnlagskjonnsfastsetting',
                 skjonnsfastsatt: expect.objectContaining({ type: 'OMREGNET_ARSINNTEKT', arlig: 600000 }),
             }),
         );
@@ -293,7 +291,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
     it('legger overstyrte dager inn i tidslinja, og siste overstyring vinner', async () => {
         const { vedtaksperiodeId, tidslinje } = periode(behandlingId);
-        const navdag = tidslinje.find((dag) => dag.utbetalingsdagtype === Utbetalingsdagtype.Navdag)!;
+        const navdag = tidslinje.find((dag) => dag.utbetalingsdagtype === ApiUtbetalingsdagtype.NAVDAG)!;
         const overstyrDag = (type: string, grad: number | null) =>
             overstyrTidslinjeStub(
                 lagRequest({
@@ -306,18 +304,18 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         await overstyrDag('Feriedag', null);
         expect(dagI(periode(behandlingId).tidslinje, navdag.dato)).toEqual(
             expect.objectContaining({
-                sykdomsdagtype: Sykdomsdagtype.Feriedag,
-                utbetalingsdagtype: Utbetalingsdagtype.Feriedag,
+                sykdomsdagtype: ApiSykdomsdagtype.FERIEDAG,
+                utbetalingsdagtype: ApiUtbetalingsdagtype.FERIEDAG,
                 utbetalingsinfo: null,
-                kilde: expect.objectContaining({ type: Kildetype.Saksbehandler }),
+                kilde: expect.objectContaining({ type: ApiKildetype.SAKSBEHANDLER }),
             }),
         );
 
         await overstyrDag('Sykedag', 50);
         expect(dagI(periode(behandlingId).tidslinje, navdag.dato)).toEqual(
             expect.objectContaining({
-                sykdomsdagtype: Sykdomsdagtype.Sykedag,
-                utbetalingsdagtype: Utbetalingsdagtype.Navdag,
+                sykdomsdagtype: ApiSykdomsdagtype.SYKEDAG,
+                utbetalingsdagtype: ApiUtbetalingsdagtype.NAVDAG,
                 grad: 50,
                 utbetalingsinfo: navdag.utbetalingsinfo,
             }),
@@ -336,7 +334,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
     });
 });
 
-function dagI(tidslinje: Dag[], dato: string): Dag | undefined {
+function dagI(tidslinje: ApiDag[], dato: string): ApiDag | undefined {
     return tidslinje.find((dag) => dag.dato === dato);
 }
 
@@ -374,15 +372,15 @@ function egenskaperForOppgave(): ApiEgenskap[] {
     return hentSynkedeOppgaver().find((it) => it.id === oppgaveId)!.egenskaper;
 }
 
-function historikktyper(): PeriodehistorikkType[] {
-    return periode(behandlingId).historikkinnslag.map((innslag) => innslag.type);
+function historikktyper(): ApiPeriodehistorikkType[] {
+    return periode(behandlingId).historikkinnslag.map((innslag) => innslag.historikktype);
 }
 
 function finnUtbetaltVedtaksperiodeId(): string {
     const vedtaksperiodeId = lesTestpersonfiler()
         .flatMap((fil) => fil.data.person.arbeidsgivere)
         .flatMap((arbeidsgiver) => arbeidsgiver.behandlinger[0]?.perioder ?? [])
-        .find((periode) => periode.periodetilstand === Periodetilstand.Utbetalt)?.vedtaksperiodeId;
+        .find((periode) => periode.periodetilstand === ApiPeriodetilstand.Utbetalt)?.vedtaksperiodeId;
     if (!vedtaksperiodeId) throw Error('Fant ingen utbetalt periode i testdataene');
     return vedtaksperiodeId;
 }

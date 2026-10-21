@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
+import { ApiSaksbildeVarselstatus } from '@io/rest/generated/spesialist.schemas';
 import { fetchPersondata } from '@spesialist-mock/saksbilde';
-import { Varselstatus } from '@spesialist-mock/schemaTypes';
 import { alleBehandlinger } from '@spesialist-mock/storage/person';
 import { VarselMock } from '@spesialist-mock/storage/varsel';
 
@@ -22,7 +22,7 @@ export const deleteStub = async (_: NextRequest, params: Promise<{ varselId: str
     const endring = VarselMock.leggTilEndretVarsel({
         ...funnetVarsel,
         vurdering: {
-            status: Varselstatus.Aktiv,
+            status: ApiSaksbildeVarselstatus.AKTIV,
             ident: '',
             tidsstempel: '',
         },

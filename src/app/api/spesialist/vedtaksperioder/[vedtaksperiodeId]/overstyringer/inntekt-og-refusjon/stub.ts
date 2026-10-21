@@ -1,10 +1,10 @@
 import {
     ApiOverstyrInntektOgRefusjonRequest,
     ApiOverstyrInntektOgRefusjonRequestRefusjonselement,
+    ApiRefusjonsopplysning,
     ApiServerSentEventEvent,
 } from '@io/rest/generated/spesialist.schemas';
 import { opprettTotrinnsvurderingHvisMangler, pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
-import { Refusjonsopplysning } from '@spesialist-mock/schemaTypes';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
 import { finnFødselsnummerForVedtaksperiodeId } from '@spesialist-mock/storage/person';
 
@@ -16,7 +16,7 @@ export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId:
     // Spesialist lagrer én overstyring per arbeidsgiver
     body.arbeidsgivere.forEach((arbeidsgiver) =>
         OverstyringMock.leggTil(fødselsnummer, arbeidsgiver.organisasjonsnummer, {
-            __typename: 'Inntektoverstyring',
+            type: 'ApiInntektoverstyring',
             vedtaksperiodeId,
             inntekt: {
                 skjaeringstidspunkt: body.skjæringstidspunkt,
@@ -37,7 +37,7 @@ export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId:
 
 function tilRefusjonsopplysninger(
     refusjonselementer?: ApiOverstyrInntektOgRefusjonRequestRefusjonselement[] | null,
-): Refusjonsopplysning[] {
+): ApiRefusjonsopplysning[] {
     return (refusjonselementer ?? []).map((element) => ({
         fom: element.fom,
         tom: element.tom ?? null,

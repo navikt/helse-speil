@@ -7,7 +7,6 @@
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
-                    "__typename": "VilkarsgrunnlagInfotrygdV2",
                     "id": "941720f7-825f-4d0f-bf01-13d539a353db",
                     "sykepengegrunnlag": 453348,
                     "skjaeringstidspunkt": "2020-12-09",
@@ -31,10 +30,10 @@
                             "arbeidsgiver": "815493000",
                             "refusjonsopplysninger": []
                         }
-                    ]
+                    ],
+                    "type": "ApiVilkårsgrunnlagInfotrygdV2"
                 },
                 {
-                    "__typename": "VilkarsgrunnlagSpleisV2",
                     "id": "ed12b836-8d84-4273-90f1-39027f3e02f5",
                     "sykepengegrunnlag": 469836,
                     "skjaeringstidspunkt": "2022-08-08",
@@ -84,10 +83,10 @@
                         "grunnbelop": 111477,
                         "grense": 668862,
                         "virkningstidspunkt": "2022-05-01"
-                    }
+                    },
+                    "type": "ApiVilkårsgrunnlagSpleisV2"
                 },
                 {
-                    "__typename": "VilkarsgrunnlagSpleisV2",
                     "id": "ff435c10-9a0f-4936-b2e6-24275aea6dd8",
                     "sykepengegrunnlag": 491964,
                     "skjaeringstidspunkt": "2022-08-08",
@@ -137,7 +136,8 @@
                         "grunnbelop": 111477,
                         "grense": 668862,
                         "virkningstidspunkt": "2022-05-01"
-                    }
+                    },
+                    "type": "ApiVilkårsgrunnlagSpleisV2"
                 }
             ],
             "aktorId": "1000001337420",
@@ -546,17 +546,19 @@
                                     "hendelser": [
                                         {
                                             "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 39153,
-                                            "mottattDato": "2022-10-03T09:20:57"
+                                            "mottattDato": "2022-10-03T09:20:57",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         },
                                         {
                                             "id": "af3f8fc6-b0ae-4243-a0b1-8054194472d0",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2022-09-12",
                                             "tom": "2022-10-02",
                                             "rapportertDato": "2022-10-03T14:08:58",
-                                            "sendtNav": "2022-10-03T14:08:58"
+                                            "sendtNav": "2022-10-03T14:08:58",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "+999999999-12-31",
@@ -619,7 +621,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2022-08-22",
@@ -995,17 +998,19 @@
                                     "hendelser": [
                                         {
                                             "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 39153,
-                                            "mottattDato": "2022-10-03T09:20:57"
+                                            "mottattDato": "2022-10-03T09:20:57",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         },
                                         {
                                             "id": "690afe7d-652c-473f-be4b-2d20b7b2791b",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2022-08-22",
                                             "tom": "2022-09-11",
                                             "rapportertDato": "2022-09-12T10:50:44",
-                                            "sendtNav": "2022-09-12T10:50:44"
+                                            "sendtNav": "2022-09-12T10:50:44",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "+999999999-12-31",
@@ -1068,7 +1073,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2022-08-08",
@@ -1260,7 +1266,8 @@
                                         }
                                     ],
                                     "hendelser": [],
-                                    "id": "9d6f6883-4e10-491a-80a5-74c3af02b5e8"
+                                    "id": "9d6f6883-4e10-491a-80a5-74c3af02b5e8",
+                                    "type": "ApiUberegnetPeriode"
                                 },
                                 {
                                     "fom": "2021-11-29",
@@ -1388,18 +1395,20 @@
                                     "hendelser": [
                                         {
                                             "id": "21cdf066-373f-4be9-aca6-9cb6f1d67db6",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-11-29",
                                             "tom": "2021-12-03",
-                                            "rapportertDato": "2021-11-24T12:26:16"
+                                            "rapportertDato": "2021-11-24T12:26:16",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "fdda2883-b7a6-4115-bda8-23b670ce1194",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-11-29",
                                             "tom": "2021-12-03",
                                             "rapportertDato": "2021-12-04T17:16:38",
-                                            "sendtNav": "2021-12-04T17:16:38"
+                                            "sendtNav": "2021-12-04T17:16:38",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -1529,7 +1538,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-11-01",
@@ -2038,18 +2048,20 @@
                                     "hendelser": [
                                         {
                                             "id": "0b233862-68e7-4084-886e-a63e052ffc5e",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-11-01",
                                             "tom": "2021-11-28",
-                                            "rapportertDato": "2021-10-20T13:12:24"
+                                            "rapportertDato": "2021-10-20T13:12:24",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "7060c642-aeed-4e03-9db5-c3a3099a45c2",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-11-01",
                                             "tom": "2021-11-28",
                                             "rapportertDato": "2021-11-30T13:57:48",
-                                            "sendtNav": "2021-11-30T13:57:48"
+                                            "sendtNav": "2021-11-30T13:57:48",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -2179,7 +2191,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-10-01",
@@ -2591,18 +2604,20 @@
                                     "hendelser": [
                                         {
                                             "id": "04f002f0-13fa-4c93-9abf-a20ad0c32ef8",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-10-01",
                                             "tom": "2021-10-31",
-                                            "rapportertDato": "2021-09-29T20:24:43"
+                                            "rapportertDato": "2021-09-29T20:24:43",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "8fbb3872-5aff-4ccf-9757-be3e4b0b2c91",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-10-01",
                                             "tom": "2021-10-31",
                                             "rapportertDato": "2021-11-01T09:56:33",
-                                            "sendtNav": "2021-11-01T09:56:33"
+                                            "sendtNav": "2021-11-01T09:56:33",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -2703,7 +2718,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-09-01",
@@ -3250,18 +3266,20 @@
                                     "hendelser": [
                                         {
                                             "id": "4da4340b-cd1c-4468-8378-d352cafda193",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-09-01",
                                             "tom": "2021-09-30",
                                             "rapportertDato": "2021-09-30T10:33:19",
-                                            "sendtNav": "2021-09-30T10:33:19"
+                                            "sendtNav": "2021-09-30T10:33:19",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "9cfbd4c4-e6a8-4d19-8b66-f2bf9ace7b7a",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-09-01",
                                             "tom": "2021-09-30",
-                                            "rapportertDato": "2021-08-26T14:35:58"
+                                            "rapportertDato": "2021-08-26T14:35:58",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -3362,7 +3380,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-08-14",
@@ -3695,18 +3714,20 @@
                                     "hendelser": [
                                         {
                                             "id": "196034dd-effc-47dd-92fa-6472ca6a31fd",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-08-14",
                                             "tom": "2021-08-31",
-                                            "rapportertDato": "2021-07-21T22:36:59"
+                                            "rapportertDato": "2021-07-21T22:36:59",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "93076e38-4dd0-4f1f-adbd-454d28bbb037",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-08-14",
                                             "tom": "2021-08-31",
                                             "rapportertDato": "2021-08-31T09:52:23",
-                                            "sendtNav": "2021-08-31T09:52:23"
+                                            "sendtNav": "2021-08-31T09:52:23",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -3865,7 +3886,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-07-26",
@@ -4231,18 +4253,20 @@
                                     "hendelser": [
                                         {
                                             "id": "9bc012c2-96e5-42de-bd21-fe7a9a64f93d",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-07-26",
                                             "tom": "2021-08-13",
                                             "rapportertDato": "2021-08-13T16:01:37",
-                                            "sendtNav": "2021-08-13T16:01:37"
+                                            "sendtNav": "2021-08-13T16:01:37",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "debd541c-38f3-412d-9a55-f2114e7de766",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-07-26",
                                             "tom": "2021-08-13",
-                                            "rapportertDato": "2021-07-21T22:36:59"
+                                            "rapportertDato": "2021-07-21T22:36:59",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -4372,7 +4396,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-06-28",
@@ -4881,18 +4906,20 @@
                                     "hendelser": [
                                         {
                                             "id": "9cc85421-2b89-42f5-94fa-a470809b4754",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-28",
                                             "tom": "2021-07-25",
                                             "rapportertDato": "2021-07-25T11:26:53",
-                                            "sendtNav": "2021-07-25T11:26:53"
+                                            "sendtNav": "2021-07-25T11:26:53",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "ab89b355-4d15-4ac3-8965-74c2b34c86e3",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-06-28",
                                             "tom": "2021-07-25",
-                                            "rapportertDato": "2021-06-25T13:17:20"
+                                            "rapportertDato": "2021-06-25T13:17:20",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -5022,7 +5049,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-06-07",
@@ -5419,19 +5447,21 @@
                                     "hendelser": [
                                         {
                                             "id": "415bf3f5-20ca-46c7-8e9a-2409f8e99dc1",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-10",
                                             "tom": "2021-06-27",
                                             "rapportertDato": "2021-06-27T14:44:00",
-                                            "sendtNav": "2021-06-27T14:44:00"
+                                            "sendtNav": "2021-06-27T14:44:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "87860bed-c7d8-4d32-a506-a77fbc519260",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-07",
                                             "tom": "2021-06-27",
                                             "rapportertDato": "2021-06-27T14:42:38",
-                                            "sendtNav": "2021-06-27T14:42:38"
+                                            "sendtNav": "2021-06-27T14:42:38",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -5635,7 +5665,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-05-20",
@@ -5968,18 +5999,20 @@
                                     "hendelser": [
                                         {
                                             "id": "5726fa9e-28e4-4fc2-ab04-14573f3fdd57",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-05-20",
                                             "tom": "2021-06-06",
                                             "rapportertDato": "2021-06-06T17:43:40",
-                                            "sendtNav": "2021-06-06T17:43:40"
+                                            "sendtNav": "2021-06-06T17:43:40",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "97d127e4-6878-4c8c-9d5f-3d5b03f758cb",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-05-20",
                                             "tom": "2021-06-06",
-                                            "rapportertDato": "2021-04-19T14:26:36"
+                                            "rapportertDato": "2021-04-19T14:26:36",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -6050,7 +6083,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-05-01",
@@ -6402,18 +6436,20 @@
                                     "hendelser": [
                                         {
                                             "id": "c2022a7d-e87b-47df-ac9c-22f4cb9f3866",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-05-01",
                                             "tom": "2021-05-19",
                                             "rapportertDato": "2021-05-19T17:24:13",
-                                            "sendtNav": "2021-05-19T17:24:13"
+                                            "sendtNav": "2021-05-19T17:24:13",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "d2d75f0f-cb72-43dc-b4d8-d68ee6cbc61d",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-05-01",
                                             "tom": "2021-05-19",
-                                            "rapportertDato": "2021-04-19T14:26:36"
+                                            "rapportertDato": "2021-04-19T14:26:36",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -6484,7 +6520,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-04-05",
@@ -6969,11 +7006,12 @@
                                     "hendelser": [
                                         {
                                             "id": "b3614770-468b-4474-872d-a97eebe0f5ee",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-04-05",
                                             "tom": "2021-04-30",
                                             "rapportertDato": "2021-05-05T11:39:52",
-                                            "sendtNav": "2021-05-05T11:39:52"
+                                            "sendtNav": "2021-05-05T11:39:52",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -7044,7 +7082,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-02-08",
@@ -7553,18 +7592,20 @@
                                     "hendelser": [
                                         {
                                             "id": "21a08585-7653-4e65-ad6a-7230c38d0f0e",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-02-08",
                                             "tom": "2021-03-07",
-                                            "rapportertDato": "2021-02-03T12:58:40"
+                                            "rapportertDato": "2021-02-03T12:58:40",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "a9918e8f-544e-459a-bef3-c0bf8df2d90e",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-02-08",
                                             "tom": "2021-03-07",
                                             "rapportertDato": "2021-03-07T15:06:08",
-                                            "sendtNav": "2021-03-07T15:06:08"
+                                            "sendtNav": "2021-03-07T15:06:08",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -7622,7 +7663,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-01-18",
@@ -8012,18 +8054,20 @@
                                     "hendelser": [
                                         {
                                             "id": "41c157f5-fa7e-4870-9953-bf7c92a58c11",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-01-18",
                                             "tom": "2021-02-07",
-                                            "rapportertDato": "2021-01-13T12:15:56"
+                                            "rapportertDato": "2021-01-13T12:15:56",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "9a18bfed-35b6-4fc5-92fc-16692b42b182",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-01-18",
                                             "tom": "2021-02-07",
                                             "rapportertDato": "2021-02-07T14:19:14",
-                                            "sendtNav": "2021-02-07T14:19:14"
+                                            "sendtNav": "2021-02-07T14:19:14",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -8081,7 +8125,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-01-01",
@@ -8395,18 +8440,20 @@
                                     "hendelser": [
                                         {
                                             "id": "08295ef4-65d3-4257-b825-16980a54f5a5",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-01-01",
                                             "tom": "2021-01-17",
                                             "rapportertDato": "2021-01-17T20:07:02",
-                                            "sendtNav": "2021-01-17T20:07:02"
+                                            "sendtNav": "2021-01-17T20:07:02",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "4abda6ac-694b-4f14-88f7-6a22700685d1",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-01-01",
                                             "tom": "2021-01-17",
-                                            "rapportertDato": "2020-12-23T17:22:08"
+                                            "rapportertDato": "2020-12-23T17:22:08",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -8464,7 +8511,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2020-12-14",
@@ -8818,18 +8866,20 @@
                                     "hendelser": [
                                         {
                                             "id": "1011b4b3-14e4-479e-9b11-a19717d5aa89",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2020-12-14",
                                             "tom": "2020-12-31",
-                                            "rapportertDato": "2020-12-14T10:32:40"
+                                            "rapportertDato": "2020-12-14T10:32:40",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "e081e335-6cfc-4419-9a3d-7633b861f664",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2020-12-14",
                                             "tom": "2020-12-31",
                                             "rapportertDato": "2020-12-31T13:46:33",
-                                            "sendtNav": "2020-12-31T13:46:33"
+                                            "sendtNav": "2020-12-31T13:46:33",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -8903,7 +8953,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 }
                             ]
                         },
@@ -9290,17 +9341,19 @@
                                     "historikkinnslag": [
                                         {
                                             "id": 1236,
-                                            "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
+                                            "type": "ApiPeriodeHistorikkElementNy",
                                             "timestamp": "2022-11-22T10:43:30.562826",
                                             "saksbehandler_ident": "A123456",
-                                            "notat_id": null
+                                            "notat_id": null,
+                                            "historikktype": "TOTRINNSVURDERING_TIL_GODKJENNING"
                                         },
                                         {
                                             "id": 1237,
-                                            "type": "TOTRINNSVURDERING_ATTESTERT",
+                                            "type": "ApiPeriodeHistorikkElementNy",
                                             "timestamp": "2022-11-22T11:10:07.459599",
                                             "saksbehandler_ident": "B123456",
-                                            "notat_id": null
+                                            "notat_id": null,
+                                            "historikktype": "TOTRINNSVURDERING_ATTESTERT"
                                         }
                                     ],
                                     "handlinger": [
@@ -9313,17 +9366,19 @@
                                     "hendelser": [
                                         {
                                             "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 39153,
-                                            "mottattDato": "2022-10-03T09:20:57"
+                                            "mottattDato": "2022-10-03T09:20:57",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         },
                                         {
                                             "id": "af3f8fc6-b0ae-4243-a0b1-8054194472d0",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2022-09-12",
                                             "tom": "2022-10-02",
                                             "rapportertDato": "2022-10-03T14:08:58",
-                                            "sendtNav": "2022-10-03T14:08:58"
+                                            "sendtNav": "2022-10-03T14:08:58",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2023-08-04",
@@ -9475,7 +9530,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2022-08-22",
@@ -9843,17 +9899,19 @@
                                     "historikkinnslag": [
                                         {
                                             "id": 1238,
-                                            "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
+                                            "type": "ApiPeriodeHistorikkElementNy",
                                             "timestamp": "2022-11-22T10:43:30.562826",
                                             "saksbehandler_ident": "A123456",
-                                            "notat_id": null
+                                            "notat_id": null,
+                                            "historikktype": "TOTRINNSVURDERING_TIL_GODKJENNING"
                                         },
                                         {
                                             "id": 12563,
-                                            "type": "TOTRINNSVURDERING_ATTESTERT",
+                                            "type": "ApiPeriodeHistorikkElementNy",
                                             "timestamp": "2022-11-22T11:10:07.459599",
                                             "saksbehandler_ident": "B123456",
-                                            "notat_id": null
+                                            "notat_id": null,
+                                            "historikktype": "TOTRINNSVURDERING_ATTESTERT"
                                         }
                                     ],
                                     "handlinger": [
@@ -9866,17 +9924,19 @@
                                     "hendelser": [
                                         {
                                             "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 39153,
-                                            "mottattDato": "2022-10-03T09:20:57"
+                                            "mottattDato": "2022-10-03T09:20:57",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         },
                                         {
                                             "id": "690afe7d-652c-473f-be4b-2d20b7b2791b",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2022-08-22",
                                             "tom": "2022-09-11",
                                             "rapportertDato": "2022-09-12T10:50:44",
-                                            "sendtNav": "2022-09-12T10:50:44"
+                                            "sendtNav": "2022-09-12T10:50:44",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2023-08-04",
@@ -10028,7 +10088,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2022-08-08",
@@ -10220,7 +10281,8 @@
                                         }
                                     ],
                                     "hendelser": [],
-                                    "id": "7c14f787-f7e0-4d94-bc74-e8634b6509ea"
+                                    "id": "7c14f787-f7e0-4d94-bc74-e8634b6509ea",
+                                    "type": "ApiUberegnetPeriode"
                                 },
                                 {
                                     "fom": "2021-11-29",
@@ -10348,18 +10410,20 @@
                                     "hendelser": [
                                         {
                                             "id": "21cdf066-373f-4be9-aca6-9cb6f1d67db6",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-11-29",
                                             "tom": "2021-12-03",
-                                            "rapportertDato": "2021-11-24T12:26:16"
+                                            "rapportertDato": "2021-11-24T12:26:16",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "fdda2883-b7a6-4115-bda8-23b670ce1194",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-11-29",
                                             "tom": "2021-12-03",
                                             "rapportertDato": "2021-12-04T17:16:38",
-                                            "sendtNav": "2021-12-04T17:16:38"
+                                            "sendtNav": "2021-12-04T17:16:38",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -10489,7 +10553,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-11-01",
@@ -10998,18 +11063,20 @@
                                     "hendelser": [
                                         {
                                             "id": "0b233862-68e7-4084-886e-a63e052ffc5e",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-11-01",
                                             "tom": "2021-11-28",
-                                            "rapportertDato": "2021-10-20T13:12:24"
+                                            "rapportertDato": "2021-10-20T13:12:24",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "7060c642-aeed-4e03-9db5-c3a3099a45c2",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-11-01",
                                             "tom": "2021-11-28",
                                             "rapportertDato": "2021-11-30T13:57:48",
-                                            "sendtNav": "2021-11-30T13:57:48"
+                                            "sendtNav": "2021-11-30T13:57:48",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -11139,7 +11206,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-10-01",
@@ -11551,18 +11619,20 @@
                                     "hendelser": [
                                         {
                                             "id": "04f002f0-13fa-4c93-9abf-a20ad0c32ef8",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-10-01",
                                             "tom": "2021-10-31",
-                                            "rapportertDato": "2021-09-29T20:24:43"
+                                            "rapportertDato": "2021-09-29T20:24:43",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "8fbb3872-5aff-4ccf-9757-be3e4b0b2c91",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-10-01",
                                             "tom": "2021-10-31",
                                             "rapportertDato": "2021-11-01T09:56:33",
-                                            "sendtNav": "2021-11-01T09:56:33"
+                                            "sendtNav": "2021-11-01T09:56:33",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -11663,7 +11733,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-09-01",
@@ -12210,18 +12281,20 @@
                                     "hendelser": [
                                         {
                                             "id": "4da4340b-cd1c-4468-8378-d352cafda193",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-09-01",
                                             "tom": "2021-09-30",
                                             "rapportertDato": "2021-09-30T10:33:19",
-                                            "sendtNav": "2021-09-30T10:33:19"
+                                            "sendtNav": "2021-09-30T10:33:19",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "9cfbd4c4-e6a8-4d19-8b66-f2bf9ace7b7a",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-09-01",
                                             "tom": "2021-09-30",
-                                            "rapportertDato": "2021-08-26T14:35:58"
+                                            "rapportertDato": "2021-08-26T14:35:58",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -12322,7 +12395,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-08-14",
@@ -12655,18 +12729,20 @@
                                     "hendelser": [
                                         {
                                             "id": "196034dd-effc-47dd-92fa-6472ca6a31fd",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-08-14",
                                             "tom": "2021-08-31",
-                                            "rapportertDato": "2021-07-21T22:36:59"
+                                            "rapportertDato": "2021-07-21T22:36:59",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "93076e38-4dd0-4f1f-adbd-454d28bbb037",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-08-14",
                                             "tom": "2021-08-31",
                                             "rapportertDato": "2021-08-31T09:52:23",
-                                            "sendtNav": "2021-08-31T09:52:23"
+                                            "sendtNav": "2021-08-31T09:52:23",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -12825,7 +12901,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-07-26",
@@ -13191,18 +13268,20 @@
                                     "hendelser": [
                                         {
                                             "id": "9bc012c2-96e5-42de-bd21-fe7a9a64f93d",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-07-26",
                                             "tom": "2021-08-13",
                                             "rapportertDato": "2021-08-13T16:01:37",
-                                            "sendtNav": "2021-08-13T16:01:37"
+                                            "sendtNav": "2021-08-13T16:01:37",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "debd541c-38f3-412d-9a55-f2114e7de766",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-07-26",
                                             "tom": "2021-08-13",
-                                            "rapportertDato": "2021-07-21T22:36:59"
+                                            "rapportertDato": "2021-07-21T22:36:59",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -13332,7 +13411,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-06-28",
@@ -13841,18 +13921,20 @@
                                     "hendelser": [
                                         {
                                             "id": "9cc85421-2b89-42f5-94fa-a470809b4754",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-28",
                                             "tom": "2021-07-25",
                                             "rapportertDato": "2021-07-25T11:26:53",
-                                            "sendtNav": "2021-07-25T11:26:53"
+                                            "sendtNav": "2021-07-25T11:26:53",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "ab89b355-4d15-4ac3-8965-74c2b34c86e3",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-06-28",
                                             "tom": "2021-07-25",
-                                            "rapportertDato": "2021-06-25T13:17:20"
+                                            "rapportertDato": "2021-06-25T13:17:20",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -13982,7 +14064,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-06-07",
@@ -14379,19 +14462,21 @@
                                     "hendelser": [
                                         {
                                             "id": "415bf3f5-20ca-46c7-8e9a-2409f8e99dc1",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-10",
                                             "tom": "2021-06-27",
                                             "rapportertDato": "2021-06-27T14:44:00",
-                                            "sendtNav": "2021-06-27T14:44:00"
+                                            "sendtNav": "2021-06-27T14:44:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "87860bed-c7d8-4d32-a506-a77fbc519260",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-07",
                                             "tom": "2021-06-27",
                                             "rapportertDato": "2021-06-27T14:42:38",
-                                            "sendtNav": "2021-06-27T14:42:38"
+                                            "sendtNav": "2021-06-27T14:42:38",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -14595,7 +14680,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-05-20",
@@ -14928,18 +15014,20 @@
                                     "hendelser": [
                                         {
                                             "id": "5726fa9e-28e4-4fc2-ab04-14573f3fdd57",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-05-20",
                                             "tom": "2021-06-06",
                                             "rapportertDato": "2021-06-06T17:43:40",
-                                            "sendtNav": "2021-06-06T17:43:40"
+                                            "sendtNav": "2021-06-06T17:43:40",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "97d127e4-6878-4c8c-9d5f-3d5b03f758cb",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-05-20",
                                             "tom": "2021-06-06",
-                                            "rapportertDato": "2021-04-19T14:26:36"
+                                            "rapportertDato": "2021-04-19T14:26:36",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -15010,7 +15098,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-05-01",
@@ -15362,18 +15451,20 @@
                                     "hendelser": [
                                         {
                                             "id": "c2022a7d-e87b-47df-ac9c-22f4cb9f3866",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-05-01",
                                             "tom": "2021-05-19",
                                             "rapportertDato": "2021-05-19T17:24:13",
-                                            "sendtNav": "2021-05-19T17:24:13"
+                                            "sendtNav": "2021-05-19T17:24:13",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "d2d75f0f-cb72-43dc-b4d8-d68ee6cbc61d",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-05-01",
                                             "tom": "2021-05-19",
-                                            "rapportertDato": "2021-04-19T14:26:36"
+                                            "rapportertDato": "2021-04-19T14:26:36",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -15444,7 +15535,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-04-05",
@@ -15929,11 +16021,12 @@
                                     "hendelser": [
                                         {
                                             "id": "b3614770-468b-4474-872d-a97eebe0f5ee",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-04-05",
                                             "tom": "2021-04-30",
                                             "rapportertDato": "2021-05-05T11:39:52",
-                                            "sendtNav": "2021-05-05T11:39:52"
+                                            "sendtNav": "2021-05-05T11:39:52",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -16004,7 +16097,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-02-08",
@@ -16513,18 +16607,20 @@
                                     "hendelser": [
                                         {
                                             "id": "21a08585-7653-4e65-ad6a-7230c38d0f0e",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-02-08",
                                             "tom": "2021-03-07",
-                                            "rapportertDato": "2021-02-03T12:58:40"
+                                            "rapportertDato": "2021-02-03T12:58:40",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "a9918e8f-544e-459a-bef3-c0bf8df2d90e",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-02-08",
                                             "tom": "2021-03-07",
                                             "rapportertDato": "2021-03-07T15:06:08",
-                                            "sendtNav": "2021-03-07T15:06:08"
+                                            "sendtNav": "2021-03-07T15:06:08",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -16582,7 +16678,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-01-18",
@@ -16972,18 +17069,20 @@
                                     "hendelser": [
                                         {
                                             "id": "41c157f5-fa7e-4870-9953-bf7c92a58c11",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-01-18",
                                             "tom": "2021-02-07",
-                                            "rapportertDato": "2021-01-13T12:15:56"
+                                            "rapportertDato": "2021-01-13T12:15:56",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "9a18bfed-35b6-4fc5-92fc-16692b42b182",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-01-18",
                                             "tom": "2021-02-07",
                                             "rapportertDato": "2021-02-07T14:19:14",
-                                            "sendtNav": "2021-02-07T14:19:14"
+                                            "sendtNav": "2021-02-07T14:19:14",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -17057,7 +17156,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-01-01",
@@ -17371,18 +17471,20 @@
                                     "hendelser": [
                                         {
                                             "id": "08295ef4-65d3-4257-b825-16980a54f5a5",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-01-01",
                                             "tom": "2021-01-17",
                                             "rapportertDato": "2021-01-17T20:07:02",
-                                            "sendtNav": "2021-01-17T20:07:02"
+                                            "sendtNav": "2021-01-17T20:07:02",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "4abda6ac-694b-4f14-88f7-6a22700685d1",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-01-01",
                                             "tom": "2021-01-17",
-                                            "rapportertDato": "2020-12-23T17:22:08"
+                                            "rapportertDato": "2020-12-23T17:22:08",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -17440,7 +17542,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2020-12-14",
@@ -17794,18 +17897,20 @@
                                     "hendelser": [
                                         {
                                             "id": "1011b4b3-14e4-479e-9b11-a19717d5aa89",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2020-12-14",
                                             "tom": "2020-12-31",
-                                            "rapportertDato": "2020-12-14T10:32:40"
+                                            "rapportertDato": "2020-12-14T10:32:40",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "e081e335-6cfc-4419-9a3d-7633b861f664",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2020-12-14",
                                             "tom": "2020-12-31",
                                             "rapportertDato": "2020-12-31T13:46:33",
-                                            "sendtNav": "2020-12-31T13:46:33"
+                                            "sendtNav": "2020-12-31T13:46:33",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -17879,7 +17984,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 }
                             ]
                         },
@@ -18274,17 +18380,19 @@
                                     "hendelser": [
                                         {
                                             "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 39153,
-                                            "mottattDato": "2022-10-03T09:20:57"
+                                            "mottattDato": "2022-10-03T09:20:57",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         },
                                         {
                                             "id": "af3f8fc6-b0ae-4243-a0b1-8054194472d0",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2022-09-12",
                                             "tom": "2022-10-02",
                                             "rapportertDato": "2022-10-03T14:08:58",
-                                            "sendtNav": "2022-10-03T14:08:58"
+                                            "sendtNav": "2022-10-03T14:08:58",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2023-08-04",
@@ -18406,7 +18514,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2022-08-22",
@@ -18782,17 +18891,19 @@
                                     "hendelser": [
                                         {
                                             "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 39153,
-                                            "mottattDato": "2022-10-03T09:20:57"
+                                            "mottattDato": "2022-10-03T09:20:57",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         },
                                         {
                                             "id": "690afe7d-652c-473f-be4b-2d20b7b2791b",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2022-08-22",
                                             "tom": "2022-09-11",
                                             "rapportertDato": "2022-09-12T10:50:44",
-                                            "sendtNav": "2022-09-12T10:50:44"
+                                            "sendtNav": "2022-09-12T10:50:44",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2023-08-04",
@@ -18914,7 +19025,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2022-08-08",
@@ -19105,7 +19217,8 @@
                                         }
                                     ],
                                     "hendelser": [],
-                                    "id": "be11d2f3-0617-4515-b944-8510da77d92f"
+                                    "id": "be11d2f3-0617-4515-b944-8510da77d92f",
+                                    "type": "ApiUberegnetPeriode"
                                 },
                                 {
                                     "fom": "2021-11-29",
@@ -19233,18 +19346,20 @@
                                     "hendelser": [
                                         {
                                             "id": "21cdf066-373f-4be9-aca6-9cb6f1d67db6",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-11-29",
                                             "tom": "2021-12-03",
-                                            "rapportertDato": "2021-11-24T12:26:16"
+                                            "rapportertDato": "2021-11-24T12:26:16",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "fdda2883-b7a6-4115-bda8-23b670ce1194",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-11-29",
                                             "tom": "2021-12-03",
                                             "rapportertDato": "2021-12-04T17:16:38",
-                                            "sendtNav": "2021-12-04T17:16:38"
+                                            "sendtNav": "2021-12-04T17:16:38",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -19374,7 +19489,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-11-01",
@@ -19883,18 +19999,20 @@
                                     "hendelser": [
                                         {
                                             "id": "0b233862-68e7-4084-886e-a63e052ffc5e",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-11-01",
                                             "tom": "2021-11-28",
-                                            "rapportertDato": "2021-10-20T13:12:24"
+                                            "rapportertDato": "2021-10-20T13:12:24",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "7060c642-aeed-4e03-9db5-c3a3099a45c2",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-11-01",
                                             "tom": "2021-11-28",
                                             "rapportertDato": "2021-11-30T13:57:48",
-                                            "sendtNav": "2021-11-30T13:57:48"
+                                            "sendtNav": "2021-11-30T13:57:48",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -20024,7 +20142,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-10-01",
@@ -20436,18 +20555,20 @@
                                     "hendelser": [
                                         {
                                             "id": "04f002f0-13fa-4c93-9abf-a20ad0c32ef8",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-10-01",
                                             "tom": "2021-10-31",
-                                            "rapportertDato": "2021-09-29T20:24:43"
+                                            "rapportertDato": "2021-09-29T20:24:43",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "8fbb3872-5aff-4ccf-9757-be3e4b0b2c91",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-10-01",
                                             "tom": "2021-10-31",
                                             "rapportertDato": "2021-11-01T09:56:33",
-                                            "sendtNav": "2021-11-01T09:56:33"
+                                            "sendtNav": "2021-11-01T09:56:33",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-12-17",
@@ -20548,7 +20669,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-09-01",
@@ -21095,18 +21217,20 @@
                                     "hendelser": [
                                         {
                                             "id": "4da4340b-cd1c-4468-8378-d352cafda193",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-09-01",
                                             "tom": "2021-09-30",
                                             "rapportertDato": "2021-09-30T10:33:19",
-                                            "sendtNav": "2021-09-30T10:33:19"
+                                            "sendtNav": "2021-09-30T10:33:19",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "9cfbd4c4-e6a8-4d19-8b66-f2bf9ace7b7a",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-09-01",
                                             "tom": "2021-09-30",
-                                            "rapportertDato": "2021-08-26T14:35:58"
+                                            "rapportertDato": "2021-08-26T14:35:58",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -21207,7 +21331,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-08-14",
@@ -21540,18 +21665,20 @@
                                     "hendelser": [
                                         {
                                             "id": "196034dd-effc-47dd-92fa-6472ca6a31fd",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-08-14",
                                             "tom": "2021-08-31",
-                                            "rapportertDato": "2021-07-21T22:36:59"
+                                            "rapportertDato": "2021-07-21T22:36:59",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "93076e38-4dd0-4f1f-adbd-454d28bbb037",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-08-14",
                                             "tom": "2021-08-31",
                                             "rapportertDato": "2021-08-31T09:52:23",
-                                            "sendtNav": "2021-08-31T09:52:23"
+                                            "sendtNav": "2021-08-31T09:52:23",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -21710,7 +21837,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-07-26",
@@ -22076,18 +22204,20 @@
                                     "hendelser": [
                                         {
                                             "id": "9bc012c2-96e5-42de-bd21-fe7a9a64f93d",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-07-26",
                                             "tom": "2021-08-13",
                                             "rapportertDato": "2021-08-13T16:01:37",
-                                            "sendtNav": "2021-08-13T16:01:37"
+                                            "sendtNav": "2021-08-13T16:01:37",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "debd541c-38f3-412d-9a55-f2114e7de766",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-07-26",
                                             "tom": "2021-08-13",
-                                            "rapportertDato": "2021-07-21T22:36:59"
+                                            "rapportertDato": "2021-07-21T22:36:59",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -22217,7 +22347,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-06-28",
@@ -22726,18 +22857,20 @@
                                     "hendelser": [
                                         {
                                             "id": "9cc85421-2b89-42f5-94fa-a470809b4754",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-28",
                                             "tom": "2021-07-25",
                                             "rapportertDato": "2021-07-25T11:26:53",
-                                            "sendtNav": "2021-07-25T11:26:53"
+                                            "sendtNav": "2021-07-25T11:26:53",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "ab89b355-4d15-4ac3-8965-74c2b34c86e3",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-06-28",
                                             "tom": "2021-07-25",
-                                            "rapportertDato": "2021-06-25T13:17:20"
+                                            "rapportertDato": "2021-06-25T13:17:20",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -22867,7 +23000,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-06-07",
@@ -23264,19 +23398,21 @@
                                     "hendelser": [
                                         {
                                             "id": "415bf3f5-20ca-46c7-8e9a-2409f8e99dc1",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-10",
                                             "tom": "2021-06-27",
                                             "rapportertDato": "2021-06-27T14:44:00",
-                                            "sendtNav": "2021-06-27T14:44:00"
+                                            "sendtNav": "2021-06-27T14:44:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "87860bed-c7d8-4d32-a506-a77fbc519260",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-06-07",
                                             "tom": "2021-06-27",
                                             "rapportertDato": "2021-06-27T14:42:38",
-                                            "sendtNav": "2021-06-27T14:42:38"
+                                            "sendtNav": "2021-06-27T14:42:38",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -23480,7 +23616,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-05-20",
@@ -23813,18 +23950,20 @@
                                     "hendelser": [
                                         {
                                             "id": "5726fa9e-28e4-4fc2-ab04-14573f3fdd57",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-05-20",
                                             "tom": "2021-06-06",
                                             "rapportertDato": "2021-06-06T17:43:40",
-                                            "sendtNav": "2021-06-06T17:43:40"
+                                            "sendtNav": "2021-06-06T17:43:40",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "97d127e4-6878-4c8c-9d5f-3d5b03f758cb",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-05-20",
                                             "tom": "2021-06-06",
-                                            "rapportertDato": "2021-04-19T14:26:36"
+                                            "rapportertDato": "2021-04-19T14:26:36",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -23895,7 +24034,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-05-01",
@@ -24247,18 +24387,20 @@
                                     "hendelser": [
                                         {
                                             "id": "c2022a7d-e87b-47df-ac9c-22f4cb9f3866",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-05-01",
                                             "tom": "2021-05-19",
                                             "rapportertDato": "2021-05-19T17:24:13",
-                                            "sendtNav": "2021-05-19T17:24:13"
+                                            "sendtNav": "2021-05-19T17:24:13",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "d2d75f0f-cb72-43dc-b4d8-d68ee6cbc61d",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-05-01",
                                             "tom": "2021-05-19",
-                                            "rapportertDato": "2021-04-19T14:26:36"
+                                            "rapportertDato": "2021-04-19T14:26:36",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -24329,7 +24471,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-04-05",
@@ -24814,11 +24957,12 @@
                                     "hendelser": [
                                         {
                                             "id": "b3614770-468b-4474-872d-a97eebe0f5ee",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-04-05",
                                             "tom": "2021-04-30",
                                             "rapportertDato": "2021-05-05T11:39:52",
-                                            "sendtNav": "2021-05-05T11:39:52"
+                                            "sendtNav": "2021-05-05T11:39:52",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -24889,7 +25033,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-02-08",
@@ -25398,18 +25543,20 @@
                                     "hendelser": [
                                         {
                                             "id": "21a08585-7653-4e65-ad6a-7230c38d0f0e",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-02-08",
                                             "tom": "2021-03-07",
-                                            "rapportertDato": "2021-02-03T12:58:40"
+                                            "rapportertDato": "2021-02-03T12:58:40",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "a9918e8f-544e-459a-bef3-c0bf8df2d90e",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-02-08",
                                             "tom": "2021-03-07",
                                             "rapportertDato": "2021-03-07T15:06:08",
-                                            "sendtNav": "2021-03-07T15:06:08"
+                                            "sendtNav": "2021-03-07T15:06:08",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -25467,7 +25614,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-01-18",
@@ -25857,18 +26005,20 @@
                                     "hendelser": [
                                         {
                                             "id": "41c157f5-fa7e-4870-9953-bf7c92a58c11",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-01-18",
                                             "tom": "2021-02-07",
-                                            "rapportertDato": "2021-01-13T12:15:56"
+                                            "rapportertDato": "2021-01-13T12:15:56",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "9a18bfed-35b6-4fc5-92fc-16692b42b182",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-01-18",
                                             "tom": "2021-02-07",
                                             "rapportertDato": "2021-02-07T14:19:14",
-                                            "sendtNav": "2021-02-07T14:19:14"
+                                            "sendtNav": "2021-02-07T14:19:14",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -25942,7 +26092,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2021-01-01",
@@ -26256,18 +26407,20 @@
                                     "hendelser": [
                                         {
                                             "id": "08295ef4-65d3-4257-b825-16980a54f5a5",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2021-01-01",
                                             "tom": "2021-01-17",
                                             "rapportertDato": "2021-01-17T20:07:02",
-                                            "sendtNav": "2021-01-17T20:07:02"
+                                            "sendtNav": "2021-01-17T20:07:02",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "4abda6ac-694b-4f14-88f7-6a22700685d1",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2021-01-01",
                                             "tom": "2021-01-17",
-                                            "rapportertDato": "2020-12-23T17:22:08"
+                                            "rapportertDato": "2020-12-23T17:22:08",
+                                            "hendelsetype": "NY_SOKNAD"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -26325,7 +26478,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2020-12-14",
@@ -26679,18 +26833,20 @@
                                     "hendelser": [
                                         {
                                             "id": "1011b4b3-14e4-479e-9b11-a19717d5aa89",
-                                            "type": "NY_SOKNAD",
+                                            "type": "ApiSykmelding",
                                             "fom": "2020-12-14",
                                             "tom": "2020-12-31",
-                                            "rapportertDato": "2020-12-14T10:32:40"
+                                            "rapportertDato": "2020-12-14T10:32:40",
+                                            "hendelsetype": "NY_SOKNAD"
                                         },
                                         {
                                             "id": "e081e335-6cfc-4419-9a3d-7633b861f664",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2020-12-14",
                                             "tom": "2020-12-31",
                                             "rapportertDato": "2020-12-31T13:46:33",
-                                            "sendtNav": "2020-12-31T13:46:33"
+                                            "sendtNav": "2020-12-31T13:46:33",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         }
                                     ],
                                     "maksdato": "2021-11-19",
@@ -26764,7 +26920,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 }
                             ]
                         }
@@ -26779,7 +26936,6 @@
                             },
                             "timestamp": "2022-11-22T10:42:16.214922",
                             "ferdigstilt": true,
-                            "__typename": "Inntektoverstyring",
                             "inntekt": {
                                 "skjaeringstidspunkt": "2022-08-08",
                                 "forklaring": "Yolo",
@@ -26788,7 +26944,8 @@
                                 "fraManedligInntekt": 39153,
                                 "refusjonsopplysninger": [],
                                 "fraRefusjonsopplysninger": []
-                            }
+                            },
+                            "type": "ApiInntektoverstyring"
                         }
                     ],
                     "inntekterFraAordningen": []

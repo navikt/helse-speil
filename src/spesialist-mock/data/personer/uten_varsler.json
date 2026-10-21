@@ -7,7 +7,6 @@
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
-                    "__typename": "VilkarsgrunnlagSpleisV2",
                     "id": "62c98d13-2b83-4d18-91b0-682fa9471705",
                     "sykepengegrunnlag": 396000,
                     "skjaeringstidspunkt": "2022-10-01",
@@ -57,7 +56,8 @@
                         "grunnbelop": 111477,
                         "grense": 668862,
                         "virkningstidspunkt": "2022-05-01"
-                    }
+                    },
+                    "type": "ApiVilkårsgrunnlagSpleisV2"
                 }
             ],
             "aktorId": "2348185725298",
@@ -529,17 +529,19 @@
                                     "hendelser": [
                                         {
                                             "id": "7df5ddbb-3566-4881-ab0b-fcb03b232174",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2022-10-01",
                                             "tom": "2022-10-29",
                                             "rapportertDato": "2022-10-30T00:00:00",
-                                            "sendtNav": "2022-10-30T00:00:00"
+                                            "sendtNav": "2022-10-30T00:00:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "0b0df5f2-16b5-4e23-96e1-72ad4e9fea45",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 33000,
-                                            "mottattDato": "2022-10-01T00:00:00"
+                                            "mottattDato": "2022-10-01T00:00:00",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         }
                                     ],
                                     "maksdato": "2023-09-27",
@@ -623,7 +625,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 }
                             ]
                         }

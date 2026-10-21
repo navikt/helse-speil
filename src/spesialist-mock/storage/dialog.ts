@@ -1,12 +1,12 @@
 import dayjs from 'dayjs';
 
-import { Kommentar } from '@spesialist-mock/schemaTypes';
+import { ApiSaksbildeKommentar } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { NotatMock } from '@spesialist-mock/storage/notat';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
 
 export class DialogMock {
-    private static dialog: Map<number, Kommentar[]> = new Map();
+    private static dialog: Map<number, ApiSaksbildeKommentar[]> = new Map();
 
     static addDialog = (dialogId: number | null = Math.floor(1000000 + Math.random() * 9000000)): number | null => {
         if (dialogId === null) return null;
@@ -14,7 +14,10 @@ export class DialogMock {
         return dialogId;
     };
 
-    static addKommentar = (dialogId: number, kommentarProps?: Partial<Kommentar>): Kommentar => {
+    static addKommentar = (
+        dialogId: number,
+        kommentarProps?: Partial<ApiSaksbildeKommentar>,
+    ): ApiSaksbildeKommentar => {
         const mockedKommentar = DialogMock.getMockedKommentar(kommentarProps);
         DialogMock.dialog.set(dialogId, [...DialogMock.getKommentarer(dialogId), mockedKommentar]);
 
@@ -22,10 +25,10 @@ export class DialogMock {
         return mockedKommentar;
     };
 
-    static addKommentarer = (dialogId: number, kommentarer: Kommentar[]) =>
+    static addKommentarer = (dialogId: number, kommentarer: ApiSaksbildeKommentar[]) =>
         DialogMock.dialog.set(dialogId, [...DialogMock.getKommentarer(dialogId), ...kommentarer]);
 
-    static getKommentarer = (dialogId: number): Kommentar[] => DialogMock.dialog.get(dialogId) ?? [];
+    static getKommentarer = (dialogId: number): ApiSaksbildeKommentar[] => DialogMock.dialog.get(dialogId) ?? [];
 
     static feilregistrerKommentar(dialogId: number, kommentarId: number) {
         DialogMock.dialog.set(
@@ -57,7 +60,7 @@ export class DialogMock {
         }
     }
 
-    private static getMockedKommentar = (overrides?: Partial<Kommentar>): Kommentar => ({
+    private static getMockedKommentar = (overrides?: Partial<ApiSaksbildeKommentar>): ApiSaksbildeKommentar => ({
         id: Math.floor(1000000 + Math.random() * 9000000),
         tekst: 'mocked kommentar',
         opprettet: dayjs().format('YYYY-MM-DDTHH:mm:ss'),

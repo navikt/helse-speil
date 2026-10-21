@@ -1,6 +1,9 @@
-import { ApiOverstyrTidslinjeRequest, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiDagtype,
+    ApiOverstyrTidslinjeRequest,
+    ApiServerSentEventEvent,
+} from '@io/rest/generated/spesialist.schemas';
 import { opprettTotrinnsvurderingHvisMangler, pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
-import { Dagtype } from '@spesialist-mock/schemaTypes';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
 import {
     finnFødselsnummerForVedtaksperiodeId,
@@ -14,13 +17,13 @@ export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId:
     const organisasjonsnummer = finnOrganisasjonsnummerForVedtaksperiodeId(vedtaksperiodeId)!;
 
     OverstyringMock.leggTil(fødselsnummer, organisasjonsnummer, {
-        __typename: 'Dagoverstyring',
+        type: 'ApiDagoverstyring',
         vedtaksperiodeId,
         begrunnelse: body.begrunnelse,
         dager: body.dager.map((dag) => ({
             dato: dag.dato,
-            type: dag.type as Dagtype,
-            fraType: dag.fraType as Dagtype,
+            type: dag.type as ApiDagtype,
+            fraType: dag.fraType as ApiDagtype,
             grad: dag.grad ?? null,
             fraGrad: dag.fraGrad ?? null,
         })),

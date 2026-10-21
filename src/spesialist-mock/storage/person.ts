@@ -3,8 +3,7 @@ import path from 'path';
 import { cwd } from 'process';
 import { v5 as uuidv5 } from 'uuid';
 
-import { ApiPerson } from '@io/rest/generated/spesialist.schemas';
-import { Person } from '@spesialist-mock/schemaTypes';
+import { ApiPerson, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { UUID } from '@typer/spesialist-mock';
 
 type PersonIdentifikatorer = {
@@ -14,7 +13,7 @@ type PersonIdentifikatorer = {
 };
 
 export type Testpersonfil = {
-    data: { person: Person };
+    data: { person: ApiSaksbildePerson };
     rest?: { person?: ApiPerson };
 };
 
@@ -27,7 +26,7 @@ export function lesTestpersonfiler(): Testpersonfil[] {
     });
 }
 
-const lesPersoner = (): Person[] => lesTestpersonfiler().map((fil) => fil.data.person);
+const lesPersoner = (): ApiSaksbildePerson[] => lesTestpersonfiler().map((fil) => fil.data.person);
 
 const UUID_NAMESPACE = '0e4ec8b1-8fad-4003-b4a4-69d90be4eee0';
 
@@ -100,7 +99,6 @@ export const finnOrganisasjonsnummerForVedtaksperiodeId = (vedtaksperiodeId: str
 
 type Inntektsforhold<B> = { behandlinger: B[] };
 
-// Generisk fordi både GraphQL-typene og mockens schemaTypes har samme struktur
 export function alleInntektsforhold<B>(person: {
     arbeidsgivere: Inntektsforhold<B>[];
     selvstendigNaering?: Inntektsforhold<B> | null;

@@ -10,7 +10,7 @@ export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId:
 
     body.overstyrteArbeidsforhold.forEach((arbeidsforhold) =>
         OverstyringMock.leggTil(fødselsnummer, arbeidsforhold.organisasjonsnummer, {
-            __typename: 'Arbeidsforholdoverstyring',
+            type: 'ApiArbeidsforholdoverstyring',
             vedtaksperiodeId,
             skjaeringstidspunkt: body.skjæringstidspunkt,
             deaktivert: arbeidsforhold.deaktivert,

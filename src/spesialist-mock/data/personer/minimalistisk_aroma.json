@@ -7,7 +7,6 @@
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
-                    "__typename": "VilkarsgrunnlagSpleisV2",
                     "id": "a2f9cb93-08a4-4137-a17a-78f19c9bcc3d",
                     "sykepengegrunnlag": 668862,
                     "skjaeringstidspunkt": "2023-02-01",
@@ -88,10 +87,10 @@
                         "grunnbelop": 111477,
                         "grense": 668862,
                         "virkningstidspunkt": "2022-05-01"
-                    }
+                    },
+                    "type": "ApiVilkårsgrunnlagSpleisV2"
                 },
                 {
-                    "__typename": "VilkarsgrunnlagSpleisV2",
                     "id": "612e342b-d832-4618-96f7-2d24856f768b",
                     "sykepengegrunnlag": 668862,
                     "skjaeringstidspunkt": "2023-02-01",
@@ -166,10 +165,10 @@
                         "grunnbelop": 111477,
                         "grense": 668862,
                         "virkningstidspunkt": "2022-05-01"
-                    }
+                    },
+                    "type": "ApiVilkårsgrunnlagSpleisV2"
                 },
                 {
-                    "__typename": "VilkarsgrunnlagSpleisV2",
                     "id": "f7744e16-8569-4e94-8f61-c9996d3d8512",
                     "sykepengegrunnlag": 668862,
                     "skjaeringstidspunkt": "2023-02-01",
@@ -250,7 +249,8 @@
                         "grunnbelop": 111477,
                         "grense": 668862,
                         "virkningstidspunkt": "2022-05-01"
-                    }
+                    },
+                    "type": "ApiVilkårsgrunnlagSpleisV2"
                 }
             ],
             "aktorId": "2407074650987",
@@ -740,10 +740,11 @@
                                     "historikkinnslag": [
                                         {
                                             "id": 123,
-                                            "type": "VEDTAKSPERIODE_REBEREGNET",
+                                            "type": "ApiPeriodeHistorikkElementNy",
                                             "timestamp": "2023-03-07T17:47:20.864999",
                                             "saksbehandler_ident": null,
-                                            "notat_id": null
+                                            "notat_id": null,
+                                            "historikktype": "VEDTAKSPERIODE_REBEREGNET"
                                         }
                                     ],
                                     "handlinger": [
@@ -759,23 +760,26 @@
                                     "hendelser": [
                                         {
                                             "id": "73c45eac-61dc-4d8a-bd79-4b2c1135c0ee",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 30000,
-                                            "mottattDato": "2023-02-01T00:00:00"
+                                            "mottattDato": "2023-02-01T00:00:00",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         },
                                         {
                                             "id": "296160d4-ced3-44b2-a253-5c5b8979ccac",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2023-04-01",
                                             "tom": "2023-04-30",
                                             "rapportertDato": "2023-05-01T00:00:00",
-                                            "sendtNav": "2023-05-01T00:00:00"
+                                            "sendtNav": "2023-05-01T00:00:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "c32810f0-9587-4cde-b484-4a90ed8952ea",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 30000,
-                                            "mottattDato": "2023-04-01T00:00:00"
+                                            "mottattDato": "2023-04-01T00:00:00",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         }
                                     ],
                                     "maksdato": "2024-02-27",
@@ -876,7 +880,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 },
                                 {
                                     "fom": "2023-02-01",
@@ -1153,17 +1158,19 @@
                                     "hendelser": [
                                         {
                                             "id": "5d45b704-81ab-43c6-8014-9175c598a6c3",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2023-02-01",
                                             "tom": "2023-02-17",
                                             "rapportertDato": "2023-02-18T00:00:00",
-                                            "sendtNav": "2023-02-18T00:00:00"
+                                            "sendtNav": "2023-02-18T00:00:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "73c45eac-61dc-4d8a-bd79-4b2c1135c0ee",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 30000,
-                                            "mottattDato": "2023-02-01T00:00:00"
+                                            "mottattDato": "2023-02-01T00:00:00",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         }
                                     ],
                                     "maksdato": "2024-01-30",
@@ -1236,7 +1243,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 }
                             ]
                         },
@@ -1510,17 +1518,19 @@
                                     "historikkinnslag": [
                                         {
                                             "id": 1234,
-                                            "type": "TOTRINNSVURDERING_ATTESTERT",
+                                            "type": "ApiPeriodeHistorikkElementNy",
                                             "timestamp": "2023-03-07T15:14:48.370477",
                                             "saksbehandler_ident": "S150563",
-                                            "notat_id": null
+                                            "notat_id": null,
+                                            "historikktype": "TOTRINNSVURDERING_ATTESTERT"
                                         },
                                         {
                                             "id": 1235,
-                                            "type": "TOTRINNSVURDERING_TIL_GODKJENNING",
+                                            "type": "ApiPeriodeHistorikkElementNy",
                                             "timestamp": "2023-03-07T15:14:37.893158",
                                             "saksbehandler_ident": "S150563",
-                                            "notat_id": null
+                                            "notat_id": null,
+                                            "historikktype": "TOTRINNSVURDERING_TIL_GODKJENNING"
                                         }
                                     ],
                                     "handlinger": [
@@ -1533,17 +1543,19 @@
                                     "hendelser": [
                                         {
                                             "id": "5d45b704-81ab-43c6-8014-9175c598a6c3",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2023-02-01",
                                             "tom": "2023-02-17",
                                             "rapportertDato": "2023-02-18T00:00:00",
-                                            "sendtNav": "2023-02-18T00:00:00"
+                                            "sendtNav": "2023-02-18T00:00:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "73c45eac-61dc-4d8a-bd79-4b2c1135c0ee",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 30000,
-                                            "mottattDato": "2023-02-01T00:00:00"
+                                            "mottattDato": "2023-02-01T00:00:00",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         }
                                     ],
                                     "maksdato": "2024-01-30",
@@ -1646,7 +1658,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 }
                             ]
                         }
@@ -1658,15 +1671,15 @@
                             "inntekter": [
                                 {
                                     "maned": "2022-11",
-                                    "sum": 30000.0
+                                    "sum": 30000
                                 },
                                 {
                                     "maned": "2022-12",
-                                    "sum": 30000.0
+                                    "sum": 30000
                                 },
                                 {
                                     "maned": "2023-01",
-                                    "sum": 30000.0
+                                    "sum": 30000
                                 }
                             ]
                         }
@@ -2394,17 +2407,19 @@
                                     "hendelser": [
                                         {
                                             "id": "51952bef-d60b-4981-b3c1-a2d379f4de81",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2023-02-18",
                                             "tom": "2023-03-31",
                                             "rapportertDato": "2023-04-01T00:00:00",
-                                            "sendtNav": "2023-04-01T00:00:00"
+                                            "sendtNav": "2023-04-01T00:00:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "fc94ced0-e408-4271-a3c2-a1f6cfa727ff",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 100001,
-                                            "mottattDato": "2023-02-18T00:00:00"
+                                            "mottattDato": "2023-02-18T00:00:00",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         }
                                     ],
                                     "maksdato": "2024-02-13",
@@ -2529,7 +2544,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 }
                             ]
                         }
@@ -2541,15 +2557,15 @@
                             "inntekter": [
                                 {
                                     "maned": "2022-11",
-                                    "sum": 100000.0
+                                    "sum": 100000
                                 },
                                 {
                                     "maned": "2022-12",
-                                    "sum": 100000.0
+                                    "sum": 100000
                                 },
                                 {
                                     "maned": "2023-01",
-                                    "sum": 100000.0
+                                    "sum": 100000
                                 }
                             ]
                         }

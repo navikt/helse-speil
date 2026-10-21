@@ -7,7 +7,6 @@
             "tildeling": null,
             "vilkarsgrunnlagV2": [
                 {
-                    "__typename": "VilkarsgrunnlagSpleisV2",
                     "id": "016bf13a-51c4-4a5a-aef2-ef14889732fc",
                     "sykepengegrunnlag": 360000,
                     "skjaeringstidspunkt": "2023-03-01",
@@ -71,7 +70,8 @@
                         "grunnbelop": 111477,
                         "grense": 668862,
                         "virkningstidspunkt": "2022-05-01"
-                    }
+                    },
+                    "type": "ApiVilkårsgrunnlagSpleisV2"
                 }
             ],
             "aktorId": "2805594640665",
@@ -570,17 +570,19 @@
                                     "hendelser": [
                                         {
                                             "id": "e3254fa0-633d-470d-9d96-19b359bc750c",
-                                            "type": "SENDT_SOKNAD_NAV",
+                                            "type": "ApiSoknadNav",
                                             "fom": "2023-03-01",
                                             "tom": "2023-03-31",
                                             "rapportertDato": "2023-04-01T00:00:00",
-                                            "sendtNav": "2023-04-01T00:00:00"
+                                            "sendtNav": "2023-04-01T00:00:00",
+                                            "hendelsetype": "SENDT_SOKNAD_NAV"
                                         },
                                         {
                                             "id": "5d90b3a3-4589-4e3c-a6a9-ebeea680f07e",
-                                            "type": "INNTEKTSMELDING",
+                                            "type": "ApiInntektsmelding",
                                             "beregnetInntekt": 30000,
-                                            "mottattDato": "2023-03-01T00:00:00"
+                                            "mottattDato": "2023-03-01T00:00:00",
+                                            "hendelsetype": "INNTEKTSMELDING"
                                         }
                                     ],
                                     "id": "ea32e8e0-8427-4b82-85d1-eafbff96b248",
@@ -616,7 +618,7 @@
                                     "historikkinnslag": [
                                         {
                                             "id": 193555,
-                                            "type": "LEGG_PA_VENT",
+                                            "type": "ApiLagtPaVent",
                                             "timestamp": "2023-01-24T15:09:30.090206",
                                             "saksbehandlerIdent": "A123456",
                                             "frist": "2023-01-24T15:09:30.090206",
@@ -631,7 +633,8 @@
                                                     "saksbehandlerident": "A123456",
                                                     "feilregistrert_tidspunkt": null
                                                 }
-                                            ]
+                                            ],
+                                            "historikktype": "LEGG_PA_VENT"
                                         }
                                     ],
                                     "maksdato": "2024-02-27",
@@ -724,7 +727,8 @@
                                     "avslag": [],
                                     "vedtakBegrunnelser": [],
                                     "pensjonsgivendeInntekter": [],
-                                    "annulleringskandidater": []
+                                    "annulleringskandidater": [],
+                                    "type": "ApiBeregnetPeriode"
                                 }
                             ]
                         }
@@ -736,15 +740,15 @@
                             "inntekter": [
                                 {
                                     "maned": "2022-12",
-                                    "sum": 50000.0
+                                    "sum": 50000
                                 },
                                 {
                                     "maned": "2023-02",
-                                    "sum": 50000.0
+                                    "sum": 50000
                                 },
                                 {
                                     "maned": "2023-01",
-                                    "sum": 50000.0
+                                    "sum": 50000
                                 }
                             ]
                         }

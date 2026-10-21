@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-import { ApiVarselvurdering } from '@io/rest/generated/spesialist.schemas';
+import { ApiSaksbildeVarselstatus, ApiVarselvurdering } from '@io/rest/generated/spesialist.schemas';
 import { lokalSaksbehandlerIdent } from '@spesialist-mock/constants';
 import { fetchPersondata } from '@spesialist-mock/saksbilde';
-import { Varselstatus } from '@spesialist-mock/schemaTypes';
 import { alleBehandlinger } from '@spesialist-mock/storage/person';
 import { VarselMock } from '@spesialist-mock/storage/varsel';
 
@@ -30,7 +29,7 @@ export const putStub = async (request: NextRequest, params: Promise<{ varselId: 
         ...funnetVarsel,
         definisjonId: definisjonId,
         vurdering: {
-            status: Varselstatus.Vurdert,
+            status: ApiSaksbildeVarselstatus.VURDERT,
             ident: lokalSaksbehandlerIdent,
             tidsstempel: new Date().toISOString(),
         },

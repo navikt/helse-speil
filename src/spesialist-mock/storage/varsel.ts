@@ -1,9 +1,11 @@
-import { ApiHttpProblemDetailsGetVarselErrorCode, ApiVarsel } from '@io/rest/generated/spesialist.schemas';
-
-import { VarselDto } from '../schemaTypes';
+import {
+    ApiHttpProblemDetailsGetVarselErrorCode,
+    ApiVarsel,
+    ApiVarselDTO,
+} from '@io/rest/generated/spesialist.schemas';
 
 export class VarselMock {
-    private static varsler: VarselDto[] = [];
+    private static varsler: ApiVarselDTO[] = [];
 
     static getVarsel = (varselIdString: string): ApiVarsel | ApiHttpProblemDetailsGetVarselErrorCode => {
         const varsel = VarselMock.varsler.find((varsel) => varsel.id === varselIdString);
@@ -29,7 +31,7 @@ export class VarselMock {
         } as ApiVarsel;
     };
 
-    static getVarslerForPeriode = (varsler: VarselDto[]): VarselDto[] => {
+    static getVarslerForPeriode = (varsler: ApiVarselDTO[]): ApiVarselDTO[] => {
         if (varsler === undefined || varsler === null) return [];
         const varslerCopy = [...varsler];
         return varslerCopy.map((varsel) => {
@@ -42,7 +44,7 @@ export class VarselMock {
                 : varsel;
         });
     };
-    static leggTilEndretVarsel = (varsel: VarselDto): 'uendret' | 'endret' => {
+    static leggTilEndretVarsel = (varsel: ApiVarselDTO): 'uendret' | 'endret' => {
         const funnetVarselIndex = VarselMock.varsler.findIndex((it) => it.id === varsel.id);
         const funnetVarsel = VarselMock.varsler[funnetVarselIndex];
         if (funnetVarsel) {
