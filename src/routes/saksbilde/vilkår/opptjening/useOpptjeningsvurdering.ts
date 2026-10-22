@@ -30,6 +30,7 @@ export interface Opptjeningsvurdering {
     isLoading: boolean;
     isFetching: boolean;
     isError: boolean;
+    refetch: () => void;
     utfall: Vilkårsutfall;
     erOverførtFraInfotrygd: boolean;
     vurderingFor: (vilkårskode: ApiVilkårskode) => ApiVilkårsvurdering | undefined;
@@ -71,9 +72,12 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
             ? overstyring.opptjeningsvurderingId
             : opptjeningsvurderingId;
 
-    const { data, isLoading, isFetching, isError } = useGetVilkårsvurderingerForPersonBehandler(personPseudoId, {
-        opptjeningsvurderingId: gjeldendeOpptjeningsvurderingId,
-    });
+    const { data, isLoading, isFetching, isError, refetch } = useGetVilkårsvurderingerForPersonBehandler(
+        personPseudoId,
+        {
+            opptjeningsvurderingId: gjeldendeOpptjeningsvurderingId,
+        },
+    );
 
     const krav = data && finnOpptjeningskrav(data);
     const vurderinger = vurderingerFor(krav);
@@ -88,6 +92,7 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
         isLoading,
         isFetching,
         isError,
+        refetch: () => void refetch(),
         utfall: utfallFraOppfylt(krav?.opptjeningOk),
         erOverførtFraInfotrygd: krav?.kravkilde === ApiKravkilde.OVERFOERT_FRA_INFOTRYGD,
         vurderingFor: (vilkårskode) => vurderinger.find((it) => it.vilkårskode === vilkårskode),

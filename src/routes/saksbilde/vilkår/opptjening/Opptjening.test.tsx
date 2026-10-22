@@ -188,6 +188,7 @@ const overførtFraInfotrygd: ApiVilkårsvurderingerForPersonResponse = {
 const mutate = vi.fn();
 const mutateLikestilt = vi.fn();
 const mutateNyAutomatisk = vi.fn();
+const refetch = vi.fn();
 
 const mockVilkårsvurderinger = (
     data: ApiVilkårsvurderingerForPersonResponse | undefined,
@@ -198,6 +199,7 @@ const mockVilkårsvurderinger = (
         isLoading: overrides?.isLoading ?? false,
         isFetching: overrides?.isFetching ?? false,
         isError: overrides?.isError ?? false,
+        refetch,
     });
 };
 
@@ -241,6 +243,7 @@ beforeEach(() => {
     mutate.mockClear();
     mutateLikestilt.mockClear();
     mutateNyAutomatisk.mockClear();
+    refetch.mockClear();
     brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = true;
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
     mockOpptjeningshistorikk([]);
@@ -631,7 +634,16 @@ describe('Opptjening', () => {
 
         renderOpptjening(false);
 
-        expect(screen.getByText('Kunne ikke hente opptjeningsvurderingen')).toBeVisible();
+        expect(screen.getByText('Kunne ikke hente opptjeningsvurderingen.')).toBeVisible();
+    });
+
+    it('henter vilkårsvurderingen på nytt når saksbehandler trykker «Prøv igjen»', async () => {
+        mockVilkårsvurderinger(undefined, { isError: true });
+
+        renderOpptjening(false);
+        await userEvent.click(screen.getByRole('button', { name: 'Prøv igjen' }));
+
+        expect(refetch).toHaveBeenCalledTimes(1);
     });
     describe('endringslogg', () => {
         const automatiskInnslag: ApiOpptjeningshistorikkInnslag = {

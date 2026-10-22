@@ -17,8 +17,6 @@ export function useSaksbehandlerhandlingVisning(url: string) {
     return useQuery<Handlingsvisning, HttpError>({
         ...withDefaultQueryOptions({ queryKey: [url] }),
         queryFn: async ({ signal }) => handlingsvisningSchema.parse(await getJson(url, { signal })),
-        // Klientfeil og ugyldig svar blir ikke bedre av å prøve igjen
-        retry: (antallFeil, error) => (error.status ?? 0) >= 500 && antallFeil < 3,
     });
 }
 

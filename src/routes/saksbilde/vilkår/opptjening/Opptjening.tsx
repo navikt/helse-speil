@@ -1,7 +1,8 @@
 import React, { ReactElement, useId } from 'react';
 
-import { Alert, HStack, Heading, Loader, Skeleton, VStack } from '@navikt/ds-react';
+import { HStack, Heading, Loader, Skeleton, VStack } from '@navikt/ds-react';
 
+import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import {
     ManueltVurderbarVilkårskode,
     manueltVurderbareVilkårskoder,
@@ -70,9 +71,11 @@ export function Opptjening({
                         ))}
                     </VStack>
                 ) : isError || !data ? (
-                    <Alert variant="error" size="small">
-                        Kunne ikke hente opptjeningsvurderingen
-                    </Alert>
+                    <ErrorMessageWithRefetch
+                        className="my-6 rounded-xl"
+                        errorMessage="Kunne ikke hente opptjeningsvurderingen."
+                        refetch={opptjeningsvurdering.refetch}
+                    />
                 ) : (
                     <VStack as="ul" padding="space-0" margin="space-0" marginInline="space-16 space-0">
                         <OpptjeningVilkårsrad

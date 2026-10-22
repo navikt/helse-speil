@@ -14,6 +14,7 @@ import useExposeQueryClient from '@app/useExposeQueryClient';
 import { Bruker, BrukerContext } from '@auth/brukerContext';
 import { AnonymizationProvider } from '@components/anonymization/context';
 import { useLoadingToast } from '@hooks/useLoadingToast';
+import { prøvPåNyttVedForbigåendeFeil } from '@io/rest/retry';
 import { initInstrumentation } from '@observability/faro';
 import { hydrateDialogmeldingFilters } from '@oversikt/table/state/dialogmeldingFilter';
 import { hydrateFilters } from '@oversikt/table/state/filter';
@@ -31,7 +32,9 @@ type Props = {
 };
 
 export const Providers = ({ children, bruker }: PropsWithChildren<Props>): ReactElement => {
-    const [queryClient] = useState(() => new QueryClient());
+    const [queryClient] = useState(
+        () => new QueryClient({ defaultOptions: { queries: { retry: prøvPåNyttVedForbigåendeFeil } } }),
+    );
     useExposeQueryClient(queryClient);
 
     return (
