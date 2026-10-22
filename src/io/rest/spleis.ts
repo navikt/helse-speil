@@ -41,6 +41,29 @@ export const useSpleisVedtaksperiodeQuery = (vedtaksperiodeId?: string, fødsels
         }),
     );
 
+export type SpleisOpptjeningsvurderingerRequest = {
+    fødselsnummer: string;
+};
+
+export function getSpleisOpptjeningsvurderingerQueryKey(fødselsnummer?: string) {
+    return ['/api/spleis/opptjeningsvurderinger', fødselsnummer] as const;
+}
+
+export function useSpleisOpptjeningsvurderingerQuery(fødselsnummer?: string) {
+    return useQuery(
+        withDefaultQueryOptions({
+            queryKey: getSpleisOpptjeningsvurderingerQueryKey(fødselsnummer),
+            queryFn: ({ signal }) =>
+                postJson<object>(
+                    '/api/spleis/opptjeningsvurderinger',
+                    { fødselsnummer: fødselsnummer! } satisfies SpleisOpptjeningsvurderingerRequest,
+                    { signal },
+                ),
+            enabled: !!fødselsnummer,
+        }),
+    );
+}
+
 export function getSpleisHendelseQueryKey(meldingsreferanse?: string) {
     return ['/api/spleis/hendelse-json/{meldingsreferanse}', meldingsreferanse] as const;
 }
