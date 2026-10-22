@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
 
-import { backend, getServerEnv } from '@/env';
-import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
+import { backendBaseUrl, skalStubbe } from '@app/api/backends';
+import { hentBackendToken } from '@app/api/videresender';
 
 // Endepunkt for å kunne søke opp personer på fødselsnummer eller aktørID.
 // Ble laget for å dyplenke fra spanner til aktuell person i speil.
@@ -13,29 +13,14 @@ export async function POST(request: NextRequest) {
     const identitetsnummer = formData.get('identitetsnummer')?.toString();
     const aktørId = formData.get('aktørId')?.toString();
 
-    if (backend === 'mock') {
+    if (skalStubbe('spesialist')) {
         const { PersonMock } = await import('@spesialist-mock/storage/person');
         personPseudoId = PersonMock.findPersonPseudoId(identitetsnummer ?? aktørId ?? '');
     } else {
-        const spesialistBaseUrl = getServerEnv().SPESIALIST_BASEURL;
-        let token: string;
-        if (backend === 'lokal') {
-            const res = await fetch(`${spesialistBaseUrl}/local-token`);
-            if (!res.ok) {
-                throw new Error(`Feil ved henting av lokal token: ${res.status} ${res.statusText}`);
-            }
-            token = await res.text();
-        } else {
-            const wonderwallToken = hentWonderwallToken(request);
-            if (!wonderwallToken) {
-                return IkkeAutentisert;
-            }
-
-            const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().SPESIALIST_SCOPE);
-            if (!oboResult.ok) {
-                throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);
-            }
-            token = oboResult.token;
+        const spesialistBaseUrl = backendBaseUrl('spesialist');
+        const token = await hentBackendToken('spesialist', request);
+        if (token instanceof Response) {
+            return IkkeAutentisert;
         }
 
         const headers = new Headers();

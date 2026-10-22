@@ -2,16 +2,7 @@ import { ZodError, z } from 'zod/v4';
 
 export type PublicEnv = z.infer<typeof browserEnvSchema>;
 export const browserEnvSchema = z.object({
-    NEXT_PUBLIC_RUNTIME_ENV: z.enum([
-        'test',
-        'dev',
-        'lokal',
-        'lokal-spesialist',
-        'lokal-sporhund',
-        'lokal-vilkarsproving',
-        'prod',
-        'mock',
-    ]),
+    NEXT_PUBLIC_RUNTIME_ENV: z.enum(['test', 'dev', 'lokal', 'prod', 'mock']),
     NEXT_PUBLIC_ASSET_PREFIX: z.string().optional(),
     NEXT_PUBLIC_TELEMETRY_URL: z.string().optional(),
     NEXT_PUBLIC_GRADERTE_ANDRE_YTELSER_ER_AKTIVERT: z.boolean(),
@@ -27,22 +18,6 @@ export const serverEnvSchema = z.object({
     MODIA_BASEURL: z.string(),
     SPARKEL_AAREG_SCOPE: z.string(),
     SPARKEL_AAREG_BASEURL: z.string(),
-    SPESIALIST_SCOPE: z.string(),
-    SPESIALIST_BASEURL: z.string(),
-    SPORHUND_SCOPE: z.string(),
-    SPORHUND_BASEURL: z.string(),
-    SP_FORSIKRING_BASEURL: z.string(),
-    SP_FORSIKRING_SCOPE: z.string(),
-    SPOUT_SCOPE: z.string(),
-    SPOUT_BASEURL: z.string(),
-    SPOOGLE_SCOPE: z.string(),
-    SPOOGLE_BASEURL: z.string(),
-    SPLEIS_SCOPE: z.string(),
-    SPLEIS_BASEURL: z.string(),
-    SPARSOM_SCOPE: z.string(),
-    SPARSOM_BASEURL: z.string(),
-    VILKARSPROVING_SCOPE: z.string(),
-    VILKARSPROVING_BASEURL: z.string(),
     SYFO_SCOPE: z.string().optional(),
     SYFO_BASEURL: z.string().optional(),
     AZURE_APP_CLIENT_ID: z.string(),
@@ -65,8 +40,8 @@ export const browserEnv = browserEnvSchema.parse({
         process.env.NEXT_PUBLIC_GRADERTE_ANDRE_YTELSER_ER_AKTIVERT === 'true',
 } satisfies Record<keyof PublicEnv, string | boolean | undefined>);
 
+// Scope og base-URL for backender vi videresender til ligger i src/app/api/backends.ts
 const getRawServerConfig = (): Partial<unknown> => {
-    const backend = backendVariant();
     return {
         SANITY_DATASET: process.env.SANITY_DATASET,
         SANITY_READ_DATASETS_TOKEN: process.env.SANITY_READ_DATASETS_TOKEN,
@@ -76,44 +51,6 @@ const getRawServerConfig = (): Partial<unknown> => {
         MODIA_BASEURL: process.env.MODIA_BASE_URL,
         SPARKEL_AAREG_SCOPE: process.env.SPARKEL_AAREG_SCOPE,
         SPARKEL_AAREG_BASEURL: process.env.SPARKEL_AAREG_BASEURL,
-        SPESIALIST_SCOPE: process.env.CLIENT_ID_SPESIALIST,
-        SPESIALIST_BASEURL:
-            backend === 'deployed'
-                ? process.env.SPESIALIST_BASE_URL
-                : backend === 'lokal' || backend === 'lokal-spesialist'
-                  ? 'http://localhost:8080'
-                  : 'http://0.0.0.0:4321',
-        SPORHUND_SCOPE: process.env.CLIENT_ID_SPORHUND,
-        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSporhund returnerer stub-svar direkte
-        SPORHUND_BASEURL:
-            backend === 'deployed'
-                ? process.env.SPORHUND_BASE_URL
-                : backend === 'lokal' || backend === 'lokal-sporhund'
-                  ? 'http://localhost:8181'
-                  : 'http://localhost:8282',
-        VILKARSPROVING_SCOPE: process.env.CLIENT_ID_VILKARSPROVING,
-        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilVilkarsproving returnerer stub-svar direkte
-        VILKARSPROVING_BASEURL:
-            backend === 'deployed'
-                ? process.env.VILKARSPROVING_BASE_URL
-                : backend === 'lokal' || backend === 'lokal-vilkarsproving'
-                  ? 'http://localhost:8181'
-                  : 'http://localhost:8181',
-        SP_FORSIKRING_SCOPE: process.env.CLIENT_ID_SP_FORSIKRING,
-        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpForsikring returnerer stub-svar direkte
-        SP_FORSIKRING_BASEURL: backend === 'deployed' ? process.env.SP_FORSIKRING_BASE_URL : 'http://localhost:8181',
-        SPOUT_SCOPE: process.env.CLIENT_ID_SPOUT,
-        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpout returnerer stub-svar direkte
-        SPOUT_BASEURL: backend === 'deployed' ? process.env.SPOUT_BASE_URL : 'http://localhost:8181',
-        SPOOGLE_SCOPE: process.env.CLIENT_ID_SPOOGLE,
-        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpoogle returnerer stub-svar direkte
-        SPOOGLE_BASEURL: backend === 'deployed' ? process.env.SPOOGLE_BASE_URL : 'http://localhost:8181',
-        SPLEIS_SCOPE: process.env.CLIENT_ID_SPLEIS_API,
-        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSpleis returnerer stub-svar direkte
-        SPLEIS_BASEURL: backend === 'deployed' ? process.env.SPLEIS_API_BASE_URL : 'http://localhost:8181',
-        SPARSOM_SCOPE: process.env.CLIENT_ID_SPARSOM_API,
-        // I mock-modus brukes aldri denne URL-en – stubEllerVideresendTilSparsom returnerer stub-svar direkte
-        SPARSOM_BASEURL: backend === 'deployed' ? process.env.SPARSOM_API_BASE_URL : 'http://localhost:8181',
         SYFO_SCOPE: process.env.SYFO_SCOPE,
         SYFO_BASEURL: process.env.SYFO_BASE_URL,
         // Provided by nais
@@ -147,8 +84,8 @@ export function getServerEnv(): ServerEnv & PublicEnv {
         }
     }
 }
-const backendVariant = ():
-    'mock' | 'lokal' | 'lokal-spesialist' | 'lokal-sporhund' | 'lokal-vilkarsproving' | 'deployed' => {
+// Hvilke backender som kjører lokalt i 'lokal' styres av LOKALE_BACKENDS, se src/app/api/backends.ts
+const backendVariant = (): 'mock' | 'lokal' | 'deployed' => {
     switch (browserEnv.NEXT_PUBLIC_RUNTIME_ENV) {
         case 'test':
         case 'mock':
@@ -158,12 +95,6 @@ const backendVariant = ():
             return 'deployed';
         case 'lokal':
             return 'lokal';
-        case 'lokal-spesialist':
-            return 'lokal-spesialist';
-        case 'lokal-sporhund':
-            return 'lokal-sporhund';
-        case 'lokal-vilkarsproving':
-            return 'lokal-vilkarsproving';
     }
 };
 

@@ -1,13 +1,11 @@
-import { videresendSseTilSpesialist, videresendTilSpesialist } from '@app/api/spesialist/videresender';
 import { lagStubEllerVideresend } from '@app/api/stubEllerVideresend';
+import { lagVideresender } from '@app/api/videresender';
 
-export const stubEllerVideresendTilSpesialist = lagStubEllerVideresend({
-    stubbetFor: ['mock', 'lokal-sporhund', 'lokal-vilkarsproving'],
-    videresend: videresendTilSpesialist,
-});
+export const videresendTilSpesialist = lagVideresender('spesialist');
+
+export const stubEllerVideresendTilSpesialist = lagStubEllerVideresend({ backend: 'spesialist' });
 
 export const stubEllerVideresendSseTilSpesialist = lagStubEllerVideresend({
-    stubbetFor: ['mock', 'lokal-sporhund', 'lokal-vilkarsproving'],
-    videresend: videresendSseTilSpesialist,
+    backend: 'spesialist',
     forsinkelse: false,
 });

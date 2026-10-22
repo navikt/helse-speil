@@ -7,7 +7,8 @@ import { logger } from '@navikt/next-logger';
 import { teamLogger } from '@navikt/next-logger/team-log';
 import { getToken, requestAzureOboToken, validateAzureToken } from '@navikt/oasis';
 
-import { backend, getServerEnv } from '@/env';
+import { backend } from '@/env';
+import { backendBaseUrl, kjørerLokalt, lokaleBackends } from '@app/api/backends';
 import { metrics } from '@observability/metrics';
 
 type TokenPayload = z.infer<typeof tokenPayloadSchema>;
@@ -28,17 +29,13 @@ const testBruker = {
 };
 
 const getLocalTokenBaseUrl = (): string => {
-    switch (backend) {
-        case 'lokal':
-        case 'lokal-spesialist':
-            return getServerEnv().SPESIALIST_BASEURL;
-        case 'lokal-sporhund':
-            return getServerEnv().SPORHUND_BASEURL;
-        case 'lokal-vilkarsproving':
-            return getServerEnv().VILKARSPROVING_BASEURL;
-        default:
-            throw new Error(`Unsupported backend for local token: ${backend}`);
+    // Spesialist foretrekkes, ellers første backend som kjører lokalt
+    const lokale = lokaleBackends();
+    const navn = lokale.includes('spesialist') ? 'spesialist' : lokale[0];
+    if (!navn) {
+        throw new Error('Ingen backend kjører lokalt (LOKALE_BACKENDS er tom), kan ikke hente lokalt token');
     }
+    return backendBaseUrl(navn);
 };
 
 const hentLokaltToken = async (): Promise<ReturnType<typeof requestAzureOboToken>> => {
@@ -53,12 +50,10 @@ const hentLokaltToken = async (): Promise<ReturnType<typeof requestAzureOboToken
 export async function getTokenPayload(): Promise<TokenPayload> {
     switch (backend) {
         case 'mock':
-        case 'lokal-sporhund':
-        case 'lokal-vilkarsproving':
             return testBruker;
         case 'lokal':
-        case 'lokal-spesialist':
-            return await fetch(getServerEnv().SPESIALIST_BASEURL + '/bruker').then((res) => res.json());
+            if (!kjørerLokalt('spesialist')) return testBruker;
+            return await fetch(backendBaseUrl('spesialist') + '/bruker').then((res) => res.json());
         case 'deployed':
             const token = hentWonderwallToken(await headers());
             if (!token) {
@@ -116,9 +111,6 @@ export async function byttTilOboToken(token: string, scope: string): Promise<Ret
                 token: 'fake-local-obo-token',
             };
         case 'lokal':
-        case 'lokal-spesialist':
-        case 'lokal-sporhund':
-        case 'lokal-vilkarsproving':
             return await hentLokaltToken();
         case 'deployed':
             metrics.oboCounter.inc({ target_client_id: scope }, 1);

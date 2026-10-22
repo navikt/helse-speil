@@ -1,4 +1,4 @@
-import { videresendTilSpesialist } from '@app/api/spesialist/videresender';
+import { videresendTilSpesialist } from '@app/api/spesialist/common';
 import { spesialistOpenAPITransformer } from '@io/rest/openapi-transformer';
 
 export const GET = async (request: Request) => videresendTilSpesialist(request).then(rewriteOpenApiSpec);

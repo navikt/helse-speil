@@ -2,25 +2,25 @@ import { NextRequest } from 'next/server';
 
 import { logger } from '@navikt/next-logger';
 
-import { backend } from '@/env';
+import { BackendNavn, skalStubbe } from '@app/api/backends';
+import { lagVideresender } from '@app/api/videresender';
 import { sleep } from '@spesialist-mock/constants';
 
-type Backend = typeof backend;
 type Stub<Params> = (request: NextRequest, params: Promise<Params>) => Promise<Response>;
 
 // Stubben lastes med import() først i mock-grenen, så mockkoden aldri kjøres når vi videresender.
 export function lagStubEllerVideresend({
-    stubbetFor,
-    videresend,
+    backend,
+    videresend = lagVideresender(backend),
     forsinkelse = true,
 }: {
-    stubbetFor: Backend[];
-    videresend: (request: NextRequest) => Promise<Response>;
+    backend: BackendNavn;
+    videresend?: (request: NextRequest) => Promise<Response>;
     forsinkelse?: boolean;
 }) {
     return <Params>(lastStub: () => Promise<Stub<Params>>) =>
         async (request: NextRequest, { params }: { params: Promise<Params> }) => {
-            if (!stubbetFor.includes(backend)) return videresend(request);
+            if (!skalStubbe(backend)) return videresend(request);
 
             logger.info(`Svarer på ${request.method} ${request.url} med stub`);
             // Delay på 50-550ms for å se skeletons og loading-logikk i tilfeldig rekkefølge

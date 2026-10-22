@@ -52,13 +52,26 @@ Default i lokal utvikling er at kall mot /api/spesialist blir besvart av stubber
 
 ### Utvikle lokalt mot lokalt kjørende backend
 
-| Script                          | Spesialist     | Sporhund       | Vilkårsprøving |
-| ------------------------------- | -------------- | -------------- | -------------- |
-| `pnpm run dev`                  | mocked (stub)  | mocked (stub)  | mocked (stub)  |
-| `pnpm run lokal-backend`        | localhost:8080 | localhost:8282 | localhost:8181 |
-| `pnpm run lokal-spesialist`     | localhost:8080 | mocked (stub)  | mocked (stub)  |
-| `pnpm run lokal-sporhund`       | mocked (stub)  | localhost:8282 | mocked (stub)  |
-| `pnpm run lokal-vilkarsproving` | mocked (stub)  | mocked (stub)  | localhost:8181 |
+- `pnpm run dev`: alle backender er stubbet.
+- `pnpm run lokal-<navn>`, for eksempel `pnpm run lokal-sporhund`: den backenden kjører lokalt, alle andre er stubbet.
+- `pnpm run lokal-backend`: spesialist, sporhund og vilkårsprøving kjører lokalt.
+
+Start backenden lokalt først (se etter `LocalApp.kt`). Speil henter token fra backendens `/local-token`. Portene står
+i `src/app/api/backends.ts`.
+
+Scriptene setter `NEXT_PUBLIC_RUNTIME_ENV=lokal` og lister backendene som kjører lokalt i `LOKALE_BACKENDS`. Alle
+andre backender blir stubbet. Du kan kombinere fritt, for eksempel
+`NEXT_PUBLIC_RUNTIME_ENV=lokal LOKALE_BACKENDS=spesialist,sporhund pnpm exec next dev --turbopack`.
+
+### Legge til en ny backend
+
+1. Legg til backenden i `src/app/api/backends.ts` med miljøvariabler for scope og base-URL, og `lokalPort` hvis den
+   skal kunne kjøres lokalt.
+2. Lag `src/app/api/<navn>/common.ts` med `lagStubEllerVideresend({ backend: '<navn>' })`, og legg route- og stubfiler
+   ved siden av.
+3. Legg til et `lokal-<navn>`-script i `package.json`.
+4. Legg til `accessPolicy` og miljøvariabler i `deploy/dev.yml` og `deploy/prod.yml`.
+5. Hvis backenden har OpenAPI-spec: legg til et prosjekt i `orval.config.ts`.
 
 ### Legge til en testperson lokalt:
 
