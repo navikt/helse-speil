@@ -11,11 +11,10 @@ import {
 import {
     useAktivtInntektsforhold,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
+    useSerPåTidligereBehandling,
 } from '@state/inntektsforhold/inntektsforhold';
-import { useActivePeriod } from '@state/periode';
-import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
-import { isBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
+import { isBeregnetPeriode } from '@utils/typeguards';
 
 interface ToggleOverstyringProps {
     person: ApiSaksbildePerson;
@@ -36,8 +35,8 @@ export const ToggleOverstyring = ({
     editing,
     setEditing,
 }: ToggleOverstyringProps) => {
-    const aktivPeriode = useActivePeriod(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
+    const serPåTidligereBehandling = useSerPåTidligereBehandling(person);
     const kanRevurderes = useInntektKanRevurderes(person, skjæringstidspunkt);
     const ghostInntektKanOverstyres =
         useGhostInntektKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer) && !erDeaktivert;
@@ -46,11 +45,7 @@ export const ToggleOverstyring = ({
     const kanOverstyres = vilkårsgrunnlagId != null && (kanRevurderes || ghostInntektKanOverstyres);
 
     // Saksbehandler ser på en tidligere behandling av den aktive perioden, og skal ikke kunne overstyre.
-    if (
-        aktivPeriode == null ||
-        inntektsforhold == null ||
-        (!isGhostPeriode(aktivPeriode) && !isInCurrentGeneration(aktivPeriode, inntektsforhold))
-    ) {
+    if (inntektsforhold == null || serPåTidligereBehandling) {
         return null;
     }
 

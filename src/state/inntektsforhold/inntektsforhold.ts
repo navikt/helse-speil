@@ -12,7 +12,7 @@ import {
 } from '@io/rest/generated/spesialist.schemas';
 import { finnAlleArbeidsgivere, finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
-import { harBlittUtbetaltTidligere } from '@state/selectors/period';
+import { harBlittUtbetaltTidligere, isInCurrentGeneration } from '@state/selectors/period';
 import { ActivePeriod, DateString } from '@typer/shared';
 import {
     isBeregnetPeriode,
@@ -51,6 +51,14 @@ export const finnInntektsforholdForPeriode = (
     }
     return undefined;
 };
+
+export function useSerPåTidligereBehandling(person: ApiSaksbildePerson | null): boolean {
+    const aktivPeriode = useActivePeriod(person);
+    const inntektsforhold = useAktivtInntektsforhold(person);
+    if (!aktivPeriode || !inntektsforhold || isGhostPeriode(aktivPeriode)) return false;
+
+    return !isInCurrentGeneration(aktivPeriode, inntektsforhold);
+}
 
 export const useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning = (person: ApiSaksbildePerson): boolean => {
     const aktivPeriode = useActivePeriod(person);

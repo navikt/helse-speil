@@ -1,9 +1,14 @@
 import { Mock, vi } from 'vitest';
 
-import { finnInntektsforholdForPeriode, useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import {
+    finnInntektsforholdForPeriode,
+    useAktivtInntektsforhold,
+    useSerPåTidligereBehandling,
+} from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
-import { enBeregnetPeriode } from '@test-data/periode';
+import { enBehandling } from '@test-data/behandling';
+import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { renderHook } from '@test-utils';
 
@@ -51,5 +56,59 @@ describe('useAktivtInntektsforhold', () => {
         const { result } = renderHook(() => useAktivtInntektsforhold(person));
 
         expect(result.current).toEqual(arbeidsgiver);
+    });
+});
+
+describe('useSerPåTidligereBehandling', () => {
+    afterEach(() => {
+        vi.clearAllMocks();
+    });
+
+    it('returnerer false hvis det ikke finnes en aktiv periode', () => {
+        const { result } = renderHook(() => useSerPåTidligereBehandling(enPerson()));
+
+        expect(result.current).toBe(false);
+    });
+
+    it('returnerer false når aktiv periode er i siste behandling', () => {
+        const nyestePeriode = enBeregnetPeriode();
+        const tidligerePeriode = enBeregnetPeriode();
+        const arbeidsgiver = enArbeidsgiver({
+            behandlinger: [enBehandling({ perioder: [nyestePeriode] }), enBehandling({ perioder: [tidligerePeriode] })],
+        });
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as Mock).mockReturnValue(nyestePeriode);
+
+        const { result } = renderHook(() => useSerPåTidligereBehandling(person));
+
+        expect(result.current).toBe(false);
+    });
+
+    it('returnerer true når aktiv periode er i en tidligere behandling', () => {
+        const nyestePeriode = enBeregnetPeriode();
+        const tidligerePeriode = enBeregnetPeriode();
+        const arbeidsgiver = enArbeidsgiver({
+            behandlinger: [enBehandling({ perioder: [nyestePeriode] }), enBehandling({ perioder: [tidligerePeriode] })],
+        });
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as Mock).mockReturnValue(tidligerePeriode);
+
+        const { result } = renderHook(() => useSerPåTidligereBehandling(person));
+
+        expect(result.current).toBe(true);
+    });
+
+    it('returnerer false for ghostperioder, siden de ikke har tidligere behandlinger', () => {
+        const ghostPeriode = enGhostPeriode();
+        const arbeidsgiver = enArbeidsgiver().medGhostPerioder([ghostPeriode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+
+        (useActivePeriod as Mock).mockReturnValue(ghostPeriode);
+
+        const { result } = renderHook(() => useSerPåTidligereBehandling(person));
+
+        expect(result.current).toBe(false);
     });
 });

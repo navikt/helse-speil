@@ -20,7 +20,7 @@ import {
     SkjønnsfastsettingForm,
     finnAktiveInntekter,
 } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
-import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useAktivtInntektsforhold, useSerPåTidligereBehandling } from '@state/inntektsforhold/inntektsforhold';
 import { cn } from '@utils/tw';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
@@ -54,7 +54,11 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     avviksprosent,
     organisasjonsnummer,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
-    const [editing, setEditing] = useAtomEditingForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
+    const [editingForSkjæringstidspunkt, setEditing] = useAtomEditingForPersonOgSkjæringstidspunkt(
+        periode.skjaeringstidspunkt,
+    );
+    const kanSkjønnsfastsette = !useSerPåTidligereBehandling(person);
+    const editing = editingForSkjæringstidspunkt && kanSkjønnsfastsette;
     const [formValues, setFormValues] = useAtomSkjemaForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<number | null>(null);
     const aktiveArbeidsgivereMedOmregnetÅrsinntekt = finnAktiveInntekter(inntekter);
@@ -91,6 +95,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     endretSykepengegrunnlag={endretSykepengegrunnlag}
                     sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                     editing={editing}
+                    kanSkjønnsfastsette={kanSkjønnsfastsette}
                     openForm={openForm}
                     maler={maler}
                     malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}

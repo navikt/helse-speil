@@ -31,6 +31,7 @@ interface SkjønnsfastsettingHeaderProps {
     endretSykepengegrunnlag: number | null;
     sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
     editing: boolean;
+    kanSkjønnsfastsette: boolean;
     openForm: () => void;
     maler: SkjonnsfastsettelseMalerQueryResult | undefined;
     malerError: string | undefined;
@@ -44,6 +45,7 @@ export const SkjønnsfastsettingHeader = ({
     endretSykepengegrunnlag,
     sykepengegrunnlagsgrense,
     editing,
+    kanSkjønnsfastsette,
     openForm,
     maler,
     malerError,
@@ -97,30 +99,18 @@ export const SkjønnsfastsettingHeader = ({
                     )}
                 </>
             )}
-            {!erBeslutteroppgave && harMaler && (
+            {kanSkjønnsfastsette && !erBeslutteroppgave && harMaler && (
                 <VisHvisSkrivetilgang>
-                    {!editing ? (
-                        <Button
-                            onClick={openForm}
-                            size="xsmall"
-                            variant="secondary"
-                            icon={<PersonPencilIcon />}
-                            className={styles.redigeringsknapp}
-                        >
-                            Skjønnsfastsett
-                        </Button>
-                    ) : (
-                        <Button
-                            onClick={closeAndResetForm}
-                            size="xsmall"
-                            variant="tertiary"
-                            icon={<XMarkIcon />}
-                            className={styles.redigeringsknapp}
-                            style={{ marginRight: '1rem' }}
-                        >
-                            Avbryt
-                        </Button>
-                    )}
+                    <Button
+                        onClick={editing ? closeAndResetForm : openForm}
+                        size="xsmall"
+                        variant={editing ? 'tertiary' : 'secondary'}
+                        icon={editing ? <XMarkIcon /> : <PersonPencilIcon />}
+                        className={styles.redigeringsknapp}
+                        style={editing ? { marginRight: '1rem' } : undefined}
+                    >
+                        {editing ? 'Avbryt' : 'Skjønnsfastsett'}
+                    </Button>
                 </VisHvisSkrivetilgang>
             )}
             {malerError && <ErrorMessage>{malerError}</ErrorMessage>}
