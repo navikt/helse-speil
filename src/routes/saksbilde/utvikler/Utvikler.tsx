@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 
+import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Loader, Tabs } from '@navikt/ds-react';
 
+import { erProd } from '@/env';
 import { useSpleisVedtaksperiodeQuery } from '@io/rest/spleis';
 import { Handlinger } from '@saksbilde/utvikler/Handlinger';
 import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
@@ -14,6 +16,7 @@ interface UtviklerProps {
 
 export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) => {
     const { data, isPending, error } = useSpleisVedtaksperiodeQuery(vedtaksperiodeId, fødselsnummer);
+    const [valgtTab, setValgtTab] = useState('spleisdata');
 
     return (
         <Box padding="space-16">
@@ -22,11 +25,20 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) =>
             ) : error ? (
                 <BodyShort>Kunne ikke hente data fra Spleis: {error.message}</BodyShort>
             ) : (
-                <Tabs defaultValue="spleisdata" size="small">
+                <Tabs value={valgtTab} onChange={(value) => value !== 'sporing' && setValgtTab(value)} size="small">
                     <Tabs.List>
                         <Tabs.Tab value="spleisdata" label="Spleis-data" />
                         <Tabs.Tab value="hendelser" label="Hendelser" />
                         <Tabs.Tab value="handlinger" label="Handlinger" />
+                        <Tabs.Tab
+                            as="a"
+                            value="tilstandsmaskin"
+                            label="Tilstandsmaskin"
+                            icon={<ExternalLinkIcon aria-hidden />}
+                            href={sporingUrl(vedtaksperiodeId)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        />
                     </Tabs.List>
                     <Tabs.Panel value="spleisdata">
                         <Box paddingBlock="space-16">
@@ -48,3 +60,8 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) =>
         </Box>
     );
 };
+
+function sporingUrl(vedtaksperiodeId: string): string {
+    const host = erProd ? 'sporing.ansatt.nav.no' : 'sporing.ansatt.dev.nav.no';
+    return `https://${host}/tilstandsmaskin/${vedtaksperiodeId}`;
+}
