@@ -31,6 +31,8 @@ export const Historikkmeny = (): ReactElement => {
                 active={showHistorikk && filter === 'Historikk'}
                 onClick={activateFilter('Historikk')}
                 title="Historikk"
+                data-sporing-event="historikkmeny-klikk"
+                data-sporing-event-fane="Historikk"
             >
                 <ClockIcon title="Historikk" fontSize="18px" />
             </TabButton>
@@ -38,16 +40,26 @@ export const Historikkmeny = (): ReactElement => {
                 active={showHistorikk && filter === 'Dokument'}
                 onClick={activateFilter('Dokument')}
                 title="Dokumenter"
+                data-sporing-event="historikkmeny-klikk"
+                data-sporing-event-fane="Dokument"
             >
                 <FolderIcon title="Dokumenter" fontSize="18px" />
             </TabButton>
-            <TabButton active={showHistorikk && filter === 'Notat'} onClick={activateFilter('Notat')} title="Notat">
+            <TabButton
+                active={showHistorikk && filter === 'Notat'}
+                onClick={activateFilter('Notat')}
+                title="Notat"
+                data-sporing-event="historikkmeny-klikk"
+                data-sporing-event-fane="Notat"
+            >
                 <PencilWritingIcon title="Notat" fontSize="18px" />
             </TabButton>
             <TabButton
                 active={showHistorikk && filter === 'Overstyring'}
                 onClick={activateFilter('Overstyring')}
                 title="Overstyring"
+                data-sporing-event="historikkmeny-klikk"
+                data-sporing-event-fane="Overstyring"
             >
                 <PersonPencilIcon title="Overstyring" fontSize="18px" />
             </TabButton>

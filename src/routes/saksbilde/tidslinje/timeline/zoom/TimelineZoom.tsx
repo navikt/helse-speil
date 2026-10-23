@@ -32,7 +32,13 @@ export const TimelineZoom: ComponentWithType<PropsWithChildren> = (): ReactEleme
             className="self-end"
         >
             {(Object.keys(zoomLevels) as ZoomLevel[]).map((label) => (
-                <ToggleGroupItem key={label} value={label} label={label} />
+                <ToggleGroupItem
+                    key={label}
+                    value={label}
+                    label={label}
+                    data-sporing-event="tidslinje-zoom-klikk"
+                    data-sporing-event-zoom={label}
+                />
             ))}
         </ToggleGroup>
     );
