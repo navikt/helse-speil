@@ -218,8 +218,8 @@ importers:
         specifier: ^1.11.23
         version: 1.11.23
       groq:
-        specifier: ^6.16.0
-        version: 6.16.0
+        specifier: ^6.20.0
+        version: 6.20.0
       jose:
         specifier: ^6.2.12
         version: 6.2.12
@@ -2825,8 +2825,8 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
-  groq@6.16.0:
-    resolution: {integrity: sha512-JEDbocK5tBEV2NGg/UpQ1FCyHM6SNVpp8aBkuR9S7NNKU866AHq3CAoY7R3zGYwrYKPVVMxd78Usd2zBh6qQhA==}
+  groq@6.20.0:
+    resolution: {integrity: sha512-9ZuwUpovJ5qWBpW7y5ynK6zpyeeB+qhC5AgTrgoibZO1Fl6k39tB/b4nmIVG3qgOIzHapkj5ihO5DYEIXWairQ==}
     engines: {node: '>=22.12'}
 
   has-bigints@1.1.0:
@@ -6693,7 +6693,7 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
-  groq@6.16.0: {}
+  groq@6.20.0: {}
 
   has-bigints@1.1.0: {}
 
