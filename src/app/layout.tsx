@@ -12,6 +12,7 @@ import { Toasts } from '@components/Toasts';
 import { Varsler } from '@components/Varsler';
 import { Driftsmeldinger } from '@components/driftsmeldinger/Driftsmeldinger';
 import { Header } from '@components/header/Header';
+import { innblikkHookNavn } from '@observability/innblikk';
 
 export const metadata: Metadata = {
     title: `Speil ${backend !== 'deployed' ? ' - localhost' : erDev ? ' - dev' : ''}`,
@@ -31,6 +32,7 @@ export default async function RootLayout({ children }: Readonly<PropsWithChildre
                     strategy="afterInteractive"
                     src={`https://cdn.nav.no/team-researchops/sporing/sporing${erUtvikling ? '-dev' : ''}.js`}
                     data-website-id={process.env.NEXT_INNBLIKK_CODE}
+                    data-before-send={innblikkHookNavn}
                 />
             )}
             <Preload />

@@ -16,6 +16,7 @@ import { AnonymizationProvider } from '@components/anonymization/context';
 import { useLoadingToast } from '@hooks/useLoadingToast';
 import { prøvPåNyttVedForbigåendeFeil } from '@io/rest/retry';
 import { initInstrumentation } from '@observability/faro';
+import { installerInnblikkHook } from '@observability/innblikk';
 import { hydrateDialogmeldingFilters } from '@oversikt/table/state/dialogmeldingFilter';
 import { hydrateFilters } from '@oversikt/table/state/filter';
 import { useFetchPersonQuery } from '@state/person';
@@ -25,6 +26,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '@utils/dayjs.setup';
 
 initInstrumentation();
+installerInnblikkHook();
 configureLogger({});
 
 type Props = {
