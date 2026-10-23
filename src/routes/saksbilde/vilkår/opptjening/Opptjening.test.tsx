@@ -224,16 +224,19 @@ const vilkårsgrunnlag: ApiVilkårsgrunnlagInfotrygdV2 = {
     opptjeningsvurderingId: 'en-id',
 };
 
-const renderOpptjening = (readOnly: boolean) =>
-    render(
-        <InngangsvilkårWithContent
-            vilkårsgrunnlag={vilkårsgrunnlag}
-            fødselsdato="1980-01-01"
-            personPseudoId="en-person"
-            opptjeningsvurderingId="en-id"
-            readOnly={readOnly}
-        />,
-    );
+const renderOpptjening = (readOnly: boolean, serPåTidligereBehandling = false) =>
+    render(medOpptjening(readOnly, serPåTidligereBehandling));
+
+const medOpptjening = (readOnly: boolean, serPåTidligereBehandling: boolean) => (
+    <InngangsvilkårWithContent
+        vilkårsgrunnlag={vilkårsgrunnlag}
+        fødselsdato="1980-01-01"
+        personPseudoId="en-person"
+        opptjeningsvurderingId="en-id"
+        readOnly={readOnly}
+        serPåTidligereBehandling={serPåTidligereBehandling}
+    />
+);
 
 const startVurdering = async () => {
     await userEvent.click(within(arbeidsvilkår()).getByRole('button', { name: 'Vurder vilkår' }));
@@ -282,6 +285,7 @@ describe('Opptjening', () => {
                 personPseudoId="en-person"
                 opptjeningsvurderingId="en-id"
                 readOnly={false}
+                serPåTidligereBehandling={false}
             />,
         );
 
@@ -607,6 +611,25 @@ describe('Opptjening', () => {
         expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 
+    it('skjuler vurderingsknappene når saksbehandler ser på en tidligere behandling', async () => {
+        renderOpptjening(false, true);
+
+        expect(await screen.findByRole('region', { name: 'Opptjeningstid' })).toBeVisible();
+        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Vurder automatisk på nytt' })).not.toBeInTheDocument();
+    });
+
+    it('lukker vurderingsskjemaet når saksbehandler navigerer til en tidligere behandling', async () => {
+        const { rerender } = renderOpptjening(false);
+
+        await startVurdering();
+        expect(screen.getByRole('textbox', { name: /Begrunnelse/ })).toBeVisible();
+
+        rerender(medOpptjening(false, true));
+
+        expect(screen.queryByRole('textbox', { name: /Begrunnelse/ })).not.toBeInTheDocument();
+    });
+
     it('viser "Vurdert i Infotrygd" uten enkeltvilkår når kravet er overført fra Infotrygd', () => {
         mockVilkårsvurderinger(overførtFraInfotrygd);
 
@@ -876,6 +899,7 @@ describe('Opptjening', () => {
                     personPseudoId="en-person"
                     opptjeningsvurderingId="ny-id-fra-spleis"
                     readOnly={false}
+                    serPåTidligereBehandling={false}
                 />,
             );
 

@@ -14,6 +14,7 @@ interface LikestiltYtelseVilkårsradProps {
     vurderingFor: (vilkårskode: ApiVilkårskode) => ApiVilkårsvurdering | undefined;
     erAvgjørende: boolean;
     readOnly: boolean;
+    serPåTidligereBehandling: boolean;
     erAktiv: boolean;
     onVurder: () => void;
 }
@@ -22,6 +23,7 @@ export function LikestiltYtelseVilkårsrad({
     vurderingFor,
     erAvgjørende,
     readOnly,
+    serPåTidligereBehandling,
     erAktiv,
     onVurder,
 }: LikestiltYtelseVilkårsradProps): ReactElement {
@@ -55,7 +57,7 @@ export function LikestiltYtelseVilkårsrad({
                     </BodyShort>
                 </VStack>
                 <Spacer />
-                {!readOnly && erCoachFagkoordinatorEllerSupersaksbehandler && (
+                {!readOnly && !serPåTidligereBehandling && erCoachFagkoordinatorEllerSupersaksbehandler && (
                     <Button type="button" variant="secondary" size="small" onClick={onVurder}>
                         Vurder vilkår
                     </Button>

@@ -44,6 +44,7 @@ export function EndringsloggOpptjening({ endringer, onOpenChange }: Endringslogg
                                                     vurdering={endring.vurdering}
                                                     erAvgjørende={false}
                                                     readOnly
+                                                    serPåTidligereBehandling={false}
                                                     erAktiv={false}
                                                     onVurder={() => {}}
                                                 />

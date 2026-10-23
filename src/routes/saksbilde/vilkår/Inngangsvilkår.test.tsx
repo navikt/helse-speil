@@ -15,7 +15,12 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     useGetOpptjeningshistorikkBehandler: () => ({ data: undefined, isLoading: true, isError: false }),
 }));
 
-const opptjeningProps = { personPseudoId: 'en-person', opptjeningsvurderingId: 'en-id', readOnly: false };
+const opptjeningProps = {
+    personPseudoId: 'en-person',
+    opptjeningsvurderingId: 'en-id',
+    readOnly: false,
+    serPåTidligereBehandling: false,
+};
 
 const getVilkårsgrunnlagSpleis = (
     // TODO: Erstatte global type med query type

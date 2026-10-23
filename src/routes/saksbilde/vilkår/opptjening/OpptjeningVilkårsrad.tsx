@@ -25,6 +25,7 @@ interface OpptjeningVilkårsradProps {
     vurdering?: ApiVilkårsvurdering;
     erAvgjørende: boolean;
     readOnly: boolean;
+    serPåTidligereBehandling: boolean;
     erAktiv: boolean;
     onVurder: () => void;
 }
@@ -33,6 +34,7 @@ export function OpptjeningVilkårsrad({
     vilkårskode,
     vurdering,
     readOnly,
+    serPåTidligereBehandling,
     erAktiv,
     onVurder,
     erAvgjørende,
@@ -62,11 +64,14 @@ export function OpptjeningVilkårsrad({
                     {vilkårsnavn}
                 </BodyShort>
                 <Spacer />
-                {!readOnly && !erAutomatiskOppfylt && erCoachFagkoordinatorEllerSupersaksbehandler && (
-                    <Button type="button" variant="secondary" size="small" onClick={onVurder}>
-                        Vurder vilkår
-                    </Button>
-                )}
+                {!readOnly &&
+                    !serPåTidligereBehandling &&
+                    !erAutomatiskOppfylt &&
+                    erCoachFagkoordinatorEllerSupersaksbehandler && (
+                        <Button type="button" variant="secondary" size="small" onClick={onVurder}>
+                            Vurder vilkår
+                        </Button>
+                    )}
             </HStack>
             <VStack gap="space-8">
                 <HStack gap="space-8" align="center">

@@ -24,6 +24,7 @@ interface OpptjeningProps {
     opptjeningsvurdering: Opptjeningsvurdering;
     endringer: Opptjeningsendring[];
     readOnly: boolean;
+    serPåTidligereBehandling: boolean;
     aktivtVilkår: ManueltVurderbarVilkårskode | null;
     onVurder: (vilkårskode: ManueltVurderbarVilkårskode) => void;
 }
@@ -33,6 +34,7 @@ export function Opptjening({
     opptjeningsvurdering,
     endringer,
     readOnly,
+    serPåTidligereBehandling,
     aktivtVilkår,
     onVurder,
 }: OpptjeningProps): ReactElement {
@@ -54,7 +56,7 @@ export function Opptjening({
                     Opptjeningstid
                 </Heading>
                 <EndringsloggOpptjeningButton endringer={endringer} />
-                {!readOnly && erCoachFagkoordinatorEllerSupersaksbehandler && data && (
+                {!readOnly && !serPåTidligereBehandling && erCoachFagkoordinatorEllerSupersaksbehandler && data && (
                     <VurderAutomatiskPåNyttKnapp
                         personPseudoId={personPseudoId}
                         skjæringstidspunkt={data.skjæringstidspunkt}
@@ -83,6 +85,7 @@ export function Opptjening({
                             vurdering={vurderingFor(ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER)}
                             erAvgjørende={avgjørendeVilkårskode === ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}
                             readOnly={readOnly}
+                            serPåTidligereBehandling={serPåTidligereBehandling}
                             erAktiv={aktivtVilkår === ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}
                             onVurder={() => onVurder(ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER)}
                         />
@@ -94,6 +97,7 @@ export function Opptjening({
                                     likestiltYtelseVilkårskoder.includes(avgjørendeVilkårskode)
                                 }
                                 readOnly={readOnly}
+                                serPåTidligereBehandling={serPåTidligereBehandling}
                                 erAktiv={aktivtVilkår === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER}
                                 onVurder={() => onVurder(ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER)}
                             />

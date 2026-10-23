@@ -16,6 +16,7 @@ import {
     ApiVurdering,
 } from '@io/rest/generated/spesialist.schemas';
 import { ApiVilkårskode } from '@io/rest/generated/vilkarsproving.schemas';
+import { useSerPåTidligereBehandling } from '@state/inntektsforhold/inntektsforhold';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
@@ -49,6 +50,7 @@ interface InngangsvilkårWithContentProps {
     personPseudoId: string;
     opptjeningsvurderingId: string;
     readOnly: boolean;
+    serPåTidligereBehandling: boolean;
 }
 
 export function InngangsvilkårWithContent({
@@ -58,6 +60,7 @@ export function InngangsvilkårWithContent({
     personPseudoId,
     opptjeningsvurderingId,
     readOnly,
+    serPåTidligereBehandling,
 }: InngangsvilkårWithContentProps): ReactElement {
     const opptjeningsvurdering = useOpptjeningsvurdering(personPseudoId, opptjeningsvurderingId);
     const opptjeningsendringer = useOpptjeningshistorikk(
@@ -95,6 +98,7 @@ export function InngangsvilkårWithContent({
                                 opptjeningsvurdering={opptjeningsvurdering}
                                 endringer={opptjeningsendringer}
                                 readOnly={readOnly}
+                                serPåTidligereBehandling={serPåTidligereBehandling}
                                 aktivtVilkår={aktivtVilkår}
                                 onVurder={setAktivtVilkår}
                             />
@@ -106,7 +110,7 @@ export function InngangsvilkårWithContent({
                         />
                         <MedlemskapVilkår vilkårsgrunnlag={vilkårsgrunnlag} vurdertTekst={vurdertTekst} />
                     </VStack>
-                    {aktivtVilkår !== null && skjæringstidspunkt !== undefined && (
+                    {!serPåTidligereBehandling && aktivtVilkår !== null && skjæringstidspunkt !== undefined && (
                         <Vurderingspanel>
                             {aktivtVilkår === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER ? (
                                 <LikestiltYtelseSkjema
@@ -141,6 +145,7 @@ interface InngangsvilkårContainerProps {
 
 function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerProps): ReactElement | null {
     const readOnly = useIsReadOnlyOppgave(person);
+    const serPåTidligereBehandling = useSerPåTidligereBehandling(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
     const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId);
@@ -157,6 +162,7 @@ function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerP
             personPseudoId={personPseudoId}
             opptjeningsvurderingId={vilkårsgrunnlag.opptjeningsvurderingId}
             readOnly={readOnly}
+            serPåTidligereBehandling={serPåTidligereBehandling}
         />
     );
 }
