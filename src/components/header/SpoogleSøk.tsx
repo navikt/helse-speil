@@ -6,7 +6,7 @@ import { Search } from '@navikt/ds-react';
 import { teamLogger } from '@navikt/next-logger/team-log';
 
 import { FetchError } from '@io/errors';
-import { useFinnFødselsnummerISpoogle } from '@io/rest/spoogle';
+import { useSøkISpoogle } from '@io/rest/spoogle';
 import { useNullstillSaksbildeTab } from '@state/tab';
 import { useAddVarsel } from '@state/varsler';
 
@@ -18,8 +18,8 @@ export function SpoogleSøk(): ReactElement {
     const addVarsel = useAddVarsel();
     const router = useRouter();
     const nullstillSaksbildeTab = useNullstillSaksbildeTab();
-    const { mutate: finnFødselsnummer, isPending: henterFødselsnummer } = useFinnFødselsnummerISpoogle();
-    const { søkPerson, søkPersonMedFødselsnummerEllerAktørId, loading } = usePersonsøk(henterFødselsnummer);
+    const { mutate: søkISpoogle, isPending: søkerISpoogle } = useSøkISpoogle();
+    const { søkPerson, søkPersonMedFødselsnummerEllerAktørId, loading } = usePersonsøk(søkerISpoogle);
 
     const searchRef = useRef<HTMLInputElement>(null);
 
@@ -35,8 +35,12 @@ export function SpoogleSøk(): ReactElement {
             return;
         }
 
-        finnFødselsnummer(søketekst, {
-            onSuccess: (fødselsnummer) => søkPerson({ identitetsnummer: fødselsnummer }),
+        søkISpoogle(søketekst, {
+            onSuccess: ({ fødselsnummer, vedtaksperiodeId, behandlingId }) =>
+                søkPerson(
+                    { identitetsnummer: fødselsnummer },
+                    vedtaksperiodeId ? { periodeId: vedtaksperiodeId, behandlingId } : undefined,
+                ),
             onError: (error) => {
                 if (error.status === 404) {
                     // Ukjent for Spoogle – kan være en personPseudoId, slik som i vanlig personsøk

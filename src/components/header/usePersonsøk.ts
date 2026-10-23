@@ -8,6 +8,7 @@ import { usePostPersonSok } from '@io/rest/generated/personer/personer';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
 import { useNullstillSaksbildeTab } from '@state/tab';
 import { useAddVarsel } from '@state/varsler';
+import { PeriodeUrlId, lagPeriodeUrl } from '@utils/undersider';
 
 import { validerFødselsnummer } from './validering';
 
@@ -20,13 +21,15 @@ export function usePersonsøk(ekstraLoading: boolean = false) {
 
     useLoadingToast({ isLoading: loading, message: 'Henter person' });
 
-    function søkPerson(request: ApiPersonSokRequest) {
+    function søkPerson(request: ApiPersonSokRequest, periode?: PeriodeUrlId) {
         mutate(
             { data: request },
             {
                 onSuccess: (data) => {
                     nullstillSaksbildeTab();
-                    router.push(`/person/${data.personPseudoId}`);
+                    router.push(
+                        periode ? lagPeriodeUrl(data.personPseudoId, periode) : `/person/${data.personPseudoId}`,
+                    );
                 },
                 onError: (error) => {
                     if (error.status !== undefined) {
