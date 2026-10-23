@@ -20,25 +20,6 @@ export function BegrunnelseOgJournalpost(): ReactElement {
         <>
             <Controller
                 control={control}
-                name="fritekstbegrunnelse"
-                render={({ field, fieldState }) => (
-                    <Textarea
-                        {...field}
-                        label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
-                        description={
-                            <span className="mt-2 block">
-                                Begrunnelsen blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.
-                            </span>
-                        }
-                        size="small"
-                        minRows={3}
-                        className="max-w-150"
-                        error={fieldState.error?.message}
-                    />
-                )}
-            />
-            <Controller
-                control={control}
                 name="journalpostvalg"
                 render={({ field, fieldState }) => (
                     <RadioGroup
@@ -117,6 +98,25 @@ export function BegrunnelseOgJournalpost(): ReactElement {
                     </div>
                 </VStack>
             )}
+            <Controller
+                control={control}
+                name="fritekstbegrunnelse"
+                render={({ field, fieldState }) => (
+                    <Textarea
+                        {...field}
+                        label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
+                        description={
+                            <span className="mt-2 block">
+                                Begrunnelsen blir ikke vist til den sykmeldte, med mindre hen ber om innsyn.
+                            </span>
+                        }
+                        size="small"
+                        minRows={3}
+                        className="max-w-150"
+                        error={fieldState.error?.message}
+                    />
+                )}
+            />
         </>
     );
 }

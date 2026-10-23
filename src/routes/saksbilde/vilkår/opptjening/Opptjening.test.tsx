@@ -937,7 +937,7 @@ describe('Opptjening', () => {
             userEvent.click(
                 within(screen.getByRole('radiogroup', { name: spørsmål })).getByRole('radio', { name: svar }),
             );
-        const sammenlagt = /arbeid og\/eller likestilt ytelse i minst 4 uker/;
+        const sammenlagt = /kombinasjon av arbeid og likestilt ytelse, i minst 4 uker/;
         const opptjentPåAap = /opptjent på grunnlag av arbeidsavklaringspenger/;
         const yrkesaktiv = /sammenhengende yrkesaktiv/;
 
@@ -975,10 +975,10 @@ describe('Opptjening', () => {
             renderOpptjening(false);
             await startLikestiltVurdering();
 
-            expect(screen.queryByRole('group', { name: /Hvilke likestilte ytelser/ })).not.toBeInTheDocument();
+            expect(screen.queryByRole('group', { name: /Hvilken likestilt ytelse/ })).not.toBeInTheDocument();
 
             await svar(sammenlagt, 'Ja');
-            expect(screen.getByRole('group', { name: /Hvilke likestilte ytelser/ })).toBeVisible();
+            expect(screen.getByRole('group', { name: /Hvilken likestilt ytelse/ })).toBeVisible();
             expect(screen.queryByRole('radiogroup', { name: opptjentPåAap })).not.toBeInTheDocument();
 
             await userEvent.click(screen.getByRole('checkbox', { name: 'Foreldrepenger (kap. 14)' }));
@@ -998,6 +998,7 @@ describe('Opptjening', () => {
             await userEvent.click(screen.getByRole('checkbox', { name: 'Foreldrepenger (kap. 14)' }));
             await svar(opptjentPåAap, 'Ja');
             await svar(yrkesaktiv, 'Ja');
+            expect(screen.getByText('Vilkåret er oppfylt')).toBeVisible();
             await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Hadde FP etter jobb');
             await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
@@ -1016,14 +1017,16 @@ describe('Opptjening', () => {
             expect(mutate).not.toHaveBeenCalled();
         });
 
-        it('viser advarsel og kan ikke lagre når svarene gir ikke oppfylt', async () => {
+        it('viser advarsel og kan lagre med begrunnelse når svarene gir ikke oppfylt', async () => {
             renderOpptjening(false);
             await startLikestiltVurdering();
 
             await svar(sammenlagt, 'Nei');
 
-            expect(screen.getByText(/ennå ikke støtte for å manuelt vurdere vilkåret til ikke oppfylt/)).toBeVisible();
-            expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
+            expect(screen.getByText('Vilkåret er ikke oppfylt')).toBeVisible();
+            expect(screen.getByRole('radiogroup', { name: /Journalpost-ID/ })).toBeVisible();
+            expect(screen.getByRole('textbox', { name: /Begrunnelse/ })).toBeVisible();
+            expect(screen.getByRole('button', { name: 'Lagre' })).toBeVisible();
         });
 
         it('viser advarsel når foreldrepenger opptjent på AAP mangler yrkesaktivitet før uttak', async () => {
@@ -1035,8 +1038,8 @@ describe('Opptjening', () => {
             await svar(opptjentPåAap, 'Ja');
             await svar(yrkesaktiv, 'Nei');
 
-            expect(screen.getByText(/ennå ikke støtte for å manuelt vurdere vilkåret til ikke oppfylt/)).toBeVisible();
-            expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
+            expect(screen.getByText('Vilkåret er ikke oppfylt')).toBeVisible();
+            expect(screen.getByRole('button', { name: 'Lagre' })).toBeVisible();
         });
 
         it('krever minst én ytelse', async () => {

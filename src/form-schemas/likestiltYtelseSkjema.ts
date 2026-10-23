@@ -110,6 +110,15 @@ export function girIkkeOppfylt(svar: Svar): boolean {
     return aktuelleSpørsmål(svar).yrkesaktivMinst4UkerFørUttak && svar.yrkesaktivMinst4UkerFørUttak === JaNei.NEI;
 }
 
+/** Alle aktuelle spørsmål er besvart, og svarene gir oppfylt etter § 8-2 andre ledd. */
+export function girOppfylt(svar: Svar): boolean {
+    const aktuelle = aktuelleSpørsmål(svar);
+    if (!aktuelle.ytelser || (svar.ytelser ?? []).length === 0) return false;
+    if (!aktuelle.foreldrepengerOpptjentPåAap) return true;
+    if (svar.foreldrepengerOpptjentPåAap === JaNei.NEI) return true;
+    return aktuelle.yrkesaktivMinst4UkerFørUttak && svar.yrkesaktivMinst4UkerFørUttak === JaNei.JA;
+}
+
 export function tilLikestiltYtelseRequest(
     svar: LikestiltYtelseSchema,
     skjæringstidspunkt: string,

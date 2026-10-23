@@ -1,13 +1,24 @@
 import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Alert, Button, Checkbox, CheckboxGroup, HStack, Radio, RadioGroup, VStack } from '@navikt/ds-react';
+import {
+    Alert,
+    Button,
+    Checkbox,
+    CheckboxGroup,
+    HStack,
+    InlineMessage,
+    Radio,
+    RadioGroup,
+    VStack,
+} from '@navikt/ds-react';
 
 import {
     JaNei,
     LikestiltYtelseSchema,
     aktuelleSpørsmål,
     girIkkeOppfylt,
+    girOppfylt,
     likestiltYtelseDefaultValues,
     likestiltYtelseKapittel,
     likestiltYtelseLabels,
@@ -19,7 +30,6 @@ import { ApiLikestiltYtelse } from '@io/rest/generated/vilkarsproving.schemas';
 import { usePostManuellLikestiltYtelseVurderingBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 
 import { BegrunnelseOgJournalpost } from './BegrunnelseOgJournalpost';
-import { IkkeOppfyltStøttesIkkeAlert } from './ManuellVurderingAvVilkårSkjema';
 import { useInvaliderOpptjening } from './useInvaliderOpptjening';
 
 interface LikestiltYtelseSkjemaProps {
@@ -44,6 +54,7 @@ export function LikestiltYtelseSkjema({
     const svar = useWatch({ control: form.control });
     const aktuelle = aktuelleSpørsmål(svar);
     const erIkkeOppfylt = girIkkeOppfylt(svar);
+    const erOppfylt = girOppfylt(svar);
 
     const { mutate, isPending, isError } = usePostManuellLikestiltYtelseVurderingBehandler({
         mutation: {
@@ -64,8 +75,7 @@ export function LikestiltYtelseSkjema({
             <VStack as="form" gap="space-20" onSubmit={form.handleSubmit(onSubmit)}>
                 <JaNeiSpørsmål
                     name="sammenlagtMinst4Uker"
-                    legend="Har søkeren hatt arbeid og/eller likestilt ytelse i minst 4 uker umiddelbart før arbeidsuførheten?"
-                    description="Arbeid og ytelser legges sammen. Det må ikke være opphold."
+                    legend="Har søkeren hatt  likestilt ytelse, eller en kombinasjon av arbeid og likestilt ytelse, i minst 4 uker umiddelbart før arbeidsuførheten?"
                 />
                 {aktuelle.ytelser && (
                     <Controller
@@ -73,7 +83,8 @@ export function LikestiltYtelseSkjema({
                         name="ytelser"
                         render={({ field, fieldState }) => (
                             <CheckboxGroup
-                                legend="Hvilke likestilte ytelser har søkeren mottatt?"
+                                legend="Hvilken likestilt ytelse har søkeren hatt i opptjeningstiden?"
+                                description="Velg de aktuelle likestilte ytelsene"
                                 size="small"
                                 value={field.value}
                                 onChange={field.onChange}
@@ -92,23 +103,21 @@ export function LikestiltYtelseSkjema({
                     <JaNeiSpørsmål
                         name="foreldrepengerOpptjentPåAap"
                         legend="Er foreldrepengene opptjent på grunnlag av arbeidsavklaringspenger?"
-                        description="Andre punktum. Se opptjeningen i fpsak."
                     />
                 )}
                 {aktuelle.yrkesaktivMinst4UkerFørUttak && (
                     <JaNeiSpørsmål
                         name="yrkesaktivMinst4UkerFørUttak"
-                        legend="Var søkeren sammenhengende yrkesaktiv, eller mottok ytelse etter kapittel 8, 9 eller 14, i minst 4 uker umiddelbart før uttaket av foreldrepenger startet?"
-                        description="Tredje punktum. Dagpenger teller ikke. Svangerskapspenger må være opptjent ved yrkesaktivitet."
+                        legend="Var søkeren sammenhengende yrkesaktiv, eller mottok sykepenger,  pleie-, omsorgs- eller opplæringspenger,  foreldrepenger eller svangerskapspenger, i minst 4 uker umiddelbart før uttaket av foreldrepenger startet?"
                     />
                 )}
-                {erIkkeOppfylt ? <IkkeOppfyltStøttesIkkeAlert /> : <BegrunnelseOgJournalpost />}
+                {erOppfylt && <InlineMessage status="success">Vilkåret er oppfylt</InlineMessage>}
+                {erIkkeOppfylt && <InlineMessage status="warning">Vilkåret er ikke oppfylt</InlineMessage>}
+                <BegrunnelseOgJournalpost />
                 <HStack gap="space-8">
-                    {!erIkkeOppfylt && (
-                        <Button type="submit" variant="primary" size="small" loading={isPending}>
-                            Lagre
-                        </Button>
-                    )}
+                    <Button type="submit" variant="primary" size="small" loading={isPending}>
+                        Lagre
+                    </Button>
                     <Button type="button" variant="tertiary" size="small" onClick={onLukk}>
                         Avbryt
                     </Button>
@@ -126,7 +135,7 @@ export function LikestiltYtelseSkjema({
 interface JaNeiSpørsmålProps {
     name: 'sammenlagtMinst4Uker' | 'foreldrepengerOpptjentPåAap' | 'yrkesaktivMinst4UkerFørUttak';
     legend: string;
-    description: string;
+    description?: string;
 }
 
 function JaNeiSpørsmål({ name, legend, description }: JaNeiSpørsmålProps): ReactElement {

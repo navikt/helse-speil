@@ -2,6 +2,7 @@ import {
     JaNei,
     LikestiltYtelseSchema,
     girIkkeOppfylt,
+    girOppfylt,
     likestiltYtelseSkjema,
     tilLikestiltYtelseRequest,
 } from '@form-schemas/likestiltYtelseSkjema';
@@ -68,6 +69,60 @@ describe('girIkkeOppfylt', () => {
 
     it('er ikke avgjort før sammenlagt er besvart', () => {
         expect(girIkkeOppfylt({})).toBe(false);
+    });
+});
+
+describe('girOppfylt', () => {
+    it('er oppfylt med likestilt ytelse som ikke er foreldrepenger', () => {
+        expect(girOppfylt({ sammenlagtMinst4Uker: JaNei.JA, ytelser: [ApiLikestiltYtelse.SYKEPENGER] })).toBe(true);
+    });
+
+    it('er oppfylt når foreldrepengene ikke er opptjent på AAP', () => {
+        expect(
+            girOppfylt({
+                sammenlagtMinst4Uker: JaNei.JA,
+                ytelser: [ApiLikestiltYtelse.FORELDREPENGER],
+                foreldrepengerOpptjentPåAap: JaNei.NEI,
+            }),
+        ).toBe(true);
+    });
+
+    it('er oppfylt når foreldrepengene er opptjent på AAP og søkeren var yrkesaktiv før uttak', () => {
+        expect(
+            girOppfylt({
+                sammenlagtMinst4Uker: JaNei.JA,
+                ytelser: [ApiLikestiltYtelse.FORELDREPENGER],
+                foreldrepengerOpptjentPåAap: JaNei.JA,
+                yrkesaktivMinst4UkerFørUttak: JaNei.JA,
+            }),
+        ).toBe(true);
+    });
+
+    it('er ikke oppfylt når svarene gir ikke oppfylt', () => {
+        expect(girOppfylt({ sammenlagtMinst4Uker: JaNei.NEI })).toBe(false);
+        expect(
+            girOppfylt({
+                sammenlagtMinst4Uker: JaNei.JA,
+                ytelser: [ApiLikestiltYtelse.FORELDREPENGER],
+                foreldrepengerOpptjentPåAap: JaNei.JA,
+                yrkesaktivMinst4UkerFørUttak: JaNei.NEI,
+            }),
+        ).toBe(false);
+    });
+
+    it('er ikke avgjort før alle aktuelle spørsmål er besvart', () => {
+        expect(girOppfylt({})).toBe(false);
+        expect(girOppfylt({ sammenlagtMinst4Uker: JaNei.JA, ytelser: [] })).toBe(false);
+        expect(girOppfylt({ sammenlagtMinst4Uker: JaNei.JA, ytelser: [ApiLikestiltYtelse.FORELDREPENGER] })).toBe(
+            false,
+        );
+        expect(
+            girOppfylt({
+                sammenlagtMinst4Uker: JaNei.JA,
+                ytelser: [ApiLikestiltYtelse.FORELDREPENGER],
+                foreldrepengerOpptjentPåAap: JaNei.JA,
+            }),
+        ).toBe(false);
     });
 });
 
