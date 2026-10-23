@@ -36,6 +36,7 @@ export const SykepengegrunnlagFraSpleis = ({
     return (
         <HStack justify="start" wrap={false} {...rest}>
             <SykepengegrunnlagPanel
+                vilkårsgrunnlagId={vilkårsgrunnlag.id}
                 inntekter={vilkårsgrunnlag.inntekter}
                 periode={periode}
                 avviksvurdering={vilkårsgrunnlag.avviksvurdering ?? null}

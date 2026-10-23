@@ -13,8 +13,8 @@ import {
 } from '@io/rest/generated/spesialist.schemas';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import {
-    useAtomEditingForPersonOgSkjæringstidspunkt,
-    useAtomSkjemaForPersonOgSkjæringstidspunkt,
+    useAtomEditingForVilkårsgrunnlag,
+    useAtomSkjemaForVilkårsgrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/atoms';
 import {
     SkjønnsfastsettingForm,
@@ -32,6 +32,7 @@ import styles from './SkjønnsfastsettingSykepengegrunnlag.module.css';
 interface SkjønnsfastsettingSykepengegrunnlagProps {
     person: ApiSaksbildePerson;
     periode: ApiBeregnetPeriode | ApiGhostPeriode;
+    vilkårsgrunnlagId: string;
     sykepengegrunnlag: number;
     sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
     omregnetÅrsinntekt: number;
@@ -45,6 +46,7 @@ interface SkjønnsfastsettingSykepengegrunnlagProps {
 export const SkjønnsfastsettingSykepengegrunnlag = ({
     person,
     periode,
+    vilkårsgrunnlagId,
     sykepengegrunnlag,
     sykepengegrunnlagsgrense,
     omregnetÅrsinntekt,
@@ -54,12 +56,10 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     avviksprosent,
     organisasjonsnummer,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
-    const [editingForSkjæringstidspunkt, setEditing] = useAtomEditingForPersonOgSkjæringstidspunkt(
-        periode.skjaeringstidspunkt,
-    );
+    const [editingForVilkårsgrunnlag, setEditing] = useAtomEditingForVilkårsgrunnlag(vilkårsgrunnlagId);
     const kanSkjønnsfastsette = !useSerPåTidligereBehandling(person);
-    const editing = editingForSkjæringstidspunkt && kanSkjønnsfastsette;
-    const [formValues, setFormValues] = useAtomSkjemaForPersonOgSkjæringstidspunkt(periode.skjaeringstidspunkt);
+    const editing = editingForVilkårsgrunnlag && kanSkjønnsfastsette;
+    const [formValues, setFormValues] = useAtomSkjemaForVilkårsgrunnlag(vilkårsgrunnlagId);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<number | null>(null);
     const aktiveArbeidsgivereMedOmregnetÅrsinntekt = finnAktiveInntekter(inntekter);
     const skalVise828andreLedd = Math.abs(avviksprosent) > 25;

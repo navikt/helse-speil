@@ -3,7 +3,12 @@ import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
-import { ApiBeregnetPeriode, ApiGhostPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiBeregnetPeriode,
+    ApiGhostPeriode,
+    ApiSaksbildePerson,
+    ApiVilkårsgrunnlagSpleisV2,
+} from '@io/rest/generated/spesialist.schemas';
 import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
 import { SkjønnsfastsettingSykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/SkjønnsfastsettingSykepengegrunnlag';
 import { usePostSkjønnsfastsattSykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
@@ -115,7 +120,41 @@ describe('SkjønnsfastsettingSykepengegrunnlag', () => {
 
         expect(screen.getByText('Testårsak')).toBeInTheDocument();
     });
+
+    it('lukker skjemaet når vilkårsgrunnlaget endres', async () => {
+        const store = createStore();
+        (useActivePeriod as Mock).mockReturnValue(nyestePeriode);
+        const { rerender } = renderSkjønnsfastsetting(person, nyestePeriode, store);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Skjønnsfastsett' }));
+        expect(screen.getByText('Testårsak')).toBeInTheDocument();
+
+        rerender(medSkjønnsfastsetting(person, nyestePeriode, store, etVilkårsgrunnlagFraSpleis()));
+
+        expect(screen.queryByText('Testårsak')).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Skjønnsfastsett' })).toBeInTheDocument();
+    });
+
+    it('gjenbruker ikke skjemaverdier fra et tidligere vilkårsgrunnlag', async () => {
+        const store = createStore();
+        const nyttVilkårsgrunnlag = etVilkårsgrunnlagFraSpleis();
+        (useActivePeriod as Mock).mockReturnValue(nyestePeriode);
+        const { rerender } = renderSkjønnsfastsetting(person, nyestePeriode, store);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Skjønnsfastsett' }));
+        await userEvent.click(screen.getByRole('radio', { name: 'Testårsak' }));
+        expect(screen.queryByRole('radio', { name: 'Testårsak' })).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Endre' })).toBeInTheDocument();
+
+        rerender(medSkjønnsfastsetting(person, nyestePeriode, store, nyttVilkårsgrunnlag));
+        await userEvent.click(screen.getByRole('button', { name: 'Skjønnsfastsett' }));
+
+        expect(screen.getByRole('radio', { name: 'Testårsak' })).not.toBeChecked();
+        expect(screen.queryByRole('button', { name: 'Endre' })).not.toBeInTheDocument();
+    });
 });
+
+const standardVilkårsgrunnlag = etVilkårsgrunnlagFraSpleis();
 
 function renderSkjønnsfastsetting(
     person: ApiSaksbildePerson,
@@ -129,13 +168,14 @@ function medSkjønnsfastsetting(
     person: ApiSaksbildePerson,
     periode: ApiBeregnetPeriode | ApiGhostPeriode,
     store: ReturnType<typeof createStore>,
+    vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 = standardVilkårsgrunnlag,
 ) {
-    const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis();
     return (
         <PersonStoreContext.Provider value={store}>
             <SkjønnsfastsettingSykepengegrunnlag
                 person={person}
                 periode={periode}
+                vilkårsgrunnlagId={vilkårsgrunnlag.id}
                 sykepengegrunnlag={vilkårsgrunnlag.sykepengegrunnlag}
                 sykepengegrunnlagsgrense={vilkårsgrunnlag.sykepengegrunnlagsgrense}
                 omregnetÅrsinntekt={Number(vilkårsgrunnlag.avviksvurdering!.beregningsgrunnlag)}

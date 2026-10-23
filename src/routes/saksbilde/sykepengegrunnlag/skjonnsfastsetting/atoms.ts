@@ -4,16 +4,16 @@ import { atomFamily } from 'jotai-family';
 import { SkjønnsfastsettingFormFields } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { usePersonStore } from '@state/contexts/personStore';
 
-const skjemaFamily = atomFamily((_skjæringstidspunkt: string) => atom<SkjønnsfastsettingFormFields | null>(null));
+const skjemaFamily = atomFamily((_vilkårsgrunnlagId: string) => atom<SkjønnsfastsettingFormFields | null>(null));
 
-export const useAtomSkjemaForPersonOgSkjæringstidspunkt = (skjaeringstidspunkt: string) =>
-    useAtom(skjemaFamily(skjaeringstidspunkt), {
+export const useAtomSkjemaForVilkårsgrunnlag = (vilkårsgrunnlagId: string) =>
+    useAtom(skjemaFamily(vilkårsgrunnlagId), {
         store: usePersonStore(),
     });
 
-const editingFamily = atomFamily((_skjæringstidspunkt: string) => atom<boolean>(false));
+const editingFamily = atomFamily((_vilkårsgrunnlagId: string) => atom<boolean>(false));
 
-export const useAtomEditingForPersonOgSkjæringstidspunkt = (skjaeringstidspunkt: string) =>
-    useAtom(editingFamily(skjaeringstidspunkt), {
+export const useAtomEditingForVilkårsgrunnlag = (vilkårsgrunnlagId: string) =>
+    useAtom(editingFamily(vilkårsgrunnlagId), {
         store: usePersonStore(),
     });

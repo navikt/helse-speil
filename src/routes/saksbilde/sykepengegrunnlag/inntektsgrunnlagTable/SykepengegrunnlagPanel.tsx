@@ -20,6 +20,7 @@ import { InntektsgrunnlagoppsummeringTable } from './Inntektsgrunnlagoppsummerin
 import styles from './SykepengegrunnlagPanel.module.css';
 
 interface SykepengegrunnlagPanelProps {
+    vilkårsgrunnlagId: string;
     inntekter: ApiArbeidsgiverinntekt[];
     skjønnsmessigFastsattÅrlig?: number | null;
     avviksvurdering: ApiVilkårsgrunnlagAvviksvurdering | null;
@@ -49,6 +50,7 @@ const getSorterteInntekter = (
 };
 
 export const SykepengegrunnlagPanel = ({
+    vilkårsgrunnlagId,
     inntekter,
     avviksvurdering,
     sykepengegrunnlag,
@@ -80,8 +82,10 @@ export const SykepengegrunnlagPanel = ({
                         avviksprosent={Number(avviksvurdering.avviksprosent)}
                     />
                     <SkjønnsfastsettingSykepengegrunnlag
+                        key={vilkårsgrunnlagId}
                         person={person}
                         periode={periode}
+                        vilkårsgrunnlagId={vilkårsgrunnlagId}
                         sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                         sykepengegrunnlag={sykepengegrunnlag}
                         omregnetÅrsinntekt={Number(avviksvurdering.beregningsgrunnlag)}
