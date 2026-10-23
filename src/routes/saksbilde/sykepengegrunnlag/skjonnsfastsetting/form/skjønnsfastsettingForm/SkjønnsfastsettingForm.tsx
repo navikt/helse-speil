@@ -14,6 +14,7 @@ import {
     ApiSykepengegrunnlagskjonnsfastsetting,
 } from '@io/rest/generated/spesialist.schemas';
 import type { SkjonnsfastsettelseMalerQueryResult } from '@io/sanity/generated/sanity.types';
+import { sporValideringsfeil } from '@observability/hendelser';
 import { SkjønnsfastsettingBegrunnelse } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingBegrunnelse';
 import { SkjønnsfastsettingType } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingType';
 import { SkjønnsfastsettingÅrsak } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/SkjønnsfastsettingÅrsak';
@@ -39,6 +40,7 @@ interface SkjønnsfastsettingFormProps {
     sykepengegrunnlagsgrense: ApiSykepengegrunnlagsgrense;
     onEndretSykepengegrunnlag: (endretSykepengegrunnlag: number | null) => void;
     closeAndResetForm: () => void;
+    avbryt: () => void;
     maler: SkjonnsfastsettelseMalerQueryResult;
     sisteSkjønnsfastsettelse: ApiSykepengegrunnlagskjonnsfastsetting | null;
     formValues: SkjønnsfastsettingFormFields | null;
@@ -54,6 +56,7 @@ export const SkjønnsfastsettingForm = ({
     sykepengegrunnlagsgrense,
     onEndretSykepengegrunnlag,
     closeAndResetForm,
+    avbryt,
     maler,
     sisteSkjønnsfastsettelse,
     formValues,
@@ -155,7 +158,10 @@ export const SkjønnsfastsettingForm = ({
 
     return (
         <FormProvider {...form}>
-            <form onSubmit={handleSubmit(confirmChanges)} autoComplete="off">
+            <form
+                onSubmit={handleSubmit(confirmChanges, (errors) => sporValideringsfeil('skjønnsfastsetting', errors))}
+                autoComplete="off"
+            >
                 <div className={styles.skjønnsfastsetting}>
                     <SkjønnsfastsettingÅrsak maler={maler} />
                     {harValgt25Avvik && <SkjønnsfastsettingType />}
@@ -185,7 +191,7 @@ export const SkjønnsfastsettingForm = ({
                                 ) : (
                                     <HelpText>Kan ikke overstyre en beslutteroppgave</HelpText>
                                 )}
-                                <Button size="small" variant="tertiary" type="button" onClick={closeAndResetForm}>
+                                <Button size="small" variant="tertiary" type="button" onClick={avbryt}>
                                     Avbryt
                                 </Button>
                             </HStack>

@@ -4,6 +4,7 @@ import { Button } from '@navikt/ds-react';
 
 import { PostSendIReturMutationError, usePostSendIRetur } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import { sporHendelse } from '@observability/hendelser';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
@@ -66,6 +67,7 @@ export const ReturButton = ({
                 },
                 {
                     onSuccess: () => {
+                        sporHendelse({ name: 'sendt i retur', properties: {} });
                         void invaliderOppgaver();
                         addReturtoast();
                         closeNotat();

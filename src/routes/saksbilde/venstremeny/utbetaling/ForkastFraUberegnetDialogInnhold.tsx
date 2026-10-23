@@ -20,6 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 import { usePostAnmodOmForkasting } from '@io/rest/generated/vedtaksperioder/vedtaksperioder';
 import type { ArsakerQueryResult } from '@io/sanity/generated/sanity.types';
+import { sporHendelse } from '@observability/hendelser';
 import {
     visningenErOppdatertToast,
     visningenErOppdatertToastKey,
@@ -67,6 +68,13 @@ export const ForkastFraUberegnetDialogInnhold = ({
             },
             {
                 onSuccess: () => {
+                    sporHendelse({
+                        name: 'forkastet',
+                        properties: {
+                            antallÅrsaker: parsedArsaker.length,
+                            harKommentar: values.kommentar.trim() !== '',
+                        },
+                    });
                     removeToast(visningenOppdateresToastKey);
                     addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
                     onSuccess();

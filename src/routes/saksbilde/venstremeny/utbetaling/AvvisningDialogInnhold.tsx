@@ -7,6 +7,7 @@ import { AvvisningSkjema, avvisningSkjema } from '@form-schemas/avvisningSkjema'
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
 import { ApiBeregnetPeriode } from '@io/rest/generated/spesialist.schemas';
+import { sporHendelse } from '@observability/hendelser';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
@@ -44,6 +45,13 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
             },
             {
                 onSuccess: () => {
+                    sporHendelse({
+                        name: 'kan ikke behandles',
+                        properties: {
+                            antallBegrunnelser: values.begrunnelser.length,
+                            harKommentar: values.kommentar.trim() !== '',
+                        },
+                    });
                     void invaliderOppgaver();
                     addToast({
                         message: 'Oppgaven er sendt til behandling i Infotrygd',

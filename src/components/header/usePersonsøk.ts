@@ -6,13 +6,14 @@ import { useLoadingToast } from '@hooks/useLoadingToast';
 import { FetchError, NotFoundError, UgyldigFødselsnummerError, UgyldigIdentifikatorError } from '@io/errors';
 import { usePostPersonSok } from '@io/rest/generated/personer/personer';
 import { ApiPersonSokRequest } from '@io/rest/generated/spesialist.schemas';
+import { Personkilde, merkKildeForNestePerson } from '@observability/hendelser';
 import { useNullstillSaksbildeTab } from '@state/tab';
 import { useAddVarsel } from '@state/varsler';
 import { PeriodeUrlId, lagPeriodeUrl } from '@utils/undersider';
 
 import { validerFødselsnummer } from './validering';
 
-export function usePersonsøk(ekstraLoading: boolean = false) {
+export function usePersonsøk(kilde: Personkilde, ekstraLoading: boolean = false) {
     const addVarsel = useAddVarsel();
     const router = useRouter();
     const nullstillSaksbildeTab = useNullstillSaksbildeTab();
@@ -27,6 +28,7 @@ export function usePersonsøk(ekstraLoading: boolean = false) {
             {
                 onSuccess: (data) => {
                     nullstillSaksbildeTab();
+                    merkKildeForNestePerson(kilde);
                     router.push(
                         periode ? lagPeriodeUrl(data.personPseudoId, periode) : `/person/${data.personPseudoId}`,
                     );

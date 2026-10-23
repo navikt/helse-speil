@@ -4,6 +4,7 @@ import { validate as validateUuid } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
 
+import { merkKildeForNestePerson } from '@observability/hendelser';
 import { useNullstillSaksbildeTab } from '@state/tab';
 
 import { usePersonsøk } from './usePersonsøk';
@@ -13,7 +14,7 @@ import styles from './Personsøk.module.css';
 export const Personsøk = (): ReactElement => {
     const router = useRouter();
     const nullstillSaksbildeTab = useNullstillSaksbildeTab();
-    const { søkPersonMedFødselsnummerEllerAktørId, loading } = usePersonsøk();
+    const { søkPersonMedFødselsnummerEllerAktørId, loading } = usePersonsøk('personsøk');
 
     const searchRef = useRef<HTMLInputElement>(null);
 
@@ -26,6 +27,7 @@ export const Personsøk = (): ReactElement => {
         }
         if (validateUuid(søketekst)) {
             nullstillSaksbildeTab();
+            merkKildeForNestePerson('personsøk');
             router.push(`/person/${søketekst}`);
             return;
         }

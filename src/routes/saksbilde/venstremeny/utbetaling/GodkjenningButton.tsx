@@ -5,6 +5,8 @@ import { Button } from '@navikt/ds-react';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { PostVedtakMutationError, usePostVedtak } from '@io/rest/generated/behandlinger/behandlinger';
 import { ApiUtbetaling } from '@io/rest/generated/spesialist.schemas';
+import { sporHendelse } from '@observability/hendelser';
+import { useSporModal } from '@observability/useSporModal';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
@@ -33,6 +35,7 @@ interface GodkjenningButtonProps extends Omit<React.HTMLAttributes<HTMLButtonEle
     utbetaling: ApiUtbetaling;
     inntektsforholdReferanse: InntektsforholdReferanse;
     vedtakBegrunnelseTekst: string;
+    erBeslutter: boolean;
     size: 'small' | 'medium';
 }
 
@@ -44,12 +47,21 @@ export const GodkjenningButton = ({
     utbetaling,
     inntektsforholdReferanse,
     vedtakBegrunnelseTekst,
+    erBeslutter,
     size,
     ...buttonProps
 }: GodkjenningButtonProps): ReactElement => {
     const [showModal, setShowModal] = useState(false);
     const { mutate, error, isPending: loading, reset: resetFattVedtakMutation } = usePostVedtak();
-    useKeyboard([{ key: Key.F6, action: () => !disabled && setShowModal(true), ignoreIfModifiers: false }]);
+    const sporModal = useSporModal('fatt-vedtak');
+
+    const åpneModal = (opprinnelse: 'knapp' | 'hurtigtast') => {
+        if (showModal) return;
+        sporModal.åpnet(opprinnelse);
+        setShowModal(true);
+    };
+
+    useKeyboard([{ key: Key.F6, action: () => !disabled && åpneModal('hurtigtast'), ignoreIfModifiers: false }]);
 
     const addUtbetalingstoast = useAddUtbetalingstoast();
     const invaliderOppgaver = useInvaliderOppgaver();
@@ -64,10 +76,26 @@ export const GodkjenningButton = ({
             },
             {
                 onSuccess: () => {
+                    sporHendelse({
+                        name: 'vedtak fattet',
+                        properties: {
+                            beslutter: erBeslutter,
+                            revurdering: utbetaling.type === 'REVURDERING',
+                            utbetalingTil: utbetalingTil(utbetaling),
+                            harIndividuellBegrunnelse: vedtakBegrunnelseTekst.trim() !== '',
+                        },
+                    });
+                    sporModal.lukket('handlings-knapp');
                     void invaliderOppgaver();
                     addUtbetalingstoast();
                     onSuccess?.();
                     setShowModal(false);
+                },
+                onError: (error) => {
+                    sporHendelse({
+                        name: 'fatt vedtak feilet',
+                        properties: { feilkode: error.info?.code ?? 'ukjent' },
+                    });
                 },
             },
         );
@@ -80,7 +108,7 @@ export const GodkjenningButton = ({
                 variant="primary"
                 size={size}
                 data-testid="godkjenning-button"
-                onClick={() => setShowModal(true)}
+                onClick={() => åpneModal('knapp')}
                 {...buttonProps}
             >
                 {children}
@@ -91,6 +119,7 @@ export const GodkjenningButton = ({
                 inntektsforholdReferanse={inntektsforholdReferanse}
                 onOpenChange={(open) => {
                     if (!open) {
+                        sporModal.lukket();
                         resetFattVedtakMutation();
                         setShowModal(false);
                     }
@@ -103,6 +132,15 @@ export const GodkjenningButton = ({
         </>
     );
 };
+
+function utbetalingTil(utbetaling: ApiUtbetaling): 'arbeidsgiver' | 'person' | 'begge' | 'ingen' {
+    const tilArbeidsgiver = utbetaling.arbeidsgiverNettoBelop !== 0;
+    const tilPerson = utbetaling.personNettoBelop !== 0;
+    if (tilArbeidsgiver && tilPerson) return 'begge';
+    if (tilArbeidsgiver) return 'arbeidsgiver';
+    if (tilPerson) return 'person';
+    return 'ingen';
+}
 
 const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
     const problemDetailsCode = error.info?.code;

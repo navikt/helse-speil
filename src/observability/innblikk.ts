@@ -22,7 +22,7 @@ export function installerInnblikkHook(): void {
 }
 
 export function leggPåInnblikkPerson(type: string, payload: InnblikkPayload): InnblikkPayload {
-    if (type !== 'event') return payload;
+    if (type !== 'event' || payload.data?.person !== undefined) return payload;
 
     const personPseudoId = personPseudoIdFraUrl(window.location.pathname);
     if (personPseudoId === null) return payload;
@@ -30,7 +30,7 @@ export function leggPåInnblikkPerson(type: string, payload: InnblikkPayload): I
     return { ...payload, data: { ...payload.data, person: finnInnblikkPerson(personPseudoId) } };
 }
 
-function finnInnblikkPerson(personPseudoId: string): string {
+export function finnInnblikkPerson(personPseudoId: string): string {
     const nå = Date.now();
     const personer = fjernUtløpte(lesLagredePersoner(), nå);
     const id = personer[personPseudoId]?.id ?? lagInnblikkPersonId();

@@ -9,6 +9,7 @@ import { PåVentSkjema, påVentSkjema } from '@form-schemas/påVentSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePutPåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiPersonnavn, ApiTildeling } from '@io/rest/generated/spesialist.schemas';
+import { sporHendelse } from '@observability/hendelser';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { DateString } from '@typer/shared';
@@ -50,6 +51,7 @@ export const LeggPåVentDialog = ({
                 utgangspunktTildeling={utgangspunktTildeling}
                 submitKnappTekst="Legg på vent"
                 onSuccess={() => {
+                    sporHendelse({ name: 'lagt på vent', properties: {} });
                     onLeggPåVentSuccess?.();
                     onClose();
                 }}

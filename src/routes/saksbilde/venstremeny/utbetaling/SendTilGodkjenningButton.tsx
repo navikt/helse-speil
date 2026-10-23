@@ -5,6 +5,8 @@ import { Button } from '@navikt/ds-react';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { PostSendTilGodkjenningMutationError, usePostSendTilGodkjenning } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiUtbetaling } from '@io/rest/generated/spesialist.schemas';
+import { sporHendelse } from '@observability/hendelser';
+import { useSporModal } from '@observability/useSporModal';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
@@ -58,10 +60,18 @@ export const SendTilGodkjenningButton = ({
         reset: resetSendTilGodkjenningMutation,
     } = usePostSendTilGodkjenning();
 
+    const sporModal = useSporModal('send-til-godkjenning');
+
+    const åpneModal = (opprinnelse: 'knapp' | 'hurtigtast') => {
+        if (showModal) return;
+        sporModal.åpnet(opprinnelse);
+        setShowModal(true);
+    };
+
     useKeyboard([
         {
             key: Key.F6,
-            action: () => setShowModal(true),
+            action: () => åpneModal('hurtigtast'),
             ignoreIfModifiers: false,
         },
     ]);
@@ -76,6 +86,11 @@ export const SendTilGodkjenningButton = ({
             },
             {
                 onSuccess: () => {
+                    sporHendelse({
+                        name: 'sendt til godkjenning',
+                        properties: { harIndividuellBegrunnelse: vedtakBegrunnelseTekst.trim() !== '' },
+                    });
+                    sporModal.lukket('handlings-knapp');
                     void invaliderOppgaver();
                     addToast();
                     onSuccess?.();
@@ -92,7 +107,7 @@ export const SendTilGodkjenningButton = ({
                 variant="primary"
                 size={size}
                 data-testid="godkjenning-button"
-                onClick={() => setShowModal(true)}
+                onClick={() => åpneModal('knapp')}
                 {...buttonProps}
             >
                 {children}
@@ -103,6 +118,7 @@ export const SendTilGodkjenningButton = ({
                 inntektsforholdReferanse={inntektsforholdReferanse}
                 onOpenChange={(open) => {
                     if (!open) {
+                        sporModal.lukket();
                         resetSendTilGodkjenningMutation();
                     }
                     setShowModal(open);

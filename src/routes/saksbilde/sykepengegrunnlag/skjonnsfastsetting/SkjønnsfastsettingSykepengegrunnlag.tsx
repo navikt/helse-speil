@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import { Events } from '@navikt/analytics-types';
 import { VStack } from '@navikt/ds-react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
@@ -11,6 +12,7 @@ import {
     ApiSykepengegrunnlagsgrense,
     ApiSykepengegrunnlagskjonnsfastsetting,
 } from '@io/rest/generated/spesialist.schemas';
+import { sporHendelse } from '@observability/hendelser';
 import { SykepengegrunnlagsgrenseView } from '@saksbilde/sykepengegrunnlag/inntektsgrunnlagTable/sykepengegrunnlagsgrenseView/SykepengegrunnlagsgrenseView';
 import {
     useAtomEditingForVilkårsgrunnlag,
@@ -75,7 +77,13 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
         setEndretSykepengegrunnlag(null);
     };
 
+    const avbrytSkjema = () => {
+        sporHendelse({ name: 'skjema avbrutt', properties: { skjemanavn: 'skjønnsfastsetting' } });
+        closeAndResetForm();
+    };
+
     const openForm = () => {
+        sporHendelse({ name: Events.SKJEMA_APNET, properties: { skjemanavn: 'skjønnsfastsetting' } });
         setEditing(true);
         setEndretSykepengegrunnlag(null);
     };
@@ -100,7 +108,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                     maler={maler}
                     malerError={error?.message ? 'Mangler tekster for skjønnsfastsetting' : undefined}
                     organisasjonsnummer={organisasjonsnummer}
-                    closeAndResetForm={closeAndResetForm}
+                    closeAndResetForm={avbrytSkjema}
                 />
                 {!editing && skjønnsmessigFastsattÅrlig !== null && sisteSkjønnsfastsettelse && (
                     <SkjønnsfastsettingSammendrag sisteSkjønnsfastsetting={sisteSkjønnsfastsettelse} />
@@ -115,6 +123,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
                         sykepengegrunnlagsgrense={sykepengegrunnlagsgrense}
                         onEndretSykepengegrunnlag={setEndretSykepengegrunnlag}
                         closeAndResetForm={closeAndResetForm}
+                        avbryt={avbrytSkjema}
                         maler={maler}
                         sisteSkjønnsfastsettelse={sisteSkjønnsfastsettelse}
                         formValues={formValues}

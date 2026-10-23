@@ -133,6 +133,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                     }
                                     onSuccess={onGodkjennUtbetaling}
                                     vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
+                                    erBeslutter
                                 >
                                     Godkjenn og fatt vedtak
                                 </GodkjenningButton>
@@ -152,6 +153,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                         }
                                         onSuccess={onGodkjennUtbetaling}
                                         vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
+                                        erBeslutter={false}
                                     >
                                         {harArbeidsgiverutbetaling || harBrukerutbetaling ? 'Fatt vedtak' : 'Godkjenn'}
                                     </GodkjenningButton>

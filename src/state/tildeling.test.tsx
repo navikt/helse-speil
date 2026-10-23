@@ -26,7 +26,7 @@ describe('tildeling', () => {
 
     it('invaliderer oppgavelista og antall oppgaver når tildeling er utført', async () => {
         const onUtført = vi.fn();
-        const { result } = renderHook(() => useTildel());
+        const { result } = renderHook(() => useTildel('oppgaveliste'));
 
         await act(() => result.current[0]('en-person', onUtført));
         act(() => hentOnSettled()());
@@ -36,7 +36,7 @@ describe('tildeling', () => {
     });
 
     it('invaliderer oppgavelista og antall oppgaver når avmelding er utført', async () => {
-        const { result } = renderHook(() => useAvmeld());
+        const { result } = renderHook(() => useAvmeld('oppgaveliste'));
 
         await act(() => result.current[0]('en-person'));
         act(() => hentOnSettled()());

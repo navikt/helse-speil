@@ -9,6 +9,7 @@ import { useKeyboardShortcuts } from '@hooks/useKeyboardShortcuts';
 import { useRefreshPersonVedEvent } from '@hooks/useRefreshPersonVedEvent';
 import { useVarselOmSakErTildeltAnnenSaksbehandler } from '@hooks/useVarselOmSakErTildeltAnnenSaksbehandler';
 import { useAbonnerPåEndringer } from '@io/sse/useAbonnerPåEndringer';
+import { startPersonbesøk } from '@observability/hendelser';
 import { useResetOpenedDocuments } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { InfovarselOmVeilederStans } from '@saksbilde/infovarselOmStans/InfovarselOmVeilederStans';
 import { PersonHeader } from '@saksbilde/personHeader';
@@ -26,6 +27,8 @@ export default function Layout({ children, params }: PropsWithChildren<LayoutPro
         document.documentElement.classList.add('overflow-y-scroll');
         return () => document.documentElement.classList.remove('overflow-y-scroll');
     }, []);
+
+    useEffect(() => startPersonbesøk(personPseudoId), [personPseudoId]);
 
     useRefreshPersonVedEvent();
     useVarselOmSakErTildeltAnnenSaksbehandler();

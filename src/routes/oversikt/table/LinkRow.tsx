@@ -3,6 +3,7 @@ import React, { ReactElement, useRef } from 'react';
 
 import { Table } from '@navikt/ds-react';
 
+import { Personkilde, merkKildeForNestePerson } from '@observability/hendelser';
 import { useNullstillSaksbildeTab } from '@state/tab';
 
 import styles from './LinkRow.module.css';
@@ -18,9 +19,16 @@ const shouldOpenInNewTab = (event: React.SyntheticEvent): boolean => {
 interface LinkRowProps extends React.HTMLAttributes<HTMLTableRowElement> {
     personPseudoId: string;
     subPath?: string;
+    kilde?: Personkilde;
 }
 
-export const LinkRow = ({ personPseudoId, subPath, children, ...rest }: LinkRowProps): ReactElement => {
+export const LinkRow = ({
+    personPseudoId,
+    subPath,
+    kilde = 'oppgaveliste',
+    children,
+    ...rest
+}: LinkRowProps): ReactElement => {
     const ref = useRef<HTMLTableRowElement | null>(null);
     const router = useRouter();
     const nullstillSaksbildeTab = useNullstillSaksbildeTab();
@@ -31,6 +39,7 @@ export const LinkRow = ({ personPseudoId, subPath, children, ...rest }: LinkRowP
             window.open(destinationUrl, '_blank');
         } else {
             nullstillSaksbildeTab();
+            merkKildeForNestePerson(kilde);
             router.push(destinationUrl);
         }
     };

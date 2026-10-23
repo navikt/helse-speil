@@ -7,6 +7,7 @@ import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
+import { sporHendelse } from '@observability/hendelser';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAvmeld, useTildel } from '@state/tildeling';
@@ -24,8 +25,8 @@ export function OptionsCell({ oppgave, navn }: OptionsButtonProps): ReactElement
     const erPåVent = oppgave.egenskaper.includes(ApiEgenskap.PA_VENT);
 
     const invaliderOppgaver = useInvaliderOppgaver();
-    const [tildelOppgave] = useTildel();
-    const [avmeldOppgave] = useAvmeld();
+    const [tildelOppgave] = useTildel('oppgaveliste');
+    const [avmeldOppgave] = useAvmeld('oppgaveliste');
     const { mutate: fjernPåVent } = useDeletePåVent();
 
     async function tildel() {
@@ -37,7 +38,18 @@ export function OptionsCell({ oppgave, navn }: OptionsButtonProps): ReactElement
     }
 
     function fjernFraPåVent() {
-        fjernPåVent({ oppgaveId: Number.parseInt(oppgave.id) }, { onSuccess: invaliderOppgaver });
+        fjernPåVent(
+            { oppgaveId: Number.parseInt(oppgave.id) },
+            {
+                onSuccess: () => {
+                    sporHendelse(
+                        { name: 'fjernet fra på vent', properties: { kilde: 'oppgaveliste' } },
+                        oppgave.personPseudoId,
+                    );
+                    void invaliderOppgaver();
+                },
+            },
+        );
     }
 
     return (

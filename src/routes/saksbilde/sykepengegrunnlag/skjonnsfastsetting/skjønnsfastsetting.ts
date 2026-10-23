@@ -1,7 +1,10 @@
 import { useParams } from 'next/navigation';
 
+import { Events } from '@navikt/analytics-types';
+
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import { usePostSykepengegrunnlag } from '@io/rest/generated/personer/personer';
+import { sporHendelse } from '@observability/hendelser';
 import {
     visningenErOppdatertToast,
     visningenErOppdatertToastKey,
@@ -68,7 +71,23 @@ export const usePostSkjønnsfastsattSykepengegrunnlag = (onVisningOppdatert: () 
                     },
                 },
                 {
+                    onSuccess: () => {
+                        sporHendelse({
+                            name: Events.SKJEMA_FULLFORT,
+                            properties: {
+                                skjemanavn: 'skjønnsfastsetting',
+                                type: skjønnsfastsattSykepengegrunnlag.type,
+                                ledd: skjønnsfastsattSykepengegrunnlag.lovhjemmel?.ledd,
+                                antallArbeidsgivere: skjønnsfastsattSykepengegrunnlag.arbeidsgivere.length,
+                                harFritekst: !!skjønnsfastsattSykepengegrunnlag.begrunnelseFritekst?.trim(),
+                            },
+                        });
+                    },
                     onError: () => {
+                        sporHendelse({
+                            name: Events.SKJEMA_INNSENDING_FEILET,
+                            properties: { skjemanavn: 'skjønnsfastsetting' },
+                        });
                         setVisningenOppdateres(false);
                         removeToast(visningenOppdateresToastKey);
                     },

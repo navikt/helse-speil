@@ -1,7 +1,8 @@
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { PropsWithChildren, ReactElement, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 
+import { Events } from '@navikt/analytics-types';
 import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
@@ -17,6 +18,7 @@ import {
 } from '@io/rest/generated/spesialist.schemas';
 import { ApiVilkårskode } from '@io/rest/generated/vilkarsproving.schemas';
 import { useSerPåTidligereBehandling } from '@state/inntektsforhold/inntektsforhold';
+import { Skjemanavn, sporHendelse } from '@observability/hendelser';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
@@ -72,6 +74,21 @@ export function InngangsvilkårWithContent({
     const skjæringstidspunkt = opptjeningsvurdering.data?.skjæringstidspunkt;
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
     const vurdertTekst = vurdertTekstFor(vilkårsgrunnlag, vurdering);
+    const { utfall, erOverførtFraInfotrygd, avgjørendeVilkårskode } = opptjeningsvurdering;
+    const opptjeningErLastet = opptjeningsvurdering.data !== undefined;
+
+    useEffect(() => {
+        if (!opptjeningErLastet) return;
+        sporHendelse({
+            name: 'opptjening vist',
+            properties: { utfall, erOverførtFraInfotrygd, avgjørendeVilkår: avgjørendeVilkårskode ?? 'ingen' },
+        });
+    }, [opptjeningErLastet, utfall, erOverførtFraInfotrygd, avgjørendeVilkårskode]);
+
+    function vurder(vilkårskode: ManueltVurderbarVilkårskode) {
+        sporHendelse({ name: Events.SKJEMA_APNET, properties: { skjemanavn: skjemanavnFor(vilkårskode) } });
+        setAktivtVilkår(vilkårskode);
+    }
 
     return (
         <Box paddingBlock="space-32 space-64" paddingInline="space-24">
@@ -100,7 +117,7 @@ export function InngangsvilkårWithContent({
                                 readOnly={readOnly}
                                 serPåTidligereBehandling={serPåTidligereBehandling}
                                 aktivtVilkår={aktivtVilkår}
-                                onVurder={setAktivtVilkår}
+                                onVurder={vurder}
                             />
                         )}
                         <SykepengegrunnlagVilkår
@@ -165,6 +182,12 @@ function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerP
             serPåTidligereBehandling={serPåTidligereBehandling}
         />
     );
+}
+
+function skjemanavnFor(vilkårskode: ManueltVurderbarVilkårskode): Skjemanavn {
+    return vilkårskode === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER
+        ? 'opptjening likestilt ytelse'
+        : 'opptjening arbeid';
 }
 
 function InngangsvilkårError(): ReactElement {

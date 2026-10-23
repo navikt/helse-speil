@@ -15,7 +15,7 @@ interface IkkeTildeltProps {
 
 export const IkkeTildelt = ({ personPseudoId, width }: IkkeTildeltProps): ReactElement => {
     const saksbehandler = useInnloggetSaksbehandler();
-    const [tildelOppgave, { loading }] = useTildel();
+    const [tildelOppgave, { loading }] = useTildel('oppgaveliste');
 
     const tildel = async (event: React.MouseEvent) => {
         event.stopPropagation();

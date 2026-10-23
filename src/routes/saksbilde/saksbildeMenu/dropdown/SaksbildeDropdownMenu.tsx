@@ -9,6 +9,7 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { useGetPerson, useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
 import { ApiPeriodetilstand, ApiPersonnavn, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import { sporHendelse } from '@observability/hendelser';
 import { AnnulleringsDialogInnhold } from '@saksbilde/annullering/AnnulleringsDialogInnhold';
 import { OpphevStansAutomatiskBehandlingDialogInnhold } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/OpphevStansAutomatiskBehandlingDialogInnhold';
 import { StansAutomatiskBehandlingDialogInnhold } from '@saksbilde/saksbildeMenu/dropdown/stansAutomatiskBehandling/StansAutomatiskBehandlingDialogInnhold';
@@ -94,6 +95,10 @@ function SaksbildeDropdownMenuContent({
             { oppgaveId: Number.parseInt(oppgaveId) },
             {
                 onSuccess: () => {
+                    sporHendelse(
+                        { name: 'fjernet fra på vent', properties: { kilde: 'saksbildemeny' } },
+                        personPseudoId,
+                    );
                     void invaliderOppgaver();
                     void refetch();
                 },
@@ -102,8 +107,8 @@ function SaksbildeDropdownMenuContent({
         );
     };
 
-    const [tildelOppgave, { loading: loadingOpprett }] = useTildel();
-    const [avmeldOppgave, { loading: loadingFjern }] = useAvmeld();
+    const [tildelOppgave, { loading: loadingOpprett }] = useTildel('saksbildemeny');
+    const [avmeldOppgave, { loading: loadingFjern }] = useAvmeld('saksbildemeny');
 
     const tildel = async () => {
         await tildelOppgave(personPseudoId, () => refetch());

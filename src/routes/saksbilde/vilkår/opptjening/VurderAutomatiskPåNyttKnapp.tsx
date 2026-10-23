@@ -11,6 +11,7 @@ import {
     getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     usePostNyAutomatiskVilkårsvurderingBehandler,
 } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+import { sporHendelse } from '@observability/hendelser';
 import { ToastObject, useAddToast } from '@state/toasts';
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { useQueryClient } from '@tanstack/react-query';
@@ -36,6 +37,7 @@ export function VurderAutomatiskPåNyttKnapp({
     const { mutate, isPending } = usePostNyAutomatiskVilkårsvurderingBehandler();
 
     function håndterRespons({ status, opptjeningsvurderingId }: ApiNyAutomatiskVilkårsvurderingResponse) {
+        sporHendelse({ name: 'opptjening vurdert automatisk på nytt', properties: { status } });
         if (status === ApiNyAutomatiskVilkårsvurderingStatus.VURDERT && opptjeningsvurderingId) {
             void queryClient.invalidateQueries({
                 queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),

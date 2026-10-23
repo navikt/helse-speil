@@ -1,4 +1,5 @@
 import { useDeleteTildeling, usePutTildeling } from '@io/rest/generated/personer/personer';
+import { Oppgavekilde, sporHendelse } from '@observability/hendelser';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
@@ -18,10 +19,9 @@ const useLeggTilTildelingsvarsel = () => {
     return (message: string) => addVarsel(new TildelingAlert(message));
 };
 
-export const useTildel = (): [
-    (personPseudoId: string, onUtført?: () => void) => Promise<void>,
-    { loading: boolean },
-] => {
+export const useTildel = (
+    kilde: Oppgavekilde,
+): [(personPseudoId: string, onUtført?: () => void) => Promise<void>, { loading: boolean }] => {
     const { mutate, isPending } = usePutTildeling();
     const saksbehandler = useInnloggetSaksbehandler();
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
@@ -38,6 +38,7 @@ export const useTildel = (): [
                 },
             },
             {
+                onSuccess: () => sporHendelse({ name: 'oppgave tildelt', properties: { kilde } }, personPseudoId),
                 onError: (error) => {
                     const code = error.info?.code;
                     if (code === 'OPPGAVE_TILDELT_ANNEN_SAKSBEHANDLER') {
@@ -61,10 +62,9 @@ export const useTildel = (): [
     };
     return [tildel, { loading: isPending }];
 };
-export const useAvmeld = (): [
-    (personPseudoId: string, onUtført?: () => void) => Promise<void>,
-    { loading: boolean },
-] => {
+export const useAvmeld = (
+    kilde: Oppgavekilde,
+): [(personPseudoId: string, onUtført?: () => void) => Promise<void>, { loading: boolean }] => {
     const { mutate, isPending } = useDeleteTildeling();
 
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
@@ -78,6 +78,7 @@ export const useAvmeld = (): [
                 pseudoId: personPseudoId,
             },
             {
+                onSuccess: () => sporHendelse({ name: 'oppgave avmeldt', properties: { kilde } }, personPseudoId),
                 onError: (error) => {
                     const code = error.info?.code;
                     if (code === 'MANGLER_TILGANG_TIL_PERSON') {

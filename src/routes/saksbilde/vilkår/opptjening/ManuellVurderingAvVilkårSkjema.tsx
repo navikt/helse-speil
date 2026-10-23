@@ -1,6 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
+import { Events } from '@navikt/analytics-types';
 import { Alert, Button, HStack, LocalAlert, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 
 import {
@@ -14,6 +15,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
 import { usePostManuellArbeidMinstFireUkerVurderingBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+import { sporHendelse, sporValideringsfeil } from '@observability/hendelser';
 
 import { BegrunnelseOgJournalpost } from './BegrunnelseOgJournalpost';
 import { useInvaliderOpptjening } from './useInvaliderOpptjening';
@@ -46,13 +48,32 @@ export function ManuellVurderingAvVilkårSkjema({
 
     const { mutate, isPending, isError } = usePostManuellArbeidMinstFireUkerVurderingBehandler({
         mutation: {
-            onSuccess: (response) => {
+            onSuccess: (response, { data }) => {
+                sporHendelse({
+                    name: Events.SKJEMA_FULLFORT,
+                    properties: {
+                        skjemanavn: 'opptjening arbeid',
+                        utfall: data?.utfall,
+                        harJournalpost: data?.journalpostId != null,
+                    },
+                });
                 invaliderOpptjening();
                 onOverstyrt(response.opptjeningsvurderingId);
                 onLukk();
             },
+            onError: () => {
+                sporHendelse({
+                    name: Events.SKJEMA_INNSENDING_FEILET,
+                    properties: { skjemanavn: 'opptjening arbeid' },
+                });
+            },
         },
     });
+
+    function avbryt() {
+        sporHendelse({ name: 'skjema avbrutt', properties: { skjemanavn: 'opptjening arbeid' } });
+        onLukk();
+    }
 
     function onSubmit({
         utfall,
@@ -73,7 +94,11 @@ export function ManuellVurderingAvVilkårSkjema({
 
     return (
         <FormProvider {...form}>
-            <VStack as="form" gap="space-20" onSubmit={form.handleSubmit(onSubmit)}>
+            <VStack
+                as="form"
+                gap="space-20"
+                onSubmit={form.handleSubmit(onSubmit, (errors) => sporValideringsfeil('opptjening arbeid', errors))}
+            >
                 <Controller
                     control={form.control}
                     name="utfall"
@@ -98,7 +123,7 @@ export function ManuellVurderingAvVilkårSkjema({
                             Lagre
                         </Button>
                     )}
-                    <Button type="button" variant="tertiary" size="small" onClick={onLukk}>
+                    <Button type="button" variant="tertiary" size="small" onClick={avbryt}>
                         Avbryt
                     </Button>
                 </HStack>

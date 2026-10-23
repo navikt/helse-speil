@@ -96,6 +96,7 @@ export function DialogmeldingTable(): ReactElement {
                                         key={oppgave.conversationRef}
                                         personPseudoId={oppgave.personPseudoId}
                                         subPath={`dialogmelding/${oppgave.conversationRef}`}
+                                        kilde="dialogmeldinger"
                                     >
                                         <Table.DataCell>
                                             {getFormattedDatetimeString(oppgave.sisteAktivitetTidspunkt)}
