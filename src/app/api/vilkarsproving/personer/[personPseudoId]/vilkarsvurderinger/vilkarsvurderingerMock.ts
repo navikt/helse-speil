@@ -59,7 +59,6 @@ const SEEDEDE_OPPTJENINGSVURDERINGER: Record<string, ApiOpptjeningsvurderingVurd
         id: 'a1f1c0de-0000-4000-8000-000000000004',
         kravkode: ApiKravkode.OPPTJENING,
         opptjeningOk: true,
-        avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
         vurderinger: [automatiskVurdering('vurdering-seed-4', '2024-09-05T13:45:00.000')],
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     },
@@ -154,20 +153,18 @@ export const vurderOpptjening = (personPseudoId: string, request: ApiManuellOppt
     return lagreManuelleVurderinger(personPseudoId, request.skjæringstidspunkt, nyeVurderinger);
 };
 
-// Speiler Opptjeningsvurdering.avSaksbehandlerErstattAlle() i sp-vilkarsproving
+// Speiler Opptjeningsvurdering.avSaksbehandler() i sp-vilkarsproving
 function lagreManuelleVurderinger(
     personPseudoId: string,
     skjæringstidspunkt: string,
     nyeVurderinger: ApiVilkårsvurdering[],
 ): string {
     const { vilkårsvurderinger, opptjeningshistorikk } = hentTilstand(personPseudoId);
-    const avgjørende = avgjørendeVurdering(nyeVurderinger);
 
     const nyttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
         id: v4(),
         kravkode: ApiKravkode.OPPTJENING,
-        opptjeningOk: avgjørende !== undefined,
-        avgjørendeVilkårskode: avgjørende?.vilkårskode ?? null,
+        opptjeningOk: opptjeningErOppfylt(nyeVurderinger),
         vurderinger: nyeVurderinger,
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
@@ -186,22 +183,18 @@ function lagreManuelleVurderinger(
     return nyttKrav.id;
 }
 
-// Speiler avgjørendeVilkårsvurdering() i sp-vilkarsproving
-function avgjørendeVurdering(vurderinger: ApiVilkårsvurdering[]): ApiVilkårsvurdering | undefined {
+// Speiler opptjeningErOppfylt() i sp-vilkarsproving
+function opptjeningErOppfylt(vurderinger: ApiVilkårsvurdering[]): boolean {
     const finn = (vilkårskode: ApiVilkårskode) => vurderinger.find((it) => it.vilkårskode === vilkårskode);
     const erOppfylt = (vurdering?: ApiVilkårsvurdering) => vurdering?.utfall === ApiUtfall.OPPFYLT;
 
-    const hovedregel = finn(ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER);
-    if (erOppfylt(hovedregel)) return hovedregel;
-
-    const førstePunktum = finn(ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER);
-    if (!erOppfylt(førstePunktum)) return undefined;
+    if (erOppfylt(finn(ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER))) return true;
+    if (!erOppfylt(finn(ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER))) return false;
 
     const andrePunktum = finn(ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP);
-    if (!andrePunktum || erOppfylt(andrePunktum)) return førstePunktum;
+    if (!andrePunktum || erOppfylt(andrePunktum)) return true;
 
-    const tredjePunktum = finn(ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER);
-    return erOppfylt(tredjePunktum) ? tredjePunktum : undefined;
+    return erOppfylt(finn(ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER));
 }
 
 export const vurderAutomatiskPåNytt = (
@@ -219,7 +212,6 @@ export const vurderAutomatiskPåNytt = (
         id: v4(),
         kravkode: ApiKravkode.OPPTJENING,
         opptjeningOk: !erAvslått,
-        avgjørendeVilkårskode: nyVurdering.vilkårskode,
         vurderinger: [nyVurdering],
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
@@ -264,7 +256,6 @@ function initiellTilstand(personPseudoId: string): Opptjeningstilstand {
             id: 'krav-avslått',
             kravkode: ApiKravkode.OPPTJENING,
             opptjeningOk: false,
-            avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
             vurderinger: [automatiskAvslåttVurdering('vurdering-avslått', vurdertTidspunkt)],
             kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
         };
@@ -278,7 +269,6 @@ function initiellTilstand(personPseudoId: string): Opptjeningstilstand {
         id: 'krav-2',
         kravkode: ApiKravkode.OPPTJENING,
         opptjeningOk: true,
-        avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
         vurderinger: [automatiskVurdering('vurdering-1', '2024-01-02T10:00:00.000Z')],
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
@@ -296,7 +286,6 @@ function manueltVurdertKrav(
         id,
         kravkode: ApiKravkode.OPPTJENING,
         opptjeningOk: vurdering.utfall === ApiUtfall.OPPFYLT,
-        avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
         vurderinger: [
             {
                 id: `vurdering-${id}`,

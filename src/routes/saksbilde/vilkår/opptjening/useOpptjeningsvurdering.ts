@@ -31,7 +31,6 @@ export interface Opptjeningsvurdering {
     utfall: Vilkårsutfall;
     erOverførtFraInfotrygd: boolean;
     vurderingFor: (vilkårskode: ApiVilkårskode) => ApiVilkårsvurdering | undefined;
-    avgjørendeVilkårskode?: ApiVilkårskode;
     onOverstyrt: (opptjeningsvurderingId: string) => void;
     onVenterPåGrunnlag: () => void;
 }
@@ -88,7 +87,6 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
         utfall: utfallFraOppfylt(krav?.opptjeningOk),
         erOverførtFraInfotrygd: krav?.kravkilde === ApiKravkilde.OVERFOERT_FRA_INFOTRYGD,
         vurderingFor: (vilkårskode) => vurderinger.find((it) => it.vilkårskode === vilkårskode),
-        avgjørendeVilkårskode: avgjørendeVilkårskodeFor(krav),
         onOverstyrt: (nyOpptjeningsvurderingId) => {
             setOverstyring({
                 opptjeningsvurderingId: nyOpptjeningsvurderingId,
@@ -106,8 +104,4 @@ function finnOpptjeningskrav(data: ApiVilkårsvurderingerForPersonResponse): Api
 
 function vurderingerFor(krav?: ApiOpptjeningsvurdering): ApiVilkårsvurdering[] {
     return krav && 'vurderinger' in krav ? krav.vurderinger : [];
-}
-
-function avgjørendeVilkårskodeFor(krav?: ApiOpptjeningsvurdering): ApiVilkårskode | undefined {
-    return krav && 'avgjørendeVilkårskode' in krav ? (krav.avgjørendeVilkårskode ?? undefined) : undefined;
 }

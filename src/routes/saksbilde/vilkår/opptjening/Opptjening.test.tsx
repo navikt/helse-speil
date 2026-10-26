@@ -72,7 +72,6 @@ const ingenAutomatiskeVurderinger: ApiVilkårsvurderingerForPersonResponse = {
             id: 'krav-1',
             kravkode: ApiKravkode.OPPTJENING,
             opptjeningOk: false,
-            avgjørendeVilkårskode: null,
             kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
             vurderinger: [],
         },
@@ -86,7 +85,6 @@ const automatiskVurdertArbeidMinst4Uker: ApiVilkårsvurderingerForPersonResponse
             id: 'krav-1',
             kravkode: ApiKravkode.OPPTJENING,
             opptjeningOk: true,
-            avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
             kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
             vurderinger: [
                 {
@@ -149,7 +147,6 @@ const overførtFraSpleis: ApiVilkårsvurderingerForPersonResponse = {
             id: 'krav-spleis',
             kravkode: ApiKravkode.OPPTJENING,
             opptjeningOk: true,
-            avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
             kravkilde: ApiKravkilde.OVERFORT_FRA_SPLEIS,
             vurderinger: [
                 {
@@ -538,7 +535,6 @@ describe('Opptjening', () => {
                     id: 'krav-1',
                     kravkode: ApiKravkode.OPPTJENING,
                     opptjeningOk: true,
-                    avgjørendeVilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
                     kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
                     vurderinger: [
                         {
@@ -1267,7 +1263,6 @@ function medLikestiltYtelse(vurderinger: [ApiVilkårskode, ApiUtfall][]): ApiVil
                 id: 'krav-likestilt',
                 kravkode: ApiKravkode.OPPTJENING,
                 opptjeningOk: true,
-                avgjørendeVilkårskode: null,
                 kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
                 vurderinger: vurderinger.map(([vilkårskode, utfall]) => ({
                     id: vilkårskode,

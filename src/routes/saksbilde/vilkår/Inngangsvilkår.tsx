@@ -72,16 +72,16 @@ export function InngangsvilkårWithContent({
     const skjæringstidspunkt = opptjeningsvurdering.data?.skjæringstidspunkt;
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
     const vurdertTekst = vurdertTekstFor(vilkårsgrunnlag, vurdering);
-    const { utfall, erOverførtFraInfotrygd, avgjørendeVilkårskode } = opptjeningsvurdering;
+    const { utfall, erOverførtFraInfotrygd } = opptjeningsvurdering;
     const opptjeningErLastet = opptjeningsvurdering.data !== undefined;
 
     useEffect(() => {
         if (!opptjeningErLastet) return;
         sporHendelse({
             name: 'opptjening vist',
-            properties: { utfall, erOverførtFraInfotrygd, avgjørendeVilkår: avgjørendeVilkårskode ?? 'ingen' },
+            properties: { utfall, erOverførtFraInfotrygd },
         });
-    }, [opptjeningErLastet, utfall, erOverførtFraInfotrygd, avgjørendeVilkårskode]);
+    }, [opptjeningErLastet, utfall, erOverførtFraInfotrygd]);
 
     function vurder() {
         sporHendelse({ name: Events.SKJEMA_APNET, properties: { skjemanavn: 'opptjening' } });

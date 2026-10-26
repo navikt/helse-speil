@@ -19,7 +19,7 @@ interface UtledetUtfall {
     hjemmel?: string;
 }
 
-// Scenario A–E i docs/opptjening-8-2-kodeverk.md i sp-vilkarsproving, likt avgjørendeVilkårsvurdering() der
+// Scenario A–E i docs/opptjening-8-2-kodeverk.md i sp-vilkarsproving, likt opptjeningErOppfylt() der
 export function utledOpptjening({ arbeid, første, andre, tredje }: Opptjeningsvilkår): UtledetUtfall {
     if (arbeid && erOppfylt(arbeid)) return { utfall: 'Oppfylt', hjemmel: '§ 8-2 første ledd' };
     if (første) return utledAndreLedd(første, andre, tredje);

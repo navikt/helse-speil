@@ -57,7 +57,7 @@ type SpeilHendelse =
     | { name: 'skjema avbrutt'; properties: { skjemanavn: Skjemanavn } }
     | {
           name: 'opptjening vist';
-          properties: { utfall: string; erOverførtFraInfotrygd: boolean; avgjørendeVilkår: string };
+          properties: { utfall: string; erOverførtFraInfotrygd: boolean };
       };
 
 export type Hendelse = TaksonomiHendelse | SpeilHendelse;
