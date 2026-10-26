@@ -9,7 +9,7 @@ multi-ecosystem-groups:
     schedule:
       interval: "daily"
     commit-message:
-      prefix: "⬆ "
+      prefix: "⬆️ "
 updates:
   - package-ecosystem: "github-actions"
     directories:
@@ -22,19 +22,10 @@ updates:
       exclude:
         - "navikt/sykepenger-github-workflows*"
 
-  - package-ecosystem: "docker"
-    directory: "/"
-    multi-ecosystem-group: "dependencies"
-    patterns: ["*"]
-
   - package-ecosystem: "npm"
     directory: "/"
     multi-ecosystem-group: "dependencies"
     patterns: ["*"]
+    registries: "*"
     cooldown:
       default-days: 7
-    registries: '*'
-    ignore:
-      - dependency-name: '@type/node'
-      - dependency-name: 'eslint'
-        version: ['9.x']

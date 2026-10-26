@@ -8,6 +8,7 @@ on:
   schedule:
     - cron: '0 4 * * 3'
       timezone: 'Europe/Oslo'
+  workflow_dispatch:
 env:
   APP: speil
   TEAM: tbd
