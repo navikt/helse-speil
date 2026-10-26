@@ -23,7 +23,9 @@ describe('ArbeidsforholdIGrunnlaget', () => {
             />,
         );
 
-        await userEvent.click(screen.getByRole('button', { name: /Arbeidsforhold i grunnlaget/ }));
+        await userEvent.click(
+            screen.getByRole('button', { name: /Arbeidsforhold som ligger til grunn for vurderingen/ }),
+        );
 
         const perioder = within(screen.getByRole('table'))
             .getAllByRole('row')
@@ -46,7 +48,9 @@ describe('ArbeidsforholdIGrunnlaget', () => {
             />,
         );
 
-        await userEvent.click(screen.getByRole('button', { name: /Arbeidsforhold i grunnlaget/ }));
+        await userEvent.click(
+            screen.getByRole('button', { name: /Arbeidsforhold som ligger til grunn for vurderingen/ }),
+        );
 
         const celler = within(within(screen.getByRole('table')).getAllByRole('row')[1]!).getAllByRole('cell');
         expect(celler[0]?.textContent).toBe('UKJENT_PRIVAT');
@@ -61,7 +65,9 @@ describe('ArbeidsforholdIGrunnlaget', () => {
             />,
         );
 
-        await userEvent.click(screen.getByRole('button', { name: /Arbeidsforhold i grunnlaget/ }));
+        await userEvent.click(
+            screen.getByRole('button', { name: /Arbeidsforhold som ligger til grunn for vurderingen/ }),
+        );
 
         const celler = within(within(screen.getByRole('table')).getAllByRole('row')[1]!).getAllByRole('cell');
         expect(celler[0]?.textContent).toBe('12345678901');

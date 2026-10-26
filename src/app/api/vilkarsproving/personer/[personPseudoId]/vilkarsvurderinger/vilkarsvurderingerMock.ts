@@ -4,9 +4,9 @@ import {
     ApiKildetype,
     ApiKravkilde,
     ApiKravkode,
-    ApiManuellArbeidMinstFireUkerVurderingRequest,
-    ApiManuellLikestiltYtelseVurderingRequest,
+    ApiManuellOpptjeningsvurderingRequest,
     ApiNyAutomatiskVilkårsvurderingRequest,
+    ApiOpptjeningsaktivitet,
     ApiOpptjeningshistorikkInnslag,
     ApiOpptjeningshistorikkResponse,
     ApiOpptjeningsvurdering,
@@ -87,57 +87,26 @@ export const hentOpptjeningsvurdering = (
         .find((vurdering) => vurdering.id === opptjeningsvurderingId) ??
     SEEDEDE_OPPTJENINGSVURDERINGER[opptjeningsvurderingId];
 
-export const overstyrVilkårsvurdering = (
-    personPseudoId: string,
-    request: ApiManuellArbeidMinstFireUkerVurderingRequest,
-): string => {
-    const nyVurdering: ApiVilkårsvurdering = {
-        id: v4(),
-        vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
-        utfall: request.utfall,
-        vurdertTidspunkt: new Date().toISOString(),
-        lovreferanse: {
-            lov: 'folketrygdloven',
-            paragraf: '8-2',
-            iKraftFra: '1997-05-01',
-        },
-        kilde: {
-            ident: 'S123456',
-            fritekstbegrunnelse: request.fritekstbegrunnelse,
-            journalpostId: request.journalpostId,
-            ytelser: [],
-            kildetype: ApiKildetype.SAKSBEHANDLER,
-        },
-    };
-
-    return lagreManuelleVurderinger(
-        personPseudoId,
-        request.skjæringstidspunkt,
-        [nyVurdering],
-        [ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER],
-    );
-};
-
-const ANDRE_LEDD: ApiVilkårskode[] = [
-    ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER,
-    ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP,
-    ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER,
-];
-
-// Speiler LikestiltYtelseVurdering.vurder() i sp-vilkarsproving: én vurdering per punktum som ble besvart
-export const vurderLikestiltYtelse = (
-    personPseudoId: string,
-    request: ApiManuellLikestiltYtelseVurderingRequest,
-): string => {
+// Speiler ManuellOpptjeningsvurdering.vurder() i sp-vilkarsproving: bare arbeid gir første ledd oppfylt,
+// ellers første ledd ikke oppfylt og én vurdering per punktum i andre ledd som ble besvart
+export const vurderOpptjening = (personPseudoId: string, request: ApiManuellOpptjeningsvurderingRequest): string => {
     const vurdertTidspunkt = new Date().toISOString();
     const kilde: ApiVurderingskildeSaksbehandler = {
         ident: 'S123456',
         fritekstbegrunnelse: request.fritekstbegrunnelse,
         journalpostId: request.journalpostId,
-        ytelser: request.ytelser,
+        opptjeningsaktiviteter: request.opptjeningsaktiviteter,
         kildetype: ApiKildetype.SAKSBEHANDLER,
     };
-    const vurdering = (vilkårskode: ApiVilkårskode, oppfylt: boolean, setning: number): ApiVilkårsvurdering => ({
+    const førsteLedd = (oppfylt: boolean): ApiVilkårsvurdering => ({
+        id: v4(),
+        vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
+        utfall: oppfylt ? ApiUtfall.OPPFYLT : ApiUtfall.IKKE_OPPFYLT,
+        vurdertTidspunkt,
+        lovreferanse: { lov: 'folketrygdloven', paragraf: '8-2', iKraftFra: '1997-05-01' },
+        kilde,
+    });
+    const punktum = (vilkårskode: ApiVilkårskode, oppfylt: boolean, setning: number): ApiVilkårsvurdering => ({
         id: v4(),
         vilkårskode,
         utfall: oppfylt ? ApiUtfall.OPPFYLT : ApiUtfall.IKKE_OPPFYLT,
@@ -152,12 +121,20 @@ export const vurderLikestiltYtelse = (
         kilde,
     });
 
+    const bareArbeid =
+        request.opptjeningsaktiviteter.length > 0 &&
+        request.opptjeningsaktiviteter.every((aktivitet) => aktivitet === ApiOpptjeningsaktivitet.ARBEID);
+    if (request.minst4Uker && bareArbeid) {
+        return lagreManuelleVurderinger(personPseudoId, request.skjæringstidspunkt, [førsteLedd(true)]);
+    }
+
     const nyeVurderinger = [
-        vurdering(ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER, request.sammenlagtMinst4Uker, 1),
+        førsteLedd(false),
+        punktum(ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER, request.minst4Uker, 1),
     ];
     if (request.foreldrepengerOpptjentPåAap != null) {
         nyeVurderinger.push(
-            vurdering(
+            punktum(
                 ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP,
                 !request.foreldrepengerOpptjentPåAap,
                 2,
@@ -165,7 +142,7 @@ export const vurderLikestiltYtelse = (
         );
         if (request.yrkesaktivMinst4UkerFørUttak != null) {
             nyeVurderinger.push(
-                vurdering(
+                punktum(
                     ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER,
                     request.yrkesaktivMinst4UkerFørUttak,
                     3,
@@ -174,33 +151,24 @@ export const vurderLikestiltYtelse = (
         }
     }
 
-    return lagreManuelleVurderinger(personPseudoId, request.skjæringstidspunkt, nyeVurderinger, ANDRE_LEDD);
+    return lagreManuelleVurderinger(personPseudoId, request.skjæringstidspunkt, nyeVurderinger);
 };
 
+// Speiler Opptjeningsvurdering.avSaksbehandlerErstattAlle() i sp-vilkarsproving
 function lagreManuelleVurderinger(
     personPseudoId: string,
     skjæringstidspunkt: string,
     nyeVurderinger: ApiVilkårsvurdering[],
-    erstatterVilkårskoder: ApiVilkårskode[],
 ): string {
     const { vilkårsvurderinger, opptjeningshistorikk } = hentTilstand(personPseudoId);
-    const forrigeOpptjeningskrav = vilkårsvurderinger.krav.find((krav) => krav.kravkode === ApiKravkode.OPPTJENING);
-    const tidligereVurderinger =
-        forrigeOpptjeningskrav && 'vurderinger' in forrigeOpptjeningskrav
-            ? forrigeOpptjeningskrav.vurderinger.filter(
-                  (vurdering) => !erstatterVilkårskoder.includes(vurdering.vilkårskode),
-              )
-            : [];
-
-    const alleVurderinger = [...tidligereVurderinger, ...nyeVurderinger];
-    const avgjørende = avgjørendeVurdering(alleVurderinger);
+    const avgjørende = avgjørendeVurdering(nyeVurderinger);
 
     const nyttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
         id: v4(),
         kravkode: ApiKravkode.OPPTJENING,
         opptjeningOk: avgjørende !== undefined,
         avgjørendeVilkårskode: avgjørende?.vilkårskode ?? null,
-        vurderinger: alleVurderinger,
+        vurderinger: nyeVurderinger,
         kravkilde: ApiKravkilde.VURDERT_I_SP_VILKARSPROVING,
     };
 
@@ -340,7 +308,7 @@ function manueltVurdertKrav(
                     ident: 'S123456',
                     fritekstbegrunnelse: vurdering.fritekstbegrunnelse,
                     journalpostId: vurdering.journalpostId,
-                    ytelser: [],
+                    opptjeningsaktiviteter: [],
                     kildetype: ApiKildetype.SAKSBEHANDLER,
                 },
             },

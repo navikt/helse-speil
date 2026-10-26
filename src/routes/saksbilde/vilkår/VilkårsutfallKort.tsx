@@ -32,9 +32,7 @@ export function VilkårsutfallKort({
                 {paragraf}
             </HStack>
             <VStack gap="space-8" className="pl-9">
-                <HStack gap="space-8" align="center">
-                    <VilkårsutfallTag utfall={utfall}>{vurdertTekst}</VilkårsutfallTag>
-                </HStack>
+                <VilkårsutfallTag utfall={utfall}>{vurdertTekst}</VilkårsutfallTag>
                 {children}
             </VStack>
         </VStack>

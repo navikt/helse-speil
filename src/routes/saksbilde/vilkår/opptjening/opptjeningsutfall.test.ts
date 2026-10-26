@@ -5,42 +5,70 @@ import {
     ApiVilkårsvurdering,
 } from '@io/rest/generated/vilkarsproving.schemas';
 
-import { utledLikestiltYtelse } from './likestiltYtelse';
+import { utledOpptjening } from './opptjeningsutfall';
 
-describe('utledLikestiltYtelse', () => {
+describe('utledOpptjening uten første ledd', () => {
     it('er ikke vurdert uten vurdering av første punktum', () => {
-        expect(utledLikestiltYtelse({})).toEqual({ utfall: 'IkkeVurdert' });
+        expect(utledOpptjening({})).toEqual({ utfall: 'IkkeVurdert' });
     });
 
     it('scenario B: oppfylt etter første punktum', () => {
-        expect(utledLikestiltYtelse({ første: oppfylt })).toEqual({
+        expect(utledOpptjening({ første: oppfylt })).toEqual({
             utfall: 'Oppfylt',
             hjemmel: '§ 8-2 andre ledd første punktum',
         });
-        expect(utledLikestiltYtelse({ første: oppfylt, andre: oppfylt })).toEqual({
+        expect(utledOpptjening({ første: oppfylt, andre: oppfylt })).toEqual({
             utfall: 'Oppfylt',
             hjemmel: '§ 8-2 andre ledd første punktum',
         });
     });
 
     it('scenario C: oppfylt etter tredje punktum når foreldrepengene er opptjent på AAP', () => {
-        expect(utledLikestiltYtelse({ første: oppfylt, andre: ikkeOppfylt, tredje: oppfylt })).toEqual({
+        expect(utledOpptjening({ første: oppfylt, andre: ikkeOppfylt, tredje: oppfylt })).toEqual({
             utfall: 'Oppfylt',
             hjemmel: '§ 8-2 andre ledd tredje punktum',
         });
     });
 
     it('scenario D: ikke oppfylt etter første punktum', () => {
-        expect(utledLikestiltYtelse({ første: ikkeOppfylt })).toEqual({
+        expect(utledOpptjening({ første: ikkeOppfylt })).toEqual({
             utfall: 'IkkeOppfylt',
             hjemmel: '§ 8-2 andre ledd første punktum',
         });
     });
 
     it('scenario E: ikke oppfylt etter andre punktum, jf. tredje', () => {
-        expect(utledLikestiltYtelse({ første: oppfylt, andre: ikkeOppfylt, tredje: ikkeOppfylt })).toEqual({
+        expect(utledOpptjening({ første: oppfylt, andre: ikkeOppfylt, tredje: ikkeOppfylt })).toEqual({
             utfall: 'IkkeOppfylt',
             hjemmel: '§ 8-2 andre ledd andre punktum, jf. tredje punktum',
+        });
+    });
+});
+
+describe('utledOpptjening', () => {
+    it('er ikke vurdert uten vurderinger', () => {
+        expect(utledOpptjening({})).toEqual({ utfall: 'IkkeVurdert' });
+    });
+
+    it('scenario A: oppfylt etter første ledd', () => {
+        expect(utledOpptjening({ arbeid: oppfylt })).toEqual({ utfall: 'Oppfylt', hjemmel: '§ 8-2 første ledd' });
+    });
+
+    it('bruker andre ledd når første ledd ikke er oppfylt', () => {
+        expect(utledOpptjening({ arbeid: ikkeOppfylt, første: oppfylt })).toEqual({
+            utfall: 'Oppfylt',
+            hjemmel: '§ 8-2 andre ledd første punktum',
+        });
+        expect(utledOpptjening({ arbeid: ikkeOppfylt, første: ikkeOppfylt })).toEqual({
+            utfall: 'IkkeOppfylt',
+            hjemmel: '§ 8-2 andre ledd første punktum',
+        });
+    });
+
+    it('er ikke oppfylt etter første ledd når andre ledd ikke er vurdert', () => {
+        expect(utledOpptjening({ arbeid: ikkeOppfylt })).toEqual({
+            utfall: 'IkkeOppfylt',
+            hjemmel: '§ 8-2 første ledd',
         });
     });
 });
@@ -59,7 +87,7 @@ function vurdering(utfall: ApiUtfall): ApiVilkårsvurdering {
             ident: 'S123456',
             fritekstbegrunnelse: 'Begrunnelse',
             journalpostId: [],
-            ytelser: [],
+            opptjeningsaktiviteter: [],
             kildetype: ApiKildetype.SAKSBEHANDLER,
         },
     };

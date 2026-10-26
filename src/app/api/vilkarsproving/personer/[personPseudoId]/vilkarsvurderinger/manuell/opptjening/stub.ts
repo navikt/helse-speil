@@ -1,17 +1,17 @@
 import { NextRequest } from 'next/server';
 
-import { overstyrVilkårsvurdering } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
+import { vurderOpptjening } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
 import {
-    ApiManuellArbeidMinstFireUkerVurderingRequest,
+    ApiManuellOpptjeningsvurderingRequest,
     ApiManuellOpptjeningsvurderingResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { registrerManuellOpptjeningsvurdering } from '@spesialist-mock/saksbehandling';
 
 export const stub = async (request: NextRequest, params: Promise<{ personPseudoId: string }>) => {
     const { personPseudoId } = await params;
-    const body: ApiManuellArbeidMinstFireUkerVurderingRequest = await request.json();
+    const body: ApiManuellOpptjeningsvurderingRequest = await request.json();
 
-    const opptjeningsvurderingId = overstyrVilkårsvurdering(personPseudoId, body);
+    const opptjeningsvurderingId = vurderOpptjening(personPseudoId, body);
     const response: ApiManuellOpptjeningsvurderingResponse = { opptjeningsvurderingId };
 
     registrerManuellOpptjeningsvurdering(personPseudoId, opptjeningsvurderingId, body.skjæringstidspunkt);

@@ -6,7 +6,6 @@ import { Events } from '@navikt/analytics-types';
 import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { ManueltVurderbarVilkårskode } from '@form-schemas/manuellVurderingAvVilkårSkjema';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import {
@@ -16,8 +15,7 @@ import {
     ApiVilkårsgrunnlagSpleisV2,
     ApiVurdering,
 } from '@io/rest/generated/spesialist.schemas';
-import { ApiVilkårskode } from '@io/rest/generated/vilkarsproving.schemas';
-import { Skjemanavn, sporHendelse } from '@observability/hendelser';
+import { sporHendelse } from '@observability/hendelser';
 import { useSerPåTidligereBehandling } from '@state/inntektsforhold/inntektsforhold';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
@@ -26,9 +24,8 @@ import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date'
 import { MedlemskapVilkår } from './MedlemskapVilkår';
 import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
 import { VilkårsutfallKort } from './VilkårsutfallKort';
-import { LikestiltYtelseSkjema } from './opptjening/LikestiltYtelseSkjema';
-import { ManuellVurderingAvVilkårSkjema } from './opptjening/ManuellVurderingAvVilkårSkjema';
 import { Opptjening } from './opptjening/Opptjening';
+import { OpptjeningsvurderingSkjema } from './opptjening/OpptjeningsvurderingSkjema';
 import { useOpptjeningshistorikk } from './opptjening/useOpptjeningshistorikk';
 import { useOpptjeningsvurdering } from './opptjening/useOpptjeningsvurdering';
 import { VurdertAvSaksbehandler } from './vilkårsutfall';
@@ -71,7 +68,7 @@ export function InngangsvilkårWithContent({
         vilkårsgrunnlag.skjaeringstidspunkt,
         opptjeningsvurdering.data !== undefined && !opptjeningsvurdering.isFetching && !opptjeningsvurdering.isError,
     );
-    const [aktivtVilkår, setAktivtVilkår] = useState<ManueltVurderbarVilkårskode | null>(null);
+    const [vurdererOpptjening, setVurdererOpptjening] = useState(false);
     const skjæringstidspunkt = opptjeningsvurdering.data?.skjæringstidspunkt;
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
     const vurdertTekst = vurdertTekstFor(vilkårsgrunnlag, vurdering);
@@ -86,9 +83,9 @@ export function InngangsvilkårWithContent({
         });
     }, [opptjeningErLastet, utfall, erOverførtFraInfotrygd, avgjørendeVilkårskode]);
 
-    function vurder(vilkårskode: ManueltVurderbarVilkårskode) {
-        sporHendelse({ name: Events.SKJEMA_APNET, properties: { skjemanavn: skjemanavnFor(vilkårskode) } });
-        setAktivtVilkår(vilkårskode);
+    function vurder() {
+        sporHendelse({ name: Events.SKJEMA_APNET, properties: { skjemanavn: 'opptjening' } });
+        setVurdererOpptjening(true);
     }
 
     return (
@@ -117,7 +114,7 @@ export function InngangsvilkårWithContent({
                                 endringer={opptjeningsendringer}
                                 readOnly={readOnly}
                                 serPåTidligereBehandling={serPåTidligereBehandling}
-                                aktivtVilkår={aktivtVilkår}
+                                vurderer={vurdererOpptjening}
                                 onVurder={vurder}
                             />
                         )}
@@ -128,26 +125,14 @@ export function InngangsvilkårWithContent({
                         />
                         <MedlemskapVilkår vilkårsgrunnlag={vilkårsgrunnlag} vurdertTekst={vurdertTekst} />
                     </VStack>
-                    {!serPåTidligereBehandling && aktivtVilkår !== null && skjæringstidspunkt !== undefined && (
+                    {!serPåTidligereBehandling && vurdererOpptjening && skjæringstidspunkt !== undefined && (
                         <Vurderingspanel>
-                            {aktivtVilkår === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER ? (
-                                <LikestiltYtelseSkjema
-                                    key={aktivtVilkår}
-                                    personPseudoId={personPseudoId}
-                                    skjæringstidspunkt={skjæringstidspunkt}
-                                    onOverstyrt={opptjeningsvurdering.onOverstyrt}
-                                    onLukk={() => setAktivtVilkår(null)}
-                                />
-                            ) : (
-                                <ManuellVurderingAvVilkårSkjema
-                                    key={aktivtVilkår}
-                                    personPseudoId={personPseudoId}
-                                    skjæringstidspunkt={skjæringstidspunkt}
-                                    vilkårskode={aktivtVilkår}
-                                    onOverstyrt={opptjeningsvurdering.onOverstyrt}
-                                    onLukk={() => setAktivtVilkår(null)}
-                                />
-                            )}
+                            <OpptjeningsvurderingSkjema
+                                personPseudoId={personPseudoId}
+                                skjæringstidspunkt={skjæringstidspunkt}
+                                onOverstyrt={opptjeningsvurdering.onOverstyrt}
+                                onLukk={() => setVurdererOpptjening(false)}
+                            />
                         </Vurderingspanel>
                     )}
                 </HStack>
@@ -185,12 +170,6 @@ function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerP
     );
 }
 
-function skjemanavnFor(vilkårskode: ManueltVurderbarVilkårskode): Skjemanavn {
-    return vilkårskode === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER
-        ? 'opptjening likestilt ytelse'
-        : 'opptjening arbeid';
-}
-
 function InngangsvilkårError(): ReactElement {
     return (
         <Alert variant="error" size="small">
@@ -206,7 +185,7 @@ function Vurderingspanel({ children }: PropsWithChildren): ReactElement {
             <Box
                 className="w-130 min-w-130 self-stretch"
                 background="accent-soft"
-                paddingBlock="space-32 space-64"
+                paddingBlock="space-16 space-64"
                 paddingInline="space-32"
             >
                 {children}

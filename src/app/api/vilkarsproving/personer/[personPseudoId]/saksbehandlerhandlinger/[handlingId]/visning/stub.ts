@@ -1,8 +1,7 @@
 import { NextRequest } from 'next/server';
 
 import { hentOpptjeningsvurdering } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
-import { likestiltYtelseLabels } from '@form-schemas/likestiltYtelseSkjema';
-import { vilkårskodeLabels } from '@form-schemas/opptjeningSkjema';
+import { opptjeningsaktivitetLabels } from '@form-schemas/opptjeningsvurderingSkjema';
 import {
     ApiUtfall,
     ApiVilkårskode,
@@ -29,7 +28,7 @@ function erManuellVurdering(vurdering: ApiVilkårsvurdering): vurdering is Manue
     return 'fritekstbegrunnelse' in vurdering.kilde;
 }
 
-// Vurderinger etter § 8-2 andre ledd lagres sammen i én handling med samme tidspunkt
+// Vurderinger fra samme skjema lagres sammen i én handling med samme tidspunkt
 function nyesteHandling(manuelle: ManuellVurdering[]): ManuellVurdering[] {
     const nyesteTidspunkt = manuelle
         .map((vurdering) => vurdering.vurdertTidspunkt)
@@ -54,11 +53,11 @@ function tilVisning(vurderinger: ManuellVurdering[]): Handlingsvisning {
                       tittel: vilkårskodeLabels[vurdering.vilkårskode],
                       tekst: utfallstekst(vurdering.utfall),
                   }));
-    if (kilde.ytelser.length > 0) {
+    if (kilde.opptjeningsaktiviteter.length > 0) {
         felter.push({
             type: 'LISTE',
-            tittel: 'Likestilte ytelser',
-            elementer: kilde.ytelser.map((ytelse) => likestiltYtelseLabels[ytelse]),
+            tittel: 'Arbeid og likestilte ytelser',
+            elementer: kilde.opptjeningsaktiviteter.map((aktivitet) => opptjeningsaktivitetLabels[aktivitet]),
         });
     }
     felter.push({ type: 'TEKST', tittel: 'Begrunnelse', tekst: kilde.fritekstbegrunnelse });
@@ -75,3 +74,11 @@ function utfallstekst(utfall: ApiUtfall): string {
 function vilkårsrekkefølge(vilkårskode: ApiVilkårskode): number {
     return Object.values(ApiVilkårskode).indexOf(vilkårskode);
 }
+
+const vilkårskodeLabels: Record<ApiVilkårskode, string> = {
+    [ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER]: 'Arbeid i minst 4 uker',
+    [ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER]: 'Likestilt ytelse i minst 4 uker',
+    [ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP]: 'Foreldrepenger ikke opptjent på AAP',
+    [ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER]:
+        'Yrkesaktiv i minst 4 uker før uttak av foreldrepenger',
+};

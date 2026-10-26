@@ -33,16 +33,8 @@ export function VilkårsutfallTag({
     utfall: Vilkårsutfall;
 }>): ReactElement {
     return (
-        <Tag size="xsmall" variant="outline" data-color="neutral">
+        <Tag size="xsmall" variant="outline" data-color="neutral" className="self-start">
             {children ?? utfallstekst(utfall)}
-        </Tag>
-    );
-}
-
-export function AvgjørendeVilkårTag(): ReactElement {
-    return (
-        <Tag size="xsmall" variant="outline" data-color="info">
-            Avgjørende vilkår
         </Tag>
     );
 }

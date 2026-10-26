@@ -1,15 +1,13 @@
-import { vilkårskodeLabels } from '@form-schemas/opptjeningSkjema';
 import {
     ApiKildetype,
     ApiOpptjeningshistorikkInnslag,
-    ApiVilkårskode,
     ApiVilkårsvurdering,
     ApiVurderingskilde,
 } from '@io/rest/generated/vilkarsproving.schemas';
 import { useGetOpptjeningshistorikkBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
-import { Vilkårsutfall, utfallFraApi, utfallFraOppfylt } from '@saksbilde/vilkår/vilkårsutfall';
+import { Vilkårsutfall, utfallFraOppfylt } from '@saksbilde/vilkår/vilkårsutfall';
 
-import { erLikestiltYtelse, punktumvurderinger, utledLikestiltYtelse } from './likestiltYtelse';
+import { opptjeningsvilkår, utledOpptjening, vurderingForVisning } from './opptjeningsutfall';
 
 export interface Opptjeningsendring {
     id: string;
@@ -22,9 +20,9 @@ export interface Opptjeningsendring {
     detaljer?: Endringsdetaljer;
 }
 
-export type Endringsdetaljer =
-    | { type: 'vilkår'; vurdering: ApiVilkårsvurdering }
-    | { type: 'likestiltYtelse'; vurderinger: ApiVilkårsvurdering[] };
+export interface Endringsdetaljer {
+    vurderinger: ApiVilkårsvurdering[];
+}
 
 export function useOpptjeningshistorikk(
     personPseudoId: string,
@@ -64,57 +62,36 @@ function tilEndringer(historikk: ApiOpptjeningshistorikkInnslag[]): Opptjeningse
         }
     });
 
-    const unikeVurderinger = [...vurderinger.values()];
-    const endringer = [
-        ...infotrygdendringer.values(),
-        ...unikeVurderinger
-            .filter((vurdering) => !erLikestiltYtelse(vurdering.vilkårskode))
-            .map(vilkårsvurderingTilEndring),
-        ...likestiltYtelseEndringer(unikeVurderinger.filter((vurdering) => erLikestiltYtelse(vurdering.vilkårskode))),
-    ];
+    const endringer = [...infotrygdendringer.values(), ...vurderingsendringer([...vurderinger.values()])];
 
     return endringer.sort((a, b) => new Date(b.tidspunkt).getTime() - new Date(a.tidspunkt).getTime());
 }
 
-// Punktumene i § 8-2 andre ledd vurderes samlet og lagres med samme tidspunkt
-function likestiltYtelseEndringer(likestilte: ApiVilkårsvurdering[]): Opptjeningsendring[] {
-    return likestilte
-        .filter((vurdering) => vurdering.vilkårskode === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER)
-        .map((første) =>
-            likestiltYtelseTilEndring(
-                første,
-                likestilte.filter((vurdering) => vurdering.vurdertTidspunkt === første.vurdertTidspunkt),
-            ),
-        );
-}
-
-function vilkårsvurderingTilEndring(vurdering: ApiVilkårsvurdering): Opptjeningsendring {
-    return {
-        id: vurdering.id,
-        tidspunkt: vurdering.vurdertTidspunkt,
-        vilkår: `Opptjeningstid – ${medLitenForbokstav(vilkårskodeLabels[vurdering.vilkårskode])}`,
-        utfall: utfallFraApi(vurdering.utfall),
-        begrunnelse: begrunnelseFra(vurdering.kilde),
-        kilde: kildetekst(vurdering.kilde),
-        detaljer: { type: 'vilkår', vurdering },
-    };
-}
-
-function likestiltYtelseTilEndring(
-    første: ApiVilkårsvurdering,
-    vurderinger: ApiVilkårsvurdering[],
-): Opptjeningsendring {
-    const { utfall } = utledLikestiltYtelse(
-        punktumvurderinger((vilkårskode) => vurderinger.find((vurdering) => vurdering.vilkårskode === vilkårskode)),
+// Første ledd og punktumene i andre ledd lagres med samme tidspunkt når de vurderes i samme skjema
+function vurderingsendringer(vurderinger: ApiVilkårsvurdering[]): Opptjeningsendring[] {
+    const perTidspunkt = new Map<string, ApiVilkårsvurdering[]>();
+    vurderinger.forEach((vurdering) =>
+        perTidspunkt.set(vurdering.vurdertTidspunkt, [
+            ...(perTidspunkt.get(vurdering.vurdertTidspunkt) ?? []),
+            vurdering,
+        ]),
     );
+    return [...perTidspunkt.values()].map(vurderingerTilEndring);
+}
+
+function vurderingerTilEndring(vurderinger: ApiVilkårsvurdering[]): Opptjeningsendring {
+    const vilkår = opptjeningsvilkår((vilkårskode) =>
+        vurderinger.find((vurdering) => vurdering.vilkårskode === vilkårskode),
+    );
+    const representant = vurderingForVisning(vilkår) ?? vurderinger[0]!;
     return {
-        id: første.id,
-        tidspunkt: første.vurdertTidspunkt,
-        vilkår: 'Opptjeningstid – likestilt ytelse',
-        utfall,
-        begrunnelse: begrunnelseFra(første.kilde),
-        kilde: kildetekst(første.kilde),
-        detaljer: { type: 'likestiltYtelse', vurderinger },
+        id: representant.id,
+        tidspunkt: representant.vurdertTidspunkt,
+        vilkår: 'Opptjeningstid',
+        utfall: utledOpptjening(vilkår).utfall,
+        begrunnelse: begrunnelseFra(representant.kilde),
+        kilde: kildetekst(representant.kilde),
+        detaljer: { vurderinger },
     };
 }
 
@@ -131,9 +108,4 @@ function kildetekst(kilde: ApiVurderingskilde): string {
         case ApiKildetype.OVERFOERT_FRA_SPLEIS:
             return 'Spleis';
     }
-}
-
-// Beholder forkortelser som AAP
-function medLitenForbokstav(tekst: string): string {
-    return tekst.charAt(0).toLowerCase() + tekst.slice(1);
 }

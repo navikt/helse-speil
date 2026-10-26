@@ -5,7 +5,7 @@ import { PlusIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Radio, RadioGroup, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
-import { BegrunnelseOgJournalpostSchema, Journalpostvalg } from '@form-schemas/opptjeningSkjema';
+import { BegrunnelseOgJournalpostSchema, Journalpostvalg } from '@form-schemas/begrunnelseOgJournalpostSkjema';
 
 export function BegrunnelseOgJournalpost(): ReactElement {
     const { control } = useFormContext<BegrunnelseOgJournalpostSchema>();
@@ -24,6 +24,7 @@ export function BegrunnelseOgJournalpost(): ReactElement {
                 render={({ field, fieldState }) => (
                     <RadioGroup
                         {...field}
+                        value={field.value ?? null}
                         legend="Journalpost-ID"
                         description="Velg om du vil legge til en journalpost-ID eller vurdere at saken er godt nok opplyst i Speil"
                         size="small"

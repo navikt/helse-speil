@@ -8,7 +8,10 @@ import { somNorskDato } from '@utils/date';
 
 export function ArbeidsforholdIGrunnlaget({ arbeidsforhold }: { arbeidsforhold: ApiArbeidsforhold[] }): ReactElement {
     return (
-        <ReadMore size="small" header={`Arbeidsforhold i grunnlaget (${arbeidsforhold.length})`}>
+        <ReadMore
+            size="small"
+            header={`Arbeidsforhold som ligger til grunn for vurderingen (${arbeidsforhold.length})`}
+        >
             <Box paddingBlock="space-8 space-0" maxWidth="42rem">
                 {arbeidsforhold.length === 0 ? (
                     <BodyShort size="small" textColor="subtle">

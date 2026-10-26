@@ -12,7 +12,7 @@ import { stub as annullerStub } from '@app/api/spesialist/vedtaksperioder/[vedta
 import { stub as overstyrArbeidsforholdStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/arbeidsforhold/stub';
 import { stub as overstyrInntektStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/inntekt-og-refusjon/stub';
 import { stub as overstyrTidslinjeStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/tidslinje/stub';
-import { stub as manuellArbeidStub } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/manuell/arbeid-minst-fire-uker/stub';
+import { stub as manuellOpptjeningStub } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/manuell/opptjening/stub';
 import { hentVilkårsvurderinger } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
 import {
     ApiDag,
@@ -352,8 +352,14 @@ function personPseudoId(): string {
 }
 
 function vurderOpptjeningManuelt(skjæringstidspunkt: string) {
-    return manuellArbeidStub(
-        lagRequest({ skjæringstidspunkt, utfall: 'OPPFYLT', fritekstbegrunnelse: 'Ok', journalpostId: [] }),
+    return manuellOpptjeningStub(
+        lagRequest({
+            skjæringstidspunkt,
+            minst4Uker: true,
+            opptjeningsaktiviteter: ['ARBEID'],
+            fritekstbegrunnelse: 'Ok',
+            journalpostId: [],
+        }),
         Promise.resolve({ personPseudoId: personPseudoId() }),
     );
 }

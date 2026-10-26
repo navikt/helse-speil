@@ -2,8 +2,7 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Dialog, Table, VStack } from '@navikt/ds-react';
 
-import { LikestiltYtelseVilkårsrad } from '@saksbilde/vilkår/opptjening/LikestiltYtelseVilkårsrad';
-import { OpptjeningVilkårsrad } from '@saksbilde/vilkår/opptjening/OpptjeningVilkårsrad';
+import { Opptjeningsdetaljer } from '@saksbilde/vilkår/opptjening/Opptjeningsdetaljer';
 import { Endringsdetaljer, Opptjeningsendring } from '@saksbilde/vilkår/opptjening/useOpptjeningshistorikk';
 import { utfallstekst } from '@saksbilde/vilkår/vilkårsutfall';
 import { getFormattedDatetimeString } from '@utils/date';
@@ -39,7 +38,7 @@ export function EndringsloggOpptjening({ endringer, onOpenChange }: Endringslogg
                                     expansionDisabled={!endring.detaljer}
                                     content={
                                         endring.detaljer && (
-                                            <VStack as="ul" padding="space-0" margin="space-0">
+                                            <VStack>
                                                 <Endringsdetaljervisning detaljer={endring.detaljer} />
                                             </VStack>
                                         )
@@ -63,23 +62,12 @@ export function EndringsloggOpptjening({ endringer, onOpenChange }: Endringslogg
 }
 
 function Endringsdetaljervisning({ detaljer }: { detaljer: Endringsdetaljer }): ReactElement {
-    switch (detaljer.type) {
-        case 'vilkår':
-            return (
-                <OpptjeningVilkårsrad
-                    vilkårskode={detaljer.vurdering.vilkårskode}
-                    vurdering={detaljer.vurdering}
-                    visDetaljer
-                />
-            );
-        case 'likestiltYtelse':
-            return (
-                <LikestiltYtelseVilkårsrad
-                    vurderingFor={(vilkårskode) =>
-                        detaljer.vurderinger.find((vurdering) => vurdering.vilkårskode === vilkårskode)
-                    }
-                    visDetaljer
-                />
-            );
-    }
+    return (
+        <Opptjeningsdetaljer
+            vurderingFor={(vilkårskode) =>
+                detaljer.vurderinger.find((vurdering) => vurdering.vilkårskode === vilkårskode)
+            }
+            visDetaljer
+        />
+    );
 }

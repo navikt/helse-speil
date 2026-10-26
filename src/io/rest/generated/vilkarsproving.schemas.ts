@@ -117,9 +117,10 @@ export interface ApiVurderingskildeOverførtFraSpleis {
     kildetype: ApiKildetype;
 }
 
-export type ApiLikestiltYtelse = (typeof ApiLikestiltYtelse)[keyof typeof ApiLikestiltYtelse];
+export type ApiOpptjeningsaktivitet = (typeof ApiOpptjeningsaktivitet)[keyof typeof ApiOpptjeningsaktivitet];
 
-export const ApiLikestiltYtelse = {
+export const ApiOpptjeningsaktivitet = {
+    ARBEID: 'ARBEID',
     DAGPENGER: 'DAGPENGER',
     SYKEPENGER: 'SYKEPENGER',
     KAPITTEL_9: 'KAPITTEL_9',
@@ -131,7 +132,7 @@ export interface ApiVurderingskildeSaksbehandler {
     ident: string;
     fritekstbegrunnelse: string;
     journalpostId: string[];
-    ytelser: ApiLikestiltYtelse[];
+    opptjeningsaktiviteter: ApiOpptjeningsaktivitet[];
     kildetype: ApiKildetype;
 }
 
@@ -230,10 +231,32 @@ export interface ApiManuellOpptjeningsvurderingResponse {
     opptjeningsvurderingId: string;
 }
 
+export type ApiLikestiltYtelse = (typeof ApiLikestiltYtelse)[keyof typeof ApiLikestiltYtelse];
+
+export const ApiLikestiltYtelse = {
+    DAGPENGER: 'DAGPENGER',
+    SYKEPENGER: 'SYKEPENGER',
+    KAPITTEL_9: 'KAPITTEL_9',
+    FORELDREPENGER: 'FORELDREPENGER',
+    SVANGERSKAPSPENGER: 'SVANGERSKAPSPENGER',
+} as const;
+
 export interface ApiManuellLikestiltYtelseVurderingRequest {
     skjæringstidspunkt: string;
     sammenlagtMinst4Uker: boolean;
     ytelser: ApiLikestiltYtelse[];
+    /** @nullable */
+    foreldrepengerOpptjentPåAap?: boolean | null;
+    /** @nullable */
+    yrkesaktivMinst4UkerFørUttak?: boolean | null;
+    fritekstbegrunnelse: string;
+    journalpostId: string[];
+}
+
+export interface ApiManuellOpptjeningsvurderingRequest {
+    skjæringstidspunkt: string;
+    minst4Uker: boolean;
+    opptjeningsaktiviteter: ApiOpptjeningsaktivitet[];
     /** @nullable */
     foreldrepengerOpptjentPåAap?: boolean | null;
     /** @nullable */
