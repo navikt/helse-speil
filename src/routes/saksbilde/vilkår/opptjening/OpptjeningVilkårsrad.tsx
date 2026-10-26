@@ -1,192 +1,82 @@
-import React, { PropsWithChildren, ReactElement, ReactNode, useId } from 'react';
+import React, { ReactElement } from 'react';
 
-import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, HStack, Spacer, VStack } from '@navikt/ds-react';
+import { BodyShort, HStack, VStack } from '@navikt/ds-react';
 
-import { likestiltYtelseLabels } from '@form-schemas/likestiltYtelseSkjema';
-import { vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
-import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
+import { vilkårskodeLabels } from '@form-schemas/opptjeningSkjema';
 import {
     ApiVilkårskode,
     ApiVilkårsvurdering,
     ApiVurderingsgrunnlag,
     ApiVurderingsgrunnlagArbeidsforhold,
     ApiVurderingskilde,
-    ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/vilkarsproving.schemas';
-import { AvgjørendeVilkårTag, Vilkårsutfall, VilkårsutfallTag, utfallFraApi } from '@saksbilde/vilkår/vilkårsutfall';
-import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
-import { cn } from '@utils/tw';
+import { utfallFraApi } from '@saksbilde/vilkår/vilkårsutfall';
+import { somNorskDato } from '@utils/date';
 
 import { ArbeidsforholdIGrunnlaget } from './ArbeidsforholdIGrunnlaget';
+import { Saksbehandlerdetaljer, Vilkårsrad, erSaksbehandlerkilde } from './Vilkårsrad';
 
 interface OpptjeningVilkårsradProps {
     vilkårskode: ApiVilkårskode;
     vurdering?: ApiVilkårsvurdering;
-    erAvgjørende: boolean;
-    readOnly: boolean;
-    serPåTidligereBehandling: boolean;
-    erAktiv: boolean;
-    onVurder: () => void;
+    erAvgjørende?: boolean;
+    erAktiv?: boolean;
+    onVurder?: () => void;
+    visDetaljer?: boolean;
 }
 
 export function OpptjeningVilkårsrad({
     vilkårskode,
     vurdering,
-    readOnly,
-    serPåTidligereBehandling,
+    erAvgjørende,
     erAktiv,
     onVurder,
-    erAvgjørende,
+    visDetaljer = false,
 }: OpptjeningVilkårsradProps): ReactElement {
-    const vilkårsnavn = vilkårskodeLabels[vilkårskode];
     const utfall = utfallFraApi(vurdering?.utfall);
-    const navnId = useId();
     const erAutomatiskOppfylt = utfall === 'Oppfylt' && !!vurdering && !erSaksbehandlerkilde(vurdering.kilde);
-    const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
+    const saksbehandlerkilde =
+        visDetaljer && vurdering && erSaksbehandlerkilde(vurdering.kilde) ? vurdering.kilde : undefined;
+    const arbeidsforholdgrunnlag = vurdering && arbeidsforholdgrunnlagFra(vurdering.kilde);
 
     return (
-        <VStack
-            as="li"
-            gap="space-8"
-            paddingBlock="space-16"
-            paddingInline="space-16 space-32"
-            aria-labelledby={navnId}
-            className={cn('z-10 -mr-[3px] border-b-ax-border-neutral-subtle not-last:border-b', {
-                'bg-ax-bg-accent-soft': erAktiv,
-            })}
+        <Vilkårsrad
+            navn={vilkårskodeLabels[vilkårskode]}
+            utfall={utfall}
+            vurdering={vurdering}
+            erAvgjørende={erAvgjørende}
+            erAktiv={erAktiv}
+            onVurder={erAutomatiskOppfylt ? undefined : onVurder}
         >
-            <HStack gap="space-8" align="center" wrap={false}>
-                <span className="flex w-6 shrink-0 items-center justify-center">
-                    <Utfallsikon utfall={utfall} />
-                </span>
-                <BodyShort id={navnId} weight="semibold">
-                    {vilkårsnavn}
-                </BodyShort>
-                <Spacer />
-                {!readOnly &&
-                    !serPåTidligereBehandling &&
-                    !erAutomatiskOppfylt &&
-                    erCoachFagkoordinatorEllerSupersaksbehandler && (
-                        <Button type="button" variant="secondary" size="small" onClick={onVurder}>
-                            Vurder vilkår
-                        </Button>
-                    )}
-            </HStack>
-            <VStack gap="space-8">
-                <HStack gap="space-8" align="center">
-                    <VilkårsutfallTag utfall={utfall}>{vurdertTekst(vurdering)}</VilkårsutfallTag>
-                    {erAvgjørende && <AvgjørendeVilkårTag />}
-                </HStack>
-                {vurdering && <Vurderingsdetaljer vurdering={vurdering} />}
-            </VStack>
-        </VStack>
-    );
-}
-
-function Vurderingsdetaljer({ vurdering }: { vurdering: ApiVilkårsvurdering }): ReactElement | null {
-    const grunnlag = grunnlagFraKilde(vurdering.kilde);
-    const arbeidsforholdgrunnlag = grunnlag && erArbeidsforholdgrunnlag(grunnlag) ? grunnlag : undefined;
-    const opptjeningsgrunnlag = opptjeningsgrunnlagFor(vurdering);
-    const journalpostIder = erSaksbehandlerkilde(vurdering.kilde) ? vurdering.kilde.journalpostId : [];
-    const ytelser = erSaksbehandlerkilde(vurdering.kilde) ? vurdering.kilde.ytelser : [];
-
-    if (!erSaksbehandlerkilde(vurdering.kilde) && !arbeidsforholdgrunnlag) {
-        return null;
-    }
-
-    return (
-        <VStack gap="space-12">
-            {erSaksbehandlerkilde(vurdering.kilde) && (
-                <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
-                    {ytelser.length > 0 && (
-                        <Detaljrad label="Likestilte ytelser">
-                            {ytelser.map((ytelse) => likestiltYtelseLabels[ytelse]).join(', ')}
-                        </Detaljrad>
-                    )}
-                    <Detaljrad label="Begrunnelse">{vurdering.kilde.fritekstbegrunnelse}</Detaljrad>
-                    {journalpostIder.length > 0 && (
-                        <Detaljrad label="Journalpost-ID">{journalpostIder.join(', ')}</Detaljrad>
-                    )}
-                </dl>
-            )}
-            {arbeidsforholdgrunnlag && (
-                <VStack gap="space-4">
-                    {opptjeningsgrunnlag && (
-                        <HStack gap="space-24">
-                            <BodyShort>Opptjening fra</BodyShort>
-                            <BodyShort>
-                                {`${somNorskDato(opptjeningsgrunnlag.fom) ?? 'ukjent'} (${opptjeningsgrunnlag.opptjeningsdager} dager)`}
-                            </BodyShort>
-                        </HStack>
-                    )}
-                    <ArbeidsforholdIGrunnlaget arbeidsforhold={arbeidsforholdgrunnlag.arbeidsforhold} />
+            {(saksbehandlerkilde || arbeidsforholdgrunnlag) && (
+                <VStack gap="space-12">
+                    {saksbehandlerkilde && <Saksbehandlerdetaljer kilde={saksbehandlerkilde} />}
+                    {arbeidsforholdgrunnlag && <Arbeidsforholddetaljer grunnlag={arbeidsforholdgrunnlag} />}
                 </VStack>
             )}
+        </Vilkårsrad>
+    );
+}
+
+function Arbeidsforholddetaljer({ grunnlag }: { grunnlag: ApiVurderingsgrunnlagArbeidsforhold }): ReactElement {
+    return (
+        <VStack gap="space-4">
+            {grunnlag.opptjeningsperiode && (
+                <HStack gap="space-24">
+                    <BodyShort>Opptjening fra</BodyShort>
+                    <BodyShort>
+                        {`${somNorskDato(grunnlag.opptjeningsperiode.fom) ?? 'ukjent'} (${grunnlag.opptjeningsdager} dager)`}
+                    </BodyShort>
+                </HStack>
+            )}
+            <ArbeidsforholdIGrunnlaget arbeidsforhold={grunnlag.arbeidsforhold} />
         </VStack>
     );
 }
 
-export function Detaljrad({ label, children }: PropsWithChildren<{ label: string }>): ReactElement {
-    return (
-        <>
-            <BodyShort as="dt" size="small" textColor="subtle">
-                {label}
-            </BodyShort>
-            <BodyShort as="dd" size="small" className="wrap-anywhere">
-                {children}
-            </BodyShort>
-        </>
-    );
-}
-
-export function Utfallsikon({ utfall }: { utfall: Vilkårsutfall }): ReactElement {
-    switch (utfall) {
-        case 'Oppfylt':
-            return <CheckmarkCircleIcon title="Oppfylt" className="text-ax-text-neutral" fontSize="24" />;
-        case 'IkkeOppfylt':
-            return <XMarkOctagonIcon title="Ikke oppfylt" className="text-ax-text-neutral" fontSize="24" />;
-        case 'IkkeVurdert':
-            return <ExclamationmarkTriangleIcon title="Ikke vurdert" className="text-ax-text-neutral" fontSize="24" />;
-    }
-}
-
-export function vurdertTekst(vurdering?: ApiVilkårsvurdering): ReactNode | undefined {
-    if (!vurdering?.vurdertTidspunkt) {
-        return undefined;
-    }
-
-    const tidspunkt = getFormattedDatetimeString(vurdering.vurdertTidspunkt);
-
-    return erSaksbehandlerkilde(vurdering.kilde) ? (
-        <>
-            Vurdert {tidspunkt} – <span data-sensitive>{vurdering.kilde.ident}</span>
-        </>
-    ) : (
-        `Vurdert automatisk ${tidspunkt}`
-    );
-}
-
-function opptjeningsgrunnlagFor(
-    vurdering?: ApiVilkårsvurdering,
-): { fom: string; opptjeningsdager: number } | undefined {
-    const grunnlag = vurdering && grunnlagFraKilde(vurdering.kilde);
-    const arbeidsforholdgrunnlag = grunnlag && erArbeidsforholdgrunnlag(grunnlag) ? grunnlag : undefined;
-
-    return arbeidsforholdgrunnlag?.opptjeningsperiode
-        ? {
-              fom: arbeidsforholdgrunnlag.opptjeningsperiode.fom,
-              opptjeningsdager: arbeidsforholdgrunnlag.opptjeningsdager,
-          }
-        : undefined;
-}
-
-export function erSaksbehandlerkilde(kilde: ApiVurderingskilde): kilde is ApiVurderingskildeSaksbehandler {
-    return 'ident' in kilde;
-}
-
-function grunnlagFraKilde(kilde: ApiVurderingskilde): ApiVurderingsgrunnlag | undefined {
-    return 'grunnlag' in kilde ? kilde.grunnlag : undefined;
+function arbeidsforholdgrunnlagFra(kilde: ApiVurderingskilde): ApiVurderingsgrunnlagArbeidsforhold | undefined {
+    const grunnlag: ApiVurderingsgrunnlag | undefined = 'grunnlag' in kilde ? kilde.grunnlag : undefined;
+    return grunnlag && erArbeidsforholdgrunnlag(grunnlag) ? grunnlag : undefined;
 }
 
 function erArbeidsforholdgrunnlag(grunnlag: ApiVurderingsgrunnlag): grunnlag is ApiVurderingsgrunnlagArbeidsforhold {

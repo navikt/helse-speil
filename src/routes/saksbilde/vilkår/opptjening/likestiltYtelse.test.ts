@@ -5,7 +5,7 @@ import {
     ApiVilkårsvurdering,
 } from '@io/rest/generated/vilkarsproving.schemas';
 
-import { utledLikestiltYtelse } from './LikestiltYtelseVilkårsrad';
+import { utledLikestiltYtelse } from './likestiltYtelse';
 
 describe('utledLikestiltYtelse', () => {
     it('er ikke vurdert uten vurdering av første punktum', () => {

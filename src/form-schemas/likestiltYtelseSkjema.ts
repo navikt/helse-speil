@@ -5,7 +5,7 @@ import {
     begrunnelseOgJournalpostFelter,
     journalpostIderTilRequest,
     sjekkJournalpost,
-} from '@form-schemas/manuellVurderingAvVilkårSkjema';
+} from '@form-schemas/opptjeningSkjema';
 import {
     ApiLikestiltYtelse,
     ApiManuellLikestiltYtelseVurderingRequest,

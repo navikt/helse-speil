@@ -1,6 +1,7 @@
 import React from 'react';
 import { Mock } from 'vitest';
 
+import { getGetSaksbehandlerhandlingerForPersonQueryKey } from '@io/rest/generated/personer/personer';
 import { ApiServerSentEventEvent, ApiVilkårsgrunnlagInfotrygdV2 } from '@io/rest/generated/spesialist.schemas';
 import {
     ApiKildetype,
@@ -515,7 +516,7 @@ describe('Opptjening', () => {
         expect(mutate).not.toHaveBeenCalled();
     });
 
-    it('viser dokument-id under begrunnelse etter lagring', async () => {
+    it('viser ikke begrunnelse og dokument-id i vilkårsraden etter lagring', async () => {
         const oppdatertVilkårsvurderinger: ApiVilkårsvurderingerForPersonResponse = {
             skjæringstidspunkt: '2024-01-01',
             krav: [
@@ -568,8 +569,10 @@ describe('Opptjening', () => {
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
-        expect(await within(arbeidsvilkår()).findByText('Journalpost-ID')).toBeVisible();
-        expect(within(arbeidsvilkår()).getByText('12345')).toBeVisible();
+        expect(await within(arbeidsvilkår()).findByText('S123456')).toBeVisible();
+        expect(within(arbeidsvilkår()).queryByText('Journalpost-ID')).not.toBeInTheDocument();
+        expect(within(arbeidsvilkår()).queryByText('12345')).not.toBeInTheDocument();
+        expect(within(arbeidsvilkår()).queryByText('Dokumentert via vedtak')).not.toBeInTheDocument();
         expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
     });
 
@@ -688,6 +691,26 @@ describe('Opptjening', () => {
             }),
         };
 
+        function likestiltInnslag(): ApiOpptjeningshistorikkInnslag {
+            const krav = medLikestiltYtelse([
+                [ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER, ApiUtfall.OPPFYLT],
+                [ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP, ApiUtfall.IKKE_OPPFYLT],
+                [ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER, ApiUtfall.OPPFYLT],
+            ]).krav[0]!;
+            if (!('vurderinger' in krav)) throw new Error('Forventet krav med enkeltvurderinger');
+            return {
+                vurdertTidspunkt: '2025-07-25T12:21:00.000Z',
+                opptjeningsvurdering: {
+                    ...krav,
+                    id: 'opptjeningsvurdering-likestilt',
+                    vurderinger: krav.vurderinger.map((vurdering) => ({
+                        ...vurdering,
+                        vurdertTidspunkt: '2025-07-25T12:21:00.000Z',
+                    })),
+                },
+            };
+        }
+
         const endringsloggknapp = () => screen.queryByRole('button', { name: 'Vis endringslogg for opptjeningstid' });
         const endringsloggrader = () => within(screen.getByRole('dialog')).getAllByRole('row').slice(1);
 
@@ -714,6 +737,44 @@ describe('Opptjening', () => {
             expect(within(nyeste!).getByText('S123456')).toBeVisible();
             expect(within(eldste!).getByText('Ikke oppfylt')).toBeVisible();
             expect(within(eldste!).getByText('Automatisk')).toBeVisible();
+        });
+
+        it('viser én endringsloggrad for en vurdering av likestilt ytelse', async () => {
+            mockOpptjeningshistorikk([automatiskInnslag, likestiltInnslag()]);
+
+            renderOpptjening(true);
+            await userEvent.click(endringsloggknapp()!);
+
+            expect(endringsloggrader()).toHaveLength(2);
+            expect(within(endringsloggrader()[0]!).getByText('Opptjeningstid – likestilt ytelse')).toBeVisible();
+        });
+
+        it('viser svarene og hjemmelen når likestilt ytelse-raden ekspanderes', async () => {
+            mockOpptjeningshistorikk([automatiskInnslag, likestiltInnslag()]);
+
+            renderOpptjening(false);
+            await userEvent.click(endringsloggknapp()!);
+            const dialog = screen.getByRole('dialog');
+            await userEvent.click(within(endringsloggrader()[0]!).getByRole('button'));
+
+            const vilkårsrad = within(within(dialog).getByRole('listitem', { name: 'Likestilt ytelse' }));
+            expect(vilkårsrad.getByText('Foreldrepenger')).toBeVisible();
+            expect(vilkårsrad.getByText('Foreldrepenger opptjent på AAP').nextSibling).toHaveTextContent('Ja');
+            expect(vilkårsrad.getByText('Yrkesaktiv 4 uker før uttak').nextSibling).toHaveTextContent('Ja');
+            expect(vilkårsrad.getByText('§ 8-2 andre ledd tredje punktum')).toBeVisible();
+            expect(vilkårsrad.getByText('Hadde FP etter jobb')).toBeVisible();
+        });
+
+        it('viser begrunnelsen til en manuell vurdering når raden ekspanderes', async () => {
+            mockOpptjeningshistorikk([automatiskInnslag, manuellInnslag]);
+
+            renderOpptjening(false);
+            await userEvent.click(endringsloggknapp()!);
+            const dialog = screen.getByRole('dialog');
+            await userEvent.click(within(endringsloggrader()[0]!).getByRole('button'));
+
+            const vilkårsrad = within(dialog).getByRole('listitem', { name: 'Arbeid i minst 4 uker' });
+            expect(within(vilkårsrad).getByText('Begrunnelse').nextSibling).toHaveTextContent('Har likestilt ytelse');
         });
 
         it('viser vilkårsvurderingen uten vurder vilkår-knapp når raden ekspanderes', async () => {
@@ -846,7 +907,7 @@ describe('Opptjening', () => {
             }
         });
 
-        it('invaliderer opptjeningsvurderingen når grunnlaget er reberegnet', async () => {
+        it('invaliderer hele opptjeningen når grunnlaget er reberegnet', async () => {
             const invalidateQueries = vi.spyOn(QueryClient.prototype, 'invalidateQueries');
             try {
                 renderOpptjening(false);
@@ -869,9 +930,33 @@ describe('Opptjening', () => {
                     }),
                 );
 
-                expect(invalidateQueries).toHaveBeenCalledWith({
-                    queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey('en-person'),
-                });
+                forventOpptjeningenInvalidert(invalidateQueries);
+            } finally {
+                invalidateQueries.mockRestore();
+            }
+        });
+
+        it('invaliderer hele opptjeningen når opptjeningen er vurdert på nytt', async () => {
+            const invalidateQueries = vi.spyOn(QueryClient.prototype, 'invalidateQueries');
+            try {
+                renderOpptjening(false);
+
+                await bekreftVurderAutomatiskPåNytt();
+
+                const [variables, options] = mutateNyAutomatisk.mock.calls[0]!;
+                act(() =>
+                    options.onSuccess?.(
+                        {
+                            status: ApiNyAutomatiskVilkårsvurderingStatus.VURDERT,
+                            opptjeningsvurderingId: 'ny-id',
+                        },
+                        variables,
+                        undefined,
+                        undefined,
+                    ),
+                );
+
+                forventOpptjeningenInvalidert(invalidateQueries);
             } finally {
                 invalidateQueries.mockRestore();
             }
@@ -1081,7 +1166,7 @@ describe('Opptjening', () => {
             expect(mutateLikestilt).not.toHaveBeenCalled();
         });
 
-        it('viser svarene og hjemmelen etter lagring', () => {
+        it('viser utfallet uten svar og hjemmel etter lagring', () => {
             mockVilkårsvurderinger(
                 medLikestiltYtelse([
                     [ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER, ApiUtfall.OPPFYLT],
@@ -1094,11 +1179,9 @@ describe('Opptjening', () => {
 
             const rad = within(likestiltYtelse());
             expect(rad.getByTitle('Oppfylt')).toBeInTheDocument();
-            expect(rad.getByText('Foreldrepenger')).toBeVisible();
-            expect(rad.getByText('Foreldrepenger opptjent på AAP').nextSibling).toHaveTextContent('Ja');
-            expect(rad.getByText('Yrkesaktiv 4 uker før uttak').nextSibling).toHaveTextContent('Ja');
-            expect(rad.getByText('§ 8-2 andre ledd tredje punktum')).toBeVisible();
-            expect(rad.getByText('Hadde FP etter jobb')).toBeVisible();
+            expect(rad.queryByText('Foreldrepenger opptjent på AAP')).not.toBeInTheDocument();
+            expect(rad.queryByText('§ 8-2 andre ledd tredje punktum')).not.toBeInTheDocument();
+            expect(rad.queryByText('Hadde FP etter jobb')).not.toBeInTheDocument();
         });
     });
 });
@@ -1154,4 +1237,12 @@ function medId(
     const krav = response.krav[0]!;
     if (!('vurderinger' in krav)) throw new Error('Forventet krav med enkeltvurderinger');
     return { ...krav, id: opptjeningsvurderingId, vurderinger: [{ ...krav.vurderinger[0]!, ...vurdering }] };
+}
+
+function forventOpptjeningenInvalidert(invalidateQueries: Mock) {
+    [
+        getGetVilkårsvurderingerForPersonBehandlerQueryKey('en-person'),
+        getGetOpptjeningshistorikkBehandlerQueryKey('en-person'),
+        getGetSaksbehandlerhandlingerForPersonQueryKey('en-person'),
+    ].forEach((queryKey) => expect(invalidateQueries).toHaveBeenCalledWith({ queryKey }));
 }

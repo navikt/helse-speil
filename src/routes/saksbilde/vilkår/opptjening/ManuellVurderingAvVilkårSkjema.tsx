@@ -1,23 +1,22 @@
 import React, { ReactElement } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Events } from '@navikt/analytics-types';
-import { Alert, Button, HStack, LocalAlert, Radio, RadioGroup, VStack } from '@navikt/ds-react';
+import { LocalAlert, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 
 import {
     EnkeltvurderbarVilkårskode,
     ManuellVurderingAvVilkårSchema,
-    begrunnelseOgJournalpostDefaultValues,
-    journalpostIderTilRequest,
     manuellVurderingAvVilkårSkjema,
     vilkårsspørsmål,
 } from '@form-schemas/manuellVurderingAvVilkårSkjema';
+import { begrunnelseOgJournalpostDefaultValues, journalpostIderTilRequest } from '@form-schemas/opptjeningSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
 import { usePostManuellArbeidMinstFireUkerVurderingBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
-import { sporHendelse, sporValideringsfeil } from '@observability/hendelser';
 
 import { BegrunnelseOgJournalpost } from './BegrunnelseOgJournalpost';
+import { Skjemaknapper } from './Skjemaknapper';
+import { skjemasporing } from './skjemasporing';
 import { useInvaliderOpptjening } from './useInvaliderOpptjening';
 
 interface ManuellVurderingAvVilkårSkjemaProps {
@@ -36,6 +35,7 @@ export function ManuellVurderingAvVilkårSkjema({
     onLukk,
 }: ManuellVurderingAvVilkårSkjemaProps): ReactElement {
     const invaliderOpptjening = useInvaliderOpptjening(personPseudoId);
+    const sporing = skjemasporing('opptjening arbeid');
 
     const form = useForm<ManuellVurderingAvVilkårSchema>({
         resolver: zodResolver(manuellVurderingAvVilkårSkjema),
@@ -49,29 +49,17 @@ export function ManuellVurderingAvVilkårSkjema({
     const { mutate, isPending, isError } = usePostManuellArbeidMinstFireUkerVurderingBehandler({
         mutation: {
             onSuccess: (response, { data }) => {
-                sporHendelse({
-                    name: Events.SKJEMA_FULLFORT,
-                    properties: {
-                        skjemanavn: 'opptjening arbeid',
-                        utfall: data?.utfall,
-                        harJournalpost: data?.journalpostId != null,
-                    },
-                });
+                sporing.fullført({ utfall: data?.utfall, harJournalpost: data?.journalpostId != null });
                 invaliderOpptjening();
                 onOverstyrt(response.opptjeningsvurderingId);
                 onLukk();
             },
-            onError: () => {
-                sporHendelse({
-                    name: Events.SKJEMA_INNSENDING_FEILET,
-                    properties: { skjemanavn: 'opptjening arbeid' },
-                });
-            },
+            onError: sporing.feilet,
         },
     });
 
     function avbryt() {
-        sporHendelse({ name: 'skjema avbrutt', properties: { skjemanavn: 'opptjening arbeid' } });
+        sporing.avbrutt();
         onLukk();
     }
 
@@ -94,11 +82,7 @@ export function ManuellVurderingAvVilkårSkjema({
 
     return (
         <FormProvider {...form}>
-            <VStack
-                as="form"
-                gap="space-20"
-                onSubmit={form.handleSubmit(onSubmit, (errors) => sporValideringsfeil('opptjening arbeid', errors))}
-            >
+            <VStack as="form" gap="space-20" onSubmit={form.handleSubmit(onSubmit, sporing.valideringsfeil)}>
                 <Controller
                     control={form.control}
                     name="utfall"
@@ -117,21 +101,7 @@ export function ManuellVurderingAvVilkårSkjema({
                     )}
                 />
                 {erIkkeOppfylt ? <IkkeOppfyltStøttesIkkeAlert /> : <BegrunnelseOgJournalpost />}
-                <HStack gap="space-8">
-                    {!erIkkeOppfylt && (
-                        <Button type="submit" variant="primary" size="small" loading={isPending}>
-                            Lagre
-                        </Button>
-                    )}
-                    <Button type="button" variant="tertiary" size="small" onClick={avbryt}>
-                        Avbryt
-                    </Button>
-                </HStack>
-                {isError && (
-                    <Alert variant="error" size="small" inline>
-                        Kunne ikke lagre vurderingen
-                    </Alert>
-                )}
+                <Skjemaknapper visLagre={!erIkkeOppfylt} lagrer={isPending} lagringFeilet={isError} onAvbryt={avbryt} />
             </VStack>
         </FormProvider>
     );

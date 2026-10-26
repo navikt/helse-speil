@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server';
 
 import { hentOpptjeningsvurdering } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
 import { likestiltYtelseLabels } from '@form-schemas/likestiltYtelseSkjema';
-import { vilkårskodeLabels } from '@form-schemas/manuellVurderingAvVilkårSkjema';
+import { vilkårskodeLabels } from '@form-schemas/opptjeningSkjema';
 import {
     ApiUtfall,
     ApiVilkårskode,

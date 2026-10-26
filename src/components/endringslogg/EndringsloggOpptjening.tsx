@@ -2,8 +2,9 @@ import React, { ReactElement } from 'react';
 
 import { BodyShort, Dialog, Table, VStack } from '@navikt/ds-react';
 
+import { LikestiltYtelseVilkårsrad } from '@saksbilde/vilkår/opptjening/LikestiltYtelseVilkårsrad';
 import { OpptjeningVilkårsrad } from '@saksbilde/vilkår/opptjening/OpptjeningVilkårsrad';
-import { Opptjeningsendring } from '@saksbilde/vilkår/opptjening/useOpptjeningshistorikk';
+import { Endringsdetaljer, Opptjeningsendring } from '@saksbilde/vilkår/opptjening/useOpptjeningshistorikk';
 import { utfallstekst } from '@saksbilde/vilkår/vilkårsutfall';
 import { getFormattedDatetimeString } from '@utils/date';
 
@@ -35,19 +36,11 @@ export function EndringsloggOpptjening({ endringer, onOpenChange }: Endringslogg
                             {endringer.map((endring) => (
                                 <Table.ExpandableRow
                                     key={endring.id}
-                                    expansionDisabled={!endring.vurdering}
+                                    expansionDisabled={!endring.detaljer}
                                     content={
-                                        endring.vurdering && (
+                                        endring.detaljer && (
                                             <VStack as="ul" padding="space-0" margin="space-0">
-                                                <OpptjeningVilkårsrad
-                                                    vilkårskode={endring.vurdering.vilkårskode}
-                                                    vurdering={endring.vurdering}
-                                                    erAvgjørende={false}
-                                                    readOnly
-                                                    serPåTidligereBehandling={false}
-                                                    erAktiv={false}
-                                                    onVurder={() => {}}
-                                                />
+                                                <Endringsdetaljervisning detaljer={endring.detaljer} />
                                             </VStack>
                                         )
                                     }
@@ -67,4 +60,26 @@ export function EndringsloggOpptjening({ endringer, onOpenChange }: Endringslogg
             </Dialog.Popup>
         </Dialog>
     );
+}
+
+function Endringsdetaljervisning({ detaljer }: { detaljer: Endringsdetaljer }): ReactElement {
+    switch (detaljer.type) {
+        case 'vilkår':
+            return (
+                <OpptjeningVilkårsrad
+                    vilkårskode={detaljer.vurdering.vilkårskode}
+                    vurdering={detaljer.vurdering}
+                    visDetaljer
+                />
+            );
+        case 'likestiltYtelse':
+            return (
+                <LikestiltYtelseVilkårsrad
+                    vurderingFor={(vilkårskode) =>
+                        detaljer.vurderinger.find((vurdering) => vurdering.vilkårskode === vilkårskode)
+                    }
+                    visDetaljer
+                />
+            );
+    }
 }

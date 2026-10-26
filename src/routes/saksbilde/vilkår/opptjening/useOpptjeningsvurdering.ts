@@ -9,11 +9,7 @@ import {
     ApiVilkårsvurdering,
     ApiVilkårsvurderingerForPersonResponse,
 } from '@io/rest/generated/vilkarsproving.schemas';
-import {
-    getGetOpptjeningshistorikkBehandlerQueryKey,
-    getGetVilkårsvurderingerForPersonBehandlerQueryKey,
-    useGetVilkårsvurderingerForPersonBehandler,
-} from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { Vilkårsutfall, utfallFraOppfylt } from '@saksbilde/vilkår/vilkårsutfall';
 import {
     visningenErOppdatertToast,
@@ -23,7 +19,8 @@ import {
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
-import { useQueryClient } from '@tanstack/react-query';
+
+import { useInvaliderOpptjening } from './useInvaliderOpptjening';
 
 export interface Opptjeningsvurdering {
     data?: ApiVilkårsvurderingerForPersonResponse;
@@ -49,18 +46,13 @@ export function useOpptjeningsvurdering(personPseudoId: string, opptjeningsvurde
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
-    const queryClient = useQueryClient();
+    const invaliderOpptjening = useInvaliderOpptjening(personPseudoId);
 
     useHåndterNyttEvent((event) => {
         if (erNyOppgaveEvent(event) && visningenOppdateres) {
             addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
             setVisningenOppdateres(false);
-            void queryClient.invalidateQueries({
-                queryKey: getGetOpptjeningshistorikkBehandlerQueryKey(personPseudoId),
-            });
-            void queryClient.invalidateQueries({
-                queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
-            });
+            invaliderOpptjening();
         }
     });
 

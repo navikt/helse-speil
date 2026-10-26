@@ -16,6 +16,7 @@ import { EndringsloggOpptjeningButton } from './EndringsloggOpptjeningButton';
 import { LikestiltYtelseVilkårsrad } from './LikestiltYtelseVilkårsrad';
 import { OpptjeningVilkårsrad } from './OpptjeningVilkårsrad';
 import { VurderAutomatiskPåNyttKnapp } from './VurderAutomatiskPåNyttKnapp';
+import { erLikestiltYtelse } from './likestiltYtelse';
 import { Opptjeningsendring } from './useOpptjeningshistorikk';
 import { Opptjeningsvurdering } from './useOpptjeningsvurdering';
 
@@ -41,6 +42,9 @@ export function Opptjening({
     const { data, isLoading, isError, utfall, vurderingFor, avgjørendeVilkårskode } = opptjeningsvurdering;
     const tittelId = useId();
     const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
+    const kanVurdere = !readOnly && !serPåTidligereBehandling && erCoachFagkoordinatorEllerSupersaksbehandler;
+    const arbeid = ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER;
+    const likestiltYtelse = ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER;
 
     return (
         <VStack as="section" aria-labelledby={tittelId} gap="space-4" className="w-full">
@@ -56,7 +60,7 @@ export function Opptjening({
                     Opptjeningstid
                 </Heading>
                 <EndringsloggOpptjeningButton endringer={endringer} />
-                {!readOnly && !serPåTidligereBehandling && erCoachFagkoordinatorEllerSupersaksbehandler && data && (
+                {kanVurdere && data && (
                     <VurderAutomatiskPåNyttKnapp
                         personPseudoId={personPseudoId}
                         skjæringstidspunkt={data.skjæringstidspunkt}
@@ -81,25 +85,18 @@ export function Opptjening({
                 ) : (
                     <VStack as="ul" padding="space-0" margin="space-0" marginInline="space-16 space-0">
                         <OpptjeningVilkårsrad
-                            vilkårskode={ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}
-                            vurdering={vurderingFor(ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER)}
-                            erAvgjørende={avgjørendeVilkårskode === ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}
-                            readOnly={readOnly}
-                            serPåTidligereBehandling={serPåTidligereBehandling}
-                            erAktiv={aktivtVilkår === ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER}
-                            onVurder={() => onVurder(ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER)}
+                            vilkårskode={arbeid}
+                            vurdering={vurderingFor(arbeid)}
+                            erAvgjørende={avgjørendeVilkårskode === arbeid}
+                            erAktiv={aktivtVilkår === arbeid}
+                            onVurder={kanVurdere ? () => onVurder(arbeid) : undefined}
                         />
                         {kanVurdereLikestilteYtelser() && (
                             <LikestiltYtelseVilkårsrad
                                 vurderingFor={vurderingFor}
-                                erAvgjørende={
-                                    !!avgjørendeVilkårskode &&
-                                    likestiltYtelseVilkårskoder.includes(avgjørendeVilkårskode)
-                                }
-                                readOnly={readOnly}
-                                serPåTidligereBehandling={serPåTidligereBehandling}
-                                erAktiv={aktivtVilkår === ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER}
-                                onVurder={() => onVurder(ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER)}
+                                erAvgjørende={erLikestiltYtelse(avgjørendeVilkårskode)}
+                                erAktiv={aktivtVilkår === likestiltYtelse}
+                                onVurder={kanVurdere ? () => onVurder(likestiltYtelse) : undefined}
                             />
                         )}
                     </VStack>
@@ -108,9 +105,3 @@ export function Opptjening({
         </VStack>
     );
 }
-
-const likestiltYtelseVilkårskoder: ApiVilkårskode[] = [
-    ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER,
-    ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP,
-    ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER,
-];

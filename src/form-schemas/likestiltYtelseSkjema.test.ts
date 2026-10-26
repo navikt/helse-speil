@@ -6,7 +6,7 @@ import {
     likestiltYtelseSkjema,
     tilLikestiltYtelseRequest,
 } from '@form-schemas/likestiltYtelseSkjema';
-import { Journalpostvalg } from '@form-schemas/manuellVurderingAvVilkårSkjema';
+import { Journalpostvalg } from '@form-schemas/opptjeningSkjema';
 import { ApiLikestiltYtelse } from '@io/rest/generated/vilkarsproving.schemas';
 
 describe('likestiltYtelseSkjema', () => {

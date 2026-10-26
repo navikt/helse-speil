@@ -5,7 +5,7 @@ import { PlusIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Radio, RadioGroup, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
-import { BegrunnelseOgJournalpostSchema, Journalpostvalg } from '@form-schemas/manuellVurderingAvVilkårSkjema';
+import { BegrunnelseOgJournalpostSchema, Journalpostvalg } from '@form-schemas/opptjeningSkjema';
 
 export function BegrunnelseOgJournalpost(): ReactElement {
     const { control } = useFormContext<BegrunnelseOgJournalpostSchema>();

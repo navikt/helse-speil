@@ -7,16 +7,14 @@ import {
     ApiNyAutomatiskVilkårsvurderingResponse,
     ApiNyAutomatiskVilkårsvurderingStatus,
 } from '@io/rest/generated/vilkarsproving.schemas';
-import {
-    getGetVilkårsvurderingerForPersonBehandlerQueryKey,
-    usePostNyAutomatiskVilkårsvurderingBehandler,
-} from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
+import { usePostNyAutomatiskVilkårsvurderingBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
 import { sporHendelse } from '@observability/hendelser';
 import { ToastObject, useAddToast } from '@state/toasts';
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
-import { useQueryClient } from '@tanstack/react-query';
 import { somNorskDato } from '@utils/date';
 import { generateId } from '@utils/generateId';
+
+import { useInvaliderOpptjening } from './useInvaliderOpptjening';
 
 interface VurderAutomatiskPåNyttKnappProps {
     personPseudoId: string;
@@ -31,7 +29,7 @@ export function VurderAutomatiskPåNyttKnapp({
     onVurdert,
     onVenterPåGrunnlag,
 }: VurderAutomatiskPåNyttKnappProps): ReactElement {
-    const queryClient = useQueryClient();
+    const invaliderOpptjening = useInvaliderOpptjening(personPseudoId);
     const addToast = useAddToast();
     const visningenOppdateres = useVisningenOppdateresValue();
     const { mutate, isPending } = usePostNyAutomatiskVilkårsvurderingBehandler();
@@ -39,9 +37,7 @@ export function VurderAutomatiskPåNyttKnapp({
     function håndterRespons({ status, opptjeningsvurderingId }: ApiNyAutomatiskVilkårsvurderingResponse) {
         sporHendelse({ name: 'opptjening vurdert automatisk på nytt', properties: { status } });
         if (status === ApiNyAutomatiskVilkårsvurderingStatus.VURDERT && opptjeningsvurderingId) {
-            void queryClient.invalidateQueries({
-                queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
-            });
+            invaliderOpptjening();
             onVurdert(opptjeningsvurderingId);
         } else {
             onVenterPåGrunnlag();
