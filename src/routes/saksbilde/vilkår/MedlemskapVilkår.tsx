@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import {
     ApiVilkårsgrunnlagInfotrygdV2,
@@ -11,7 +11,7 @@ import { utfallFraOppfylt } from './vilkårsutfall';
 
 interface MedlemskapVilkårProps {
     vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2;
-    vurdertTekst?: string;
+    vurdertTekst?: ReactNode;
 }
 
 export function MedlemskapVilkår({ vilkårsgrunnlag, vurdertTekst }: MedlemskapVilkårProps): ReactElement {

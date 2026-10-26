@@ -16,7 +16,9 @@ export const TilkommenInntektFjernetAlert = ({
             <Heading size="xsmall" level="4">
                 Perioden er fjernet
             </Heading>
-            <BodyShort>Fjernet av: {fjernetEvent?.metadata?.utfortAvSaksbehandlerIdent}</BodyShort>
+            <BodyShort>
+                Fjernet av: <span data-sensitive>{fjernetEvent?.metadata?.utfortAvSaksbehandlerIdent}</span>
+            </BodyShort>
             <BodyShort>Tidspunkt: {getFormattedDatetimeString(fjernetEvent?.metadata?.tidspunkt)}</BodyShort>
         </Alert>
     );

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactElement, useId } from 'react';
+import React, { PropsWithChildren, ReactElement, ReactNode, useId } from 'react';
 
 import { CheckmarkCircleIcon, ExclamationmarkTriangleIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Spacer, VStack } from '@navikt/ds-react';
@@ -151,16 +151,20 @@ export function Utfallsikon({ utfall }: { utfall: Vilkårsutfall }): ReactElemen
     }
 }
 
-export function vurdertTekst(vurdering?: ApiVilkårsvurdering): string | undefined {
+export function vurdertTekst(vurdering?: ApiVilkårsvurdering): ReactNode | undefined {
     if (!vurdering?.vurdertTidspunkt) {
         return undefined;
     }
 
     const tidspunkt = getFormattedDatetimeString(vurdering.vurdertTidspunkt);
 
-    return erSaksbehandlerkilde(vurdering.kilde)
-        ? `Vurdert ${tidspunkt} – ${vurdering.kilde.ident}`
-        : `Vurdert automatisk ${tidspunkt}`;
+    return erSaksbehandlerkilde(vurdering.kilde) ? (
+        <>
+            Vurdert {tidspunkt} – <span data-sensitive>{vurdering.kilde.ident}</span>
+        </>
+    ) : (
+        `Vurdert automatisk ${tidspunkt}`
+    );
 }
 
 function opptjeningsgrunnlagFor(

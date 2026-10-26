@@ -10,7 +10,7 @@ interface TildeltProps {
 export const Tildelt = ({ name, width }: TildeltProps): ReactElement => {
     return (
         <Tooltip content={name}>
-            <BodyShort truncate style={{ width: width }}>
+            <BodyShort truncate data-sensitive style={{ width: width }}>
                 {name}
             </BodyShort>
         </Tooltip>

@@ -15,7 +15,7 @@ export function AvsenderInfo({ melding, behandlerNavn }: Props): ReactElement {
         return (
             <HStack gap="space-16">
                 <BodyShort className="text-ax-text-neutral-subtle">
-                    <span className="font-bold">Fra:</span> {melding.saksbehandler}
+                    <span className="font-bold">Fra:</span> <span data-sensitive>{melding.saksbehandler}</span>
                 </BodyShort>
                 <BodyShort className="text-ax-text-neutral-subtle">
                     <span className="font-bold">Til:</span> {behandlerNavn}

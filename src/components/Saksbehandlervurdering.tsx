@@ -27,7 +27,9 @@ export const Saksbehandlervurdering = ({
             <Heading level="2" size="xsmall">
                 {title}
             </Heading>
-            <Detail textColor="subtle">Behandlet av {ident}</Detail>
+            <Detail textColor="subtle">
+                Behandlet av <span data-sensitive>{ident}</span>
+            </Detail>
         </div>
         {children}
     </div>

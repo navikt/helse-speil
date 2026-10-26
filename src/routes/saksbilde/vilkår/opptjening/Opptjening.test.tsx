@@ -344,7 +344,9 @@ describe('Opptjening', () => {
 
         expect(within(arbeidsvilkår()).getByText('Opptjening fra')).toBeVisible();
         expect(within(arbeidsvilkår()).getByText('01.01.2023 (120 dager)')).toBeVisible();
-        expect(within(arbeidsvilkår()).getByText(/Vurdert automatisk/, { selector: 'span' })).toBeVisible();
+        const automatiskVurdering = within(arbeidsvilkår()).getByText(/Vurdert automatisk/, { selector: 'span' });
+        expect(automatiskVurdering).toBeVisible();
+        expect(automatiskVurdering).not.toHaveAttribute('data-sensitive');
     });
 
     it('lar saksbehandler vurdere et uvurdert vilkår direkte', async () => {
@@ -409,6 +411,7 @@ describe('Opptjening', () => {
         renderOpptjening(false);
 
         expect(within(arbeidsvilkår()).getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
+        expect(within(arbeidsvilkår()).getByText('S123456')).toHaveAttribute('data-sensitive');
     });
 
     it('forhåndsvelger ikke utfall fra eksisterende vurdering', async () => {

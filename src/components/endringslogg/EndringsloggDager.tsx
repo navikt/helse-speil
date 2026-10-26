@@ -46,7 +46,9 @@ export function EndringsloggDager({ endringer, onOpenChange }: EndringsloggDager
                                         <Table.DataCell className="max-w-100 whitespace-normal!">
                                             {begrunnelse}
                                         </Table.DataCell>
-                                        <Table.DataCell>{saksbehandler.ident ?? saksbehandler.navn}</Table.DataCell>
+                                        <Table.DataCell>
+                                            <span data-sensitive>{saksbehandler.ident ?? saksbehandler.navn}</span>
+                                        </Table.DataCell>
                                         <Table.DataCell>{getFormattedDatetimeString(timestamp)}</Table.DataCell>
                                     </Table.Row>
                                 ))}

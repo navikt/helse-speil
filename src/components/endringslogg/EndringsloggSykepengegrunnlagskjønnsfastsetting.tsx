@@ -66,7 +66,9 @@ export function EndringsloggSykepengegrunnlagskjønnsfastsetting({
                                             </BodyShort>
                                         </Table.DataCell>
                                         <Table.DataCell>
-                                            {endring.saksbehandler.ident ?? endring.saksbehandler.navn}
+                                            <span data-sensitive>
+                                                {endring.saksbehandler.ident ?? endring.saksbehandler.navn}
+                                            </span>
                                         </Table.DataCell>
                                     </Table.Row>
                                 ))}

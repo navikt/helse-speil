@@ -15,7 +15,9 @@ export const HendelseDate = ({ timestamp, ident }: HendelseDateProps): ReactElem
         <HStack gap="space-8">
             <BodyShort size="small">{timestamp && getFormattedDatetimeString(timestamp)}</BodyShort>
             <BodyShort size="small">{timestamp && ident && <span>·</span>}</BodyShort>
-            <BodyShort size="small">{ident}</BodyShort>
+            <BodyShort size="small" data-sensitive>
+                {ident}
+            </BodyShort>
         </HStack>
     );
 };

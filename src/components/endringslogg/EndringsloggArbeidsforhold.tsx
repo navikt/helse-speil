@@ -49,7 +49,9 @@ export function EndringsloggArbeidsforhold({ endringer, onOpenChange }: Endrings
                                             {endring.forklaring}
                                         </Table.DataCell>
                                         <Table.DataCell>
-                                            {endring.saksbehandler.ident ?? endring.saksbehandler.navn}
+                                            <span data-sensitive>
+                                                {endring.saksbehandler.ident ?? endring.saksbehandler.navn}
+                                            </span>
                                         </Table.DataCell>
                                     </Table.Row>
                                 ))}

@@ -11,7 +11,9 @@ export const SaksbehandlerIdentCell = ({ name, ...rest }: SaksbehandlerIdentCell
         <Table.DataCell {...rest}>
             {name ? (
                 <Tooltip content={name}>
-                    <BodyShort truncate>{name}</BodyShort>
+                    <BodyShort truncate data-sensitive>
+                        {name}
+                    </BodyShort>
                 </Tooltip>
             ) : (
                 '-'

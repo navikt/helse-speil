@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
+import React, { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
 
 import { Events } from '@navikt/analytics-types';
 import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
@@ -217,7 +217,7 @@ function Vurderingspanel({ children }: PropsWithChildren): ReactElement {
 function vurdertTekstFor(
     vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2,
     vurdering?: ApiVurdering | null,
-): string | undefined {
+): ReactNode | undefined {
     if (vilkårsgrunnlag.type === 'ApiVilkårsgrunnlagInfotrygdV2') {
         return 'Vurdert i Infotrygd';
     }
@@ -227,5 +227,11 @@ function vurdertTekstFor(
 
     const tidspunkt = getFormattedDatetimeString(vurdering.tidsstempel);
 
-    return vurdering.automatisk ? `Vurdert automatisk ${tidspunkt}` : `Vurdert ${tidspunkt} – ${vurdering.ident}`;
+    return vurdering.automatisk ? (
+        `Vurdert automatisk ${tidspunkt}`
+    ) : (
+        <>
+            Vurdert {tidspunkt} – <span data-sensitive>{vurdering.ident}</span>
+        </>
+    );
 }

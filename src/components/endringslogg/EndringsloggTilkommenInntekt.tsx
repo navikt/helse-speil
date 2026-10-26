@@ -51,7 +51,9 @@ export function EndringsloggTilkommenInntekt({
                                             {getFormattedDatetimeString(event.metadata.tidspunkt)}
                                         </Table.DataCell>
                                         <EventCeller event={event} />
-                                        <Table.DataCell>{event.metadata.utfortAvSaksbehandlerIdent}</Table.DataCell>
+                                        <Table.DataCell>
+                                            <span data-sensitive>{event.metadata.utfortAvSaksbehandlerIdent}</span>
+                                        </Table.DataCell>
                                     </Table.Row>
                                 ))}
                         </Table.Body>

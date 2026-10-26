@@ -30,7 +30,9 @@ export function P책VentListeDialog({ open, onOpenChange, navn, p책VentInfo }: P�
                             </Innhold>
                             <Innhold tittel="Dato">{getFormattedDatetimeString(p책VentInfo.opprettet)}</Innhold>
                             <Innhold tittel="Frist">{somNorskDato(p책VentInfo.tidsfrist)}</Innhold>
-                            <Innhold tittel="Saksbehandler">{p책VentInfo.saksbehandler}</Innhold>
+                            <Innhold tittel="Saksbehandler" anonymize>
+                                {p책VentInfo.saksbehandler}
+                            </Innhold>
                         </HStack>
                         {p책VentInfo.arsaker.length > 0 && (
                             <VStack>
@@ -78,7 +80,7 @@ function Innhold({ tittel, children, anonymize = false }: PropsWithChildren<Innh
             <Heading level="2" size="xsmall">
                 {tittel}
             </Heading>
-            {anonymize ? <BodyShort data-sensitive>{children}</BodyShort> : <BodyShort>{children}</BodyShort>}
+            <BodyShort data-sensitive={anonymize || undefined}>{children}</BodyShort>
         </VStack>
     );
 }

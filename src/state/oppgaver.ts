@@ -168,6 +168,12 @@ export function useInvaliderOppgaver() {
 
 export class TildelingAlert extends InfoAlert {
     name = 'tildeling';
+    tildeltNavn: string;
+
+    constructor(tildeltNavn: string) {
+        super(`Oppgaven er tildelt ${tildeltNavn}`);
+        this.tildeltNavn = tildeltNavn;
+    }
 }
 
 const tildeltFiltrering = (activeFilters: Filter[]) => {

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, ReactNode } from 'react';
 
 import { HStack, VStack } from '@navikt/ds-react';
 
@@ -13,7 +13,7 @@ import { utfallFraOppfylt } from './vilkårsutfall';
 interface SykepengegrunnlagVilkårProps {
     vilkårsgrunnlag: ApiVilkårsgrunnlagSpleisV2 | ApiVilkårsgrunnlagInfotrygdV2;
     alderVedSkjæringstidspunkt: number;
-    vurdertTekst?: string;
+    vurdertTekst?: ReactNode;
 }
 
 export function SykepengegrunnlagVilkår({

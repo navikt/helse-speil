@@ -105,7 +105,8 @@ export const Varsel = ({ className, varsel, type }: VarselProps): ReactElement =
                 {(varselStatus === ApiSaksbildeVarselstatus.VURDERT ||
                     varselStatus === ApiSaksbildeVarselstatus.GODKJENT) && (
                     <BodyShort className={styles.vurdering}>
-                        {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av {varselVurdering?.ident}
+                        {getFormattedDatetimeString(varselVurdering?.tidsstempel)} av{' '}
+                        <span data-sensitive>{varselVurdering?.ident}</span>
                     </BodyShort>
                 )}
                 {(putError || deleteError) && (

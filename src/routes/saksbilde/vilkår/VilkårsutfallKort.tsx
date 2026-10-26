@@ -8,7 +8,7 @@ interface VilkårsutfallKortProps {
     tittel: ReactNode;
     paragraf?: ReactNode;
     utfall: Vilkårsutfall;
-    vurdertTekst?: string;
+    vurdertTekst?: ReactNode;
 }
 
 export function VilkårsutfallKort({

@@ -23,9 +23,7 @@ export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
     useEffect(() => {
         removeVarsel(key);
         if (personTilBehandling && erTildeltAnnenSaksbehandler(saksbehandler.oid, personTilBehandling)) {
-            addVarsel(
-                new TildelingAlert(`Oppgaven er tildelt ${capitalizeName(personTilBehandling.tildeling?.navn ?? '')}`),
-            );
+            addVarsel(new TildelingAlert(capitalizeName(personTilBehandling.tildeling?.navn ?? '')));
         }
     }, [saksbehandler.oid, personTilBehandling, removeVarsel, addVarsel]);
 };
