@@ -29,3 +29,7 @@ updates:
     registries: "*"
     cooldown:
       default-days: 7
+    ignore:
+      # typescript-eslint støtter ikke TS >= 6.1 ennå, se https://github.com/typescript-eslint/typescript-eslint/issues/10940
+      - dependency-name: "typescript"
+        versions: [">= 6.1.0"]
