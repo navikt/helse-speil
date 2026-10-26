@@ -3,6 +3,7 @@ import { NextRequest } from 'next/server';
 import { hentOpptjeningsvurdering } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
 import { opptjeningsaktivitetLabels } from '@form-schemas/opptjeningsvurderingSkjema';
 import {
+    ApiOpptjeningsaktivitet,
     ApiUtfall,
     ApiVilkårskode,
     ApiVilkårsvurdering,
@@ -38,22 +39,16 @@ function nyesteHandling(manuelle: ManuellVurdering[]): ManuellVurdering[] {
 }
 
 function tilVisning(vurderinger: ManuellVurdering[]): Handlingsvisning {
-    const [første] = vurderinger;
-    const { kilde } = første!;
-    const felter: Visningsfelt[] =
-        vurderinger.length === 1
-            ? [
-                  { type: 'TEKST', tittel: 'Vilkår', tekst: vilkårskodeLabels[første!.vilkårskode] },
-                  { type: 'TEKST', tittel: 'Utfall', tekst: utfallstekst(første!.utfall) },
-              ]
-            : vurderinger
-                  .toSorted((a, b) => vilkårsrekkefølge(a.vilkårskode) - vilkårsrekkefølge(b.vilkårskode))
-                  .map((vurdering) => ({
-                      type: 'TEKST',
-                      tittel: vilkårskodeLabels[vurdering.vilkårskode],
-                      tekst: utfallstekst(vurdering.utfall),
-                  }));
-    if (kilde.opptjeningsaktiviteter.length > 0) {
+    const { kilde } = vurderinger[0]!;
+    const felter: Visningsfelt[] = vurderinger
+        .toSorted((a, b) => vilkårsrekkefølge(a.vilkårskode) - vilkårsrekkefølge(b.vilkårskode))
+        .map((vurdering) => ({
+            type: 'TEKST',
+            tittel: vilkårskodeLabels[vurdering.vilkårskode],
+            tekst: utfallstekst(vurdering.utfall),
+        }));
+    // Bare arbeid følger av at «Arbeid i minst 4 uker» er oppfylt, så lista vises bare når det er likestilte ytelser
+    if (kilde.opptjeningsaktiviteter.some((aktivitet) => aktivitet !== ApiOpptjeningsaktivitet.ARBEID)) {
         felter.push({
             type: 'LISTE',
             tittel: 'Arbeid og likestilte ytelser',
