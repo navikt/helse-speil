@@ -9,7 +9,12 @@ import {
     ApiVurderingskilde,
     ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/vilkarsproving.schemas';
-import { AvgjørendeVilkårTag, Vilkårsutfall, VilkårsutfallTag } from '@saksbilde/vilkår/vilkårsutfall';
+import {
+    AvgjørendeVilkårTag,
+    Vilkårsutfall,
+    VilkårsutfallTag,
+    VurdertAvSaksbehandler,
+} from '@saksbilde/vilkår/vilkårsutfall';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -123,9 +128,7 @@ function vurdertTekst(vurdering?: ApiVilkårsvurdering): ReactNode | undefined {
     const tidspunkt = getFormattedDatetimeString(vurdering.vurdertTidspunkt);
 
     return erSaksbehandlerkilde(vurdering.kilde) ? (
-        <>
-            Vurdert {tidspunkt} – <span data-sensitive>{vurdering.kilde.ident}</span>
-        </>
+        <VurdertAvSaksbehandler tidspunkt={tidspunkt} ident={vurdering.kilde.ident} />
     ) : (
         `Vurdert automatisk ${tidspunkt}`
     );

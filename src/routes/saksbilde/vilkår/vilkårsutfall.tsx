@@ -1,7 +1,7 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
-import { Tag } from '@navikt/ds-react';
+import { HStack, Tag } from '@navikt/ds-react';
 
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
 
@@ -44,6 +44,16 @@ export function AvgjørendeVilkårTag(): ReactElement {
         <Tag size="xsmall" variant="outline" data-color="info">
             Avgjørende vilkår
         </Tag>
+    );
+}
+
+export function VurdertAvSaksbehandler({ tidspunkt, ident }: { tidspunkt: string; ident: string }): ReactElement {
+    return (
+        <HStack as="span" gap="space-8">
+            <span>Vurdert {tidspunkt}</span>
+            <span>·</span>
+            <span data-sensitive>{ident}</span>
+        </HStack>
     );
 }
 

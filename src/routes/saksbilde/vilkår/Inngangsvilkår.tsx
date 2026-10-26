@@ -17,8 +17,8 @@ import {
     ApiVurdering,
 } from '@io/rest/generated/spesialist.schemas';
 import { ApiVilkårskode } from '@io/rest/generated/vilkarsproving.schemas';
-import { useSerPåTidligereBehandling } from '@state/inntektsforhold/inntektsforhold';
 import { Skjemanavn, sporHendelse } from '@observability/hendelser';
+import { useSerPåTidligereBehandling } from '@state/inntektsforhold/inntektsforhold';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
@@ -31,6 +31,7 @@ import { ManuellVurderingAvVilkårSkjema } from './opptjening/ManuellVurderingAv
 import { Opptjening } from './opptjening/Opptjening';
 import { useOpptjeningshistorikk } from './opptjening/useOpptjeningshistorikk';
 import { useOpptjeningsvurdering } from './opptjening/useOpptjeningsvurdering';
+import { VurdertAvSaksbehandler } from './vilkårsutfall';
 
 interface InngangsvilkårProps {
     person: ApiSaksbildePerson;
@@ -230,8 +231,6 @@ function vurdertTekstFor(
     return vurdering.automatisk ? (
         `Vurdert automatisk ${tidspunkt}`
     ) : (
-        <>
-            Vurdert {tidspunkt} – <span data-sensitive>{vurdering.ident}</span>
-        </>
+        <VurdertAvSaksbehandler tidspunkt={tidspunkt} ident={vurdering.ident} />
     );
 }
