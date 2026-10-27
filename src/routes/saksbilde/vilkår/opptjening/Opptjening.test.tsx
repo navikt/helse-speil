@@ -56,15 +56,6 @@ vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
     useErCoachFagkoordinatorEllerSupersaksbehandler: () => brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler,
 }));
 
-const featureToggleMock = vi.hoisted(() => ({
-    kanVurdereLikestilteYtelser: true,
-}));
-
-vi.mock('@utils/featureToggles', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@utils/featureToggles')>()),
-    kanVurdereLikestilteYtelser: () => featureToggleMock.kanVurdereLikestilteYtelser,
-}));
-
 const ingenAutomatiskeVurderinger: ApiVilkårsvurderingerForPersonResponse = {
     skjæringstidspunkt: '2024-01-01',
     krav: [
@@ -1082,10 +1073,6 @@ describe('Opptjening', () => {
         const yrkesaktiv = /sammenhengende yrkesaktiv/;
         const aktiviteter = /Hvilken likestilt ytelse\/arbeid/;
 
-        afterEach(() => {
-            featureToggleMock.kanVurdereLikestilteYtelser = true;
-        });
-
         it('viser arbeid først blant aktivitetene', async () => {
             renderOpptjening(false);
             await startVurdering();
@@ -1102,17 +1089,6 @@ describe('Opptjening', () => {
                 ApiOpptjeningsaktivitet.FORELDREPENGER,
                 ApiOpptjeningsaktivitet.SVANGERSKAPSPENGER,
             ]);
-        });
-
-        it('viser bare arbeid når likestilte ytelser ikke er slått på i miljøet', async () => {
-            featureToggleMock.kanVurdereLikestilteYtelser = false;
-
-            renderOpptjening(false);
-            await startVurdering();
-            await svar(minst4Uker, 'Ja');
-
-            expect(screen.getByRole('checkbox', { name: 'Arbeid' })).toBeVisible();
-            expect(screen.queryByRole('checkbox', { name: 'Sykepenger (kap. 8)' })).not.toBeInTheDocument();
         });
 
         it('viser vilkåret som ikke vurdert når ingenting er vurdert', () => {

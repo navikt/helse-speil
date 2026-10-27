@@ -16,9 +16,7 @@ import {
     tilOpptjeningsvurderingRequest,
 } from '@form-schemas/opptjeningsvurderingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ApiOpptjeningsaktivitet } from '@io/rest/generated/vilkarsproving.schemas';
 import { usePostManuellOpptjeningsvurderingBehandler } from '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger';
-import { kanVurdereLikestilteYtelser } from '@utils/featureToggles';
 
 import { BegrunnelseOgJournalpost } from './BegrunnelseOgJournalpost';
 import { Skjemaknapper } from './Skjemaknapper';
@@ -40,9 +38,6 @@ export function OpptjeningsvurderingSkjema({
 }: OpptjeningsvurderingSkjemaProps): ReactElement {
     const invaliderOpptjening = useInvaliderOpptjening(personPseudoId);
     const sporing = skjemasporing('opptjening');
-    const valgbareAktiviteter = kanVurdereLikestilteYtelser()
-        ? opptjeningsaktiviteter
-        : [ApiOpptjeningsaktivitet.ARBEID];
 
     const form = useForm<OpptjeningsvurderingSchema>({
         resolver: zodResolver(opptjeningsvurderingSkjema),
@@ -100,7 +95,7 @@ export function OpptjeningsvurderingSkjema({
                                 onChange={field.onChange}
                                 error={fieldState.error?.message}
                             >
-                                {valgbareAktiviteter.map((aktivitet) => (
+                                {opptjeningsaktiviteter.map((aktivitet) => (
                                     <Checkbox key={aktivitet} value={aktivitet}>
                                         {opptjeningsaktivitetValg(aktivitet)}
                                     </Checkbox>
