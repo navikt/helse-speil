@@ -58,7 +58,7 @@ export function Opptjening({
                     </span>
                 )}
                 <Heading id={tittelId} level="3" size="xsmall">
-                    Opptjeningstid {utfall === 'IkkeOppfylt' && '(Ikke oppfylt)'}
+                    Opptjeningstid
                 </Heading>
                 <EndringsloggOpptjeningButton endringer={endringer} />
                 {kanVurdere && data && (
