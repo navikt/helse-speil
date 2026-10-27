@@ -21,7 +21,8 @@ describe('Saksbehandlerhandlinghendelse', () => {
         fetchMock.mockResolvedValue(
             Response.json({
                 felter: [
-                    { type: 'TEKST', tittel: 'Vilkår', tekst: 'Arbeid i minst 4 uker' },
+                    { type: 'TEKST', tittel: 'Opptjening oppfylt', tekst: 'Ja' },
+                    { type: 'TEKST', tittel: 'Arbeid i minst 4 uker', tekst: 'Nei' },
                     { type: 'TEKST', tittel: 'Begrunnelse', tekst: 'En begrunnelse' },
                     { type: 'LISTE', tittel: 'Journalposter', elementer: ['123'] },
                 ],
@@ -33,8 +34,10 @@ describe('Saksbehandlerhandlinghendelse', () => {
 
         await userEvent.click(screen.getByText('Opptjening vurdert manuelt'));
 
-        expect(await screen.findByText('Vilkår')).toBeVisible();
+        expect(await screen.findByText('Opptjening oppfylt')).toBeVisible();
         expect(screen.getByText('Arbeid i minst 4 uker')).toBeVisible();
+        expect(screen.getByText('Ja')).toBeVisible();
+        expect(screen.getByText('Nei')).toBeVisible();
         expect(screen.getByText('Begrunnelse')).toBeVisible();
         expect(screen.getByText('En begrunnelse')).toBeVisible();
         expect(screen.getByText('Journalposter')).toBeVisible();

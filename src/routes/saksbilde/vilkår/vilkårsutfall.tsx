@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, ReactElement } from 'react';
 
-import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
+import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { HStack, Tag } from '@navikt/ds-react';
 
 import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
@@ -14,7 +14,9 @@ export function VilkårsutfallIkon({ utfall }: { utfall: Vilkårsutfall }): Reac
                 <CheckmarkCircleFillIcon title="Oppfylt" className="text-ax-text-success-decoration" fontSize="24" />
             );
         case 'IkkeOppfylt':
-            return <XMarkOctagonIcon title="Ikke oppfylt" className="text-ax-text-neutral" fontSize="24" />;
+            return (
+                <XMarkOctagonFillIcon title="Ikke oppfylt" className="text-ax-text-danger-decoration" fontSize="24" />
+            );
         case 'IkkeVurdert':
             return (
                 <ExclamationmarkTriangleFillIcon

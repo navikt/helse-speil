@@ -20,7 +20,7 @@ export const stub = async (_request: NextRequest, params: Promise<{ personPseudo
             : [];
     // Bare manuelle vurderinger har detaljer
     if (manuelle.length === 0) return new Response(null, { status: 404 });
-    return Response.json(tilVisning(nyesteHandling(manuelle)));
+    return Response.json(tilVisning(nyesteHandling(manuelle), opptjeningsvurdering!.opptjeningOk));
 };
 
 type ManuellVurdering = ApiVilkårsvurdering & { kilde: ApiVurderingskildeSaksbehandler };
@@ -38,15 +38,18 @@ function nyesteHandling(manuelle: ManuellVurdering[]): ManuellVurdering[] {
     return manuelle.filter((vurdering) => vurdering.vurdertTidspunkt === nyesteTidspunkt);
 }
 
-function tilVisning(vurderinger: ManuellVurdering[]): Handlingsvisning {
+function tilVisning(vurderinger: ManuellVurdering[], opptjeningOk: boolean): Handlingsvisning {
     const { kilde } = vurderinger[0]!;
-    const felter: Visningsfelt[] = vurderinger
-        .toSorted((a, b) => vilkårsrekkefølge(a.vilkårskode) - vilkårsrekkefølge(b.vilkårskode))
-        .map((vurdering) => ({
-            type: 'TEKST',
-            tittel: vilkårskodeLabels[vurdering.vilkårskode],
-            tekst: utfallstekst(vurdering.utfall),
-        }));
+    const felter: Visningsfelt[] = [
+        { type: 'TEKST', tittel: 'Opptjening oppfylt', tekst: opptjeningOk ? 'Ja' : 'Nei' },
+        ...vurderinger
+            .toSorted((a, b) => vilkårsrekkefølge(a.vilkårskode) - vilkårsrekkefølge(b.vilkårskode))
+            .map((vurdering): Visningsfelt => ({
+                type: 'TEKST',
+                tittel: spørsmål[vurdering.vilkårskode],
+                tekst: svar(vurdering),
+            })),
+    ];
     // Bare arbeid følger av at «Arbeid i minst 4 uker» er oppfylt, så lista vises bare når det er likestilte ytelser
     if (kilde.opptjeningsaktiviteter.some((aktivitet) => aktivitet !== ApiOpptjeningsaktivitet.ARBEID)) {
         felter.push({
@@ -62,18 +65,23 @@ function tilVisning(vurderinger: ManuellVurdering[]): Handlingsvisning {
     return { felter };
 }
 
-function utfallstekst(utfall: ApiUtfall): string {
-    return utfall === ApiUtfall.OPPFYLT ? 'Oppfylt' : 'Ikke oppfylt';
+// Vilkåret «Foreldrepenger ikke opptjent på AAP» er negert i forhold til spørsmålet, så svaret snus
+function svar(vurdering: ApiVilkårsvurdering): string {
+    const oppfylt = vurdering.utfall === ApiUtfall.OPPFYLT;
+    const ja =
+        vurdering.vilkårskode === ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP ? !oppfylt : oppfylt;
+    return ja ? 'Ja' : 'Nei';
 }
 
 function vilkårsrekkefølge(vilkårskode: ApiVilkårskode): number {
     return Object.values(ApiVilkårskode).indexOf(vilkårskode);
 }
 
-const vilkårskodeLabels: Record<ApiVilkårskode, string> = {
+// Vilkårene vises som spørsmålene saksbehandleren svarte på i skjemaet
+const spørsmål: Record<ApiVilkårskode, string> = {
     [ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER]: 'Arbeid i minst 4 uker',
     [ApiVilkårskode.OPPTJENING_LIKESTILT_YTELSE_MINST_4_UKER]: 'Likestilt ytelse i minst 4 uker',
-    [ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP]: 'Foreldrepenger ikke opptjent på AAP',
+    [ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP]: 'Foreldrepenger opptjent på AAP',
     [ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER]:
-        'Yrkesaktiv i minst 4 uker før uttak av foreldrepenger',
+        'Yrkesaktiv eller likestilt ytelse i minst 4 uker før uttak av foreldrepenger',
 };
