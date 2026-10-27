@@ -67,7 +67,7 @@ export function Opptjeningsdetaljer({ vurderingFor, visDetaljer = false }: Opptj
 
 function Arbeidsforholddetaljer({ grunnlag }: { grunnlag: ApiVurderingsgrunnlagArbeidsforhold }): ReactElement {
     return (
-        <VStack gap="space-4" className="pb-4">
+        <VStack gap="space-4">
             {grunnlag.opptjeningsperiode && (
                 <HStack gap="space-24">
                     <BodyShort>Opptjening fra</BodyShort>
