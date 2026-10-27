@@ -3,6 +3,7 @@ import Image from 'next/image';
 import React, { ReactElement } from 'react';
 
 import fotballgurk from '@assets/topplinjebilder/fotballgurk.svg';
+import halloweenpynt from '@assets/topplinjebilder/halloweenpynt.svg';
 import julegurken from '@assets/topplinjebilder/julegurken.svg';
 import nyttårsgurken from '@assets/topplinjebilder/nyttårsgurken.svg';
 import påskegurken from '@assets/topplinjebilder/påskegurken.svg';
@@ -18,6 +19,7 @@ export const EasterEgg = (): ReactElement => (
         <Påskepynt />
         <Sommergurken />
         <Fotballgurk />
+        <Halloweenpynt />
     </div>
 );
 
@@ -55,3 +57,8 @@ const Sommergurken = (): ReactElement | null => {
 const Fotballgurk = (): ReactElement | null => {
     return erUnderFotballVM(dayjs()) ? <Image priority={true} alt="Fotball-VM-pynt" src={fotballgurk} /> : null;
 };
+
+const Halloweenpynt = (): ReactElement | null =>
+    dayjs().get('month') === 9 && dayjs().get('date') >= 24 ? (
+        <Image style={{ marginLeft: '1.5rem' }} priority={true} alt="Halloweenpynt" src={halloweenpynt} />
+    ) : null;
