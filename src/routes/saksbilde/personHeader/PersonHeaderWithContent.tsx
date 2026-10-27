@@ -63,6 +63,8 @@ export function PersonHeaderWithContent({ person }: PersonHeaderWithContentProps
                     <AutomatiskBehandlingStansetTag
                         erStanset={data.erStanset}
                         dato={data.opprettetTidspunkt as string}
+                        begrunnelse={data.begrunnelse}
+                        fødselsnummer={person.identitetsnummer}
                     />
                 )}
             </HStack>
