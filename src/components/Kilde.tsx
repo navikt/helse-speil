@@ -6,79 +6,75 @@ import { ApiInntektskilde } from '@io/rest/generated/spesialist.schemas';
 import { Kildetype } from '@saksbilde/historikk/hendelser/dokument/dokument';
 import { cn } from '@utils/tw';
 
-import styles from './Kilde.module.scss';
-
 interface KildeProps {
     type: KildeikonType;
     className?: string;
 }
 
-type KildeikonType = Kildetype | ApiInntektskilde | 'AINNTEKT' | 'VEDTAK' | undefined;
+type KildeikonType = Kildetype | ApiInntektskilde | 'AINNTEKT' | 'VEDTAK' | 'Endringslogg' | undefined;
 
-const finnCSSklasse = (type: KildeikonType) => {
-    switch (type) {
-        case 'AINNTEKT':
-            return 'ainntekt';
-        case 'VEDTAK':
-            return 'melding om vedtak';
-        case 'InntektHentetFraAordningen':
-        case ApiInntektskilde.AORDNINGEN:
-            return 'aordningen';
-        case 'Sykmelding':
-            return 'sykmelding';
-        case 'Soknad':
-            return 'søknad';
-        case 'Inntektsmelding':
-        case ApiInntektskilde.INNTEKTSMELDING:
-            return 'inntektsmelding';
-        case 'Saksbehandler':
-        case ApiInntektskilde.SKJONNSMESSIG_FASTSATT:
-            return 'saksbehandler';
-        case 'Skatteetaten':
-            return 'skatteetaten';
-        default:
-            return '';
-    }
+export function Kilde({ type, children, className }: PropsWithChildren<KildeProps>): ReactElement {
+    const { farge, tekstplassering = 'translate-y-px', tooltip, ikon } = kildeinfo(type);
+    return (
+        <Tooltip content={tooltip}>
+            <div
+                className={cn(
+                    'flex h-4 w-5 cursor-default items-center justify-center rounded-[3px] border border-solid bg-transparent text-[12px] text-ax-text-neutral',
+                    farge,
+                    className,
+                )}
+            >
+                {ikon ? children : <div className={tekstplassering}>{children}</div>}
+            </div>
+        </Tooltip>
+    );
+}
+
+type Kildeinfo = {
+    farge?: string;
+    tekstplassering?: string;
+    tooltip: string;
+    ikon?: boolean;
 };
 
-const getKildeTypeTooltip = (kilde: KildeikonType): string => {
-    switch (kilde) {
-        case ApiInntektskilde.INNTEKTSMELDING:
-        case 'Inntektsmelding':
-            return 'Inntektsmelding';
-        case 'Soknad':
-            return 'Søknad';
-        case 'Sykmelding':
-            return 'Sykmelding';
-        case 'Saksbehandler':
-            return 'Saksbehandler';
-        case 'InntektHentetFraAordningen':
-        case ApiInntektskilde.AORDNINGEN:
-            return 'A-ordningen';
-        case ApiInntektskilde.IKKE_RAPPORTERT:
-            return 'Ikke rapportert';
-        case ApiInntektskilde.SAKSBEHANDLER:
-            return 'Saksbehandler';
-        case 'AINNTEKT':
-            return 'A-inntekt';
-        case ApiInntektskilde.SKJONNSMESSIG_FASTSATT:
-            return 'Skjønnsmessig fastsatt';
-        case 'Skatteetaten':
-            return 'Skatteetaten';
-        default:
-            return 'Ukjent';
-    }
+const ukjent: Kildeinfo = { tooltip: 'Ukjent' };
+
+const aordningen: Kildeinfo = {
+    farge: 'bg-ax-success-200 border-ax-success-600',
+    tekstplassering: 'translate-x-[0.5px] translate-y-px',
+    tooltip: 'A-ordningen',
 };
 
-const erTekst = (kilde: KildeikonType): boolean =>
-    kilde !== 'Saksbehandler' &&
-    kilde !== ApiInntektskilde.SAKSBEHANDLER &&
-    kilde !== ApiInntektskilde.SKJONNSMESSIG_FASTSATT;
+const inntektsmelding: Kildeinfo = {
+    farge: 'bg-ax-meta-lime-100 border-ax-warning-700',
+    tooltip: 'Inntektsmelding',
+};
 
-export const Kilde = ({ type, children, className }: PropsWithChildren<KildeProps>): ReactElement => (
-    <Tooltip content={getKildeTypeTooltip(type)}>
-        <div className={cn(styles.kildeikon, styles[`kildeikon__${finnCSSklasse(type)}`], className)}>
-            {erTekst(type) ? <div className={styles.tekst}>{children}</div> : children}
-        </div>
-    </Tooltip>
-);
+const nøytral = 'bg-ax-neutral-200 border-ax-neutral-800 [&_svg]:size-[12px]!';
+
+const kilder: Record<NonNullable<KildeikonType>, Kildeinfo> = {
+    AINNTEKT: {
+        farge: 'bg-ax-brand-blue-200 border-ax-brand-blue-600',
+        tekstplassering: '-translate-x-[0.5px] translate-y-px',
+        tooltip: 'A-inntekt',
+    },
+    VEDTAK: ukjent,
+    InntektHentetFraAordningen: aordningen,
+    [ApiInntektskilde.AORDNINGEN]: aordningen,
+    Sykmelding: { farge: 'bg-ax-accent-200 border-ax-accent-600', tooltip: 'Sykmelding' },
+    Soknad: { farge: 'bg-ax-meta-purple-200 border-ax-meta-purple-500', tooltip: 'Søknad' },
+    Inntektsmelding: inntektsmelding,
+    [ApiInntektskilde.INNTEKTSMELDING]: inntektsmelding,
+    Saksbehandler: { farge: nøytral, tooltip: 'Saksbehandler', ikon: true },
+    [ApiInntektskilde.SAKSBEHANDLER]: { tooltip: 'Saksbehandler', ikon: true },
+    [ApiInntektskilde.SKJONNSMESSIG_FASTSATT]: { farge: nøytral, tooltip: 'Skjønnsmessig fastsatt', ikon: true },
+    Endringslogg: { farge: nøytral, tooltip: 'Endringslogg', ikon: true },
+    Skatteetaten: { farge: 'bg-ax-success-100 border-ax-success-700', tooltip: 'Skatteetaten' },
+    [ApiInntektskilde.IKKE_RAPPORTERT]: { tooltip: 'Ikke rapportert' },
+    [ApiInntektskilde.INFOTRYGD]: ukjent,
+    Ukjent: ukjent,
+};
+
+function kildeinfo(type: KildeikonType): Kildeinfo {
+    return (type && kilder[type]) || ukjent;
+}

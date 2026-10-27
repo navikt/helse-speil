@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import React, { ReactElement } from 'react';
 
-import { ClockDashedIcon, XMarkIcon } from '@navikt/aksel-icons';
+import { SleepIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Tag, Tooltip } from '@navikt/ds-react';
 
 import { EgenskaperTags } from '@components/EgenskaperTags';
@@ -35,9 +35,9 @@ import styles from './PeriodeCard.module.scss';
 
 const VentepølseRow = (): ReactElement => (
     <>
-        <Tooltip content="Sykmeldingsperiode">
+        <Tooltip content="Avventer system">
             <div className={styles.iconContainer} style={{ width: '20px' }}>
-                <ClockDashedIcon title="Avventer system" fontSize="1.5rem" />
+                <SleepIcon aria-hidden fontSize="1.5rem" />
             </div>
         </Tooltip>
         <CardTitle className={styles.title}>VENTER</CardTitle>

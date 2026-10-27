@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import { ClockDashedIcon } from '@navikt/aksel-icons';
+
 import { EndringsloggKildeButton } from '@components/endringslogg/EndringsloggKildeButton';
 import { EndringsloggOpptjening } from '@components/endringslogg/EndringsloggOpptjening';
 
@@ -17,6 +19,8 @@ export function EndringsloggOpptjeningButton({ endringer }: EndringsloggOpptjeni
     return (
         <EndringsloggKildeButton
             aria-label="Vis endringslogg for opptjeningstid"
+            ikon={<ClockDashedIcon aria-hidden />}
+            kildetype="Endringslogg"
             renderEndringslogg={(onOpenChange) => (
                 <EndringsloggOpptjening endringer={endringer} onOpenChange={onOpenChange} />
             )}
