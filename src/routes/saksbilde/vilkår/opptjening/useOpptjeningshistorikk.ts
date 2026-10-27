@@ -104,8 +104,7 @@ function kildetekst(kilde: ApiVurderingskilde): string {
         case ApiKildetype.SAKSBEHANDLER:
             return 'ident' in kilde ? kilde.ident : 'Saksbehandler';
         case ApiKildetype.AUTOMATISK:
-            return 'Automatisk';
         case ApiKildetype.OVERFOERT_FRA_SPLEIS:
-            return 'Spleis';
+            return 'Automatisk';
     }
 }
