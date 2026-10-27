@@ -82,7 +82,8 @@ export const TimelinePeriod: ComponentWithType<TimelinePeriodProps> = (): ReactE
                 {showIcon && <span className={cn('aksel-timeline__period--inner')}>{icon}</span>}
             </button>
             <Popover strategy="fixed" anchorEl={anchorEl} open={open} onClose={onClose}>
-                <PopoverContent>{children}</PopoverContent>
+                {/* Aksel Popover rendrer barna også når den er lukket, så innholdet monteres bare ved åpning */}
+                {open && <PopoverContent>{children}</PopoverContent>}
             </Popover>
         </>
     );

@@ -37,13 +37,14 @@ export const Providers = ({ children, bruker }: PropsWithChildren<Props>): React
     const [queryClient] = useState(
         () => new QueryClient({ defaultOptions: { queries: { retry: prøvPåNyttVedForbigåendeFeil } } }),
     );
+    const [atomValues] = useState(getAtomValues);
     useExposeQueryClient(queryClient);
 
     return (
         <ThemeProvider attribute="class" enableSystem={false} defaultTheme="light" disableTransitionOnChange={false}>
             <QueryClientProvider client={queryClient}>
                 <Provider>
-                    <AtomsHydrator atomValues={getAtomValues()}>
+                    <AtomsHydrator atomValues={atomValues}>
                         <SyncAlerts>
                             <AnonymizationProvider>
                                 <div id="root">

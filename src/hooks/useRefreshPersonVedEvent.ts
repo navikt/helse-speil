@@ -16,6 +16,8 @@ import { useQueryClient } from '@tanstack/react-query';
 export const useRefreshPersonVedEvent = () => {
     const { data } = useFetchPersonQuery();
     const refetchPågår = useRef(false);
+    const nyRefetchVenter = useRef(false);
+    const ventendeNyOppgave = useRef(false);
     const selectPeriod = useSelectPeriod();
     const addToast = useAddToast();
     const toasts = useToasts();
@@ -23,20 +25,33 @@ export const useRefreshPersonVedEvent = () => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     useHåndterNyttEvent(async (event) => {
-        if (data === undefined || refetchPågår.current) return;
+        if (data === undefined) return;
+        ventendeNyOppgave.current ||= erNyOppgaveEvent(event);
+        // Hendelser som kommer mens en refetch pågår, slås sammen til én ny refetch etterpå
+        if (refetchPågår.current) {
+            nyRefetchVenter.current = true;
+            return;
+        }
         refetchPågår.current = true;
         try {
-            await queryClient.refetchQueries({ queryKey: getGetSaksbildeForPersonQueryKey(personPseudoId) });
+            do {
+                nyRefetchVenter.current = false;
+                await queryClient.refetchQueries({ queryKey: getGetSaksbildeForPersonQueryKey(personPseudoId) });
+            } while (nyRefetchVenter.current);
         } finally {
             refetchPågår.current = false;
         }
-        await queryClient.invalidateQueries({
-            queryKey: getGetNotatVedtaksperiodeIderForPersonQueryKey(personPseudoId),
-        });
-        await queryClient.invalidateQueries({
-            queryKey: getGetSaksbehandlerhandlingerForPersonQueryKey(personPseudoId),
-        });
-        if (erNyOppgaveEvent(event)) {
+        const harNyOppgave = ventendeNyOppgave.current;
+        ventendeNyOppgave.current = false;
+        await Promise.all([
+            queryClient.invalidateQueries({
+                queryKey: getGetNotatVedtaksperiodeIderForPersonQueryKey(personPseudoId),
+            }),
+            queryClient.invalidateQueries({
+                queryKey: getGetSaksbehandlerhandlingerForPersonQueryKey(personPseudoId),
+            }),
+        ]);
+        if (harNyOppgave) {
             const person = queryClient.getQueryData<ApiSaksbildePerson>(
                 getGetSaksbildeForPersonQueryKey(personPseudoId),
             );

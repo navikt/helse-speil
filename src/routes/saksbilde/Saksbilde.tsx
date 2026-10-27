@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
@@ -15,7 +16,6 @@ import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnla
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
-import { Utvikler } from '@saksbilde/utvikler/Utvikler';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -31,6 +31,8 @@ import { useUtviklersnacks } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { lagPeriodeUrl } from '@utils/undersider';
+
+const Utvikler = dynamic(() => import('@saksbilde/utvikler/Utvikler').then((mod) => mod.Utvikler), { ssr: false });
 
 type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean };
 
@@ -190,14 +192,14 @@ export const Saksbilde = () => {
                             <Tabs.Panel value="sykepengegrunnlag">
                                 <Sykepengegrunnlag person={person} periode={aktivPeriode} />
                             </Tabs.Panel>
+                            <Tabs.Panel value="vurderingsmomenter">
+                                <Vurderingsmomenter periode={aktivPeriode} />
+                            </Tabs.Panel>
                             <Tabs.Panel value="utvikler">
                                 <Utvikler
                                     vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                                     fødselsnummer={person.fodselsnummer}
                                 />
-                            </Tabs.Panel>
-                            <Tabs.Panel value="vurderingsmomenter">
-                                <Vurderingsmomenter periode={aktivPeriode} />
                             </Tabs.Panel>
                         </>
                     )}
