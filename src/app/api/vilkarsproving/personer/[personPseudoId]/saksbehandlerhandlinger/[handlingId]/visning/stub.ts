@@ -40,15 +40,13 @@ function nyesteHandling(manuelle: ManuellVurdering[]): ManuellVurdering[] {
 
 function tilVisning(vurderinger: ManuellVurdering[], opptjeningOk: boolean): Handlingsvisning {
     const { kilde } = vurderinger[0]!;
+    const sorterte = vurderinger
+        .toSorted((a, b) => vilkårsrekkefølge(a.vilkårskode) - vilkårsrekkefølge(b.vilkårskode))
+        .map((vurdering) => ({ vurdering, felt: tilVisningsfelt(vurdering) }));
+    // Feltene kommer i samme rekkefølge som spørsmålene i skjemaet: aktivitetene før spørsmålene om foreldrepenger
     const felter: Visningsfelt[] = [
         { type: 'TEKST', tittel: 'Opptjeningstid', tekst: opptjeningOk ? 'Oppfylt' : 'Ikke oppfylt' },
-        ...vurderinger
-            .toSorted((a, b) => vilkårsrekkefølge(a.vilkårskode) - vilkårsrekkefølge(b.vilkårskode))
-            .map((vurdering): Visningsfelt => ({
-                type: 'TEKST',
-                tittel: spørsmål[vurdering.vilkårskode],
-                tekst: svar(vurdering),
-            })),
+        ...sorterte.filter(({ vurdering }) => !gjelderForeldrepenger(vurdering)).map(({ felt }) => felt),
     ];
     // Bare arbeid følger av at «Arbeid i minst 4 uker» er oppfylt, så lista vises bare når det er likestilte ytelser
     if (kilde.opptjeningsaktiviteter.some((aktivitet) => aktivitet !== ApiOpptjeningsaktivitet.ARBEID)) {
@@ -58,11 +56,23 @@ function tilVisning(vurderinger: ManuellVurdering[], opptjeningOk: boolean): Han
             elementer: kilde.opptjeningsaktiviteter.map((aktivitet) => opptjeningsaktivitetLabels[aktivitet]),
         });
     }
+    felter.push(...sorterte.filter(({ vurdering }) => gjelderForeldrepenger(vurdering)).map(({ felt }) => felt));
     felter.push({ type: 'TEKST', tittel: 'Begrunnelse', tekst: kilde.fritekstbegrunnelse });
     if (kilde.journalpostId.length > 0) {
         felter.push({ type: 'LISTE', tittel: 'Journalposter', elementer: kilde.journalpostId });
     }
     return { felter };
+}
+
+function tilVisningsfelt(vurdering: ApiVilkårsvurdering): Visningsfelt {
+    return { type: 'TEKST', tittel: spørsmål[vurdering.vilkårskode], tekst: svar(vurdering) };
+}
+
+function gjelderForeldrepenger(vurdering: ApiVilkårsvurdering): boolean {
+    return (
+        vurdering.vilkårskode === ApiVilkårskode.OPPTJENING_FORELDREPENGER_IKKE_OPPTJENT_PA_AAP ||
+        vurdering.vilkårskode === ApiVilkårskode.OPPTJENING_YRKESAKTIV_MINST_4_UKER_FOR_UTTAK_AV_FORELDREPENGER
+    );
 }
 
 // Vilkåret «Foreldrepenger ikke opptjent på AAP» er negert i forhold til spørsmålet, så svaret snus
