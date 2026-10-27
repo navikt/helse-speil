@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { MinusIcon, PlusIcon } from '@navikt/aksel-icons';
-import { BodyShort, Button, HStack } from '@navikt/ds-react';
+import { BodyShort, Button, HStack, Tooltip } from '@navikt/ds-react';
 
 import { Filter, FilterStatus, useToggleFilter } from '@oversikt/table/state/filter';
 
@@ -47,12 +47,14 @@ type PlussKnappProps = {
 };
 
 const PlussKnapp = ({ filterStatus, toggleFilterOn }: PlussKnappProps): ReactElement => (
-    <Button
-        variant={filterStatus === FilterStatus.PLUS ? 'primary' : 'secondary'}
-        size="xsmall"
-        icon={<PlusIcon title="Filtrer" />}
-        onClick={toggleFilterOn}
-    />
+    <Tooltip content="Filtrer">
+        <Button
+            variant={filterStatus === FilterStatus.PLUS ? 'primary' : 'secondary'}
+            size="xsmall"
+            icon={<PlusIcon aria-hidden />}
+            onClick={toggleFilterOn}
+        />
+    </Tooltip>
 );
 
 type MinusKnappProps = {
@@ -61,10 +63,12 @@ type MinusKnappProps = {
 };
 
 const MinusKnapp = ({ filterStatus, toggleFilterOut }: MinusKnappProps): ReactElement => (
-    <Button
-        variant={filterStatus === FilterStatus.MINUS ? 'danger' : 'secondary'}
-        size="xsmall"
-        icon={<MinusIcon title="Filtrer bort" />}
-        onClick={toggleFilterOut}
-    />
+    <Tooltip content="Filtrer bort">
+        <Button
+            variant={filterStatus === FilterStatus.MINUS ? 'danger' : 'secondary'}
+            size="xsmall"
+            icon={<MinusIcon aria-hidden />}
+            onClick={toggleFilterOut}
+        />
+    </Tooltip>
 );

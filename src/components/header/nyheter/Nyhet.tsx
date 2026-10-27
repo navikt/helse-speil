@@ -44,7 +44,7 @@ export function Nyhet({ nyhet }: NyhetProps): ReactElement {
                 {nyhet.lenke?.lenkeUrl && (
                     <Link href={nyhet.lenke.lenkeUrl} target="_blank" rel="noopener noreferrer">
                         {nyhet.lenke.lenkeTekst}
-                        <ExternalLinkIcon />
+                        <ExternalLinkIcon aria-hidden />
                     </Link>
                 )}
             </HStack>

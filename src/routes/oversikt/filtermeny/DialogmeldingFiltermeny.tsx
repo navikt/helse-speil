@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 
 import { MinusIcon, PlusIcon } from '@navikt/aksel-icons';
-import { Accordion, BodyShort, Button, HStack, VStack } from '@navikt/ds-react';
+import { Accordion, BodyShort, Button, HStack, Tooltip, VStack } from '@navikt/ds-react';
 
 import {
     DialogmeldingKolonne,
@@ -47,28 +47,34 @@ const DialogmeldingFilterList = ({ filters, text, onToggle }: DialogmeldingFilte
                     <HStack gap="space-8" key={filter.key} wrap={false}>
                         <BodyShort className="w-40 text-ax-text-neutral">{filter.label}</BodyShort>
                         <HStack gap="space-8" wrap={false} className="self-center">
-                            <Button
-                                variant={filter.status === FilterStatus.PLUS ? 'primary' : 'secondary'}
-                                size="xsmall"
-                                icon={<PlusIcon title="Filtrer" />}
-                                onClick={() =>
-                                    onToggle(
-                                        filter.key,
-                                        filter.status === FilterStatus.PLUS ? FilterStatus.OFF : FilterStatus.PLUS,
-                                    )
-                                }
-                            />
-                            <Button
-                                variant={filter.status === FilterStatus.MINUS ? 'danger' : 'secondary'}
-                                size="xsmall"
-                                icon={<MinusIcon title="Filtrer bort" />}
-                                onClick={() =>
-                                    onToggle(
-                                        filter.key,
-                                        filter.status === FilterStatus.MINUS ? FilterStatus.OFF : FilterStatus.MINUS,
-                                    )
-                                }
-                            />
+                            <Tooltip content="Filtrer">
+                                <Button
+                                    variant={filter.status === FilterStatus.PLUS ? 'primary' : 'secondary'}
+                                    size="xsmall"
+                                    icon={<PlusIcon aria-hidden />}
+                                    onClick={() =>
+                                        onToggle(
+                                            filter.key,
+                                            filter.status === FilterStatus.PLUS ? FilterStatus.OFF : FilterStatus.PLUS,
+                                        )
+                                    }
+                                />
+                            </Tooltip>
+                            <Tooltip content="Filtrer bort">
+                                <Button
+                                    variant={filter.status === FilterStatus.MINUS ? 'danger' : 'secondary'}
+                                    size="xsmall"
+                                    icon={<MinusIcon aria-hidden />}
+                                    onClick={() =>
+                                        onToggle(
+                                            filter.key,
+                                            filter.status === FilterStatus.MINUS
+                                                ? FilterStatus.OFF
+                                                : FilterStatus.MINUS,
+                                        )
+                                    }
+                                />
+                            </Tooltip>
                         </HStack>
                     </HStack>
                 ))}

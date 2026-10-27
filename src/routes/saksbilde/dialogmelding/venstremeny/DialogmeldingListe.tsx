@@ -62,7 +62,7 @@ export function DialogmeldingListe(): ReactElement {
                                         <BodyShort weight={erAktiv ? 'semibold' : 'regular'}>
                                             {fagomradeLabels[dialog.fagomrade]}
                                         </BodyShort>
-                                        {harVedlegg && <PaperclipIcon aria-label="Har vedlegg" fontSize="1rem" />}
+                                        {harVedlegg && <PaperclipIcon title="Har vedlegg" fontSize="1rem" />}
                                     </HStack>
                                     <BodyShort size="small" className="text-ax-text-neutral-subtle">
                                         {formatNavn(dialog.behandler.navn)}

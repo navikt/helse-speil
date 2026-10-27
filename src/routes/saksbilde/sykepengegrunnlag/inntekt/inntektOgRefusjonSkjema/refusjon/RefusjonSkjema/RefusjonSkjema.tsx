@@ -71,7 +71,13 @@ export const RefusjonSkjema = ({ fraRefusjonsopplysninger, lokaleRefusjonsopplys
                     </React.Fragment>
                 ))}
             </div>
-            <Button type="button" onClick={addRefusjonsopplysning} icon={<PlusIcon />} variant="tertiary" size="xsmall">
+            <Button
+                type="button"
+                onClick={addRefusjonsopplysning}
+                icon={<PlusIcon aria-hidden />}
+                variant="tertiary"
+                size="xsmall"
+            >
                 Legg til
             </Button>
         </div>

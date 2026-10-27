@@ -63,7 +63,7 @@ export const Inntektssammenligning = ({
                 >
                     {arbeidsforholdErDeaktivert === true ? (
                         <Tooltip content="Arbeidsforhold er deaktivert">
-                            <HStack align="center">
+                            <HStack role="img" align="center">
                                 <Errorikon />
                             </HStack>
                         </Tooltip>

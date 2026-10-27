@@ -55,7 +55,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                             <Button
                                 variant="secondary"
                                 size="xsmall"
-                                icon={<PersonPencilIcon />}
+                                icon={<PersonPencilIcon aria-hidden />}
                                 onClick={() => router.push(tilkommenInntektId + '/endre')}
                             >
                                 Endre
@@ -96,7 +96,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                             <Button
                                 variant="tertiary"
                                 size="small"
-                                icon={<XMarkOctagonIcon />}
+                                icon={<XMarkOctagonIcon aria-hidden />}
                                 onClick={() => setShowFjernModal(true)}
                             >
                                 Fjern periode
@@ -104,7 +104,7 @@ export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVis
                         )}
                         {tilkommenInntekt.fjernet && !erReadOnly && (
                             <Link as={NextLink} href={`${tilkommenInntektId}/gjenopprett`}>
-                                <ArrowUndoIcon fontSize="1.3rem" />
+                                <ArrowUndoIcon aria-hidden fontSize="1.3rem" />
                                 Legg til perioden likevel
                             </Link>
                         )}

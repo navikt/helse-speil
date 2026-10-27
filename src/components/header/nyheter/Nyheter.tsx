@@ -7,6 +7,7 @@ import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react'
 import { BellFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Heading, InternalHeader, Popover, Theme } from '@navikt/ds-react';
 
+import { HeaderTooltip } from '@components/header/HeaderTooltip';
 import { Nyhet } from '@components/header/nyheter/Nyhet';
 import { BjelleDottIkon } from '@components/ikoner/BjelleDottIkon';
 import { useNyheter } from '@external/sanity';
@@ -36,9 +37,11 @@ export function Nyheter(): ReactElement {
 
     return (
         <>
-            <InternalHeader.Button ref={buttonRef} aria-label="Nyheter i Speil" onClick={handleToggle}>
-                {skalViseIkonMedPrikk ? <BjelleDottIkon /> : <BellFillIcon title="nyheter i speil" fontSize="26px" />}
-            </InternalHeader.Button>
+            <HeaderTooltip content="Nyheter i Speil">
+                <InternalHeader.Button ref={buttonRef} onClick={handleToggle}>
+                    {skalViseIkonMedPrikk ? <BjelleDottIkon /> : <BellFillIcon aria-hidden fontSize="26px" />}
+                </InternalHeader.Button>
+            </HeaderTooltip>
             {mounted && (
                 <Theme theme={resolvedTheme as 'light' | 'dark'}>
                     <Popover

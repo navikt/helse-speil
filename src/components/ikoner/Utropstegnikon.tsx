@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Ikon, IkonProps } from './Ikon';
 
-export const Utropstegnikon = ({ alt }: IkonProps) => (
-    <Ikon viewBox="0 0 3 14" fill="none" xmlns="http://www.w3.org/2000/svg" alt={alt}>
+export const Utropstegnikon = ({ title }: IkonProps) => (
+    <Ikon viewBox="0 0 3 14" fill="none" xmlns="http://www.w3.org/2000/svg" title={title}>
         <path
             fillRule="evenodd"
             clipRule="evenodd"

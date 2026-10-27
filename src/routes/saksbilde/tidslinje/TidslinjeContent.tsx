@@ -148,7 +148,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                                     key={periode.fom + periode.tom}
                                     startDate={dayjs(periode.fom)}
                                     endDate={dayjs(periode.tom)}
-                                    icon={<CheckIcon />}
+                                    icon={<CheckIcon aria-hidden />}
                                     variant="infotrygd"
                                 >
                                     <InfotrygdPopover fom={periode.fom} tom={periode.tom} />

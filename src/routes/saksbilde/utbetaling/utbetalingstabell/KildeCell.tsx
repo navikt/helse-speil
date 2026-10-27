@@ -37,7 +37,7 @@ const KildeTypeIcon = ({ kilde, overstyringer }: KildeTypeIconProps): ReactEleme
                 />
             ) : (
                 <Kilde type="Saksbehandler">
-                    <PersonPencilFillIcon title="Saksbehandler ikon" height={10} width={10} />
+                    <PersonPencilFillIcon aria-hidden height={10} width={10} />
                 </Kilde>
             );
         default:

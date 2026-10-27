@@ -90,7 +90,7 @@ export function BegrunnelseOgJournalpost(): ReactElement {
                             type="button"
                             variant="tertiary"
                             size="xsmall"
-                            icon={<PlusIcon />}
+                            icon={<PlusIcon aria-hidden />}
                             onClick={() => append({ verdi: '' })}
                             style={{ justifySelf: 'start', paddingInlineStart: 'var(--ax-space-0)' }}
                         >

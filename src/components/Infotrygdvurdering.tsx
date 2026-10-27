@@ -12,7 +12,7 @@ interface InfotrygdvurderingProps extends React.HTMLAttributes<HTMLDivElement> {
 export const Infotrygdvurdering = ({ children, title, ...divProps }: InfotrygdvurderingProps): ReactElement => (
     <div className={styles.container} {...divProps}>
         <div className={styles.iconcontainer}>
-            <PackageFillIcon color="white" />
+            <PackageFillIcon aria-hidden color="white" />
         </div>
         <Heading level="2" size="xsmall">
             {title}

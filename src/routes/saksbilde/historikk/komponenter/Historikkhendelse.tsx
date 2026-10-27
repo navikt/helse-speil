@@ -39,6 +39,7 @@ export const Historikkhendelse = ({
         <li
             role="button"
             tabIndex={0}
+            aria-expanded={expanded}
             onClick={(event: React.MouseEvent) => {
                 // Ikke minimer når man markerer tekst
                 if (window.getSelection()?.type !== 'Range') {
@@ -65,9 +66,9 @@ export const Historikkhendelse = ({
                     <HStack gap="space-4" wrap={false}>
                         <BodyShort weight="semibold">{title}</BodyShort>
                         {expanded ? (
-                            <ChevronUpIcon style={{ flexShrink: 0 }} title="Vis mindre" fontSize="1.5rem" />
+                            <ChevronUpIcon style={{ flexShrink: 0 }} aria-hidden fontSize="1.5rem" />
                         ) : (
-                            <ChevronDownIcon style={{ flexShrink: 0 }} title="Vis mer" fontSize="1.5rem" />
+                            <ChevronDownIcon style={{ flexShrink: 0 }} aria-hidden fontSize="1.5rem" />
                         )}
                     </HStack>
                     {kontekstknapp && <Spacer />}

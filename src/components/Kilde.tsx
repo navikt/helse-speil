@@ -18,6 +18,7 @@ export function Kilde({ type, children, className }: PropsWithChildren<KildeProp
     return (
         <Tooltip content={tooltip}>
             <div
+                role="img"
                 className={cn(
                     'flex h-4 w-5 cursor-default items-center justify-center rounded-[3px] border border-solid bg-transparent text-[12px] text-ax-text-neutral',
                     farge,

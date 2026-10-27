@@ -55,7 +55,7 @@ export const VurderingsmomenterWithContent = ({
                 ikon={<Advarselikon />}
                 overskrift="Vurderingsmomenter oppdaget"
                 vurderingsmomenter={risikovurdering.funn}
-                vurderingIkon={<Utropstegnikon alt="Oppdaget" />}
+                vurderingIkon={<Utropstegnikon title="Oppdaget" />}
             />
         )}
         {risikovurdering && (risikovurdering.kontrollertOk?.length ?? 0) > 0 && (
@@ -63,7 +63,7 @@ export const VurderingsmomenterWithContent = ({
                 ikon={<GrøntSjekkikon />}
                 overskrift="Vurderingsmomenter kontrollert"
                 vurderingsmomenter={risikovurdering.kontrollertOk}
-                vurderingIkon={<Sjekkikon alt="Kontrollert" />}
+                vurderingIkon={<Sjekkikon title="Kontrollert" />}
             />
         )}
     </div>

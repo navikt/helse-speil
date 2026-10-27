@@ -141,7 +141,7 @@ export const EgenskaperTags = ({ egenskaper }: EgenskaperTagsProps): ReactElemen
     return (
         <>
             {getData(egenskaper).map((egenskap, index) => (
-                <Tooltip content={egenskap.tooltiptekst} key={index}>
+                <Tooltip content={egenskap.tooltiptekst} key={index} describesChild>
                     <Tag
                         style={{ fontSize: 16 }}
                         size="small"

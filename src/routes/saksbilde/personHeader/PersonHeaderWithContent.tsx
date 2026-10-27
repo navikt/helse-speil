@@ -73,7 +73,7 @@ export function PersonHeaderWithContent({ person }: PersonHeaderWithContentProps
                     className="ml-auto"
                     variant="primary"
                     size="small"
-                    icon={<ChatIcon />}
+                    icon={<ChatIcon aria-hidden />}
                     onClick={() => router.push(`/person/${personPseudoId}/dialogmelding`)}
                 >
                     Dialogmelding

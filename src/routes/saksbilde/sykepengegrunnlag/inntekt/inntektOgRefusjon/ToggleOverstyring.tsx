@@ -58,11 +58,16 @@ export const ToggleOverstyring = ({
 
     return kanOverstyres ? (
         !editing ? (
-            <Button onClick={() => setEditing(true)} size="xsmall" variant="secondary" icon={<PersonPencilIcon />}>
+            <Button
+                onClick={() => setEditing(true)}
+                size="xsmall"
+                variant="secondary"
+                icon={<PersonPencilIcon aria-hidden />}
+            >
                 {erRevurdering ? 'Revurder' : 'Endre'}
             </Button>
         ) : (
-            <Button onClick={() => setEditing(false)} size="xsmall" variant="tertiary" icon={<XMarkIcon />}>
+            <Button onClick={() => setEditing(false)} size="xsmall" variant="tertiary" icon={<XMarkIcon aria-hidden />}>
                 Avbryt
             </Button>
         )

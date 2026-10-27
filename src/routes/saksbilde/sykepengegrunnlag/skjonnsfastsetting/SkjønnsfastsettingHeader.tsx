@@ -105,7 +105,7 @@ export const SkjønnsfastsettingHeader = ({
                         onClick={editing ? closeAndResetForm : openForm}
                         size="xsmall"
                         variant={editing ? 'tertiary' : 'secondary'}
-                        icon={editing ? <XMarkIcon /> : <PersonPencilIcon />}
+                        icon={editing ? <XMarkIcon aria-hidden /> : <PersonPencilIcon aria-hidden />}
                         className={styles.redigeringsknapp}
                         style={editing ? { marginRight: '1rem' } : undefined}
                     >

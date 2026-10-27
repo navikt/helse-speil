@@ -17,25 +17,31 @@ import { ApiInntektskilde } from '@io/rest/generated/spesialist.schemas';
 
 import styles from './HendelseIkon.module.css';
 
-export const HistorikkArrowSquarepathIkon = (): ReactElement => <ArrowsSquarepathIcon className={styles.ikon} />;
+export const HistorikkArrowSquarepathIkon = (): ReactElement => (
+    <ArrowsSquarepathIcon aria-hidden className={styles.ikon} />
+);
 
-export const HistorikkArrowUndoIkon = (): ReactElement => <ArrowUndoIcon className={styles.ikon} />;
+export const HistorikkArrowUndoIkon = (): ReactElement => <ArrowUndoIcon aria-hidden className={styles.ikon} />;
 
-export const HistorikkChatIkon = (): ReactElement => <ChatIcon className={styles.ikon} />;
+export const HistorikkChatIkon = (): ReactElement => <ChatIcon aria-hidden className={styles.ikon} />;
 
-export const HistorikkCheckmarkCircleIkon = (): ReactElement => <CheckmarkCircleIcon className={styles.ikon} />;
+export const HistorikkCheckmarkCircleIkon = (): ReactElement => (
+    <CheckmarkCircleIcon aria-hidden className={styles.ikon} />
+);
 
-export const HistorikkPaperplaneIkon = (): ReactElement => <PaperplaneIcon className={styles.ikon} />;
+export const HistorikkPaperplaneIkon = (): ReactElement => <PaperplaneIcon aria-hidden className={styles.ikon} />;
 
-export const HistorikkTimerPauseIkon = (): ReactElement => <TimerPauseIcon className={styles.ikon} />;
+export const HistorikkTimerPauseIkon = (): ReactElement => <TimerPauseIcon aria-hidden className={styles.ikon} />;
 
-export const HistorikkHourglassTopFilledIkon = (): ReactElement => <HourglassTopFilledIcon className={styles.ikon} />;
+export const HistorikkHourglassTopFilledIkon = (): ReactElement => (
+    <HourglassTopFilledIcon aria-hidden className={styles.ikon} />
+);
 
-export const HistorikkXMarkOctagonIkon = (): ReactElement => <XMarkOctagonIcon className={styles.ikon} />;
+export const HistorikkXMarkOctagonIkon = (): ReactElement => <XMarkOctagonIcon aria-hidden className={styles.ikon} />;
 
 export const HistorikkKildeSaksbehandlerIkon = (): ReactElement => (
     <Kilde type={ApiInntektskilde.SAKSBEHANDLER}>
-        <PersonPencilFillIcon />
+        <PersonPencilFillIcon aria-hidden />
     </Kilde>
 );
 

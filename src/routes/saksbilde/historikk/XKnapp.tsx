@@ -1,5 +1,5 @@
 import { XMarkIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, Tooltip } from '@navikt/ds-react';
 
 interface XKnappProps {
     tittel: string;
@@ -8,12 +8,14 @@ interface XKnappProps {
 
 export function XKnapp({ tittel, onClick }: XKnappProps) {
     return (
-        <Button
-            size="xsmall"
-            variant="tertiary"
-            data-color="neutral"
-            icon={<XMarkIcon title={tittel} />}
-            onClick={onClick}
-        />
+        <Tooltip content={tittel}>
+            <Button
+                size="xsmall"
+                variant="tertiary"
+                data-color="neutral"
+                icon={<XMarkIcon aria-hidden />}
+                onClick={onClick}
+            />
+        </Tooltip>
     );
 }

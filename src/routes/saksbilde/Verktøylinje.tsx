@@ -105,7 +105,7 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
                                 size="small"
                                 variant="secondary"
                                 onClick={() => setVurdererArbeidstid(true)}
-                                icon={<BriefcaseClockIcon fontSize="1.5rem" />}
+                                icon={<BriefcaseClockIcon aria-hidden fontSize="1.5rem" />}
                             >
                                 Vurder arbeidstid
                             </Button>

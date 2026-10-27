@@ -48,7 +48,7 @@ export const SkjønnsfastsettingType = (): ReactElement => {
                     ))
                 ) : (
                     <BodyShort className={styles.valgt}>
-                        <CheckmarkCircleFillIcon title="Sjekkmerke ikon" fontSize="1.5rem" />{' '}
+                        <CheckmarkCircleFillIcon aria-hidden fontSize="1.5rem" />{' '}
                         {skjønnsfastsettelseTyper().find((it) => it.type === valgtType)?.valg}
                     </BodyShort>
                 )}

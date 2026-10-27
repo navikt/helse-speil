@@ -20,50 +20,50 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Re
             return <BodyShort>Personen er død</BodyShort>;
         case 'EGENMELDING_UTENFOR_ARBEIDSGIVERPERIODE':
             return (
-                <Tooltip content="Egenmelding utenfor arbeidsgiverperioden">
-                    <span className={styles.container} data-testid="Egenmelding utenfor arbeidsgiverperioden">
+                <span className={styles.container} data-testid="Egenmelding utenfor arbeidsgiverperioden">
+                    <Tooltip content="Egenmelding utenfor arbeidsgiverperioden" describesChild>
                         <LovdataLenke paragraf="8-7">§ 8-7, 1. avsnitt</LovdataLenke>
-                    </span>
-                </Tooltip>
+                    </Tooltip>
+                </span>
             );
         case 'MINIMUM_SYKDOMSGRAD':
             return (
-                <Tooltip content="Sykdomsgrad under 20 %">
-                    <span className={styles.container} data-testid="Sykdomsgrad under 20 %">
+                <span className={styles.container} data-testid="Sykdomsgrad under 20 %">
+                    <Tooltip content="Sykdomsgrad under 20 %" describesChild>
                         <LovdataLenke paragraf="8-13">§ 8-13</LovdataLenke>
-                    </span>
-                </Tooltip>
+                    </Tooltip>
+                </span>
             );
         case 'MINIMUM_INNTEKT': {
             const paragraf = (alderVedSkjæringstidspunkt ?? 0) >= 67 ? '8-51' : '8-3';
             return (
-                <Tooltip content="Inntekt under krav til minste sykepengegrunnlag">
-                    <span className={styles.container} data-testid="Inntekt under krav til minste sykepengegrunnlag">
+                <span className={styles.container} data-testid="Inntekt under krav til minste sykepengegrunnlag">
+                    <Tooltip content="Inntekt under krav til minste sykepengegrunnlag" describesChild>
                         <LovdataLenke paragraf={paragraf}>§ {paragraf}</LovdataLenke>
-                    </span>
-                </Tooltip>
+                    </Tooltip>
+                </span>
             );
         }
         case 'MINIMUM_INNTEKT_OVER_67': {
             return (
-                <Tooltip content="Inntekt under krav til minste sykepengegrunnlag">
-                    <span className={styles.container} data-testid="Inntekt under krav til minste sykepengegrunnlag">
+                <span className={styles.container} data-testid="Inntekt under krav til minste sykepengegrunnlag">
+                    <Tooltip content="Inntekt under krav til minste sykepengegrunnlag" describesChild>
                         <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                    </span>
-                </Tooltip>
+                    </Tooltip>
+                </span>
             );
         }
         case 'MANGLER_OPPTJENING':
             return (
-                <Tooltip content="Krav til 4 ukers opptjening er ikke oppfylt">
-                    <span className={styles.container} data-testid="Krav til 4 ukers opptjening er ikke oppfylt">
+                <span className={styles.container} data-testid="Krav til 4 ukers opptjening er ikke oppfylt">
+                    <Tooltip content="Krav til 4 ukers opptjening er ikke oppfylt" describesChild>
                         <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
-                    </span>
-                </Tooltip>
+                    </Tooltip>
+                </span>
             );
         case 'MANGLER_MEDLEMSKAP':
             return (
-                <Tooltip content="Krav til medlemskap er ikke oppfylt">
+                <Tooltip content="Krav til medlemskap er ikke oppfylt" describesChild>
                     <span className={styles.container} data-testid="Krav til medlemskap er ikke oppfylt">
                         <LovdataLenke paragraf="8-2">§ 8-2</LovdataLenke>
                         <BodyShort> og </BodyShort>
@@ -75,28 +75,28 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Re
             );
         case 'SYKEPENGEDAGER_OPPBRUKT_OVER_67':
             return (
-                <Tooltip content="Maks antall sykepengedager er nådd">
-                    <span className={styles.container} data-testid="Maks antall sykepengedager er nådd">
+                <span className={styles.container} data-testid="Maks antall sykepengedager er nådd">
+                    <Tooltip content="Maks antall sykepengedager er nådd" describesChild>
                         <LovdataLenke paragraf="8-51">§ 8-51</LovdataLenke>
-                    </span>
-                </Tooltip>
+                    </Tooltip>
+                </span>
             );
         case 'SYKEPENGEDAGER_OPPBRUKT': {
             return (
-                <Tooltip content="Maks antall sykepengedager er nådd">
-                    <span className={styles.container} data-testid="Maks antall sykepengedager er nådd">
+                <span className={styles.container} data-testid="Maks antall sykepengedager er nådd">
+                    <Tooltip content="Maks antall sykepengedager er nådd" describesChild>
                         <LovdataLenke paragraf="8-12">§ 8-12</LovdataLenke>
-                    </span>
-                </Tooltip>
+                    </Tooltip>
+                </span>
             );
         }
         case 'OVER_70':
             return (
-                <Tooltip content="Personen er 70 år eller eldre">
-                    <span className={styles.container} data-testid="Personen er 70 år eller eldre">
+                <span className={styles.container} data-testid="Personen er 70 år eller eldre">
+                    <Tooltip content="Personen er 70 år eller eldre" describesChild>
                         <LovdataLenke paragraf="8-3">§ 8-3</LovdataLenke>
-                    </span>
-                </Tooltip>
+                    </Tooltip>
+                </span>
             );
         case 'MELDING_TIL_NAV_DAG_UTENFOR_VENTETID':
             return <BodyShort>Utenfor ventetid</BodyShort>;
@@ -114,11 +114,11 @@ const sisteUtbetalingsdagMerknad = (isMaksdato: boolean): string | null =>
 
 const foreldetDagMerknad = (isForeldet: boolean): ReactElement | null =>
     isForeldet ? (
-        <Tooltip content="Foreldet">
-            <span className={styles.container} data-testid="Foreldet">
+        <span className={styles.container} data-testid="Foreldet">
+            <Tooltip content="Foreldet" describesChild>
                 <LovdataLenke paragraf="22-13">§ 22-13</LovdataLenke>
-            </span>
-        </Tooltip>
+            </Tooltip>
+        </span>
     ) : null;
 
 const avvisningsårsakerMerknad = (

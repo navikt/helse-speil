@@ -21,7 +21,7 @@ export const Saksbehandlervurdering = ({
 }: SaksbehandlervurderingProps): ReactElement => (
     <div className={cn(styles.container, styles['container__saksbehandler'], className)} {...divProps}>
         <div className={styles.ikoncontainer}>
-            <PersonPencilFillIcon color="var(--ax-text-neutral-contrast)" />
+            <PersonPencilFillIcon aria-hidden color="var(--ax-text-neutral-contrast)" />
         </div>
         <div className={styles.column}>
             <Heading level="2" size="xsmall">

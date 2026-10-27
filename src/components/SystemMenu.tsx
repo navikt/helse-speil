@@ -7,6 +7,7 @@ import React, { ReactElement } from 'react';
 import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
 import { ActionMenu, InternalHeader, Theme } from '@navikt/ds-react';
 
+import { HeaderTooltip } from '@components/header/HeaderTooltip';
 import { useMounted } from '@hooks/useMounted';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 
@@ -139,11 +140,13 @@ export const SystemMenu = (): ReactElement => {
 
     return (
         <ActionMenu>
-            <ActionMenu.Trigger>
-                <InternalHeader.Button aria-label="Systemmeny">
-                    <MenuGridIcon title="Systemmeny" fontSize="2.25rem" />
-                </InternalHeader.Button>
-            </ActionMenu.Trigger>
+            <HeaderTooltip content="Systemmeny">
+                <ActionMenu.Trigger>
+                    <InternalHeader.Button>
+                        <MenuGridIcon aria-hidden fontSize="2.25rem" />
+                    </InternalHeader.Button>
+                </ActionMenu.Trigger>
+            </HeaderTooltip>
             {mounted && (
                 <Theme theme={resolvedTheme as 'light' | 'dark'}>
                     <ActionMenu.Content>

@@ -49,7 +49,7 @@ export const LeggTilNotatKommentar = ({
                 <Button
                     size="xsmall"
                     variant="tertiary"
-                    icon={<PlusCircleFillIcon />}
+                    icon={<PlusCircleFillIcon aria-hidden />}
                     onClick={() => setVisLeggTilKommentar(true)}
                 >
                     Legg til ny kommentar

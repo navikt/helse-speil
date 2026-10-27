@@ -76,7 +76,7 @@ export const Inntektoverstyringhendelse = ({
                 <Historikkhendelse
                     icon={
                         <Kilde type={ApiInntektskilde.SAKSBEHANDLER}>
-                            <PersonPencilFillIcon title="Saksbehandler ikon" />
+                            <PersonPencilFillIcon aria-hidden />
                         </Kilde>
                     }
                     title={erRevurdering ? 'Refusjon revurdert' : 'Refusjon endret'}

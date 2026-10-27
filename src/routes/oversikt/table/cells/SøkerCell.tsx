@@ -19,7 +19,7 @@ export const SøkerCell = ({ name }: SøkerProps): ReactElement => {
 
     return (
         <Table.DataCell style={{ width: 180 }}>
-            <Tooltip content={formatertNavn}>
+            <Tooltip content={formatertNavn} describesChild>
                 <BodyShort truncate data-sensitive style={{ width: 180 }}>
                     {formatertNavn}
                 </BodyShort>

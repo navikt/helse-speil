@@ -10,7 +10,7 @@ export const SaksbehandlerIdentCell = ({ name, ...rest }: SaksbehandlerIdentCell
     return (
         <Table.DataCell {...rest}>
             {name ? (
-                <Tooltip content={name}>
+                <Tooltip content={name} describesChild>
                     <BodyShort truncate data-sensitive>
                         {name}
                     </BodyShort>

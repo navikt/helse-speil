@@ -53,7 +53,9 @@ describe('Saksbehandlerhandlinghendelse', () => {
 
         await userEvent.click(screen.getByText('Opptjening vurdert automatisk på nytt'));
 
-        expect(screen.queryByTitle('Vis mer')).not.toBeInTheDocument();
+        expect(screen.getByText('Opptjening vurdert automatisk på nytt').closest('li')).not.toHaveAttribute(
+            'aria-expanded',
+        );
         expect(fetchMock).not.toHaveBeenCalled();
     });
 

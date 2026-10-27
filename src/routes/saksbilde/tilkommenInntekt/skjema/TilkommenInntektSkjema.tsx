@@ -147,7 +147,7 @@ export const TilkommenInntektSkjema = ({
                             <HStack paddingInline="space-32" paddingBlock="space-8 space-16">
                                 <Button
                                     className="-ml-2.5"
-                                    icon={<XMarkIcon />}
+                                    icon={<XMarkIcon aria-hidden />}
                                     size="xsmall"
                                     variant="tertiary"
                                     type="button"

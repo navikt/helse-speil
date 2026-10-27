@@ -20,7 +20,7 @@ export const AutomatiskVurdering = ({
 }: AutomatiskVurderingProps): ReactElement => (
     <div className={cn(styles.container, styles['container__automatisk'])} {...divProps}>
         <div className={styles.ikoncontainer}>
-            <CogFillIcon color="var(--ax-text-neutral-contrast)" />
+            <CogFillIcon aria-hidden color="var(--ax-text-neutral-contrast)" />
         </div>
         <div className={styles.column}>
             <Heading level="2" size="xsmall">

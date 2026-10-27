@@ -100,7 +100,7 @@ export const ArbeidstidsvurderingForm = ({
                 <Button
                     size="xsmall"
                     variant="tertiary"
-                    icon={<XMarkIcon />}
+                    icon={<XMarkIcon aria-hidden />}
                     onClick={() => setVurdererArbeidstid(false)}
                 >
                     Avbryt

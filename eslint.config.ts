@@ -61,6 +61,25 @@ const eslintConfig = defineConfig([
         },
     },
     {
+        files: ['src/**/*.tsx'],
+        rules: {
+            'no-restricted-syntax': [
+                'error',
+                {
+                    selector:
+                        "JSXAttribute[name.name='icon'] JSXOpeningElement[name.name=/Icon$/]:not(:has(JSXAttribute[name.name='aria-hidden']))",
+                    message:
+                        'Ikon i icon-prop skal ha aria-hidden. Ikonknapper uten tekst får navn via <Tooltip content="…">. Se «Ikoner, tooltips og tilgjengelige navn» i .github/copilot-instructions.md.',
+                },
+                {
+                    selector: "JSXOpeningElement[name.name=/^(Button|CopyButton)$/] > JSXAttribute[name.name='title']",
+                    message:
+                        'Ikke bruk title på knapper. Pakk knappen inn i <Tooltip content="…">. Se «Ikoner, tooltips og tilgjengelige navn» i .github/copilot-instructions.md.',
+                },
+            ],
+        },
+    },
+    {
         files: [
             'src/app/**/route.ts',
             'src/app/api/**/common.ts',

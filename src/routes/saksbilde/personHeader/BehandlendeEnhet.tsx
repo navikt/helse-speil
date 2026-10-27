@@ -11,7 +11,7 @@ export const BehandlendeEnhet = (): ReactElement => {
 
     if (isLoading) {
         return (
-            <Tooltip content="Henter behandlende enhet...">
+            <Tooltip content="Henter behandlende enhet..." describesChild>
                 <HStack>
                     <Skeleton variant="rectangle" width="200px" />
                 </HStack>

@@ -52,7 +52,7 @@ const getSvarForVisning = (svar: ApiSvar[], svartype: ApiSvartype) => {
     switch (svartype) {
         case ApiSvartype.CHECKBOX:
         case ApiSvartype.RADIO:
-            return <CheckmarkIcon fill="#000" style={{ border: '1px solid #000' }} />;
+            return <CheckmarkIcon title="Avkrysset" fill="#000" style={{ border: '1px solid #000' }} />;
         case ApiSvartype.BELOP:
             return toKronerOgØre(Number(svar[0]?.verdi) / 100);
         case ApiSvartype.DATO:

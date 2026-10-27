@@ -26,7 +26,7 @@ export const TotalGradCell = ({ type, erOverstyrt, totalGradering, erNyDag = fal
         <Cell italic={erOverstyrt}>
             {erOverstyrt && !erNyDag && <Endringstrekant />}
             {showTotalGradering && (
-                <Tooltip content={`${totalGradering.toFixed(2).replace('.', ',')} %`} placement="right">
+                <Tooltip content={`${totalGradering.toFixed(2).replace('.', ',')} %`} placement="right" describesChild>
                     <span>
                         <CellContent flexEnd>{`${Math.floor(totalGradering)} %`}</CellContent>
                     </span>

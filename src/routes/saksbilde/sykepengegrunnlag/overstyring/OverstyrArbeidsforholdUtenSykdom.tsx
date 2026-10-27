@@ -73,7 +73,7 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                             <Button
                                 size="xsmall"
                                 variant="tertiary"
-                                icon={<XMarkOctagonIcon />}
+                                icon={<XMarkOctagonIcon aria-hidden />}
                                 onClick={() => setEditingArbeidsforhold(true)}
                             >
                                 Ikke bruk arbeidsforholdet i beregningen

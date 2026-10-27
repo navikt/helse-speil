@@ -51,9 +51,9 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
                         variant="tertiary"
                         icon={
                             open ? (
-                                <MinusCircleIcon title="lukk" fontSize="1.5rem" />
+                                <MinusCircleIcon aria-hidden fontSize="1.5rem" />
                             ) : (
-                                <PlusCircleFillIcon title="åpne" fontSize="1.5rem" />
+                                <PlusCircleFillIcon aria-hidden fontSize="1.5rem" />
                             )
                         }
                         onClick={() => setOpen(!open)}

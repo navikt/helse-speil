@@ -18,8 +18,8 @@ export const TilkommenInntektHistorikkmeny = (): ReactElement => {
 
     return (
         <VStack align="center" className="z-1 ml-auto w-[58px] border-l border-ax-border-neutral-subtle">
-            <TabButton active={showHistorikk && showHøyremeny} onClick={toggleHistorikk} title="Historikk">
-                <ClockIcon title="Historikk" fontSize="18px" />
+            <TabButton label="Historikk" active={showHistorikk && showHøyremeny} onClick={toggleHistorikk}>
+                <ClockIcon aria-hidden fontSize="18px" />
             </TabButton>
         </VStack>
     );

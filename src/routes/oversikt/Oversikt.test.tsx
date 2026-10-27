@@ -33,9 +33,7 @@ describe('Oversikt', () => {
         });
         const { container } = render(<Oversikt />);
 
-        expect(
-            await screen.findByRole('region', { name: 'Toggle visning av behandlingsstatistikk' }),
-        ).toBeInTheDocument();
+        expect(await screen.findByRole('region', { name: 'Behandlingsstatistikk' })).toBeInTheDocument();
         expect(await screen.findByRole('table', { name: 'Saker som er klare for behandling' })).toBeInTheDocument();
         expect(await screen.findByLabelText('Saksbehandler')).toBeInTheDocument();
 

@@ -214,7 +214,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                 size="small"
                                 variant="primary"
                                 type="submit"
-                                icon={<PaperplaneIcon />}
+                                icon={<PaperplaneIcon aria-hidden />}
                                 loading={isPending}
                                 disabled={!person || isPending}
                             >
@@ -225,7 +225,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                 variant="tertiary"
                                 type="button"
                                 onClick={() => router.back()}
-                                icon={<TrashIcon />}
+                                icon={<TrashIcon aria-hidden />}
                                 disabled={isPending}
                             >
                                 Avbryt

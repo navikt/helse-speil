@@ -44,7 +44,7 @@ export function EkspanderbarTekst({
             </BodyShortWithPreWrap>
             {overflows && (
                 <Button
-                    icon={isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    icon={isExpanded ? <ChevronUpIcon aria-hidden /> : <ChevronDownIcon aria-hidden />}
                     variant="tertiary"
                     size="xsmall"
                     onClick={() => setIsExpanded((prev) => !prev)}

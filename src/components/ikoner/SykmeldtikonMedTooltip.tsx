@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
 import { Tooltip } from '@navikt/ds-react';
 
@@ -8,11 +8,10 @@ interface SykmeldtikonMedTooltipProps {
     className?: string;
 }
 
-export const SykmeldtikonMedTooltip = ({ className, children }: PropsWithChildren<SykmeldtikonMedTooltipProps>) => (
+export const SykmeldtikonMedTooltip = ({ className }: SykmeldtikonMedTooltipProps) => (
     <Tooltip content="Sykmeldt">
-        <div className={className}>
-            <Sykmeldtikon alt="Sykmeldt" />
-            {children}
+        <div role="img" className={className}>
+            <Sykmeldtikon />
         </div>
     </Tooltip>
 );

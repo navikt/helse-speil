@@ -26,7 +26,7 @@ export function VenstremenyDialogmelding(): ReactElement {
                     variant="primary"
                     size="small"
                     className="self-start"
-                    icon={<NotePencilIcon />}
+                    icon={<NotePencilIcon aria-hidden />}
                 >
                     Ny dialogmelding
                 </Button>

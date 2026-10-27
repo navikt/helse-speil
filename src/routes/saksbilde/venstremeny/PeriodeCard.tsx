@@ -36,7 +36,7 @@ import styles from './PeriodeCard.module.scss';
 const VentepølseRow = (): ReactElement => (
     <>
         <Tooltip content="Avventer system">
-            <div className={styles.iconContainer} style={{ width: '20px' }}>
+            <div role="img" className={styles.iconContainer} style={{ width: '20px' }}>
                 <SleepIcon aria-hidden fontSize="1.5rem" />
             </div>
         </Tooltip>
@@ -55,8 +55,8 @@ const SykmeldingsperiodeRow = ({ periode }: SykmeldingsperiodeRowProps): ReactEl
     return (
         <>
             <Tooltip content="Sykmeldingsperiode">
-                <div className={styles.iconContainer}>
-                    <Sykmeldingsperiodeikon alt="Sykmeldingsperiode" />
+                <div role="img" className={styles.iconContainer}>
+                    <Sykmeldingsperiodeikon />
                 </div>
             </Tooltip>
             <BodyShort>{`${fom} - ${tom}`}</BodyShort>
@@ -73,8 +73,8 @@ const SkjæringstidspunktRow = ({ periodetype, skjæringstidspunkt }: Skjærings
     return (
         <>
             <Tooltip content="Skjæringstidspunkt">
-                <div className={styles.iconContainer}>
-                    <Skjæringstidspunktikon alt="Skjæringstidspunkt" />
+                <div role="img" className={styles.iconContainer}>
+                    <Skjæringstidspunktikon />
                 </div>
             </Tooltip>
             {periodetype === ApiPeriodetype.OVERGANG_FRA_IT ? (
@@ -110,8 +110,8 @@ const MaksdatoRow = ({ activePeriod, dødsdato }: MaksdatoRowProps): ReactElemen
     return (
         <>
             <Tooltip content="Maksdato">
-                <div className={styles.iconContainer}>
-                    <Maksdatoikon alt="Maksdato" />
+                <div role="img" className={styles.iconContainer}>
+                    <Maksdatoikon />
                 </div>
             </Tooltip>
             <div className={styles.maksdato}>
@@ -125,7 +125,7 @@ const MaksdatoRow = ({ activePeriod, dødsdato }: MaksdatoRowProps): ReactElemen
 function maksdatoToolTip(alderVedSisteSykedag: number, activePeriod: ApiBeregnetPeriode, dødsdato: string | undefined) {
     if (dødsdato) {
         return (
-            <Tooltip content={`Personen døde ${dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}`}>
+            <Tooltip content={`Personen døde ${dayjs(dødsdato)?.format(NORSK_DATOFORMAT)}`} describesChild>
                 <Tag variant="neutral-filled" size="small">
                     Død
                 </Tag>
@@ -135,8 +135,8 @@ function maksdatoToolTip(alderVedSisteSykedag: number, activePeriod: ApiBeregnet
         return (
             <div className={styles.over70}>
                 <Tooltip content="Over 70 år">
-                    <div className={styles.iconContainer}>
-                        <Advarselikon alt="Over 70 år" height={16} width={16} />
+                    <div role="img" className={styles.iconContainer}>
+                        <Advarselikon height={16} width={16} />
                     </div>
                 </Tooltip>
                 <BodyShort size="small">
@@ -147,7 +147,7 @@ function maksdatoToolTip(alderVedSisteSykedag: number, activePeriod: ApiBeregnet
     } else if (harRedusertAntallSykepengedager(activePeriod) && alderVedSisteSykedag >= 67) {
         return (
             <div className={styles.over67}>
-                <Tooltip content="Over 67 år - redusert antall sykepengedager">
+                <Tooltip content="Over 67 år - redusert antall sykepengedager" describesChild>
                     <Tag className={styles.tag} variant="info" size="small">
                         Over 67 år
                     </Tag>
@@ -203,7 +203,7 @@ const PeriodeCardUberegnet = ({ periode, inntektsforhold }: PeriodeCardUberegnet
         <div>
             {isForkastet(periode) && (
                 <Box paddingBlock="space-0 space-8">
-                    <Tag variant="strong" data-color="danger" size="small" icon={<XMarkIcon />}>
+                    <Tag variant="strong" data-color="danger" size="small" icon={<XMarkIcon aria-hidden />}>
                         Tatt ut av speil
                     </Tag>
                 </Box>

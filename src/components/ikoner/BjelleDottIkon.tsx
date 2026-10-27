@@ -1,19 +1,8 @@
 import React from 'react';
 
-import { useId } from '@navikt/ds-react';
-
 export const BjelleDottIkon = () => {
-    let titleId: string | undefined = useId();
-    titleId = 'Bjelle med dott' + titleId;
     return (
-        <svg
-            width="26"
-            height="26"
-            viewBox="0 0 26 26"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            aria-labelledby={titleId}
-        >
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden>
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

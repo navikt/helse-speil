@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
-import { ActionMenu, Button, ErrorMessage, VStack } from '@navikt/ds-react';
+import { ActionMenu, Button, ErrorMessage, Tooltip, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { getGetNotaterForVedtaksperiodeQueryKey, usePatchNotat } from '@io/rest/generated/notater/notater';
@@ -42,14 +42,16 @@ export const Notathendelse = ({
             kontekstknapp={
                 !feilregistrert && innloggetSaksbehandler.ident === saksbehandler ? (
                     <ActionMenu>
-                        <ActionMenu.Trigger>
-                            <Button
-                                size="xsmall"
-                                variant="tertiary"
-                                loading={loading}
-                                icon={<MenuElipsisHorizontalIcon title="Handlinger" />}
-                            />
-                        </ActionMenu.Trigger>
+                        <Tooltip content="Handlinger">
+                            <ActionMenu.Trigger>
+                                <Button
+                                    size="xsmall"
+                                    variant="tertiary"
+                                    loading={loading}
+                                    icon={<MenuElipsisHorizontalIcon aria-hidden />}
+                                />
+                            </ActionMenu.Trigger>
+                        </Tooltip>
                         <ActionMenu.Content>
                             <ActionMenu.Item onSelect={feilregistrerNotat}>Feilregistrer</ActionMenu.Item>
                         </ActionMenu.Content>

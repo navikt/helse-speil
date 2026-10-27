@@ -3,8 +3,8 @@ import React from 'react';
 import { Ikon, IkonProps } from './Ikon';
 
 // noinspection JSUnusedGlobalSymbols
-export const PepperkakedameIkon = ({ alt }: IkonProps) => (
-    <Ikon width={24} height={24} viewBox="0 0 72 72" alt={alt}>
+export const PepperkakedameIkon = ({ title }: IkonProps) => (
+    <Ikon width={24} height={24} viewBox="0 0 72 72" title={title}>
         <g id="pepperkakedame">
             <g id="pepperkakedame_2">
                 <g id="&#226;&#154;&#153;&#239;&#184;&#143;/ ikon/ id markering / kvinne">

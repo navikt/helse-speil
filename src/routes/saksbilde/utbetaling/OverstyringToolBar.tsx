@@ -33,7 +33,7 @@ export function OverstyringToolBar({
                 <Button
                     size="xsmall"
                     variant="tertiary"
-                    icon={<XMarkIcon />}
+                    icon={<XMarkIcon aria-hidden />}
                     onClick={() => {
                         toggleOverstyring();
                         setVisLeggTilDagerForm(false);

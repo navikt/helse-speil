@@ -83,6 +83,20 @@ Form schemas use **Zod v4** (imported as `zod/v4`) with **react-hook-form** and 
 
 Uses **Tailwind CSS v4** with NAV's design system (`@navikt/ds-react`, `@navikt/ds-css`, `@navikt/ds-tailwind`). Aksel's design tokens are loaded as a v4 theme via `@import '@navikt/ds-tailwind/v4'` in `src/app/globals.css` — there is no `tailwind.config.ts`. Tokens are exposed as `ax-*` utilities (`bg-ax-bg-default`, `text-ax-text-danger`, `rounded-ax-radius-8`). Prefer `ax-*` utilities over Tailwind's default palette so light and dark theme stay in sync. Some components also use CSS Modules (`.module.css` / `.module.scss`). The `classnames` and `tailwind-merge` packages are available for composing class names.
 
+### Icons, tooltips and accessible names
+
+Aksel icons always render `role="img"`, so every icon needs either a name or `aria-hidden`. Pick one pattern per case:
+
+- **Icon-only button**: wrap it in Tooltip and hide the icon. `<Tooltip content="Lukk"><Button icon={<XMarkIcon aria-hidden />} /></Tooltip>`. Tooltip sets `aria-label` on the button. Do not add `title` or `aria-label` yourself. With `ActionMenu.Trigger` or `Dialog.CloseTrigger`, the Tooltip goes outside the trigger.
+- **Icon next to visible text** (button with text, Tag, link, heading): `aria-hidden`.
+- **Standalone icon that carries meaning**, not interactive: `title` on the icon, describing what it means ("Oppfylt"), not what it looks like ("Sjekkmerke ikon").
+- **Icon with a Tooltip**: put `role="img"` on the wrapper and `aria-hidden` on the icon, so the Tooltip's `aria-label` names it. See `Kilde` and `PeriodeCard`.
+- **Tooltip on text, Tag or another non-interactive element**: add `describesChild`. Without it, Tooltip's `aria-label` replaces the visible text for screen readers.
+- **CopyButton**: label it with Tooltip, never `title`.
+- **Tooltip inside `InternalHeader`**: use `HeaderTooltip` from `@components/header/HeaderTooltip`. The header is always dark, and a plain Tooltip inherits that theme.
+
+The custom icons in `src/components/ikoner/` take `title` like Aksel icons and are `aria-hidden` when it is missing. ESLint (`no-restricted-syntax` in `eslint.config.ts`) fails on an icon ending in `Icon` inside an `icon=` prop without `aria-hidden`, and on `title` on `Button` or `CopyButton`.
+
 ### Code formatting
 
 Prettier is configured with 4-space indentation, single quotes, 120 char print width, trailing commas, and automatic import sorting via `@trivago/prettier-plugin-sort-imports`. Import order: globals → third-party → `@navikt/*` → project aliases → relative imports → styles.

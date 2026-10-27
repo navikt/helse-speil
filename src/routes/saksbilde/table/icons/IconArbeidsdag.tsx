@@ -1,26 +1,15 @@
 import React, { ReactElement } from 'react';
 
-import { useId } from '@navikt/ds-react';
-
-export const IconArbeidsdag = ({
-    width = 16,
-    height = 16,
-    alt = 'Arbeidsdagikon',
-    fill = 'var(--ax-text-neutral)',
-}): ReactElement => {
-    let titleId: string | undefined = useId();
-    titleId = alt ? alt + titleId : undefined;
+export const IconArbeidsdag = ({ width = 16, height = 16, fill = 'var(--ax-text-neutral)' }): ReactElement => {
     return (
         <svg
             width={width}
             height={height}
             viewBox={`0 0 ${width} ${height}`}
             fill="none"
-            role="img"
-            aria-labelledby={titleId}
+            aria-hidden
             xmlns="http://www.w3.org/2000/svg"
         >
-            <title id={titleId}>{alt}</title>
             <path
                 fillRule="evenodd"
                 clipRule="evenodd"

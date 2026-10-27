@@ -24,7 +24,7 @@ export const RefusjonKilde = ({ kilde, harLokaleOpplysninger, harEndringer }: Re
                 </div>
             ) : (
                 <Kilde type="Saksbehandler">
-                    <PersonPencilFillIcon title="Saksbehandler ikon" height={12} width={12} />
+                    <PersonPencilFillIcon aria-hidden height={12} width={12} />
                 </Kilde>
             ))}
     </div>

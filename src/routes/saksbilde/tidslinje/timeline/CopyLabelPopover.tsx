@@ -1,7 +1,7 @@
 import React, { ReactElement, useRef, useState } from 'react';
 
 import { CheckmarkIcon, FilesIcon } from '@navikt/aksel-icons';
-import { Button, Popover, VStack } from '@navikt/ds-react';
+import { Button, Popover, Tooltip, VStack } from '@navikt/ds-react';
 
 interface CopyLabelPopoverProps {
     navn: string;
@@ -32,14 +32,15 @@ export function CopyLabelPopover({ navn, organisasjonsnummer }: CopyLabelPopover
 
     return (
         <>
-            <Button
-                ref={buttonRef}
-                variant="tertiary-neutral"
-                size="xsmall"
-                icon={<FilesIcon aria-hidden />}
-                onClick={() => (open ? lukk() : setOpen(true))}
-                title="Kopier navn eller virksomhetsnummer"
-            />
+            <Tooltip content="Kopier navn eller virksomhetsnummer">
+                <Button
+                    ref={buttonRef}
+                    variant="tertiary-neutral"
+                    size="xsmall"
+                    icon={<FilesIcon aria-hidden />}
+                    onClick={() => (open ? lukk() : setOpen(true))}
+                />
+            </Tooltip>
             <Popover anchorEl={buttonRef.current} open={open} onClose={lukk} placement="right">
                 <Popover.Content>
                     <VStack gap="space-4" className="w-52">

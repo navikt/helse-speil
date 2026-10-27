@@ -1,26 +1,18 @@
 import React, { ReactElement } from 'react';
 
-import { useId } from '@navikt/ds-react';
+type TaskIconProps = React.SVGAttributes<SVGSVGElement>;
 
-interface TaskIconProps extends React.SVGAttributes<SVGSVGElement> {
-    alt?: string;
-}
-
-export const TaskIcon = ({ alt = 'Task-ikon', ...svgProps }: TaskIconProps): ReactElement => {
-    let titleId: string | undefined = useId();
-    titleId = alt ? alt + titleId : undefined;
+export const TaskIcon = ({ ...svgProps }: TaskIconProps): ReactElement => {
     return (
         <svg
             width="18"
             height="18"
             viewBox="0 0 18 18"
             fill="none"
-            role="img"
-            aria-labelledby={titleId}
+            aria-hidden
             xmlns="http://www.w3.org/2000/svg"
             {...svgProps}
         >
-            <title id={titleId}>{alt}</title>
             <circle cx="9" cy="9" r="8.25" fill="currentColor" stroke="currentColor" strokeWidth="0.5" />
             <circle cx="9" cy="9" r="7.75" fill="currentColor" stroke="currentColor" strokeWidth="0.5" />
             <path

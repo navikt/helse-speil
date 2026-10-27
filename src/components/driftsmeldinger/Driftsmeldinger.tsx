@@ -86,7 +86,7 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
                 <HStack margin="space-8">
                     <BodyShort className={styles.dato}>{dato(driftsmelding, gjeldendeStatus, erLøst)}</BodyShort>
                     <ChevronDownIcon
-                        title="Vis mer"
+                        aria-hidden
                         fontSize="1.5rem"
                         className={cn(styles.chevron, åpneDriftsmelding && styles.chevronrotated)}
                     />
@@ -149,7 +149,7 @@ const InformasjonsmeldingInnhold = ({ informasjonsmelding }: Informasjonsmelding
                         className={styles.dato}
                     >{`(${getFormattedDatetimeString(informasjonsmelding._updatedAt)})`}</BodyShort>
                     <ChevronDownIcon
-                        title="Vis mer"
+                        aria-hidden
                         fontSize="1.5rem"
                         className={cn(styles.chevron, åpneInformasjonsmelding && styles.chevronrotated)}
                     />

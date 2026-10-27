@@ -58,7 +58,11 @@ export const Expandable = ({
             <AnimatedExpandableDiv expanded={expanded}>{children}</AnimatedExpandableDiv>
             <LinkText>
                 {expanded ? collapseText : expandText}
-                {expanded ? <ChevronUpIcon fontSize="1.5rem" /> : <ChevronDownIcon fontSize="1.5rem" />}
+                {expanded ? (
+                    <ChevronUpIcon aria-hidden fontSize="1.5rem" />
+                ) : (
+                    <ChevronDownIcon aria-hidden fontSize="1.5rem" />
+                )}
             </LinkText>
         </div>
     );

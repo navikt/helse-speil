@@ -11,7 +11,8 @@ type TagMedTooltipProps = {
 export const TagMedTooltip = ({ tooltipTekst, etikett, dataColor = 'warning' }: TagMedTooltipProps): ReactElement => (
     <Tooltip
         content={tooltipTekst}
-        maxChar={120} /* Når tooltip-teksten er over maxChar, vises det en warn i console om at teksten er vel lang. */
+        maxChar={120}
+        /* Når tooltip-teksten er over maxChar, vises det en warn i console om at teksten er vel lang. */ describesChild
     >
         <Tag variant="outline" data-color={dataColor} size="small">
             {etikett}

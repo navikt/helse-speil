@@ -1,7 +1,7 @@
 import React, { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
-import { ActionMenu, Button, Table } from '@navikt/ds-react';
+import { ActionMenu, Button, Table, Tooltip } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
@@ -57,11 +57,13 @@ export function OptionsCell({ oppgave, navn }: OptionsButtonProps): ReactElement
             <span className="flex items-center">
                 <VisHvisSkrivetilgang>
                     <ActionMenu>
-                        <ActionMenu.Trigger>
-                            <Button size="xsmall" variant="secondary" title="Mer" className="h-5 w-5 rounded-full">
-                                <MenuElipsisHorizontalIcon title="Alternativer" height={20} width={20} />
-                            </Button>
-                        </ActionMenu.Trigger>
+                        <Tooltip content="Alternativer">
+                            <ActionMenu.Trigger>
+                                <Button size="xsmall" variant="secondary" className="h-5 w-5 rounded-full">
+                                    <MenuElipsisHorizontalIcon aria-hidden height={20} width={20} />
+                                </Button>
+                            </ActionMenu.Trigger>
+                        </Tooltip>
                         <ActionMenu.Content>
                             {!erTildeltInnloggetBruker && !erTildelt && (
                                 <ActionMenu.Item onSelect={tildel} disabled={!!oppgave.tildeling}>

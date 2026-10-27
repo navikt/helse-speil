@@ -49,7 +49,7 @@ function DokumentInnhold(): ReactElement {
                 />
             ) : (
                 <VStack align="center" padding="space-16" className="mt-20 text-center">
-                    <FileTextIcon fontSize={62} className="text-ax-text-neutral-subtle" />
+                    <FileTextIcon aria-hidden fontSize={62} className="text-ax-text-neutral-subtle" />
                     <BodyShort weight="semibold">Ingen dokument valgt</BodyShort>
                     <BodyShort size="small" className="text-ax-text-neutral-subtle">
                         Klikk på et dokument i meldingstråden for å se forhåndsvisning

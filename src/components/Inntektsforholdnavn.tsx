@@ -49,16 +49,16 @@ export const Organisasjonsnavn = ({
     const navn = data?.navn ?? undefined;
 
     return loading ? (
-        <Tooltip content="Henter navn fra enhetsregisteret...">
+        <Tooltip content="Henter navn fra enhetsregisteret..." describesChild>
             <Skeleton width="8rem" />
         </Tooltip>
     ) : navn === undefined ? (
-        <Tooltip content="Klarte ikke finne navn på organisasjonen i enhetsregisteret">
+        <Tooltip content="Klarte ikke finne navn på organisasjonen i enhetsregisteret" describesChild>
             <HStack align="center">
                 <BodyShort truncate data-sensitive {...bodyShortProps}>
                     {organisasjonsnummer}
                 </BodyShort>
-                <ExclamationmarkTriangleIcon color="red" />
+                <ExclamationmarkTriangleIcon aria-hidden color="red" />
             </HStack>
         </Tooltip>
     ) : (
@@ -129,18 +129,15 @@ const OrganisasonsnavnKjent = ({
     visOrganisasjonsnummerITooltip: boolean;
 } & Omit<BodyShortProps, 'children'>) => (
     <HStack gap="space-8" maxWidth={maxWidth} wrap={false}>
-        <Tooltip content={visOrganisasjonsnummerITooltip ? `${navn} (${organisasjonsnummer})` : navn}>
+        <Tooltip content={visOrganisasjonsnummerITooltip ? `${navn} (${organisasjonsnummer})` : navn} describesChild>
             <BodyShort truncate data-sensitive {...bodyShortProps}>
                 {navn}
             </BodyShort>
         </Tooltip>
         {showCopyButton && (
-            <CopyButton
-                copyText={navn}
-                size="xsmall"
-                title="Kopier arbeidsgivernavn"
-                onClick={(event) => event.stopPropagation()}
-            />
+            <Tooltip content="Kopier arbeidsgivernavn">
+                <CopyButton copyText={navn} size="xsmall" onClick={(event) => event.stopPropagation()} />
+            </Tooltip>
         )}
     </HStack>
 );

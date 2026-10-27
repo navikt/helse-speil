@@ -26,7 +26,7 @@ const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactEle
 
                 return (
                     <React.Fragment key={i}>
-                        <Tooltip content={`${stillingstittel}, ${arbeidsforhold.stillingsprosent} %`}>
+                        <Tooltip content={`${stillingstittel}, ${arbeidsforhold.stillingsprosent} %`} describesChild>
                             <div className={styles.arbeidsforhold} data-sensitive>
                                 <BodyShort truncate>{stillingstittel}</BodyShort>
                                 <BodyShort>{`, ${arbeidsforhold.stillingsprosent} %`}</BodyShort>

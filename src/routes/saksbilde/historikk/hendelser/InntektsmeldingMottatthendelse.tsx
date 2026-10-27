@@ -2,7 +2,7 @@ import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
 import { ChevronLeftCircleIcon, ChevronRightCircleIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
+import { Button, Tooltip } from '@navikt/ds-react';
 
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkKildeInntektsmeldingIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
@@ -48,17 +48,24 @@ export const InntektsmeldingMottatthendelse = ({
             icon={<HistorikkKildeInntektsmeldingIkon />}
             title="Inntektsmelding mottatt"
             kontekstknapp={
-                <Button
-                    icon={dokumentetErÅpnet() ? <ChevronLeftCircleIcon /> : <ChevronRightCircleIcon />}
-                    title={dokumentetErÅpnet() ? 'Lukk panel' : 'Åpne opp panel'}
-                    variant="tertiary"
-                    size="xsmall"
-                    style={{ height: '24px' }}
-                    onClick={(event: React.MouseEvent) => {
-                        toggleÅpnetDokument();
-                        event.stopPropagation();
-                    }}
-                />
+                <Tooltip content={dokumentetErÅpnet() ? 'Lukk panel' : 'Åpne panel'}>
+                    <Button
+                        icon={
+                            dokumentetErÅpnet() ? (
+                                <ChevronLeftCircleIcon aria-hidden />
+                            ) : (
+                                <ChevronRightCircleIcon aria-hidden />
+                            )
+                        }
+                        variant="tertiary"
+                        size="xsmall"
+                        style={{ height: '24px' }}
+                        onClick={(event: React.MouseEvent) => {
+                            toggleÅpnetDokument();
+                            event.stopPropagation();
+                        }}
+                    />
+                </Tooltip>
             }
             timestamp={timestamp}
             aktiv={false}

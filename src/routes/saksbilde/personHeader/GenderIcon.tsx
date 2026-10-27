@@ -16,5 +16,5 @@ const genderIcons = {
 
 export const GenderIcon = ({ gender }: GenderIconProps): ReactElement => {
     const Icon = genderIcons[gender];
-    return <Icon fontSize="1.5em" />;
+    return <Icon aria-hidden fontSize="1.5em" />;
 };

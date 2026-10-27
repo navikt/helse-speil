@@ -165,7 +165,7 @@ export const Saksbilde = () => {
                         {availableTabs.map((t) =>
                             t.kunIkon ? (
                                 <Tooltip key={t.value} content={t.label}>
-                                    <Tabs.Tab value={t.value} icon={<TerminalIcon title={t.label} />} />
+                                    <Tabs.Tab value={t.value} icon={<TerminalIcon aria-hidden />} />
                                 </Tooltip>
                             ) : (
                                 <Tabs.Tab key={t.value} value={t.value} label={t.label} />

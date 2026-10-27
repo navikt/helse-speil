@@ -1,7 +1,7 @@
 import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { ExpandIcon, NotePencilIcon } from '@navikt/aksel-icons';
-import { Box, Button, Link, VStack } from '@navikt/ds-react';
+import { Box, Button, Link, Tooltip, VStack } from '@navikt/ds-react';
 
 import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { VisesIVedtakTag } from '@components/tags/VisesIVedtakTag';
@@ -51,13 +51,15 @@ export function IndividuellBegrunnelseContent({
                         <VisesIVedtakTag />
                     </VStack>
                     <AnimatedExpandableDiv expanded={expanded}>
-                        <Button
-                            onClick={åpneModal}
-                            icon={<ExpandIcon title="åpne i modal" />}
-                            size="xsmall"
-                            variant="tertiary-neutral"
-                            style={{ position: 'absolute', top: 0, right: 0 }}
-                        />
+                        <Tooltip content="Åpne i modal">
+                            <Button
+                                onClick={åpneModal}
+                                icon={<ExpandIcon aria-hidden />}
+                                size="xsmall"
+                                variant="tertiary-neutral"
+                                style={{ position: 'absolute', top: 0, right: 0 }}
+                            />
+                        </Tooltip>
                         <BegrunnelseInput
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                             setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}

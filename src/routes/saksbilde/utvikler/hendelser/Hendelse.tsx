@@ -1,7 +1,7 @@
 import classNames from 'classnames';
 import React, { useState } from 'react';
 
-import { BodyShort, Box, Button, CopyButton, HStack, Loader, Table, VStack } from '@navikt/ds-react';
+import { BodyShort, Box, Button, CopyButton, HStack, Loader, Table, Tooltip, VStack } from '@navikt/ds-react';
 
 import { useSpleisHendelseQuery } from '@io/rest/spleis';
 import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
@@ -22,6 +22,18 @@ export function Hendelse({ hendelse }: HendelseProps) {
         if (!visMelding) setÅpen(true);
         setVisMelding(!visMelding);
     }
+
+    const visMeldingKnapp = (
+        <Button
+            size="xsmall"
+            variant="tertiary"
+            aria-expanded={visMelding}
+            disabled={!kanViseMelding}
+            onClick={toggleMelding}
+        >
+            {visMelding ? 'Skjul melding' : 'Vis melding'}
+        </Button>
+    );
 
     return (
         <Table.ExpandableRow
@@ -50,24 +62,19 @@ export function Hendelse({ hendelse }: HendelseProps) {
             <Table.DataCell textSize="small">
                 <HStack gap="space-4" align="center" wrap={false}>
                     {hendelse.meldingsreferanseId}
-                    <CopyButton
-                        size="xsmall"
-                        copyText={hendelse.meldingsreferanseId}
-                        title="Kopier meldingsreferanse"
-                    />
+                    <Tooltip content="Kopier meldingsreferanse">
+                        <CopyButton size="xsmall" copyText={hendelse.meldingsreferanseId} />
+                    </Tooltip>
                 </HStack>
             </Table.DataCell>
             <Table.DataCell textSize="small">
-                <Button
-                    size="xsmall"
-                    variant="tertiary"
-                    aria-expanded={visMelding}
-                    disabled={!kanViseMelding}
-                    title={kanViseMelding ? undefined : `${hendelse.type} lagres ikke i Spleis`}
-                    onClick={toggleMelding}
-                >
-                    {visMelding ? 'Skjul melding' : 'Vis melding'}
-                </Button>
+                {kanViseMelding ? (
+                    visMeldingKnapp
+                ) : (
+                    <Tooltip content={`${hendelse.type} lagres ikke i Spleis`} describesChild>
+                        {visMeldingKnapp}
+                    </Tooltip>
+                )}
             </Table.DataCell>
         </Table.ExpandableRow>
     );

@@ -79,7 +79,7 @@ export function EndringssjekkKnapp({
         <Button
             size="xsmall"
             variant="tertiary"
-            icon={<ArrowsCirclepathIcon />}
+            icon={<ArrowsCirclepathIcon aria-hidden />}
             loading={isPending || visningenOppdateres}
             onClick={sjekkEndring}
         >

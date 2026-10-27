@@ -53,7 +53,7 @@ export const ArbeidstidsvurderingVisning = ({ oppkuttedePerioder, minimumSykdoms
             className={styles.readmore}
             header={
                 <HStack gap="space-8" align="center">
-                    <BriefcaseClockIcon fontSize="1.3rem" /> Vis vurdert arbeidstid for perioden
+                    <BriefcaseClockIcon aria-hidden fontSize="1.3rem" /> Vis vurdert arbeidstid for perioden
                 </HStack>
             }
         >

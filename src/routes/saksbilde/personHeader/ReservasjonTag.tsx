@@ -14,7 +14,7 @@ export const ReservasjonTag = (): ReactElement | null => {
 
     if (isLoading) {
         return (
-            <Tooltip content="Henter status fra Kontakt- og Reservasjonsregisteret...">
+            <Tooltip content="Henter status fra Kontakt- og Reservasjonsregisteret..." describesChild>
                 <Skeleton variant="rectangle" width="6rem" />
             </Tooltip>
         );

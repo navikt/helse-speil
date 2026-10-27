@@ -2,7 +2,7 @@ import { useParams, useRouter } from 'next/navigation';
 import React, { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
-import { ActionMenu, Button, Loader } from '@navikt/ds-react';
+import { ActionMenu, Button, Loader, Tooltip } from '@navikt/ds-react';
 
 import { EndrePåVentDialog } from '@components/påvent/PåVentDialoger';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
@@ -69,14 +69,11 @@ export const LagtPåVentDropdown = ({
     return (
         <>
             <ActionMenu>
-                <ActionMenu.Trigger>
-                    <Button
-                        icon={<MenuElipsisHorizontalIcon />}
-                        title="Alternativer"
-                        variant="tertiary"
-                        size="xsmall"
-                    />
-                </ActionMenu.Trigger>
+                <Tooltip content="Alternativer">
+                    <ActionMenu.Trigger>
+                        <Button icon={<MenuElipsisHorizontalIcon aria-hidden />} variant="tertiary" size="xsmall" />
+                    </ActionMenu.Trigger>
+                </Tooltip>
                 <ActionMenu.Content>
                     <ActionMenu.Item onSelect={() => setShowEndreModal(true)}>Endre</ActionMenu.Item>
                     <ActionMenu.Item onSelect={fjernFraPåVent}>

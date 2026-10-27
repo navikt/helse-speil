@@ -59,7 +59,7 @@ export function NyhetDialog({ open, onOpenChange, nyhetModal }: NyhetDialogProps
                         >
                             <Button
                                 variant="tertiary"
-                                icon={<ChevronLeftIcon />}
+                                icon={<ChevronLeftIcon aria-hidden />}
                                 onClick={() => setSlideIndex(slideIndex - 1)}
                                 disabled={slideIndex === 0}
                             >
@@ -78,7 +78,7 @@ export function NyhetDialog({ open, onOpenChange, nyhetModal }: NyhetDialogProps
                             </HStack>
                             <Button
                                 variant="tertiary"
-                                icon={<ChevronRightIcon />}
+                                icon={<ChevronRightIcon aria-hidden />}
                                 iconPosition="right"
                                 onClick={() => setSlideIndex(slideIndex + 1)}
                                 disabled={slideIndex === slides.length - 1}

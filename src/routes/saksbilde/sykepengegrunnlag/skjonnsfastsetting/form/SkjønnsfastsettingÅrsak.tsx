@@ -54,7 +54,7 @@ export const SkjønnsfastsettingÅrsak = ({ maler }: Props) => {
                     ))
                 ) : (
                     <BodyShort className={styles.valgt}>
-                        <CheckmarkCircleFillIcon title="Sjekkmerke ikon" fontSize="1.5rem" /> {valgtÅrsak}
+                        <CheckmarkCircleFillIcon aria-hidden fontSize="1.5rem" /> {valgtÅrsak}
                     </BodyShort>
                 )}
             </RadioGroup>

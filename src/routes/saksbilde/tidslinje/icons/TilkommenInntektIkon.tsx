@@ -8,7 +8,7 @@ export const TilkommenInntektIkon = ({ ...svgProps }: React.SVGAttributes<SVGSVG
         fill="none"
         viewBox="0 0 24 24"
         focusable="false"
-        role="img"
+        aria-hidden
         {...svgProps}
     >
         <circle cx="12" cy="12" r="8" fill="white" />

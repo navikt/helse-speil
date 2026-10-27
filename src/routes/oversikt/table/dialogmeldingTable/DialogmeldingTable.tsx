@@ -77,7 +77,7 @@ export function DialogmeldingTable(): ReactElement {
                                     Søker
                                 </Table.ColumnHeader>
                                 <Table.ColumnHeader sortKey="fodselsdato" sortable className="w-36">
-                                    <Tooltip content="Sorterer på dag, deretter måned og år">
+                                    <Tooltip content="Sorterer på dag, deretter måned og år" describesChild>
                                         <span>Fødselsdato</span>
                                     </Tooltip>
                                 </Table.ColumnHeader>

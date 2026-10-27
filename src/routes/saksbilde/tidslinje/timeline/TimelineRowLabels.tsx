@@ -42,9 +42,9 @@ const TimelineRowLabel = ({ label }: { label: RowLabel }) => {
             >
                 {isExpandable ? (
                     isExpanded ? (
-                        <ChevronDownIcon className="-mr-1" fontSize="1.5rem" />
+                        <ChevronDownIcon aria-hidden className="-mr-1" fontSize="1.5rem" />
                     ) : (
-                        <ChevronRightIcon className="-mr-1" fontSize="1.5rem" />
+                        <ChevronRightIcon aria-hidden className="-mr-1" fontSize="1.5rem" />
                     )
                 ) : (
                     <div className="w-5" />

@@ -2,8 +2,8 @@ import React from 'react';
 
 import { Ikon, IkonProps } from './Ikon';
 
-export const Skjæringstidspunktikon = ({ width = 16, height = 16, className, alt }: IkonProps) => (
-    <Ikon width={width} height={height} viewBox="0 0 16 16" className={className} alt={alt}>
+export const Skjæringstidspunktikon = ({ width = 16, height = 16, className, title }: IkonProps) => (
+    <Ikon width={width} height={height} viewBox="0 0 16 16" className={className} title={title}>
         <g fill="none">
             <path
                 fillRule="evenodd"

@@ -89,7 +89,7 @@ export function SisteTolvMånederTabell({
                 <Button
                     size="xsmall"
                     variant="tertiary"
-                    icon={isExpanded ? <ChevronUpIcon /> : <ChevronDownIcon />}
+                    icon={isExpanded ? <ChevronUpIcon aria-hidden /> : <ChevronDownIcon aria-hidden />}
                     onClick={() => setIsExpanded((prev) => !prev)}
                 >
                     {isExpanded ? 'Vis færre måneder' : 'Vis flere måneder'}

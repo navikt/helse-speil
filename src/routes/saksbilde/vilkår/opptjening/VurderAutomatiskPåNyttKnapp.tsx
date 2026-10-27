@@ -59,7 +59,7 @@ export function VurderAutomatiskPåNyttKnapp({
                     type="button"
                     size="xsmall"
                     variant="tertiary"
-                    icon={<ArrowsCirclepathIcon />}
+                    icon={<ArrowsCirclepathIcon aria-hidden />}
                     loading={isPending}
                     disabled={visningenOppdateres}
                 >

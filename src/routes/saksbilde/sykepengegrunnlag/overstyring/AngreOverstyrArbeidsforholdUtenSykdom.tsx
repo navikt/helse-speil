@@ -40,7 +40,12 @@ export const AngreOverstyrArbeidsforholdUtenSykdom = ({
     return (
         <>
             <VisHvisSkrivetilgang>
-                <Button size="xsmall" variant="tertiary" onClick={() => setOpen(true)} icon={<ArrowUndoIcon />}>
+                <Button
+                    size="xsmall"
+                    variant="tertiary"
+                    onClick={() => setOpen(true)}
+                    icon={<ArrowUndoIcon aria-hidden />}
+                >
                     Bruk arbeidsforholdet i beregningen likevel
                 </Button>
             </VisHvisSkrivetilgang>

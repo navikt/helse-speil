@@ -38,7 +38,7 @@ export const Refusjonslinje = ({ fom, tom, beløp, kilde, lokalEndring }: Refusj
                 {kilde === ApiKildetype.INNTEKTSMELDING && <Kilde type="Inntektsmelding">IM</Kilde>}
                 {kilde === ApiKildetype.SAKSBEHANDLER && (
                     <Kilde type="Saksbehandler">
-                        <PersonPencilFillIcon title="Saksbehandler ikon" />
+                        <PersonPencilFillIcon aria-hidden />
                     </Kilde>
                 )}
             </Table.DataCell>

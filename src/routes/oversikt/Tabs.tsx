@@ -1,7 +1,7 @@
 import { ReactElement, useEffect, useRef } from 'react';
 
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
-import { HStack, Skeleton } from '@navikt/ds-react';
+import { HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarDialogmeldingrolle } from '@hooks/brukerrolleHooks';
@@ -82,22 +82,23 @@ const FilterButton = (): ReactElement => {
     }, [showFiltermeny]);
 
     return (
-        <button
-            id="filtermeny-toggle"
-            className={cn(
-                styles.roundedbutton,
-                styles.button,
-                styles.filterbutton,
-                showFiltermeny && styles.active,
-                showFiltermeny === prevShowFiltermeny.current && styles.varaktiv,
-            )}
-            aria-label="Toggle visning av filtermeny"
-            aria-expanded={showFiltermeny}
-            onClick={toggleFiltermeny}
-            style={{ marginRight: showFiltermeny ? `${filtermenyBredde - 32}px` : '1rem' }}
-        >
-            <FilterIcon title="Filtermeny" fontSize="18px" />
-        </button>
+        <Tooltip content="Filtermeny">
+            <button
+                id="filtermeny-toggle"
+                className={cn(
+                    styles.roundedbutton,
+                    styles.button,
+                    styles.filterbutton,
+                    showFiltermeny && styles.active,
+                    showFiltermeny === prevShowFiltermeny.current && styles.varaktiv,
+                )}
+                aria-expanded={showFiltermeny}
+                onClick={toggleFiltermeny}
+                style={{ marginRight: showFiltermeny ? `${filtermenyBredde - 32}px` : '1rem' }}
+            >
+                <FilterIcon aria-hidden fontSize="18px" />
+            </button>
+        </Tooltip>
     );
 };
 
@@ -106,20 +107,21 @@ const StatistikkButton = (): ReactElement => {
     const showStatistikk = useShowStatistikk();
 
     return (
-        <button
-            id="behandlingsstatistikk-toggle"
-            className={cn(
-                styles.roundedbutton,
-                styles.button,
-                styles.statistikkbutton,
-                showStatistikk && styles.active,
-            )}
-            aria-label="Toggle visning av behandlingsstatistikk"
-            aria-expanded={showStatistikk}
-            onClick={toggleStatistikk}
-        >
-            <BarChartIcon title="Behandlingsstatistikk" fontSize="18px" />
-        </button>
+        <Tooltip content="Behandlingsstatistikk">
+            <button
+                id="behandlingsstatistikk-toggle"
+                className={cn(
+                    styles.roundedbutton,
+                    styles.button,
+                    styles.statistikkbutton,
+                    showStatistikk && styles.active,
+                )}
+                aria-expanded={showStatistikk}
+                onClick={toggleStatistikk}
+            >
+                <BarChartIcon aria-hidden fontSize="18px" />
+            </button>
+        </Tooltip>
     );
 };
 
