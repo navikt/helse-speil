@@ -41,7 +41,7 @@ function nyesteHandling(manuelle: ManuellVurdering[]): ManuellVurdering[] {
 function tilVisning(vurderinger: ManuellVurdering[], opptjeningOk: boolean): Handlingsvisning {
     const { kilde } = vurderinger[0]!;
     const felter: Visningsfelt[] = [
-        { type: 'TEKST', tittel: 'Opptjening oppfylt', tekst: opptjeningOk ? 'Ja' : 'Nei' },
+        { type: 'TEKST', tittel: 'Opptjeningstid', tekst: opptjeningOk ? 'Oppfylt' : 'Ikke oppfylt' },
         ...vurderinger
             .toSorted((a, b) => vilkårsrekkefølge(a.vilkårskode) - vilkårsrekkefølge(b.vilkårskode))
             .map((vurdering): Visningsfelt => ({
