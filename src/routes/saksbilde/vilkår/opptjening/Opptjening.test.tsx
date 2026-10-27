@@ -1208,7 +1208,7 @@ describe('Opptjening', () => {
             expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
         });
 
-        it('viser advarsel når foreldrepenger opptjent på AAP mangler yrkesaktivitet før uttak', async () => {
+        it('kan ikke lagre når foreldrepenger opptjent på AAP mangler yrkesaktivitet før uttak', async () => {
             renderOpptjening(false);
             await startVurdering();
 
@@ -1217,8 +1217,11 @@ describe('Opptjening', () => {
             await svar(opptjentPåAap, 'Ja');
             await svar(yrkesaktiv, 'Nei');
 
-            expect(screen.getByText('Vilkåret er ikke oppfylt')).toBeVisible();
-            expect(screen.getByRole('button', { name: 'Lagre' })).toBeVisible();
+            expect(
+                screen.getByText('Det er ennå ikke støtte for å manuelt vurdere vilkåret til ikke oppfylt'),
+            ).toBeVisible();
+            expect(screen.queryByRole('textbox', { name: /Begrunnelse/ })).not.toBeInTheDocument();
+            expect(screen.queryByRole('button', { name: 'Lagre' })).not.toBeInTheDocument();
         });
 
         it('krever minst én aktivitet', async () => {

@@ -50,8 +50,9 @@ export function OpptjeningsvurderingSkjema({
     });
     const svar = useWatch({ control: form.control });
     const aktuelle = aktuelleSpørsmål(svar);
-    // Ikke oppfylt etter første spørsmål kan ikke lagres ennå, se IkkeOppfyltStøttesIkke i sp-vilkarsproving
-    const ikkeOppfyltStøttesIkke = svar.minst4Uker === JaNei.NEI;
+    // Ikke oppfylt kan ikke lagres ennå, se IkkeOppfyltStøttesIkke i sp-vilkarsproving
+    const ikkeOppfyltStøttesIkke = girIkkeOppfylt(svar);
+    // Vises først når ikke oppfylt kan lagres og ikkeOppfyltStøttesIkke ikke lenger blokkerer
     const erIkkeOppfylt = girIkkeOppfylt(svar);
     const erOppfylt = girOppfylt(svar);
 
