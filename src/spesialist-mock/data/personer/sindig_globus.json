@@ -565,11 +565,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": {
-                                    "id": "1669"
-                                },
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -1293,9 +1289,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -1908,11 +1902,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": {
-                                    "id": "1669"
-                                },
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -2582,9 +2572,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -3197,9 +3185,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "a26e7daf-1019-4e84-a5c8-97d5e660dc94",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "SOKNAD",
@@ -4215,9 +4201,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -4644,9 +4628,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -5271,9 +5253,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -5719,9 +5699,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -6288,9 +6266,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -6701,9 +6677,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -7270,9 +7244,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -7683,9 +7655,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -8297,9 +8267,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "SOKNAD",
@@ -8722,9 +8690,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -9458,5 +9424,10 @@
         "kjønn": "KVINNE",
         "adressebeskyttelse": "UGRADERT",
         "fullmakt": false
-    }
+    },
+    "aktivOppgave": {
+        "id": "1669",
+        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+    },
+    "totrinnsvurdering": null
 }

@@ -608,9 +608,6 @@
                                 },
                                 "varsler": [],
                                 "vilkarsgrunnlagId": "62c98d13-2b83-4d18-91b0-682fa9471705",
-                                "oppgave": {
-                                    "id": "4959"
-                                },
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -644,5 +641,10 @@
         "kjønn": "MANN",
         "adressebeskyttelse": "UGRADERT",
         "fullmakt": null
-    }
+    },
+    "aktivOppgave": {
+        "id": "4959",
+        "vedtaksperiodeId": "beab6f33-b26b-44e1-9098-52019181c720"
+    },
+    "totrinnsvurdering": null
 }

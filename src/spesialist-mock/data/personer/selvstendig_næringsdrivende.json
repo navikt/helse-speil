@@ -88,16 +88,7 @@
                                 }
                             },
                             "vilkarsgrunnlagId": "ad7305d9-620d-4e87-ae75-d9d3980ad733",
-                            "oppgave": {
-                                "id": "4104"
-                            },
                             "paVent": null,
-                            "totrinnsvurdering": {
-                                "erBeslutteroppgave": false,
-                                "erRetur": false,
-                                "saksbehandler": null,
-                                "beslutter": null
-                            },
                             "egenskaper": [
                                 {
                                     "egenskap": "SOKNAD",
@@ -685,5 +676,15 @@
         "kjønn": "MANN",
         "adressebeskyttelse": "UGRADERT",
         "fullmakt": false
+    },
+    "aktivOppgave": {
+        "id": "4104",
+        "vedtaksperiodeId": "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff"
+    },
+    "totrinnsvurdering": {
+        "erBeslutteroppgave": false,
+        "erRetur": false,
+        "saksbehandler": null,
+        "beslutter": null
     }
 }

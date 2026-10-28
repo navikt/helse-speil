@@ -26,7 +26,7 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
     if (!oppslag) {
         return problemDetails(404, ApiPostVedtakErrorCode.BEHANDLING_IKKE_FUNNET, 'Fant ikke behandling');
     }
-    const { periode, person } = oppslag;
+    const { periode, person, oppgaveId, totrinnsvurdering } = oppslag;
     if (!oppslag.erNyesteBehandling) {
         return problemDetails(
             400,
@@ -37,7 +37,7 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
     if (BehandlingMock.getEndring(behandlingId)?.vedtakFattet) {
         return problemDetails(409, ApiPostVedtakErrorCode.VEDTAK_ALLEREDE_FATTET, 'Vedtaket er allerede fattet');
     }
-    if (!periode.oppgave) {
+    if (!oppgaveId) {
         return problemDetails(400, ApiPostVedtakErrorCode.OPPGAVE_IKKE_FUNNET, 'Fant ikke oppgave');
     }
     if (periode.periodetilstand !== ApiPeriodetilstand.TilGodkjenning) {
@@ -50,7 +50,6 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
             'Kan ikke godkjenne varsler som ikke er vurdert av en saksbehandler',
         );
     }
-    const totrinnsvurdering = periode.totrinnsvurdering;
     if (totrinnsvurdering && !totrinnsvurdering.saksbehandler) {
         return problemDetails(
             409,
@@ -66,7 +65,7 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
         });
         SaksbehandlerhandlingMock.avsluttTotrinnsvurdering(person.fodselsnummer);
         OverstyringMock.ferdigstillForPerson(person.fodselsnummer);
-        BehandlingMock.settTotrinnsvurdering(behandlingId, periode.oppgave.id, null);
+        BehandlingMock.settTotrinnsvurdering(behandlingId, oppgaveId, null);
     }
     ferdigstillOppgave(oppslag, totrinnsvurdering ? lokalSaksbehandlerNavn : null);
 

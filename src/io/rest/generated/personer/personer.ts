@@ -18,6 +18,7 @@ import type {
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode,
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingerForPersonErrorCode,
     ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetTildelingForPersonErrorCode,
     ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode,
     ApiHttpProblemDetailsApiGetVeilederStansErrorCode,
     ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
@@ -36,6 +37,7 @@ import type {
     ApiServerSentEvent,
     ApiStansRequest,
     ApiSykepengegrunnlagRequest,
+    ApiTildelingForPerson,
     ApiTildelingRequest,
     ApiTotrinnsvurderingForPerson,
     ApiVeilederStans,
@@ -506,6 +508,140 @@ export function useGetTotrinnsvurderingForPerson<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetTotrinnsvurderingForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetTildelingForPersonUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/tildeling`;
+};
+
+export const getTildelingForPerson = async (
+    pseudoId: string,
+    options?: RequestInit,
+): Promise<ApiTildelingForPerson> => {
+    const res = await fetch(getGetTildelingForPersonUrl(pseudoId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiTildelingForPerson; status?: number } = new globalThis.Error();
+        const data: ApiTildelingForPerson = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiTildelingForPerson = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetTildelingForPersonQueryKey = (pseudoId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/tildeling`] as const;
+};
+
+export const useGetTildelingForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getTildelingForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetTildelingForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTildelingForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetTildelingForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTildelingForPerson>>> = ({ signal }) =>
+        getTildelingForPerson(pseudoId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<Awaited<ReturnType<typeof getTildelingForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetTildelingForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getTildelingForPerson>>>;
+export type GetTildelingForPersonQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetTildelingForPersonErrorCode;
+    status?: number;
+};
+
+export function useGetTildelingForPerson<
+    TData = Awaited<ReturnType<typeof getTildelingForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetTildelingForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTildelingForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getTildelingForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getTildelingForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetTildelingForPerson<
+    TData = Awaited<ReturnType<typeof getTildelingForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetTildelingForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTildelingForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getTildelingForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getTildelingForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetTildelingForPerson<
+    TData = Awaited<ReturnType<typeof getTildelingForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetTildelingForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTildelingForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetTildelingForPerson<
+    TData = Awaited<ReturnType<typeof getTildelingForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetTildelingForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTildelingForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetTildelingForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

@@ -1,25 +1,17 @@
 import {
-    ApiAktivOppgave,
     ApiBeregnetPeriode,
     ApiEgenskap,
     ApiHistorikkinnslag,
     ApiSaksbildePerson,
-    ApiTotrinnsvurdering,
 } from '@io/rest/generated/spesialist.schemas';
 import { leggPåDagoverstyringer } from '@spesialist-mock/dagoverstyring';
+import { finnAktivOppgave, finnOppgaveFraTestperson } from '@spesialist-mock/storage/aktivOppgave';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
-import {
-    PersonMock,
-    SELVSTENDIG_NÆRING,
-    alleBehandlinger,
-    alleInntektsforhold,
-    lesTestpersonfiler,
-} from '@spesialist-mock/storage/person';
+import { PersonMock, SELVSTENDIG_NÆRING, alleBehandlinger, lesTestpersonfiler } from '@spesialist-mock/storage/person';
 import { UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
-import { isNotNullOrUndefined } from '@utils/typeguards';
 
 import { BehandlingMock } from './storage/behandling';
 import { PaVentMock } from './storage/påvent';
@@ -27,19 +19,18 @@ import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
 
 const leggTilLagretData = (person: ApiSaksbildePerson): void => {
-    let tildeling = person.tildeling;
     const pseudoId = PersonMock.findPersonPseudoId(person.fodselsnummer)!;
+    // Også en ferdigstilt oppgave kan ha påVent i mocken
+    const oppgave = finnOppgaveFraTestperson(person.fodselsnummer);
 
     for (const behandling of alleBehandlinger(person)) {
         for (const periode of behandling.perioder as ApiBeregnetPeriode[]) {
-            // Hentes før endringene legges på, siden en ferdigstilt oppgave fjernes fra perioden
-            const oppgaveId = periode.oppgave?.id;
             BehandlingMock.leggPåEndringer(periode);
 
-            if (periode.oppgave?.id && TildelingMock.harTildeling(pseudoId)) {
-                tildeling = TildelingMock.getTildeling(pseudoId);
-            }
-
+            const oppgaveId =
+                periode.type === 'ApiBeregnetPeriode' && oppgave?.vedtaksperiodeId === periode.vedtaksperiodeId
+                    ? oppgave.id
+                    : undefined;
             if (oppgaveId && PaVentMock.finnesIMock(oppgaveId)) {
                 periode.paVent = PaVentMock.getPåVent(oppgaveId);
                 if (periode.paVent === null || periode.paVent === undefined) {
@@ -68,7 +59,9 @@ const leggTilLagretData = (person: ApiSaksbildePerson): void => {
         leggPåDagoverstyringer(person.selvstendigNaering, mockOverstyringer);
     }
 
-    person.tildeling = tildeling;
+    if (finnAktivOppgave(person.fodselsnummer) && TildelingMock.harTildeling(pseudoId)) {
+        person.tildeling = TildelingMock.getTildeling(pseudoId);
+    }
 };
 
 const lesTestpersoner = (): ApiSaksbildePerson[] => lesTestpersonfiler().map((fil) => fil.saksbilde);
@@ -99,32 +92,8 @@ export function hentSaksbilde(personPseudoId: string): ApiSaksbildePerson | unde
     return person;
 }
 
-export const finnOppgaveId = (): string | null => {
-    if (!valgtPerson) return null;
-    const periode = alleBehandlinger(valgtPerson)
-        .flatMap((g) => g.perioder)
-        .find((periode) => isNotNullOrUndefined((periode as ApiBeregnetPeriode).oppgave));
-
-    return (periode as ApiBeregnetPeriode)?.oppgave?.id ?? null;
-};
-
-// Spesialist har høyst én aktiv oppgave per person, og legger den bare på nyeste behandling
-export const finnAktivOppgave = (person: ApiSaksbildePerson): ApiAktivOppgave | null => {
-    const periode = alleInntektsforhold(person)
-        .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder ?? [])
-        .find((periode) => isNotNullOrUndefined((periode as ApiBeregnetPeriode).oppgave)) as
-        ApiBeregnetPeriode | undefined;
-    if (!periode?.oppgave) return null;
-    return { id: periode.oppgave.id, vedtaksperiodeId: periode.vedtaksperiodeId };
-};
-
-export const finnTotrinnsvurdering = (person: ApiSaksbildePerson): ApiTotrinnsvurdering | null => {
-    const periode = alleInntektsforhold(person)
-        .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder ?? [])
-        .find((periode) => isNotNullOrUndefined((periode as ApiBeregnetPeriode).oppgave)) as
-        ApiBeregnetPeriode | undefined;
-    return periode?.totrinnsvurdering ?? null;
-};
+export const finnOppgaveId = (): string | null =>
+    valgtPerson ? (finnAktivOppgave(valgtPerson.fodselsnummer)?.id ?? null) : null;
 
 const puttHistorikkinnslagFraTestpersonerIMock = (): void => {
     const personer = lesTestpersoner();

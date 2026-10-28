@@ -83,10 +83,8 @@ export class BehandlingMock {
                 vurdering: endring.utbetalingsvurdering ?? periode.utbetaling.vurdering,
             };
         }
-        if (endring.oppgaveFerdigstilt) periode.oppgave = null;
         if (endring.erForkastet) periode.erForkastet = true;
         if (endring.totrinnsvurdering !== undefined) {
-            periode.totrinnsvurdering = endring.totrinnsvurdering;
             periode.egenskaper = medTotrinnsegenskaper(periode.egenskaper, endring.totrinnsvurdering);
         }
         if (endring.annullering) periode.annullering = endring.annullering;

@@ -16,7 +16,6 @@ import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { useHarBeslutteroppgave, useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
-import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enTotrinnsvurdering } from '@test-data/totrinnsvurdering';
@@ -76,7 +75,6 @@ describe('SaksbildevarselContainer', () => {
         medBeslutteroppgave();
         const periode = enBeregnetPeriode({
             periodetilstand: ApiPeriodetilstand.TilGodkjenning,
-            oppgave: enOppgave(),
         });
         render(
             <SaksbildevarselContainer
@@ -205,7 +203,6 @@ function medBeslutteroppgave() {
 function enBeregnetPeriodeTilGodkjenning() {
     return enBeregnetPeriode({
         periodetilstand: ApiPeriodetilstand.TilGodkjenning,
-        oppgave: enOppgave(),
     });
 }
 

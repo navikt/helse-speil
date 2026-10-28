@@ -27,6 +27,7 @@ import { hentSynkedeOppgaver } from '@spesialist-mock/oppgaveliste';
 import { finnNyestePeriodeForVedtaksperiodeId, finnPeriodeForBehandlingId } from '@spesialist-mock/periodeoppslag';
 import { opprettTotrinnsvurderingHvisMangler } from '@spesialist-mock/saksbehandling';
 import { fetchPersondata } from '@spesialist-mock/saksbilde';
+import { finnAktivOppgave, finnTotrinnsvurdering } from '@spesialist-mock/storage/aktivOppgave';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
@@ -64,7 +65,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
         expect(response.status).toBe(204);
         expect(periode(behandlingId).periodetilstand).toBe(ApiPeriodetilstand.TilUtbetaling);
-        expect(periode(behandlingId).oppgave).toBeNull();
+        expect(finnAktivOppgave(fødselsnummer())).toBeNull();
         expect(hentSynkedeOppgaver().map((it) => it.id)).not.toContain(oppgaveId);
         expect(BehandlingMock.getBehandledeOppgaver().map((it) => it.oppgaveId)).toContain(oppgaveId);
 
@@ -97,10 +98,10 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
     it('går gjennom hele totrinnsflyten', async () => {
         opprettTotrinnsvurderingHvisMangler(fødselsnummer());
-        expect(periode(behandlingId).totrinnsvurdering).toMatchObject({ erBeslutteroppgave: false });
+        expect(finnTotrinnsvurdering(fødselsnummer())).toMatchObject({ erBeslutteroppgave: false });
 
         expect((await sendTilGodkjenning(oppgaveId)).status).toBe(204);
-        expect(periode(behandlingId).totrinnsvurdering).toMatchObject({ erBeslutteroppgave: true, erRetur: false });
+        expect(finnTotrinnsvurdering(fødselsnummer())).toMatchObject({ erBeslutteroppgave: true, erRetur: false });
         expect(egenskaperForOppgave()).toContain(ApiEgenskap.BESLUTTER);
         expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).toContain(ApiEgenskap.BESLUTTER);
         expect(historikktyper()).toContain(ApiPeriodehistorikkType.TOTRINNSVURDERING_TIL_GODKJENNING);
@@ -108,7 +109,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         await forventFeil(forkast(behandlingId), 400, 'TOTRINNSVURDERING_SENDT_TIL_BESLUTTER');
 
         expect((await sendIRetur(oppgaveId)).status).toBe(204);
-        expect(periode(behandlingId).totrinnsvurdering).toMatchObject({ erBeslutteroppgave: false, erRetur: true });
+        expect(finnTotrinnsvurdering(fødselsnummer())).toMatchObject({ erBeslutteroppgave: false, erRetur: true });
         expect(egenskaperForOppgave()).toContain(ApiEgenskap.RETUR);
         expect(egenskaperForOppgave()).not.toContain(ApiEgenskap.BESLUTTER);
         expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(ApiEgenskap.BESLUTTER);
@@ -155,8 +156,8 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         expect(periode(behandlingId)).toMatchObject({
             periodetilstand: ApiPeriodetilstand.TilInfotrygd,
             erForkastet: true,
-            oppgave: null,
         });
+        expect(finnAktivOppgave(fødselsnummer())).toBeNull();
         await forventFeil(forkast(behandlingId), 400, 'OPPGAVE_IKKE_FUNNET');
     });
 
@@ -192,7 +193,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
             skjæringstidspunkt: periode(behandlingId).skjaeringstidspunkt,
             erDelAvAktivTotrinnsvurdering: true,
         });
-        expect(periode(behandlingId).totrinnsvurdering).toMatchObject({ erBeslutteroppgave: false });
+        expect(finnTotrinnsvurdering(fødselsnummer())).toMatchObject({ erBeslutteroppgave: false });
 
         expect((await sendTilGodkjenning(oppgaveId)).status).toBe(204);
         expect((await fattVedtak(behandlingId)).status).toBe(204);

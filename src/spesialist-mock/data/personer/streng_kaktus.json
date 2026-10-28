@@ -699,10 +699,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "89e8dd48-6831-41a4-a610-d844d286a506",
-                                "oppgave": {
-                                    "id": "6890"
-                                },
-                                "totrinnsvurdering": null,
                                 "egenskaper": [
                                     {
                                         "kategori": "Status",
@@ -783,5 +779,10 @@
         "kjønn": "MANN",
         "adressebeskyttelse": "UGRADERT",
         "fullmakt": null
-    }
+    },
+    "aktivOppgave": {
+        "id": "6890",
+        "vedtaksperiodeId": "61788607-2448-432f-9d8a-5991fa3047f3"
+    },
+    "totrinnsvurdering": null
 }

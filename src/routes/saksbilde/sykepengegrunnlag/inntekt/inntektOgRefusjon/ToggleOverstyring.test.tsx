@@ -77,7 +77,7 @@ describe('ToggleOverstyring', () => {
                 periodetilstand: ApiPeriodetilstand.TilGodkjenning,
                 fom: '2020-01-01',
                 tom: '2020-01-31',
-            }).medOppgave();
+            });
             const valgtPeriode = enUberegnetPeriode({ fom: '2020-02-01', tom: '2020-02-28' });
             const behandling = enBehandling({ perioder: [valgtPeriode, beregnetPeriode] });
             const arbeidsgiver = enArbeidsgiver({ behandlinger: [behandling] });

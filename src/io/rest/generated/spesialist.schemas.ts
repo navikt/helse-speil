@@ -447,6 +447,27 @@ export interface ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode 
     code?: null | ApiGetTotrinnsvurderingForPersonErrorCode;
 }
 
+export interface ApiTildelingForPerson {
+    tildeling?: null | ApiTildeling;
+}
+
+export type ApiGetTildelingForPersonErrorCode =
+    (typeof ApiGetTildelingForPersonErrorCode)[keyof typeof ApiGetTildelingForPersonErrorCode];
+
+export const ApiGetTildelingForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetTildelingForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetTildelingForPersonErrorCode;
+}
+
 export interface ApiTildelingRequest {
     navident: string;
 }
@@ -2530,10 +2551,6 @@ export type ApiHistorikkinnslag =
     | ApiStansAutomatiskBehandlingSaksbehandler
     | ApiTotrinnsvurderingRetur;
 
-export interface ApiOppgaveForPeriodevisning {
-    id: string;
-}
-
 export type ApiKategori = (typeof ApiKategori)[keyof typeof ApiKategori];
 
 export const ApiKategori = {
@@ -2763,7 +2780,6 @@ export interface ApiBeregnetPeriode {
     historikkinnslag: ApiHistorikkinnslag[];
     /** @nullable */
     grunnbelopsjustertGjennomsnitt?: string | null;
-    oppgave?: null | ApiOppgaveForPeriodevisning;
     egenskaper: ApiOppgaveegenskap[];
     /** @nullable */
     forbrukteSykedager?: number | null;
@@ -2775,7 +2791,6 @@ export interface ApiBeregnetPeriode {
     /** @nullable */
     vilkarsgrunnlagId?: string | null;
     risikovurdering?: null | ApiRisikovurdering;
-    totrinnsvurdering?: null | ApiTotrinnsvurdering;
     paVent?: null | ApiPaVent;
     avslag: ApiAvslag[];
     vedtakBegrunnelser: ApiVedtakBegrunnelse[];

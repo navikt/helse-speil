@@ -860,9 +860,6 @@
                                     }
                                 ],
                                 "vilkarsgrunnlagId": "f7744e16-8569-4e94-8f61-c9996d3d8512",
-                                "oppgave": {
-                                    "id": "5343"
-                                },
                                 "egenskaper": [
                                     {
                                         "kategori": "Status",
@@ -1223,7 +1220,6 @@
                                     }
                                 ],
                                 "vilkarsgrunnlagId": "612e342b-d832-4618-96f7-2d24856f768b",
-                                "oppgave": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -1631,7 +1627,6 @@
                                     }
                                 ],
                                 "vilkarsgrunnlagId": "a2f9cb93-08a4-4137-a17a-78f19c9bcc3d",
-                                "oppgave": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -2510,7 +2505,6 @@
                                     }
                                 ],
                                 "vilkarsgrunnlagId": "612e342b-d832-4618-96f7-2d24856f768b",
-                                "oppgave": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -2566,5 +2560,10 @@
         "kjønn": "KVINNE",
         "adressebeskyttelse": "UGRADERT",
         "fullmakt": null
-    }
+    },
+    "aktivOppgave": {
+        "id": "5343",
+        "vedtaksperiodeId": "546cb550-bcd0-4b95-abc0-d17bf6818bf7"
+    },
+    "totrinnsvurdering": null
 }

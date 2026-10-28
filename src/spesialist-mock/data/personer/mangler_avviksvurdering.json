@@ -172,9 +172,7 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "76e17346-7053-4d97-834b-cd24d8c03177",
-                                "oppgave": null,
                                 "paVent": null,
-                                "totrinnsvurdering": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
@@ -725,5 +723,7 @@
         "kjønn": "KVINNE",
         "adressebeskyttelse": "UGRADERT",
         "fullmakt": null
-    }
+    },
+    "aktivOppgave": null,
+    "totrinnsvurdering": null
 }

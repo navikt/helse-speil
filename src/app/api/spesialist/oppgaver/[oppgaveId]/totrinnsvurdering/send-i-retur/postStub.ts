@@ -24,8 +24,7 @@ export const postStub = async (request: NextRequest, params: Promise<{ oppgaveId
     if (!oppslag) {
         return problemDetails(404, ApiPostSendIReturErrorCode.OPPGAVE_IKKE_FUNNET, 'Oppgave ikke funnet');
     }
-    const { periode, personPseudoId, person } = oppslag;
-    const totrinnsvurdering = periode.totrinnsvurdering;
+    const { periode, personPseudoId, person, totrinnsvurdering } = oppslag;
     if (!totrinnsvurdering) {
         return problemDetails(
             409,

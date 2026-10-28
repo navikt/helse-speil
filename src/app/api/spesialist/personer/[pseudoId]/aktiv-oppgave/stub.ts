@@ -3,7 +3,8 @@ import {
     ApiGetAktivOppgaveForPersonErrorCode,
     ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode,
 } from '@io/rest/generated/spesialist.schemas';
-import { finnAktivOppgave, hentSaksbilde } from '@spesialist-mock/saksbilde';
+import { hentSaksbilde } from '@spesialist-mock/saksbilde';
+import { finnAktivOppgave } from '@spesialist-mock/storage/aktivOppgave';
 
 export async function stub(_request: Request, params: Promise<{ pseudoId: string }>) {
     const { pseudoId } = await params;
@@ -18,6 +19,6 @@ export async function stub(_request: Request, params: Promise<{ pseudoId: string
         return Response.json(body, { status: 404 });
     }
 
-    const body: ApiAktivOppgaveForPerson = { aktivOppgave: finnAktivOppgave(saksbilde) };
+    const body: ApiAktivOppgaveForPerson = { aktivOppgave: finnAktivOppgave(saksbilde.fodselsnummer) };
     return Response.json(body, { status: 200 });
 }

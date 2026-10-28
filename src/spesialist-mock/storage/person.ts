@@ -3,7 +3,12 @@ import path from 'path';
 import { cwd } from 'process';
 import { v5 as uuidv5 } from 'uuid';
 
-import { ApiPerson, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiAktivOppgave,
+    ApiPerson,
+    ApiSaksbildePerson,
+    ApiTotrinnsvurdering,
+} from '@io/rest/generated/spesialist.schemas';
 import { UUID } from '@typer/spesialist-mock';
 
 type PersonIdentifikatorer = {
@@ -12,10 +17,12 @@ type PersonIdentifikatorer = {
     personPseudoId: UUID;
 };
 
-// Svarene fra GET /api/personer/{pseudoId}/saksbilde og GET /api/personer/{pseudoId}
+// Svarene fra GET /api/personer/{pseudoId}/saksbilde, /, /aktiv-oppgave og /totrinnsvurdering
 export type Testpersonfil = {
     saksbilde: ApiSaksbildePerson;
     person: ApiPerson;
+    aktivOppgave: ApiAktivOppgave | null;
+    totrinnsvurdering: ApiTotrinnsvurdering | null;
 };
 
 export function lesTestpersonfiler(): Testpersonfil[] {

@@ -3,7 +3,6 @@ import {
     ApiGhostPeriode,
     ApiInntektstype,
     ApiKildetype,
-    ApiOppgaveForPeriodevisning,
     ApiPeriodetilstand,
     ApiPeriodetype,
     ApiSykdomsdagtype,
@@ -14,7 +13,6 @@ import {
     ApiUtbetalingtype,
     ApiVarselDTO,
 } from '@io/rest/generated/spesialist.schemas';
-import { enOppgave } from '@test-data/oppgave';
 import { TestDag } from '@test-data/person-query-types';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { OverridableConstructor } from '@typer/shared';
@@ -44,7 +42,6 @@ export const enDag: OverridableConstructor<TestDag> = (overrides) => ({
 type Extensions = {
     medUtbetaling(utbetaling: ApiUtbetaling): ApiBeregnetPeriode & Extensions;
     medSkjæringstidspunkt(skjæringstidspunkt: string): ApiBeregnetPeriode & Extensions;
-    medOppgave(oppgave?: ApiOppgaveForPeriodevisning): ApiBeregnetPeriode & Extensions;
     medVarsler(varseler: ApiVarselDTO[]): ApiBeregnetPeriode & Extensions;
     somErForkastet(): ApiBeregnetPeriode & Extensions;
     somErTilGodkjenning(): ApiBeregnetPeriode & Extensions;
@@ -65,8 +62,6 @@ export const enBeregnetPeriode: OverridableConstructor<ApiBeregnetPeriode, Exten
     forbrukteSykedager: 0,
     gjenstaendeSykedager: 200,
     hendelser: [],
-    oppgave: null,
-    totrinnsvurdering: null,
     paVent: null,
     risikovurdering: null,
     inntektstype: ApiInntektstype.ENARBEIDSGIVER,
@@ -105,10 +100,6 @@ export const enBeregnetPeriode: OverridableConstructor<ApiBeregnetPeriode, Exten
     },
     medSkjæringstidspunkt(skjæringstidspunkt: string) {
         this.skjaeringstidspunkt = skjæringstidspunkt;
-        return this;
-    },
-    medOppgave(oppgave: ApiOppgaveForPeriodevisning = enOppgave()) {
-        this.oppgave = oppgave;
         return this;
     },
     somErForkastet() {

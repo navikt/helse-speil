@@ -24,7 +24,7 @@ export const postStub = async (request: NextRequest, params: Promise<{ oppgaveId
     if (!oppslag) {
         return problemDetails(404, ApiPostSendTilGodkjenningErrorCode.OPPGAVE_IKKE_FUNNET, 'Oppgave ikke funnet');
     }
-    const { periode, personPseudoId, person } = oppslag;
+    const { periode, personPseudoId, person, totrinnsvurdering } = oppslag;
     if (harUvurderteVarsler(periode)) {
         return problemDetails(
             409,
@@ -32,7 +32,6 @@ export const postStub = async (request: NextRequest, params: Promise<{ oppgaveId
             'Det finnes aktive varsler som mangler vurdering',
         );
     }
-    const totrinnsvurdering = periode.totrinnsvurdering;
     if (!totrinnsvurdering) {
         return problemDetails(
             409,

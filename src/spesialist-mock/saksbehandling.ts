@@ -11,9 +11,9 @@ import { SaksbehandlerhandlingMock } from '@spesialist-mock/storage/saksbehandle
 // Spesialist oppretter totrinnsvurdering når saksbehandler overstyrer eller skjønnsfastsetter
 export function opprettTotrinnsvurderingHvisMangler(fødselsnummer: string): void {
     finnPerioderMedOppgave(fødselsnummer)
-        .filter(({ periode }) => !periode.totrinnsvurdering)
-        .forEach(({ periode }) =>
-            BehandlingMock.settTotrinnsvurdering(periode.behandlingId, periode.oppgave!.id, {
+        .filter(({ totrinnsvurdering }) => !totrinnsvurdering)
+        .forEach(({ periode, oppgaveId }) =>
+            BehandlingMock.settTotrinnsvurdering(periode.behandlingId, oppgaveId!, {
                 erBeslutteroppgave: false,
                 erRetur: false,
                 saksbehandler: lokalSaksbehandlerOid,
@@ -49,7 +49,7 @@ export function registrerManuellOpptjeningsvurdering(
 }
 
 export function ferdigstillOppgave(oppslag: Periodeoppslag, beslutter: string | null): void {
-    const oppgaveId = oppslag.periode.oppgave!.id;
+    const oppgaveId = oppslag.oppgaveId!;
     BehandlingMock.ferdigstillOppgave(oppslag.periode.behandlingId, oppgaveId);
     BehandlingMock.leggTilBehandletOppgave({
         oppgaveId,

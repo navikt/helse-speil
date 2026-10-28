@@ -1,9 +1,4 @@
-import {
-    ApiAktivOppgave,
-    ApiEgenskap,
-    ApiOppgaveForPeriodevisning,
-    ApiOppgaveProjeksjon,
-} from '@io/rest/generated/spesialist.schemas';
+import { ApiAktivOppgave, ApiEgenskap, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { OverridableConstructor } from '@typer/shared';
 import { generateId } from '@utils/generateId';
 
@@ -26,11 +21,6 @@ export const enOppgaveForOversikten: OverridableConstructor<ApiOppgaveProjeksjon
     opprettetTidspunkt: '2020-01-01',
     behandlingOpprettetTidspunkt: '2020-01-01',
     påVentInfo: null,
-    ...overrides,
-});
-
-export const enOppgave: OverridableConstructor<ApiOppgaveForPeriodevisning> = (overrides) => ({
-    id: generateId(),
     ...overrides,
 });
 
