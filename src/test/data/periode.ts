@@ -64,7 +64,6 @@ export const enBeregnetPeriode: OverridableConstructor<ApiBeregnetPeriode, Exten
     erForkastet: false,
     forbrukteSykedager: 0,
     gjenstaendeSykedager: 200,
-    handlinger: [],
     hendelser: [],
     oppgave: null,
     totrinnsvurdering: null,

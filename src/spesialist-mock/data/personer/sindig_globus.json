@@ -407,18 +407,6 @@
                                 "forbrukteSykedager": 22,
                                 "gjenstaendeSykedager": 226,
                                 "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": true,
-                                        "begrunnelse": null
-                                    },
-                                    {
-                                        "type": "AVVISE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Spleis støtter ikke å avvise perioden"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [
                                     {
@@ -1225,13 +1213,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "1bea5cec-4d65-4599-a50c-2614971c3e17",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-06-27",
@@ -1847,13 +1828,6 @@
                                 "forbrukteSykedager": 22,
                                 "gjenstaendeSykedager": 226,
                                 "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-07-14",
@@ -2528,13 +2502,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "1bea5cec-4d65-4599-a50c-2614971c3e17",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-06-27",
@@ -3150,13 +3117,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "1bea5cec-4d65-4599-a50c-2614971c3e17",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-06-27",
@@ -4125,13 +4085,6 @@
                                 "forbrukteSykedager": 22,
                                 "gjenstaendeSykedager": 226,
                                 "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [
                                     {
@@ -4596,13 +4549,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-06-27",
@@ -5200,13 +5146,6 @@
                                 "forbrukteSykedager": 18,
                                 "gjenstaendeSykedager": 230,
                                 "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [
                                     {
@@ -5685,13 +5624,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-06-27",
@@ -6289,13 +6221,6 @@
                                 "forbrukteSykedager": 22,
                                 "gjenstaendeSykedager": 226,
                                 "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [
                                     {
@@ -6681,13 +6606,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-06-27",
@@ -7285,13 +7203,6 @@
                                 "forbrukteSykedager": 22,
                                 "gjenstaendeSykedager": 226,
                                 "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [
                                     {
@@ -7677,13 +7588,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-06-27",
@@ -8281,13 +8185,6 @@
                                 "forbrukteSykedager": 22,
                                 "gjenstaendeSykedager": 226,
                                 "vedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [
                                     {
@@ -8730,13 +8627,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "perioden er ikke til godkjenning"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2025-06-27",

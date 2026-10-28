@@ -538,13 +538,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
@@ -990,13 +983,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
@@ -1260,13 +1246,6 @@
                                 "periodetilstand": "IngenUtbetaling",
                                 "skjaeringstidspunkt": "2022-08-08",
                                 "varsler": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [],
                                 "id": "9d6f6883-4e10-491a-80a5-74c3af02b5e8",
                                 "type": "ApiUberegnetPeriode"
@@ -1387,13 +1366,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "21cdf066-373f-4be9-aca6-9cb6f1d67db6",
@@ -2040,13 +2012,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "0b233862-68e7-4084-886e-a63e052ffc5e",
@@ -2596,13 +2561,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "04f002f0-13fa-4c93-9abf-a20ad0c32ef8",
@@ -3258,13 +3216,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "4da4340b-cd1c-4468-8378-d352cafda193",
@@ -3706,13 +3657,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "196034dd-effc-47dd-92fa-6472ca6a31fd",
@@ -4245,13 +4189,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "9bc012c2-96e5-42de-bd21-fe7a9a64f93d",
@@ -4898,13 +4835,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "9cc85421-2b89-42f5-94fa-a470809b4754",
@@ -5439,13 +5369,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "415bf3f5-20ca-46c7-8e9a-2409f8e99dc1",
@@ -5991,13 +5914,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "5726fa9e-28e4-4fc2-ab04-14573f3fdd57",
@@ -6428,13 +6344,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "c2022a7d-e87b-47df-ac9c-22f4cb9f3866",
@@ -6998,13 +6907,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "b3614770-468b-4474-872d-a97eebe0f5ee",
@@ -7584,13 +7486,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "21a08585-7653-4e65-ad6a-7230c38d0f0e",
@@ -8046,13 +7941,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "41c157f5-fa7e-4870-9953-bf7c92a58c11",
@@ -8432,13 +8320,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "08295ef4-65d3-4257-b825-16980a54f5a5",
@@ -8858,13 +8739,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "1011b4b3-14e4-479e-9b11-a19717d5aa89",
@@ -9356,13 +9230,6 @@
                                         "saksbehandler_ident": "B123456",
                                         "notat_id": null,
                                         "historikktype": "TOTRINNSVURDERING_ATTESTERT"
-                                    }
-                                ],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
                                     }
                                 ],
                                 "hendelser": [
@@ -9916,13 +9783,6 @@
                                         "historikktype": "TOTRINNSVURDERING_ATTESTERT"
                                     }
                                 ],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
@@ -10275,13 +10135,6 @@
                                 "periodetilstand": "IngenUtbetaling",
                                 "skjaeringstidspunkt": "2022-08-08",
                                 "varsler": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [],
                                 "id": "7c14f787-f7e0-4d94-bc74-e8634b6509ea",
                                 "type": "ApiUberegnetPeriode"
@@ -10402,13 +10255,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "21cdf066-373f-4be9-aca6-9cb6f1d67db6",
@@ -11055,13 +10901,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "0b233862-68e7-4084-886e-a63e052ffc5e",
@@ -11611,13 +11450,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "04f002f0-13fa-4c93-9abf-a20ad0c32ef8",
@@ -12273,13 +12105,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "4da4340b-cd1c-4468-8378-d352cafda193",
@@ -12721,13 +12546,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "196034dd-effc-47dd-92fa-6472ca6a31fd",
@@ -13260,13 +13078,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "9bc012c2-96e5-42de-bd21-fe7a9a64f93d",
@@ -13913,13 +13724,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "9cc85421-2b89-42f5-94fa-a470809b4754",
@@ -14454,13 +14258,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "415bf3f5-20ca-46c7-8e9a-2409f8e99dc1",
@@ -15006,13 +14803,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "5726fa9e-28e4-4fc2-ab04-14573f3fdd57",
@@ -15443,13 +15233,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "c2022a7d-e87b-47df-ac9c-22f4cb9f3866",
@@ -16013,13 +15796,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "b3614770-468b-4474-872d-a97eebe0f5ee",
@@ -16599,13 +16375,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "21a08585-7653-4e65-ad6a-7230c38d0f0e",
@@ -17061,13 +16830,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "41c157f5-fa7e-4870-9953-bf7c92a58c11",
@@ -17463,13 +17225,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "08295ef4-65d3-4257-b825-16980a54f5a5",
@@ -17889,13 +17644,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "1011b4b3-14e4-479e-9b11-a19717d5aa89",
@@ -18372,13 +18120,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
@@ -18883,13 +18624,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "1a6a1247-d084-4f37-b5fa-dbe1528cd2db",
@@ -19211,13 +18945,6 @@
                                 "behandlingId": "603079fa-10a6-4846-b1fa-9efc2d0c76fe",
                                 "periodetilstand": "IngenUtbetaling",
                                 "skjaeringstidspunkt": "2022-08-08",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [],
                                 "id": "be11d2f3-0617-4515-b944-8510da77d92f",
                                 "type": "ApiUberegnetPeriode"
@@ -19338,13 +19065,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "21cdf066-373f-4be9-aca6-9cb6f1d67db6",
@@ -19991,13 +19711,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "0b233862-68e7-4084-886e-a63e052ffc5e",
@@ -20547,13 +20260,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "04f002f0-13fa-4c93-9abf-a20ad0c32ef8",
@@ -21209,13 +20915,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "4da4340b-cd1c-4468-8378-d352cafda193",
@@ -21657,13 +21356,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "196034dd-effc-47dd-92fa-6472ca6a31fd",
@@ -22196,13 +21888,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "9bc012c2-96e5-42de-bd21-fe7a9a64f93d",
@@ -22849,13 +22534,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "9cc85421-2b89-42f5-94fa-a470809b4754",
@@ -23390,13 +23068,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "415bf3f5-20ca-46c7-8e9a-2409f8e99dc1",
@@ -23942,13 +23613,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "5726fa9e-28e4-4fc2-ab04-14573f3fdd57",
@@ -24379,13 +24043,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "c2022a7d-e87b-47df-ac9c-22f4cb9f3866",
@@ -24949,13 +24606,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "b3614770-468b-4474-872d-a97eebe0f5ee",
@@ -25535,13 +25185,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "21a08585-7653-4e65-ad6a-7230c38d0f0e",
@@ -25997,13 +25640,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "41c157f5-fa7e-4870-9953-bf7c92a58c11",
@@ -26399,13 +26035,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "08295ef4-65d3-4257-b825-16980a54f5a5",
@@ -26825,13 +26454,6 @@
                                 "beslutterSaksbehandlerOid": null,
                                 "notater": [],
                                 "historikkinnslag": [],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Ikke til godkjenning"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "1011b4b3-14e4-479e-9b11-a19717d5aa89",

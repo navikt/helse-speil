@@ -588,17 +588,6 @@
                                 "id": "ea32e8e0-8427-4b82-85d1-eafbff96b248",
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": true,
-                                        "begrunnelse": null
-                                    },
-                                    {
-                                        "type": "AVVISE",
-                                        "tillatt": true
-                                    }
-                                ],
                                 "notater": [
                                     {
                                         "id": 42,

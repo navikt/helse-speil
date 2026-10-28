@@ -417,6 +417,36 @@ export interface ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode {
     code?: null | ApiGetAktivOppgaveForPersonErrorCode;
 }
 
+export interface ApiTotrinnsvurdering {
+    erRetur: boolean;
+    /** @nullable */
+    saksbehandler?: string | null;
+    /** @nullable */
+    beslutter?: string | null;
+    erBeslutteroppgave: boolean;
+}
+
+export interface ApiTotrinnsvurderingForPerson {
+    totrinnsvurdering?: null | ApiTotrinnsvurdering;
+}
+
+export type ApiGetTotrinnsvurderingForPersonErrorCode =
+    (typeof ApiGetTotrinnsvurderingForPersonErrorCode)[keyof typeof ApiGetTotrinnsvurderingForPersonErrorCode];
+
+export const ApiGetTotrinnsvurderingForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetTotrinnsvurderingForPersonErrorCode;
+}
+
 export interface ApiTildelingRequest {
     navident: string;
 }
@@ -2504,20 +2534,6 @@ export interface ApiOppgaveForPeriodevisning {
     id: string;
 }
 
-export type ApiPeriodehandling = (typeof ApiPeriodehandling)[keyof typeof ApiPeriodehandling];
-
-export const ApiPeriodehandling = {
-    UTBETALE: 'UTBETALE',
-    AVVISE: 'AVVISE',
-} as const;
-
-export interface ApiHandling {
-    type: ApiPeriodehandling;
-    tillatt: boolean;
-    /** @nullable */
-    begrunnelse?: string | null;
-}
-
 export type ApiKategori = (typeof ApiKategori)[keyof typeof ApiKategori];
 
 export const ApiKategori = {
@@ -2661,15 +2677,6 @@ export interface ApiRisikovurdering {
     kontrollertOk: ApiFaresignal[];
 }
 
-export interface ApiTotrinnsvurdering {
-    erRetur: boolean;
-    /** @nullable */
-    saksbehandler?: string | null;
-    /** @nullable */
-    beslutter?: string | null;
-    erBeslutteroppgave: boolean;
-}
-
 export interface ApiPaVent {
     /** @nullable */
     frist?: string | null;
@@ -2757,7 +2764,6 @@ export interface ApiBeregnetPeriode {
     /** @nullable */
     grunnbelopsjustertGjennomsnitt?: string | null;
     oppgave?: null | ApiOppgaveForPeriodevisning;
-    handlinger: ApiHandling[];
     egenskaper: ApiOppgaveegenskap[];
     /** @nullable */
     forbrukteSykedager?: number | null;

@@ -13,18 +13,6 @@
                             "forbrukteSykedager": 9,
                             "gjenstaendeSykedager": 239,
                             "vedtaksperiodeId": "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff",
-                            "handlinger": [
-                                {
-                                    "type": "UTBETALE",
-                                    "tillatt": true,
-                                    "begrunnelse": null
-                                },
-                                {
-                                    "type": "AVVISE",
-                                    "tillatt": true,
-                                    "begrunnelse": null
-                                }
-                            ],
                             "notater": [],
                             "historikkinnslag": [],
                             "maksdato": "2026-05-29",

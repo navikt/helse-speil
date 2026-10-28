@@ -100,18 +100,6 @@
                                 "forbrukteSykedager": 11,
                                 "gjenstaendeSykedager": 237,
                                 "vedtaksperiodeId": "ef2536d4-34e6-4c6f-a066-ba16a78518cb",
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": true,
-                                        "begrunnelse": null
-                                    },
-                                    {
-                                        "type": "AVVISE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Spleis støtter ikke å avvise perioden"
-                                    }
-                                ],
                                 "notater": [],
                                 "historikkinnslag": [],
                                 "maksdato": "2026-02-25",

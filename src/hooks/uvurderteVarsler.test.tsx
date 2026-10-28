@@ -22,7 +22,6 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: ApiVarselD
         erForkastet: false,
         fom: fom,
         tom: tom,
-        handlinger: [],
         hendelser: [],
         id: 'EN_ID',
         inntektstype: ApiInntektstype.ENARBEIDSGIVER,

@@ -643,17 +643,6 @@
                                         "historikktype": "LEGG_PA_VENT"
                                     }
                                 ],
-                                "handlinger": [
-                                    {
-                                        "type": "UTBETALE",
-                                        "tillatt": true
-                                    },
-                                    {
-                                        "type": "AVVISE",
-                                        "tillatt": false,
-                                        "begrunnelse": "Spleis støtter ikke å avvise perioden"
-                                    }
-                                ],
                                 "hendelser": [
                                     {
                                         "id": "73c45eac-61dc-4d8a-bd79-4b2c1135c0ef",

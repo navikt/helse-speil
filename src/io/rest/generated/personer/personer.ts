@@ -18,6 +18,7 @@ import type {
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode,
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingerForPersonErrorCode,
     ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode,
     ApiHttpProblemDetailsApiGetVeilederStansErrorCode,
     ApiHttpProblemDetailsApiPatchSaksbehandlerStansErrorCode,
     ApiHttpProblemDetailsApiPatchVeilederStansErrorCode,
@@ -36,6 +37,7 @@ import type {
     ApiStansRequest,
     ApiSykepengegrunnlagRequest,
     ApiTildelingRequest,
+    ApiTotrinnsvurderingForPerson,
     ApiVeilederStans,
 } from '../spesialist.schemas';
 
@@ -350,6 +352,160 @@ export function useGetAktivOppgaveForPerson<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetAktivOppgaveForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetTotrinnsvurderingForPersonUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/totrinnsvurdering`;
+};
+
+export const getTotrinnsvurderingForPerson = async (
+    pseudoId: string,
+    options?: RequestInit,
+): Promise<ApiTotrinnsvurderingForPerson> => {
+    const res = await fetch(getGetTotrinnsvurderingForPersonUrl(pseudoId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiTotrinnsvurderingForPerson; status?: number } =
+            new globalThis.Error();
+        const data: ApiTotrinnsvurderingForPerson = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiTotrinnsvurderingForPerson = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetTotrinnsvurderingForPersonQueryKey = (pseudoId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/totrinnsvurdering`] as const;
+};
+
+export const useGetTotrinnsvurderingForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetTotrinnsvurderingForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>> = ({ signal }) =>
+        getTotrinnsvurderingForPerson(pseudoId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<
+        Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetTotrinnsvurderingForPersonQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>
+>;
+export type GetTotrinnsvurderingForPersonQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode;
+    status?: number;
+};
+
+export function useGetTotrinnsvurderingForPerson<
+    TData = Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetTotrinnsvurderingForPerson<
+    TData = Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetTotrinnsvurderingForPerson<
+    TData = Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetTotrinnsvurderingForPerson<
+    TData = Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getTotrinnsvurderingForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetTotrinnsvurderingForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;
