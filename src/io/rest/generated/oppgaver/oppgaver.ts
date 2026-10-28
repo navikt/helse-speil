@@ -59,7 +59,7 @@ export const getGetOppgaverUrl = (params?: GetOppgaverParams) => {
     const normalizedParams = new URLSearchParams();
 
     Object.entries(params || {}).forEach(([key, value]) => {
-        const explodeParameters = ['minstEnAvEgenskapene'];
+        const explodeParameters = ['minstEnAvEgenskapene', 'minstEttAvVarslene'];
 
         if (Array.isArray(value) && explodeParameters.includes(key)) {
             value.forEach((v) => {

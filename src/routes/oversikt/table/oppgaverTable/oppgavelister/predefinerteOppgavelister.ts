@@ -1009,7 +1009,31 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
             ingenAvEgenskapene: ingen(ApiEgenskap.BESLUTTER, ApiEgenskap.REVURDERING),
             sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
             sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
-            minstEttAvVarslene: varsler('RV_OV_1'),
+            minstEttAvVarslene: [varsler('RV_OV_1')],
+        },
+    },
+    {
+        id: 'manglende-opptjening-andre-ytelser',
+        navn: 'Manglende opptjening - Andre ytelser',
+        params: {
+            erTildelt: false,
+            ingenAvEgenskapene: ingen(ApiEgenskap.BESLUTTER, ApiEgenskap.REVURDERING),
+            sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,
+            sorteringsrekkefoelge: ApiSorteringsrekkefølge.STIGENDE,
+            minstEttAvVarslene: [
+                varsler('RV_OV_1'),
+                varsler(
+                    'RV_AY_3',
+                    'RV_AY_4',
+                    'RV_AY_5',
+                    'RV_AY_6',
+                    'RV_AY_7',
+                    'RV_AY_8',
+                    'RV_AY_9',
+                    'RV_AY_11',
+                    'RV_AY_12',
+                ),
+            ],
         },
     },
 ];

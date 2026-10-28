@@ -3348,7 +3348,7 @@ export type GetOppgaverParams = {
     sidestoerrelse?: number;
     ekskluderVarsler?: string;
     tillatteVarsler?: string;
-    minstEttAvVarslene?: string;
+    minstEttAvVarslene?: string[];
     behandlingOpprettetFom?: string;
     behandlingOpprettetTom?: string;
     oppgaveKlarFom?: string;
