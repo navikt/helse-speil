@@ -3,7 +3,6 @@
         "fodselsnummer": "15528710082",
         "andreFodselsnummer": [],
         "dodsdato": null,
-        "tildeling": null,
         "vilkarsgrunnlagV2": [
             {
                 "id": "89e8dd48-6831-41a4-a610-d844d286a506",
@@ -784,5 +783,6 @@
         "id": "6890",
         "vedtaksperiodeId": "61788607-2448-432f-9d8a-5991fa3047f3"
     },
-    "totrinnsvurdering": null
+    "totrinnsvurdering": null,
+    "tildeling": null
 }

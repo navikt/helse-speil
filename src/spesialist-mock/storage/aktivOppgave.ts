@@ -1,17 +1,19 @@
-import { ApiAktivOppgave, ApiTotrinnsvurdering } from '@io/rest/generated/spesialist.schemas';
+import { ApiAktivOppgave, ApiTildeling, ApiTotrinnsvurdering } from '@io/rest/generated/spesialist.schemas';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
-import { lesTestpersonfiler } from '@spesialist-mock/storage/person';
+import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person';
+import { TildelingMock } from '@spesialist-mock/storage/tildeling';
 
 type Oppgavedata = {
     aktivOppgave: ApiAktivOppgave | null;
     totrinnsvurdering: ApiTotrinnsvurdering | null;
+    tildeling: ApiTildeling | null;
 };
 
 // Feltene endres ikke i fila, så de leses bare én gang. Endringer ligger i BehandlingMock.
 const oppgavedata: Map<string, Oppgavedata> = new Map(
     lesTestpersonfiler().map((fil) => [
         fil.saksbilde.fodselsnummer,
-        { aktivOppgave: fil.aktivOppgave, totrinnsvurdering: fil.totrinnsvurdering },
+        { aktivOppgave: fil.aktivOppgave, totrinnsvurdering: fil.totrinnsvurdering, tildeling: fil.tildeling },
     ]),
 );
 
@@ -30,4 +32,13 @@ export const finnTotrinnsvurdering = (fødselsnummer: string): ApiTotrinnsvurder
     if (!data) return null;
     const endret = data.aktivOppgave ? BehandlingMock.getTotrinnsvurderingForOppgave(data.aktivOppgave.id) : undefined;
     return endret !== undefined ? endret : data.totrinnsvurdering;
+};
+
+// Tildelingen i mocken gjelder bare så lenge personen har aktiv oppgave
+export const finnTildeling = (fødselsnummer: string): ApiTildeling | null => {
+    const pseudoId = PersonMock.findPersonPseudoId(fødselsnummer);
+    if (pseudoId && finnAktivOppgave(fødselsnummer) && TildelingMock.harTildeling(pseudoId)) {
+        return TildelingMock.getTildeling(pseudoId) ?? null;
+    }
+    return oppgavedata.get(fødselsnummer)?.tildeling ?? null;
 };

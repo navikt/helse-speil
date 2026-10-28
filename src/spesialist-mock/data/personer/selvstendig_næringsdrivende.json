@@ -623,11 +623,6 @@
                 }
             ]
         },
-        "tildeling": {
-            "navn": "Solheim, Martin Remøy",
-            "epost": "Martin.Remoy.Solheim@nav.no",
-            "oid": "9c3d9ee4-e487-4e43-b6ab-432743f5863b"
-        },
         "vilkarsgrunnlagV2": [
             {
                 "id": "ad7305d9-620d-4e87-ae75-d9d3980ad733",
@@ -686,5 +681,10 @@
         "erRetur": false,
         "saksbehandler": null,
         "beslutter": null
+    },
+    "tildeling": {
+        "navn": "Solheim, Martin Remøy",
+        "epost": "Martin.Remoy.Solheim@nav.no",
+        "oid": "9c3d9ee4-e487-4e43-b6ab-432743f5863b"
     }
 }

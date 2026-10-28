@@ -3,11 +3,6 @@
         "fodselsnummer": "19886497256",
         "andreFodselsnummer": [],
         "dodsdato": null,
-        "tildeling": {
-            "navn": "Hagen, Øyvind",
-            "epost": "Oyvind.Hagen@nav.no",
-            "oid": "ee97fdb4-327e-4554-875a-fb93b6f15688"
-        },
         "vilkarsgrunnlagV2": [
             {
                 "id": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
@@ -9429,5 +9424,10 @@
         "id": "1669",
         "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
     },
-    "totrinnsvurdering": null
+    "totrinnsvurdering": null,
+    "tildeling": {
+        "navn": "Hagen, Øyvind",
+        "epost": "Oyvind.Hagen@nav.no",
+        "oid": "ee97fdb4-327e-4554-875a-fb93b6f15688"
+    }
 }

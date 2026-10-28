@@ -606,7 +606,6 @@
             ],
             "overstyringer": []
         },
-        "tildeling": null,
         "vilkarsgrunnlagV2": [
             {
                 "id": "fe6ce3b4-8c67-4f28-87a1-574ca79613fb",
@@ -660,5 +659,6 @@
         "id": "4788",
         "vedtaksperiodeId": "eace1b7f-5c4e-46c0-886a-002e806de583"
     },
-    "totrinnsvurdering": null
+    "totrinnsvurdering": null,
+    "tildeling": null
 }

@@ -15,11 +15,9 @@ import '@utils/dayjs.setup';
 
 import { BehandlingMock } from './storage/behandling';
 import { PaVentMock } from './storage/påvent';
-import { TildelingMock } from './storage/tildeling';
 import { VarselMock } from './storage/varsel';
 
 const leggTilLagretData = (person: ApiSaksbildePerson): void => {
-    const pseudoId = PersonMock.findPersonPseudoId(person.fodselsnummer)!;
     // Også en ferdigstilt oppgave kan ha påVent i mocken
     const oppgave = finnOppgaveFraTestperson(person.fodselsnummer);
 
@@ -57,10 +55,6 @@ const leggTilLagretData = (person: ApiSaksbildePerson): void => {
             ...mockOverstyringer,
         ];
         leggPåDagoverstyringer(person.selvstendigNaering, mockOverstyringer);
-    }
-
-    if (finnAktivOppgave(person.fodselsnummer) && TildelingMock.harTildeling(pseudoId)) {
-        person.tildeling = TildelingMock.getTildeling(pseudoId);
     }
 };
 

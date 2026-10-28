@@ -1,14 +1,14 @@
-import { ApiSaksbildeTildeling } from '@io/rest/generated/spesialist.schemas';
+import { ApiTildeling } from '@io/rest/generated/spesialist.schemas';
 
 export class TildelingMock {
-    private static tildelinger: Map<string, ApiSaksbildeTildeling> = new Map();
+    private static tildelinger: Map<string, ApiTildeling> = new Map();
 
-    static getTildeling = (personPseudoId: string): ApiSaksbildeTildeling | undefined =>
+    static getTildeling = (personPseudoId: string): ApiTildeling | undefined =>
         TildelingMock.tildelinger.get(personPseudoId);
 
     static harTildeling = (personPseudoId: string): boolean => TildelingMock.tildelinger.has(personPseudoId);
 
-    static setTildeling = (personPseudoId: string, tildeling: ApiSaksbildeTildeling) =>
+    static setTildeling = (personPseudoId: string, tildeling: ApiTildeling) =>
         TildelingMock.tildelinger.set(personPseudoId, tildeling);
 
     static fjernTildeling = (personPseudoId: string) => TildelingMock.tildelinger.delete(personPseudoId);

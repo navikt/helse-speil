@@ -3,7 +3,6 @@
         "fodselsnummer": "12345678910",
         "andreFodselsnummer": [],
         "dodsdato": null,
-        "tildeling": null,
         "vilkarsgrunnlagV2": [
             {
                 "id": "941720f7-825f-4d0f-bf01-13d539a353db",
@@ -26494,5 +26493,6 @@
         "fullmakt": null
     },
     "aktivOppgave": null,
-    "totrinnsvurdering": null
+    "totrinnsvurdering": null,
+    "tildeling": null
 }

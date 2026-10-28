@@ -3,7 +3,6 @@
         "fodselsnummer": "07489201431",
         "andreFodselsnummer": [],
         "dodsdato": null,
-        "tildeling": null,
         "vilkarsgrunnlagV2": [
             {
                 "id": "a2f9cb93-08a4-4137-a17a-78f19c9bcc3d",
@@ -2565,5 +2564,6 @@
         "id": "5343",
         "vedtaksperiodeId": "546cb550-bcd0-4b95-abc0-d17bf6818bf7"
     },
-    "totrinnsvurdering": null
+    "totrinnsvurdering": null,
+    "tildeling": null
 }

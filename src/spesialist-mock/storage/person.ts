@@ -7,6 +7,7 @@ import {
     ApiAktivOppgave,
     ApiPerson,
     ApiSaksbildePerson,
+    ApiTildeling,
     ApiTotrinnsvurdering,
 } from '@io/rest/generated/spesialist.schemas';
 import { UUID } from '@typer/spesialist-mock';
@@ -17,12 +18,13 @@ type PersonIdentifikatorer = {
     personPseudoId: UUID;
 };
 
-// Svarene fra GET /api/personer/{pseudoId}/saksbilde, /, /aktiv-oppgave og /totrinnsvurdering
+// Svarene fra GET /api/personer/{pseudoId}/saksbilde, /, /aktiv-oppgave, /totrinnsvurdering og /tildeling
 export type Testpersonfil = {
     saksbilde: ApiSaksbildePerson;
     person: ApiPerson;
     aktivOppgave: ApiAktivOppgave | null;
     totrinnsvurdering: ApiTotrinnsvurdering | null;
+    tildeling: ApiTildeling | null;
 };
 
 export function lesTestpersonfiler(): Testpersonfil[] {

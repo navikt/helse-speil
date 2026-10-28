@@ -2022,12 +2022,6 @@ export interface ApiAnnetFodselsnummer {
     personPseudoId: string;
 }
 
-export interface ApiSaksbildeTildeling {
-    navn: string;
-    epost: string;
-    oid: string;
-}
-
 export interface ApiTilleggsinfoForInntektskilde {
     orgnummer: string;
     navn: string;
@@ -3186,7 +3180,6 @@ export interface ApiSaksbildePerson {
     andreFodselsnummer: ApiAnnetFodselsnummer[];
     /** @nullable */
     dodsdato?: string | null;
-    tildeling?: null | ApiSaksbildeTildeling;
     tilleggsinfoForInntektskilder: ApiTilleggsinfoForInntektskilde[];
     arbeidsgivere: ApiArbeidsgiver[];
     selvstendigNaering?: null | ApiSelvstendigNaering;

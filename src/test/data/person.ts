@@ -21,7 +21,6 @@ export const enPerson: OverridableConstructor<ApiSaksbildePerson, Extensions> = 
         andreFodselsnummer: [],
         fodselsnummer: '12345678910',
         dodsdato: null,
-        tildeling: null,
         arbeidsgivere: [enArbeidsgiver()],
         selvstendigNaering: null,
         vilkarsgrunnlagV2: [],
