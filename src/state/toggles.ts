@@ -7,6 +7,7 @@ import { atomWithLocalStorage, atomWithSessionStorage } from '@state/jotai';
 
 export type ToggleState = {
     kanBeslutteEgne: boolean;
+    nyMedlemskapsvisning: boolean;
     utviklersnacks: boolean;
 };
 
@@ -14,6 +15,7 @@ type SessionToggleState = Omit<ToggleState, 'utviklersnacks'>;
 
 const defaultToggleState: SessionToggleState = {
     kanBeslutteEgne: false,
+    nyMedlemskapsvisning: false,
 };
 
 const toggleState = atomWithSessionStorage<SessionToggleState>('toggleState', defaultToggleState);
@@ -54,5 +56,8 @@ export const useToggle = (): { value: ToggleState; toggle: (property: keyof Togg
 };
 
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
+
+// sp-medlemskap er bare satt opp i dev, så togglen virker aldri i prod
+export const useNyMedlemskapsvisning = (): boolean => useAtomValue(toggleState).nyMedlemskapsvisning && erUtvikling;
 
 export const useUtviklersnacks = (): boolean => useAtomValue(utviklersnacksState);

@@ -1,6 +1,12 @@
 import React from 'react';
 
 import {
+    ApiKildetype,
+    ApiKravkode,
+    ApiMedlemskapsstatus,
+    ApiVilkårsvurderingerForPersonResponse,
+} from '@io/rest/generated/medlemskap/medlemskap.schemas';
+import {
     ApiVilkårsgrunnlagInfotrygdV2,
     ApiVilkårsgrunnlagSpleisV2,
     ApiVilkårsgrunnlagVurdering,
@@ -13,6 +19,26 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
     useGetVilkårsvurderingerForPersonBehandler: () => ({ data: undefined, isLoading: true, isError: false }),
     useGetOpptjeningshistorikkBehandler: () => ({ data: undefined, isLoading: true, isError: false }),
+}));
+
+const medlemskapQuery = vi.hoisted(() => ({
+    kall: [] as { medlemskapsvurderingId: string; enabled: boolean | undefined }[],
+    data: undefined as ApiVilkårsvurderingerForPersonResponse | undefined,
+}));
+
+vi.mock('@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger')>()),
+    useGetVilkårsvurderingerForPersonBehandler: (
+        _personId: string,
+        params: { medlemskapsvurderingId: string },
+        options?: { query?: { enabled?: boolean } },
+    ) => {
+        medlemskapQuery.kall.push({
+            medlemskapsvurderingId: params.medlemskapsvurderingId,
+            enabled: options?.query?.enabled,
+        });
+        return { data: medlemskapQuery.data, isLoading: false, isError: false, refetch: vi.fn() };
+    },
 }));
 
 const opptjeningProps = {
@@ -119,5 +145,78 @@ describe('Inngangsvilkår', () => {
 
         const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
         expect(within(medlemskap).getByText('Vurdert i Infotrygd')).toBeVisible();
+    });
+
+    describe('ny medlemskapsvisning', () => {
+        beforeEach(() => {
+            medlemskapQuery.kall = [];
+            medlemskapQuery.data = {
+                skjæringstidspunkt: '2022-01-01',
+                krav: [
+                    {
+                        id: 'en-medlemskapsvurdering-id',
+                        kravkode: ApiKravkode.MEDLEMSKAP,
+                        medlemskapOk: true,
+                        status: ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL,
+                        vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
+                        kilde: {
+                            kildetype: ApiKildetype.AUTOMATISK,
+                            versjonAvKildekode: '1',
+                            oppslagsperiode: { fom: '2022-01-01', tom: '2022-01-01' },
+                            årsaker: [{ regelId: 'SP6001', forklaringPaaUavklart: 'Arbeid utenfor Norge' }],
+                        },
+                    },
+                ],
+            };
+        });
+
+        it('henter ikke fra sp-medlemskap når togglen er av', () => {
+            render(
+                <InngangsvilkårWithContent
+                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ medlemskapsvurderingId: 'en-medlemskapsvurdering-id' })}
+                    fødselsdato="1900-01-01"
+                    {...opptjeningProps}
+                />,
+            );
+
+            expect(medlemskapQuery.kall.every((kall) => kall.enabled === false)).toBe(true);
+            const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
+            expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
+            expect(screen.queryByText('Uavklart med brukerspørsmål')).not.toBeInTheDocument();
+        });
+
+        it('viser vurderingen fra sp-medlemskap når togglen er på', () => {
+            render(
+                <InngangsvilkårWithContent
+                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ medlemskapsvurderingId: 'en-medlemskapsvurdering-id' })}
+                    fødselsdato="1900-01-01"
+                    {...opptjeningProps}
+                    nyMedlemskapsvisning
+                />,
+            );
+
+            expect(medlemskapQuery.kall).toContainEqual({
+                medlemskapsvurderingId: 'en-medlemskapsvurdering-id',
+                enabled: true,
+            });
+            const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
+            expect(within(medlemskap).getByText('Uavklart med brukerspørsmål')).toBeVisible();
+            expect(within(medlemskap).getByText('Arbeid utenfor Norge (SP6001)')).toBeVisible();
+        });
+
+        it('viser den gamle medlemskapsvisningen når vilkårsgrunnlaget mangler medlemskapsvurderingId', () => {
+            render(
+                <InngangsvilkårWithContent
+                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ medlemskapsvurderingId: null })}
+                    fødselsdato="1900-01-01"
+                    {...opptjeningProps}
+                    nyMedlemskapsvisning
+                />,
+            );
+
+            expect(medlemskapQuery.kall.every((kall) => kall.enabled === false)).toBe(true);
+            const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
+            expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
+        });
     });
 });

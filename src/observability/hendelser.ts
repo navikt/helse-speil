@@ -10,7 +10,7 @@ declare global {
 
 type Egenskapsverdi = string | number | boolean | undefined;
 
-export type Skjemanavn = 'skjønnsfastsetting' | 'opptjening';
+export type Skjemanavn = 'skjønnsfastsetting' | 'opptjening' | 'medlemskap';
 
 type TaksonomiHendelse = {
     [Navn in EventName]: {

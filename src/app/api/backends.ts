@@ -1,6 +1,6 @@
 import { z } from 'zod/v4';
 
-import { backend } from '@/env';
+import { backend, erDev } from '@/env';
 
 type BackendConfig = {
     /** Miljøvariabel med Azure-scope for OBO-veksling */
@@ -12,6 +12,8 @@ type BackendConfig = {
     /** Prefiks foran stien i backenden: /api/<navn>/x videresendes til <baseUrl><målprefiks>/x */
     målprefiks: '/api' | '';
     ekstraHeadere?: Record<string, string>;
+    /** Backenden er bare konfigurert i dev. I prod mangler miljøvariablene, og kall svarer 404. */
+    kunIDev?: boolean;
 };
 
 /**
@@ -63,6 +65,13 @@ export const backends = {
         baseUrlEnv: 'SP_FORSIKRING_BASE_URL',
         målprefiks: '',
     },
+    medlemskap: {
+        scopeEnv: 'CLIENT_ID_MEDLEMSKAP',
+        baseUrlEnv: 'MEDLEMSKAP_BASE_URL',
+        lokalPort: 8383,
+        målprefiks: '/api',
+        kunIDev: true,
+    },
 } satisfies Record<string, BackendConfig>;
 
 export type BackendNavn = keyof typeof backends;
@@ -86,6 +95,11 @@ export function skalStubbe(navn: BackendNavn): boolean {
     return backend !== 'deployed' && !kjørerLokalt(navn);
 }
 
+/** Backender med kunIDev er ikke tilgjengelige i prod. */
+export function erTilgjengelig(navn: BackendNavn): boolean {
+    return backend !== 'deployed' || erDev || !(backendConfig(navn).kunIDev ?? false);
+}
+
 export function backendBaseUrl(navn: BackendNavn): string {
     const { lokalPort, baseUrlEnv } = backendConfig(navn);
     if (kjørerLokalt(navn)) return `http://localhost:${lokalPort}`;
@@ -104,7 +118,9 @@ export function validerBackendConfig(): void {
     }
     if (backend !== 'deployed') return;
 
-    const mangler = Object.values(backends)
+    const mangler = (Object.keys(backends) as BackendNavn[])
+        .filter(erTilgjengelig)
+        .map(backendConfig)
         .flatMap(({ scopeEnv, baseUrlEnv }) => [scopeEnv, baseUrlEnv])
         .filter((envNavn) => !process.env[envNavn]);
     if (mangler.length > 0) {

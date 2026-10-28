@@ -11,6 +11,7 @@
                 "skjaeringstidspunkt": "2020-12-09",
                 "omregnetArsinntekt": 453348,
                 "opptjeningsvurderingId": "5a2e8f4c-7b1d-4c3e-9f6a-2d8b1e4c7a90",
+                "medlemskapsvurderingId": "b6a4c434-3719-522e-9dd7-226f90bb5a73",
                 "inntekter": [
                     {
                         "sammenligningsgrunnlag": null,
@@ -71,6 +72,7 @@
                 "antallOpptjeningsdagerErMinst": 3422,
                 "grunnbelop": 111477,
                 "opptjeningsvurderingId": "34d5d9d5-39d1-4580-95fc-d89fa7365c0a",
+                "medlemskapsvurderingId": "a6345e99-e3d4-5c3a-a3cb-98a7ecf0e589",
                 "beregningsgrunnlag": "469836",
                 "avviksvurdering": {
                     "avviksprosent": "2.365410495184309",
@@ -124,6 +126,7 @@
                 "antallOpptjeningsdagerErMinst": 3422,
                 "grunnbelop": 111477,
                 "opptjeningsvurderingId": "f49617bb-b59e-4781-84dd-e5bbc007bd7b",
+                "medlemskapsvurderingId": "9e32c2f5-b12a-516a-afd6-3d958de9e46b",
                 "beregningsgrunnlag": "491964",
                 "avviksvurdering": {
                     "avviksprosent": "2.2329135935670035",

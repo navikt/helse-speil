@@ -31,6 +31,7 @@ spec:
         - application: spoogle
           namespace: tbd
         - application: sp-vilkarsproving
+        - application: sp-medlemskap
         - application: spleis-api
         - application: sparsom-api
       external:
@@ -149,4 +150,8 @@ spec:
       value: api://dev-gcp.tbd.sp-vilkarsproving/.default
     - name: VILKARSPROVING_BASE_URL
       value: http://sp-vilkarsproving
+    - name: CLIENT_ID_MEDLEMSKAP
+      value: api://dev-gcp.tbd.sp-medlemskap/.default
+    - name: MEDLEMSKAP_BASE_URL
+      value: http://sp-medlemskap
 

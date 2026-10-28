@@ -1,16 +1,27 @@
-import { backends, kjørerLokalt, parseLokaleBackends, skalStubbe, validerBackendConfig } from '@app/api/backends';
+import {
+    backends,
+    erTilgjengelig,
+    kjørerLokalt,
+    parseLokaleBackends,
+    skalStubbe,
+    validerBackendConfig,
+} from '@app/api/backends';
 import { backendUrl } from '@app/api/videresender';
 
-const env = vi.hoisted(() => ({ backend: 'lokal' as 'mock' | 'lokal' | 'deployed' }));
+const env = vi.hoisted(() => ({ backend: 'lokal' as 'mock' | 'lokal' | 'deployed', erDev: false }));
 vi.mock('@/env', () => ({
     get backend() {
         return env.backend;
+    },
+    get erDev() {
+        return env.erDev;
     },
 }));
 
 describe('backends', () => {
     afterEach(() => {
         env.backend = 'lokal';
+        env.erDev = false;
         vi.unstubAllEnvs();
     });
 
@@ -72,6 +83,19 @@ describe('backends', () => {
         });
     });
 
+    it('backender som bare finnes i dev er ikke tilgjengelige i prod', () => {
+        env.backend = 'deployed';
+        expect(erTilgjengelig('medlemskap')).toBe(false);
+        expect(erTilgjengelig('vilkarsproving')).toBe(true);
+
+        env.erDev = true;
+        expect(erTilgjengelig('medlemskap')).toBe(true);
+
+        env.backend = 'mock';
+        env.erDev = false;
+        expect(erTilgjengelig('medlemskap')).toBe(true);
+    });
+
     describe('validerBackendConfig', () => {
         it('lister alle manglende miljøvariabler i dev/prod', () => {
             env.backend = 'deployed';
@@ -87,6 +111,20 @@ describe('backends', () => {
             alleBackendEnv().forEach((envNavn) => vi.stubEnv(envNavn, 'satt'));
 
             expect(() => validerBackendConfig()).not.toThrow();
+        });
+
+        it('krever ikke miljøvariabler for backender som bare finnes i dev, utenfor dev', () => {
+            env.backend = 'deployed';
+            alleBackendEnv()
+                .filter((envNavn) => !envNavn.includes('MEDLEMSKAP'))
+                .forEach((envNavn) => vi.stubEnv(envNavn, 'satt'));
+            vi.stubEnv('CLIENT_ID_MEDLEMSKAP', '');
+            vi.stubEnv('MEDLEMSKAP_BASE_URL', '');
+
+            expect(() => validerBackendConfig()).not.toThrow();
+
+            env.erDev = true;
+            expect(() => validerBackendConfig()).toThrow('CLIENT_ID_MEDLEMSKAP, MEDLEMSKAP_BASE_URL');
         });
 
         it('validerer LOKALE_BACKENDS lokalt', () => {
