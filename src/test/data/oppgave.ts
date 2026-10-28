@@ -1,4 +1,9 @@
-import { ApiEgenskap, ApiOppgaveForPeriodevisning, ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiAktivOppgave,
+    ApiEgenskap,
+    ApiOppgaveForPeriodevisning,
+    ApiOppgaveProjeksjon,
+} from '@io/rest/generated/spesialist.schemas';
 import { OverridableConstructor } from '@typer/shared';
 import { generateId } from '@utils/generateId';
 
@@ -26,5 +31,11 @@ export const enOppgaveForOversikten: OverridableConstructor<ApiOppgaveProjeksjon
 
 export const enOppgave: OverridableConstructor<ApiOppgaveForPeriodevisning> = (overrides) => ({
     id: generateId(),
+    ...overrides,
+});
+
+export const enAktivOppgave: OverridableConstructor<ApiAktivOppgave> = (overrides) => ({
+    id: generateId(),
+    vedtaksperiodeId: generateId(),
     ...overrides,
 });

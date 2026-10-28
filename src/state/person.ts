@@ -1,22 +1,35 @@
 import { useParams } from 'next/navigation';
 
-import { getGetSaksbildeForPersonQueryKey, useGetSaksbildeForPerson } from '@io/rest/generated/personer/personer';
+import {
+    getGetAktivOppgaveForPersonQueryKey,
+    getGetSaksbildeForPersonQueryKey,
+    useGetAktivOppgaveForPerson,
+    useGetSaksbildeForPerson,
+} from '@io/rest/generated/personer/personer';
 import { ApiBehandling, ApiPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
-import { useQueryClient } from '@tanstack/react-query';
+import { QueryClient, hashKey, useQueryClient } from '@tanstack/react-query';
 
 const usePersonPseudoId = (): string | undefined => useParams<{ personPseudoId?: string }>().personPseudoId;
 
 export const useFetchPersonQuery = () => {
     const personPseudoId = usePersonPseudoId();
+    const queryClient = useQueryClient();
     const query = useGetSaksbildeForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
+    // Tilstanden til perioden avhenger av aktiv oppgave, så saksbildet vises først når begge er lastet
+    const aktivOppgaveQuery = useGetAktivOppgaveForPerson(personPseudoId!, {
+        query: { enabled: !!personPseudoId },
+    });
+    const loading = query.isLoading || aktivOppgaveQuery.isLoading;
 
     return {
-        data: query.data,
-        loading: query.isLoading,
-        error: query.error,
-        refetch: query.refetch,
+        data: loading ? undefined : query.data,
+        loading,
+        error: query.error ?? aktivOppgaveQuery.error,
+        refetch: async () => {
+            if (personPseudoId) await refetchPersondata(queryClient, personPseudoId);
+        },
     };
 };
 
@@ -46,8 +59,16 @@ export const useRefetchPerson = () => {
 
     return async () => {
         if (!personPseudoId) return;
-        await queryClient.refetchQueries({ queryKey: getGetSaksbildeForPersonQueryKey(personPseudoId) });
+        await refetchPersondata(queryClient, personPseudoId);
     };
+};
+
+export const refetchPersondata = async (queryClient: QueryClient, personPseudoId: string) => {
+    const nøkler = [
+        getGetSaksbildeForPersonQueryKey(personPseudoId),
+        getGetAktivOppgaveForPersonQueryKey(personPseudoId),
+    ].map((nøkkel) => hashKey(nøkkel));
+    await queryClient.refetchQueries({ predicate: (query) => nøkler.includes(query.queryHash) });
 };
 
 export const mapPerioder = (

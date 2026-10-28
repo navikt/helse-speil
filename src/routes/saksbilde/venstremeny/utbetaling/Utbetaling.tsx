@@ -12,6 +12,7 @@ import { harUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
 import { ApiBeregnetPeriode, ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { usePersonStore } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
@@ -64,8 +65,9 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     const erReadOnly = useIsReadOnlyOppgave(person);
 
     const prevPeriodRef = React.useRef(period.vedtaksperiodeId);
+    const oppgave = useAktivOppgaveForPeriode(period);
 
-    if (!hasOppgave(period)) return null;
+    if (!oppgave || !['tilGodkjenning', 'revurderes'].includes(getPeriodState(period))) return null;
 
     if (prevPeriodRef.current !== period.vedtaksperiodeId) {
         prevPeriodRef.current = period.vedtaksperiodeId;
@@ -103,7 +105,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                 size="small"
                                 utbetaling={period.utbetaling}
                                 inntektsforholdReferanse={inntektsforholdReferanse}
-                                oppgavereferanse={period.oppgave?.id ?? ''}
+                                oppgavereferanse={oppgave.id}
                                 disabled={
                                     visningenOppdateres ||
                                     periodenErSendt ||
@@ -205,9 +207,6 @@ const skalVentePåNestePeriode = (person: ApiSaksbildePerson) =>
                 ] as ApiPeriodetilstand[]
             ).includes(periode.periodetilstand),
         );
-
-const hasOppgave = (period: ApiBeregnetPeriode): boolean =>
-    typeof period.oppgave?.id === 'string' && ['tilGodkjenning', 'revurderes'].includes(getPeriodState(period));
 
 const useOnGodkjenn = (period: ApiBeregnetPeriode, person: ApiSaksbildePerson): (() => void) => {
     const router = useRouter();

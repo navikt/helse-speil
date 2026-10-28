@@ -1,9 +1,10 @@
 import React from 'react';
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
-import { ApiInntektstype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
+import { ApiBeregnetPeriode, ApiInntektstype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
-import { enOppgave } from '@test-data/oppgave';
+import { enAktivOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
@@ -13,20 +14,30 @@ import { generateId } from '@utils/generateId';
 
 import { Utbetaling } from './Utbetaling';
 
+vi.mock('@state/oppgave', async () => ({
+    ...(await vi.importActual('@state/oppgave')),
+    useAktivOppgaveForPeriode: vi.fn(),
+}));
+
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
     useHarBeslutterrolle: () => true,
 }));
 
 describe('Utbetaling', () => {
+    beforeEach(() => {
+        (useAktivOppgaveForPeriode as Mock).mockImplementation((periode?: ApiBeregnetPeriode | null) =>
+            periode ? enAktivOppgave({ id: '1234', vedtaksperiodeId: periode.vedtaksperiodeId }) : null,
+        );
+    });
+
     afterEach(() => {
         vi.resetAllMocks();
     });
 
     it('rendrer revurderbar utbetaling', () => {
-        const oppgave = enOppgave();
         const tidslinje = [enDag({ dato: '2020-01-01' }), enDag({ dato: '2020-01-02' }), enDag({ dato: '2020-01-03' })];
-        const periode = enBeregnetPeriode({ oppgave, tidslinje });
+        const periode = enBeregnetPeriode({ tidslinje });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
@@ -43,7 +54,7 @@ describe('Utbetaling', () => {
 
     it('rendrer utbetaling for forkastet periode', () => {
         const tidslinje = [enDag({ dato: '2020-01-01' })];
-        const periode = enBeregnetPeriode({ tidslinje }).medOppgave().somErForkastet().somErTilGodkjenning();
+        const periode = enBeregnetPeriode({ tidslinje }).somErForkastet().somErTilGodkjenning();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
@@ -56,7 +67,7 @@ describe('Utbetaling', () => {
         const tidslinje = [
             enDag({ dato: '2020-01-01', utbetalingsdagtype: ApiUtbetalingsdagtype.ARBEIDSGIVERPERIODEDAG }),
         ];
-        const periode = enBeregnetPeriode({ tidslinje }).medOppgave().somErTilGodkjenning();
+        const periode = enBeregnetPeriode({ tidslinje }).somErTilGodkjenning();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
@@ -66,7 +77,7 @@ describe('Utbetaling', () => {
     });
 
     it('rendrer utbetaling for periode som har vært delvis behandlet i Infotrygd', () => {
-        const periodeA = enBeregnetPeriode().medOppgave().somErTilGodkjenning();
+        const periodeA = enBeregnetPeriode().somErTilGodkjenning();
         const periodeB = enBeregnetPeriode().medUtbetaling(enUtbetaling({ arbeidsgiverFagsystemId: generateId() }));
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
@@ -77,7 +88,7 @@ describe('Utbetaling', () => {
     });
 
     it('rendrer utbetaling for periode som har et tidligere skjæringstidspunkt', () => {
-        const periodeA = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-01' }).medOppgave().somErTilGodkjenning();
+        const periodeA = enBeregnetPeriode({ skjaeringstidspunkt: '2020-01-01' }).somErTilGodkjenning();
         const periodeB = enBeregnetPeriode({ skjaeringstidspunkt: '2020-02-01' });
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeB, periodeA]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
@@ -88,9 +99,7 @@ describe('Utbetaling', () => {
     });
 
     it('rendrer utbetaling for periode som ikke kan overstyres eller revurderes', () => {
-        const periodeA = enBeregnetPeriode({ inntektstype: ApiInntektstype.FLEREARBEIDSGIVERE })
-            .medOppgave()
-            .somErTilGodkjenning();
+        const periodeA = enBeregnetPeriode({ inntektstype: ApiInntektstype.FLEREARBEIDSGIVERE }).somErTilGodkjenning();
         const periodeB = enBeregnetPeriode({
             inntektstype: ApiInntektstype.FLEREARBEIDSGIVERE,
             fom: '2024-01-01',

@@ -20,10 +20,11 @@ import {
     finnAlleInntektsforhold,
     useHarDagOverstyringer,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { tilSaksbehandlerhandlingKontrolltekst, useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { ActivePeriod } from '@typer/shared';
-import { getPeriodState } from '@utils/mapping';
+import { getPeriodState, getPeriodStateMedOppgave } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 interface SaksbildevarselContainerProps {
@@ -141,6 +142,7 @@ const BeregnetSaksbildevarsler = ({
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
+    const oppgave = useAktivOppgaveForPeriode(periode);
     const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(
         finnAlleInntektsforhold(person),
         periode.vedtaksperiodeId,
@@ -148,8 +150,8 @@ const BeregnetSaksbildevarsler = ({
 
     return (
         <Saksbildevarsler
-            periodState={getPeriodState(periode)}
-            oppgavereferanse={periode.oppgave?.id}
+            periodState={getPeriodStateMedOppgave(periode, oppgave !== null)}
+            oppgavereferanse={oppgave?.id}
             varsler={periode.varsler}
             erTidligereSaksbehandler={erTidligereSaksbehandler}
             erBeslutteroppgave={periode.totrinnsvurdering?.erBeslutteroppgave}

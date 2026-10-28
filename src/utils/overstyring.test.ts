@@ -1,7 +1,6 @@
 import { ApiInntektstype, ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
-import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
@@ -10,38 +9,38 @@ describe('kanOverstyres', () => {
     it('returnerer true om personen har flere arbeidsgivere', () => {
         const periode = enBeregnetPeriode({
             periodetilstand: ApiPeriodetilstand.TilGodkjenning,
-            oppgave: enOppgave(),
             inntektstype: ApiInntektstype.FLEREARBEIDSGIVERE,
         });
 
-        expect(kanOverstyres(periode)).toEqual({ value: true });
+        expect(kanOverstyres(periode, true)).toEqual({
+            value: true,
+        });
     });
 
     it('returnerer true om perioden venter', () => {
         const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.VenterPaEnAnnenPeriode });
-        expect(kanOverstyres(periode)).toEqual({ value: true });
+        expect(kanOverstyres(periode, false)).toEqual({ value: true });
     });
 
     it('returnerer true for beregnede perioder som er til godkjenning', () => {
-        const oppgave = enOppgave();
-        const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.TilGodkjenning, oppgave });
+        const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.TilGodkjenning });
         const expected = { value: true };
 
-        expect(kanOverstyres(periode)).toEqual(expected);
+        expect(kanOverstyres(periode, true)).toEqual(expected);
     });
 
     it('returnerer true for beregnede perioder som ikke har utbetaling', () => {
         const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.IngenUtbetaling });
         const expected = { value: true };
 
-        expect(kanOverstyres(periode)).toEqual(expected);
+        expect(kanOverstyres(periode, false)).toEqual(expected);
     });
 
     it('returnerer true for beregnede perioder som har en feilende utbetaling', () => {
         const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.UtbetalingFeilet });
         const expected = { value: true };
 
-        expect(kanOverstyres(periode)).toEqual(expected);
+        expect(kanOverstyres(periode, false)).toEqual(expected);
     });
 });
 

@@ -17,9 +17,10 @@ import {
     finnForrigeEllerNyesteBehandling,
     tilReferanse,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
-import { getPeriodState } from '@utils/mapping';
+import { getPeriodStateMedOppgave } from '@utils/mapping';
 import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
 
 import { VarselObject } from '../varsler/Saksbildevarsler';
@@ -56,7 +57,8 @@ export const VenstremenyBeregnetPeriode = ({
         isSelvstendigNaering(inntektsforhold),
         forrigeBehandlingPeriode?.tidslinje,
     );
-    const periodState = getPeriodState(activePeriod);
+    const harAktivOppgave = useAktivOppgaveForPeriode(activePeriod) !== null;
+    const periodState = getPeriodStateMedOppgave(activePeriod, harAktivOppgave);
     const utbetalingsvarsler: VarselObject[] = [utbetaling(periodState), tilstandinfo(periodState)].filter(
         (it) => it,
     ) as VarselObject[];

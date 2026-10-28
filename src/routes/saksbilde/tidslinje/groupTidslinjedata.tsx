@@ -18,8 +18,9 @@ import {
 } from '@io/rest/generated/spesialist.schemas';
 import { PeriodPins } from '@saksbilde/tidslinje/timeline/period/TimelinePeriod';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { usePeriodeIdMedAktivOppgave } from '@state/oppgave';
 import { InfotrygdPeriod, PeriodCategory, getPeriodCategory } from '@typer/shared';
-import { getPeriodState } from '@utils/mapping';
+import { getPeriodStateMedOppgave } from '@utils/mapping';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
 export type TidslinjeElement = {
@@ -87,6 +88,8 @@ export function useTidslinjeRader(
             .map((entry) => entry.vedtaksperiodeId) ?? [],
     );
 
+    const periodeIdMedAktivOppgave = usePeriodeIdMedAktivOppgave();
+
     const orgnumre = tilkomneInntektskilder.map((k) => k.organisasjonsnummer);
     const { navnMap, isLoading: isLoadingOrgNames } = useOrganisasjonerQuery(orgnumre);
 
@@ -104,7 +107,11 @@ export function useTidslinjeRader(
                     skjæringstidspunkt: periode.skjaeringstidspunkt,
                     behandlingId: periode.behandlingId,
                     status:
-                        generasjonIndex === 0 ? (getPeriodCategory(getPeriodState(periode)) ?? 'ukjent') : 'historisk',
+                        generasjonIndex === 0
+                            ? (getPeriodCategory(
+                                  getPeriodStateMedOppgave(periode, periode.id === periodeIdMedAktivOppgave),
+                              ) ?? 'ukjent')
+                            : 'historisk',
                     periode,
                     periodPins: generasjonIndex === 0 ? getPeriodPins(periode, harNotat) : [],
                     generasjonIndex,

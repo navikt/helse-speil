@@ -1,32 +1,9 @@
-import { getOppgavereferanse, harBlittUtbetaltTidligere } from '@state/selectors/period';
+import { harBlittUtbetaltTidligere } from '@state/selectors/period';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
-import { enOppgave } from '@test-data/oppgave';
-import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
+import { enBeregnetPeriode } from '@test-data/periode';
 import { enUtbetaling, enVurdering } from '@test-data/utbetaling';
 import { generateId } from '@utils/generateId';
-
-describe('getOppgavereferanse', () => {
-    it('returnerer en oppgavereferanse for beregnede perioder som har en oppgave', () => {
-        const id = generateId();
-        const oppgave = enOppgave({ id });
-        const periode = enBeregnetPeriode({ oppgave });
-
-        expect(getOppgavereferanse(periode)).toEqual(id);
-    });
-
-    it('returnerer null for beregnede perioder som ikke har oppgave', () => {
-        const periode = enBeregnetPeriode();
-
-        expect(getOppgavereferanse(periode)).toBeNull();
-    });
-
-    it('returnerer null for ghostperioder', () => {
-        const periode = enGhostPeriode();
-
-        expect(getOppgavereferanse(periode)).toBeNull();
-    });
-});
 
 describe('harBlittUtbetaltTidligere', () => {
     it('returnerer true om det finnes en periode i en tidligere behandling som deler vedtaksperiode med den gitte perioden som har blitt utbetalt', () => {

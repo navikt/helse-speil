@@ -16,10 +16,11 @@ import {
     ApiUtbetalingstatus,
 } from '@io/rest/generated/spesialist.schemas';
 import { TidslinjeElement } from '@saksbilde/tidslinje/groupTidslinjedata';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { DatePeriod, DateString, PeriodState } from '@typer/shared';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
-import { getPeriodState, getPeriodStateText } from '@utils/mapping';
+import { getPeriodStateMedOppgave, getPeriodStateText } from '@utils/mapping';
 import { cn } from '@utils/tw';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -39,7 +40,8 @@ export function PeriodPopover({
     const period = element.periode ?? element.ghostPeriode;
     const fom = somNorskDato(element.fom) ?? '-';
     const tom = somNorskDato(element.tom) ?? '-';
-    const state = getPeriodState(period);
+    const harAktivOppgave = useAktivOppgaveForPeriode(period) !== null;
+    const state = getPeriodStateMedOppgave(period, harAktivOppgave);
     const spleisperiode = period && (isBeregnetPeriode(period) || isUberegnetPeriode(period)) ? period : undefined;
     const vedtaksperiodeId = spleisperiode?.vedtaksperiodeId;
     const behandlingId = spleisperiode?.behandlingId;

@@ -391,6 +391,32 @@ export interface ApiHttpProblemDetailsApiPostSendIReturErrorCode {
     code?: null | ApiPostSendIReturErrorCode;
 }
 
+export interface ApiAktivOppgave {
+    id: string;
+    vedtaksperiodeId: string;
+}
+
+export interface ApiAktivOppgaveForPerson {
+    aktivOppgave?: null | ApiAktivOppgave;
+}
+
+export type ApiGetAktivOppgaveForPersonErrorCode =
+    (typeof ApiGetAktivOppgaveForPersonErrorCode)[keyof typeof ApiGetAktivOppgaveForPersonErrorCode];
+
+export const ApiGetAktivOppgaveForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetAktivOppgaveForPersonErrorCode;
+}
+
 export interface ApiTildelingRequest {
     navident: string;
 }

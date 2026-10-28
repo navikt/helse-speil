@@ -8,7 +8,7 @@ import {
 } from '@io/rest/generated/personer/personer';
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { useSelectPeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
+import { refetchPersondata, useFetchPersonQuery } from '@state/person';
 import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useToasts } from '@state/toasts';
 import { useQueryClient } from '@tanstack/react-query';
@@ -36,7 +36,7 @@ export const useRefreshPersonVedEvent = () => {
         try {
             do {
                 nyRefetchVenter.current = false;
-                await queryClient.refetchQueries({ queryKey: getGetSaksbildeForPersonQueryKey(personPseudoId) });
+                await refetchPersondata(queryClient, personPseudoId);
             } while (nyRefetchVenter.current);
         } finally {
             refetchPågår.current = false;

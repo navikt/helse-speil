@@ -20,6 +20,7 @@ import {
     tilReferanse,
     useAktivtInntektsforhold,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useFetchPersonQuery } from '@state/person';
 import { useAvmeld, useTildel } from '@state/tildeling';
@@ -58,7 +59,8 @@ function SaksbildeDropdownMenuContent({
     const user = useInnloggetSaksbehandler();
     const readOnly = useIsReadOnlyOppgave(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
-    const oppgaveId = periodeTilGodkjenning?.oppgave?.id;
+    const oppgaveId = useAktivOppgaveForPeriode(periodeTilGodkjenning)?.id;
+    const aktivPeriodeHarOppgave = useAktivOppgaveForPeriode(activePeriod) !== null;
     const erPåVent = periodeTilGodkjenning?.paVent;
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
@@ -135,7 +137,7 @@ function SaksbildeDropdownMenuContent({
                     </HStack>
                 </ActionMenu.Trigger>
                 <ActionMenu.Content>
-                    {isBeregnetPeriode(activePeriod) && activePeriod.oppgave?.id && !readOnly && (
+                    {aktivPeriodeHarOppgave && !readOnly && (
                         <>
                             <ActionMenu.Group aria-label="Oppgave">
                                 {personIsAssignedUser || person.tildeling ? (

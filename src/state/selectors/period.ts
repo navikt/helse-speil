@@ -2,7 +2,6 @@ import dayjs from 'dayjs';
 
 import {
     ApiBeregnetPeriode,
-    ApiGhostPeriode,
     ApiPeriode,
     ApiPeriodetilstand,
     ApiSaksbildePerson,
@@ -13,16 +12,6 @@ import { isGodkjent as utbetalingIsGodkjent } from '@state/selectors/utbetaling'
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { getPeriodState } from '@utils/mapping';
 import { isBeregnetPeriode, isUberegnetPeriode } from '@utils/typeguards';
-
-export const getOppgavereferanse = (
-    period?: ApiBeregnetPeriode | ApiUberegnetPeriode | ApiGhostPeriode | null,
-): string | null => {
-    if (isBeregnetPeriode(period)) {
-        return period.oppgave?.id ?? null;
-    } else {
-        return null;
-    }
-};
 
 export const harBlittUtbetaltTidligere = (
     period: ApiBeregnetPeriode | ApiUberegnetPeriode,

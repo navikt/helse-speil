@@ -1,6 +1,7 @@
 import { Mock } from 'vitest';
 
 import {
+    useGetAktivOppgaveForPerson,
     useGetBehandlendeEnhetForPerson,
     useGetKrrRegistrertStatusForPerson,
     useGetSaksbehandlerStans,
@@ -73,4 +74,5 @@ function mockPersonHeaderKall() {
         data: ApiKrrRegistrertStatus.RESERVERT_MOT_DIGITAL_KOMMUNIKASJON_ELLER_VARSLING,
     });
     (useGetSaksbildeForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
+    (useGetAktivOppgaveForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
 }

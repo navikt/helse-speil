@@ -16,6 +16,7 @@ import {
     useDagoverstyringer,
     useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
 import { DateString } from '@typer/shared';
@@ -104,7 +105,8 @@ const UtbetalingBeregnetPeriode = ({
     person,
     inntektsforhold,
 }: UtbetalingBeregnetPeriodeProps): ReactElement => {
-    const overstyringIsEnabled = kanOverstyres(period);
+    const harAktivOppgave = useAktivOppgaveForPeriode(period) !== null;
+    const overstyringIsEnabled = kanOverstyres(period, harAktivOppgave);
     const revurderingIsEnabled = kanRevurderes(person, period);
     const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
     const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, inntektsforhold);

@@ -8,6 +8,7 @@ import { EndrePåVentDialog } from '@components/påvent/PåVentDialoger';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiBeregnetPeriode, ApiPersonnavn, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useFetchPersonQuery } from '@state/person';
 import { useOperationErrorHandler } from '@state/varsler';
@@ -30,7 +31,7 @@ export const LagtPåVentDropdown = ({
 }: LagtPåVentDropdownProps): ReactElement | null => {
     const [showEndreModal, setShowEndreModal] = useState(false);
 
-    const oppgaveId = periode.oppgave?.id;
+    const oppgaveId = useAktivOppgaveForPeriode(periode)?.id;
 
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();

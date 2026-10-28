@@ -1,17 +1,24 @@
 import { fetchMock, jsonBody } from '../../../../../vitest.setup';
 import { createStore } from 'jotai';
-import { describe, expect, it, vi } from 'vitest';
+import { Mock, describe, expect, it, vi } from 'vitest';
 
+import { ApiBeregnetPeriode } from '@io/rest/generated/spesialist.schemas';
 import { Utbetaling } from '@saksbilde/venstremeny/utbetaling/Utbetaling';
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
-import { enOppgave } from '@test-data/oppgave';
+import { enAktivOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+vi.mock('@state/oppgave', async () => ({
+    ...(await vi.importActual('@state/oppgave')),
+    useAktivOppgaveForPeriode: vi.fn(),
+}));
 
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
@@ -26,9 +33,15 @@ vi.mock('@/env', async (importOriginal) => ({
 }));
 
 describe('Utbetaling', () => {
+    beforeEach(() => {
+        (useAktivOppgaveForPeriode as Mock).mockImplementation((periode?: ApiBeregnetPeriode | null) =>
+            periode ? enAktivOppgave({ id: '1234', vedtaksperiodeId: periode.vedtaksperiodeId }) : null,
+        );
+    });
+
     it('resetter godkjentPeriode når perioden endres', async () => {
-        const periodeA = enBeregnetPeriode().medOppgave().somErTilGodkjenning();
-        const periodeB = enBeregnetPeriode().medOppgave().somErTilGodkjenning();
+        const periodeA = enBeregnetPeriode().somErTilGodkjenning();
+        const periodeB = enBeregnetPeriode().somErTilGodkjenning();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periodeA, periodeB]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
@@ -71,9 +84,7 @@ describe('Utbetaling', () => {
     });
 
     it('sender POST til send-til-godkjenning når saksbehandler sender oppgaven til godkjenning', async () => {
-        const periode = enBeregnetPeriode()
-            .medOppgave(enOppgave({ id: '1234' }))
-            .somErTilGodkjenning();
+        const periode = enBeregnetPeriode().somErTilGodkjenning();
         periode.totrinnsvurdering = {
             beslutter: null,
             erBeslutteroppgave: false,
@@ -108,9 +119,7 @@ describe('Utbetaling', () => {
     });
 
     it('sender POST til send-i-retur når beslutter returnerer oppgaven', async () => {
-        const periode = enBeregnetPeriode()
-            .medOppgave(enOppgave({ id: '1234' }))
-            .somErTilGodkjenning();
+        const periode = enBeregnetPeriode().somErTilGodkjenning();
         periode.totrinnsvurdering = {
             beslutter: null,
             erBeslutteroppgave: true,

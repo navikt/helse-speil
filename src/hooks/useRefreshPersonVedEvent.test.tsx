@@ -10,7 +10,10 @@ import { act, renderHook } from '@test-utils';
 
 import { useRefreshPersonVedEvent } from './useRefreshPersonVedEvent';
 
-vi.mock('@state/person');
+vi.mock('@state/person', async () => ({
+    ...(await vi.importActual('@state/person')),
+    useFetchPersonQuery: vi.fn(),
+}));
 vi.mock('@state/periode');
 vi.mock('@state/toasts');
 vi.mock('@state/serverSentEvents', async () => ({

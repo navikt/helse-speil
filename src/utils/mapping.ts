@@ -12,8 +12,6 @@ import { isBeregnetPeriode, isGhostPeriode, isInfotrygdPeriod, isUberegnetPeriod
 const hasBeenAssessedAutomatically = (period: ApiBeregnetPeriode): boolean =>
     period.utbetaling.vurdering?.automatisk ?? false;
 
-const hasOppgave = (period: ApiBeregnetPeriode): boolean => typeof period.oppgave?.id === 'string';
-
 const getInfotrygdPeriodState = (period: InfotrygdPeriod): PeriodState => {
     switch (period.typetekst) {
         case 'Utbetaling':
@@ -51,7 +49,16 @@ export const getUberegnetPeriodState = (period: ApiUberegnetPeriode): PeriodStat
     }
 };
 
-export const getPeriodState = (period?: ApiPeriode | DatePeriod | null): PeriodState => {
+// En periode til godkjenning uten aktiv oppgave (f.eks. før Spesialist har opprettet den) vises som 'venter'
+export const getPeriodStateMedOppgave = (
+    period: ApiPeriode | DatePeriod | null | undefined,
+    harAktivOppgave: boolean,
+): PeriodState => {
+    const state = getPeriodState(period);
+    return state === 'tilGodkjenning' && !harAktivOppgave ? 'venter' : state;
+};
+
+export const getPeriodState = (period: ApiPeriode | DatePeriod | null | undefined): PeriodState => {
     if (!period) return 'ukjent';
     if (isGhostPeriode(period)) return getGhostPeriodState(period);
     if (isInfotrygdPeriod(period)) return getInfotrygdPeriodState(period);
@@ -91,7 +98,7 @@ export const getPeriodState = (period?: ApiPeriode | DatePeriod | null): PeriodS
                 case ApiUtbetalingtype.REVURDERING:
                     return 'revurderes';
                 case ApiUtbetalingtype.UTBETALING:
-                    return hasOppgave(period) ? 'tilGodkjenning' : 'venter';
+                    return 'tilGodkjenning';
                 default:
                     return 'ukjent';
             }

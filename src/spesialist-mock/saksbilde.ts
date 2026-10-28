@@ -1,4 +1,5 @@
 import {
+    ApiAktivOppgave,
     ApiBeregnetPeriode,
     ApiEgenskap,
     ApiHistorikkinnslag,
@@ -8,7 +9,13 @@ import { leggPåDagoverstyringer } from '@spesialist-mock/dagoverstyring';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
-import { PersonMock, SELVSTENDIG_NÆRING, alleBehandlinger, lesTestpersonfiler } from '@spesialist-mock/storage/person';
+import {
+    PersonMock,
+    SELVSTENDIG_NÆRING,
+    alleBehandlinger,
+    alleInntektsforhold,
+    lesTestpersonfiler,
+} from '@spesialist-mock/storage/person';
 import { UUID } from '@typer/spesialist-mock';
 import '@utils/dayjs.setup';
 import { isNotNullOrUndefined } from '@utils/typeguards';
@@ -98,6 +105,16 @@ export const finnOppgaveId = (): string | null => {
         .find((periode) => isNotNullOrUndefined((periode as ApiBeregnetPeriode).oppgave));
 
     return (periode as ApiBeregnetPeriode)?.oppgave?.id ?? null;
+};
+
+// Spesialist har høyst én aktiv oppgave per person, og legger den bare på nyeste behandling
+export const finnAktivOppgave = (person: ApiSaksbildePerson): ApiAktivOppgave | null => {
+    const periode = alleInntektsforhold(person)
+        .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder ?? [])
+        .find((periode) => isNotNullOrUndefined((periode as ApiBeregnetPeriode).oppgave)) as
+        ApiBeregnetPeriode | undefined;
+    if (!periode?.oppgave) return null;
+    return { id: periode.oppgave.id, vedtaksperiodeId: periode.vedtaksperiodeId };
 };
 
 const puttHistorikkinnslagFraTestpersonerIMock = (): void => {

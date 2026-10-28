@@ -5,9 +5,11 @@
  * OpenAPI spec version: latest
  */
 import type {
+    ApiAktivOppgaveForPerson,
     ApiBehandlendeEnhet,
     ApiHandlingsvisning,
     ApiHttpProblemDetailsApiDeleteTildelingErrorCode,
+    ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode,
     ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode,
     ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode,
     ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
@@ -214,6 +216,140 @@ export function useGetApiSpesialistPersonerPersonPseudoIdSse<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetApiSpesialistPersonerPersonPseudoIdSseQueryOptions(personPseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetAktivOppgaveForPersonUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/aktiv-oppgave`;
+};
+
+export const getAktivOppgaveForPerson = async (
+    pseudoId: string,
+    options?: RequestInit,
+): Promise<ApiAktivOppgaveForPerson> => {
+    const res = await fetch(getGetAktivOppgaveForPersonUrl(pseudoId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiAktivOppgaveForPerson; status?: number } = new globalThis.Error();
+        const data: ApiAktivOppgaveForPerson = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiAktivOppgaveForPerson = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetAktivOppgaveForPersonQueryKey = (pseudoId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/aktiv-oppgave`] as const;
+};
+
+export const useGetAktivOppgaveForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getAktivOppgaveForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktivOppgaveForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetAktivOppgaveForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAktivOppgaveForPerson>>> = ({ signal }) =>
+        getAktivOppgaveForPerson(pseudoId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<Awaited<ReturnType<typeof getAktivOppgaveForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetAktivOppgaveForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getAktivOppgaveForPerson>>>;
+export type GetAktivOppgaveForPersonQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode;
+    status?: number;
+};
+
+export function useGetAktivOppgaveForPerson<
+    TData = Awaited<ReturnType<typeof getAktivOppgaveForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktivOppgaveForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getAktivOppgaveForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getAktivOppgaveForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetAktivOppgaveForPerson<
+    TData = Awaited<ReturnType<typeof getAktivOppgaveForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktivOppgaveForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getAktivOppgaveForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getAktivOppgaveForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetAktivOppgaveForPerson<
+    TData = Awaited<ReturnType<typeof getAktivOppgaveForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktivOppgaveForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetAktivOppgaveForPerson<
+    TData = Awaited<ReturnType<typeof getAktivOppgaveForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAktivOppgaveForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetAktivOppgaveForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

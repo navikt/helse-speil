@@ -1,7 +1,7 @@
 import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { erPeriodeIFørsteBehandling } from '@state/inntektsforhold/arbeidsgiver';
 import { getOverlappendePerioder, isForkastet, isGodkjent } from '@state/selectors/period';
-import { getPeriodState } from '@utils/mapping';
+import { getPeriodState, getPeriodStateMedOppgave } from '@utils/mapping';
 
 type OverstyringValidationSuccess = {
     value: true;
@@ -15,10 +15,10 @@ type OverstyringValidationError = {
 
 type OverstyringValidation = OverstyringValidationSuccess | OverstyringValidationError;
 
-const validateTilstand = (periode: ApiBeregnetPeriode): void => {
+const validateTilstand = (periode: ApiBeregnetPeriode, harAktivOppgave: boolean): void => {
     if (
         !['tilGodkjenning', 'avslag', 'ingenUtbetaling', 'utbetalingFeilet', 'revurderes', 'venterPåKiling'].includes(
-            getPeriodState(periode),
+            getPeriodStateMedOppgave(periode, harAktivOppgave),
         )
     ) {
         throw {
@@ -37,10 +37,10 @@ const validateBeslutter = (periode: ApiBeregnetPeriode): void => {
     }
 };
 
-export const kanOverstyres = (periode: ApiBeregnetPeriode): OverstyringValidation => {
+export const kanOverstyres = (periode: ApiBeregnetPeriode, harAktivOppgave: boolean): OverstyringValidation => {
     try {
         validateBeslutter(periode);
-        validateTilstand(periode);
+        validateTilstand(periode, harAktivOppgave);
     } catch (error) {
         return error as OverstyringValidationError;
     }

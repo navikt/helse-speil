@@ -6,6 +6,7 @@ import { PostSendIReturMutationError, usePostSendIRetur } from '@io/rest/generat
 import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { sporHendelse } from '@observability/hendelser';
 import { Returnotat } from '@saksbilde/notat/Returnotat';
+import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
@@ -46,6 +47,7 @@ export const ReturButton = ({
     const invaliderOppgaver = useInvaliderOppgaver();
 
     const { mutate: sendIRetur, isPending: loading } = usePostSendIRetur();
+    const oppgave = useAktivOppgaveForPeriode(activePeriod);
 
     const closeNotat = () => {
         setError(undefined);
@@ -62,7 +64,7 @@ export const ReturButton = ({
         return new Promise<void>((resolve) => {
             sendIRetur(
                 {
-                    oppgaveId: Number(activePeriod.oppgave?.id),
+                    oppgaveId: Number(oppgave?.id),
                     data: { notatTekst: notattekst },
                 },
                 {
