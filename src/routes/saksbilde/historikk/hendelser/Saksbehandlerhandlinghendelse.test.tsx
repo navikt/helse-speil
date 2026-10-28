@@ -48,14 +48,15 @@ describe('Saksbehandlerhandlinghendelse', () => {
         );
     });
 
-    it('kan ikke ekspanderes og henter ingenting for handlinger uten detaljer', async () => {
-        renderHendelse(ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING);
+    it.each([
+        [ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING, 'Opptjening vurdert automatisk på nytt'],
+        [ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'Graderte andre ytelser endret'],
+    ])('kan ikke ekspanderes og henter ingenting for %s uten detaljer', async (handlingType, tekst) => {
+        renderHendelse(handlingType);
 
-        await userEvent.click(screen.getByText('Opptjening vurdert automatisk på nytt'));
+        await userEvent.click(screen.getByText(tekst));
 
-        expect(screen.getByText('Opptjening vurdert automatisk på nytt').closest('li')).not.toHaveAttribute(
-            'aria-expanded',
-        );
+        expect(screen.getByText(tekst).closest('li')).not.toHaveAttribute('aria-expanded');
         expect(fetchMock).not.toHaveBeenCalled();
     });
 

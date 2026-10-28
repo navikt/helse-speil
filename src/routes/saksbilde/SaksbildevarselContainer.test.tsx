@@ -98,15 +98,18 @@ describe('SaksbildevarselContainer', () => {
         expect(overstyringAvDagerElement).toBeVisible();
         expect(kontrollerElement.parentElement).toContainElement(overstyringAvDagerElement);
     });
-    it('viser kontrollrad når en saksbehandlerhandling er del av aktiv totrinnsvurdering', () => {
+    it.each([
+        [ApiHandlingType.MANUELT_VURDERT_OPPTJENING, 'Manuell vurdering av opptjening'],
+        [ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'Endring av graderte andre ytelser'],
+    ])('viser kontrollrad for %s i aktiv totrinnsvurdering', (handlingType, tekst) => {
         (useHentSaksbehandlerhandlinger as Mock).mockReturnValue({
-            data: [enSaksbehandlerhandling({ erDelAvAktivTotrinnsvurdering: true })],
+            data: [enSaksbehandlerhandling({ handlingType, erDelAvAktivTotrinnsvurdering: true })],
         });
         const periode = enBeregnetPeriodeMedTotrinnsvurdering();
         render(<SaksbildevarselContainer person={enPersonMedPeriode(periode)} periode={periode} />);
 
         const kontrollerElement = screen.getByText('Kontroller:');
-        const handlingElement = screen.getByText('Manuell vurdering av opptjening');
+        const handlingElement = screen.getByText(tekst);
         expect(kontrollerElement.parentElement).toContainElement(handlingElement);
     });
 

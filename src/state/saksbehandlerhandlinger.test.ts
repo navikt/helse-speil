@@ -1,6 +1,7 @@
 import { ApiHandlingType, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';
 import {
     saksbehandlerhandlingGjelderPeriode,
+    tilSaksbehandlerhandlingKontrolltekst,
     tilSaksbehandlerhandlingTekst,
     tilVisningUrl,
 } from '@state/saksbehandlerhandlinger';
@@ -14,6 +15,10 @@ describe('tilVisningUrl', () => {
 
     test('ny automatisk vurdering av opptjening har ingen detaljer', () => {
         expect(tilVisningUrl(ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING, 'person-1', 'handling-1')).toBeNull();
+    });
+
+    test('endring av graderte andre ytelser har ingen detaljvisning ennå', () => {
+        expect(tilVisningUrl(ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'person-1', 'handling-1')).toBeNull();
     });
 });
 
@@ -52,6 +57,19 @@ describe('tilSaksbehandlerhandlingTekst', () => {
         expect(tilSaksbehandlerhandlingTekst(ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING)).toBe(
             'Opptjening vurdert automatisk på nytt',
         );
+        expect(tilSaksbehandlerhandlingTekst(ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET)).toBe(
+            'Graderte andre ytelser endret',
+        );
+    });
+});
+
+describe('tilSaksbehandlerhandlingKontrolltekst', () => {
+    test.each([
+        [ApiHandlingType.MANUELT_VURDERT_OPPTJENING, 'Manuell vurdering av opptjening'],
+        [ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING, 'Ny automatisk vurdering av opptjening'],
+        [ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'Endring av graderte andre ytelser'],
+    ])('har kontrolltekst for %s', (handlingType, tekst) => {
+        expect(tilSaksbehandlerhandlingKontrolltekst(handlingType)).toBe(tekst);
     });
 });
 
