@@ -33,7 +33,6 @@ export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelsePro
             kontekstknapp={
                 hendelse.erNyestePåVentInnslag && erAktivPeriodePåVent ? (
                     <LagtPåVentDropdown
-                        person={person}
                         periode={aktivPeriode}
                         årsaker={hendelse.årsaker}
                         notattekst={hendelse.notattekst}

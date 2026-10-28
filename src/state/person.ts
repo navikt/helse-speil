@@ -3,9 +3,11 @@ import { useParams } from 'next/navigation';
 import {
     getGetAktivOppgaveForPersonQueryKey,
     getGetSaksbildeForPersonQueryKey,
+    getGetTildelingForPersonQueryKey,
     getGetTotrinnsvurderingForPersonQueryKey,
     useGetAktivOppgaveForPerson,
     useGetSaksbildeForPerson,
+    useGetTildelingForPerson,
     useGetTotrinnsvurderingForPerson,
 } from '@io/rest/generated/personer/personer';
 import { ApiBehandling, ApiPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
@@ -19,19 +21,23 @@ export const useFetchPersonQuery = () => {
     const query = useGetSaksbildeForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
-    // Saksbildet avhenger av aktiv oppgave og totrinnsvurdering, så det vises først når alle er lastet
+    // Saksbildet avhenger av aktiv oppgave, totrinnsvurdering og tildeling, så det vises først når alle er lastet
     const aktivOppgaveQuery = useGetAktivOppgaveForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
     const totrinnsvurderingQuery = useGetTotrinnsvurderingForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
-    const loading = query.isLoading || aktivOppgaveQuery.isLoading || totrinnsvurderingQuery.isLoading;
+    const tildelingQuery = useGetTildelingForPerson(personPseudoId!, {
+        query: { enabled: !!personPseudoId },
+    });
+    const loading =
+        query.isLoading || aktivOppgaveQuery.isLoading || totrinnsvurderingQuery.isLoading || tildelingQuery.isLoading;
 
     return {
         data: loading ? undefined : query.data,
         loading,
-        error: query.error ?? aktivOppgaveQuery.error ?? totrinnsvurderingQuery.error,
+        error: query.error ?? aktivOppgaveQuery.error ?? totrinnsvurderingQuery.error ?? tildelingQuery.error,
         refetch: async () => {
             if (personPseudoId) await refetchPersondata(queryClient, personPseudoId);
         },
@@ -73,6 +79,7 @@ export const refetchPersondata = async (queryClient: QueryClient, personPseudoId
         getGetSaksbildeForPersonQueryKey(personPseudoId),
         getGetAktivOppgaveForPersonQueryKey(personPseudoId),
         getGetTotrinnsvurderingForPersonQueryKey(personPseudoId),
+        getGetTildelingForPersonQueryKey(personPseudoId),
     ].map((nøkkel) => hashKey(nøkkel));
     await queryClient.refetchQueries({ predicate: (query) => nøkler.includes(query.queryHash) });
 };

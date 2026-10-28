@@ -1,9 +1,24 @@
-import { useDeleteTildeling, usePutTildeling } from '@io/rest/generated/personer/personer';
+import { useParams } from 'next/navigation';
+
+import {
+    getGetTildelingForPersonQueryKey,
+    useDeleteTildeling,
+    useGetTildelingForPerson,
+    usePutTildeling,
+} from '@io/rest/generated/personer/personer';
+import { ApiTildeling } from '@io/rest/generated/spesialist.schemas';
 import { Oppgavekilde, sporHendelse } from '@observability/hendelser';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
+import { useQueryClient } from '@tanstack/react-query';
 import { InfoAlert } from '@utils/error';
+
+export const useTildeling = (): ApiTildeling | null => {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const { data } = useGetTildelingForPerson(personPseudoId!, { query: { enabled: !!personPseudoId } });
+    return data?.tildeling ?? null;
+};
 
 class TildelingAlert extends InfoAlert {
     name = 'tildeling';
@@ -12,6 +27,12 @@ class TildelingAlert extends InfoAlert {
 const useFjernTildelingsvarsel = () => {
     const removeVarsel = useRemoveVarsel();
     return () => removeVarsel('tildeling');
+};
+
+const useInvaliderTildeling = () => {
+    const queryClient = useQueryClient();
+    return (personPseudoId: string) =>
+        queryClient.invalidateQueries({ queryKey: getGetTildelingForPersonQueryKey(personPseudoId) });
 };
 
 const useLeggTilTildelingsvarsel = () => {
@@ -27,6 +48,7 @@ export const useTildel = (
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
     const invaliderOppgaver = useInvaliderOppgaver();
+    const invaliderTildeling = useInvaliderTildeling();
 
     const tildel = async (personPseudoId: string, onUtført?: () => void) => {
         fjernTildelingsvarsel();
@@ -55,6 +77,7 @@ export const useTildel = (
                 },
                 onSettled: () => {
                     void invaliderOppgaver();
+                    void invaliderTildeling(personPseudoId);
                     onUtført?.();
                 },
             },
@@ -70,6 +93,7 @@ export const useAvmeld = (
     const leggTilTildelingsvarsel = useLeggTilTildelingsvarsel();
     const fjernTildelingsvarsel = useFjernTildelingsvarsel();
     const invaliderOppgaver = useInvaliderOppgaver();
+    const invaliderTildeling = useInvaliderTildeling();
 
     const avmeld = async (personPseudoId: string, onUtført?: () => void) => {
         fjernTildelingsvarsel();
@@ -91,6 +115,7 @@ export const useAvmeld = (
                 },
                 onSettled: () => {
                     void invaliderOppgaver();
+                    void invaliderTildeling(personPseudoId);
                     onUtført?.();
                 },
             },

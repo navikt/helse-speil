@@ -23,7 +23,7 @@ import {
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useFetchPersonQuery } from '@state/person';
-import { useAvmeld, useTildel } from '@state/tildeling';
+import { useAvmeld, useTildel, useTildeling } from '@state/tildeling';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isPerson } from '@utils/typeguards';
@@ -73,7 +73,8 @@ function SaksbildeDropdownMenuContent({
     const invaliderOppgaver = useInvaliderOppgaver();
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
-    const personIsAssignedUser = person.tildeling?.oid === user.oid;
+    const tildeling = useTildeling();
+    const personIsAssignedUser = tildeling?.oid === user.oid;
 
     const automatiskBehandlingStansetAvSaksbehandler = saksbehandlerStans?.erStanset;
 
@@ -140,7 +141,7 @@ function SaksbildeDropdownMenuContent({
                     {aktivPeriodeHarOppgave && !readOnly && (
                         <>
                             <ActionMenu.Group aria-label="Oppgave">
-                                {personIsAssignedUser || person.tildeling ? (
+                                {personIsAssignedUser || tildeling ? (
                                     <ActionMenu.Item
                                         disabled={loadingFjern}
                                         onSelect={avmeld}
@@ -200,7 +201,7 @@ function SaksbildeDropdownMenuContent({
                 <LeggPåVentDialog
                     oppgaveId={oppgaveId}
                     navn={navn}
-                    utgangspunktTildeling={person.tildeling ?? null}
+                    utgangspunktTildeling={tildeling}
                     onClose={() => setShowLeggPåVentModal(false)}
                     onLeggPåVentSuccess={() => router.push('/')}
                 />

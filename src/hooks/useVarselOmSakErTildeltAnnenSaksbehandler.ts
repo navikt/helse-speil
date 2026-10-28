@@ -1,19 +1,14 @@
 import { useEffect } from 'react';
 
-import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import { ApiTildeling } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { TildelingAlert } from '@state/oppgaver';
-import { useFetchPersonQuery } from '@state/person';
+import { useTildeling } from '@state/tildeling';
 import { useAddVarsel, useRemoveVarsel } from '@state/varsler';
 import { capitalizeName } from '@utils/locale';
 
-const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, personTilBehandling: ApiSaksbildePerson): boolean => {
-    if (!personTilBehandling.tildeling) return false;
-    return personTilBehandling.tildeling && personTilBehandling.tildeling.oid !== saksbehandlerOid;
-};
-
 export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
-    const { data: personTilBehandling = null } = useFetchPersonQuery();
+    const tildeling = useTildeling();
     const saksbehandler = useInnloggetSaksbehandler();
 
     const addVarsel = useAddVarsel();
@@ -22,8 +17,11 @@ export const useVarselOmSakErTildeltAnnenSaksbehandler = () => {
 
     useEffect(() => {
         removeVarsel(key);
-        if (personTilBehandling && erTildeltAnnenSaksbehandler(saksbehandler.oid, personTilBehandling)) {
-            addVarsel(new TildelingAlert(capitalizeName(personTilBehandling.tildeling?.navn ?? '')));
+        if (tildeling && erTildeltAnnenSaksbehandler(saksbehandler.oid, tildeling)) {
+            addVarsel(new TildelingAlert(capitalizeName(tildeling.navn)));
         }
-    }, [saksbehandler.oid, personTilBehandling, removeVarsel, addVarsel]);
+    }, [saksbehandler.oid, tildeling, removeVarsel, addVarsel]);
 };
+
+const erTildeltAnnenSaksbehandler = (saksbehandlerOid: string, tildeling: ApiTildeling): boolean =>
+    tildeling.oid !== saksbehandlerOid;

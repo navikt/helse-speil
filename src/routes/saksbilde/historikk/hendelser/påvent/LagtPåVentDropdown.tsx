@@ -7,15 +7,15 @@ import { ActionMenu, Button, Loader, Tooltip } from '@navikt/ds-react';
 import { EndrePåVentDialog } from '@components/påvent/PåVentDialoger';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
-import { ApiBeregnetPeriode, ApiPersonnavn, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import { ApiBeregnetPeriode, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useFetchPersonQuery } from '@state/person';
+import { useTildeling } from '@state/tildeling';
 import { useOperationErrorHandler } from '@state/varsler';
 import { DateString } from '@typer/shared';
 
 interface LagtPåVentDropdownProps {
-    person: ApiSaksbildePerson;
     periode: ApiBeregnetPeriode;
     årsaker: string[];
     notattekst: string | null;
@@ -23,7 +23,6 @@ interface LagtPåVentDropdownProps {
 }
 
 export const LagtPåVentDropdown = ({
-    person,
     periode,
     årsaker,
     notattekst,
@@ -32,6 +31,7 @@ export const LagtPåVentDropdown = ({
     const [showEndreModal, setShowEndreModal] = useState(false);
 
     const oppgaveId = useAktivOppgaveForPeriode(periode)?.id;
+    const tildeling = useTildeling();
 
     const { mutate: fjernPåVent, isPending: loading } = useDeletePåVent();
     const { refetch } = useFetchPersonQuery();
@@ -43,8 +43,6 @@ export const LagtPåVentDropdown = ({
     const errorHandler = useOperationErrorHandler('Legg på vent');
 
     if (oppgaveId === undefined) return null;
-
-    const tildeling = person.tildeling;
 
     const navn: ApiPersonnavn | undefined = apiPerson && {
         fornavn: apiPerson.fornavn,
@@ -90,7 +88,7 @@ export const LagtPåVentDropdown = ({
                     utgangspunktÅrsaker={årsaker}
                     utgangspunktNotattekst={notattekst}
                     utgangspunktFrist={frist!}
-                    utgangspunktTildeling={tildeling ?? null}
+                    utgangspunktTildeling={tildeling}
                     onClose={() => setShowEndreModal(false)}
                     onLeggPåVentSuccess={() => router.push('/')}
                 />
