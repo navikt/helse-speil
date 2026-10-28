@@ -90,7 +90,7 @@ jobs:
       url: https://speil.ansatt.dev.nav.no
     steps:
       - uses: actions/checkout@v7
-      - uses: nais/deploy/actions/deploy@v3
+      - uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: deploy/dev.yml,deploy/alerts-dev.yml
@@ -108,7 +108,7 @@ jobs:
       url: https://speil.intern.nav.no
     steps:
       - uses: actions/checkout@v7
-      - uses: nais/deploy/actions/deploy@v3
+      - uses: nais/deploy/actions/deploy@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # v3
         env:
           CLUSTER: prod-gcp
           RESOURCE: deploy/prod.yml,deploy/alerts-prod.yml
