@@ -2,20 +2,16 @@ import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useActivePeriod } from '@state/periode';
 import { useKanBeslutteEgneOppgaver } from '@state/toggles';
-import { isBeregnetPeriode } from '@utils/typeguards';
+import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 
 export const useErTidligereSaksbehandler = (person: ApiSaksbildePerson): boolean => {
     const activePeriod = useActivePeriod(person);
     const currentSaksbehandler = useInnloggetSaksbehandler();
     const kanBeslutteEgenBeslutteroppgave = useKanBeslutteEgneOppgaver();
-
-    if (!isBeregnetPeriode(activePeriod)) {
-        return false;
-    }
+    const totrinnsvurdering = useTotrinnsvurderingForPeriode(activePeriod);
 
     if (kanBeslutteEgenBeslutteroppgave) return false;
 
-    const totrinnsvurdering = activePeriod.totrinnsvurdering;
     if (!totrinnsvurdering) return false;
 
     const erOrginalSaksbehandler = totrinnsvurdering.saksbehandler === currentSaksbehandler.oid;

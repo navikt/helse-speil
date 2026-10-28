@@ -7,7 +7,6 @@ import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import {
-    ApiBeregnetPeriode,
     ApiSaksbildePerson,
     ApiSykepengegrunnlagsgrense,
     ApiSykepengegrunnlagskjonnsfastsetting,
@@ -20,6 +19,7 @@ import {
     tilReferanse,
 } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
+import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { somPenger, toKronerOgØre } from '@utils/locale';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
@@ -52,6 +52,7 @@ export const SkjønnsfastsettingHeader = ({
     closeAndResetForm,
 }: SkjønnsfastsettingHeaderProps) => {
     const aktivPeriode = useActivePeriod(person);
+    const erBeslutteroppgave = useTotrinnsvurderingForPeriode(aktivPeriode)?.erBeslutteroppgave ?? false;
     const harMaler = maler && maler.length > 0;
 
     if (!person || !aktivPeriode) return <></>;
@@ -69,7 +70,6 @@ export const SkjønnsfastsettingHeader = ({
                 })),
         );
 
-    const erBeslutteroppgave = (aktivPeriode as ApiBeregnetPeriode).totrinnsvurdering?.erBeslutteroppgave ?? false;
     const visningEndretSykepengegrunnlag = endretSykepengegrunnlag
         ? endretSykepengegrunnlag > sykepengegrunnlagsgrense.grense
             ? sykepengegrunnlagsgrense.grense

@@ -4,7 +4,6 @@ import React from 'react';
 import { Alert } from '@navikt/ds-react';
 
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
-import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import {
     ApiBeregnetPeriode,
     ApiOverstyring,
@@ -23,6 +22,7 @@ import {
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { tilSaksbehandlerhandlingKontrolltekst, useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useHarBeslutteroppgave, useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { ActivePeriod } from '@typer/shared';
 import { getPeriodState, getPeriodStateMedOppgave } from '@utils/mapping';
 import { isArbeidsforholdoverstyring, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -141,8 +141,9 @@ const BeregnetSaksbildevarsler = ({
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
-    const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
+    const harBeslutteroppgave = useHarBeslutteroppgave();
     const oppgave = useAktivOppgaveForPeriode(periode);
+    const totrinnsvurdering = useTotrinnsvurderingForPeriode(periode);
     const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(
         finnAlleInntektsforhold(person),
         periode.vedtaksperiodeId,
@@ -154,13 +155,13 @@ const BeregnetSaksbildevarsler = ({
             oppgavereferanse={oppgave?.id}
             varsler={periode.varsler}
             erTidligereSaksbehandler={erTidligereSaksbehandler}
-            erBeslutteroppgave={periode.totrinnsvurdering?.erBeslutteroppgave}
+            erBeslutteroppgave={totrinnsvurdering?.erBeslutteroppgave}
             åpneEndringerPåPerson={åpneEndringerPåPerson}
             harDagOverstyringer={harDagOverstyringer}
             activePeriodTom={periode.tom}
             skjæringstidspunkt={periode.skjaeringstidspunkt}
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
-            harTotrinnsvurdering={harTotrinnsvurdering}
+            harTotrinnsvurdering={harBeslutteroppgave}
             harTilkommenInntektEndring={harTilkommenInntektEndring}
             saksbehandlerhandlingerTilKontroll={saksbehandlerhandlingerTilKontroll}
         />
@@ -182,7 +183,7 @@ const UberegnetSaksbildevarsler = ({
 }: UberegnetSaksbildevarslerProps) => {
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
-    const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
+    const harBeslutteroppgave = useHarBeslutteroppgave();
     const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(
         finnAlleInntektsforhold(person),
         periode.vedtaksperiodeId,
@@ -196,7 +197,7 @@ const UberegnetSaksbildevarsler = ({
             activePeriodTom={periode.tom}
             skjæringstidspunkt={periode.skjaeringstidspunkt}
             navnPåDeaktiverteGhostArbeidsgivere={navnPåDeaktiverteGhostArbeidsgivere}
-            harTotrinnsvurdering={harTotrinnsvurdering}
+            harTotrinnsvurdering={harBeslutteroppgave}
             harTilkommenInntektEndring={harTilkommenInntektEndring}
             saksbehandlerhandlingerTilKontroll={saksbehandlerhandlingerTilKontroll}
         />

@@ -2,9 +2,9 @@ import React, { ReactElement } from 'react';
 
 import { ActionMenu } from '@navikt/ds-react';
 
-import { ApiBeregnetPeriode, ApiSaksbildePerson, ApiUtbetalingstatus } from '@io/rest/generated/spesialist.schemas';
-import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
+import { ApiBeregnetPeriode, ApiUtbetalingstatus } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useHarBeslutteroppgaveForSkjæringstidspunkt } from '@state/totrinnsvurdering';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUtbetaltPeriode: boolean): boolean => {
@@ -12,18 +12,12 @@ const kanAnnullere = (harBeslutteroppgavePåSykefraværet: boolean, harMinstEnUt
 };
 
 interface AnnullerButtonProps {
-    person: ApiSaksbildePerson;
     periode: ApiBeregnetPeriode;
     inntektsforhold: Inntektsforhold;
     showModal: () => void;
 }
 
-export const AnnullerButton = ({
-    person,
-    periode,
-    inntektsforhold,
-    showModal,
-}: AnnullerButtonProps): ReactElement | null => {
+export const AnnullerButton = ({ periode, inntektsforhold, showModal }: AnnullerButtonProps): ReactElement | null => {
     const harMinstEnUtbetaltPeriode =
         inntektsforhold.behandlinger
             .flatMap((it) => it.perioder)
@@ -34,7 +28,7 @@ export const AnnullerButton = ({
                     it.utbetaling.vurdering?.godkjent === true &&
                     it.utbetaling.status !== ApiUtbetalingstatus.ANNULLERT,
             ).length !== 0;
-    const harBeslutteroppgavePåSykefraværet = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
+    const harBeslutteroppgavePåSykefraværet = useHarBeslutteroppgaveForSkjæringstidspunkt(periode.skjaeringstidspunkt);
 
     if (!kanAnnullere(harBeslutteroppgavePåSykefraværet, harMinstEnUtbetaltPeriode)) {
         return null;

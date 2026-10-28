@@ -4,6 +4,7 @@ import {
     ApiEgenskap,
     ApiHistorikkinnslag,
     ApiSaksbildePerson,
+    ApiTotrinnsvurdering,
 } from '@io/rest/generated/spesialist.schemas';
 import { leggPåDagoverstyringer } from '@spesialist-mock/dagoverstyring';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
@@ -115,6 +116,14 @@ export const finnAktivOppgave = (person: ApiSaksbildePerson): ApiAktivOppgave | 
         ApiBeregnetPeriode | undefined;
     if (!periode?.oppgave) return null;
     return { id: periode.oppgave.id, vedtaksperiodeId: periode.vedtaksperiodeId };
+};
+
+export const finnTotrinnsvurdering = (person: ApiSaksbildePerson): ApiTotrinnsvurdering | null => {
+    const periode = alleInntektsforhold(person)
+        .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder ?? [])
+        .find((periode) => isNotNullOrUndefined((periode as ApiBeregnetPeriode).oppgave)) as
+        ApiBeregnetPeriode | undefined;
+    return periode?.totrinnsvurdering ?? null;
 };
 
 const puttHistorikkinnslagFraTestpersonerIMock = (): void => {

@@ -6,7 +6,6 @@ import { ArrowUndoIcon, PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel
 import { BodyShort, Button, HGrid, HStack, Link, VStack } from '@navikt/ds-react';
 import { Box } from '@navikt/ds-react/Box';
 
-import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { EndringsloggTilkommenInntektButton } from '@saksbilde/tilkommenInntekt/EndringsloggTilkommenInntektButton';
 import { beregnInntektPerDag } from '@saksbilde/tilkommenInntekt/tilkommenInntektUtils';
 import { FjernTilkommenInntektDialog } from '@saksbilde/tilkommenInntekt/visning/FjernTilkommenInntektDialog';
@@ -16,6 +15,7 @@ import { TilkommenInntektFjernetAlert } from '@saksbilde/tilkommenInntekt/visnin
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useFetchPersonQuery } from '@state/person';
 import { useTilkommenInntektMedOrganisasjonsnummer } from '@state/tilkommenInntekt';
+import { useHarBeslutteroppgave } from '@state/totrinnsvurdering';
 import { somNorskDato } from '@utils/date';
 import { somPenger } from '@utils/locale';
 
@@ -26,7 +26,7 @@ interface TilkommenInntektVisningProps {
 export const TilkommenInntektView = ({ tilkommenInntektId }: TilkommenInntektVisningProps): ReactElement | null => {
     const { data: person = null } = useFetchPersonQuery();
     const router = useRouter();
-    const erReadOnly = useHarTotrinnsvurdering(person);
+    const erReadOnly = useHarBeslutteroppgave();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const { organisasjonsnummer, tilkommenInntekt } = useTilkommenInntektMedOrganisasjonsnummer(

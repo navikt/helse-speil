@@ -15,6 +15,7 @@ import { InntektsforholdReferanse, finnAlleInntektsforhold } from '@state/inntek
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { isGodkjent, isRevurdering } from '@state/selectors/utbetaling';
+import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { getPeriodState } from '@utils/mapping';
@@ -66,6 +67,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
 
     const prevPeriodRef = React.useRef(period.vedtaksperiodeId);
     const oppgave = useAktivOppgaveForPeriode(period);
+    const totrinnsvurdering = useTotrinnsvurderingForPeriode(period);
 
     if (!oppgave || !['tilGodkjenning', 'revurderes'].includes(getPeriodState(period))) return null;
 
@@ -85,8 +87,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     const isRevurdering = period.utbetaling.type === 'REVURDERING';
     const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
-    const skalSendesTilTotrinnsvurdering =
-        isBeregnetPeriode(period) && period.totrinnsvurdering && !period.totrinnsvurdering.erBeslutteroppgave;
+    const skalSendesTilTotrinnsvurdering = totrinnsvurdering !== null && !totrinnsvurdering.erBeslutteroppgave;
 
     return (
         <Box>
@@ -165,7 +166,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                     )}
                     <VisHvisSkrivetilgang>
                         {!isRevurdering &&
-                            !period.totrinnsvurdering?.erBeslutteroppgave &&
+                            !totrinnsvurdering?.erBeslutteroppgave &&
                             !harNyereUtbetaltPeriodePåPerson(period, person) && (
                                 <AvvisningButton disabled={periodenErSendt} activePeriod={period} />
                             )}

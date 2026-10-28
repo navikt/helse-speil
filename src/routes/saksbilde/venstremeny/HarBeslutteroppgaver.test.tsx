@@ -5,12 +5,14 @@ import { ApiHandlingType, ApiSaksbehandlerhandling } from '@io/rest/generated/sp
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useHarBeslutteroppgave } from '@state/totrinnsvurdering';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
 
 vi.mock('@state/tilkommenInntekt');
+vi.mock('@state/totrinnsvurdering');
 vi.mock('@state/saksbehandlerhandlinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@state/saksbehandlerhandlinger')>()),
     useHentSaksbehandlerhandlinger: vi.fn(),
@@ -26,12 +28,6 @@ describe('HarBeslutteroppgaver', () => {
         fom: '2024-02-01',
         tom: '2024-02-29',
         skjaeringstidspunkt: '2024-01-01',
-        totrinnsvurdering: {
-            erBeslutteroppgave: true,
-            erRetur: false,
-            saksbehandler: null,
-            beslutter: null,
-        },
     }).somErTilGodkjenning();
     const person = enPerson().medArbeidsgivere([
         enArbeidsgiver().medPerioder([periodeTilGodkjenning, tidligerePeriode]),
@@ -39,6 +35,7 @@ describe('HarBeslutteroppgaver', () => {
 
     beforeEach(() => {
         (useHentTilkommenInntektQuery as Mock).mockReturnValue({ data: [] });
+        (useHarBeslutteroppgave as Mock).mockReturnValue(true);
     });
 
     it('viser bare perioden til godkjenning for handling med skjæringstidspunkt', () => {

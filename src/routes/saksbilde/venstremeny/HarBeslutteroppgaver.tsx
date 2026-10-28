@@ -4,7 +4,6 @@ import React, { ReactElement } from 'react';
 import { Alert, Button, Detail, Heading, List, VStack } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn, Organisasjonsnavn } from '@components/Inntektsforholdnavn';
-import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { PeriodeinformasjonInnslag } from '@saksbilde/venstremeny/PeriodeinformasjonInnslag';
 import {
@@ -16,6 +15,7 @@ import {
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
 import { saksbehandlerhandlingGjelderPeriode, useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useHarBeslutteroppgave } from '@state/totrinnsvurdering';
 import { somNorskDato } from '@utils/date';
 
 import styles from './HarBeslutteroppgaver.module.scss';
@@ -26,14 +26,14 @@ interface HarBeslutteroppgaverProps {
 
 export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): ReactElement | null => {
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
-    const harTotrinnsvurdering = useHarTotrinnsvurdering(person);
+    const harBeslutteroppgave = useHarBeslutteroppgave();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: tilkommenInntektData } = useHentTilkommenInntektQuery(personPseudoId);
     const { data: saksbehandlerhandlinger } = useHentSaksbehandlerhandlinger(personPseudoId);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const navigerTilPeriode = useNavigerTilPeriode();
 
-    if (!periodeTilGodkjenning || !harTotrinnsvurdering || !tilkommenInntektData) return null;
+    if (!periodeTilGodkjenning || !harBeslutteroppgave || !tilkommenInntektData) return null;
 
     const endredeTilkomneInntektskilder = tilkommenInntektData.filter((inntektkilde) =>
         inntektkilde.inntekter.some((tilkommenInntekt) => tilkommenInntekt.erDelAvAktivTotrinnsvurdering),

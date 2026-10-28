@@ -6,6 +6,7 @@ import {
     useGhostInntektKanOverstyres,
 } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { useActivePeriod } from '@state/periode';
+import { useHarBeslutteroppgaveForSkjæringstidspunkt } from '@state/totrinnsvurdering';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
 import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
@@ -14,6 +15,11 @@ import { enUtbetaling } from '@test-data/utbetaling';
 import { renderHook } from '@test-utils';
 
 vi.mock('@state/periode');
+vi.mock('@state/totrinnsvurdering');
+
+beforeEach(() => {
+    (useHarBeslutteroppgaveForSkjæringstidspunkt as Mock).mockReturnValue(false);
+});
 
 const skjæringstidspunkt = '2020-01-01';
 
@@ -51,16 +57,9 @@ describe('useArbeidsforholdKanOverstyres', () => {
     });
 
     it('lar ikke saksbehandler ekskludere når en periode ligger hos beslutter', () => {
+        (useHarBeslutteroppgaveForSkjæringstidspunkt as Mock).mockReturnValue(true);
         const { person, arbeidsgiverUtenSykdom } = enPersonMedSykmeldtOgArbeidsforholdUtenSykdom({
             ghostPerioder: [],
-            periodeOverrides: {
-                totrinnsvurdering: {
-                    erBeslutteroppgave: true,
-                    erRetur: false,
-                    saksbehandler: null,
-                    beslutter: null,
-                },
-            },
         });
 
         const { result } = renderHook(() =>
@@ -137,16 +136,9 @@ describe('useGhostInntektKanOverstyres', () => {
     });
 
     it('lar ikke saksbehandler overstyre når en periode ligger hos beslutter', () => {
+        (useHarBeslutteroppgaveForSkjæringstidspunkt as Mock).mockReturnValue(true);
         const { person, arbeidsgiverUtenSykdom } = enPersonMedSykmeldtOgArbeidsforholdUtenSykdom({
             ghostPerioder: [],
-            periodeOverrides: {
-                totrinnsvurdering: {
-                    erBeslutteroppgave: true,
-                    erRetur: false,
-                    saksbehandler: null,
-                    beslutter: null,
-                },
-            },
         });
 
         const { result } = renderHook(() =>

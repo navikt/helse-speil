@@ -188,7 +188,6 @@ function SaksbildeDropdownMenuContent({
                         )}
                         {isBeregnetPeriode(activePeriod) && kanAnnulleres && inntektsforhold !== undefined && (
                             <AnnullerButton
-                                person={person}
                                 periode={activePeriod}
                                 inntektsforhold={inntektsforhold}
                                 showModal={() => setShowAnnulleringModal(true)}

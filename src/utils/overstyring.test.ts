@@ -12,35 +12,43 @@ describe('kanOverstyres', () => {
             inntektstype: ApiInntektstype.FLEREARBEIDSGIVERE,
         });
 
-        expect(kanOverstyres(periode, true)).toEqual({
+        expect(kanOverstyres(periode, { harAktivOppgave: true, erBeslutteroppgave: false })).toEqual({
             value: true,
         });
     });
 
     it('returnerer true om perioden venter', () => {
         const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.VenterPaEnAnnenPeriode });
-        expect(kanOverstyres(periode, false)).toEqual({ value: true });
+        expect(kanOverstyres(periode, { harAktivOppgave: false, erBeslutteroppgave: false })).toEqual({ value: true });
     });
 
     it('returnerer true for beregnede perioder som er til godkjenning', () => {
         const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.TilGodkjenning });
         const expected = { value: true };
 
-        expect(kanOverstyres(periode, true)).toEqual(expected);
+        expect(kanOverstyres(periode, { harAktivOppgave: true, erBeslutteroppgave: false })).toEqual(expected);
     });
 
     it('returnerer true for beregnede perioder som ikke har utbetaling', () => {
         const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.IngenUtbetaling });
         const expected = { value: true };
 
-        expect(kanOverstyres(periode, false)).toEqual(expected);
+        expect(kanOverstyres(periode, { harAktivOppgave: false, erBeslutteroppgave: false })).toEqual(expected);
     });
 
     it('returnerer true for beregnede perioder som har en feilende utbetaling', () => {
         const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.UtbetalingFeilet });
         const expected = { value: true };
 
-        expect(kanOverstyres(periode, false)).toEqual(expected);
+        expect(kanOverstyres(periode, { harAktivOppgave: false, erBeslutteroppgave: false })).toEqual(expected);
+    });
+
+    it('returnerer false når perioden har en beslutteroppgave', () => {
+        const periode = enBeregnetPeriode({ periodetilstand: ApiPeriodetilstand.TilGodkjenning });
+        expect(kanOverstyres(periode, { harAktivOppgave: true, erBeslutteroppgave: true })).toEqual({
+            value: false,
+            technical: 'Perioden har en beslutteroppgave',
+        });
     });
 });
 
@@ -55,7 +63,7 @@ describe('kanRevurderes', () => {
             technical: 'Er ikke godkjent',
         };
 
-        expect(kanRevurderes(person, periode)).toEqual(expected);
+        expect(kanRevurderes(person, periode, false)).toEqual(expected);
     });
 
     it('returnerer false om perioden ikke er i siste behandling', () => {
@@ -69,7 +77,7 @@ describe('kanRevurderes', () => {
             technical: 'Arbeidsgiver mangler eller periode er i tidligere behandling',
         };
 
-        expect(kanRevurderes(person, historiskPeriode)).toEqual(expected);
+        expect(kanRevurderes(person, historiskPeriode, false)).toEqual(expected);
     });
 
     it('returnerer false om perioden er forkastet', () => {
@@ -81,7 +89,7 @@ describe('kanRevurderes', () => {
             technical: 'Forkastet periode',
         };
 
-        expect(kanRevurderes(person, periode)).toEqual(expected);
+        expect(kanRevurderes(person, periode, false)).toEqual(expected);
     });
 });
 
@@ -94,7 +102,7 @@ describe('kanOverstyreRevurdering', () => {
             technical: 'Kan ikke overstyre revurdering om perioden ikke er til revurdering',
         };
 
-        expect(kanOverstyreRevurdering(person, periode)).toEqual(expected);
+        expect(kanOverstyreRevurdering(person, periode, false)).toEqual(expected);
     });
 
     it('returnerer false om det finnes overlappende perioder som ikke er til revurdering', () => {
@@ -108,6 +116,6 @@ describe('kanOverstyreRevurdering', () => {
             technical: 'Ikke alle overlappende perioder er til revurdering',
         };
 
-        expect(kanOverstyreRevurdering(person, periodeA)).toEqual(expected);
+        expect(kanOverstyreRevurdering(person, periodeA, false)).toEqual(expected);
     });
 });

@@ -7,10 +7,12 @@ import { Utbetaling } from '@saksbilde/venstremeny/utbetaling/Utbetaling';
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
+import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enAktivOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
+import { enTotrinnsvurdering } from '@test-data/totrinnsvurdering';
 import { render } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -18,6 +20,11 @@ import userEvent from '@testing-library/user-event';
 vi.mock('@state/oppgave', async () => ({
     ...(await vi.importActual('@state/oppgave')),
     useAktivOppgaveForPeriode: vi.fn(),
+}));
+
+vi.mock('@state/totrinnsvurdering', async () => ({
+    ...(await vi.importActual('@state/totrinnsvurdering')),
+    useTotrinnsvurderingForPeriode: vi.fn(),
 }));
 
 vi.mock('@hooks/brukerrolleHooks', () => ({
@@ -37,6 +44,7 @@ describe('Utbetaling', () => {
         (useAktivOppgaveForPeriode as Mock).mockImplementation((periode?: ApiBeregnetPeriode | null) =>
             periode ? enAktivOppgave({ id: '1234', vedtaksperiodeId: periode.vedtaksperiodeId }) : null,
         );
+        (useTotrinnsvurderingForPeriode as Mock).mockReturnValue(null);
     });
 
     it('resetter godkjentPeriode når perioden endres', async () => {
@@ -85,12 +93,7 @@ describe('Utbetaling', () => {
 
     it('sender POST til send-til-godkjenning når saksbehandler sender oppgaven til godkjenning', async () => {
         const periode = enBeregnetPeriode().somErTilGodkjenning();
-        periode.totrinnsvurdering = {
-            beslutter: null,
-            erBeslutteroppgave: false,
-            erRetur: false,
-            saksbehandler: null,
-        };
+        (useTotrinnsvurderingForPeriode as Mock).mockReturnValue(enTotrinnsvurdering());
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
@@ -120,12 +123,9 @@ describe('Utbetaling', () => {
 
     it('sender POST til send-i-retur når beslutter returnerer oppgaven', async () => {
         const periode = enBeregnetPeriode().somErTilGodkjenning();
-        periode.totrinnsvurdering = {
-            beslutter: null,
-            erBeslutteroppgave: true,
-            erRetur: false,
-            saksbehandler: 'en-annen-saksbehandler-oid',
-        };
+        (useTotrinnsvurderingForPeriode as Mock).mockReturnValue(
+            enTotrinnsvurdering({ erBeslutteroppgave: true, saksbehandler: 'en-annen-saksbehandler-oid' }),
+        );
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 

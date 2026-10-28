@@ -28,8 +28,8 @@ const validateTilstand = (periode: ApiBeregnetPeriode, harAktivOppgave: boolean)
     }
 };
 
-const validateBeslutter = (periode: ApiBeregnetPeriode): void => {
-    if (periode.totrinnsvurdering?.erBeslutteroppgave) {
+const validateBeslutter = (erBeslutteroppgave: boolean): void => {
+    if (erBeslutteroppgave) {
         throw {
             value: false,
             technical: 'Perioden har en beslutteroppgave',
@@ -37,9 +37,12 @@ const validateBeslutter = (periode: ApiBeregnetPeriode): void => {
     }
 };
 
-export const kanOverstyres = (periode: ApiBeregnetPeriode, harAktivOppgave: boolean): OverstyringValidation => {
+export const kanOverstyres = (
+    periode: ApiBeregnetPeriode,
+    { harAktivOppgave, erBeslutteroppgave }: { harAktivOppgave: boolean; erBeslutteroppgave: boolean },
+): OverstyringValidation => {
     try {
-        validateBeslutter(periode);
+        validateBeslutter(erBeslutteroppgave);
         validateTilstand(periode, harAktivOppgave);
     } catch (error) {
         return error as OverstyringValidationError;
@@ -76,10 +79,14 @@ const validatePeriodeTilhørerNyesteBehandling = (person: ApiSaksbildePerson, pe
     }
 };
 
-export const kanRevurderes = (person: ApiSaksbildePerson, periode: ApiBeregnetPeriode): OverstyringValidation => {
+export const kanRevurderes = (
+    person: ApiSaksbildePerson,
+    periode: ApiBeregnetPeriode,
+    erBeslutteroppgave: boolean,
+): OverstyringValidation => {
     try {
         validatePeriodeTilhørerNyesteBehandling(person, periode);
-        validateBeslutter(periode);
+        validateBeslutter(erBeslutteroppgave);
         validateIkkeForkastet(periode);
         validateGodkjent(periode);
     } catch (error) {
@@ -117,9 +124,10 @@ const validateOverlappendePerioderErTilRevurdering = (
 export const kanOverstyreRevurdering = (
     person: ApiSaksbildePerson,
     periode: ApiBeregnetPeriode,
+    erBeslutteroppgave: boolean,
 ): OverstyringValidation => {
     try {
-        validateBeslutter(periode);
+        validateBeslutter(erBeslutteroppgave);
         validateRevurderes(periode);
         validatePeriodeTilhørerNyesteBehandling(person, periode);
         validateOverlappendePerioderErTilRevurdering(person, periode);

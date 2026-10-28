@@ -7,6 +7,7 @@ import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { BegrunnelseDialog } from '@saksbilde/venstremeny/individuellBegrunnelse/BegrunnelseDialog';
 import { IndividuellBegrunnelseContent } from '@saksbilde/venstremeny/individuellBegrunnelse/IndividuellBegrunnelseContent';
+import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 
 interface BegrunnelseVedtakProps {
     defaultÅpen: boolean;
@@ -28,7 +29,7 @@ export const IndividuellBegrunnelse = ({
     const harSkrivetilgang = useHarSkrivetilgang();
     const erReadOnly = useIsReadOnlyOppgave(person) || !harSkrivetilgang;
 
-    const erBeslutteroppgave = periode.totrinnsvurdering?.erBeslutteroppgave ?? false;
+    const erBeslutteroppgave = useTotrinnsvurderingForPeriode(periode)?.erBeslutteroppgave ?? false;
 
     return (
         <>

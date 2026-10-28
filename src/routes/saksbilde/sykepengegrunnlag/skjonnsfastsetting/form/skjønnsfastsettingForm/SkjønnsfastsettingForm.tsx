@@ -24,8 +24,8 @@ import {
     usePostSkjønnsfastsattSykepengegrunnlag,
 } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
+import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { avrundetToDesimaler } from '@utils/tall';
-import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { skjønnsfastsettingFormToDto } from './skjønnsfastsettingFormToDto';
 
@@ -64,7 +64,7 @@ export const SkjønnsfastsettingForm = ({
 }: SkjønnsfastsettingFormProps): ReactElement | null => {
     const arbeidsgivere = finnAlleArbeidsgivere(person);
     const aktiveArbeidsgivereInntekter = finnAktiveInntekter(inntekter);
-    const erBeslutteroppgave = isBeregnetPeriode(periode) && (periode.totrinnsvurdering?.erBeslutteroppgave ?? false);
+    const erBeslutteroppgave = useTotrinnsvurderingForPeriode(periode)?.erBeslutteroppgave ?? false;
     const feiloppsummeringRef = useRef<HTMLDivElement>(null);
     const avrundetSammenligningsgrunnlag = avrundetToDesimaler(sammenligningsgrunnlag);
     const { isLoading, error, postSkjønnsfastsetting } = usePostSkjønnsfastsattSykepengegrunnlag(closeAndResetForm);

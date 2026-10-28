@@ -19,6 +19,7 @@ import {
 } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { isForkastet } from '@state/selectors/period';
+import { useHarBeslutteroppgaveForSkjæringstidspunkt } from '@state/totrinnsvurdering';
 import { ÅrsakForOverstyring } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -39,15 +40,6 @@ export const harIngenUtbetaltePerioderFor = (person: ApiSaksbildePerson, skjæri
                 ] as ApiPeriodetilstand[]
             ).includes(it.periodetilstand),
         ) ?? false;
-export const harPeriodeTilBeslutterFor = (person: ApiSaksbildePerson, skjæringstidspunkt: DateString): boolean =>
-    (
-        finnAlleInntektsforhold(person)
-            .flatMap((it) => it.behandlinger[0]?.perioder)
-            .filter(
-                (it) => isBeregnetPeriode(it) && it.skjaeringstidspunkt === skjæringstidspunkt,
-            ) as unknown as ApiBeregnetPeriode[]
-    ).some((it) => it.totrinnsvurdering?.erBeslutteroppgave) ?? false;
-
 export const useGhostInntektKanOverstyres = (
     person: ApiSaksbildePerson,
     skjæringstidspunkt: DateString,
@@ -55,6 +47,7 @@ export const useGhostInntektKanOverstyres = (
 ): boolean => {
     const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
+    const harPeriodeTilBeslutter = useHarBeslutteroppgaveForSkjæringstidspunkt(skjæringstidspunkt);
 
     if (!person || harSykefraværMedSkjæringstidspunkt(arbeidsgiver, skjæringstidspunkt)) {
         return false;
@@ -63,8 +56,6 @@ export const useGhostInntektKanOverstyres = (
     const periodeTilGodkjenning = maybePeriodeTilGodkjenning(person, skjæringstidspunkt);
 
     const harUtbetaltePerioder = !harIngenUtbetaltePerioderFor(person, skjæringstidspunkt);
-
-    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
 
     return (
         (harUtbetaltePerioder || periodeTilGodkjenning !== null) &&
@@ -92,6 +83,7 @@ export const useArbeidsforholdKanOverstyres = (
     organisasjonsnummer: string,
 ): boolean => {
     const aktivPeriode = useActivePeriod(person);
+    const harPeriodeTilBeslutter = useHarBeslutteroppgaveForSkjæringstidspunkt(skjæringstidspunkt);
     const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer);
 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
@@ -110,7 +102,6 @@ export const useArbeidsforholdKanOverstyres = (
             .flatMap((it) => it.behandlinger[0]?.perioder)
             .filter((periode) => periode != undefined) ?? [];
     const harBeregnetPeriode = harBeregnetPeriodePåSkjæringstidspunkt(perioderISisteGen, skjæringstidspunkt);
-    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
 
     return !harPeriodeTilBeslutter && harBeregnetPeriode && erGhostLikEllerEtterPeriodeTilGodkjenning;
 };
@@ -122,10 +113,9 @@ export const useInntektKanRevurderes = (person: ApiSaksbildePerson, skjæringsti
     const isReadOnlyOppgave = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
     const inntektsforhold = useAktivtInntektsforhold(person);
+    const harPeriodeTilBeslutter = useHarBeslutteroppgaveForSkjæringstidspunkt(skjæringstidspunkt);
 
     if (!person) return false;
-
-    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, skjæringstidspunkt);
 
     const periodeVedSkjæringstidspunkt: ApiPeriode | null =
         inntektsforhold?.behandlinger[0]?.perioder

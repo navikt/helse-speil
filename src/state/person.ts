@@ -3,8 +3,10 @@ import { useParams } from 'next/navigation';
 import {
     getGetAktivOppgaveForPersonQueryKey,
     getGetSaksbildeForPersonQueryKey,
+    getGetTotrinnsvurderingForPersonQueryKey,
     useGetAktivOppgaveForPerson,
     useGetSaksbildeForPerson,
+    useGetTotrinnsvurderingForPerson,
 } from '@io/rest/generated/personer/personer';
 import { ApiBehandling, ApiPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { QueryClient, hashKey, useQueryClient } from '@tanstack/react-query';
@@ -17,16 +19,19 @@ export const useFetchPersonQuery = () => {
     const query = useGetSaksbildeForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
-    // Tilstanden til perioden avhenger av aktiv oppgave, så saksbildet vises først når begge er lastet
+    // Saksbildet avhenger av aktiv oppgave og totrinnsvurdering, så det vises først når alle er lastet
     const aktivOppgaveQuery = useGetAktivOppgaveForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
-    const loading = query.isLoading || aktivOppgaveQuery.isLoading;
+    const totrinnsvurderingQuery = useGetTotrinnsvurderingForPerson(personPseudoId!, {
+        query: { enabled: !!personPseudoId },
+    });
+    const loading = query.isLoading || aktivOppgaveQuery.isLoading || totrinnsvurderingQuery.isLoading;
 
     return {
         data: loading ? undefined : query.data,
         loading,
-        error: query.error ?? aktivOppgaveQuery.error,
+        error: query.error ?? aktivOppgaveQuery.error ?? totrinnsvurderingQuery.error,
         refetch: async () => {
             if (personPseudoId) await refetchPersondata(queryClient, personPseudoId);
         },
@@ -67,6 +72,7 @@ export const refetchPersondata = async (queryClient: QueryClient, personPseudoId
     const nøkler = [
         getGetSaksbildeForPersonQueryKey(personPseudoId),
         getGetAktivOppgaveForPersonQueryKey(personPseudoId),
+        getGetTotrinnsvurderingForPersonQueryKey(personPseudoId),
     ].map((nøkkel) => hashKey(nøkkel));
     await queryClient.refetchQueries({ predicate: (query) => nøkler.includes(query.queryHash) });
 };

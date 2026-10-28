@@ -6,6 +6,7 @@ import {
     useGetKrrRegistrertStatusForPerson,
     useGetSaksbehandlerStans,
     useGetSaksbildeForPerson,
+    useGetTotrinnsvurderingForPerson,
 } from '@io/rest/generated/personer/personer';
 import {
     ApiKrrRegistrertStatus,
@@ -75,4 +76,5 @@ function mockPersonHeaderKall() {
     });
     (useGetSaksbildeForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
     (useGetAktivOppgaveForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
+    (useGetTotrinnsvurderingForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
 }

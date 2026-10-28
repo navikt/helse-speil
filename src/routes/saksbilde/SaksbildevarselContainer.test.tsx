@@ -13,15 +13,18 @@ import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { useInntektOgRefusjon } from '@state/overstyring';
 import { useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
+import { useHarBeslutteroppgave, useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
 import { enOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
+import { enTotrinnsvurdering } from '@test-data/totrinnsvurdering';
 import { render, screen } from '@test-utils';
 
 vi.mock('@state/overstyring');
 vi.mock('@state/tilkommenInntekt');
+vi.mock('@state/totrinnsvurdering');
 vi.mock('@state/saksbehandlerhandlinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@state/saksbehandlerhandlinger')>()),
     useHentSaksbehandlerhandlinger: vi.fn(),
@@ -31,6 +34,8 @@ describe('SaksbildevarselContainer', () => {
     beforeEach(() => {
         (useHentTilkommenInntektQuery as Mock).mockReturnValue({ data: [] });
         (useHentSaksbehandlerhandlinger as Mock).mockReturnValue({ data: [] });
+        (useTotrinnsvurderingForPeriode as Mock).mockReturnValue(null);
+        (useHarBeslutteroppgave as Mock).mockReturnValue(false);
     });
 
     it('skal kaste feil om beregnet periode mangler skjæringstidspunkt', () => {
@@ -68,14 +73,9 @@ describe('SaksbildevarselContainer', () => {
         expect(screen.getByText('Utbetalingen er sendt til annullering')).toBeInTheDocument();
     });
     it('skal rendre eget varsel for beregnet periode', () => {
+        medBeslutteroppgave();
         const periode = enBeregnetPeriode({
             periodetilstand: ApiPeriodetilstand.TilGodkjenning,
-            totrinnsvurdering: {
-                erBeslutteroppgave: true,
-                erRetur: false,
-                saksbehandler: null,
-                beslutter: null,
-            },
             oppgave: enOppgave(),
         });
         render(
@@ -105,7 +105,8 @@ describe('SaksbildevarselContainer', () => {
         (useHentSaksbehandlerhandlinger as Mock).mockReturnValue({
             data: [enSaksbehandlerhandling({ handlingType, erDelAvAktivTotrinnsvurdering: true })],
         });
-        const periode = enBeregnetPeriodeMedTotrinnsvurdering();
+        medBeslutteroppgave();
+        const periode = enBeregnetPeriodeTilGodkjenning();
         render(<SaksbildevarselContainer person={enPersonMedPeriode(periode)} periode={periode} />);
 
         const kontrollerElement = screen.getByText('Kontroller:');
@@ -117,7 +118,8 @@ describe('SaksbildevarselContainer', () => {
         (useHentSaksbehandlerhandlinger as Mock).mockReturnValue({
             data: [enSaksbehandlerhandling({ erDelAvAktivTotrinnsvurdering: false })],
         });
-        const periode = enBeregnetPeriodeMedTotrinnsvurdering();
+        medBeslutteroppgave();
+        const periode = enBeregnetPeriodeTilGodkjenning();
         render(<SaksbildevarselContainer person={enPersonMedPeriode(periode)} periode={periode} />);
 
         expect(screen.queryByText('Manuell vurdering av opptjening')).not.toBeInTheDocument();
@@ -195,15 +197,14 @@ const enDagoverstyring: ApiDagoverstyring = {
     ferdigstilt: false,
 };
 
-function enBeregnetPeriodeMedTotrinnsvurdering() {
+function medBeslutteroppgave() {
+    (useTotrinnsvurderingForPeriode as Mock).mockReturnValue(enTotrinnsvurdering({ erBeslutteroppgave: true }));
+    (useHarBeslutteroppgave as Mock).mockReturnValue(true);
+}
+
+function enBeregnetPeriodeTilGodkjenning() {
     return enBeregnetPeriode({
         periodetilstand: ApiPeriodetilstand.TilGodkjenning,
-        totrinnsvurdering: {
-            erBeslutteroppgave: true,
-            erRetur: false,
-            saksbehandler: null,
-            beslutter: null,
-        },
         oppgave: enOppgave(),
     });
 }

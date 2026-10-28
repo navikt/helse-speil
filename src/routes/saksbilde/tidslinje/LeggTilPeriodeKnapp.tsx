@@ -5,25 +5,19 @@ import { PlusIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
-import { useHarTotrinnsvurdering } from '@hooks/useHarTotrinnsvurdering';
-import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useHarBeslutteroppgave } from '@state/totrinnsvurdering';
 import { kanLeggeTilTilkommenInntekt } from '@utils/featureToggles';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
 interface LeggTilPeriodeKnappProps {
-    person: ApiSaksbildePerson;
     personPseudoId: string;
     inntektsforhold: Inntektsforhold[];
 }
 
-export function LeggTilPeriodeKnapp({
-    person,
-    personPseudoId,
-    inntektsforhold,
-}: LeggTilPeriodeKnappProps): ReactElement {
+export function LeggTilPeriodeKnapp({ personPseudoId, inntektsforhold }: LeggTilPeriodeKnappProps): ReactElement {
     const kanLeggeTilPeriode = kanLeggeTilTilkommenInntekt(inntektsforhold.some(isSelvstendigNaering));
-    const erBeslutteroppgave = useHarTotrinnsvurdering(person);
+    const erBeslutteroppgave = useHarBeslutteroppgave();
 
     return (
         <div className="absolute bottom-4 left-6">

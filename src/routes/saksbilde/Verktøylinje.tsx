@@ -5,7 +5,6 @@ import { Box, Button, HStack } from '@navikt/ds-react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
-import { harPeriodeTilBeslutterFor } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { ArbeidstidsvurderingForm } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/ArbeidstidsvurderingForm';
 import { ArbeidstidsvurderingVisning } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/ArbeidstidsvurderingVisning';
 import {
@@ -22,6 +21,7 @@ import {
     finnOverstyringerForAktivInntektsforhold,
 } from '@state/inntektsforhold/inntektsforhold';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
+import { useHarBeslutteroppgaveForSkjæringstidspunkt } from '@state/totrinnsvurdering';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isMinimumSykdomsgradsoverstyring, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -66,7 +66,7 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
             return matchendePerioder !== aktivPeriode.vedtaksperiodeId;
         }) ??
             false);
-    const harPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, aktivPeriode.skjaeringstidspunkt);
+    const harPeriodeTilBeslutter = useHarBeslutteroppgaveForSkjæringstidspunkt(aktivPeriode.skjaeringstidspunkt);
     const overlappendePerioder = getOverlappendePerioder(person, aktivPeriode as ApiBeregnetPeriode);
     // bestemmende periode er den første/tidligste perioden som inneholder delperiode på person
     const erAktivperiodeBestemmendeForMinstEnDelperiode = oppkuttedePerioder?.some((dp) => {

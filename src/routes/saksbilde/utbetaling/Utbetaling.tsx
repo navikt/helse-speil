@@ -19,13 +19,13 @@ import {
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useActivePeriod } from '@state/periode';
 import { isInCurrentGeneration } from '@state/selectors/period';
+import { useHarBeslutteroppgaveForSkjæringstidspunkt, useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { kanOverstyreRevurdering, kanOverstyres, kanRevurderes } from '@utils/overstyring';
 import { getAntallAGPDagerBruktFørPerioden } from '@utils/periode';
 import { isBeregnetPeriode, isPerson, isSelvstendigNaering, isUberegnetPeriode } from '@utils/typeguards';
 
-import { harPeriodeTilBeslutterFor } from '../sykepengegrunnlag/inntekt/inntektOgRefusjon/inntektOgRefusjonUtils';
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
@@ -106,9 +106,10 @@ const UtbetalingBeregnetPeriode = ({
     inntektsforhold,
 }: UtbetalingBeregnetPeriodeProps): ReactElement => {
     const harAktivOppgave = useAktivOppgaveForPeriode(period) !== null;
-    const overstyringIsEnabled = kanOverstyres(period, harAktivOppgave);
-    const revurderingIsEnabled = kanRevurderes(person, period);
-    const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period);
+    const erBeslutteroppgave = useTotrinnsvurderingForPeriode(period)?.erBeslutteroppgave ?? false;
+    const overstyringIsEnabled = kanOverstyres(period, { harAktivOppgave, erBeslutteroppgave });
+    const revurderingIsEnabled = kanRevurderes(person, period, erBeslutteroppgave);
+    const overstyrRevurderingIsEnabled = kanOverstyreRevurdering(person, period, erBeslutteroppgave);
     const dagoverstyringer = useDagoverstyringer(period.fom, period.tom, inntektsforhold);
     const readOnly = useIsReadOnlyOppgave(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
@@ -157,9 +158,10 @@ const UtbetalingUberegnetPeriode = ({
         overstyringer: dagoverstyringer,
         antallAGPDagerBruktFørPerioden: antallAGPDagerBruktFørPerioden,
     });
+    const skjæringstidspunktHarPeriodeTilBeslutter = useHarBeslutteroppgaveForSkjæringstidspunkt(
+        periode.skjaeringstidspunkt,
+    );
     if (!person) return null;
-
-    const skjæringstidspunktHarPeriodeTilBeslutter = harPeriodeTilBeslutterFor(person, periode.skjaeringstidspunkt);
 
     return !skjæringstidspunktHarPeriodeTilBeslutter ? (
         <OverstyrbarUtbetaling person={person} inntektsforhold={inntektsforhold} dager={dager} periode={periode} />
