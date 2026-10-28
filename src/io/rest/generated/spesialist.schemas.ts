@@ -484,6 +484,7 @@ export type ApiHandlingType = (typeof ApiHandlingType)[keyof typeof ApiHandlingT
 export const ApiHandlingType = {
     MANUELT_VURDERT_OPPTJENING: 'MANUELT_VURDERT_OPPTJENING',
     NY_AUTOMATISK_OPPTJENINGSVURDERING: 'NY_AUTOMATISK_OPPTJENINGSVURDERING',
+    GRADERTE_ANDRE_YTELSER_ENDRET: 'GRADERTE_ANDRE_YTELSER_ENDRET',
 } as const;
 
 export interface ApiSaksbehandlerhandling {
@@ -513,6 +514,78 @@ export interface ApiHttpProblemDetailsApiGetSaksbehandlerhandlingerForPersonErro
     /** @nullable */
     detail?: string | null;
     code?: null | ApiGetSaksbehandlerhandlingerForPersonErrorCode;
+}
+
+export interface ApiEndringsrad {
+    navn: string;
+    /** @nullable */
+    fra?: string | null;
+    til: string;
+}
+
+export interface ApiEndringsgruppe {
+    rader: ApiEndringsrad[];
+}
+
+export type EndringerType = (typeof EndringerType)[keyof typeof EndringerType];
+
+export const EndringerType = {
+    Endringer: 'Endringer',
+} as const;
+
+export interface Endringer {
+    tittel: string;
+    grupper: ApiEndringsgruppe[];
+    type: EndringerType;
+}
+
+export type ListeType = (typeof ListeType)[keyof typeof ListeType];
+
+export const ListeType = {
+    Liste: 'Liste',
+} as const;
+
+export interface Liste {
+    tittel: string;
+    elementer: string[];
+    type: ListeType;
+}
+
+export type TekstType = (typeof TekstType)[keyof typeof TekstType];
+
+export const TekstType = {
+    Tekst: 'Tekst',
+} as const;
+
+export interface Tekst {
+    tittel: string;
+    tekst: string;
+    type: TekstType;
+}
+
+export type ApiVisningsfelt = Endringer | Liste | Tekst;
+
+export interface ApiHandlingsvisning {
+    felter: ApiVisningsfelt[];
+}
+
+export type ApiGetSaksbehandlerhandlingVisningErrorCode =
+    (typeof ApiGetSaksbehandlerhandlingVisningErrorCode)[keyof typeof ApiGetSaksbehandlerhandlingVisningErrorCode];
+
+export const ApiGetSaksbehandlerhandlingVisningErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    HANDLING_IKKE_FUNNET: 'HANDLING_IKKE_FUNNET',
+    VISNING_IKKE_FUNNET: 'VISNING_IKKE_FUNNET',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetSaksbehandlerhandlingVisningErrorCode;
 }
 
 export type ApiVeilederStansÅrsak = (typeof ApiVeilederStansÅrsak)[keyof typeof ApiVeilederStansÅrsak];
@@ -1042,113 +1115,58 @@ export interface ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode {
     code?: null | ApiPatchTilkommenInntektErrorCode;
 }
 
-export interface ApiGraderteAndreYtelserPeriode {
-    fom: string;
-    tom: string;
-    grad: number;
-}
+export type ApiYrkesaktivitetstype = (typeof ApiYrkesaktivitetstype)[keyof typeof ApiYrkesaktivitetstype];
 
-export type ApiGraderteAndreYtelserType =
-    (typeof ApiGraderteAndreYtelserType)[keyof typeof ApiGraderteAndreYtelserType];
-
-export const ApiGraderteAndreYtelserType = {
-    FORELDREPENGER: 'FORELDREPENGER',
-    SVANGERSKAPSPENGER: 'SVANGERSKAPSPENGER',
-    OMSORGSPENGER: 'OMSORGSPENGER',
-    PLEIEPENGER: 'PLEIEPENGER',
-    OPPLARINGSPENGER: 'OPPLARINGSPENGER',
+export const ApiYrkesaktivitetstype = {
+    ARBEIDSTAKER: 'ARBEIDSTAKER',
+    FRILANS: 'FRILANS',
+    ARBEIDSLEDIG: 'ARBEIDSLEDIG',
+    SELVSTENDIG: 'SELVSTENDIG',
 } as const;
 
-export interface ApiGraderteAndreYtelserEventMetadata {
-    sekvensnummer: number;
+export type ApiGraderteAndreYtelserDagAndreYtelserGrader = { [key: string]: number };
+
+export interface ApiGraderteAndreYtelserDag {
+    dato: string;
+    andreYtelserGrader: ApiGraderteAndreYtelserDagAndreYtelserGrader;
+    sykdomsgrad: number;
+    arbeidsgrad: number;
+}
+
+export type ApiGraderteAndreYtelserEndretDagAndreYtelserGrader = { [key: string]: number };
+
+/**
+ * @nullable
+ */
+export type ApiGraderteAndreYtelserEndretDagFraAndreYtelserGrader = null | { [key: string]: number };
+
+export interface ApiGraderteAndreYtelserEndretDag {
+    dato: string;
+    andreYtelserGrader: ApiGraderteAndreYtelserEndretDagAndreYtelserGrader;
+    sykdomsgrad: number;
+    arbeidsgrad: number;
+    /** @nullable */
+    fraAndreYtelserGrader?: ApiGraderteAndreYtelserEndretDagFraAndreYtelserGrader;
+    /** @nullable */
+    fraSykdomsgrad?: number | null;
+    /** @nullable */
+    fraArbeidsgrad?: number | null;
+}
+
+export interface ApiGraderteAndreYtelserEvent {
+    versjon: string;
     tidspunkt: string;
     utfortAvSaksbehandlerIdent: string;
     notatTilBeslutter: string;
+    dager: ApiGraderteAndreYtelserEndretDag[];
 }
-
-export interface ApiGraderteAndreYtelserEventApiGradertAnnenYtelse {
-    periode: ApiDatoPeriode;
-    grad: number;
-}
-
-export interface ApiGraderteAndreYtelserEventListGradertAnnenYtelseEndring {
-    fra: ApiGraderteAndreYtelserEventApiGradertAnnenYtelse[];
-    til: ApiGraderteAndreYtelserEventApiGradertAnnenYtelse[];
-}
-
-export interface ApiGraderteAndreYtelserEventGradertAnnenYtelseTypeEndring {
-    fra: ApiGraderteAndreYtelserType;
-    til: ApiGraderteAndreYtelserType;
-}
-
-export interface ApiGraderteAndreYtelserEventEndringer {
-    perioder?: null | ApiGraderteAndreYtelserEventListGradertAnnenYtelseEndring;
-    andreYtelserType?: null | ApiGraderteAndreYtelserEventGradertAnnenYtelseTypeEndring;
-}
-
-export type ApiGraderteAndreYtelserEndretEventType =
-    (typeof ApiGraderteAndreYtelserEndretEventType)[keyof typeof ApiGraderteAndreYtelserEndretEventType];
-
-export const ApiGraderteAndreYtelserEndretEventType = {
-    ApiGraderteAndreYtelserEndretEvent: 'ApiGraderteAndreYtelserEndretEvent',
-} as const;
-
-export interface ApiGraderteAndreYtelserEndretEvent {
-    metadata: ApiGraderteAndreYtelserEventMetadata;
-    endringer: ApiGraderteAndreYtelserEventEndringer;
-    type: ApiGraderteAndreYtelserEndretEventType;
-}
-
-export type ApiGraderteAndreYtelserFjernetEventType =
-    (typeof ApiGraderteAndreYtelserFjernetEventType)[keyof typeof ApiGraderteAndreYtelserFjernetEventType];
-
-export const ApiGraderteAndreYtelserFjernetEventType = {
-    ApiGraderteAndreYtelserFjernetEvent: 'ApiGraderteAndreYtelserFjernetEvent',
-} as const;
-
-export interface ApiGraderteAndreYtelserFjernetEvent {
-    metadata: ApiGraderteAndreYtelserEventMetadata;
-    type: ApiGraderteAndreYtelserFjernetEventType;
-}
-
-export type ApiGraderteAndreYtelserGjenopprettetEventType =
-    (typeof ApiGraderteAndreYtelserGjenopprettetEventType)[keyof typeof ApiGraderteAndreYtelserGjenopprettetEventType];
-
-export const ApiGraderteAndreYtelserGjenopprettetEventType = {
-    ApiGraderteAndreYtelserGjenopprettetEvent: 'ApiGraderteAndreYtelserGjenopprettetEvent',
-} as const;
-
-export interface ApiGraderteAndreYtelserGjenopprettetEvent {
-    metadata: ApiGraderteAndreYtelserEventMetadata;
-    endringer: ApiGraderteAndreYtelserEventEndringer;
-    type: ApiGraderteAndreYtelserGjenopprettetEventType;
-}
-
-export type ApiGraderteAndreYtelserOpprettetEventType =
-    (typeof ApiGraderteAndreYtelserOpprettetEventType)[keyof typeof ApiGraderteAndreYtelserOpprettetEventType];
-
-export const ApiGraderteAndreYtelserOpprettetEventType = {
-    ApiGraderteAndreYtelserOpprettetEvent: 'ApiGraderteAndreYtelserOpprettetEvent',
-} as const;
-
-export interface ApiGraderteAndreYtelserOpprettetEvent {
-    metadata: ApiGraderteAndreYtelserEventMetadata;
-    perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelserType: ApiGraderteAndreYtelserType;
-    type: ApiGraderteAndreYtelserOpprettetEventType;
-}
-
-export type ApiGraderteAndreYtelserEvent =
-    | ApiGraderteAndreYtelserEndretEvent
-    | ApiGraderteAndreYtelserFjernetEvent
-    | ApiGraderteAndreYtelserGjenopprettetEvent
-    | ApiGraderteAndreYtelserOpprettetEvent;
 
 export interface ApiGraderteAndreYtelser {
-    andreYtelserId: string;
-    perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelserType: ApiGraderteAndreYtelserType;
-    fjernet: boolean;
+    yrkesaktivitet: ApiYrkesaktivitetstype;
+    /** @nullable */
+    organisasjonsnummer?: string | null;
+    versjon: string;
+    dager: ApiGraderteAndreYtelserDag[];
     events: ApiGraderteAndreYtelserEvent[];
 }
 
@@ -1169,118 +1187,40 @@ export interface ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCo
     code?: null | ApiGetGraderteAndreYtelserForPersonErrorCode;
 }
 
-export interface ApiLeggTilGraderteAndreYtelserRequest {
-    fodselsnummer: string;
-    perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelserType: ApiGraderteAndreYtelserType;
+export interface ApiEndreGraderteAndreYtelserRequest {
+    yrkesaktivitet: ApiYrkesaktivitetstype;
+    /** @nullable */
+    organisasjonsnummer?: string | null;
+    /** @nullable */
+    versjon?: string | null;
+    behandlingId: string;
+    dager: ApiGraderteAndreYtelserDag[];
     notatTilBeslutter: string;
 }
 
-export interface ApiLeggTilGraderteAndreYtelserResponse {
-    andreYtelserId: string;
+export interface ApiEndreGraderteAndreYtelserResponse {
+    versjon: string;
 }
 
-export type ApiPostAndreYtelserErrorCode =
-    (typeof ApiPostAndreYtelserErrorCode)[keyof typeof ApiPostAndreYtelserErrorCode];
+export type ApiPostGraderteAndreYtelserErrorCode =
+    (typeof ApiPostGraderteAndreYtelserErrorCode)[keyof typeof ApiPostGraderteAndreYtelserErrorCode];
 
-export const ApiPostAndreYtelserErrorCode = {
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
+export const ApiPostGraderteAndreYtelserErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
     MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+    TOTAL_GRAD_OVER_100: 'TOTAL_GRAD_OVER_100',
+    MANGLER_ENDRINGER: 'MANGLER_ENDRINGER',
+    NEGATIV_GRAD: 'NEGATIV_GRAD',
+    UTDATERT_TILSTAND: 'UTDATERT_TILSTAND',
 } as const;
 
-export interface ApiHttpProblemDetailsApiPostAndreYtelserErrorCode {
+export interface ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode {
     type: string;
     status: number;
     title: string;
     /** @nullable */
     detail?: string | null;
-    code?: null | ApiPostAndreYtelserErrorCode;
-}
-
-export interface ApiPatchEndreGraderteAndreYtelserRequest {
-    graderteAndreYtelserId: string;
-    perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelserType: ApiGraderteAndreYtelserType;
-    notatTilBeslutter: string;
-}
-
-export interface ApiPatchEndreGraderteAndreYtelserResponse {
-    andreYtelserId: string;
-}
-
-export type ApiPatchEndreGraderteAndreYtelserErrorCode =
-    (typeof ApiPatchEndreGraderteAndreYtelserErrorCode)[keyof typeof ApiPatchEndreGraderteAndreYtelserErrorCode];
-
-export const ApiPatchEndreGraderteAndreYtelserErrorCode = {
-    GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
-    GRADERTE_ANDRE_YTELSER_ER_FJERNET: 'GRADERTE_ANDRE_YTELSER_ER_FJERNET',
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export interface ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    /** @nullable */
-    detail?: string | null;
-    code?: null | ApiPatchEndreGraderteAndreYtelserErrorCode;
-}
-
-export interface ApiPostFjernGraderteAndreYtelserRequest {
-    notatTilBeslutter: string;
-}
-
-export interface ApiPostFjernGraderteAndreYtelserResponse {
-    andreYtelserId: string;
-}
-
-export type ApiPostFjernGraderteAndreYtelserErrorCode =
-    (typeof ApiPostFjernGraderteAndreYtelserErrorCode)[keyof typeof ApiPostFjernGraderteAndreYtelserErrorCode];
-
-export const ApiPostFjernGraderteAndreYtelserErrorCode = {
-    GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
-    GRADERTE_ANDRE_YTELSER_ALLEREDE_FJERNET: 'GRADERTE_ANDRE_YTELSER_ALLEREDE_FJERNET',
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export interface ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    /** @nullable */
-    detail?: string | null;
-    code?: null | ApiPostFjernGraderteAndreYtelserErrorCode;
-}
-
-export interface ApiPostGjenopprettGraderteAndreYtelserRequest {
-    perioder: ApiGraderteAndreYtelserPeriode[];
-    andreYtelserType: ApiGraderteAndreYtelserType;
-    notatTilBeslutter: string;
-}
-
-export interface ApiPostGjenopprettGraderteAndreYtelserResponse {
-    andreYtelserId: string;
-}
-
-export type ApiPostGjenopprettGraderteAndreYtelserErrorCode =
-    (typeof ApiPostGjenopprettGraderteAndreYtelserErrorCode)[keyof typeof ApiPostGjenopprettGraderteAndreYtelserErrorCode];
-
-export const ApiPostGjenopprettGraderteAndreYtelserErrorCode = {
-    GRADERTE_ANDRE_YTELSER_IKKE_FUNNET: 'GRADERTE_ANDRE_YTELSER_IKKE_FUNNET',
-    GRADERTE_ANDRE_YTELSER_ER_IKKE_FJERNET: 'GRADERTE_ANDRE_YTELSER_ER_IKKE_FJERNET',
-    PERSON_IKKE_FUNNET: 'PERSON_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export interface ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    /** @nullable */
-    detail?: string | null;
-    code?: null | ApiPostGjenopprettGraderteAndreYtelserErrorCode;
+    code?: null | ApiPostGraderteAndreYtelserErrorCode;
 }
 
 export type ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype =

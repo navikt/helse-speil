@@ -6,12 +6,14 @@
  */
 import type {
     ApiBehandlendeEnhet,
+    ApiHandlingsvisning,
     ApiHttpProblemDetailsApiDeleteTildelingErrorCode,
     ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode,
     ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode,
     ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
+    ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode,
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingerForPersonErrorCode,
     ApiHttpProblemDetailsApiGetSaksbildeForPersonErrorCode,
     ApiHttpProblemDetailsApiGetVeilederStansErrorCode,
@@ -808,6 +810,165 @@ export function useGetSaksbehandlerhandlingerForPerson<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetSaksbehandlerhandlingerForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetSaksbehandlerhandlingVisningUrl = (pseudoId: string, handlingId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/saksbehandlerhandlinger/${handlingId}/visning`;
+};
+
+export const getSaksbehandlerhandlingVisning = async (
+    pseudoId: string,
+    handlingId: string,
+    options?: RequestInit,
+): Promise<ApiHandlingsvisning> => {
+    const res = await fetch(getGetSaksbehandlerhandlingVisningUrl(pseudoId, handlingId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiHandlingsvisning; status?: number } = new globalThis.Error();
+        const data: ApiHandlingsvisning = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiHandlingsvisning = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetSaksbehandlerhandlingVisningQueryKey = (pseudoId: string, handlingId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/saksbehandlerhandlinger/${handlingId}/visning`] as const;
+};
+
+export const useGetSaksbehandlerhandlingVisningQueryOptions = <
+    TData = Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    handlingId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetSaksbehandlerhandlingVisningQueryKey(pseudoId, handlingId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>> = ({ signal }) =>
+        getSaksbehandlerhandlingVisning(pseudoId, handlingId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined && handlingId !== null && handlingId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<
+        Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetSaksbehandlerhandlingVisningQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>
+>;
+export type GetSaksbehandlerhandlingVisningQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode;
+    status?: number;
+};
+
+export function useGetSaksbehandlerhandlingVisning<
+    TData = Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    handlingId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>,
+                    TError,
+                    Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetSaksbehandlerhandlingVisning<
+    TData = Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    handlingId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>,
+                    TError,
+                    Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetSaksbehandlerhandlingVisning<
+    TData = Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    handlingId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetSaksbehandlerhandlingVisning<
+    TData = Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    handlingId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getSaksbehandlerhandlingVisning>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetSaksbehandlerhandlingVisningQueryOptions(pseudoId, handlingId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

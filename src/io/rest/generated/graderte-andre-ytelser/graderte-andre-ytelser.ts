@@ -5,20 +5,11 @@
  * OpenAPI spec version: latest
  */
 import type {
+    ApiEndreGraderteAndreYtelserRequest,
+    ApiEndreGraderteAndreYtelserResponse,
     ApiGraderteAndreYtelser,
     ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCode,
-    ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCode,
-    ApiHttpProblemDetailsApiPostAndreYtelserErrorCode,
-    ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode,
-    ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCode,
-    ApiLeggTilGraderteAndreYtelserRequest,
-    ApiLeggTilGraderteAndreYtelserResponse,
-    ApiPatchEndreGraderteAndreYtelserRequest,
-    ApiPatchEndreGraderteAndreYtelserResponse,
-    ApiPostFjernGraderteAndreYtelserRequest,
-    ApiPostFjernGraderteAndreYtelserResponse,
-    ApiPostGjenopprettGraderteAndreYtelserRequest,
-    ApiPostGjenopprettGraderteAndreYtelserResponse,
+    ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode,
 } from '../spesialist.schemas';
 
 import type {
@@ -207,14 +198,15 @@ export function useGetGraderteAndreYtelserForPerson<
     return withQueryKey(query, queryOptions.queryKey);
 }
 
-export const getPostGraderteAndreYtelserUrl = () => {
-    return `/api/spesialist/graderte-andre-ytelser`;
+export const getPostGraderteAndreYtelserUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/graderte-andre-ytelser`;
 };
 
 export const postGraderteAndreYtelser = async (
-    apiLeggTilGraderteAndreYtelserRequest?: ApiLeggTilGraderteAndreYtelserRequest,
+    pseudoId: string,
+    apiEndreGraderteAndreYtelserRequest?: ApiEndreGraderteAndreYtelserRequest,
     options?: RequestInit,
-): Promise<ApiLeggTilGraderteAndreYtelserResponse> => {
+): Promise<ApiEndreGraderteAndreYtelserResponse> => {
     const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
         if (!h) return {};
         if (h instanceof Headers) return Object.fromEntries(h.entries());
@@ -229,30 +221,30 @@ export const postGraderteAndreYtelser = async (
         }
         return headers;
     };
-    const res = await fetch(getPostGraderteAndreYtelserUrl(), {
+    const res = await fetch(getPostGraderteAndreYtelserUrl(pseudoId), {
         ...options,
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
-        body: JSON.stringify(apiLeggTilGraderteAndreYtelserRequest),
+        body: JSON.stringify(apiEndreGraderteAndreYtelserRequest),
     });
 
     const body = [204, 205, 304].includes(res.status) ? null : await res.text();
     if (!res.ok) {
-        const err: globalThis.Error & { info?: ApiLeggTilGraderteAndreYtelserResponse; status?: number } =
+        const err: globalThis.Error & { info?: ApiEndreGraderteAndreYtelserResponse; status?: number } =
             new globalThis.Error();
-        const data: ApiLeggTilGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
+        const data: ApiEndreGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
         err.info = data;
         err.status = res.status;
         throw err;
     }
-    const data: ApiLeggTilGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
+    const data: ApiEndreGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
     return data;
 };
 
 export const getPostGraderteAndreYtelserMutationKey = () => ['postGraderteAndreYtelser'] as const;
 
 export const getPostGraderteAndreYtelserMutationOptions = <
-    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiPostAndreYtelserErrorCode; status?: number },
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode; status?: number },
     TContext = unknown,
 >(options?: {
     mutation?: UseMutationOptions<
@@ -279,24 +271,27 @@ export const getPostGraderteAndreYtelserMutationOptions = <
         Awaited<ReturnType<typeof postGraderteAndreYtelser>>,
         PostGraderteAndreYtelserMutationVariables
     > = (props) => {
-        const { data } = props ?? {};
+        const { pseudoId, data } = props ?? {};
 
-        return postGraderteAndreYtelser(data, fetchOptions);
+        return postGraderteAndreYtelser(pseudoId, data, fetchOptions);
     };
 
     return { mutationFn, ...mutationOptions };
 };
 
 export type PostGraderteAndreYtelserMutationResult = NonNullable<Awaited<ReturnType<typeof postGraderteAndreYtelser>>>;
-export type PostGraderteAndreYtelserMutationBody = ApiLeggTilGraderteAndreYtelserRequest | undefined;
+export type PostGraderteAndreYtelserMutationBody = ApiEndreGraderteAndreYtelserRequest | undefined;
 export type PostGraderteAndreYtelserMutationError = globalThis.Error & {
-    info?: ApiHttpProblemDetailsApiPostAndreYtelserErrorCode;
+    info?: ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode;
     status?: number;
 };
-export type PostGraderteAndreYtelserMutationVariables = { data?: ApiLeggTilGraderteAndreYtelserRequest };
+export type PostGraderteAndreYtelserMutationVariables = {
+    pseudoId: string;
+    data?: ApiEndreGraderteAndreYtelserRequest;
+};
 
 export const usePostGraderteAndreYtelser = <
-    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiPostAndreYtelserErrorCode; status?: number },
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode; status?: number },
     TContext = unknown,
 >(
     options?: {
@@ -316,370 +311,4 @@ export const usePostGraderteAndreYtelser = <
     TContext
 > => {
     return useMutation(getPostGraderteAndreYtelserMutationOptions(options), queryClient);
-};
-export const getPatchEndreGraderteAndreYtelserUrl = (graderteAndreYtelserId: string) => {
-    return `/api/spesialist/graderte-andre-ytelser/${graderteAndreYtelserId}`;
-};
-
-export const patchEndreGraderteAndreYtelser = async (
-    graderteAndreYtelserId: string,
-    apiPatchEndreGraderteAndreYtelserRequest?: ApiPatchEndreGraderteAndreYtelserRequest,
-    options?: RequestInit,
-): Promise<ApiPatchEndreGraderteAndreYtelserResponse> => {
-    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
-        if (!h) return {};
-        if (h instanceof Headers) return Object.fromEntries(h.entries());
-        if (Symbol.iterator in h) {
-            return Object.fromEntries(
-                Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
-            );
-        }
-        const headers: Record<string, string | readonly string[]> = {};
-        for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
-            if (value !== undefined) headers[name] = value;
-        }
-        return headers;
-    };
-    const res = await fetch(getPatchEndreGraderteAndreYtelserUrl(graderteAndreYtelserId), {
-        ...options,
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
-        body: JSON.stringify(apiPatchEndreGraderteAndreYtelserRequest),
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    if (!res.ok) {
-        const err: globalThis.Error & { info?: ApiPatchEndreGraderteAndreYtelserResponse; status?: number } =
-            new globalThis.Error();
-        const data: ApiPatchEndreGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
-        err.info = data;
-        err.status = res.status;
-        throw err;
-    }
-    const data: ApiPatchEndreGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
-    return data;
-};
-
-export const getPatchEndreGraderteAndreYtelserMutationKey = () => ['patchEndreGraderteAndreYtelser'] as const;
-
-export const getPatchEndreGraderteAndreYtelserMutationOptions = <
-    TError = globalThis.Error & {
-        info?: ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCode;
-        status?: number;
-    },
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof patchEndreGraderteAndreYtelser>>,
-        TError,
-        PatchEndreGraderteAndreYtelserMutationVariables,
-        TContext
-    >;
-    fetch?: RequestInit;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof patchEndreGraderteAndreYtelser>>,
-    TError,
-    PatchEndreGraderteAndreYtelserMutationVariables,
-    TContext
-> => {
-    const mutationKey = getPatchEndreGraderteAndreYtelserMutationKey();
-    const { mutation: mutationOptions, fetch: fetchOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey }, fetch: undefined };
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof patchEndreGraderteAndreYtelser>>,
-        PatchEndreGraderteAndreYtelserMutationVariables
-    > = (props) => {
-        const { graderteAndreYtelserId, data } = props ?? {};
-
-        return patchEndreGraderteAndreYtelser(graderteAndreYtelserId, data, fetchOptions);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PatchEndreGraderteAndreYtelserMutationResult = NonNullable<
-    Awaited<ReturnType<typeof patchEndreGraderteAndreYtelser>>
->;
-export type PatchEndreGraderteAndreYtelserMutationBody = ApiPatchEndreGraderteAndreYtelserRequest | undefined;
-export type PatchEndreGraderteAndreYtelserMutationError = globalThis.Error & {
-    info?: ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCode;
-    status?: number;
-};
-export type PatchEndreGraderteAndreYtelserMutationVariables = {
-    graderteAndreYtelserId: string;
-    data?: ApiPatchEndreGraderteAndreYtelserRequest;
-};
-
-export const usePatchEndreGraderteAndreYtelser = <
-    TError = globalThis.Error & {
-        info?: ApiHttpProblemDetailsApiPatchEndreGraderteAndreYtelserErrorCode;
-        status?: number;
-    },
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof patchEndreGraderteAndreYtelser>>,
-            TError,
-            PatchEndreGraderteAndreYtelserMutationVariables,
-            TContext
-        >;
-        fetch?: RequestInit;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof patchEndreGraderteAndreYtelser>>,
-    TError,
-    PatchEndreGraderteAndreYtelserMutationVariables,
-    TContext
-> => {
-    return useMutation(getPatchEndreGraderteAndreYtelserMutationOptions(options), queryClient);
-};
-export const getPostFjernGraderteAndreYtelserUrl = (graderteAndreYtelserId: string) => {
-    return `/api/spesialist/graderte-andre-ytelser/${graderteAndreYtelserId}/fjern`;
-};
-
-export const postFjernGraderteAndreYtelser = async (
-    graderteAndreYtelserId: string,
-    apiPostFjernGraderteAndreYtelserRequest?: ApiPostFjernGraderteAndreYtelserRequest,
-    options?: RequestInit,
-): Promise<ApiPostFjernGraderteAndreYtelserResponse> => {
-    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
-        if (!h) return {};
-        if (h instanceof Headers) return Object.fromEntries(h.entries());
-        if (Symbol.iterator in h) {
-            return Object.fromEntries(
-                Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
-            );
-        }
-        const headers: Record<string, string | readonly string[]> = {};
-        for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
-            if (value !== undefined) headers[name] = value;
-        }
-        return headers;
-    };
-    const res = await fetch(getPostFjernGraderteAndreYtelserUrl(graderteAndreYtelserId), {
-        ...options,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
-        body: JSON.stringify(apiPostFjernGraderteAndreYtelserRequest),
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    if (!res.ok) {
-        const err: globalThis.Error & { info?: ApiPostFjernGraderteAndreYtelserResponse; status?: number } =
-            new globalThis.Error();
-        const data: ApiPostFjernGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
-        err.info = data;
-        err.status = res.status;
-        throw err;
-    }
-    const data: ApiPostFjernGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
-    return data;
-};
-
-export const getPostFjernGraderteAndreYtelserMutationKey = () => ['postFjernGraderteAndreYtelser'] as const;
-
-export const getPostFjernGraderteAndreYtelserMutationOptions = <
-    TError = globalThis.Error & {
-        info?: ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode;
-        status?: number;
-    },
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postFjernGraderteAndreYtelser>>,
-        TError,
-        PostFjernGraderteAndreYtelserMutationVariables,
-        TContext
-    >;
-    fetch?: RequestInit;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postFjernGraderteAndreYtelser>>,
-    TError,
-    PostFjernGraderteAndreYtelserMutationVariables,
-    TContext
-> => {
-    const mutationKey = getPostFjernGraderteAndreYtelserMutationKey();
-    const { mutation: mutationOptions, fetch: fetchOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey }, fetch: undefined };
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postFjernGraderteAndreYtelser>>,
-        PostFjernGraderteAndreYtelserMutationVariables
-    > = (props) => {
-        const { graderteAndreYtelserId, data } = props ?? {};
-
-        return postFjernGraderteAndreYtelser(graderteAndreYtelserId, data, fetchOptions);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostFjernGraderteAndreYtelserMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postFjernGraderteAndreYtelser>>
->;
-export type PostFjernGraderteAndreYtelserMutationBody = ApiPostFjernGraderteAndreYtelserRequest | undefined;
-export type PostFjernGraderteAndreYtelserMutationError = globalThis.Error & {
-    info?: ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode;
-    status?: number;
-};
-export type PostFjernGraderteAndreYtelserMutationVariables = {
-    graderteAndreYtelserId: string;
-    data?: ApiPostFjernGraderteAndreYtelserRequest;
-};
-
-export const usePostFjernGraderteAndreYtelser = <
-    TError = globalThis.Error & {
-        info?: ApiHttpProblemDetailsApiPostFjernGraderteAndreYtelserErrorCode;
-        status?: number;
-    },
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postFjernGraderteAndreYtelser>>,
-            TError,
-            PostFjernGraderteAndreYtelserMutationVariables,
-            TContext
-        >;
-        fetch?: RequestInit;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postFjernGraderteAndreYtelser>>,
-    TError,
-    PostFjernGraderteAndreYtelserMutationVariables,
-    TContext
-> => {
-    return useMutation(getPostFjernGraderteAndreYtelserMutationOptions(options), queryClient);
-};
-export const getPostGjenopprettGraderteAndreYtelserUrl = (graderteAndreYtelserId: string) => {
-    return `/api/spesialist/graderte-andre-ytelser/${graderteAndreYtelserId}/gjenopprett`;
-};
-
-export const postGjenopprettGraderteAndreYtelser = async (
-    graderteAndreYtelserId: string,
-    apiPostGjenopprettGraderteAndreYtelserRequest?: ApiPostGjenopprettGraderteAndreYtelserRequest,
-    options?: RequestInit,
-): Promise<ApiPostGjenopprettGraderteAndreYtelserResponse> => {
-    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
-        if (!h) return {};
-        if (h instanceof Headers) return Object.fromEntries(h.entries());
-        if (Symbol.iterator in h) {
-            return Object.fromEntries(
-                Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
-            );
-        }
-        const headers: Record<string, string | readonly string[]> = {};
-        for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
-            if (value !== undefined) headers[name] = value;
-        }
-        return headers;
-    };
-    const res = await fetch(getPostGjenopprettGraderteAndreYtelserUrl(graderteAndreYtelserId), {
-        ...options,
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
-        body: JSON.stringify(apiPostGjenopprettGraderteAndreYtelserRequest),
-    });
-
-    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
-    if (!res.ok) {
-        const err: globalThis.Error & { info?: ApiPostGjenopprettGraderteAndreYtelserResponse; status?: number } =
-            new globalThis.Error();
-        const data: ApiPostGjenopprettGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
-        err.info = data;
-        err.status = res.status;
-        throw err;
-    }
-    const data: ApiPostGjenopprettGraderteAndreYtelserResponse = body ? JSON.parse(body) : {};
-    return data;
-};
-
-export const getPostGjenopprettGraderteAndreYtelserMutationKey = () => ['postGjenopprettGraderteAndreYtelser'] as const;
-
-export const getPostGjenopprettGraderteAndreYtelserMutationOptions = <
-    TError = globalThis.Error & {
-        info?: ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCode;
-        status?: number;
-    },
-    TContext = unknown,
->(options?: {
-    mutation?: UseMutationOptions<
-        Awaited<ReturnType<typeof postGjenopprettGraderteAndreYtelser>>,
-        TError,
-        PostGjenopprettGraderteAndreYtelserMutationVariables,
-        TContext
-    >;
-    fetch?: RequestInit;
-}): UseMutationOptions<
-    Awaited<ReturnType<typeof postGjenopprettGraderteAndreYtelser>>,
-    TError,
-    PostGjenopprettGraderteAndreYtelserMutationVariables,
-    TContext
-> => {
-    const mutationKey = getPostGjenopprettGraderteAndreYtelserMutationKey();
-    const { mutation: mutationOptions, fetch: fetchOptions } = options
-        ? options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey
-            ? options
-            : { ...options, mutation: { ...options.mutation, mutationKey } }
-        : { mutation: { mutationKey }, fetch: undefined };
-
-    const mutationFn: MutationFunction<
-        Awaited<ReturnType<typeof postGjenopprettGraderteAndreYtelser>>,
-        PostGjenopprettGraderteAndreYtelserMutationVariables
-    > = (props) => {
-        const { graderteAndreYtelserId, data } = props ?? {};
-
-        return postGjenopprettGraderteAndreYtelser(graderteAndreYtelserId, data, fetchOptions);
-    };
-
-    return { mutationFn, ...mutationOptions };
-};
-
-export type PostGjenopprettGraderteAndreYtelserMutationResult = NonNullable<
-    Awaited<ReturnType<typeof postGjenopprettGraderteAndreYtelser>>
->;
-export type PostGjenopprettGraderteAndreYtelserMutationBody = ApiPostGjenopprettGraderteAndreYtelserRequest | undefined;
-export type PostGjenopprettGraderteAndreYtelserMutationError = globalThis.Error & {
-    info?: ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCode;
-    status?: number;
-};
-export type PostGjenopprettGraderteAndreYtelserMutationVariables = {
-    graderteAndreYtelserId: string;
-    data?: ApiPostGjenopprettGraderteAndreYtelserRequest;
-};
-
-export const usePostGjenopprettGraderteAndreYtelser = <
-    TError = globalThis.Error & {
-        info?: ApiHttpProblemDetailsApiPostGjenopprettGraderteAndreYtelserErrorCode;
-        status?: number;
-    },
-    TContext = unknown,
->(
-    options?: {
-        mutation?: UseMutationOptions<
-            Awaited<ReturnType<typeof postGjenopprettGraderteAndreYtelser>>,
-            TError,
-            PostGjenopprettGraderteAndreYtelserMutationVariables,
-            TContext
-        >;
-        fetch?: RequestInit;
-    },
-    queryClient?: QueryClient,
-): UseMutationResult<
-    Awaited<ReturnType<typeof postGjenopprettGraderteAndreYtelser>>,
-    TError,
-    PostGjenopprettGraderteAndreYtelserMutationVariables,
-    TContext
-> => {
-    return useMutation(getPostGjenopprettGraderteAndreYtelserMutationOptions(options), queryClient);
 };
