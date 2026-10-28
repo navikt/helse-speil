@@ -1,15 +1,12 @@
 import { ReactElement } from 'react';
 
-import { Alert, BodyShort, ErrorMessage } from '@navikt/ds-react';
+import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { useTotalbeløp } from '@hooks/useTotalbeløp';
 import {
     ApiBeregnetPeriode,
     ApiDag,
-    ApiHandling,
     ApiPeriode,
-    ApiPeriodehandling,
-    ApiPeriodetilstand,
     ApiSaksbildePerson,
     ApiUtbetalingsdagtype,
 } from '@io/rest/generated/spesialist.schemas';
@@ -38,9 +35,6 @@ interface VenstremenyBeregnetPeriodeProps {
     inntektsforhold: Inntektsforhold;
 }
 
-const finnUtbetaleTilgang = ({ handlinger }: ApiBeregnetPeriode): ApiHandling =>
-    handlinger.find((handling) => handling.type === ApiPeriodehandling.UTBETALE) as ApiHandling;
-
 export const VenstremenyBeregnetPeriode = ({
     activePeriod,
     currentPerson,
@@ -62,7 +56,6 @@ export const VenstremenyBeregnetPeriode = ({
         isSelvstendigNaering(inntektsforhold),
         forrigeBehandlingPeriode?.tidslinje,
     );
-    const utbetaleTilgang = finnUtbetaleTilgang(activePeriod);
     const periodState = getPeriodState(activePeriod);
     const utbetalingsvarsler: VarselObject[] = [utbetaling(periodState), tilstandinfo(periodState)].filter(
         (it) => it,
@@ -87,19 +80,13 @@ export const VenstremenyBeregnetPeriode = ({
                 gammeltTotalbeløp={forrigeBehandlingPeriode ? gammeltTotalbeløp : undefined}
                 inntektsforhold={inntektsforhold}
             />
-            {activePeriod.periodetilstand === ApiPeriodetilstand.TilGodkjenning && !utbetaleTilgang.tillatt ? (
-                <ErrorMessage>Du har ikke tilgang til å behandle denne oppgaven</ErrorMessage>
-            ) : (
-                <>
-                    <HarVurderbareVarsler person={currentPerson} />
-                    <HarBeslutteroppgaver person={currentPerson} />
-                    <Utbetaling
-                        period={activePeriod}
-                        person={currentPerson}
-                        inntektsforholdReferanse={tilReferanse(inntektsforhold)}
-                    />
-                </>
-            )}
+            <HarVurderbareVarsler person={currentPerson} />
+            <HarBeslutteroppgaver person={currentPerson} />
+            <Utbetaling
+                period={activePeriod}
+                person={currentPerson}
+                inntektsforholdReferanse={tilReferanse(inntektsforhold)}
+            />
             {utbetalingsvarsler.map(({ grad, melding }, index) => (
                 <Alert variant={grad} key={index}>
                     <BodyShort>{melding}</BodyShort>
