@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation';
 import {
     getGetAktivOppgaveForPersonQueryKey,
     getGetArbeidsforholdForPersonQueryKey,
+    getGetInntekterFraAordningenForPersonQueryKey,
     getGetPaVentForPersonQueryKey,
     getGetSaksbildeForPersonQueryKey,
     getGetTildelingForPersonQueryKey,
@@ -103,6 +104,7 @@ export const refetchPersondata = async (queryClient: QueryClient, personPseudoId
         getGetTildelingForPersonQueryKey(personPseudoId),
         getGetPaVentForPersonQueryKey(personPseudoId),
         getGetArbeidsforholdForPersonQueryKey(personPseudoId),
+        getGetInntekterFraAordningenForPersonQueryKey(personPseudoId),
     ].map((nøkkel) => hashKey(nøkkel));
     await queryClient.refetchQueries({
         predicate: (query) => nøkler.includes(query.queryHash) || erVedtaksperiodenøkkel(query.queryKey),

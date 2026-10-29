@@ -8,6 +8,7 @@ import { putStub as påVentStub } from '@app/api/spesialist/oppgaver/[oppgaveId]
 import { postStub as sendIReturStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/totrinnsvurdering/send-i-retur/postStub';
 import { postStub as sendTilGodkjenningStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/totrinnsvurdering/send-til-godkjenning/postStub';
 import { stub as arbeidsforholdStub } from '@app/api/spesialist/personer/[pseudoId]/arbeidsforhold/stub';
+import { stub as inntekterFraAordningenStub } from '@app/api/spesialist/personer/[pseudoId]/inntekter-fra-aordningen/stub';
 import { stub as paVentForPersonStub } from '@app/api/spesialist/personer/[pseudoId]/pa-vent/stub';
 import { stub as skjønnsfastsettingStub } from '@app/api/spesialist/personer/[pseudoId]/sykefravaerstilfeller/[skjæringstidspunkt]/sykepengegrunnlag/stub';
 import { stub as annullerStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/annuller/stub';
@@ -210,6 +211,31 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
     it('gir 404 for arbeidsforhold til ukjent person', async () => {
         const response = await arbeidsforholdStub(lagRequest({}), Promise.resolve({ pseudoId: 'ukjent' }));
+
+        expect(response.status).toBe(404);
+    });
+
+    it('gir inntektene fra a-ordningen per arbeidsgiver og skjæringstidspunkt', async () => {
+        const fil = lesTestpersonfiler().find((it) =>
+            it.saksbilde.arbeidsgivere.some((arbeidsgiver) => arbeidsgiver.inntekterFraAordningen.length > 0),
+        )!;
+        const pseudoId = PersonMock.findPersonPseudoId(fil.saksbilde.fodselsnummer)!;
+        const saksbilde = hentSaksbilde(pseudoId)!;
+        const forventet = saksbilde.arbeidsgivere.flatMap((arbeidsgiver) =>
+            arbeidsgiver.inntekterFraAordningen.map((it) => ({
+                ...it,
+                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+            })),
+        );
+
+        const response = await inntekterFraAordningenStub(lagRequest({}), Promise.resolve({ pseudoId }));
+
+        expect(forventet.length).toBeGreaterThan(0);
+        expect(await response.json()).toEqual(forventet);
+    });
+
+    it('gir 404 for inntekter fra a-ordningen til ukjent person', async () => {
+        const response = await inntekterFraAordningenStub(lagRequest({}), Promise.resolve({ pseudoId: 'ukjent' }));
 
         expect(response.status).toBe(404);
     });

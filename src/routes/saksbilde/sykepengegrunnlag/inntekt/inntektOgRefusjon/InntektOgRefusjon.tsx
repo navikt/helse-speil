@@ -14,6 +14,7 @@ import { InntektOgRefusjonHeader } from '@saksbilde/sykepengegrunnlag/inntekt/in
 import { InntektOgRefusjonVisning } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/InntektOgRefusjonVisning';
 import { ToggleOverstyring } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjon/ToggleOverstyring';
 import { InntektOgRefusjonSkjema } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/InntektOgRefusjonSkjema';
+import { useInntekterFraAordningen } from '@state/inntekterFraAordningen';
 import { harSykefraværMedSkjæringstidspunkt } from '@state/inntektsforhold/arbeidsgiver';
 import { arbeidsgiverTilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Refusjonsopplysning } from '@typer/overstyring';
@@ -53,9 +54,7 @@ export const InntektOgRefusjon = ({
         deaktivert: erDeaktivert,
     } = inntekt;
 
-    const inntektFraAOrdningen = arbeidsgiver.inntekterFraAordningen.find(
-        (it) => it.skjaeringstidspunkt === skjæringstidspunkt,
-    )?.inntekter;
+    const inntektFraAOrdningen = useInntekterFraAordningen(arbeidsgiver.organisasjonsnummer, skjæringstidspunkt);
 
     const harSykefravær = harSykefraværMedSkjæringstidspunkt(arbeidsgiver, skjæringstidspunkt);
 
