@@ -8,9 +8,13 @@ import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { getGetDialogmeldingQueryKey, getGetDialogmeldingerQueryKey } from '@io/rest/generated/default/default';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
+import type { Testpersonfil } from '@spesialist-mock/storage/person';
+import { useAktivOppgave } from '@state/oppgave';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { useTildeling } from '@state/tildeling';
 import { useAddToast } from '@state/toasts';
+import { useTotrinnsvurdering } from '@state/totrinnsvurdering';
 import { useQueryClient } from '@tanstack/react-query';
 import { isBeregnetPeriode, isNotNullOrUndefined, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
@@ -77,12 +81,16 @@ const useCopyPersondata = (): (() => void) => {
     const { personPseudoId } = useParams<{ personPseudoId?: string }>();
     const { loading, data: saksbilde } = useFetchPersonQuery();
     const { data: person } = useGetPerson(personPseudoId ?? '');
+    const aktivOppgave = useAktivOppgave();
+    const totrinnsvurdering = useTotrinnsvurdering();
+    const tildeling = useTildeling();
     const addToast = useAddToast();
 
     return () => {
         if (!loading && isNotNullOrUndefined(saksbilde) && isNotNullOrUndefined(person)) {
             // Samme format som testpersonfilene i src/spesialist-mock/data/personer
-            void copyString(JSON.stringify({ saksbilde, person }, null, 2), true);
+            const testpersonfil: Testpersonfil = { saksbilde, person, aktivOppgave, totrinnsvurdering, tildeling };
+            void copyString(JSON.stringify(testpersonfil, null, 2), true);
             addToast({
                 key: 'kopierPersondataToastKey',
                 message: 'Persondata er kopiert',
