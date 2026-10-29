@@ -3,8 +3,10 @@ import {
     ApiEndreGraderteAndreYtelserResponse,
     ApiGetGraderteAndreYtelserForPersonErrorCode,
     ApiPostGraderteAndreYtelserErrorCode,
+    ApiServerSentEventEvent,
 } from '@io/rest/generated/spesialist.schemas';
 import { problemDetails } from '@spesialist-mock/problemDetails';
+import { pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
 import { endreGraderteAndreYtelser, hentGraderteAndreYtelser } from '@spesialist-mock/storage/graderteAndreYtelser';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
@@ -38,6 +40,7 @@ export async function postStub(request: Request, params: Promise<{ pseudoId: str
     const body: ApiEndreGraderteAndreYtelserRequest = await request.json();
     const resultat = endreGraderteAndreYtelser(fødselsnummer, body);
     if (resultat.type === 'FEIL') return feil(resultat.code);
+    if (resultat.endret) pushEventEtterForsinkelse(fødselsnummer, ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE);
 
     const response: ApiEndreGraderteAndreYtelserResponse = { versjon: resultat.versjon };
     return Response.json(response);

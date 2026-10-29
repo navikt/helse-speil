@@ -19,6 +19,9 @@ vi.mock('@state/oppgave', async () => ({
     useAktivOppgaveForPeriode: vi.fn(),
 }));
 
+vi.mock('@utils/featureToggles', () => ({
+    useSkalSeGraderteAndreYtelser: () => false,
+}));
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
     useHarBeslutterrolle: () => true,

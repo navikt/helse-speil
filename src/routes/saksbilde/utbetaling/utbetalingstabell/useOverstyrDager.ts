@@ -1,8 +1,20 @@
 import dayjs from 'dayjs';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
+import {
+    getGetGraderteAndreYtelserForPersonQueryKey,
+    usePostGraderteAndreYtelser,
+} from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
 import { usePostOverstyrTidslinje } from '@io/rest/generated/overstyringer/overstyringer';
+import {
+    ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode,
+    ApiPeriode,
+    ApiPostGraderteAndreYtelserErrorCode,
+} from '@io/rest/generated/spesialist.schemas';
+import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
+import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
     visningenErOppdatertToast,
     visningenErOppdatertToastKey,
@@ -11,15 +23,19 @@ import {
 import { erNyOppgaveEvent, erPersondataOppdatertEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
+import { useQueryClient } from '@tanstack/react-query';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+
+import { tilGraderteAndreYtelserRequest } from './graderteAndreYtelserRequest';
 
 type UsePostOverstyringResult = {
     postOverstyring: (
         dager: Utbetalingstabelldag[],
         overstyrteDager: Utbetalingstabelldag[],
         begrunnelse: string,
-        vedtaksperiodeId: string,
+        periode: ApiPeriode,
+        inntektsforhold: Inntektsforhold,
         callback?: () => void,
     ) => Promise<void>;
     error?: string;
@@ -27,9 +43,29 @@ type UsePostOverstyringResult = {
 };
 
 export const useOverstyrDager = (): UsePostOverstyringResult => {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
-    const { mutateAsync: overstyrTidslinje, error: overstyrTidslinjeError } = usePostOverstyrTidslinje();
+    const queryClient = useQueryClient();
+    const graderteAndreYtelser = useGraderteAndreYtelser();
+    const {
+        mutateAsync: endreGraderteAndreYtelser,
+        error: graderteAndreYtelserError,
+        reset: resetGraderteAndreYtelserMutation,
+    } = usePostGraderteAndreYtelser({
+        mutation: {
+            onSettled: () => {
+                queryClient.invalidateQueries({
+                    queryKey: getGetGraderteAndreYtelserForPersonQueryKey(personPseudoId!),
+                });
+            },
+        },
+    });
+    const {
+        mutateAsync: overstyrTidslinje,
+        error: overstyrTidslinjeError,
+        reset: resetOverstyrTidslinjeMutation,
+    } = usePostOverstyrTidslinje();
     const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
     const [done, setDone] = useState(false);
 
@@ -51,29 +87,58 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         dager: Utbetalingstabelldag[],
         overstyrteDager: Utbetalingstabelldag[],
         begrunnelse: string,
-        vedtaksperiodeId: string,
+        periode: ApiPeriode,
+        inntektsforhold: Inntektsforhold,
         callback?: () => void,
     ): Promise<void> => {
+        resetGraderteAndreYtelserMutation();
+        resetOverstyrTidslinjeMutation();
         setDone(false);
         addToast(visningenOppdateresToast({}));
         setVisningenOppdateres(true);
 
-        return overstyrTidslinje({
-            vedtaksperiodeId,
-            data: {
-                begrunnelse,
-                dager: tilOverstyrteDager(dager, overstyrteDager),
-            },
-        })
-            .then(() => {
-                callback?.();
-            })
+        return lagreGraderteAndreYtelser(overstyrteDager, begrunnelse, periode, inntektsforhold)
+            .then(() => lagreTidslinje(dager, overstyrteDager, begrunnelse, periode))
+            .then(() => callback?.())
             .catch(() => Promise.resolve());
     };
 
+    async function lagreGraderteAndreYtelser(
+        overstyrteDager: Utbetalingstabelldag[],
+        begrunnelse: string,
+        periode: ApiPeriode,
+        inntektsforhold: Inntektsforhold,
+    ): Promise<void> {
+        if (!overstyrteDager.some((dag) => dag.gradertAnnenYtelse)) return;
+        await endreGraderteAndreYtelser({
+            pseudoId: personPseudoId!,
+            data: tilGraderteAndreYtelserRequest({
+                overstyrteDager,
+                inntektsforhold,
+                graderteAndreYtelser,
+                behandlingId: periode.behandlingId,
+                notatTilBeslutter: begrunnelse,
+            }),
+        });
+    }
+
+    async function lagreTidslinje(
+        dager: Utbetalingstabelldag[],
+        overstyrteDager: Utbetalingstabelldag[],
+        begrunnelse: string,
+        periode: ApiPeriode,
+    ): Promise<void> {
+        const andreOverstyrteDager = overstyrteDager.filter((dag) => !dag.gradertAnnenYtelse);
+        if (andreOverstyrteDager.length === 0) return;
+        await overstyrTidslinje({
+            vedtaksperiodeId: periode.vedtaksperiodeId,
+            data: { begrunnelse, dager: tilOverstyrteDager(dager, andreOverstyrteDager) },
+        });
+    }
+
     return {
         postOverstyring: overstyrDager,
-        error: overstyrTidslinjeError ? 'Feil under sending av overstyring. Prøv igjen senere.' : undefined,
+        error: opprettFeilmelding(graderteAndreYtelserError, overstyrTidslinjeError),
         done,
     };
 };
@@ -111,3 +176,16 @@ const finnLovhjemmelForDagoverstyring = (
     }
     return undefined;
 };
+
+function opprettFeilmelding(
+    graderteAndreYtelserError: { info?: ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode } | null,
+    overstyrTidslinjeError: Error | null,
+): string | undefined {
+    if (graderteAndreYtelserError?.info?.code === ApiPostGraderteAndreYtelserErrorCode.UTDATERT_TILSTAND) {
+        return 'Graderte andre ytelser er endret siden du åpnet saken. Se over endringene og prøv igjen.';
+    }
+    if (graderteAndreYtelserError || overstyrTidslinjeError) {
+        return 'Feil under sending av overstyring. Prøv igjen senere.';
+    }
+    return undefined;
+}

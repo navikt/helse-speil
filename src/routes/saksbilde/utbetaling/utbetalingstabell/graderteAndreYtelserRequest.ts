@@ -25,29 +25,32 @@ export function tilGraderteAndreYtelserRequest({
     behandlingId: string;
     notatTilBeslutter: string;
 }): ApiEndreGraderteAndreYtelserRequest {
-    const yrkesaktivitet: Yrkesaktivitet = isArbeidsgiver(inntektsforhold)
-        ? {
-              yrkesaktivitet: ApiYrkesaktivitetstype.ARBEIDSTAKER,
-              organisasjonsnummer: inntektsforhold.organisasjonsnummer,
-          }
-        : { yrkesaktivitet: ApiYrkesaktivitetstype.SELVSTENDIG, organisasjonsnummer: null };
     return {
-        ...yrkesaktivitet,
-        versjon: finnVersjon(graderteAndreYtelser, yrkesaktivitet),
+        ...tilYrkesaktivitet(inntektsforhold),
+        versjon: finnGraderteAndreYtelser(graderteAndreYtelser, inntektsforhold)?.versjon ?? null,
         behandlingId,
         notatTilBeslutter,
         dager: overstyrteDager.filter((dag) => dag.gradertAnnenYtelse).map(tilGraderteAndreYtelserDag),
     };
 }
 
-function finnVersjon(
+export function finnGraderteAndreYtelser(
     graderteAndreYtelser: ApiGraderteAndreYtelser[],
-    { yrkesaktivitet, organisasjonsnummer }: Yrkesaktivitet,
-): string | null {
-    const eksisterende = graderteAndreYtelser.find(
+    inntektsforhold: Inntektsforhold,
+): ApiGraderteAndreYtelser | undefined {
+    const { yrkesaktivitet, organisasjonsnummer } = tilYrkesaktivitet(inntektsforhold);
+    return graderteAndreYtelser.find(
         (it) => it.yrkesaktivitet === yrkesaktivitet && (it.organisasjonsnummer ?? null) === organisasjonsnummer,
     );
-    return eksisterende?.versjon ?? null;
+}
+
+function tilYrkesaktivitet(inntektsforhold: Inntektsforhold): Yrkesaktivitet {
+    return isArbeidsgiver(inntektsforhold)
+        ? {
+              yrkesaktivitet: ApiYrkesaktivitetstype.ARBEIDSTAKER,
+              organisasjonsnummer: inntektsforhold.organisasjonsnummer,
+          }
+        : { yrkesaktivitet: ApiYrkesaktivitetstype.SELVSTENDIG, organisasjonsnummer: null };
 }
 
 function tilGraderteAndreYtelserDag({

@@ -8,6 +8,7 @@ import { OverstyringFormFields, lagOverstyringSchema } from '@form-schemas/overs
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
     ApiBeregnetPeriode,
+    ApiGraderteAndreYtelserDag,
     ApiSaksbildePerson,
     ApiUberegnetPeriode,
     ApiUtbetalingstatus,
@@ -16,6 +17,7 @@ import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndreDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerForm';
+import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { cn } from '@utils/tw';
@@ -25,14 +27,11 @@ import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerChec
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
+import { erReellEndring } from './utbetalingstabell/erReellEndring';
+import { finnGraderteAndreYtelser } from './utbetalingstabell/graderteAndreYtelserRequest';
 import { useOverstyrDager } from './utbetalingstabell/useOverstyrDager';
 
 const getKey = (dag: Utbetalingstabelldag) => dag.dato;
-
-const erReellEndring = (tilDag: Partial<Utbetalingstabelldag>, fraDag: Utbetalingstabelldag): boolean =>
-    !!tilDag.gradertAnnenYtelse || // sjekk uansett. fraDag har kombinert grad (sykepenger 30, foreldrepenger 40 === sykepenger 40, foreldrepenger 30) hvis del-gradene er identiske, blir endringen forkastet
-    (typeof tilDag.grad === 'number' && tilDag.grad !== fraDag.grad) ||
-    tilDag.dag?.speilDagtype !== fraDag.dag.speilDagtype;
 
 enum DagerActionType {
     FJERN_ALLE_DAGER,
@@ -56,6 +55,7 @@ type ModifyDagAction = {
     type: DagerActionType.OVERSTYR_DAG;
     payload: {
         dag: Partial<Utbetalingstabelldag>;
+        lagredeGraderteDager: ApiGraderteAndreYtelserDag[];
     };
 };
 
@@ -90,10 +90,11 @@ const defaultDagerState: DagerState = {
 };
 
 const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
-    const overstyrDag = (tilDag: Partial<Utbetalingstabelldag>) => {
+    const overstyrDag = (tilDag: Partial<Utbetalingstabelldag>, lagredeGraderteDager: ApiGraderteAndreYtelserDag[]) => {
         const nyeOverstyrteDager = Array.from(prevState.markerteDager.values()).reduce(
             (map: Map<string, Utbetalingstabelldag>, fraDag: Utbetalingstabelldag) => {
-                if (erReellEndring(tilDag, fraDag)) {
+                const lagretGradertDag = lagredeGraderteDager.find((it) => it.dato === fraDag.dato);
+                if (erReellEndring(tilDag, fraDag, lagretGradertDag)) {
                     map.set(getKey(fraDag), { ...fraDag, ...tilDag, fraType: fraDag.dag.speilDagtype });
                 } else {
                     map.delete(getKey(fraDag));
@@ -146,7 +147,7 @@ const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
 
     switch (action.type) {
         case DagerActionType.OVERSTYR_DAG:
-            return overstyrDag(action.payload.dag);
+            return overstyrDag(action.payload.dag, action.payload.lagredeGraderteDager);
         case DagerActionType.TOGGLE_MARKERTE_DAGER:
             return toggleMarkerteDager(action.payload.dag, action.payload.toggle);
         case DagerActionType.SHIFT_TOGGLE_MARKERTE_DAGER:
@@ -195,6 +196,7 @@ export function OverstyrbarUtbetaling({
     const [overstyrer, setOverstyrer] = useState(false);
 
     const { postOverstyring, error, done } = useOverstyrDager();
+    const lagredeGraderteDager = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold)?.dager ?? [];
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 
@@ -222,7 +224,8 @@ export function OverstyrbarUtbetaling({
             Array.from(alleDager.values()),
             Array.from(alleOverstyrteDager.values()),
             values.begrunnelse,
-            periode.vedtaksperiodeId,
+            periode,
+            inntektsforhold,
             () => setOverstyrer(!overstyrer),
         );
     };
@@ -248,7 +251,7 @@ export function OverstyrbarUtbetaling({
     };
 
     const onSubmitEndring = (tilDag: Partial<Utbetalingstabelldag>) => {
-        dispatch({ type: DagerActionType.OVERSTYR_DAG, payload: { dag: tilDag } });
+        dispatch({ type: DagerActionType.OVERSTYR_DAG, payload: { dag: tilDag, lagredeGraderteDager } });
     };
 
     const onSubmitPølsestrekk = (dagerLagtTil: Map<string, Utbetalingstabelldag>) => {
