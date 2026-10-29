@@ -4,6 +4,7 @@ import {
     useGetAktivOppgaveForPerson,
     useGetBehandlendeEnhetForPerson,
     useGetKrrRegistrertStatusForPerson,
+    useGetPaVentForPerson,
     useGetSaksbehandlerStans,
     useGetSaksbildeForPerson,
     useGetTildelingForPerson,
@@ -79,4 +80,5 @@ function mockPersonHeaderKall() {
     (useGetAktivOppgaveForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
     (useGetTotrinnsvurderingForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
     (useGetTildelingForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
+    (useGetPaVentForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
 }

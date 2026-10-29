@@ -12,6 +12,7 @@ import { Historikkhendelse } from '@saksbilde/historikk/komponenter/Historikkhen
 import { HendelseKommentarSeksjon } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarSeksjon';
 import { HendelseKommentarer } from '@saksbilde/historikk/komponenter/kommentarer/hendelse/HendelseKommentarer';
 import { useActivePeriod } from '@state/periode';
+import { usePåVentForPeriode } from '@state/påvent';
 import { HistorikkhendelseObject } from '@typer/historikk';
 import { somNorskDato } from '@utils/date';
 import { isBeregnetPeriode } from '@utils/typeguards';
@@ -23,7 +24,8 @@ interface LagtPåVentHendelseProps {
 
 export const LagtPåVentHendelse = ({ hendelse, person }: LagtPåVentHendelseProps) => {
     const aktivPeriode = useActivePeriod(person);
-    const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && aktivPeriode?.paVent !== null;
+    const påVent = usePåVentForPeriode(aktivPeriode);
+    const erAktivPeriodePåVent = isBeregnetPeriode(aktivPeriode) && påVent !== null;
     return (
         <Historikkhendelse
             icon={<HistorikkHourglassTopFilledIkon />}

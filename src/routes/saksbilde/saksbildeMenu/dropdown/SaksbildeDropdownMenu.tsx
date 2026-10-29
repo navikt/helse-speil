@@ -23,6 +23,7 @@ import {
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useFetchPersonQuery } from '@state/person';
+import { usePåVentForPeriode } from '@state/påvent';
 import { useAvmeld, useTildel, useTildeling } from '@state/tildeling';
 import { useOperationErrorHandler } from '@state/varsler';
 import { ActivePeriod } from '@typer/shared';
@@ -61,7 +62,7 @@ function SaksbildeDropdownMenuContent({
     const inntektsforhold = useAktivtInntektsforhold(person);
     const oppgaveId = useAktivOppgaveForPeriode(periodeTilGodkjenning)?.id;
     const aktivPeriodeHarOppgave = useAktivOppgaveForPeriode(activePeriod) !== null;
-    const erPåVent = periodeTilGodkjenning?.paVent;
+    const erPåVent = usePåVentForPeriode(periodeTilGodkjenning) !== null;
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
 
     const { data: saksbehandlerStans } = useGetSaksbehandlerStans(personPseudoId);

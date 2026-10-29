@@ -7,6 +7,7 @@ import { stub as vedtakStub } from '@app/api/spesialist/behandlinger/[behandling
 import { putStub as påVentStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/pa-vent/putStub';
 import { postStub as sendIReturStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/totrinnsvurdering/send-i-retur/postStub';
 import { postStub as sendTilGodkjenningStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/totrinnsvurdering/send-til-godkjenning/postStub';
+import { stub as paVentForPersonStub } from '@app/api/spesialist/personer/[pseudoId]/pa-vent/stub';
 import { stub as skjønnsfastsettingStub } from '@app/api/spesialist/personer/[pseudoId]/sykefravaerstilfeller/[skjæringstidspunkt]/sykepengegrunnlag/stub';
 import { stub as annullerStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/annuller/stub';
 import { stub as overstyrArbeidsforholdStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/arbeidsforhold/stub';
@@ -131,6 +132,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
         expect((await sendTilGodkjenning(oppgaveId)).status).toBe(204);
         expect(periode(behandlingId).paVent).toBeNull();
+        expect((await hentPåVent()).paVent).toBeNull();
         expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(ApiEgenskap.PA_VENT);
         expect(egenskaperForOppgave()).not.toContain(ApiEgenskap.PA_VENT);
 
@@ -143,6 +145,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         expect((await leggPåVent(oppgaveId)).status).toBe(204);
 
         expect(periode(behandlingId).paVent).toBeTruthy();
+        expect((await hentPåVent()).paVent).toMatchObject({ frist: expect.any(String) });
         expect(historikktyper()).toContain(ApiPeriodehistorikkType.LEGG_PA_VENT);
         expect(TildelingMock.harTildeling(personPseudoId())).toBe(true);
     });
@@ -443,6 +446,11 @@ function annuller(id: string) {
         }),
         Promise.resolve({ vedtaksperiodeId: id }),
     );
+}
+
+async function hentPåVent() {
+    const response = await paVentForPersonStub(lagRequest({}), Promise.resolve({ pseudoId: personPseudoId() }));
+    return response.json();
 }
 
 function lagRequest(body: object): NextRequest {

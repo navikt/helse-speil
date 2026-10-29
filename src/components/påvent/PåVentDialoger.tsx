@@ -12,6 +12,7 @@ import { ApiPersonnavn, ApiTildeling } from '@io/rest/generated/spesialist.schem
 import { sporHendelse } from '@observability/hendelser';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useInvaliderOppgaver } from '@state/oppgaver';
+import { useInvaliderPåVent } from '@state/påvent';
 import { DateString } from '@typer/shared';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { getFormatertNavn } from '@utils/string';
@@ -135,6 +136,7 @@ const PåVentDialogInnhold = ({
     const { arsaker: årsaker, loading: årsakerLoading } = useArsaker('paventarsaker');
     const { mutate, isPending, error } = usePutPåVent();
     const invaliderOppgaver = useInvaliderOppgaver();
+    const invaliderPåVent = useInvaliderPåVent();
 
     const opprinneligTildeltSaksbehandler = utgangspunktTildeling
         ? utgangspunktTildeling.oid === saksbehandler.oid
@@ -170,6 +172,7 @@ const PåVentDialogInnhold = ({
             {
                 onSuccess: () => {
                     void invaliderOppgaver();
+                    void invaliderPåVent();
                     onSuccess();
                 },
             },
