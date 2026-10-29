@@ -6,9 +6,10 @@ import { BodyShort, Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Texta
 import { AvvisningSkjema, avvisningSkjema } from '@form-schemas/avvisningSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
-import { ApiBeregnetPeriode } from '@io/rest/generated/spesialist.schemas';
+import { ApiBeregnetPeriode, ApiFaresignal } from '@io/rest/generated/spesialist.schemas';
 import { sporHendelse } from '@observability/hendelser';
 import { useInvaliderOppgaver } from '@state/oppgaver';
+import { useRisikovurdering } from '@state/risikovurdering';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
@@ -35,7 +36,8 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
 
     const begrunnelser = useWatch({ name: 'begrunnelser', control: form.control });
     const annet = begrunnelser.includes(ÅrsakTilAvvisning.Annet);
-    const { varslerOgRiskfunn, fasteÅrsaker } = hentÅrsakerValg(activePeriod);
+    const funn = useRisikovurdering(activePeriod.vedtaksperiodeId)?.funn;
+    const { varslerOgRiskfunn, fasteÅrsaker } = hentÅrsakerValg(activePeriod, funn);
 
     function onSubmit(values: AvvisningSkjema) {
         mutate(
@@ -148,10 +150,8 @@ type ÅrsakerValg = {
     label: React.ReactNode;
 };
 
-const hentÅrsakerValg = (activePeriod: ApiBeregnetPeriode) => {
+const hentÅrsakerValg = (activePeriod: ApiBeregnetPeriode, funn?: ApiFaresignal[] | null) => {
     const valg: ÅrsakerValg[] = [];
-
-    const funn = activePeriod.risikovurdering?.funn;
 
     if (Array.isArray(funn)) {
         for (const vurderingsmoment of funn.filter((it) => !it.kategori.includes('8-4'))) {

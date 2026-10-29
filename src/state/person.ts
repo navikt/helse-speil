@@ -11,7 +11,7 @@ import {
     useGetTotrinnsvurderingForPerson,
 } from '@io/rest/generated/personer/personer';
 import { ApiBehandling, ApiPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
-import { QueryClient, hashKey, useQueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryKey, hashKey, useQueryClient } from '@tanstack/react-query';
 
 const usePersonPseudoId = (): string | undefined => useParams<{ personPseudoId?: string }>().personPseudoId;
 
@@ -81,8 +81,16 @@ export const refetchPersondata = async (queryClient: QueryClient, personPseudoId
         getGetTotrinnsvurderingForPersonQueryKey(personPseudoId),
         getGetTildelingForPersonQueryKey(personPseudoId),
     ].map((nøkkel) => hashKey(nøkkel));
-    await queryClient.refetchQueries({ predicate: (query) => nøkler.includes(query.queryHash) });
+    await queryClient.refetchQueries({
+        predicate: (query) => nøkler.includes(query.queryHash) || erVedtaksperiodenøkkel(query.queryKey),
+    });
 };
+
+// Ressurser per vedtaksperiode lastes når de trengs, og alle som er i cachen refetches sammen med personen
+const vedtaksperioderessurs = /^\/api\/spesialist\/vedtaksperioder\/[^/]+\/(risikovurdering)$/;
+
+const erVedtaksperiodenøkkel = (queryKey: QueryKey): boolean =>
+    typeof queryKey[0] === 'string' && vedtaksperioderessurs.test(queryKey[0]);
 
 export const mapPerioder = (
     person: ApiSaksbildePerson,

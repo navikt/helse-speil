@@ -26,6 +26,7 @@ import {
     useSynkroniserValgtPeriodeMedUrl,
 } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { useRisikovurdering } from '@state/risikovurdering';
 import { SaksbildeTab, tabTilAnker, useLagreTabFraAnker, useSaksbildeTab, useTabFraAnker } from '@state/tab';
 import { useUtviklersnacks } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
@@ -38,13 +39,15 @@ type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean }
 
 const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
     const utviklersnacks = useUtviklersnacks();
+    const risikovurdering = useRisikovurdering(
+        isBeregnetPeriode(aktivPeriode) ? aktivPeriode.vedtaksperiodeId : undefined,
+    );
     if (!aktivPeriode) return { tabs: [] as TilgjengeligTab[], erAnnullert: false };
 
     const erBeregnetPeriode = isBeregnetPeriode(aktivPeriode);
     const erPeriode = erBeregnetPeriode || isUberegnetPeriode(aktivPeriode);
     const erVilkårsvurdert = erBeregnetPeriode || isGhostPeriode(aktivPeriode);
-    const harRisikofunn =
-        erBeregnetPeriode && aktivPeriode.risikovurdering?.funn && aktivPeriode.risikovurdering?.funn?.length > 0;
+    const harRisikofunn = erBeregnetPeriode && (risikovurdering?.funn?.length ?? 0) > 0;
 
     const erAnnullert =
         isBeregnetPeriode(aktivPeriode) &&

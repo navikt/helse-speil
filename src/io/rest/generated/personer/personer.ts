@@ -14,6 +14,7 @@ import type {
     ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode,
     ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode,
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingerForPersonErrorCode,
@@ -28,6 +29,7 @@ import type {
     ApiHttpProblemDetailsApiPutTildelingErrorCode,
     ApiInfotrygdperiode,
     ApiKrrRegistrertStatus,
+    ApiPaVentForPerson,
     ApiPerson,
     ApiPersonSokRequest,
     ApiPersonSokResponse,
@@ -508,6 +510,137 @@ export function useGetTotrinnsvurderingForPerson<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetTotrinnsvurderingForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetPaVentForPersonUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/pa-vent`;
+};
+
+export const getPaVentForPerson = async (pseudoId: string, options?: RequestInit): Promise<ApiPaVentForPerson> => {
+    const res = await fetch(getGetPaVentForPersonUrl(pseudoId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiPaVentForPerson; status?: number } = new globalThis.Error();
+        const data: ApiPaVentForPerson = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiPaVentForPerson = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetPaVentForPersonQueryKey = (pseudoId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/pa-vent`] as const;
+};
+
+export const useGetPaVentForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getPaVentForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPaVentForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetPaVentForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getPaVentForPerson>>> = ({ signal }) =>
+        getPaVentForPerson(pseudoId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<Awaited<ReturnType<typeof getPaVentForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetPaVentForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getPaVentForPerson>>>;
+export type GetPaVentForPersonQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode;
+    status?: number;
+};
+
+export function useGetPaVentForPerson<
+    TData = Awaited<ReturnType<typeof getPaVentForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPaVentForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getPaVentForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getPaVentForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetPaVentForPerson<
+    TData = Awaited<ReturnType<typeof getPaVentForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPaVentForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getPaVentForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getPaVentForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetPaVentForPerson<
+    TData = Awaited<ReturnType<typeof getPaVentForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPaVentForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetPaVentForPerson<
+    TData = Awaited<ReturnType<typeof getPaVentForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getPaVentForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetPaVentForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

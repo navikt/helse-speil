@@ -6,13 +6,365 @@
  */
 import type {
     ApiAnmodOmForkastingRequest,
+    ApiAnnulleringForVedtaksperiode,
+    ApiHttpProblemDetailsApiGetAnnulleringForVedtaksperiodeErrorCode,
+    ApiHttpProblemDetailsApiGetRisikovurderingForVedtaksperiodeErrorCode,
     ApiHttpProblemDetailsApiPostAnmodOmForkastingErrorCode,
     ApiHttpProblemDetailsApiPostVedtaksperiodeAnnullerErrorCode,
+    ApiRisikovurderingForVedtaksperiode,
     ApiVedtaksperiodeAnnullerRequest,
 } from '../spesialist.schemas';
 
-import type { MutationFunction, QueryClient, UseMutationOptions, UseMutationResult } from '@tanstack/react-query';
-import { useMutation } from '@tanstack/react-query';
+import type {
+    DataTag,
+    DefinedInitialDataOptions,
+    DefinedUseQueryResult,
+    MutationFunction,
+    QueryClient,
+    QueryFunction,
+    QueryKey,
+    UndefinedInitialDataOptions,
+    UseMutationOptions,
+    UseMutationResult,
+    UseQueryOptions,
+    UseQueryResult,
+} from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+
+import { withDefaultQueryOptions } from '../../defaultQueryOptions';
+
+const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKey: K } => {
+    const result = { queryKey } as T & { queryKey: K };
+    for (const key of Object.keys(query)) {
+        // The explicit queryKey always wins, matching the previous
+        // `{ ...query, queryKey }` spread where it was set last.
+        if (key === 'queryKey') continue;
+        Object.defineProperty(result, key, {
+            enumerable: true,
+            configurable: true,
+            get: () => (query as Record<string, unknown>)[key],
+        });
+    }
+    return result;
+};
+
+export const getGetRisikovurderingForVedtaksperiodeUrl = (vedtaksperiodeId: string) => {
+    return `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/risikovurdering`;
+};
+
+export const getRisikovurderingForVedtaksperiode = async (
+    vedtaksperiodeId: string,
+    options?: RequestInit,
+): Promise<ApiRisikovurderingForVedtaksperiode> => {
+    const res = await fetch(getGetRisikovurderingForVedtaksperiodeUrl(vedtaksperiodeId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiRisikovurderingForVedtaksperiode; status?: number } =
+            new globalThis.Error();
+        const data: ApiRisikovurderingForVedtaksperiode = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiRisikovurderingForVedtaksperiode = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetRisikovurderingForVedtaksperiodeQueryKey = (vedtaksperiodeId: string) => {
+    return [`/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/risikovurdering`] as const;
+};
+
+export const useGetRisikovurderingForVedtaksperiodeQueryOptions = <
+    TData = Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetRisikovurderingForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>, TError, TData>
+        >;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetRisikovurderingForVedtaksperiodeQueryKey(vedtaksperiodeId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>> = ({ signal }) =>
+        getRisikovurderingForVedtaksperiode(vedtaksperiodeId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: vedtaksperiodeId !== null && vedtaksperiodeId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<
+        Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetRisikovurderingForVedtaksperiodeQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>
+>;
+export type GetRisikovurderingForVedtaksperiodeQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetRisikovurderingForVedtaksperiodeErrorCode;
+    status?: number;
+};
+
+export function useGetRisikovurderingForVedtaksperiode<
+    TData = Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetRisikovurderingForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options: {
+        query: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>, TError, TData>
+        > &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>,
+                    TError,
+                    Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetRisikovurderingForVedtaksperiode<
+    TData = Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetRisikovurderingForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>, TError, TData>
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>,
+                    TError,
+                    Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetRisikovurderingForVedtaksperiode<
+    TData = Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetRisikovurderingForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>, TError, TData>
+        >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetRisikovurderingForVedtaksperiode<
+    TData = Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetRisikovurderingForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getRisikovurderingForVedtaksperiode>>, TError, TData>
+        >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetRisikovurderingForVedtaksperiodeQueryOptions(vedtaksperiodeId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetAnnulleringForVedtaksperiodeUrl = (vedtaksperiodeId: string) => {
+    return `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/annullering`;
+};
+
+export const getAnnulleringForVedtaksperiode = async (
+    vedtaksperiodeId: string,
+    options?: RequestInit,
+): Promise<ApiAnnulleringForVedtaksperiode> => {
+    const res = await fetch(getGetAnnulleringForVedtaksperiodeUrl(vedtaksperiodeId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiAnnulleringForVedtaksperiode; status?: number } =
+            new globalThis.Error();
+        const data: ApiAnnulleringForVedtaksperiode = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiAnnulleringForVedtaksperiode = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetAnnulleringForVedtaksperiodeQueryKey = (vedtaksperiodeId: string) => {
+    return [`/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/annullering`] as const;
+};
+
+export const useGetAnnulleringForVedtaksperiodeQueryOptions = <
+    TData = Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetAnnulleringForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetAnnulleringForVedtaksperiodeQueryKey(vedtaksperiodeId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>> = ({ signal }) =>
+        getAnnulleringForVedtaksperiode(vedtaksperiodeId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: vedtaksperiodeId !== null && vedtaksperiodeId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<
+        Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetAnnulleringForVedtaksperiodeQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>
+>;
+export type GetAnnulleringForVedtaksperiodeQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetAnnulleringForVedtaksperiodeErrorCode;
+    status?: number;
+};
+
+export function useGetAnnulleringForVedtaksperiode<
+    TData = Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetAnnulleringForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>,
+                    TError,
+                    Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetAnnulleringForVedtaksperiode<
+    TData = Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetAnnulleringForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>,
+                    TError,
+                    Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetAnnulleringForVedtaksperiode<
+    TData = Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetAnnulleringForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetAnnulleringForVedtaksperiode<
+    TData = Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetAnnulleringForVedtaksperiodeErrorCode;
+        status?: number;
+    },
+>(
+    vedtaksperiodeId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getAnnulleringForVedtaksperiode>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetAnnulleringForVedtaksperiodeQueryOptions(vedtaksperiodeId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
 
 export const getPostVedtaksperiodeAnnullerUrl = (vedtaksperiodeId: string) => {
     return `/api/spesialist/vedtaksperioder/${vedtaksperiodeId}/annuller`;

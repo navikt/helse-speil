@@ -12,6 +12,7 @@ import { stub as annullerStub } from '@app/api/spesialist/vedtaksperioder/[vedta
 import { stub as overstyrArbeidsforholdStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/arbeidsforhold/stub';
 import { stub as overstyrInntektStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/inntekt-og-refusjon/stub';
 import { stub as overstyrTidslinjeStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/tidslinje/stub';
+import { stub as risikovurderingStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/risikovurdering/stub';
 import { stub as manuellOpptjeningStub } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/manuell/opptjening/stub';
 import { hentVilkårsvurderinger } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
 import {
@@ -176,6 +177,14 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         );
         await forventFeil(annuller(vedtaksperiodeId), 409, 'ALLEREDE_ANNULLERT');
     });
+    it('gir risikovurderingen til nyeste behandling av vedtaksperioden', async () => {
+        const { vedtaksperiodeId, risikovurdering } = periode(behandlingId);
+        const response = await risikovurderingStub(lagRequest({}), Promise.resolve({ vedtaksperiodeId }));
+
+        expect(risikovurdering).toBeTruthy();
+        expect((await response.json()).risikovurdering).toEqual(risikovurdering);
+    });
+
     it('gir personer uten seedet opptjening skjæringstidspunktet til perioden med oppgave', () => {
         expect(hentVilkårsvurderinger(personPseudoId()).skjæringstidspunkt).toBe(
             periode(behandlingId).skjaeringstidspunkt,

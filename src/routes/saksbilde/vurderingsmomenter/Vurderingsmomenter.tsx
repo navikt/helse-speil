@@ -8,6 +8,7 @@ import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';
 import { Sjekkikon } from '@components/ikoner/Sjekkikon';
 import { Utropstegnikon } from '@components/ikoner/Utropstegnikon';
 import { ApiBeregnetPeriode, ApiFaresignal, ApiRisikovurdering } from '@io/rest/generated/spesialist.schemas';
+import { useRisikovurdering } from '@state/risikovurdering';
 
 import styles from './Vurderingsmomenter.module.scss';
 
@@ -73,8 +74,10 @@ interface VurderingsmomenterContainerProps {
     periode: ApiBeregnetPeriode;
 }
 
-const VurderingsmomenterContainer = ({ periode }: VurderingsmomenterContainerProps): ReactElement | null =>
-    periode.risikovurdering ? <VurderingsmomenterWithContent risikovurdering={periode.risikovurdering} /> : null;
+const VurderingsmomenterContainer = ({ periode }: VurderingsmomenterContainerProps): ReactElement | null => {
+    const risikovurdering = useRisikovurdering(periode.vedtaksperiodeId);
+    return risikovurdering ? <VurderingsmomenterWithContent risikovurdering={risikovurdering} /> : null;
+};
 
 const VilkårsmomenterError = (): ReactElement => (
     <Alert variant="error" size="small">

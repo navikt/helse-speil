@@ -447,6 +447,33 @@ export interface ApiHttpProblemDetailsApiGetTotrinnsvurderingForPersonErrorCode 
     code?: null | ApiGetTotrinnsvurderingForPersonErrorCode;
 }
 
+export interface ApiPaVent {
+    /** @nullable */
+    frist?: string | null;
+    oid: string;
+}
+
+export interface ApiPaVentForPerson {
+    paVent?: null | ApiPaVent;
+}
+
+export type ApiGetPaVentForPersonErrorCode =
+    (typeof ApiGetPaVentForPersonErrorCode)[keyof typeof ApiGetPaVentForPersonErrorCode];
+
+export const ApiGetPaVentForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetPaVentForPersonErrorCode;
+}
+
 export interface ApiTildelingForPerson {
     tildeling?: null | ApiTildeling;
 }
@@ -1425,6 +1452,72 @@ export interface ApiHttpProblemDetailsApiPostForkastingErrorCode {
     /** @nullable */
     detail?: string | null;
     code?: null | ApiPostForkastingErrorCode;
+}
+
+export interface ApiFaresignal {
+    beskrivelse: string;
+    kategori: string[];
+}
+
+export interface ApiRisikovurdering {
+    /** @nullable */
+    funn?: ApiFaresignal[] | null;
+    kontrollertOk: ApiFaresignal[];
+}
+
+export interface ApiRisikovurderingForVedtaksperiode {
+    risikovurdering?: null | ApiRisikovurdering;
+}
+
+export type ApiGetRisikovurderingForVedtaksperiodeErrorCode =
+    (typeof ApiGetRisikovurderingForVedtaksperiodeErrorCode)[keyof typeof ApiGetRisikovurderingForVedtaksperiodeErrorCode];
+
+export const ApiGetRisikovurderingForVedtaksperiodeErrorCode = {
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetRisikovurderingForVedtaksperiodeErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetRisikovurderingForVedtaksperiodeErrorCode;
+}
+
+export interface ApiAnnullering {
+    saksbehandlerIdent: string;
+    /** @nullable */
+    arbeidsgiverFagsystemId?: string | null;
+    /** @nullable */
+    personFagsystemId?: string | null;
+    tidspunkt: string;
+    arsaker: string[];
+    /** @nullable */
+    begrunnelse?: string | null;
+    vedtaksperiodeId: string;
+}
+
+export interface ApiAnnulleringForVedtaksperiode {
+    annullering?: null | ApiAnnullering;
+}
+
+export type ApiGetAnnulleringForVedtaksperiodeErrorCode =
+    (typeof ApiGetAnnulleringForVedtaksperiodeErrorCode)[keyof typeof ApiGetAnnulleringForVedtaksperiodeErrorCode];
+
+export const ApiGetAnnulleringForVedtaksperiodeErrorCode = {
+    VEDTAKSPERIODE_IKKE_FUNNET: 'VEDTAKSPERIODE_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetAnnulleringForVedtaksperiodeErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetAnnulleringForVedtaksperiodeErrorCode;
 }
 
 export interface ApiVedtaksperiodeAnnullerRequestÅrsak {
@@ -2677,23 +2770,6 @@ export interface ApiUtbetaling {
     personsimulering?: null | ApiSimulering;
 }
 
-export interface ApiFaresignal {
-    beskrivelse: string;
-    kategori: string[];
-}
-
-export interface ApiRisikovurdering {
-    /** @nullable */
-    funn?: ApiFaresignal[] | null;
-    kontrollertOk: ApiFaresignal[];
-}
-
-export interface ApiPaVent {
-    /** @nullable */
-    frist?: string | null;
-    oid: string;
-}
-
 export type ApiAvslagstype = (typeof ApiAvslagstype)[keyof typeof ApiAvslagstype];
 
 export const ApiAvslagstype = {
@@ -2723,19 +2799,6 @@ export interface ApiVedtakBegrunnelse {
     begrunnelse?: string | null;
     opprettet: string;
     saksbehandlerIdent: string;
-}
-
-export interface ApiAnnullering {
-    saksbehandlerIdent: string;
-    /** @nullable */
-    arbeidsgiverFagsystemId?: string | null;
-    /** @nullable */
-    personFagsystemId?: string | null;
-    tidspunkt: string;
-    arsaker: string[];
-    /** @nullable */
-    begrunnelse?: string | null;
-    vedtaksperiodeId: string;
 }
 
 export interface ApiPensjonsgivendeInntekt {
