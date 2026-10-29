@@ -569,15 +569,6 @@
                                         "skjaeringstidspunkt": "2022-08-08"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "2c9be8d4-35c6-41b2-a974-7b985fe2dc3b",
                                     "arbeidsgiverFagsystemId": "HSZTAKGTFKSKRNFJCJVRWNZ5QE",
@@ -1012,15 +1003,6 @@
                                         "skjaeringstidspunkt": "2022-08-08"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "2c9be8d4-35c6-41b2-a974-7b985fe2dc3b",
                                     "arbeidsgiverFagsystemId": "HSZTAKGTFKSKRNFJCJVRWNZ5QE",
@@ -1393,23 +1375,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "751384b1-a8e3-4e78-a250-82339dd5fba5",
@@ -2038,23 +2003,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "5a49f3a7-cbc7-4a01-8bbd-81e1902d0196",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -2584,23 +2532,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "569dc8b1-7257-45fd-ac54-37b56b1c61f7",
@@ -3238,23 +3169,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "32a5719e-2973-429e-835b-e8b13fb1141a",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -3676,23 +3590,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "7a431031-03f1-4cb4-add4-e5d6ff3f95aa",
@@ -4206,23 +4103,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "d2024850-6ef1-4ff3-8b2f-8792815633d2",
@@ -4851,23 +4731,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "acef20aa-b216-4c7c-8108-7ee44f77dd52",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -5383,23 +5246,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "8dd01c3a-98bc-426d-9aa9-a6fd81f98d23",
@@ -5926,23 +5772,6 @@
                                         "skjaeringstidspunkt": "2021-05-20"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "25e0bf4d-4a1f-441d-8f2b-48c2053b52db",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -6353,23 +6182,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-05-01"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "de04a909-7538-45a8-aa02-71a9e24304bc",
@@ -6906,23 +6718,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-03-08"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "b1129ec3-59c7-478d-ac14-6485bd56b861",
@@ -7492,10 +7287,6 @@
                                         "skjaeringstidspunkt": "2021-02-08"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "29c510e7-9fe0-4b88-bc58-6836262f31d1",
                                     "arbeidsgiverFagsystemId": "RVSGZRKMKNCB5M35PYHRYI6ZVA",
@@ -7945,10 +7736,6 @@
                                         "skjaeringstidspunkt": "2021-01-18"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "aea769ac-2332-4353-ace7-1c78e55f95b0",
                                     "arbeidsgiverFagsystemId": "RVSGZRKMKNCB5M35PYHRYI6ZVA",
@@ -8321,10 +8108,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-01-01"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
                                 },
                                 "utbetaling": {
                                     "id": "e8ca4ea3-194a-4e40-bdf7-c1d8313a728d",
@@ -8738,10 +8521,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2020-12-09"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
                                 },
                                 "utbetaling": {
                                     "id": "41d458c4-ec3b-4580-9b94-f64b6727503e",
@@ -9228,15 +9007,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2022-08-08"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "c40f5aae-9bcc-4762-bbc5-4a33762d9294",
@@ -9778,15 +9548,6 @@
                                         "skjaeringstidspunkt": "2022-08-08"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "c40f5aae-9bcc-4762-bbc5-4a33762d9294",
                                     "arbeidsgiverFagsystemId": "HSZTAKGTFKSKRNFJCJVRWNZ5QE",
@@ -10248,23 +10009,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "751384b1-a8e3-4e78-a250-82339dd5fba5",
@@ -10893,23 +10637,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "5a49f3a7-cbc7-4a01-8bbd-81e1902d0196",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -11439,23 +11166,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "569dc8b1-7257-45fd-ac54-37b56b1c61f7",
@@ -12093,23 +11803,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "32a5719e-2973-429e-835b-e8b13fb1141a",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -12531,23 +12224,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "7a431031-03f1-4cb4-add4-e5d6ff3f95aa",
@@ -13061,23 +12737,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "d2024850-6ef1-4ff3-8b2f-8792815633d2",
@@ -13706,23 +13365,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "acef20aa-b216-4c7c-8108-7ee44f77dd52",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -14238,23 +13880,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "8dd01c3a-98bc-426d-9aa9-a6fd81f98d23",
@@ -14781,23 +14406,6 @@
                                         "skjaeringstidspunkt": "2021-05-20"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "25e0bf4d-4a1f-441d-8f2b-48c2053b52db",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -15208,23 +14816,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-05-01"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "de04a909-7538-45a8-aa02-71a9e24304bc",
@@ -15761,23 +15352,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-03-08"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "b1129ec3-59c7-478d-ac14-6485bd56b861",
@@ -16347,10 +15921,6 @@
                                         "skjaeringstidspunkt": "2021-02-08"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "29c510e7-9fe0-4b88-bc58-6836262f31d1",
                                     "arbeidsgiverFagsystemId": "RVSGZRKMKNCB5M35PYHRYI6ZVA",
@@ -16800,10 +16370,6 @@
                                         "skjaeringstidspunkt": "2021-01-18"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "aea769ac-2332-4353-ace7-1c78e55f95b0",
                                     "arbeidsgiverFagsystemId": "RVSGZRKMKNCB5M35PYHRYI6ZVA",
@@ -17192,10 +16758,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-01-01"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
                                 },
                                 "utbetaling": {
                                     "id": "e8ca4ea3-194a-4e40-bdf7-c1d8313a728d",
@@ -17609,10 +17171,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2020-12-09"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
                                 },
                                 "utbetaling": {
                                     "id": "41d458c4-ec3b-4580-9b94-f64b6727503e",
@@ -18082,15 +17640,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2022-08-08"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "b8f7e009-3bdd-4f9c-b5d9-9a70ef5fdc55",
@@ -18585,15 +18134,6 @@
                                         "skjaeringstidspunkt": "2022-08-08"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "c6091b02-288b-46ea-a78c-0a22aefb6410",
                                     "arbeidsgiverFagsystemId": "HSZTAKGTFKSKRNFJCJVRWNZ5QE",
@@ -19024,23 +18564,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "751384b1-a8e3-4e78-a250-82339dd5fba5",
@@ -19669,23 +19192,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "5a49f3a7-cbc7-4a01-8bbd-81e1902d0196",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -20215,23 +19721,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "569dc8b1-7257-45fd-ac54-37b56b1c61f7",
@@ -20869,23 +20358,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "32a5719e-2973-429e-835b-e8b13fb1141a",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -21307,23 +20779,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "7a431031-03f1-4cb4-add4-e5d6ff3f95aa",
@@ -21837,23 +21292,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "d2024850-6ef1-4ff3-8b2f-8792815633d2",
@@ -22482,23 +21920,6 @@
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "acef20aa-b216-4c7c-8108-7ee44f77dd52",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -23014,23 +22435,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-06-07"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "8dd01c3a-98bc-426d-9aa9-a6fd81f98d23",
@@ -23557,23 +22961,6 @@
                                         "skjaeringstidspunkt": "2021-05-20"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
-                                },
                                 "utbetaling": {
                                     "id": "25e0bf4d-4a1f-441d-8f2b-48c2053b52db",
                                     "arbeidsgiverFagsystemId": "GOYLOPFAEVCUBAFEPGVMJRPU7A",
@@ -23984,23 +23371,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-05-01"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "de04a909-7538-45a8-aa02-71a9e24304bc",
@@ -24537,23 +23907,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-03-08"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": [
-                                        {
-                                            "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
-                                            "kategori": ["8-4"]
-                                        },
-                                        {
-                                            "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
-                                            "kategori": ["8-4"]
-                                        }
-                                    ]
                                 },
                                 "utbetaling": {
                                     "id": "b1129ec3-59c7-478d-ac14-6485bd56b861",
@@ -25123,10 +24476,6 @@
                                         "skjaeringstidspunkt": "2021-02-08"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "29c510e7-9fe0-4b88-bc58-6836262f31d1",
                                     "arbeidsgiverFagsystemId": "RVSGZRKMKNCB5M35PYHRYI6ZVA",
@@ -25576,10 +24925,6 @@
                                         "skjaeringstidspunkt": "2021-01-18"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "aea769ac-2332-4353-ace7-1c78e55f95b0",
                                     "arbeidsgiverFagsystemId": "RVSGZRKMKNCB5M35PYHRYI6ZVA",
@@ -25968,10 +25313,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2021-01-01"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
                                 },
                                 "utbetaling": {
                                     "id": "e8ca4ea3-194a-4e40-bdf7-c1d8313a728d",
@@ -26386,10 +25727,6 @@
                                         "skjaeringstidspunkt": "2020-12-09"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "41d458c4-ec3b-4580-9b94-f64b6727503e",
                                     "arbeidsgiverFagsystemId": "RVSGZRKMKNCB5M35PYHRYI6ZVA",
@@ -26494,5 +25831,230 @@
     },
     "aktivOppgave": null,
     "totrinnsvurdering": null,
-    "tildeling": null
+    "tildeling": null,
+    "påVent": null,
+    "risikovurderinger": {
+        "526f95a7-ad49-42a0-8bb7-13d1051ff386": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "8e7434f8-b586-4d81-b9a0-0e022be35c3b": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "d92c8dd1-db8f-43a6-8575-f1e5c8d2195f": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "fb8ad1e3-5f5d-4fff-b23e-657a9fa2530b": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "22b7ff18-89cb-44dd-afed-dc21308242b9": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "2129e08a-0c2c-4763-9dba-75f5c9d849d0": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "fec4474a-433f-4840-a8f4-662862f91f33": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "d5fc6c20-f5b1-46e5-bdde-386fc79096cf": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "ec79322c-6e4a-44af-bac5-1ef9434b9199": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "63cf63dd-e402-40a5-be54-3e6d1c5956a8": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "c8c00d71-88fd-4d54-86ac-b3a6cc5e1a5b": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "139a32f2-508a-499b-b775-888ccb337b27": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "4cbee781-223f-4679-b01e-0d9f3aa5031f": {
+            "funn": [],
+            "kontrollertOk": [
+                {
+                    "beskrivelse": "Fant ingen meldinger fra veiledere om å stanse automatisk behandling",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Ikke en ICPC2-symptomdiagnose",
+                    "kategori": ["8-4"]
+                },
+                {
+                    "beskrivelse": "Har ikke Z-diagnose som bi-diagnose",
+                    "kategori": ["8-4"]
+                }
+            ]
+        },
+        "ad71f6d4-1278-45c5-84d7-3941bf8c8e08": {
+            "funn": [],
+            "kontrollertOk": []
+        },
+        "9dd4af3a-45f4-4fc5-87ea-1b35f685d026": {
+            "funn": [],
+            "kontrollertOk": []
+        },
+        "0a3ebb64-e30f-4d65-8da4-979c6c24c17b": {
+            "funn": [],
+            "kontrollertOk": []
+        },
+        "80915011-167d-4aff-8694-3861ebda5b28": {
+            "funn": [],
+            "kontrollertOk": []
+        }
+    },
+    "annulleringer": {}
 }

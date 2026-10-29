@@ -115,7 +115,6 @@
                                         "skjaeringstidspunkt": "2025-03-01"
                                     }
                                 },
-                                "risikovurdering": null,
                                 "utbetaling": {
                                     "id": "fa08004d-b603-4588-ab7f-7353b5f91801",
                                     "arbeidsgiverFagsystemId": "NEPIBGNTCRHIDCMHBNZTFYKHG4",
@@ -171,11 +170,9 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "76e17346-7053-4d97-834b-cd24d8c03177",
-                                "paVent": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
-                                "annullering": null,
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
                                 "behandlingId": "9de4e8dd-947f-439f-bf09-2e2c9eca210a",
@@ -725,5 +722,8 @@
     },
     "aktivOppgave": null,
     "totrinnsvurdering": null,
-    "tildeling": null
+    "tildeling": null,
+    "påVent": null,
+    "risikovurderinger": {},
+    "annulleringer": {}
 }

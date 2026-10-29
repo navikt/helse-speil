@@ -102,10 +102,18 @@ export const refetchPersondata = async (queryClient: QueryClient, personPseudoId
 };
 
 // Ressurser per vedtaksperiode lastes når de trengs, og alle som er i cachen refetches sammen med personen
-const vedtaksperioderessurs = /^\/api\/spesialist\/vedtaksperioder\/[^/]+\/(risikovurdering|annullering)$/;
+const vedtaksperioderessurs = /^\/api\/spesialist\/vedtaksperioder\/([^/]+)\/(risikovurdering|annullering)$/;
 
 const erVedtaksperiodenøkkel = (queryKey: QueryKey): boolean =>
     typeof queryKey[0] === 'string' && vedtaksperioderessurs.test(queryKey[0]);
+
+export const vedtaksperiodeIdFraNøkkel = (
+    queryKey: QueryKey,
+    ressurs: 'risikovurdering' | 'annullering',
+): string | null => {
+    const treff = typeof queryKey[0] === 'string' ? vedtaksperioderessurs.exec(queryKey[0]) : null;
+    return treff?.[2] === ressurs ? (treff[1] ?? null) : null;
+};
 
 export const mapPerioder = (
     person: ApiSaksbildePerson,

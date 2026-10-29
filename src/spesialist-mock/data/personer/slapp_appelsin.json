@@ -683,10 +683,6 @@
                                         "skjaeringstidspunkt": "2022-08-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "ec2211ac-bada-4254-a1da-bfa9ec084647",
                                     "arbeidsgiverFagsystemId": "CNXEMMTT7RHJ7KL3M4K5Y4RUCI",
@@ -797,15 +793,10 @@
                                         "egenskap": "PA_VENT"
                                     }
                                 ],
-                                "paVent": {
-                                    "frist": "2023-01-24T15:09:30.090206",
-                                    "oid": "11111111-2222-3333-4444-555555555555"
-                                },
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "type": "ApiBeregnetPeriode"
                             }
                         ]
@@ -999,5 +990,16 @@
         "vedtaksperiodeId": "d7d208c3-a9a1-4c03-885f-aeffa4475a49"
     },
     "totrinnsvurdering": null,
-    "tildeling": null
+    "tildeling": null,
+    "påVent": {
+        "frist": "2023-01-24T15:09:30.090206",
+        "oid": "11111111-2222-3333-4444-555555555555"
+    },
+    "risikovurderinger": {
+        "d7d208c3-a9a1-4c03-885f-aeffa4475a49": {
+            "funn": [],
+            "kontrollertOk": []
+        }
+    },
+    "annulleringer": {}
 }

@@ -2847,11 +2847,8 @@ export interface ApiBeregnetPeriode {
     utbetaling: ApiUtbetaling;
     /** @nullable */
     vilkarsgrunnlagId?: string | null;
-    risikovurdering?: null | ApiRisikovurdering;
-    paVent?: null | ApiPaVent;
     avslag: ApiAvslag[];
     vedtakBegrunnelser: ApiVedtakBegrunnelse[];
-    annullering?: null | ApiAnnullering;
     pensjonsgivendeInntekter: ApiPensjonsgivendeInntekt[];
     annulleringskandidater: ApiAnnulleringskandidat[];
     type: ApiBeregnetPeriodeType;

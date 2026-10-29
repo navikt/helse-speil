@@ -5,7 +5,10 @@ import { v5 as uuidv5 } from 'uuid';
 
 import {
     ApiAktivOppgave,
+    ApiAnnullering,
+    ApiPaVent,
     ApiPerson,
+    ApiRisikovurdering,
     ApiSaksbildePerson,
     ApiTildeling,
     ApiTotrinnsvurdering,
@@ -18,13 +21,17 @@ type PersonIdentifikatorer = {
     personPseudoId: UUID;
 };
 
-// Svarene fra GET /api/personer/{pseudoId}/saksbilde, /, /aktiv-oppgave, /totrinnsvurdering og /tildeling
+// Svarene fra GET /api/personer/{pseudoId}/saksbilde, /, /aktiv-oppgave, /totrinnsvurdering, /tildeling og /pa-vent,
+// og fra GET /api/vedtaksperioder/{vedtaksperiodeId}/risikovurdering og /annullering, nøklet på vedtaksperiodeId
 export type Testpersonfil = {
     saksbilde: ApiSaksbildePerson;
     person: ApiPerson;
     aktivOppgave: ApiAktivOppgave | null;
     totrinnsvurdering: ApiTotrinnsvurdering | null;
     tildeling: ApiTildeling | null;
+    påVent: ApiPaVent | null;
+    risikovurderinger: Record<string, ApiRisikovurdering>;
+    annulleringer: Record<string, ApiAnnullering>;
 };
 
 export function lesTestpersonfiler(): Testpersonfil[] {

@@ -443,10 +443,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "5cb33da5-161f-4299-9b0e-8eca9020de41",
                                     "arbeidsgiverFagsystemId": "IIIRCUN2ERBUJJM46J4A7JGUUU",
@@ -560,7 +556,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -583,7 +578,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "94926180-4e95-4879-8975-0a63b5659831",
                                 "fom": "2024-08-01",
                                 "tom": "2024-08-31",
@@ -1220,10 +1214,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "8e4333f8-ab4c-4797-b1e1-8546b3aa80bb",
                                     "arbeidsgiverFagsystemId": "IIIRCUN2ERBUJJM46J4A7JGUUU",
@@ -1284,7 +1274,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -1307,7 +1296,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "10c776bd-c6ca-42ab-9ace-6d7f73deb833",
                                 "fom": "2024-07-01",
                                 "tom": "2024-07-31",
@@ -1833,10 +1821,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "aa44d2d8-c7fe-48af-ae7d-690bc57e1f9c",
                                     "arbeidsgiverFagsystemId": "IIIRCUN2ERBUJJM46J4A7JGUUU",
@@ -1897,13 +1881,11 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "b5ff942e-0a59-4060-8433-1104a6761dad",
                                 "fom": "2024-08-01",
                                 "tom": "2024-08-31",
@@ -2503,10 +2485,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "8e4333f8-ab4c-4797-b1e1-8546b3aa80bb",
                                     "arbeidsgiverFagsystemId": "IIIRCUN2ERBUJJM46J4A7JGUUU",
@@ -2567,7 +2545,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -2590,7 +2567,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "10c776bd-c6ca-42ab-9ace-6d7f73deb833",
                                 "fom": "2024-07-01",
                                 "tom": "2024-07-31",
@@ -3116,10 +3092,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "16474661-34ef-4c44-9209-394e4639449d",
                                     "arbeidsgiverFagsystemId": "IIIRCUN2ERBUJJM46J4A7JGUUU",
@@ -3180,7 +3152,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "a26e7daf-1019-4e84-a5c8-97d5e660dc94",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "SOKNAD",
@@ -3203,7 +3174,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "15f9200d-5343-4970-8aae-3c33f0666d54",
                                 "fom": "2024-07-01",
                                 "tom": "2024-07-31",
@@ -4117,10 +4087,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "923441dc-b167-433c-bd71-de0b1bce4993",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -4196,7 +4162,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -4223,7 +4188,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "a5051612-08a4-4034-aef3-68f2e421dc60",
                                 "fom": "2024-08-01",
                                 "tom": "2024-08-15",
@@ -4544,10 +4508,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -4623,13 +4583,11 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "da135097-b47a-4bd5-a2ec-8355b3df51d6",
                                 "fom": "2024-07-01",
                                 "tom": "2024-07-31",
@@ -5214,10 +5172,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "5c2a1210-4ec4-4430-aed9-65d69b40d38a",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -5248,7 +5202,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -5279,7 +5232,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "5ad53b35-b3de-4ecc-a7a9-8e884795197c",
                                 "fom": "2024-08-01",
                                 "tom": "2024-08-15",
@@ -5615,10 +5567,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -5694,13 +5642,11 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "da135097-b47a-4bd5-a2ec-8355b3df51d6",
                                 "fom": "2024-07-01",
                                 "tom": "2024-07-31",
@@ -6227,10 +6173,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "428c2597-2cac-4405-bf51-e85c619ac22a",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -6261,7 +6203,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -6288,7 +6229,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "55166cfd-bbf9-4c31-b67b-1e23438b0f0f",
                                 "fom": "2024-08-01",
                                 "tom": "2024-08-15",
@@ -6593,10 +6533,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -6672,13 +6608,11 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "da135097-b47a-4bd5-a2ec-8355b3df51d6",
                                 "fom": "2024-07-01",
                                 "tom": "2024-07-31",
@@ -7205,10 +7139,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "cd993866-3a03-4d47-9e09-3a7484e29dca",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -7239,7 +7169,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "REVURDERING",
@@ -7266,7 +7195,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "8e2b782f-0839-4605-aa95-9e847e4f3703",
                                 "fom": "2024-08-01",
                                 "tom": "2024-08-15",
@@ -7571,10 +7499,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -7650,13 +7574,11 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "da135097-b47a-4bd5-a2ec-8355b3df51d6",
                                 "fom": "2024-07-01",
                                 "tom": "2024-07-31",
@@ -8183,10 +8105,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "86886334-6cef-4290-abcb-c9e66f64e25c",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -8262,7 +8180,6 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [
                                     {
                                         "egenskap": "SOKNAD",
@@ -8285,7 +8202,6 @@
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "094e5ca2-def7-4eb1-b8f2-3ed08be97b40",
                                 "fom": "2024-08-01",
                                 "tom": "2024-08-15",
@@ -8606,10 +8522,6 @@
                                         "skjaeringstidspunkt": "2024-07-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "cc79280e-73dc-42dd-af5d-adcf9b0d4b1b",
                                     "arbeidsgiverFagsystemId": "GDX4UFX44ZAGZKMAPLTE3AJPSY",
@@ -8685,13 +8597,11 @@
                                     }
                                 },
                                 "vilkarsgrunnlagId": "fdbe3af3-10b7-4eab-b40d-db9f2387c412",
-                                "paVent": null,
                                 "egenskaper": [],
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
                                 "annulleringskandidater": [],
-                                "annullering": null,
                                 "behandlingId": "da135097-b47a-4bd5-a2ec-8355b3df51d6",
                                 "fom": "2024-07-01",
                                 "tom": "2024-07-31",
@@ -9429,5 +9339,25 @@
         "navn": "Hagen, Øyvind",
         "epost": "Oyvind.Hagen@nav.no",
         "oid": "ee97fdb4-327e-4554-875a-fb93b6f15688"
-    }
+    },
+    "påVent": null,
+    "risikovurderinger": {
+        "77b462eb-0d6a-4ce1-a30f-107adccccaf4": {
+            "funn": [],
+            "kontrollertOk": []
+        },
+        "1bea5cec-4d65-4599-a50c-2614971c3e17": {
+            "funn": [],
+            "kontrollertOk": []
+        },
+        "8bd112c2-9a8a-4ac7-a368-1e9b6183d276": {
+            "funn": [],
+            "kontrollertOk": []
+        },
+        "0fd1cf01-72ec-4063-9c5e-4d47e619c3eb": {
+            "funn": [],
+            "kontrollertOk": []
+        }
+    },
+    "annulleringer": {}
 }

@@ -1,19 +1,26 @@
-import { ApiAktivOppgave, ApiTildeling, ApiTotrinnsvurdering } from '@io/rest/generated/spesialist.schemas';
+import { ApiAktivOppgave, ApiPaVent, ApiTildeling, ApiTotrinnsvurdering } from '@io/rest/generated/spesialist.schemas';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person';
+import { PaVentMock } from '@spesialist-mock/storage/påvent';
 import { TildelingMock } from '@spesialist-mock/storage/tildeling';
 
 type Oppgavedata = {
     aktivOppgave: ApiAktivOppgave | null;
     totrinnsvurdering: ApiTotrinnsvurdering | null;
     tildeling: ApiTildeling | null;
+    påVent: ApiPaVent | null;
 };
 
 // Feltene endres ikke i fila, så de leses bare én gang. Endringer ligger i BehandlingMock.
 const oppgavedata: Map<string, Oppgavedata> = new Map(
     lesTestpersonfiler().map((fil) => [
         fil.saksbilde.fodselsnummer,
-        { aktivOppgave: fil.aktivOppgave, totrinnsvurdering: fil.totrinnsvurdering, tildeling: fil.tildeling },
+        {
+            aktivOppgave: fil.aktivOppgave,
+            totrinnsvurdering: fil.totrinnsvurdering,
+            tildeling: fil.tildeling,
+            påVent: fil.påVent,
+        },
     ]),
 );
 
@@ -41,4 +48,12 @@ export const finnTildeling = (fødselsnummer: string): ApiTildeling | null => {
         return TildelingMock.getTildeling(pseudoId) ?? null;
     }
     return oppgavedata.get(fødselsnummer)?.tildeling ?? null;
+};
+
+// Som i spesialist: påVent gjelder bare den aktive oppgaven
+export const finnPåVent = (fødselsnummer: string): ApiPaVent | null => {
+    const oppgave = finnAktivOppgave(fødselsnummer);
+    if (!oppgave) return null;
+    if (PaVentMock.finnesIMock(oppgave.id)) return PaVentMock.getPåVent(oppgave.id) ?? null;
+    return oppgavedata.get(fødselsnummer)?.påVent ?? null;
 };

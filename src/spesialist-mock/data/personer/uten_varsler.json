@@ -547,10 +547,6 @@
                                         "skjaeringstidspunkt": "2022-10-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "ed7252cc-d1d7-4836-84c1-9cf94903c835",
                                     "arbeidsgiverFagsystemId": "6EHWL3X4NFEMJGZIPGHY2HZSUY",
@@ -646,5 +642,13 @@
         "vedtaksperiodeId": "beab6f33-b26b-44e1-9098-52019181c720"
     },
     "totrinnsvurdering": null,
-    "tildeling": null
+    "tildeling": null,
+    "påVent": null,
+    "risikovurderinger": {
+        "beab6f33-b26b-44e1-9098-52019181c720": {
+            "funn": [],
+            "kontrollertOk": []
+        }
+    },
+    "annulleringer": {}
 }

@@ -29,10 +29,6 @@
                                     "skjaeringstidspunkt": "2025-06-01"
                                 }
                             },
-                            "risikovurdering": {
-                                "funn": [],
-                                "kontrollertOk": []
-                            },
                             "utbetaling": {
                                 "id": "b1521742-b72b-46ff-8fe3-9d0f4ed4c312",
                                 "arbeidsgiverFagsystemId": "TAULXPQZQNG6DMVRL2HJ4BJPXQ",
@@ -88,7 +84,6 @@
                                 }
                             },
                             "vilkarsgrunnlagId": "ad7305d9-620d-4e87-ae75-d9d3980ad733",
-                            "paVent": null,
                             "egenskaper": [
                                 {
                                     "egenskap": "SOKNAD",
@@ -113,7 +108,6 @@
                             ],
                             "avslag": [],
                             "vedtakBegrunnelser": [],
-                            "annullering": null,
                             "pensjonsgivendeInntekter": [
                                 {
                                     "arligBelop": "796000.0",
@@ -686,5 +680,13 @@
         "navn": "Solheim, Martin Remøy",
         "epost": "Martin.Remoy.Solheim@nav.no",
         "oid": "9c3d9ee4-e487-4e43-b6ab-432743f5863b"
-    }
+    },
+    "påVent": null,
+    "risikovurderinger": {
+        "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff": {
+            "funn": [],
+            "kontrollertOk": []
+        }
+    },
+    "annulleringer": {}
 }

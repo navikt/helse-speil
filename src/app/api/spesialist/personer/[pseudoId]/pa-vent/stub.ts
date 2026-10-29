@@ -3,8 +3,8 @@ import {
     ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode,
     ApiPaVentForPerson,
 } from '@io/rest/generated/spesialist.schemas';
-import { finnPerioderMedOppgave } from '@spesialist-mock/periodeoppslag';
 import { hentSaksbilde } from '@spesialist-mock/saksbilde';
+import { finnPåVent } from '@spesialist-mock/storage/aktivOppgave';
 
 // Som i spesialist: påVent på vedtaksperioden til den aktive oppgaven
 export async function stub(_request: Request, params: Promise<{ pseudoId: string }>) {
@@ -20,7 +20,6 @@ export async function stub(_request: Request, params: Promise<{ pseudoId: string
         return Response.json(body, { status: 404 });
     }
 
-    const periodeMedOppgave = finnPerioderMedOppgave(saksbilde.fodselsnummer)[0]?.periode;
-    const body: ApiPaVentForPerson = { paVent: periodeMedOppgave?.paVent ?? null };
+    const body: ApiPaVentForPerson = { paVent: finnPåVent(saksbilde.fodselsnummer) };
     return Response.json(body, { status: 200 });
 }

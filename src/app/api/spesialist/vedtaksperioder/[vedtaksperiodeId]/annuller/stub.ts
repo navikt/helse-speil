@@ -13,6 +13,7 @@ import { finnNyestePeriodeForVedtaksperiodeId } from '@spesialist-mock/periodeop
 import { problemDetails } from '@spesialist-mock/problemDetails';
 import { pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
+import { finnAnnullering } from '@spesialist-mock/storage/vedtaksperiodedata';
 
 export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId: string }>) => {
     const { vedtaksperiodeId } = await params;
@@ -27,7 +28,7 @@ export const stub = async (request: Request, params: Promise<{ vedtaksperiodeId:
         );
     }
     const { periode, person } = oppslag;
-    if (periode.annullering) {
+    if (finnAnnullering(vedtaksperiodeId)) {
         return problemDetails(
             409,
             ApiPostVedtaksperiodeAnnullerErrorCode.ALLEREDE_ANNULLERT,

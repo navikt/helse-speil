@@ -639,10 +639,6 @@
                                         "skjaeringstidspunkt": "2023-03-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "11cc86a8-3326-4a1a-b8f7-744caf2f805e",
                                     "arbeidsgiverFagsystemId": "HOKXUTQ2PJGW3HYXU4277WJY3E",
@@ -704,10 +700,6 @@
                                         "egenskap": "PA_VENT"
                                     }
                                 ],
-                                "paVent": {
-                                    "frist": "2023-02-21    T15:09:30.090206",
-                                    "oid": "cc12e788-02b9-4711-ba16-e190bbf1bd28"
-                                },
                                 "avslag": [],
                                 "vedtakBegrunnelser": [],
                                 "pensjonsgivendeInntekter": [],
@@ -784,5 +776,16 @@
         "vedtaksperiodeId": "61788607-2448-432f-9d8a-5991fa3047f3"
     },
     "totrinnsvurdering": null,
-    "tildeling": null
+    "tildeling": null,
+    "påVent": {
+        "frist": "2023-02-21    T15:09:30.090206",
+        "oid": "cc12e788-02b9-4711-ba16-e190bbf1bd28"
+    },
+    "risikovurderinger": {
+        "61788607-2448-432f-9d8a-5991fa3047f3": {
+            "funn": [],
+            "kontrollertOk": []
+        }
+    },
+    "annulleringer": {}
 }

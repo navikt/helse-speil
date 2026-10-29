@@ -1,9 +1,8 @@
 import { ApiRisikovurderingForVedtaksperiode } from '@io/rest/generated/spesialist.schemas';
-import { finnNyestePeriodeForVedtaksperiodeId } from '@spesialist-mock/periodeoppslag';
+import { finnRisikovurdering } from '@spesialist-mock/storage/vedtaksperiodedata';
 
 export const stub = async (_request: Request, params: Promise<{ vedtaksperiodeId: string }>) => {
     const { vedtaksperiodeId } = await params;
-    const periode = finnNyestePeriodeForVedtaksperiodeId(vedtaksperiodeId)?.periode;
-    const body: ApiRisikovurderingForVedtaksperiode = { risikovurdering: periode?.risikovurdering ?? null };
+    const body: ApiRisikovurderingForVedtaksperiode = { risikovurdering: finnRisikovurdering(vedtaksperiodeId) };
     return Response.json(body, { status: 200 });
 };

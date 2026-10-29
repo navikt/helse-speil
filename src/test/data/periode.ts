@@ -62,8 +62,6 @@ export const enBeregnetPeriode: OverridableConstructor<ApiBeregnetPeriode, Exten
     forbrukteSykedager: 0,
     gjenstaendeSykedager: 200,
     hendelser: [],
-    paVent: null,
-    risikovurdering: null,
     inntektstype: ApiInntektstype.ENARBEIDSGIVER,
     maksdato: '2020-12-30',
     notater: [],
@@ -119,7 +117,6 @@ export const enBeregnetPeriode: OverridableConstructor<ApiBeregnetPeriode, Exten
         return this;
     },
     egenskaper: [],
-    annullering: null,
     pensjonsgivendeInntekter: [],
     annulleringskandidater: [],
     grunnbelopsjustertGjennomsnitt: null,

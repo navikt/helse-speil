@@ -65,6 +65,9 @@ export class BehandlingMock {
     static getTotrinnsvurderingForOppgave = (oppgaveId: string): ApiTotrinnsvurdering | null | undefined =>
         BehandlingMock.endringForOppgave(oppgaveId)?.totrinnsvurdering;
 
+    static getAnnullering = (behandlingId: string): ApiAnnullering | undefined =>
+        BehandlingMock.endringer.get(behandlingId)?.annullering;
+
     static leggTilBehandletOppgave = (oppgave: BehandletOppgave): void => {
         BehandlingMock.behandledeOppgaver.push(oppgave);
     };
@@ -87,7 +90,6 @@ export class BehandlingMock {
         if (endring.totrinnsvurdering !== undefined) {
             periode.egenskaper = medTotrinnsegenskaper(periode.egenskaper, endring.totrinnsvurdering);
         }
-        if (endring.annullering) periode.annullering = endring.annullering;
     };
 
     static nullstill = (): void => {

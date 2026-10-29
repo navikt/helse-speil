@@ -8,14 +8,21 @@ import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { getGetDialogmeldingQueryKey, getGetDialogmeldingerQueryKey } from '@io/rest/generated/default/default';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
+import {
+    ApiAnnullering,
+    ApiAnnulleringForVedtaksperiode,
+    ApiRisikovurdering,
+    ApiRisikovurderingForVedtaksperiode,
+} from '@io/rest/generated/spesialist.schemas';
 import type { Testpersonfil } from '@spesialist-mock/storage/person';
 import { useAktivOppgave } from '@state/oppgave';
 import { useActivePeriod } from '@state/periode';
-import { useFetchPersonQuery } from '@state/person';
+import { useFetchPersonQuery, vedtaksperiodeIdFraNøkkel } from '@state/person';
+import { usePåVent } from '@state/påvent';
 import { useTildeling } from '@state/tildeling';
 import { useAddToast } from '@state/toasts';
 import { useTotrinnsvurdering } from '@state/totrinnsvurdering';
-import { useQueryClient } from '@tanstack/react-query';
+import { QueryClient, useQueryClient } from '@tanstack/react-query';
 import { isBeregnetPeriode, isNotNullOrUndefined, isPerson, isUberegnetPeriode } from '@utils/typeguards';
 
 const useCurrentFødselsnummer = (): string | null => {
@@ -84,12 +91,22 @@ const useCopyPersondata = (): (() => void) => {
     const aktivOppgave = useAktivOppgave();
     const totrinnsvurdering = useTotrinnsvurdering();
     const tildeling = useTildeling();
+    const påVent = usePåVent();
+    const queryClient = useQueryClient();
     const addToast = useAddToast();
 
     return () => {
         if (!loading && isNotNullOrUndefined(saksbilde) && isNotNullOrUndefined(person)) {
             // Samme format som testpersonfilene i src/spesialist-mock/data/personer
-            const testpersonfil: Testpersonfil = { saksbilde, person, aktivOppgave, totrinnsvurdering, tildeling };
+            const testpersonfil: Testpersonfil = {
+                saksbilde,
+                person,
+                aktivOppgave,
+                totrinnsvurdering,
+                tildeling,
+                påVent,
+                ...finnVedtaksperiodedataICachen(queryClient),
+            };
             void copyString(JSON.stringify(testpersonfil, null, 2), true);
             addToast({
                 key: 'kopierPersondataToastKey',
@@ -478,3 +495,25 @@ const copyString = (data: string, preserveWhitespace: boolean) =>
     writeToClipboard(preserveWhitespace ? data : removeSpaces(data))
         .then(() => true)
         .catch(() => false);
+
+// Risikovurdering og annullering lastes lat per vedtaksperiode. Bare perioder som er åpnet, ligger i cachen.
+// Vi henter ikke resten, fordi en person kan ha over tusen vedtaksperioder.
+const finnVedtaksperiodedataICachen = (
+    queryClient: QueryClient,
+): Pick<Testpersonfil, 'risikovurderinger' | 'annulleringer'> => {
+    const risikovurderinger: Record<string, ApiRisikovurdering> = {};
+    for (const [queryKey, data] of queryClient.getQueriesData<ApiRisikovurderingForVedtaksperiode>({
+        predicate: (query) => vedtaksperiodeIdFraNøkkel(query.queryKey, 'risikovurdering') !== null,
+    })) {
+        const vedtaksperiodeId = vedtaksperiodeIdFraNøkkel(queryKey, 'risikovurdering');
+        if (vedtaksperiodeId && data?.risikovurdering) risikovurderinger[vedtaksperiodeId] = data.risikovurdering;
+    }
+    const annulleringer: Record<string, ApiAnnullering> = {};
+    for (const [queryKey, data] of queryClient.getQueriesData<ApiAnnulleringForVedtaksperiode>({
+        predicate: (query) => vedtaksperiodeIdFraNøkkel(query.queryKey, 'annullering') !== null,
+    })) {
+        const vedtaksperiodeId = vedtaksperiodeIdFraNøkkel(queryKey, 'annullering');
+        if (vedtaksperiodeId && data?.annullering) annulleringer[vedtaksperiodeId] = data.annullering;
+    }
+    return { risikovurderinger, annulleringer };
+};

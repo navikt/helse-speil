@@ -30,7 +30,7 @@ import { hentSynkedeOppgaver } from '@spesialist-mock/oppgaveliste';
 import { finnNyestePeriodeForVedtaksperiodeId, finnPeriodeForBehandlingId } from '@spesialist-mock/periodeoppslag';
 import { opprettTotrinnsvurderingHvisMangler } from '@spesialist-mock/saksbehandling';
 import { fetchPersondata } from '@spesialist-mock/saksbilde';
-import { finnAktivOppgave, finnTotrinnsvurdering } from '@spesialist-mock/storage/aktivOppgave';
+import { finnAktivOppgave, finnPåVent, finnTotrinnsvurdering } from '@spesialist-mock/storage/aktivOppgave';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
@@ -128,24 +128,24 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
     it('tar oppgaven av vent når den sendes til godkjenning, også etter fattet vedtak', async () => {
         PaVentMock.setPåVent(oppgaveId, { frist: '2030-01-01', oid: 'oid' });
-        expect(periode(behandlingId).paVent).toBeTruthy();
+        expect(finnPåVent(fødselsnummer())).toBeTruthy();
         opprettTotrinnsvurderingHvisMangler(fødselsnummer());
 
         expect((await sendTilGodkjenning(oppgaveId)).status).toBe(204);
-        expect(periode(behandlingId).paVent).toBeNull();
+        expect(finnPåVent(fødselsnummer())).toBeNull();
         expect((await hentPåVent()).paVent).toBeNull();
         expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(ApiEgenskap.PA_VENT);
         expect(egenskaperForOppgave()).not.toContain(ApiEgenskap.PA_VENT);
 
         expect((await fattVedtak(behandlingId)).status).toBe(204);
-        expect(periode(behandlingId).paVent).toBeNull();
+        expect(finnPåVent(fødselsnummer())).toBeNull();
         expect(periode(behandlingId).egenskaper.map((it) => it.egenskap)).not.toContain(ApiEgenskap.PA_VENT);
     });
 
     it('legger oppgaven på vent med historikkinnslag på vedtaksperioden', async () => {
         expect((await leggPåVent(oppgaveId)).status).toBe(204);
 
-        expect(periode(behandlingId).paVent).toBeTruthy();
+        expect(finnPåVent(fødselsnummer())).toBeTruthy();
         expect((await hentPåVent()).paVent).toMatchObject({ frist: expect.any(String) });
         expect(historikktyper()).toContain(ApiPeriodehistorikkType.LEGG_PA_VENT);
         expect(TildelingMock.harTildeling(personPseudoId())).toBe(true);
@@ -175,10 +175,9 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
             vedtaksperiodeId,
             arsaker: ['Feil'],
         });
-        expect(finnNyestePeriodeForVedtaksperiodeId(vedtaksperiodeId)?.periode).toMatchObject({
-            periodetilstand: ApiPeriodetilstand.TilAnnullering,
-            annullering: { vedtaksperiodeId, arsaker: ['Feil'] },
-        });
+        expect(finnNyestePeriodeForVedtaksperiodeId(vedtaksperiodeId)?.periode.periodetilstand).toBe(
+            ApiPeriodetilstand.TilAnnullering,
+        );
 
         vi.advanceTimersByTime(2000);
         expect(finnNyestePeriodeForVedtaksperiodeId(vedtaksperiodeId)?.periode.periodetilstand).toBe(
@@ -187,7 +186,9 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         await forventFeil(annuller(vedtaksperiodeId), 409, 'ALLEREDE_ANNULLERT');
     });
     it('gir risikovurderingen til nyeste behandling av vedtaksperioden', async () => {
-        const { vedtaksperiodeId, risikovurdering } = periode(behandlingId);
+        const { vedtaksperiodeId } = periode(behandlingId);
+        const risikovurdering = lesTestpersonfiler().find((fil) => fil.saksbilde.fodselsnummer === fødselsnummer())
+            ?.risikovurderinger[vedtaksperiodeId];
         const response = await risikovurderingStub(lagRequest({}), Promise.resolve({ vedtaksperiodeId }));
 
         expect(risikovurdering).toBeTruthy();

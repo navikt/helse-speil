@@ -787,10 +787,6 @@
                                         "skjaeringstidspunkt": "2023-02-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "9103f5a9-8879-4c8a-a648-8927653598aa",
                                     "arbeidsgiverFagsystemId": "TSKGTGTH6ZAU7CIW3NJQE7ERZM",
@@ -1168,10 +1164,6 @@
                                         "skjaeringstidspunkt": "2023-02-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "c8df4ce0-2d8a-4a38-9b64-42a056bc1e3b",
                                     "arbeidsgiverFagsystemId": "BFUIZOVPJRCAPJF4JYGMBP2STU",
@@ -1544,10 +1536,6 @@
                                         "oppfylt": true,
                                         "skjaeringstidspunkt": "2023-02-01"
                                     }
-                                },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
                                 },
                                 "utbetaling": {
                                     "id": "4414fa42-83ed-4363-80de-3b295f739b1e",
@@ -2401,10 +2389,6 @@
                                         "skjaeringstidspunkt": "2023-02-01"
                                     }
                                 },
-                                "risikovurdering": {
-                                    "funn": [],
-                                    "kontrollertOk": []
-                                },
                                 "utbetaling": {
                                     "id": "7456784f-651b-4b21-8665-5c3bfe74226a",
                                     "arbeidsgiverFagsystemId": "BMYF7GOHS5DNPPF6CQAYD5OAPA",
@@ -2565,5 +2549,21 @@
         "vedtaksperiodeId": "546cb550-bcd0-4b95-abc0-d17bf6818bf7"
     },
     "totrinnsvurdering": null,
-    "tildeling": null
+    "tildeling": null,
+    "påVent": null,
+    "risikovurderinger": {
+        "546cb550-bcd0-4b95-abc0-d17bf6818bf7": {
+            "funn": [],
+            "kontrollertOk": []
+        },
+        "3d1d6b8d-3139-4fd9-aa1e-48e65689e273": {
+            "funn": [],
+            "kontrollertOk": []
+        },
+        "9bd25288-db25-416a-a9b4-e52c88affa81": {
+            "funn": [],
+            "kontrollertOk": []
+        }
+    },
+    "annulleringer": {}
 }

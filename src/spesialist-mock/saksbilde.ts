@@ -29,11 +29,8 @@ const leggTilLagretData = (person: ApiSaksbildePerson): void => {
                 periode.type === 'ApiBeregnetPeriode' && oppgave?.vedtaksperiodeId === periode.vedtaksperiodeId
                     ? oppgave.id
                     : undefined;
-            if (oppgaveId && PaVentMock.finnesIMock(oppgaveId)) {
-                periode.paVent = PaVentMock.getPåVent(oppgaveId);
-                if (periode.paVent === null || periode.paVent === undefined) {
-                    periode.egenskaper = periode.egenskaper.filter((e) => e.egenskap !== ApiEgenskap.PA_VENT);
-                }
+            if (oppgaveId && PaVentMock.finnesIMock(oppgaveId) && !PaVentMock.erPåVent(oppgaveId)) {
+                periode.egenskaper = periode.egenskaper.filter((e) => e.egenskap !== ApiEgenskap.PA_VENT);
             }
 
             periode.historikkinnslag = HistorikkinnslagMock.getHistorikkinnslag(periode.vedtaksperiodeId);

@@ -1,9 +1,8 @@
 import { ApiAnnulleringForVedtaksperiode } from '@io/rest/generated/spesialist.schemas';
-import { finnNyestePeriodeForVedtaksperiodeId } from '@spesialist-mock/periodeoppslag';
+import { finnAnnullering } from '@spesialist-mock/storage/vedtaksperiodedata';
 
 export const stub = async (_request: Request, params: Promise<{ vedtaksperiodeId: string }>) => {
     const { vedtaksperiodeId } = await params;
-    const periode = finnNyestePeriodeForVedtaksperiodeId(vedtaksperiodeId)?.periode;
-    const body: ApiAnnulleringForVedtaksperiode = { annullering: periode?.annullering ?? null };
+    const body: ApiAnnulleringForVedtaksperiode = { annullering: finnAnnullering(vedtaksperiodeId) };
     return Response.json(body, { status: 200 });
 };
