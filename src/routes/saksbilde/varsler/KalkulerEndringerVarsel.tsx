@@ -9,8 +9,6 @@ import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
-import styles from './Saksbildevarsler.module.css';
-
 interface KalkulerEndringerVarselProps {
     lokaleInntektoverstyringer: OverstyrtInntektOgRefusjon;
 }
@@ -26,7 +24,7 @@ export const KalkulerEndringerVarsel = ({
 
     return (
         <>
-            <Alert className={styles.Varsel} variant="info">
+            <Alert className="border-x-0 border-t-0 py-2" variant="info" fullWidth>
                 <BodyShort>
                     Endringene for sykepengegrunnlag må kalkuleres før du sender oppgaven til godkjenning.
                 </BodyShort>

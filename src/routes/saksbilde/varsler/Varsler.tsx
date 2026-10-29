@@ -4,11 +4,9 @@ import { ApiSaksbildeVarselstatus, ApiVarselDTO, ApiVarselvurderingDTO } from '@
 import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 import { cn } from '@utils/tw';
 
-import { Varsel } from './Varsel';
+import { Varsel, varselfarge } from './Varsel';
 import { VarselMedHandling } from './VarselMedHandling';
 import { useSkalViseAvviksvarselSomFeil } from './useSkalViseAvviksvarselSomFeil';
-
-import styles from './Varsler.module.css';
 
 const finnType = (varselvurdering: ApiVarselvurderingDTO | null | undefined) => {
     if (!varselvurdering) return 'aktiv';
@@ -59,7 +57,7 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
                     } else {
                         return (
                             <Varsel
-                                className={cn(styles.varsel, styles.ikkeEkspanderbart)}
+                                className={cn('border-b py-1 pe-4', varselfarge[type])}
                                 key={index}
                                 varsel={varsel}
                                 type={type}

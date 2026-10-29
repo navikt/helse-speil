@@ -1,6 +1,6 @@
 import React, {
-    ElementType,
     HTMLAttributes,
+    MouseEvent,
     PropsWithChildren,
     ReactElement,
     createContext,
@@ -13,65 +13,29 @@ import { Button, Stack } from '@navikt/ds-react';
 
 import { cn } from '@utils/tw';
 
-import styles from './EkspanderbartVarsel.module.css';
-
-interface EkspanderbartVarselContextValue {
-    open: boolean;
-    toggleOpen: () => void;
-}
-
-const EkspanderbartVarselContext = createContext<EkspanderbartVarselContextValue | null>(null);
-
-const useEkspanderbartVarselContext = (komponent: string): EkspanderbartVarselContextValue => {
-    const context = useContext(EkspanderbartVarselContext);
-    if (context === null) {
-        throw Error(`<${komponent}> må brukes inne i en <EkspanderbartVarsel>`);
-    }
-    return context;
-};
-
-interface EkspanderbartVarselProps extends PropsWithChildren, Omit<HTMLAttributes<HTMLElement>, 'onToggle'> {
-    as?: ElementType;
+interface EkspanderbartVarselProps extends PropsWithChildren, Omit<HTMLAttributes<HTMLDivElement>, 'onToggle'> {
     open?: boolean;
     onToggle?: (open: boolean) => void;
-    defaultOpen?: boolean;
 }
 
-interface EkspanderbartVarselComponent {
-    (props: EkspanderbartVarselProps): ReactElement;
-    Header: typeof Header;
-    Content: typeof Content;
-}
-
-export const EkspanderbartVarsel = (({
-    as: Component = 'div',
-    open,
-    onToggle,
-    defaultOpen = false,
-    className,
-    children,
-    ...rest
-}: EkspanderbartVarselProps): ReactElement => {
-    const [ukontrollertOpen, setUkontrollertOpen] = useState(defaultOpen);
+export function EkspanderbartVarsel({ open, onToggle, children, ...rest }: EkspanderbartVarselProps): ReactElement {
+    const [ukontrollertOpen, setUkontrollertOpen] = useState(false);
     const erKontrollert = open !== undefined;
     const currentOpen = erKontrollert ? open : ukontrollertOpen;
 
     const toggleOpen = () => {
-        const nesteOpen = !currentOpen;
         if (!erKontrollert) {
-            setUkontrollertOpen(nesteOpen);
+            setUkontrollertOpen(!currentOpen);
         }
-        onToggle?.(nesteOpen);
+        onToggle?.(!currentOpen);
     };
 
     return (
         <EkspanderbartVarselContext.Provider value={{ open: currentOpen, toggleOpen }}>
-            <Component className={className} {...rest}>
-                {children}
-            </Component>
+            <div {...rest}>{children}</div>
         </EkspanderbartVarselContext.Provider>
     );
-}) as EkspanderbartVarselComponent;
+}
 
 interface HeaderProps extends PropsWithChildren {
     className?: string;
@@ -79,13 +43,15 @@ interface HeaderProps extends PropsWithChildren {
     justify?: 'start' | 'center' | 'end' | 'space-around' | 'space-between' | 'space-evenly';
 }
 
-const Header = ({
-    children,
-    className,
-    flexDirection = 'row',
-    justify = 'space-between',
-}: HeaderProps): ReactElement => {
+function Header({ children, className, flexDirection = 'row', justify = 'space-between' }: HeaderProps): ReactElement {
     const { open, toggleOpen } = useEkspanderbartVarselContext('EkspanderbartVarsel.Header');
+
+    const håndterKlikk = (event: MouseEvent<HTMLElement>) => {
+        if (!(event.target instanceof Element)) return;
+        if (event.target.closest(IKKE_EKSPANDER_SELEKTOR)) return;
+        if (window.getSelection()?.toString()) return;
+        toggleOpen();
+    };
 
     return (
         <Stack
@@ -95,36 +61,73 @@ const Header = ({
             gap="space-16"
             wrap={false}
             data-open={open}
-            className={cn(styles.header, className)}
+            onClick={håndterKlikk}
+            // Raske klikk skal toggle, ikke markere ord. Markering ved å dra virker fortsatt.
+            onMouseDown={(event) => event.detail > 1 && event.preventDefault()}
+            className={cn('group/header cursor-pointer p-2 text-ax-text-accent-subtle', className)}
         >
             {children}
+            {/* Knappen er tastatur- og skjermleserkontrollen. Med mus går klikket gjennom til headeren. */}
             <Button
                 type="button"
-                variant="tertiary"
+                variant="tertiary-neutral"
                 size="small"
-                className={styles.chevronButton}
+                className="pointer-events-none"
                 onClick={toggleOpen}
                 aria-expanded={open}
-                aria-label={open ? 'Skjul' : 'Vis'}
-                icon={<ChevronDownIcon className={styles.chevron} aria-hidden />}
+                aria-label="Detaljer"
+                icon={
+                    <ChevronDownIcon
+                        className={cn('transition-transform group-data-[open=true]/header:rotate-180', OVERGANG)}
+                        aria-hidden
+                    />
+                }
             />
         </Stack>
     );
-};
+}
 
 interface ContentProps extends PropsWithChildren {
     className?: string;
 }
 
-const Content = ({ children, className }: ContentProps): ReactElement => {
+function Content({ children, className }: ContentProps): ReactElement {
     const { open } = useEkspanderbartVarselContext('EkspanderbartVarsel.Content');
 
     return (
-        <div className={cn(styles.content, className)} data-open={open} aria-hidden={!open}>
-            <div className={styles.contentInnhold}>{children}</div>
+        <div
+            data-open={open}
+            aria-hidden={!open}
+            className={cn(
+                'grid overflow-hidden transition-[grid-template-rows,visibility]',
+                open ? 'visible grid-rows-[1fr]' : 'invisible grid-rows-[0fr]',
+                OVERGANG,
+                className,
+            )}
+        >
+            <div className="min-h-0">{children}</div>
         </div>
     );
-};
+}
 
 EkspanderbartVarsel.Header = Header;
 EkspanderbartVarsel.Content = Content;
+
+interface EkspanderbartVarselContextValue {
+    open: boolean;
+    toggleOpen: () => void;
+}
+
+const EkspanderbartVarselContext = createContext<EkspanderbartVarselContextValue | null>(null);
+
+function useEkspanderbartVarselContext(komponent: string): EkspanderbartVarselContextValue {
+    const context = useContext(EkspanderbartVarselContext);
+    if (context === null) {
+        throw Error(`<${komponent}> må brukes inne i en <EkspanderbartVarsel>`);
+    }
+    return context;
+}
+
+const IKKE_EKSPANDER_SELEKTOR = 'button, a, input, select, textarea, [role="button"], [data-ikke-ekspander]';
+
+const OVERGANG = 'duration-250 ease-[cubic-bezier(0.2,0,0,1)]';

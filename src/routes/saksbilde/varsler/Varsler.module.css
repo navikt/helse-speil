@@ -1,9 +1,0 @@
-.varsel {
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    padding-right: var(--ax-space-16);
-}
-
-.ikkeEkspanderbart {
-    padding: var(--ax-space-4) var(--ax-space-16) var(--ax-space-4) 0;
-}
