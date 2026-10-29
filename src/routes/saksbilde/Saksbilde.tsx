@@ -199,6 +199,7 @@ export const Saksbilde = () => {
                                 <Utvikler
                                     vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                                     fødselsnummer={person.fodselsnummer}
+                                    personPseudoId={personPseudoId}
                                 />
                             </Tabs.Panel>
                         </>
@@ -217,6 +218,7 @@ export const Saksbilde = () => {
                                 <Utvikler
                                     vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
                                     fødselsnummer={person.fodselsnummer}
+                                    personPseudoId={personPseudoId}
                                 />
                             </Tabs.Panel>
                         </>

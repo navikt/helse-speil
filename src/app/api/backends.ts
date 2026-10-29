@@ -65,6 +65,11 @@ export const backends = {
         baseUrlEnv: 'SP_FORSIKRING_BASE_URL',
         målprefiks: '',
     },
+    rettighetskategori: {
+        scopeEnv: 'CLIENT_ID_RETTIGHETSKATEGORI',
+        baseUrlEnv: 'RETTIGHETSKATEGORI_BASE_URL',
+        målprefiks: '/api',
+    },
     medlemskap: {
         scopeEnv: 'CLIENT_ID_MEDLEMSKAP',
         baseUrlEnv: 'MEDLEMSKAP_BASE_URL',

@@ -35,6 +35,7 @@ spec:
           cluster: prod-gcp
         - application: sp-vilkarsproving
         - application: spleis-api
+        - application: sp-rettighetskategori
         - application: sparsom-api
       external:
         - host: api.sanity.io
@@ -130,6 +131,10 @@ spec:
       value: api://prod-gcp.tbd.spleis-api/.default
     - name: SPLEIS_API_BASE_URL
       value: http://spleis-api
+    - name: CLIENT_ID_RETTIGHETSKATEGORI
+      value: api://prod-gcp.tbd.sp-rettighetskategori/.default
+    - name: RETTIGHETSKATEGORI_BASE_URL
+      value: http://sp-rettighetskategori
     - name: CLIENT_ID_SPARSOM_API
       value: api://prod-gcp.tbd.sparsom-api/.default
     - name: SPARSOM_API_BASE_URL

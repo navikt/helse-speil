@@ -7,14 +7,16 @@ import { erProd } from '@/env';
 import { useSpleisVedtaksperiodeQuery } from '@io/rest/spleis';
 import { Handlinger } from '@saksbilde/utvikler/Handlinger';
 import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
+import { Rettighetskategori } from '@saksbilde/utvikler/Rettighetskategori';
 import { Hendelser } from '@saksbilde/utvikler/hendelser/Hendelser';
 
 interface UtviklerProps {
     vedtaksperiodeId: string;
     fødselsnummer: string;
+    personPseudoId: string;
 }
 
-export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) => {
+export const Utvikler = ({ vedtaksperiodeId, fødselsnummer, personPseudoId }: UtviklerProps) => {
     const { data, isPending, error } = useSpleisVedtaksperiodeQuery(vedtaksperiodeId, fødselsnummer);
     const [valgtTab, setValgtTab] = useState('spleisdata');
 
@@ -28,6 +30,7 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) =>
                 <Tabs value={valgtTab} onChange={(value) => value !== 'sporing' && setValgtTab(value)} size="small">
                     <Tabs.List>
                         <Tabs.Tab value="spleisdata" label="Spleis-data" />
+                        <Tabs.Tab value="rettighetskategori" label="Rettighetskategori" />
                         <Tabs.Tab value="hendelser" label="Hendelser" />
                         <Tabs.Tab value="handlinger" label="Handlinger" />
                         <Tabs.Tab
@@ -43,6 +46,14 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer }: UtviklerProps) =>
                     <Tabs.Panel value="spleisdata">
                         <Box paddingBlock="space-16">
                             <JsonVisning data={data} />
+                        </Box>
+                    </Tabs.Panel>
+                    <Tabs.Panel value="rettighetskategori">
+                        <Box paddingBlock="space-16">
+                            <Rettighetskategori
+                                personPseudoId={personPseudoId}
+                                rettighetskategoriId={data.vilkårsgrunnlag?.rettighetskategoriId}
+                            />
                         </Box>
                     </Tabs.Panel>
                     <Tabs.Panel value="hendelser">

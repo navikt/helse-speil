@@ -33,6 +33,7 @@ spec:
         - application: sp-vilkarsproving
         - application: sp-medlemskap
         - application: spleis-api
+        - application: sp-rettighetskategori
         - application: sparsom-api
       external:
         - host: api.sanity.io
@@ -122,6 +123,10 @@ spec:
       value: api://dev-gcp.tbd.spleis-api/.default
     - name: SPLEIS_API_BASE_URL
       value: http://spleis-api
+    - name: CLIENT_ID_RETTIGHETSKATEGORI
+      value: api://dev-gcp.tbd.sp-rettighetskategori/.default
+    - name: RETTIGHETSKATEGORI_BASE_URL
+      value: http://sp-rettighetskategori
     - name: CLIENT_ID_SPARSOM_API
       value: api://dev-gcp.tbd.sparsom-api/.default
     - name: SPARSOM_API_BASE_URL

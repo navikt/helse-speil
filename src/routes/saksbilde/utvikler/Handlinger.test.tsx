@@ -18,6 +18,7 @@ const vedtaksperiode: SpleisVedtaksperiode = {
     sykmeldingTom: '2026-01-31',
     opprettet: '2026-02-01T10:00:00',
     oppdatert: '2026-02-01T12:00:00',
+    vilkårsgrunnlag: null,
 };
 
 describe('Handlinger', () => {

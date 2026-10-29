@@ -20,6 +20,7 @@ export type SpleisVedtaksperiode = {
     sykmeldingTom: string;
     opprettet: string;
     oppdatert: string;
+    vilkårsgrunnlag: { rettighetskategoriId: string } | null;
 };
 
 const postHentVedtaksperiode = (vedtaksperiodeId: string, fødselsnummer: string, signal?: AbortSignal) =>
