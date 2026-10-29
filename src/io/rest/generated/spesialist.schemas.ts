@@ -528,6 +528,222 @@ export interface ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonError
     code?: null | ApiGetInntekterFraAordningenForPersonErrorCode;
 }
 
+export interface ApiSaksbehandler {
+    navn: string;
+    /** @nullable */
+    ident?: string | null;
+}
+
+export type ApiArbeidsforholdoverstyringType =
+    (typeof ApiArbeidsforholdoverstyringType)[keyof typeof ApiArbeidsforholdoverstyringType];
+
+export const ApiArbeidsforholdoverstyringType = {
+    ApiArbeidsforholdoverstyring: 'ApiArbeidsforholdoverstyring',
+} as const;
+
+export interface ApiArbeidsforholdoverstyring {
+    hendelseId: string;
+    timestamp: string;
+    saksbehandler: ApiSaksbehandler;
+    ferdigstilt: boolean;
+    deaktivert: boolean;
+    skjaeringstidspunkt: string;
+    forklaring: string;
+    begrunnelse: string;
+    vedtaksperiodeId: string;
+    organisasjonsnummer: string;
+    type: ApiArbeidsforholdoverstyringType;
+}
+
+export type ApiDagtype = (typeof ApiDagtype)[keyof typeof ApiDagtype];
+
+export const ApiDagtype = {
+    Sykedag: 'Sykedag',
+    SykedagNav: 'SykedagNav',
+    Feriedag: 'Feriedag',
+    Egenmeldingsdag: 'Egenmeldingsdag',
+    Permisjonsdag: 'Permisjonsdag',
+    Arbeidsdag: 'Arbeidsdag',
+    ArbeidIkkeGjenopptattDag: 'ArbeidIkkeGjenopptattDag',
+    Foreldrepengerdag: 'Foreldrepengerdag',
+    AAPdag: 'AAPdag',
+    Omsorgspengerdag: 'Omsorgspengerdag',
+    Pleiepengerdag: 'Pleiepengerdag',
+    Svangerskapspengerdag: 'Svangerskapspengerdag',
+    Opplaringspengerdag: 'Opplaringspengerdag',
+    Dagpengerdag: 'Dagpengerdag',
+    MeldingTilNavdag: 'MeldingTilNavdag',
+    AvslattMeldingTilNavdag: 'AvslattMeldingTilNavdag',
+    Avvistdag: 'Avvistdag',
+    Helg: 'Helg',
+} as const;
+
+export interface ApiOverstyrtDag {
+    dato: string;
+    type: ApiDagtype;
+    fraType?: null | ApiDagtype;
+    /** @nullable */
+    grad?: number | null;
+    /** @nullable */
+    fraGrad?: number | null;
+}
+
+export type ApiDagoverstyringType = (typeof ApiDagoverstyringType)[keyof typeof ApiDagoverstyringType];
+
+export const ApiDagoverstyringType = {
+    ApiDagoverstyring: 'ApiDagoverstyring',
+} as const;
+
+export interface ApiDagoverstyring {
+    hendelseId: string;
+    timestamp: string;
+    saksbehandler: ApiSaksbehandler;
+    ferdigstilt: boolean;
+    dager: ApiOverstyrtDag[];
+    begrunnelse: string;
+    vedtaksperiodeId: string;
+    organisasjonsnummer: string;
+    type: ApiDagoverstyringType;
+}
+
+export interface ApiRefusjonsopplysning {
+    fom: string;
+    /** @nullable */
+    tom?: string | null;
+    belop: number;
+}
+
+export interface ApiOverstyrtInntekt {
+    forklaring: string;
+    begrunnelse: string;
+    manedligInntekt: number;
+    /** @nullable */
+    fraManedligInntekt?: number | null;
+    skjaeringstidspunkt: string;
+    /** @nullable */
+    refusjonsopplysninger?: ApiRefusjonsopplysning[] | null;
+    /** @nullable */
+    fraRefusjonsopplysninger?: ApiRefusjonsopplysning[] | null;
+}
+
+export type ApiInntektoverstyringType = (typeof ApiInntektoverstyringType)[keyof typeof ApiInntektoverstyringType];
+
+export const ApiInntektoverstyringType = {
+    ApiInntektoverstyring: 'ApiInntektoverstyring',
+} as const;
+
+export interface ApiInntektoverstyring {
+    hendelseId: string;
+    timestamp: string;
+    saksbehandler: ApiSaksbehandler;
+    ferdigstilt: boolean;
+    inntekt: ApiOverstyrtInntekt;
+    vedtaksperiodeId: string;
+    organisasjonsnummer: string;
+    type: ApiInntektoverstyringType;
+}
+
+export interface ApiOverstyrtMinimumSykdomsgradPeriode {
+    fom: string;
+    tom: string;
+}
+
+export interface ApiOverstyrtMinimumSykdomsgrad {
+    perioderVurdertOk: ApiOverstyrtMinimumSykdomsgradPeriode[];
+    perioderVurdertIkkeOk: ApiOverstyrtMinimumSykdomsgradPeriode[];
+    begrunnelse: string;
+    initierendeVedtaksperiodeId: string;
+}
+
+export type ApiMinimumSykdomsgradOverstyringType =
+    (typeof ApiMinimumSykdomsgradOverstyringType)[keyof typeof ApiMinimumSykdomsgradOverstyringType];
+
+export const ApiMinimumSykdomsgradOverstyringType = {
+    ApiMinimumSykdomsgradOverstyring: 'ApiMinimumSykdomsgradOverstyring',
+} as const;
+
+export interface ApiMinimumSykdomsgradOverstyring {
+    hendelseId: string;
+    timestamp: string;
+    saksbehandler: ApiSaksbehandler;
+    ferdigstilt: boolean;
+    minimumSykdomsgrad: ApiOverstyrtMinimumSykdomsgrad;
+    vedtaksperiodeId: string;
+    organisasjonsnummer: string;
+    type: ApiMinimumSykdomsgradOverstyringType;
+}
+
+export type ApiSkjonnsfastsettingstype = (typeof ApiSkjonnsfastsettingstype)[keyof typeof ApiSkjonnsfastsettingstype];
+
+export const ApiSkjonnsfastsettingstype = {
+    OMREGNET_ARSINNTEKT: 'OMREGNET_ARSINNTEKT',
+    RAPPORTERT_ARSINNTEKT: 'RAPPORTERT_ARSINNTEKT',
+    ANNET: 'ANNET',
+} as const;
+
+export interface ApiSkjonnsfastsattSykepengegrunnlag {
+    arsak: string;
+    type?: null | ApiSkjonnsfastsettingstype;
+    /** @nullable */
+    begrunnelse?: string | null;
+    /** @nullable */
+    begrunnelseMal?: string | null;
+    /** @nullable */
+    begrunnelseFritekst?: string | null;
+    /** @nullable */
+    begrunnelseKonklusjon?: string | null;
+    arlig: number;
+    /** @nullable */
+    fraArlig?: number | null;
+    skjaeringstidspunkt: string;
+}
+
+export type ApiSykepengegrunnlagskjonnsfastsettingType =
+    (typeof ApiSykepengegrunnlagskjonnsfastsettingType)[keyof typeof ApiSykepengegrunnlagskjonnsfastsettingType];
+
+export const ApiSykepengegrunnlagskjonnsfastsettingType = {
+    ApiSykepengegrunnlagskjonnsfastsetting: 'ApiSykepengegrunnlagskjonnsfastsetting',
+} as const;
+
+export interface ApiSykepengegrunnlagskjonnsfastsetting {
+    hendelseId: string;
+    timestamp: string;
+    saksbehandler: ApiSaksbehandler;
+    ferdigstilt: boolean;
+    skjonnsfastsatt: ApiSkjonnsfastsattSykepengegrunnlag;
+    vedtaksperiodeId: string;
+    organisasjonsnummer: string;
+    type: ApiSykepengegrunnlagskjonnsfastsettingType;
+}
+
+export type ApiOverstyring =
+    | ApiArbeidsforholdoverstyring
+    | ApiDagoverstyring
+    | ApiInntektoverstyring
+    | ApiMinimumSykdomsgradOverstyring
+    | ApiSykepengegrunnlagskjonnsfastsetting;
+
+export interface ApiOverstyringerForPerson {
+    overstyringer: ApiOverstyring[];
+}
+
+export type ApiGetOverstyringerForPersonErrorCode =
+    (typeof ApiGetOverstyringerForPersonErrorCode)[keyof typeof ApiGetOverstyringerForPersonErrorCode];
+
+export const ApiGetOverstyringerForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetOverstyringerForPersonErrorCode;
+}
+
 export interface ApiTildelingForPerson {
     tildeling?: null | ApiTildeling;
 }
@@ -2939,196 +3155,6 @@ export interface ApiBehandling {
     id: string;
     perioder: ApiPeriode[];
 }
-
-export interface ApiSaksbehandler {
-    navn: string;
-    /** @nullable */
-    ident?: string | null;
-}
-
-export type ApiArbeidsforholdoverstyringType =
-    (typeof ApiArbeidsforholdoverstyringType)[keyof typeof ApiArbeidsforholdoverstyringType];
-
-export const ApiArbeidsforholdoverstyringType = {
-    ApiArbeidsforholdoverstyring: 'ApiArbeidsforholdoverstyring',
-} as const;
-
-export interface ApiArbeidsforholdoverstyring {
-    hendelseId: string;
-    timestamp: string;
-    saksbehandler: ApiSaksbehandler;
-    ferdigstilt: boolean;
-    deaktivert: boolean;
-    skjaeringstidspunkt: string;
-    forklaring: string;
-    begrunnelse: string;
-    vedtaksperiodeId: string;
-    type: ApiArbeidsforholdoverstyringType;
-}
-
-export type ApiDagtype = (typeof ApiDagtype)[keyof typeof ApiDagtype];
-
-export const ApiDagtype = {
-    Sykedag: 'Sykedag',
-    SykedagNav: 'SykedagNav',
-    Feriedag: 'Feriedag',
-    Egenmeldingsdag: 'Egenmeldingsdag',
-    Permisjonsdag: 'Permisjonsdag',
-    Arbeidsdag: 'Arbeidsdag',
-    ArbeidIkkeGjenopptattDag: 'ArbeidIkkeGjenopptattDag',
-    Foreldrepengerdag: 'Foreldrepengerdag',
-    AAPdag: 'AAPdag',
-    Omsorgspengerdag: 'Omsorgspengerdag',
-    Pleiepengerdag: 'Pleiepengerdag',
-    Svangerskapspengerdag: 'Svangerskapspengerdag',
-    Opplaringspengerdag: 'Opplaringspengerdag',
-    Dagpengerdag: 'Dagpengerdag',
-    MeldingTilNavdag: 'MeldingTilNavdag',
-    AvslattMeldingTilNavdag: 'AvslattMeldingTilNavdag',
-    Avvistdag: 'Avvistdag',
-    Helg: 'Helg',
-} as const;
-
-export interface ApiOverstyrtDag {
-    dato: string;
-    type: ApiDagtype;
-    fraType?: null | ApiDagtype;
-    /** @nullable */
-    grad?: number | null;
-    /** @nullable */
-    fraGrad?: number | null;
-}
-
-export type ApiDagoverstyringType = (typeof ApiDagoverstyringType)[keyof typeof ApiDagoverstyringType];
-
-export const ApiDagoverstyringType = {
-    ApiDagoverstyring: 'ApiDagoverstyring',
-} as const;
-
-export interface ApiDagoverstyring {
-    hendelseId: string;
-    timestamp: string;
-    saksbehandler: ApiSaksbehandler;
-    ferdigstilt: boolean;
-    dager: ApiOverstyrtDag[];
-    begrunnelse: string;
-    vedtaksperiodeId: string;
-    type: ApiDagoverstyringType;
-}
-
-export interface ApiRefusjonsopplysning {
-    fom: string;
-    /** @nullable */
-    tom?: string | null;
-    belop: number;
-}
-
-export interface ApiOverstyrtInntekt {
-    forklaring: string;
-    begrunnelse: string;
-    manedligInntekt: number;
-    /** @nullable */
-    fraManedligInntekt?: number | null;
-    skjaeringstidspunkt: string;
-    /** @nullable */
-    refusjonsopplysninger?: ApiRefusjonsopplysning[] | null;
-    /** @nullable */
-    fraRefusjonsopplysninger?: ApiRefusjonsopplysning[] | null;
-}
-
-export type ApiInntektoverstyringType = (typeof ApiInntektoverstyringType)[keyof typeof ApiInntektoverstyringType];
-
-export const ApiInntektoverstyringType = {
-    ApiInntektoverstyring: 'ApiInntektoverstyring',
-} as const;
-
-export interface ApiInntektoverstyring {
-    hendelseId: string;
-    timestamp: string;
-    saksbehandler: ApiSaksbehandler;
-    ferdigstilt: boolean;
-    inntekt: ApiOverstyrtInntekt;
-    vedtaksperiodeId: string;
-    type: ApiInntektoverstyringType;
-}
-
-export interface ApiOverstyrtMinimumSykdomsgradPeriode {
-    fom: string;
-    tom: string;
-}
-
-export interface ApiOverstyrtMinimumSykdomsgrad {
-    perioderVurdertOk: ApiOverstyrtMinimumSykdomsgradPeriode[];
-    perioderVurdertIkkeOk: ApiOverstyrtMinimumSykdomsgradPeriode[];
-    begrunnelse: string;
-    initierendeVedtaksperiodeId: string;
-}
-
-export type ApiMinimumSykdomsgradOverstyringType =
-    (typeof ApiMinimumSykdomsgradOverstyringType)[keyof typeof ApiMinimumSykdomsgradOverstyringType];
-
-export const ApiMinimumSykdomsgradOverstyringType = {
-    ApiMinimumSykdomsgradOverstyring: 'ApiMinimumSykdomsgradOverstyring',
-} as const;
-
-export interface ApiMinimumSykdomsgradOverstyring {
-    hendelseId: string;
-    timestamp: string;
-    saksbehandler: ApiSaksbehandler;
-    ferdigstilt: boolean;
-    minimumSykdomsgrad: ApiOverstyrtMinimumSykdomsgrad;
-    vedtaksperiodeId: string;
-    type: ApiMinimumSykdomsgradOverstyringType;
-}
-
-export type ApiSkjonnsfastsettingstype = (typeof ApiSkjonnsfastsettingstype)[keyof typeof ApiSkjonnsfastsettingstype];
-
-export const ApiSkjonnsfastsettingstype = {
-    OMREGNET_ARSINNTEKT: 'OMREGNET_ARSINNTEKT',
-    RAPPORTERT_ARSINNTEKT: 'RAPPORTERT_ARSINNTEKT',
-    ANNET: 'ANNET',
-} as const;
-
-export interface ApiSkjonnsfastsattSykepengegrunnlag {
-    arsak: string;
-    type?: null | ApiSkjonnsfastsettingstype;
-    /** @nullable */
-    begrunnelse?: string | null;
-    /** @nullable */
-    begrunnelseMal?: string | null;
-    /** @nullable */
-    begrunnelseFritekst?: string | null;
-    /** @nullable */
-    begrunnelseKonklusjon?: string | null;
-    arlig: number;
-    /** @nullable */
-    fraArlig?: number | null;
-    skjaeringstidspunkt: string;
-}
-
-export type ApiSykepengegrunnlagskjonnsfastsettingType =
-    (typeof ApiSykepengegrunnlagskjonnsfastsettingType)[keyof typeof ApiSykepengegrunnlagskjonnsfastsettingType];
-
-export const ApiSykepengegrunnlagskjonnsfastsettingType = {
-    ApiSykepengegrunnlagskjonnsfastsetting: 'ApiSykepengegrunnlagskjonnsfastsetting',
-} as const;
-
-export interface ApiSykepengegrunnlagskjonnsfastsetting {
-    hendelseId: string;
-    timestamp: string;
-    saksbehandler: ApiSaksbehandler;
-    ferdigstilt: boolean;
-    skjonnsfastsatt: ApiSkjonnsfastsattSykepengegrunnlag;
-    vedtaksperiodeId: string;
-    type: ApiSykepengegrunnlagskjonnsfastsettingType;
-}
-
-export type ApiOverstyring =
-    | ApiArbeidsforholdoverstyring
-    | ApiDagoverstyring
-    | ApiInntektoverstyring
-    | ApiMinimumSykdomsgradOverstyring
-    | ApiSykepengegrunnlagskjonnsfastsetting;
 
 export interface ApiArbeidsgiver {
     organisasjonsnummer: string;

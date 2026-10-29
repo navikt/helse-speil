@@ -5,6 +5,7 @@ import {
     useGetArbeidsforholdForPerson,
     useGetBehandlendeEnhetForPerson,
     useGetKrrRegistrertStatusForPerson,
+    useGetOverstyringerForPerson,
     useGetPaVentForPerson,
     useGetSaksbehandlerStans,
     useGetSaksbildeForPerson,
@@ -83,4 +84,5 @@ function mockPersonHeaderKall() {
     (useGetTildelingForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
     (useGetPaVentForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
     (useGetArbeidsforholdForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
+    (useGetOverstyringerForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
 }

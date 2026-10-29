@@ -92,6 +92,7 @@ describe('useTabelldagerMap', () => {
                     ident: 'en-ident',
                 },
                 ferdigstilt: false,
+                organisasjonsnummer: '987654321',
             },
         ];
 

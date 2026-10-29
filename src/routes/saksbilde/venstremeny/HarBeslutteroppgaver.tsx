@@ -12,6 +12,7 @@ import {
     inntektsforholdReferanseTilKey,
     tilReferanse,
 } from '@state/inntektsforhold/inntektsforhold';
+import { finnOverstyringerForInntektsforhold, useOverstyringer } from '@state/overstyringer';
 import { useNavigerTilPeriode, useNavigerTilTilkommenInntekt } from '@state/routing';
 import { saksbehandlerhandlingGjelderPeriode, useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
@@ -32,6 +33,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
     const { data: saksbehandlerhandlinger } = useHentSaksbehandlerhandlinger(personPseudoId);
     const navigerTilTilkommenInntekt = useNavigerTilTilkommenInntekt();
     const navigerTilPeriode = useNavigerTilPeriode();
+    const overstyringer = useOverstyringer();
 
     if (!periodeTilGodkjenning || !harBeslutteroppgave || !tilkommenInntektData) return null;
 
@@ -52,7 +54,7 @@ export const HarBeslutteroppgaver = ({ person }: HarBeslutteroppgaverProps): Rea
                     .filter((periode) => !periode.erForkastet)
                     .filter(
                         (periode) =>
-                            inntektsforhold.overstyringer
+                            finnOverstyringerForInntektsforhold(overstyringer, inntektsforhold)
                                 .filter((overstyring) => !overstyring.ferdigstilt)
                                 .some((overstyring) => overstyring.vedtaksperiodeId === periode.vedtaksperiodeId) ||
                             (periodeTilGodkjenning.id === periode.id && harTilkommenInntektEndring) ||

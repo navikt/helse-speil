@@ -4,12 +4,14 @@ import {
     getGetAktivOppgaveForPersonQueryKey,
     getGetArbeidsforholdForPersonQueryKey,
     getGetInntekterFraAordningenForPersonQueryKey,
+    getGetOverstyringerForPersonQueryKey,
     getGetPaVentForPersonQueryKey,
     getGetSaksbildeForPersonQueryKey,
     getGetTildelingForPersonQueryKey,
     getGetTotrinnsvurderingForPersonQueryKey,
     useGetAktivOppgaveForPerson,
     useGetArbeidsforholdForPerson,
+    useGetOverstyringerForPerson,
     useGetPaVentForPerson,
     useGetSaksbildeForPerson,
     useGetTildelingForPerson,
@@ -26,7 +28,7 @@ export const useFetchPersonQuery = () => {
     const query = useGetSaksbildeForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
-    // Saksbildet avhenger av aktiv oppgave, totrinnsvurdering, tildeling, påVent og arbeidsforhold, så det vises først når alle er lastet
+    // Saksbildet avhenger av aktiv oppgave, totrinnsvurdering, tildeling, påVent, arbeidsforhold og overstyringer, så det vises først når alle er lastet
     const aktivOppgaveQuery = useGetAktivOppgaveForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
@@ -42,13 +44,17 @@ export const useFetchPersonQuery = () => {
     const arbeidsforholdQuery = useGetArbeidsforholdForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
+    const overstyringerQuery = useGetOverstyringerForPerson(personPseudoId!, {
+        query: { enabled: !!personPseudoId },
+    });
     const loading =
         query.isLoading ||
         aktivOppgaveQuery.isLoading ||
         totrinnsvurderingQuery.isLoading ||
         tildelingQuery.isLoading ||
         påVentQuery.isLoading ||
-        arbeidsforholdQuery.isLoading;
+        arbeidsforholdQuery.isLoading ||
+        overstyringerQuery.isLoading;
 
     return {
         data: loading ? undefined : query.data,
@@ -59,7 +65,8 @@ export const useFetchPersonQuery = () => {
             totrinnsvurderingQuery.error ??
             tildelingQuery.error ??
             påVentQuery.error ??
-            arbeidsforholdQuery.error,
+            arbeidsforholdQuery.error ??
+            overstyringerQuery.error,
         refetch: async () => {
             if (personPseudoId) await refetchPersondata(queryClient, personPseudoId);
         },
@@ -105,6 +112,7 @@ export const refetchPersondata = async (queryClient: QueryClient, personPseudoId
         getGetPaVentForPersonQueryKey(personPseudoId),
         getGetArbeidsforholdForPersonQueryKey(personPseudoId),
         getGetInntekterFraAordningenForPersonQueryKey(personPseudoId),
+        getGetOverstyringerForPersonQueryKey(personPseudoId),
     ].map((nøkkel) => hashKey(nøkkel));
     await queryClient.refetchQueries({
         predicate: (query) => nøkler.includes(query.queryHash) || erVedtaksperiodenøkkel(query.queryKey),

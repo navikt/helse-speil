@@ -18,6 +18,7 @@ import {
     finnAlleInntektsforhold,
     tilReferanse,
 } from '@state/inntektsforhold/inntektsforhold';
+import { finnOverstyringerForInntektsforhold, useOverstyringer } from '@state/overstyringer';
 import { useActivePeriod } from '@state/periode';
 import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { somPenger, toKronerOgØre } from '@utils/locale';
@@ -54,12 +55,13 @@ export const SkjønnsfastsettingHeader = ({
     const aktivPeriode = useActivePeriod(person);
     const erBeslutteroppgave = useTotrinnsvurderingForPeriode(aktivPeriode)?.erBeslutteroppgave ?? false;
     const harMaler = maler && maler.length > 0;
+    const overstyringer = useOverstyringer();
 
     if (!person || !aktivPeriode) return <></>;
 
     const skjønnsfastsettingEndringer: SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo[] =
         finnAlleInntektsforhold(person).flatMap((inntektsforhold) =>
-            inntektsforhold.overstyringer
+            finnOverstyringerForInntektsforhold(overstyringer, inntektsforhold)
                 .filter(isSykepengegrunnlagskjønnsfastsetting)
                 .filter((overstyring) =>
                     dayjs(overstyring.skjonnsfastsatt.skjaeringstidspunkt).isSame(aktivPeriode.skjaeringstidspunkt),

@@ -20,6 +20,7 @@ import {
     finnAlleInntektsforhold,
     finnOverstyringerForAktivInntektsforhold,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useOverstyringer } from '@state/overstyringer';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
 import { useHarBeslutteroppgaveForSkjæringstidspunkt } from '@state/totrinnsvurdering';
 import { ActivePeriod } from '@typer/shared';
@@ -32,6 +33,7 @@ interface VerktøylinjeProps {
 }
 
 export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeId }: VerktøylinjeProps) => {
+    const alleOverstyringer = useOverstyringer();
     const [vurdererArbeidstid, setVurdererArbeidstid] = useState(false);
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
     const oppkuttedePerioder =
@@ -42,7 +44,7 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
                 aktivPeriode.skjaeringstidspunkt,
             ),
         ) ?? [];
-    const minimumSykdomsgradsoverstyringer = finnOverstyringerForAktivInntektsforhold(aktivPeriode, person).filter(
+    const minimumSykdomsgradsoverstyringer = finnOverstyringerForAktivInntektsforhold(alleOverstyringer, aktivPeriode, person).filter(
         isMinimumSykdomsgradsoverstyring,
     );
     const harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder: boolean =

@@ -6,6 +6,7 @@ import {
     ApiBeregnetPeriode,
     ApiGhostPeriode,
     ApiNotat,
+    ApiOverstyring,
     ApiSaksbehandlerhandling,
     ApiSaksbildePerson,
     ApiUberegnetPeriode,
@@ -14,6 +15,7 @@ import { useAnnulleringForPeriode } from '@state/annullering';
 import { finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold, finnInntektsforholdForPeriode } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithSessionStorage } from '@state/jotai';
+import { useOverstyringer } from '@state/overstyringer';
 import { useActivePeriod } from '@state/periode';
 import { Filtertype, HendelseObject, Hendelsetype } from '@typer/historikk';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
@@ -44,6 +46,7 @@ const byTimestamp = (a: HendelseObject, b: HendelseObject): number => {
 const getHendelserForBeregnetPeriode = (
     periode: ApiBeregnetPeriode,
     person: ApiSaksbildePerson,
+    overstyringer: ApiOverstyring[],
     notater: ApiNotat[],
     saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
     annullering: ApiAnnullering | null,
@@ -58,12 +61,12 @@ const getHendelserForBeregnetPeriode = (
     const hendelserTomUtbetalingstidspunkt = [
         ...getMeldingOmVedtak(periode),
         ...getDokumenter(periode),
-        ...getDagoverstyringer(periode, inntektsforhold),
-        ...getInntektoverstyringer(periode, inntektsforhold),
-        ...getArbeidsforholdoverstyringhendelser(periode, inntektsforhold),
-        ...getAnnetArbeidsforholdoverstyringhendelser(periode, andreInntektsforhold),
-        ...getSykepengegrunnlagskjønnsfastsetting(periode, inntektsforhold, andreInntektsforhold),
-        ...getMinimumSykdomsgradoverstyring(periode, inntektsforhold),
+        ...getDagoverstyringer(overstyringer, periode, inntektsforhold),
+        ...getInntektoverstyringer(overstyringer, periode, inntektsforhold),
+        ...getArbeidsforholdoverstyringhendelser(overstyringer, periode, inntektsforhold),
+        ...getAnnetArbeidsforholdoverstyringhendelser(overstyringer, periode, andreInntektsforhold),
+        ...getSykepengegrunnlagskjønnsfastsetting(overstyringer, periode, inntektsforhold, andreInntektsforhold),
+        ...getMinimumSykdomsgradoverstyring(overstyringer, periode, inntektsforhold),
         ...getVedtakBegrunnelser(periode),
         ...getSaksbehandlerhandlinger(saksbehandlerhandlinger, periode),
     ].filter(hendelseTidspunktLiktEllerFørUtbetalingForPeriode(periode));
@@ -84,7 +87,11 @@ const hendelseTidspunktLiktEllerFørUtbetalingForPeriode = (period: ApiBeregnetP
           dayjs(hendelse.timestamp).startOf('s').isSameOrBefore(period.utbetaling.vurdering.tidsstempel)
         : true;
 
-const getHendelserForGhostPeriode = (periode: ApiGhostPeriode, person: ApiSaksbildePerson): HendelseObject[] => {
+const getHendelserForGhostPeriode = (
+    periode: ApiGhostPeriode,
+    person: ApiSaksbildePerson,
+    overstyringer: ApiOverstyring[],
+): HendelseObject[] => {
     const arbeidsgiver = finnArbeidsgiverForGhostPeriode(person, periode);
     if (!arbeidsgiver) {
         return [];
@@ -93,15 +100,16 @@ const getHendelserForGhostPeriode = (periode: ApiGhostPeriode, person: ApiSaksbi
     const andreInntektsforhold = finnAlleInntektsforhold(person).filter((it) => it !== arbeidsgiver);
 
     return [
-        ...getArbeidsforholdoverstyringhendelser(periode, arbeidsgiver),
-        ...getAnnetArbeidsforholdoverstyringhendelser(periode, andreInntektsforhold),
-        ...getInntektoverstyringerForGhost(periode.skjaeringstidspunkt, arbeidsgiver, person),
+        ...getArbeidsforholdoverstyringhendelser(overstyringer, periode, arbeidsgiver),
+        ...getAnnetArbeidsforholdoverstyringhendelser(overstyringer, periode, andreInntektsforhold),
+        ...getInntektoverstyringerForGhost(overstyringer, periode.skjaeringstidspunkt, arbeidsgiver, person),
     ].sort(byTimestamp);
 };
 
 const getHendelserForUberegnetPeriode = (
     periode: ApiUberegnetPeriode,
     person: ApiSaksbildePerson,
+    overstyringer: ApiOverstyring[],
     notater: ApiNotat[],
     saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
 ): HendelseObject[] => {
@@ -114,9 +122,9 @@ const getHendelserForUberegnetPeriode = (
 
     return [
         ...getDokumenter(periode),
-        ...getDagoverstyringerForAUU(periode, inntektsforhold),
-        ...getInntektoverstyringer(periode, inntektsforhold),
-        ...getSykepengegrunnlagskjønnsfastsetting(periode, inntektsforhold, andreInntektsforhold),
+        ...getDagoverstyringerForAUU(overstyringer, periode, inntektsforhold),
+        ...getInntektoverstyringer(overstyringer, periode, inntektsforhold),
+        ...getSykepengegrunnlagskjønnsfastsetting(overstyringer, periode, inntektsforhold, andreInntektsforhold),
         ...tilNotathendelse(notater),
         ...getSaksbehandlerhandlinger(saksbehandlerhandlinger, periode),
         ...getHistorikkinnslag(periode),
@@ -130,16 +138,24 @@ const useHistorikk = (
 ): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
     const annullering = useAnnulleringForPeriode(person, activePeriod);
+    const overstyringer = useOverstyringer();
     if (!person || !activePeriod) {
         return [];
     }
 
     if (isBeregnetPeriode(activePeriod)) {
-        return getHendelserForBeregnetPeriode(activePeriod, person, notater, saksbehandlerhandlinger, annullering);
+        return getHendelserForBeregnetPeriode(
+            activePeriod,
+            person,
+            overstyringer,
+            notater,
+            saksbehandlerhandlinger,
+            annullering,
+        );
     } else if (isUberegnetPeriode(activePeriod)) {
-        return getHendelserForUberegnetPeriode(activePeriod, person, notater, saksbehandlerhandlinger);
+        return getHendelserForUberegnetPeriode(activePeriod, person, overstyringer, notater, saksbehandlerhandlinger);
     } else if (isGhostPeriode(activePeriod)) {
-        return getHendelserForGhostPeriode(activePeriod, person);
+        return getHendelserForGhostPeriode(activePeriod, person, overstyringer);
     } else {
         return [];
     }

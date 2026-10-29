@@ -1,16 +1,17 @@
 import dayjs from 'dayjs';
-import { useMemo } from 'react';
 
 import {
     ApiArbeidsgiver,
     ApiBehandling,
     ApiBeregnetPeriode,
     ApiDagoverstyring,
+    ApiOverstyring,
     ApiSaksbildePerson,
     ApiSelvstendigNaering,
     ApiUberegnetPeriode,
 } from '@io/rest/generated/spesialist.schemas';
 import { finnAlleArbeidsgivere, finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
+import { finnOverstyringerForInntektsforhold, useOverstyringerForInntektsforhold } from '@state/overstyringer';
 import { useActivePeriod } from '@state/periode';
 import { harBlittUtbetaltTidligere, isInCurrentGeneration } from '@state/selectors/period';
 import { ActivePeriod, DateString } from '@typer/shared';
@@ -78,18 +79,15 @@ export const useDagoverstyringer = (
     tom: DateString,
     inntektsforhold?: Inntektsforhold | null,
 ): ApiDagoverstyring[] => {
-    return useMemo(() => {
-        if (!inntektsforhold) return [];
-
-        const start = dayjs(fom);
-        const end = dayjs(tom);
-        return inntektsforhold.overstyringer.filter(isDagoverstyring).filter((overstyring) =>
-            overstyring.dager.some((dag) => {
-                const dato = dayjs(dag.dato);
-                return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
-            }),
-        );
-    }, [inntektsforhold, fom, tom]);
+    const overstyringer = useOverstyringerForInntektsforhold(inntektsforhold);
+    const start = dayjs(fom);
+    const end = dayjs(tom);
+    return overstyringer.filter(isDagoverstyring).filter((overstyring) =>
+        overstyring.dager.some((dag) => {
+            const dato = dayjs(dag.dato);
+            return dato.isSameOrAfter(start) && dato.isSameOrBefore(end);
+        }),
+    );
 };
 
 export const useHarDagOverstyringer = (
@@ -131,8 +129,12 @@ export type SelvstendigNæringReferanse = {
 export const finnBehandlingerForAktivPeriode = (periode: ActivePeriod, person: ApiSaksbildePerson): ApiBehandling[] =>
     finnInntektsforholdForPeriode(person, periode)?.behandlinger ?? [];
 
-export const finnOverstyringerForAktivInntektsforhold = (aktivPeriode: ActivePeriod, person: ApiSaksbildePerson) =>
-    finnInntektsforholdForPeriode(person, aktivPeriode)?.overstyringer ?? [];
+export const finnOverstyringerForAktivInntektsforhold = (
+    overstyringer: ApiOverstyring[],
+    aktivPeriode: ActivePeriod,
+    person: ApiSaksbildePerson,
+): ApiOverstyring[] =>
+    finnOverstyringerForInntektsforhold(overstyringer, finnInntektsforholdForPeriode(person, aktivPeriode));
 /**
  * Henter forrige (eldre) behandling relativt til behandlingen som inneholder den oppgitte perioden.
  *

@@ -10,6 +10,7 @@ import {
     finnAlleInntektsforhold,
     finnOverstyringerForAktivInntektsforhold,
 } from '@state/inntektsforhold/inntektsforhold';
+import { useOverstyringer } from '@state/overstyringer';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
@@ -21,10 +22,11 @@ export const useSkalViseUnder20SykdomsgradsvarselSomFeil = () => {
     const aktivPeriode = useActivePeriod(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: tilkommenData } = useHentTilkommenInntektQuery(personPseudoId);
+    const alleOverstyringer = useOverstyringer();
 
     if (!person || !aktivPeriode?.skjaeringstidspunkt) return false;
 
-    const overstyringer = finnOverstyringerForAktivInntektsforhold(aktivPeriode, person);
+    const overstyringer = finnOverstyringerForAktivInntektsforhold(alleOverstyringer, aktivPeriode, person);
     const overlappendeArbeidsgivere = getOverlappendeArbeidsgivere(person, aktivPeriode);
     const inntektsforhold = finnAlleInntektsforhold(person);
     const delperioder = getOppkuttedePerioder(overlappendeArbeidsgivere, aktivPeriode)?.filter((it) =>

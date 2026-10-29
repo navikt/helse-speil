@@ -17,6 +17,7 @@ import {
     useLokaleRefusjonsopplysninger,
     useLokaltMånedsbeløp,
 } from '@state/inntektsforhold/arbeidsgiver';
+import { useOverstyringerForInntektsforhold } from '@state/overstyringer';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { Refusjonsopplysning } from '@typer/overstyring';
 import { DateString } from '@typer/shared';
@@ -53,7 +54,8 @@ export const InntektOgRefusjonVisning = ({
     const organisasjonsnummer = arbeidsgiver.organisasjonsnummer;
 
     const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
-    const { inntektsendringer } = useEndringerForPeriode(arbeidsgiver.overstyringer, person);
+    const overstyringer = useOverstyringerForInntektsforhold(arbeidsgiver);
+    const { inntektsendringer } = useEndringerForPeriode(overstyringer, person);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);
     const lokaltMånedsbeløp = useLokaltMånedsbeløp(organisasjonsnummer, skjæringstidspunkt);
     const utenSykefravær = !harSykefraværMedSkjæringstidspunkt(arbeidsgiver, skjæringstidspunkt);

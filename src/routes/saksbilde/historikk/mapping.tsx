@@ -37,6 +37,7 @@ import {
     ApiVurdering,
 } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { finnOverstyringerForInntektsforhold } from '@state/overstyringer';
 import { saksbehandlerhandlingGjelderPeriode } from '@state/saksbehandlerhandlinger';
 import {
     AnnetArbeidsforholdoverstyringhendelseObject,
@@ -332,11 +333,12 @@ const getTidligsteVurderingstidsstempelForPeriode = (
         ?.shift()?.utbetaling.vurdering?.tidsstempel ?? null;
 
 export const getDagoverstyringer = (
+    alleOverstyringer: ApiOverstyring[],
     period: ApiBeregnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): DagoverstyringhendelseObject[] => {
     const behandlinger: ApiBehandling[] = inntektsforhold.behandlinger;
-    const overstyringer: ApiOverstyring[] = inntektsforhold.overstyringer;
+    const overstyringer = finnOverstyringerForInntektsforhold(alleOverstyringer, inntektsforhold);
     const vurderingstidsstempel = getTidligsteVurderingstidsstempelForPeriode(period, behandlinger);
     const førsteVurdertePeriodeForArbeidsgiver = getFørsteVurdertePeriodeForSkjæringstidspunktet(
         period.skjaeringstidspunkt,
@@ -368,6 +370,7 @@ export const getDagoverstyringer = (
 };
 
 export const getDagoverstyringerForAUU = (
+    alleOverstyringer: ApiOverstyring[],
     period: ApiUberegnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): DagoverstyringhendelseObject[] => {
@@ -375,7 +378,7 @@ export const getDagoverstyringerForAUU = (
     const sisteTomForIkkeGhostsPåSkjæringstidspunktet =
         behandlinger[0] && getSisteTomForIkkeGhostsPåSkjæringstidspunktet(period.skjaeringstidspunkt, behandlinger[0]);
 
-    return inntektsforhold.overstyringer
+    return finnOverstyringerForInntektsforhold(alleOverstyringer, inntektsforhold)
         .filter(isDagoverstyring)
         .filter(
             (it) =>
@@ -494,6 +497,7 @@ const getOpprinneligVurderingForFørstePeriodeISkjæringstidspunkt = (
 };
 
 export const getInntektoverstyringer = (
+    alleOverstyringer: ApiOverstyring[],
     period: ApiBeregnetPeriode | ApiUberegnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): InntektoverstyringhendelseObject[] => {
@@ -503,7 +507,7 @@ export const getInntektoverstyringer = (
         inntektsforhold.behandlinger,
     );
 
-    return inntektsforhold.overstyringer
+    return finnOverstyringerForInntektsforhold(alleOverstyringer, inntektsforhold)
         .filter(isInntektoverstyring)
         .filter((it) => it.inntekt.skjaeringstidspunkt === skjæringstidspunkt)
         .map((overstyring: ApiInntektoverstyring) => ({
@@ -518,11 +522,12 @@ export const getInntektoverstyringer = (
 };
 
 export const getInntektoverstyringerForGhost = (
+    alleOverstyringer: ApiOverstyring[],
     skjaeringstidspunkt: string,
     arbeidsgiver: ApiArbeidsgiver,
     person: ApiSaksbildePerson,
 ): InntektoverstyringhendelseObject[] => {
-    return arbeidsgiver.overstyringer
+    return finnOverstyringerForInntektsforhold(alleOverstyringer, arbeidsgiver)
         .filter(isInntektoverstyring)
         .filter((it) => it.inntekt.skjaeringstidspunkt === skjaeringstidspunkt)
         .map((overstyring: ApiInntektoverstyring) => ({
@@ -537,10 +542,11 @@ export const getInntektoverstyringerForGhost = (
 };
 
 export const getArbeidsforholdoverstyringhendelser = (
+    alleOverstyringer: ApiOverstyring[],
     period: ApiBeregnetPeriode | ApiGhostPeriode,
     inntektsforhold: Inntektsforhold,
 ): ArbeidsforholdoverstyringhendelseObject[] => {
-    return inntektsforhold.overstyringer
+    return finnOverstyringerForInntektsforhold(alleOverstyringer, inntektsforhold)
         .filter(isArbeidsforholdoverstyring)
         .filter((it) => it.skjaeringstidspunkt === period.skjaeringstidspunkt)
         .map((it) => ({
@@ -556,11 +562,15 @@ export const getArbeidsforholdoverstyringhendelser = (
 };
 
 export const getAnnetArbeidsforholdoverstyringhendelser = (
+    alleOverstyringer: ApiOverstyring[],
     period: ApiBeregnetPeriode | ApiGhostPeriode,
     andreInntektsforhold: Inntektsforhold[],
 ): AnnetArbeidsforholdoverstyringhendelseObject[] =>
     andreInntektsforhold
-        .flatMap((it) => ({ inntektsforholdReferanse: tilReferanse(it), overstyringer: it.overstyringer }))
+        .flatMap((it) => ({
+            inntektsforholdReferanse: tilReferanse(it),
+            overstyringer: finnOverstyringerForInntektsforhold(alleOverstyringer, it),
+        }))
         .reduce<AnnetArbeidsforholdoverstyringhendelseObject[]>(
             (output, { inntektsforholdReferanse, overstyringer }) =>
                 output.concat(
@@ -583,11 +593,12 @@ export const getAnnetArbeidsforholdoverstyringhendelser = (
         );
 
 export const getSykepengegrunnlagskjønnsfastsetting = (
+    alleOverstyringer: ApiOverstyring[],
     period: ApiBeregnetPeriode | ApiUberegnetPeriode,
     inntektsforhold: Inntektsforhold,
     andreInntektsforhold: Inntektsforhold[],
 ): SykepengegrunnlagskjonnsfastsettinghendelseObject[] =>
-    inntektsforhold.overstyringer
+    finnOverstyringerForInntektsforhold(alleOverstyringer, inntektsforhold)
         .filter(isSykepengegrunnlagskjønnsfastsetting)
         .filter((it) => it.skjonnsfastsatt.skjaeringstidspunkt === period.skjaeringstidspunkt)
         .map((overstyring: ApiSykepengegrunnlagskjonnsfastsetting) => ({
@@ -596,18 +607,19 @@ export const getSykepengegrunnlagskjønnsfastsetting = (
             saksbehandler: overstyring.saksbehandler.ident ?? overstyring.saksbehandler.navn,
             timestamp: overstyring.timestamp,
             skjønnsfastsatt: overstyring.skjonnsfastsatt,
-            arbeidsgivere: getAlleInntektsforholdÅrsinntekter(overstyring.hendelseId, [
+            arbeidsgivere: getAlleInntektsforholdÅrsinntekter(alleOverstyringer, overstyring.hendelseId, [
                 inntektsforhold,
                 ...andreInntektsforhold,
             ]),
         }));
 
 const getAlleInntektsforholdÅrsinntekter = (
+    alleOverstyringer: ApiOverstyring[],
     hendelseId: string,
     alleInntektsforhold: Inntektsforhold[],
 ): ArbeidsgiverSkjønnHendelse[] =>
     alleInntektsforhold.reduce((liste: ArbeidsgiverSkjønnHendelse[], inntektsforhold) => {
-        const skjønnsfastsatt = inntektsforhold.overstyringer
+        const skjønnsfastsatt = finnOverstyringerForInntektsforhold(alleOverstyringer, inntektsforhold)
             .filter(isSykepengegrunnlagskjønnsfastsetting)
             .filter((it) => it.hendelseId === hendelseId)
             ?.shift()?.skjonnsfastsatt;
@@ -623,6 +635,7 @@ const getAlleInntektsforholdÅrsinntekter = (
     }, []);
 
 export const getMinimumSykdomsgradoverstyring = (
+    alleOverstyringer: ApiOverstyring[],
     period: ApiBeregnetPeriode,
     inntektsforhold: Inntektsforhold,
 ): MinimumSykdomsgradhendelseObject[] => {
@@ -635,7 +648,7 @@ export const getMinimumSykdomsgradoverstyring = (
         ? getSisteVurdertePeriodeForSkjæringstidspunktet(period.skjaeringstidspunkt, behandlinger[0])
         : undefined;
 
-    return inntektsforhold.overstyringer
+    return finnOverstyringerForInntektsforhold(alleOverstyringer, inntektsforhold)
         .filter(isMinimumSykdomsgradsoverstyring)
         .filter((it) => {
             const førsteFom =

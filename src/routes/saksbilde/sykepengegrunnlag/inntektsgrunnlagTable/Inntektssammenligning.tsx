@@ -16,6 +16,7 @@ import {
 } from '@io/rest/generated/spesialist.schemas';
 import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { useOverstyringerForInntektsforhold } from '@state/overstyringer';
 import { kildeForkortelse } from '@utils/inntektskilde';
 import { somPenger } from '@utils/locale';
 import { cn } from '@utils/tw';
@@ -49,7 +50,9 @@ export const Inntektssammenligning = ({
     const arbeidsgivernavn = person.tilleggsinfoForInntektskilder.find(
         (it) => it.orgnummer === organisasjonsnummer,
     )?.navn;
-    const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
+    const endringer = useOverstyringerForInntektsforhold(
+        finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer),
+    );
     const { inntektsendringer, arbeidsforholdendringer } = useEndringerForPeriode(endringer, person);
 
     return (

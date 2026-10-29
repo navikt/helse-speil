@@ -17,6 +17,7 @@ import type {
     ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
     ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode,
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
     ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode,
@@ -33,6 +34,7 @@ import type {
     ApiInfotrygdperiode,
     ApiInntekterFraAordningenForArbeidsgiver,
     ApiKrrRegistrertStatus,
+    ApiOverstyringerForPerson,
     ApiPaVentForPerson,
     ApiPerson,
     ApiPersonSokRequest,
@@ -935,6 +937,140 @@ export function useGetInntekterFraAordningenForPerson<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetInntekterFraAordningenForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetOverstyringerForPersonUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/overstyringer`;
+};
+
+export const getOverstyringerForPerson = async (
+    pseudoId: string,
+    options?: RequestInit,
+): Promise<ApiOverstyringerForPerson> => {
+    const res = await fetch(getGetOverstyringerForPersonUrl(pseudoId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiOverstyringerForPerson; status?: number } = new globalThis.Error();
+        const data: ApiOverstyringerForPerson = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiOverstyringerForPerson = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetOverstyringerForPersonQueryKey = (pseudoId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/overstyringer`] as const;
+};
+
+export const useGetOverstyringerForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getOverstyringerForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOverstyringerForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetOverstyringerForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOverstyringerForPerson>>> = ({ signal }) =>
+        getOverstyringerForPerson(pseudoId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<Awaited<ReturnType<typeof getOverstyringerForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetOverstyringerForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getOverstyringerForPerson>>>;
+export type GetOverstyringerForPersonQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode;
+    status?: number;
+};
+
+export function useGetOverstyringerForPerson<
+    TData = Awaited<ReturnType<typeof getOverstyringerForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOverstyringerForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getOverstyringerForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getOverstyringerForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetOverstyringerForPerson<
+    TData = Awaited<ReturnType<typeof getOverstyringerForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOverstyringerForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getOverstyringerForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getOverstyringerForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetOverstyringerForPerson<
+    TData = Awaited<ReturnType<typeof getOverstyringerForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOverstyringerForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetOverstyringerForPerson<
+    TData = Awaited<ReturnType<typeof getOverstyringerForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getOverstyringerForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetOverstyringerForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

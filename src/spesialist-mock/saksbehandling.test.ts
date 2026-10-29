@@ -9,6 +9,7 @@ import { postStub as sendIReturStub } from '@app/api/spesialist/oppgaver/[oppgav
 import { postStub as sendTilGodkjenningStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/totrinnsvurdering/send-til-godkjenning/postStub';
 import { stub as arbeidsforholdStub } from '@app/api/spesialist/personer/[pseudoId]/arbeidsforhold/stub';
 import { stub as inntekterFraAordningenStub } from '@app/api/spesialist/personer/[pseudoId]/inntekter-fra-aordningen/stub';
+import { stub as overstyringerStub } from '@app/api/spesialist/personer/[pseudoId]/overstyringer/stub';
 import { stub as paVentForPersonStub } from '@app/api/spesialist/personer/[pseudoId]/pa-vent/stub';
 import { stub as skjønnsfastsettingStub } from '@app/api/spesialist/personer/[pseudoId]/sykefravaerstilfeller/[skjæringstidspunkt]/sykepengegrunnlag/stub';
 import { stub as annullerStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/annuller/stub';
@@ -227,6 +228,37 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
     it('gir 404 for inntekter fra a-ordningen til ukjent person', async () => {
         const response = await inntekterFraAordningenStub(lagRequest({}), Promise.resolve({ pseudoId: 'ukjent' }));
+
+        expect(response.status).toBe(404);
+    });
+
+    it('gir overstyringene fra testpersonfila og mocken med organisasjonsnummer', async () => {
+        const fil = lesTestpersonfiler().find((it) =>
+            it.saksbilde.arbeidsgivere.some((ag) => ag.overstyringer.length > 0),
+        )!;
+        const fnr = fil.saksbilde.fodselsnummer;
+        const pseudoId = PersonMock.findPersonPseudoId(fnr)!;
+        const fraFila = fil.saksbilde.arbeidsgivere.flatMap((ag) =>
+            ag.overstyringer.map((it) => ({ ...it, organisasjonsnummer: ag.organisasjonsnummer })),
+        );
+        OverstyringMock.leggTil(fnr, '999999999', {
+            type: 'ApiArbeidsforholdoverstyring',
+            vedtaksperiodeId: 'en-vedtaksperiode',
+            begrunnelse: 'Fordi',
+            deaktivert: true,
+            skjaeringstidspunkt: '2020-01-01',
+            forklaring: 'Forklaring',
+        });
+
+        const response = await overstyringerStub(lagRequest({}), Promise.resolve({ pseudoId }));
+        const { overstyringer } = await response.json();
+
+        expect(overstyringer.slice(0, fraFila.length)).toEqual(fraFila);
+        expect(overstyringer.at(-1)).toMatchObject({ organisasjonsnummer: '999999999', ferdigstilt: false });
+    });
+
+    it('gir 404 for overstyringer til ukjent person', async () => {
+        const response = await overstyringerStub(lagRequest({}), Promise.resolve({ pseudoId: 'ukjent' }));
 
         expect(response.status).toBe(404);
     });

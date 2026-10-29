@@ -23,6 +23,7 @@ import {
     finnAktiveInntekter,
 } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/form/skjønnsfastsettingForm/SkjønnsfastsettingForm';
 import { useAktivtInntektsforhold, useSerPåTidligereBehandling } from '@state/inntektsforhold/inntektsforhold';
+import { useOverstyringerForInntektsforhold } from '@state/overstyringer';
 import { cn } from '@utils/tw';
 import { isSykepengegrunnlagskjønnsfastsetting } from '@utils/typeguards';
 
@@ -65,6 +66,7 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<number | null>(null);
     const aktiveArbeidsgivereMedOmregnetÅrsinntekt = finnAktiveInntekter(inntekter);
     const skalVise828andreLedd = Math.abs(avviksprosent) > 25;
+    const overstyringer = useOverstyringerForInntektsforhold(useAktivtInntektsforhold(person));
 
     const { maler, error } = useSkjønnsfastsettelsesMaler(
         skalVise828andreLedd,
@@ -89,8 +91,8 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     };
 
     const sisteSkjønnsfastsettelse: ApiSykepengegrunnlagskjonnsfastsetting | null =
-        useAktivtInntektsforhold(person)
-            ?.overstyringer.filter(isSykepengegrunnlagskjønnsfastsetting)
+        overstyringer
+            .filter(isSykepengegrunnlagskjønnsfastsetting)
             .sort((a, b) => (a.timestamp > b.timestamp ? 1 : -1))
             .pop() ?? null;
 

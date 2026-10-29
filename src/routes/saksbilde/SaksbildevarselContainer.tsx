@@ -14,12 +14,9 @@ import {
 import { useVilkårsgrunnlag } from '@saksbilde/sykepengegrunnlag/useVilkårsgrunnlag';
 import { Saksbildevarsler } from '@saksbilde/varsler/Saksbildevarsler';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
-import {
-    Inntektsforhold,
-    finnAlleInntektsforhold,
-    useHarDagOverstyringer,
-} from '@state/inntektsforhold/inntektsforhold';
+import { useHarDagOverstyringer } from '@state/inntektsforhold/inntektsforhold';
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
+import { finnOverstyringerForInntektsforhold, useOverstyringer } from '@state/overstyringer';
 import { tilSaksbehandlerhandlingKontrolltekst, useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
 import { useHentTilkommenInntektQuery } from '@state/tilkommenInntekt';
 import { useHarBeslutteroppgave, useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
@@ -107,10 +104,11 @@ const useNavnPåDeaktiverteGhostArbeidsgivere = (
     periode: ApiBeregnetPeriode | ApiUberegnetPeriode,
 ) => {
     const vilkårsgrunnlag = useVilkårsgrunnlag(person, periode);
+    const overstyringer = useOverstyringer();
     return vilkårsgrunnlag?.type === 'ApiVilkårsgrunnlagSpleisV2'
         ? finnAlleArbeidsgivere(person)
               .filter((arbeidsgiver) =>
-                  arbeidsgiver.overstyringer.find(
+                  finnOverstyringerForInntektsforhold(overstyringer, arbeidsgiver).find(
                       (overstyring) => isArbeidsforholdoverstyring(overstyring) && !overstyring.ferdigstilt,
                   ),
               )
@@ -126,10 +124,10 @@ interface BeregnetSaksbildevarslerProps {
     saksbehandlerhandlingerTilKontroll: string[];
 }
 
-function getÅpneEndringerForPeriode(arbeidsgivere: Inntektsforhold[], vedtaksperiodeId: string) {
-    return arbeidsgivere
-        .flatMap((ag) => ag.overstyringer)
-        .filter((overstyring) => !overstyring.ferdigstilt && overstyring.vedtaksperiodeId === vedtaksperiodeId);
+function getÅpneEndringerForPeriode(overstyringer: ApiOverstyring[], vedtaksperiodeId: string) {
+    return overstyringer.filter(
+        (overstyring) => !overstyring.ferdigstilt && overstyring.vedtaksperiodeId === vedtaksperiodeId,
+    );
 }
 
 const BeregnetSaksbildevarsler = ({
@@ -140,14 +138,12 @@ const BeregnetSaksbildevarsler = ({
 }: BeregnetSaksbildevarslerProps) => {
     const erTidligereSaksbehandler = useErTidligereSaksbehandler(person);
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
+    const overstyringer = useOverstyringer();
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harBeslutteroppgave = useHarBeslutteroppgave();
     const oppgave = useAktivOppgaveForPeriode(periode);
     const totrinnsvurdering = useTotrinnsvurderingForPeriode(periode);
-    const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(
-        finnAlleInntektsforhold(person),
-        periode.vedtaksperiodeId,
-    );
+    const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(overstyringer, periode.vedtaksperiodeId);
 
     return (
         <Saksbildevarsler
@@ -182,12 +178,10 @@ const UberegnetSaksbildevarsler = ({
     saksbehandlerhandlingerTilKontroll,
 }: UberegnetSaksbildevarslerProps) => {
     const harDagOverstyringer = useHarDagOverstyringer(periode, person);
+    const overstyringer = useOverstyringer();
     const navnPåDeaktiverteGhostArbeidsgivere = useNavnPåDeaktiverteGhostArbeidsgivere(person, periode);
     const harBeslutteroppgave = useHarBeslutteroppgave();
-    const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(
-        finnAlleInntektsforhold(person),
-        periode.vedtaksperiodeId,
-    );
+    const åpneEndringerPåPerson: ApiOverstyring[] = getÅpneEndringerForPeriode(overstyringer, periode.vedtaksperiodeId);
     return (
         <Saksbildevarsler
             periodState={getPeriodState(periode)}

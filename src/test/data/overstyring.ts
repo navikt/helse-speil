@@ -21,6 +21,7 @@ export const enDagoverstyring: OverridableConstructor<
     },
     timestamp: '2020-01-01',
     ferdigstilt: false,
+    organisasjonsnummer: '987654321',
     ...overrides,
 });
 
@@ -38,6 +39,7 @@ export const enArbeidsforholdoverstyring: OverridableConstructor<ApiArbeidsforho
     skjaeringstidspunkt: '2020-01-01',
     timestamp: '2020-01-01',
     ferdigstilt: false,
+    organisasjonsnummer: '987654321',
     ...overrides,
 });
 
@@ -61,5 +63,6 @@ export const enInntektoverstyring: OverridableConstructor<ApiInntektoverstyring>
     },
     timestamp: '2020-01-01',
     ferdigstilt: false,
+    organisasjonsnummer: '987654321',
     ...overrides,
 });

@@ -1,5 +1,6 @@
 import { Mock, vi } from 'vitest';
 
+import { useGetOverstyringerForPerson } from '@io/rest/generated/personer/personer';
 import {
     ApiDagoverstyring,
     ApiDagtype,
@@ -22,6 +23,10 @@ import { enTotrinnsvurdering } from '@test-data/totrinnsvurdering';
 import { render, screen } from '@test-utils';
 
 vi.mock('@state/overstyring');
+vi.mock('@io/rest/generated/personer/personer', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@io/rest/generated/personer/personer')>()),
+    useGetOverstyringerForPerson: vi.fn(),
+}));
 vi.mock('@state/tilkommenInntekt');
 vi.mock('@state/totrinnsvurdering');
 vi.mock('@state/saksbehandlerhandlinger', async (importOriginal) => ({
@@ -35,6 +40,7 @@ describe('SaksbildevarselContainer', () => {
         (useHentSaksbehandlerhandlinger as Mock).mockReturnValue({ data: [] });
         (useTotrinnsvurderingForPeriode as Mock).mockReturnValue(null);
         (useHarBeslutteroppgave as Mock).mockReturnValue(false);
+        (useGetOverstyringerForPerson as Mock).mockReturnValue({ data: { overstyringer: [] } });
     });
 
     it('skal kaste feil om beregnet periode mangler skjæringstidspunkt', () => {
@@ -73,6 +79,7 @@ describe('SaksbildevarselContainer', () => {
     });
     it('skal rendre eget varsel for beregnet periode', () => {
         medBeslutteroppgave();
+        (useGetOverstyringerForPerson as Mock).mockReturnValue({ data: { overstyringer: [enDagoverstyring] } });
         const periode = enBeregnetPeriode({
             periodetilstand: ApiPeriodetilstand.TilGodkjenning,
         });
@@ -81,7 +88,7 @@ describe('SaksbildevarselContainer', () => {
                 person={enPerson({
                     arbeidsgivere: [
                         enArbeidsgiver({
-                            overstyringer: [enDagoverstyring],
+                            organisasjonsnummer: '987654321',
                             behandlinger: [enBehandling({ perioder: [periode] })],
                         }),
                     ],
@@ -193,6 +200,7 @@ const enDagoverstyring: ApiDagoverstyring = {
         ident: 'en-ident',
     },
     ferdigstilt: false,
+    organisasjonsnummer: '987654321',
 };
 
 function medBeslutteroppgave() {

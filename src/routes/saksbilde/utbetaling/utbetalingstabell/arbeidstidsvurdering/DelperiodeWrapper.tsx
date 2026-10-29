@@ -9,6 +9,7 @@ import {
 } from '@io/rest/generated/spesialist.schemas';
 import { Delperiode } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/Delperiode';
 import { finnOverstyringerForAktivInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { useOverstyringer } from '@state/overstyringer';
 import { getOverlappendePerioder, overlapper } from '@state/selectors/period';
 import { ActivePeriod, DatePeriod } from '@typer/shared';
 import { ISO_DATOFORMAT, ISO_TIDSPUNKTFORMAT } from '@utils/date';
@@ -21,10 +22,13 @@ interface Props {
 }
 
 export const DelperiodeWrapper = ({ person, aktivPeriode, delperiode }: Props) => {
+    const alleOverstyringer = useOverstyringer();
     const { register, clearErrors, formState } = useFormContext();
-    const minimumSykdomsgradoverstyringer = finnOverstyringerForAktivInntektsforhold(aktivPeriode, person).filter(
-        isMinimumSykdomsgradsoverstyring,
-    );
+    const minimumSykdomsgradoverstyringer = finnOverstyringerForAktivInntektsforhold(
+        alleOverstyringer,
+        aktivPeriode,
+        person,
+    ).filter(isMinimumSykdomsgradsoverstyring);
     const harError =
         formState.errors.merEnn20periode &&
         (Object.entries(formState.errors.merEnn20periode).find(

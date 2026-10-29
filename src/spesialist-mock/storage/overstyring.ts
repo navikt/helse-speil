@@ -16,28 +16,21 @@ type MockOverstyring =
     | Omit<ApiArbeidsforholdoverstyring, FellesFelter>
     | Omit<ApiSykepengegrunnlagskjonnsfastsetting, FellesFelter>;
 
-type FellesFelter = 'hendelseId' | 'timestamp' | 'saksbehandler' | 'ferdigstilt';
-
-type LagretOverstyring = {
-    organisasjonsnummer: string;
-    overstyring: ApiOverstyring;
-};
+type FellesFelter = 'hendelseId' | 'timestamp' | 'saksbehandler' | 'ferdigstilt' | 'organisasjonsnummer';
 
 // Spesialist viser lagrede overstyringer som historikk og som kontrollpunkter for beslutter
 export class OverstyringMock {
-    private static overstyringer: Map<string, LagretOverstyring[]> = new Map();
+    private static overstyringer: Map<string, ApiOverstyring[]> = new Map();
 
     static leggTil = (fødselsnummer: string, organisasjonsnummer: string, overstyring: MockOverstyring): void => {
-        const lagret: LagretOverstyring = {
+        const lagret = {
+            ...overstyring,
+            hendelseId: v4(),
+            timestamp: dayjs().format('YYYY-MM-DDTHH:mm:ss.SSS'),
+            saksbehandler: { navn: lokalSaksbehandlerNavn, ident: lokalSaksbehandlerIdent },
+            ferdigstilt: false,
             organisasjonsnummer,
-            overstyring: {
-                ...overstyring,
-                hendelseId: v4(),
-                timestamp: dayjs().format('YYYY-MM-DDTHH:mm:ss.SSS'),
-                saksbehandler: { navn: lokalSaksbehandlerNavn, ident: lokalSaksbehandlerIdent },
-                ferdigstilt: false,
-            } as ApiOverstyring,
-        };
+        } as ApiOverstyring;
         OverstyringMock.overstyringer.set(fødselsnummer, [
             ...(OverstyringMock.overstyringer.get(fødselsnummer) ?? []),
             lagret,
@@ -45,18 +38,16 @@ export class OverstyringMock {
     };
 
     static hentFor = (fødselsnummer: string, organisasjonsnummer: string): ApiOverstyring[] =>
-        (OverstyringMock.overstyringer.get(fødselsnummer) ?? [])
-            .filter((it) => it.organisasjonsnummer === organisasjonsnummer)
-            .map((it) => it.overstyring);
+        OverstyringMock.hentForPerson(fødselsnummer).filter((it) => it.organisasjonsnummer === organisasjonsnummer);
+
+    static hentForPerson = (fødselsnummer: string): ApiOverstyring[] =>
+        OverstyringMock.overstyringer.get(fødselsnummer) ?? [];
 
     // Totrinnsvurdering.ferdigstill() i spesialist ferdigstiller alle overstyringene i totrinnsvurderingen
     static ferdigstillForPerson = (fødselsnummer: string): void => {
         OverstyringMock.overstyringer.set(
             fødselsnummer,
-            (OverstyringMock.overstyringer.get(fødselsnummer) ?? []).map((it) => ({
-                ...it,
-                overstyring: { ...it.overstyring, ferdigstilt: true },
-            })),
+            (OverstyringMock.overstyringer.get(fødselsnummer) ?? []).map((it) => ({ ...it, ferdigstilt: true })),
         );
     };
 
