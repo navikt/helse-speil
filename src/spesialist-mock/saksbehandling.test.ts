@@ -24,6 +24,8 @@ import {
     ApiDag,
     ApiEgenskap,
     ApiKildetype,
+    ApiOverstyring,
+    ApiOverstyringerForPerson,
     ApiPeriodehistorikkType,
     ApiPeriodetilstand,
     ApiSykdomsdagtype,
@@ -233,14 +235,10 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
     });
 
     it('gir overstyringene fra testpersonfila og mocken med organisasjonsnummer', async () => {
-        const fil = lesTestpersonfiler().find((it) =>
-            it.saksbilde.arbeidsgivere.some((ag) => ag.overstyringer.length > 0),
-        )!;
+        const fil = lesTestpersonfiler().find((it) => it.overstyringer.length > 0)!;
         const fnr = fil.saksbilde.fodselsnummer;
         const pseudoId = PersonMock.findPersonPseudoId(fnr)!;
-        const fraFila = fil.saksbilde.arbeidsgivere.flatMap((ag) =>
-            ag.overstyringer.map((it) => ({ ...it, organisasjonsnummer: ag.organisasjonsnummer })),
-        );
+        const fraFila = fil.overstyringer;
         OverstyringMock.leggTil(fnr, '999999999', {
             type: 'ApiArbeidsforholdoverstyring',
             vedtaksperiodeId: 'en-vedtaksperiode',
@@ -340,7 +338,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
             Promise.resolve({ pseudoId: personPseudoId(), skjæringstidspunkt: skjaeringstidspunkt }),
         );
 
-        const overstyringer = arbeidsgiverForBehandling().overstyringer;
+        const overstyringer = await hentOverstyringer();
         expect(overstyringer.map((it) => it.type)).toEqual(
             expect.arrayContaining([
                 'ApiDagoverstyring',
@@ -371,8 +369,8 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         expect((await sendTilGodkjenning(oppgaveId)).status).toBe(204);
         expect((await fattVedtak(behandlingId)).status).toBe(204);
         expect(
-            arbeidsgiverForBehandling()
-                .overstyringer.filter((it) => it.saksbehandler.navn === 'Utvikler, Lokal')
+            (await hentOverstyringer())
+                .filter((it) => it.saksbehandler.navn === 'Utvikler, Lokal')
                 .every((it) => it.ferdigstilt),
         ).toBe(true);
     });
@@ -535,4 +533,9 @@ async function hentAnnullering(vedtaksperiodeId: string) {
 
 function lagRequest(body: object): NextRequest {
     return new NextRequest('http://localhost/api/spesialist', { method: 'POST', body: JSON.stringify(body) });
+}
+
+async function hentOverstyringer(): Promise<ApiOverstyring[]> {
+    const response = await overstyringerStub(lagRequest({}), Promise.resolve({ pseudoId: personPseudoId() }));
+    return ((await response.json()) as ApiOverstyringerForPerson).overstyringer;
 }

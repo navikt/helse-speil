@@ -8,6 +8,7 @@ import {
     ApiAnnullering,
     ApiArbeidsforholdForPerson,
     ApiInntekterFraAordningenForArbeidsgiver,
+    ApiOverstyring,
     ApiPaVent,
     ApiPerson,
     ApiRisikovurdering,
@@ -37,6 +38,7 @@ export type Testpersonfil = {
     annulleringer: Record<string, ApiAnnullering>;
     arbeidsforhold: ApiArbeidsforholdForPerson[];
     inntekterFraAordningen: ApiInntekterFraAordningenForArbeidsgiver[];
+    overstyringer: ApiOverstyring[];
 };
 
 export function lesTestpersonfiler(): Testpersonfil[] {

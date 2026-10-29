@@ -39,19 +39,18 @@ const leggTilLagretData = (person: ApiSaksbildePerson): void => {
     }
 
     for (const arbeidsgiver of person.arbeidsgivere) {
-        const mockOverstyringer = OverstyringMock.hentFor(person.fodselsnummer, arbeidsgiver.organisasjonsnummer);
-        arbeidsgiver.overstyringer = [...(arbeidsgiver.overstyringer ?? []), ...mockOverstyringer];
         // Seedede overstyringer er allerede med i tidslinja i testdataene
-        leggPåDagoverstyringer(arbeidsgiver, mockOverstyringer);
+        leggPåDagoverstyringer(
+            arbeidsgiver,
+            OverstyringMock.hentFor(person.fodselsnummer, arbeidsgiver.organisasjonsnummer),
+        );
     }
     const selvstendigErArbeidsgiver = person.arbeidsgivere.some((it) => it.organisasjonsnummer === SELVSTENDIG_NÆRING);
     if (person.selvstendigNaering && !selvstendigErArbeidsgiver) {
-        const mockOverstyringer = OverstyringMock.hentFor(person.fodselsnummer, SELVSTENDIG_NÆRING);
-        person.selvstendigNaering.overstyringer = [
-            ...(person.selvstendigNaering.overstyringer ?? []),
-            ...mockOverstyringer,
-        ];
-        leggPåDagoverstyringer(person.selvstendigNaering, mockOverstyringer);
+        leggPåDagoverstyringer(
+            person.selvstendigNaering,
+            OverstyringMock.hentFor(person.fodselsnummer, SELVSTENDIG_NÆRING),
+        );
     }
 };
 

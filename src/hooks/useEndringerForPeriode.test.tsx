@@ -1,7 +1,6 @@
 import { Mock, vi } from 'vitest';
 
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
-import { finnArbeidsgiverMedOrganisasjonsnummer } from '@state/inntektsforhold/arbeidsgiver';
 import { useActivePeriod } from '@state/periode';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enArbeidsforholdoverstyring, enDagoverstyring, enInntektoverstyring } from '@test-data/overstyring';
@@ -23,14 +22,12 @@ describe('useEndringerForPeriode', () => {
         const timestamp = '2020-01-01';
         const overstyringer = [enDagoverstyring({ timestamp })];
         const periode = enBeregnetPeriode({ opprettet: timestamp });
-        const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer, overstyringer }).medPerioder([periode]);
+        const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer }).medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as Mock).mockReturnValueOnce(periode);
 
-        const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
-
-        const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
+        const { result } = renderHook(() => useEndringerForPeriode(overstyringer, person));
 
         expect(result.current.dagendringer).toEqual(overstyringer);
     });
@@ -40,17 +37,12 @@ describe('useEndringerForPeriode', () => {
         const timestamp = '2020-01-01';
         const overstyringer = [enArbeidsforholdoverstyring({ timestamp })];
         const periode = enBeregnetPeriode().medSkjæringstidspunkt(timestamp);
-        const arbeidsgiver = enArbeidsgiver()
-            .medOrganisasjonsnummer(organisasjonsnummer)
-            .medOverstyringer(overstyringer)
-            .medPerioder([periode]);
+        const arbeidsgiver = enArbeidsgiver().medOrganisasjonsnummer(organisasjonsnummer).medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as Mock).mockReturnValueOnce(periode);
 
-        const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
-
-        const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
+        const { result } = renderHook(() => useEndringerForPeriode(overstyringer, person));
 
         expect(result.current.arbeidsforholdendringer).toEqual(overstyringer);
     });
@@ -62,15 +54,12 @@ describe('useEndringerForPeriode', () => {
         const periode = enBeregnetPeriode({ opprettet: timestamp });
         const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer })
             .medOrganisasjonsnummer(organisasjonsnummer)
-            .medOverstyringer(overstyringer)
             .medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as Mock).mockReturnValueOnce(periode);
 
-        const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
-
-        const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
+        const { result } = renderHook(() => useEndringerForPeriode(overstyringer, person));
 
         expect(result.current.inntektsendringer).toEqual(overstyringer);
     });
@@ -83,15 +72,14 @@ describe('useEndringerForPeriode', () => {
         const periode = enGhostPeriode({ skjaeringstidspunkt: timestamp });
         const arbeidsgiver = enArbeidsgiver({ organisasjonsnummer })
             .medOrganisasjonsnummer(organisasjonsnummer)
-            .medOverstyringer([...arbeidsforholdoverstyringer, ...inntektoverstyringer])
             .medGhostPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
 
         (useActivePeriod as Mock).mockReturnValueOnce(periode);
 
-        const endringer = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer)?.overstyringer;
-
-        const { result } = renderHook(() => useEndringerForPeriode(endringer, person));
+        const { result } = renderHook(() =>
+            useEndringerForPeriode([...arbeidsforholdoverstyringer, ...inntektoverstyringer], person),
+        );
 
         expect(result.current.inntektsendringer).toEqual(inntektoverstyringer);
         expect(result.current.arbeidsforholdendringer).toEqual(arbeidsforholdoverstyringer);

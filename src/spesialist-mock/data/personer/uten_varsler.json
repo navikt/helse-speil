@@ -604,8 +604,7 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": []
+                ]
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -651,5 +650,6 @@
             "stillingstittel": "KAMMEROPERATØR"
         }
     ],
-    "inntekterFraAordningen": []
+    "inntekterFraAordningen": [],
+    "overstyringer": []
 }

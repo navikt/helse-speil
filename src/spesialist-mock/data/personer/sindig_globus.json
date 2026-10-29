@@ -3667,279 +3667,6 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": [
-                    {
-                        "hendelseId": "d5666dad-833b-47c3-9e81-dabe377d6cd2",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:17:28.754311",
-                        "ferdigstilt": true,
-                        "begrunnelse": "hehehe",
-                        "dager": [
-                            {
-                                "grad": 100,
-                                "fraGrad": 20,
-                                "dato": "2024-08-16",
-                                "type": "Sykedag",
-                                "fraType": "Avvistdag"
-                            }
-                        ],
-                        "type": "ApiDagoverstyring"
-                    },
-                    {
-                        "hendelseId": "5d0b61ef-f408-47de-80ae-8949c5ad0cfb",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:25:52.797175",
-                        "ferdigstilt": true,
-                        "begrunnelse": "gjorde feil",
-                        "dager": [
-                            {
-                                "grad": 20,
-                                "fraGrad": 100,
-                                "dato": "2024-08-16",
-                                "type": "Sykedag",
-                                "fraType": "Sykedag"
-                            }
-                        ],
-                        "type": "ApiDagoverstyring"
-                    },
-                    {
-                        "hendelseId": "69192e21-6d09-4ed6-a47a-62342de40b62",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:29:45.372088",
-                        "ferdigstilt": true,
-                        "begrunnelse": "fdlkjflkdf",
-                        "dager": [
-                            {
-                                "grad": 100,
-                                "fraGrad": 20,
-                                "dato": "2024-08-16",
-                                "type": "Sykedag",
-                                "fraType": "Avvistdag"
-                            }
-                        ],
-                        "type": "ApiDagoverstyring"
-                    },
-                    {
-                        "hendelseId": "20594959-94ae-40a8-aa83-905e439b9959",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-15T09:19:47.000806",
-                        "ferdigstilt": true,
-                        "begrunnelse": "Prøver å hente inn saken",
-                        "dager": [
-                            {
-                                "grad": 15,
-                                "fraGrad": 20,
-                                "dato": "2024-08-12",
-                                "type": "Sykedag",
-                                "fraType": "Sykedag"
-                            },
-                            {
-                                "grad": 15,
-                                "fraGrad": 20,
-                                "dato": "2024-08-13",
-                                "type": "Sykedag",
-                                "fraType": "Sykedag"
-                            },
-                            {
-                                "grad": 15,
-                                "fraGrad": 20,
-                                "dato": "2024-08-14",
-                                "type": "Sykedag",
-                                "fraType": "Sykedag"
-                            },
-                            {
-                                "grad": 15,
-                                "fraGrad": 20,
-                                "dato": "2024-08-15",
-                                "type": "Sykedag",
-                                "fraType": "Sykedag"
-                            },
-                            {
-                                "grad": 15,
-                                "fraGrad": 100,
-                                "dato": "2024-08-16",
-                                "type": "Sykedag",
-                                "fraType": "Sykedag"
-                            }
-                        ],
-                        "type": "ApiDagoverstyring"
-                    },
-                    {
-                        "hendelseId": "ddb56e52-58ac-4894-800c-5988a198d9de",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:09:36.888099",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [],
-                            "perioderVurdertIkkeOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-31"
-                                }
-                            ],
-                            "begrunnelse": "Avslag",
-                            "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "bccd95f7-9bc4-4d56-a27d-2dfa16f6ea47",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:23:54.745470",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [],
-                            "perioderVurdertIkkeOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-31"
-                                }
-                            ],
-                            "begrunnelse": "ldfjldjfldjfljfl",
-                            "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "17776485-e994-459d-9767-122bc7af1bcb",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:31:17.151424",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [],
-                            "perioderVurdertIkkeOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-31"
-                                }
-                            ],
-                            "begrunnelse": "avslag",
-                            "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "cc2585c4-00af-41b7-8c8b-e79133f0af94",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-21T11:41:28.332052",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-07-31"
-                                }
-                            ],
-                            "perioderVurdertIkkeOk": [],
-                            "begrunnelse": "dfsdfsfdsfs",
-                            "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "3878ab0e-b4f2-497e-9e3b-1f05ca3fdb17",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-21T13:26:08.895584",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-07-31"
-                                }
-                            ],
-                            "perioderVurdertIkkeOk": [],
-                            "begrunnelse": "innvilget fordi total arbeidsevne er nedsatt med minst 20%",
-                            "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "5ec5145a-b981-4197-9c24-0426940afacb",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "H159657",
-                            "navn": "Hasle, Jonas"
-                        },
-                        "timestamp": "2024-11-17T22:14:20.108279",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-15"
-                                }
-                            ],
-                            "perioderVurdertIkkeOk": [
-                                {
-                                    "fom": "2024-08-16",
-                                    "tom": "2024-08-31"
-                                }
-                            ],
-                            "begrunnelse": "Tester ut vurdering av arbeidstid med 2 delperioder, hvor en er ja og en er nei",
-                            "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "d0d2a5b7-b1b2-4172-9939-0e57f5f03262",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "H134988",
-                            "navn": "Hagen, Øyvind"
-                        },
-                        "timestamp": "2024-11-19T10:30:48.422065",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-15"
-                                }
-                            ],
-                            "perioderVurdertIkkeOk": [],
-                            "begrunnelse": "Vurdert til ja",
-                            "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    }
                 ]
             },
             {
@@ -9016,167 +8743,6 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": [
-                    {
-                        "hendelseId": "ddb56e52-58ac-4894-800c-5988a198d9de",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:09:36.888099",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [],
-                            "perioderVurdertIkkeOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-31"
-                                }
-                            ],
-                            "begrunnelse": "Avslag",
-                            "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "bccd95f7-9bc4-4d56-a27d-2dfa16f6ea47",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:23:54.745470",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [],
-                            "perioderVurdertIkkeOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-31"
-                                }
-                            ],
-                            "begrunnelse": "ldfjldjfldjfljfl",
-                            "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "17776485-e994-459d-9767-122bc7af1bcb",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-09T15:31:17.151424",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [],
-                            "perioderVurdertIkkeOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-31"
-                                }
-                            ],
-                            "begrunnelse": "avslag",
-                            "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "cc2585c4-00af-41b7-8c8b-e79133f0af94",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-21T11:41:28.332052",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-07-31"
-                                }
-                            ],
-                            "perioderVurdertIkkeOk": [],
-                            "begrunnelse": "dfsdfsfdsfs",
-                            "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "3878ab0e-b4f2-497e-9e3b-1f05ca3fdb17",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "R136472",
-                            "navn": "Roark, Camilla Bårnes"
-                        },
-                        "timestamp": "2024-10-21T13:26:08.895584",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-07-31"
-                                }
-                            ],
-                            "perioderVurdertIkkeOk": [],
-                            "begrunnelse": "innvilget fordi total arbeidsevne er nedsatt med minst 20%",
-                            "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "5ec5145a-b981-4197-9c24-0426940afacb",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "H159657",
-                            "navn": "Hasle, Jonas"
-                        },
-                        "timestamp": "2024-11-17T22:14:20.108279",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-15"
-                                }
-                            ],
-                            "perioderVurdertIkkeOk": [
-                                {
-                                    "fom": "2024-08-16",
-                                    "tom": "2024-08-31"
-                                }
-                            ],
-                            "begrunnelse": "Tester ut vurdering av arbeidstid med 2 delperioder, hvor en er ja og en er nei",
-                            "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    },
-                    {
-                        "hendelseId": "d0d2a5b7-b1b2-4172-9939-0e57f5f03262",
-                        "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
-                        "saksbehandler": {
-                            "ident": "H134988",
-                            "navn": "Hagen, Øyvind"
-                        },
-                        "timestamp": "2024-11-19T10:30:48.422065",
-                        "ferdigstilt": true,
-                        "minimumSykdomsgrad": {
-                            "perioderVurdertOk": [
-                                {
-                                    "fom": "2024-08-01",
-                                    "tom": "2024-08-15"
-                                }
-                            ],
-                            "perioderVurdertIkkeOk": [],
-                            "begrunnelse": "Vurdert til ja",
-                            "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
-                        },
-                        "type": "ApiMinimumSykdomsgradOverstyring"
-                    }
                 ]
             }
         ],
@@ -9358,6 +8924,456 @@
                     "sum": 15000
                 }
             ]
+        }
+    ],
+    "overstyringer": [
+        {
+            "hendelseId": "d5666dad-833b-47c3-9e81-dabe377d6cd2",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:17:28.754311",
+            "ferdigstilt": true,
+            "begrunnelse": "hehehe",
+            "dager": [
+                {
+                    "grad": 100,
+                    "fraGrad": 20,
+                    "dato": "2024-08-16",
+                    "type": "Sykedag",
+                    "fraType": "Avvistdag"
+                }
+            ],
+            "type": "ApiDagoverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "5d0b61ef-f408-47de-80ae-8949c5ad0cfb",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:25:52.797175",
+            "ferdigstilt": true,
+            "begrunnelse": "gjorde feil",
+            "dager": [
+                {
+                    "grad": 20,
+                    "fraGrad": 100,
+                    "dato": "2024-08-16",
+                    "type": "Sykedag",
+                    "fraType": "Sykedag"
+                }
+            ],
+            "type": "ApiDagoverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "69192e21-6d09-4ed6-a47a-62342de40b62",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:29:45.372088",
+            "ferdigstilt": true,
+            "begrunnelse": "fdlkjflkdf",
+            "dager": [
+                {
+                    "grad": 100,
+                    "fraGrad": 20,
+                    "dato": "2024-08-16",
+                    "type": "Sykedag",
+                    "fraType": "Avvistdag"
+                }
+            ],
+            "type": "ApiDagoverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "20594959-94ae-40a8-aa83-905e439b9959",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-15T09:19:47.000806",
+            "ferdigstilt": true,
+            "begrunnelse": "Prøver å hente inn saken",
+            "dager": [
+                {
+                    "grad": 15,
+                    "fraGrad": 20,
+                    "dato": "2024-08-12",
+                    "type": "Sykedag",
+                    "fraType": "Sykedag"
+                },
+                {
+                    "grad": 15,
+                    "fraGrad": 20,
+                    "dato": "2024-08-13",
+                    "type": "Sykedag",
+                    "fraType": "Sykedag"
+                },
+                {
+                    "grad": 15,
+                    "fraGrad": 20,
+                    "dato": "2024-08-14",
+                    "type": "Sykedag",
+                    "fraType": "Sykedag"
+                },
+                {
+                    "grad": 15,
+                    "fraGrad": 20,
+                    "dato": "2024-08-15",
+                    "type": "Sykedag",
+                    "fraType": "Sykedag"
+                },
+                {
+                    "grad": 15,
+                    "fraGrad": 100,
+                    "dato": "2024-08-16",
+                    "type": "Sykedag",
+                    "fraType": "Sykedag"
+                }
+            ],
+            "type": "ApiDagoverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "ddb56e52-58ac-4894-800c-5988a198d9de",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:09:36.888099",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [],
+                "perioderVurdertIkkeOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-31"
+                    }
+                ],
+                "begrunnelse": "Avslag",
+                "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "bccd95f7-9bc4-4d56-a27d-2dfa16f6ea47",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:23:54.745470",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [],
+                "perioderVurdertIkkeOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-31"
+                    }
+                ],
+                "begrunnelse": "ldfjldjfldjfljfl",
+                "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "17776485-e994-459d-9767-122bc7af1bcb",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:31:17.151424",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [],
+                "perioderVurdertIkkeOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-31"
+                    }
+                ],
+                "begrunnelse": "avslag",
+                "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "cc2585c4-00af-41b7-8c8b-e79133f0af94",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-21T11:41:28.332052",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-07-31"
+                    }
+                ],
+                "perioderVurdertIkkeOk": [],
+                "begrunnelse": "dfsdfsfdsfs",
+                "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "3878ab0e-b4f2-497e-9e3b-1f05ca3fdb17",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-21T13:26:08.895584",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-07-31"
+                    }
+                ],
+                "perioderVurdertIkkeOk": [],
+                "begrunnelse": "innvilget fordi total arbeidsevne er nedsatt med minst 20%",
+                "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "5ec5145a-b981-4197-9c24-0426940afacb",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "H159657",
+                "navn": "Hasle, Jonas"
+            },
+            "timestamp": "2024-11-17T22:14:20.108279",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-15"
+                    }
+                ],
+                "perioderVurdertIkkeOk": [
+                    {
+                        "fom": "2024-08-16",
+                        "tom": "2024-08-31"
+                    }
+                ],
+                "begrunnelse": "Tester ut vurdering av arbeidstid med 2 delperioder, hvor en er ja og en er nei",
+                "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "d0d2a5b7-b1b2-4172-9939-0e57f5f03262",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "H134988",
+                "navn": "Hagen, Øyvind"
+            },
+            "timestamp": "2024-11-19T10:30:48.422065",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-15"
+                    }
+                ],
+                "perioderVurdertIkkeOk": [],
+                "begrunnelse": "Vurdert til ja",
+                "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "hendelseId": "ddb56e52-58ac-4894-800c-5988a198d9de",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:09:36.888099",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [],
+                "perioderVurdertIkkeOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-31"
+                    }
+                ],
+                "begrunnelse": "Avslag",
+                "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "907670201"
+        },
+        {
+            "hendelseId": "bccd95f7-9bc4-4d56-a27d-2dfa16f6ea47",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:23:54.745470",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [],
+                "perioderVurdertIkkeOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-31"
+                    }
+                ],
+                "begrunnelse": "ldfjldjfldjfljfl",
+                "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "907670201"
+        },
+        {
+            "hendelseId": "17776485-e994-459d-9767-122bc7af1bcb",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-09T15:31:17.151424",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [],
+                "perioderVurdertIkkeOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-31"
+                    }
+                ],
+                "begrunnelse": "avslag",
+                "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "907670201"
+        },
+        {
+            "hendelseId": "cc2585c4-00af-41b7-8c8b-e79133f0af94",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-21T11:41:28.332052",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-07-31"
+                    }
+                ],
+                "perioderVurdertIkkeOk": [],
+                "begrunnelse": "dfsdfsfdsfs",
+                "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "907670201"
+        },
+        {
+            "hendelseId": "3878ab0e-b4f2-497e-9e3b-1f05ca3fdb17",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "R136472",
+                "navn": "Roark, Camilla Bårnes"
+            },
+            "timestamp": "2024-10-21T13:26:08.895584",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-07-31"
+                    }
+                ],
+                "perioderVurdertIkkeOk": [],
+                "begrunnelse": "innvilget fordi total arbeidsevne er nedsatt med minst 20%",
+                "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "907670201"
+        },
+        {
+            "hendelseId": "5ec5145a-b981-4197-9c24-0426940afacb",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "H159657",
+                "navn": "Hasle, Jonas"
+            },
+            "timestamp": "2024-11-17T22:14:20.108279",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-15"
+                    }
+                ],
+                "perioderVurdertIkkeOk": [
+                    {
+                        "fom": "2024-08-16",
+                        "tom": "2024-08-31"
+                    }
+                ],
+                "begrunnelse": "Tester ut vurdering av arbeidstid med 2 delperioder, hvor en er ja og en er nei",
+                "initierendeVedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "907670201"
+        },
+        {
+            "hendelseId": "d0d2a5b7-b1b2-4172-9939-0e57f5f03262",
+            "vedtaksperiodeId": "77b462eb-0d6a-4ce1-a30f-107adccccaf4",
+            "saksbehandler": {
+                "ident": "H134988",
+                "navn": "Hagen, Øyvind"
+            },
+            "timestamp": "2024-11-19T10:30:48.422065",
+            "ferdigstilt": true,
+            "minimumSykdomsgrad": {
+                "perioderVurdertOk": [
+                    {
+                        "fom": "2024-08-01",
+                        "tom": "2024-08-15"
+                    }
+                ],
+                "perioderVurdertIkkeOk": [],
+                "begrunnelse": "Vurdert til ja",
+                "initierendeVedtaksperiodeId": "8bd112c2-9a8a-4ac7-a368-1e9b6183d276"
+            },
+            "type": "ApiMinimumSykdomsgradOverstyring",
+            "organisasjonsnummer": "907670201"
         }
     ]
 }

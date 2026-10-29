@@ -671,8 +671,7 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": []
+                ]
             },
             {
                 "navn": "SAUEFABRIKK",
@@ -688,8 +687,7 @@
                         "organisasjonsnummer": "896929119"
                     }
                 ],
-                "behandlinger": [],
-                "overstyringer": []
+                "behandlinger": []
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -723,5 +721,6 @@
     "risikovurderinger": {},
     "annulleringer": {},
     "arbeidsforhold": [],
-    "inntekterFraAordningen": []
+    "inntekterFraAordningen": [],
+    "overstyringer": []
 }

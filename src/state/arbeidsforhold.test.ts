@@ -16,8 +16,6 @@ describe('finnArbeidsforholdForInntektsforhold', () => {
     });
 
     it('gir tom liste for selvstendig næringsdrivende', () => {
-        expect(finnArbeidsforholdForInntektsforhold(arbeidsforhold, { behandlinger: [], overstyringer: [] })).toEqual(
-            [],
-        );
+        expect(finnArbeidsforholdForInntektsforhold(arbeidsforhold, { behandlinger: [] })).toEqual([]);
     });
 });

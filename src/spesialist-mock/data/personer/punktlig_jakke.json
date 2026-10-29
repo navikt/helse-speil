@@ -700,15 +700,13 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": []
+                ]
             },
             {
                 "navn": "HEST",
                 "organisasjonsnummer": "896929120",
                 "ghostPerioder": [],
-                "behandlinger": [],
-                "overstyringer": []
+                "behandlinger": []
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -787,5 +785,6 @@
                 }
             ]
         }
-    ]
+    ],
+    "overstyringer": []
 }

@@ -793,89 +793,6 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": [
-                    {
-                        "begrunnelse": "Korrigert inntekt i inntektsmelding",
-                        "hendelseId": "1610ee09-0cfe-4605-8490-747cf9595619",
-                        "vedtaksperiodeId": "d7d208c3-a9a1-4c03-885f-aeffa4475a49",
-                        "saksbehandler": {
-                            "ident": "G153334",
-                            "navn": "Grieg, Solveig"
-                        },
-                        "timestamp": "2022-11-01T10:28:50.338851",
-                        "inntekt": {
-                            "skjaeringstidspunkt": "2022-09-01",
-                            "forklaring": "blabball2",
-                            "begrunnelse": "Korrigert inntekt i inntektsmelding",
-                            "manedligInntekt": 31000,
-                            "fraManedligInntekt": 30000,
-                            "refusjonsopplysninger": [
-                                {
-                                    "fom": "2022-09-01",
-                                    "tom": "2022-09-03",
-                                    "belop": 31000
-                                }
-                            ],
-                            "fraRefusjonsopplysninger": [
-                                {
-                                    "fom": "2022-09-01",
-                                    "tom": "2022-09-03",
-                                    "belop": 31000
-                                }
-                            ]
-                        },
-                        "ferdigstilt": false,
-                        "type": "ApiInntektoverstyring"
-                    },
-                    {
-                        "begrunnelse": "Korrigert refusjon",
-                        "hendelseId": "1610ee09-0cfe-4605-8490-747cf9595619",
-                        "vedtaksperiodeId": "d7d208c3-a9a1-4c03-885f-aeffa4475a49",
-                        "saksbehandler": {
-                            "ident": "G153334",
-                            "navn": "Grieg, Solveig"
-                        },
-                        "timestamp": "2022-11-01T10:28:50.338851",
-                        "inntekt": {
-                            "skjaeringstidspunkt": "2022-09-01",
-                            "forklaring": "blablablabla",
-                            "begrunnelse": "Korrigert refusjon",
-                            "manedligInntekt": 30000,
-                            "fraManedligInntekt": 30000,
-                            "refusjonsopplysninger": [
-                                {
-                                    "fom": "2022-09-05",
-                                    "tom": null,
-                                    "belop": 31500
-                                },
-                                {
-                                    "fom": "2022-09-04",
-                                    "tom": "2022-09-05",
-                                    "belop": 31000
-                                },
-                                {
-                                    "fom": "2022-09-01",
-                                    "tom": "2022-09-03",
-                                    "belop": 31000
-                                }
-                            ],
-                            "fraRefusjonsopplysninger": [
-                                {
-                                    "fom": "2022-09-01",
-                                    "tom": "2022-09-03",
-                                    "belop": 30000
-                                },
-                                {
-                                    "fom": "2022-09-04",
-                                    "tom": "2022-09-05",
-                                    "belop": 31000
-                                }
-                            ]
-                        },
-                        "ferdigstilt": false,
-                        "type": "ApiInntektoverstyring"
-                    }
                 ]
             },
             {
@@ -892,8 +809,7 @@
                         "organisasjonsnummer": "839942907"
                     }
                 ],
-                "behandlinger": [],
-                "overstyringer": []
+                "behandlinger": []
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -1000,6 +916,91 @@
                     "sum": 29080.12
                 }
             ]
+        }
+    ],
+    "overstyringer": [
+        {
+            "begrunnelse": "Korrigert inntekt i inntektsmelding",
+            "hendelseId": "1610ee09-0cfe-4605-8490-747cf9595619",
+            "vedtaksperiodeId": "d7d208c3-a9a1-4c03-885f-aeffa4475a49",
+            "saksbehandler": {
+                "ident": "G153334",
+                "navn": "Grieg, Solveig"
+            },
+            "timestamp": "2022-11-01T10:28:50.338851",
+            "inntekt": {
+                "skjaeringstidspunkt": "2022-09-01",
+                "forklaring": "blabball2",
+                "begrunnelse": "Korrigert inntekt i inntektsmelding",
+                "manedligInntekt": 31000,
+                "fraManedligInntekt": 30000,
+                "refusjonsopplysninger": [
+                    {
+                        "fom": "2022-09-01",
+                        "tom": "2022-09-03",
+                        "belop": 31000
+                    }
+                ],
+                "fraRefusjonsopplysninger": [
+                    {
+                        "fom": "2022-09-01",
+                        "tom": "2022-09-03",
+                        "belop": 31000
+                    }
+                ]
+            },
+            "ferdigstilt": false,
+            "type": "ApiInntektoverstyring",
+            "organisasjonsnummer": "967170232"
+        },
+        {
+            "begrunnelse": "Korrigert refusjon",
+            "hendelseId": "1610ee09-0cfe-4605-8490-747cf9595619",
+            "vedtaksperiodeId": "d7d208c3-a9a1-4c03-885f-aeffa4475a49",
+            "saksbehandler": {
+                "ident": "G153334",
+                "navn": "Grieg, Solveig"
+            },
+            "timestamp": "2022-11-01T10:28:50.338851",
+            "inntekt": {
+                "skjaeringstidspunkt": "2022-09-01",
+                "forklaring": "blablablabla",
+                "begrunnelse": "Korrigert refusjon",
+                "manedligInntekt": 30000,
+                "fraManedligInntekt": 30000,
+                "refusjonsopplysninger": [
+                    {
+                        "fom": "2022-09-05",
+                        "tom": null,
+                        "belop": 31500
+                    },
+                    {
+                        "fom": "2022-09-04",
+                        "tom": "2022-09-05",
+                        "belop": 31000
+                    },
+                    {
+                        "fom": "2022-09-01",
+                        "tom": "2022-09-03",
+                        "belop": 31000
+                    }
+                ],
+                "fraRefusjonsopplysninger": [
+                    {
+                        "fom": "2022-09-01",
+                        "tom": "2022-09-03",
+                        "belop": 30000
+                    },
+                    {
+                        "fom": "2022-09-04",
+                        "tom": "2022-09-05",
+                        "belop": 31000
+                    }
+                ]
+            },
+            "ferdigstilt": false,
+            "type": "ApiInntektoverstyring",
+            "organisasjonsnummer": "967170232"
         }
     ]
 }

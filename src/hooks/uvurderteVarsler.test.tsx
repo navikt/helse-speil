@@ -98,7 +98,6 @@ const getArbeidsgiver = (
         ghostPerioder: [],
         navn: 'EN_ARBEIDSGIVER',
         organisasjonsnummer: organisasjonsnummer,
-        overstyringer: [],
     };
 };
 

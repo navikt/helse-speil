@@ -1,9 +1,4 @@
-import {
-    ApiArbeidsgiver,
-    ApiBeregnetPeriode,
-    ApiGhostPeriode,
-    ApiOverstyring,
-} from '@io/rest/generated/spesialist.schemas';
+import { ApiArbeidsgiver, ApiBeregnetPeriode, ApiGhostPeriode } from '@io/rest/generated/spesialist.schemas';
 import { enBehandling } from '@test-data/behandling';
 import { enGhostPeriode } from '@test-data/periode';
 import { OverridableConstructor } from '@typer/shared';
@@ -11,7 +6,6 @@ import { OverridableConstructor } from '@typer/shared';
 type Extensions = {
     medPerioder(perioder: ApiBeregnetPeriode[]): ApiArbeidsgiver & Extensions;
     medGhostPerioder(ghostPerioder: ApiGhostPeriode[]): ApiArbeidsgiver & Extensions;
-    medOverstyringer(overstyringer: ApiOverstyring[]): ApiArbeidsgiver & Extensions;
     medOrganisasjonsnummer(organisasjonsnummer: string): ApiArbeidsgiver & Extensions;
 };
 
@@ -32,7 +26,6 @@ export const enArbeidsgiver: OverridableConstructor<ApiArbeidsgiver, Extensions>
     organisasjonsnummer: genererOrganisasjonsnummer(),
     behandlinger: [enBehandling()],
     ghostPerioder: [enGhostPeriode()],
-    overstyringer: [],
     ...overrides,
     medPerioder(perioder: ApiBeregnetPeriode[]) {
         this.behandlinger = [enBehandling({ perioder })];
@@ -40,10 +33,6 @@ export const enArbeidsgiver: OverridableConstructor<ApiArbeidsgiver, Extensions>
     },
     medGhostPerioder(ghostPerioder: ApiGhostPeriode[]) {
         this.ghostPerioder = ghostPerioder;
-        return this;
-    },
-    medOverstyringer(overstyringer: ApiOverstyring[]) {
-        this.overstyringer = overstyringer;
         return this;
     },
     medOrganisasjonsnummer(organisasjonsnummer: string) {

@@ -18,7 +18,7 @@ pbpaste > $tempFile
 
 # Nøklene må holdes like Testpersonfil i src/spesialist-mock/storage/person.ts
 felter="$(node -e '
-const nøkler = ["saksbilde", "person", "aktivOppgave", "totrinnsvurdering", "tildeling", "påVent", "risikovurderinger", "annulleringer", "arbeidsforhold", "inntekterFraAordningen"];
+const nøkler = ["saksbilde", "person", "aktivOppgave", "totrinnsvurdering", "tildeling", "påVent", "risikovurderinger", "annulleringer", "arbeidsforhold", "inntekterFraAordningen", "overstyringer"];
 const fil = JSON.parse(require("fs").readFileSync(process.argv[1], "utf-8"));
 const saksbilde = fil?.saksbilde;
 if (!saksbilde?.aktorId || !saksbilde?.fodselsnummer || !fil?.person) { console.error("Fant ikke saksbilde med aktorId og fodselsnummer, og person, i clipboard-innholdet"); process.exit(1); }

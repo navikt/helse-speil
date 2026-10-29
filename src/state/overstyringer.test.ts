@@ -17,9 +17,7 @@ describe('finnOverstyringerForInntektsforhold', () => {
     });
 
     it('gir overstyringene til selvstendig næringsdrivende', () => {
-        expect(finnOverstyringerForInntektsforhold(overstyringer, { behandlinger: [], overstyringer: [] })).toEqual([
-            forSelvstendig,
-        ]);
+        expect(finnOverstyringerForInntektsforhold(overstyringer, { behandlinger: [] })).toEqual([forSelvstendig]);
     });
 
     it('gir tom liste uten inntektsforhold', () => {

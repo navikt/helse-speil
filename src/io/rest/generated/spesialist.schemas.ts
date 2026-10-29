@@ -3161,12 +3161,10 @@ export interface ApiArbeidsgiver {
     navn: string;
     ghostPerioder: ApiGhostPeriode[];
     behandlinger: ApiBehandling[];
-    overstyringer: ApiOverstyring[];
 }
 
 export interface ApiSelvstendigNaering {
     behandlinger: ApiBehandling[];
-    overstyringer: ApiOverstyring[];
 }
 
 export type ApiInntektskilde = (typeof ApiInntektskilde)[keyof typeof ApiInntektskilde];

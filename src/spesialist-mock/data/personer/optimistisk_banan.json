@@ -25775,28 +25775,6 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": [
-                    {
-                        "hendelseId": "54508e85-1533-492a-bb1e-53b4c947d86f",
-                        "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
-                        "saksbehandler": {
-                            "ident": "A123456",
-                            "navn": "Sykkel, Skvetten"
-                        },
-                        "timestamp": "2022-11-22T10:42:16.214922",
-                        "ferdigstilt": true,
-                        "inntekt": {
-                            "skjaeringstidspunkt": "2022-08-08",
-                            "forklaring": "Yolo",
-                            "begrunnelse": "Korrigert inntekt i inntektsmelding",
-                            "manedligInntekt": 40997,
-                            "fraManedligInntekt": 39153,
-                            "refusjonsopplysninger": [],
-                            "fraRefusjonsopplysninger": []
-                        },
-                        "type": "ApiInntektoverstyring"
-                    }
                 ]
             }
         ],
@@ -26057,5 +26035,28 @@
             "stillingstittel": "FLISESPIKKER (TREVIRKE PROSESSINDUSTRI)"
         }
     ],
-    "inntekterFraAordningen": []
+    "inntekterFraAordningen": [],
+    "overstyringer": [
+        {
+            "hendelseId": "54508e85-1533-492a-bb1e-53b4c947d86f",
+            "vedtaksperiodeId": "526f95a7-ad49-42a0-8bb7-13d1051ff386",
+            "saksbehandler": {
+                "ident": "A123456",
+                "navn": "Sykkel, Skvetten"
+            },
+            "timestamp": "2022-11-22T10:42:16.214922",
+            "ferdigstilt": true,
+            "inntekt": {
+                "skjaeringstidspunkt": "2022-08-08",
+                "forklaring": "Yolo",
+                "begrunnelse": "Korrigert inntekt i inntektsmelding",
+                "manedligInntekt": 40997,
+                "fraManedligInntekt": 39153,
+                "refusjonsopplysninger": [],
+                "fraRefusjonsopplysninger": []
+            },
+            "type": "ApiInntektoverstyring",
+            "organisasjonsnummer": "815493000"
+        }
+    ]
 }

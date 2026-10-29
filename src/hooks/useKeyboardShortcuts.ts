@@ -17,6 +17,7 @@ import {
 import type { Testpersonfil } from '@spesialist-mock/storage/person';
 import { useArbeidsforholdQuery } from '@state/arbeidsforhold';
 import { useAktivOppgave } from '@state/oppgave';
+import { useOverstyringerQuery } from '@state/overstyringer';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery, vedtaksperiodeIdFraNøkkel } from '@state/person';
 import { usePåVent } from '@state/påvent';
@@ -94,12 +95,19 @@ const useCopyPersondata = (): (() => void) => {
     const tildeling = useTildeling();
     const påVent = usePåVent();
     const { data: arbeidsforhold } = useArbeidsforholdQuery();
+    const { data: overstyringer } = useOverstyringerQuery();
     const inntekterFraAordningenOptions = useGetInntekterFraAordningenForPersonQueryOptions(personPseudoId ?? '');
     const queryClient = useQueryClient();
     const addToast = useAddToast();
 
     const kopier = async () => {
-        if (loading || !isNotNullOrUndefined(saksbilde) || !isNotNullOrUndefined(person) || !arbeidsforhold) {
+        if (
+            loading ||
+            !isNotNullOrUndefined(saksbilde) ||
+            !isNotNullOrUndefined(person) ||
+            !arbeidsforhold ||
+            !overstyringer
+        ) {
             throw new Error('Persondata er ikke lastet');
         }
         // Lastes lat, men er bare ett kall per person
@@ -118,6 +126,7 @@ const useCopyPersondata = (): (() => void) => {
             ...finnVedtaksperiodedataICachen(queryClient),
             arbeidsforhold,
             inntekterFraAordningen,
+            overstyringer: overstyringer.overstyringer,
         };
         if (!(await copyString(JSON.stringify(testpersonfil, null, 2), true))) {
             throw new Error('Klarte ikke å skrive til utklippstavla');

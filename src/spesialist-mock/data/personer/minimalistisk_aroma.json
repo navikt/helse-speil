@@ -1615,8 +1615,7 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": []
+                ]
             },
             {
                 "navn": "KLONELABBEN",
@@ -2462,8 +2461,7 @@
                             }
                         ]
                     }
-                ],
-                "overstyringer": []
+                ]
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -2565,5 +2563,6 @@
                 }
             ]
         }
-    ]
+    ],
+    "overstyringer": []
 }

@@ -1,11 +1,10 @@
 import {
     ApiGetOverstyringerForPersonErrorCode,
     ApiHttpProblemDetailsApiGetOverstyringerForPersonErrorCode,
-    ApiOverstyring,
     ApiOverstyringerForPerson,
 } from '@io/rest/generated/spesialist.schemas';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
-import { PersonMock, SELVSTENDIG_NÆRING, finnTestpersonfil } from '@spesialist-mock/storage/person';
+import { PersonMock, finnTestpersonfil } from '@spesialist-mock/storage/person';
 
 export async function stub(_request: Request, params: Promise<{ pseudoId: string }>) {
     const { pseudoId } = await params;
@@ -22,20 +21,9 @@ export async function stub(_request: Request, params: Promise<{ pseudoId: string
 
     const body: ApiOverstyringerForPerson = {
         overstyringer: [
-            ...overstyringerFraTestpersonfil(fødselsnummer),
+            ...(finnTestpersonfil(fødselsnummer)?.overstyringer ?? []),
             ...OverstyringMock.hentForPerson(fødselsnummer),
         ],
     };
     return Response.json(body, { status: 200 });
 }
-
-const overstyringerFraTestpersonfil = (fødselsnummer: string): ApiOverstyring[] => {
-    const saksbilde = finnTestpersonfil(fødselsnummer)?.saksbilde;
-    if (!saksbilde) return [];
-    const medOrganisasjonsnummer = (overstyringer: ApiOverstyring[], organisasjonsnummer: string) =>
-        overstyringer.map((it) => ({ ...it, organisasjonsnummer }));
-    return [
-        ...saksbilde.arbeidsgivere.flatMap((it) => medOrganisasjonsnummer(it.overstyringer, it.organisasjonsnummer)),
-        ...medOrganisasjonsnummer(saksbilde.selvstendigNaering?.overstyringer ?? [], SELVSTENDIG_NÆRING),
-    ];
-};

@@ -597,8 +597,7 @@
                         }
                     ]
                 }
-            ],
-            "overstyringer": []
+            ]
         },
         "vilkarsgrunnlagV2": [
             {
@@ -664,5 +663,6 @@
     },
     "annulleringer": {},
     "arbeidsforhold": [],
-    "inntekterFraAordningen": []
+    "inntekterFraAordningen": [],
+    "overstyringer": []
 }

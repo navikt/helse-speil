@@ -592,29 +592,6 @@
                         }
                     ]
                 }
-            ],
-            "overstyringer": [
-                {
-                    "hendelseId": "9f64e004-1e9c-4811-8c59-fb59718aecba",
-                    "saksbehandler": {
-                        "ident": "S149030",
-                        "navn": "Solheim, Martin Remøy"
-                    },
-                    "timestamp": "2025-09-25T13:31:21.900718",
-                    "ferdigstilt": false,
-                    "vedtaksperiodeId": "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff",
-                    "begrunnelse": "hei",
-                    "dager": [
-                        {
-                            "grad": null,
-                            "fraGrad": 100,
-                            "dato": "2025-06-30",
-                            "type": "Arbeidsdag",
-                            "fraType": "Sykedag"
-                        }
-                    ],
-                    "type": "ApiDagoverstyring"
-                }
             ]
         },
         "vilkarsgrunnlagV2": [
@@ -690,5 +667,29 @@
     },
     "annulleringer": {},
     "arbeidsforhold": [],
-    "inntekterFraAordningen": []
+    "inntekterFraAordningen": [],
+    "overstyringer": [
+        {
+            "hendelseId": "9f64e004-1e9c-4811-8c59-fb59718aecba",
+            "saksbehandler": {
+                "ident": "S149030",
+                "navn": "Solheim, Martin Remøy"
+            },
+            "timestamp": "2025-09-25T13:31:21.900718",
+            "ferdigstilt": false,
+            "vedtaksperiodeId": "7bfc1bf7-4e95-49a4-bf94-2fe0c17f93ff",
+            "begrunnelse": "hei",
+            "dager": [
+                {
+                    "grad": null,
+                    "fraGrad": 100,
+                    "dato": "2025-06-30",
+                    "type": "Arbeidsdag",
+                    "fraType": "Sykedag"
+                }
+            ],
+            "type": "ApiDagoverstyring",
+            "organisasjonsnummer": "SELVSTENDIG"
+        }
+    ]
 }
