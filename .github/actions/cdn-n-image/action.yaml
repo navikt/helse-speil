@@ -21,7 +21,7 @@ runs:
   using: composite
   steps:
     - name: Upload static files to CDN
-      uses: nais/deploy/actions/cdn-upload/v2@1064e26587ab2794266a35f477387e561899a7ef # master
+      uses: nais/deploy/actions/cdn-upload/v2@6a9dcd6df697ec2d38edc78cadb0b9acd1232f50 # master
       with:
         team: ${{ inputs.team }}
         source: .next/static
