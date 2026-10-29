@@ -474,6 +474,60 @@ export interface ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode {
     code?: null | ApiGetPaVentForPersonErrorCode;
 }
 
+export interface ApiArbeidsforholdForPerson {
+    organisasjonsnummer: string;
+    stillingstittel: string;
+    stillingsprosent: number;
+    startdato: string;
+    /** @nullable */
+    sluttdato?: string | null;
+}
+
+export type ApiGetArbeidsforholdForPersonErrorCode =
+    (typeof ApiGetArbeidsforholdForPersonErrorCode)[keyof typeof ApiGetArbeidsforholdForPersonErrorCode];
+
+export const ApiGetArbeidsforholdForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetArbeidsforholdForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetArbeidsforholdForPersonErrorCode;
+}
+
+export interface ApiInntektFraAOrdningen {
+    maned: string;
+    sum: number;
+}
+
+export interface ApiInntekterFraAordningenForArbeidsgiver {
+    organisasjonsnummer: string;
+    skjaeringstidspunkt: string;
+    inntekter: ApiInntektFraAOrdningen[];
+}
+
+export type ApiGetInntekterFraAordningenForPersonErrorCode =
+    (typeof ApiGetInntekterFraAordningenForPersonErrorCode)[keyof typeof ApiGetInntekterFraAordningenForPersonErrorCode];
+
+export const ApiGetInntekterFraAordningenForPersonErrorCode = {
+    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
+    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
+} as const;
+
+export interface ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode {
+    type: string;
+    status: number;
+    title: string;
+    /** @nullable */
+    detail?: string | null;
+    code?: null | ApiGetInntekterFraAordningenForPersonErrorCode;
+}
+
 export interface ApiTildelingForPerson {
     tildeling?: null | ApiTildeling;
 }
@@ -3082,11 +3136,6 @@ export interface ApiArbeidsforhold {
     startdato: string;
     /** @nullable */
     sluttdato?: string | null;
-}
-
-export interface ApiInntektFraAOrdningen {
-    maned: string;
-    sum: number;
 }
 
 export interface ApiArbeidsgiverInntekterFraAOrdningen {

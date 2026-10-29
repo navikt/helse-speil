@@ -6,13 +6,16 @@
  */
 import type {
     ApiAktivOppgaveForPerson,
+    ApiArbeidsforholdForPerson,
     ApiBehandlendeEnhet,
     ApiHandlingsvisning,
     ApiHttpProblemDetailsApiDeleteTildelingErrorCode,
     ApiHttpProblemDetailsApiGetAktivOppgaveForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetArbeidsforholdForPersonErrorCode,
     ApiHttpProblemDetailsApiGetBehandlendeEnhetForPersonErrorCode,
     ApiHttpProblemDetailsApiGetBehandlerdlerStansErrorCode,
     ApiHttpProblemDetailsApiGetInfotrygdperioderForPersonErrorCode,
+    ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode,
     ApiHttpProblemDetailsApiGetKrrRegistrertStatusForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPaVentForPersonErrorCode,
     ApiHttpProblemDetailsApiGetPersonErrorCode,
@@ -28,6 +31,7 @@ import type {
     ApiHttpProblemDetailsApiPostSykepengegrunnlagErrorCode,
     ApiHttpProblemDetailsApiPutTildelingErrorCode,
     ApiInfotrygdperiode,
+    ApiInntekterFraAordningenForArbeidsgiver,
     ApiKrrRegistrertStatus,
     ApiPaVentForPerson,
     ApiPerson,
@@ -641,6 +645,296 @@ export function useGetPaVentForPerson<
     queryClient?: QueryClient,
 ): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
     const queryOptions = useGetPaVentForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetArbeidsforholdForPersonUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/arbeidsforhold`;
+};
+
+export const getArbeidsforholdForPerson = async (
+    pseudoId: string,
+    options?: RequestInit,
+): Promise<ApiArbeidsforholdForPerson[]> => {
+    const res = await fetch(getGetArbeidsforholdForPersonUrl(pseudoId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiArbeidsforholdForPerson[]; status?: number } = new globalThis.Error();
+        const data: ApiArbeidsforholdForPerson[] = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiArbeidsforholdForPerson[] = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetArbeidsforholdForPersonQueryKey = (pseudoId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/arbeidsforhold`] as const;
+};
+
+export const useGetArbeidsforholdForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getArbeidsforholdForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetArbeidsforholdForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getArbeidsforholdForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetArbeidsforholdForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getArbeidsforholdForPerson>>> = ({ signal }) =>
+        getArbeidsforholdForPerson(pseudoId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<Awaited<ReturnType<typeof getArbeidsforholdForPerson>>, TError, TData> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+};
+
+export type GetArbeidsforholdForPersonQueryResult = NonNullable<Awaited<ReturnType<typeof getArbeidsforholdForPerson>>>;
+export type GetArbeidsforholdForPersonQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetArbeidsforholdForPersonErrorCode;
+    status?: number;
+};
+
+export function useGetArbeidsforholdForPerson<
+    TData = Awaited<ReturnType<typeof getArbeidsforholdForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetArbeidsforholdForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getArbeidsforholdForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getArbeidsforholdForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getArbeidsforholdForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetArbeidsforholdForPerson<
+    TData = Awaited<ReturnType<typeof getArbeidsforholdForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetArbeidsforholdForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getArbeidsforholdForPerson>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getArbeidsforholdForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getArbeidsforholdForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetArbeidsforholdForPerson<
+    TData = Awaited<ReturnType<typeof getArbeidsforholdForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetArbeidsforholdForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getArbeidsforholdForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetArbeidsforholdForPerson<
+    TData = Awaited<ReturnType<typeof getArbeidsforholdForPerson>>,
+    TError = globalThis.Error & { info?: ApiHttpProblemDetailsApiGetArbeidsforholdForPersonErrorCode; status?: number },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getArbeidsforholdForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetArbeidsforholdForPersonQueryOptions(pseudoId, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}
+
+export const getGetInntekterFraAordningenForPersonUrl = (pseudoId: string) => {
+    return `/api/spesialist/personer/${pseudoId}/inntekter-fra-aordningen`;
+};
+
+export const getInntekterFraAordningenForPerson = async (
+    pseudoId: string,
+    options?: RequestInit,
+): Promise<ApiInntekterFraAordningenForArbeidsgiver[]> => {
+    const res = await fetch(getGetInntekterFraAordningenForPersonUrl(pseudoId), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiInntekterFraAordningenForArbeidsgiver[]; status?: number } =
+            new globalThis.Error();
+        const data: ApiInntekterFraAordningenForArbeidsgiver[] = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiInntekterFraAordningenForArbeidsgiver[] = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetInntekterFraAordningenForPersonQueryKey = (pseudoId: string) => {
+    return [`/api/spesialist/personer/${pseudoId}/inntekter-fra-aordningen`] as const;
+};
+
+export const useGetInntekterFraAordningenForPersonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetInntekterFraAordningenForPersonQueryKey(pseudoId);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>> = ({ signal }) =>
+        getInntekterFraAordningenForPerson(pseudoId, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: pseudoId !== null && pseudoId !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<
+        Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetInntekterFraAordningenForPersonQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>
+>;
+export type GetInntekterFraAordningenForPersonQueryError = globalThis.Error & {
+    info?: ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode;
+    status?: number;
+};
+
+export function useGetInntekterFraAordningenForPerson<
+    TData = Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetInntekterFraAordningenForPerson<
+    TData = Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<
+            UseQueryOptions<Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>, TError, TData>
+        > &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>,
+                    TError,
+                    Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetInntekterFraAordningenForPerson<
+    TData = Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetInntekterFraAordningenForPerson<
+    TData = Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>,
+    TError = globalThis.Error & {
+        info?: ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode;
+        status?: number;
+    },
+>(
+    pseudoId: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getInntekterFraAordningenForPerson>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetInntekterFraAordningenForPersonQueryOptions(pseudoId, options);
 
     const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
         queryKey: DataTag<QueryKey, TData, TError>;

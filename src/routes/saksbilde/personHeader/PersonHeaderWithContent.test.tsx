@@ -2,6 +2,7 @@ import { Mock } from 'vitest';
 
 import {
     useGetAktivOppgaveForPerson,
+    useGetArbeidsforholdForPerson,
     useGetBehandlendeEnhetForPerson,
     useGetKrrRegistrertStatusForPerson,
     useGetPaVentForPerson,
@@ -81,4 +82,5 @@ function mockPersonHeaderKall() {
     (useGetTotrinnsvurderingForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
     (useGetTildelingForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
     (useGetPaVentForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
+    (useGetArbeidsforholdForPerson as Mock).mockReturnValue({ data: undefined, isLoading: false, error: null });
 }

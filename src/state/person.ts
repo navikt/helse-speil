@@ -2,11 +2,13 @@ import { useParams } from 'next/navigation';
 
 import {
     getGetAktivOppgaveForPersonQueryKey,
+    getGetArbeidsforholdForPersonQueryKey,
     getGetPaVentForPersonQueryKey,
     getGetSaksbildeForPersonQueryKey,
     getGetTildelingForPersonQueryKey,
     getGetTotrinnsvurderingForPersonQueryKey,
     useGetAktivOppgaveForPerson,
+    useGetArbeidsforholdForPerson,
     useGetPaVentForPerson,
     useGetSaksbildeForPerson,
     useGetTildelingForPerson,
@@ -23,7 +25,7 @@ export const useFetchPersonQuery = () => {
     const query = useGetSaksbildeForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
-    // Saksbildet avhenger av aktiv oppgave, totrinnsvurdering, tildeling og påVent, så det vises først når alle er lastet
+    // Saksbildet avhenger av aktiv oppgave, totrinnsvurdering, tildeling, påVent og arbeidsforhold, så det vises først når alle er lastet
     const aktivOppgaveQuery = useGetAktivOppgaveForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
@@ -36,12 +38,16 @@ export const useFetchPersonQuery = () => {
     const påVentQuery = useGetPaVentForPerson(personPseudoId!, {
         query: { enabled: !!personPseudoId },
     });
+    const arbeidsforholdQuery = useGetArbeidsforholdForPerson(personPseudoId!, {
+        query: { enabled: !!personPseudoId },
+    });
     const loading =
         query.isLoading ||
         aktivOppgaveQuery.isLoading ||
         totrinnsvurderingQuery.isLoading ||
         tildelingQuery.isLoading ||
-        påVentQuery.isLoading;
+        påVentQuery.isLoading ||
+        arbeidsforholdQuery.isLoading;
 
     return {
         data: loading ? undefined : query.data,
@@ -51,7 +57,8 @@ export const useFetchPersonQuery = () => {
             aktivOppgaveQuery.error ??
             totrinnsvurderingQuery.error ??
             tildelingQuery.error ??
-            påVentQuery.error,
+            påVentQuery.error ??
+            arbeidsforholdQuery.error,
         refetch: async () => {
             if (personPseudoId) await refetchPersondata(queryClient, personPseudoId);
         },
@@ -95,6 +102,7 @@ export const refetchPersondata = async (queryClient: QueryClient, personPseudoId
         getGetTotrinnsvurderingForPersonQueryKey(personPseudoId),
         getGetTildelingForPersonQueryKey(personPseudoId),
         getGetPaVentForPersonQueryKey(personPseudoId),
+        getGetArbeidsforholdForPersonQueryKey(personPseudoId),
     ].map((nøkkel) => hashKey(nøkkel));
     await queryClient.refetchQueries({
         predicate: (query) => nøkler.includes(query.queryHash) || erVedtaksperiodenøkkel(query.queryKey),

@@ -31,13 +31,7 @@ const VenstremenyContainer = (): ReactElement | null => {
     }
 
     if (isGhostPeriode(activePeriod) && isArbeidsgiver(inntektsforhold)) {
-        return (
-            <VenstremenyGhostPeriode
-                activePeriod={activePeriod}
-                currentArbeidsgiver={inntektsforhold}
-                inntektsforhold={inntektsforhold}
-            />
-        );
+        return <VenstremenyGhostPeriode activePeriod={activePeriod} inntektsforhold={inntektsforhold} />;
     }
 
     if (isBeregnetPeriode(activePeriod)) {

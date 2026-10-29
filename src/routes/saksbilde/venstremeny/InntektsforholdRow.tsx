@@ -4,7 +4,8 @@ import { Accordion, BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-re
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
-import { ApiArbeidsforhold } from '@io/rest/generated/spesialist.schemas';
+import { ApiArbeidsforholdForPerson } from '@io/rest/generated/spesialist.schemas';
+import { useArbeidsforholdForInntektsforhold } from '@state/arbeidsforhold';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { somNorskDato } from '@utils/date';
 import { capitalizeName } from '@utils/locale';
@@ -13,7 +14,7 @@ import { isArbeidsgiver } from '@utils/typeguards';
 import styles from './ArbeidsgiverRow.module.scss';
 
 interface ArbeidsforholdRowProps {
-    arbeidsforhold: ApiArbeidsforhold[];
+    arbeidsforhold: ApiArbeidsforholdForPerson[];
 }
 
 const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactElement => {
@@ -44,11 +45,11 @@ const ArbeidsforholdRow = ({ arbeidsforhold }: ArbeidsforholdRowProps): ReactEle
 };
 
 interface InntektsforholdRowProps {
-    arbeidsforhold: ApiArbeidsforhold[];
     inntektsforhold: Inntektsforhold;
 }
 
-export const InntektsforholdRow = ({ arbeidsforhold, inntektsforhold }: InntektsforholdRowProps): ReactElement => {
+export const InntektsforholdRow = ({ inntektsforhold }: InntektsforholdRowProps): ReactElement => {
+    const arbeidsforhold = useArbeidsforholdForInntektsforhold(inntektsforhold);
     return (
         <>
             <div className={styles.iconContainer}>

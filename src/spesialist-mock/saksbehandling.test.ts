@@ -7,6 +7,7 @@ import { stub as vedtakStub } from '@app/api/spesialist/behandlinger/[behandling
 import { putStub as påVentStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/pa-vent/putStub';
 import { postStub as sendIReturStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/totrinnsvurdering/send-i-retur/postStub';
 import { postStub as sendTilGodkjenningStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/totrinnsvurdering/send-til-godkjenning/postStub';
+import { stub as arbeidsforholdStub } from '@app/api/spesialist/personer/[pseudoId]/arbeidsforhold/stub';
 import { stub as paVentForPersonStub } from '@app/api/spesialist/personer/[pseudoId]/pa-vent/stub';
 import { stub as skjønnsfastsettingStub } from '@app/api/spesialist/personer/[pseudoId]/sykefravaerstilfeller/[skjæringstidspunkt]/sykepengegrunnlag/stub';
 import { stub as annullerStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/annuller/stub';
@@ -29,7 +30,7 @@ import {
 import { hentSynkedeOppgaver } from '@spesialist-mock/oppgaveliste';
 import { finnNyestePeriodeForVedtaksperiodeId, finnPeriodeForBehandlingId } from '@spesialist-mock/periodeoppslag';
 import { opprettTotrinnsvurderingHvisMangler } from '@spesialist-mock/saksbehandling';
-import { fetchPersondata } from '@spesialist-mock/saksbilde';
+import { fetchPersondata, hentSaksbilde } from '@spesialist-mock/saksbilde';
 import { finnAktivOppgave, finnPåVent, finnTotrinnsvurdering } from '@spesialist-mock/storage/aktivOppgave';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
@@ -193,6 +194,24 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
         expect(risikovurdering).toBeTruthy();
         expect((await response.json()).risikovurdering).toEqual(risikovurdering);
+    });
+
+    it('gir arbeidsforholdene til personen med organisasjonsnummer', async () => {
+        const saksbilde = hentSaksbilde(personPseudoId())!;
+        const forventet = saksbilde.arbeidsgivere.flatMap((arbeidsgiver) =>
+            arbeidsgiver.arbeidsforhold.map((it) => ({ ...it, organisasjonsnummer: arbeidsgiver.organisasjonsnummer })),
+        );
+
+        const response = await arbeidsforholdStub(lagRequest({}), Promise.resolve({ pseudoId: personPseudoId() }));
+
+        expect(forventet.length).toBeGreaterThan(0);
+        expect(await response.json()).toEqual(forventet);
+    });
+
+    it('gir 404 for arbeidsforhold til ukjent person', async () => {
+        const response = await arbeidsforholdStub(lagRequest({}), Promise.resolve({ pseudoId: 'ukjent' }));
+
+        expect(response.status).toBe(404);
     });
 
     it('gir personer uten seedet opptjening skjæringstidspunktet til perioden med oppgave', () => {

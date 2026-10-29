@@ -21,7 +21,7 @@ import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { getVilkårsgrunnlag } from '@state/utils';
 import { PeriodState } from '@typer/shared';
 import { getPeriodStateMedOppgave } from '@utils/mapping';
-import { isArbeidsgiver, isSelvstendigNaering } from '@utils/typeguards';
+import { isSelvstendigNaering } from '@utils/typeguards';
 
 import { VarselObject } from '../varsler/Saksbildevarsler';
 import { PeriodeCard } from './PeriodeCard';
@@ -67,7 +67,6 @@ export const VenstremenyBeregnetPeriode = ({
         <section className={styles.Venstremeny}>
             <PeriodeCard.Beregnet
                 periode={activePeriod}
-                arbeidsforhold={isArbeidsgiver(inntektsforhold) ? inntektsforhold.arbeidsforhold : []}
                 inntektsforhold={inntektsforhold}
                 dødsdato={currentPerson.dodsdato ?? undefined}
             />
