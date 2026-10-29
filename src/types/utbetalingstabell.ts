@@ -75,6 +75,11 @@ export type Utbetalingstabelldag = {
     personbeløp?: number | null;
     begrunnelser?: ApiBegrunnelse[] | null;
     erNyDag?: boolean;
-    erGradertAnnenYtelse?: boolean;
+    gradertAnnenYtelse?: GradertAnnenYtelse | null;
     fraType?: Utbetalingstabelldagtype;
+};
+
+export type GradertAnnenYtelse = {
+    sykdomsgrad: number;
+    andreYtelseGrad: number;
 };

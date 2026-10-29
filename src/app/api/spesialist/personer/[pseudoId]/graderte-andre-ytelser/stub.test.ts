@@ -3,7 +3,7 @@ import {
     ApiGraderteAndreYtelser,
     ApiPostGraderteAndreYtelserErrorCode,
 } from '@io/rest/generated/spesialist.schemas';
-import { GraderteAndreYtelserMock } from '@spesialist-mock/storage/graderteAndreYtelser';
+import { nullstillGraderteAndreYtelser } from '@spesialist-mock/storage/graderteAndreYtelser';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
 import { getStub, postStub } from './stub';
@@ -33,17 +33,24 @@ const hent = async (): Promise<ApiGraderteAndreYtelser[]> =>
     (await getStub(new Request('http://localhost'), Promise.resolve({ pseudoId }))).json();
 
 describe('graderte andre ytelser-stub', () => {
-    beforeEach(() => GraderteAndreYtelserMock.nullstill());
+    beforeEach(() => nullstillGraderteAndreYtelser());
 
-    it('oppretter strøm ved første POST og returnerer versjonen', async () => {
+    it('oppretter graderte andre ytelser ved første POST og returnerer versjonen', async () => {
         const response = await post(lagRequest());
 
         expect(response.status).toBe(200);
         const { versjon } = await response.json();
-        const [strøm] = await hent();
-        expect(strøm).toMatchObject({ yrkesaktivitet: 'ARBEIDSTAKER', organisasjonsnummer: '967170232', versjon });
-        expect(strøm!.events).toHaveLength(1);
-        expect(strøm!.events[0]!.dager[0]).toMatchObject({ fraSykdomsgrad: null, fraAndreYtelserGrader: null });
+        const [graderteAndreYtelser] = await hent();
+        expect(graderteAndreYtelser).toMatchObject({
+            yrkesaktivitet: 'ARBEIDSTAKER',
+            organisasjonsnummer: '967170232',
+            versjon,
+        });
+        expect(graderteAndreYtelser!.events).toHaveLength(1);
+        expect(graderteAndreYtelser!.events[0]!.dager[0]).toMatchObject({
+            fraSykdomsgrad: null,
+            fraAndreYtelserGrader: null,
+        });
     });
 
     it('endrer bare dagene i requesten og fyller inn fra-verdier', async () => {
@@ -78,12 +85,12 @@ describe('graderte andre ytelser-stub', () => {
         );
 
         expect(response.status).toBe(200);
-        const [strøm] = await hent();
-        expect(strøm!.dager.map((dag) => dag.andreYtelserGrader)).toEqual([
+        const [graderteAndreYtelser] = await hent();
+        expect(graderteAndreYtelser!.dager.map((dag) => dag.andreYtelserGrader)).toEqual([
             { FORELDREPENGER: 40 },
             { PLEIEPENGER: 20 },
         ]);
-        expect(strøm!.events[1]!.dager).toEqual([
+        expect(graderteAndreYtelser!.events[1]!.dager).toEqual([
             {
                 dato: '2024-07-02',
                 andreYtelserGrader: { PLEIEPENGER: 20 },
@@ -105,7 +112,7 @@ describe('graderte andre ytelser-stub', () => {
         expect((await hent())[0]!.events).toHaveLength(1);
     });
 
-    it('holder strømmer for ulike arbeidsgivere adskilt', async () => {
+    it('holder graderte andre ytelser for ulike arbeidsgivere adskilt', async () => {
         await post(lagRequest());
         await post(lagRequest({ organisasjonsnummer: '947064649' }));
 
@@ -150,7 +157,7 @@ describe('graderte andre ytelser-stub', () => {
 
     it.each([
         ['utdatert versjon', 'ny-versjon-finnes'],
-        ['manglende versjon for eksisterende strøm', null],
+        ['manglende versjon for eksisterende graderte andre ytelser', null],
     ])('svarer 409 ved %s', async (_, versjon) => {
         await post(lagRequest());
 
@@ -161,7 +168,7 @@ describe('graderte andre ytelser-stub', () => {
         expect((await hent())[0]!.events).toHaveLength(1);
     });
 
-    it('svarer 409 når versjon sendes for en strøm som ikke finnes', async () => {
+    it('svarer 409 når versjon sendes for graderte andre ytelser som ikke finnes', async () => {
         const response = await post(lagRequest({ versjon: '0190a1b2-0000-7000-8000-000000000000' }));
 
         expect(response.status).toBe(409);

@@ -35,7 +35,9 @@ export function tilDagendring(values: DagEndringFormFields): Partial<Utbetalings
         dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!,
         erAvvist: false,
         erForeldet: false,
-        erGradertAnnenYtelse: values.gradererAnnenYtelse ?? false,
+        gradertAnnenYtelse: values.gradererAnnenYtelse
+            ? { sykdomsgrad: values.sykepengerGrad ?? 0, andreYtelseGrad: values.gradAndreYtelser ?? 0 }
+            : null,
     };
 }
 

@@ -30,6 +30,7 @@ import { useOverstyrDager } from './utbetalingstabell/useOverstyrDager';
 const getKey = (dag: Utbetalingstabelldag) => dag.dato;
 
 const erReellEndring = (tilDag: Partial<Utbetalingstabelldag>, fraDag: Utbetalingstabelldag): boolean =>
+    !!tilDag.gradertAnnenYtelse || // sjekk uansett. fraDag har kombinert grad (sykepenger 30, foreldrepenger 40 === sykepenger 40, foreldrepenger 30) hvis del-gradene er identiske, blir endringen forkastet
     (typeof tilDag.grad === 'number' && tilDag.grad !== fraDag.grad) ||
     tilDag.dag?.speilDagtype !== fraDag.dag.speilDagtype;
 

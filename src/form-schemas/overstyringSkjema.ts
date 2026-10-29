@@ -166,7 +166,7 @@ const sjekkAndreYtelser = (
     const overstyrtTilAnnenYtelsesdag = alleOverstyrteDager
         .filter(
             (overstyrtDag) =>
-                !overstyrtDag.erGradertAnnenYtelse &&
+                !overstyrtDag.gradertAnnenYtelse &&
                 [
                     'AAP',
                     'Dagpenger',

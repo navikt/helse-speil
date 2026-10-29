@@ -33,6 +33,9 @@ export type OverstyrtDagtype =
     | 'Avvistdag'
     | 'Helg';
 
+export type GradertAnnenYtelsetype =
+    'FORELDREPENGER' | 'SVANGERSKAPSPENGER' | 'OMSORGSPENGER' | 'PLEIEPENGER' | 'OPPLARINGSPENGER';
+
 export interface OverstyrtDagDTO {
     dato: string;
     type: OverstyrtDagtype;

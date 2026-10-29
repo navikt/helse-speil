@@ -5,7 +5,7 @@ import {
     ApiPostGraderteAndreYtelserErrorCode,
 } from '@io/rest/generated/spesialist.schemas';
 import { problemDetails } from '@spesialist-mock/problemDetails';
-import { GraderteAndreYtelserMock } from '@spesialist-mock/storage/graderteAndreYtelser';
+import { endreGraderteAndreYtelser, hentGraderteAndreYtelser } from '@spesialist-mock/storage/graderteAndreYtelser';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
 const feilmeldinger: Record<ApiPostGraderteAndreYtelserErrorCode, { status: number; title: string }> = {
@@ -27,7 +27,7 @@ export async function getStub(_request: Request, params: Promise<{ pseudoId: str
             'Person ikke funnet',
         );
     }
-    return Response.json(GraderteAndreYtelserMock.hent(fødselsnummer));
+    return Response.json(hentGraderteAndreYtelser(fødselsnummer));
 }
 
 export async function postStub(request: Request, params: Promise<{ pseudoId: string }>) {
@@ -36,7 +36,7 @@ export async function postStub(request: Request, params: Promise<{ pseudoId: str
     if (fødselsnummer === null) return feil(ApiPostGraderteAndreYtelserErrorCode.PERSON_PSEUDO_ID_IKKE_FUNNET);
 
     const body: ApiEndreGraderteAndreYtelserRequest = await request.json();
-    const resultat = GraderteAndreYtelserMock.endre(fødselsnummer, body);
+    const resultat = endreGraderteAndreYtelser(fødselsnummer, body);
     if (resultat.type === 'FEIL') return feil(resultat.code);
 
     const response: ApiEndreGraderteAndreYtelserResponse = { versjon: resultat.versjon };

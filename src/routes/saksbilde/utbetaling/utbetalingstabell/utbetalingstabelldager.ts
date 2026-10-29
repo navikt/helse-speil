@@ -1,11 +1,12 @@
 import { ApiSykdomsdagtype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
-import { OverstyrtDagtype } from '@typer/overstyring';
+import { GradertAnnenYtelsetype, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
 export type Speildag = {
     speilDagtype: Utbetalingstabelldagtype;
     visningstekst: string;
     overstyrtDagtype: OverstyrtDagtype | undefined;
+    gradertAnnenYtelsetype?: GradertAnnenYtelsetype;
 };
 
 export const Arbeidsdag: Speildag = {
@@ -90,6 +91,7 @@ export const Foreldrepengerdag: Speildag = {
     speilDagtype: 'Foreldrepenger',
     visningstekst: 'Foreldrepenger',
     overstyrtDagtype: 'Foreldrepengerdag',
+    gradertAnnenYtelsetype: 'FORELDREPENGER',
 };
 
 export const Dagpengerdag: Speildag = {
@@ -102,24 +104,28 @@ export const Svangerskapspengerdag: Speildag = {
     speilDagtype: 'Svangerskapspenger',
     visningstekst: 'Svangerskapspenger',
     overstyrtDagtype: 'Svangerskapspengerdag',
+    gradertAnnenYtelsetype: 'SVANGERSKAPSPENGER',
 };
 
 export const Pleiepengerdag: Speildag = {
     speilDagtype: 'Pleiepenger',
     visningstekst: 'Pleiepenger',
     overstyrtDagtype: 'Pleiepengerdag',
+    gradertAnnenYtelsetype: 'PLEIEPENGER',
 };
 
 export const Omsorgspengerdag: Speildag = {
     speilDagtype: 'Omsorgspenger',
     visningstekst: 'Omsorgspenger',
     overstyrtDagtype: 'Omsorgspengerdag',
+    gradertAnnenYtelsetype: 'OMSORGSPENGER',
 };
 
 export const Opplæringspengerdag: Speildag = {
     speilDagtype: 'Opplæringspenger',
     visningstekst: 'Opplæringspenger',
     overstyrtDagtype: 'Opplaringspengerdag',
+    gradertAnnenYtelsetype: 'OPPLARINGSPENGER',
 };
 
 export const ArbeidIkkeGjenopptattDag: Speildag = {

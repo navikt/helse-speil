@@ -8,65 +8,65 @@ import {
     ApiPostGraderteAndreYtelserErrorCode,
 } from '@io/rest/generated/spesialist.schemas';
 
+type Yrkesaktivitet = Pick<ApiGraderteAndreYtelser, 'yrkesaktivitet' | 'organisasjonsnummer'>;
+
 type Resultat =
     { type: 'OK'; versjon: string; endret: boolean } | { type: 'FEIL'; code: ApiPostGraderteAndreYtelserErrorCode };
 
-export class GraderteAndreYtelserMock {
-    private static strømmer: Map<string, ApiGraderteAndreYtelser[]> = new Map();
+const graderteAndreYtelserPerPerson = new Map<string, ApiGraderteAndreYtelser[]>();
 
-    static nullstill(): void {
-        GraderteAndreYtelserMock.strømmer = new Map();
+export function nullstillGraderteAndreYtelser(): void {
+    graderteAndreYtelserPerPerson.clear();
+}
+
+export function hentGraderteAndreYtelser(fødselsnummer: string): ApiGraderteAndreYtelser[] {
+    return graderteAndreYtelserPerPerson.get(fødselsnummer) ?? [];
+}
+
+export function endreGraderteAndreYtelser(
+    fødselsnummer: string,
+    request: ApiEndreGraderteAndreYtelserRequest,
+): Resultat {
+    const valideringsfeil = validerDager(request.dager);
+    if (valideringsfeil) return { type: 'FEIL', code: valideringsfeil };
+
+    const alle = hentGraderteAndreYtelser(fødselsnummer);
+    const eksisterende = alle.find((it) => gjelderSammeYrkesaktivitet(it, request));
+
+    if ((request.versjon ?? null) !== (eksisterende?.versjon ?? null)) {
+        return { type: 'FEIL', code: ApiPostGraderteAndreYtelserErrorCode.UTDATERT_TILSTAND };
     }
 
-    static hent(fødselsnummer: string): ApiGraderteAndreYtelser[] {
-        return GraderteAndreYtelserMock.strømmer.get(fødselsnummer) ?? [];
+    const nåværendeDager = new Map(eksisterende?.dager.map((dag) => [dag.dato, dag]));
+    const endredeDager = request.dager.filter((dag) => !erLike(dag, nåværendeDager.get(dag.dato)));
+    if (eksisterende && endredeDager.length === 0) {
+        return { type: 'OK', versjon: eksisterende.versjon, endret: false };
     }
 
-    static endre(fødselsnummer: string, request: ApiEndreGraderteAndreYtelserRequest): Resultat {
-        const valideringsfeil = validerDager(request.dager);
-        if (valideringsfeil) return { type: 'FEIL', code: valideringsfeil };
+    const versjon = v7();
+    const event = {
+        versjon,
+        tidspunkt: new Date().toISOString(),
+        utfortAvSaksbehandlerIdent: 'S123456',
+        notatTilBeslutter: request.notatTilBeslutter,
+        dager: endredeDager.map((dag) => endretFra(dag, nåværendeDager.get(dag.dato))),
+    };
+    endredeDager.forEach((dag) => nåværendeDager.set(dag.dato, dag));
 
-        const strømmer = GraderteAndreYtelserMock.hent(fødselsnummer);
-        const eksisterende = strømmer.find(
-            (strøm) =>
-                strøm.yrkesaktivitet === request.yrkesaktivitet &&
-                (strøm.organisasjonsnummer ?? null) === (request.organisasjonsnummer ?? null),
-        );
+    const oppdatert: ApiGraderteAndreYtelser = {
+        yrkesaktivitet: request.yrkesaktivitet,
+        organisasjonsnummer: request.organisasjonsnummer ?? null,
+        versjon,
+        dager: [...nåværendeDager.values()].sort((a, b) => a.dato.localeCompare(b.dato)),
+        events: [...(eksisterende?.events ?? []), event],
+    };
+    graderteAndreYtelserPerPerson.set(fødselsnummer, [...alle.filter((it) => it !== eksisterende), oppdatert]);
 
-        if ((request.versjon ?? null) !== (eksisterende?.versjon ?? null)) {
-            return { type: 'FEIL', code: ApiPostGraderteAndreYtelserErrorCode.UTDATERT_TILSTAND };
-        }
+    return { type: 'OK', versjon, endret: true };
+}
 
-        const nåværendeDager = new Map(eksisterende?.dager.map((dag) => [dag.dato, dag]));
-        const endredeDager = request.dager.filter((dag) => !erLike(dag, nåværendeDager.get(dag.dato)));
-        if (eksisterende && endredeDager.length === 0) {
-            return { type: 'OK', versjon: eksisterende.versjon, endret: false };
-        }
-
-        const versjon = v7();
-        const event = {
-            versjon,
-            tidspunkt: new Date().toISOString(),
-            utfortAvSaksbehandlerIdent: 'S123456',
-            notatTilBeslutter: request.notatTilBeslutter,
-            dager: endredeDager.map((dag) => endretFra(dag, nåværendeDager.get(dag.dato))),
-        };
-        endredeDager.forEach((dag) => nåværendeDager.set(dag.dato, dag));
-
-        const oppdatert: ApiGraderteAndreYtelser = {
-            yrkesaktivitet: request.yrkesaktivitet,
-            organisasjonsnummer: request.organisasjonsnummer ?? null,
-            versjon,
-            dager: [...nåværendeDager.values()].sort((a, b) => a.dato.localeCompare(b.dato)),
-            events: [...(eksisterende?.events ?? []), event],
-        };
-        GraderteAndreYtelserMock.strømmer.set(fødselsnummer, [
-            ...strømmer.filter((strøm) => strøm !== eksisterende),
-            oppdatert,
-        ]);
-
-        return { type: 'OK', versjon, endret: true };
-    }
+function gjelderSammeYrkesaktivitet(a: Yrkesaktivitet, b: Yrkesaktivitet): boolean {
+    return a.yrkesaktivitet === b.yrkesaktivitet && (a.organisasjonsnummer ?? null) === (b.organisasjonsnummer ?? null);
 }
 
 function validerDager(dager: ApiGraderteAndreYtelserDag[]): ApiPostGraderteAndreYtelserErrorCode | null {
@@ -80,11 +80,9 @@ function validerDager(dager: ApiGraderteAndreYtelserDag[]): ApiPostGraderteAndre
     return null;
 }
 
-const grader = (dag: ApiGraderteAndreYtelserDag): number[] => [
-    ...Object.values(dag.andreYtelserGrader),
-    dag.sykdomsgrad,
-    dag.arbeidsgrad,
-];
+function grader(dag: ApiGraderteAndreYtelserDag): number[] {
+    return [...Object.values(dag.andreYtelserGrader), dag.sykdomsgrad, dag.arbeidsgrad];
+}
 
 function erLike(dag: ApiGraderteAndreYtelserDag, annen: ApiGraderteAndreYtelserDag | undefined): boolean {
     if (!annen) return false;
@@ -97,12 +95,14 @@ function erLike(dag: ApiGraderteAndreYtelserDag, annen: ApiGraderteAndreYtelserD
     );
 }
 
-const endretFra = (
+function endretFra(
     dag: ApiGraderteAndreYtelserDag,
     fra: ApiGraderteAndreYtelserDag | undefined,
-): ApiGraderteAndreYtelserEndretDag => ({
-    ...dag,
-    fraAndreYtelserGrader: fra?.andreYtelserGrader ?? null,
-    fraSykdomsgrad: fra?.sykdomsgrad ?? null,
-    fraArbeidsgrad: fra?.arbeidsgrad ?? null,
-});
+): ApiGraderteAndreYtelserEndretDag {
+    return {
+        ...dag,
+        fraAndreYtelserGrader: fra?.andreYtelserGrader ?? null,
+        fraSykdomsgrad: fra?.sykdomsgrad ?? null,
+        fraArbeidsgrad: fra?.arbeidsgrad ?? null,
+    };
+}
