@@ -6,6 +6,8 @@ import { v5 as uuidv5 } from 'uuid';
 import {
     ApiAktivOppgave,
     ApiAnnullering,
+    ApiArbeidsforholdForPerson,
+    ApiInntekterFraAordningenForArbeidsgiver,
     ApiPaVent,
     ApiPerson,
     ApiRisikovurdering,
@@ -21,7 +23,8 @@ type PersonIdentifikatorer = {
     personPseudoId: UUID;
 };
 
-// Svarene fra GET /api/personer/{pseudoId}/saksbilde, /, /aktiv-oppgave, /totrinnsvurdering, /tildeling og /pa-vent,
+// Svarene fra GET /api/personer/{pseudoId}/saksbilde, /, /aktiv-oppgave, /totrinnsvurdering, /tildeling, /pa-vent,
+// /arbeidsforhold og /inntekter-fra-aordningen,
 // og fra GET /api/vedtaksperioder/{vedtaksperiodeId}/risikovurdering og /annullering, nøklet på vedtaksperiodeId
 export type Testpersonfil = {
     saksbilde: ApiSaksbildePerson;
@@ -32,6 +35,8 @@ export type Testpersonfil = {
     påVent: ApiPaVent | null;
     risikovurderinger: Record<string, ApiRisikovurdering>;
     annulleringer: Record<string, ApiAnnullering>;
+    arbeidsforhold: ApiArbeidsforholdForPerson[];
+    inntekterFraAordningen: ApiInntekterFraAordningenForArbeidsgiver[];
 };
 
 export function lesTestpersonfiler(): Testpersonfil[] {
@@ -42,6 +47,9 @@ export function lesTestpersonfiler(): Testpersonfil[] {
         return JSON.parse(raw) as Testpersonfil;
     });
 }
+
+export const finnTestpersonfil = (fødselsnummer: string): Testpersonfil | undefined =>
+    lesTestpersonfiler().find((fil) => fil.saksbilde.fodselsnummer === fødselsnummer);
 
 const lesPersoner = (): ApiSaksbildePerson[] => lesTestpersonfiler().map((fil) => fil.saksbilde);
 
@@ -80,7 +88,7 @@ export class PersonMock {
     };
 
     static finnApiPerson = (fødselsnummer: string): ApiPerson | null =>
-        lesTestpersonfiler().find((fil) => fil.saksbilde.fodselsnummer === fødselsnummer)?.person ?? null;
+        finnTestpersonfil(fødselsnummer)?.person ?? null;
 
     static findAktørIdForPersonPseudoId = (personPseudoId: string): string | null => {
         return (

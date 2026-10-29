@@ -31,7 +31,7 @@ import {
 import { hentSynkedeOppgaver } from '@spesialist-mock/oppgaveliste';
 import { finnNyestePeriodeForVedtaksperiodeId, finnPeriodeForBehandlingId } from '@spesialist-mock/periodeoppslag';
 import { opprettTotrinnsvurderingHvisMangler } from '@spesialist-mock/saksbehandling';
-import { fetchPersondata, hentSaksbilde } from '@spesialist-mock/saksbilde';
+import { fetchPersondata } from '@spesialist-mock/saksbilde';
 import { finnAktivOppgave, finnPåVent, finnTotrinnsvurdering } from '@spesialist-mock/storage/aktivOppgave';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
@@ -198,10 +198,9 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
     });
 
     it('gir arbeidsforholdene til personen med organisasjonsnummer', async () => {
-        const saksbilde = hentSaksbilde(personPseudoId())!;
-        const forventet = saksbilde.arbeidsgivere.flatMap((arbeidsgiver) =>
-            arbeidsgiver.arbeidsforhold.map((it) => ({ ...it, organisasjonsnummer: arbeidsgiver.organisasjonsnummer })),
-        );
+        const forventet = lesTestpersonfiler().find(
+            (fil) => fil.saksbilde.fodselsnummer === fødselsnummer(),
+        )!.arbeidsforhold;
 
         const response = await arbeidsforholdStub(lagRequest({}), Promise.resolve({ pseudoId: personPseudoId() }));
 
@@ -216,17 +215,9 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
     });
 
     it('gir inntektene fra a-ordningen per arbeidsgiver og skjæringstidspunkt', async () => {
-        const fil = lesTestpersonfiler().find((it) =>
-            it.saksbilde.arbeidsgivere.some((arbeidsgiver) => arbeidsgiver.inntekterFraAordningen.length > 0),
-        )!;
+        const fil = lesTestpersonfiler().find((it) => it.inntekterFraAordningen.length > 0)!;
         const pseudoId = PersonMock.findPersonPseudoId(fil.saksbilde.fodselsnummer)!;
-        const saksbilde = hentSaksbilde(pseudoId)!;
-        const forventet = saksbilde.arbeidsgivere.flatMap((arbeidsgiver) =>
-            arbeidsgiver.inntekterFraAordningen.map((it) => ({
-                ...it,
-                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-            })),
-        );
+        const forventet = fil.inntekterFraAordningen;
 
         const response = await inntekterFraAordningenStub(lagRequest({}), Promise.resolve({ pseudoId }));
 

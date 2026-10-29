@@ -94,13 +94,11 @@ const getArbeidsgiver = (
     behandlinger: ApiArbeidsgiver['behandlinger'],
 ): ApiArbeidsgiver => {
     return {
-        arbeidsforhold: [],
         behandlinger: behandlinger,
         ghostPerioder: [],
         navn: 'EN_ARBEIDSGIVER',
         organisasjonsnummer: organisasjonsnummer,
         overstyringer: [],
-        inntekterFraAordningen: [],
     };
 };
 

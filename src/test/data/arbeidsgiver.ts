@@ -30,11 +30,9 @@ function genererOrganisasjonsnummer(): string {
 export const enArbeidsgiver: OverridableConstructor<ApiArbeidsgiver, Extensions> = (overrides) => ({
     navn: 'Sjokkerende Elektriker',
     organisasjonsnummer: genererOrganisasjonsnummer(),
-    arbeidsforhold: [],
     behandlinger: [enBehandling()],
     ghostPerioder: [enGhostPeriode()],
     overstyringer: [],
-    inntekterFraAordningen: [],
     ...overrides,
     medPerioder(perioder: ApiBeregnetPeriode[]) {
         this.behandlinger = [enBehandling({ perioder })];

@@ -64,14 +64,6 @@
             {
                 "navn": "PENGELØS SPAREBANK",
                 "organisasjonsnummer": "972674818",
-                "arbeidsforhold": [
-                    {
-                        "sluttdato": null,
-                        "startdato": "2002-12-01",
-                        "stillingsprosent": 100,
-                        "stillingstittel": "KAMMEROPERATØR"
-                    }
-                ],
                 "ghostPerioder": [],
                 "behandlinger": [
                     {
@@ -613,8 +605,7 @@
                         ]
                     }
                 ],
-                "overstyringer": [],
-                "inntekterFraAordningen": []
+                "overstyringer": []
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -650,5 +641,15 @@
             "kontrollertOk": []
         }
     },
-    "annulleringer": {}
+    "annulleringer": {},
+    "arbeidsforhold": [
+        {
+            "organisasjonsnummer": "972674818",
+            "sluttdato": null,
+            "startdato": "2002-12-01",
+            "stillingsprosent": 100,
+            "stillingstittel": "KAMMEROPERATØR"
+        }
+    ],
+    "inntekterFraAordningen": []
 }

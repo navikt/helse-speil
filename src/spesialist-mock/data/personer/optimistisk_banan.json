@@ -146,14 +146,6 @@
             {
                 "navn": "FISKEFINGER ENGINEERING",
                 "organisasjonsnummer": "815493000",
-                "arbeidsforhold": [
-                    {
-                        "sluttdato": null,
-                        "startdato": "2022-07-01",
-                        "stillingsprosent": 100,
-                        "stillingstittel": "FLISESPIKKER (TREVIRKE PROSESSINDUSTRI)"
-                    }
-                ],
                 "ghostPerioder": [],
                 "behandlinger": [
                     {
@@ -25805,8 +25797,7 @@
                         },
                         "type": "ApiInntektoverstyring"
                     }
-                ],
-                "inntekterFraAordningen": []
+                ]
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -26056,5 +26047,15 @@
             "kontrollertOk": []
         }
     },
-    "annulleringer": {}
+    "annulleringer": {},
+    "arbeidsforhold": [
+        {
+            "organisasjonsnummer": "815493000",
+            "sluttdato": null,
+            "startdato": "2022-07-01",
+            "stillingsprosent": 100,
+            "stillingstittel": "FLISESPIKKER (TREVIRKE PROSESSINDUSTRI)"
+        }
+    ],
+    "inntekterFraAordningen": []
 }

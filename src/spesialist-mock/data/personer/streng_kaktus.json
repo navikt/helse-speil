@@ -78,14 +78,6 @@
             {
                 "navn": "SAUEFABRIKK",
                 "organisasjonsnummer": "896929119",
-                "arbeidsforhold": [
-                    {
-                        "sluttdato": null,
-                        "startdato": "2003-06-01",
-                        "stillingsprosent": 100,
-                        "stillingstittel": "ADVOKAT"
-                    }
-                ],
                 "ghostPerioder": [],
                 "behandlinger": [
                     {
@@ -709,42 +701,14 @@
                         ]
                     }
                 ],
-                "overstyringer": [],
-                "inntekterFraAordningen": [
-                    {
-                        "skjaeringstidspunkt": "2023-03-01",
-                        "inntekter": [
-                            {
-                                "maned": "2022-12",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2023-02",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2023-01",
-                                "sum": 50000
-                            }
-                        ]
-                    }
-                ]
+                "overstyringer": []
             },
             {
                 "navn": "HEST",
                 "organisasjonsnummer": "896929120",
-                "arbeidsforhold": [
-                    {
-                        "sluttdato": "2023-01-12",
-                        "startdato": "2003-06-01",
-                        "stillingsprosent": 100,
-                        "stillingstittel": "STALLGUTT"
-                    }
-                ],
                 "ghostPerioder": [],
                 "behandlinger": [],
-                "overstyringer": [],
-                "inntekterFraAordningen": []
+                "overstyringer": []
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -787,5 +751,41 @@
             "kontrollertOk": []
         }
     },
-    "annulleringer": {}
+    "annulleringer": {},
+    "arbeidsforhold": [
+        {
+            "organisasjonsnummer": "896929119",
+            "sluttdato": null,
+            "startdato": "2003-06-01",
+            "stillingsprosent": 100,
+            "stillingstittel": "ADVOKAT"
+        },
+        {
+            "organisasjonsnummer": "896929120",
+            "sluttdato": "2023-01-12",
+            "startdato": "2003-06-01",
+            "stillingsprosent": 100,
+            "stillingstittel": "STALLGUTT"
+        }
+    ],
+    "inntekterFraAordningen": [
+        {
+            "organisasjonsnummer": "896929119",
+            "skjaeringstidspunkt": "2023-03-01",
+            "inntekter": [
+                {
+                    "maned": "2022-12",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2023-02",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2023-01",
+                    "sum": 50000
+                }
+            ]
+        }
+    ]
 }

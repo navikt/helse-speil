@@ -7,7 +7,7 @@ import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { Action, Key, useKeyboard } from '@hooks/useKeyboard';
 import { useNavigation } from '@hooks/useNavigation';
 import { getGetDialogmeldingQueryKey, getGetDialogmeldingerQueryKey } from '@io/rest/generated/default/default';
-import { useGetPerson } from '@io/rest/generated/personer/personer';
+import { useGetInntekterFraAordningenForPersonQueryOptions, useGetPerson } from '@io/rest/generated/personer/personer';
 import {
     ApiAnnullering,
     ApiAnnulleringForVedtaksperiode,
@@ -15,6 +15,7 @@ import {
     ApiRisikovurderingForVedtaksperiode,
 } from '@io/rest/generated/spesialist.schemas';
 import type { Testpersonfil } from '@spesialist-mock/storage/person';
+import { useArbeidsforholdQuery } from '@state/arbeidsforhold';
 import { useAktivOppgave } from '@state/oppgave';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery, vedtaksperiodeIdFraNøkkel } from '@state/person';
@@ -92,34 +93,53 @@ const useCopyPersondata = (): (() => void) => {
     const totrinnsvurdering = useTotrinnsvurdering();
     const tildeling = useTildeling();
     const påVent = usePåVent();
+    const { data: arbeidsforhold } = useArbeidsforholdQuery();
+    const inntekterFraAordningenOptions = useGetInntekterFraAordningenForPersonQueryOptions(personPseudoId ?? '');
     const queryClient = useQueryClient();
     const addToast = useAddToast();
 
-    return () => {
-        if (!loading && isNotNullOrUndefined(saksbilde) && isNotNullOrUndefined(person)) {
-            // Samme format som testpersonfilene i src/spesialist-mock/data/personer
-            const testpersonfil: Testpersonfil = {
-                saksbilde,
-                person,
-                aktivOppgave,
-                totrinnsvurdering,
-                tildeling,
-                påVent,
-                ...finnVedtaksperiodedataICachen(queryClient),
-            };
-            void copyString(JSON.stringify(testpersonfil, null, 2), true);
-            addToast({
-                key: 'kopierPersondataToastKey',
-                message: 'Persondata er kopiert',
-                timeToLiveMs: 3000,
-            });
-        } else {
-            addToast({
-                key: 'persondataIkkeKopiert',
-                message: 'Klarte ikke å kopiere persondata',
-                timeToLiveMs: 3000,
-            });
+    const kopier = async () => {
+        if (loading || !isNotNullOrUndefined(saksbilde) || !isNotNullOrUndefined(person) || !arbeidsforhold) {
+            throw new Error('Persondata er ikke lastet');
         }
+        // Lastes lat, men er bare ett kall per person
+        const inntekterFraAordningen = await queryClient.query({
+            ...inntekterFraAordningenOptions,
+            staleTime: 'static',
+        });
+        // Samme format som testpersonfilene i src/spesialist-mock/data/personer
+        const testpersonfil: Testpersonfil = {
+            saksbilde,
+            person,
+            aktivOppgave,
+            totrinnsvurdering,
+            tildeling,
+            påVent,
+            ...finnVedtaksperiodedataICachen(queryClient),
+            arbeidsforhold,
+            inntekterFraAordningen,
+        };
+        if (!(await copyString(JSON.stringify(testpersonfil, null, 2), true))) {
+            throw new Error('Klarte ikke å skrive til utklippstavla');
+        }
+    };
+
+    return () => {
+        kopier()
+            .then(() =>
+                addToast({
+                    key: 'kopierPersondataToastKey',
+                    message: 'Persondata er kopiert',
+                    timeToLiveMs: 3000,
+                }),
+            )
+            .catch(() =>
+                addToast({
+                    key: 'persondataIkkeKopiert',
+                    message: 'Klarte ikke å kopiere persondata',
+                    timeToLiveMs: 3000,
+                }),
+            );
     };
 };
 

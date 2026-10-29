@@ -384,14 +384,6 @@
             {
                 "navn": "SNILL TORPEDO",
                 "organisasjonsnummer": "967170232",
-                "arbeidsforhold": [
-                    {
-                        "sluttdato": null,
-                        "startdato": "2020-10-01",
-                        "stillingsprosent": 80,
-                        "stillingstittel": "ADVOKAT"
-                    }
-                ],
                 "ghostPerioder": [],
                 "behandlinger": [
                     {
@@ -3948,74 +3940,11 @@
                         },
                         "type": "ApiMinimumSykdomsgradOverstyring"
                     }
-                ],
-                "inntekterFraAordningen": [
-                    {
-                        "skjaeringstidspunkt": "2024-07-01",
-                        "inntekter": [
-                            {
-                                "maned": "2023-09",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2023-12",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2023-08",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2023-11",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2023-07",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2023-10",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2024-03",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2024-06",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2024-02",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2024-05",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2024-01",
-                                "sum": 50000
-                            },
-                            {
-                                "maned": "2024-04",
-                                "sum": 50000
-                            }
-                        ]
-                    }
                 ]
             },
             {
                 "navn": "KLONELABBEN",
                 "organisasjonsnummer": "907670201",
-                "arbeidsforhold": [
-                    {
-                        "sluttdato": null,
-                        "startdato": "2021-10-07",
-                        "stillingsprosent": 20,
-                        "stillingstittel": "ADVOKAT"
-                    }
-                ],
                 "ghostPerioder": [
                     {
                         "id": "c1de3535-8971-3ca0-a72c-5534e79f98b8",
@@ -9248,61 +9177,6 @@
                         },
                         "type": "ApiMinimumSykdomsgradOverstyring"
                     }
-                ],
-                "inntekterFraAordningen": [
-                    {
-                        "skjaeringstidspunkt": "2024-07-01",
-                        "inntekter": [
-                            {
-                                "maned": "2023-09",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2023-12",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2023-08",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2023-11",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2023-07",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2023-10",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2024-03",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2024-06",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2024-02",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2024-05",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2024-01",
-                                "sum": 15000
-                            },
-                            {
-                                "maned": "2024-04",
-                                "sum": 15000
-                            }
-                        ]
-                    }
                 ]
             }
         ],
@@ -9359,5 +9233,131 @@
             "kontrollertOk": []
         }
     },
-    "annulleringer": {}
+    "annulleringer": {},
+    "arbeidsforhold": [
+        {
+            "organisasjonsnummer": "967170232",
+            "sluttdato": null,
+            "startdato": "2020-10-01",
+            "stillingsprosent": 80,
+            "stillingstittel": "ADVOKAT"
+        },
+        {
+            "organisasjonsnummer": "907670201",
+            "sluttdato": null,
+            "startdato": "2021-10-07",
+            "stillingsprosent": 20,
+            "stillingstittel": "ADVOKAT"
+        }
+    ],
+    "inntekterFraAordningen": [
+        {
+            "organisasjonsnummer": "967170232",
+            "skjaeringstidspunkt": "2024-07-01",
+            "inntekter": [
+                {
+                    "maned": "2023-09",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2023-12",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2023-08",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2023-11",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2023-07",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2023-10",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2024-03",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2024-06",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2024-02",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2024-05",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2024-01",
+                    "sum": 50000
+                },
+                {
+                    "maned": "2024-04",
+                    "sum": 50000
+                }
+            ]
+        },
+        {
+            "organisasjonsnummer": "907670201",
+            "skjaeringstidspunkt": "2024-07-01",
+            "inntekter": [
+                {
+                    "maned": "2023-09",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2023-12",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2023-08",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2023-11",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2023-07",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2023-10",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2024-03",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2024-06",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2024-02",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2024-05",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2024-01",
+                    "sum": 15000
+                },
+                {
+                    "maned": "2024-04",
+                    "sum": 15000
+                }
+            ]
+        }
+    ]
 }

@@ -259,14 +259,6 @@
             {
                 "navn": "PENGELØS SPAREBANK",
                 "organisasjonsnummer": "972674818",
-                "arbeidsforhold": [
-                    {
-                        "sluttdato": null,
-                        "startdato": "2017-05-01",
-                        "stillingsprosent": 100,
-                        "stillingstittel": "ABONNEMENTSJEF"
-                    }
-                ],
                 "ghostPerioder": [
                     {
                         "id": "fa39014f-3e84-4409-9bac-1f3ea4790a65",
@@ -1624,38 +1616,11 @@
                         ]
                     }
                 ],
-                "overstyringer": [],
-                "inntekterFraAordningen": [
-                    {
-                        "skjaeringstidspunkt": "2023-02-01",
-                        "inntekter": [
-                            {
-                                "maned": "2022-11",
-                                "sum": 30000
-                            },
-                            {
-                                "maned": "2022-12",
-                                "sum": 30000
-                            },
-                            {
-                                "maned": "2023-01",
-                                "sum": 30000
-                            }
-                        ]
-                    }
-                ]
+                "overstyringer": []
             },
             {
                 "navn": "KLONELABBEN",
                 "organisasjonsnummer": "907670201",
-                "arbeidsforhold": [
-                    {
-                        "sluttdato": null,
-                        "startdato": "2021-08-01",
-                        "stillingsprosent": 100,
-                        "stillingstittel": "ADMIRAL"
-                    }
-                ],
                 "ghostPerioder": [
                     {
                         "id": "35e60a3a-2d53-48e7-917b-03c05def81b0",
@@ -2498,26 +2463,7 @@
                         ]
                     }
                 ],
-                "overstyringer": [],
-                "inntekterFraAordningen": [
-                    {
-                        "skjaeringstidspunkt": "2023-02-01",
-                        "inntekter": [
-                            {
-                                "maned": "2022-11",
-                                "sum": 100000
-                            },
-                            {
-                                "maned": "2022-12",
-                                "sum": 100000
-                            },
-                            {
-                                "maned": "2023-01",
-                                "sum": 100000
-                            }
-                        ]
-                    }
-                ]
+                "overstyringer": []
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -2565,5 +2511,59 @@
             "kontrollertOk": []
         }
     },
-    "annulleringer": {}
+    "annulleringer": {},
+    "arbeidsforhold": [
+        {
+            "organisasjonsnummer": "972674818",
+            "sluttdato": null,
+            "startdato": "2017-05-01",
+            "stillingsprosent": 100,
+            "stillingstittel": "ABONNEMENTSJEF"
+        },
+        {
+            "organisasjonsnummer": "907670201",
+            "sluttdato": null,
+            "startdato": "2021-08-01",
+            "stillingsprosent": 100,
+            "stillingstittel": "ADMIRAL"
+        }
+    ],
+    "inntekterFraAordningen": [
+        {
+            "organisasjonsnummer": "972674818",
+            "skjaeringstidspunkt": "2023-02-01",
+            "inntekter": [
+                {
+                    "maned": "2022-11",
+                    "sum": 30000
+                },
+                {
+                    "maned": "2022-12",
+                    "sum": 30000
+                },
+                {
+                    "maned": "2023-01",
+                    "sum": 30000
+                }
+            ]
+        },
+        {
+            "organisasjonsnummer": "907670201",
+            "skjaeringstidspunkt": "2023-02-01",
+            "inntekter": [
+                {
+                    "maned": "2022-11",
+                    "sum": 100000
+                },
+                {
+                    "maned": "2022-12",
+                    "sum": 100000
+                },
+                {
+                    "maned": "2023-01",
+                    "sum": 100000
+                }
+            ]
+        }
+    ]
 }

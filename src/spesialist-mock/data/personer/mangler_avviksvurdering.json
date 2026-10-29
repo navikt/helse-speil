@@ -88,7 +88,6 @@
             {
                 "navn": "PENGELØS SPAREBANK",
                 "organisasjonsnummer": "972674818",
-                "arbeidsforhold": [],
                 "ghostPerioder": [],
                 "behandlinger": [
                     {
@@ -673,13 +672,11 @@
                         ]
                     }
                 ],
-                "overstyringer": [],
-                "inntekterFraAordningen": []
+                "overstyringer": []
             },
             {
                 "navn": "SAUEFABRIKK",
                 "organisasjonsnummer": "896929119",
-                "arbeidsforhold": [],
                 "ghostPerioder": [
                     {
                         "id": "9c75bbf1-f0bc-3c2e-aa61-9a7dff1adf84",
@@ -692,8 +689,7 @@
                     }
                 ],
                 "behandlinger": [],
-                "overstyringer": [],
-                "inntekterFraAordningen": []
+                "overstyringer": []
             }
         ],
         "tilleggsinfoForInntektskilder": [
@@ -725,5 +721,7 @@
     "tildeling": null,
     "påVent": null,
     "risikovurderinger": {},
-    "annulleringer": {}
+    "annulleringer": {},
+    "arbeidsforhold": [],
+    "inntekterFraAordningen": []
 }

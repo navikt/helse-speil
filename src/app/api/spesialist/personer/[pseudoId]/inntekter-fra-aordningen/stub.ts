@@ -3,12 +3,12 @@ import {
     ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode,
     ApiInntekterFraAordningenForArbeidsgiver,
 } from '@io/rest/generated/spesialist.schemas';
-import { hentSaksbilde } from '@spesialist-mock/saksbilde';
+import { PersonMock, finnTestpersonfil } from '@spesialist-mock/storage/person';
 
 export async function stub(_request: Request, params: Promise<{ pseudoId: string }>) {
     const { pseudoId } = await params;
-    const saksbilde = hentSaksbilde(pseudoId);
-    if (!saksbilde) {
+    const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(pseudoId);
+    if (!fødselsnummer) {
         const body: ApiHttpProblemDetailsApiGetInntekterFraAordningenForPersonErrorCode = {
             type: 'about:blank',
             status: 404,
@@ -18,11 +18,7 @@ export async function stub(_request: Request, params: Promise<{ pseudoId: string
         return Response.json(body, { status: 404 });
     }
 
-    const body: ApiInntekterFraAordningenForArbeidsgiver[] = saksbilde.arbeidsgivere.flatMap((arbeidsgiver) =>
-        arbeidsgiver.inntekterFraAordningen.map((inntekter) => ({
-            organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
-            ...inntekter,
-        })),
-    );
+    const body: ApiInntekterFraAordningenForArbeidsgiver[] =
+        finnTestpersonfil(fødselsnummer)?.inntekterFraAordningen ?? [];
     return Response.json(body, { status: 200 });
 }

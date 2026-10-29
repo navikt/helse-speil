@@ -3130,27 +3130,12 @@ export type ApiOverstyring =
     | ApiMinimumSykdomsgradOverstyring
     | ApiSykepengegrunnlagskjonnsfastsetting;
 
-export interface ApiArbeidsforhold {
-    stillingstittel: string;
-    stillingsprosent: number;
-    startdato: string;
-    /** @nullable */
-    sluttdato?: string | null;
-}
-
-export interface ApiArbeidsgiverInntekterFraAOrdningen {
-    skjaeringstidspunkt: string;
-    inntekter: ApiInntektFraAOrdningen[];
-}
-
 export interface ApiArbeidsgiver {
     organisasjonsnummer: string;
     navn: string;
     ghostPerioder: ApiGhostPeriode[];
     behandlinger: ApiBehandling[];
     overstyringer: ApiOverstyring[];
-    arbeidsforhold: ApiArbeidsforhold[];
-    inntekterFraAordningen: ApiArbeidsgiverInntekterFraAOrdningen[];
 }
 
 export interface ApiSelvstendigNaering {
