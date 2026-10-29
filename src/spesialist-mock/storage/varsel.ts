@@ -55,4 +55,8 @@ export class VarselMock {
             return 'endret';
         }
     };
+
+    static nullstill = (): void => {
+        VarselMock.varsler = [];
+    };
 }

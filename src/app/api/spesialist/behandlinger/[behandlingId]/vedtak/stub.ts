@@ -5,6 +5,7 @@ import {
     ApiPeriodehistorikkType,
     ApiPeriodetilstand,
     ApiPostVedtakErrorCode,
+    ApiSaksbildeVarselstatus,
     ApiServerSentEventEvent,
     ApiUtbetalingstatus,
 } from '@io/rest/generated/spesialist.schemas';
@@ -16,6 +17,7 @@ import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
 import { SaksbehandlerhandlingMock } from '@spesialist-mock/storage/saksbehandlerhandling';
+import { VarselMock } from '@spesialist-mock/storage/varsel';
 
 export const stub = async (request: Request, params: Promise<{ behandlingId: string }>) => {
     const { behandlingId } = await params;
@@ -68,6 +70,15 @@ export const stub = async (request: Request, params: Promise<{ behandlingId: str
         BehandlingMock.settTotrinnsvurdering(behandlingId, oppgaveId, null);
     }
     ferdigstillOppgave(oppslag, totrinnsvurdering ? lokalSaksbehandlerNavn : null);
+
+    for (const varsel of periode.varsler ?? []) {
+        if (varsel.vurdering?.status === ApiSaksbildeVarselstatus.VURDERT) {
+            VarselMock.leggTilEndretVarsel({
+                ...varsel,
+                vurdering: { ...varsel.vurdering, status: ApiSaksbildeVarselstatus.GODKJENT },
+            });
+        }
+    }
 
     const vurdering = {
         automatisk: false,

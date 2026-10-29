@@ -28,6 +28,7 @@ import {
     ApiOverstyringerForPerson,
     ApiPeriodehistorikkType,
     ApiPeriodetilstand,
+    ApiSaksbildeVarselstatus,
     ApiSykdomsdagtype,
     ApiUtbetalingsdagtype,
 } from '@io/rest/generated/spesialist.schemas';
@@ -43,6 +44,7 @@ import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person'
 import { PaVentMock } from '@spesialist-mock/storage/påvent';
 import { SaksbehandlerhandlingMock } from '@spesialist-mock/storage/saksbehandlerhandling';
 import { TildelingMock } from '@spesialist-mock/storage/tildeling';
+import { VarselMock } from '@spesialist-mock/storage/varsel';
 
 // uten_varsler.json: periode til godkjenning uten varsler
 const oppgaveId = '4959';
@@ -62,6 +64,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         HistorikkinnslagMock.nullstill();
         SaksbehandlerhandlingMock.nullstill();
         OverstyringMock.nullstill();
+        VarselMock.nullstill();
     });
 
     afterEach(() => {
@@ -89,6 +92,27 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
     it('avviser vedtak når perioden har uvurderte varsler', async () => {
         await forventFeil(fattVedtak(behandlingIdMedUvurdertVarsel), 400, 'VARSLER_MANGLER_VURDERING');
+    });
+
+    it('godkjenner vurderte varsler når vedtaket fattes', async () => {
+        for (const varsel of periode(behandlingIdMedUvurdertVarsel).varsler) {
+            VarselMock.leggTilEndretVarsel({
+                ...varsel,
+                vurdering: { status: ApiSaksbildeVarselstatus.VURDERT, ident: 'A123456', tidsstempel: '2026-01-01' },
+            });
+        }
+
+        expect((await fattVedtak(behandlingIdMedUvurdertVarsel)).status).toBe(204);
+
+        const varsler = periode(behandlingIdMedUvurdertVarsel).varsler;
+        expect(varsler.length).toBeGreaterThan(0);
+        expect(varsler.map((it) => it.vurdering)).toEqual(
+            varsler.map(() => ({
+                status: ApiSaksbildeVarselstatus.GODKJENT,
+                ident: 'A123456',
+                tidsstempel: '2026-01-01',
+            })),
+        );
     });
 
     it('avviser vedtak på eldre behandling', async () => {
