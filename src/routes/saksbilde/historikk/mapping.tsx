@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import {
+    ApiAnnullering,
     ApiArbeidsgiver,
     ApiBehandling,
     ApiBeregnetPeriode,
@@ -187,13 +188,13 @@ export const getVedtakBegrunnelser = (period: ApiBeregnetPeriode): VedtakBegrunn
             };
         });
 
-export const getAnnullering = (period: ApiBeregnetPeriode): AnnulleringhendelseObject | null => {
-    if (!period.annullering) return null;
+export const getAnnullering = (annullering: ApiAnnullering | null): AnnulleringhendelseObject | null => {
+    if (!annullering) return null;
 
-    const { arsaker, begrunnelse, saksbehandlerIdent, tidspunkt } = period.annullering;
+    const { arsaker, begrunnelse, saksbehandlerIdent, tidspunkt } = annullering;
 
     return {
-        id: `annullering-${period.annullering.arbeidsgiverFagsystemId}`,
+        id: `annullering-${annullering.arbeidsgiverFagsystemId}`,
         type: 'Annullering',
         årsaker: arsaker,
         begrunnelse: begrunnelse ?? null,

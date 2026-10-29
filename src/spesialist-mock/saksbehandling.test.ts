@@ -10,6 +10,7 @@ import { postStub as sendTilGodkjenningStub } from '@app/api/spesialist/oppgaver
 import { stub as paVentForPersonStub } from '@app/api/spesialist/personer/[pseudoId]/pa-vent/stub';
 import { stub as skjønnsfastsettingStub } from '@app/api/spesialist/personer/[pseudoId]/sykefravaerstilfeller/[skjæringstidspunkt]/sykepengegrunnlag/stub';
 import { stub as annullerStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/annuller/stub';
+import { stub as annulleringStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/annullering/stub';
 import { stub as overstyrArbeidsforholdStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/arbeidsforhold/stub';
 import { stub as overstyrInntektStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/inntekt-og-refusjon/stub';
 import { stub as overstyrTidslinjeStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/tidslinje/stub';
@@ -167,8 +168,13 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
 
     it('annullerer en utbetalt periode', async () => {
         const vedtaksperiodeId = finnUtbetaltVedtaksperiodeId();
+        expect((await hentAnnullering(vedtaksperiodeId)).annullering).toBeNull();
 
         expect((await annuller(vedtaksperiodeId)).status).toBe(204);
+        expect((await hentAnnullering(vedtaksperiodeId)).annullering).toMatchObject({
+            vedtaksperiodeId,
+            arsaker: ['Feil'],
+        });
         expect(finnNyestePeriodeForVedtaksperiodeId(vedtaksperiodeId)?.periode).toMatchObject({
             periodetilstand: ApiPeriodetilstand.TilAnnullering,
             annullering: { vedtaksperiodeId, arsaker: ['Feil'] },
@@ -450,6 +456,11 @@ function annuller(id: string) {
 
 async function hentPåVent() {
     const response = await paVentForPersonStub(lagRequest({}), Promise.resolve({ pseudoId: personPseudoId() }));
+    return response.json();
+}
+
+async function hentAnnullering(vedtaksperiodeId: string) {
+    const response = await annulleringStub(lagRequest({}), Promise.resolve({ vedtaksperiodeId }));
     return response.json();
 }
 

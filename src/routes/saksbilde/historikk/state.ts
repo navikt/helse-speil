@@ -2,6 +2,7 @@ import dayjs from 'dayjs';
 import { atom, useAtom, useAtomValue } from 'jotai';
 
 import {
+    ApiAnnullering,
     ApiBeregnetPeriode,
     ApiGhostPeriode,
     ApiNotat,
@@ -9,6 +10,7 @@ import {
     ApiSaksbildePerson,
     ApiUberegnetPeriode,
 } from '@io/rest/generated/spesialist.schemas';
+import { useAnnulleringForPeriode } from '@state/annullering';
 import { finnArbeidsgiverForGhostPeriode } from '@state/inntektsforhold/arbeidsgiver';
 import { finnAlleInntektsforhold, finnInntektsforholdForPeriode } from '@state/inntektsforhold/inntektsforhold';
 import { atomWithSessionStorage } from '@state/jotai';
@@ -44,6 +46,7 @@ const getHendelserForBeregnetPeriode = (
     person: ApiSaksbildePerson,
     notater: ApiNotat[],
     saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
+    annullering: ApiAnnullering | null,
 ): HendelseObject[] => {
     const inntektsforhold = finnInntektsforholdForPeriode(person, periode);
     if (!inntektsforhold) {
@@ -69,7 +72,7 @@ const getHendelserForBeregnetPeriode = (
         ...tilNotathendelse(notater),
         ...getHistorikkinnslag(periode),
         getUtbetalingshendelse(periode),
-        getAnnullering(periode),
+        getAnnullering(annullering),
     ].filter((hendelse) => hendelse !== null) as HendelseObject[];
 
     return [...hendelserTomUtbetalingstidspunkt, ...hendelserForAlleUtbetalinger].sort(byTimestamp);
@@ -126,12 +129,13 @@ const useHistorikk = (
     saksbehandlerhandlinger: ApiSaksbehandlerhandling[],
 ): HendelseObject[] => {
     const activePeriod = useActivePeriod(person);
+    const annullering = useAnnulleringForPeriode(person, activePeriod);
     if (!person || !activePeriod) {
         return [];
     }
 
     if (isBeregnetPeriode(activePeriod)) {
-        return getHendelserForBeregnetPeriode(activePeriod, person, notater, saksbehandlerhandlinger);
+        return getHendelserForBeregnetPeriode(activePeriod, person, notater, saksbehandlerhandlinger, annullering);
     } else if (isUberegnetPeriode(activePeriod)) {
         return getHendelserForUberegnetPeriode(activePeriod, person, notater, saksbehandlerhandlinger);
     } else if (isGhostPeriode(activePeriod)) {

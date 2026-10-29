@@ -102,7 +102,7 @@ export const refetchPersondata = async (queryClient: QueryClient, personPseudoId
 };
 
 // Ressurser per vedtaksperiode lastes når de trengs, og alle som er i cachen refetches sammen med personen
-const vedtaksperioderessurs = /^\/api\/spesialist\/vedtaksperioder\/[^/]+\/(risikovurdering)$/;
+const vedtaksperioderessurs = /^\/api\/spesialist\/vedtaksperioder\/[^/]+\/(risikovurdering|annullering)$/;
 
 const erVedtaksperiodenøkkel = (queryKey: QueryKey): boolean =>
     typeof queryKey[0] === 'string' && vedtaksperioderessurs.test(queryKey[0]);

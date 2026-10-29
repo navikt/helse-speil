@@ -26,6 +26,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { usePostVedtaksperiodeAnnuller } from '@io/rest/generated/vedtaksperioder/vedtaksperioder';
+import { useInvaliderAnnullering } from '@state/annullering';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useAddToast } from '@state/toasts';
 import { somNorskDato } from '@utils/date';
@@ -54,6 +55,7 @@ export function AnnulleringsDialogInnhold({
     const { mutate, isPending, error } = usePostVedtaksperiodeAnnuller();
     const erINyesteSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const addToast = useAddToast();
+    const invaliderAnnullering = useInvaliderAnnullering();
     const { arsaker, loading: arsakerLoading } = useArsaker('annulleringsarsaker');
 
     const form = useForm<AnnulleringSkjema>({
@@ -83,6 +85,7 @@ export function AnnulleringsDialogInnhold({
             },
             {
                 onSuccess: () => {
+                    void invaliderAnnullering(vedtaksperiodeId);
                     addToast({
                         message: 'Annulleringen er sendt',
                         timeToLiveMs: 5000,
