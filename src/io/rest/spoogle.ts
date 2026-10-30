@@ -19,7 +19,7 @@ export type SpoogleTreff = {
     behandlingId?: string;
 };
 
-const søkISpoogle = async (id: string): Promise<SpoogleTreff> => {
+export const søkISpoogle = async (id: string): Promise<SpoogleTreff> => {
     // Spoogle svarer med text/plain selv om innholdet er JSON
     const svar = await getJson<SpoogleSøkResponse | string>(`/api/spoogle/sok/${encodeURIComponent(id)}`);
     const { tree, path }: SpoogleSøkResponse = typeof svar === 'string' ? JSON.parse(svar) : svar;
