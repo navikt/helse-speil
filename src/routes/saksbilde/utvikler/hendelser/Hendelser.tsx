@@ -5,7 +5,7 @@ import { BodyShort, HStack, Loader, Switch, Table, TextField, VStack } from '@na
 import { useSparsomAktiviteterQuery } from '@io/rest/sparsom';
 
 import { Hendelse } from './Hendelse';
-import { erPåminnelse, hendelserForVedtaksperiode } from './hendelsegruppering';
+import { erPåminnelse, grupperIHendelser } from './hendelsegruppering';
 
 interface HendelserProps {
     vedtaksperiodeId: string;
@@ -13,7 +13,7 @@ interface HendelserProps {
 }
 
 export function Hendelser({ vedtaksperiodeId, fødselsnummer }: HendelserProps) {
-    const { data, isPending, error } = useSparsomAktiviteterQuery(fødselsnummer);
+    const { data, isPending, error } = useSparsomAktiviteterQuery(fødselsnummer, vedtaksperiodeId);
     const [bareFeil, setBareFeil] = useState(false);
     const [skjulPåminnelser, setSkjulPåminnelser] = useState(true);
     const [eldsteFørst, setEldsteFørst] = useState(false);
@@ -22,7 +22,7 @@ export function Hendelser({ vedtaksperiodeId, fødselsnummer }: HendelserProps) 
     if (isPending) return <Loader size="medium" title="Henter hendelser fra Sparsom" />;
     if (error) return <BodyShort>Kunne ikke hente hendelser fra Sparsom: {error.message}</BodyShort>;
 
-    const hendelser = hendelserForVedtaksperiode(data.aktiviteter, vedtaksperiodeId)
+    const hendelser = grupperIHendelser(data.aktiviteter)
         .filter((it) => !skjulPåminnelser || !erPåminnelse(it) || it.harFeil || it.harVarsel)
         .filter((it) => !bareFeil || it.harFeil || it.harVarsel)
         .filter((it) => it.type.toLowerCase().startsWith(prefix.toLowerCase()))

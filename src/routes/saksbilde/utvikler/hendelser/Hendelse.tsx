@@ -3,11 +3,12 @@ import React, { useState } from 'react';
 
 import { BodyShort, Box, Button, CopyButton, HStack, Loader, Table, Tooltip, VStack } from '@navikt/ds-react';
 
+import { SparsomAktivitet } from '@io/rest/sparsom';
 import { useSpleisHendelseQuery } from '@io/rest/spleis';
 import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
 import { getFormattedDatetimeString } from '@utils/date';
 
-import { HendelseAktivitet, Hendelse as HendelseType, erLagretISpleis } from './hendelsegruppering';
+import { Hendelse as HendelseType, erLagretISpleis } from './hendelsegruppering';
 
 interface HendelseProps {
     hendelse: HendelseType;
@@ -80,7 +81,7 @@ export function Hendelse({ hendelse }: HendelseProps) {
     );
 }
 
-function Aktivitet({ aktivitet }: { aktivitet: HendelseAktivitet }) {
+function Aktivitet({ aktivitet }: { aktivitet: SparsomAktivitet }) {
     return (
         <HStack
             as="li"
@@ -89,7 +90,6 @@ function Aktivitet({ aktivitet }: { aktivitet: HendelseAktivitet }) {
             className={classNames(
                 aktivitet.nivå === 'VARSEL' && 'bg-ax-bg-warning-soft',
                 (aktivitet.nivå === 'FUNKSJONELL_FEIL' || aktivitet.nivå === 'LOGISK_FEIL') && 'bg-ax-bg-danger-soft',
-                !aktivitet.gjelderVedtaksperioden && 'text-ax-text-neutral-subtle italic',
             )}
         >
             <BodyShort size="small" className="w-36 shrink-0">

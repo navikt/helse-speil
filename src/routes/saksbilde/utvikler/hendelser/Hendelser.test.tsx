@@ -47,7 +47,7 @@ describe('Hendelser', () => {
         expect(screen.getByRole('cell', { name: 'Påminnelse' })).toBeInTheDocument();
 
         const [, init] = fetchMock.mock.calls.find(([input]) => String(input) === '/api/sparsom/aktiviteter')!;
-        expect(JSON.parse(init!.body as string)).toEqual({ ident: fødselsnummer });
+        expect(JSON.parse(init!.body as string)).toEqual({ ident: fødselsnummer, vedtaksperiodeId });
     });
 
     it('viser aktivitetene når hendelsen ekspanderes', async () => {

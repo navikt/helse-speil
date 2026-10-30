@@ -5,6 +5,7 @@ import { withDefaultQueryOptions } from './defaultQueryOptions';
 
 export type SparsomAktiviteterRequest = {
     ident: string;
+    vedtaksperiodeId?: string;
 };
 
 export type SparsomAktivitetNivå = 'INFO' | 'BEHOV' | 'VARSEL' | 'FUNKSJONELL_FEIL' | 'LOGISK_FEIL';
@@ -23,24 +24,24 @@ export type SparsomAktiviteterResponse = {
     aktiviteter: SparsomAktivitet[];
 };
 
-export function getSparsomAktiviteterQueryKey(fødselsnummer?: string) {
-    return ['/api/sparsom/aktiviteter', fødselsnummer] as const;
+export function getSparsomAktiviteterQueryKey(fødselsnummer?: string, vedtaksperiodeId?: string) {
+    return ['/api/sparsom/aktiviteter', fødselsnummer, vedtaksperiodeId] as const;
 }
 
-export function useSparsomAktiviteterQuery(fødselsnummer?: string) {
+export function useSparsomAktiviteterQuery(fødselsnummer?: string, vedtaksperiodeId?: string) {
     return useQuery(
         withDefaultQueryOptions({
-            queryKey: getSparsomAktiviteterQueryKey(fødselsnummer),
-            queryFn: ({ signal }) => postHentAktiviteter(fødselsnummer!, signal),
+            queryKey: getSparsomAktiviteterQueryKey(fødselsnummer, vedtaksperiodeId),
+            queryFn: ({ signal }) => postHentAktiviteter(fødselsnummer!, vedtaksperiodeId, signal),
             enabled: !!fødselsnummer,
         }),
     );
 }
 
-function postHentAktiviteter(fødselsnummer: string, signal?: AbortSignal) {
+function postHentAktiviteter(fødselsnummer: string, vedtaksperiodeId?: string, signal?: AbortSignal) {
     return postJson<SparsomAktiviteterResponse>(
         '/api/sparsom/aktiviteter',
-        { ident: fødselsnummer } satisfies SparsomAktiviteterRequest,
+        { ident: fødselsnummer, vedtaksperiodeId } satisfies SparsomAktiviteterRequest,
         { signal },
     );
 }

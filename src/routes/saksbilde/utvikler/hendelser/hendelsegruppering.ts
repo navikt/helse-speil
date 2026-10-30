@@ -1,14 +1,10 @@
 import { SparsomAktivitet } from '@io/rest/sparsom';
 
-export type HendelseAktivitet = SparsomAktivitet & {
-    gjelderVedtaksperioden: boolean;
-};
-
 export type Hendelse = {
     meldingsreferanseId: string;
     type: string;
     opprettet: string;
-    aktiviteter: HendelseAktivitet[];
+    aktiviteter: SparsomAktivitet[];
     harFeil: boolean;
     harVarsel: boolean;
 };
@@ -23,26 +19,17 @@ export function erLagretISpleis(hendelse: Hendelse): boolean {
     return !hendelsetyperSomIkkeLagresISpleis.includes(hendelse.type);
 }
 
-export function hendelserForVedtaksperiode(aktiviteter: SparsomAktivitet[], vedtaksperiodeId: string): Hendelse[] {
+export function grupperIHendelser(aktiviteter: SparsomAktivitet[]): Hendelse[] {
     return grupperPåMeldingsreferanse(aktiviteter)
         .map(({ meldingsreferanseId, type, aktiviteter }) => ({
             meldingsreferanseId,
             type,
             opprettet: aktiviteter[0]!.tidsstempel,
-            aktiviteter: aktiviteter.map((aktivitet) => ({
-                ...aktivitet,
-                gjelderVedtaksperioden: Object.values(aktivitet.kontekster).some(
-                    (kontekst) => kontekst.vedtaksperiodeId === vedtaksperiodeId,
-                ),
-            })),
+            aktiviteter,
             harFeil: aktiviteter.some((it) => it.nivå === 'FUNKSJONELL_FEIL' || it.nivå === 'LOGISK_FEIL'),
             harVarsel: aktiviteter.some((it) => it.nivå === 'VARSEL'),
         }))
-        .filter((hendelse) =>
-            hendelse.aktiviteter.some(
-                (aktivitet) => aktivitet.gjelderVedtaksperioden && !aktivitet.tekst.match(/Forsøker å gjenoppta/),
-            ),
-        );
+        .filter((hendelse) => hendelse.aktiviteter.some((aktivitet) => !aktivitet.tekst.match(/Forsøker å gjenoppta/)));
 }
 
 type GruppertHendelse = {

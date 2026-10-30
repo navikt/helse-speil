@@ -5,7 +5,8 @@ import { SparsomAktivitet, SparsomAktiviteterRequest, SparsomAktiviteterResponse
 import { lesTestpersonfiler } from '@spesialist-mock/storage/person';
 
 export async function stub(request: NextRequest) {
-    const { ident }: Partial<SparsomAktiviteterRequest> = await request.json();
+    const { ident, vedtaksperiodeId: ønsketVedtaksperiodeId }: Partial<SparsomAktiviteterRequest> =
+        await request.json();
     if (ident == null) return new Response(null, { status: 400 });
 
     const person = lesTestpersonfiler().find((fil) => fil.saksbilde.fodselsnummer === ident)?.saksbilde;
@@ -20,7 +21,8 @@ export async function stub(request: NextRequest) {
         ) ?? [];
     const unikeVedtaksperioder = vedtaksperioder.filter(
         (periode, index) =>
-            vedtaksperioder.findIndex((it) => it.vedtaksperiodeId === periode.vedtaksperiodeId) === index,
+            vedtaksperioder.findIndex((it) => it.vedtaksperiodeId === periode.vedtaksperiodeId) === index &&
+            (ønsketVedtaksperiodeId == null || periode.vedtaksperiodeId === ønsketVedtaksperiodeId),
     );
 
     let id = 0;
