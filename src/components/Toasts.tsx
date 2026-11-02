@@ -1,6 +1,5 @@
 'use client';
 
-import { AnimatePresence } from 'motion/react';
 import React from 'react';
 
 import { Toast } from '@components/Toast';
@@ -13,13 +12,11 @@ export const Toasts = () => {
 
     return (
         <div className={styles.Toasts}>
-            <AnimatePresence>
-                {toasts.map((it) => (
-                    <Toast variant={it.variant} key={it.key} id={it.key}>
-                        {it.message}
-                    </Toast>
-                ))}
-            </AnimatePresence>
+            {toasts.map((it) => (
+                <Toast variant={it.variant} key={it.key} id={it.key}>
+                    {it.message}
+                </Toast>
+            ))}
         </div>
     );
 };

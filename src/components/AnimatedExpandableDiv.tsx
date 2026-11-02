@@ -1,51 +1,40 @@
-import { AnimatePresence, motion } from 'motion/react';
-import React, { PropsWithChildren, ReactElement, useRef } from 'react';
+import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
+
+import { cn } from '@utils/tw';
+
+const DURATION_MS = 200;
+
+type Phase = 'closed' | 'opening' | 'open' | 'closing';
 
 interface AnimatedExpandableDivProps extends PropsWithChildren {
     expanded: boolean;
 }
 
-export const AnimatedExpandableDiv = ({ expanded, children }: AnimatedExpandableDivProps): ReactElement => {
-    // `overflow: hidden` is only needed while the height is animating (to avoid content
-    // flashing outside the collapsed box). At rest, `overflow: visible` lets focus rings
-    // and other content that extends slightly outside the box (e.g. a focused Textarea)
-    // render without being clipped.
-    // The overflow is toggled imperatively (not via React state) so we don't trigger a
-    // re-render on every animation start/complete, which was fighting with Framer Motion's
-    // own render loop and made the expand/collapse animation sluggish.
-    const ref = useRef<HTMLDivElement>(null);
+export function AnimatedExpandableDiv({ expanded, children }: AnimatedExpandableDivProps): ReactElement | null {
+    const [phase, setPhase] = useState<Phase>(expanded ? 'open' : 'closed');
+
+    if (expanded && (phase === 'closed' || phase === 'closing')) setPhase('opening');
+    if (!expanded && (phase === 'open' || phase === 'opening')) setPhase('closing');
+
+    // Innholdet fjernes fra DOM først når lukkeanimasjonen er ferdig. Timer i stedet for transitionend,
+    // fordi transitionend ikke fyrer med prefers-reduced-motion eller i jsdom.
+    useEffect(() => {
+        if (phase !== 'opening' && phase !== 'closing') return;
+        const timeout = setTimeout(() => setPhase(phase === 'opening' ? 'open' : 'closed'), DURATION_MS);
+        return () => clearTimeout(timeout);
+    }, [phase]);
+
+    if (phase === 'closed') return null;
 
     return (
-        <AnimatePresence mode="wait">
-            {expanded && (
-                <motion.div
-                    key="div"
-                    ref={ref}
-                    style={{ overflow: 'visible' }}
-                    variants={{ lukket: { height: 0 }, åpen: { height: 'auto' } }}
-                    initial="lukket"
-                    exit="lukket"
-                    animate="åpen"
-                    onAnimationStart={() => {
-                        if (ref.current) {
-                            ref.current.style.overflow = 'hidden';
-                        }
-                    }}
-                    onAnimationComplete={(definition) => {
-                        // Etter lukking er høyden 0, så synlig overflow ville vist innholdet et øyeblikk før det fjernes
-                        if (ref.current && definition === 'åpen') {
-                            ref.current.style.overflow = 'visible';
-                        }
-                    }}
-                    transition={{
-                        type: 'tween',
-                        duration: 0.2,
-                        ease: 'easeInOut',
-                    }}
-                >
-                    {children}
-                </motion.div>
+        <div
+            className={cn(
+                'grid transition-[grid-template-rows] duration-200 ease-in-out motion-reduce:transition-none',
+                phase === 'closing' ? 'grid-rows-[0fr]' : 'grid-rows-[1fr] starting:grid-rows-[0fr]',
             )}
-        </AnimatePresence>
+        >
+            {/* overflow: hidden bare mens høyden animeres, så fokusringer o.l. ikke klippes når den står åpen */}
+            <div className={cn('min-h-0', phase !== 'open' && 'overflow-hidden')}>{children}</div>
+        </div>
     );
-};
+}

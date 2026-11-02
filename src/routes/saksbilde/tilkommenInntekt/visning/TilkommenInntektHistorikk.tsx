@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
 
@@ -52,15 +51,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
                 visSidemeny={showHøyremeny && showHistorikk}
                 localStorageNavn="historikkBredde"
             >
-                <motion.div
-                    key="historikk"
-                    transition={{
-                        type: 'tween',
-                        duration: 0.2,
-                        ease: 'easeInOut',
-                    }}
-                    style={{ overflow: 'hidden' }}
-                >
+                <div className="overflow-hidden">
                     <VStack>
                         <HStack padding="space-16" justify="space-between" align="center">
                             <BodyShort size="small">HISTORIKK</BodyShort>
@@ -72,7 +63,7 @@ const TilkommenInntektHistorikkWithContent = (): ReactElement => {
                             ))}
                         </VStack>
                     </VStack>
-                </motion.div>
+                </div>
             </JusterbarSidemeny>
             {person && showHøyremeny && <OpenedDokument person={person} />}
             <TilkommenInntektHistorikkmeny />

@@ -1,7 +1,7 @@
-import { motion } from 'motion/react';
 import React, { ReactElement } from 'react';
 
 import { useGetBehandlingsstatistikk } from '@io/rest/generated/behandlingsstatistikk/behandlingsstatistikk';
+import { cn } from '@utils/tw';
 
 import { BehandlingsstatistikkError } from './BehandlingsstatistikkError';
 import { BehandlingsstatistikkSkeleton } from './BehandlingsstatistikkSkeleton';
@@ -16,22 +16,23 @@ export const BehandlingsstatistikkView = (): ReactElement => {
     const { isLoading, error, data } = useGetBehandlingsstatistikk();
 
     return (
-        <motion.div
-            key="behandlingsstatistikk"
-            initial={{ width: show ? 'max-content' : 0 }}
-            animate={{ width: show ? 'max-content' : 0 }}
-            transition={{
-                type: 'tween',
-                duration: 0.2,
-                ease: 'easeInOut',
-            }}
-            style={{ overflow: 'visible' }}
+        <div
+            className={cn(
+                'grid transition-[grid-template-columns] duration-200 ease-in-out motion-reduce:transition-none',
+                show ? 'grid-cols-[1fr]' : 'grid-cols-[0fr]',
+            )}
         >
-            <div className={styles.Behandlingsstatistikk} role="region" aria-labelledby="behandlingsstatistikk-toggle">
-                {data && <BehandlingsstatistikkTable behandlingsstatistikk={data} />}
-                {error && <BehandlingsstatistikkError />}
-                {isLoading && <BehandlingsstatistikkSkeleton />}
+            <div className="min-w-0 overflow-hidden">
+                <div
+                    className={styles.Behandlingsstatistikk}
+                    role="region"
+                    aria-labelledby="behandlingsstatistikk-toggle"
+                >
+                    {data && <BehandlingsstatistikkTable behandlingsstatistikk={data} />}
+                    {error && <BehandlingsstatistikkError />}
+                    {isLoading && <BehandlingsstatistikkSkeleton />}
+                </div>
             </div>
-        </motion.div>
+        </div>
     );
 };

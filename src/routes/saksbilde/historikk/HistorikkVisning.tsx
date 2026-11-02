@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { ReactElement } from 'react';
 
 import { BodyShort, HStack, LocalAlert, VStack } from '@navikt/ds-react';
@@ -43,15 +42,7 @@ export function HistorikkVisning({
                 visSidemeny={visHøyremeny && visHistorikk}
                 localStorageNavn="historikkBredde"
             >
-                <motion.div
-                    key="historikk"
-                    transition={{
-                        type: 'tween',
-                        duration: 0.2,
-                        ease: 'easeInOut',
-                    }}
-                    style={{ overflow: 'hidden' }}
-                >
+                <div className="overflow-hidden">
                     {harNotatError && (
                         <LocalAlert status="error" size="small" as="div" className="m-2">
                             <LocalAlert.Header>
@@ -78,7 +69,7 @@ export function HistorikkVisning({
                             ))}
                         </VStack>
                     </VStack>
-                </motion.div>
+                </div>
             </JusterbarSidemeny>
             {visHøyremeny && <OpenedDokument person={person} />}
             <Historikkmeny />
