@@ -32,7 +32,6 @@ export default defineConfig({
             '@external': resolve(import.meta.dirname, './src/external'),
             '@hooks': resolve(import.meta.dirname, './src/hooks'),
             '@io': resolve(import.meta.dirname, './src/io'),
-            '@nais': resolve(import.meta.dirname, './src/nais'),
             '@observability': resolve(import.meta.dirname, './src/observability'),
             '@routes': resolve(import.meta.dirname, './src/routes'),
             '@saksbilde': resolve(import.meta.dirname, './src/routes/saksbilde'),

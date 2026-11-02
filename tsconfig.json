@@ -29,7 +29,6 @@
             "@form-schemas/*": ["./src/form-schemas/*"],
             "@hooks/*": ["./src/hooks/*"],
             "@io/*": ["./src/io/*"],
-            "@nais/*": ["./src/nais/*"],
             "@observability/*": ["./src/observability/*"],
             "@oversikt/*": ["./src/routes/oversikt/*"],
             "@routes/*": ["./src/routes/*"],
