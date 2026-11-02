@@ -20,5 +20,3 @@ dayjs.extend(customParseFormat);
 dayjs.locale('nb');
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
-export default dayjs;

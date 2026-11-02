@@ -5,8 +5,6 @@ import { atomWithSessionStorage } from '@state/jotai';
 
 export const limit = 14;
 
-export const offset = (page: number) => limit * (page - 1);
-
 type TabPageState = { hash: string; page: number };
 type CurrentPagePerTab = { [key in TabType]: TabPageState };
 

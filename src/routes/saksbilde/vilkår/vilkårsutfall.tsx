@@ -3,8 +3,6 @@ import React, { PropsWithChildren, ReactElement } from 'react';
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { HStack, Tag } from '@navikt/ds-react';
 
-import { ApiUtfall } from '@io/rest/generated/vilkarsproving.schemas';
-
 export type Vilkårsutfall = 'Oppfylt' | 'IkkeOppfylt' | 'IkkeVurdert';
 
 export function VilkårsutfallIkon({ utfall }: { utfall: Vilkårsutfall }): ReactElement {
@@ -53,17 +51,6 @@ export function VurdertAvSaksbehandler({ tidspunkt, ident }: { tidspunkt: string
 
 export function utfallFraOppfylt(oppfylt: boolean | null | undefined): Vilkårsutfall {
     return oppfylt === true ? 'Oppfylt' : oppfylt === false ? 'IkkeOppfylt' : 'IkkeVurdert';
-}
-
-export function utfallFraApi(utfall?: ApiUtfall): Vilkårsutfall {
-    switch (utfall) {
-        case ApiUtfall.OPPFYLT:
-            return 'Oppfylt';
-        case ApiUtfall.IKKE_OPPFYLT:
-            return 'IkkeOppfylt';
-        default:
-            return 'IkkeVurdert';
-    }
 }
 
 export function utfallstekst(utfall: Vilkårsutfall): string {

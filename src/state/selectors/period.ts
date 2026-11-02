@@ -3,7 +3,6 @@ import dayjs from 'dayjs';
 import {
     ApiBeregnetPeriode,
     ApiPeriode,
-    ApiPeriodetilstand,
     ApiSaksbildePerson,
     ApiUberegnetPeriode,
 } from '@io/rest/generated/spesialist.schemas';
@@ -33,16 +32,6 @@ export const harBlittUtbetaltTidligere = (
             ).length > 0
     );
 };
-
-export const isNotReady = (period: ApiPeriode) =>
-    (
-        [
-            ApiPeriodetilstand.VenterPaEnAnnenPeriode,
-            ApiPeriodetilstand.ForberederGodkjenning,
-            ApiPeriodetilstand.ManglerInformasjon,
-            ApiPeriodetilstand.AvventerInntektsopplysninger,
-        ] as ApiPeriodetilstand[]
-    ).includes(period.periodetilstand);
 
 export const isInCurrentGeneration = (period: ActivePeriod, arbeidsgiver: Inntektsforhold): boolean => {
     const sisteBehandling = arbeidsgiver.behandlinger[0];

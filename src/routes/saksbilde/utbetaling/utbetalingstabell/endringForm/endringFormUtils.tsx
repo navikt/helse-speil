@@ -1,5 +1,3 @@
-import assert from 'assert';
-
 import {
     ArbeidIkkeGjenopptattDag,
     Arbeidsdag,
@@ -49,12 +47,6 @@ export const typeendringerAndreYtelser: Speildag[] = [
 export const alleTypeendringer: Speildag[] = Array.from(
     new Set([...overstyringsdagtyperArbeidstaker, ...typeendringerAndreYtelser, ...overstyringsdagtyperSelvstendig]),
 );
-
-export const getDagFromType = (type: OverstyrbarDagtype): Speildag => {
-    const speilDag = alleTypeendringer.find((dag) => dag.speilDagtype === type);
-    assert(speilDag, 'Fant ikke Speildag som matchet OverstyrbarDagtype');
-    return speilDag;
-};
 
 export enum OverstyrbarDagtype {
     // Vi ble bedt om å fjerne muligheten for å endre til AAP og Dagpenger til å begynne med.

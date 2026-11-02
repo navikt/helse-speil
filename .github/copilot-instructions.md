@@ -33,7 +33,7 @@ The main routes are:
 
 The app talks to the backend ("spesialist") over REST via TanStack React Query. Hooks and types are generated from spesialist's OpenAPI spec with Orval into `src/io/rest/generated/`. Never edit these files manually.
 
-The person shown in the case view comes from `GET /api/personer/{pseudoId}/saksbilde`. Use `useFetchPersonQuery` in `src/state/person.ts` to read it, and `useOppdaterPersonICache`/`useRefetchPerson` to update it after mutations. Polymorphic types (periods, vilkårsgrunnlag, hendelser, overstyringer, historikkinnslag) are discriminated on the `type` field, e.g. `'ApiBeregnetPeriode'`.
+The person shown in the case view comes from `GET /api/personer/{pseudoId}/saksbilde`. Use `useFetchPersonQuery` in `src/state/person.ts` to read it, and `useOppdaterPersonICache` to update it after mutations. Polymorphic types (periods, vilkårsgrunnlag, hendelser, overstyringer, historikkinnslag) are discriminated on the `type` field, e.g. `'ApiBeregnetPeriode'`.
 
 ### Backend proxy pattern
 

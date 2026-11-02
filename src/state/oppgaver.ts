@@ -33,12 +33,6 @@ import { SortKey, useSorteringValue } from '@oversikt/table/state/sortation';
 import { useQueryClient } from '@tanstack/react-query';
 import { InfoAlert } from '@utils/error';
 
-export type FetchMoreArgs = {
-    variables: {
-        offset: number;
-    };
-};
-
 interface OppgaveFeedResponse {
     oppgaver?: ApiOppgaveProjeksjon[];
     error: HttpError<ApiHttpProblemDetailsApiGetOppgaverErrorCode> | null;

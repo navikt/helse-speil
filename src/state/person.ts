@@ -93,16 +93,6 @@ export const useOppdaterPersonICache = () => {
     };
 };
 
-export const useRefetchPerson = () => {
-    const queryClient = useQueryClient();
-    const personPseudoId = usePersonPseudoId();
-
-    return async () => {
-        if (!personPseudoId) return;
-        await refetchPersondata(queryClient, personPseudoId);
-    };
-};
-
 export const refetchPersondata = async (queryClient: QueryClient, personPseudoId: string) => {
     const nøkler = [
         getGetSaksbildeForPersonQueryKey(personPseudoId),
