@@ -1,6 +1,5 @@
-import { nextleton } from 'nextleton';
-
 import prometheus from '@prometheus-io/client';
+import { singleton } from '@utils/singleton';
 
 class Metrics {
     public authErrorCounter = new prometheus.Counter({
@@ -22,4 +21,4 @@ class Metrics {
     });
 }
 
-export const metrics = nextleton('metrics', () => new Metrics());
+export const metrics = singleton('metrics', () => new Metrics());

@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
-import { nextleton } from 'nextleton';
 
 import { ApiNotat, ApiNotatType } from '@io/rest/generated/spesialist.schemas';
 import { UUID } from '@typer/spesialist-mock';
 import { ISO_TIDSPUNKTFORMAT } from '@utils/date';
+import { singleton } from '@utils/singleton';
 
 import { oppgaveVedtaksperioder } from '../data/oppgaver';
 
@@ -108,6 +108,6 @@ class NotatMock {
     });
 }
 
-const mock = nextleton('notatMock', () => new NotatMock());
+const mock = singleton('notatMock', () => new NotatMock());
 
 export { mock as NotatMock };
