@@ -1,8 +1,8 @@
 import React, { ReactNode, useEffect, useRef } from 'react';
-import { useDebounce } from 'use-debounce';
 
 import { Loader } from '@navikt/ds-react';
 
+import { useDebouncedValue } from '@hooks/useDebouncedValue';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
 
@@ -12,7 +12,7 @@ interface UseIsLoadingToastOptions {
 }
 
 export const useLoadingToast = ({ isLoading, message }: UseIsLoadingToastOptions) => {
-    const [showToast] = useDebounce(isLoading, 250);
+    const showToast = useDebouncedValue(isLoading, 250);
 
     const addToast = useAddToast();
     const removeToast = useRemoveToast();
