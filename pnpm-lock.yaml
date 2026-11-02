@@ -329,9 +329,6 @@ importers:
       pino-pretty:
         specifier: ^13.2.0
         version: 13.2.0
-      postcss:
-        specifier: ^8.5.32
-        version: 8.5.32
       prettier:
         specifier: ^3.9.10
         version: 3.9.10
