@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { atom, useAtomValue, useSetAtom } from 'jotai';
-import * as R from 'remeda';
 
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import {
@@ -80,20 +79,17 @@ export const harPeriodeDagerMedUnder20ProsentTotalGrad = (
     arbeidsgivere: Inntektsforhold[],
     skjæringstidspunkt: string,
 ): boolean => {
-    const alleOverlappendePerioderPåSkjæringstidspunkt: ApiPeriode[] = R.pipe(
-        arbeidsgivere,
-        R.flatMap((ag) => ag.behandlinger?.[0]?.perioder),
-        R.filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it)),
-        R.filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt),
-        R.filter((it) => overlapper(it)(periode)),
-    );
+    const alleOverlappendePerioderPåSkjæringstidspunkt: ApiPeriode[] = arbeidsgivere
+        .flatMap((ag) => ag.behandlinger?.[0]?.perioder)
+        .filter((it) => isBeregnetPeriode(it) || isUberegnetPeriode(it))
+        .filter((it) => it.skjaeringstidspunkt === skjæringstidspunkt)
+        .filter((it) => overlapper(it)(periode));
 
-    return R.pipe(
-        alleOverlappendePerioderPåSkjæringstidspunkt,
-        R.flatMap((it) => it.tidslinje),
-        R.filter((it) => erIPeriode(it.dato, periode)),
-        R.filter((dag) => dag?.sykdomsdagtype === 'SYKEDAG' || dag?.sykdomsdagtype === 'SYKEDAG_NAV'),
-    ).some((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
+    return alleOverlappendePerioderPåSkjæringstidspunkt
+        .flatMap((it) => it.tidslinje)
+        .filter((it) => erIPeriode(it.dato, periode))
+        .filter((dag) => dag?.sykdomsdagtype === 'SYKEDAG' || dag?.sykdomsdagtype === 'SYKEDAG_NAV')
+        .some((dag) => (dag?.utbetalingsinfo?.totalGrad ?? 100) < 20);
 };
 
 const kappOverlappendePerioder = (
@@ -144,12 +140,10 @@ export const getOppkuttedePerioder = (
     kappOverlappendePerioder(allePerioder(overlappendeArbeidsgivere), tilDatePeriod(aktivPeriode));
 
 const allePerioder = (overlappendeArbeidsgivere: ApiArbeidsgiver[]): DatePeriod[] =>
-    R.pipe(
-        overlappendeArbeidsgivere,
-        R.flatMap((ag) => ag.behandlinger[0]?.perioder),
-        R.filter((periode) => periode !== undefined),
-        R.map(tilDatePeriod),
-    );
+    overlappendeArbeidsgivere
+        .flatMap((ag) => ag.behandlinger[0]?.perioder)
+        .filter((periode) => periode !== undefined)
+        .map(tilDatePeriod);
 
 const tilDatePeriod = (periode: { fom: string; tom: string }): DatePeriod => ({ fom: periode.fom, tom: periode.tom });
 

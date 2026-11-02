@@ -1,5 +1,4 @@
 import { ReactElement } from 'react';
-import { range } from 'remeda';
 
 import { Accordion, HStack, Skeleton } from '@navikt/ds-react';
 
@@ -116,7 +115,7 @@ type SkeletonSectionProps = {
 const SkeletonSection = ({ numberOfFilters }: SkeletonSectionProps): ReactElement => (
     <div className={styles.skeletonsection}>
         <Skeleton height={28} />
-        {range(0, numberOfFilters).map((index) => (
+        {Array.from({ length: numberOfFilters }, (_, index) => (
             <HStack gap="space-8" wrap={false} key={index}>
                 <Skeleton height={28} width={156} />
                 <Skeleton height={28} width={24} />

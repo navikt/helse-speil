@@ -1,7 +1,6 @@
 'use client';
 
 import React, { ReactElement, useState } from 'react';
-import * as R from 'remeda';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, GlobalAlert, HStack, InfoCard, VStack } from '@navikt/ds-react';
@@ -42,13 +41,20 @@ const DriftsmeldingerListe = (): ReactElement => {
     const { driftsmeldinger } = useDriftsmelding();
     const { informasjonsmeldinger } = useInformasjonsmelding();
 
-    const drift = R.sortBy(driftsmeldinger, [R.prop('_updatedAt'), 'desc']).map((driftsmelding) => (
-        <DriftsmeldingInnhold key={`drift-${driftsmelding._id}`} driftsmelding={driftsmelding} />
-    ));
+    const drift = driftsmeldinger
+        .toSorted((a, b) => nyesteFørst(a._updatedAt, b._updatedAt))
+        .map((driftsmelding) => (
+            <DriftsmeldingInnhold key={`drift-${driftsmelding._id}`} driftsmelding={driftsmelding} />
+        ));
 
-    const info = R.sortBy(informasjonsmeldinger, [R.prop('_updatedAt'), 'desc']).map((informasjonsmelding) => (
-        <InformasjonsmeldingInnhold key={`info-${informasjonsmelding._id}`} informasjonsmelding={informasjonsmelding} />
-    ));
+    const info = informasjonsmeldinger
+        .toSorted((a, b) => nyesteFørst(a._updatedAt, b._updatedAt))
+        .map((informasjonsmelding) => (
+            <InformasjonsmeldingInnhold
+                key={`info-${informasjonsmelding._id}`}
+                informasjonsmelding={informasjonsmelding}
+            />
+        ));
 
     return <>{[...drift, ...info]}</>;
 };
@@ -58,7 +64,7 @@ const DriftsmeldingInnhold = ({ driftsmelding }: DriftsmeldingProps): ReactEleme
 
     const erLøst = driftsmelding.lost === 'true';
 
-    const sorterteStatuser = R.sortBy(driftsmelding.statuser ?? [], [R.prop('tidspunkt'), 'desc']);
+    const sorterteStatuser = (driftsmelding.statuser ?? []).toSorted((a, b) => nyesteFørst(a.tidspunkt, b.tidspunkt));
     const [gjeldendeStatus, ...tidligereStatuser] = sorterteStatuser;
 
     if (!gjeldendeStatus) return null;
@@ -197,4 +203,8 @@ function medPunktum(uryddetTekst?: string | null): string {
     const ryddetTekst = uryddetTekst?.trim();
     if (!ryddetTekst) return '';
     return ryddetTekst.endsWith('.') ? `${ryddetTekst} ` : `${ryddetTekst}. `;
+}
+
+function nyesteFørst(a: string, b: string): number {
+    return a < b ? 1 : a > b ? -1 : 0;
 }

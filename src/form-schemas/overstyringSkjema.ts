@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import * as R from 'remeda';
 import { z } from 'zod/v4';
 
 import { DateString } from '@typer/shared';
@@ -97,12 +96,13 @@ export const getStartOgSluttAvPerioden = (
 ): StartOgSluttAvPerioden => {
     // TODO: ikke sjekk mot visningstekst
     const startenAvPerioden = førsteOverstyrteDagtype
-        ? (R.first(Array.from(alleDager.values()).filter((it) => it.dag.visningstekst !== førsteOverstyrteDagtype))
-              ?.dato ?? '')
+        ? (Array.from(alleDager.values()).filter((it) => it.dag.visningstekst !== førsteOverstyrteDagtype)[0]?.dato ??
+          '')
         : '';
     const sluttenAvPerioden = sisteOverstyrteDagtype
-        ? (R.last(Array.from(alleDager.values()).filter((it) => it.dag.visningstekst !== sisteOverstyrteDagtype))
-              ?.dato ?? '')
+        ? (Array.from(alleDager.values())
+              .filter((it) => it.dag.visningstekst !== sisteOverstyrteDagtype)
+              .at(-1)?.dato ?? '')
         : '';
 
     return { startenAvPerioden, sluttenAvPerioden };
@@ -126,7 +126,7 @@ const sjekkArbeidsdager = (
     const { sluttenAvPerioden } = getStartOgSluttAvPerioden(
         alleDager,
         undefined,
-        R.last(alleOverstyrteDager)?.dag.speilDagtype,
+        alleOverstyrteDager.at(-1)?.dag.speilDagtype,
     );
 
     const dagerISluttenAvPerioden = finnDagerISluttenAvPerioden(overstyrtTilArbeidsdager, sluttenAvPerioden);
@@ -185,8 +185,8 @@ const sjekkAndreYtelser = (
 
     const { sluttenAvPerioden, startenAvPerioden } = getStartOgSluttAvPerioden(
         alleDager,
-        R.first(alleOverstyrteDager)?.dag.speilDagtype,
-        R.last(alleOverstyrteDager)?.dag.speilDagtype,
+        alleOverstyrteDager[0]?.dag.speilDagtype,
+        alleOverstyrteDager.at(-1)?.dag.speilDagtype,
     );
 
     const dagerISluttenAvPerioden = finnDagerISluttenAvPerioden(overstyrtTilAnnenYtelsesdag, sluttenAvPerioden);
