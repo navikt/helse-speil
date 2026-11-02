@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ApiPeriodehistorikkType, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { FjernetFraPåVentHendelse } from '@saksbilde/historikk/hendelser/FjernetFraPåVentHendelse';

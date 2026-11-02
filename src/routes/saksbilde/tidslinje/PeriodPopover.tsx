@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 import { BodyShort, HGrid } from '@navikt/ds-react';
 

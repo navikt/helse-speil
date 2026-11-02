@@ -1,5 +1,5 @@
 import NextLink from 'next/link';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Alert, BodyShort, HStack, Link } from '@navikt/ds-react';
 

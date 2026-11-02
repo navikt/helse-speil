@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';

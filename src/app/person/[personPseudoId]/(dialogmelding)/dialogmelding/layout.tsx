@@ -2,7 +2,7 @@
 
 import dynamic from 'next/dynamic';
 import { useParams, usePathname } from 'next/navigation';
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { DialogmeldingHeader } from '@saksbilde/dialogmelding/DialogmeldingHeader';
 import { SelectedVedleggProvider } from '@saksbilde/dialogmelding/dokumentvisning/vedleggContext';

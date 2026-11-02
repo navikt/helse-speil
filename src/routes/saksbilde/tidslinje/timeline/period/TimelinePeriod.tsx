@@ -1,5 +1,5 @@
 import { Dayjs } from 'dayjs';
-import React, { PropsWithChildren, ReactElement, RefObject, useEffect, useRef, useState } from 'react';
+import { PropsWithChildren, ReactElement, RefObject, useEffect, useRef, useState } from 'react';
 
 import { Popover } from '@navikt/ds-react';
 import { PopoverContent } from '@navikt/ds-react/Popover';

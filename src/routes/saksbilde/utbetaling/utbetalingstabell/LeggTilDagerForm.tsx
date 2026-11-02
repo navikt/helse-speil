@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { LeggTilDagerArbeidstakerForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTilDagerArbeidstakerForm';
 import { LeggTilDagerSelvstendigForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTilDagerSelvstendigForm';
 import { DateString } from '@typer/shared';

@@ -1,5 +1,4 @@
 import { fetchMock, jsonBody, jsonResponse } from '../../../../vitest.setup';
-import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { Dialog } from '@navikt/ds-react';

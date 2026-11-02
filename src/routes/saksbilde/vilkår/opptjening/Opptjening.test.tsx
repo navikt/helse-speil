@@ -1,4 +1,3 @@
-import React from 'react';
 import { Mock } from 'vitest';
 
 import { getGetSaksbehandlerhandlingerForPersonQueryKey } from '@io/rest/generated/personer/personer';

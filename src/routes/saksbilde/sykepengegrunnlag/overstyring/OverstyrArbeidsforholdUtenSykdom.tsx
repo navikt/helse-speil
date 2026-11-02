@@ -1,4 +1,4 @@
-import React, { ReactElement, useContext, useRef, useState } from 'react';
+import { ReactElement, useContext, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { XMarkOctagonIcon } from '@navikt/aksel-icons';

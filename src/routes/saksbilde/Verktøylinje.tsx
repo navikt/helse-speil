@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack } from '@navikt/ds-react';
@@ -44,9 +44,11 @@ export const Verktøylinje = ({ person, aktivPeriode, initierendeVedtaksperiodeI
                 aktivPeriode.skjaeringstidspunkt,
             ),
         ) ?? [];
-    const minimumSykdomsgradsoverstyringer = finnOverstyringerForAktivInntektsforhold(alleOverstyringer, aktivPeriode, person).filter(
-        isMinimumSykdomsgradsoverstyring,
-    );
+    const minimumSykdomsgradsoverstyringer = finnOverstyringerForAktivInntektsforhold(
+        alleOverstyringer,
+        aktivPeriode,
+        person,
+    ).filter(isMinimumSykdomsgradsoverstyring);
     const harAlleDelperioderBlittVurdertSistIAndreVedtaksperioder: boolean =
         isBeregnetPeriode(aktivPeriode) &&
         (oppkuttedePerioder?.every((dp) => {

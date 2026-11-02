@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
+import { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { Dialog } from '@navikt/ds-react';
 

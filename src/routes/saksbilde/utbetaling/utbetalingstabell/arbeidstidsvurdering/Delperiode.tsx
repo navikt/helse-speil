@@ -1,4 +1,3 @@
-import React from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 import { HStack, HelpText, Radio, RadioGroup, Table } from '@navikt/ds-react';

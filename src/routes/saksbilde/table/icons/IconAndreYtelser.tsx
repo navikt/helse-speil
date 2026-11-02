@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 export const IconAndreYtelser = ({ width = 25, height = 16 }): ReactElement => {
     return (

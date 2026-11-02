@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { TilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
 import { ApiTilkommenInntekt } from '@io/rest/generated/spesialist.schemas';

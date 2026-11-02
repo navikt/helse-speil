@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';

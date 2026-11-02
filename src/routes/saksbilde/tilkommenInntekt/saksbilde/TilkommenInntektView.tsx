@@ -1,6 +1,6 @@
 import NextLink from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { ArrowUndoIcon, PersonPencilIcon, XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HGrid, HStack, Link, VStack } from '@navikt/ds-react';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, Box, Detail, HStack, HelpText, Table, VStack } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';

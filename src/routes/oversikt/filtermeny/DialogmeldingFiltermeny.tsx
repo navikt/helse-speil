@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { MinusIcon, PlusIcon } from '@navikt/aksel-icons';
 import { Accordion, BodyShort, Button, HStack, Tooltip, VStack } from '@navikt/ds-react';

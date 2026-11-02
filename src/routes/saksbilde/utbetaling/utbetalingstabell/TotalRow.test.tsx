@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { TestRowWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';

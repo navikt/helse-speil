@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Ikon, IkonProps } from './Ikon';
 
 export const GrøntSjekkikon = ({ width = 24, height = 24, viewBox = '0 0 25 25', className }: IkonProps) => (

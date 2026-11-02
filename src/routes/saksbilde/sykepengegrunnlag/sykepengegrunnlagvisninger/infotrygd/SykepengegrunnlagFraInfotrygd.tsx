@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Infotrygdvurdering } from '@components/Infotrygdvurdering';
 import { ApiSaksbildePerson, ApiVilkårsgrunnlagInfotrygdV2 } from '@io/rest/generated/spesialist.schemas';

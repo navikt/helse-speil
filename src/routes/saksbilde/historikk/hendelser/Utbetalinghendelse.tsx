@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ApiUtbetalingtype } from '@io/rest/generated/spesialist.schemas';
 import { HistorikkCheckmarkCircleIkon, HistorikkXMarkOctagonIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';

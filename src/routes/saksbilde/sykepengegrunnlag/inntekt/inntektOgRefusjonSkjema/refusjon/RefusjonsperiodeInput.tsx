@@ -1,4 +1,3 @@
-import React from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { DatePicker, HStack } from '@navikt/ds-react';

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { OverstyringFormFields, lagOverstyringSchema } from '@form-schemas/overstyringSkjema';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Ikon, IkonProps } from './Ikon';
 
 export const Arbeidsgiverikon = ({ width = 16, height = 16, className, title }: IkonProps) => (

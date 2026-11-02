@@ -1,4 +1,3 @@
-import React from 'react';
 import { Mock } from 'vitest';
 
 import { axe } from '@/test/axe';

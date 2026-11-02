@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, use } from 'react';
+import { ReactElement, use } from 'react';
 
 import { EndreTilkommenInntektView } from '@saksbilde/tilkommenInntekt/saksbilde/EndreTilkommenInntektView';
 

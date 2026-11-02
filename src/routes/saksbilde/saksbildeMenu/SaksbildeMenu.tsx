@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Box, BoxProps, HStack, Skeleton } from '@navikt/ds-react';
 
 const SaksbildeMenuWrapper = (props: BoxProps) => (

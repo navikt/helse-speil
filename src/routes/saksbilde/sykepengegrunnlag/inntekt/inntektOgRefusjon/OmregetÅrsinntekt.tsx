@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, HStack, HStackProps } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';

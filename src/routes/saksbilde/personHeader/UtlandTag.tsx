@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
 import { useFetchPersonQuery } from '@state/person';

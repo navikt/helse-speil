@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { BodyShort, HStack, Loader, Switch, Table, TextField, VStack } from '@navikt/ds-react';
 

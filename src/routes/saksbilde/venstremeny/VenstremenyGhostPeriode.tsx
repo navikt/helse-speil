@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ApiGhostPeriode } from '@io/rest/generated/spesialist.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';

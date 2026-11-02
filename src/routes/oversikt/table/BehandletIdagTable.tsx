@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { DatePicker, HStack, Table, VStack, useDatepicker } from '@navikt/ds-react';
 

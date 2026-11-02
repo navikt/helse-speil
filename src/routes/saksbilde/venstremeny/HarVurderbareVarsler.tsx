@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import type { PeriodeinformasjonInnslag } from '@saksbilde/venstremeny/PeriodeinformasjonInnslag';

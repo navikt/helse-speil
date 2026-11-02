@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import Image from 'next/image';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import fotballgurk from '@assets/topplinjebilder/fotballgurk.svg';
 import halloweenpynt from '@assets/topplinjebilder/halloweenpynt.svg';

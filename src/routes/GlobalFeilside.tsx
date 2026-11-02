@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Alert, BodyShort } from '@navikt/ds-react';
 

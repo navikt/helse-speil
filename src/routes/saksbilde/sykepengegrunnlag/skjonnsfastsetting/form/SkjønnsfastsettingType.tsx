@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { useFormContext, useWatch } from 'react-hook-form';
 
 import { CheckmarkCircleFillIcon } from '@navikt/aksel-icons';

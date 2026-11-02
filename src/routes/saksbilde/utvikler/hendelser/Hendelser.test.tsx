@@ -1,5 +1,4 @@
 import { fetchMock, jsonResponse } from '../../../../../vitest.setup';
-import React from 'react';
 
 import { SparsomAktiviteterResponse } from '@io/rest/sparsom';
 import { render, screen, within } from '@test-utils';

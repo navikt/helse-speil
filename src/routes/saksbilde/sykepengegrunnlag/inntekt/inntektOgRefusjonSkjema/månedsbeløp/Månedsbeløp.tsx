@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { toKronerOgØre } from '@utils/locale';

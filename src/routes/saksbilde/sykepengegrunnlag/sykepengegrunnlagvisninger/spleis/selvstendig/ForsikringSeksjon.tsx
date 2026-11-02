@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { BodyShort, Detail, HStack, Heading, InlineMessage, VStack } from '@navikt/ds-react';
 

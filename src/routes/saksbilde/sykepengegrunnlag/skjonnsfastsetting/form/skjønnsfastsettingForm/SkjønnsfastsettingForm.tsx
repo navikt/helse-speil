@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useRef } from 'react';
+import { ReactElement, useEffect, useRef } from 'react';
 import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Button, ErrorMessage, HStack, HelpText } from '@navikt/ds-react';

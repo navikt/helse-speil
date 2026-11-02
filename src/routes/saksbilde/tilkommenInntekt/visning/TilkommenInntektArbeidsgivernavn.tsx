@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { SackKronerIcon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 

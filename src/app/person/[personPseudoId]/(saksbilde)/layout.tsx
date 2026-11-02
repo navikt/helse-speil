@@ -1,6 +1,6 @@
 'use client';
 
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
 import { Tidslinje } from '@saksbilde/tidslinje/Tidslinje';

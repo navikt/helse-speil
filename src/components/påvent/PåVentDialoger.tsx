@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, Checkbox, Dialog, ErrorMessage } from '@navikt/ds-react';

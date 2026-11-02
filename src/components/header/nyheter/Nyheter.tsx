@@ -2,7 +2,7 @@
 
 import dayjs from 'dayjs';
 import { useTheme } from 'next-themes';
-import React, { PropsWithChildren, ReactElement, useRef, useState } from 'react';
+import { PropsWithChildren, ReactElement, useRef, useState } from 'react';
 
 import { BellFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Heading, InternalHeader, Popover, Theme } from '@navikt/ds-react';

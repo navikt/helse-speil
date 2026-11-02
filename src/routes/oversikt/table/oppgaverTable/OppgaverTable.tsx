@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { SortState, VStack } from '@navikt/ds-react';
 

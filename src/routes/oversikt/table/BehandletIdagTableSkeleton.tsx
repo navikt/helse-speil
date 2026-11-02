@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { HStack, Skeleton, Table, VStack } from '@navikt/ds-react';
 

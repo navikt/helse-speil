@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { ChevronLeftIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { Button, Dialog, HStack, Heading } from '@navikt/ds-react';

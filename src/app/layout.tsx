@@ -2,7 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 import Script from 'next/script';
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { backend, erDev, erUtvikling } from '@/env';
 import { Preload } from '@app/preload';

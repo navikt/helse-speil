@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';

@@ -1,6 +1,6 @@
 import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { InformationSquareIcon, TerminalIcon } from '@navikt/aksel-icons';
 import { Box, HStack, InfoCard, Tabs, Tooltip, VStack } from '@navikt/ds-react';

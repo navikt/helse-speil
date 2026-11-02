@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { UNSAFE_Combobox } from '@navikt/ds-react';

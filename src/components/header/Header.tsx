@@ -1,7 +1,7 @@
 'use client';
 
 import NextLink from 'next/link';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { InternalHeader } from '@navikt/ds-react';
 

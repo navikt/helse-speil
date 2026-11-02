@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ApiRisikovurdering } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@testing-library/react';
 

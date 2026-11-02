@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Detail } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';

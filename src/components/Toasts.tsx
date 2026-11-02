@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 import { Toast } from '@components/Toast';
 import { useToasts } from '@state/toasts';
 

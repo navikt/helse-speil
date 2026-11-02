@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, createContext, useCallback, useState } from 'react';
+import { PropsWithChildren, createContext, useCallback, useState } from 'react';
 
 interface VenterPåEndringState {
     visAngreknapp: boolean;

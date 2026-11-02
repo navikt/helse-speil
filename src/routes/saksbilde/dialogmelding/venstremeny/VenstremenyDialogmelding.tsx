@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { NotePencilIcon } from '@navikt/aksel-icons';
 import { Button, VStack } from '@navikt/ds-react';

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Controller, useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import { PlusIcon } from '@navikt/aksel-icons';

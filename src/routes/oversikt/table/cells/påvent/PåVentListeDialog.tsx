@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { BodyShort, Dialog, HStack, Heading, VStack } from '@navikt/ds-react';
 

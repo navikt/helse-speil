@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { PaperclipIcon } from '@navikt/aksel-icons';
 import { Bleed, BodyShort, HStack, Tag, type TagProps, VStack } from '@navikt/ds-react';

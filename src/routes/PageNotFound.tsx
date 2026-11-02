@@ -2,7 +2,7 @@
 
 import nissemyra from '../assets/nissemyra.svg';
 import Image from 'next/image';
-import React, { ReactElement, useEffect } from 'react';
+import { ReactElement, useEffect } from 'react';
 
 import { BodyShort, Heading, Link } from '@navikt/ds-react';
 

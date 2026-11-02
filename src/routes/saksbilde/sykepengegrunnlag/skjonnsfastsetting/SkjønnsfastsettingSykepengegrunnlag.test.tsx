@@ -1,5 +1,4 @@
 import { createStore } from 'jotai';
-import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';

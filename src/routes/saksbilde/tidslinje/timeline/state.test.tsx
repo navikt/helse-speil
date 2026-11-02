@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import React from 'react';
 
 import { ParsedRow } from '@saksbilde/tidslinje/timeline/index';
 import { useExpandableRows } from '@saksbilde/tidslinje/timeline/state';

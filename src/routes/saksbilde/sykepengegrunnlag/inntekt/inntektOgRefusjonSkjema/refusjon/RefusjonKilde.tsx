@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 
 import { Endringstrekant } from '@components/Endringstrekant';

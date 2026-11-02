@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ApiOppgaveProjeksjon } from '@io/rest/generated/spesialist.schemas';
 import { LinkRow } from '@oversikt/table/LinkRow';

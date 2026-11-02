@@ -1,4 +1,4 @@
-import React, { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
 
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, HStack, Heading, Link, VStack } from '@navikt/ds-react';

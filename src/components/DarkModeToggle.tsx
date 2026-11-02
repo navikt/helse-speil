@@ -1,5 +1,5 @@
 import { useTheme } from 'next-themes';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { MoonIcon, SunIcon } from '@navikt/aksel-icons';
 import { ActionMenu } from '@navikt/ds-react/ActionMenu';

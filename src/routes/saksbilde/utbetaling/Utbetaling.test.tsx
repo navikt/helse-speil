@@ -1,4 +1,3 @@
-import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { ApiBeregnetPeriode, ApiInntektstype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';

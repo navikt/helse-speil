@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, SetStateAction } from 'react';
+import { Dispatch, ReactElement, SetStateAction } from 'react';
 
 import { ShrinkIcon } from '@navikt/aksel-icons';
 import { Button, Dialog, HStack, Tooltip } from '@navikt/ds-react';

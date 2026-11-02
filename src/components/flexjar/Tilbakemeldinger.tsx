@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { EmojiTilbakemelding } from '@components/flexjar/EmojiTilbamelding';
 import { Widget } from '@components/flexjar/Widget';

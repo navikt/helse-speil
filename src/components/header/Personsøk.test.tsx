@@ -1,6 +1,5 @@
 import { mockFetchResponse } from '../../../vitest.setup';
 import mockRouter from 'next-router-mock';
-import React from 'react';
 import { Mock } from 'vitest';
 
 import { Varsler } from '@components/Varsler';

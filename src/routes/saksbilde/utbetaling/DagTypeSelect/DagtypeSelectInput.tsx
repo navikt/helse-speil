@@ -1,4 +1,4 @@
-import React, { ComponentProps, ReactElement, ReactNode } from 'react';
+import { ComponentProps, ReactElement, ReactNode } from 'react';
 
 import { Select } from '@navikt/ds-react';
 

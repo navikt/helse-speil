@@ -1,7 +1,7 @@
 'use client';
 
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 

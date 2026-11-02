@@ -1,4 +1,3 @@
-import React from 'react';
 import { Mock, beforeEach, vi } from 'vitest';
 
 import { SortState } from '@navikt/ds-react';

@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, ErrorMessage, Tooltip, VStack } from '@navikt/ds-react';

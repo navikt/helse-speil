@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { TestCellWrapper } from '@test-wrappers';

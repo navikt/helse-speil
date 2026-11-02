@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { PersonPencilIcon } from '@navikt/aksel-icons';
 import { Button, HStack, Heading, HelpText } from '@navikt/ds-react';

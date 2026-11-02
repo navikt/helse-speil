@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { Checkbox, CheckboxGroup, InlineMessage, LocalAlert, Radio, RadioGroup, VStack } from '@navikt/ds-react';

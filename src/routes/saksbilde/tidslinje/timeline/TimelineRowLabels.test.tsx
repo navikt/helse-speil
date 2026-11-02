@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { RowLabel } from '@saksbilde/tidslinje/timeline/index';
 import { ExpandedRowsContext, ToggleRowContext } from '@saksbilde/tidslinje/timeline/row/context';
 import { render, screen } from '@test-utils';

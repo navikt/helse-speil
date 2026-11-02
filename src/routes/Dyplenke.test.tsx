@@ -1,6 +1,5 @@
 import { fetchMock, jsonResponse, mockFetchResponse } from '../../vitest.setup';
 import mockRouter from 'next-router-mock';
-import React from 'react';
 
 import { render, screen } from '@test-utils';
 import { waitFor } from '@testing-library/react';

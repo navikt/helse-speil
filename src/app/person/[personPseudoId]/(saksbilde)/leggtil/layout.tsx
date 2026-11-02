@@ -1,6 +1,6 @@
 'use client';
 
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';

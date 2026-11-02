@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { BodyShort, HStack, Skeleton } from '@navikt/ds-react';
 

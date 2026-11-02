@@ -1,4 +1,3 @@
-import React from 'react';
 import { useFieldArray, useFormContext, useWatch } from 'react-hook-form';
 
 import { Detail, Fieldset, Label, Table, VStack } from '@navikt/ds-react';

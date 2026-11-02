@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { Radio, RadioGroup, VStack } from '@navikt/ds-react';

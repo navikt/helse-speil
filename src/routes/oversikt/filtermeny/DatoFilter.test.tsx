@@ -1,5 +1,5 @@
 import { useAtomValue, useSetAtom } from 'jotai';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Accordion } from '@navikt/ds-react';
 

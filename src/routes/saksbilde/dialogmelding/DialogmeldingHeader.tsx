@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ArrowLeftIcon } from '@navikt/aksel-icons';
 import { Box, Button } from '@navikt/ds-react';

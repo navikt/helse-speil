@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { axe } from '@/test/axe';
 import { render, screen } from '@testing-library/react';
 

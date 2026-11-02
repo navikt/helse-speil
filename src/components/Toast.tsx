@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 import { Feilikon } from '@components/ikoner/Feilikon';
 import { GrøntSjekkikon } from '@components/ikoner/GrøntSjekkikon';

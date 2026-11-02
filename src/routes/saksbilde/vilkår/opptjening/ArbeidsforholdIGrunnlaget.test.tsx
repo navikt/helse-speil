@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useOrganisasjonQuery } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { ApiArbeidsforhold, ApiArbeidsforholdtype } from '@io/rest/generated/vilkarsproving.schemas';
 import { render, screen, within } from '@test-utils';

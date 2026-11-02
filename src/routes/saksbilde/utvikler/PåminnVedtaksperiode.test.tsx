@@ -1,5 +1,4 @@
 import { fetchMock, jsonResponse } from '../../../../vitest.setup';
-import React from 'react';
 
 import { SpleisVedtaksperiode } from '@io/rest/spleis';
 import { render, screen } from '@test-utils';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { Dialog, InternalHeader, Theme } from '@navikt/ds-react';
 

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ChevronDownIcon, ChevronRightIcon } from '@navikt/aksel-icons';
 import { BodyShort, CopyButton, HStack, Skeleton, Tooltip, VStack } from '@navikt/ds-react';

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort } from '@navikt/ds-react';

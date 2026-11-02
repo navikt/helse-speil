@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { SpleisVedtaksperiode } from '@io/rest/spleis';
 import { SpoutHandling } from '@saksbilde/utvikler/SpoutHandling';
 

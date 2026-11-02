@@ -1,5 +1,5 @@
 import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Loader, Tooltip } from '@navikt/ds-react';

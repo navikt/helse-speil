@@ -1,5 +1,4 @@
 import { fetchMock, jsonResponse } from '../../../../vitest.setup';
-import React from 'react';
 
 import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@test-utils';

@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { Control, useController } from 'react-hook-form';
 
 import { Textarea } from '@navikt/ds-react';

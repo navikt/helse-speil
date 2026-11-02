@@ -2,7 +2,7 @@
 
 import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ExternalLinkIcon, MenuGridIcon } from '@navikt/aksel-icons';
 import { ActionMenu, InternalHeader, Theme } from '@navikt/ds-react';

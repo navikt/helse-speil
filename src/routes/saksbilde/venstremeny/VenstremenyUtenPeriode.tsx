@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';

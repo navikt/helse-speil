@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { BodyShort, Table, Tooltip } from '@navikt/ds-react';
 

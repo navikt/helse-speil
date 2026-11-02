@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { useErCoachFagkoordinatorEllerSupersaksbehandler, useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
 import { ApiPeriodetilstand, ApiSaksbildePerson, ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';

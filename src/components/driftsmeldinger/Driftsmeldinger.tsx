@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, GlobalAlert, HStack, InfoCard, VStack } from '@navikt/ds-react';

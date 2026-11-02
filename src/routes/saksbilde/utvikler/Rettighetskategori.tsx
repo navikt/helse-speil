@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, Loader } from '@navikt/ds-react';
 
 import { useRettighetskategoriQuery } from '@io/rest/rettighetskategori';

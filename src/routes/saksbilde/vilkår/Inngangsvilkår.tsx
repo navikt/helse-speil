@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import { useParams } from 'next/navigation';
-import React, { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
+import { PropsWithChildren, ReactElement, ReactNode, useEffect, useState } from 'react';
 
 import { Events } from '@navikt/analytics-types';
 import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';

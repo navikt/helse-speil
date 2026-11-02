@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Select, VStack } from '@navikt/ds-react';
 

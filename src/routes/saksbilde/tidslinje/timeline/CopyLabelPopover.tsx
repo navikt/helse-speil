@@ -1,4 +1,4 @@
-import React, { ReactElement, useRef, useState } from 'react';
+import { ReactElement, useRef, useState } from 'react';
 
 import { CheckmarkIcon, FilesIcon } from '@navikt/aksel-icons';
 import { Button, Popover, Tooltip, VStack } from '@navikt/ds-react';

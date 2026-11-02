@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 export const IconFailure = ({ width = 14, height = 14, fill = 'var(--ax-text-neutral)' }): ReactElement => {
     return (

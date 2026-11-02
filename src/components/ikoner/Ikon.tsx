@@ -1,4 +1,4 @@
-import React, { ComponentPropsWithRef, ReactElement } from 'react';
+import { ComponentPropsWithRef, ReactElement } from 'react';
 
 import { useId } from '@navikt/ds-react';
 

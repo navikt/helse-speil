@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ClockIcon } from '@navikt/aksel-icons';
 import { VStack } from '@navikt/ds-react';

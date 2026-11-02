@@ -1,5 +1,5 @@
 import type { WritableAtom } from 'jotai';
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { JotaiWrapper } from '@test-wrappers';

@@ -1,5 +1,5 @@
 import { useRouter } from 'next/navigation';
-import React, { FormEvent, ReactElement, useRef } from 'react';
+import { FormEvent, ReactElement, useRef } from 'react';
 
 import { Search } from '@navikt/ds-react';
 

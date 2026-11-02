@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { Alert, Switch } from '@navikt/ds-react';
 

@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { EndringsloggKildeButton } from '@components/endringslogg/EndringsloggKildeButton';
 import { EndringsloggTilkommenInntekt } from '@components/endringslogg/EndringsloggTilkommenInntekt';

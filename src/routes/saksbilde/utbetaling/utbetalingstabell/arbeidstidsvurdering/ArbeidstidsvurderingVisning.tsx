@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BriefcaseClockIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, List, ReadMore, Table } from '@navikt/ds-react';
 

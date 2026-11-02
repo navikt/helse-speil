@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { axe } from '@/test/axe';
 import { ApiSaksbildeVarselstatus, ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@test-utils';

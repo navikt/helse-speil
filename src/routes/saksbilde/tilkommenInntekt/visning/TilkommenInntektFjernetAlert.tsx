@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Alert, BodyShort, Heading } from '@navikt/ds-react';
 
 import { ApiTilkommenInntektEvent } from '@io/rest/generated/spesialist.schemas';

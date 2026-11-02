@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { axe } from '@/test/axe';
 import { render } from '@test-utils';
 

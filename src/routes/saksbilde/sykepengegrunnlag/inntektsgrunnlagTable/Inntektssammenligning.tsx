@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, HStack, Tooltip } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';

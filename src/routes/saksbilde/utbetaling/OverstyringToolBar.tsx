@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
 import { Box, Button, HStack, Heading, VStack } from '@navikt/ds-react';

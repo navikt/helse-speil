@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { Events } from '@navikt/analytics-types';
 import { VStack } from '@navikt/ds-react';

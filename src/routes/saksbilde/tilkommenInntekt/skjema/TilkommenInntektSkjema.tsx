@@ -1,4 +1,4 @@
-import React, { ReactElement, useCallback, useEffect, useMemo } from 'react';
+import { ReactElement, useCallback, useEffect, useMemo } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 
 import { XMarkIcon } from '@navikt/aksel-icons';

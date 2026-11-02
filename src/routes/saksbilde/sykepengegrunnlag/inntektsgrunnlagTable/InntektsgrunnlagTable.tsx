@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 
 import { BodyShort, Detail, Table } from '@navikt/ds-react';
 

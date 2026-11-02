@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 import { HStack, Table, TextField } from '@navikt/ds-react';

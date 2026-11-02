@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Theme, Tooltip, TooltipProps } from '@navikt/ds-react';
 

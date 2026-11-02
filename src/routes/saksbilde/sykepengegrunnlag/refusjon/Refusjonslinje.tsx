@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { PersonPencilFillIcon } from '@navikt/aksel-icons';
 import { BodyShort, Table } from '@navikt/ds-react';

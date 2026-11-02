@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, SetStateAction } from 'react';
+import { Dispatch, ReactElement, SetStateAction } from 'react';
 import { FieldValues, SubmitHandler } from 'react-hook-form';
 
 import { ErrorMessage, VStack } from '@navikt/ds-react';

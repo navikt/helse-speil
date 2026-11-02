@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, Box, HStack, Table } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';

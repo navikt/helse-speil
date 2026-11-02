@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { FullmaktTag } from '@saksbilde/personHeader/FullmaktTag';
 import { render, screen } from '@testing-library/react';
 

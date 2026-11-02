@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, ReactElement, useState } from 'react';
+import { HTMLAttributes, ReactElement, useState } from 'react';
 
 import { HStack } from '@navikt/ds-react';
 

@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { usePatchKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { KommentarVisning } from '@saksbilde/historikk/komponenter/kommentarer/KommentarVisning';

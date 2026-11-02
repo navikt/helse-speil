@@ -1,4 +1,3 @@
-import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 
 import { Checkbox, CheckboxGroup, HStack, Skeleton, VStack } from '@navikt/ds-react';

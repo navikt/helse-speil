@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from 'react';
+import { PropsWithChildren } from 'react';
 
 import { Box, HStack, Tabs, VStack } from '@navikt/ds-react';
 

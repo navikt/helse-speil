@@ -1,5 +1,5 @@
 import dynamic from 'next/dynamic';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';

@@ -1,7 +1,7 @@
 'use client';
 
 import { createStore } from 'jotai';
-import React, { PropsWithChildren, ReactElement, use, useEffect, useState } from 'react';
+import { PropsWithChildren, ReactElement, use, useEffect, useState } from 'react';
 
 import { VStack } from '@navikt/ds-react';
 

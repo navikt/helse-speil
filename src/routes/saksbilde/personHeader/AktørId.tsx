@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, CopyButton, HStack, Tooltip } from '@navikt/ds-react';
 
 interface AktørIdProps {

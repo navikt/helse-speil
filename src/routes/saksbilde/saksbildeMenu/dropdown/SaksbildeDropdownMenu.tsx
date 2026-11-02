@@ -1,5 +1,5 @@
 import { useParams, useRouter } from 'next/navigation';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Dialog, HStack, Loader } from '@navikt/ds-react';

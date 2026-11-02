@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ExternalLinkIcon, FileTextIcon } from '@navikt/aksel-icons';
 import { BodyShort, HStack, Heading, Link, VStack } from '@navikt/ds-react';

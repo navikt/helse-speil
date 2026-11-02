@@ -1,6 +1,6 @@
 import { Provider, type WritableAtom } from 'jotai';
 import { useHydrateAtoms } from 'jotai/utils';
-import React, { PropsWithChildren, ReactElement } from 'react';
+import { PropsWithChildren, ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 

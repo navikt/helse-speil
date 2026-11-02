@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 
 import { PlusCircleFillIcon } from '@navikt/aksel-icons';

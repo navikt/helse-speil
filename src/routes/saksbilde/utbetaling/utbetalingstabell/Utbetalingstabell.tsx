@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import React, { ReactElement, useMemo } from 'react';
+import { ReactElement, useMemo } from 'react';
 
 import { HStack, Table } from '@navikt/ds-react';
 

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Tooltip } from '@navikt/ds-react';
 

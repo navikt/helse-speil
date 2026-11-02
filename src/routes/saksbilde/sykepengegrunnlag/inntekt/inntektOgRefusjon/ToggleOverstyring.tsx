@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { Button, HelpText } from '@navikt/ds-react';
 

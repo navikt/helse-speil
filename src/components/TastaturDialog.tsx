@@ -1,5 +1,5 @@
 import { useTheme } from 'next-themes';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Dialog, Heading, Table, Theme } from '@navikt/ds-react';
 import { TableBody, TableDataCell, TableRow } from '@navikt/ds-react/Table';

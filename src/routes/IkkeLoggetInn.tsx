@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { BodyShort, Link } from '@navikt/ds-react';
 
 import styles from './IkkeLoggetInn.module.css';

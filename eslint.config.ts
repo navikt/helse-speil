@@ -28,6 +28,10 @@ const eslintConfig = defineConfig([
     ...pluginQuery.configs['flat/recommended'],
     {
         extends: [eslintPluginPrettierRecommended],
+        languageOptions: {
+            // Ny JSX-transform: React trenger ikke være importert for å bruke JSX
+            parserOptions: { jsxPragma: null },
+        },
         rules: {
             'prettier/prettier': 'warn',
             'import/order': 'off',
@@ -46,6 +50,7 @@ const eslintConfig = defineConfig([
                     ignoreRestSiblings: true,
                 },
             ],
+            'react/jsx-uses-react': 'off',
             'react-hooks/refs': 'off',
             '@typescript-eslint/explicit-function-return-type': 'off',
         },

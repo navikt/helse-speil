@@ -1,7 +1,7 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { LeaveIcon } from '@navikt/aksel-icons';
 import { ActionMenu, BodyShort, HStack, Tag, Theme, VStack } from '@navikt/ds-react';

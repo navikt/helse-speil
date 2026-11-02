@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Ikon, IkonProps } from './Ikon';
 
 export const Sjekkikon = ({ title }: IkonProps) => (

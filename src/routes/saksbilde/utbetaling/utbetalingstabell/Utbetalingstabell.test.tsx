@@ -1,4 +1,3 @@
-import React from 'react';
 import { vi } from 'vitest';
 
 import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';

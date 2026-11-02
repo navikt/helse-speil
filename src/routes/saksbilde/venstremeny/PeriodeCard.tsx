@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { SleepIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Tag, Tooltip } from '@navikt/ds-react';

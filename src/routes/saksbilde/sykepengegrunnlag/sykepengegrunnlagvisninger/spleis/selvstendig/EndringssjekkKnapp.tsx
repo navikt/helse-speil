@@ -1,5 +1,4 @@
 import { useParams } from 'next/navigation';
-import React from 'react';
 
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';

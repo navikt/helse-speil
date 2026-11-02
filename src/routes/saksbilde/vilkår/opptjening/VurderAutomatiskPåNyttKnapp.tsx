@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Button, Dialog } from '@navikt/ds-react';

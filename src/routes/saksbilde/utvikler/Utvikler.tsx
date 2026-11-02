@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 import { ExternalLinkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Loader, Tabs } from '@navikt/ds-react';

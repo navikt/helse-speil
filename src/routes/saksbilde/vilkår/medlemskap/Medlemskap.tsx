@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactNode, useId } from 'react';
+import { ReactElement, ReactNode, useId } from 'react';
 
 import { BodyShort, Button, HStack, Heading, List, Loader, Skeleton, VStack } from '@navikt/ds-react';
 

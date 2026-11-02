@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { act, render, screen } from '@test-utils';
 
 import { AnimatedExpandableDiv } from './AnimatedExpandableDiv';

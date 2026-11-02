@@ -1,5 +1,5 @@
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { Button, Dialog, ErrorMessage, Textarea } from '@navikt/ds-react';

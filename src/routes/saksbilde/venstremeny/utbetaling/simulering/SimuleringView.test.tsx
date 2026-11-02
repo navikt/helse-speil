@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { axe } from '@/test/axe';
 import { enSimulering, enSimuleringsperiode, enSimuleringsutbetaling } from '@test-data/simulering';
 import { render } from '@test-utils';

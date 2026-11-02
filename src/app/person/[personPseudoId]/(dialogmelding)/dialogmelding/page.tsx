@@ -1,7 +1,7 @@
 'use client';
 
 import { redirect } from 'next/navigation';
-import React, { ReactElement, use } from 'react';
+import { ReactElement, use } from 'react';
 
 import { BodyShort, Box, Heading, VStack } from '@navikt/ds-react';
 

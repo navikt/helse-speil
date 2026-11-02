@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { NyDialogmeldingForm } from '@saksbilde/dialogmelding/form/NyDialogmeldingForm';
 

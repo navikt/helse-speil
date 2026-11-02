@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { useGetBehandlingsstatistikk } from '@io/rest/generated/behandlingsstatistikk/behandlingsstatistikk';
 import { cn } from '@utils/tw';

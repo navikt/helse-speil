@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Ikon, IkonProps } from './Ikon';
 
 export const Feilikon = ({ width = 24, height = 24, viewBox = '0 0 25 25', className, title }: IkonProps) => (

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { useEndringerForPeriode } from '@hooks/useEndringerForPeriode';
 import {
     ApiArbeidsgiver,

@@ -1,5 +1,5 @@
 import { useAtom } from 'jotai';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Chips } from '@navikt/ds-react';
 

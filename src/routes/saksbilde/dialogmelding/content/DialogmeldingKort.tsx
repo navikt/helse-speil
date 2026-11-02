@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { FilePdfIcon, PaperclipIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, HStack, LinkCard, Tag, VStack } from '@navikt/ds-react';

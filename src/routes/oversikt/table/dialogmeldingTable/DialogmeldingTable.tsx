@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ReactElement, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { BodyShort, HStack, Pagination as NavPagination, SortState, Table, Tooltip, VStack } from '@navikt/ds-react';
 

@@ -1,5 +1,4 @@
 import { useParams } from 'next/navigation';
-import React from 'react';
 
 import { BodyShort, HStack, Spacer, VStack } from '@navikt/ds-react';
 

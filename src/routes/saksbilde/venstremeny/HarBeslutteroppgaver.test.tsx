@@ -1,4 +1,3 @@
-import React from 'react';
 import { Mock, vi } from 'vitest';
 
 import { ApiHandlingType, ApiSaksbehandlerhandling } from '@io/rest/generated/spesialist.schemas';

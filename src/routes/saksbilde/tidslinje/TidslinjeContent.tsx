@@ -1,7 +1,7 @@
 import dayjs from 'dayjs';
 import { useAtom } from 'jotai';
 import { useParams } from 'next/navigation';
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { ArchiveIcon } from '@navikt/aksel-icons';
 import { Skeleton } from '@navikt/ds-react';

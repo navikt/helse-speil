@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';

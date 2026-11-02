@@ -1,4 +1,4 @@
-import React, { Dispatch, ReactElement, SetStateAction, useState } from 'react';
+import { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { ExpandIcon, NotePencilIcon } from '@navikt/aksel-icons';
 import { Box, Button, Link, Tooltip, VStack } from '@navikt/ds-react';

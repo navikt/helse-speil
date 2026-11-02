@@ -1,4 +1,4 @@
-import React, { MouseEvent, ReactElement } from 'react';
+import { MouseEvent, ReactElement } from 'react';
 
 import { Table } from '@navikt/ds-react';
 

@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
+import { PropsWithChildren, ReactElement, useEffect, useState } from 'react';
 
 import { cn } from '@utils/tw';
 

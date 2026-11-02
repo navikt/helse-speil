@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Loader } from '@navikt/ds-react';
 
 import type { ToastObject } from './toasts';

@@ -4,7 +4,7 @@ Could not migrate the following:
   - borderColor=border-on-inverted
     - Use 'border-neutral' in theme 'dark'-mode.
 */
-import React, { HTMLAttributes } from 'react';
+import { HTMLAttributes } from 'react';
 
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 

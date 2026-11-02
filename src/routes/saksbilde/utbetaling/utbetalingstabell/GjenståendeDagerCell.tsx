@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
 import { CellContent } from '@saksbilde/table/CellContent';

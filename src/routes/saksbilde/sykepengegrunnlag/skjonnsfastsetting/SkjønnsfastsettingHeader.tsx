@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import React from 'react';
 
 import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';

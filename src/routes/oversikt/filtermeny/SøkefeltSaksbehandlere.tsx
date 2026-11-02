@@ -1,5 +1,4 @@
 import { useAtom } from 'jotai';
-import React from 'react';
 
 import { BodyShort, UNSAFE_Combobox, VStack } from '@navikt/ds-react';
 // @ts-expect-error TS klager på at den ikke finner modulen med combobox-typen selv om den resolver

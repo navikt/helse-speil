@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import React from 'react';
 
 import { Box, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 

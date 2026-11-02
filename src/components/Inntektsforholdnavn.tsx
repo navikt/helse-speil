@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { ExclamationmarkTriangleIcon } from '@navikt/aksel-icons';
 import { BodyShort, BodyShortProps, CopyButton, HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 

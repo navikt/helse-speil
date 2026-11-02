@@ -1,4 +1,4 @@
-import React, { ReactElement } from 'react';
+import { ReactElement } from 'react';
 
 export const IconPermisjon = ({ width = 11, height = 16, fill = 'var(--ax-text-neutral)' }): ReactElement => {
     return (

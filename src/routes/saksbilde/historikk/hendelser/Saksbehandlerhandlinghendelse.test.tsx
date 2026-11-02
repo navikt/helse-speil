@@ -1,5 +1,4 @@
 import mockRouter from 'next-router-mock';
-import React from 'react';
 
 import { ApiHandlingType } from '@io/rest/generated/spesialist.schemas';
 import { Saksbehandlerhandlinghendelse } from '@saksbilde/historikk/hendelser/Saksbehandlerhandlinghendelse';
