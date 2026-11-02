@@ -19,7 +19,7 @@ const config = {
     importOrderSortSpecifiers: true,
     trailingComma: 'all',
     tailwindStylesheet: './src/app/globals.css',
-    tailwindFunctions: ['classNames', 'cn'],
+    tailwindFunctions: ['cn'],
     overrides: [
         {
             files: ['*.yml', '*.yaml'],

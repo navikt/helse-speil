@@ -1,4 +1,3 @@
-import classNames from 'classnames';
 import React, { useState } from 'react';
 
 import { BodyShort, Box, Button, CopyButton, HStack, Loader, Table, Tooltip, VStack } from '@navikt/ds-react';
@@ -7,6 +6,7 @@ import { SparsomAktivitet } from '@io/rest/sparsom';
 import { useSpleisHendelseQuery } from '@io/rest/spleis';
 import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
 import { getFormattedDatetimeString } from '@utils/date';
+import { cn } from '@utils/tw';
 
 import { Hendelse as HendelseType, erLagretISpleis } from './hendelsegruppering';
 
@@ -41,10 +41,7 @@ export function Hendelse({ hendelse }: HendelseProps) {
             open={åpen}
             onOpenChange={setÅpen}
             expandOnRowClick
-            className={classNames(
-                hendelse.harVarsel && 'bg-ax-bg-warning-soft',
-                hendelse.harFeil && 'bg-ax-bg-danger-soft',
-            )}
+            className={cn(hendelse.harVarsel && 'bg-ax-bg-warning-soft', hendelse.harFeil && 'bg-ax-bg-danger-soft')}
             content={
                 <VStack gap="space-8">
                     <VStack as="ul">
@@ -87,7 +84,7 @@ function Aktivitet({ aktivitet }: { aktivitet: SparsomAktivitet }) {
             as="li"
             gap="space-16"
             wrap={false}
-            className={classNames(
+            className={cn(
                 aktivitet.nivå === 'VARSEL' && 'bg-ax-bg-warning-soft',
                 (aktivitet.nivå === 'FUNKSJONELL_FEIL' || aktivitet.nivå === 'LOGISK_FEIL') && 'bg-ax-bg-danger-soft',
             )}

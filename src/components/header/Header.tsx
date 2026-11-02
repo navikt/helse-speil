@@ -1,6 +1,5 @@
 'use client';
 
-import classNames from 'classnames/bind';
 import NextLink from 'next/link';
 import React, { ReactElement } from 'react';
 
@@ -16,20 +15,16 @@ import { Nyheter } from '@components/header/nyheter/Nyheter';
 import { ToggleMenyButton } from '@components/header/toggleMeny/ToggleMenyButton';
 import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
 import { useUtviklersnacks } from '@state/toggles';
+import { cn } from '@utils/tw';
 
 import styles from './Header.module.css';
-
-const cx = classNames.bind(styles);
 
 export const Header = (): ReactElement => {
     const harUtviklerRolle = useHarUtviklerRolle();
     const utviklersnacks = useUtviklersnacks();
     return (
         <InternalHeader
-            className={cx(styles.header, {
-                localhostHeader: backend !== 'deployed',
-                devHeader: erDev,
-            })}
+            className={cn(styles.header, backend !== 'deployed' && styles.localhostHeader, erDev && styles.devHeader)}
         >
             <InternalHeader.Title as={NextLink} href="/">
                 Nav Sykepenger

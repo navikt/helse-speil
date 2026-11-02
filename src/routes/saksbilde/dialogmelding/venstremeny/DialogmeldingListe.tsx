@@ -1,4 +1,3 @@
-import cn from 'classnames';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import React, { ReactElement } from 'react';
@@ -12,6 +11,7 @@ import { useGetDialogmeldinger } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 import { formatNavn } from '@utils/navnUtils';
+import { cn } from '@utils/tw';
 
 import { DialogmeldingListeSkeleton } from './DialogmeldingListeSkeleton';
 
