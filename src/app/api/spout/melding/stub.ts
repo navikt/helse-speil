@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server';
-import { v4 as uuidv4 } from 'uuid';
 
 const tryParse = (tekst: string): unknown => {
     try {
@@ -24,7 +23,7 @@ export async function stub(request: NextRequest) {
     return Response.json({
         meldinger: [
             {
-                id: uuidv4(),
+                id: crypto.randomUUID(),
                 tidspunkt: new Date().toISOString(),
                 melding: tryParse(json),
                 metadata: { topic: 'tbd.mock.v1', offset: 0, partition: 0 },

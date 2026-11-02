@@ -1,5 +1,3 @@
-import { v4 } from 'uuid';
-
 import {
     ApiLeggTilTilkommenInntektRequest,
     ApiTilkommenInntekt,
@@ -18,7 +16,7 @@ export const stub = async (request: Request) => {
         TilkommenInntektMock.inntektskilder.get(requestBody.fodselsnummer) ?? [],
     );
 
-    const nyTilkommenInntektId = v4();
+    const nyTilkommenInntektId = crypto.randomUUID();
 
     const inntekt: ApiTilkommenInntekt = {
         organisasjonsnummer: requestBody.verdier.organisasjonsnummer,

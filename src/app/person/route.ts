@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server';
-import { v4 as uuidv4 } from 'uuid';
 
 import { backendBaseUrl, skalStubbe } from '@app/api/backends';
 import { hentBackendToken } from '@app/api/videresender';
@@ -24,7 +23,7 @@ export async function POST(request: NextRequest) {
         }
 
         const headers = new Headers();
-        headers.set('X-Request-Id', uuidv4());
+        headers.set('X-Request-Id', crypto.randomUUID());
         headers.set('Authorization', `Bearer ${token}`);
         headers.set('Content-Type', 'application/json');
         headers.set('Accept', 'application/json');

@@ -1,7 +1,6 @@
 import fs from 'fs';
 import path from 'path';
 import { cwd } from 'process';
-import { v5 as uuidv5 } from 'uuid';
 
 import {
     ApiAktivOppgave,
@@ -16,6 +15,7 @@ import {
     ApiTildeling,
     ApiTotrinnsvurdering,
 } from '@io/rest/generated/spesialist.schemas';
+import { uuidV5 } from '@spesialist-mock/uuidV5';
 import { UUID } from '@typer/spesialist-mock';
 
 type PersonIdentifikatorer = {
@@ -60,7 +60,7 @@ const UUID_NAMESPACE = '0e4ec8b1-8fad-4003-b4a4-69d90be4eee0';
 const mapTilPersonIdentifikatorer = lesPersoner().map((it) => ({
     aktørId: it.aktorId,
     fødselsnummer: it.fodselsnummer,
-    personPseudoId: uuidv5(it.fodselsnummer, UUID_NAMESPACE),
+    personPseudoId: uuidV5(it.fodselsnummer, UUID_NAMESPACE),
 }));
 
 export class PersonMock {

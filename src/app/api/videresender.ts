@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { BackendNavn, backendBaseUrl, backendConfig, backendScope, kjørerLokalt } from '@app/api/backends';
 import { byttTilOboToken, hentWonderwallToken } from '@auth/token';
 
@@ -13,7 +11,7 @@ export function lagVideresender(navn: BackendNavn) {
         if (token instanceof Response) return token;
 
         const headers = filterHeadersExcept(request.headers, ['host', 'cookie', 'authorization']);
-        headers.set('X-Request-Id', uuidv4());
+        headers.set('X-Request-Id', crypto.randomUUID());
         Object.entries(backendConfig(navn).ekstraHeadere ?? {}).forEach(([name, value]) => headers.set(name, value));
         headers.set('Authorization', `Bearer ${token}`);
 

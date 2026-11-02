@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server';
-import { v4 as uuidv4 } from 'uuid';
 
 import { SparsomAktivitet, SparsomAktiviteterRequest, SparsomAktiviteterResponse } from '@io/rest/sparsom';
 import { lesTestpersonfiler } from '@spesialist-mock/storage/person';
@@ -28,9 +27,13 @@ export async function stub(request: NextRequest) {
     let id = 0;
     const aktiviteter = unikeVedtaksperioder.flatMap(
         ({ organisasjonsnummer, vedtaksperiodeId }): SparsomAktivitet[] => {
-            const søknad = { meldingsreferanseId: uuidv4(), fødselsnummer: ident, organisasjonsnummer };
-            const inntektsmelding = { meldingsreferanseId: uuidv4(), fødselsnummer: ident, organisasjonsnummer };
-            const påminnelse = { meldingsreferanseId: uuidv4(), fødselsnummer: ident, organisasjonsnummer };
+            const søknad = { meldingsreferanseId: crypto.randomUUID(), fødselsnummer: ident, organisasjonsnummer };
+            const inntektsmelding = {
+                meldingsreferanseId: crypto.randomUUID(),
+                fødselsnummer: ident,
+                organisasjonsnummer,
+            };
+            const påminnelse = { meldingsreferanseId: crypto.randomUUID(), fødselsnummer: ident, organisasjonsnummer };
             const vedtaksperiode = { vedtaksperiodeId, tilstand: 'AVVENTER_GODKJENNING' };
             return [
                 {

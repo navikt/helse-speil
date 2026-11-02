@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { logger } from '@navikt/next-logger';
 
 import { erUtvikling, getServerEnv } from '@/env';
@@ -40,7 +38,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ organisa
             method: 'get',
             headers: {
                 Authorization: `Bearer ${oboResult.token}`,
-                'X-Request-Id': uuidv4(),
+                'X-Request-Id': crypto.randomUUID(),
                 Accept: 'application/json',
             },
         });

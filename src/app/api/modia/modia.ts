@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { logger } from '@navikt/next-logger';
 
 import { getServerEnv } from '@/env';
@@ -19,7 +17,7 @@ const handlinger: { [key in Handling]: Handlingdata } = {
 
 export const kallModia = async (handling: Handling, wonderwallToken: string, data?: string): Promise<Response> => {
     const { method, path } = handlinger[handling];
-    const callId = uuidv4();
+    const callId = crypto.randomUUID();
     const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().MODIA_SCOPE);
     if (!oboResult.ok) {
         throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);

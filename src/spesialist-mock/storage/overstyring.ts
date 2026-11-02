@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import { v4 } from 'uuid';
 
 import {
     ApiArbeidsforholdoverstyring,
@@ -25,7 +24,7 @@ export class OverstyringMock {
     static leggTil = (fødselsnummer: string, organisasjonsnummer: string, overstyring: MockOverstyring): void => {
         const lagret = {
             ...overstyring,
-            hendelseId: v4(),
+            hendelseId: crypto.randomUUID(),
             timestamp: dayjs().format('YYYY-MM-DDTHH:mm:ss.SSS'),
             saksbehandler: { navn: lokalSaksbehandlerNavn, ident: lokalSaksbehandlerIdent },
             ferdigstilt: false,

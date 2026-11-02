@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { logger } from '@navikt/next-logger';
 
 import { backend, getServerEnv } from '@/env';
@@ -45,7 +43,7 @@ export async function POST(req: Request) {
         headers: {
             Authorization: `Bearer ${oboResult.token}`,
             'Content-Type': 'application/json',
-            'X-Request-Id': uuidv4(),
+            'X-Request-Id': crypto.randomUUID(),
         },
         body,
     });

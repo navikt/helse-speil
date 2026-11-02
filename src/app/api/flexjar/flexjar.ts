@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { logger } from '@navikt/next-logger';
 
 import { getServerEnv } from '@/env';
@@ -11,7 +9,7 @@ const postFlexjarQuery = async (
     method: string = 'POST',
     urlId: string = '',
 ): Promise<object> => {
-    const callId = uuidv4();
+    const callId = crypto.randomUUID();
     const oboResult = await byttTilOboToken(wonderwallToken, getServerEnv().FLEXJAR_SCOPE);
     if (!oboResult.ok) {
         throw new Error(`Feil ved henting av OBO-token: ${oboResult.error.message}`);

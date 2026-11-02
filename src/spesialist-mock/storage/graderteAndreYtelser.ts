@@ -1,5 +1,3 @@
-import { v7 } from 'uuid';
-
 import {
     ApiEndreGraderteAndreYtelserRequest,
     ApiGraderteAndreYtelser,
@@ -43,7 +41,7 @@ export function endreGraderteAndreYtelser(
         return { type: 'OK', versjon: eksisterende.versjon, endret: false };
     }
 
-    const versjon = v7();
+    const versjon = crypto.randomUUID();
     const event = {
         versjon,
         tidspunkt: new Date().toISOString(),

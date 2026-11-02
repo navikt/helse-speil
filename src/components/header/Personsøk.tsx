@@ -1,11 +1,11 @@
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactElement, useRef } from 'react';
-import { validate as validateUuid } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
 
 import { merkKildeForNestePerson } from '@observability/hendelser';
 import { useNullstillSaksbildeTab } from '@state/tab';
+import { isUuid } from '@utils/uuid';
 
 import { usePersonsøk } from './usePersonsøk';
 
@@ -25,7 +25,7 @@ export const Personsøk = (): ReactElement => {
         if (!søketekst || loading) {
             return;
         }
-        if (validateUuid(søketekst)) {
+        if (isUuid(søketekst)) {
             nullstillSaksbildeTab();
             merkKildeForNestePerson('personsøk');
             router.push(`/person/${søketekst}`);

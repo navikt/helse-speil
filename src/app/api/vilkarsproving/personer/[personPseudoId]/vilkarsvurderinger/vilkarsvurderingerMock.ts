@@ -1,5 +1,3 @@
-import { v4 } from 'uuid';
-
 import {
     ApiKildetype,
     ApiKravkilde,
@@ -98,7 +96,7 @@ export const vurderOpptjening = (personPseudoId: string, request: ApiManuellOppt
         kildetype: ApiKildetype.SAKSBEHANDLER,
     };
     const førsteLedd = (oppfylt: boolean): ApiVilkårsvurdering => ({
-        id: v4(),
+        id: crypto.randomUUID(),
         vilkårskode: ApiVilkårskode.OPPTJENING_ARBEID_MINST_4_UKER,
         utfall: oppfylt ? ApiUtfall.OPPFYLT : ApiUtfall.IKKE_OPPFYLT,
         vurdertTidspunkt,
@@ -106,7 +104,7 @@ export const vurderOpptjening = (personPseudoId: string, request: ApiManuellOppt
         kilde,
     });
     const punktum = (vilkårskode: ApiVilkårskode, oppfylt: boolean, setning: number): ApiVilkårsvurdering => ({
-        id: v4(),
+        id: crypto.randomUUID(),
         vilkårskode,
         utfall: oppfylt ? ApiUtfall.OPPFYLT : ApiUtfall.IKKE_OPPFYLT,
         vurdertTidspunkt,
@@ -162,7 +160,7 @@ function lagreManuelleVurderinger(
     const { vilkårsvurderinger, opptjeningshistorikk } = hentTilstand(personPseudoId);
 
     const nyttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
-        id: v4(),
+        id: crypto.randomUUID(),
         kravkode: ApiKravkode.OPPTJENING,
         opptjeningOk: opptjeningErOppfylt(nyeVurderinger),
         vurderinger: nyeVurderinger,
@@ -205,11 +203,11 @@ export const vurderAutomatiskPåNytt = (
     const aktørId = PersonMock.findAktørIdForPersonPseudoId(personPseudoId);
     const erAvslått = aktørId !== null && aktørId in PERSONER_MED_OPPTJENING_AUTOMATISK_AVSLÅTT;
     const nyVurdering = erAvslått
-        ? automatiskAvslåttVurdering(v4(), new Date().toISOString())
-        : automatiskVurdering(v4(), new Date().toISOString());
+        ? automatiskAvslåttVurdering(crypto.randomUUID(), new Date().toISOString())
+        : automatiskVurdering(crypto.randomUUID(), new Date().toISOString());
 
     const nyttKrav: ApiOpptjeningsvurderingVurdertISpVilkarproving = {
-        id: v4(),
+        id: crypto.randomUUID(),
         kravkode: ApiKravkode.OPPTJENING,
         opptjeningOk: !erAvslått,
         vurderinger: [nyVurdering],

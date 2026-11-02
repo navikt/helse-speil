@@ -1,5 +1,3 @@
-import { v4 } from 'uuid';
-
 import {
     ApiKildetype,
     ApiKravkode,
@@ -35,7 +33,7 @@ export function hentMedlemskapsvurdering(
 
 // Speiler Medlemskapsvurdering.avSaksbehandler() i sp-medlemskap
 export function vurderMedlemskap(personPseudoId: string, request: ApiManuellVilkårsvurderingRequest): string {
-    const id = v4();
+    const id = crypto.randomUUID();
     const vurdering: ApiMedlemskapsvurdering = {
         id,
         kravkode: ApiKravkode.MEDLEMSKAP,

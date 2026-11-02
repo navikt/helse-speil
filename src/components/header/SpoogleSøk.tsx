@@ -1,6 +1,5 @@
 import { useRouter } from 'next/navigation';
 import React, { FormEvent, ReactElement, useRef } from 'react';
-import { validate as validateUuid } from 'uuid';
 
 import { Search } from '@navikt/ds-react';
 import { teamLogger } from '@navikt/next-logger/team-log';
@@ -10,6 +9,7 @@ import { useSøkISpoogle } from '@io/rest/spoogle';
 import { merkKildeForNestePerson } from '@observability/hendelser';
 import { useNullstillSaksbildeTab } from '@state/tab';
 import { useAddVarsel } from '@state/varsler';
+import { isUuid } from '@utils/uuid';
 
 import { usePersonsøk } from './usePersonsøk';
 
@@ -31,7 +31,7 @@ export function SpoogleSøk(): ReactElement {
         if (!søketekst || loading) {
             return;
         }
-        if (!validateUuid(søketekst)) {
+        if (!isUuid(søketekst)) {
             søkPersonMedFødselsnummerEllerAktørId(søketekst);
             return;
         }
