@@ -7,6 +7,7 @@ import { defineConfig } from 'eslint/config';
 import tsmEslintReact from '@navikt/tsm-eslint-react';
 
 import importAlias from '@limegrass/eslint-plugin-import-alias';
+import pluginQuery from '@tanstack/eslint-plugin-query';
 
 const eslintConfig = defineConfig([
     {
@@ -24,6 +25,7 @@ const eslintConfig = defineConfig([
     ...nextTs,
     ...tsmEslintReact,
     reactHooks.configs.flat['recommended-latest'],
+    ...pluginQuery.configs['flat/recommended'],
     {
         extends: [eslintPluginPrettierRecommended],
         rules: {
