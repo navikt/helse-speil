@@ -6,8 +6,6 @@ import { Alert } from '@navikt/ds-react';
 
 import { getFaro } from '@observability/faro';
 
-import styles from './error.module.scss';
-
 export default function Error({ error }: { error: Error & { digest?: string } }) {
     useEffect(() => {
         // eslint-disable-next-line no-console
@@ -16,7 +14,7 @@ export default function Error({ error }: { error: Error & { digest?: string } })
     }, [error]);
 
     return (
-        <Alert variant="error" size="small" className={styles.error}>
+        <Alert variant="error" size="small" className="col-start-[venstremeny] col-end-[høyremeny] h-max rounded-none">
             {error.message}
         </Alert>
     );
