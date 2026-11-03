@@ -1,4 +1,3 @@
-import { JSDOM } from 'jsdom';
 import * as mockRouter from 'next-router-mock';
 import { createDynamicRouteParser } from 'next-router-mock/dynamic-routes';
 import { beforeEach, vi } from 'vitest';
@@ -109,27 +108,12 @@ function sortKeys(value: unknown): unknown {
     return value;
 }
 
-// Node 26 defines an un-writable localStorage getter that defaults to undefined.
-// We force-override it with jsdom's isolated localStorage instance.
-const dom = new JSDOM('', { url: 'http://localhost/' });
-
-Object.defineProperty(globalThis, 'localStorage', {
-    value: dom.window.localStorage,
-    writable: true,
-    configurable: true,
-});
-
-Object.defineProperty(globalThis, 'sessionStorage', {
-    value: dom.window.sessionStorage,
-    writable: true,
-    configurable: true,
-});
-
 beforeEach(() => {
     vi.clearAllMocks();
     // Default response to prevent React Query "Query data cannot be undefined" warning
     mockFetchResponse([]);
-    localStorage.clear();
+    // Tests with `@vitest-environment node` have no localStorage
+    globalThis.localStorage?.clear();
 });
 
 // Aksel sin <Accordion> logger en dev-warning (med hele DOM-noden/Fiber-treet som argument) når
