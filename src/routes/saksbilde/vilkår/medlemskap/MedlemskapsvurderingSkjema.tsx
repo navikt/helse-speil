@@ -12,6 +12,7 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ApiManuellMedlemskapsstatus } from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import {
+    getGetMedlemskapshistorikkBehandlerQueryKey,
     getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     usePostManuellVilkårsvurderingBehandler,
 } from '@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger';
@@ -51,6 +52,9 @@ export function MedlemskapsvurderingSkjema({
                 });
                 void queryClient.invalidateQueries({
                     queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
+                });
+                void queryClient.invalidateQueries({
+                    queryKey: getGetMedlemskapshistorikkBehandlerQueryKey(personPseudoId),
                 });
                 onOverstyrt(response.medlemskapsvurderingId);
                 onLukk();

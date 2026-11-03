@@ -2,6 +2,7 @@ import {
     ApiKildetype,
     ApiKravkode,
     ApiManuellVilkårsvurderingRequest,
+    ApiMedlemskapshistorikkResponse,
     ApiMedlemskapsstatus,
     ApiMedlemskapsvurdering,
     ApiVilkårsvurderingerForPersonResponse,
@@ -49,6 +50,22 @@ export function vurderMedlemskap(personPseudoId: string, request: ApiManuellVilk
     };
     vurderingerFor(personPseudoId).set(id, { skjæringstidspunkt: request.skjæringstidspunkt, krav: [vurdering] });
     return id;
+}
+
+// Speiler GetMedlemskapshistorikkBehandler i sp-medlemskap: alle vurderinger på skjæringstidspunktet, nyeste først
+export function hentMedlemskapshistorikk(
+    personPseudoId: string,
+    skjæringstidspunkt: string,
+): ApiMedlemskapshistorikkResponse {
+    const historikk = [...vurderingerFor(personPseudoId).values()]
+        .filter((vurdering) => vurdering.skjæringstidspunkt === skjæringstidspunkt)
+        .flatMap((vurdering) => vurdering.krav)
+        .map((medlemskapsvurdering) => ({
+            vurdertTidspunkt: medlemskapsvurdering.vurdertTidspunkt,
+            medlemskapsvurdering,
+        }))
+        .sort((a, b) => new Date(b.vurdertTidspunkt).getTime() - new Date(a.vurdertTidspunkt).getTime());
+    return { skjæringstidspunkt, historikk };
 }
 
 function vurderingerFor(personPseudoId: string): Map<string, ApiVilkårsvurderingerForPersonResponse> {

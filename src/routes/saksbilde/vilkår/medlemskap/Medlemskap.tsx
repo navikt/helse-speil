@@ -14,10 +14,13 @@ import { VilkårsutfallIkon, VilkårsutfallTag, VurdertAvSaksbehandler } from '@
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
+import { EndringsloggMedlemskapButton } from './EndringsloggMedlemskapButton';
+import { Medlemskapsendring } from './useMedlemskapshistorikk';
 import { Medlemskapsvurdering, statustekst } from './useMedlemskapsvurdering';
 
 interface MedlemskapProps {
     medlemskapsvurdering: Medlemskapsvurdering;
+    endringer: Medlemskapsendring[];
     readOnly: boolean;
     serPåTidligereBehandling: boolean;
     vurderer: boolean;
@@ -26,6 +29,7 @@ interface MedlemskapProps {
 
 export function Medlemskap({
     medlemskapsvurdering,
+    endringer,
     readOnly,
     serPåTidligereBehandling,
     vurderer,
@@ -62,6 +66,7 @@ export function Medlemskap({
                 <Heading id={tittelId} level="3" size="xsmall">
                     Lovvalg og medlemskap
                 </Heading>
+                <EndringsloggMedlemskapButton endringer={endringer} />
                 {kanVurdere && (
                     <Button type="button" variant="secondary" size="small" onClick={onVurder} className="ml-auto">
                         Vurder vilkår
@@ -85,7 +90,7 @@ export function Medlemskap({
     );
 }
 
-function Medlemskapsdetaljer({ vurdering }: { vurdering: ApiMedlemskapsvurdering }): ReactElement {
+export function Medlemskapsdetaljer({ vurdering }: { vurdering: ApiMedlemskapsvurdering }): ReactElement {
     const { kilde } = vurdering;
     return (
         <>

@@ -27,6 +27,7 @@ import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
 import { VilkårsutfallKort } from './VilkårsutfallKort';
 import { Medlemskap } from './medlemskap/Medlemskap';
 import { MedlemskapsvurderingSkjema } from './medlemskap/MedlemskapsvurderingSkjema';
+import { useMedlemskapshistorikk } from './medlemskap/useMedlemskapshistorikk';
 import { useMedlemskapsvurdering } from './medlemskap/useMedlemskapsvurdering';
 import { Opptjening } from './opptjening/Opptjening';
 import { OpptjeningsvurderingSkjema } from './opptjening/OpptjeningsvurderingSkjema';
@@ -82,6 +83,11 @@ export function InngangsvilkårWithContent({
         personPseudoId,
         medlemskapsvurderingId,
         visNyMedlemskapsvurdering,
+    );
+    const medlemskapsendringer = useMedlemskapshistorikk(
+        personPseudoId,
+        vilkårsgrunnlag.skjaeringstidspunkt,
+        visNyMedlemskapsvurdering && medlemskapsvurdering.vurdering !== undefined,
     );
     const [åpentSkjema, setÅpentSkjema] = useState<Vilkårsskjema | null>(null);
     const vurdererOpptjening = åpentSkjema === 'opptjening';
@@ -149,6 +155,7 @@ export function InngangsvilkårWithContent({
                         {visNyMedlemskapsvurdering ? (
                             <Medlemskap
                                 medlemskapsvurdering={medlemskapsvurdering}
+                                endringer={medlemskapsendringer}
                                 readOnly={readOnly}
                                 serPåTidligereBehandling={serPåTidligereBehandling}
                                 vurderer={vurdererMedlemskap}
