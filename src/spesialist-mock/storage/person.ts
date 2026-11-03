@@ -141,10 +141,15 @@ export function alleBehandlinger<B>(person: {
 }
 
 function lesFil(filsti: string): string {
-    const { mtimeMs } = fs.statSync(filsti);
-    const cachet = filinnhold.get(filsti);
-    if (cachet?.mtimeMs === mtimeMs) return cachet.raw;
-    const raw = fs.readFileSync(filsti, { encoding: 'utf-8' });
-    filinnhold.set(filsti, { mtimeMs, raw });
-    return raw;
+    const fd = fs.openSync(filsti, 'r');
+    try {
+        const { mtimeMs } = fs.fstatSync(fd);
+        const cachet = filinnhold.get(filsti);
+        if (cachet?.mtimeMs === mtimeMs) return cachet.raw;
+        const raw = fs.readFileSync(fd, { encoding: 'utf-8' });
+        filinnhold.set(filsti, { mtimeMs, raw });
+        return raw;
+    } finally {
+        fs.closeSync(fd);
+    }
 }
