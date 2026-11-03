@@ -14,7 +14,7 @@
         "node": "24",
         "pnpm": ">=12"
     },
-    "packageManager": "pnpm@12.15.0",
+    "packageManager": "pnpm@12.16.1",
     "scripts": {
         "dev": "NEXT_PUBLIC_RUNTIME_ENV=mock PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "lokal-backend": "NEXT_PUBLIC_RUNTIME_ENV=lokal LOKALE_BACKENDS=spesialist,sporhund,vilkarsproving PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
