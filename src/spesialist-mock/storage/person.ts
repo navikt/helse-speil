@@ -41,13 +41,13 @@ export type Testpersonfil = {
     overstyringer: ApiOverstyring[];
 };
 
+// Filene er store, så innholdet caches til de endres. Parses på nytt hver gang, siden kallerne muterer objektene.
+const filinnhold = new Map<string, { mtimeMs: number; raw: string }>();
+
 export function lesTestpersonfiler(): Testpersonfil[] {
     const url = path.join(cwd(), 'src/spesialist-mock/data/personer');
     const filenames = fs.readdirSync(url);
-    return filenames.map((filename) => {
-        const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
-        return JSON.parse(raw) as Testpersonfil;
-    });
+    return filenames.map((filename) => JSON.parse(lesFil(path.join(url, filename))) as Testpersonfil);
 }
 
 export const finnTestpersonfil = (fødselsnummer: string): Testpersonfil | undefined =>
@@ -138,4 +138,13 @@ export function alleBehandlinger<B>(person: {
     selvstendigNaering?: Inntektsforhold<B> | null;
 }): B[] {
     return alleInntektsforhold(person).flatMap((inntektsforhold) => inntektsforhold.behandlinger);
+}
+
+function lesFil(filsti: string): string {
+    const { mtimeMs } = fs.statSync(filsti);
+    const cachet = filinnhold.get(filsti);
+    if (cachet?.mtimeMs === mtimeMs) return cachet.raw;
+    const raw = fs.readFileSync(filsti, { encoding: 'utf-8' });
+    filinnhold.set(filsti, { mtimeMs, raw });
+    return raw;
 }
