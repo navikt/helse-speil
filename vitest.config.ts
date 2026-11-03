@@ -7,6 +7,15 @@ export default defineConfig({
         pool: 'vmThreads',
         globals: true,
         setupFiles: ['./vitest.setup.tsx'],
+        // vmThreads laster avhengigheter på nytt i hver testfil. Bundling gjør barrel-importen til ds-react mye billigere.
+        deps: {
+            optimizer: {
+                client: {
+                    enabled: true,
+                    include: ['@navikt/ds-react'],
+                },
+            },
+        },
         include: ['**/*.test.{ts,tsx}'],
         exclude: ['node_modules', '.next'],
         css: {
