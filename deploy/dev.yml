@@ -32,6 +32,7 @@ spec:
           namespace: tbd
         - application: sp-vilkarsproving
         - application: sp-medlemskap
+        - application: sp-andre-ytelser
         - application: spleis-api
         - application: sp-rettighetskategori
         - application: sparsom-api
@@ -159,4 +160,7 @@ spec:
       value: api://dev-gcp.tbd.sp-medlemskap/.default
     - name: MEDLEMSKAP_BASE_URL
       value: http://sp-medlemskap
-
+    - name: CLIENT_ID_ANDRE_YTELSER
+      value: api://dev-gcp.tbd.sp-andre-ytelser/.default
+    - name: ANDRE_YTELSER_BASE_URL
+      value: http://sp-andre-ytelser

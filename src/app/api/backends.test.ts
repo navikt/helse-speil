@@ -86,14 +86,17 @@ describe('backends', () => {
     it('backender som bare finnes i dev er ikke tilgjengelige i prod', () => {
         env.backend = 'deployed';
         expect(erTilgjengelig('medlemskap')).toBe(false);
+        expect(erTilgjengelig('sp-andre-ytelser')).toBe(false);
         expect(erTilgjengelig('vilkarsproving')).toBe(true);
 
         env.erDev = true;
         expect(erTilgjengelig('medlemskap')).toBe(true);
+        expect(erTilgjengelig('sp-andre-ytelser')).toBe(true);
 
         env.backend = 'mock';
         env.erDev = false;
         expect(erTilgjengelig('medlemskap')).toBe(true);
+        expect(erTilgjengelig('sp-andre-ytelser')).toBe(true);
     });
 
     describe('validerBackendConfig', () => {

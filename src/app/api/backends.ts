@@ -77,6 +77,13 @@ export const backends = {
         målprefiks: '/api',
         kunIDev: true,
     },
+    'sp-andre-ytelser': {
+        scopeEnv: 'CLIENT_ID_ANDRE_YTELSER',
+        baseUrlEnv: 'ANDRE_YTELSER_BASE_URL',
+        lokalPort: 8484,
+        målprefiks: '/api',
+        kunIDev: true,
+    },
 } satisfies Record<string, BackendConfig>;
 
 export type BackendNavn = keyof typeof backends;
