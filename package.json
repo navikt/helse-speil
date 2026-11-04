@@ -39,6 +39,7 @@
         "generate-rest:sporhund": "orval --project sporhund",
         "generate-rest:vilkarsproving": "orval --project vilkarsproving",
         "generate-rest:medlemskap": "orval --project medlemskap",
+        "generate-rest:andre-ytelser": "orval --project andre-ytelser",
         "generate-sanity": "SPALTEN_DIR=${SPALTEN_DIR:-../spalten}; [ -d \"$SPALTEN_DIR\" ] || { echo \"Fant ikke spalten i '$SPALTEN_DIR'.\"; exit 1; }; pnpm --dir \"$SPALTEN_DIR\" exec sanity schema extract --enforce-required-fields --path \"$PWD/src/io/sanity/schema.json\" && \"$SPALTEN_DIR/node_modules/.bin/sanity\" typegen generate && prettier --write src/io/sanity/generated",
         "install-precommit-hooks": "husky",
         "lint-staged": "lint-staged"

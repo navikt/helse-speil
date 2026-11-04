@@ -77,7 +77,7 @@ export const backends = {
         målprefiks: '/api',
         kunIDev: true,
     },
-    'sp-andre-ytelser': {
+    'andre-ytelser': {
         scopeEnv: 'CLIENT_ID_ANDRE_YTELSER',
         baseUrlEnv: 'ANDRE_YTELSER_BASE_URL',
         lokalPort: 8484,

@@ -1,5 +1,6 @@
 // noinspection ES6PreferShortImport
 import {
+    andreYtelserOpenAPITransformer,
     medlemskapOpenAPITransformer,
     spesialistOpenAPITransformer,
     sporhundOpenAPITransformer,
@@ -93,6 +94,19 @@ export default defineConfig({
             ...sharedOutput,
             // Egen mappe, siden sp-medlemskap har de samme taggene som sp-vilkarsproving
             target: 'src/io/rest/generated/medlemskap/medlemskap.ts',
+        },
+        hooks: sharedHooks,
+    },
+    'andre-ytelser': {
+        input: {
+            target: 'http://localhost:8484/api/openapi.json',
+            override: {
+                transformer: andreYtelserOpenAPITransformer,
+            },
+        },
+        output: {
+            ...sharedOutput,
+            target: 'src/io/rest/generated/andre-ytelser/andre-ytelser.ts',
         },
         hooks: sharedHooks,
     },
