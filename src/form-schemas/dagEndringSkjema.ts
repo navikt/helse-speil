@@ -57,6 +57,7 @@ const gradertAnnenYtelseFeltnavn = (ytelse?: string) => ({
 const validerProsent = (
     felt: GradertAnnenYtelseFelt,
     verdi: number | null | undefined,
+    max: number,
     ctx: z.RefinementCtx<{ dagtype: string }>,
 ) => {
     if (verdi == null) {
@@ -66,10 +67,10 @@ const validerProsent = (
             input: verdi,
             path: [felt],
         });
-    } else if (verdi < 1 || verdi > 100) {
+    } else if (verdi < 1 || verdi > max) {
         ctx.addIssue({
             code: 'custom',
-            message: `${gradertAnnenYtelseFeltnavn(ctx.value.dagtype)[felt]} må være mellom 1 og 100 %`,
+            message: `${gradertAnnenYtelseFeltnavn(ctx.value.dagtype)[felt]} må være mellom 1 og ${max} %`,
             input: verdi,
             path: [felt],
         });
@@ -78,18 +79,45 @@ const validerProsent = (
 
 const validerGradertAnnenYtelse = (
     felter: Partial<Record<GradertAnnenYtelseFelt, number | null>>,
+    markerteDager: Utbetalingstabelldag[],
     ctx: z.RefinementCtx<{ dagtype: string }>,
 ) => {
-    validerProsent('innvigletGrad', felter.innvigletGrad, ctx);
-    validerProsent('sykepengerGrad', felter.sykepengerGrad, ctx);
-    validerProsent('gradAndreYtelser', felter.gradAndreYtelser, ctx);
+    validerProsent('innvigletGrad', felter.innvigletGrad, 100, ctx);
+
+    if (markerteDager.some((dag) => !dag.grad)) {
+        ctx.addIssue({
+            code: 'custom',
+            message: 'Andre ytelser kan bare fordeles på dager med sykdomsgrad',
+            input: felter.sykepengerGrad,
+            path: ['sykepengerGrad'],
+        });
+        return;
+    }
+
+    const sykdomsgraderFørFordeling = markerteDager.map((dag) => dag.grad ?? 0);
+    const lavesteSykdomsgradFørFordeling = Math.min(100, ...sykdomsgraderFørFordeling);
+    const høyesteSykdomsgradFørFordeling = Math.max(0, ...sykdomsgraderFørFordeling);
+
+    validerProsent('sykepengerGrad', felter.sykepengerGrad, lavesteSykdomsgradFørFordeling, ctx);
+    validerProsent('gradAndreYtelser', felter.gradAndreYtelser, 99, ctx);
 
     const { sykepengerGrad, gradAndreYtelser } = felter;
-    if (sykepengerGrad && gradAndreYtelser && sykepengerGrad + gradAndreYtelser > 100) {
+    if (!sykepengerGrad || !gradAndreYtelser) return;
+
+    const samletGrad = sykepengerGrad + gradAndreYtelser;
+    if (samletGrad > 100) {
         ctx.addIssue({
             code: 'custom',
             message: 'Samlet grad kan ikke overstige 100 %',
-            input: sykepengerGrad + gradAndreYtelser,
+            input: samletGrad,
+            path: ['sykepengerGrad'],
+        });
+    } else if (samletGrad < høyesteSykdomsgradFørFordeling) {
+        const feltnavn = gradertAnnenYtelseFeltnavn(ctx.value.dagtype);
+        ctx.addIssue({
+            code: 'custom',
+            message: `Arbeidsgraden kan ikke øke. ${feltnavn.sykepengerGrad} og ${feltnavn.gradAndreYtelser.toLocaleLowerCase()} må til sammen være minst ${høyesteSykdomsgradFørFordeling} %.`,
+            input: samletGrad,
             path: ['sykepengerGrad'],
         });
     }
@@ -111,7 +139,7 @@ export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetali
         })
         .superRefine(({ dagtype, grad, gradererAnnenYtelse, ...gradertAnnenYtelse }, ctx) => {
             if (gradererAnnenYtelse) {
-                validerGradertAnnenYtelse(gradertAnnenYtelse, ctx);
+                validerGradertAnnenYtelse(gradertAnnenYtelse, markerteDager, ctx);
             } else if (kanVelgeGrad(dagtype)) {
                 lagGradValidering(minimumGrad)(grad, ctx);
             }
@@ -141,7 +169,7 @@ export const lagDagEndringSelvstendigSchema = (minimumGrad: number, markerteDage
         })
         .superRefine(({ dagtype, grad, gradererAnnenYtelse, ...gradertAnnenYtelse }, ctx) => {
             if (gradererAnnenYtelse) {
-                validerGradertAnnenYtelse(gradertAnnenYtelse, ctx);
+                validerGradertAnnenYtelse(gradertAnnenYtelse, markerteDager, ctx);
             } else if (kanVelgeGrad(dagtype)) {
                 lagGradValidering(minimumGrad)(grad, ctx);
             }
