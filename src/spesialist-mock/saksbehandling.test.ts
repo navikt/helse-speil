@@ -242,7 +242,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
     });
 
     it('gir inntektene fra a-ordningen per arbeidsgiver og skjæringstidspunkt', async () => {
-        const fil = lesTestpersonfiler().find((it) => it.inntekterFraAordningen.length > 0)!;
+        const fil = lesTestpersonfiler().find((it) => it.inntekterFraAordningen?.length > 0)!;
         const pseudoId = PersonMock.findPersonPseudoId(fil.saksbilde.fodselsnummer)!;
         const forventet = fil.inntekterFraAordningen;
 
@@ -259,7 +259,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
     });
 
     it('gir overstyringene fra testpersonfila og mocken med organisasjonsnummer', async () => {
-        const fil = lesTestpersonfiler().find((it) => it.overstyringer.length > 0)!;
+        const fil = lesTestpersonfiler().find((it) => it.overstyringer?.length > 0)!;
         const fnr = fil.saksbilde.fodselsnummer;
         const pseudoId = PersonMock.findPersonPseudoId(fnr)!;
         const fraFila = fil.overstyringer;

@@ -72,22 +72,22 @@ describe('tilGraderteAndreYtelserRequest', () => {
             notatTilBeslutter: '',
         });
 
-        it('bevarer sykdomsgrad før fordeling uten å beregne den fra de fordelte gradene', () => {
-            const dag = gradertDag('2024-07-01', 30, 40);
-            dag.gradertAnnenYtelse!.sykdomsgradFørFordeling = 60;
+        expect(request.versjon).toBeNull();
+    });
 
-            const request = tilGraderteAndreYtelserRequest({
-                overstyrteDager: [dag],
-                inntektsforhold: arbeidsgiver('967170232'),
-                graderteAndreYtelser: [],
-                behandlingId,
-                notatTilBeslutter: '',
-            });
+    it('bevarer sykdomsgrad før fordeling uten å beregne den fra de fordelte gradene', () => {
+        const dag = gradertDag('2024-07-01', 30, 40);
+        dag.gradertAnnenYtelse!.sykdomsgradFørFordeling = 60;
 
-            expect(request.dager[0]!.sykdomsgradFørFordeling).toBe(60);
+        const request = tilGraderteAndreYtelserRequest({
+            overstyrteDager: [dag],
+            inntektsforhold: arbeidsgiver('967170232'),
+            graderteAndreYtelser: [],
+            behandlingId,
+            notatTilBeslutter: '',
         });
 
-        expect(request.versjon).toBeNull();
+        expect(request.dager[0]!.sykdomsgradFørFordeling).toBe(60);
     });
 
     it('sender selvstendig uten organisasjonsnummer', () => {

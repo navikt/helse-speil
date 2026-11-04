@@ -21,6 +21,7 @@ function erEndretGradertAnnenYtelse(
     if (!lagretGradertDag || !dag?.gradertAnnenYtelsetype || !gradertAnnenYtelse) return true;
     const { andreYtelserGrader, sykdomsgrad } = lagretGradertDag;
     return (
+        lagretGradertDag.sykdomsgradFørFordeling !== gradertAnnenYtelse.sykdomsgradFørFordeling ||
         sykdomsgrad !== gradertAnnenYtelse.sykdomsgrad ||
         Object.keys(andreYtelserGrader).length !== 1 ||
         andreYtelserGrader[dag.gradertAnnenYtelsetype] !== gradertAnnenYtelse.andreYtelseGrad
