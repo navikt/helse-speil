@@ -31,6 +31,7 @@ spec:
         - application: spoogle
           namespace: tbd
         - application: sp-vilkarsproving
+        - application: sp-avslagsdager
         - application: sp-medlemskap
         - application: sp-andre-ytelser
         - application: spleis-api
@@ -156,6 +157,10 @@ spec:
       value: api://dev-gcp.tbd.sp-vilkarsproving/.default
     - name: VILKARSPROVING_BASE_URL
       value: http://sp-vilkarsproving
+    - name: CLIENT_ID_AVSLAGSDAGER
+      value: api://dev-gcp.tbd.sp-avslagsdager/.default
+    - name: AVSLAGSDAGER_BASE_URL
+      value: http://sp-avslagsdager
     - name: CLIENT_ID_MEDLEMSKAP
       value: api://dev-gcp.tbd.sp-medlemskap/.default
     - name: MEDLEMSKAP_BASE_URL

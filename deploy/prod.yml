@@ -34,6 +34,7 @@ spec:
           namespace: tbd
           cluster: prod-gcp
         - application: sp-vilkarsproving
+        - application: sp-avslagsdager
         - application: spleis-api
         - application: sp-rettighetskategori
         - application: sparsom-api
@@ -163,3 +164,7 @@ spec:
       value: api://prod-gcp.tbd.sp-vilkarsproving/.default
     - name: VILKARSPROVING_BASE_URL
       value: http://sp-vilkarsproving
+    - name: CLIENT_ID_AVSLAGSDAGER
+      value: api://prod-gcp.tbd.sp-avslagsdager/.default
+    - name: AVSLAGSDAGER_BASE_URL
+      value: http://sp-avslagsdager

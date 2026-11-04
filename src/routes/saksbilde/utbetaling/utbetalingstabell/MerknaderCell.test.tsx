@@ -36,6 +36,7 @@ describe('MerknaderCell', () => {
             ApiBegrunnelse.SYKEPENGEDAGER_OPPBRUKT,
             ApiBegrunnelse.SYKEPENGEDAGER_OPPBRUKT_OVER_67,
             ApiBegrunnelse.OVER_70,
+            ApiBegrunnelse.OPPHOLDSKRAV,
         ];
 
         render(
@@ -50,11 +51,13 @@ describe('MerknaderCell', () => {
         expect(screen.queryByTestId('Krav til 4 ukers opptjening er ikke oppfylt')).toBeVisible();
         expect(screen.queryByTestId('Krav til medlemskap er ikke oppfylt')).toBeVisible();
         expect(screen.queryByTestId('Personen er 70 år eller eldre')).toBeVisible();
+        expect(screen.queryByTestId('Krav til opphold er ikke oppfylt')).toBeVisible();
 
         expect(screen.queryAllByTestId('Inntekt under krav til minste sykepengegrunnlag')).toHaveLength(2);
         expect(screen.queryAllByTestId('Maks antall sykepengedager er nådd')).toHaveLength(2);
 
         expect(screen.queryByText('§ 8-7, 1. avsnitt')).toBeVisible();
+        expect(screen.queryByText('§ 8-9')).toBeVisible();
     });
 
     test('rendrer riktig for forskjellige varianter av minimum inntekt', () => {

@@ -1,6 +1,7 @@
 // noinspection ES6PreferShortImport
 import {
     andreYtelserOpenAPITransformer,
+    avslagsdagerOpenAPITransformer,
     medlemskapOpenAPITransformer,
     spesialistOpenAPITransformer,
     sporhundOpenAPITransformer,
@@ -107,6 +108,20 @@ export default defineConfig({
         output: {
             ...sharedOutput,
             target: 'src/io/rest/generated/andre-ytelser/andre-ytelser.ts',
+        },
+        hooks: sharedHooks,
+    },
+    avslagsdager: {
+        input: {
+            target: 'http://localhost:8585/api/openapi.json',
+            override: {
+                transformer: avslagsdagerOpenAPITransformer,
+            },
+        },
+        output: {
+            ...sharedOutput,
+            // Egen mappe, siden spesialist også har taggene saksbehandlerhandlinger og vurderinger
+            target: 'src/io/rest/generated/avslagsdager/avslagsdager.ts',
         },
         hooks: sharedHooks,
     },

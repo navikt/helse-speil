@@ -95,11 +95,13 @@ describe('backends', () => {
         env.backend = 'deployed';
         expect(erTilgjengelig('medlemskap')).toBe(false);
         expect(erTilgjengelig('andre-ytelser')).toBe(false);
+        expect(erTilgjengelig('avslagsdager')).toBe(false);
         expect(erTilgjengelig('vilkarsproving')).toBe(true);
 
         env.erDev = true;
         expect(erTilgjengelig('medlemskap')).toBe(true);
         expect(erTilgjengelig('andre-ytelser')).toBe(true);
+        expect(erTilgjengelig('avslagsdager')).toBe(true);
 
         env.backend = 'mock';
         env.erDev = false;

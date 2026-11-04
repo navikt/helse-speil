@@ -17,6 +17,12 @@ describe('tilVisningUrl', () => {
         expect(tilVisningUrl(ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING, 'person-1', 'handling-1')).toBeNull();
     });
 
+    test('endring av avslagsdager hentes fra sp-avslagsdager', () => {
+        expect(tilVisningUrl(ApiHandlingType.AVSLAGSDAGER_ENDRET, 'person-1', 'handling-1')).toBe(
+            '/api/avslagsdager/personer/person-1/saksbehandlerhandlinger/handling-1/visning',
+        );
+    });
+
     test('endring av graderte andre ytelser har ingen detaljvisning ennå', () => {
         expect(tilVisningUrl(ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'person-1', 'handling-1')).toBeNull();
     });
@@ -60,6 +66,7 @@ describe('tilSaksbehandlerhandlingTekst', () => {
         expect(tilSaksbehandlerhandlingTekst(ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET)).toBe(
             'Graderte andre ytelser endret',
         );
+        expect(tilSaksbehandlerhandlingTekst(ApiHandlingType.AVSLAGSDAGER_ENDRET)).toBe('Avslagsdager endret');
     });
 });
 
@@ -68,6 +75,7 @@ describe('tilSaksbehandlerhandlingKontrolltekst', () => {
         [ApiHandlingType.MANUELT_VURDERT_OPPTJENING, 'Manuell vurdering av opptjening'],
         [ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING, 'Ny automatisk vurdering av opptjening'],
         [ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'Endring av graderte andre ytelser'],
+        [ApiHandlingType.AVSLAGSDAGER_ENDRET, 'Endring av avslagsdager'],
     ])('har kontrolltekst for %s', (handlingType, tekst) => {
         expect(tilSaksbehandlerhandlingKontrolltekst(handlingType)).toBe(tekst);
     });

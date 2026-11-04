@@ -84,6 +84,13 @@ export const backends = {
         målprefiks: '/api',
         kunIDev: true,
     },
+    avslagsdager: {
+        scopeEnv: 'CLIENT_ID_AVSLAGSDAGER',
+        baseUrlEnv: 'AVSLAGSDAGER_BASE_URL',
+        lokalPort: 8585,
+        målprefiks: '/api',
+        kunIDev: true,
+    },
 } satisfies Record<string, BackendConfig>;
 
 export type BackendNavn = keyof typeof backends;

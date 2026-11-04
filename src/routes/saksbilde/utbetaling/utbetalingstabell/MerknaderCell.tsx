@@ -98,6 +98,14 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Re
                     </Tooltip>
                 </span>
             );
+        case 'OPPHOLDSKRAV':
+            return (
+                <span className={styles.container} data-testid="Krav til opphold er ikke oppfylt">
+                    <Tooltip content="Krav til opphold er ikke oppfylt" describesChild>
+                        <LovdataLenke paragraf="8-9">§ 8-9</LovdataLenke>
+                    </Tooltip>
+                </span>
+            );
         case 'MELDING_TIL_NAV_DAG_UTENFOR_VENTETID':
             return <BodyShort>Utenfor ventetid</BodyShort>;
         case 'AVSLATT_MELDING_TIL_NAV_DAG':

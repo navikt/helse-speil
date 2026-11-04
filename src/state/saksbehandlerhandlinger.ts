@@ -41,6 +41,8 @@ export function tilSaksbehandlerhandlingTekst(handlingType: ApiHandlingType): st
             return 'Opptjening vurdert automatisk på nytt';
         case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
             return 'Graderte andre ytelser endret';
+        case ApiHandlingType.AVSLAGSDAGER_ENDRET:
+            return 'Avslagsdager endret';
         default:
             return 'Ukjent handling';
     }
@@ -54,6 +56,8 @@ export function tilSaksbehandlerhandlingKontrolltekst(handlingType: ApiHandlingT
             return 'Ny automatisk vurdering av opptjening';
         case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
             return 'Endring av graderte andre ytelser';
+        case ApiHandlingType.AVSLAGSDAGER_ENDRET:
+            return 'Endring av avslagsdager';
         default:
             return 'Ukjent handling';
     }
@@ -72,10 +76,12 @@ export function tilVisningUrl(
 }
 
 // Domenet må ha en proxy-rute under src/app/api/<domene>/personer/[personPseudoId]/saksbehandlerhandlinger/[handlingId]/visning
-function domeneMedDetaljer(handlingType: ApiHandlingType): 'vilkarsproving' | null {
+function domeneMedDetaljer(handlingType: ApiHandlingType): 'vilkarsproving' | 'avslagsdager' | null {
     switch (handlingType) {
         case ApiHandlingType.MANUELT_VURDERT_OPPTJENING:
             return 'vilkarsproving';
+        case ApiHandlingType.AVSLAGSDAGER_ENDRET:
+            return 'avslagsdager';
         default:
             return null;
     }
