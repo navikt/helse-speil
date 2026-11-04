@@ -5,9 +5,9 @@ import {
     overstyringsdagtyperSelvstendig,
 } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import type { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
-import type { GradertAnnenYtelse, Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import type { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
-import type { DagEndringFormFields } from './types';
+import type { DagEndringFormFields, Dagendring, Fordeling } from './types';
 
 export function lagSchema(erSelvstendig: boolean, markerteDager: Map<string, Utbetalingstabelldag>) {
     const lagDagEndring = erSelvstendig ? lagDagEndringSelvstendigSchema : lagDagEndringSchema;
@@ -29,23 +29,25 @@ export function overstyringsdagtyper(erSelvstendig: boolean): Speildag[] {
     return erSelvstendig ? overstyringsdagtyperSelvstendig : overstyringsdagtyperArbeidstaker;
 }
 
-export function tilDagendring(values: DagEndringFormFields): Partial<Utbetalingstabelldag> {
-    let gradertAnnenYtelse: GradertAnnenYtelse | null = null;
-    if (values.gradererAnnenYtelse) {
-        const sykdomsgradFørFordeling = values.innvigletGrad;
-        if (sykdomsgradFørFordeling == null) throw new Error('Sykdomsgrad før fordeling mangler');
-        gradertAnnenYtelse = {
-            sykdomsgradFørFordeling,
-            sykdomsgrad: values.sykepengerGrad ?? 0,
-            andreYtelseGrad: values.gradAndreYtelser ?? 0,
-        };
-    }
+export function tilDagendring(values: DagEndringFormFields): Dagendring {
+    const gradertAnnenYtelse: Fordeling | null = values.gradererAnnenYtelse
+        ? { sykdomsgrad: values.sykepengerGrad ?? 0, andreYtelseGrad: values.gradAndreYtelser ?? 0 }
+        : null;
     return {
-        grad: values.gradererAnnenYtelse ? (values.sykepengerGrad ?? 0) + (values.gradAndreYtelser ?? 0) : values.grad,
+        grad: gradertAnnenYtelse ? gradertAnnenYtelse.sykdomsgrad + gradertAnnenYtelse.andreYtelseGrad : values.grad,
         dag: alleTypeendringer.find((dag) => dag.speilDagtype === values.dagtype)!,
         erAvvist: false,
         erForeldet: false,
         gradertAnnenYtelse,
+    };
+}
+
+// Sykdomsgraden før fordeling er graden dagen har i Spleis, slik saksbehandler ser den i dagoversikten
+export function tilEndringForDag(endring: Dagendring, fraDag: Utbetalingstabelldag): Partial<Utbetalingstabelldag> {
+    const { gradertAnnenYtelse, ...resten } = endring;
+    return {
+        ...resten,
+        gradertAnnenYtelse: gradertAnnenYtelse && { ...gradertAnnenYtelse, sykdomsgradFørFordeling: fraDag.grad ?? 0 },
     };
 }
 

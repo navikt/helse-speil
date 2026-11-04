@@ -17,6 +17,8 @@ import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndreDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerForm';
+import { tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
+import type { Dagendring } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/types';
 import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -54,7 +56,7 @@ type FjernDagerAction = {
 type ModifyDagAction = {
     type: DagerActionType.OVERSTYR_DAG;
     payload: {
-        dag: Partial<Utbetalingstabelldag>;
+        dag: Dagendring;
         lagredeGraderteDager: ApiGraderteAndreYtelserDag[];
     };
 };
@@ -90,10 +92,11 @@ const defaultDagerState: DagerState = {
 };
 
 const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
-    const overstyrDag = (tilDag: Partial<Utbetalingstabelldag>, lagredeGraderteDager: ApiGraderteAndreYtelserDag[]) => {
+    const overstyrDag = (endring: Dagendring, lagredeGraderteDager: ApiGraderteAndreYtelserDag[]) => {
         const nyeOverstyrteDager = Array.from(prevState.markerteDager.values()).reduce(
             (map: Map<string, Utbetalingstabelldag>, fraDag: Utbetalingstabelldag) => {
                 const lagretGradertDag = lagredeGraderteDager.find((it) => it.dato === fraDag.dato);
+                const tilDag = tilEndringForDag(endring, fraDag);
                 if (erReellEndring(tilDag, fraDag, lagretGradertDag)) {
                     map.set(getKey(fraDag), { ...fraDag, ...tilDag, fraType: fraDag.dag.speilDagtype });
                 } else {
@@ -250,8 +253,8 @@ export function OverstyrbarUtbetaling({
         }
     };
 
-    const onSubmitEndring = (tilDag: Partial<Utbetalingstabelldag>) => {
-        dispatch({ type: DagerActionType.OVERSTYR_DAG, payload: { dag: tilDag, lagredeGraderteDager } });
+    const onSubmitEndring = (endring: Dagendring) => {
+        dispatch({ type: DagerActionType.OVERSTYR_DAG, payload: { dag: endring, lagredeGraderteDager } });
     };
 
     const onSubmitPølsestrekk = (dagerLagtTil: Map<string, Utbetalingstabelldag>) => {

@@ -1,6 +1,6 @@
 import { ApiGraderteAndreYtelser } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiArbeidsgiver, ApiSelvstendigNaering } from '@io/rest/generated/spesialist.schemas';
-import { tilDagendring } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
+import { tilDagendring, tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
 import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtures';
 
 import { tilGraderteAndreYtelserRequest } from './graderteAndreYtelserRequest';
@@ -122,7 +122,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
 });
 
 describe('tilDagendring', () => {
-    it('tar vare på fordelingen for gradert annen ytelse', () => {
+    it('tar vare på fordelingen for gradert annen ytelse, men ikke innvilget grad', () => {
         const endring = tilDagendring({
             dagtype: 'Foreldrepenger',
             grad: null,
@@ -132,16 +132,57 @@ describe('tilDagendring', () => {
             gradererAnnenYtelse: true,
         });
 
-        expect(endring).toMatchObject({
-            grad: 70,
-            gradertAnnenYtelse: { sykdomsgrad: 30, andreYtelseGrad: 40, sykdomsgradFørFordeling: 80 },
-        });
+        expect(endring).toMatchObject({ grad: 70 });
+        expect(endring.gradertAnnenYtelse).toEqual({ sykdomsgrad: 30, andreYtelseGrad: 40 });
     });
 
     it('fjerner fordelingen når dagen ikke er gradert annen ytelse', () => {
         const endring = tilDagendring({ dagtype: 'Syk', grad: 100, gradererAnnenYtelse: false });
 
         expect(endring.gradertAnnenYtelse).toBeNull();
+    });
+});
+
+describe('tilEndringForDag', () => {
+    const endringMedFordeling = tilDagendring({
+        dagtype: 'Foreldrepenger',
+        grad: null,
+        innvigletGrad: 50,
+        sykepengerGrad: 30,
+        gradAndreYtelser: 20,
+        gradererAnnenYtelse: true,
+    });
+
+    it('bruker sykdomsgraden dagen har i Spleis som sykdomsgrad før fordeling', () => {
+        const endring = tilEndringForDag(endringMedFordeling, lagDag({ dato: '2026-01-01', grad: 60 }));
+
+        expect(endring.gradertAnnenYtelse).toEqual({
+            sykdomsgrad: 30,
+            andreYtelseGrad: 20,
+            sykdomsgradFørFordeling: 60,
+        });
+    });
+
+    it('gir hver dag sin egen sykdomsgrad før fordeling', () => {
+        const dager = [lagDag({ dato: '2026-01-01', grad: 100 }), lagDag({ dato: '2026-01-02', grad: 80 })];
+
+        const førFordeling = dager.map(
+            (dag) => tilEndringForDag(endringMedFordeling, dag).gradertAnnenYtelse?.sykdomsgradFørFordeling,
+        );
+
+        expect(førFordeling).toEqual([100, 80]);
+    });
+
+    it('sender 0 som sykdomsgrad før fordeling når dagen ikke har grad i Spleis', () => {
+        const endring = tilEndringForDag(endringMedFordeling, lagDag({ dato: '2026-01-01', grad: null }));
+
+        expect(endring.gradertAnnenYtelse?.sykdomsgradFørFordeling).toBe(0);
+    });
+
+    it('lar endringer uten fordeling være som de er', () => {
+        const endring = tilDagendring({ dagtype: 'Syk', grad: 100, gradererAnnenYtelse: false });
+
+        expect(tilEndringForDag(endring, lagDag({ dato: '2026-01-01', grad: 60 }))).toEqual(endring);
     });
 });
 
