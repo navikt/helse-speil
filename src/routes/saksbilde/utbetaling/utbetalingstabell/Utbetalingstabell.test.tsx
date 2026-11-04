@@ -1,10 +1,15 @@
 import { Mock, vi } from 'vitest';
 
-import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
+import {
+    ApiGraderteAndreYtelserDag,
+    ApiGraderteAndreYtelserEvent,
+    ApiYrkesaktivitetstype,
+} from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiKildetype } from '@io/rest/generated/spesialist.schemas';
 import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
 import { screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 
@@ -102,12 +107,59 @@ describe('Utbetalingstabell', () => {
             expect(within(radFor('04.01.2022')).getByText('-')).toBeVisible();
             expect(within(radFor('01.01.2022')).queryByText('-')).not.toBeInTheDocument();
         });
+
+        it('viser endringsloggen bare for dager med endringer av fordelingen', async () => {
+            const dag = enGradertAnnenYtelseDag('2022-01-03');
+            rendrerTabell([dag], {}, [enEvent([{ ...dag, fraAndreYtelserGrader: null }])]);
+
+            expect(within(radFor('04.01.2022')).queryByRole('button', { name: 'Vis endringslogg' })).toBeNull();
+            await userEvent.click(within(radFor('03.01.2022')).getByRole('button', { name: 'Vis endringslogg' }));
+
+            const dialog = await screen.findByRole('dialog');
+            expect(within(dialog).getByText('Pleiepenger 30 %, Foreldrepenger 10 %')).toBeVisible();
+            expect(within(dialog).getByText('Et notat')).toBeVisible();
+        });
+
+        it('beholder endringsloggen for overstyringer av tidslinjen på samme dag', async () => {
+            const dag = enGradertAnnenYtelseDag('2022-01-03');
+            rendrerTabell(
+                [dag],
+                {
+                    ['2022-01-03']: enUtbetalingstabelldag('2022-01-03', {
+                        kilde: { id: 'en-overstyring', type: ApiKildetype.SAKSBEHANDLER },
+                        overstyringer: [
+                            {
+                                vedtaksperiodeId: 'vedtaksperiodeId',
+                                hendelseId: 'hendelseId',
+                                begrunnelse: 'En begrunnelse for overstyringen',
+                                saksbehandler: { ident: 'B123456', navn: 'En saksbehandler' },
+                                timestamp: '2022-02-01T10:00:00',
+                                dag: Sykedag,
+                                dato: '2022-01-03',
+                                ferdigstilt: false,
+                            },
+                        ],
+                    }),
+                },
+                [enEvent([dag])],
+            );
+
+            const [andreYtelser, kilde] = within(radFor('03.01.2022')).getAllByRole('button', {
+                name: 'Vis endringslogg',
+            });
+            expect(andreYtelser).toBeDefined();
+            await userEvent.click(kilde!);
+
+            expect(await screen.findByText('En begrunnelse for overstyringen')).toBeVisible();
+            expect(screen.queryByText('Et notat')).not.toBeInTheDocument();
+        });
     });
 });
 
 function rendrerTabell(
     graderteAndreYtelserDager: ApiGraderteAndreYtelserDag[],
     overstyrteDager: Record<string, Utbetalingstabelldag> = {},
+    events: ApiGraderteAndreYtelserEvent[] = [],
 ) {
     render(
         <Utbetalingstabell
@@ -116,7 +168,13 @@ function rendrerTabell(
             dager={new Map([...dager, ...Object.entries(overstyrteDager)])}
             person={enPerson()}
             erSelvstendigNæring={false}
-            graderteAndreYtelserDager={graderteAndreYtelserDager}
+            graderteAndreYtelser={{
+                yrkesaktivitet: ApiYrkesaktivitetstype.ARBEIDSTAKER,
+                organisasjonsnummer: '123456789',
+                versjon: 'en-versjon',
+                dager: graderteAndreYtelserDager,
+                events,
+            }}
         />,
     );
 }
@@ -130,4 +188,14 @@ function enGradertAnnenYtelseDag(
     andreYtelserGrader: Record<string, number> = { PLEIEPENGER: 30, FORELDREPENGER: 10 },
 ): ApiGraderteAndreYtelserDag {
     return { dato, andreYtelserGrader, sykdomsgrad: 50, arbeidsgrad: 10, sykdomsgradFørFordeling: 60 };
+}
+
+function enEvent(dager: ApiGraderteAndreYtelserEvent['dager']): ApiGraderteAndreYtelserEvent {
+    return {
+        versjon: 'en-versjon',
+        tidspunkt: '2022-02-02T10:00:00',
+        utfortAvSaksbehandlerIdent: 'A123456',
+        notatTilBeslutter: 'Et notat',
+        dager,
+    };
 }

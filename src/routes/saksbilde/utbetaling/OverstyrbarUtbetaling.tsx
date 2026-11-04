@@ -199,7 +199,8 @@ export function OverstyrbarUtbetaling({
     const [overstyrer, setOverstyrer] = useState(false);
 
     const { postOverstyring, error, done } = useOverstyrDager();
-    const lagredeGraderteDager = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold)?.dager ?? [];
+    const graderteAndreYtelser = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold);
+    const lagredeGraderteDager = graderteAndreYtelser?.dager ?? [];
 
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 
@@ -325,7 +326,7 @@ export function OverstyrbarUtbetaling({
                         slettSisteNyeDag={slettSisteNyeDag}
                         person={person}
                         erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
-                        graderteAndreYtelserDager={lagredeGraderteDager}
+                        graderteAndreYtelser={graderteAndreYtelser}
                     />
                     {overstyrer && (
                         <>

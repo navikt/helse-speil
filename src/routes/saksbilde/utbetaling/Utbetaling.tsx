@@ -54,7 +54,7 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person, inntektsforhold }: Readon
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const periodeErISisteBehandling = useIsInCurrentBehandling(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
-    const graderteAndreYtelserDager = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold)?.dager;
+    const graderteAndreYtelser = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold);
     const inntektsforholdReferanse = tilReferanse(inntektsforhold);
 
     const harTidligereSkjæringstidspunktOgISisteBehandling = !hasLatestSkjæringstidspunkt && periodeErISisteBehandling;
@@ -85,7 +85,7 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person, inntektsforhold }: Readon
                     dager={dager}
                     person={person}
                     erSelvstendigNæring={inntektsforholdReferanse.type === 'Selvstendig Næring'}
-                    graderteAndreYtelserDager={graderteAndreYtelserDager}
+                    graderteAndreYtelser={graderteAndreYtelser}
                 />
             </Box>
         </Box>

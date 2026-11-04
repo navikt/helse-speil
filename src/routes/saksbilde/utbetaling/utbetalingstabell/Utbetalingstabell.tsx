@@ -5,7 +5,7 @@ import { HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
-import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
+import { ApiGraderteAndreYtelser } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Row } from '@saksbilde/table/Row';
@@ -26,6 +26,7 @@ import { SlettNyDagCell } from './SlettNyDagCell';
 import { TotalGradCell } from './TotalGradCell';
 import { TotalRow } from './TotalRow';
 import { UtbetalingCell } from './UtbetalingCell';
+import { endringerForDato } from './graderteAndreYtelserEndringer';
 import { useAlderVedSkjæringstidspunkt } from './useAlderVedSkjæringstidspunkt';
 
 import styles from './Utbetalingstabell.module.css';
@@ -40,7 +41,7 @@ interface UtbetalingstabellProps {
     slettSisteNyeDag?: () => void;
     person: ApiSaksbildePerson;
     erSelvstendigNæring: boolean;
-    graderteAndreYtelserDager?: ApiGraderteAndreYtelserDag[];
+    graderteAndreYtelser?: ApiGraderteAndreYtelser;
 }
 
 export const Utbetalingstabell = ({
@@ -53,12 +54,12 @@ export const Utbetalingstabell = ({
     slettSisteNyeDag,
     person,
     erSelvstendigNæring,
-    graderteAndreYtelserDager = [],
+    graderteAndreYtelser,
 }: UtbetalingstabellProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
     const visAndreYtelser = useSkalSeGraderteAndreYtelser();
-    const graderteAndreYtelserPerDato = new Map(graderteAndreYtelserDager.map((dag) => [dag.dato, dag]));
+    const graderteAndreYtelserPerDato = new Map(graderteAndreYtelser?.dager.map((dag) => [dag.dato, dag]));
 
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
@@ -146,6 +147,7 @@ export const Utbetalingstabell = ({
                                     <AndreYtelserCell
                                         dagtype={tabelldag.dag.speilDagtype}
                                         graderteAndreYtelserDag={graderteAndreYtelserPerDato.get(tabelldag.dato)}
+                                        endringer={endringerForDato(graderteAndreYtelser, tabelldag.dato)}
                                     />
                                 )}
                                 <KildeCell
