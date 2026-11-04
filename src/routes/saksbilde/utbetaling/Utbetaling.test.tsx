@@ -1,6 +1,9 @@
 import { Mock, vi } from 'vitest';
 
+import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { ApiYrkesaktivitetstype } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiBeregnetPeriode, ApiInntektstype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
+import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enAktivOppgave } from '@test-data/oppgave';
@@ -9,6 +12,7 @@ import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
+import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 import { generateId } from '@utils/generateId';
 
 import { Utbetaling } from './Utbetaling';
@@ -19,7 +23,13 @@ vi.mock('@state/oppgave', async () => ({
 }));
 
 vi.mock('@utils/featureToggles', () => ({
-    useSkalSeGraderteAndreYtelser: () => false,
+    useSkalSeGraderteAndreYtelser: vi.fn(),
+}));
+vi.mock('@state/graderteAndreYtelser', () => ({
+    useGraderteAndreYtelser: vi.fn(),
+}));
+vi.mock('@hooks/useIsReadOnlyOppgave', () => ({
+    useIsReadOnlyOppgave: vi.fn(),
 }));
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
@@ -31,6 +41,8 @@ describe('Utbetaling', () => {
         (useAktivOppgaveForPeriode as Mock).mockImplementation((periode?: ApiBeregnetPeriode | null) =>
             periode ? enAktivOppgave({ id: '1234', vedtaksperiodeId: periode.vedtaksperiodeId }) : null,
         );
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(false);
+        (useGraderteAndreYtelser as Mock).mockReturnValue([]);
     });
 
     afterEach(() => {
@@ -116,4 +128,38 @@ describe('Utbetaling', () => {
 
         expect(screen.queryByText('Overstyr dager')).not.toBeInTheDocument();
     });
+
+    it('viser fordelingen i beslutters dagoversikt', () => {
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useIsReadOnlyOppgave as Mock).mockReturnValue(true);
+        const tidslinje = [enDag({ dato: '2024-01-01' }), enDag({ dato: '2024-01-02' })];
+        const periode = enBeregnetPeriode({ fom: '2024-01-01', tom: '2024-01-02', tidslinje }).somErTilGodkjenning();
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+        (useGraderteAndreYtelser as Mock).mockReturnValue([
+            graderteAndreYtelser(arbeidsgiver.organisasjonsnummer, { FORELDREPENGER: 40 }),
+            graderteAndreYtelser('999999999', { OMSORGSPENGER: 20 }),
+        ]);
+
+        render(<Utbetaling person={person} periode={periode} />);
+
+        expect(screen.queryByRole('button', { name: /dager$/ })).not.toBeInTheDocument();
+        expect(screen.getByRole('columnheader', { name: 'Andre ytelser' })).toBeVisible();
+        expect(screen.getByText('40 %')).toBeVisible();
+        expect(screen.getByText('Foreldrepenger')).toBeVisible();
+        expect(screen.queryByText('20 %')).not.toBeInTheDocument();
+        expect(screen.queryByText('Omsorgspenger')).not.toBeInTheDocument();
+    });
 });
+
+function graderteAndreYtelser(organisasjonsnummer: string, andreYtelserGrader: Record<string, number>) {
+    return {
+        yrkesaktivitet: ApiYrkesaktivitetstype.ARBEIDSTAKER,
+        organisasjonsnummer,
+        versjon: generateId(),
+        dager: [
+            { dato: '2024-01-01', andreYtelserGrader, sykdomsgrad: 50, arbeidsgrad: 10, sykdomsgradFørFordeling: 90 },
+        ],
+        events: [],
+    };
+}

@@ -146,6 +146,17 @@ export const Ukjentdag: Speildag = {
     overstyrtDagtype: undefined,
 };
 
+const speildagForGradertAnnenYtelse: Record<GradertAnnenYtelsetype, Speildag> = {
+    FORELDREPENGER: Foreldrepengerdag,
+    SVANGERSKAPSPENGER: Svangerskapspengerdag,
+    PLEIEPENGER: Pleiepengerdag,
+    OMSORGSPENGER: Omsorgspengerdag,
+    OPPLARINGSPENGER: Opplæringspengerdag,
+};
+
+export const visningstekstForGradertAnnenYtelse = (ytelse: string): string =>
+    speildagForGradertAnnenYtelse[ytelse as GradertAnnenYtelsetype]?.visningstekst ?? ytelse;
+
 export const AvvistEllerForeldetDag = (
     sykdomsdagtype: ApiSykdomsdagtype,
     utbetalingsdagtype: ApiUtbetalingsdagtype,

@@ -3,9 +3,12 @@ import React, { ReactElement } from 'react';
 import { BodyShort, Link, Table, Tooltip } from '@navikt/ds-react';
 
 import { LovdataLenke } from '@components/LovdataLenke';
+import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+
+import { visningstekstForGradertAnnenYtelse } from './utbetalingstabelldager';
 
 import styles from './MerknaderCell.module.css';
 
@@ -140,17 +143,45 @@ const avvisningsårsakerMerknad = (
         </React.Fragment>
     ));
 
+function graderteAndreYtelserMerknad(graderteAndreYtelserDag?: ApiGraderteAndreYtelserDag): string | null {
+    const ytelser = Object.keys(graderteAndreYtelserDag?.andreYtelserGrader ?? {}).map((ytelse) =>
+        visningstekstForGradertAnnenYtelse(ytelse).toLowerCase(),
+    );
+    if (ytelser.length === 0) return null;
+    const tekst = ytelser.join(', ');
+    return tekst.charAt(0).toUpperCase() + tekst.slice(1);
+}
+
+function harAndreMerknader(dag: Utbetalingstabelldag): boolean {
+    return dag.erMaksdato || dag.erForeldet || (dag.begrunnelser?.length ?? 0) > 0;
+}
+
 interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     dag: Utbetalingstabelldag;
     alderVedSkjæringstidspunkt?: number | null;
+    graderteAndreYtelserDag?: ApiGraderteAndreYtelserDag;
 }
 
-export const MerknaderCell = ({ dag, alderVedSkjæringstidspunkt, ...rest }: MerknaderCellProps): ReactElement => (
-    <Table.DataCell {...rest}>
-        <CellContent>
-            {sisteUtbetalingsdagMerknad(dag.erMaksdato) ??
-                foreldetDagMerknad(dag.erForeldet) ??
-                avvisningsårsakerMerknad(dag.begrunnelser ?? null, alderVedSkjæringstidspunkt)}
-        </CellContent>
-    </Table.DataCell>
-);
+export const MerknaderCell = ({
+    dag,
+    alderVedSkjæringstidspunkt,
+    graderteAndreYtelserDag,
+    ...rest
+}: MerknaderCellProps): ReactElement => {
+    const andreYtelserMerknad = graderteAndreYtelserMerknad(graderteAndreYtelserDag);
+    return (
+        <Table.DataCell {...rest}>
+            <CellContent>
+                {sisteUtbetalingsdagMerknad(dag.erMaksdato) ??
+                    foreldetDagMerknad(dag.erForeldet) ??
+                    avvisningsårsakerMerknad(dag.begrunnelser ?? null, alderVedSkjæringstidspunkt)}
+                {andreYtelserMerknad && (
+                    <BodyShort>
+                        {harAndreMerknader(dag) && ', '}
+                        {andreYtelserMerknad}
+                    </BodyShort>
+                )}
+            </CellContent>
+        </Table.DataCell>
+    );
+};

@@ -15,31 +15,35 @@ interface TotalRowProps {
     dager: Utbetalingstabelldag[];
     overstyrer?: boolean;
     erSelvstendigNæring: boolean;
+    visAndreYtelser?: boolean;
 }
 
-export const TotalRow = React.memo(({ dager, overstyrer, erSelvstendigNæring }: TotalRowProps): ReactElement => {
-    const utbetalingsdager = getDagerMedUtbetaling(dager);
-    const arbeidsgiverbeløpTotal = getTotalArbeidsgiverbeløp(utbetalingsdager);
-    const personbeløpTotal = getTotalPersonbeløp(utbetalingsdager);
+export const TotalRow = React.memo(
+    ({ dager, overstyrer, erSelvstendigNæring, visAndreYtelser = false }: TotalRowProps): ReactElement => {
+        const utbetalingsdager = getDagerMedUtbetaling(dager);
+        const arbeidsgiverbeløpTotal = getTotalArbeidsgiverbeløp(utbetalingsdager);
+        const personbeløpTotal = getTotalPersonbeløp(utbetalingsdager);
 
-    return (
-        <Table.Row className={cn(rowStyles.row, styles.TotalRow, overstyrer && styles.overstyrer)}>
-            <Table.DataCell style={{ fontWeight: 'bold' }}>TOTAL</Table.DataCell>
-            <Table.DataCell>
-                <BodyShort weight="semibold">{utbetalingsdager.length} dager</BodyShort>
-            </Table.DataCell>
-            <Table.DataCell />
-            <Table.DataCell />
-            <Table.DataCell />
-            {!erSelvstendigNæring && (
-                <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={arbeidsgiverbeløpTotal} />
-            )}
-            <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={personbeløpTotal} />
-            <Table.DataCell />
-            <Table.DataCell />
-            {overstyrer && <Table.DataCell />}
-        </Table.Row>
-    );
-});
+        return (
+            <Table.Row className={cn(rowStyles.row, styles.TotalRow, overstyrer && styles.overstyrer)}>
+                <Table.DataCell style={{ fontWeight: 'bold' }}>TOTAL</Table.DataCell>
+                <Table.DataCell>
+                    <BodyShort weight="semibold">{utbetalingsdager.length} dager</BodyShort>
+                </Table.DataCell>
+                <Table.DataCell />
+                {visAndreYtelser && <Table.DataCell />}
+                <Table.DataCell />
+                <Table.DataCell />
+                {!erSelvstendigNæring && (
+                    <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={arbeidsgiverbeløpTotal} />
+                )}
+                <UtbetalingCell style={{ fontWeight: 'bold' }} utbetaling={personbeløpTotal} />
+                <Table.DataCell />
+                <Table.DataCell />
+                {overstyrer && <Table.DataCell />}
+            </Table.Row>
+        );
+    },
+);
 
 TotalRow.displayName = 'TotalRow';

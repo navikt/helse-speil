@@ -1,6 +1,8 @@
-import { vi } from 'vitest';
+import { Mock, vi } from 'vitest';
 
+import { ApiYrkesaktivitetstype } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiPeriodetype } from '@io/rest/generated/spesialist.schemas';
+import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -8,6 +10,7 @@ import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
@@ -19,7 +22,11 @@ vi.mock('@hooks/brukerrolleHooks', () => ({
 }));
 
 vi.mock('@utils/featureToggles', () => ({
-    useSkalSeGraderteAndreYtelser: () => false,
+    useSkalSeGraderteAndreYtelser: vi.fn(),
+}));
+
+vi.mock('@state/graderteAndreYtelser', () => ({
+    useGraderteAndreYtelser: vi.fn(),
 }));
 
 vi.mock('./utbetalingstabell/useOverstyrDager', () => ({
@@ -43,6 +50,11 @@ const dager = new Map<string, Utbetalingstabelldag>([
 ]);
 
 describe('OverstyrbarUtbetaling', () => {
+    beforeEach(() => {
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(false);
+        (useGraderteAndreYtelser as Mock).mockReturnValue([]);
+    });
+
     test('overstyrer utbetalingstabell', async () => {
         const person = enPerson();
         const periode = enBeregnetPeriode({
@@ -97,5 +109,40 @@ describe('OverstyrbarUtbetaling', () => {
 
         await userEvent.click(screen.getByText('Revurder dager'));
         expect(screen.queryByText('+ Legg til dager')).not.toBeInTheDocument();
+    });
+
+    test('viser fordelingen av graderte andre ytelser for arbeidsgiver', () => {
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        const arbeidsgiver = enArbeidsgiver();
+        (useGraderteAndreYtelser as Mock).mockReturnValue([
+            {
+                yrkesaktivitet: ApiYrkesaktivitetstype.ARBEIDSTAKER,
+                organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
+                versjon: 'en-versjon',
+                dager: [
+                    {
+                        dato: '2022-01-03',
+                        andreYtelserGrader: { FORELDREPENGER: 40 },
+                        sykdomsgrad: 50,
+                        arbeidsgrad: 10,
+                        sykdomsgradFørFordeling: 90,
+                    },
+                ],
+                events: [],
+            },
+        ]);
+
+        render(
+            <OverstyrbarUtbetaling
+                inntektsforhold={arbeidsgiver}
+                person={enPerson()}
+                dager={dager}
+                periode={enBeregnetPeriode({ fom: '2022-01-01', tom: '2022-01-31' })}
+            />,
+        );
+
+        expect(screen.getByRole('columnheader', { name: 'Andre ytelser' })).toBeVisible();
+        expect(screen.getByText('40 %')).toBeVisible();
+        expect(screen.getByText('Foreldrepenger')).toBeVisible();
     });
 });

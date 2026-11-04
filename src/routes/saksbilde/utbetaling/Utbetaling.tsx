@@ -8,9 +8,9 @@ import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering'
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { ApiBeregnetPeriode, ApiSaksbildePerson, ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 import styles from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader.module.css';
+import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import {
     Inntektsforhold,
-    InntektsforholdReferanse,
     tilReferanse,
     useAktivtInntektsforhold,
     useDagoverstyringer,
@@ -28,6 +28,7 @@ import { isBeregnetPeriode, isPerson, isSelvstendigNaering, isUberegnetPeriode }
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
+import { finnGraderteAndreYtelser } from './utbetalingstabell/graderteAndreYtelserRequest';
 import { useTabelldagerMap } from './utbetalingstabell/useTabelldagerMap';
 
 const useIsInCurrentBehandling = (person: ApiSaksbildePerson): boolean => {
@@ -46,19 +47,15 @@ interface ReadonlyUtbetalingProps {
     tom: DateString;
     dager: Map<string, Utbetalingstabelldag>;
     person: ApiSaksbildePerson;
-    inntektsforholdReferanse: InntektsforholdReferanse;
+    inntektsforhold: Inntektsforhold;
 }
 
-const ReadonlyUtbetaling = ({
-    fom,
-    tom,
-    dager,
-    person,
-    inntektsforholdReferanse,
-}: ReadonlyUtbetalingProps): ReactElement => {
+const ReadonlyUtbetaling = ({ fom, tom, dager, person, inntektsforhold }: ReadonlyUtbetalingProps): ReactElement => {
     const hasLatestSkjæringstidspunkt = useActivePeriodHasLatestSkjæringstidspunkt(person);
     const periodeErISisteBehandling = useIsInCurrentBehandling(person);
     const erAktivPeriodeLikEllerFørPeriodeTilGodkjenning = useErAktivPeriodeLikEllerFørPeriodeTilGodkjenning(person);
+    const graderteAndreYtelserDager = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold)?.dager;
+    const inntektsforholdReferanse = tilReferanse(inntektsforhold);
 
     const harTidligereSkjæringstidspunktOgISisteBehandling = !hasLatestSkjæringstidspunkt && periodeErISisteBehandling;
 
@@ -88,6 +85,7 @@ const ReadonlyUtbetaling = ({
                     dager={dager}
                     person={person}
                     erSelvstendigNæring={inntektsforholdReferanse.type === 'Selvstendig Næring'}
+                    graderteAndreYtelserDager={graderteAndreYtelserDager}
                 />
             </Box>
         </Box>
@@ -132,7 +130,7 @@ const UtbetalingBeregnetPeriode = ({
             tom={period.tom}
             dager={dager}
             person={person}
-            inntektsforholdReferanse={tilReferanse(inntektsforhold)}
+            inntektsforhold={inntektsforhold}
         />
     );
 };
@@ -171,7 +169,7 @@ const UtbetalingUberegnetPeriode = ({
             tom={periode.tom}
             dager={dager}
             person={person}
-            inntektsforholdReferanse={tilReferanse(inntektsforhold)}
+            inntektsforhold={inntektsforhold}
         />
     );
 };

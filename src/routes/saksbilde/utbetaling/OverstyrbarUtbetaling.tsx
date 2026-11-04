@@ -325,6 +325,7 @@ export function OverstyrbarUtbetaling({
                         slettSisteNyeDag={slettSisteNyeDag}
                         person={person}
                         erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
+                        graderteAndreYtelserDager={lagredeGraderteDager}
                     />
                     {overstyrer && (
                         <>

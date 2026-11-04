@@ -5,14 +5,17 @@ import { HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
+import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { getFormattedDateString } from '@utils/date';
+import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 import { cn } from '@utils/tw';
 
+import { AndreYtelserCell } from './AndreYtelserCell';
 import { DagtypeCell } from './DagtypeCell';
 import { DateCell } from './DateCell';
 import { GjenståendeDagerCell } from './GjenståendeDagerCell';
@@ -37,6 +40,7 @@ interface UtbetalingstabellProps {
     slettSisteNyeDag?: () => void;
     person: ApiSaksbildePerson;
     erSelvstendigNæring: boolean;
+    graderteAndreYtelserDager?: ApiGraderteAndreYtelserDag[];
 }
 
 export const Utbetalingstabell = ({
@@ -49,9 +53,12 @@ export const Utbetalingstabell = ({
     slettSisteNyeDag,
     person,
     erSelvstendigNæring,
+    graderteAndreYtelserDager = [],
 }: UtbetalingstabellProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
+    const visAndreYtelser = useSkalSeGraderteAndreYtelser();
+    const graderteAndreYtelserPerDato = new Map(graderteAndreYtelserDager.map((dag) => [dag.dato, dag]));
 
     const formattedFom = getFormattedDateString(fom);
     const formattedTom = getFormattedDateString(tom);
@@ -75,6 +82,11 @@ export const Utbetalingstabell = ({
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Grad
                             </Table.ColumnHeader>
+                            {visAndreYtelser && (
+                                <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
+                                    Andre ytelser
+                                </Table.ColumnHeader>
+                            )}
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Kilde
                             </Table.ColumnHeader>
@@ -110,6 +122,7 @@ export const Utbetalingstabell = ({
                                 dager={dagerList}
                                 overstyrer={overstyrer}
                                 erSelvstendigNæring={erSelvstendigNæring}
+                                visAndreYtelser={visAndreYtelser}
                             />
                         )}
                         {dagerList.map((tabelldag, i) => (
@@ -129,6 +142,12 @@ export const Utbetalingstabell = ({
                                     tabelldag={tabelldag}
                                     overstyrtDag={lokaleOverstyringer?.get(tabelldag.dato)}
                                 />
+                                {visAndreYtelser && (
+                                    <AndreYtelserCell
+                                        dagtype={tabelldag.dag.speilDagtype}
+                                        graderteAndreYtelserDag={graderteAndreYtelserPerDato.get(tabelldag.dato)}
+                                    />
+                                )}
                                 <KildeCell
                                     type={tabelldag.dag.speilDagtype}
                                     kilde={tabelldag.kilde.type}
@@ -161,6 +180,9 @@ export const Utbetalingstabell = ({
                                     style={{ width: '100%' }}
                                     dag={tabelldag}
                                     alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                                    graderteAndreYtelserDag={
+                                        visAndreYtelser ? graderteAndreYtelserPerDato.get(tabelldag.dato) : undefined
+                                    }
                                 />
                                 {overstyrer && (
                                     <SlettNyDagCell

@@ -95,4 +95,24 @@ describe('MerknaderCell', () => {
         expect(screen.queryByTestId('Inntekt under krav til minste sykepengegrunnlag')).toBeVisible();
         expect(screen.queryByText('§ 8-51')).toBeVisible();
     });
+
+    test('rendrer graderte andre ytelser etter andre merknader', () => {
+        render(
+            <TestCellWrapper>
+                <MerknaderCell
+                    dag={getUtbetalingstabellDag({ erMaksdato: true })}
+                    graderteAndreYtelserDag={{
+                        dato: '2024-01-01',
+                        andreYtelserGrader: { OPPLARINGSPENGER: 10, OMSORGSPENGER: 20 },
+                        sykdomsgrad: 50,
+                        arbeidsgrad: 20,
+                        sykdomsgradFørFordeling: 80,
+                    }}
+                />
+            </TestCellWrapper>,
+        );
+
+        expect(screen.getByText('Siste utbetalingsdag for sykepenger')).toBeVisible();
+        expect(screen.getByText(', Opplæringspenger, omsorgspenger')).toBeVisible();
+    });
 });
