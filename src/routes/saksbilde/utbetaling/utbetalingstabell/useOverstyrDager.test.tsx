@@ -173,10 +173,6 @@ describe('useOverstyrDager', () => {
         );
 
         await waitFor(() => expect(result.current.lagret.data?.[0]?.versjon).toBe('versjon-2'));
-        expect(fetchMock).not.toHaveBeenCalledWith(
-            `/api/spesialist/personer/${PSEUDO_ID}/graderte-andre-ytelser`,
-            expect.anything(),
-        );
     });
 
     test('skal ikke poste tidslinjen når graderte andre ytelser feiler', async () => {

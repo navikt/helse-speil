@@ -1,6 +1,10 @@
 import dayjs from 'dayjs';
 
-import { ApiHandlingType, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiHandlingType,
+    ApiSaksbehandlerhandling,
+    ApiServerSentEventEvent,
+} from '@io/rest/generated/spesialist.schemas';
 import { lokalSaksbehandlerNavn, lokalSaksbehandlerOid } from '@spesialist-mock/constants';
 import { Periodeoppslag, finnPerioderMedOppgave } from '@spesialist-mock/periodeoppslag';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
@@ -28,21 +32,50 @@ export function registrerManuellOpptjeningsvurdering(
     opptjeningsvurderingId: string,
     skjæringstidspunkt: string,
 ): void {
-    const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
-    const perioderMedOppgave = fødselsnummer ? finnPerioderMedOppgave(fødselsnummer) : [];
+    const perioderMedOppgave = perioderMedOppgaveFor(personPseudoId);
     const periode = (
         perioderMedOppgave.find(({ periode }) => periode.skjaeringstidspunkt === skjæringstidspunkt) ??
         perioderMedOppgave[0]
     )?.periode;
 
-    SaksbehandlerhandlingMock.leggTilHandling(personPseudoId, {
+    registrerHandlingSomKreverTotrinnsvurdering(personPseudoId, {
         handlingId: opptjeningsvurderingId,
         handlingType: ApiHandlingType.MANUELT_VURDERT_OPPTJENING,
         skjæringstidspunkt: periode?.skjaeringstidspunkt ?? skjæringstidspunkt,
         behandlingId: periode?.behandlingId ?? null,
-        erDelAvAktivTotrinnsvurdering: true,
     });
+}
 
+// sp-andre-ytelser sender endringen til spesialist som en saksbehandlerhandling som krever totrinnsvurdering
+export function registrerEndringAvGraderteAndreYtelser(
+    personPseudoId: string,
+    handlingId: string,
+    behandlingId: string,
+): void {
+    const periode = perioderMedOppgaveFor(personPseudoId).find(
+        ({ periode }) => periode.behandlingId === behandlingId,
+    )?.periode;
+
+    registrerHandlingSomKreverTotrinnsvurdering(personPseudoId, {
+        handlingId,
+        handlingType: ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET,
+        skjæringstidspunkt: periode?.skjaeringstidspunkt ?? null,
+        behandlingId,
+    });
+}
+
+function perioderMedOppgaveFor(personPseudoId: string): Periodeoppslag[] {
+    const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
+    return fødselsnummer ? finnPerioderMedOppgave(fødselsnummer) : [];
+}
+
+function registrerHandlingSomKreverTotrinnsvurdering(
+    personPseudoId: string,
+    handling: Omit<ApiSaksbehandlerhandling, 'tidspunkt' | 'saksbehandlerIdent' | 'erDelAvAktivTotrinnsvurdering'>,
+): void {
+    SaksbehandlerhandlingMock.leggTilHandling(personPseudoId, { ...handling, erDelAvAktivTotrinnsvurdering: true });
+
+    const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
     if (!fødselsnummer) return;
     opprettTotrinnsvurderingHvisMangler(fødselsnummer);
     pushEventEtterForsinkelse(fødselsnummer, ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE);
