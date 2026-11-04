@@ -1,4 +1,4 @@
-import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 export function erReellEndring(

@@ -6,9 +6,9 @@ import { VStack } from '@navikt/ds-react';
 
 import { OverstyringFormFields, lagOverstyringSchema } from '@form-schemas/overstyringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import {
     ApiBeregnetPeriode,
-    ApiGraderteAndreYtelserDag,
     ApiSaksbildePerson,
     ApiUberegnetPeriode,
     ApiUtbetalingstatus,

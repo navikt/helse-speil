@@ -859,6 +859,8 @@ export const ApiHandlingType = {
     MANUELT_VURDERT_OPPTJENING: 'MANUELT_VURDERT_OPPTJENING',
     NY_AUTOMATISK_OPPTJENINGSVURDERING: 'NY_AUTOMATISK_OPPTJENINGSVURDERING',
     GRADERTE_ANDRE_YTELSER_ENDRET: 'GRADERTE_ANDRE_YTELSER_ENDRET',
+    MANUELT_VURDERT_MEDLEMSKAP: 'MANUELT_VURDERT_MEDLEMSKAP',
+    AVSLAGSDAGER_ENDRET: 'AVSLAGSDAGER_ENDRET',
 } as const;
 
 export interface ApiSaksbehandlerhandling {
@@ -888,78 +890,6 @@ export interface ApiHttpProblemDetailsApiGetSaksbehandlerhandlingerForPersonErro
     /** @nullable */
     detail?: string | null;
     code?: null | ApiGetSaksbehandlerhandlingerForPersonErrorCode;
-}
-
-export interface ApiEndringsrad {
-    navn: string;
-    /** @nullable */
-    fra?: string | null;
-    til: string;
-}
-
-export interface ApiEndringsgruppe {
-    rader: ApiEndringsrad[];
-}
-
-export type EndringerType = (typeof EndringerType)[keyof typeof EndringerType];
-
-export const EndringerType = {
-    Endringer: 'Endringer',
-} as const;
-
-export interface Endringer {
-    tittel: string;
-    grupper: ApiEndringsgruppe[];
-    type: EndringerType;
-}
-
-export type ListeType = (typeof ListeType)[keyof typeof ListeType];
-
-export const ListeType = {
-    Liste: 'Liste',
-} as const;
-
-export interface Liste {
-    tittel: string;
-    elementer: string[];
-    type: ListeType;
-}
-
-export type TekstType = (typeof TekstType)[keyof typeof TekstType];
-
-export const TekstType = {
-    Tekst: 'Tekst',
-} as const;
-
-export interface Tekst {
-    tittel: string;
-    tekst: string;
-    type: TekstType;
-}
-
-export type ApiVisningsfelt = Endringer | Liste | Tekst;
-
-export interface ApiHandlingsvisning {
-    felter: ApiVisningsfelt[];
-}
-
-export type ApiGetSaksbehandlerhandlingVisningErrorCode =
-    (typeof ApiGetSaksbehandlerhandlingVisningErrorCode)[keyof typeof ApiGetSaksbehandlerhandlingVisningErrorCode];
-
-export const ApiGetSaksbehandlerhandlingVisningErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    HANDLING_IKKE_FUNNET: 'HANDLING_IKKE_FUNNET',
-    VISNING_IKKE_FUNNET: 'VISNING_IKKE_FUNNET',
-} as const;
-
-export interface ApiHttpProblemDetailsApiGetSaksbehandlerhandlingVisningErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    /** @nullable */
-    detail?: string | null;
-    code?: null | ApiGetSaksbehandlerhandlingVisningErrorCode;
 }
 
 export type ApiVeilederStansÅrsak = (typeof ApiVeilederStansÅrsak)[keyof typeof ApiVeilederStansÅrsak];
@@ -1487,114 +1417,6 @@ export interface ApiHttpProblemDetailsApiPatchTilkommenInntektErrorCode {
     /** @nullable */
     detail?: string | null;
     code?: null | ApiPatchTilkommenInntektErrorCode;
-}
-
-export type ApiYrkesaktivitetstype = (typeof ApiYrkesaktivitetstype)[keyof typeof ApiYrkesaktivitetstype];
-
-export const ApiYrkesaktivitetstype = {
-    ARBEIDSTAKER: 'ARBEIDSTAKER',
-    FRILANS: 'FRILANS',
-    ARBEIDSLEDIG: 'ARBEIDSLEDIG',
-    SELVSTENDIG: 'SELVSTENDIG',
-} as const;
-
-export type ApiGraderteAndreYtelserDagAndreYtelserGrader = { [key: string]: number };
-
-export interface ApiGraderteAndreYtelserDag {
-    dato: string;
-    andreYtelserGrader: ApiGraderteAndreYtelserDagAndreYtelserGrader;
-    sykdomsgrad: number;
-    arbeidsgrad: number;
-}
-
-export type ApiGraderteAndreYtelserEndretDagAndreYtelserGrader = { [key: string]: number };
-
-/**
- * @nullable
- */
-export type ApiGraderteAndreYtelserEndretDagFraAndreYtelserGrader = null | { [key: string]: number };
-
-export interface ApiGraderteAndreYtelserEndretDag {
-    dato: string;
-    andreYtelserGrader: ApiGraderteAndreYtelserEndretDagAndreYtelserGrader;
-    sykdomsgrad: number;
-    arbeidsgrad: number;
-    /** @nullable */
-    fraAndreYtelserGrader?: ApiGraderteAndreYtelserEndretDagFraAndreYtelserGrader;
-    /** @nullable */
-    fraSykdomsgrad?: number | null;
-    /** @nullable */
-    fraArbeidsgrad?: number | null;
-}
-
-export interface ApiGraderteAndreYtelserEvent {
-    versjon: string;
-    tidspunkt: string;
-    utfortAvSaksbehandlerIdent: string;
-    notatTilBeslutter: string;
-    dager: ApiGraderteAndreYtelserEndretDag[];
-}
-
-export interface ApiGraderteAndreYtelser {
-    yrkesaktivitet: ApiYrkesaktivitetstype;
-    /** @nullable */
-    organisasjonsnummer?: string | null;
-    versjon: string;
-    dager: ApiGraderteAndreYtelserDag[];
-    events: ApiGraderteAndreYtelserEvent[];
-}
-
-export type ApiGetGraderteAndreYtelserForPersonErrorCode =
-    (typeof ApiGetGraderteAndreYtelserForPersonErrorCode)[keyof typeof ApiGetGraderteAndreYtelserForPersonErrorCode];
-
-export const ApiGetGraderteAndreYtelserForPersonErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-} as const;
-
-export interface ApiHttpProblemDetailsApiGetGraderteAndreYtelserForPersonErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    /** @nullable */
-    detail?: string | null;
-    code?: null | ApiGetGraderteAndreYtelserForPersonErrorCode;
-}
-
-export interface ApiEndreGraderteAndreYtelserRequest {
-    yrkesaktivitet: ApiYrkesaktivitetstype;
-    /** @nullable */
-    organisasjonsnummer?: string | null;
-    /** @nullable */
-    versjon?: string | null;
-    behandlingId: string;
-    dager: ApiGraderteAndreYtelserDag[];
-    notatTilBeslutter: string;
-}
-
-export interface ApiEndreGraderteAndreYtelserResponse {
-    versjon: string;
-}
-
-export type ApiPostGraderteAndreYtelserErrorCode =
-    (typeof ApiPostGraderteAndreYtelserErrorCode)[keyof typeof ApiPostGraderteAndreYtelserErrorCode];
-
-export const ApiPostGraderteAndreYtelserErrorCode = {
-    PERSON_PSEUDO_ID_IKKE_FUNNET: 'PERSON_PSEUDO_ID_IKKE_FUNNET',
-    MANGLER_TILGANG_TIL_PERSON: 'MANGLER_TILGANG_TIL_PERSON',
-    TOTAL_GRAD_OVER_100: 'TOTAL_GRAD_OVER_100',
-    MANGLER_ENDRINGER: 'MANGLER_ENDRINGER',
-    NEGATIV_GRAD: 'NEGATIV_GRAD',
-    UTDATERT_TILSTAND: 'UTDATERT_TILSTAND',
-} as const;
-
-export interface ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode {
-    type: string;
-    status: number;
-    title: string;
-    /** @nullable */
-    detail?: string | null;
-    code?: null | ApiPostGraderteAndreYtelserErrorCode;
 }
 
 export type ApiSykepengegrunnlagRequestApiSykepengegrunnlagtypeApiSkjønnsfastsattApiSkjønnsfastsettelsestype =
@@ -2505,6 +2327,7 @@ export const ApiBegrunnelse = {
     ANDREYTELSER: 'ANDREYTELSER',
     AVSLATT_MELDING_TIL_NAV_DAG: 'AVSLATT_MELDING_TIL_NAV_DAG',
     MELDING_TIL_NAV_DAG_UTENFOR_VENTETID: 'MELDING_TIL_NAV_DAG_UTENFOR_VENTETID',
+    OPPHOLDSKRAV: 'OPPHOLDSKRAV',
     UKJENT: 'UKJENT',
 } as const;
 

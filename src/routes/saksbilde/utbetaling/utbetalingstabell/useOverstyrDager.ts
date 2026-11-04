@@ -3,16 +3,13 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
+import { ProblemDetails } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import {
-    getGetGraderteAndreYtelserForPersonQueryKey,
+    getGetGraderteAndreYtelserQueryKey,
     usePostGraderteAndreYtelser,
-} from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
+} from '@io/rest/generated/andre-ytelser/graderte-andre-ytelser/graderte-andre-ytelser';
 import { usePostOverstyrTidslinje } from '@io/rest/generated/overstyringer/overstyringer';
-import {
-    ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode,
-    ApiPeriode,
-    ApiPostGraderteAndreYtelserErrorCode,
-} from '@io/rest/generated/spesialist.schemas';
+import { ApiPeriode } from '@io/rest/generated/spesialist.schemas';
 import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
@@ -56,7 +53,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         mutation: {
             onSettled: () => {
                 queryClient.invalidateQueries({
-                    queryKey: getGetGraderteAndreYtelserForPersonQueryKey(personPseudoId!),
+                    queryKey: getGetGraderteAndreYtelserQueryKey(personPseudoId!),
                 });
             },
         },
@@ -111,7 +108,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
     ): Promise<void> {
         if (!overstyrteDager.some((dag) => dag.gradertAnnenYtelse)) return;
         await endreGraderteAndreYtelser({
-            pseudoId: personPseudoId!,
+            personPseudoId: personPseudoId!,
             data: tilGraderteAndreYtelserRequest({
                 overstyrteDager,
                 inntektsforhold,
@@ -178,10 +175,10 @@ const finnLovhjemmelForDagoverstyring = (
 };
 
 function opprettFeilmelding(
-    graderteAndreYtelserError: { info?: ApiHttpProblemDetailsApiPostGraderteAndreYtelserErrorCode } | null,
+    graderteAndreYtelserError: { info?: ProblemDetails } | null,
     overstyrTidslinjeError: Error | null,
 ): string | undefined {
-    if (graderteAndreYtelserError?.info?.code === ApiPostGraderteAndreYtelserErrorCode.UTDATERT_TILSTAND) {
+    if (graderteAndreYtelserError?.info?.code === 'UTDATERT_TILSTAND') {
         return 'Graderte andre ytelser er endret siden du åpnet saken. Se over endringene og prøv igjen.';
     }
     if (graderteAndreYtelserError || overstyrTidslinjeError) {

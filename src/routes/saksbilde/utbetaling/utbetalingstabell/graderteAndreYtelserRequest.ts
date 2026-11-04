@@ -5,7 +5,7 @@ import {
     ApiGraderteAndreYtelser,
     ApiGraderteAndreYtelserDag,
     ApiYrkesaktivitetstype,
-} from '@io/rest/generated/spesialist.schemas';
+} from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { isArbeidsgiver } from '@utils/typeguards';
@@ -61,11 +61,12 @@ function tilGraderteAndreYtelserDag({
     if (dag.gradertAnnenYtelsetype === undefined || !gradertAnnenYtelse) {
         throw Error(`Dag ${dato} mangler gyldig gradert annen ytelse.`);
     }
-    const { sykdomsgrad, andreYtelseGrad } = gradertAnnenYtelse;
+    const { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling } = gradertAnnenYtelse;
     return {
         dato: dayjs(dato).format('YYYY-MM-DD'),
         andreYtelserGrader: { [dag.gradertAnnenYtelsetype]: andreYtelseGrad },
         sykdomsgrad,
+        sykdomsgradFørFordeling,
         arbeidsgrad: 100 - sykdomsgrad - andreYtelseGrad,
     };
 }

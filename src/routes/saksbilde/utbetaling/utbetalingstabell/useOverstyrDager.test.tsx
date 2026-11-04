@@ -1,7 +1,7 @@
 import { fetchMock, jsonBody, jsonResponse, mockFetchResponse } from '../../../../../vitest.setup';
 import { Mock, vi } from 'vitest';
 
-import { useGetGraderteAndreYtelserForPerson } from '@io/rest/generated/graderte-andre-ytelser/graderte-andre-ytelser';
+import { useGetGraderteAndreYtelser } from '@io/rest/generated/andre-ytelser/graderte-andre-ytelser/graderte-andre-ytelser';
 import {
     ApiArbeidsgiver,
     ApiKildetype,
@@ -37,7 +37,7 @@ const BEGRUNNELSE = 'begrunnelse';
 const PERIODE = enBeregnetPeriode({ vedtaksperiodeId: VEDTAKSPERIODE_ID, behandlingId: BEHANDLING_ID });
 const INNTEKTSFORHOLD = { organisasjonsnummer: ORGNUMMER, behandlinger: [] } as unknown as ApiArbeidsgiver;
 const TIDSLINJE_URL = `/api/spesialist/vedtaksperioder/${VEDTAKSPERIODE_ID}/overstyringer/tidslinje`;
-const GRADERTE_ANDRE_YTELSER_URL = `/api/spesialist/personer/${PSEUDO_ID}/graderte-andre-ytelser`;
+const GRADERTE_ANDRE_YTELSER_URL = `/api/andre-ytelser/personer/${PSEUDO_ID}/graderte-andre-ytelser`;
 
 describe('useOverstyrDager', () => {
     beforeEach(() => {
@@ -127,6 +127,7 @@ describe('useOverstyrDager', () => {
                             andreYtelserGrader: { FORELDREPENGER: 40 },
                             sykdomsgrad: 30,
                             arbeidsgrad: 30,
+                            sykdomsgradFørFordeling: 70,
                         },
                     ],
                 }),
@@ -156,6 +157,25 @@ describe('useOverstyrDager', () => {
             expect.objectContaining({
                 body: jsonBody({ begrunnelse: BEGRUNNELSE, dager: tilOverstyrteDager(dager, oversyrteDager) }),
             }),
+        );
+    });
+
+    test('oppdaterer den nye query-cachen etter lagring', async () => {
+        mockBackend();
+        const { result } = renderHook(() => ({
+            overstyrDager: useOverstyrDager(),
+            lagret: useGetGraderteAndreYtelser(PSEUDO_ID),
+        }));
+        await waitFor(() => expect(result.current.lagret.data?.[0]?.versjon).toBe('versjon-1'));
+
+        await act(() =>
+            result.current.overstyrDager.postOverstyring(dager, [gradertDag], BEGRUNNELSE, PERIODE, INNTEKTSFORHOLD),
+        );
+
+        await waitFor(() => expect(result.current.lagret.data?.[0]?.versjon).toBe('versjon-2'));
+        expect(fetchMock).not.toHaveBeenCalledWith(
+            `/api/spesialist/personer/${PSEUDO_ID}/graderte-andre-ytelser`,
+            expect.anything(),
         );
     });
 
@@ -195,8 +215,10 @@ describe('useOverstyrDager', () => {
 });
 
 function mockBackend(graderteAndreYtelserStatus = 200) {
+    let versjon = 'versjon-1';
     fetchMock.mockImplementation((url, init) => {
         if (url === GRADERTE_ANDRE_YTELSER_URL && init?.method === 'POST') {
+            if (graderteAndreYtelserStatus === 200) versjon = 'versjon-2';
             return Promise.resolve(
                 graderteAndreYtelserStatus === 200
                     ? jsonResponse({ versjon: 'versjon-2' })
@@ -217,7 +239,7 @@ function mockBackend(graderteAndreYtelserStatus = 200) {
                     {
                         yrkesaktivitet: 'ARBEIDSTAKER',
                         organisasjonsnummer: ORGNUMMER,
-                        versjon: 'versjon-1',
+                        versjon,
                         dager: [],
                         events: [],
                     },
@@ -231,7 +253,7 @@ function mockBackend(graderteAndreYtelserStatus = 200) {
 async function renderMedLagredeGraderteAndreYtelser() {
     const { result } = renderHook(() => ({
         overstyrDager: useOverstyrDager(),
-        lagret: useGetGraderteAndreYtelserForPerson(PSEUDO_ID),
+        lagret: useGetGraderteAndreYtelser(PSEUDO_ID),
     }));
     await waitFor(() => expect(result.current.lagret.isSuccess).toBe(true));
     return {
@@ -284,5 +306,5 @@ const gradertDag: Utbetalingstabelldag = {
     dag: Foreldrepengerdag,
     dato: '2020-01-02',
     grad: 70,
-    gradertAnnenYtelse: { sykdomsgrad: 30, andreYtelseGrad: 40 },
+    gradertAnnenYtelse: { sykdomsgrad: 30, andreYtelseGrad: 40, sykdomsgradFørFordeling: 70 },
 };

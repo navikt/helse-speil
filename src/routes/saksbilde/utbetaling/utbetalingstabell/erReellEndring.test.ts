@@ -1,4 +1,4 @@
-import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtures';
 
 import { erReellEndring } from './erReellEndring';
@@ -17,6 +17,13 @@ describe('erReellEndring', () => {
 
     it('er endring når fordelingen er byttet om, selv om kombinert grad er lik', () => {
         expect(erReellEndring(gradertEndring(40, 30), fraDag, lagretDag(30, { FORELDREPENGER: 40 }))).toBe(true);
+    });
+
+    it('er endring når bare sykdomsgraden før fordeling er endret', () => {
+        const endring = gradertEndring(30, 40);
+        endring.gradertAnnenYtelse.sykdomsgradFørFordeling = 60;
+
+        expect(erReellEndring(endring, fraDag, lagretDag(30, { FORELDREPENGER: 40 }))).toBe(true);
     });
 
     it('er endring når ytelsen er en annen', () => {
@@ -38,10 +45,20 @@ describe('erReellEndring', () => {
 });
 
 function gradertEndring(sykdomsgrad: number, andreYtelseGrad: number, dag = Foreldrepengerdag) {
-    return { dag, grad: sykdomsgrad + andreYtelseGrad, gradertAnnenYtelse: { sykdomsgrad, andreYtelseGrad } };
+    return {
+        dag,
+        grad: sykdomsgrad + andreYtelseGrad,
+        gradertAnnenYtelse: { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling: 70 },
+    };
 }
 
 function lagretDag(sykdomsgrad: number, andreYtelserGrader: Record<string, number>): ApiGraderteAndreYtelserDag {
     const andreYtelser = Object.values(andreYtelserGrader).reduce((sum, grad) => sum + grad, 0);
-    return { dato: '2024-07-01', andreYtelserGrader, sykdomsgrad, arbeidsgrad: 100 - sykdomsgrad - andreYtelser };
+    return {
+        dato: '2024-07-01',
+        andreYtelserGrader,
+        sykdomsgrad,
+        arbeidsgrad: 100 - sykdomsgrad - andreYtelser,
+        sykdomsgradFørFordeling: 70,
+    };
 }

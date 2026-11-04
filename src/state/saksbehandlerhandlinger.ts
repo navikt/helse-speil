@@ -41,6 +41,8 @@ export function tilSaksbehandlerhandlingTekst(handlingType: ApiHandlingType): st
             return 'Opptjening vurdert automatisk på nytt';
         case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
             return 'Graderte andre ytelser endret';
+        default:
+            return 'Ukjent handling';
     }
 }
 
@@ -52,6 +54,8 @@ export function tilSaksbehandlerhandlingKontrolltekst(handlingType: ApiHandlingT
             return 'Ny automatisk vurdering av opptjening';
         case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
             return 'Endring av graderte andre ytelser';
+        default:
+            return 'Ukjent handling';
     }
 }
 
@@ -72,8 +76,7 @@ function domeneMedDetaljer(handlingType: ApiHandlingType): 'vilkarsproving' | nu
     switch (handlingType) {
         case ApiHandlingType.MANUELT_VURDERT_OPPTJENING:
             return 'vilkarsproving';
-        case ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING:
-        case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
+        default:
             return null;
     }
 }

@@ -80,6 +80,7 @@ export type Utbetalingstabelldag = {
 };
 
 export type GradertAnnenYtelse = {
+    sykdomsgradFørFordeling: number;
     sykdomsgrad: number;
     andreYtelseGrad: number;
 };

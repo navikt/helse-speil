@@ -1,4 +1,5 @@
-import { ApiArbeidsgiver, ApiGraderteAndreYtelser, ApiSelvstendigNaering } from '@io/rest/generated/spesialist.schemas';
+import { ApiGraderteAndreYtelser } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
+import { ApiArbeidsgiver, ApiSelvstendigNaering } from '@io/rest/generated/spesialist.schemas';
 import { tilDagendring } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
 import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtures';
 
@@ -29,8 +30,20 @@ describe('tilGraderteAndreYtelserRequest', () => {
             behandlingId,
             notatTilBeslutter: 'Et notat',
             dager: [
-                { dato: '2024-07-01', andreYtelserGrader: { FORELDREPENGER: 40 }, sykdomsgrad: 30, arbeidsgrad: 30 },
-                { dato: '2024-07-03', andreYtelserGrader: { PLEIEPENGER: 50 }, sykdomsgrad: 20, arbeidsgrad: 30 },
+                {
+                    dato: '2024-07-01',
+                    andreYtelserGrader: { FORELDREPENGER: 40 },
+                    sykdomsgrad: 30,
+                    arbeidsgrad: 30,
+                    sykdomsgradFørFordeling: 70,
+                },
+                {
+                    dato: '2024-07-03',
+                    andreYtelserGrader: { PLEIEPENGER: 50 },
+                    sykdomsgrad: 20,
+                    arbeidsgrad: 30,
+                    sykdomsgradFørFordeling: 70,
+                },
             ],
         });
     });
@@ -57,6 +70,21 @@ describe('tilGraderteAndreYtelserRequest', () => {
             graderteAndreYtelser: [lagGraderteAndreYtelser({ organisasjonsnummer: '947064649' })],
             behandlingId,
             notatTilBeslutter: '',
+        });
+
+        it('bevarer sykdomsgrad før fordeling uten å beregne den fra de fordelte gradene', () => {
+            const dag = gradertDag('2024-07-01', 30, 40);
+            dag.gradertAnnenYtelse!.sykdomsgradFørFordeling = 60;
+
+            const request = tilGraderteAndreYtelserRequest({
+                overstyrteDager: [dag],
+                inntektsforhold: arbeidsgiver('967170232'),
+                graderteAndreYtelser: [],
+                behandlingId,
+                notatTilBeslutter: '',
+            });
+
+            expect(request.dager[0]!.sykdomsgradFørFordeling).toBe(60);
         });
 
         expect(request.versjon).toBeNull();
@@ -106,7 +134,7 @@ describe('tilDagendring', () => {
 
         expect(endring).toMatchObject({
             grad: 70,
-            gradertAnnenYtelse: { sykdomsgrad: 30, andreYtelseGrad: 40 },
+            gradertAnnenYtelse: { sykdomsgrad: 30, andreYtelseGrad: 40, sykdomsgradFørFordeling: 80 },
         });
     });
 
@@ -137,6 +165,6 @@ function gradertDag(dato: string, sykdomsgrad: number, andreYtelseGrad: number, 
         dato,
         dag,
         grad: sykdomsgrad + andreYtelseGrad,
-        gradertAnnenYtelse: { sykdomsgrad, andreYtelseGrad },
+        gradertAnnenYtelse: { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling: 70 },
     });
 }

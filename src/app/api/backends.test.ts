@@ -58,6 +58,14 @@ describe('backends', () => {
     });
 
     describe('backendUrl', () => {
+        it('bruker lokal port og riktig prefiks for andre-ytelser', () => {
+            vi.stubEnv('LOKALE_BACKENDS', 'andre-ytelser');
+
+            expect(backendUrl('andre-ytelser', 'http://localhost:1234/api/andre-ytelser/personer/1')).toBe(
+                'http://localhost:8484/api/personer/1',
+            );
+        });
+
         it('bruker lokal port når backenden kjører lokalt', () => {
             vi.stubEnv('LOKALE_BACKENDS', 'sporhund');
 
