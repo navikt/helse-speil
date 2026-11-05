@@ -1,8 +1,6 @@
 import React, { ReactElement } from 'react';
 
-import { Button } from '@navikt/ds-react';
-
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { useInnloggetSaksbehandler } from '@state/authentication';
 import { useTildel } from '@state/tildeling';
 
@@ -24,18 +22,16 @@ export const IkkeTildelt = ({ personPseudoId, width }: IkkeTildeltProps): ReactE
 
     return (
         <div style={{ width: width }} className={styles.IkkeTildelt}>
-            <VisHvisSkrivetilgang>
-                <Button
-                    className={styles.Tildelingsknapp}
-                    variant="secondary"
-                    size="small"
-                    onClick={tildel}
-                    disabled={!saksbehandler}
-                    loading={loading}
-                >
-                    Tildel meg
-                </Button>
-            </VisHvisSkrivetilgang>
+            <ButtonKreverSkrivetilgang
+                className={styles.Tildelingsknapp}
+                variant="secondary"
+                size="small"
+                onClick={tildel}
+                disabled={!saksbehandler}
+                loading={loading}
+            >
+                Tildel meg
+            </ButtonKreverSkrivetilgang>
         </div>
     );
 };

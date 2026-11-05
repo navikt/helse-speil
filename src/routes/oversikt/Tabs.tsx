@@ -3,7 +3,6 @@ import { ReactElement, useEffect, useRef } from 'react';
 import { BarChartIcon, FilterIcon } from '@navikt/aksel-icons';
 import { HStack, Skeleton, Tooltip } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useHarDialogmeldingrolle } from '@hooks/brukerrolleHooks';
 import { cn } from '@utils/tw';
 
@@ -140,11 +139,9 @@ export const Tabs = ({ antallMineSaker, antallPåVentNåddFrist }: TabProps): Re
             {visFilterButton && <FilterButton />}
             <span role="tablist">
                 <AlleSakerTab />
-                <VisHvisSkrivetilgang>
-                    <MineSakerTab antall={antallMineSaker} />
-                    <VentendeSakerTab antall={antallPåVentNåddFrist} />
-                    <BehandletIdagTab />
-                </VisHvisSkrivetilgang>
+                <MineSakerTab antall={antallMineSaker} />
+                <VentendeSakerTab antall={antallPåVentNåddFrist} />
+                <BehandletIdagTab />
                 <OppgavelisterTab />
                 {harDialogmeldingrolle && <DialogmeldingTab />}
             </span>

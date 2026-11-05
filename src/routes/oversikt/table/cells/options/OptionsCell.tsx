@@ -3,8 +3,8 @@ import { ReactElement, useState } from 'react';
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Table, Tooltip } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
+import { ActionMenuItemKreverSkrivetilgang } from '@components/skrivetilgang/ActionMenuItemKreverSkrivetilgang';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { ApiEgenskap, ApiOppgaveProjeksjon, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
 import { sporHendelse } from '@observability/hendelser';
@@ -55,32 +55,32 @@ export function OptionsCell({ oppgave, navn }: OptionsButtonProps): ReactElement
     return (
         <Table.DataCell onClick={(event) => event.stopPropagation()} className="w-5 pr-0">
             <span className="flex items-center">
-                <VisHvisSkrivetilgang>
-                    <ActionMenu>
-                        <Tooltip content="Alternativer">
-                            <ActionMenu.Trigger>
-                                <Button size="xsmall" variant="secondary" className="h-5 w-5 rounded-full">
-                                    <MenuElipsisHorizontalIcon aria-hidden height={20} width={20} />
-                                </Button>
-                            </ActionMenu.Trigger>
-                        </Tooltip>
-                        <ActionMenu.Content>
-                            {!erTildeltInnloggetBruker && !erTildelt && (
-                                <ActionMenu.Item onSelect={tildel} disabled={!!oppgave.tildeling}>
-                                    Tildel meg
-                                </ActionMenu.Item>
-                            )}
-                            {erPåVent ? (
-                                <ActionMenu.Item onSelect={fjernFraPåVent}>Fjern fra på vent</ActionMenu.Item>
-                            ) : (
-                                <ActionMenu.Item onSelect={() => setShowModal(true)}>Legg på vent</ActionMenu.Item>
-                            )}
-                            <ActionMenu.Item onSelect={avmeld}>
-                                {erTildeltInnloggetBruker ? 'Meld av' : 'Frigi oppgave'}
-                            </ActionMenu.Item>
-                        </ActionMenu.Content>
-                    </ActionMenu>
-                </VisHvisSkrivetilgang>
+                <ActionMenu>
+                    <Tooltip content="Alternativer">
+                        <ActionMenu.Trigger>
+                            <Button size="xsmall" variant="secondary" className="h-5 w-5 rounded-full">
+                                <MenuElipsisHorizontalIcon aria-hidden height={20} width={20} />
+                            </Button>
+                        </ActionMenu.Trigger>
+                    </Tooltip>
+                    <ActionMenu.Content>
+                        {!erTildeltInnloggetBruker && !erTildelt && (
+                            <ActionMenuItemKreverSkrivetilgang onSelect={tildel} disabled={!!oppgave.tildeling}>
+                                Tildel meg
+                            </ActionMenuItemKreverSkrivetilgang>
+                        )}
+                        {erPåVent ? (
+                            <ActionMenuItemKreverSkrivetilgang onSelect={fjernFraPåVent}>
+                                Fjern fra på vent
+                            </ActionMenuItemKreverSkrivetilgang>
+                        ) : (
+                            <ActionMenu.Item onSelect={() => setShowModal(true)}>Legg på vent</ActionMenu.Item>
+                        )}
+                        <ActionMenuItemKreverSkrivetilgang onSelect={avmeld}>
+                            {erTildeltInnloggetBruker ? 'Meld av' : 'Frigi oppgave'}
+                        </ActionMenuItemKreverSkrivetilgang>
+                    </ActionMenu.Content>
+                </ActionMenu>
                 {showModal && (
                     <LeggPåVentDialog
                         oppgaveId={oppgave.id}

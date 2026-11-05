@@ -7,7 +7,7 @@ import { screen, within } from '@testing-library/react';
 import { Tabs } from './Tabs';
 
 vi.mock('@hooks/brukerrolleHooks', () => ({
-    useHarSkrivetilgang: () => true,
+    useHarSkrivetilgang: () => false,
     useHarUtviklerRolle: () => true,
     useHarBeslutterrolle: () => true,
     useHarDialogmeldingrolle: () => true,
@@ -29,6 +29,8 @@ describe('Tabs', () => {
     it('rendrer antall oppgaver', async () => {
         render(<Tabs antallMineSaker={2} antallPåVentNåddFrist={1} />);
 
+        expect(screen.getByText('Mine oppgaver')).toBeVisible();
+        expect(screen.getByText('Behandlet')).toBeVisible();
         const mineSaker = screen.getByText('Mine oppgaver');
         expect(within(mineSaker).getByText('(2)')).toBeVisible();
 
