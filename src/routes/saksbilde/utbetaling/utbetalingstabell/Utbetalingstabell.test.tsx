@@ -14,7 +14,7 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 
 import { Utbetalingstabell } from './Utbetalingstabell';
-import { Helgedag, Sykedag } from './utbetalingstabelldager';
+import { Helgedag, Svangerskapspengerdag, Sykedag } from './utbetalingstabelldager';
 
 vi.mock('@utils/featureToggles', () => ({ useSkalSeGraderteAndreYtelser: vi.fn() }));
 
@@ -153,6 +153,43 @@ describe('Utbetalingstabell', () => {
             expect(await screen.findByText('En begrunnelse for overstyringen')).toBeVisible();
             expect(screen.queryByText('Et notat')).not.toBeInTheDocument();
         });
+
+        describe('når saksbehandler fordeler en dag på en gradert annen ytelse', () => {
+            const enFordeling = (sykdomsgrad: number, andreYtelseGrad: number) => ({
+                ['2022-01-03']: enUtbetalingstabelldag('2022-01-03', {
+                    dag: Svangerskapspengerdag,
+                    grad: sykdomsgrad + andreYtelseGrad,
+                    gradertAnnenYtelse: { sykdomsgradFørFordeling: 100, sykdomsgrad, andreYtelseGrad },
+                }),
+            });
+
+            it('viser den opprinnelige dagen og den nye fordelingen, og markerer det som endres', async () => {
+                rendrerTabell([], {}, [], enFordeling(30, 70));
+
+                const rad = radFor('03.01.2022');
+                expect(within(rad).getByText('Syk')).toBeVisible();
+                expect(within(rad).getByText('100 %')).toBeVisible();
+                expect(within(rad).getByText('70 %')).toBeVisible();
+                expect(within(rad).getByText('30 %')).toBeVisible();
+                expect(within(rad).getByText('Svangerskapspenger')).toBeVisible();
+
+                const [dagtype, ...resten] = within(rad).getAllByTestId('infotrekant');
+                expect(resten).toHaveLength(5); // andre ytelser, total grad, to beløp og merknader
+                await userEvent.hover(dagtype!);
+                expect(await screen.findByText('Endret til gradert svangerskapspenger')).toBeVisible();
+            });
+
+            it('markerer bare dagtypen når fordelingen er lik den som er lagret', () => {
+                rendrerTabell(
+                    [enGradertAnnenYtelseDag('2022-01-03', { SVANGERSKAPSPENGER: 70 })],
+                    { ['2022-01-03']: enUtbetalingstabelldag('2022-01-03', { totalGradering: 30 }) },
+                    [],
+                    enFordeling(30, 70),
+                );
+
+                expect(within(radFor('03.01.2022')).getAllByTestId('infotrekant')).toHaveLength(1);
+            });
+        });
     });
 });
 
@@ -160,12 +197,14 @@ function rendrerTabell(
     graderteAndreYtelserDager: ApiGraderteAndreYtelserDag[],
     overstyrteDager: Record<string, Utbetalingstabelldag> = {},
     events: ApiGraderteAndreYtelserEvent[] = [],
+    lokaleOverstyringer: Record<string, Utbetalingstabelldag> = {},
 ) {
     render(
         <Utbetalingstabell
             fom="2022-01-01"
             tom="2022-01-05"
             dager={new Map([...dager, ...Object.entries(overstyrteDager)])}
+            lokaleOverstyringer={new Map(Object.entries(lokaleOverstyringer))}
             person={enPerson()}
             erSelvstendigNæring={false}
             graderteAndreYtelser={{

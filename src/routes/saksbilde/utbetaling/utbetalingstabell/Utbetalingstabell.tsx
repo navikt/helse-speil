@@ -126,77 +126,88 @@ export const Utbetalingstabell = ({
                                 visAndreYtelser={visAndreYtelser}
                             />
                         )}
-                        {dagerList.map((tabelldag, i) => (
-                            <Row
-                                key={i}
-                                dag={tabelldag}
-                                erMarkert={markerteDager?.get(tabelldag.dato) !== undefined}
-                                erOverstyrt={lokaleOverstyringer?.get(tabelldag.dato) !== undefined}
-                                overstyrer={overstyrer}
-                            >
-                                <DateCell date={tabelldag.dato} />
-                                <DagtypeCell
-                                    tabelldag={tabelldag}
-                                    overstyrtDag={lokaleOverstyringer?.get(tabelldag.dato)}
-                                />
-                                <GradCell
-                                    tabelldag={tabelldag}
-                                    overstyrtDag={lokaleOverstyringer?.get(tabelldag.dato)}
-                                />
-                                {visAndreYtelser && (
-                                    <AndreYtelserCell
-                                        dagtype={tabelldag.dag.speilDagtype}
-                                        graderteAndreYtelserDag={graderteAndreYtelserPerDato.get(tabelldag.dato)}
-                                        endringer={endringerForDato(graderteAndreYtelser, tabelldag.dato)}
+                        {dagerList.map((tabelldag, i) => {
+                            const overstyrtDag = lokaleOverstyringer?.get(tabelldag.dato);
+                            const endretFordeling = overstyrtDag?.gradertAnnenYtelse;
+                            // Ved gradert annen ytelse er det bare total grad og beløp som kan endres, og bare når sykdomsgraden endres
+                            const utbetalingErEndret = endretFordeling
+                                ? endretFordeling.sykdomsgrad !== tabelldag.totalGradering
+                                : !!overstyrtDag;
+                            return (
+                                <Row
+                                    key={i}
+                                    dag={tabelldag}
+                                    erMarkert={markerteDager?.get(tabelldag.dato) !== undefined}
+                                    erOverstyrt={overstyrtDag !== undefined}
+                                    overstyrer={overstyrer}
+                                >
+                                    <DateCell date={tabelldag.dato} />
+                                    <DagtypeCell tabelldag={tabelldag} overstyrtDag={overstyrtDag} />
+                                    <GradCell tabelldag={tabelldag} overstyrtDag={overstyrtDag} />
+                                    {visAndreYtelser && (
+                                        <AndreYtelserCell
+                                            dagtype={tabelldag.dag.speilDagtype}
+                                            graderteAndreYtelserDag={graderteAndreYtelserPerDato.get(tabelldag.dato)}
+                                            endringer={endringerForDato(graderteAndreYtelser, tabelldag.dato)}
+                                            endretFordeling={endretFordeling}
+                                        />
+                                    )}
+                                    <KildeCell
+                                        type={tabelldag.dag.speilDagtype}
+                                        kilde={tabelldag.kilde.type}
+                                        overstyringer={tabelldag.overstyringer}
                                     />
-                                )}
-                                <KildeCell
-                                    type={tabelldag.dag.speilDagtype}
-                                    kilde={tabelldag.kilde.type}
-                                    overstyringer={tabelldag.overstyringer}
-                                />
-                                <TotalGradCell
-                                    type={tabelldag.dag.speilDagtype}
-                                    totalGradering={tabelldag.totalGradering}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
-                                    erNyDag={tabelldag.erNyDag}
-                                />
-                                {!erSelvstendigNæring && (
-                                    <UtbetalingCell
-                                        utbetaling={tabelldag.arbeidsgiverbeløp}
-                                        erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
+                                    <TotalGradCell
+                                        type={tabelldag.dag.speilDagtype}
+                                        totalGradering={
+                                            endretFordeling ? endretFordeling.sykdomsgrad : tabelldag.totalGradering
+                                        }
+                                        erOverstyrt={utbetalingErEndret}
                                         erNyDag={tabelldag.erNyDag}
                                     />
-                                )}
-                                <UtbetalingCell
-                                    utbetaling={tabelldag.personbeløp}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
-                                    erNyDag={tabelldag.erNyDag}
-                                />
-                                <GjenståendeDagerCell
-                                    gjenståendeDager={tabelldag.dagerIgjen}
-                                    erOverstyrt={!!lokaleOverstyringer?.get(tabelldag.dato)}
-                                    erNyDag={tabelldag.erNyDag}
-                                />
-                                <MerknaderCell
-                                    style={{ width: '100%' }}
-                                    dag={tabelldag}
-                                    alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
-                                    graderteAndreYtelserDag={
-                                        visAndreYtelser ? graderteAndreYtelserPerDato.get(tabelldag.dato) : undefined
-                                    }
-                                />
-                                {overstyrer && (
-                                    <SlettNyDagCell
-                                        slettSisteNyeDag={slettSisteNyeDag}
-                                        nyDag={
-                                            tabelldag.kilde.type === 'SAKSBEHANDLER' && tabelldag.kilde.id == undefined
-                                        }
-                                        visSlettKnapp={i === 0}
+                                    {!erSelvstendigNæring && (
+                                        <UtbetalingCell
+                                            utbetaling={tabelldag.arbeidsgiverbeløp}
+                                            erOverstyrt={utbetalingErEndret}
+                                            erNyDag={tabelldag.erNyDag}
+                                        />
+                                    )}
+                                    <UtbetalingCell
+                                        utbetaling={tabelldag.personbeløp}
+                                        erOverstyrt={utbetalingErEndret}
+                                        erNyDag={tabelldag.erNyDag}
                                     />
-                                )}
-                            </Row>
-                        ))}
+                                    <GjenståendeDagerCell
+                                        gjenståendeDager={tabelldag.dagerIgjen}
+                                        erOverstyrt={!endretFordeling && !!overstyrtDag}
+                                        erNyDag={tabelldag.erNyDag}
+                                    />
+                                    <MerknaderCell
+                                        style={{ width: '100%' }}
+                                        dag={tabelldag}
+                                        alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
+                                        graderteAndreYtelserDag={
+                                            visAndreYtelser
+                                                ? graderteAndreYtelserPerDato.get(tabelldag.dato)
+                                                : undefined
+                                        }
+                                        endretYtelsetype={
+                                            endretFordeling ? overstyrtDag?.dag.gradertAnnenYtelsetype : undefined
+                                        }
+                                    />
+                                    {overstyrer && (
+                                        <SlettNyDagCell
+                                            slettSisteNyeDag={slettSisteNyeDag}
+                                            nyDag={
+                                                tabelldag.kilde.type === 'SAKSBEHANDLER' &&
+                                                tabelldag.kilde.id == undefined
+                                            }
+                                            visSlettKnapp={i === 0}
+                                        />
+                                    )}
+                                </Row>
+                            );
+                        })}
                     </Table.Body>
                 </Table>
             </div>

@@ -113,7 +113,10 @@ interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     overstyrtDag?: Utbetalingstabelldag;
 }
 
-export const DagtypeCell = ({ tabelldag, overstyrtDag, ...rest }: DagtypeCellProps): ReactElement => {
+export const DagtypeCell = ({ tabelldag, overstyrtDag: endretDag, ...rest }: DagtypeCellProps): ReactElement => {
+    // En gradert annen ytelse endrer fordelingen, ikke dagtypen, så cellen viser den opprinnelige dagen
+    const gradertAnnenYtelse = endretDag?.gradertAnnenYtelse ? endretDag : undefined;
+    const overstyrtDag = gradertAnnenYtelse ? undefined : endretDag;
     const tekst = dekorerTekstOverstyrtDag(overstyrtDag) ?? dekorerTekst(tabelldag);
     const ikon = getTypeIcon(overstyrtDag) ?? getTypeIcon(tabelldag);
     const dagtypeErOverstyrt = overstyrtDag && tabelldag.dag.speilDagtype !== overstyrtDag.dag.speilDagtype;
@@ -124,7 +127,11 @@ export const DagtypeCell = ({ tabelldag, overstyrtDag, ...rest }: DagtypeCellPro
 
     return (
         <Table.DataCell {...rest}>
-            {dagtypeErOverstyrt ? (
+            {gradertAnnenYtelse ? (
+                <Endringstrekant
+                    text={`Endret til gradert ${gradertAnnenYtelse.dag.visningstekst.toLocaleLowerCase()}`}
+                />
+            ) : dagtypeErOverstyrt ? (
                 <Endringstrekant text={`Endret fra ${tabelldag.dag.visningstekst}`} />
             ) : nyDag ? (
                 <Endringstrekant text="Ny dag. Endringene vil oppdateres og kalkuleres etter du har trykket på ferdig" />

@@ -18,7 +18,9 @@ interface GradCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
     overstyrtDag?: Utbetalingstabelldag;
 }
 
-export const GradCell = ({ tabelldag, overstyrtDag, ...rest }: GradCellProps): ReactElement => {
+export const GradCell = ({ tabelldag, overstyrtDag: endretDag, ...rest }: GradCellProps): ReactElement => {
+    // Ved gradert annen ytelse er graden sykdomsgraden før fordeling, og den endres ikke
+    const overstyrtDag = endretDag?.gradertAnnenYtelse ? undefined : endretDag;
     const gradErOverstyrt = overstyrtDag && overstyrtDag.grad !== tabelldag.grad;
     const overstyringstekst =
         typeof tabelldag.grad === 'number' ? `Endret fra ${tabelldag.grad} %` : 'Endret fra dag uten grad';
