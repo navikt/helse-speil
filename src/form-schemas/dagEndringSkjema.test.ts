@@ -1,4 +1,5 @@
 import { lagDagEndringSchema, lagDagEndringSelvstendigSchema } from '@form-schemas/dagEndringSkjema';
+import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import {
     Arbeidsdag,
     AvslattMeldingTilNavdag,
@@ -316,5 +317,35 @@ describe('lagDagEndringSelvstendigSchema', () => {
 
             expect(resultat.success).toBe(true);
         });
+    });
+});
+
+describe.each([
+    ['arbeidstaker', lagDagEndringSchema],
+    ['selvstendig', lagDagEndringSelvstendigSchema],
+])('dager avslått etter oppholdskravet (%s)', (_, lagSchema) => {
+    it('kan ikke overstyres', () => {
+        const markerteDager = [
+            lagDag({ dato: '2024-07-16', dag: Sykedag, begrunnelser: [ApiBegrunnelse.OPPHOLDSKRAV] }),
+            lagDag({ dato: '2024-07-17', dag: Sykedag }),
+            lagDag({ dato: '2024-07-15', dag: Sykedag, begrunnelser: [ApiBegrunnelse.OPPHOLDSKRAV] }),
+        ];
+
+        const resultat = lagSchema(50, markerteDager).safeParse({ dagtype: 'Syk', grad: 100 });
+
+        expect(resultat.success).toBe(false);
+        expect(resultat.error?.issues.map((issue) => issue.message)).toContain(
+            '15.07.2024, 16.07.2024 er avslått etter oppholdskravet. Gjør om vurderingen av oppholdskravet før du endrer dagene.',
+        );
+    });
+
+    it('godtar dager uten avslag etter oppholdskravet', () => {
+        const markerteDager = [
+            lagDag({ dato: '2024-07-15', dag: Sykedag, begrunnelser: [ApiBegrunnelse.SYKEPENGEDAGER_OPPBRUKT] }),
+        ];
+
+        const resultat = lagSchema(50, markerteDager).safeParse({ dagtype: 'Syk', grad: 100 });
+
+        expect(resultat.success).toBe(true);
     });
 });

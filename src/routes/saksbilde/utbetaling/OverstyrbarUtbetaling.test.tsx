@@ -1,10 +1,10 @@
 import { Mock, vi } from 'vitest';
 
 import { ApiYrkesaktivitetstype } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
-import { ApiPeriodetype } from '@io/rest/generated/spesialist.schemas';
+import { ApiBegrunnelse, ApiPeriodetype } from '@io/rest/generated/spesialist.schemas';
 import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
-import { enBeregnetPeriode } from '@test-data/periode';
+import { enBeregnetPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { render, screen } from '@test-utils';
@@ -19,6 +19,16 @@ let postOverstyringArguments: [Utbetalingstabelldag[], string] | [] = [];
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
     useHarBeslutterrolle: () => true,
+}));
+
+vi.mock('next/navigation', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('next/navigation')>()),
+    useParams: () => ({ personPseudoId: 'en-person' }),
+}));
+
+vi.mock('@state/toggles', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@state/toggles')>()),
+    useKanVurdereOppholdskrav: () => true,
 }));
 
 vi.mock('@utils/featureToggles', () => ({
@@ -145,4 +155,79 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByText('40 %')).toBeVisible();
         expect(screen.getByText('Foreldrepenger')).toBeVisible();
     });
+
+    test('vurderer oppholdskravet for de markerte dagene', async () => {
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByText('Revurder dager'));
+        const checkboxes = screen.getAllByRole('checkbox');
+        await userEvent.click(checkboxes[1]!);
+        await userEvent.click(checkboxes[2]!);
+        await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
+
+        expect(screen.getByRole('dialog', { name: 'Vurder oppholdskrav' })).toBeVisible();
+        expect(screen.getByText('01.01.2022, 02.01.2022')).toBeVisible();
+    });
+
+    test('vurderer oppholdskravet også i perioder som ikke er beregnet', async () => {
+        const periode = enUberegnetPeriode({ fom: '2022-01-01', tom: '2022-01-31' });
+        render(
+            <OverstyrbarUtbetaling
+                inntektsforhold={enArbeidsgiver()}
+                person={enPerson()}
+                dager={dager}
+                periode={periode}
+            />,
+        );
+
+        await userEvent.click(screen.getByText('Endre dager'));
+        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
+
+        expect(screen.getByRole('button', { name: 'Vurder oppholdskrav' })).toBeEnabled();
+    });
+
+    test('sperrer vurdering av oppholdskravet når endringer av dager ikke er sendt', async () => {
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByText('Revurder dager'));
+        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
+        await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), 'Ferie');
+        await userEvent.click(screen.getByTestId('endre'));
+
+        expect(screen.getByRole('button', { name: 'Vurder oppholdskrav' })).toBeDisabled();
+    });
+
+    test('endrer ikke dager som er avslått etter oppholdskravet', async () => {
+        renderOverstyring(
+            new Map([
+                [
+                    '2022-01-01',
+                    getUtbetalingstabellDag({ dato: '2022-01-01', begrunnelser: [ApiBegrunnelse.OPPHOLDSKRAV] }),
+                ],
+            ]),
+        );
+
+        await userEvent.click(screen.getByText('Revurder dager'));
+        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
+        await userEvent.click(screen.getByTestId('endre'));
+
+        expect(
+            await screen.findByText(
+                'Dagtype: 01.01.2022 er avslått etter oppholdskravet. Gjør om vurderingen av oppholdskravet før du endrer dagen.',
+            ),
+        ).toBeVisible();
+        expect(screen.getByTestId('oppdater')).toBeDisabled();
+    });
 });
+
+function renderOverstyring(dager: Map<string, Utbetalingstabelldag>) {
+    const periode = enBeregnetPeriode({ fom: '2022-01-01', tom: '2022-01-31' }).medSkjæringstidspunkt('2022-01-01');
+    return render(
+        <OverstyrbarUtbetaling
+            inntektsforhold={enArbeidsgiver().medPerioder([periode])}
+            person={enPerson()}
+            dager={dager}
+            periode={periode}
+        />,
+    );
+}

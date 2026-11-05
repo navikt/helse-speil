@@ -41,8 +41,8 @@ export function tilSaksbehandlerhandlingTekst(handlingType: ApiHandlingType): st
             return 'Opptjening vurdert automatisk på nytt';
         case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
             return 'Graderte andre ytelser endret';
-        case ApiHandlingType.AVSLAGSDAGER_ENDRET:
-            return 'Avslagsdager endret';
+        case ApiHandlingType.MANUELT_VURDERT_OPPHOLDSKRAV:
+            return 'Oppholdskrav vurdert manuelt';
         default:
             return 'Ukjent handling';
     }
@@ -56,8 +56,8 @@ export function tilSaksbehandlerhandlingKontrolltekst(handlingType: ApiHandlingT
             return 'Ny automatisk vurdering av opptjening';
         case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
             return 'Endring av graderte andre ytelser';
-        case ApiHandlingType.AVSLAGSDAGER_ENDRET:
-            return 'Endring av avslagsdager';
+        case ApiHandlingType.MANUELT_VURDERT_OPPHOLDSKRAV:
+            return 'Manuell vurdering av oppholdskrav';
         default:
             return 'Ukjent handling';
     }
@@ -80,7 +80,7 @@ function domeneMedDetaljer(handlingType: ApiHandlingType): 'vilkarsproving' | 'a
     switch (handlingType) {
         case ApiHandlingType.MANUELT_VURDERT_OPPTJENING:
             return 'vilkarsproving';
-        case ApiHandlingType.AVSLAGSDAGER_ENDRET:
+        case ApiHandlingType.MANUELT_VURDERT_OPPHOLDSKRAV:
             return 'avslagsdager';
         case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
             return 'andre-ytelser';

@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { useParams } from 'next/navigation';
 import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
@@ -15,6 +16,7 @@ import {
 } from '@io/rest/generated/spesialist.schemas';
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
+import { VurderOppholdskrav } from '@saksbilde/utbetaling/VurderOppholdskrav';
 import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndreDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerForm';
 import { tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
@@ -194,6 +196,7 @@ export function OverstyrbarUtbetaling({
     dager,
     periode,
 }: OverstyrbarUtbetalingProps): ReactElement {
+    const { personPseudoId } = useParams<{ personPseudoId?: string }>();
     const aktuellPeriode = useRef(periode);
 
     const [overstyrer, setOverstyrer] = useState(false);
@@ -350,6 +353,14 @@ export function OverstyrbarUtbetaling({
                                 onSubmitEndring={onSubmitEndring}
                                 erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                             />
+                            {personPseudoId && (
+                                <VurderOppholdskrav
+                                    personPseudoId={personPseudoId}
+                                    behandlingId={periode.behandlingId}
+                                    markerteDager={markerteDager}
+                                    harUsendteEndringer={alleOverstyrteDager.size > 0}
+                                />
+                            )}
                             <FormProvider {...form}>
                                 <form onSubmit={form.handleSubmit(onSubmitOverstyring)} autoComplete="off">
                                     <OverstyringForm

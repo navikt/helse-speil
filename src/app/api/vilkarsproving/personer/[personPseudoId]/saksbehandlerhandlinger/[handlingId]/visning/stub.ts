@@ -57,10 +57,10 @@ function tilVisning(vurderinger: ManuellVurdering[], opptjeningOk: boolean): Han
         });
     }
     felter.push(...sorterte.filter(({ vurdering }) => gjelderForeldrepenger(vurdering)).map(({ felt }) => felt));
-    felter.push({ type: 'TEKST', tittel: 'Begrunnelse', tekst: kilde.fritekstbegrunnelse });
     if (kilde.journalpostId.length > 0) {
         felter.push({ type: 'LISTE', tittel: 'Journalposter', elementer: kilde.journalpostId });
     }
+    felter.push({ type: 'TEKST', tittel: 'Begrunnelse', tekst: kilde.fritekstbegrunnelse });
     return { felter };
 }
 

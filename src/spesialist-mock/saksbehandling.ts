@@ -64,6 +64,20 @@ export function registrerEndringAvGraderteAndreYtelser(
     });
 }
 
+// sp-avslagsdager sender vurderingen til spesialist som en saksbehandlerhandling som krever totrinnsvurdering
+export function registrerManuellVurderingAvOppholdskrav(
+    personPseudoId: string,
+    vurderingId: string,
+    behandlingId: string,
+): void {
+    registrerHandlingSomKreverTotrinnsvurdering(personPseudoId, {
+        handlingId: vurderingId,
+        handlingType: ApiHandlingType.MANUELT_VURDERT_OPPHOLDSKRAV,
+        skjæringstidspunkt: null,
+        behandlingId,
+    });
+}
+
 function perioderMedOppgaveFor(personPseudoId: string): Periodeoppslag[] {
     const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
     return fødselsnummer ? finnPerioderMedOppgave(fødselsnummer) : [];

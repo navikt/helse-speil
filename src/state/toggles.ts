@@ -8,6 +8,7 @@ import { atomWithLocalStorage, atomWithSessionStorage } from '@state/jotai';
 export type ToggleState = {
     kanBeslutteEgne: boolean;
     nyMedlemskapsvisning: boolean;
+    kanVurdereOppholdskrav: boolean;
     utviklersnacks: boolean;
 };
 
@@ -16,6 +17,7 @@ type SessionToggleState = Omit<ToggleState, 'utviklersnacks'>;
 const defaultToggleState: SessionToggleState = {
     kanBeslutteEgne: false,
     nyMedlemskapsvisning: false,
+    kanVurdereOppholdskrav: false,
 };
 
 const toggleState = atomWithSessionStorage<SessionToggleState>('toggleState', defaultToggleState);
@@ -59,5 +61,8 @@ export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleStat
 
 // sp-medlemskap er bare satt opp i dev, så togglen virker aldri i prod
 export const useNyMedlemskapsvisning = (): boolean => useAtomValue(toggleState).nyMedlemskapsvisning && erUtvikling;
+
+// Bare i dev til skissene for § 8-9 er klare og sp-avslagsdager er i drift i prod (navikt/sas-issues#98)
+export const useKanVurdereOppholdskrav = (): boolean => useAtomValue(toggleState).kanVurdereOppholdskrav && erUtvikling;
 
 export const useUtviklersnacks = (): boolean => useAtomValue(utviklersnacksState);

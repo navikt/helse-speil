@@ -4,7 +4,7 @@ import { PersonMock } from '@spesialist-mock/storage/person';
 // sindig_globus.json
 const SINDIG_GLOBUS_FØDSELSNUMMER = '19886497256';
 
-export const AVSLAGSDAGER_ENDRET_HANDLING_ID = 'a1f1c0de-0000-4000-8000-000000000005';
+export const MANUELT_VURDERT_OPPHOLDSKRAV_HANDLING_ID = 'a1f1c0de-0000-4000-8000-000000000005';
 
 export class SaksbehandlerhandlingMock {
     private static handlinger: Map<string, ApiSaksbehandlerhandling[]> = seededeHandlinger();
@@ -88,8 +88,8 @@ function seededeHandlinger(): Map<string, ApiSaksbehandlerhandling[]> {
                     erDelAvAktivTotrinnsvurdering: false,
                 },
                 {
-                    handlingId: AVSLAGSDAGER_ENDRET_HANDLING_ID,
-                    handlingType: ApiHandlingType.AVSLAGSDAGER_ENDRET,
+                    handlingId: MANUELT_VURDERT_OPPHOLDSKRAV_HANDLING_ID,
+                    handlingType: ApiHandlingType.MANUELT_VURDERT_OPPHOLDSKRAV,
                     saksbehandlerIdent: 'S123456',
                     tidspunkt: '2024-09-11T14:20:00.000',
                     skjæringstidspunkt: null,

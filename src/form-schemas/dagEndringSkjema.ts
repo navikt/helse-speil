@@ -1,6 +1,11 @@
 import { z } from 'zod/v4';
 
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
+import {
+    dagenEllerDagene,
+    dagerMedOppholdskrav,
+    somDagliste,
+} from '@saksbilde/utbetaling/utbetalingstabell/oppholdskravSperrer';
 import { Egenmeldingsdag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import {
     Utbetalingstabelldag,
@@ -151,6 +156,7 @@ export const lagDagEndringSchema = (minimumGrad: number, markerteDager: Utbetali
                     path: ['dagtype'],
                 });
             }
+            sperrDagerMedOppholdskrav(markerteDager, ctx);
         });
 
 const erMeldingTilNavtype = (dagtype: string): boolean =>
@@ -192,7 +198,20 @@ export const lagDagEndringSelvstendigSchema = (minimumGrad: number, markerteDage
                     path: ['dagtype'],
                 });
             }
+            sperrDagerMedOppholdskrav(markerteDager, ctx);
         });
 
 export type DagEndringArbeidstakerFormFields = z.infer<ReturnType<typeof lagDagEndringSchema>>;
 export type DagEndringSelvstendigFormFields = z.infer<ReturnType<typeof lagDagEndringSelvstendigSchema>>;
+
+// Spleis avviser overstyring av dager med avslag fra sp-avslagsdager. Dagene endres ved å gjøre om vurderingen.
+function sperrDagerMedOppholdskrav(markerteDager: Utbetalingstabelldag[], ctx: z.RefinementCtx) {
+    const dager = dagerMedOppholdskrav(markerteDager);
+    if (dager.length === 0) return;
+    ctx.addIssue({
+        code: 'custom',
+        message: `${somDagliste(dager.map((dag) => dag.dato))} er avslått etter oppholdskravet. Gjør om vurderingen av oppholdskravet før du endrer ${dagenEllerDagene(dager.length)}.`,
+        input: markerteDager,
+        path: ['dagtype'],
+    });
+}
