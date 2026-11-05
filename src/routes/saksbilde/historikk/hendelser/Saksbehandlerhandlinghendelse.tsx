@@ -1,7 +1,7 @@
 import { useParams } from 'next/navigation';
-import { ReactElement } from 'react';
+import { Fragment, ReactElement } from 'react';
 
-import { Alert, List, Skeleton, VStack } from '@navikt/ds-react';
+import { Alert, BodyShort, HGrid, List, Skeleton, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
 import { Visningsfelt } from '@io/rest/handlingsvisning';
@@ -85,6 +85,30 @@ function VisningsfeltInnhold({ felt }: { felt: Visningsfelt }): ReactElement {
                         <List.Item key={index}>{element}</List.Item>
                     ))}
                 </List>
+            );
+        case 'ENDRINGER':
+            return (
+                <VStack marginBlock="space-8 space-0">
+                    {felt.grupper.map((gruppe, index) => (
+                        <HGrid
+                            as="dl"
+                            key={index}
+                            columns="max-content max-content"
+                            gap="space-0 space-8"
+                            className="border-t border-ax-border-neutral p-2 last:border-b odd:bg-ax-bg-neutral-soft"
+                        >
+                            {gruppe.rader.map(({ navn, fra, til }, radindex) => (
+                                <Fragment key={radindex}>
+                                    <BodyShort as="dt">{navn}:</BodyShort>
+                                    <BodyShort as="dd">
+                                        {fra && <span className="mr-1 line-through">{fra}</span>}
+                                        {til}
+                                    </BodyShort>
+                                </Fragment>
+                            ))}
+                        </HGrid>
+                    ))}
+                </VStack>
             );
     }
 }

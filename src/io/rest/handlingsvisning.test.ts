@@ -6,6 +6,18 @@ describe('handlingsvisningSchema', () => {
             felter: [
                 { type: 'TEKST', tittel: 'Utfall', tekst: 'Oppfylt' },
                 { type: 'LISTE', tittel: 'Journalposter', elementer: ['123'] },
+                {
+                    type: 'ENDRINGER',
+                    tittel: 'Dager endret',
+                    grupper: [
+                        {
+                            rader: [
+                                { navn: 'Dato', fra: null, til: '01.01.2024' },
+                                { navn: 'Sykdomsgrad', fra: '100 %', til: '60 %' },
+                            ],
+                        },
+                    ],
+                },
             ],
         };
 
@@ -25,6 +37,28 @@ describe('handlingsvisningSchema', () => {
 
     test('avviser kjente felttyper med feil form', () => {
         const resultat = handlingsvisningSchema.safeParse({ felter: [{ type: 'TEKST', tittel: 'Utfall' }] });
+
+        expect(resultat.success).toBe(false);
+    });
+
+    test('godtar endringsrader uten fra-verdi', () => {
+        const resultat = handlingsvisningSchema.safeParse({
+            felter: [
+                {
+                    type: 'ENDRINGER',
+                    tittel: 'Dager endret',
+                    grupper: [{ rader: [{ navn: 'Dato', til: '01.01.2024' }] }],
+                },
+            ],
+        });
+
+        expect(resultat.success).toBe(true);
+    });
+
+    test('avviser endringer med feil form', () => {
+        const resultat = handlingsvisningSchema.safeParse({
+            felter: [{ type: 'ENDRINGER', tittel: 'Dager endret', grupper: [{ rader: [{ navn: 'Dato' }] }] }],
+        });
 
         expect(resultat.success).toBe(false);
     });

@@ -47,23 +47,66 @@ describe('Saksbehandlerhandlinghendelse', () => {
         );
     });
 
+    it('viser endringer av graderte andre ytelser fra sp-andre-ytelser', async () => {
+        fetchMock.mockResolvedValue(
+            Response.json({
+                felter: [
+                    { type: 'TEKST', tittel: 'Begrunnelse', tekst: 'Et notat' },
+                    {
+                        type: 'ENDRINGER',
+                        tittel: 'Dager endret',
+                        grupper: [
+                            {
+                                rader: [
+                                    { navn: 'Dato', fra: null, til: '01.01.2024 - 02.01.2024' },
+                                    { navn: 'Foreldrepenger', fra: null, til: '40 %' },
+                                    { navn: 'Sykdomsgrad', fra: '100 %', til: '60 %' },
+                                ],
+                            },
+                            { rader: [{ navn: 'Dato', fra: null, til: '05.01.2024' }] },
+                        ],
+                    },
+                ],
+            }),
+        );
+        renderHendelse(ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET);
+
+        await userEvent.click(screen.getByText('Graderte andre ytelser endret'));
+
+        expect(await screen.findByText('Dager endret')).toBeVisible();
+        expect(screen.getByText('Et notat')).toBeVisible();
+        expect(screen.getByText('01.01.2024 - 02.01.2024')).toBeVisible();
+        expect(screen.getByText('05.01.2024')).toBeVisible();
+        expect(screen.getByText('Foreldrepenger:')).toBeVisible();
+        expect(screen.getByText('40 %')).toBeVisible();
+        expect(screen.getByText('100 %')).toHaveClass('line-through');
+        expect(screen.getByText('60 %')).toBeVisible();
+        expect(fetchMock).toHaveBeenCalledWith(
+            '/api/andre-ytelser/personer/person-1/saksbehandlerhandlinger/handling-1/visning',
+            expect.anything(),
+        );
+    });
+
+    it.each([[ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING, 'Opptjening vurdert automatisk på nytt']])(
+        'kan ikke ekspanderes og henter ingenting for %s uten detaljer',
+        async (handlingType, tekst) => {
+            renderHendelse(handlingType);
+
+            await userEvent.click(screen.getByText(tekst));
+
+            expect(screen.getByText(tekst).closest('li')).not.toHaveAttribute('aria-expanded');
+            expect(fetchMock).not.toHaveBeenCalled();
+        },
+    );
+
     it.each([
-        [ApiHandlingType.NY_AUTOMATISK_OPPTJENINGSVURDERING, 'Opptjening vurdert automatisk på nytt'],
+        [ApiHandlingType.MANUELT_VURDERT_OPPTJENING, 'Opptjening vurdert manuelt'],
         [ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'Graderte andre ytelser endret'],
-    ])('kan ikke ekspanderes og henter ingenting for %s uten detaljer', async (handlingType, tekst) => {
+    ])('viser at detaljene ikke finnes når domenetjenesten svarer 404 for %s', async (handlingType, tekst) => {
+        fetchMock.mockResolvedValue(new Response(null, { status: 404 }));
         renderHendelse(handlingType);
 
         await userEvent.click(screen.getByText(tekst));
-
-        expect(screen.getByText(tekst).closest('li')).not.toHaveAttribute('aria-expanded');
-        expect(fetchMock).not.toHaveBeenCalled();
-    });
-
-    it('viser at detaljene ikke finnes når domenetjenesten svarer 404', async () => {
-        fetchMock.mockResolvedValue(new Response(null, { status: 404 }));
-        renderHendelse();
-
-        await userEvent.click(screen.getByText('Opptjening vurdert manuelt'));
 
         expect(await screen.findByText('Fant ikke detaljer')).toBeVisible();
     });

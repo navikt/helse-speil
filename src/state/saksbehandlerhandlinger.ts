@@ -76,12 +76,14 @@ export function tilVisningUrl(
 }
 
 // Domenet må ha en proxy-rute under src/app/api/<domene>/personer/[personPseudoId]/saksbehandlerhandlinger/[handlingId]/visning
-function domeneMedDetaljer(handlingType: ApiHandlingType): 'vilkarsproving' | 'avslagsdager' | null {
+function domeneMedDetaljer(handlingType: ApiHandlingType): 'vilkarsproving' | 'avslagsdager' | 'andre-ytelser' | null {
     switch (handlingType) {
         case ApiHandlingType.MANUELT_VURDERT_OPPTJENING:
             return 'vilkarsproving';
         case ApiHandlingType.AVSLAGSDAGER_ENDRET:
             return 'avslagsdager';
+        case ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET:
+            return 'andre-ytelser';
         default:
             return null;
     }

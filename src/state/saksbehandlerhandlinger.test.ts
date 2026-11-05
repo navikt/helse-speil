@@ -23,8 +23,10 @@ describe('tilVisningUrl', () => {
         );
     });
 
-    test('endring av graderte andre ytelser har ingen detaljvisning ennå', () => {
-        expect(tilVisningUrl(ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'person-1', 'handling-1')).toBeNull();
+    test('endring av graderte andre ytelser hentes fra sp-andre-ytelser', () => {
+        expect(tilVisningUrl(ApiHandlingType.GRADERTE_ANDRE_YTELSER_ENDRET, 'person-1', 'handling-1')).toBe(
+            '/api/andre-ytelser/personer/person-1/saksbehandlerhandlinger/handling-1/visning',
+        );
     });
 });
 
