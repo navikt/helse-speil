@@ -5,6 +5,7 @@ import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
+import userEvent from '@testing-library/user-event';
 
 vi.mock('@io/sse/useAbonnerPåEndringer', () => ({
     useAbonnerPåEndringer: vi.fn(),
@@ -37,11 +38,10 @@ describe('AngreOverstyrArbeidsforholdUtenSykdom', () => {
         expect(screen.getByRole('button', { name: 'Bruk arbeidsforholdet i beregningen likevel' })).toBeInTheDocument();
     });
 
-    it('viser ikke knappen "Bruk arbeidsforholdet i beregningen likevel" når bruker ikke har skrivetilgang', () => {
+    it('viser knappen "Bruk arbeidsforholdet i beregningen likevel" og deaktiverer bekreftelse uten skrivetilgang', async () => {
         mockUseHarSkrivetilgang.mockReturnValue(false);
         renderKomponent();
-        expect(
-            screen.queryByRole('button', { name: 'Bruk arbeidsforholdet i beregningen likevel' }),
-        ).not.toBeInTheDocument();
+        await userEvent.click(screen.getByRole('button', { name: 'Bruk arbeidsforholdet i beregningen likevel' }));
+        expect(screen.getByRole('button', { name: 'Ja' })).toHaveAttribute('aria-disabled', 'true');
     });
 });

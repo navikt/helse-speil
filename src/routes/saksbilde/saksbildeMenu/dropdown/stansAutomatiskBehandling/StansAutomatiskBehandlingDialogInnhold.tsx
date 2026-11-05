@@ -4,6 +4,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { Button, Dialog, ErrorMessage, Textarea } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
     StansAutomatiskBehandlingSchema,
@@ -94,9 +95,14 @@ export function StansAutomatiskBehandlingDialogInnhold({
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button variant="primary" type="submit" form="stans-automatisk-behandling-form" loading={isPending}>
+                <ButtonKreverSkrivetilgang
+                    variant="primary"
+                    type="submit"
+                    form="stans-automatisk-behandling-form"
+                    loading={isPending}
+                >
                     Stans automatisk behandling
-                </Button>
+                </ButtonKreverSkrivetilgang>
             </Dialog.Footer>
         </Dialog.Popup>
     );

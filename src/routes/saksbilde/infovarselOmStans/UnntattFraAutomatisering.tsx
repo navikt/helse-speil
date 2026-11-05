@@ -4,7 +4,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 
 import { Alert, BodyShort, Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
     StansAutomatiskBehandlingSchema,
@@ -88,11 +88,9 @@ export function UnntattFraAutomatisering({
                 <BodyShort>Se notat i Modia Sykefraværsoppfølging eller Gosys for mer info.</BodyShort>
             </VStack>
             {!åpen && (
-                <VisHvisSkrivetilgang>
-                    <Button size="small" variant="primary" type="button" onClick={() => setÅpen(true)}>
-                        Opphev stans
-                    </Button>
-                </VisHvisSkrivetilgang>
+                <Button size="small" variant="primary" type="button" onClick={() => setÅpen(true)}>
+                    Opphev stans
+                </Button>
             )}
             {åpen && (
                 <FormProvider {...form}>
@@ -112,9 +110,9 @@ export function UnntattFraAutomatisering({
                         />
                         {error && <ErrorMessage showIcon>{somVeilederBackendfeil(error)}</ErrorMessage>}
                         <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                            <Button size="small" variant="primary" type="submit" loading={isPending}>
+                            <ButtonKreverSkrivetilgang size="small" variant="primary" type="submit" loading={isPending}>
                                 Opphev stans
-                            </Button>
+                            </ButtonKreverSkrivetilgang>
                             <Button
                                 size="small"
                                 variant="tertiary"

@@ -5,7 +5,6 @@ import React, { ReactElement, useState } from 'react';
 
 import { BodyShort, Box, HStack, Loader } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { useErBeslutteroppgaveOgHarTilgang } from '@hooks/useErBeslutteroppgaveOgHarTilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { harUvurderteVarslerPåEllerFør } from '@hooks/uvurderteVarsler';
@@ -100,26 +99,24 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
             />
             {!erReadOnly && (
                 <HStack gap="space-16">
-                    <VisHvisSkrivetilgang>
-                        {skalSendesTilTotrinnsvurdering && (
-                            <SendTilGodkjenningButton
-                                size="small"
-                                utbetaling={period.utbetaling}
-                                inntektsforholdReferanse={inntektsforholdReferanse}
-                                oppgavereferanse={oppgave.id}
-                                disabled={
-                                    visningenOppdateres ||
-                                    periodenErSendt ||
-                                    harUvurderteVarslerPåUtbetaling ||
-                                    lokaleInntektoverstyringer.aktørId !== null
-                                }
-                                onSuccess={onSendTilGodkjenning}
-                                vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
-                            >
-                                Send til godkjenning
-                            </SendTilGodkjenningButton>
-                        )}
-                    </VisHvisSkrivetilgang>
+                    {skalSendesTilTotrinnsvurdering && (
+                        <SendTilGodkjenningButton
+                            size="small"
+                            utbetaling={period.utbetaling}
+                            inntektsforholdReferanse={inntektsforholdReferanse}
+                            oppgavereferanse={oppgave.id}
+                            disabled={
+                                visningenOppdateres ||
+                                periodenErSendt ||
+                                harUvurderteVarslerPåUtbetaling ||
+                                lokaleInntektoverstyringer.aktørId !== null
+                            }
+                            onSuccess={onSendTilGodkjenning}
+                            vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
+                        >
+                            Send til godkjenning
+                        </SendTilGodkjenningButton>
+                    )}
                     {!skalSendesTilTotrinnsvurdering && (
                         <>
                             {erBeslutteroppgaveOgHarTilgang && (
@@ -141,36 +138,32 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                     Godkjenn og fatt vedtak
                                 </GodkjenningButton>
                             )}
-                            <VisHvisSkrivetilgang>
-                                {!erBeslutteroppgaveOgHarTilgang && (
-                                    <GodkjenningButton
-                                        size="small"
-                                        behandlingId={period.behandlingId}
-                                        utbetaling={period.utbetaling}
-                                        inntektsforholdReferanse={inntektsforholdReferanse}
-                                        disabled={
-                                            visningenOppdateres ||
-                                            periodenErSendt ||
-                                            harUvurderteVarslerPåUtbetaling ||
-                                            lokaleInntektoverstyringer.aktørId !== null
-                                        }
-                                        onSuccess={onGodkjennUtbetaling}
-                                        vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
-                                        erBeslutter={false}
-                                    >
-                                        {harArbeidsgiverutbetaling || harBrukerutbetaling ? 'Fatt vedtak' : 'Godkjenn'}
-                                    </GodkjenningButton>
-                                )}
-                            </VisHvisSkrivetilgang>
+                            {!erBeslutteroppgaveOgHarTilgang && (
+                                <GodkjenningButton
+                                    size="small"
+                                    behandlingId={period.behandlingId}
+                                    utbetaling={period.utbetaling}
+                                    inntektsforholdReferanse={inntektsforholdReferanse}
+                                    disabled={
+                                        visningenOppdateres ||
+                                        periodenErSendt ||
+                                        harUvurderteVarslerPåUtbetaling ||
+                                        lokaleInntektoverstyringer.aktørId !== null
+                                    }
+                                    onSuccess={onGodkjennUtbetaling}
+                                    vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
+                                    erBeslutter={false}
+                                >
+                                    {harArbeidsgiverutbetaling || harBrukerutbetaling ? 'Fatt vedtak' : 'Godkjenn'}
+                                </GodkjenningButton>
+                            )}
                         </>
                     )}
-                    <VisHvisSkrivetilgang>
-                        {!isRevurdering &&
-                            !totrinnsvurdering?.erBeslutteroppgave &&
-                            !harNyereUtbetaltPeriodePåPerson(period, person) && (
-                                <AvvisningButton disabled={periodenErSendt} activePeriod={period} />
-                            )}
-                    </VisHvisSkrivetilgang>
+                    {!isRevurdering &&
+                        !totrinnsvurdering?.erBeslutteroppgave &&
+                        !harNyereUtbetaltPeriodePåPerson(period, person) && (
+                            <AvvisningButton disabled={periodenErSendt} activePeriod={period} />
+                        )}
                     {erBeslutteroppgaveOgHarTilgang && (
                         <ReturButton
                             size="small"

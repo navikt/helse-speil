@@ -4,6 +4,7 @@ import { CustomElement, FieldErrors, FieldValues, FormProvider, useForm, useWatc
 import { Button, ErrorMessage, HStack, HelpText } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import {
     ApiArbeidsgiverinntekt,
     ApiBeregnetPeriode,
@@ -185,9 +186,14 @@ export const SkjønnsfastsettingForm = ({
                             )}
                             <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
                                 {!erBeslutteroppgave ? (
-                                    <Button size="small" variant="secondary" type="submit" loading={isLoading}>
+                                    <ButtonKreverSkrivetilgang
+                                        size="small"
+                                        variant="secondary"
+                                        type="submit"
+                                        loading={isLoading}
+                                    >
                                         Lagre
-                                    </Button>
+                                    </ButtonKreverSkrivetilgang>
                                 ) : (
                                     <HelpText>Kan ikke overstyre en beslutteroppgave</HelpText>
                                 )}

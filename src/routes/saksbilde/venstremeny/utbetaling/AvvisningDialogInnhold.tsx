@@ -3,6 +3,7 @@ import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, Checkbox, CheckboxGroup, Dialog, ErrorMessage, Textarea, VStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { AvvisningSkjema, avvisningSkjema } from '@form-schemas/avvisningSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePostForkasting } from '@io/rest/generated/behandlinger/behandlinger';
@@ -137,9 +138,9 @@ export const AvvisningDialogInnhold = ({ activePeriod, onSuccess }: AvvisningDia
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button variant="primary" type="submit" form="avvisning-skjema" loading={isPending}>
+                <ButtonKreverSkrivetilgang variant="primary" type="submit" form="avvisning-skjema" loading={isPending}>
                     Kan ikke behandles her
-                </Button>
+                </ButtonKreverSkrivetilgang>
             </Dialog.Footer>
         </>
     );

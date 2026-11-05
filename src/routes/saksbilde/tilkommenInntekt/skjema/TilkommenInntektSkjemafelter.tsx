@@ -4,6 +4,7 @@ import { Controller, FieldErrors, FormProvider, useForm, useWatch } from 'react-
 import { Box, Button, ErrorMessage, ErrorSummary, HGrid, HStack, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import { Organisasjonsnavn } from '@components/Inntektsforholdnavn';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { erGyldigOrganisasjonsnummer } from '@external/sparkel-aareg/useOrganisasjonQuery';
 import { TilkommenInntektSchema } from '@form-schemas/tilkommenInntektSkjema';
@@ -202,9 +203,14 @@ export const TilkommenInntektSkjemafelter = ({
                         )}
                         <VStack>
                             <HStack gap="space-8" marginBlock="space-16">
-                                <Button size="small" variant="primary" type="submit" loading={isSubmitting}>
+                                <ButtonKreverSkrivetilgang
+                                    size="small"
+                                    variant="primary"
+                                    type="submit"
+                                    loading={isSubmitting}
+                                >
                                     Lagre
-                                </Button>
+                                </ButtonKreverSkrivetilgang>
                                 <Button
                                     size="small"
                                     variant="tertiary"

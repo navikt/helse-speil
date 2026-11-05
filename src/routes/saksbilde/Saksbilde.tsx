@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { InformationSquareIcon, TerminalIcon } from '@navikt/aksel-icons';
 import { Box, HStack, InfoCard, Tabs, Tooltip, VStack } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { ApiPeriodetilstand } from '@io/rest/generated/spesialist.schemas';
 import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
@@ -178,9 +177,7 @@ export const Saksbilde = () => {
                         )}
                     </Tabs.List>
                     <HStack align="center" wrap={false}>
-                        <VisHvisSkrivetilgang>
-                            <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
-                        </VisHvisSkrivetilgang>
+                        <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
                     </HStack>
                 </HStack>
                 <Box overflowX="auto">

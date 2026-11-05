@@ -5,7 +5,6 @@ import { SubmitHandler } from 'react-hook-form';
 import { PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { Button } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { KommentarFormFields } from '@form-schemas/kommentarSkjema';
 import { usePostKommentar } from '@io/rest/generated/dialoger/dialoger';
 import { LeggTilNyKommentarForm } from '@saksbilde/historikk/komponenter/kommentarer/LeggTilNyKommentarForm';
@@ -47,16 +46,14 @@ export const LeggTilHendelseKommentar = ({
         />
     ) : (
         <span>
-            <VisHvisSkrivetilgang>
-                <Button
-                    size="xsmall"
-                    variant="tertiary"
-                    icon={<PlusCircleFillIcon aria-hidden />}
-                    onClick={() => setVisLeggTilKommentar(true)}
-                >
-                    Legg til ny kommentar
-                </Button>
-            </VisHvisSkrivetilgang>
+            <Button
+                size="xsmall"
+                variant="tertiary"
+                icon={<PlusCircleFillIcon aria-hidden />}
+                onClick={() => setVisLeggTilKommentar(true)}
+            >
+                Legg til ny kommentar
+            </Button>
         </span>
     );
 };

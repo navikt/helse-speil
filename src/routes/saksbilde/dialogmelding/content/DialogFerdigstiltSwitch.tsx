@@ -2,8 +2,10 @@
 
 import { ReactElement, useState } from 'react';
 
-import { Alert, Switch } from '@navikt/ds-react';
+import { Alert, Switch, Tooltip } from '@navikt/ds-react';
 
+import { UTEN_SKRIVETILGANG_TEKST } from '@components/skrivetilgang/utenSkrivetilgang';
+import { useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
 import {
     getGetDialogmeldingQueryKey,
     getGetDialogmeldingerQueryKey,
@@ -25,6 +27,7 @@ export function DialogFerdigstiltSwitch({
 }: DialogFerdigstiltSwitchProps): ReactElement {
     const [checked, setChecked] = useState(initialFerdigstilt);
     const queryClient = useQueryClient();
+    const harSkrivetilgang = useHarSkrivetilgang();
 
     const { mutate, isPending, isError } = usePatchDialogstatus({
         mutation: {
@@ -40,22 +43,33 @@ export function DialogFerdigstiltSwitch({
         },
     });
 
+    const ferdigstiltSwitch = (
+        <Switch
+            checked={checked}
+            onChange={(e) => {
+                mutate({
+                    pseudoId: personPseudoId,
+                    conversationRef: dialogId,
+                    data: { ferdigstilt: e.target.checked },
+                });
+            }}
+            readOnly={!harSkrivetilgang}
+            disabled={isPending}
+            className="[&_span]:text-ax-heading-xsmall"
+        >
+            Ferdigstilt
+        </Switch>
+    );
+
     return (
         <>
-            <Switch
-                checked={checked}
-                onChange={(e) => {
-                    mutate({
-                        pseudoId: personPseudoId,
-                        conversationRef: dialogId,
-                        data: { ferdigstilt: e.target.checked },
-                    });
-                }}
-                disabled={isPending}
-                className="[&_span]:text-ax-heading-xsmall"
-            >
-                Ferdigstilt
-            </Switch>
+            {harSkrivetilgang ? (
+                ferdigstiltSwitch
+            ) : (
+                <Tooltip content={UTEN_SKRIVETILGANG_TEKST} describesChild>
+                    {ferdigstiltSwitch}
+                </Tooltip>
+            )}
             {isError && (
                 <Alert variant="error" size="small">
                     Kunne ikke oppdatere status. Prøv igjen.

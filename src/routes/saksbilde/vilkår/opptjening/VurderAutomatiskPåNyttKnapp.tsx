@@ -3,6 +3,7 @@ import { ReactElement } from 'react';
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
 import { Button, Dialog } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import {
     ApiNyAutomatiskVilkårsvurderingResponse,
     ApiNyAutomatiskVilkårsvurderingStatus,
@@ -82,9 +83,9 @@ export function VurderAutomatiskPåNyttKnapp({
                         </Button>
                     </Dialog.CloseTrigger>
                     <Dialog.CloseTrigger>
-                        <Button type="button" variant="primary" onClick={vurderPåNytt}>
+                        <ButtonKreverSkrivetilgang type="button" variant="primary" onClick={vurderPåNytt}>
                             Ja
-                        </Button>
+                        </ButtonKreverSkrivetilgang>
                     </Dialog.CloseTrigger>
                 </Dialog.Footer>
             </Dialog.Popup>

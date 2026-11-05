@@ -3,6 +3,7 @@ import { ReactElement, useState } from 'react';
 import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { SlettLokaleEndringerDialog } from '@components/SlettLokaleEndringerDialog';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/overstyring';
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
@@ -29,7 +30,7 @@ export const KalkulerEndringerVarsel = ({
                     Endringene for sykepengegrunnlag må kalkuleres før du sender oppgaven til godkjenning.
                 </BodyShort>
                 <HStack gap="space-16" align="center" marginBlock="space-12 space-0">
-                    <Button
+                    <ButtonKreverSkrivetilgang
                         size="small"
                         variant="primary"
                         type="button"
@@ -38,7 +39,7 @@ export const KalkulerEndringerVarsel = ({
                         onClick={() => postOverstyring(lokaleInntektoverstyringer as OverstyrtInntektOgRefusjonDTO)}
                     >
                         Kalkuler endringer ({antallRedigerteArbeidsgivere})
-                    </Button>
+                    </ButtonKreverSkrivetilgang>
                     <Button
                         size="small"
                         variant="tertiary"

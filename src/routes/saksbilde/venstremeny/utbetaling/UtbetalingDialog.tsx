@@ -6,6 +6,7 @@ import { BodyShort, Button, Dialog, ErrorMessage, HStack, Spacer, VStack } from 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { SykmeldtikonMedTooltip } from '@components/ikoner/SykmeldtikonMedTooltip';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiPerson, ApiUtbetaling, ApiUtbetalingstatus } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedName } from '@saksbilde/venstremeny/personnavn';
@@ -65,9 +66,9 @@ export function UtbetalingDialog({
                     <Button variant="tertiary" type="button" onClick={() => onOpenChange(false)} disabled={isSending}>
                         Avbryt
                     </Button>
-                    <Button variant="primary" type="button" loading={isSending} onClick={onApprove}>
+                    <ButtonKreverSkrivetilgang variant="primary" type="button" loading={isSending} onClick={onApprove}>
                         Ja
-                    </Button>
+                    </ButtonKreverSkrivetilgang>
                 </Dialog.Footer>
                 {error && <ErrorMessage className="px-6 pb-4">{error.message ?? 'En feil har oppstått.'}</ErrorMessage>}
             </Dialog.Popup>

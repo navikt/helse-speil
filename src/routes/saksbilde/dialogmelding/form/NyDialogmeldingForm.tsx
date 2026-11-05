@@ -8,6 +8,7 @@ import { PaperplaneIcon, TrashIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, HStack, Heading, Loader, Radio, RadioGroup, Textarea, VStack } from '@navikt/ds-react';
 
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { useDialogmeldingMaler } from '@external/sanity';
 import { NyDialogmeldingSchema, fagomradeLabels, nyDialogmeldingSchema } from '@form-schemas/nyDialogmeldingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -210,7 +211,7 @@ export function NyDialogmeldingForm(): ReactElement {
                             )}
                         />
                         <HStack gap="space-16">
-                            <Button
+                            <ButtonKreverSkrivetilgang
                                 size="small"
                                 variant="primary"
                                 type="submit"
@@ -219,7 +220,7 @@ export function NyDialogmeldingForm(): ReactElement {
                                 disabled={!person || isPending}
                             >
                                 Send melding
-                            </Button>
+                            </ButtonKreverSkrivetilgang>
                             <Button
                                 size="small"
                                 variant="tertiary"

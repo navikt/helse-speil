@@ -14,6 +14,7 @@ import {
     VStack,
 } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { useArsaker } from '@external/sanity';
 import { ForkastingSkjema, forkastingSkjema } from '@form-schemas/forkastingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -170,9 +171,14 @@ export const ForkastFraUberegnetDialogInnhold = ({
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button variant="primary" type="submit" form="forkast-fra-uberegnet-skjema" loading={isPending}>
+                <ButtonKreverSkrivetilgang
+                    variant="primary"
+                    type="submit"
+                    form="forkast-fra-uberegnet-skjema"
+                    loading={isPending}
+                >
                     Kan ikke behandles her
-                </Button>
+                </ButtonKreverSkrivetilgang>
             </Dialog.Footer>
         </>
     );

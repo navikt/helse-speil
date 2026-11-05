@@ -2,6 +2,8 @@ import { ReactElement } from 'react';
 
 import { BodyShort, Button, Dialog } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
+
 interface BrukArbeidsforholdILikevelDialogProps {
     open: boolean;
     onOpenChange: (open: boolean) => void;
@@ -29,9 +31,9 @@ export function BrukArbeidsforholdILikevelDialog({
                         </Button>
                     </Dialog.CloseTrigger>
                     <Dialog.CloseTrigger>
-                        <Button variant="primary" type="button" onClick={onApprove}>
+                        <ButtonKreverSkrivetilgang variant="primary" type="button" onClick={onApprove}>
                             Ja
-                        </Button>
+                        </ButtonKreverSkrivetilgang>
                     </Dialog.CloseTrigger>
                 </Dialog.Footer>
             </Dialog.Popup>

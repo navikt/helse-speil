@@ -4,6 +4,7 @@ import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
 import { BodyShort, Button, Checkbox, Dialog, ErrorMessage } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { useArsaker } from '@external/sanity';
 import { PåVentSkjema, påVentSkjema } from '@form-schemas/påVentSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -219,9 +220,9 @@ const PåVentDialogInnhold = ({
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button variant="primary" type="submit" form="på-vent-form" loading={isPending}>
+                <ButtonKreverSkrivetilgang variant="primary" type="submit" form="på-vent-form" loading={isPending}>
                     {submitKnappTekst}
-                </Button>
+                </ButtonKreverSkrivetilgang>
             </Dialog.Footer>
         </Dialog.Popup>
     );

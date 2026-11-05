@@ -5,7 +5,6 @@ import { SubmitHandler } from 'react-hook-form';
 import { MinusCircleIcon, PlusCircleFillIcon } from '@navikt/aksel-icons';
 import { Box, Button, ErrorMessage, VStack } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { NotatFormFields } from '@form-schemas/notatSkjema';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
@@ -45,22 +44,20 @@ export const Notat = ({ vedtaksperiodeId }: NotatProps): ReactElement | null => 
     return (
         <Box borderWidth="0 0 1 0" borderColor="neutral">
             <VStack as="li" align="start" paddingBlock="space-0 space-16" gap="space-4">
-                <VisHvisSkrivetilgang>
-                    <Button
-                        size="small"
-                        variant="tertiary"
-                        icon={
-                            open ? (
-                                <MinusCircleIcon aria-hidden fontSize="1.5rem" />
-                            ) : (
-                                <PlusCircleFillIcon aria-hidden fontSize="1.5rem" />
-                            )
-                        }
-                        onClick={() => setOpen(!open)}
-                    >
-                        Skriv nytt notat
-                    </Button>
-                </VisHvisSkrivetilgang>
+                <Button
+                    size="small"
+                    variant="tertiary"
+                    icon={
+                        open ? (
+                            <MinusCircleIcon aria-hidden fontSize="1.5rem" />
+                        ) : (
+                            <PlusCircleFillIcon aria-hidden fontSize="1.5rem" />
+                        )
+                    }
+                    onClick={() => setOpen(!open)}
+                >
+                    Skriv nytt notat
+                </Button>
                 {open && (
                     <NotatSkjema
                         submit={leggTilNotat}

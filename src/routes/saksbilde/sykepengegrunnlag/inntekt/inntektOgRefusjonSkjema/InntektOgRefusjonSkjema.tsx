@@ -15,6 +15,7 @@ import { Alert, Button, HStack } from '@navikt/ds-react';
 
 import { BegrunnelseTextarea } from '@components/BegrunnelseTextarea';
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import {
     ApiArbeidsgiver,
     ApiInntektFraAOrdningen,
@@ -235,9 +236,14 @@ export const InntektOgRefusjonSkjema = ({
                         </Alert>
                     )}
                     <HStack gap="space-8">
-                        <Button size="small" variant="secondary" type="submit" onClick={validateRefusjon}>
+                        <ButtonKreverSkrivetilgang
+                            size="small"
+                            variant="secondary"
+                            type="submit"
+                            onClick={validateRefusjon}
+                        >
                             Lagre
-                        </Button>
+                        </ButtonKreverSkrivetilgang>
                         <Button size="small" variant="tertiary" type="button" onClick={cancelEditing}>
                             Avbryt
                         </Button>

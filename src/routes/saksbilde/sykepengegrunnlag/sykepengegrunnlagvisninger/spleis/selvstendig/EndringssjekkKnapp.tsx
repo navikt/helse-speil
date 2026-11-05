@@ -1,8 +1,8 @@
 import { useParams } from 'next/navigation';
 
 import { ArrowsCirclepathIcon } from '@navikt/aksel-icons';
-import { Button } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import { usePostSjekkEndringForsikring } from '@io/rest/forsikring';
 import { getGetForsikringsvurderingForPersonQueryKey } from '@io/rest/generated/forsikringer/forsikringer';
@@ -75,7 +75,7 @@ export function EndringssjekkKnapp({
     }
 
     return (
-        <Button
+        <ButtonKreverSkrivetilgang
             size="xsmall"
             variant="tertiary"
             icon={<ArrowsCirclepathIcon aria-hidden />}
@@ -83,7 +83,7 @@ export function EndringssjekkKnapp({
             onClick={sjekkEndring}
         >
             Hent på nytt
-        </Button>
+        </ButtonKreverSkrivetilgang>
     );
 }
 

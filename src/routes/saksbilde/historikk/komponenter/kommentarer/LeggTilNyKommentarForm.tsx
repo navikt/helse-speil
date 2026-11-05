@@ -3,6 +3,7 @@ import { Control, FormProvider, SubmitHandler, useController, useForm } from 're
 
 import { Button, ErrorMessage, HStack, Textarea, VStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { KommentarFormFields, kommentarSkjema } from '@form-schemas/kommentarSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -34,9 +35,9 @@ export const LeggTilNyKommentarForm = ({
                 <VStack>
                     <Kommentartekstfelt control={form.control} />
                     <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                        <Button size="small" variant="secondary" type="submit" loading={loading}>
+                        <ButtonKreverSkrivetilgang size="small" variant="secondary" type="submit" loading={loading}>
                             Legg til
-                        </Button>
+                        </ButtonKreverSkrivetilgang>
                         <Button size="small" variant="tertiary" type="button" onClick={closeForm}>
                             Avbryt
                         </Button>

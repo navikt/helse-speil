@@ -3,6 +3,7 @@ import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 
 import { Button, HStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { NotatFormFields, notatSkjema } from '@form-schemas/notatSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Notattekstfelt } from '@saksbilde/notat/Notattekstfelt';
@@ -69,9 +70,9 @@ export function NotatSkjema({
                     hideLabel={hideLabel}
                 />
                 <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                    <Button size="small" variant="secondary" type="submit" loading={loading}>
+                    <ButtonKreverSkrivetilgang size="small" variant="secondary" type="submit" loading={loading}>
                         {submitTekst}
-                    </Button>
+                    </ButtonKreverSkrivetilgang>
                     <Button size="small" variant="tertiary" onClick={lukkNotatfelt} type="button">
                         Avbryt
                     </Button>

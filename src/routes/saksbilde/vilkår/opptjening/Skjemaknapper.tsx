@@ -2,6 +2,8 @@ import { ReactElement } from 'react';
 
 import { Alert, Button, HStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
+
 interface SkjemaknapperProps {
     visLagre?: boolean;
     lagrer: boolean;
@@ -14,9 +16,9 @@ export function Skjemaknapper({ visLagre = true, lagrer, lagringFeilet, onAvbryt
         <>
             <HStack gap="space-8">
                 {visLagre && (
-                    <Button type="submit" variant="primary" size="small" loading={lagrer}>
+                    <ButtonKreverSkrivetilgang type="submit" variant="primary" size="small" loading={lagrer}>
                         Lagre
-                    </Button>
+                    </ButtonKreverSkrivetilgang>
                 )}
                 <Button type="button" variant="tertiary" size="small" onClick={onAvbryt}>
                     Avbryt

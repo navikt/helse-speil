@@ -5,6 +5,7 @@ import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Loader, Tooltip } from '@navikt/ds-react';
 
 import { EndrePåVentDialog } from '@components/påvent/PåVentDialoger';
+import { ActionMenuItemKreverSkrivetilgang } from '@components/skrivetilgang/ActionMenuItemKreverSkrivetilgang';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiBeregnetPeriode, ApiPersonnavn } from '@io/rest/generated/spesialist.schemas';
@@ -75,10 +76,10 @@ export const LagtPåVentDropdown = ({
                 </Tooltip>
                 <ActionMenu.Content>
                     <ActionMenu.Item onSelect={() => setShowEndreModal(true)}>Endre</ActionMenu.Item>
-                    <ActionMenu.Item onSelect={fjernFraPåVent}>
+                    <ActionMenuItemKreverSkrivetilgang onSelect={fjernFraPåVent}>
                         Fjern fra på vent
                         {loading && <Loader size="xsmall" />}
-                    </ActionMenu.Item>
+                    </ActionMenuItemKreverSkrivetilgang>
                 </ActionMenu.Content>
             </ActionMenu>
             {showEndreModal && navn && (

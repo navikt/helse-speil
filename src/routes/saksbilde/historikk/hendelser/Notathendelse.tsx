@@ -4,6 +4,7 @@ import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, ErrorMessage, Tooltip, VStack } from '@navikt/ds-react';
 
 import { BodyShortWithPreWrap } from '@components/BodyShortWithPreWrap';
+import { ActionMenuItemKreverSkrivetilgang } from '@components/skrivetilgang/ActionMenuItemKreverSkrivetilgang';
 import { getGetNotaterForVedtaksperiodeQueryKey, usePatchNotat } from '@io/rest/generated/notater/notater';
 import { Expandable } from '@saksbilde/historikk/komponenter/Expandable';
 import { HistorikkChatIkon, HistorikkCheckmarkCircleIkon } from '@saksbilde/historikk/komponenter/HendelseIkon';
@@ -53,7 +54,9 @@ export const Notathendelse = ({
                             </ActionMenu.Trigger>
                         </Tooltip>
                         <ActionMenu.Content>
-                            <ActionMenu.Item onSelect={feilregistrerNotat}>Feilregistrer</ActionMenu.Item>
+                            <ActionMenuItemKreverSkrivetilgang onSelect={feilregistrerNotat}>
+                                Feilregistrer
+                            </ActionMenuItemKreverSkrivetilgang>
                         </ActionMenu.Content>
                     </ActionMenu>
                 ) : undefined

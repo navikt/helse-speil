@@ -1,5 +1,6 @@
 import { PropsWithChildren } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { vi } from 'vitest';
 
 import { OverstyringFormFields, lagOverstyringSchema } from '@form-schemas/overstyringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -9,6 +10,11 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { OverstyringForm } from './OverstyringForm';
 import { Arbeidsdag, Egenmeldingsdag, Sykedag } from './utbetalingstabelldager';
+
+vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
+    useHarSkrivetilgang: () => true,
+}));
 
 interface FormWrapperProps {
     overstyrteDager: Map<string, Utbetalingstabelldag>;

@@ -3,6 +3,7 @@ import { useFormContext } from 'react-hook-form';
 
 import { Button, ErrorMessage, ErrorSummary, HStack, Textarea, VStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { OverstyringFormFields } from '@form-schemas/overstyringSkjema';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -60,7 +61,7 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
                 </ErrorSummary>
             )}
             <HStack gap="space-8" marginBlock="space-0 space-8">
-                <Button
+                <ButtonKreverSkrivetilgang
                     size="small"
                     variant="primary"
                     type="submit"
@@ -68,7 +69,7 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
                     disabled={overstyrteDager.size < 1}
                 >
                     Lagre
-                </Button>
+                </ButtonKreverSkrivetilgang>
                 <Button size="small" variant="tertiary" type="button" onClick={toggleOverstyring}>
                     Avbryt
                 </Button>

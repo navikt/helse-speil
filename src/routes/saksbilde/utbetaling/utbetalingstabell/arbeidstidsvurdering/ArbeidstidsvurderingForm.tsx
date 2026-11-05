@@ -14,6 +14,7 @@ import { XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Box, Button, ErrorMessage, HStack, Heading, Table, Textarea, VStack } from '@navikt/ds-react';
 
 import { Feiloppsummering, Skjemafeil } from '@components/Feiloppsummering';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { ApiArbeidsgiver, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { DelperiodeWrapper } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/DelperiodeWrapper';
@@ -122,9 +123,9 @@ export const ArbeidstidsvurderingForm = ({
                         />
                     )}
                     <HStack gap="space-8" align="center" marginBlock="space-24 space-0">
-                        <Button size="small" variant="secondary" type="submit" loading={isLoading}>
+                        <ButtonKreverSkrivetilgang size="small" variant="secondary" type="submit" loading={isLoading}>
                             Lagre
-                        </Button>
+                        </ButtonKreverSkrivetilgang>
                         <Button
                             size="small"
                             variant="tertiary"

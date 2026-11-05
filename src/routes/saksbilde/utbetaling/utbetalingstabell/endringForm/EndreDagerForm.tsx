@@ -1,8 +1,9 @@
 import { ReactElement } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { BodyShort, Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DagtypeMedAndreYtelserSelect } from '@saksbilde/utbetaling/DagTypeSelect/DagtypeMedAndreYtelserSelect';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
@@ -42,7 +43,7 @@ export function EndreDagerForm({ markerteDager, onSubmitEndring, erSelvstendig }
                             <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
                         )}
                         <VStack align="end" justify="end">
-                            <Button
+                            <ButtonKreverSkrivetilgang
                                 size="small"
                                 type="submit"
                                 variant="secondary"
@@ -50,7 +51,7 @@ export function EndreDagerForm({ markerteDager, onSubmitEndring, erSelvstendig }
                                 data-testid="endre"
                             >
                                 Endre ({markerteDager.size})
-                            </Button>
+                            </ButtonKreverSkrivetilgang>
                         </VStack>
                     </HStack>
                     <VStack paddingBlock="space-8 space-0">

@@ -2,7 +2,6 @@ import { PropsWithChildren, ReactElement } from 'react';
 
 import { Box, HStack, Tabs, VStack } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { useFetchPersonQuery } from '@state/person';
 
@@ -19,9 +18,7 @@ export function LeggTilSaksbilde({ children }: PropsWithChildren): ReactElement 
                     <Tabs.List>
                         <Tabs.Tab value="legg-til" label="Legg til" />
                     </Tabs.List>
-                    <VisHvisSkrivetilgang>
-                        <SaksbildeDropdownMenu person={person} />
-                    </VisHvisSkrivetilgang>
+                    <SaksbildeDropdownMenu person={person} />
                 </HStack>
                 <Box overflowX="auto">
                     <Tabs.Panel value="legg-til">{children}</Tabs.Panel>

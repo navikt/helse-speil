@@ -3,6 +3,7 @@ import { Controller, useForm } from 'react-hook-form';
 
 import { BodyLong, Button, Dialog, ErrorMessage, Textarea, VStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { FjernTilkommenInntektSkjema, fjernTilkommenInntektSkjema } from '@form-schemas/fjernTilkommenInntektSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -96,9 +97,9 @@ export function FjernTilkommenInntektDialog({
                             Nei
                         </Button>
                     </Dialog.CloseTrigger>
-                    <Button type="submit" form="fjern-tilkommen-inntekt-form" loading={isPending}>
+                    <ButtonKreverSkrivetilgang type="submit" form="fjern-tilkommen-inntekt-form" loading={isPending}>
                         Ja
-                    </Button>
+                    </ButtonKreverSkrivetilgang>
                 </Dialog.Footer>
             </Dialog.Popup>
         </Dialog>

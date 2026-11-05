@@ -19,6 +19,7 @@ import {
 import { ListItem } from '@navikt/ds-react/List';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import { useArsaker } from '@external/sanity';
 import { AnnulleringSkjema, annulleringSkjema } from '@form-schemas/annulleringSkjema';
@@ -185,9 +186,14 @@ export function AnnulleringsDialogInnhold({
                         Avbryt
                     </Button>
                 </Dialog.CloseTrigger>
-                <Button variant="primary" type="submit" form="annullerings-skjema" loading={isPending}>
+                <ButtonKreverSkrivetilgang
+                    variant="primary"
+                    type="submit"
+                    form="annullerings-skjema"
+                    loading={isPending}
+                >
                     Annuller
-                </Button>
+                </ButtonKreverSkrivetilgang>
             </Dialog.Footer>
         </Dialog.Popup>
     );

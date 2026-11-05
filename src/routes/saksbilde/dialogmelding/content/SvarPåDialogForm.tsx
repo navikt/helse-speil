@@ -5,8 +5,9 @@ import { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 
 import { PaperplaneIcon } from '@navikt/aksel-icons';
-import { Bleed, Box, Button, Heading, Textarea, VStack } from '@navikt/ds-react';
+import { Bleed, Box, Heading, Textarea, VStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { SvarPåDialogSchema, svarPåDialogSchema } from '@form-schemas/svarPåDialogSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
@@ -55,7 +56,7 @@ export function SvarPåDialogForm(): ReactElement {
                             />
                         )}
                     />
-                    <Button
+                    <ButtonKreverSkrivetilgang
                         variant="primary"
                         size="small"
                         icon={<PaperplaneIcon aria-hidden />}
@@ -64,7 +65,7 @@ export function SvarPåDialogForm(): ReactElement {
                         className="self-start"
                     >
                         Send svar
-                    </Button>
+                    </ButtonKreverSkrivetilgang>
                 </VStack>
             </Box>
         </Bleed>

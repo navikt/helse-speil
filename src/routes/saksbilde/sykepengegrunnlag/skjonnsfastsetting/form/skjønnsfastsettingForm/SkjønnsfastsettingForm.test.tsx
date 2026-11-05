@@ -17,6 +17,9 @@ import { fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 vi.mock('@saksbilde/sykepengegrunnlag/skjonnsfastsetting/skjønnsfastsetting');
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useHarSkrivetilgang: () => true,
+}));
 
 describe('SkjønnsfastsettingForm', () => {
     const periode = enBeregnetPeriode();

@@ -27,6 +27,10 @@ vi.mock('@utils/featureToggles', () => ({
     useSkalSeGraderteAndreYtelser: () => false,
 }));
 
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useHarSkrivetilgang: () => true,
+}));
+
 describe('Typeendringer', () => {
     it('returnerer typeendringer for dagtypevelgeren under overstyring', () => {
         expect(alleTypeendringer).toEqual([

@@ -16,6 +16,10 @@ import userEvent from '@testing-library/user-event';
 import { AnnulleringsDialogInnhold } from './AnnulleringsDialogInnhold';
 
 vi.mock('@state/toasts');
+vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
+    useHarSkrivetilgang: () => true,
+}));
 
 const enArbeidsgiverReferanse = (): ArbeidsgiverReferanse => ({
     type: 'Arbeidsgiver',

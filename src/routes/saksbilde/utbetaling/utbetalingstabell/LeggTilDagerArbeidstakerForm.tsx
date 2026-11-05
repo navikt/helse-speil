@@ -2,8 +2,9 @@ import dayjs from 'dayjs';
 import { ReactElement } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { Button, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
+import { ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import {
     LeggTilDagerArbeidstakerFormFields,
     lagLeggTilDagerArbeidstakerSchema,
@@ -87,9 +88,9 @@ export const LeggTilDagerArbeidstakerForm = ({
                         hideError
                     />
                     <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDag)} hideError />
-                    <Button size="small" type="submit" variant="secondary" data-testid="legg-til">
+                    <ButtonKreverSkrivetilgang size="small" type="submit" variant="secondary" data-testid="legg-til">
                         Legg til
-                    </Button>
+                    </ButtonKreverSkrivetilgang>
                 </HStack>
                 <VStack>
                     {fomError && (

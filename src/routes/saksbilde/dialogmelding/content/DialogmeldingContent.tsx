@@ -5,7 +5,6 @@ import { ReactElement } from 'react';
 
 import { BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import { fagomradeLabels } from '@form-schemas/nyDialogmeldingSkjema';
 import { useGetDialogmelding } from '@io/rest/generated/default/default';
 import { ApiDialogmeldingStatus } from '@io/rest/generated/sporhund.schemas';
@@ -55,13 +54,11 @@ export function DialogmeldingContent(): ReactElement {
                         <BodyShort size="small">Org.nr.: {behandler.legekontor.orgnummer || '-'}</BodyShort>
                         <BodyShort size="small">Tlf: {behandler.telefonnummer || '-'}</BodyShort>
                     </HStack>
-                    <VisHvisSkrivetilgang>
-                        <DialogFerdigstiltSwitch
-                            personPseudoId={personPseudoId}
-                            dialogId={dialogId}
-                            initialFerdigstilt={status === ApiDialogmeldingStatus.FERDIGSTILT}
-                        />
-                    </VisHvisSkrivetilgang>
+                    <DialogFerdigstiltSwitch
+                        personPseudoId={personPseudoId}
+                        dialogId={dialogId}
+                        initialFerdigstilt={status === ApiDialogmeldingStatus.FERDIGSTILT}
+                    />
                 </VStack>
                 <VStack gap="space-24">
                     {sortert.map((melding, index) => (
@@ -73,9 +70,7 @@ export function DialogmeldingContent(): ReactElement {
                         />
                     ))}
                 </VStack>
-                <VisHvisSkrivetilgang>
-                    {status !== ApiDialogmeldingStatus.FERDIGSTILT && <SvarPåDialogForm />}
-                </VisHvisSkrivetilgang>
+                {status !== ApiDialogmeldingStatus.FERDIGSTILT && <SvarPåDialogForm />}
             </VStack>
         </Box>
     );

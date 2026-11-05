@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 
-import { useErCoachFagkoordinatorEllerSupersaksbehandler, useHarSkrivetilgang } from '@hooks/brukerrolleHooks';
+import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { ApiPeriodetilstand, ApiSaksbildePerson, ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
 import { HarBeslutteroppgaver } from '@saksbilde/venstremeny/HarBeslutteroppgaver';
 import { HarVurderbareVarsler } from '@saksbilde/venstremeny/HarVurderbareVarsler';
@@ -23,10 +23,8 @@ export const VenstremenyUberegnetPeriode = ({
     currentPerson,
 }: VenstremenyUberegnetPeriodeProps): ReactElement => {
     const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
-    const harSkrivetilgang = useHarSkrivetilgang();
     const skalViseForkastknapp =
         erCoachFagkoordinatorEllerSupersaksbehandler &&
-        harSkrivetilgang &&
         (
             [
                 ApiPeriodetilstand.AvventerInntektsopplysninger,

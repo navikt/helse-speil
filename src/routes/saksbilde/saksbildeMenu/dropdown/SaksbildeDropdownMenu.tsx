@@ -5,6 +5,7 @@ import { ChevronDownIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Dialog, HStack, Loader } from '@navikt/ds-react';
 
 import { LeggPåVentDialog } from '@components/påvent/PåVentDialoger';
+import { ActionMenuItemKreverSkrivetilgang } from '@components/skrivetilgang/ActionMenuItemKreverSkrivetilgang';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useDeletePåVent } from '@io/rest/generated/oppgaver/oppgaver';
 import { useGetPerson, useGetSaksbehandlerStans } from '@io/rest/generated/personer/personer';
@@ -143,29 +144,32 @@ function SaksbildeDropdownMenuContent({
                         <>
                             <ActionMenu.Group aria-label="Oppgave">
                                 {personIsAssignedUser || tildeling ? (
-                                    <ActionMenu.Item
+                                    <ActionMenuItemKreverSkrivetilgang
                                         disabled={loadingFjern}
                                         onSelect={avmeld}
                                         className="text-ax-large"
                                     >
                                         {personIsAssignedUser ? 'Meld av' : 'Frigi oppgave'}
                                         {loadingFjern && <Loader size="xsmall" />}
-                                    </ActionMenu.Item>
+                                    </ActionMenuItemKreverSkrivetilgang>
                                 ) : (
-                                    <ActionMenu.Item
+                                    <ActionMenuItemKreverSkrivetilgang
                                         disabled={loadingOpprett}
                                         onSelect={tildel}
                                         className="text-ax-large"
                                     >
                                         Tildel meg
                                         {loadingOpprett && <Loader size="xsmall" />}
-                                    </ActionMenu.Item>
+                                    </ActionMenuItemKreverSkrivetilgang>
                                 )}
                                 {erPåVent ? (
-                                    <ActionMenu.Item onSelect={fjernFraPåVent} className="text-ax-large">
+                                    <ActionMenuItemKreverSkrivetilgang
+                                        onSelect={fjernFraPåVent}
+                                        className="text-ax-large"
+                                    >
                                         Fjern fra på vent
                                         {loading && <Loader size="xsmall" />}
-                                    </ActionMenu.Item>
+                                    </ActionMenuItemKreverSkrivetilgang>
                                 ) : (
                                     <ActionMenu.Item
                                         onSelect={() => setShowLeggPåVentModal(true)}

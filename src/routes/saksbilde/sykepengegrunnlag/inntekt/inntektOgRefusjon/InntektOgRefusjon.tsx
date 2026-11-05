@@ -2,7 +2,6 @@ import { useState } from 'react';
 
 import { HStack, Label, Tag } from '@navikt/ds-react';
 
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import {
     ApiArbeidsgiver,
     ApiArbeidsgiverinntekt,
@@ -61,17 +60,15 @@ export const InntektOgRefusjon = ({
     return (
         <>
             <HStack gap="space-8" align="center">
-                <VisHvisSkrivetilgang>
-                    <ToggleOverstyring
-                        person={person}
-                        skjæringstidspunkt={skjæringstidspunkt}
-                        vilkårsgrunnlagId={vilkårsgrunnlagId}
-                        organisasjonsnummer={organisasjonsnummer}
-                        erDeaktivert={erDeaktivert ?? false}
-                        editing={editing}
-                        setEditing={setEditing}
-                    />
-                </VisHvisSkrivetilgang>
+                <ToggleOverstyring
+                    person={person}
+                    skjæringstidspunkt={skjæringstidspunkt}
+                    vilkårsgrunnlagId={vilkårsgrunnlagId}
+                    organisasjonsnummer={organisasjonsnummer}
+                    erDeaktivert={erDeaktivert ?? false}
+                    editing={editing}
+                    setEditing={setEditing}
+                />
                 {inntekt.deaktivert && <Tag variant="neutral">Brukes ikke i beregningen</Tag>}
             </HStack>
             <InntektOgRefusjonHeader arbeidsgiverReferanse={arbeidsgiverTilReferanse(arbeidsgiver)} kilde="AINNTEKT" />

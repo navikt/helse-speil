@@ -1,6 +1,8 @@
 import { MenuElipsisHorizontalIcon } from '@navikt/aksel-icons';
 import { ActionMenu, Button, Tooltip } from '@navikt/ds-react';
 
+import { ActionMenuItemKreverSkrivetilgang } from '@components/skrivetilgang/ActionMenuItemKreverSkrivetilgang';
+
 type KommentarDropdownProps = {
     isFetching: boolean;
     feilregistrerAction: () => void;
@@ -19,7 +21,9 @@ export const KommentarDropdown = ({ feilregistrerAction, isFetching }: Kommentar
             </ActionMenu.Trigger>
         </Tooltip>
         <ActionMenu.Content>
-            <ActionMenu.Item onSelect={feilregistrerAction}>Feilregistrer</ActionMenu.Item>
+            <ActionMenuItemKreverSkrivetilgang onSelect={feilregistrerAction}>
+                Feilregistrer
+            </ActionMenuItemKreverSkrivetilgang>
         </ActionMenu.Content>
     </ActionMenu>
 );

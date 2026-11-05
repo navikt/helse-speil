@@ -4,7 +4,6 @@ import { PersonPencilIcon, XMarkIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
 import {
     ApiSaksbildePerson,
     ApiSykepengegrunnlagsgrense,
@@ -101,18 +100,16 @@ export const SkjønnsfastsettingHeader = ({
                 </>
             )}
             {kanSkjønnsfastsette && !erBeslutteroppgave && harMaler && (
-                <VisHvisSkrivetilgang>
-                    <Button
-                        onClick={editing ? closeAndResetForm : openForm}
-                        size="xsmall"
-                        variant={editing ? 'tertiary' : 'secondary'}
-                        icon={editing ? <XMarkIcon aria-hidden /> : <PersonPencilIcon aria-hidden />}
-                        className={styles.redigeringsknapp}
-                        style={editing ? { marginRight: '1rem' } : undefined}
-                    >
-                        {editing ? 'Avbryt' : 'Skjønnsfastsett'}
-                    </Button>
-                </VisHvisSkrivetilgang>
+                <Button
+                    onClick={editing ? closeAndResetForm : openForm}
+                    size="xsmall"
+                    variant={editing ? 'tertiary' : 'secondary'}
+                    icon={editing ? <XMarkIcon aria-hidden /> : <PersonPencilIcon aria-hidden />}
+                    className={styles.redigeringsknapp}
+                    style={editing ? { marginRight: '1rem' } : undefined}
+                >
+                    {editing ? 'Avbryt' : 'Skjønnsfastsett'}
+                </Button>
             )}
             {malerError && <ErrorMessage>{malerError}</ErrorMessage>}
         </div>

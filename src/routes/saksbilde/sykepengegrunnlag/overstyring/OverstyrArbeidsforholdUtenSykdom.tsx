@@ -5,7 +5,7 @@ import { XMarkOctagonIcon } from '@navikt/aksel-icons';
 import { BodyShort, Button, ErrorMessage, ErrorSummary, HStack } from '@navikt/ds-react';
 
 import { BegrunnelseTextarea } from '@components/BegrunnelseTextarea';
-import { VisHvisSkrivetilgang } from '@components/VisHvisSkrivetilgang';
+import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { VenterPåEndringContext } from '@saksbilde/VenterPåEndringContext';
 import { ÅrsakForOverstyring } from '@typer/overstyring';
@@ -69,16 +69,14 @@ export const OverstyrArbeidsforholdUtenSykdom = ({
                             Avbryt
                         </Button>
                     ) : (
-                        <VisHvisSkrivetilgang>
-                            <Button
-                                size="xsmall"
-                                variant="tertiary"
-                                icon={<XMarkOctagonIcon aria-hidden />}
-                                onClick={() => setEditingArbeidsforhold(true)}
-                            >
-                                Ikke bruk arbeidsforholdet i beregningen
-                            </Button>
-                        </VisHvisSkrivetilgang>
+                        <Button
+                            size="xsmall"
+                            variant="tertiary"
+                            icon={<XMarkOctagonIcon aria-hidden />}
+                            onClick={() => setEditingArbeidsforhold(true)}
+                        >
+                            Ikke bruk arbeidsforholdet i beregningen
+                        </Button>
                     ))}
             </div>
             {editingArbeidsforhold && (
@@ -155,9 +153,9 @@ const OverstyrArbeidsforholdSkjema = ({
                         </div>
                     )}
                     <HStack gap="space-8" align="center" marginBlock="space-16 space-0">
-                        <Button size="small" variant="secondary" type="submit" loading={isLoading}>
+                        <ButtonKreverSkrivetilgang size="small" variant="secondary" type="submit" loading={isLoading}>
                             Ferdig
-                        </Button>
+                        </ButtonKreverSkrivetilgang>
                         <Button size="small" variant="tertiary" type="button" onClick={onClose}>
                             Avbryt
                         </Button>
