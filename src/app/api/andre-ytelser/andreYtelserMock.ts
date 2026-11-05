@@ -228,28 +228,27 @@ function grupperSammenhengendeLikeDager(dager: ApiGraderteAndreYtelserEndretDag[
 
 function tilEndringsgruppe({ fom, tom, endring }: Daggruppe): ApiEndringsgruppe {
     const datotekst = fom === tom ? tilDatotekst(fom) : `${tilDatotekst(fom)} - ${tilDatotekst(tom)}`;
-    const fraYtelser = endring.fraAndreYtelserGrader ?? null;
-    const ytelsestyper = [
-        ...new Set([...Object.keys(endring.andreYtelserGrader), ...Object.keys(fraYtelser ?? {})]),
-    ].sort((a, b) => ytelsesrekkefølge.indexOf(a) - ytelsesrekkefølge.indexOf(b));
+    // Uten tidligere fordeling vises dagen slik den var før fordeling, som for andre tidslinjeoverstyringer
+    const fraYtelser = endring.fraAndreYtelserGrader ?? {};
+    const fraSykdomsgrad = endring.fraSykdomsgrad ?? endring.sykdomsgradFørFordeling;
+    const fraArbeidsgrad = endring.fraArbeidsgrad ?? 100 - endring.sykdomsgradFørFordeling;
+    const ytelsestyper = [...new Set([...Object.keys(endring.andreYtelserGrader), ...Object.keys(fraYtelser)])].sort(
+        (a, b) => ytelsesrekkefølge.indexOf(a) - ytelsesrekkefølge.indexOf(b),
+    );
     return {
         rader: [
             { navn: 'Dato', fra: null, til: datotekst },
             ...ytelsestyper.map((type) =>
-                endringsrad(
-                    ytelsesnavn[type] ?? type,
-                    fraYtelser ? (fraYtelser[type] ?? 0) : null,
-                    endring.andreYtelserGrader[type] ?? 0,
-                ),
+                endringsrad(ytelsesnavn[type] ?? type, fraYtelser[type] ?? 0, endring.andreYtelserGrader[type] ?? 0),
             ),
-            endringsrad('Sykdomsgrad', endring.fraSykdomsgrad ?? null, endring.sykdomsgrad),
-            endringsrad('Arbeidsgrad', endring.fraArbeidsgrad ?? null, endring.arbeidsgrad),
+            endringsrad('Sykdomsgrad', fraSykdomsgrad, endring.sykdomsgrad),
+            endringsrad('Arbeidsgrad', fraArbeidsgrad, endring.arbeidsgrad),
         ],
     };
 }
 
-function endringsrad(navn: string, fra: number | null, til: number): ApiEndringsrad {
-    return { navn, fra: fra !== null && fra !== til ? prosent(fra) : null, til: prosent(til) };
+function endringsrad(navn: string, fra: number, til: number): ApiEndringsrad {
+    return { navn, fra: fra !== til ? prosent(fra) : null, til: prosent(til) };
 }
 
 function tilDatotekst(dato: string): string {

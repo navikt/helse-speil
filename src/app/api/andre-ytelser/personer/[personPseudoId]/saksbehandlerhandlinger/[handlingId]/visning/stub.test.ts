@@ -61,16 +61,16 @@ describe('visning av saksbehandlerhandling-stub', () => {
                         {
                             rader: [
                                 { navn: 'Dato', fra: null, til: '01.07.2024 - 02.07.2024' },
-                                { navn: 'Foreldrepenger', fra: null, til: '40 %' },
-                                { navn: 'Sykdomsgrad', fra: null, til: '30 %' },
+                                { navn: 'Foreldrepenger', fra: '0 %', til: '40 %' },
+                                { navn: 'Sykdomsgrad', fra: '70 %', til: '30 %' },
                                 { navn: 'Arbeidsgrad', fra: null, til: '30 %' },
                             ],
                         },
                         {
                             rader: [
                                 { navn: 'Dato', fra: null, til: '04.07.2024' },
-                                { navn: 'Foreldrepenger', fra: null, til: '40 %' },
-                                { navn: 'Sykdomsgrad', fra: null, til: '30 %' },
+                                { navn: 'Foreldrepenger', fra: '0 %', til: '40 %' },
+                                { navn: 'Sykdomsgrad', fra: '70 %', til: '30 %' },
                                 { navn: 'Arbeidsgrad', fra: null, til: '30 %' },
                             ],
                         },
