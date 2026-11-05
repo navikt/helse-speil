@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
-import { BodyShort, ErrorMessage, Fieldset, HStack, Select, TextField, VStack } from '@navikt/ds-react';
+import { ErrorMessage, Fieldset, HStack, Select, TextField, VStack } from '@navikt/ds-react';
 
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
 import { Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
@@ -33,8 +33,6 @@ function DagtypeMedAndreYtelserSelectAktivert({
     const { field, fieldState } = useController({ name });
     const { field: valgtGradertAnnenYtelse } = useController({ name: 'gradererAnnenYtelse' });
 
-    const { field: innvigletGrad, fieldState: innvigletGradState } = useController({ name: 'innvigletGrad' });
-
     const { field: sykepengerGradField, fieldState: sykepengerGradFieldState } = useController({
         name: 'sykepengerGrad',
     });
@@ -50,7 +48,6 @@ function DagtypeMedAndreYtelserSelectAktivert({
         const isAnnenYtelse = event.target.value === ANNEN_YTELSE;
         valgtGradertAnnenYtelse.onChange(isAnnenYtelse);
         if (!isAnnenYtelse) {
-            innvigletGrad.onChange(null);
             sykepengerGradField.onChange(null);
             gradAndreYtelserField.onChange(null);
             if (!kanVelgeGrad(event.target.value as Utbetalingstabelldagtype)) setValue('grad', null);
@@ -106,23 +103,6 @@ function DagtypeMedAndreYtelserSelectAktivert({
                             </option>
                         ))}
                     </Select>
-
-                    <VStack gap="space-8">
-                        <BodyShort weight="semibold">Innvilget grad i hele prosent</BodyShort>
-
-                        <TextField
-                            htmlSize={10}
-                            label={field.value}
-                            size="small"
-                            type="text"
-                            inputMode="numeric"
-                            id="innvilget-grad"
-                            value={innvigletGrad.value ?? ''}
-                            onChange={oppdaterProsent(innvigletGrad.onChange)}
-                            onBlur={innvigletGrad.onBlur}
-                            error={innvigletGradState.error?.message}
-                        />
-                    </VStack>
 
                     <Fieldset legend="Prosentvis fordeling mellom ytelser og arbeid" size="medium">
                         <HStack gap="space-20" align="end">

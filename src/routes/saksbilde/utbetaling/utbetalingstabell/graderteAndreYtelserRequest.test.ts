@@ -177,11 +177,10 @@ describe('tilGraderteAndreYtelserRequest', () => {
 });
 
 describe('tilDagendring', () => {
-    it('tar vare på fordelingen for gradert annen ytelse, men ikke innvilget grad', () => {
+    it('tar vare på fordelingen for gradert annen ytelse', () => {
         const endring = tilDagendring({
             dagtype: 'Foreldrepenger',
             grad: null,
-            innvigletGrad: 80,
             sykepengerGrad: 30,
             gradAndreYtelser: 40,
             gradererAnnenYtelse: true,
@@ -202,7 +201,6 @@ describe('tilEndringForDag', () => {
     const endringMedFordeling = tilDagendring({
         dagtype: 'Foreldrepenger',
         grad: null,
-        innvigletGrad: 50,
         sykepengerGrad: 30,
         gradAndreYtelser: 20,
         gradererAnnenYtelse: true,

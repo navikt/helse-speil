@@ -10,7 +10,7 @@ export function somGraderteAndreYtelserFeilmelding(error: PostGraderteAndreYtels
         case 'SUM_ER_IKKE_100':
             return 'Sykdomsgrad, arbeidsgrad og andre ytelser må til sammen bli 100 %.';
         case 'ARBEIDSGRAD_OKER':
-            return 'Arbeidsgraden kan ikke bli høyere enn før fordelingen.';
+            return 'Arbeidsgraden kan ikke øke. Sykdomsgrad og andre ytelser må til sammen være minst like høye som sykdomsgraden før fordeling.';
         case 'YTELSER_MANGLER_TREKK':
             return 'Sykdomsgraden må være lik sykdomsgraden før fordeling når dagen ikke har andre ytelser.';
         case 'MANGLER_ENDRINGER':

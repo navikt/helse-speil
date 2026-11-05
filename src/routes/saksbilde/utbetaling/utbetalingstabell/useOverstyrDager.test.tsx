@@ -269,7 +269,11 @@ describe('useOverstyrDager', () => {
             'Sykdomsgrad og andre ytelser kan til sammen ikke være mer enn 100 %. Sykdomsgraden må være minst 1 og ikke høyere enn før fordeling, og hver ytelse må være mellom 1 og 99.',
         ],
         [400, 'SUM_ER_IKKE_100', 'Sykdomsgrad, arbeidsgrad og andre ytelser må til sammen bli 100 %.'],
-        [400, 'ARBEIDSGRAD_OKER', 'Arbeidsgraden kan ikke bli høyere enn før fordelingen.'],
+        [
+            400,
+            'ARBEIDSGRAD_OKER',
+            'Arbeidsgraden kan ikke øke. Sykdomsgrad og andre ytelser må til sammen være minst like høye som sykdomsgraden før fordeling.',
+        ],
         [
             400,
             'YTELSER_MANGLER_TREKK',

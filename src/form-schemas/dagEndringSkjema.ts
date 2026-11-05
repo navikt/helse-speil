@@ -46,10 +46,9 @@ const lagGradValidering = (minimumGrad: number) => (grad: number | null, ctx: z.
 
 const dagtypeFeilmelding = (issue: { input?: unknown }) => (issue.input === '' ? 'Annen ytelse er påkrevd' : undefined);
 
-type GradertAnnenYtelseFelt = 'innvigletGrad' | 'sykepengerGrad' | 'gradAndreYtelser';
+type GradertAnnenYtelseFelt = 'sykepengerGrad' | 'gradAndreYtelser';
 
 const gradertAnnenYtelseFeltnavn = (ytelse?: string) => ({
-    innvigletGrad: 'Innvilget grad',
     sykepengerGrad: 'Grad for sykepenger',
     gradAndreYtelser: `Grad for ${ytelse?.toLocaleLowerCase()}`,
 });
@@ -82,8 +81,6 @@ const validerGradertAnnenYtelse = (
     markerteDager: Utbetalingstabelldag[],
     ctx: z.RefinementCtx<{ dagtype: string }>,
 ) => {
-    validerProsent('innvigletGrad', felter.innvigletGrad, 100, ctx);
-
     if (markerteDager.some((dag) => !dag.grad)) {
         ctx.addIssue({
             code: 'custom',
@@ -124,7 +121,6 @@ const validerGradertAnnenYtelse = (
 };
 
 const gradertAnnenYtelseFelter = {
-    innvigletGrad: z.number().nullable().optional(),
     sykepengerGrad: z.number().nullable().optional(),
     gradAndreYtelser: z.number().nullable().optional(),
     gradererAnnenYtelse: z.boolean().optional(),

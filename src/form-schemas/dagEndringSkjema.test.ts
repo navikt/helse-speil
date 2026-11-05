@@ -60,7 +60,6 @@ describe('lagDagEndringSchema', () => {
         const gyldig = {
             dagtype: 'Foreldrepenger',
             grad: null,
-            innvigletGrad: 80,
             sykepengerGrad: 30,
             gradAndreYtelser: 40,
             gradererAnnenYtelse: true,
@@ -80,15 +79,10 @@ describe('lagDagEndringSchema', () => {
         });
 
         it('krever verdi i alle feltene', () => {
-            expect(validerFordeling({ innvigletGrad: null, sykepengerGrad: null, gradAndreYtelser: null })).toEqual([
-                'Innvilget grad er påkrevd',
+            expect(validerFordeling({ sykepengerGrad: null, gradAndreYtelser: null })).toEqual([
                 'Grad for sykepenger er påkrevd',
                 'Grad for foreldrepenger er påkrevd',
             ]);
-        });
-
-        it.each([0, 101])('rapporterer feil når innvilget grad er %i', (verdi) => {
-            expect(validerFordeling({ innvigletGrad: verdi })).toEqual(['Innvilget grad må være mellom 1 og 100 %']);
         });
 
         describe('sykdomsgraden', () => {

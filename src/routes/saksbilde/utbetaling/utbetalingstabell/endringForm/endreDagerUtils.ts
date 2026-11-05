@@ -18,7 +18,6 @@ export function lagStandardverdier(erSelvstendig: boolean): DagEndringFormFields
     return {
         dagtype: erSelvstendig ? 'MeldingTilNav' : 'Syk',
         grad: erSelvstendig ? null : 100,
-        innvigletGrad: null,
         sykepengerGrad: null,
         gradAndreYtelser: null,
         gradererAnnenYtelse: false,
