@@ -40,7 +40,7 @@ export function Varsel({ className, varsel, type }: VarselProps): ReactElement {
     const feilstatus = (putVarselvurdering.error ?? deleteVarselvurdering.error)?.status;
 
     return (
-        <HStack align="center" gap="space-4" className={className}>
+        <HStack align="center" gap="space-4" wrap={false} className={className}>
             <HStack
                 data-ikke-ekspander
                 align="center"
