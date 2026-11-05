@@ -77,6 +77,17 @@ Tests use **Vitest** with **Testing Library** and **vitest-axe** for accessibili
 
 Form schemas use **Zod v4** (imported as `zod/v4`) with **react-hook-form** and `@hookform/resolvers`. Schemas live in `src/form-schemas/`.
 
+### Write access (skrivetilgang)
+
+Users without write access see the same UI as caseworkers. Menus, modals, forms and edit modes open as usual. Only the control that changes data is disabled, with a tooltip explaining why. The backend still enforces access; this is presentation only.
+
+- A button that sends a request (POST/PUT/PATCH/DELETE via a mutation), or stores changes locally that a later request sends, uses `ButtonKreverSkrivetilgang` from `@components/skrivetilgang/ButtonKreverSkrivetilgang`. It takes the same props as Aksel `Button`.
+- A menu item that sends a request uses `ActionMenuItemKreverSkrivetilgang` from `@components/skrivetilgang/ActionMenuItemKreverSkrivetilgang` instead of `ActionMenu.Item`.
+- Buttons that only open a menu, modal or form, or navigate, stay a plain `Button`.
+- For other controls (Switch, plain `<button>`), use `readOnly` or `aria-disabled` and wrap the control in a Tooltip with `UTEN_SKRIVETILGANG_TEKST` from `@components/skrivetilgang/utenSkrivetilgang`. See `DialogFerdigstiltSwitch` and `Avhuking`.
+- Do not hide actions with `VisHvisSkrivetilgang`. It is kept only for the feedback widget.
+- Without write access, these components use `aria-disabled`, not `disabled`, so the control can still get focus and show its tooltip. Tests for that case assert `toHaveAttribute('aria-disabled', 'true')`, not `toBeDisabled()`. A test that clicks the control needs `useHarSkrivetilgang: () => true` in its `@hooks/brukerrolleHooks` mock.
+
 ### Styling
 
 **Always reach for Aksel layout primitives before Tailwind utilities.** `VStack`, `HStack`, `HGrid`, `Box`, `Page` and `Bleed` cover nearly all layout needs, and their `gap`, `padding*` and `margin*` props take design tokens (`space-16`, `space-24`) that stay in sync with the design system. Do not write `flex flex-col gap-4` or `grid grid-cols-2` when a primitive does the same job. `VStack` and `HStack` are `OverridableComponent`s, so `as="article"` keeps the right semantics. Note that `HGrid columns={2}` renders `repeat(2, minmax(0, 1fr))`, not `1fr 1fr` — pass the string when the distinction matters. Primitives have no border props, so borders stay in `className`.
