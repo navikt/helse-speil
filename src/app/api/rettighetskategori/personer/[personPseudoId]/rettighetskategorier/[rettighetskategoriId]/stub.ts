@@ -12,6 +12,7 @@ export async function stub(
         id: rettighetskategoriId,
         skjæringstidspunkt: '2026-01-01',
         hovedkategori: 'ARBEIDSTAKER',
+        tilleggskategorier: [],
         kilde: 'AUTOMATISK',
         vurderingstidspunkt: '2026-02-01T10:00:00Z',
     };
