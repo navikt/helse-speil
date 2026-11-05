@@ -3,8 +3,8 @@ import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
-import { ProblemDetails } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import {
+    PostGraderteAndreYtelserMutationError,
     getGetGraderteAndreYtelserQueryKey,
     usePostGraderteAndreYtelser,
 } from '@io/rest/generated/andre-ytelser/graderte-andre-ytelser/graderte-andre-ytelser';
@@ -25,6 +25,7 @@ import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyrin
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { erEndretITidslinjen } from './erReellEndring';
+import { somGraderteAndreYtelserFeilmelding } from './graderteAndreYtelserFeilmelding';
 import { tilGraderteAndreYtelserRequest } from './graderteAndreYtelserRequest';
 
 type UsePostOverstyringResult = {
@@ -98,7 +99,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         return lagreGraderteAndreYtelser(overstyrteDager, begrunnelse, periode, inntektsforhold)
             .then(() => lagreTidslinje(dager, overstyrteDager, begrunnelse, periode))
             .then(() => callback?.())
-            .catch(() => Promise.resolve());
+            .catch(() => setVisningenOppdateres(false));
     };
 
     async function lagreGraderteAndreYtelser(
@@ -174,17 +175,16 @@ const finnLovhjemmelForDagoverstyring = (
 };
 
 function opprettFeilmelding(
-    graderteAndreYtelserError: { info?: ProblemDetails } | null,
+    graderteAndreYtelserError: PostGraderteAndreYtelserMutationError | null,
     overstyrTidslinjeError: Error | null,
 ): string | undefined {
-    if (graderteAndreYtelserError?.info?.code === 'UTDATERT_TILSTAND') {
-        return 'Graderte andre ytelser er endret siden du åpnet saken. Se over endringene og prøv igjen.';
-    }
-    if (graderteAndreYtelserError || overstyrTidslinjeError) {
-        return 'Feil under sending av overstyring. Prøv igjen senere.';
-    }
+    if (graderteAndreYtelserError)
+        return somGraderteAndreYtelserFeilmelding(graderteAndreYtelserError) ?? generellFeilmelding;
+    if (overstyrTidslinjeError) return generellFeilmelding;
     return undefined;
 }
+
+const generellFeilmelding = 'Feil under sending av overstyring. Prøv igjen senere.';
 
 // Graderte andre ytelser lagres bare i sp-andre-ytelser. En dag som bare mister fordelingen, er uendret i Spleis.
 function skalOverstyreTidslinjen(dag: Utbetalingstabelldag, dager: Utbetalingstabelldag[]): boolean {

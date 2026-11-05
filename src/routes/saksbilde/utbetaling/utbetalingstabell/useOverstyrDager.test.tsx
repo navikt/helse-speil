@@ -10,6 +10,7 @@ import {
     ApiServerSentEventEvent,
 } from '@io/rest/generated/spesialist.schemas';
 import { useAktivtInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
+import { visningenOppdateresToastKey } from '@state/oppdateringToasts';
 import { useHåndterNyttEvent } from '@state/serverSentEvents';
 import { useAddToast, useRemoveToast } from '@state/toasts';
 import { enBeregnetPeriode } from '@test-data/periode';
@@ -261,6 +262,65 @@ describe('useOverstyrDager', () => {
         await waitFor(() => expect(result.current.error).toBe('Feil under sending av overstyring. Prøv igjen senere.'));
     });
 
+    test.each([
+        [
+            400,
+            'GRAD_UTENFOR_GRENSER',
+            'Sykdomsgrad og andre ytelser kan til sammen ikke være mer enn 100 %. Sykdomsgraden må være minst 1 og ikke høyere enn før fordeling, og hver ytelse må være mellom 1 og 99.',
+        ],
+        [400, 'SUM_ER_IKKE_100', 'Sykdomsgrad, arbeidsgrad og andre ytelser må til sammen bli 100 %.'],
+        [400, 'ARBEIDSGRAD_OKER', 'Arbeidsgraden kan ikke bli høyere enn før fordelingen.'],
+        [
+            400,
+            'YTELSER_MANGLER_TREKK',
+            'Sykdomsgraden må være lik sykdomsgraden før fordeling når dagen ikke har andre ytelser.',
+        ],
+        [400, 'MANGLER_ENDRINGER', 'Det er ingen endringer i fordelingene å lagre.'],
+        [403, null, 'Du har ikke tilgang til å endre graderte andre ytelser for denne personen.'],
+        [400, 'UKJENT_FEILKODE', 'Feil under sending av overstyring. Prøv igjen senere.'],
+    ])('skal gi riktig feilmelding når sp-andre-ytelser svarer %i med %s', async (status, code, feilmelding) => {
+        mockBackend(status, [], code);
+        const { result } = renderHook(() => useOverstyrDager());
+
+        await act(() => result.current.postOverstyring(dager, [gradertDag], BEGRUNNELSE, PERIODE, INNTEKTSFORHOLD));
+
+        await waitFor(() => expect(result.current.error).toBe(feilmelding));
+    });
+
+    test('skal fjerne «visningen oppdateres» og la saksbehandler prøve igjen når lagringen feiler', async () => {
+        const removeToast = vi.fn();
+        (useRemoveToast as Mock).mockReturnValue(removeToast);
+        mockBackend(400, [], 'SUM_ER_IKKE_100');
+        const { result } = renderHook(() => useOverstyrDager());
+        const callback = vi.fn();
+        const lagre = async () => {
+            let lagring: Promise<void> = Promise.resolve();
+            act(() => {
+                lagring = result.current.postOverstyring(
+                    dager,
+                    [gradertDag],
+                    BEGRUNNELSE,
+                    PERIODE,
+                    INNTEKTSFORHOLD,
+                    callback,
+                );
+            });
+            await act(() => lagring);
+        };
+
+        await lagre();
+
+        await waitFor(() => expect(result.current.error).toBeDefined());
+        expect(removeToast).toHaveBeenCalledWith(visningenOppdateresToastKey);
+        expect(callback).not.toHaveBeenCalled();
+
+        mockBackend();
+        await lagre();
+
+        expect(result.current.error).toBeUndefined();
+        expect(callback).toHaveBeenCalledTimes(1);
+    });
+
     test('skal gi egen feilmelding når graderte andre ytelser er utdatert', async () => {
         mockBackend(409);
         const { result } = renderHook(() => useOverstyrDager());
@@ -275,7 +335,11 @@ describe('useOverstyrDager', () => {
     });
 });
 
-function mockBackend(graderteAndreYtelserStatus = 200, lagredeDager: ApiGraderteAndreYtelserDag[] = []) {
+function mockBackend(
+    graderteAndreYtelserStatus = 200,
+    lagredeDager: ApiGraderteAndreYtelserDag[] = [],
+    feilkode: string | null = graderteAndreYtelserStatus === 409 ? 'UTDATERT_TILSTAND' : null,
+) {
     let versjon = 'versjon-1';
     fetchMock.mockImplementation((url, init) => {
         if (url === GRADERTE_ANDRE_YTELSER_URL && init?.method === 'POST') {
@@ -288,7 +352,7 @@ function mockBackend(graderteAndreYtelserStatus = 200, lagredeDager: ApiGraderte
                               type: 'about:blank',
                               status: graderteAndreYtelserStatus,
                               title: 'Feil',
-                              code: graderteAndreYtelserStatus === 409 ? 'UTDATERT_TILSTAND' : null,
+                              code: feilkode,
                           },
                           graderteAndreYtelserStatus,
                       ),
