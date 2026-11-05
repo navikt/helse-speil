@@ -16,13 +16,15 @@ import {
     visningenErOppdatertToast,
     visningenErOppdatertToastKey,
     visningenOppdateresToast,
+    visningenOppdateresToastKey,
 } from '@state/oppdateringToasts';
 import { erNyOppgaveEvent, erPersondataOppdatertEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
-import { useAddToast, useRemoveToast } from '@state/toasts';
+import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
 import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { useQueryClient } from '@tanstack/react-query';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { generateId } from '@utils/generateId';
 
 import { erEndretITidslinjen } from './erReellEndring';
 import { somGraderteAndreYtelserFeilmelding } from './graderteAndreYtelserFeilmelding';
@@ -97,17 +99,30 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         setVisningenOppdateres(true);
 
         return lagreGraderteAndreYtelser(overstyrteDager, begrunnelse, periode, inntektsforhold)
-            .then(() => lagreTidslinje(dager, overstyrteDager, begrunnelse, periode))
+            .then(async (fordelingeneVarAlleredeLagret) => {
+                const tidslinjenErLagret = await lagreTidslinje(dager, overstyrteDager, begrunnelse, periode);
+                if (fordelingeneVarAlleredeLagret && !tidslinjenErLagret) {
+                    fjernVisningenOppdateres();
+                    setDone(true);
+                    addToast(fordelingeneErAlleredeLagretToast);
+                }
+            })
             .then(() => callback?.())
-            .catch(() => setVisningenOppdateres(false));
+            .catch(fjernVisningenOppdateres);
     };
 
+    function fjernVisningenOppdateres() {
+        setVisningenOppdateres(false);
+        removeToast(visningenOppdateresToastKey);
+    }
+
+    // Svarer sp-andre-ytelser med samme versjon som Speil sendte, ble ingenting endret, og Spleis revurderer ikke
     async function lagreGraderteAndreYtelser(
         overstyrteDager: Utbetalingstabelldag[],
         begrunnelse: string,
         periode: ApiPeriode,
         inntektsforhold: Inntektsforhold,
-    ): Promise<void> {
+    ): Promise<boolean> {
         const request = tilGraderteAndreYtelserRequest({
             overstyrteDager,
             inntektsforhold,
@@ -115,8 +130,9 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
             behandlingId: periode.behandlingId,
             notatTilBeslutter: begrunnelse,
         });
-        if (request.dager.length === 0) return;
-        await endreGraderteAndreYtelser({ personPseudoId: personPseudoId!, data: request });
+        if (request.dager.length === 0) return false;
+        const { versjon } = await endreGraderteAndreYtelser({ personPseudoId: personPseudoId!, data: request });
+        return versjon === request.versjon;
     }
 
     async function lagreTidslinje(
@@ -124,13 +140,14 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         overstyrteDager: Utbetalingstabelldag[],
         begrunnelse: string,
         periode: ApiPeriode,
-    ): Promise<void> {
+    ): Promise<boolean> {
         const andreOverstyrteDager = overstyrteDager.filter((dag) => skalOverstyreTidslinjen(dag, dager));
-        if (andreOverstyrteDager.length === 0) return;
+        if (andreOverstyrteDager.length === 0) return false;
         await overstyrTidslinje({
             vedtaksperiodeId: periode.vedtaksperiodeId,
             data: { begrunnelse, dager: tilOverstyrteDager(dager, andreOverstyrteDager) },
         });
+        return true;
     }
 
     return {
@@ -185,6 +202,12 @@ function opprettFeilmelding(
 }
 
 const generellFeilmelding = 'Feil under sending av overstyring. Prøv igjen senere.';
+
+const fordelingeneErAlleredeLagretToast: ToastObject = {
+    key: generateId(),
+    message: 'Fordelingene er allerede lagret',
+    timeToLiveMs: 5000,
+};
 
 // Graderte andre ytelser lagres bare i sp-andre-ytelser. En dag som bare mister fordelingen, er uendret i Spleis.
 function skalOverstyreTidslinjen(dag: Utbetalingstabelldag, dager: Utbetalingstabelldag[]): boolean {

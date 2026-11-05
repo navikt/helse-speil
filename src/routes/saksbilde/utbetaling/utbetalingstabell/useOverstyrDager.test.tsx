@@ -288,25 +288,15 @@ describe('useOverstyrDager', () => {
     });
 
     test('skal fjerne «visningen oppdateres» og la saksbehandler prøve igjen når lagringen feiler', async () => {
-        const removeToast = vi.fn();
-        (useRemoveToast as Mock).mockReturnValue(removeToast);
+        const { removeToast } = mockToasts();
         mockBackend(400, [], 'SUM_ER_IKKE_100');
         const { result } = renderHook(() => useOverstyrDager());
         const callback = vi.fn();
-        const lagre = async () => {
-            let lagring: Promise<void> = Promise.resolve();
-            act(() => {
-                lagring = result.current.postOverstyring(
-                    dager,
-                    [gradertDag],
-                    BEGRUNNELSE,
-                    PERIODE,
-                    INNTEKTSFORHOLD,
-                    callback,
-                );
-            });
-            await act(() => lagring);
-        };
+        function lagre() {
+            return act(() =>
+                result.current.postOverstyring(dager, [gradertDag], BEGRUNNELSE, PERIODE, INNTEKTSFORHOLD, callback),
+            );
+        }
 
         await lagre();
 
@@ -319,6 +309,55 @@ describe('useOverstyrDager', () => {
 
         expect(result.current.error).toBeUndefined();
         expect(callback).toHaveBeenCalledTimes(1);
+    });
+
+    test('skal ikke vente på oppdatering når sp-andre-ytelser svarer med samme versjon', async () => {
+        const { addToast, removeToast } = mockToasts();
+        mockBackend(200, [], null, 'versjon-1');
+        const result = await renderMedLagredeGraderteAndreYtelser();
+
+        const callback = vi.fn();
+        await act(() =>
+            result.current.postOverstyring(dager, [gradertDag], BEGRUNNELSE, PERIODE, INNTEKTSFORHOLD, callback),
+        );
+
+        await waitFor(() => expect(result.current.done).toBe(true));
+        expect(removeToast).toHaveBeenCalledWith(visningenOppdateresToastKey);
+        expect(addToast).toHaveBeenCalledWith(ALLEREDE_LAGRET_TOAST);
+        expect(callback).toHaveBeenCalledTimes(1);
+    });
+
+    test('skal vente på oppdatering når sp-andre-ytelser svarer med ny versjon', async () => {
+        const { addToast, removeToast } = mockToasts();
+        mockBackend();
+        const result = await renderMedLagredeGraderteAndreYtelser();
+
+        await act(() => result.current.postOverstyring(dager, [gradertDag], BEGRUNNELSE, PERIODE, INNTEKTSFORHOLD));
+
+        expect(result.current.done).toBe(false);
+        expect(removeToast).not.toHaveBeenCalledWith(visningenOppdateresToastKey);
+        expect(addToast).not.toHaveBeenCalledWith(ALLEREDE_LAGRET_TOAST);
+    });
+
+    test('skal lagre tidslinjen og vente på oppdatering når fordelingene er uendret', async () => {
+        const { addToast, removeToast } = mockToasts();
+        mockBackend(200, [], null, 'versjon-1');
+        const result = await renderMedLagredeGraderteAndreYtelser();
+
+        await act(() =>
+            result.current.postOverstyring(
+                dager,
+                [gradertDag, ...oversyrteDager],
+                BEGRUNNELSE,
+                PERIODE,
+                INNTEKTSFORHOLD,
+            ),
+        );
+
+        expect(postKallTil()).toEqual([GRADERTE_ANDRE_YTELSER_URL, TIDSLINJE_URL]);
+        expect(result.current.done).toBe(false);
+        expect(removeToast).not.toHaveBeenCalledWith(visningenOppdateresToastKey);
+        expect(addToast).not.toHaveBeenCalledWith(ALLEREDE_LAGRET_TOAST);
     });
 
     test('skal gi egen feilmelding når graderte andre ytelser er utdatert', async () => {
@@ -339,14 +378,15 @@ function mockBackend(
     graderteAndreYtelserStatus = 200,
     lagredeDager: ApiGraderteAndreYtelserDag[] = [],
     feilkode: string | null = graderteAndreYtelserStatus === 409 ? 'UTDATERT_TILSTAND' : null,
+    versjonEtterLagring = 'versjon-2',
 ) {
     let versjon = 'versjon-1';
     fetchMock.mockImplementation((url, init) => {
         if (url === GRADERTE_ANDRE_YTELSER_URL && init?.method === 'POST') {
-            if (graderteAndreYtelserStatus === 200) versjon = 'versjon-2';
+            if (graderteAndreYtelserStatus === 200) versjon = versjonEtterLagring;
             return Promise.resolve(
                 graderteAndreYtelserStatus === 200
-                    ? jsonResponse({ versjon: 'versjon-2' })
+                    ? jsonResponse({ versjon: versjonEtterLagring })
                     : jsonResponse(
                           {
                               type: 'about:blank',
@@ -391,6 +431,16 @@ async function renderMedLagredeGraderteAndreYtelser() {
 function postKallTil() {
     return fetchMock.mock.calls.filter(([, init]) => init?.method === 'POST').map(([url]) => url);
 }
+
+function mockToasts() {
+    const addToast = vi.fn();
+    const removeToast = vi.fn();
+    (useAddToast as Mock).mockReturnValue(addToast);
+    (useRemoveToast as Mock).mockReturnValue(removeToast);
+    return { addToast, removeToast };
+}
+
+const ALLEREDE_LAGRET_TOAST = expect.objectContaining({ message: 'Fordelingene er allerede lagret' });
 
 const dager: Utbetalingstabelldag[] = [
     {
