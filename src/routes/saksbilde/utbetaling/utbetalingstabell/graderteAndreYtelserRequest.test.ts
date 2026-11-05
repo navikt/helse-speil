@@ -1,10 +1,13 @@
-import { ApiGraderteAndreYtelser } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
+import {
+    ApiGraderteAndreYtelser,
+    ApiGraderteAndreYtelserDag,
+} from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiArbeidsgiver, ApiSelvstendigNaering } from '@io/rest/generated/spesialist.schemas';
 import { tilDagendring, tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
 import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtures';
 
 import { tilGraderteAndreYtelserRequest } from './graderteAndreYtelserRequest';
-import { Foreldrepengerdag, Pleiepengerdag, Sykedag } from './utbetalingstabelldager';
+import { Feriedag, Foreldrepengerdag, Pleiepengerdag, Sykedag } from './utbetalingstabelldager';
 
 const selvstendig = { behandlinger: [], overstyringer: [] } as ApiSelvstendigNaering;
 const behandlingId = '94926180-4e95-4879-8975-0a63b5659831';
@@ -108,6 +111,58 @@ describe('tilGraderteAndreYtelserRequest', () => {
         });
     });
 
+    it('fjerner lagret fordeling fra dager som ikke lenger har fordeling, uansett dagtype', () => {
+        const request = tilGraderteAndreYtelserRequest({
+            overstyrteDager: [
+                lagDag({ dato: '2024-07-01', dag: Sykedag, grad: 100 }),
+                lagDag({ dato: '2024-07-02', dag: Feriedag, grad: undefined }),
+            ],
+            inntektsforhold: arbeidsgiver('967170232'),
+            graderteAndreYtelser: [
+                lagGraderteAndreYtelser({
+                    dager: [
+                        lagretDag('2024-07-01', 100, { FORELDREPENGER: 40 }),
+                        lagretDag('2024-07-02', 80, { PLEIEPENGER: 30 }),
+                    ],
+                }),
+            ],
+            behandlingId,
+            notatTilBeslutter: '',
+        });
+
+        expect(request.dager).toEqual([
+            {
+                dato: '2024-07-01',
+                andreYtelserGrader: {},
+                sykdomsgrad: 100,
+                arbeidsgrad: 0,
+                sykdomsgradFørFordeling: 100,
+            },
+            {
+                dato: '2024-07-02',
+                andreYtelserGrader: {},
+                sykdomsgrad: 80,
+                arbeidsgrad: 20,
+                sykdomsgradFørFordeling: 80,
+            },
+        ]);
+    });
+
+    it('sender ikke dager uten lagret fordeling eller der fordelingen allerede er fjernet', () => {
+        const request = tilGraderteAndreYtelserRequest({
+            overstyrteDager: [
+                lagDag({ dato: '2024-07-01', dag: Feriedag, grad: undefined }),
+                lagDag({ dato: '2024-07-02', dag: Feriedag, grad: undefined }),
+            ],
+            inntektsforhold: arbeidsgiver('967170232'),
+            graderteAndreYtelser: [lagGraderteAndreYtelser({ dager: [lagretDag('2024-07-02', 80, {})] })],
+            behandlingId,
+            notatTilBeslutter: '',
+        });
+
+        expect(request.dager).toEqual([]);
+    });
+
     it('feiler for gradert dag uten type for gradert annen ytelse', () => {
         expect(() =>
             tilGraderteAndreYtelserRequest({
@@ -198,6 +253,21 @@ function lagGraderteAndreYtelser(overstyringer: Partial<ApiGraderteAndreYtelser>
         dager: [],
         events: [],
         ...overstyringer,
+    };
+}
+
+function lagretDag(
+    dato: string,
+    sykdomsgradFørFordeling: number,
+    andreYtelserGrader: Record<string, number>,
+): ApiGraderteAndreYtelserDag {
+    const andreYtelser = Object.values(andreYtelserGrader).reduce((sum, grad) => sum + grad, 0);
+    return {
+        dato,
+        andreYtelserGrader,
+        sykdomsgrad: sykdomsgradFørFordeling - andreYtelser,
+        arbeidsgrad: 100 - sykdomsgradFørFordeling,
+        sykdomsgradFørFordeling,
     };
 }
 

@@ -1,12 +1,18 @@
 import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
+import { harFordeling } from './graderteAndreYtelserRequest';
+
 export function erReellEndring(
     tilDag: Partial<Utbetalingstabelldag>,
     fraDag: Utbetalingstabelldag,
     lagretGradertDag?: ApiGraderteAndreYtelserDag,
 ): boolean {
     if (tilDag.gradertAnnenYtelse) return erEndretGradertAnnenYtelse(tilDag, lagretGradertDag);
+    return harFordeling(lagretGradertDag) || erEndretITidslinjen(tilDag, fraDag);
+}
+
+export function erEndretITidslinjen(tilDag: Partial<Utbetalingstabelldag>, fraDag: Utbetalingstabelldag): boolean {
     return (
         (typeof tilDag.grad === 'number' && tilDag.grad !== fraDag.grad) ||
         tilDag.dag?.speilDagtype !== fraDag.dag.speilDagtype

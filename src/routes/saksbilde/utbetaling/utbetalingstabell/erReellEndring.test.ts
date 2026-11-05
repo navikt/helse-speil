@@ -38,6 +38,26 @@ describe('erReellEndring', () => {
         ).toBe(true);
     });
 
+    it('er endring når dagen mister en lagret fordeling, selv om dagtype og grad er lik', () => {
+        const sykedag = lagDag({ dato: '2024-07-01', dag: Sykedag, grad: 70 });
+
+        expect(
+            erReellEndring(
+                { dag: Sykedag, grad: 70, gradertAnnenYtelse: null },
+                sykedag,
+                lagretDag(30, { FORELDREPENGER: 40 }),
+            ),
+        ).toBe(true);
+    });
+
+    it('er ikke endring når den lagrede fordelingen allerede er fjernet', () => {
+        const sykedag = lagDag({ dato: '2024-07-01', dag: Sykedag, grad: 70 });
+
+        expect(erReellEndring({ dag: Sykedag, grad: 70, gradertAnnenYtelse: null }, sykedag, lagretDag(70, {}))).toBe(
+            false,
+        );
+    });
+
     it('sammenligner vanlige endringer med fraDag', () => {
         expect(erReellEndring({ dag: Foreldrepengerdag, grad: 70 }, fraDag)).toBe(false);
         expect(erReellEndring({ dag: Sykedag, grad: 70 }, fraDag)).toBe(true);

@@ -1,6 +1,7 @@
 import { fetchMock, jsonBody, jsonResponse, mockFetchResponse } from '../../../../../vitest.setup';
 import { Mock, vi } from 'vitest';
 
+import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { useGetGraderteAndreYtelser } from '@io/rest/generated/andre-ytelser/graderte-andre-ytelser/graderte-andre-ytelser';
 import {
     ApiArbeidsgiver,
@@ -160,6 +161,70 @@ describe('useOverstyrDager', () => {
         );
     });
 
+    test('skal fjerne lagret fordeling uten å sende tidslinjen når dagtype og grad er uendret', async () => {
+        mockBackend(200, [lagretFordeling]);
+        const result = await renderMedLagredeGraderteAndreYtelser();
+
+        const callback = vi.fn();
+        await act(() =>
+            result.current.postOverstyring(
+                [sykedagMedFordeling],
+                [{ ...sykedagMedFordeling, gradertAnnenYtelse: null }],
+                BEGRUNNELSE,
+                PERIODE,
+                INNTEKTSFORHOLD,
+                callback,
+            ),
+        );
+
+        expect(postKallTil()).toEqual([GRADERTE_ANDRE_YTELSER_URL]);
+        expect(fetchMock).toHaveBeenCalledWith(
+            GRADERTE_ANDRE_YTELSER_URL,
+            expect.objectContaining({ body: jsonBody(fjerningsrequest) }),
+        );
+        expect(callback).toHaveBeenCalledTimes(1);
+    });
+
+    test('skal fjerne lagret fordeling og sende tidslinjen når dagen blir ferie', async () => {
+        mockBackend(200, [lagretFordeling]);
+        const result = await renderMedLagredeGraderteAndreYtelser();
+        const feriedag: Utbetalingstabelldag = {
+            ...sykedagMedFordeling,
+            dag: oversyrteDager[0]!.dag,
+            grad: undefined,
+            gradertAnnenYtelse: null,
+        };
+
+        await act(() =>
+            result.current.postOverstyring([sykedagMedFordeling], [feriedag], BEGRUNNELSE, PERIODE, INNTEKTSFORHOLD),
+        );
+
+        expect(postKallTil()).toEqual([GRADERTE_ANDRE_YTELSER_URL, TIDSLINJE_URL]);
+        expect(fetchMock).toHaveBeenCalledWith(
+            GRADERTE_ANDRE_YTELSER_URL,
+            expect.objectContaining({ body: jsonBody(fjerningsrequest) }),
+        );
+        expect(fetchMock).toHaveBeenCalledWith(
+            TIDSLINJE_URL,
+            expect.objectContaining({
+                body: jsonBody({
+                    begrunnelse: BEGRUNNELSE,
+                    dager: tilOverstyrteDager([sykedagMedFordeling], [feriedag]),
+                }),
+            }),
+        );
+    });
+
+    test('skal overstyre tidslinjen for nye dager selv om de er like dagen i dager-listen', async () => {
+        mockBackend();
+        const nyDag: Utbetalingstabelldag = { ...dager[0]!, dato: '2019-12-31', erNyDag: true };
+        const { result } = renderHook(() => useOverstyrDager());
+
+        await act(() => result.current.postOverstyring([nyDag], [nyDag], BEGRUNNELSE, PERIODE, INNTEKTSFORHOLD));
+
+        expect(postKallTil()).toEqual([TIDSLINJE_URL]);
+    });
+
     test('oppdaterer den nye query-cachen etter lagring', async () => {
         mockBackend();
         const { result } = renderHook(() => ({
@@ -210,7 +275,7 @@ describe('useOverstyrDager', () => {
     });
 });
 
-function mockBackend(graderteAndreYtelserStatus = 200) {
+function mockBackend(graderteAndreYtelserStatus = 200, lagredeDager: ApiGraderteAndreYtelserDag[] = []) {
     let versjon = 'versjon-1';
     fetchMock.mockImplementation((url, init) => {
         if (url === GRADERTE_ANDRE_YTELSER_URL && init?.method === 'POST') {
@@ -236,7 +301,7 @@ function mockBackend(graderteAndreYtelserStatus = 200) {
                         yrkesaktivitet: 'ARBEIDSTAKER',
                         organisasjonsnummer: ORGNUMMER,
                         versjon,
-                        dager: [],
+                        dager: lagredeDager,
                         events: [],
                     },
                 ]),
@@ -303,4 +368,22 @@ const gradertDag: Utbetalingstabelldag = {
     dato: '2020-01-02',
     grad: 70,
     gradertAnnenYtelse: { sykdomsgrad: 30, andreYtelseGrad: 40, sykdomsgradFørFordeling: 70 },
+};
+const sykedagMedFordeling: Utbetalingstabelldag = { ...dager[0]!, dato: '2020-01-03', grad: 80 };
+const lagretFordeling: ApiGraderteAndreYtelserDag = {
+    dato: '2020-01-03',
+    andreYtelserGrader: { FORELDREPENGER: 40 },
+    sykdomsgrad: 40,
+    arbeidsgrad: 20,
+    sykdomsgradFørFordeling: 80,
+};
+const fjerningsrequest = {
+    yrkesaktivitet: 'ARBEIDSTAKER',
+    organisasjonsnummer: ORGNUMMER,
+    versjon: 'versjon-1',
+    behandlingId: BEHANDLING_ID,
+    notatTilBeslutter: BEGRUNNELSE,
+    dager: [
+        { dato: '2020-01-03', andreYtelserGrader: {}, sykdomsgrad: 80, arbeidsgrad: 20, sykdomsgradFørFordeling: 80 },
+    ],
 };

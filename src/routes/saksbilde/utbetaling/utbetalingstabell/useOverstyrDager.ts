@@ -24,6 +24,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { Lovhjemmel, OverstyrtDagDTO, OverstyrtDagtype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
+import { erEndretITidslinjen } from './erReellEndring';
 import { tilGraderteAndreYtelserRequest } from './graderteAndreYtelserRequest';
 
 type UsePostOverstyringResult = {
@@ -106,17 +107,15 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         periode: ApiPeriode,
         inntektsforhold: Inntektsforhold,
     ): Promise<void> {
-        if (!overstyrteDager.some((dag) => dag.gradertAnnenYtelse)) return;
-        await endreGraderteAndreYtelser({
-            personPseudoId: personPseudoId!,
-            data: tilGraderteAndreYtelserRequest({
-                overstyrteDager,
-                inntektsforhold,
-                graderteAndreYtelser,
-                behandlingId: periode.behandlingId,
-                notatTilBeslutter: begrunnelse,
-            }),
+        const request = tilGraderteAndreYtelserRequest({
+            overstyrteDager,
+            inntektsforhold,
+            graderteAndreYtelser,
+            behandlingId: periode.behandlingId,
+            notatTilBeslutter: begrunnelse,
         });
+        if (request.dager.length === 0) return;
+        await endreGraderteAndreYtelser({ personPseudoId: personPseudoId!, data: request });
     }
 
     async function lagreTidslinje(
@@ -125,7 +124,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
         begrunnelse: string,
         periode: ApiPeriode,
     ): Promise<void> {
-        const andreOverstyrteDager = overstyrteDager.filter((dag) => !dag.gradertAnnenYtelse);
+        const andreOverstyrteDager = overstyrteDager.filter((dag) => skalOverstyreTidslinjen(dag, dager));
         if (andreOverstyrteDager.length === 0) return;
         await overstyrTidslinje({
             vedtaksperiodeId: periode.vedtaksperiodeId,
@@ -185,4 +184,11 @@ function opprettFeilmelding(
         return 'Feil under sending av overstyring. Prøv igjen senere.';
     }
     return undefined;
+}
+
+// Graderte andre ytelser lagres bare i sp-andre-ytelser. En dag som bare mister fordelingen, er uendret i Spleis.
+function skalOverstyreTidslinjen(dag: Utbetalingstabelldag, dager: Utbetalingstabelldag[]): boolean {
+    if (dag.gradertAnnenYtelse) return false;
+    const fraDag = dager.find((it) => it.dato === dag.dato);
+    return fraDag === undefined || dag.erNyDag === true || erEndretITidslinjen(dag, fraDag);
 }

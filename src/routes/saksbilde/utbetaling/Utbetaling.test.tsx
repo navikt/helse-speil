@@ -11,7 +11,7 @@ import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { render } from '@test-utils';
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 import { generateId } from '@utils/generateId';
 
@@ -149,6 +149,24 @@ describe('Utbetaling', () => {
         expect(screen.getByText('Foreldrepenger')).toBeVisible();
         expect(screen.queryByText('20 %')).not.toBeInTheDocument();
         expect(screen.queryByText('Omsorgspenger')).not.toBeInTheDocument();
+    });
+
+    it('viser en dag uten fordeling når fordelingen er fjernet', () => {
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useIsReadOnlyOppgave as Mock).mockReturnValue(true);
+        const tidslinje = [enDag({ dato: '2024-01-01' })];
+        const periode = enBeregnetPeriode({ fom: '2024-01-01', tom: '2024-01-01', tidslinje }).somErTilGodkjenning();
+        const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+        const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+        (useGraderteAndreYtelser as Mock).mockReturnValue([graderteAndreYtelser(arbeidsgiver.organisasjonsnummer, {})]);
+
+        render(<Utbetaling person={person} periode={periode} />);
+
+        const kolonne = screen
+            .getAllByRole('columnheader')
+            .findIndex((header) => header.textContent === 'Andre ytelser');
+        const rad = screen.getByRole('row', { name: /01\.01\.2024/ });
+        expect(within(rad).getAllByRole('cell')[kolonne]).toHaveTextContent(/^-$/);
     });
 });
 
