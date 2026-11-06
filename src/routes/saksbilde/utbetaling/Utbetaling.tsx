@@ -7,7 +7,6 @@ import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { useActivePeriodHasLatestSkjæringstidspunkt } from '@hooks/revurdering';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { ApiBeregnetPeriode, ApiSaksbildePerson, ApiUberegnetPeriode } from '@io/rest/generated/spesialist.schemas';
-import styles from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader.module.css';
 import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import {
     Inntektsforhold,
@@ -68,7 +67,7 @@ const ReadonlyUtbetaling = ({ fom, tom, dager, person, inntektsforhold }: Readon
                 <Inntektsforholdnavn
                     inntektsforholdReferanse={inntektsforholdReferanse}
                     weight="semibold"
-                    className={styles.mediumFontSize}
+                    size="medium"
                 />
                 {!(hasLatestSkjæringstidspunkt || erAktivPeriodeLikEllerFørPeriodeTilGodkjenning) && (
                     <HelpText>

@@ -7,8 +7,6 @@ import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold
 import { useKanVurdereOppholdskrav } from '@state/toggles';
 import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 
-import styles from './UtbetalingHeader.module.css';
-
 export type Endringshandling = 'Legg til dager' | 'Endre dagtype' | 'Legg til graderte ytelser' | 'Vurder oppholdskrav';
 
 interface UtbetalingHeaderProps {
@@ -47,7 +45,7 @@ export function UtbetalingHeader({
                 <Inntektsforholdnavn
                     inntektsforholdReferanse={inntektsforholdReferanse}
                     weight="semibold"
-                    className={styles.mediumFontSize}
+                    size="medium"
                 />
                 {periodeErForkastet ? (
                     <HelpText>Kan ikke revurdere perioden på grunn av manglende datagrunnlag</HelpText>
