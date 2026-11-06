@@ -16,7 +16,7 @@ type JaNei = (typeof JaNei)[keyof typeof JaNei];
 
 // Foreløpige tekster. Byttes når skissene for § 8-9 er klare (navikt/sas-issues#98).
 export const unntakAndreLeddLabels: Record<ApiUnntakAndreLedd, string> = {
-    [ApiUnntakAndreLedd.MEDLEM_ETTER_2_5_2_6_2_8]: 'Medlem etter §§ 2-5, 2-6 eller 2-8',
+    [ApiUnntakAndreLedd.MEDLEM_ETTER_2_5_2_6_2_8]: 'Medlem etter § 2-5, 2-6 eller 2-8',
     [ApiUnntakAndreLedd.INNLAGT_I_HELSEINSTITUSJON]: 'Innlagt i helseinstitusjon',
     [ApiUnntakAndreLedd.INGEN]: 'Nei',
 };
