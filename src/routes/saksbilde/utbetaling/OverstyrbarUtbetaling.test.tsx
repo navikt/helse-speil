@@ -275,7 +275,7 @@ describe('OverstyrbarUtbetaling', () => {
     test('lukker endring av dager når oppholdskravet er vurdert', async () => {
         renderOverstyring(dager);
 
-        await userEvent.click(screen.getByText('Revurder dager'));
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
         await userEvent.click(screen.getAllByRole('checkbox')[1]!);
         await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
         const dialog = within(screen.getByRole('dialog', { name: 'Vurder oppholdskrav' }));
@@ -297,7 +297,7 @@ describe('OverstyrbarUtbetaling', () => {
 
         expect(screen.queryByRole('dialog', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
         expect(screen.queryByRole('button', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
-        expect(screen.getByText('Revurder dager')).toBeVisible();
+        expect(screen.getByRole('button', { name: 'Endre dagtype' })).toBeVisible();
     });
 });
 
