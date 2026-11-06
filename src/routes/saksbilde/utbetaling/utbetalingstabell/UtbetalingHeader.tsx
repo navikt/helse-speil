@@ -36,10 +36,8 @@ export function UtbetalingHeader({
             background="neutral-soft"
             borderWidth="0 0 1 0"
             borderColor="neutral-subtle"
-            borderRadius="4 4 0 0"
             paddingInline="space-20"
             paddingBlock="space-12"
-            marginBlock="space-12 space-0"
         >
             <VStack gap="space-4">
                 <Inntektsforholdnavn
