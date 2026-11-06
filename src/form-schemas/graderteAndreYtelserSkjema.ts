@@ -1,9 +1,15 @@
 import { z } from 'zod/v4';
 
 import { sperrDagerMedOppholdskrav } from '@form-schemas/dagEndringSkjema';
-import { Utbetalingstabelldag, utbetalingstabelldagtypeValues } from '@typer/utbetalingstabell';
+import {
+    Utbetalingstabelldag,
+    Utbetalingstabelldagtype,
+    utbetalingstabelldagtypeValues,
+} from '@typer/utbetalingstabell';
 
 type Prosentfelt = 'sykepengerGrad' | 'gradAndreYtelser';
+
+const sykedagtyper: Utbetalingstabelldagtype[] = ['Syk', 'SykNav'];
 
 type FordelingRefinementCtx = z.RefinementCtx<{ ytelse: string }>;
 
@@ -14,6 +20,7 @@ export function lagGraderteAndreYtelserSchema(markerteDager: Utbetalingstabellda
             sykepengerGrad: z.number().nullable(),
             gradAndreYtelser: z.number().nullable(),
         })
+        .superRefine((_, ctx) => validerKlynge(markerteDager, ctx), { when: () => true })
         .superRefine((verdier, ctx) => {
             validerFordeling(verdier, markerteDager, ctx);
             sperrDagerMedOppholdskrav(markerteDager, ctx, 'ytelse');
@@ -22,26 +29,40 @@ export function lagGraderteAndreYtelserSchema(markerteDager: Utbetalingstabellda
 
 export type GraderteAndreYtelserFormFields = z.infer<ReturnType<typeof lagGraderteAndreYtelserSchema>>;
 
+// Kjøres selv om ytelse mangler, slik at saksbehandler ser med en gang at dagene ikke kan fordeles sammen
+function validerKlynge(markerteDager: Utbetalingstabelldag[], ctx: z.RefinementCtx) {
+    if (markerteDager.some((dag) => !sykedagtyper.includes(dag.dag.speilDagtype))) {
+        ctx.addIssue({
+            code: 'custom',
+            message: 'Andre ytelser kan bare fordeles på sykedager. Fjern de andre dagene fra utvalget.',
+            path: ['sykepengerGrad'],
+            continue: false,
+        });
+        return;
+    }
+
+    const sykdomsgrader = [...new Set(markerteDager.map((dag) => dag.grad))];
+    if (sykdomsgrader.length > 1) {
+        const grader = new Intl.ListFormat('nb', { type: 'conjunction' }).format(
+            sykdomsgrader.map((grad) => `${grad ?? 0} %`),
+        );
+        ctx.addIssue({
+            code: 'custom',
+            message: `Andre ytelser kan bare fordeles på dager med samme sykdomsgrad. De valgte dagene har ${grader}.`,
+            path: ['sykepengerGrad'],
+            continue: false,
+        });
+    }
+}
+
 function validerFordeling(
     prosenter: Record<Prosentfelt, number | null>,
     markerteDager: Utbetalingstabelldag[],
     ctx: FordelingRefinementCtx,
 ) {
-    if (markerteDager.some((dag) => !dag.grad)) {
-        ctx.addIssue({
-            code: 'custom',
-            message: 'Andre ytelser kan bare fordeles på dager med sykdomsgrad',
-            input: prosenter.sykepengerGrad,
-            path: ['sykepengerGrad'],
-        });
-        return;
-    }
+    const sykdomsgradFørFordeling = markerteDager[0]?.grad ?? 0;
 
-    const sykdomsgraderFørFordeling = markerteDager.map((dag) => dag.grad ?? 0);
-    const lavesteSykdomsgradFørFordeling = Math.min(100, ...sykdomsgraderFørFordeling);
-    const høyesteSykdomsgradFørFordeling = Math.max(0, ...sykdomsgraderFørFordeling);
-
-    validerProsent('sykepengerGrad', prosenter.sykepengerGrad, lavesteSykdomsgradFørFordeling, ctx);
+    validerProsent('sykepengerGrad', prosenter.sykepengerGrad, sykdomsgradFørFordeling, ctx);
     validerProsent('gradAndreYtelser', prosenter.gradAndreYtelser, 99, ctx);
 
     const { sykepengerGrad, gradAndreYtelser } = prosenter;
@@ -55,11 +76,11 @@ function validerFordeling(
             input: samletGrad,
             path: ['sykepengerGrad'],
         });
-    } else if (samletGrad < høyesteSykdomsgradFørFordeling) {
+    } else if (samletGrad < sykdomsgradFørFordeling) {
         const feltnavn = prosentfeltnavn(ctx.value.ytelse);
         ctx.addIssue({
             code: 'custom',
-            message: `Arbeidsgraden kan ikke øke. ${feltnavn.sykepengerGrad} og ${feltnavn.gradAndreYtelser.toLocaleLowerCase()} må til sammen være minst ${høyesteSykdomsgradFørFordeling} %.`,
+            message: `Arbeidsgraden kan ikke øke. ${feltnavn.sykepengerGrad} og ${feltnavn.gradAndreYtelser.toLocaleLowerCase()} må til sammen være minst ${sykdomsgradFørFordeling} %.`,
             input: samletGrad,
             path: ['sykepengerGrad'],
         });

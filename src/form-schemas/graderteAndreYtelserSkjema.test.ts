@@ -1,6 +1,11 @@
 import { lagGraderteAndreYtelserSchema } from '@form-schemas/graderteAndreYtelserSkjema';
 import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
-import { Sykedag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import {
+    Feriedag,
+    Navhelgedag,
+    Sykedag,
+    SykedagNav,
+} from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtures';
 
 describe('lagGraderteAndreYtelserSchema', () => {
@@ -51,22 +56,57 @@ describe('lagGraderteAndreYtelserSchema', () => {
                 'Grad for sykepenger må være mellom 1 og 70 %',
             );
         });
-
-        it('bruker den laveste sykdomsgraden før fordeling av de markerte dagene', () => {
-            const markerteDager = [enDagMedGrad(80, '2020-01-01'), enDagMedGrad(60, '2020-01-02')];
-
-            expect(validerFordeling({ sykepengerGrad: 61, gradAndreYtelser: 39 }, markerteDager)).toEqual([
-                'Grad for sykepenger må være mellom 1 og 60 %',
-            ]);
-        });
     });
 
-    describe('dager uten sykdomsgrad', () => {
-        it.each([null, 0])('avviser en dag med grad %s, for eksempel en feriedag', (grad) => {
-            const markerteDager = [enDagMedGrad(70, '2020-01-01'), enDagMedGrad(grad, '2020-01-02')];
+    describe('klyngen', () => {
+        it('godtar sykedager og sykedager NAV med samme sykdomsgrad', () => {
+            const markerteDager = [
+                lagDag({ dato: '2020-01-01', dag: Sykedag, grad: 70 }),
+                lagDag({ dato: '2020-01-02', dag: SykedagNav, grad: 70 }),
+            ];
+
+            expect(validerFordeling({}, markerteDager)).toEqual([]);
+        });
+
+        it.each([Feriedag, Navhelgedag])('avviser en klynge med $speilDagtype', (dag) => {
+            const markerteDager = [enDagMedGrad(70, '2020-01-01'), lagDag({ dato: '2020-01-02', dag, grad: 70 })];
 
             expect(validerFordeling({}, markerteDager)).toEqual([
-                'Andre ytelser kan bare fordeles på dager med sykdomsgrad',
+                'Andre ytelser kan bare fordeles på sykedager. Fjern de andre dagene fra utvalget.',
+            ]);
+        });
+
+        it('sammenligner en dag med fordeling med sykdomsgraden før fordelingen', () => {
+            const markerteDager = [
+                lagDag({
+                    dato: '2020-01-01',
+                    grad: 100,
+                    gradertAnnenYtelse: { sykdomsgradFørFordeling: 100, sykdomsgrad: 60, andreYtelseGrad: 40 },
+                }),
+                enDagMedGrad(100, '2020-01-02'),
+            ];
+
+            expect(validerFordeling({ sykepengerGrad: 50, gradAndreYtelser: 50 }, markerteDager)).toEqual([]);
+        });
+
+        it('viser hvorfor dagene ikke kan fordeles før annen ytelse er valgt', () => {
+            const markerteDager = [enDagMedGrad(80, '2020-01-01'), enDagMedGrad(60, '2020-01-02')];
+
+            expect(validerFordeling({ ytelse: '' }, markerteDager)).toEqual([
+                'Annen ytelse er påkrevd',
+                'Andre ytelser kan bare fordeles på dager med samme sykdomsgrad. De valgte dagene har 80 % og 60 %.',
+            ]);
+        });
+
+        it('avviser en klynge med ulik sykdomsgrad', () => {
+            const markerteDager = [
+                enDagMedGrad(80, '2020-01-01'),
+                enDagMedGrad(60, '2020-01-02'),
+                enDagMedGrad(80, '2020-01-03'),
+            ];
+
+            expect(validerFordeling({}, markerteDager)).toEqual([
+                'Andre ytelser kan bare fordeles på dager med samme sykdomsgrad. De valgte dagene har 80 % og 60 %.',
             ]);
         });
     });
@@ -93,14 +133,6 @@ describe('lagGraderteAndreYtelserSchema', () => {
 
         it('avviser at arbeidsgraden øker', () => {
             expect(validerFordeling({ sykepengerGrad: 30, gradAndreYtelser: 39 })).toEqual([økerArbeidsgraden]);
-        });
-
-        it('bruker den høyeste sykdomsgraden før fordeling av de markerte dagene', () => {
-            const markerteDager = [enDagMedGrad(70, '2020-01-01'), enDagMedGrad(40, '2020-01-02')];
-
-            expect(validerFordeling({ sykepengerGrad: 30, gradAndreYtelser: 39 }, markerteDager)).toEqual([
-                økerArbeidsgraden,
-            ]);
         });
 
         it('godtar at sykdomsgrad og ytelsesgrad til sammen er 100', () => {
