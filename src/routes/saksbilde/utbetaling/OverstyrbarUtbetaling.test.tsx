@@ -87,8 +87,7 @@ describe('OverstyrbarUtbetaling', () => {
             <OverstyrbarUtbetaling inntektsforhold={arbeidsgiver} person={person} dager={dager} periode={periode} />,
         );
 
-        await userEvent.click(screen.getByText('Revurder dager'));
-        expect(screen.getByText('+ Legg til dager i tabellen')).toBeVisible();
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
 
         const checkboxes = screen.getAllByRole('checkbox');
         await userEvent.click(checkboxes[1]!);
@@ -128,8 +127,51 @@ describe('OverstyrbarUtbetaling', () => {
             <OverstyrbarUtbetaling inntektsforhold={arbeidsgiver} person={person} dager={dager} periode={periode} />,
         );
 
-        await userEvent.click(screen.getByText('Revurder dager'));
-        expect(screen.queryByText('+ Legg til dager')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Legg til dager' })).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Endre dagtype' })).toBeVisible();
+    });
+
+    test('«Legg til dager» åpner skjemaet for å legge til dager', async () => {
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Legg til dager' }));
+
+        expect(screen.getByRole('heading', { name: 'Legg til dager' })).toBeVisible();
+        expect(screen.getByTestId('legg-til')).toBeVisible();
+        expect(screen.queryByTestId('endre')).not.toBeInTheDocument();
+        expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Endre dagtype' })).not.toBeInTheDocument();
+    });
+
+    test('«Endre dagtype» åpner skjemaet for å endre dagtype', async () => {
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+
+        expect(screen.getByRole('heading', { name: 'Endre dagtype' })).toBeVisible();
+        expect(screen.getByTestId('dagtypevelger')).toBeVisible();
+        expect(screen.queryByTestId('legg-til')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Legg til dager' })).not.toBeInTheDocument();
+    });
+
+    test('«Avbryt» lukker skjemaet og forkaster endringene som ikke er lagret', async () => {
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
+        await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), 'Ferie');
+        await userEvent.click(screen.getByTestId('endre'));
+        expect(await screen.findByTestId('oppdater')).toBeEnabled();
+
+        await userEvent.click(screen.getAllByRole('button', { name: 'Avbryt' })[0]!);
+
+        expect(screen.queryByRole('heading', { name: 'Endre dagtype' })).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Legg til dager' })).toBeVisible();
+
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+
+        expect(screen.getByTestId('oppdater')).toBeDisabled();
     });
 
     test('viser fordelingen av graderte andre ytelser for arbeidsgiver', () => {
@@ -170,7 +212,7 @@ describe('OverstyrbarUtbetaling', () => {
     test('vurderer oppholdskravet for de markerte dagene', async () => {
         renderOverstyring(dager);
 
-        await userEvent.click(screen.getByText('Revurder dager'));
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
         const checkboxes = screen.getAllByRole('checkbox');
         await userEvent.click(checkboxes[1]!);
         await userEvent.click(checkboxes[2]!);
@@ -191,7 +233,7 @@ describe('OverstyrbarUtbetaling', () => {
             />,
         );
 
-        await userEvent.click(screen.getByText('Endre dager'));
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
         await userEvent.click(screen.getAllByRole('checkbox')[1]!);
 
         expect(screen.getByRole('button', { name: 'Vurder oppholdskrav' })).toBeEnabled();
@@ -200,7 +242,7 @@ describe('OverstyrbarUtbetaling', () => {
     test('sperrer vurdering av oppholdskravet når endringer av dager ikke er sendt', async () => {
         renderOverstyring(dager);
 
-        await userEvent.click(screen.getByText('Revurder dager'));
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
         await userEvent.click(screen.getAllByRole('checkbox')[1]!);
         await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), 'Ferie');
         await userEvent.click(screen.getByTestId('endre'));
@@ -218,7 +260,7 @@ describe('OverstyrbarUtbetaling', () => {
             ]),
         );
 
-        await userEvent.click(screen.getByText('Revurder dager'));
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
         await userEvent.click(screen.getAllByRole('checkbox')[1]!);
         await userEvent.click(screen.getByTestId('endre'));
 

@@ -38,6 +38,7 @@ interface UtbetalingstabellProps {
     lokaleOverstyringer?: Map<string, Utbetalingstabelldag>;
     markerteDager?: Map<string, Utbetalingstabelldag>;
     overstyrer?: boolean;
+    harRadmarkering?: boolean;
     slettSisteNyeDag?: () => void;
     person: ApiSaksbildePerson;
     erSelvstendigNæring: boolean;
@@ -51,6 +52,7 @@ export const Utbetalingstabell = ({
     lokaleOverstyringer,
     markerteDager,
     overstyrer = false,
+    harRadmarkering = false,
     slettSisteNyeDag,
     person,
     erSelvstendigNæring,
@@ -69,7 +71,7 @@ export const Utbetalingstabell = ({
     const alderVedSkjæringstidspunkt = useAlderVedSkjæringstidspunkt(person, apiPerson?.fødselsdato);
 
     return (
-        <section className={cn(styles.container, overstyrer && styles.overstyrer)}>
+        <section className={cn(styles.container, harRadmarkering && styles.radmarkering)}>
             <div className={styles.tableContainer}>
                 <Table aria-label={`Utbetalinger for sykmeldingsperiode fra ${formattedFom} til ${formattedTom}`}>
                     <Table.Header>

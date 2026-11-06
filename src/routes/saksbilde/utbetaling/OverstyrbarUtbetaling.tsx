@@ -17,7 +17,8 @@ import {
 import { kanStrekkes } from '@saksbilde/historikk/mapping';
 import { OverstyringToolBar } from '@saksbilde/utbetaling/OverstyringToolBar';
 import { VurderOppholdskrav } from '@saksbilde/utbetaling/VurderOppholdskrav';
-import { UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
+import { LeggTilDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTilDagerForm';
+import { Endringshandling, UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndreDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerForm';
 import { tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
 import type { Dagendring } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/types';
@@ -199,7 +200,8 @@ export function OverstyrbarUtbetaling({
     const { personPseudoId } = useParams<{ personPseudoId?: string }>();
     const aktuellPeriode = useRef(periode);
 
-    const [overstyrer, setOverstyrer] = useState(false);
+    const [endringshandling, setEndringshandling] = useState<Endringshandling | null>(null);
+    const overstyrer = endringshandling !== null;
 
     const { postOverstyring, error, done } = useOverstyrDager();
     const graderteAndreYtelser = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold);
@@ -208,7 +210,7 @@ export function OverstyrbarUtbetaling({
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 
     if (aktuellPeriode.current.id !== periode.id) {
-        setOverstyrer(false);
+        setEndringshandling(null);
         aktuellPeriode.current = periode;
     }
 
@@ -233,14 +235,14 @@ export function OverstyrbarUtbetaling({
             values.begrunnelse,
             periode,
             inntektsforhold,
-            () => setOverstyrer(!overstyrer),
+            () => setEndringshandling(null),
         );
     };
 
-    const toggleOverstyring = () => {
+    const avbryt = () => {
         dispatch({ type: DagerActionType.FJERN_ALLE_DAGER });
         form.reset();
-        setOverstyrer(!overstyrer);
+        setEndringshandling(null);
     };
 
     const toggleChecked = (dag: Utbetalingstabelldag) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -283,13 +285,12 @@ export function OverstyrbarUtbetaling({
     const periodeFom = Array.from(alleDager.values())[0];
     if (periodeFom == undefined) return <></>;
 
-    const erRevurdering = isBeregnetPeriode(periode) && periode.utbetaling.status === ApiUtbetalingstatus.UTBETALT;
     return (
         <VStack
             as="section"
             gap="space-16"
             className={cn(
-                'relative h-full px-6 pt-8 pb-16',
+                'relative h-full pt-4 pb-16',
                 overstyrer && 'h-max overflow-y-hidden bg-ax-bg-info-soft pr-8 pl-0',
             )}
             data-testid="utbetaling"
@@ -299,9 +300,9 @@ export function OverstyrbarUtbetaling({
                     periodeErForkastet={
                         isBeregnetPeriode(periode) && periode.utbetaling.status === ApiUtbetalingstatus.FORKASTET
                     }
-                    toggleOverstyring={toggleOverstyring}
+                    velgEndringshandling={setEndringshandling}
+                    kanLeggeTilDager={kanStrekkes(periode, inntektsforhold)}
                     inntektsforholdReferanse={tilReferanse(inntektsforhold)}
-                    erRevurdering={erRevurdering}
                 />
             )}
             <VStack
@@ -309,14 +310,15 @@ export function OverstyrbarUtbetaling({
                 className={cn(overstyrer && '-mt-4 pt-4 inset-shadow-[3px_0px] inset-shadow-ax-border-accent-strong')}
             >
                 {overstyrer && (
-                    <OverstyringToolBar
-                        toggleOverstyring={toggleOverstyring}
-                        onSubmitPølsestrekk={onSubmitPølsestrekk}
-                        kanStrekkes={kanStrekkes(periode, inntektsforhold)}
-                        periodeFom={periodeFom.dato}
-                        erRevurdering={erRevurdering}
-                        erSelvstendig={isSelvstendigNaering(inntektsforhold)}
-                    />
+                    <OverstyringToolBar tittel={endringshandling} avbryt={avbryt}>
+                        {endringshandling === 'Legg til dager' && (
+                            <LeggTilDagerForm
+                                onSubmitPølsestrekk={onSubmitPølsestrekk}
+                                periodeFom={periodeFom.dato}
+                                erSelvstendig={isSelvstendigNaering(inntektsforhold)}
+                            />
+                        )}
+                    </OverstyringToolBar>
                 )}
                 <VStack gap="space-32" className="relative mb-4 h-full">
                     <Utbetalingstabell
@@ -326,12 +328,13 @@ export function OverstyrbarUtbetaling({
                         lokaleOverstyringer={alleOverstyrteDager}
                         markerteDager={markerteDager}
                         overstyrer={overstyrer}
+                        harRadmarkering={endringshandling === 'Endre dagtype'}
                         slettSisteNyeDag={slettSisteNyeDag}
                         person={person}
                         erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
                         graderteAndreYtelser={graderteAndreYtelser}
                     />
-                    {overstyrer && (
+                    {endringshandling === 'Endre dagtype' && (
                         <>
                             <VStack className="absolute top-17 left-4">
                                 <MarkerAlleDagerCheckbox
@@ -362,16 +365,18 @@ export function OverstyrbarUtbetaling({
                                     onLagret={toggleOverstyring}
                                 />
                             )}
-                            <FormProvider {...form}>
-                                <form onSubmit={form.handleSubmit(onSubmitOverstyring)} autoComplete="off">
-                                    <OverstyringForm
-                                        overstyrteDager={alleOverstyrteDager}
-                                        error={error}
-                                        toggleOverstyring={toggleOverstyring}
-                                    />
-                                </form>
-                            </FormProvider>
                         </>
+                    )}
+                    {overstyrer && (
+                        <FormProvider {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmitOverstyring)} autoComplete="off">
+                                <OverstyringForm
+                                    overstyrteDager={alleOverstyrteDager}
+                                    error={error}
+                                    toggleOverstyring={avbryt}
+                                />
+                            </form>
+                        </FormProvider>
                     )}
                 </VStack>
             </VStack>

@@ -13,7 +13,7 @@ export const PeriodeViewSkeleton = (): ReactElement => (
                     <Heading size="small">Dagoversikt Arbeidsgivernavn Gmbh</Heading>
                 </Skeleton>
                 <Skeleton>
-                    <Button size="small">Endre dager</Button>
+                    <Button size="small">Endre dagtype</Button>
                 </Skeleton>
             </HStack>
             <Skeleton variant="rounded" height={400} />

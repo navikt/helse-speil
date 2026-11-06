@@ -1,64 +1,24 @@
-import { ReactElement, useState } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 import { XMarkIcon } from '@navikt/aksel-icons';
-import { Box, Button, HStack, Heading, VStack } from '@navikt/ds-react';
-
-import { LeggTilDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTilDagerForm';
-import { DateString } from '@typer/shared';
-import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { Box, Button, HStack, Heading } from '@navikt/ds-react';
 
 interface OverstyringToolBarProps {
-    toggleOverstyring: () => void;
-    onSubmitPølsestrekk: (dagerLagtTil: Map<string, Utbetalingstabelldag>) => void;
-    kanStrekkes: boolean;
-    periodeFom: DateString;
-    erRevurdering: boolean;
-    erSelvstendig: boolean;
+    tittel: string;
+    avbryt: () => void;
+    children?: ReactNode;
 }
 
-export function OverstyringToolBar({
-    toggleOverstyring,
-    onSubmitPølsestrekk,
-    kanStrekkes,
-    periodeFom,
-    erRevurdering,
-    erSelvstendig,
-}: OverstyringToolBarProps): ReactElement {
-    const [visLeggTilDagerForm, setVisLeggTilDagerForm] = useState(false);
-
+export function OverstyringToolBar({ tittel, avbryt, children }: OverstyringToolBarProps): ReactElement {
     return (
         <Box marginInline="space-24">
             <HStack paddingBlock="space-0 space-16" gap="space-8">
-                <Heading size="xsmall">{erRevurdering ? 'Revurder' : 'Endre'} dager</Heading>
-                <Button
-                    size="xsmall"
-                    variant="tertiary"
-                    icon={<XMarkIcon aria-hidden />}
-                    onClick={() => {
-                        toggleOverstyring();
-                        setVisLeggTilDagerForm(false);
-                    }}
-                >
+                <Heading size="xsmall">{tittel}</Heading>
+                <Button size="xsmall" variant="tertiary" icon={<XMarkIcon aria-hidden />} onClick={avbryt}>
                     Avbryt
                 </Button>
             </HStack>
-            {kanStrekkes && !visLeggTilDagerForm && (
-                <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(true)}>
-                    + Legg til dager i tabellen
-                </Button>
-            )}
-            {visLeggTilDagerForm && (
-                <VStack gap="space-16" align="start">
-                    <LeggTilDagerForm
-                        onSubmitPølsestrekk={onSubmitPølsestrekk}
-                        periodeFom={periodeFom}
-                        erSelvstendig={erSelvstendig}
-                    />
-                    <Button size="xsmall" variant="tertiary" onClick={() => setVisLeggTilDagerForm(false)}>
-                        Lukk legg til dager
-                    </Button>
-                </VStack>
-            )}
+            {children}
         </Box>
     );
 }

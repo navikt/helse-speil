@@ -1,10 +1,11 @@
 .container {
     display: flex;
     overflow-x: auto;
+    padding-left: var(--ax-space-20);
 }
 
-.container.overstyrer {
-    margin-left: 3rem;
+.container.radmarkering {
+    padding-left: var(--ax-space-56);
 }
 
 .tableContainer {
