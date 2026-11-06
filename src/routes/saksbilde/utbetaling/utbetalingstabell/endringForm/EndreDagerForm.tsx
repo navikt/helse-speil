@@ -5,7 +5,7 @@ import { BodyShort, ErrorMessage, HStack, VStack } from '@navikt/ds-react';
 
 import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DagtypeMedAndreYtelserSelect } from '@saksbilde/utbetaling/DagTypeSelect/DagtypeMedAndreYtelserSelect';
+import { DagtypeSelect } from '@saksbilde/utbetaling/DagTypeSelect/DagtypeSelect';
 import { GradField } from '@saksbilde/utbetaling/utbetalingstabell/GradField';
 import { kanVelgeGrad } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/kanVelgeGrad';
 
@@ -19,7 +19,6 @@ export function EndreDagerForm({ markerteDager, onSubmitEndring, erSelvstendig }
     });
 
     const watchDagtype = useWatch({ name: 'dagtype', control: form.control });
-    const gradererAnnenYtelse = useWatch({ name: 'gradererAnnenYtelse', control: form.control });
 
     return (
         <VStack gap="space-8" paddingInline="space-32" className="[&_label]:text-base [&_label]:font-normal">
@@ -33,15 +32,13 @@ export function EndreDagerForm({ markerteDager, onSubmitEndring, erSelvstendig }
                     autoComplete="off"
                 >
                     <HStack gap="space-16">
-                        <DagtypeMedAndreYtelserSelect
+                        <DagtypeSelect
                             name="dagtype"
                             erSelvstendig={erSelvstendig}
                             overstyringsdagtyper={overstyringsdagtyper(erSelvstendig)}
                             hideError
                         />
-                        {!gradererAnnenYtelse && (
-                            <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
-                        )}
+                        <GradField name="grad" kanIkkeVelgeDagtype={!kanVelgeGrad(watchDagtype)} hideError />
                         <VStack align="end" justify="end">
                             <ButtonKreverSkrivetilgang
                                 size="small"

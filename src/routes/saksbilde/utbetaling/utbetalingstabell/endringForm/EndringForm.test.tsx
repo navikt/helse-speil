@@ -23,10 +23,6 @@ import {
 import { EndreDagerForm } from './EndreDagerForm';
 import { alleTypeendringer } from './endringFormUtils';
 
-vi.mock('@utils/featureToggles', () => ({
-    useSkalSeGraderteAndreYtelser: () => false,
-}));
-
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
 }));

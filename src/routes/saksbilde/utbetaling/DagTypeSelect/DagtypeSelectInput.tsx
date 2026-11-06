@@ -15,8 +15,6 @@ type SelectFieldProps = Pick<
 interface DagtypeSelectInputProps extends Omit<DagtypeSelectProps, 'name'> {
     error?: ReactNode;
     field: SelectFieldProps;
-    children?: ReactNode;
-    style?: ComponentProps<typeof Select>['style'];
 }
 
 export function DagtypeSelectInput({
@@ -26,13 +24,10 @@ export function DagtypeSelectInput({
     hideError = false,
     error,
     field,
-    children,
-    style,
 }: DagtypeSelectInputProps): ReactElement {
     return (
         <Select
             size="small"
-            style={style}
             label={<DagtypevelgerLabel erSelvstendig={erSelvstendig} />}
             error={hideError ? error != undefined : error}
             data-testid="dagtypevelger"
@@ -50,7 +45,6 @@ export function DagtypeSelectInput({
                     {dag.visningstekst} 100 %
                 </option>
             ))}
-            {children}
         </Select>
     );
 }

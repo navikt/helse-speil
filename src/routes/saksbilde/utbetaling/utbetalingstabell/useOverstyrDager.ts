@@ -27,8 +27,8 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { generateId } from '@utils/generateId';
 
 import { erEndretITidslinjen } from './erReellEndring';
-import { somGraderteAndreYtelserFeilmelding } from './graderteAndreYtelserFeilmelding';
 import { tilGraderteAndreYtelserRequest } from './graderteAndreYtelserRequest';
+import { somGraderteAndreYtelserFeilmelding } from './graderteAndreYtelserUtils';
 
 type UsePostOverstyringResult = {
     postOverstyring: (

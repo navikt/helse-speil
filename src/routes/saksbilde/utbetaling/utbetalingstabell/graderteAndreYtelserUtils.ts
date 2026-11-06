@@ -1,4 +1,21 @@
+import type { GraderteAndreYtelserFormFields } from '@form-schemas/graderteAndreYtelserSkjema';
 import { PostGraderteAndreYtelserMutationError } from '@io/rest/generated/andre-ytelser/graderte-andre-ytelser/graderte-andre-ytelser';
+import { typeendringerAndreYtelser } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
+import type { Dagendring, Fordeling } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/types';
+
+export function tilGraderteAndreYtelserEndring(values: GraderteAndreYtelserFormFields): Dagendring {
+    const gradertAnnenYtelse: Fordeling = {
+        sykdomsgrad: values.sykepengerGrad ?? 0,
+        andreYtelseGrad: values.gradAndreYtelser ?? 0,
+    };
+    return {
+        grad: gradertAnnenYtelse.sykdomsgrad + gradertAnnenYtelse.andreYtelseGrad,
+        dag: typeendringerAndreYtelser.find((dag) => dag.speilDagtype === values.ytelse)!,
+        erAvvist: false,
+        erForeldet: false,
+        gradertAnnenYtelse,
+    };
+}
 
 export function somGraderteAndreYtelserFeilmelding(error: PostGraderteAndreYtelserMutationError): string | undefined {
     // sp-andre-ytelser svarer 403 uten feilkode når saksbehandler mangler skrivetilgang til personen

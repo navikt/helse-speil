@@ -7,6 +7,7 @@ import { tilDagendring, tilEndringForDag } from '@saksbilde/utbetaling/utbetalin
 import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtures';
 
 import { tilGraderteAndreYtelserRequest } from './graderteAndreYtelserRequest';
+import { tilGraderteAndreYtelserEndring } from './graderteAndreYtelserUtils';
 import { Feriedag, Foreldrepengerdag, Pleiepengerdag, Sykedag } from './utbetalingstabelldager';
 
 const selvstendig = { behandlinger: [], overstyringer: [] } as ApiSelvstendigNaering;
@@ -177,33 +178,18 @@ describe('tilGraderteAndreYtelserRequest', () => {
 });
 
 describe('tilDagendring', () => {
-    it('tar vare på fordelingen for gradert annen ytelse', () => {
-        const endring = tilDagendring({
-            dagtype: 'Foreldrepenger',
-            grad: null,
-            sykepengerGrad: 30,
-            gradAndreYtelser: 40,
-            gradererAnnenYtelse: true,
-        });
-
-        expect(endring).toMatchObject({ grad: 70 });
-        expect(endring.gradertAnnenYtelse).toEqual({ sykdomsgrad: 30, andreYtelseGrad: 40 });
-    });
-
-    it('fjerner fordelingen når dagen ikke er gradert annen ytelse', () => {
-        const endring = tilDagendring({ dagtype: 'Syk', grad: 100, gradererAnnenYtelse: false });
+    it('fjerner fordelingen når dagtypen endres', () => {
+        const endring = tilDagendring({ dagtype: 'Syk', grad: 100 });
 
         expect(endring.gradertAnnenYtelse).toBeNull();
     });
 });
 
 describe('tilEndringForDag', () => {
-    const endringMedFordeling = tilDagendring({
-        dagtype: 'Foreldrepenger',
-        grad: null,
+    const endringMedFordeling = tilGraderteAndreYtelserEndring({
+        ytelse: 'Foreldrepenger',
         sykepengerGrad: 30,
         gradAndreYtelser: 20,
-        gradererAnnenYtelse: true,
     });
 
     it('bruker sykdomsgraden dagen har i Spleis som sykdomsgrad før fordeling', () => {
@@ -233,7 +219,7 @@ describe('tilEndringForDag', () => {
     });
 
     it('lar endringer uten fordeling være som de er', () => {
-        const endring = tilDagendring({ dagtype: 'Syk', grad: 100, gradererAnnenYtelse: false });
+        const endring = tilDagendring({ dagtype: 'Syk', grad: 100 });
 
         expect(tilEndringForDag(endring, lagDag({ dato: '2026-01-01', grad: 60 }))).toEqual(endring);
     });

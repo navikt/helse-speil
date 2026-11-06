@@ -174,6 +174,61 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByTestId('oppdater')).toBeDisabled();
     });
 
+    test('viser «Legg til graderte ytelser» bare når togglen er på', () => {
+        const { rerender } = renderOverstyring(dager);
+        expect(screen.queryByRole('button', { name: 'Legg til graderte ytelser' })).not.toBeInTheDocument();
+
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        rerender(lagOverstyring(dager));
+
+        expect(screen.getByRole('button', { name: 'Legg til graderte ytelser' })).toBeVisible();
+    });
+
+    test('«Legg til graderte ytelser» åpner skjemaet for å fordele graden', async () => {
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Legg til graderte ytelser' }));
+
+        expect(screen.getByRole('heading', { name: 'Legg til graderte ytelser' })).toBeVisible();
+        expect(screen.getByRole('combobox', { name: 'Velg annen ytelse' })).toBeVisible();
+        expect(screen.getAllByRole('checkbox').length).toBeGreaterThan(0);
+        expect(screen.queryByTestId('dagtypevelger')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
+    });
+
+    test('lagrer fordelingen av graden mellom sykepenger og en annen ytelse', async () => {
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        renderOverstyring(new Map([['2022-01-03', getUtbetalingstabellDag({ dato: '2022-01-03', grad: 100 })]]));
+
+        await userEvent.click(screen.getByRole('button', { name: 'Legg til graderte ytelser' }));
+        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
+        await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Velg annen ytelse' }), 'Foreldrepenger');
+        await userEvent.type(screen.getByRole('textbox', { name: 'Sykepenger' }), '60');
+        await userEvent.type(screen.getByRole('textbox', { name: 'Foreldrepenger' }), '40');
+        await userEvent.click(screen.getByTestId('endre'));
+        await userEvent.type(await screen.findByTestId('overstyring-begrunnelse'), 'En begrunnelse');
+        await userEvent.click(screen.getByTestId('oppdater'));
+
+        const [overstyrteDager] = postOverstyringArguments;
+        expect(overstyrteDager).toHaveLength(1);
+        expect(overstyrteDager?.[0]?.dag.speilDagtype).toEqual('Foreldrepenger');
+        expect(overstyrteDager?.[0]?.gradertAnnenYtelse).toEqual({
+            sykdomsgrad: 60,
+            andreYtelseGrad: 40,
+            sykdomsgradFørFordeling: 100,
+        });
+    });
+
+    test('«Endre dagtype» tilbyr ikke gradert annen ytelse', async () => {
+        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+
+        expect(screen.queryByRole('option', { name: 'Gradert annen ytelse' })).not.toBeInTheDocument();
+    });
+
     test('viser fordelingen av graderte andre ytelser for arbeidsgiver', () => {
         (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
         const arbeidsgiver = enArbeidsgiver();
@@ -301,14 +356,18 @@ describe('OverstyrbarUtbetaling', () => {
     });
 });
 
-function renderOverstyring(dager: Map<string, Utbetalingstabelldag>) {
+function lagOverstyring(dager: Map<string, Utbetalingstabelldag>) {
     const periode = enBeregnetPeriode({ fom: '2022-01-01', tom: '2022-01-31' }).medSkjæringstidspunkt('2022-01-01');
-    return render(
+    return (
         <OverstyrbarUtbetaling
             inntektsforhold={enArbeidsgiver().medPerioder([periode])}
             person={enPerson()}
             dager={dager}
             periode={periode}
-        />,
+        />
     );
+}
+
+function renderOverstyring(dager: Map<string, Utbetalingstabelldag>) {
+    return render(lagOverstyring(dager));
 }

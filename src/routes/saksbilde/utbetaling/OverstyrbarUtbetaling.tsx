@@ -20,6 +20,7 @@ import { VurderOppholdskrav } from '@saksbilde/utbetaling/VurderOppholdskrav';
 import { LeggTilDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTilDagerForm';
 import { Endringshandling, UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndreDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerForm';
+import { GraderteAndreYtelserForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/GraderteAndreYtelserForm';
 import { tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
 import type { Dagendring } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/types';
 import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
@@ -202,6 +203,7 @@ export function OverstyrbarUtbetaling({
 
     const [endringshandling, setEndringshandling] = useState<Endringshandling | null>(null);
     const overstyrer = endringshandling !== null;
+    const markererDager = endringshandling === 'Endre dagtype' || endringshandling === 'Legg til graderte ytelser';
 
     const { postOverstyring, error, done } = useOverstyrDager();
     const graderteAndreYtelser = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold);
@@ -328,29 +330,31 @@ export function OverstyrbarUtbetaling({
                         lokaleOverstyringer={alleOverstyrteDager}
                         markerteDager={markerteDager}
                         overstyrer={overstyrer}
-                        harRadmarkering={endringshandling === 'Endre dagtype'}
+                        harRadmarkering={markererDager}
                         slettSisteNyeDag={slettSisteNyeDag}
                         person={person}
                         erSelvstendigNæring={isSelvstendigNaering(inntektsforhold)}
                         graderteAndreYtelser={graderteAndreYtelser}
                     />
+                    {markererDager && (
+                        <VStack className="absolute top-17 left-4">
+                            <MarkerAlleDagerCheckbox
+                                alleDager={alleDager}
+                                markerteDager={markerteDager}
+                                setMarkerteDager={setMarkerteDager}
+                            />
+                            {Array.from(alleDager.values()).map((dag, i) => (
+                                <RadmarkeringCheckbox
+                                    key={i}
+                                    index={i}
+                                    onChange={toggleChecked(dag)}
+                                    checked={markerteDager.get(dag.dato) !== undefined}
+                                />
+                            ))}
+                        </VStack>
+                    )}
                     {endringshandling === 'Endre dagtype' && (
                         <>
-                            <VStack className="absolute top-17 left-4">
-                                <MarkerAlleDagerCheckbox
-                                    alleDager={alleDager}
-                                    markerteDager={markerteDager}
-                                    setMarkerteDager={setMarkerteDager}
-                                />
-                                {Array.from(alleDager.values()).map((dag, i) => (
-                                    <RadmarkeringCheckbox
-                                        key={i}
-                                        index={i}
-                                        onChange={toggleChecked(dag)}
-                                        checked={markerteDager.get(dag.dato) !== undefined}
-                                    />
-                                ))}
-                            </VStack>
                             <EndreDagerForm
                                 markerteDager={markerteDager}
                                 onSubmitEndring={onSubmitEndring}
@@ -366,6 +370,9 @@ export function OverstyrbarUtbetaling({
                                 />
                             )}
                         </>
+                    )}
+                    {endringshandling === 'Legg til graderte ytelser' && (
+                        <GraderteAndreYtelserForm markerteDager={markerteDager} onSubmitEndring={onSubmitEndring} />
                     )}
                     {overstyrer && (
                         <FormProvider {...form}>
