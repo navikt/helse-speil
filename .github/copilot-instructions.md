@@ -114,4 +114,6 @@ Prettier is configured with 4-space indentation, single quotes, 120 char print w
 
 ### React Compiler
 
-The React Compiler is enabled (`reactCompiler: true` in `next.config.ts`). This means manual `useMemo`/`useCallback` is generally unnecessary.
+The React Compiler is enabled (`reactCompiler: true` in `next.config.ts`). Do not add `useMemo`, `useCallback` or `React.memo` in new code: compute derived values directly in the render body.
+
+Vitest runs without the compiler. When a `useEffect` needs a value derived from a prop, compute it inside the effect and list the prop (not the derived value) as the dependency, so the effect does not run on every render in tests.

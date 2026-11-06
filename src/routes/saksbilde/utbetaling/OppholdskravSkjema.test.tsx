@@ -2,15 +2,23 @@ import { Mock } from 'vitest';
 
 import { axe } from '@/test/axe';
 import { usePostOppholdskravvurderingBehandler } from '@io/rest/generated/avslagsdager/vurderinger/vurderinger';
+import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import { visningenOppdateresToastKey } from '@state/oppdateringToasts';
+import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
+import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
-import { OppholdskravDialog } from './OppholdskravDialog';
+import { OppholdskravSkjema } from './OppholdskravSkjema';
 
 vi.mock('@io/rest/generated/avslagsdager/vurderinger/vurderinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@io/rest/generated/avslagsdager/vurderinger/vurderinger')>()),
     usePostOppholdskravvurderingBehandler: vi.fn(),
+}));
+
+vi.mock('next/navigation', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('next/navigation')>()),
+    useParams: () => ({ personPseudoId: 'en-person' }),
 }));
 
 vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
@@ -43,15 +51,65 @@ beforeEach(() => {
     mockMutation({});
 });
 
-describe('OppholdskravDialog', () => {
+describe('OppholdskravSkjema', () => {
     it('viser de valgte dagene', () => {
-        renderDialog();
+        renderSkjema();
 
         expect(screen.getByText('15.07.2024, 16.07.2024')).toBeVisible();
     });
 
+    it('følger dagene som markeres', async () => {
+        const { rerender } = renderSkjema([dag('2024-07-15')]);
+        await fyllUtOppfyltVurdering();
+
+        rerender(
+            <OppholdskravSkjema
+                behandlingId="en-behandling"
+                markerteDager={
+                    new Map([
+                        ['2024-07-15', dag('2024-07-15')],
+                        ['2024-07-17', dag('2024-07-17')],
+                    ])
+                }
+                onLukk={onLukk}
+                onLagret={onLagret}
+            />,
+        );
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(screen.getByText('15.07.2024, 17.07.2024')).toBeVisible();
+        expect(mutate).toHaveBeenCalledWith(
+            expect.objectContaining({ data: expect.objectContaining({ dager: ['2024-07-15', '2024-07-17'] }) }),
+        );
+    });
+
+    it('ber om å markere dager når ingen er markert', async () => {
+        renderSkjema([]);
+        await fyllUtOppfyltVurdering();
+
+        expect(screen.getByText('Marker dagene som skal vurderes.')).toBeVisible();
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(await screen.findByText('Velg minst én dag')).toBeVisible();
+        expect(mutate).not.toHaveBeenCalled();
+    });
+
+    it('lagrer ikke når en markert dag er avslått fordi melding til Nav kom for sent', async () => {
+        renderSkjema([dag('2024-07-15'), dag('2024-07-16', [ApiBegrunnelse.AVSLATT_MELDING_TIL_NAV_DAG])]);
+        await fyllUtOppfyltVurdering();
+
+        expect(
+            screen.getByText(
+                'En dag kan bare ha én avslagsårsak. 16.07.2024 er avslått fordi melding til Nav kom for sent. Endre dagen før du vurderer oppholdskravet.',
+            ),
+        ).toBeVisible();
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(mutate).not.toHaveBeenCalled();
+    });
+
     it('viser andre ledd bare når første ledd ikke er oppfylt', async () => {
-        renderDialog();
+        renderSkjema();
 
         expect(screen.queryByRole('radiogroup', { name: unntak })).not.toBeInTheDocument();
         await svar(oppholdIGodkjentOmråde, 'Nei');
@@ -67,7 +125,7 @@ describe('OppholdskravDialog', () => {
     });
 
     it('spør bare om opphold i Norge når personen ikke er EØS-borger', async () => {
-        renderDialog();
+        renderSkjema();
 
         await svar(eøsBorger, 'Nei');
 
@@ -76,7 +134,7 @@ describe('OppholdskravDialog', () => {
     });
 
     it('viser utfallet når alle aktuelle spørsmål er besvart', async () => {
-        renderDialog();
+        renderSkjema();
 
         await svar(eøsBorger, 'Ja');
         await svar(oppholdIGodkjentOmråde, 'Nei');
@@ -92,7 +150,7 @@ describe('OppholdskravDialog', () => {
     });
 
     it('viser feil og sender ingenting når svar mangler', async () => {
-        renderDialog();
+        renderSkjema();
 
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
@@ -102,7 +160,7 @@ describe('OppholdskravDialog', () => {
     });
 
     it('sender vurderingen med skjulte svar som null', async () => {
-        renderDialog();
+        renderSkjema();
 
         await svar(eøsBorger, 'Ja');
         await svar(oppholdIGodkjentOmråde, 'Nei');
@@ -133,7 +191,7 @@ describe('OppholdskravDialog', () => {
             isPending: false,
             error: null,
         }));
-        renderDialog();
+        renderSkjema();
 
         await fyllUtOppfyltVurdering();
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
@@ -143,7 +201,7 @@ describe('OppholdskravDialog', () => {
     });
 
     it('melder ikke fra om oppdatering når lagringen ikke er ferdig', async () => {
-        renderDialog();
+        renderSkjema();
 
         await fyllUtOppfyltVurdering();
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
@@ -154,7 +212,7 @@ describe('OppholdskravDialog', () => {
     });
 
     it('lukker uten å lagre ved avbryt', async () => {
-        renderDialog();
+        renderSkjema();
 
         await userEvent.click(screen.getByRole('button', { name: 'Avbryt' }));
 
@@ -165,7 +223,7 @@ describe('OppholdskravDialog', () => {
     it('viser feilmeldingen fra sp-avslagsdager', () => {
         mockMutation({ error: { status: 400, info: { title: 'Dager må oppgis' } } });
 
-        renderDialog();
+        renderSkjema();
 
         expect(screen.getByText('Dager må oppgis')).toBeVisible();
     });
@@ -173,31 +231,34 @@ describe('OppholdskravDialog', () => {
     it('viser egen feilmelding når saksbehandler mangler tilgang', () => {
         mockMutation({ error: { status: 403, info: { title: 'Mangler tilgang' } } });
 
-        renderDialog();
+        renderSkjema();
 
         expect(screen.getByText('Du har ikke tilgang til å vurdere oppholdskravet for denne personen.')).toBeVisible();
     });
 
     it('har ingen tilgjengelighetsfeil', async () => {
-        renderDialog();
+        const { container } = renderSkjema();
         await svar(oppholdIGodkjentOmråde, 'Nei');
         await svar(unntak, 'Nei');
 
-        const result = await axe(document.body);
+        const result = await axe(container);
         expect(result.violations).toEqual([]);
     });
 });
 
-function renderDialog() {
+function renderSkjema(markerteDager: Utbetalingstabelldag[] = [dag('2024-07-16'), dag('2024-07-15')]) {
     return render(
-        <OppholdskravDialog
-            personPseudoId="en-person"
+        <OppholdskravSkjema
             behandlingId="en-behandling"
-            dager={['2024-07-16', '2024-07-15']}
+            markerteDager={new Map(markerteDager.map((dag) => [dag.dato, dag]))}
             onLukk={onLukk}
             onLagret={onLagret}
         />,
     );
+}
+
+function dag(dato: string, begrunnelser: ApiBegrunnelse[] = []): Utbetalingstabelldag {
+    return getUtbetalingstabellDag({ dato, begrunnelser });
 }
 
 function mockMutation({ error = null }: { error?: unknown }) {
