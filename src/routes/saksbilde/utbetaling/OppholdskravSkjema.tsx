@@ -1,18 +1,8 @@
 import { useParams } from 'next/navigation';
-import { ReactElement, useEffect, useMemo } from 'react';
+import { ReactElement, useEffect } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import {
-    BodyShort,
-    Button,
-    ErrorMessage,
-    HStack,
-    InlineMessage,
-    Label,
-    Radio,
-    RadioGroup,
-    VStack,
-} from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack, InlineMessage, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 
 import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import {
@@ -63,7 +53,7 @@ export function OppholdskravSkjema({
     const queryClient = useQueryClient();
     const addToast = useAddToast();
     const [, setVisningenOppdateres] = useVisningenOppdateresState();
-    const dager = useMemo(() => Array.from(markerteDager.keys()).sort(), [markerteDager]);
+    const dager = somSorterteDatoer(markerteDager);
     const sperre = finnSperre(Array.from(markerteDager.values()));
 
     const form = useForm<OppholdskravSchema>({
@@ -74,8 +64,8 @@ export function OppholdskravSkjema({
     const aktuelle = aktuelleSpørsmål(svar);
 
     useEffect(() => {
-        form.setValue('dager', dager, { shouldValidate: form.formState.isSubmitted });
-    }, [dager, form]);
+        form.setValue('dager', somSorterteDatoer(markerteDager), { shouldValidate: form.formState.isSubmitted });
+    }, [markerteDager, form]);
 
     const { mutate, isPending, error } = usePostOppholdskravvurderingBehandler({
         mutation: {
@@ -103,17 +93,13 @@ export function OppholdskravSkjema({
                 marginInline="space-32"
                 paddingBlock="space-16"
                 gap="space-20"
-                className="border-t border-ax-border-neutral-subtle"
+                className="border-t border-ax-border-neutral-subtle [&_label]:text-ax-medium [&_legend]:text-ax-medium"
                 onSubmit={form.handleSubmit(onSubmit)}
                 autoComplete="off"
             >
                 <VStack gap="space-4">
-                    <Label size="small" as="p">
-                        Dager
-                    </Label>
-                    <BodyShort size="small">
-                        {dager.length > 0 ? somDagliste(dager) : 'Marker dagene som skal vurderes.'}
-                    </BodyShort>
+                    <BodyShort weight="semibold">Dager</BodyShort>
+                    <BodyShort>{dager.length > 0 ? somDagliste(dager) : 'Marker dagene som skal vurderes.'}</BodyShort>
                     {form.formState.errors.dager?.message && (
                         <ErrorMessage size="small">{form.formState.errors.dager.message}</ErrorMessage>
                     )}
@@ -206,4 +192,8 @@ function finnSperre(markerteDager: Utbetalingstabelldag[]): string | undefined {
     const avslåtteDager = dagerAvslåttForSenMeldingTilNav(markerteDager);
     if (avslåtteDager.length === 0) return undefined;
     return `En dag kan bare ha én avslagsårsak. ${somDagliste(avslåtteDager.map((dag) => dag.dato))} er avslått fordi melding til Nav kom for sent. Endre ${dagenEllerDagene(avslåtteDager.length)} før du vurderer oppholdskravet.`;
+}
+
+function somSorterteDatoer(markerteDager: Map<string, Utbetalingstabelldag>): string[] {
+    return Array.from(markerteDager.keys()).sort();
 }

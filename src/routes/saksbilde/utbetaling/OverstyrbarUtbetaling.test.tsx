@@ -264,17 +264,20 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByText('Foreldrepenger')).toBeVisible();
     });
 
-    test('vurderer oppholdskravet for de markerte dagene', async () => {
+    test('«Vurder oppholdskrav» åpner skjemaet for de markerte dagene', async () => {
         renderOverstyring(dager);
 
-        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+        await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
         const checkboxes = screen.getAllByRole('checkbox');
         await userEvent.click(checkboxes[1]!);
         await userEvent.click(checkboxes[2]!);
-        await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
 
-        expect(screen.getByRole('dialog', { name: 'Vurder oppholdskrav' })).toBeVisible();
+        expect(screen.getByRole('heading', { name: 'Vurder oppholdskrav' })).toBeVisible();
         expect(screen.getByText('01.01.2022, 02.01.2022')).toBeVisible();
+        expect(screen.getByRole('radiogroup', { name: 'Er personen EØS-borger?' })).toBeVisible();
+        expect(screen.queryByTestId('dagtypevelger')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('overstyring-begrunnelse')).not.toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Endre dagtype' })).not.toBeInTheDocument();
     });
 
     test('vurderer oppholdskravet også i perioder som ikke er beregnet', async () => {
@@ -288,21 +291,17 @@ describe('OverstyrbarUtbetaling', () => {
             />,
         );
 
-        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
-        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
+        await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
 
-        expect(screen.getByRole('button', { name: 'Vurder oppholdskrav' })).toBeEnabled();
+        expect(screen.getByRole('heading', { name: 'Vurder oppholdskrav' })).toBeVisible();
     });
 
-    test('sperrer vurdering av oppholdskravet når endringer av dager ikke er sendt', async () => {
+    test('«Endre dagtype» viser ikke skjemaet for oppholdskravet', async () => {
         renderOverstyring(dager);
 
         await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
-        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
-        await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), 'Ferie');
-        await userEvent.click(screen.getByTestId('endre'));
 
-        expect(screen.getByRole('button', { name: 'Vurder oppholdskrav' })).toBeDisabled();
+        expect(screen.queryByRole('radiogroup', { name: 'Er personen EØS-borger?' })).not.toBeInTheDocument();
     });
 
     test('endrer ikke dager som er avslått etter oppholdskravet', async () => {
@@ -327,32 +326,29 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByTestId('oppdater')).toBeDisabled();
     });
 
-    test('lukker endring av dager når oppholdskravet er vurdert', async () => {
+    test('lukker skjemaet når oppholdskravet er vurdert', async () => {
         renderOverstyring(dager);
 
-        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
-        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
         await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
-        const dialog = within(screen.getByRole('dialog', { name: 'Vurder oppholdskrav' }));
+        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
         await userEvent.click(
-            within(dialog.getByRole('radiogroup', { name: 'Er personen EØS-borger?' })).getByRole('radio', {
+            within(screen.getByRole('radiogroup', { name: 'Er personen EØS-borger?' })).getByRole('radio', {
                 name: 'Ja',
             }),
         );
         await userEvent.click(
             within(
-                dialog.getByRole('radiogroup', {
+                screen.getByRole('radiogroup', {
                     name: 'Oppholdt personen seg i Norge, et annet EØS-land eller et avtaleland?',
                 }),
             ).getByRole('radio', { name: 'Ja' }),
         );
-        await userEvent.type(dialog.getByRole('textbox', { name: /Begrunnelse/ }), 'Opphold i Norge');
-        await userEvent.click(dialog.getByRole('radio', { name: 'Saken er godt nok opplyst i Speil' }));
-        await userEvent.click(dialog.getByRole('button', { name: 'Lagre' }));
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Opphold i Norge');
+        await userEvent.click(screen.getByRole('radio', { name: 'Saken er godt nok opplyst i Speil' }));
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
-        expect(screen.queryByRole('dialog', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
-        expect(screen.queryByRole('button', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Endre dagtype' })).toBeVisible();
+        expect(screen.queryByRole('heading', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Vurder oppholdskrav' })).toBeVisible();
     });
 });
 
