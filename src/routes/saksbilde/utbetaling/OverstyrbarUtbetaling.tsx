@@ -359,6 +359,7 @@ export function OverstyrbarUtbetaling({
                                     behandlingId={periode.behandlingId}
                                     markerteDager={markerteDager}
                                     harUsendteEndringer={alleOverstyrteDager.size > 0}
+                                    onLagret={toggleOverstyring}
                                 />
                             )}
                             <FormProvider {...form}>

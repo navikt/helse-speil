@@ -17,6 +17,7 @@ interface VurderOppholdskravProps {
     behandlingId: string;
     markerteDager: Map<string, Utbetalingstabelldag>;
     harUsendteEndringer: boolean;
+    onLagret: () => void;
 }
 
 export function VurderOppholdskrav({
@@ -24,6 +25,7 @@ export function VurderOppholdskrav({
     behandlingId,
     markerteDager,
     harUsendteEndringer,
+    onLagret,
 }: VurderOppholdskravProps): ReactElement | null {
     const [visSkjema, setVisSkjema] = useState(false);
     const kanVurdereOppholdskrav = useKanVurdereOppholdskrav();
@@ -45,6 +47,10 @@ export function VurderOppholdskrav({
                     behandlingId={behandlingId}
                     dager={dager.map((dag) => dag.dato)}
                     onLukk={() => setVisSkjema(false)}
+                    onLagret={() => {
+                        setVisSkjema(false);
+                        onLagret();
+                    }}
                 />
             )}
         </VStack>

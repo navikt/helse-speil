@@ -2,6 +2,7 @@ import { Mock } from 'vitest';
 
 import { axe } from '@/test/axe';
 import { usePostOppholdskravvurderingBehandler } from '@io/rest/generated/avslagsdager/vurderinger/vurderinger';
+import { visningenOppdateresToastKey } from '@state/oppdateringToasts';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
@@ -17,8 +18,16 @@ vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
     useHarSkrivetilgang: () => true,
 }));
 
+const addToast = vi.hoisted(() => vi.fn());
+
+vi.mock('@state/toasts', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@state/toasts')>()),
+    useAddToast: () => addToast,
+}));
+
 const mutate = vi.fn();
 const onLukk = vi.fn();
+const onLagret = vi.fn();
 
 const eøsBorger = 'Er personen EØS-borger?';
 const oppholdIGodkjentOmråde = 'Oppholdt personen seg i Norge, et annet EØS-land eller et avtaleland?';
@@ -29,6 +38,8 @@ const godkjentOpphold = 'Har Nav godkjent oppholdet utenfor Norge i inntil fire 
 beforeEach(() => {
     mutate.mockClear();
     onLukk.mockClear();
+    onLagret.mockClear();
+    addToast.mockClear();
     mockMutation({});
 });
 
@@ -116,7 +127,7 @@ describe('OppholdskravDialog', () => {
         });
     });
 
-    it('lukker etter lagring', async () => {
+    it('melder fra at visningen oppdateres etter lagring', async () => {
         (usePostOppholdskravvurderingBehandler as Mock).mockImplementation((options) => ({
             mutate: (variables: unknown) => options?.mutation?.onSuccess?.({ vurderingId: 'id' }, variables),
             isPending: false,
@@ -124,12 +135,31 @@ describe('OppholdskravDialog', () => {
         }));
         renderDialog();
 
-        await svar(eøsBorger, 'Ja');
-        await svar(oppholdIGodkjentOmråde, 'Ja');
-        await fyllUtBegrunnelse();
+        await fyllUtOppfyltVurdering();
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
+        expect(addToast).toHaveBeenCalledWith(expect.objectContaining({ key: visningenOppdateresToastKey }));
+        expect(onLagret).toHaveBeenCalled();
+    });
+
+    it('melder ikke fra om oppdatering når lagringen ikke er ferdig', async () => {
+        renderDialog();
+
+        await fyllUtOppfyltVurdering();
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(mutate).toHaveBeenCalled();
+        expect(addToast).not.toHaveBeenCalled();
+        expect(onLagret).not.toHaveBeenCalled();
+    });
+
+    it('lukker uten å lagre ved avbryt', async () => {
+        renderDialog();
+
+        await userEvent.click(screen.getByRole('button', { name: 'Avbryt' }));
+
         expect(onLukk).toHaveBeenCalled();
+        expect(onLagret).not.toHaveBeenCalled();
     });
 
     it('viser feilmeldingen fra sp-avslagsdager', () => {
@@ -165,6 +195,7 @@ function renderDialog() {
             behandlingId="en-behandling"
             dager={['2024-07-16', '2024-07-15']}
             onLukk={onLukk}
+            onLagret={onLagret}
         />,
     );
 }
@@ -177,6 +208,12 @@ function svar(spørsmål: string, svar: string) {
     return userEvent.click(
         within(screen.getByRole('radiogroup', { name: spørsmål })).getByRole('radio', { name: svar }),
     );
+}
+
+async function fyllUtOppfyltVurdering() {
+    await svar(eøsBorger, 'Ja');
+    await svar(oppholdIGodkjentOmråde, 'Ja');
+    await fyllUtBegrunnelse();
 }
 
 async function fyllUtBegrunnelse() {

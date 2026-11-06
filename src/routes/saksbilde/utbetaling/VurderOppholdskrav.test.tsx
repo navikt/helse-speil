@@ -91,6 +91,7 @@ function renderKnapp({
             behandlingId="en-behandling"
             markerteDager={markerteDager}
             harUsendteEndringer={harUsendteEndringer}
+            onLagret={() => {}}
         />,
     );
 }

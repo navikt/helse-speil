@@ -34,6 +34,9 @@ import {
 import { getGetSaksbehandlerhandlingerForPersonQueryKey } from '@io/rest/generated/personer/personer';
 import { somDagliste } from '@saksbilde/utbetaling/utbetalingstabell/oppholdskravSperrer';
 import { BegrunnelseOgJournalpost } from '@saksbilde/vilkår/opptjening/BegrunnelseOgJournalpost';
+import { visningenOppdateresToast } from '@state/oppdateringToasts';
+import { useAddToast } from '@state/toasts';
+import { useVisningenOppdateresState } from '@state/visningenOppdateres';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface OppholdskravDialogProps {
@@ -41,6 +44,7 @@ interface OppholdskravDialogProps {
     behandlingId: string;
     dager: string[];
     onLukk: () => void;
+    onLagret: () => void;
 }
 
 // Foreløpig dialog for å teste flyten i dev. Byttes når skissene for § 8-9 er klare (navikt/sas-issues#98).
@@ -49,8 +53,11 @@ export function OppholdskravDialog({
     behandlingId,
     dager,
     onLukk,
+    onLagret,
 }: OppholdskravDialogProps): ReactElement {
     const queryClient = useQueryClient();
+    const addToast = useAddToast();
+    const [, setVisningenOppdateres] = useVisningenOppdateresState();
     const sorterteDager = [...dager].sort();
 
     const form = useForm<OppholdskravSchema>({
@@ -66,7 +73,10 @@ export function OppholdskravDialog({
                 void queryClient.invalidateQueries({
                     queryKey: getGetSaksbehandlerhandlingerForPersonQueryKey(personPseudoId),
                 });
-                onLukk();
+                // «Visningen er oppdatert» vises av useOverstyrDager når Spleis har revurdert
+                setVisningenOppdateres(true);
+                addToast(visningenOppdateresToast({}));
+                onLagret();
             },
         },
     });
