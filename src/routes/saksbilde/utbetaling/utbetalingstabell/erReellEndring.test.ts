@@ -80,5 +80,6 @@ function lagretDag(sykdomsgrad: number, andreYtelserGrader: Record<string, numbe
         sykdomsgrad,
         arbeidsgrad: 100 - sykdomsgrad - andreYtelser,
         sykdomsgradFørFordeling: 70,
+        begrunnelse: 'En begrunnelse',
     };
 }

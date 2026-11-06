@@ -117,7 +117,7 @@ describe('Utbetalingstabell', () => {
 
             const dialog = await screen.findByRole('dialog');
             expect(within(dialog).getByText('Pleiepenger 30 %, Foreldrepenger 10 %')).toBeVisible();
-            expect(within(dialog).getByText('Et notat')).toBeVisible();
+            expect(within(dialog).getByText('Begrunnelse for fordelingen')).toBeVisible();
         });
 
         it('beholder endringsloggen for overstyringer av tidslinjen på samme dag', async () => {
@@ -151,7 +151,7 @@ describe('Utbetalingstabell', () => {
             await userEvent.click(kilde!);
 
             expect(await screen.findByText('En begrunnelse for overstyringen')).toBeVisible();
-            expect(screen.queryByText('Et notat')).not.toBeInTheDocument();
+            expect(screen.queryByText('Begrunnelse for fordelingen')).not.toBeInTheDocument();
         });
 
         describe('når saksbehandler fordeler en dag på en gradert annen ytelse', () => {
@@ -226,7 +226,14 @@ function enGradertAnnenYtelseDag(
     dato: string,
     andreYtelserGrader: Record<string, number> = { PLEIEPENGER: 30, FORELDREPENGER: 10 },
 ): ApiGraderteAndreYtelserDag {
-    return { dato, andreYtelserGrader, sykdomsgrad: 50, arbeidsgrad: 10, sykdomsgradFørFordeling: 60 };
+    return {
+        dato,
+        andreYtelserGrader,
+        sykdomsgrad: 50,
+        arbeidsgrad: 10,
+        sykdomsgradFørFordeling: 60,
+        begrunnelse: 'Begrunnelse for fordelingen',
+    };
 }
 
 function enEvent(dager: ApiGraderteAndreYtelserEvent['dager']): ApiGraderteAndreYtelserEvent {
@@ -234,7 +241,6 @@ function enEvent(dager: ApiGraderteAndreYtelserEvent['dager']): ApiGraderteAndre
         versjon: 'en-versjon',
         tidspunkt: '2022-02-02T10:00:00',
         utfortAvSaksbehandlerIdent: 'A123456',
-        notatTilBeslutter: 'Et notat',
         dager,
     };
 }

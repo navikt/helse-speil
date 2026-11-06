@@ -26,7 +26,6 @@ describe('endringerForDato', () => {
             {
                 saksbehandlerIdent: 'B123456',
                 tidspunkt: 'v2-tidspunkt',
-                notatTilBeslutter: 'Notat v2',
                 dag: { dato: '2024-01-02' },
             },
         ]);
@@ -53,7 +52,6 @@ function enEvent(
         versjon,
         tidspunkt: `${versjon}-tidspunkt`,
         utfortAvSaksbehandlerIdent: ident,
-        notatTilBeslutter: `Notat ${versjon}`,
         dager,
     };
 }
@@ -65,5 +63,6 @@ function enDag(dato: string): ApiGraderteAndreYtelserEndretDag {
         sykdomsgrad: 50,
         arbeidsgrad: 10,
         sykdomsgradFørFordeling: 90,
+        begrunnelse: 'En begrunnelse',
     };
 }

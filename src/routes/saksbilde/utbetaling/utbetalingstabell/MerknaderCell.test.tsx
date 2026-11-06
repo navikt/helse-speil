@@ -107,6 +107,7 @@ describe('MerknaderCell', () => {
                         sykdomsgrad: 50,
                         arbeidsgrad: 20,
                         sykdomsgradFørFordeling: 80,
+                        begrunnelse: 'En begrunnelse',
                     }}
                 />
             </TestCellWrapper>,

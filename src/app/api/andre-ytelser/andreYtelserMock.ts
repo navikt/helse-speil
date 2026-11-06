@@ -9,7 +9,6 @@ import {
     ApiGraderteAndreYtelserEndretDag,
     ApiGraderteAndreYtelserEvent,
     ApiSaksbehandlerhandlingVisningResponse,
-    ApiVisningsfelt,
     ApiVisningsfelttype,
 } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { PersonMock } from '@spesialist-mock/storage/person';
@@ -22,6 +21,7 @@ export type GraderteAndreYtelserFeilkode =
     | 'SUM_ER_IKKE_100'
     | 'ARBEIDSGRAD_OKER'
     | 'YTELSER_MANGLER_TREKK'
+    | 'MANGLER_BEGRUNNELSE'
     | 'UTDATERT_TILSTAND';
 
 export const feiltitler: Record<GraderteAndreYtelserFeilkode, string> = {
@@ -30,6 +30,7 @@ export const feiltitler: Record<GraderteAndreYtelserFeilkode, string> = {
     SUM_ER_IKKE_100: 'Sykdomsgrad, arbeidsgrad og andre ytelser må til sammen bli 100',
     ARBEIDSGRAD_OKER: 'Arbeidsgraden kan ikke øke ved fordeling av andre ytelser',
     YTELSER_MANGLER_TREKK: 'Sykdomsgraden må være uendret når dagen ikke har andre ytelser',
+    MANGLER_BEGRUNNELSE: 'Hver dag må ha en begrunnelse',
     UTDATERT_TILSTAND: 'Graderte andre ytelser er endret siden de ble hentet',
 };
 
@@ -87,7 +88,6 @@ export function endreGraderteAndreYtelser(
         versjon: crypto.randomUUID(),
         tidspunkt: dayjs().format('YYYY-MM-DDTHH:mm:ss.SSS'),
         utfortAvSaksbehandlerIdent: 'S123456',
-        notatTilBeslutter: request.notatTilBeslutter,
         dager: dagerMedEndring.map((dag) => endretFra(dag, nåværendeDager.get(dag.dato))),
     };
     dagerMedEndring.forEach((dag) => nåværendeDager.set(dag.dato, dag));
@@ -114,16 +114,15 @@ export function hentVisning(
         .find((it) => it.versjon === handlingId);
     if (!event) return undefined;
 
-    const felter: ApiVisningsfelt[] = [];
-    if (event.notatTilBeslutter.trim() !== '') {
-        felter.push({ type: ApiVisningsfelttype.TEKST, tittel: 'Begrunnelse', tekst: event.notatTilBeslutter });
-    }
-    felter.push({
-        type: ApiVisningsfelttype.ENDRINGER,
-        tittel: 'Dager endret',
-        grupper: grupperSammenhengendeLikeDager(event.dager).map(tilEndringsgruppe),
-    });
-    return { felter };
+    return {
+        felter: [
+            {
+                type: ApiVisningsfelttype.ENDRINGER,
+                tittel: 'Dager endret',
+                grupper: grupperSammenhengendeLikeDager(event.dager).map(tilEndringsgruppe),
+            },
+        ],
+    };
 }
 
 function validerDager(dager: ApiGraderteAndreYtelserDag[]): GraderteAndreYtelserFeilkode | null {
@@ -139,6 +138,7 @@ function validerDag(dag: ApiGraderteAndreYtelserDag): GraderteAndreYtelserFeilko
     const førFordeling = dag.sykdomsgradFørFordeling;
     const ytelser = Object.values(dag.andreYtelserGrader);
     const sumYtelser = ytelser.reduce((sum, grad) => sum + grad, 0);
+    if (dag.begrunnelse.trim() === '') return 'MANGLER_BEGRUNNELSE';
     if (
         !erMellom(førFordeling, 1, 100) ||
         ytelser.some((grad) => !erMellom(grad, 1, 99)) ||
@@ -177,6 +177,7 @@ function erLike(dag: ApiGraderteAndreYtelserDag, annen: ApiGraderteAndreYtelserD
         dag.sykdomsgrad === annen.sykdomsgrad &&
         dag.arbeidsgrad === annen.arbeidsgrad &&
         dag.sykdomsgradFørFordeling === annen.sykdomsgradFørFordeling &&
+        dag.begrunnelse === annen.begrunnelse &&
         erLikeGrader(dag.andreYtelserGrader, annen.andreYtelserGrader)
     );
 }
@@ -191,6 +192,7 @@ function endretFra(
         sykdomsgrad: dag.sykdomsgrad,
         arbeidsgrad: dag.arbeidsgrad,
         sykdomsgradFørFordeling: dag.sykdomsgradFørFordeling,
+        begrunnelse: dag.begrunnelse,
         fraAndreYtelserGrader: fra?.andreYtelserGrader ?? null,
         fraSykdomsgrad: fra?.sykdomsgrad ?? null,
         fraArbeidsgrad: fra?.arbeidsgrad ?? null,
@@ -243,6 +245,7 @@ function tilEndringsgruppe({ fom, tom, endring }: Daggruppe): ApiEndringsgruppe 
             ),
             endringsrad('Sykdomsgrad', fraSykdomsgrad, endring.sykdomsgrad),
             endringsrad('Arbeidsgrad', fraArbeidsgrad, endring.arbeidsgrad),
+            { navn: 'Begrunnelse', fra: null, til: endring.begrunnelse },
         ],
     };
 }

@@ -122,7 +122,6 @@ describe('useOverstyrDager', () => {
                     organisasjonsnummer: ORGNUMMER,
                     versjon: 'versjon-1',
                     behandlingId: BEHANDLING_ID,
-                    notatTilBeslutter: BEGRUNNELSE,
                     dager: [
                         {
                             dato: '2020-01-02',
@@ -130,6 +129,7 @@ describe('useOverstyrDager', () => {
                             sykdomsgrad: 30,
                             arbeidsgrad: 30,
                             sykdomsgradFørFordeling: 70,
+                            begrunnelse: BEGRUNNELSE,
                         },
                     ],
                 }),
@@ -494,14 +494,21 @@ const lagretFordeling: ApiGraderteAndreYtelserDag = {
     sykdomsgrad: 40,
     arbeidsgrad: 20,
     sykdomsgradFørFordeling: 80,
+    begrunnelse: 'Lagret begrunnelse',
 };
 const fjerningsrequest = {
     yrkesaktivitet: 'ARBEIDSTAKER',
     organisasjonsnummer: ORGNUMMER,
     versjon: 'versjon-1',
     behandlingId: BEHANDLING_ID,
-    notatTilBeslutter: BEGRUNNELSE,
     dager: [
-        { dato: '2020-01-03', andreYtelserGrader: {}, sykdomsgrad: 80, arbeidsgrad: 20, sykdomsgradFørFordeling: 80 },
+        {
+            dato: '2020-01-03',
+            andreYtelserGrader: {},
+            sykdomsgrad: 80,
+            arbeidsgrad: 20,
+            sykdomsgradFørFordeling: 80,
+            begrunnelse: BEGRUNNELSE,
+        },
     ],
 };

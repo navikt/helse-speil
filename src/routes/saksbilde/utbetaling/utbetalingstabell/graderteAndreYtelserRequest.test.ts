@@ -24,7 +24,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
             inntektsforhold: arbeidsgiver('967170232'),
             graderteAndreYtelser: [],
             behandlingId,
-            notatTilBeslutter: 'Et notat',
+            begrunnelse: 'En begrunnelse',
         });
 
         expect(request).toEqual({
@@ -32,7 +32,6 @@ describe('tilGraderteAndreYtelserRequest', () => {
             organisasjonsnummer: '967170232',
             versjon: null,
             behandlingId,
-            notatTilBeslutter: 'Et notat',
             dager: [
                 {
                     dato: '2024-07-01',
@@ -40,6 +39,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                     sykdomsgrad: 30,
                     arbeidsgrad: 30,
                     sykdomsgradFørFordeling: 70,
+                    begrunnelse: 'En begrunnelse',
                 },
                 {
                     dato: '2024-07-03',
@@ -47,6 +47,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                     sykdomsgrad: 20,
                     arbeidsgrad: 30,
                     sykdomsgradFørFordeling: 70,
+                    begrunnelse: 'En begrunnelse',
                 },
             ],
         });
@@ -61,7 +62,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                 lagGraderteAndreYtelser({ versjon: 'riktig-versjon' }),
             ],
             behandlingId,
-            notatTilBeslutter: '',
+            begrunnelse: 'En begrunnelse',
         });
 
         expect(request.versjon).toBe('riktig-versjon');
@@ -73,7 +74,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
             inntektsforhold: arbeidsgiver('967170232'),
             graderteAndreYtelser: [lagGraderteAndreYtelser({ organisasjonsnummer: '947064649' })],
             behandlingId,
-            notatTilBeslutter: '',
+            begrunnelse: 'En begrunnelse',
         });
 
         expect(request.versjon).toBeNull();
@@ -88,7 +89,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
             inntektsforhold: arbeidsgiver('967170232'),
             graderteAndreYtelser: [],
             behandlingId,
-            notatTilBeslutter: '',
+            begrunnelse: 'En begrunnelse',
         });
 
         expect(request.dager[0]!.sykdomsgradFørFordeling).toBe(60);
@@ -102,7 +103,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                 lagGraderteAndreYtelser({ yrkesaktivitet: 'SELVSTENDIG', organisasjonsnummer: null }),
             ],
             behandlingId,
-            notatTilBeslutter: '',
+            begrunnelse: 'En begrunnelse',
         });
 
         expect(request).toMatchObject({
@@ -128,7 +129,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                 }),
             ],
             behandlingId,
-            notatTilBeslutter: '',
+            begrunnelse: 'En begrunnelse',
         });
 
         expect(request.dager).toEqual([
@@ -138,6 +139,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                 sykdomsgrad: 100,
                 arbeidsgrad: 0,
                 sykdomsgradFørFordeling: 100,
+                begrunnelse: 'En begrunnelse',
             },
             {
                 dato: '2024-07-02',
@@ -145,6 +147,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                 sykdomsgrad: 80,
                 arbeidsgrad: 20,
                 sykdomsgradFørFordeling: 80,
+                begrunnelse: 'En begrunnelse',
             },
         ]);
     });
@@ -158,7 +161,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
             inntektsforhold: arbeidsgiver('967170232'),
             graderteAndreYtelser: [lagGraderteAndreYtelser({ dager: [lagretDag('2024-07-02', 80, {})] })],
             behandlingId,
-            notatTilBeslutter: '',
+            begrunnelse: 'En begrunnelse',
         });
 
         expect(request.dager).toEqual([]);
@@ -171,7 +174,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                 inntektsforhold: arbeidsgiver('967170232'),
                 graderteAndreYtelser: [],
                 behandlingId,
-                notatTilBeslutter: '',
+                begrunnelse: 'En begrunnelse',
             }),
         ).toThrow();
     });
@@ -252,6 +255,7 @@ function lagretDag(
         sykdomsgrad: sykdomsgradFørFordeling - andreYtelser,
         arbeidsgrad: 100 - sykdomsgradFørFordeling,
         sykdomsgradFørFordeling,
+        begrunnelse: 'Lagret begrunnelse',
     };
 }
 

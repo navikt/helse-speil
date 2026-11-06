@@ -30,7 +30,7 @@ export function EndringsloggGraderteAndreYtelser({
                                 <Table.HeaderCell>Andre ytelser</Table.HeaderCell>
                                 <Table.HeaderCell>Sykdomsgrad</Table.HeaderCell>
                                 <Table.HeaderCell>Arbeidsgrad</Table.HeaderCell>
-                                <Table.HeaderCell>Notat til beslutter</Table.HeaderCell>
+                                <Table.HeaderCell>Begrunnelse</Table.HeaderCell>
                                 <Table.HeaderCell>Kilde</Table.HeaderCell>
                                 <Table.HeaderCell>Endret dato og tidspunkt</Table.HeaderCell>
                             </Table.Row>
@@ -38,7 +38,7 @@ export function EndringsloggGraderteAndreYtelser({
                         <Table.Body>
                             {[...endringer]
                                 .sort((a, b) => sortTimestampDesc(a.tidspunkt, b.tidspunkt))
-                                .map(({ tidspunkt, saksbehandlerIdent, notatTilBeslutter, dag }, i) => (
+                                .map(({ tidspunkt, saksbehandlerIdent, dag }, i) => (
                                     <Table.Row key={i}>
                                         <Table.DataCell>{getFormattedDateString(dag.dato)}</Table.DataCell>
                                         <Table.DataCell>
@@ -56,7 +56,7 @@ export function EndringsloggGraderteAndreYtelser({
                                             <FraTil fra={prosent(dag.fraArbeidsgrad)} til={`${dag.arbeidsgrad} %`} />
                                         </Table.DataCell>
                                         <Table.DataCell className="max-w-100 whitespace-normal!">
-                                            {notatTilBeslutter}
+                                            {dag.begrunnelse}
                                         </Table.DataCell>
                                         <Table.DataCell>
                                             <span data-sensitive>{saksbehandlerIdent}</span>

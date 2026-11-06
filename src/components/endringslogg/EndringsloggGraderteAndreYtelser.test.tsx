@@ -12,7 +12,7 @@ describe('EndringsloggGraderteAndreYtelser', () => {
         expect(within(rad!).getByText('Foreldrepenger 40 %')).toBeVisible();
         expect(within(rad!).getByText('50 %')).toBeVisible();
         expect(within(rad!).getByText('10 %')).toBeVisible();
-        expect(within(rad!).getByText('Et notat')).toBeVisible();
+        expect(within(rad!).getByText('En begrunnelse')).toBeVisible();
         expect(within(rad!).getByText('A123456')).toHaveAttribute('data-sensitive');
         expect(rad!.querySelector('.line-through')).toBeNull();
     });
@@ -21,8 +21,8 @@ describe('EndringsloggGraderteAndreYtelser', () => {
         const første = enEndring();
         const andre = enEndring({
             tidspunkt: '2024-02-02T10:00:00',
-            notatTilBeslutter: 'Et nytt notat',
             dag: {
+                begrunnelse: 'En ny begrunnelse',
                 andreYtelserGrader: { FORELDREPENGER: 20, OMSORGSPENGER: 10 },
                 sykdomsgrad: 60,
                 arbeidsgrad: 10,
@@ -35,12 +35,12 @@ describe('EndringsloggGraderteAndreYtelser', () => {
         render(<EndringsloggGraderteAndreYtelser endringer={[første, andre]} onOpenChange={vi.fn()} />);
 
         const [nyeste, eldste] = dataRader();
-        expect(within(nyeste!).getByText('Et nytt notat')).toBeVisible();
+        expect(within(nyeste!).getByText('En ny begrunnelse')).toBeVisible();
         expect(within(nyeste!).getByText('Foreldrepenger 40 %')).toHaveClass('line-through');
         expect(within(nyeste!).getByText(/Foreldrepenger 20 %, Omsorgspenger 10 %/)).toBeVisible();
         expect(within(nyeste!).getByText('50 %')).toHaveClass('line-through');
         expect(within(nyeste!).queryAllByText('10 %')).toHaveLength(1);
-        expect(within(eldste!).getByText('Et notat')).toBeVisible();
+        expect(within(eldste!).getByText('En begrunnelse')).toBeVisible();
     });
 
     it('viser at ytelsene er fjernet fra dagen', () => {
@@ -76,13 +76,13 @@ function enEndring({
     return {
         tidspunkt: '2024-02-01T10:00:00',
         saksbehandlerIdent: 'A123456',
-        notatTilBeslutter: 'Et notat',
         dag: {
             dato: '2024-01-01',
             andreYtelserGrader: { FORELDREPENGER: 40 },
             sykdomsgrad: 50,
             arbeidsgrad: 10,
             sykdomsgradFørFordeling: 90,
+            begrunnelse: 'En begrunnelse',
             fraAndreYtelserGrader: null,
             fraSykdomsgrad: null,
             fraArbeidsgrad: null,

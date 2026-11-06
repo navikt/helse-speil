@@ -13,7 +13,6 @@ const lagRequest = (
     organisasjonsnummer: '967170232',
     versjon: null,
     behandlingId: '94926180-4e95-4879-8975-0a63b5659831',
-    notatTilBeslutter: '',
     dager: [],
     ...overstyringer,
 });
@@ -30,7 +29,7 @@ const hentVisning = (handlingId: string, id = personPseudoId) =>
 describe('visning av saksbehandlerhandling-stub', () => {
     beforeEach(() => nullstillGraderteAndreYtelser());
 
-    it('viser begrunnelsen og grupperer sammenhengende dager med lik endring', async () => {
+    it('grupperer sammenhengende dager med lik endring og begrunnelse, og viser begrunnelsen for hver gruppe', async () => {
         const dag = {
             andreYtelserGrader: { FORELDREPENGER: 40 },
             sykdomsgrad: 30,
@@ -39,11 +38,11 @@ describe('visning av saksbehandlerhandling-stub', () => {
         };
         const versjon = lagreVersjon(
             lagRequest({
-                notatTilBeslutter: 'Et notat',
                 dager: [
-                    { dato: '2024-07-01', ...dag },
-                    { dato: '2024-07-02', ...dag },
-                    { dato: '2024-07-04', ...dag },
+                    { dato: '2024-07-01', ...dag, begrunnelse: 'Første klynge' },
+                    { dato: '2024-07-02', ...dag, begrunnelse: 'Første klynge' },
+                    { dato: '2024-07-03', ...dag, begrunnelse: 'Andre klynge' },
+                    { dato: '2024-07-05', ...dag, begrunnelse: 'Andre klynge' },
                 ],
             }),
         );
@@ -53,7 +52,6 @@ describe('visning av saksbehandlerhandling-stub', () => {
         expect(response.status).toBe(200);
         expect(await response.json()).toEqual({
             felter: [
-                { type: 'TEKST', tittel: 'Begrunnelse', tekst: 'Et notat' },
                 {
                     type: 'ENDRINGER',
                     tittel: 'Dager endret',
@@ -64,14 +62,25 @@ describe('visning av saksbehandlerhandling-stub', () => {
                                 { navn: 'Foreldrepenger', fra: '0 %', til: '40 %' },
                                 { navn: 'Sykdomsgrad', fra: '70 %', til: '30 %' },
                                 { navn: 'Arbeidsgrad', fra: null, til: '30 %' },
+                                { navn: 'Begrunnelse', fra: null, til: 'Første klynge' },
                             ],
                         },
                         {
                             rader: [
-                                { navn: 'Dato', fra: null, til: '04.07.2024' },
+                                { navn: 'Dato', fra: null, til: '03.07.2024' },
                                 { navn: 'Foreldrepenger', fra: '0 %', til: '40 %' },
                                 { navn: 'Sykdomsgrad', fra: '70 %', til: '30 %' },
                                 { navn: 'Arbeidsgrad', fra: null, til: '30 %' },
+                                { navn: 'Begrunnelse', fra: null, til: 'Andre klynge' },
+                            ],
+                        },
+                        {
+                            rader: [
+                                { navn: 'Dato', fra: null, til: '05.07.2024' },
+                                { navn: 'Foreldrepenger', fra: '0 %', til: '40 %' },
+                                { navn: 'Sykdomsgrad', fra: '70 %', til: '30 %' },
+                                { navn: 'Arbeidsgrad', fra: null, til: '30 %' },
+                                { navn: 'Begrunnelse', fra: null, til: 'Andre klynge' },
                             ],
                         },
                     ],
@@ -90,6 +99,7 @@ describe('visning av saksbehandlerhandling-stub', () => {
                         sykdomsgrad: 30,
                         arbeidsgrad: 30,
                         sykdomsgradFørFordeling: 70,
+                        begrunnelse: 'En begrunnelse',
                     },
                 ],
             }),
@@ -104,6 +114,7 @@ describe('visning av saksbehandlerhandling-stub', () => {
                         sykdomsgrad: 30,
                         arbeidsgrad: 30,
                         sykdomsgradFørFordeling: 70,
+                        begrunnelse: 'En begrunnelse',
                     },
                 ],
             }),
@@ -123,6 +134,7 @@ describe('visning av saksbehandlerhandling-stub', () => {
                             { navn: 'Pleiepenger', fra: '0 %', til: '40 %' },
                             { navn: 'Sykdomsgrad', fra: null, til: '30 %' },
                             { navn: 'Arbeidsgrad', fra: null, til: '30 %' },
+                            { navn: 'Begrunnelse', fra: null, til: 'En begrunnelse' },
                         ],
                     },
                 ],
@@ -140,6 +152,7 @@ describe('visning av saksbehandlerhandling-stub', () => {
                         sykdomsgrad: 30,
                         arbeidsgrad: 30,
                         sykdomsgradFørFordeling: 70,
+                        begrunnelse: 'En begrunnelse',
                     },
                 ],
             }),

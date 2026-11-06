@@ -21,6 +21,7 @@ export interface ApiGraderteAndreYtelserDag {
     sykdomsgrad: number;
     arbeidsgrad: number;
     sykdomsgradFørFordeling: number;
+    begrunnelse: string;
 }
 
 export type ApiGraderteAndreYtelserEndretDagAndreYtelserGrader = { [key: string]: number };
@@ -36,6 +37,7 @@ export interface ApiGraderteAndreYtelserEndretDag {
     sykdomsgrad: number;
     arbeidsgrad: number;
     sykdomsgradFørFordeling: number;
+    begrunnelse: string;
     /** @nullable */
     fraAndreYtelserGrader?: ApiGraderteAndreYtelserEndretDagFraAndreYtelserGrader;
     /** @nullable */
@@ -50,7 +52,6 @@ export interface ApiGraderteAndreYtelserEvent {
     versjon: string;
     tidspunkt: string;
     utfortAvSaksbehandlerIdent: string;
-    notatTilBeslutter: string;
     dager: ApiGraderteAndreYtelserEndretDag[];
 }
 
@@ -82,7 +83,6 @@ export interface ApiEndreGraderteAndreYtelserRequest {
     versjon?: string | null;
     behandlingId: string;
     dager: ApiGraderteAndreYtelserDag[];
-    notatTilBeslutter: string;
 }
 
 export interface ApiEndreGraderteAndreYtelserResponse {
@@ -103,7 +103,6 @@ export interface ApiEndringsgruppe {
 export type ApiVisningsfelttype = (typeof ApiVisningsfelttype)[keyof typeof ApiVisningsfelttype];
 
 export const ApiVisningsfelttype = {
-    TEKST: 'TEKST',
     ENDRINGER: 'ENDRINGER',
 } as const;
 
@@ -113,13 +112,7 @@ export interface ApiVisningsfeltEndringer {
     type: ApiVisningsfelttype;
 }
 
-export interface ApiVisningsfeltTekst {
-    tittel: string;
-    tekst: string;
-    type: ApiVisningsfelttype;
-}
-
-export type ApiVisningsfelt = ApiVisningsfeltEndringer | ApiVisningsfeltTekst;
+export type ApiVisningsfelt = ApiVisningsfeltEndringer;
 
 export interface ApiSaksbehandlerhandlingVisningResponse {
     felter: ApiVisningsfelt[];

@@ -6,7 +6,6 @@ import {
 export type GraderteAndreYtelserEndring = {
     tidspunkt: string;
     saksbehandlerIdent: string;
-    notatTilBeslutter: string;
     dag: ApiGraderteAndreYtelserEndretDag;
 };
 
@@ -21,7 +20,6 @@ export function endringerForDato(
         .map((event) => ({
             tidspunkt: event.tidspunkt,
             saksbehandlerIdent: event.utfortAvSaksbehandlerIdent,
-            notatTilBeslutter: event.notatTilBeslutter,
             dag: event.dager.find(gyldigDato)!,
         }));
 }

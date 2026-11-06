@@ -19,6 +19,7 @@ const lagDag = (overstyringer: Partial<ApiGraderteAndreYtelserDag> = {}): ApiGra
     sykdomsgrad: 30,
     arbeidsgrad: 30,
     sykdomsgradFørFordeling: 70,
+    begrunnelse: 'En begrunnelse',
     ...overstyringer,
 });
 
@@ -29,7 +30,6 @@ const lagRequest = (
     organisasjonsnummer: '967170232',
     versjon: null,
     behandlingId,
-    notatTilBeslutter: 'Et notat',
     dager: [lagDag()],
     ...overstyringer,
 });
@@ -70,7 +70,6 @@ describe('graderte andre ytelser-stub', () => {
         expect(graderteAndreYtelser!.events[0]).toMatchObject({
             versjon,
             utfortAvSaksbehandlerIdent: 'S123456',
-            notatTilBeslutter: 'Et notat',
         });
         expect(graderteAndreYtelser!.events[0]!.dager[0]).toMatchObject({
             fraAndreYtelserGrader: null,
@@ -117,6 +116,7 @@ describe('graderte andre ytelser-stub', () => {
                 sykdomsgrad: 40,
                 arbeidsgrad: 40,
                 sykdomsgradFørFordeling: 60,
+                begrunnelse: 'En begrunnelse',
                 fraAndreYtelserGrader: { FORELDREPENGER: 40 },
                 fraSykdomsgrad: 30,
                 fraArbeidsgrad: 30,

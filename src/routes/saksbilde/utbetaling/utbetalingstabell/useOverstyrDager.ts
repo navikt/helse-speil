@@ -128,7 +128,7 @@ export const useOverstyrDager = (): UsePostOverstyringResult => {
             inntektsforhold,
             graderteAndreYtelser,
             behandlingId: periode.behandlingId,
-            notatTilBeslutter: begrunnelse,
+            begrunnelse,
         });
         if (request.dager.length === 0) return false;
         const { versjon } = await endreGraderteAndreYtelser({ personPseudoId: personPseudoId!, data: request });

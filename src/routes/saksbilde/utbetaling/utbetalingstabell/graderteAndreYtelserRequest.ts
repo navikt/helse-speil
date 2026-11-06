@@ -17,24 +17,23 @@ export function tilGraderteAndreYtelserRequest({
     inntektsforhold,
     graderteAndreYtelser,
     behandlingId,
-    notatTilBeslutter,
+    begrunnelse,
 }: {
     overstyrteDager: Utbetalingstabelldag[];
     inntektsforhold: Inntektsforhold;
     graderteAndreYtelser: ApiGraderteAndreYtelser[];
     behandlingId: string;
-    notatTilBeslutter: string;
+    begrunnelse: string;
 }): ApiEndreGraderteAndreYtelserRequest {
     const lagrede = finnGraderteAndreYtelser(graderteAndreYtelser, inntektsforhold);
     return {
         ...tilYrkesaktivitet(inntektsforhold),
         versjon: lagrede?.versjon ?? null,
         behandlingId,
-        notatTilBeslutter,
         dager: overstyrteDager.flatMap((dag) => {
-            if (dag.gradertAnnenYtelse) return [tilGraderteAndreYtelserDag(dag)];
+            if (dag.gradertAnnenYtelse) return [tilGraderteAndreYtelserDag(dag, begrunnelse)];
             const lagretDag = lagrede?.dager.find((it) => it.dato === dayjs(dag.dato).format('YYYY-MM-DD'));
-            return harFordeling(lagretDag) ? [tilDagUtenFordeling(lagretDag)] : [];
+            return harFordeling(lagretDag) ? [tilDagUtenFordeling(lagretDag, begrunnelse)] : [];
         }),
     };
 }
@@ -64,11 +63,10 @@ function tilYrkesaktivitet(inntektsforhold: Inntektsforhold): Yrkesaktivitet {
         : { yrkesaktivitet: ApiYrkesaktivitetstype.SELVSTENDIG, organisasjonsnummer: null };
 }
 
-function tilGraderteAndreYtelserDag({
-    dato,
-    dag,
-    gradertAnnenYtelse,
-}: Utbetalingstabelldag): ApiGraderteAndreYtelserDag {
+function tilGraderteAndreYtelserDag(
+    { dato, dag, gradertAnnenYtelse }: Utbetalingstabelldag,
+    begrunnelse: string,
+): ApiGraderteAndreYtelserDag {
     if (dag.gradertAnnenYtelsetype === undefined || !gradertAnnenYtelse) {
         throw Error(`Dag ${dato} mangler gyldig gradert annen ytelse.`);
     }
@@ -79,19 +77,21 @@ function tilGraderteAndreYtelserDag({
         sykdomsgrad,
         sykdomsgradFørFordeling,
         arbeidsgrad: 100 - sykdomsgrad - andreYtelseGrad,
+        begrunnelse,
     };
 }
 
 // Spec-regel 6: uten ytelser skal sykdomsgraden være lik sykdomsgraden før fordeling, så trekket blir 0
-function tilDagUtenFordeling({
-    dato,
-    sykdomsgradFørFordeling,
-}: ApiGraderteAndreYtelserDag): ApiGraderteAndreYtelserDag {
+function tilDagUtenFordeling(
+    { dato, sykdomsgradFørFordeling }: ApiGraderteAndreYtelserDag,
+    begrunnelse: string,
+): ApiGraderteAndreYtelserDag {
     return {
         dato,
         andreYtelserGrader: {},
         sykdomsgrad: sykdomsgradFørFordeling,
         sykdomsgradFørFordeling,
         arbeidsgrad: 100 - sykdomsgradFørFordeling,
+        begrunnelse,
     };
 }

@@ -30,6 +30,8 @@ export function somGraderteAndreYtelserFeilmelding(error: PostGraderteAndreYtels
             return 'Arbeidsgraden kan ikke øke. Sykdomsgrad og andre ytelser må til sammen være minst like høye som sykdomsgraden før fordeling.';
         case 'YTELSER_MANGLER_TREKK':
             return 'Sykdomsgraden må være lik sykdomsgraden før fordeling når dagen ikke har andre ytelser.';
+        case 'MANGLER_BEGRUNNELSE':
+            return 'Hver dag må ha en begrunnelse.';
         case 'MANGLER_ENDRINGER':
             return 'Det er ingen endringer i fordelingene å lagre.';
         case 'UTDATERT_TILSTAND':
