@@ -165,6 +165,10 @@ spec:
       value: api://prod-gcp.tbd.sp-vilkarsproving/.default
     - name: VILKARSPROVING_BASE_URL
       value: http://sp-vilkarsproving
+    - name: CLIENT_ID_ANDRE_YTELSER
+      value: api://prod-gcp.tbd.sp-andre-ytelser/.default
+    - name: ANDRE_YTELSER_BASE_URL
+      value: http://sp-andre-ytelser
     - name: CLIENT_ID_AVSLAGSDAGER
       value: api://prod-gcp.tbd.sp-avslagsdager/.default
     - name: AVSLAGSDAGER_BASE_URL

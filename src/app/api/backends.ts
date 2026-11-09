@@ -82,7 +82,6 @@ export const backends = {
         baseUrlEnv: 'ANDRE_YTELSER_BASE_URL',
         lokalPort: 8484,
         målprefiks: '/api',
-        kunIDev: true,
     },
     avslagsdager: {
         scopeEnv: 'CLIENT_ID_AVSLAGSDAGER',

@@ -94,7 +94,7 @@ describe('backends', () => {
     it('backender som bare finnes i dev er ikke tilgjengelige i prod', () => {
         env.backend = 'deployed';
         expect(erTilgjengelig('medlemskap')).toBe(false);
-        expect(erTilgjengelig('andre-ytelser')).toBe(false);
+        expect(erTilgjengelig('andre-ytelser')).toBe(true);
         expect(erTilgjengelig('avslagsdager')).toBe(false);
         expect(erTilgjengelig('vilkarsproving')).toBe(true);
 
@@ -124,6 +124,15 @@ describe('backends', () => {
             alleBackendEnv().forEach((envNavn) => vi.stubEnv(envNavn, 'satt'));
 
             expect(() => validerBackendConfig()).not.toThrow();
+        });
+
+        it('krever konfigurasjon for andre-ytelser også i prod', () => {
+            env.backend = 'deployed';
+            alleBackendEnv().forEach((envNavn) => vi.stubEnv(envNavn, 'satt'));
+            vi.stubEnv('CLIENT_ID_ANDRE_YTELSER', '');
+            vi.stubEnv('ANDRE_YTELSER_BASE_URL', '');
+
+            expect(() => validerBackendConfig()).toThrow('CLIENT_ID_ANDRE_YTELSER, ANDRE_YTELSER_BASE_URL');
         });
 
         it('krever ikke miljøvariabler for backender som bare finnes i dev, utenfor dev', () => {
