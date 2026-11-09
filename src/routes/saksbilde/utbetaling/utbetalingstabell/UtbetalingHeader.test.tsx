@@ -10,8 +10,8 @@ vi.mock('@state/toggles', async (importOriginal) => ({
     useKanVurdereOppholdskrav: () => toggle.kanVurdereOppholdskrav,
 }));
 
-vi.mock('@utils/featureToggles', () => ({
-    useSkalSeGraderteAndreYtelser: () => true,
+vi.mock('@hooks/brukerrolleHooks', () => ({
+    useErCoachFagkoordinatorEllerSupersaksbehandler: () => true,
 }));
 
 const velgEndringshandling = vi.fn();

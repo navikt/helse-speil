@@ -1,5 +1,6 @@
 import { Mock, vi } from 'vitest';
 
+import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { ApiYrkesaktivitetstype } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiBegrunnelse, ApiPeriodetype } from '@io/rest/generated/spesialist.schemas';
 import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
@@ -10,7 +11,6 @@ import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 
 import { OverstyrbarUtbetaling } from './OverstyrbarUtbetaling';
 
@@ -19,6 +19,7 @@ let postOverstyringArguments: [Utbetalingstabelldag[], string] | [] = [];
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
     useHarBeslutterrolle: () => true,
+    useErCoachFagkoordinatorEllerSupersaksbehandler: vi.fn(),
 }));
 
 vi.mock('next/navigation', async (importOriginal) => ({
@@ -29,10 +30,6 @@ vi.mock('next/navigation', async (importOriginal) => ({
 vi.mock('@state/toggles', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@state/toggles')>()),
     useKanVurdereOppholdskrav: () => true,
-}));
-
-vi.mock('@utils/featureToggles', () => ({
-    useSkalSeGraderteAndreYtelser: vi.fn(),
 }));
 
 vi.mock('@state/graderteAndreYtelser', () => ({
@@ -72,7 +69,7 @@ const dager = new Map<string, Utbetalingstabelldag>([
 
 describe('OverstyrbarUtbetaling', () => {
     beforeEach(() => {
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(false);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(false);
         (useGraderteAndreYtelser as Mock).mockReturnValue([]);
     });
 
@@ -178,14 +175,14 @@ describe('OverstyrbarUtbetaling', () => {
         const { rerender } = renderOverstyring(dager);
         expect(screen.queryByRole('button', { name: 'Legg til graderte ytelser' })).not.toBeInTheDocument();
 
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         rerender(lagOverstyring(dager));
 
         expect(screen.getByRole('button', { name: 'Legg til graderte ytelser' })).toBeVisible();
     });
 
     test('«Legg til graderte ytelser» åpner skjemaet for å fordele graden', async () => {
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         renderOverstyring(dager);
 
         await userEvent.click(screen.getByRole('button', { name: 'Legg til graderte ytelser' }));
@@ -200,7 +197,7 @@ describe('OverstyrbarUtbetaling', () => {
     });
 
     test('lagrer klynger med ulik sykdomsgrad og hver sin begrunnelse uten felles begrunnelse', async () => {
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         renderOverstyring(
             new Map([
                 ['2022-01-03', getUtbetalingstabellDag({ dato: '2022-01-03', grad: 100 })],
@@ -239,7 +236,7 @@ describe('OverstyrbarUtbetaling', () => {
     });
 
     test('«Endre dagtype» tilbyr ikke gradert annen ytelse', async () => {
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         renderOverstyring(dager);
 
         await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
@@ -248,7 +245,7 @@ describe('OverstyrbarUtbetaling', () => {
     });
 
     test('viser fordelingen av graderte andre ytelser for arbeidsgiver', () => {
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         const arbeidsgiver = enArbeidsgiver();
         (useGraderteAndreYtelser as Mock).mockReturnValue([
             {

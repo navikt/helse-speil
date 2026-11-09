@@ -1,5 +1,6 @@
 import { Mock, vi } from 'vitest';
 
+import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import {
     ApiGraderteAndreYtelserDag,
     ApiGraderteAndreYtelserEvent,
@@ -11,12 +12,11 @@ import { render } from '@test-utils';
 import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 
 import { Utbetalingstabell } from './Utbetalingstabell';
 import { Helgedag, Svangerskapspengerdag, Sykedag } from './utbetalingstabelldager';
 
-vi.mock('@utils/featureToggles', () => ({ useSkalSeGraderteAndreYtelser: vi.fn() }));
+vi.mock('@hooks/brukerrolleHooks', () => ({ useErCoachFagkoordinatorEllerSupersaksbehandler: vi.fn() }));
 
 vi.mock('./useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
@@ -51,7 +51,7 @@ const dager = new Map<string, Utbetalingstabelldag>([
 
 describe('Utbetalingstabell', () => {
     beforeEach(() => {
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(false);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(false);
     });
 
     it('rendrer headere, totalrad og dagrader', () => {
@@ -77,7 +77,7 @@ describe('Utbetalingstabell', () => {
 
     describe('med togglen for graderte andre ytelser', () => {
         beforeEach(() => {
-            (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+            (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         });
 
         it('viser kolonnen «Andre ytelser» etter Grad', () => {

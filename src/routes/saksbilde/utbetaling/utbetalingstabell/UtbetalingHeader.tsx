@@ -3,9 +3,9 @@ import { Fragment, ReactElement } from 'react';
 import { Box, Button, HStack, HelpText, VStack } from '@navikt/ds-react';
 
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
+import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useKanVurdereOppholdskrav } from '@state/toggles';
-import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 
 export type Endringshandling = 'Legg til dager' | 'Endre dagtype' | 'Legg til graderte ytelser' | 'Vurder oppholdskrav';
 
@@ -22,7 +22,7 @@ export function UtbetalingHeader({
     kanLeggeTilDager,
     inntektsforholdReferanse,
 }: UtbetalingHeaderProps): ReactElement {
-    const skalSeGraderteAndreYtelser = useSkalSeGraderteAndreYtelser();
+    const skalSeGraderteAndreYtelser = useErCoachFagkoordinatorEllerSupersaksbehandler();
     const kanVurdereOppholdskrav = useKanVurdereOppholdskrav();
     const endringshandlinger = [
         kanLeggeTilDager && 'Legg til dager',

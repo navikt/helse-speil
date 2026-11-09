@@ -5,6 +5,7 @@ import { HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
+import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { ApiGraderteAndreYtelser } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
@@ -12,7 +13,6 @@ import { Row } from '@saksbilde/table/Row';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { getFormattedDateString } from '@utils/date';
-import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 import { cn } from '@utils/tw';
 
 import { AndreYtelserCell } from './AndreYtelserCell';
@@ -60,7 +60,7 @@ export const Utbetalingstabell = ({
 }: UtbetalingstabellProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
-    const visAndreYtelser = useSkalSeGraderteAndreYtelser();
+    const visAndreYtelser = useErCoachFagkoordinatorEllerSupersaksbehandler();
     const graderteAndreYtelserPerDato = new Map(graderteAndreYtelser?.dager.map((dag) => [dag.dato, dag]));
 
     const formattedFom = getFormattedDateString(fom);

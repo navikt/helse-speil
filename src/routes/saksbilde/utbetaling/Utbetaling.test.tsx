@@ -1,5 +1,6 @@
 import { Mock, vi } from 'vitest';
 
+import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { ApiYrkesaktivitetstype } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiBeregnetPeriode, ApiInntektstype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
@@ -12,7 +13,6 @@ import { enPerson } from '@test-data/person';
 import { enUtbetaling } from '@test-data/utbetaling';
 import { render } from '@test-utils';
 import { screen, within } from '@testing-library/react';
-import { useSkalSeGraderteAndreYtelser } from '@utils/featureToggles';
 import { generateId } from '@utils/generateId';
 
 import { Utbetaling } from './Utbetaling';
@@ -22,9 +22,6 @@ vi.mock('@state/oppgave', async () => ({
     useAktivOppgaveForPeriode: vi.fn(),
 }));
 
-vi.mock('@utils/featureToggles', () => ({
-    useSkalSeGraderteAndreYtelser: vi.fn(),
-}));
 vi.mock('@state/graderteAndreYtelser', () => ({
     useGraderteAndreYtelser: vi.fn(),
 }));
@@ -34,6 +31,7 @@ vi.mock('@hooks/useIsReadOnlyOppgave', () => ({
 vi.mock('@hooks/brukerrolleHooks', () => ({
     useHarSkrivetilgang: () => true,
     useHarBeslutterrolle: () => true,
+    useErCoachFagkoordinatorEllerSupersaksbehandler: vi.fn(),
 }));
 
 describe('Utbetaling', () => {
@@ -41,7 +39,7 @@ describe('Utbetaling', () => {
         (useAktivOppgaveForPeriode as Mock).mockImplementation((periode?: ApiBeregnetPeriode | null) =>
             periode ? enAktivOppgave({ id: '1234', vedtaksperiodeId: periode.vedtaksperiodeId }) : null,
         );
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(false);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(false);
         (useGraderteAndreYtelser as Mock).mockReturnValue([]);
     });
 
@@ -130,7 +128,7 @@ describe('Utbetaling', () => {
     });
 
     it('viser fordelingen i beslutters dagoversikt', () => {
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         (useIsReadOnlyOppgave as Mock).mockReturnValue(true);
         const tidslinje = [enDag({ dato: '2024-01-01' }), enDag({ dato: '2024-01-02' })];
         const periode = enBeregnetPeriode({ fom: '2024-01-01', tom: '2024-01-02', tidslinje }).somErTilGodkjenning();
@@ -152,7 +150,7 @@ describe('Utbetaling', () => {
     });
 
     it('viser en dag uten fordeling når fordelingen er fjernet', () => {
-        (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         (useIsReadOnlyOppgave as Mock).mockReturnValue(true);
         const tidslinje = [enDag({ dato: '2024-01-01' })];
         const periode = enBeregnetPeriode({ fom: '2024-01-01', tom: '2024-01-01', tidslinje }).somErTilGodkjenning();

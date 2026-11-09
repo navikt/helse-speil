@@ -25,7 +25,7 @@ vi.mock('@state/person');
 vi.mock('@state/inntektsforhold/inntektsforhold');
 vi.mock('@state/toasts');
 vi.mock('next/navigation', () => ({ useParams: () => ({ personPseudoId: PSEUDO_ID }) }));
-vi.mock('@utils/featureToggles', () => ({ useSkalSeGraderteAndreYtelser: () => true }));
+vi.mock('@utils/brukerrolleHooks', () => ({ useErCoachFagkoordinatorEllerSupersaksbehandler: () => true }));
 vi.mock('@state/serverSentEvents', async () => ({
     ...(await vi.importActual('@state/serverSentEvents')),
     useHåndterNyttEvent: vi.fn(),
