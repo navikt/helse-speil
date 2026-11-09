@@ -2,6 +2,9 @@ import { lagGraderteAndreYtelserSchema } from '@form-schemas/graderteAndreYtelse
 import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import {
     Feriedag,
+    Feriehelgedag,
+    FriskHelgedag,
+    Helgedag,
     Navhelgedag,
     Sykedag,
     SykedagNav,
@@ -75,7 +78,18 @@ describe('lagGraderteAndreYtelserSchema', () => {
             expect(validerFordeling({}, markerteDager)).toEqual([]);
         });
 
-        it.each([Feriedag, Navhelgedag])('avviser en klynge med $speilDagtype', (dag) => {
+        it('godtar helgedager med sykdom i klyngen', () => {
+            const markerteDager = [
+                lagDag({ dato: '2020-01-03', dag: Sykedag, grad: 70 }),
+                lagDag({ dato: '2020-01-04', dag: Navhelgedag, grad: 70 }),
+                lagDag({ dato: '2020-01-05', dag: Navhelgedag, grad: 70 }),
+                lagDag({ dato: '2020-01-06', dag: SykedagNav, grad: 70 }),
+            ];
+
+            expect(validerFordeling({}, markerteDager)).toEqual([]);
+        });
+
+        it.each([Feriedag, FriskHelgedag, Feriehelgedag, Helgedag])('avviser en klynge med $speilDagtype', (dag) => {
             const markerteDager = [enDagMedGrad(70, '2020-01-01'), lagDag({ dato: '2020-01-02', dag, grad: 70 })];
 
             expect(validerFordeling({}, markerteDager)).toEqual([

@@ -5,7 +5,7 @@ import { visningstekstForGradertAnnenYtelse } from '@saksbilde/utbetaling/utbeta
 import { GradertAnnenYtelsetype, gradertAnnenYtelsetypeValues } from '@typer/overstyring';
 import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
-const sykedagtyper: Utbetalingstabelldagtype[] = ['Syk', 'SykNav'];
+const sykedagtyper: Utbetalingstabelldagtype[] = ['Syk', 'SykNav', 'SykHelg'];
 
 const gradertAnnenYtelsetype = z.enum(gradertAnnenYtelsetypeValues);
 
