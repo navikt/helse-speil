@@ -10,9 +10,9 @@ import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtu
 
 describe('lagGraderteAndreYtelserSchema', () => {
     const gyldig = {
-        ytelse: 'Foreldrepenger',
+        ytelser: ['FORELDREPENGER'],
         sykepengerGrad: 30,
-        gradAndreYtelser: 40,
+        andreYtelserGrader: { FORELDREPENGER: 40 },
         begrunnelse: 'Begrunnelse for klyngen',
     };
     function enDagMedGrad(grad: number | null, dato = '2020-01-01') {
@@ -31,13 +31,13 @@ describe('lagGraderteAndreYtelserSchema', () => {
     });
 
     it('krever at annen ytelse er valgt', () => {
-        expect(validerFordeling({ ytelse: '' })).toEqual(['Annen ytelse er påkrevd']);
+        expect(validerFordeling({ ytelser: [] })).toEqual(['Annen ytelse er påkrevd']);
     });
 
     it('viser bare at annen ytelse mangler når verken ytelse eller grader er fylt ut', () => {
-        expect(validerFordeling({ ytelse: '', sykepengerGrad: null, gradAndreYtelser: null })).toEqual([
-            'Annen ytelse er påkrevd',
-        ]);
+        expect(
+            validerFordeling({ ytelser: [], sykepengerGrad: null, andreYtelserGrader: { FORELDREPENGER: null } }),
+        ).toEqual(['Annen ytelse er påkrevd']);
     });
 
     it.each(['', '   '])('krever begrunnelse for klyngen, ikke «%s»', (begrunnelse) => {
@@ -45,7 +45,7 @@ describe('lagGraderteAndreYtelserSchema', () => {
     });
 
     it('krever verdi i alle feltene', () => {
-        expect(validerFordeling({ sykepengerGrad: null, gradAndreYtelser: null })).toEqual([
+        expect(validerFordeling({ sykepengerGrad: null, andreYtelserGrader: { FORELDREPENGER: null } })).toEqual([
             'Grad for sykepenger er påkrevd',
             'Grad for foreldrepenger er påkrevd',
         ]);
@@ -53,11 +53,13 @@ describe('lagGraderteAndreYtelserSchema', () => {
 
     describe('sykdomsgraden', () => {
         it.each([1, 70])('godtar %i når sykdomsgraden før fordeling er 70', (sykepengerGrad) => {
-            expect(validerFordeling({ sykepengerGrad, gradAndreYtelser: 100 - sykepengerGrad })).toEqual([]);
+            expect(
+                validerFordeling({ sykepengerGrad, andreYtelserGrader: { FORELDREPENGER: 100 - sykepengerGrad } }),
+            ).toEqual([]);
         });
 
         it.each([0, 71])('avviser %i når sykdomsgraden før fordeling er 70', (sykepengerGrad) => {
-            expect(validerFordeling({ sykepengerGrad, gradAndreYtelser: 29 })).toContain(
+            expect(validerFordeling({ sykepengerGrad, andreYtelserGrader: { FORELDREPENGER: 29 } })).toContain(
                 'Grad for sykepenger må være mellom 1 og 70 %',
             );
         });
@@ -89,20 +91,22 @@ describe('lagGraderteAndreYtelserSchema', () => {
                     gradertAnnenYtelse: {
                         sykdomsgradFørFordeling: 100,
                         sykdomsgrad: 60,
-                        andreYtelseGrad: 40,
+                        andreYtelserGrader: { FORELDREPENGER: 40 },
                         begrunnelse: 'Lagret begrunnelse',
                     },
                 }),
                 enDagMedGrad(100, '2020-01-02'),
             ];
 
-            expect(validerFordeling({ sykepengerGrad: 50, gradAndreYtelser: 50 }, markerteDager)).toEqual([]);
+            expect(
+                validerFordeling({ sykepengerGrad: 50, andreYtelserGrader: { FORELDREPENGER: 50 } }, markerteDager),
+            ).toEqual([]);
         });
 
         it('viser hvorfor dagene ikke kan fordeles før annen ytelse er valgt', () => {
             const markerteDager = [enDagMedGrad(80, '2020-01-01'), enDagMedGrad(60, '2020-01-02')];
 
-            expect(validerFordeling({ ytelse: '' }, markerteDager)).toEqual([
+            expect(validerFordeling({ ytelser: [] }, markerteDager)).toEqual([
                 'Annen ytelse er påkrevd',
                 'Andre ytelser kan bare fordeles på dager med samme sykdomsgrad. De valgte dagene har 80 % og 60 %.',
             ]);
@@ -123,13 +127,19 @@ describe('lagGraderteAndreYtelserSchema', () => {
 
     describe('ytelsesgraden', () => {
         it.each([1, 99])('godtar %i', (gradAndreYtelser) => {
-            expect(validerFordeling({ sykepengerGrad: 1, gradAndreYtelser }, [enDagMedGrad(1)])).toEqual([]);
+            expect(
+                validerFordeling({ sykepengerGrad: 1, andreYtelserGrader: { FORELDREPENGER: gradAndreYtelser } }, [
+                    enDagMedGrad(1),
+                ]),
+            ).toEqual([]);
         });
 
         it.each([0, 100])('avviser %i', (gradAndreYtelser) => {
-            expect(validerFordeling({ sykepengerGrad: 1, gradAndreYtelser }, [enDagMedGrad(1)])).toContain(
-                'Grad for foreldrepenger må være mellom 1 og 99 %',
-            );
+            expect(
+                validerFordeling({ sykepengerGrad: 1, andreYtelserGrader: { FORELDREPENGER: gradAndreYtelser } }, [
+                    enDagMedGrad(1),
+                ]),
+            ).toContain('Grad for foreldrepenger må være mellom 1 og 99 %');
         });
     });
 
@@ -138,21 +148,75 @@ describe('lagGraderteAndreYtelserSchema', () => {
             'Arbeidsgraden kan ikke øke. Grad for sykepenger og grad for foreldrepenger må til sammen være minst 70 %.';
 
         it('godtar at sykdomsgrad og ytelsesgrad til sammen er lik sykdomsgraden før fordeling', () => {
-            expect(validerFordeling({ sykepengerGrad: 30, gradAndreYtelser: 40 })).toEqual([]);
+            expect(validerFordeling({ sykepengerGrad: 30, andreYtelserGrader: { FORELDREPENGER: 40 } })).toEqual([]);
         });
 
         it('avviser at arbeidsgraden øker', () => {
-            expect(validerFordeling({ sykepengerGrad: 30, gradAndreYtelser: 39 })).toEqual([økerArbeidsgraden]);
+            expect(validerFordeling({ sykepengerGrad: 30, andreYtelserGrader: { FORELDREPENGER: 39 } })).toEqual([
+                økerArbeidsgraden,
+            ]);
         });
 
         it('godtar at sykdomsgrad og ytelsesgrad til sammen er 100', () => {
-            expect(validerFordeling({ sykepengerGrad: 30, gradAndreYtelser: 70 })).toEqual([]);
+            expect(validerFordeling({ sykepengerGrad: 30, andreYtelserGrader: { FORELDREPENGER: 70 } })).toEqual([]);
         });
 
         it('avviser at arbeidsgraden blir negativ', () => {
-            expect(validerFordeling({ sykepengerGrad: 30, gradAndreYtelser: 71 })).toEqual([
+            expect(validerFordeling({ sykepengerGrad: 30, andreYtelserGrader: { FORELDREPENGER: 71 } })).toEqual([
                 'Samlet grad kan ikke overstige 100 %',
             ]);
+        });
+    });
+
+    describe('flere ytelser', () => {
+        const toYtelser = { ytelser: ['FORELDREPENGER', 'OMSORGSPENGER'] };
+
+        it('godtar flere ytelser når fordelingen går opp', () => {
+            expect(
+                validerFordeling({
+                    ...toYtelser,
+                    sykepengerGrad: 30,
+                    andreYtelserGrader: { FORELDREPENGER: 20, OMSORGSPENGER: 20 },
+                }),
+            ).toEqual([]);
+        });
+
+        it('krever grad for hver valgte ytelse', () => {
+            expect(
+                validerFordeling({ ...toYtelser, andreYtelserGrader: { FORELDREPENGER: 40, OMSORGSPENGER: null } }),
+            ).toEqual(['Grad for omsorgspenger er påkrevd']);
+        });
+
+        it('avviser en grad utenfor 1–99 for hver ytelse', () => {
+            expect(
+                validerFordeling({ ...toYtelser, andreYtelserGrader: { FORELDREPENGER: 40, OMSORGSPENGER: 0 } }),
+            ).toContain('Grad for omsorgspenger må være mellom 1 og 99 %');
+        });
+
+        it('regner arbeidsgraden med summen av ytelsene', () => {
+            expect(
+                validerFordeling({
+                    ...toYtelser,
+                    sykepengerGrad: 30,
+                    andreYtelserGrader: { FORELDREPENGER: 20, OMSORGSPENGER: 19 },
+                }),
+            ).toEqual([
+                'Arbeidsgraden kan ikke øke. Grad for sykepenger, grad for foreldrepenger og grad for omsorgspenger må til sammen være minst 70 %.',
+            ]);
+        });
+
+        it('avviser at sykdomsgraden og ytelsene til sammen er over 100 %', () => {
+            expect(
+                validerFordeling({
+                    ...toYtelser,
+                    sykepengerGrad: 30,
+                    andreYtelserGrader: { FORELDREPENGER: 40, OMSORGSPENGER: 31 },
+                }),
+            ).toEqual(['Samlet grad kan ikke overstige 100 %']);
+        });
+
+        it('ser bort fra grader for ytelser som ikke er valgt', () => {
+            expect(validerFordeling({ andreYtelserGrader: { FORELDREPENGER: 40, OMSORGSPENGER: null } })).toEqual([]);
         });
     });
 

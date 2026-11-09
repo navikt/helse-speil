@@ -14,6 +14,7 @@ import { IconSyk } from '@saksbilde/table/icons/IconSyk';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { erHelgDagtype } from './helgUtils';
+import { visningstekstForGradertAnnenYtelse } from './utbetalingstabelldager';
 
 import styles from './DagtypeCell.module.css';
 
@@ -115,8 +116,8 @@ interface DagtypeCellProps extends React.HTMLAttributes<HTMLTableCellElement> {
 
 export const DagtypeCell = ({ tabelldag, overstyrtDag: endretDag, ...rest }: DagtypeCellProps): ReactElement => {
     // En gradert annen ytelse endrer fordelingen, ikke dagtypen, så cellen viser den opprinnelige dagen
-    const gradertAnnenYtelse = endretDag?.gradertAnnenYtelse ? endretDag : undefined;
-    const overstyrtDag = gradertAnnenYtelse ? undefined : endretDag;
+    const fordeling = endretDag?.gradertAnnenYtelse;
+    const overstyrtDag = fordeling ? undefined : endretDag;
     const tekst = dekorerTekstOverstyrtDag(overstyrtDag) ?? dekorerTekst(tabelldag);
     const ikon = getTypeIcon(overstyrtDag) ?? getTypeIcon(tabelldag);
     const dagtypeErOverstyrt = overstyrtDag && tabelldag.dag.speilDagtype !== overstyrtDag.dag.speilDagtype;
@@ -127,9 +128,11 @@ export const DagtypeCell = ({ tabelldag, overstyrtDag: endretDag, ...rest }: Dag
 
     return (
         <Table.DataCell {...rest}>
-            {gradertAnnenYtelse ? (
+            {fordeling ? (
                 <Endringstrekant
-                    text={`Endret til gradert ${gradertAnnenYtelse.dag.visningstekst.toLocaleLowerCase()}`}
+                    text={`Endret til gradert ${Object.keys(fordeling.andreYtelserGrader)
+                        .map((ytelse) => visningstekstForGradertAnnenYtelse(ytelse).toLocaleLowerCase())
+                        .join(', ')}`}
                 />
             ) : dagtypeErOverstyrt ? (
                 <Endringstrekant text={`Endret fra ${tabelldag.dag.visningstekst}`} />

@@ -7,7 +7,6 @@ import { LovdataLenke } from '@components/LovdataLenke';
 import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import { CellContent } from '@saksbilde/table/CellContent';
-import { GradertAnnenYtelsetype } from '@typer/overstyring';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { visningstekstForGradertAnnenYtelse } from './utbetalingstabelldager';
@@ -147,20 +146,18 @@ const avvisningsårsakerMerknad = (
 
 function graderteAndreYtelserMerknad(
     graderteAndreYtelserDag?: ApiGraderteAndreYtelserDag,
-    endretYtelsetype?: GradertAnnenYtelsetype,
+    endredeYtelser?: string[],
 ): string | null {
-    const ytelsetyper = endretYtelsetype
-        ? [endretYtelsetype]
-        : Object.keys(graderteAndreYtelserDag?.andreYtelserGrader ?? {});
+    const ytelsetyper = endredeYtelser ?? Object.keys(graderteAndreYtelserDag?.andreYtelserGrader ?? {});
     const ytelser = ytelsetyper.map((ytelse) => visningstekstForGradertAnnenYtelse(ytelse).toLowerCase());
     if (ytelser.length === 0) return null;
     const tekst = ytelser.join(', ');
     return tekst.charAt(0).toUpperCase() + tekst.slice(1);
 }
 
-function harBareYtelse(graderteAndreYtelserDag: ApiGraderteAndreYtelserDag | undefined, ytelse: string): boolean {
+function harSammeYtelser(graderteAndreYtelserDag: ApiGraderteAndreYtelserDag | undefined, ytelser: string[]): boolean {
     const lagredeYtelser = Object.keys(graderteAndreYtelserDag?.andreYtelserGrader ?? {});
-    return lagredeYtelser.length === 1 && lagredeYtelser[0] === ytelse;
+    return lagredeYtelser.length === ytelser.length && ytelser.every((ytelse) => lagredeYtelser.includes(ytelse));
 }
 
 function harAndreMerknader(dag: Utbetalingstabelldag): boolean {
@@ -171,18 +168,18 @@ interface MerknaderCellProps extends React.HTMLAttributes<HTMLTableCellElement> 
     dag: Utbetalingstabelldag;
     alderVedSkjæringstidspunkt?: number | null;
     graderteAndreYtelserDag?: ApiGraderteAndreYtelserDag;
-    endretYtelsetype?: GradertAnnenYtelsetype;
+    endredeYtelser?: string[];
 }
 
 export const MerknaderCell = ({
     dag,
     alderVedSkjæringstidspunkt,
     graderteAndreYtelserDag,
-    endretYtelsetype,
+    endredeYtelser,
     ...rest
 }: MerknaderCellProps): ReactElement => {
-    const andreYtelserMerknad = graderteAndreYtelserMerknad(graderteAndreYtelserDag, endretYtelsetype);
-    const ytelseErEndret = !!endretYtelsetype && !harBareYtelse(graderteAndreYtelserDag, endretYtelsetype);
+    const andreYtelserMerknad = graderteAndreYtelserMerknad(graderteAndreYtelserDag, endredeYtelser);
+    const ytelseErEndret = !!endredeYtelser && !harSammeYtelser(graderteAndreYtelserDag, endredeYtelser);
     return (
         <Table.DataCell {...rest}>
             {ytelseErEndret && <Endringstrekant />}

@@ -10,6 +10,7 @@ import { CellContent } from '@saksbilde/table/CellContent';
 import { GradertAnnenYtelse, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
 import { GraderteAndreYtelserEndring } from './graderteAndreYtelserEndringer';
+import { samletGrad } from './graderteAndreYtelserUtils';
 import { erHelgDagtype } from './helgUtils';
 
 interface AndreYtelserCellProps {
@@ -25,8 +26,9 @@ export function AndreYtelserCell({
     endringer = [],
     endretFordeling,
 }: AndreYtelserCellProps): ReactElement {
-    const lagretGrad = samletGrad(graderteAndreYtelserDag);
-    const fordelingErEndret = !!endretFordeling && endretFordeling.andreYtelseGrad !== lagretGrad;
+    const lagretGrad = lagretSamletGrad(graderteAndreYtelserDag);
+    const endretGrad = endretFordeling ? samletGrad(endretFordeling.andreYtelserGrader) : undefined;
+    const fordelingErEndret = endretGrad !== undefined && endretGrad !== lagretGrad;
 
     return (
         <Table.DataCell>
@@ -34,7 +36,7 @@ export function AndreYtelserCell({
             <CellContent flexEnd>
                 {!erHelgDagtype(dagtype) && (
                     <HStack gap="space-8" align="center" wrap={false}>
-                        {visningstekst(endretFordeling ? endretFordeling.andreYtelseGrad : lagretGrad)}
+                        {visningstekst(endretGrad ?? lagretGrad)}
                         {endringer.length > 0 && (
                             <EndringsloggKildeButton
                                 renderEndringslogg={(onOpenChange) => (
@@ -52,10 +54,9 @@ export function AndreYtelserCell({
     );
 }
 
-function samletGrad(graderteAndreYtelserDag?: ApiGraderteAndreYtelserDag): number | null {
-    const grader = Object.values(graderteAndreYtelserDag?.andreYtelserGrader ?? {});
-    if (grader.length === 0) return null;
-    return grader.reduce((sum, grad) => sum + grad, 0);
+function lagretSamletGrad(graderteAndreYtelserDag?: ApiGraderteAndreYtelserDag): number | null {
+    const grader = graderteAndreYtelserDag?.andreYtelserGrader ?? {};
+    return Object.keys(grader).length === 0 ? null : samletGrad(grader);
 }
 
 function visningstekst(grad: number | null): string {

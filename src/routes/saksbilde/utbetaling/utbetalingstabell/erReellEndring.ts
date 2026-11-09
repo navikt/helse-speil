@@ -21,16 +21,21 @@ export function erEndretITidslinjen(tilDag: Partial<Utbetalingstabelldag>, fraDa
 
 // sammenligner alle detaljene istedenfor hele fraGrad
 function erEndretGradertAnnenYtelse(
-    { dag, gradertAnnenYtelse }: Partial<Utbetalingstabelldag>,
+    { gradertAnnenYtelse }: Partial<Utbetalingstabelldag>,
     lagretGradertDag?: ApiGraderteAndreYtelserDag,
 ): boolean {
-    if (!lagretGradertDag || !dag?.gradertAnnenYtelsetype || !gradertAnnenYtelse) return true;
-    const { andreYtelserGrader, sykdomsgrad, begrunnelse } = lagretGradertDag;
+    if (!lagretGradertDag || !gradertAnnenYtelse) return true;
     return (
         lagretGradertDag.sykdomsgradFørFordeling !== gradertAnnenYtelse.sykdomsgradFørFordeling ||
-        sykdomsgrad !== gradertAnnenYtelse.sykdomsgrad ||
-        begrunnelse !== gradertAnnenYtelse.begrunnelse ||
-        Object.keys(andreYtelserGrader).length !== 1 ||
-        andreYtelserGrader[dag.gradertAnnenYtelsetype] !== gradertAnnenYtelse.andreYtelseGrad
+        lagretGradertDag.sykdomsgrad !== gradertAnnenYtelse.sykdomsgrad ||
+        lagretGradertDag.begrunnelse !== gradertAnnenYtelse.begrunnelse ||
+        !erLikeGrader(lagretGradertDag.andreYtelserGrader, gradertAnnenYtelse.andreYtelserGrader)
+    );
+}
+
+function erLikeGrader(lagrede: Record<string, number | undefined>, endrede: Record<string, number | undefined>) {
+    const ytelser = Object.keys(lagrede);
+    return (
+        ytelser.length === Object.keys(endrede).length && ytelser.every((ytelse) => lagrede[ytelse] === endrede[ytelse])
     );
 }

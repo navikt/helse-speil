@@ -19,7 +19,6 @@ import { act, waitFor } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
-import { Foreldrepengerdag } from './utbetalingstabelldager';
 
 vi.mock('@state/person');
 vi.mock('@state/inntektsforhold/inntektsforhold');
@@ -482,12 +481,11 @@ const oversyrteDager: Utbetalingstabelldag[] = [
 ];
 const gradertDag: Utbetalingstabelldag = {
     ...dager[0]!,
-    dag: Foreldrepengerdag,
     dato: '2020-01-02',
     grad: 70,
     gradertAnnenYtelse: {
         sykdomsgrad: 30,
-        andreYtelseGrad: 40,
+        andreYtelserGrader: { FORELDREPENGER: 40 },
         sykdomsgradFørFordeling: 70,
         begrunnelse: 'Begrunnelse for klyngen',
     },

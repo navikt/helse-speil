@@ -79,9 +79,11 @@ export type Utbetalingstabelldag = {
     fraType?: Utbetalingstabelldagtype;
 };
 
+export type AndreYtelserGrader = Record<string, number>;
+
 export type GradertAnnenYtelse = {
     sykdomsgradFørFordeling: number;
     sykdomsgrad: number;
-    andreYtelseGrad: number;
+    andreYtelserGrader: AndreYtelserGrader;
     begrunnelse: string;
 };

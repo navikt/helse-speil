@@ -1,19 +1,19 @@
 import { tilGraderteAndreYtelserEndring } from './graderteAndreYtelserUtils';
-import { Foreldrepengerdag } from './utbetalingstabelldager';
 
 describe('tilGraderteAndreYtelserEndring', () => {
-    it('tar vare på fordelingen for gradert annen ytelse', () => {
+    it('tar vare på fordelingen for de valgte ytelsene uten å endre dagen fra Spleis', () => {
         const endring = tilGraderteAndreYtelserEndring({
-            ytelse: 'Foreldrepenger',
+            ytelser: ['FORELDREPENGER', 'OMSORGSPENGER'],
             sykepengerGrad: 30,
-            gradAndreYtelser: 40,
+            andreYtelserGrader: { FORELDREPENGER: 20, OMSORGSPENGER: 20, PLEIEPENGER: 10 },
             begrunnelse: 'Begrunnelse for klyngen',
         });
 
-        expect(endring).toMatchObject({ grad: 70, dag: Foreldrepengerdag });
+        expect(endring).not.toHaveProperty('dag');
+        expect(endring).not.toHaveProperty('grad');
         expect(endring.gradertAnnenYtelse).toEqual({
             sykdomsgrad: 30,
-            andreYtelseGrad: 40,
+            andreYtelserGrader: { FORELDREPENGER: 20, OMSORGSPENGER: 20 },
             begrunnelse: 'Begrunnelse for klyngen',
         });
     });

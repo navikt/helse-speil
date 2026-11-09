@@ -7,8 +7,10 @@ import {
     ApiYrkesaktivitetstype,
 } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { GradertAnnenYtelse, Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { isArbeidsgiver } from '@utils/typeguards';
+
+import { samletGrad } from './graderteAndreYtelserUtils';
 
 type Yrkesaktivitet = Pick<ApiEndreGraderteAndreYtelserRequest, 'yrkesaktivitet' | 'organisasjonsnummer'>;
 
@@ -31,7 +33,7 @@ export function tilGraderteAndreYtelserRequest({
         versjon: lagrede?.versjon ?? null,
         behandlingId,
         dager: overstyrteDager.flatMap((dag) => {
-            if (dag.gradertAnnenYtelse) return [tilGraderteAndreYtelserDag(dag)];
+            if (dag.gradertAnnenYtelse) return [tilGraderteAndreYtelserDag(dag.dato, dag.gradertAnnenYtelse)];
             const lagretDag = lagrede?.dager.find((it) => it.dato === dayjs(dag.dato).format('YYYY-MM-DD'));
             return harFordeling(lagretDag) ? [tilDagUtenFordeling(lagretDag, begrunnelse)] : [];
         }),
@@ -63,21 +65,16 @@ function tilYrkesaktivitet(inntektsforhold: Inntektsforhold): Yrkesaktivitet {
         : { yrkesaktivitet: ApiYrkesaktivitetstype.SELVSTENDIG, organisasjonsnummer: null };
 }
 
-function tilGraderteAndreYtelserDag({
-    dato,
-    dag,
-    gradertAnnenYtelse,
-}: Utbetalingstabelldag): ApiGraderteAndreYtelserDag {
-    if (dag.gradertAnnenYtelsetype === undefined || !gradertAnnenYtelse) {
-        throw Error(`Dag ${dato} mangler gyldig gradert annen ytelse.`);
-    }
-    const { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling, begrunnelse } = gradertAnnenYtelse;
+function tilGraderteAndreYtelserDag(
+    dato: string,
+    { sykdomsgrad, andreYtelserGrader, sykdomsgradFørFordeling, begrunnelse }: GradertAnnenYtelse,
+): ApiGraderteAndreYtelserDag {
     return {
         dato: dayjs(dato).format('YYYY-MM-DD'),
-        andreYtelserGrader: { [dag.gradertAnnenYtelsetype]: andreYtelseGrad },
+        andreYtelserGrader,
         sykdomsgrad,
         sykdomsgradFørFordeling,
-        arbeidsgrad: 100 - sykdomsgrad - andreYtelseGrad,
+        arbeidsgrad: 100 - sykdomsgrad - samletGrad(andreYtelserGrader),
         begrunnelse,
     };
 }

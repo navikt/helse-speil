@@ -193,8 +193,10 @@ export const Utbetalingstabell = ({
                                                 ? graderteAndreYtelserPerDato.get(tabelldag.dato)
                                                 : undefined
                                         }
-                                        endretYtelsetype={
-                                            endretFordeling ? overstyrtDag?.dag.gradertAnnenYtelsetype : undefined
+                                        endredeYtelser={
+                                            endretFordeling
+                                                ? Object.keys(endretFordeling.andreYtelserGrader)
+                                                : undefined
                                         }
                                     />
                                     {overstyrer && (

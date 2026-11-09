@@ -206,8 +206,8 @@ describe('OverstyrbarUtbetaling', () => {
         );
 
         await userEvent.click(screen.getByRole('button', { name: 'Legg til graderte ytelser' }));
-        await fordelKlynge(1, { sykepenger: '60', foreldrepenger: '40', begrunnelse: 'Første klynge' });
-        await fordelKlynge(2, { sykepenger: '50', foreldrepenger: '30', begrunnelse: 'Andre klynge' });
+        await fordelKlynge(1, { sykepenger: '60', ytelser: { Foreldrepenger: '40' }, begrunnelse: 'Første klynge' });
+        await fordelKlynge(2, { sykepenger: '50', ytelser: { Foreldrepenger: '30' }, begrunnelse: 'Andre klynge' });
 
         expect(screen.queryByTestId('overstyring-begrunnelse')).not.toBeInTheDocument();
         await userEvent.click(screen.getByTestId('oppdater'));
@@ -218,7 +218,7 @@ describe('OverstyrbarUtbetaling', () => {
                 dato: '2022-01-03',
                 gradertAnnenYtelse: {
                     sykdomsgrad: 60,
-                    andreYtelseGrad: 40,
+                    andreYtelserGrader: { FORELDREPENGER: 40 },
                     sykdomsgradFørFordeling: 100,
                     begrunnelse: 'Første klynge',
                 },
@@ -227,12 +227,55 @@ describe('OverstyrbarUtbetaling', () => {
                 dato: '2022-01-04',
                 gradertAnnenYtelse: {
                     sykdomsgrad: 50,
-                    andreYtelseGrad: 30,
+                    andreYtelserGrader: { FORELDREPENGER: 30 },
                     sykdomsgradFørFordeling: 80,
                     begrunnelse: 'Andre klynge',
                 },
             },
         ]);
+    });
+
+    test('fordeler en dag mellom flere ytelser og beholder dagtypen fra Spleis', async () => {
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
+        renderOverstyring(new Map([['2022-01-03', getUtbetalingstabellDag({ dato: '2022-01-03', grad: 50 })]]));
+
+        await userEvent.click(screen.getByRole('button', { name: 'Legg til graderte ytelser' }));
+        await fordelKlynge(1, {
+            sykepenger: '10',
+            ytelser: { Foreldrepenger: '20', Omsorgspenger: '20' },
+            begrunnelse: 'To ytelser',
+            førEndre: () => expect(screen.getByRole('textbox', { name: 'Arbeid' })).toHaveValue('50'),
+        });
+
+        const rad = screen.getAllByRole('row').at(-1)!;
+        expect(within(rad).getByText('Syk')).toBeVisible();
+        expect(within(rad).getByText('Foreldrepenger, omsorgspenger')).toBeVisible();
+        expect(within(rad).getByText('40 %')).toBeVisible();
+
+        await userEvent.click(screen.getByTestId('oppdater'));
+
+        const [overstyrteDager] = postOverstyringArguments;
+        expect(overstyrteDager?.[0]?.gradertAnnenYtelse).toEqual({
+            sykdomsgrad: 10,
+            andreYtelserGrader: { FORELDREPENGER: 20, OMSORGSPENGER: 20 },
+            sykdomsgradFørFordeling: 50,
+            begrunnelse: 'To ytelser',
+        });
+    });
+
+    test('fjerner gradfeltet når saksbehandler velger bort en ytelse', async () => {
+        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Legg til graderte ytelser' }));
+        await velgYtelse('Foreldrepenger');
+        await velgYtelse('Omsorgspenger');
+        expect(screen.getByRole('textbox', { name: 'Omsorgspenger' })).toBeVisible();
+
+        await velgYtelse('Omsorgspenger');
+
+        expect(screen.queryByRole('textbox', { name: 'Omsorgspenger' })).not.toBeInTheDocument();
+        expect(screen.getByRole('textbox', { name: 'Foreldrepenger' })).toBeVisible();
     });
 
     test('«Endre dagtype» tilbyr ikke gradert annen ytelse', async () => {
@@ -385,15 +428,33 @@ function renderOverstyring(dager: Map<string, Utbetalingstabelldag>) {
 
 async function fordelKlynge(
     radnummer: number,
-    { sykepenger, foreldrepenger, begrunnelse }: { sykepenger: string; foreldrepenger: string; begrunnelse: string },
+    {
+        sykepenger,
+        ytelser,
+        begrunnelse,
+        førEndre,
+    }: { sykepenger: string; ytelser: Record<string, string>; begrunnelse: string; førEndre?: () => void },
 ) {
     await userEvent.click(screen.getAllByRole('checkbox')[radnummer]!);
-    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Velg annen ytelse' }), 'Foreldrepenger');
-    await userEvent.clear(screen.getByRole('textbox', { name: 'Sykepenger' }));
-    await userEvent.type(screen.getByRole('textbox', { name: 'Sykepenger' }), sykepenger);
-    await userEvent.clear(screen.getByRole('textbox', { name: 'Foreldrepenger' }));
-    await userEvent.type(screen.getByRole('textbox', { name: 'Foreldrepenger' }), foreldrepenger);
-    await userEvent.clear(screen.getByRole('textbox', { name: /Begrunnelse for endringer/ }));
-    await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse for endringer/ }), begrunnelse);
+    // Skjemaet beholder valgene fra forrige klynge, og et nytt klikk på en valgt ytelse velger den bort
+    for (const ytelse of Object.keys(ytelser).filter((ytelse) => !screen.queryByRole('textbox', { name: ytelse }))) {
+        await velgYtelse(ytelse);
+    }
+    await fyllInn('Sykepenger', sykepenger);
+    for (const [ytelse, grad] of Object.entries(ytelser)) {
+        await fyllInn(ytelse, grad);
+    }
+    await fyllInn(/Begrunnelse for endringer/, begrunnelse);
+    førEndre?.();
     await userEvent.click(screen.getByTestId('endre'));
+}
+
+async function velgYtelse(ytelse: string) {
+    await userEvent.click(screen.getByRole('combobox', { name: 'Velg annen ytelse' }));
+    await userEvent.click(await screen.findByRole('option', { name: ytelse }));
+}
+
+async function fyllInn(navn: string | RegExp, verdi: string) {
+    await userEvent.clear(screen.getByRole('textbox', { name: navn }));
+    await userEvent.type(screen.getByRole('textbox', { name: navn }), verdi);
 }

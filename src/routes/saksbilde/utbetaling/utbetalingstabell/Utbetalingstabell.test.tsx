@@ -14,7 +14,7 @@ import userEvent from '@testing-library/user-event';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { Utbetalingstabell } from './Utbetalingstabell';
-import { Helgedag, Svangerskapspengerdag, Sykedag } from './utbetalingstabelldager';
+import { Helgedag, Sykedag } from './utbetalingstabelldager';
 
 vi.mock('@hooks/brukerrolleHooks', () => ({ useErCoachFagkoordinatorEllerSupersaksbehandler: vi.fn() }));
 
@@ -155,21 +155,20 @@ describe('Utbetalingstabell', () => {
         });
 
         describe('når saksbehandler fordeler en dag på en gradert annen ytelse', () => {
-            const enFordeling = (sykdomsgrad: number, andreYtelseGrad: number) => ({
+            const enFordeling = (sykdomsgrad: number, andreYtelserGrader: Record<string, number>) => ({
                 ['2022-01-03']: enUtbetalingstabelldag('2022-01-03', {
-                    dag: Svangerskapspengerdag,
-                    grad: sykdomsgrad + andreYtelseGrad,
+                    grad: 100,
                     gradertAnnenYtelse: {
                         sykdomsgradFørFordeling: 100,
                         sykdomsgrad,
-                        andreYtelseGrad,
+                        andreYtelserGrader,
                         begrunnelse: 'Begrunnelse for klyngen',
                     },
                 }),
             });
 
             it('viser den opprinnelige dagen og den nye fordelingen, og markerer det som endres', async () => {
-                rendrerTabell([], {}, [], enFordeling(30, 70));
+                rendrerTabell([], {}, [], enFordeling(30, { SVANGERSKAPSPENGER: 70 }));
 
                 const rad = radFor('03.01.2022');
                 expect(within(rad).getByText('Syk')).toBeVisible();
@@ -189,7 +188,7 @@ describe('Utbetalingstabell', () => {
                     [enGradertAnnenYtelseDag('2022-01-03', { SVANGERSKAPSPENGER: 70 })],
                     { ['2022-01-03']: enUtbetalingstabelldag('2022-01-03', { totalGradering: 30 }) },
                     [],
-                    enFordeling(30, 70),
+                    enFordeling(30, { SVANGERSKAPSPENGER: 70 }),
                 );
 
                 expect(within(radFor('03.01.2022')).getAllByTestId('infotrekant')).toHaveLength(1);

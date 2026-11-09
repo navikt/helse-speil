@@ -1,21 +1,21 @@
 import type { GraderteAndreYtelserFormFields } from '@form-schemas/graderteAndreYtelserSkjema';
 import { PostGraderteAndreYtelserMutationError } from '@io/rest/generated/andre-ytelser/graderte-andre-ytelser/graderte-andre-ytelser';
-import { typeendringerAndreYtelser } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 import type { Dagendring, Fordeling } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/types';
 
+// Fordelingen endrer ikke dagtypen eller graden fra Spleis, så endringen har bare fordelingen
 export function tilGraderteAndreYtelserEndring(values: GraderteAndreYtelserFormFields): Dagendring {
     const gradertAnnenYtelse: Fordeling = {
         sykdomsgrad: values.sykepengerGrad ?? 0,
-        andreYtelseGrad: values.gradAndreYtelser ?? 0,
+        andreYtelserGrader: Object.fromEntries(
+            values.ytelser.map((ytelse) => [ytelse, values.andreYtelserGrader[ytelse] ?? 0]),
+        ),
         begrunnelse: values.begrunnelse,
     };
-    return {
-        grad: gradertAnnenYtelse.sykdomsgrad + gradertAnnenYtelse.andreYtelseGrad,
-        dag: typeendringerAndreYtelser.find((dag) => dag.speilDagtype === values.ytelse)!,
-        erAvvist: false,
-        erForeldet: false,
-        gradertAnnenYtelse,
-    };
+    return { erAvvist: false, erForeldet: false, gradertAnnenYtelse };
+}
+
+export function samletGrad(andreYtelserGrader: Record<string, number>): number {
+    return Object.values(andreYtelserGrader).reduce((sum, grad) => sum + grad, 0);
 }
 
 export function somGraderteAndreYtelserFeilmelding(error: PostGraderteAndreYtelserMutationError): string | undefined {

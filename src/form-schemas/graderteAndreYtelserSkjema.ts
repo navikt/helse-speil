@@ -1,30 +1,26 @@
 import { z } from 'zod/v4';
 
 import { sperrDagerMedOppholdskrav } from '@form-schemas/dagEndringSkjema';
-import {
-    Utbetalingstabelldag,
-    Utbetalingstabelldagtype,
-    utbetalingstabelldagtypeValues,
-} from '@typer/utbetalingstabell';
-
-type Prosentfelt = 'sykepengerGrad' | 'gradAndreYtelser';
+import { visningstekstForGradertAnnenYtelse } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
+import { GradertAnnenYtelsetype, gradertAnnenYtelsetypeValues } from '@typer/overstyring';
+import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
 
 const sykedagtyper: Utbetalingstabelldagtype[] = ['Syk', 'SykNav'];
 
-type FordelingRefinementCtx = z.RefinementCtx<{ ytelse: string }>;
+const gradertAnnenYtelsetype = z.enum(gradertAnnenYtelsetypeValues);
 
 export function lagGraderteAndreYtelserSchema(markerteDager: Utbetalingstabelldag[]) {
     return z
         .object({
-            ytelse: z.enum(utbetalingstabelldagtypeValues, { error: () => 'Annen ytelse er påkrevd' }),
+            ytelser: z.array(gradertAnnenYtelsetype).min(1, 'Annen ytelse er påkrevd'),
             sykepengerGrad: z.number().nullable(),
-            gradAndreYtelser: z.number().nullable(),
+            andreYtelserGrader: z.partialRecord(gradertAnnenYtelsetype, z.number().nullable()),
             begrunnelse: z.string().trim().min(1, 'Begrunnelse må fylles ut'),
         })
         .superRefine((_, ctx) => validerKlynge(markerteDager, ctx), { when: () => true })
         .superRefine((verdier, ctx) => {
             validerFordeling(verdier, markerteDager, ctx);
-            sperrDagerMedOppholdskrav(markerteDager, ctx, 'ytelse');
+            sperrDagerMedOppholdskrav(markerteDager, ctx, 'ytelser');
         });
 }
 
@@ -57,19 +53,28 @@ function validerKlynge(markerteDager: Utbetalingstabelldag[], ctx: z.RefinementC
 }
 
 function validerFordeling(
-    prosenter: Record<Prosentfelt, number | null>,
+    { ytelser, sykepengerGrad, andreYtelserGrader }: GraderteAndreYtelserFormFields,
     markerteDager: Utbetalingstabelldag[],
-    ctx: FordelingRefinementCtx,
+    ctx: z.RefinementCtx,
 ) {
+    if (ytelser.length === 0) return;
     const sykdomsgradFørFordeling = markerteDager[0]?.grad ?? 0;
 
-    validerProsent('sykepengerGrad', prosenter.sykepengerGrad, sykdomsgradFørFordeling, ctx);
-    validerProsent('gradAndreYtelser', prosenter.gradAndreYtelser, 99, ctx);
+    validerProsent(['sykepengerGrad'], 'Grad for sykepenger', sykepengerGrad, sykdomsgradFørFordeling, ctx);
+    ytelser.forEach((ytelse) =>
+        validerProsent(
+            ['andreYtelserGrader', ytelse],
+            gradfeltnavn(ytelse),
+            andreYtelserGrader[ytelse] ?? null,
+            99,
+            ctx,
+        ),
+    );
 
-    const { sykepengerGrad, gradAndreYtelser } = prosenter;
-    if (!sykepengerGrad || !gradAndreYtelser) return;
+    const ytelsesgrader = ytelser.map((ytelse) => andreYtelserGrader[ytelse] ?? 0);
+    if (!sykepengerGrad || ytelsesgrader.includes(0)) return;
 
-    const samletGrad = sykepengerGrad + gradAndreYtelser;
+    const samletGrad = ytelsesgrader.reduce((sum, grad) => sum + grad, sykepengerGrad);
     if (samletGrad > 100) {
         ctx.addIssue({
             code: 'custom',
@@ -78,38 +83,35 @@ function validerFordeling(
             path: ['sykepengerGrad'],
         });
     } else if (samletGrad < sykdomsgradFørFordeling) {
-        const feltnavn = prosentfeltnavn(ctx.value.ytelse);
+        const feltnavn = ['Grad for sykepenger', ...ytelser.map((ytelse) => gradfeltnavn(ytelse).toLocaleLowerCase())];
         ctx.addIssue({
             code: 'custom',
-            message: `Arbeidsgraden kan ikke øke. ${feltnavn.sykepengerGrad} og ${feltnavn.gradAndreYtelser.toLocaleLowerCase()} må til sammen være minst ${sykdomsgradFørFordeling} %.`,
+            message: `Arbeidsgraden kan ikke øke. ${new Intl.ListFormat('nb', { type: 'conjunction' }).format(feltnavn)} må til sammen være minst ${sykdomsgradFørFordeling} %.`,
             input: samletGrad,
             path: ['sykepengerGrad'],
         });
     }
 }
 
-function validerProsent(felt: Prosentfelt, verdi: number | null, maksimum: number, ctx: FordelingRefinementCtx) {
-    const feltnavn = prosentfeltnavn(ctx.value.ytelse)[felt];
+function validerProsent(
+    path: PropertyKey[],
+    feltnavn: string,
+    verdi: number | null,
+    maksimum: number,
+    ctx: z.RefinementCtx,
+) {
     if (verdi == null) {
-        ctx.addIssue({
-            code: 'custom',
-            message: `${feltnavn} er påkrevd`,
-            input: verdi,
-            path: [felt],
-        });
+        ctx.addIssue({ code: 'custom', message: `${feltnavn} er påkrevd`, input: verdi, path });
     } else if (verdi < 1 || verdi > maksimum) {
         ctx.addIssue({
             code: 'custom',
             message: `${feltnavn} må være mellom 1 og ${maksimum} %`,
             input: verdi,
-            path: [felt],
+            path,
         });
     }
 }
 
-function prosentfeltnavn(ytelse: string): Record<Prosentfelt, string> {
-    return {
-        sykepengerGrad: 'Grad for sykepenger',
-        gradAndreYtelser: `Grad for ${ytelse.toLocaleLowerCase()}`,
-    };
+export function gradfeltnavn(ytelse: GradertAnnenYtelsetype): string {
+    return `Grad for ${visningstekstForGradertAnnenYtelse(ytelse).toLocaleLowerCase()}`;
 }

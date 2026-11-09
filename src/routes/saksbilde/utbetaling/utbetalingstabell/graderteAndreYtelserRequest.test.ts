@@ -5,10 +5,11 @@ import {
 import { ApiArbeidsgiver, ApiSelvstendigNaering } from '@io/rest/generated/spesialist.schemas';
 import { tilDagendring, tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
 import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtures';
+import { AndreYtelserGrader } from '@typer/utbetalingstabell';
 
 import { tilGraderteAndreYtelserRequest } from './graderteAndreYtelserRequest';
 import { tilGraderteAndreYtelserEndring } from './graderteAndreYtelserUtils';
-import { Feriedag, Foreldrepengerdag, Pleiepengerdag, Sykedag } from './utbetalingstabelldager';
+import { Feriedag, Sykedag } from './utbetalingstabelldager';
 
 const selvstendig = { behandlinger: [], overstyringer: [] } as ApiSelvstendigNaering;
 const behandlingId = '94926180-4e95-4879-8975-0a63b5659831';
@@ -17,9 +18,9 @@ describe('tilGraderteAndreYtelserRequest', () => {
     it('sender bare graderte dager med full fordeling', () => {
         const request = tilGraderteAndreYtelserRequest({
             overstyrteDager: [
-                gradertDag('2024-07-01', 30, 40),
+                gradertDag('2024-07-01', 30, { FORELDREPENGER: 40 }),
                 lagDag({ dato: '2024-07-02', dag: Sykedag, grad: 50 }),
-                gradertDag('2024-07-03', 20, 50, Pleiepengerdag),
+                gradertDag('2024-07-03', 20, { PLEIEPENGER: 50 }),
             ],
             inntektsforhold: arbeidsgiver('967170232'),
             graderteAndreYtelser: [],
@@ -56,9 +57,9 @@ describe('tilGraderteAndreYtelserRequest', () => {
     it('sender alle klyngene i én forespørsel med begrunnelsen til klyngen på hver dag', () => {
         const request = tilGraderteAndreYtelserRequest({
             overstyrteDager: [
-                gradertDag('2024-07-01', 30, 40, Foreldrepengerdag, 'Første klynge'),
-                gradertDag('2024-07-02', 30, 40, Foreldrepengerdag, 'Første klynge'),
-                gradertDag('2024-07-03', 20, 50, Pleiepengerdag, 'Andre klynge'),
+                gradertDag('2024-07-01', 30, { FORELDREPENGER: 40 }, 'Første klynge'),
+                gradertDag('2024-07-02', 30, { FORELDREPENGER: 40 }, 'Første klynge'),
+                gradertDag('2024-07-03', 20, { PLEIEPENGER: 50 }, 'Andre klynge'),
             ],
             inntektsforhold: arbeidsgiver('967170232'),
             graderteAndreYtelser: [],
@@ -75,7 +76,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
 
     it('bruker versjonen for samme arbeidsgiver', () => {
         const request = tilGraderteAndreYtelserRequest({
-            overstyrteDager: [gradertDag('2024-07-01', 30, 40)],
+            overstyrteDager: [gradertDag('2024-07-01', 30, { FORELDREPENGER: 40 })],
             inntektsforhold: arbeidsgiver('967170232'),
             graderteAndreYtelser: [
                 lagGraderteAndreYtelser({ organisasjonsnummer: '947064649', versjon: 'annen-arbeidsgiver' }),
@@ -90,7 +91,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
 
     it('sender null som versjon når arbeidsgiveren ikke har graderte andre ytelser', () => {
         const request = tilGraderteAndreYtelserRequest({
-            overstyrteDager: [gradertDag('2024-07-01', 30, 40)],
+            overstyrteDager: [gradertDag('2024-07-01', 30, { FORELDREPENGER: 40 })],
             inntektsforhold: arbeidsgiver('967170232'),
             graderteAndreYtelser: [lagGraderteAndreYtelser({ organisasjonsnummer: '947064649' })],
             behandlingId,
@@ -101,7 +102,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
     });
 
     it('bevarer sykdomsgrad før fordeling uten å beregne den fra de fordelte gradene', () => {
-        const dag = gradertDag('2024-07-01', 30, 40);
+        const dag = gradertDag('2024-07-01', 30, { FORELDREPENGER: 40 });
         dag.gradertAnnenYtelse!.sykdomsgradFørFordeling = 60;
 
         const request = tilGraderteAndreYtelserRequest({
@@ -117,7 +118,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
 
     it('sender selvstendig uten organisasjonsnummer', () => {
         const request = tilGraderteAndreYtelserRequest({
-            overstyrteDager: [gradertDag('2024-07-01', 30, 40)],
+            overstyrteDager: [gradertDag('2024-07-01', 30, { FORELDREPENGER: 40 })],
             inntektsforhold: selvstendig,
             graderteAndreYtelser: [
                 lagGraderteAndreYtelser({ yrkesaktivitet: 'SELVSTENDIG', organisasjonsnummer: null }),
@@ -187,16 +188,25 @@ describe('tilGraderteAndreYtelserRequest', () => {
         expect(request.dager).toEqual([]);
     });
 
-    it('feiler for gradert dag uten type for gradert annen ytelse', () => {
-        expect(() =>
-            tilGraderteAndreYtelserRequest({
-                overstyrteDager: [gradertDag('2024-07-01', 30, 40, Sykedag)],
-                inntektsforhold: arbeidsgiver('967170232'),
-                graderteAndreYtelser: [],
-                behandlingId,
-                begrunnelse: 'En begrunnelse',
-            }),
-        ).toThrow();
+    it('sender alle ytelsene for dagen', () => {
+        const request = tilGraderteAndreYtelserRequest({
+            overstyrteDager: [gradertDag('2024-07-01', 10, { FORELDREPENGER: 20, OMSORGSPENGER: 20 })],
+            inntektsforhold: arbeidsgiver('967170232'),
+            graderteAndreYtelser: [],
+            behandlingId,
+            begrunnelse: 'Felles begrunnelse',
+        });
+
+        expect(request.dager).toEqual([
+            {
+                dato: '2024-07-01',
+                andreYtelserGrader: { FORELDREPENGER: 20, OMSORGSPENGER: 20 },
+                sykdomsgrad: 10,
+                arbeidsgrad: 50,
+                sykdomsgradFørFordeling: 70,
+                begrunnelse: 'Begrunnelse for klyngen',
+            },
+        ]);
     });
 });
 
@@ -210,9 +220,9 @@ describe('tilDagendring', () => {
 
 describe('tilEndringForDag', () => {
     const endringMedFordeling = tilGraderteAndreYtelserEndring({
-        ytelse: 'Foreldrepenger',
+        ytelser: ['FORELDREPENGER'],
         sykepengerGrad: 30,
-        gradAndreYtelser: 20,
+        andreYtelserGrader: { FORELDREPENGER: 20 },
         begrunnelse: 'Begrunnelse for klyngen',
     });
 
@@ -221,7 +231,7 @@ describe('tilEndringForDag', () => {
 
         expect(endring.gradertAnnenYtelse).toEqual({
             sykdomsgrad: 30,
-            andreYtelseGrad: 20,
+            andreYtelserGrader: { FORELDREPENGER: 20 },
             sykdomsgradFørFordeling: 60,
             begrunnelse: 'Begrunnelse for klyngen',
         });
@@ -284,14 +294,13 @@ function lagretDag(
 function gradertDag(
     dato: string,
     sykdomsgrad: number,
-    andreYtelseGrad: number,
-    dag = Foreldrepengerdag,
+    andreYtelserGrader: AndreYtelserGrader,
     begrunnelse = 'Begrunnelse for klyngen',
 ) {
     return lagDag({
         dato,
-        dag,
-        grad: sykdomsgrad + andreYtelseGrad,
-        gradertAnnenYtelse: { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling: 70, begrunnelse },
+        dag: Sykedag,
+        grad: 70,
+        gradertAnnenYtelse: { sykdomsgrad, andreYtelserGrader, sykdomsgradFørFordeling: 70, begrunnelse },
     });
 }
