@@ -36,6 +36,7 @@ spec:
         - application: sp-vilkarsproving
         - application: sp-avslagsdager
         - application: spleis-api
+        - application: sp-andre-ytelser
         - application: sp-rettighetskategori
         - application: sparsom-api
       external:
