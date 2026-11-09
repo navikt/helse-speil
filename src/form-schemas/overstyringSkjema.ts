@@ -255,10 +255,11 @@ export const lagOverstyringSchema = (
     overstyrteDager: Map<string, Utbetalingstabelldag>,
     alleDager: Map<string, Utbetalingstabelldag>,
     erSelvstendig: boolean,
+    kreverBegrunnelse = true,
 ) =>
     z
         .object({
-            begrunnelse: z.string().min(1, 'Begrunnelse må fylles ut'),
+            begrunnelse: kreverBegrunnelse ? z.string().min(1, 'Begrunnelse må fylles ut') : z.string(),
         })
         .superRefine((_data, ctx) => {
             sjekkArbeidsdager(overstyrteDager, alleDager, erSelvstendig, ctx);

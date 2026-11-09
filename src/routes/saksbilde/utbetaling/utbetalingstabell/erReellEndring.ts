@@ -25,10 +25,11 @@ function erEndretGradertAnnenYtelse(
     lagretGradertDag?: ApiGraderteAndreYtelserDag,
 ): boolean {
     if (!lagretGradertDag || !dag?.gradertAnnenYtelsetype || !gradertAnnenYtelse) return true;
-    const { andreYtelserGrader, sykdomsgrad } = lagretGradertDag;
+    const { andreYtelserGrader, sykdomsgrad, begrunnelse } = lagretGradertDag;
     return (
         lagretGradertDag.sykdomsgradFørFordeling !== gradertAnnenYtelse.sykdomsgradFørFordeling ||
         sykdomsgrad !== gradertAnnenYtelse.sykdomsgrad ||
+        begrunnelse !== gradertAnnenYtelse.begrunnelse ||
         Object.keys(andreYtelserGrader).length !== 1 ||
         andreYtelserGrader[dag.gradertAnnenYtelsetype] !== gradertAnnenYtelse.andreYtelseGrad
     );

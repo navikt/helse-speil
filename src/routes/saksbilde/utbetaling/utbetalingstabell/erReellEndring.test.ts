@@ -15,6 +15,13 @@ describe('erReellEndring', () => {
         expect(erReellEndring(gradertEndring(30, 40), fraDag, lagretDag(30, { FORELDREPENGER: 40 }))).toBe(false);
     });
 
+    it('er endring når bare begrunnelsen er ny', () => {
+        const endring = gradertEndring(30, 40);
+        endring.gradertAnnenYtelse.begrunnelse = 'En ny begrunnelse';
+
+        expect(erReellEndring(endring, fraDag, lagretDag(30, { FORELDREPENGER: 40 }))).toBe(true);
+    });
+
     it('er endring når fordelingen er byttet om, selv om kombinert grad er lik', () => {
         expect(erReellEndring(gradertEndring(40, 30), fraDag, lagretDag(30, { FORELDREPENGER: 40 }))).toBe(true);
     });
@@ -68,7 +75,12 @@ function gradertEndring(sykdomsgrad: number, andreYtelseGrad: number, dag = Fore
     return {
         dag,
         grad: sykdomsgrad + andreYtelseGrad,
-        gradertAnnenYtelse: { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling: 70 },
+        gradertAnnenYtelse: {
+            sykdomsgrad,
+            andreYtelseGrad,
+            sykdomsgradFørFordeling: 70,
+            begrunnelse: 'En begrunnelse',
+        },
     };
 }
 

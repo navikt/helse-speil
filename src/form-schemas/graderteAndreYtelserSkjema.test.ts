@@ -13,6 +13,7 @@ describe('lagGraderteAndreYtelserSchema', () => {
         ytelse: 'Foreldrepenger',
         sykepengerGrad: 30,
         gradAndreYtelser: 40,
+        begrunnelse: 'Begrunnelse for klyngen',
     };
     function enDagMedGrad(grad: number | null, dato = '2020-01-01') {
         return lagDag({ dato, grad });
@@ -37,6 +38,10 @@ describe('lagGraderteAndreYtelserSchema', () => {
         expect(validerFordeling({ ytelse: '', sykepengerGrad: null, gradAndreYtelser: null })).toEqual([
             'Annen ytelse er påkrevd',
         ]);
+    });
+
+    it.each(['', '   '])('krever begrunnelse for klyngen, ikke «%s»', (begrunnelse) => {
+        expect(validerFordeling({ begrunnelse })).toEqual(['Begrunnelse må fylles ut']);
     });
 
     it('krever verdi i alle feltene', () => {
@@ -81,7 +86,12 @@ describe('lagGraderteAndreYtelserSchema', () => {
                 lagDag({
                     dato: '2020-01-01',
                     grad: 100,
-                    gradertAnnenYtelse: { sykdomsgradFørFordeling: 100, sykdomsgrad: 60, andreYtelseGrad: 40 },
+                    gradertAnnenYtelse: {
+                        sykdomsgradFørFordeling: 100,
+                        sykdomsgrad: 60,
+                        andreYtelseGrad: 40,
+                        begrunnelse: 'Lagret begrunnelse',
+                    },
                 }),
                 enDagMedGrad(100, '2020-01-02'),
             ];

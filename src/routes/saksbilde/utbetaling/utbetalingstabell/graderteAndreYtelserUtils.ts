@@ -7,6 +7,7 @@ export function tilGraderteAndreYtelserEndring(values: GraderteAndreYtelserFormF
     const gradertAnnenYtelse: Fordeling = {
         sykdomsgrad: values.sykepengerGrad ?? 0,
         andreYtelseGrad: values.gradAndreYtelser ?? 0,
+        begrunnelse: values.begrunnelse,
     };
     return {
         grad: gradertAnnenYtelse.sykdomsgrad + gradertAnnenYtelse.andreYtelseGrad,

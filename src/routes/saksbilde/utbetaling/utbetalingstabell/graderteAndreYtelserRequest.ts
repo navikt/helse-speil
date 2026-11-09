@@ -31,7 +31,7 @@ export function tilGraderteAndreYtelserRequest({
         versjon: lagrede?.versjon ?? null,
         behandlingId,
         dager: overstyrteDager.flatMap((dag) => {
-            if (dag.gradertAnnenYtelse) return [tilGraderteAndreYtelserDag(dag, begrunnelse)];
+            if (dag.gradertAnnenYtelse) return [tilGraderteAndreYtelserDag(dag)];
             const lagretDag = lagrede?.dager.find((it) => it.dato === dayjs(dag.dato).format('YYYY-MM-DD'));
             return harFordeling(lagretDag) ? [tilDagUtenFordeling(lagretDag, begrunnelse)] : [];
         }),
@@ -63,14 +63,15 @@ function tilYrkesaktivitet(inntektsforhold: Inntektsforhold): Yrkesaktivitet {
         : { yrkesaktivitet: ApiYrkesaktivitetstype.SELVSTENDIG, organisasjonsnummer: null };
 }
 
-function tilGraderteAndreYtelserDag(
-    { dato, dag, gradertAnnenYtelse }: Utbetalingstabelldag,
-    begrunnelse: string,
-): ApiGraderteAndreYtelserDag {
+function tilGraderteAndreYtelserDag({
+    dato,
+    dag,
+    gradertAnnenYtelse,
+}: Utbetalingstabelldag): ApiGraderteAndreYtelserDag {
     if (dag.gradertAnnenYtelsetype === undefined || !gradertAnnenYtelse) {
         throw Error(`Dag ${dato} mangler gyldig gradert annen ytelse.`);
     }
-    const { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling } = gradertAnnenYtelse;
+    const { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling, begrunnelse } = gradertAnnenYtelse;
     return {
         dato: dayjs(dato).format('YYYY-MM-DD'),
         andreYtelserGrader: { [dag.gradertAnnenYtelsetype]: andreYtelseGrad },

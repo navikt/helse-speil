@@ -12,9 +12,15 @@ interface OverstyringFormProps {
     overstyrteDager: Map<string, Utbetalingstabelldag>;
     error?: string;
     toggleOverstyring: () => void;
+    fordelerGraderteYtelser?: boolean;
 }
 
-export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: OverstyringFormProps): ReactElement => {
+export const OverstyringForm = ({
+    overstyrteDager,
+    error,
+    toggleOverstyring,
+    fordelerGraderteYtelser = false,
+}: OverstyringFormProps): ReactElement => {
     const { register, formState } = useFormContext<OverstyringFormFields>();
     const [oppsummering, setOppsummering] = useState('');
     const oppsummeringRef = useRef<HTMLDivElement>(null);
@@ -32,27 +38,30 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
     return (
         <VStack
             marginInline="space-32"
+            paddingBlock="space-32"
             width="640px"
             gap="space-32"
-            style={{ width: 'auto', borderTop: '1px solid var(--ax-border-neutral-subtle)' }}
+            style={{ width: 'auto', borderTop: '1px solid var(--ax-border-neutral)' }}
         >
-            <VStack align="start" gap="space-8" paddingBlock="space-8">
-                <Textarea
-                    id="begrunnelse"
-                    label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
-                    value={oppsummering}
-                    description={<span>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</span>}
-                    error={formState.errors.begrunnelse ? (formState.errors.begrunnelse.message as string) : null}
-                    data-testid="overstyring-begrunnelse"
-                    maxLength={2000}
-                    {...begrunnelseValidation}
-                    onChange={(event) => {
-                        void begrunnelseValidation.onChange(event);
-                        setOppsummering(event.target.value);
-                    }}
-                    rows={6}
-                />
-            </VStack>
+            {!fordelerGraderteYtelser && (
+                <VStack align="start" gap="space-8" paddingBlock="space-8">
+                    <Textarea
+                        id="begrunnelse"
+                        label={<VisesIkkeIVedtakTag label="Begrunnelse" />}
+                        value={oppsummering}
+                        description={<span>Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn.</span>}
+                        error={formState.errors.begrunnelse ? (formState.errors.begrunnelse.message as string) : null}
+                        data-testid="overstyring-begrunnelse"
+                        maxLength={2000}
+                        {...begrunnelseValidation}
+                        onChange={(event) => {
+                            void begrunnelseValidation.onChange(event);
+                            setOppsummering(event.target.value);
+                        }}
+                        rows={6}
+                    />
+                </VStack>
+            )}
             {visFeilOppsummering && (
                 <ErrorSummary ref={oppsummeringRef} heading="Skjemaet inneholder følgende feil:">
                     {Object.entries(formState.errors).map(([id, error], index) => {
@@ -68,7 +77,7 @@ export const OverstyringForm = ({ overstyrteDager, error, toggleOverstyring }: O
                     data-testid="oppdater"
                     disabled={overstyrteDager.size < 1}
                 >
-                    Lagre
+                    {fordelerGraderteYtelser ? 'Lagre alle endringer' : 'Lagre'}
                 </ButtonKreverSkrivetilgang>
                 <Button size="small" variant="tertiary" type="button" onClick={toggleOverstyring}>
                     Avbryt

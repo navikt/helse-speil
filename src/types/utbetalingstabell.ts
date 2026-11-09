@@ -83,4 +83,5 @@ export type GradertAnnenYtelse = {
     sykdomsgradFørFordeling: number;
     sykdomsgrad: number;
     andreYtelseGrad: number;
+    begrunnelse: string;
 };

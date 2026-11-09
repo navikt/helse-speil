@@ -1,9 +1,10 @@
 import { ReactElement } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 
-import { BodyShort, ErrorMessage, Fieldset, HStack, Select, TextField, VStack } from '@navikt/ds-react';
+import { BodyShort, ErrorMessage, Fieldset, HStack, Select, TextField, Textarea, VStack } from '@navikt/ds-react';
 
 import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
+import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
     GraderteAndreYtelserFormFields,
     lagGraderteAndreYtelserSchema,
@@ -26,7 +27,7 @@ export function GraderteAndreYtelserForm({
 }: GraderteAndreYtelserFormProps): ReactElement {
     const form = useForm<GraderteAndreYtelserFormFields>({
         resolver: zodResolver(lagGraderteAndreYtelserSchema([...markerteDager.values()])),
-        defaultValues: { ytelse: '', sykepengerGrad: null, gradAndreYtelser: null },
+        defaultValues: { ytelse: '', sykepengerGrad: null, gradAndreYtelser: null, begrunnelse: '' },
     });
     const [ytelse, sykepengerGrad, gradAndreYtelser] = useWatch({
         control: form.control,
@@ -88,15 +89,38 @@ export function GraderteAndreYtelserForm({
                             </ErrorMessage>
                         ))}
                     </Fieldset>
-                    <ButtonKreverSkrivetilgang
-                        size="small"
-                        type="submit"
-                        variant="secondary"
-                        disabled={markerteDager.size === 0}
-                        data-testid="endre"
-                    >
-                        Endre ({markerteDager.size})
-                    </ButtonKreverSkrivetilgang>
+                    <VStack align="start" gap="space-8" paddingBlock="space-8">
+                        <Textarea
+                            id="graderte-andre-ytelser-begrunnelse"
+                            data-testid="graderte-andre-ytelser-begrunnelse"
+                            label={
+                                <VisesIkkeIVedtakTag
+                                    label={
+                                        <BodyShort as="span" weight="semibold">
+                                            Begrunnelse for endringer
+                                        </BodyShort>
+                                    }
+                                />
+                            }
+                            description="Teksten vises ikke til den sykmeldte, med mindre hen ber om innsyn."
+                            error={errors.begrunnelse?.message}
+                            rows={6}
+                            maxLength={2000}
+                            {...form.register('begrunnelse')}
+                            size="medium"
+                        />
+                    </VStack>
+                    <HStack gap="space-8" marginBlock="space-0 space-8">
+                        <ButtonKreverSkrivetilgang
+                            size="small"
+                            type="submit"
+                            variant="secondary"
+                            disabled={markerteDager.size === 0}
+                            data-testid="endre"
+                        >
+                            Endre ({markerteDager.size})
+                        </ButtonKreverSkrivetilgang>
+                    </HStack>
                 </VStack>
             </form>
         </VStack>

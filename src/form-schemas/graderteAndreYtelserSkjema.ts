@@ -19,6 +19,7 @@ export function lagGraderteAndreYtelserSchema(markerteDager: Utbetalingstabellda
             ytelse: z.enum(utbetalingstabelldagtypeValues, { error: () => 'Annen ytelse er påkrevd' }),
             sykepengerGrad: z.number().nullable(),
             gradAndreYtelser: z.number().nullable(),
+            begrunnelse: z.string().trim().min(1, 'Begrunnelse må fylles ut'),
         })
         .superRefine((_, ctx) => validerKlynge(markerteDager, ctx), { when: () => true })
         .superRefine((verdier, ctx) => {

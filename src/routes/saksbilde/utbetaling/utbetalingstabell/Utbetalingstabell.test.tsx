@@ -159,7 +159,12 @@ describe('Utbetalingstabell', () => {
                 ['2022-01-03']: enUtbetalingstabelldag('2022-01-03', {
                     dag: Svangerskapspengerdag,
                     grad: sykdomsgrad + andreYtelseGrad,
-                    gradertAnnenYtelse: { sykdomsgradFørFordeling: 100, sykdomsgrad, andreYtelseGrad },
+                    gradertAnnenYtelse: {
+                        sykdomsgradFørFordeling: 100,
+                        sykdomsgrad,
+                        andreYtelseGrad,
+                        begrunnelse: 'Begrunnelse for klyngen',
+                    },
                 }),
             });
 

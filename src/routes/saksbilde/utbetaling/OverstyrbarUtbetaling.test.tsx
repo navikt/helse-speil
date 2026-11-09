@@ -192,32 +192,50 @@ describe('OverstyrbarUtbetaling', () => {
 
         expect(screen.getByRole('heading', { name: 'Legg til graderte ytelser' })).toBeVisible();
         expect(screen.getByRole('combobox', { name: 'Velg annen ytelse' })).toBeVisible();
+        expect(screen.getByRole('textbox', { name: /Begrunnelse for endringer/ })).toBeVisible();
+        expect(screen.getByText('Vises ikke i vedtaket')).toBeVisible();
         expect(screen.getAllByRole('checkbox').length).toBeGreaterThan(0);
         expect(screen.queryByTestId('dagtypevelger')).not.toBeInTheDocument();
         expect(screen.queryByRole('button', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
     });
 
-    test('lagrer fordelingen av graden mellom sykepenger og en annen ytelse', async () => {
+    test('lagrer klynger med ulik sykdomsgrad og hver sin begrunnelse uten felles begrunnelse', async () => {
         (useSkalSeGraderteAndreYtelser as Mock).mockReturnValue(true);
-        renderOverstyring(new Map([['2022-01-03', getUtbetalingstabellDag({ dato: '2022-01-03', grad: 100 })]]));
+        renderOverstyring(
+            new Map([
+                ['2022-01-03', getUtbetalingstabellDag({ dato: '2022-01-03', grad: 100 })],
+                ['2022-01-04', getUtbetalingstabellDag({ dato: '2022-01-04', grad: 80 })],
+            ]),
+        );
 
         await userEvent.click(screen.getByRole('button', { name: 'Legg til graderte ytelser' }));
-        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
-        await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Velg annen ytelse' }), 'Foreldrepenger');
-        await userEvent.type(screen.getByRole('textbox', { name: 'Sykepenger' }), '60');
-        await userEvent.type(screen.getByRole('textbox', { name: 'Foreldrepenger' }), '40');
-        await userEvent.click(screen.getByTestId('endre'));
-        await userEvent.type(await screen.findByTestId('overstyring-begrunnelse'), 'En begrunnelse');
+        await fordelKlynge(1, { sykepenger: '60', foreldrepenger: '40', begrunnelse: 'Første klynge' });
+        await fordelKlynge(2, { sykepenger: '50', foreldrepenger: '30', begrunnelse: 'Andre klynge' });
+
+        expect(screen.queryByTestId('overstyring-begrunnelse')).not.toBeInTheDocument();
         await userEvent.click(screen.getByTestId('oppdater'));
 
         const [overstyrteDager] = postOverstyringArguments;
-        expect(overstyrteDager).toHaveLength(1);
-        expect(overstyrteDager?.[0]?.dag.speilDagtype).toEqual('Foreldrepenger');
-        expect(overstyrteDager?.[0]?.gradertAnnenYtelse).toEqual({
-            sykdomsgrad: 60,
-            andreYtelseGrad: 40,
-            sykdomsgradFørFordeling: 100,
-        });
+        expect(overstyrteDager?.map(({ dato, gradertAnnenYtelse }) => ({ dato, gradertAnnenYtelse }))).toEqual([
+            {
+                dato: '2022-01-03',
+                gradertAnnenYtelse: {
+                    sykdomsgrad: 60,
+                    andreYtelseGrad: 40,
+                    sykdomsgradFørFordeling: 100,
+                    begrunnelse: 'Første klynge',
+                },
+            },
+            {
+                dato: '2022-01-04',
+                gradertAnnenYtelse: {
+                    sykdomsgrad: 50,
+                    andreYtelseGrad: 30,
+                    sykdomsgradFørFordeling: 80,
+                    begrunnelse: 'Andre klynge',
+                },
+            },
+        ]);
     });
 
     test('«Endre dagtype» tilbyr ikke gradert annen ytelse', async () => {
@@ -366,4 +384,19 @@ function lagOverstyring(dager: Map<string, Utbetalingstabelldag>) {
 
 function renderOverstyring(dager: Map<string, Utbetalingstabelldag>) {
     return render(lagOverstyring(dager));
+}
+
+async function fordelKlynge(
+    radnummer: number,
+    { sykepenger, foreldrepenger, begrunnelse }: { sykepenger: string; foreldrepenger: string; begrunnelse: string },
+) {
+    await userEvent.click(screen.getAllByRole('checkbox')[radnummer]!);
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Velg annen ytelse' }), 'Foreldrepenger');
+    await userEvent.clear(screen.getByRole('textbox', { name: 'Sykepenger' }));
+    await userEvent.type(screen.getByRole('textbox', { name: 'Sykepenger' }), sykepenger);
+    await userEvent.clear(screen.getByRole('textbox', { name: 'Foreldrepenger' }));
+    await userEvent.type(screen.getByRole('textbox', { name: 'Foreldrepenger' }), foreldrepenger);
+    await userEvent.clear(screen.getByRole('textbox', { name: /Begrunnelse for endringer/ }));
+    await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse for endringer/ }), begrunnelse);
+    await userEvent.click(screen.getByTestId('endre'));
 }

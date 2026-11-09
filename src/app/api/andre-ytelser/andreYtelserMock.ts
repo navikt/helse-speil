@@ -119,7 +119,7 @@ export function hentVisning(
             {
                 type: ApiVisningsfelttype.ENDRINGER,
                 tittel: 'Dager endret',
-                grupper: grupperSammenhengendeLikeDager(event.dager).map(tilEndringsgruppe),
+                grupper: grupperLikeDager(event.dager).map(tilEndringsgruppe),
             },
         ],
     };
@@ -200,7 +200,9 @@ function endretFra(
     };
 }
 
-type Daggruppe = { fom: string; tom: string; endring: ApiGraderteAndreYtelserEndretDag };
+type Periode = { fom: string; tom: string };
+type SammenhengendeDager = Periode & { endring: ApiGraderteAndreYtelserEndretDag };
+type Daggruppe = { perioder: Periode[]; endring: ApiGraderteAndreYtelserEndretDag };
 
 function erLikEndring(a: ApiGraderteAndreYtelserEndretDag, b: ApiGraderteAndreYtelserEndretDag): boolean {
     return (
@@ -212,10 +214,21 @@ function erLikEndring(a: ApiGraderteAndreYtelserEndretDag, b: ApiGraderteAndreYt
     );
 }
 
-function grupperSammenhengendeLikeDager(dager: ApiGraderteAndreYtelserEndretDag[]): Daggruppe[] {
+function grupperLikeDager(dager: ApiGraderteAndreYtelserEndretDag[]): Daggruppe[] {
+    return grupperSammenhengendeLikeDager(dager).reduce<Daggruppe[]>((grupper, { fom, tom, endring }) => {
+        const lik = grupper.find((gruppe) => erLikEndring(gruppe.endring, endring));
+        if (lik) {
+            lik.perioder.push({ fom, tom });
+            return grupper;
+        }
+        return [...grupper, { perioder: [{ fom, tom }], endring }];
+    }, []);
+}
+
+function grupperSammenhengendeLikeDager(dager: ApiGraderteAndreYtelserEndretDag[]): SammenhengendeDager[] {
     return [...dager]
         .sort((a, b) => a.dato.localeCompare(b.dato))
-        .reduce<Daggruppe[]>((grupper, dag) => {
+        .reduce<SammenhengendeDager[]>((grupper, dag) => {
             const forrige = grupper.at(-1);
             if (
                 forrige &&
@@ -228,8 +241,10 @@ function grupperSammenhengendeLikeDager(dager: ApiGraderteAndreYtelserEndretDag[
         }, []);
 }
 
-function tilEndringsgruppe({ fom, tom, endring }: Daggruppe): ApiEndringsgruppe {
-    const datotekst = fom === tom ? tilDatotekst(fom) : `${tilDatotekst(fom)} - ${tilDatotekst(tom)}`;
+function tilEndringsgruppe({ perioder, endring }: Daggruppe): ApiEndringsgruppe {
+    const datotekst = perioder
+        .map(({ fom, tom }) => (fom === tom ? tilDatotekst(fom) : `${tilDatotekst(fom)} - ${tilDatotekst(tom)}`))
+        .join(', ');
     // Uten tidligere fordeling vises dagen slik den var før fordeling, som for andre tidslinjeoverstyringer
     const fraYtelser = endring.fraAndreYtelserGrader ?? {};
     const fraSykdomsgrad = endring.fraSykdomsgrad ?? endring.sykdomsgradFørFordeling;

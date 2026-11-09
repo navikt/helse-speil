@@ -129,7 +129,7 @@ describe('useOverstyrDager', () => {
                             sykdomsgrad: 30,
                             arbeidsgrad: 30,
                             sykdomsgradFørFordeling: 70,
-                            begrunnelse: BEGRUNNELSE,
+                            begrunnelse: 'Begrunnelse for klyngen',
                         },
                     ],
                 }),
@@ -485,7 +485,12 @@ const gradertDag: Utbetalingstabelldag = {
     dag: Foreldrepengerdag,
     dato: '2020-01-02',
     grad: 70,
-    gradertAnnenYtelse: { sykdomsgrad: 30, andreYtelseGrad: 40, sykdomsgradFørFordeling: 70 },
+    gradertAnnenYtelse: {
+        sykdomsgrad: 30,
+        andreYtelseGrad: 40,
+        sykdomsgradFørFordeling: 70,
+        begrunnelse: 'Begrunnelse for klyngen',
+    },
 };
 const sykedagMedFordeling: Utbetalingstabelldag = { ...dager[0]!, dato: '2020-01-03', grad: 80 };
 const lagretFordeling: ApiGraderteAndreYtelserDag = {

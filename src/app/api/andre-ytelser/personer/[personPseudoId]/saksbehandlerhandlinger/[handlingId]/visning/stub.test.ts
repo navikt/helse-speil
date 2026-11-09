@@ -29,7 +29,7 @@ const hentVisning = (handlingId: string, id = personPseudoId) =>
 describe('visning av saksbehandlerhandling-stub', () => {
     beforeEach(() => nullstillGraderteAndreYtelser());
 
-    it('grupperer sammenhengende dager med lik endring og begrunnelse, og viser begrunnelsen for hver gruppe', async () => {
+    it('grupperer dager med lik endring og begrunnelse, og viser begrunnelsen for hver gruppe', async () => {
         const dag = {
             andreYtelserGrader: { FORELDREPENGER: 40 },
             sykdomsgrad: 30,
@@ -67,16 +67,7 @@ describe('visning av saksbehandlerhandling-stub', () => {
                         },
                         {
                             rader: [
-                                { navn: 'Dato', fra: null, til: '03.07.2024' },
-                                { navn: 'Foreldrepenger', fra: '0 %', til: '40 %' },
-                                { navn: 'Sykdomsgrad', fra: '70 %', til: '30 %' },
-                                { navn: 'Arbeidsgrad', fra: null, til: '30 %' },
-                                { navn: 'Begrunnelse', fra: null, til: 'Andre klynge' },
-                            ],
-                        },
-                        {
-                            rader: [
-                                { navn: 'Dato', fra: null, til: '05.07.2024' },
+                                { navn: 'Dato', fra: null, til: '03.07.2024, 05.07.2024' },
                                 { navn: 'Foreldrepenger', fra: '0 %', til: '40 %' },
                                 { navn: 'Sykdomsgrad', fra: '70 %', til: '30 %' },
                                 { navn: 'Arbeidsgrad', fra: null, til: '30 %' },

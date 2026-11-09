@@ -205,6 +205,7 @@ export function OverstyrbarUtbetaling({
         endringshandling === 'Endre dagtype' ||
         endringshandling === 'Legg til graderte ytelser' ||
         endringshandling === 'Vurder oppholdskrav';
+    const fordelerGraderteYtelser = endringshandling === 'Legg til graderte ytelser';
 
     const { postOverstyring, error, done } = useOverstyrDager();
     const graderteAndreYtelser = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold);
@@ -226,7 +227,13 @@ export function OverstyrbarUtbetaling({
         mode: 'onBlur',
         shouldFocusError: false,
         resolver: zodResolver(
-            lagOverstyringSchema(alleOverstyrteDager, alleDager, isSelvstendigNaering(inntektsforhold)),
+            // Hver fordeling har begrunnelsen til klyngen sin, så den felles begrunnelsen gjelder bare vanlige endringer
+            lagOverstyringSchema(
+                alleOverstyrteDager,
+                alleDager,
+                isSelvstendigNaering(inntektsforhold),
+                !fordelerGraderteYtelser,
+            ),
         ),
         defaultValues: { begrunnelse: '' },
     });
@@ -377,6 +384,7 @@ export function OverstyrbarUtbetaling({
                                     overstyrteDager={alleOverstyrteDager}
                                     error={error}
                                     toggleOverstyring={avbryt}
+                                    fordelerGraderteYtelser={fordelerGraderteYtelser}
                                 />
                             </form>
                         </FormProvider>

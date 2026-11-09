@@ -222,7 +222,12 @@ export const andreYtelserScenarioer: ValideringScenario[] = [
             lagDag({
                 dato: '2020-01-02',
                 dag: Foreldrepengerdag,
-                gradertAnnenYtelse: { sykdomsgrad: 30, andreYtelseGrad: 40, sykdomsgradFørFordeling: 70 },
+                gradertAnnenYtelse: {
+                    sykdomsgrad: 30,
+                    andreYtelseGrad: 40,
+                    sykdomsgradFørFordeling: 70,
+                    begrunnelse: 'Begrunnelse for klyngen',
+                },
             }),
         ],
         forventet: { gyldig: true },

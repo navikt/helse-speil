@@ -50,7 +50,7 @@ export function UtbetalingHeader({
                 ) : (
                     <HStack gap="space-4">
                         {endringshandlinger.map((handling, index) => (
-                            <Fragment key={handling}>
+                            <Fragment key={`handling-${index}`}>
                                 {index > 0 && <Box borderWidth="0 0 0 1" borderColor="neutral-subtle" aria-hidden />}
                                 <Button size="small" variant="tertiary" onClick={() => velgEndringshandling(handling)}>
                                     {handling}

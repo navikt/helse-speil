@@ -39,7 +39,7 @@ describe('tilGraderteAndreYtelserRequest', () => {
                     sykdomsgrad: 30,
                     arbeidsgrad: 30,
                     sykdomsgradFørFordeling: 70,
-                    begrunnelse: 'En begrunnelse',
+                    begrunnelse: 'Begrunnelse for klyngen',
                 },
                 {
                     dato: '2024-07-03',
@@ -47,10 +47,30 @@ describe('tilGraderteAndreYtelserRequest', () => {
                     sykdomsgrad: 20,
                     arbeidsgrad: 30,
                     sykdomsgradFørFordeling: 70,
-                    begrunnelse: 'En begrunnelse',
+                    begrunnelse: 'Begrunnelse for klyngen',
                 },
             ],
         });
+    });
+
+    it('sender alle klyngene i én forespørsel med begrunnelsen til klyngen på hver dag', () => {
+        const request = tilGraderteAndreYtelserRequest({
+            overstyrteDager: [
+                gradertDag('2024-07-01', 30, 40, Foreldrepengerdag, 'Første klynge'),
+                gradertDag('2024-07-02', 30, 40, Foreldrepengerdag, 'Første klynge'),
+                gradertDag('2024-07-03', 20, 50, Pleiepengerdag, 'Andre klynge'),
+            ],
+            inntektsforhold: arbeidsgiver('967170232'),
+            graderteAndreYtelser: [],
+            behandlingId,
+            begrunnelse: 'Felles begrunnelse',
+        });
+
+        expect(request.dager.map(({ dato, begrunnelse }) => ({ dato, begrunnelse }))).toEqual([
+            { dato: '2024-07-01', begrunnelse: 'Første klynge' },
+            { dato: '2024-07-02', begrunnelse: 'Første klynge' },
+            { dato: '2024-07-03', begrunnelse: 'Andre klynge' },
+        ]);
     });
 
     it('bruker versjonen for samme arbeidsgiver', () => {
@@ -193,6 +213,7 @@ describe('tilEndringForDag', () => {
         ytelse: 'Foreldrepenger',
         sykepengerGrad: 30,
         gradAndreYtelser: 20,
+        begrunnelse: 'Begrunnelse for klyngen',
     });
 
     it('bruker sykdomsgraden dagen har i Spleis som sykdomsgrad før fordeling', () => {
@@ -202,6 +223,7 @@ describe('tilEndringForDag', () => {
             sykdomsgrad: 30,
             andreYtelseGrad: 20,
             sykdomsgradFørFordeling: 60,
+            begrunnelse: 'Begrunnelse for klyngen',
         });
     });
 
@@ -259,11 +281,17 @@ function lagretDag(
     };
 }
 
-function gradertDag(dato: string, sykdomsgrad: number, andreYtelseGrad: number, dag = Foreldrepengerdag) {
+function gradertDag(
+    dato: string,
+    sykdomsgrad: number,
+    andreYtelseGrad: number,
+    dag = Foreldrepengerdag,
+    begrunnelse = 'Begrunnelse for klyngen',
+) {
     return lagDag({
         dato,
         dag,
         grad: sykdomsgrad + andreYtelseGrad,
-        gradertAnnenYtelse: { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling: 70 },
+        gradertAnnenYtelse: { sykdomsgrad, andreYtelseGrad, sykdomsgradFørFordeling: 70, begrunnelse },
     });
 }

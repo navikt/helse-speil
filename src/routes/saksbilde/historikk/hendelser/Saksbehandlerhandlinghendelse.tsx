@@ -93,14 +93,14 @@ function VisningsfeltInnhold({ felt }: { felt: Visningsfelt }): ReactElement {
                         <HGrid
                             as="dl"
                             key={index}
-                            columns="max-content max-content"
+                            columns="max-content minmax(0, 1fr)"
                             gap="space-0 space-8"
                             className="border-t border-ax-border-neutral p-2 last:border-b odd:bg-ax-bg-neutral-soft"
                         >
                             {gruppe.rader.map(({ navn, fra, til }, radindex) => (
                                 <Fragment key={radindex}>
                                     <BodyShort as="dt">{navn}:</BodyShort>
-                                    <BodyShort as="dd">
+                                    <BodyShort as="dd" className="wrap-break-word">
                                         {fra && <span className="mr-1 line-through">{fra}</span>}
                                         {til}
                                     </BodyShort>

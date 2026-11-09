@@ -7,9 +7,14 @@ describe('tilGraderteAndreYtelserEndring', () => {
             ytelse: 'Foreldrepenger',
             sykepengerGrad: 30,
             gradAndreYtelser: 40,
+            begrunnelse: 'Begrunnelse for klyngen',
         });
 
         expect(endring).toMatchObject({ grad: 70, dag: Foreldrepengerdag });
-        expect(endring.gradertAnnenYtelse).toEqual({ sykdomsgrad: 30, andreYtelseGrad: 40 });
+        expect(endring.gradertAnnenYtelse).toEqual({
+            sykdomsgrad: 30,
+            andreYtelseGrad: 40,
+            begrunnelse: 'Begrunnelse for klyngen',
+        });
     });
 });
