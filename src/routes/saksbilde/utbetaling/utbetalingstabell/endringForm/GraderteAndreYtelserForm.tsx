@@ -6,14 +6,12 @@ import {
     ErrorMessage,
     Fieldset,
     HStack,
-    Select,
     TextField,
     Textarea,
     UNSAFE_Combobox,
     VStack,
 } from '@navikt/ds-react';
 
-import { erUtvikling } from '@/env';
 import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import { VisesIkkeIVedtakTag } from '@components/tags/VisesIkkeIVedtakTag';
 import {
@@ -73,43 +71,23 @@ export function GraderteAndreYtelserForm({
                     <Controller
                         control={form.control}
                         name="ytelser"
-                        render={({ field, fieldState }) =>
-                            erUtvikling ? (
-                                <UNSAFE_Combobox
-                                    size="small"
-                                    label="Velg annen ytelse"
-                                    isMultiSelect
-                                    options={ytelsevalg}
-                                    selectedOptions={ytelsevalg.filter((valg) => field.value.includes(valg.value))}
-                                    onToggleSelected={(ytelse, erValgt) =>
-                                        field.onChange(
-                                            erValgt
-                                                ? [...field.value, ytelse]
-                                                : field.value.filter((valgt) => valgt !== ytelse),
-                                        )
-                                    }
-                                    error={fieldState.error?.message}
-                                />
-                            ) : (
-                                <Select
-                                    size="small"
-                                    label="Velg annen ytelse"
-                                    value={field.value[0] ?? ''}
-                                    onChange={(event) => {
-                                        const valgt = ytelsevalg.find((valg) => valg.value === event.target.value);
-                                        field.onChange(valgt ? [valgt.value] : []);
-                                    }}
-                                    error={fieldState.error?.message}
-                                >
-                                    <option value="">- Velg -</option>
-                                    {ytelsevalg.map(({ label, value }) => (
-                                        <option key={value} value={value}>
-                                            {label}
-                                        </option>
-                                    ))}
-                                </Select>
-                            )
-                        }
+                        render={({ field, fieldState }) => (
+                            <UNSAFE_Combobox
+                                size="small"
+                                label="Velg annen ytelse"
+                                isMultiSelect
+                                options={ytelsevalg}
+                                selectedOptions={ytelsevalg.filter((valg) => field.value.includes(valg.value))}
+                                onToggleSelected={(ytelse, erValgt) =>
+                                    field.onChange(
+                                        erValgt
+                                            ? [...field.value, ytelse]
+                                            : field.value.filter((valgt) => valgt !== ytelse),
+                                    )
+                                }
+                                error={fieldState.error?.message}
+                            />
+                        )}
                     />
                     <Fieldset legend="Prosentvis fordeling mellom ytelser og arbeid" size="medium">
                         <HStack gap="space-20" align="end">
