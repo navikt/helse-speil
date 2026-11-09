@@ -418,8 +418,8 @@ export const PREDEFINERTE_OPPGAVELISTER: [Oppgaveliste, ...Oppgaveliste[]] = [
         },
     },
     {
-        id: 'coach-andre-ytelser',
-        navn: 'Coach - Andre ytelser',
+        id: 'graderte-andre-ytelser',
+        navn: 'Graderte andre ytelser',
         params: {
             erTildelt: false,
             sorteringsfelt: ApiOppgaveSorteringsfelt.behandlingOpprettetTidspunkt,

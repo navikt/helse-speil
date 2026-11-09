@@ -2,7 +2,6 @@ import { ReactElement, Ref } from 'react';
 
 import { Box, UNSAFE_Combobox } from '@navikt/ds-react';
 
-import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { PREDEFINERTE_OPPGAVELISTER } from '@oversikt/table/oppgaverTable/oppgavelister/predefinerteOppgavelister';
 import { useOppgavelisteSokSkjema } from '@state/oppgavelister';
 
@@ -13,12 +12,8 @@ interface OppgavelisteComboboxProps {
 
 export const OppgavelisteCombobox = ({ harFeil = false, ref }: OppgavelisteComboboxProps): ReactElement => {
     const { valgtOppgaveliste, setOppgavelisteId } = useOppgavelisteSokSkjema();
-    const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
 
-    // Filtrer ut "Coach - Andre ytelser"-oppgavelisten hvis brukeren ikke har tilgang
-    const options = PREDEFINERTE_OPPGAVELISTER.filter(
-        (el) => erCoachFagkoordinatorEllerSupersaksbehandler || el.id !== 'coach-andre-ytelser',
-    ).map((liste) => ({
+    const options = PREDEFINERTE_OPPGAVELISTER.map((liste) => ({
         label: liste.navn,
         value: liste.id,
     }));
