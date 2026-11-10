@@ -68,6 +68,9 @@ export function BegrunnelseOgJournalpost(): ReactElement {
                                     return (
                                         <TextField
                                             {...journalpostField}
+                                            onChange={(event) =>
+                                                journalpostField.onChange(event.target.value.replace(/\s/g, ''))
+                                            }
                                             label={index === 0 ? 'Journalpost-ID' : undefined}
                                             description="Denne finner du i Gosys"
                                             size="small"

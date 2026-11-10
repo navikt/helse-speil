@@ -94,6 +94,23 @@ describe('Journalpost-ID i opptjeningsvurderingsskjemaet', () => {
         });
     });
 
+    it('fjerner mellomrom når saksbehandler limer inn journalpost-ID', async () => {
+        renderOpptjening(false);
+
+        await startVurdering();
+        await velgBareArbeid();
+        await userEvent.click(screen.getByRole('radio', { name: 'Legg til journalpost-ID' }));
+        await userEvent.click(screen.getByRole('textbox', { name: 'Journalpost-ID' }));
+        await userEvent.paste(' 12345 ');
+        await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Dokumentert via vedtak');
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(screen.getByRole('textbox', { name: 'Journalpost-ID' })).toHaveValue('12345');
+        expect(mutate).toHaveBeenCalledWith(
+            expect.objectContaining({ data: expect.objectContaining({ journalpostId: ['12345'] }) }),
+        );
+    });
+
     it('sender ikke journalpost-ID når saksbehandler bytter tilbake til at saken er godt nok opplyst', async () => {
         renderOpptjening(false);
 
