@@ -93,7 +93,7 @@ describe('backends', () => {
 
     it('backender som bare finnes i dev er ikke tilgjengelige i prod', () => {
         env.backend = 'deployed';
-        expect(erTilgjengelig('medlemskap')).toBe(false);
+        expect(erTilgjengelig('medlemskap')).toBe(true);
         expect(erTilgjengelig('andre-ytelser')).toBe(true);
         expect(erTilgjengelig('avslagsdager')).toBe(false);
         expect(erTilgjengelig('vilkarsproving')).toBe(true);
@@ -138,15 +138,15 @@ describe('backends', () => {
         it('krever ikke miljøvariabler for backender som bare finnes i dev, utenfor dev', () => {
             env.backend = 'deployed';
             alleBackendEnv()
-                .filter((envNavn) => !envNavn.includes('MEDLEMSKAP'))
+                .filter((envNavn) => !envNavn.includes('AVSLAGSDAGER'))
                 .forEach((envNavn) => vi.stubEnv(envNavn, 'satt'));
-            vi.stubEnv('CLIENT_ID_MEDLEMSKAP', '');
-            vi.stubEnv('MEDLEMSKAP_BASE_URL', '');
+            vi.stubEnv('CLIENT_ID_AVSLAGSDAGER', '');
+            vi.stubEnv('AVSLAGSDAGER_BASE_URL', '');
 
             expect(() => validerBackendConfig()).not.toThrow();
 
             env.erDev = true;
-            expect(() => validerBackendConfig()).toThrow('CLIENT_ID_MEDLEMSKAP, MEDLEMSKAP_BASE_URL');
+            expect(() => validerBackendConfig()).toThrow('CLIENT_ID_AVSLAGSDAGER, AVSLAGSDAGER_BASE_URL');
         });
 
         it('validerer LOKALE_BACKENDS lokalt', () => {

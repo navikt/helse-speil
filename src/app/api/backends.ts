@@ -75,7 +75,6 @@ export const backends = {
         baseUrlEnv: 'MEDLEMSKAP_BASE_URL',
         lokalPort: 8383,
         målprefiks: '/api',
-        kunIDev: true,
     },
     'andre-ytelser': {
         scopeEnv: 'CLIENT_ID_ANDRE_YTELSER',

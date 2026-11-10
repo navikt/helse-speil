@@ -59,8 +59,13 @@ export const useToggle = (): { value: ToggleState; toggle: (property: keyof Togg
 
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
 
-// sp-medlemskap er bare satt opp i dev, så togglen virker aldri i prod
-export const useNyMedlemskapsvisning = (): boolean => useAtomValue(toggleState).nyMedlemskapsvisning && erUtvikling;
+// I prod kan bare utviklere skru på visningen, fra toggle-menyen
+export const useNyMedlemskapsvisning = (): boolean => useAtomValue(toggleState).nyMedlemskapsvisning;
+
+// sp-medlemskap avviser overstyring i prod til den gjør vurderingen selv (steg 7 i innfasingen av vurderings-id)
+export function useKanOverstyreMedlemskap(): boolean {
+    return erUtvikling;
+}
 
 // Bare i dev til skissene for § 8-9 er klare og sp-avslagsdager er i drift i prod (navikt/sas-issues#98)
 export const useKanVurdereOppholdskrav = (): boolean => useAtomValue(toggleState).kanVurdereOppholdskrav && erUtvikling;

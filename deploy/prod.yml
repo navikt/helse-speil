@@ -37,6 +37,7 @@ spec:
         - application: sp-avslagsdager
         - application: spleis-api
         - application: sp-andre-ytelser
+        - application: sp-medlemskap
         - application: sp-rettighetskategori
         - application: sparsom-api
       external:
@@ -169,6 +170,10 @@ spec:
       value: api://prod-gcp.tbd.sp-andre-ytelser/.default
     - name: ANDRE_YTELSER_BASE_URL
       value: http://sp-andre-ytelser
+    - name: CLIENT_ID_MEDLEMSKAP
+      value: api://prod-gcp.tbd.sp-medlemskap/.default
+    - name: MEDLEMSKAP_BASE_URL
+      value: http://sp-medlemskap
     - name: CLIENT_ID_AVSLAGSDAGER
       value: api://prod-gcp.tbd.sp-avslagsdager/.default
     - name: AVSLAGSDAGER_BASE_URL
