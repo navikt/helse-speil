@@ -28,7 +28,7 @@ describe('Medlemskap', () => {
         toggles.kanOverstyreMedlemskap = false;
         renderMedlemskap();
 
-        expect(screen.getByText('Uavklart med brukerspørsmål')).toBeVisible();
+        expect(screen.getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
         expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 });

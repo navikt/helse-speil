@@ -193,7 +193,7 @@ describe('Inngangsvilkår', () => {
             expect(medlemskapQuery.kall.every((kall) => kall.enabled === false)).toBe(true);
             const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
             expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
-            expect(screen.queryByText('Uavklart med brukerspørsmål')).not.toBeInTheDocument();
+            expect(screen.queryByText('Arbeid utenfor Norge (SP6001)')).not.toBeInTheDocument();
         });
 
         it('viser vurderingen fra sp-medlemskap når togglen er på', () => {
@@ -211,7 +211,7 @@ describe('Inngangsvilkår', () => {
                 enabled: true,
             });
             const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
-            expect(within(medlemskap).getByText('Uavklart med brukerspørsmål')).toBeVisible();
+            expect(within(medlemskap).getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
             expect(within(medlemskap).getByText('Arbeid utenfor Norge (SP6001)')).toBeVisible();
         });
 
@@ -314,10 +314,10 @@ describe('Inngangsvilkår', () => {
                 expect(endringsloggrader()).toHaveLength(2);
                 expect(within(nyeste!).getByText(/^03.02.2022/)).toBeVisible();
                 expect(within(nyeste!).getByText('Lovvalg og medlemskap')).toBeVisible();
-                expect(within(nyeste!).getByText('Medlem')).toBeVisible();
+                expect(within(nyeste!).getByText('Oppfylt')).toBeVisible();
                 expect(within(nyeste!).getByText('Jobber i Norge')).toBeVisible();
                 expect(within(nyeste!).getByText('S123456')).toHaveAttribute('data-sensitive');
-                expect(within(eldste!).getByText('Uavklart med brukerspørsmål')).toBeVisible();
+                expect(within(eldste!).getByText('Ikke vurdert')).toBeVisible();
                 expect(within(eldste!).getByText('Automatisk')).toBeVisible();
             });
 

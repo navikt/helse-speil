@@ -17,7 +17,7 @@ import { cn } from '@utils/tw';
 
 import { EndringsloggMedlemskapButton } from './EndringsloggMedlemskapButton';
 import { Medlemskapsendring } from './useMedlemskapshistorikk';
-import { Medlemskapsvurdering, statustekst } from './useMedlemskapsvurdering';
+import { Medlemskapsvurdering, utfallFraStatus } from './useMedlemskapsvurdering';
 
 interface MedlemskapProps {
     medlemskapsvurdering: Medlemskapsvurdering;
@@ -98,7 +98,7 @@ export function Medlemskapsdetaljer({ vurdering }: { vurdering: ApiMedlemskapsvu
     return (
         <>
             <HStack gap="space-8">
-                <VilkårsutfallTag utfall="Oppfylt">{statustekst(vurdering.status)}</VilkårsutfallTag>
+                <VilkårsutfallTag utfall={utfallFraStatus(vurdering.status)} />
                 <VilkårsutfallTag utfall="Oppfylt">{vurdertTekst(vurdering)}</VilkårsutfallTag>
             </HStack>
             {kilde.kildetype === ApiKildetype.AUTOMATISK && (

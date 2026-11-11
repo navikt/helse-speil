@@ -75,16 +75,3 @@ export function utfallFraStatus(status?: ApiMedlemskapsstatus): Vilkårsutfall {
             return 'IkkeVurdert';
     }
 }
-
-export function statustekst(status: ApiMedlemskapsstatus): string {
-    switch (status) {
-        case ApiMedlemskapsstatus.JA:
-            return 'Medlem';
-        case ApiMedlemskapsstatus.NEI:
-            return 'Ikke medlem';
-        case ApiMedlemskapsstatus.UAVKLART:
-            return 'Uavklart';
-        case ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL:
-            return 'Uavklart med brukerspørsmål';
-    }
-}
