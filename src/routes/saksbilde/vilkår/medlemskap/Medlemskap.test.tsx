@@ -1,7 +1,12 @@
-import { ApiKildetype, ApiKravkode, ApiMedlemskapsstatus } from '@io/rest/generated/medlemskap/medlemskap.schemas';
+import {
+    ApiKildetype,
+    ApiKravkode,
+    ApiMedlemskapsstatus,
+    ApiMedlemskapsvurdering,
+} from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import { render, screen } from '@test-utils';
 
-import { Medlemskap } from './Medlemskap';
+import { Medlemskap, Medlemskapsdetaljer } from './Medlemskap';
 import { Medlemskapsvurdering } from './useMedlemskapsvurdering';
 
 const toggles = vi.hoisted(() => ({ kanOverstyreMedlemskap: true }));
@@ -30,6 +35,17 @@ describe('Medlemskap', () => {
 
         expect(screen.getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
         expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
+    });
+
+    it('skjuler taggen med vurdert-tekst når kilden er ukjent', () => {
+        const vurdering: ApiMedlemskapsvurdering = {
+            ...enMedlemskapsvurdering().vurdering!,
+            kilde: { kildetype: 'UKJENT' } as unknown as ApiMedlemskapsvurdering['kilde'],
+        };
+        render(<Medlemskapsdetaljer vurdering={vurdering} />);
+
+        expect(screen.getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
+        expect(screen.queryByText('Oppfylt')).not.toBeInTheDocument();
     });
 });
 

@@ -95,11 +95,13 @@ export function Medlemskap({
 
 export function Medlemskapsdetaljer({ vurdering }: { vurdering: ApiMedlemskapsvurdering }): ReactElement {
     const { kilde } = vurdering;
+    const utfall = utfallFraStatus(vurdering.status);
+    const vurdert = vurdertTekst(vurdering);
     return (
         <>
             <HStack gap="space-8">
-                <VilkårsutfallTag utfall={utfallFraStatus(vurdering.status)} />
-                <VilkårsutfallTag utfall="Oppfylt">{vurdertTekst(vurdering)}</VilkårsutfallTag>
+                <VilkårsutfallTag utfall={utfall} />
+                {vurdert && vurdert !== '' && <VilkårsutfallTag utfall={utfall}>{vurdert}</VilkårsutfallTag>}
             </HStack>
             {kilde.kildetype === ApiKildetype.AUTOMATISK && (
                 <Årsaker årsaker={(kilde as ApiVurderingskildeAutomatisk).årsaker} />
@@ -144,7 +146,7 @@ function vurdertTekst({ kilde, vurdertTidspunkt }: ApiMedlemskapsvurdering): Rea
                 />
             );
         case ApiKildetype.OVERFOERT_FRA_SPLEIS:
-            return 'Vurdert i Spleis';
+            return '';
         case ApiKildetype.OVERFOERT_FRA_INFOTRYGD:
             return 'Vurdert i Infotrygd';
     }
