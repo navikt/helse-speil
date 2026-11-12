@@ -11,6 +11,7 @@ import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold
 import { useInvaliderOppgaver } from '@state/oppgaver';
 import { useAddToast } from '@state/toasts';
 import { generateId } from '@utils/generateId';
+import { manglerVurderingAvOppholdskravTekst } from '@utils/oppholdskrav';
 
 import { BackendFeil, UtbetalingDialog } from './UtbetalingDialog';
 
@@ -166,6 +167,8 @@ const somBackendfeil = (error: PostVedtakMutationError): BackendFeil => {
             return message(
                 'Da Speil sist synkroniserte med Infotrygd, ble det oppdaget overlappende utbetaling eller registrering i Infotrygd. Registreringen kan for eksempel være ferie.',
             );
+        case 'DAGER_MANGLER_VURDERING_AV_OPPHOLDSKRAV':
+            return message(manglerVurderingAvOppholdskravTekst);
         case 'VEDTAK_ALLEREDE_FATTET':
             return message('Vedtaket er allerede fattet');
         case 'KAN_IKKE_FATTE_VEDTAK_PÅ_ELDRE_BEHANDLING':

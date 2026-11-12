@@ -5,7 +5,6 @@ import {
     ApiDag,
     ApiDagoverstyring,
     ApiDagtype,
-    ApiLøpendeVilkår,
     ApiOverstyrtDag,
     ApiSykdomsdagtype,
     ApiUtbetalingsdagtype,
@@ -13,6 +12,7 @@ import {
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { erHelg } from '@utils/date';
+import { harVurderingAvOppholdskrav } from '@utils/oppholdskrav';
 
 import {
     AAPdag,
@@ -234,10 +234,4 @@ export const useTabelldagerMap = ({
 function sykdomsdagtypeEtterVurdering(dag: ApiDag): ApiSykdomsdagtype {
     if (dag.sykdomsdagtype !== ApiSykdomsdagtype.SYK_UTENFOR_EOS) return dag.sykdomsdagtype;
     return erHelg(dag.dato) ? ApiSykdomsdagtype.SYK_HELGEDAG : ApiSykdomsdagtype.SYKEDAG;
-}
-
-function harVurderingAvOppholdskrav(dag: ApiDag): boolean {
-    return (
-        dag.vurderingerAvLøpendeVilkår?.some((vurdering) => vurdering.vilkår === ApiLøpendeVilkår.OPPHOLDSKRAV) ?? false
-    );
 }

@@ -2,7 +2,13 @@ import { fetchMock, jsonBody } from '../../../../../vitest.setup';
 import { createStore } from 'jotai';
 import { Mock, describe, expect, it, vi } from 'vitest';
 
-import { ApiBeregnetPeriode } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiBeregnetPeriode,
+    ApiLøpendeVilkår,
+    ApiSykdomsdagtype,
+    ApiUtfallAvLøpendeVilkår,
+    ApiVurderingAvLøpendeVilkår,
+} from '@io/rest/generated/spesialist.schemas';
 import { Utbetaling } from '@saksbilde/venstremeny/utbetaling/Utbetaling';
 import { PersonStoreContext } from '@state/contexts/personStore';
 import { InntektsforholdReferanse, lagArbeidsgiverReferanse } from '@state/inntektsforhold/inntektsforhold';
@@ -10,7 +16,7 @@ import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enAktivOppgave } from '@test-data/oppgave';
-import { enBeregnetPeriode } from '@test-data/periode';
+import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { enTotrinnsvurdering } from '@test-data/totrinnsvurdering';
 import { render } from '@test-utils';
@@ -157,4 +163,78 @@ describe('Utbetaling', () => {
             ),
         );
     });
+    describe('dager med syk utenfor EØS', () => {
+        const forklaring = 'Du må vurdere oppholdskravet for dagene med opphold utenfor EØS før du kan godkjenne.';
+
+        it('sperrer godkjenning og forklarer hvorfor når oppholdskravet ikke er vurdert', () => {
+            renderUtbetaling(enBeregnetPeriode({ tidslinje: [utenforEøs([])] }).somErTilGodkjenning());
+
+            expect(screen.getByTestId('godkjenning-button')).toBeDisabled();
+            expect(screen.getByText(forklaring)).toBeVisible();
+        });
+
+        it('sperrer sending til godkjenning når oppholdskravet ikke er vurdert', () => {
+            (useTotrinnsvurderingForPeriode as Mock).mockReturnValue(enTotrinnsvurdering());
+            renderUtbetaling(enBeregnetPeriode({ tidslinje: [utenforEøs([])] }).somErTilGodkjenning());
+
+            expect(screen.getByTestId('godkjenning-button')).toBeDisabled();
+            expect(screen.getByText(forklaring)).toBeVisible();
+        });
+
+        it('kan godkjennes når oppholdskravet er vurdert', () => {
+            renderUtbetaling(
+                enBeregnetPeriode({
+                    tidslinje: [
+                        utenforEøs([
+                            {
+                                vilkår: ApiLøpendeVilkår.OPPHOLDSKRAV,
+                                vurderingId: 'en-vurdering',
+                                utfall: ApiUtfallAvLøpendeVilkår.IKKE_OPPFYLT,
+                            },
+                        ]),
+                    ],
+                }).somErTilGodkjenning(),
+            );
+
+            expect(screen.getByTestId('godkjenning-button')).toBeEnabled();
+            expect(screen.queryByText(forklaring)).not.toBeInTheDocument();
+        });
+        it('viser forklaringen når spesialist avviser vedtaket fordi oppholdskravet ikke er vurdert', async () => {
+            fetchMock.mockResolvedValue(
+                new Response(
+                    JSON.stringify({
+                        type: 'about:blank',
+                        status: 400,
+                        title: 'Dager med opphold utenfor EØS mangler vurdering av oppholdskravet',
+                        code: 'DAGER_MANGLER_VURDERING_AV_OPPHOLDSKRAV',
+                    }),
+                    { status: 400, headers: { 'Content-Type': 'application/problem+json' } },
+                ),
+            );
+            renderUtbetaling(enBeregnetPeriode().somErTilGodkjenning());
+
+            await userEvent.click(screen.getByTestId('godkjenning-button'));
+            await userEvent.click(screen.getByRole('button', { name: 'Ja' }));
+
+            expect(await screen.findByText(forklaring)).toBeVisible();
+        });
+    });
 });
+
+function renderUtbetaling(periode: ApiBeregnetPeriode) {
+    const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
+    const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+    render(
+        <PersonStoreContext.Provider value={createStore()}>
+            <Utbetaling
+                period={periode}
+                person={person}
+                inntektsforholdReferanse={lagArbeidsgiverReferanse(arbeidsgiver.organisasjonsnummer, arbeidsgiver.navn)}
+            />
+        </PersonStoreContext.Provider>,
+    );
+}
+
+function utenforEøs(vurderingerAvLøpendeVilkår: ApiVurderingAvLøpendeVilkår[]) {
+    return enDag({ sykdomsdagtype: ApiSykdomsdagtype.SYK_UTENFOR_EOS, vurderingerAvLøpendeVilkår });
+}

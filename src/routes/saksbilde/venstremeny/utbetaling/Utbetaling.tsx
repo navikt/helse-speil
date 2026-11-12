@@ -18,6 +18,7 @@ import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { ISO_DATOFORMAT } from '@utils/date';
 import { getPeriodState } from '@utils/mapping';
+import { dagerUtenVurderingAvOppholdskrav, manglerVurderingAvOppholdskravTekst } from '@utils/oppholdskrav';
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { IndividuellBegrunnelse } from '../individuellBegrunnelse/IndividuellBegrunnelse';
@@ -87,6 +88,13 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     const harArbeidsgiverutbetaling = period.utbetaling.arbeidsgiverNettoBelop !== 0;
     const harBrukerutbetaling = period.utbetaling.personNettoBelop !== 0;
     const skalSendesTilTotrinnsvurdering = totrinnsvurdering !== null && !totrinnsvurdering.erBeslutteroppgave;
+    const manglerVurderingAvOppholdskrav = dagerUtenVurderingAvOppholdskrav(period.tidslinje).length > 0;
+    const godkjenningErSperret =
+        visningenOppdateres ||
+        periodenErSendt ||
+        harUvurderteVarslerPåUtbetaling ||
+        manglerVurderingAvOppholdskrav ||
+        lokaleInntektoverstyringer.aktørId !== null;
 
     return (
         <Box>
@@ -105,12 +113,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                             utbetaling={period.utbetaling}
                             inntektsforholdReferanse={inntektsforholdReferanse}
                             oppgavereferanse={oppgave.id}
-                            disabled={
-                                visningenOppdateres ||
-                                periodenErSendt ||
-                                harUvurderteVarslerPåUtbetaling ||
-                                lokaleInntektoverstyringer.aktørId !== null
-                            }
+                            disabled={godkjenningErSperret}
                             onSuccess={onSendTilGodkjenning}
                             vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
                         >
@@ -125,12 +128,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                     behandlingId={period.behandlingId}
                                     utbetaling={period.utbetaling}
                                     inntektsforholdReferanse={inntektsforholdReferanse}
-                                    disabled={
-                                        visningenOppdateres ||
-                                        periodenErSendt ||
-                                        harUvurderteVarslerPåUtbetaling ||
-                                        lokaleInntektoverstyringer.aktørId !== null
-                                    }
+                                    disabled={godkjenningErSperret}
                                     onSuccess={onGodkjennUtbetaling}
                                     vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
                                     erBeslutter
@@ -144,12 +142,7 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                                     behandlingId={period.behandlingId}
                                     utbetaling={period.utbetaling}
                                     inntektsforholdReferanse={inntektsforholdReferanse}
-                                    disabled={
-                                        visningenOppdateres ||
-                                        periodenErSendt ||
-                                        harUvurderteVarslerPåUtbetaling ||
-                                        lokaleInntektoverstyringer.aktørId !== null
-                                    }
+                                    disabled={godkjenningErSperret}
                                     onSuccess={onGodkjennUtbetaling}
                                     vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
                                     erBeslutter={false}
@@ -174,6 +167,9 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
                         />
                     )}
                 </HStack>
+            )}
+            {manglerVurderingAvOppholdskrav && (
+                <BodyShort className={styles.infotekst}>{manglerVurderingAvOppholdskravTekst}</BodyShort>
             )}
             {periodenErSendt && (
                 <BodyShort className={styles.infotekst}>
