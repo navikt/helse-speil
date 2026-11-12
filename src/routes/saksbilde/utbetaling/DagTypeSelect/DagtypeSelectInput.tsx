@@ -4,7 +4,7 @@ import { Select } from '@navikt/ds-react';
 
 import { DagtypevelgerLabel } from '@saksbilde/utbetaling/DagTypeSelect/DagtypevelgerLabel';
 import type { DagtypeSelectProps } from '@saksbilde/utbetaling/DagTypeSelect/type';
-import { visningstekst } from '@saksbilde/utbetaling/DagTypeSelect/utils';
+import { oppholdUtenforEøsVerdi, visningstekst } from '@saksbilde/utbetaling/DagTypeSelect/utils';
 import { typeendringerAndreYtelser } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endringFormUtils';
 
 type SelectFieldProps = Pick<
@@ -13,6 +13,7 @@ type SelectFieldProps = Pick<
 >;
 
 interface DagtypeSelectInputProps extends Omit<DagtypeSelectProps, 'name'> {
+    kanVelgeOppholdUtenforEøs?: boolean;
     error?: ReactNode;
     field: SelectFieldProps;
 }
@@ -20,6 +21,7 @@ interface DagtypeSelectInputProps extends Omit<DagtypeSelectProps, 'name'> {
 export function DagtypeSelectInput({
     erSelvstendig,
     overstyringsdagtyper,
+    kanVelgeOppholdUtenforEøs = false,
     className,
     hideError = false,
     error,
@@ -39,6 +41,7 @@ export function DagtypeSelectInput({
                     {visningstekst(dag)}
                 </option>
             ))}
+            {kanVelgeOppholdUtenforEøs && <option value={oppholdUtenforEøsVerdi}>Opphold utenfor EØS</option>}
             <option disabled>-- Andre ytelser --</option>
             {typeendringerAndreYtelser.map((dag) => (
                 <option key={dag.speilDagtype} value={dag.speilDagtype}>

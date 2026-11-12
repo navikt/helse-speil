@@ -12,11 +12,24 @@ import {
     ApiUnntakAndreLedd,
 } from '@io/rest/generated/avslagsdager/avslagsdager.schemas';
 
-type JaNei = (typeof JaNei)[keyof typeof JaNei];
+export const GrunnForOppfylt = {
+    INNVILGET_SØKNAD: 'INNVILGET_SØKNAD',
+    MEDLEM: 'MEDLEM',
+    HELSEINSTITUSJON: 'HELSEINSTITUSJON',
+    YRKESSKADE: 'YRKESSKADE',
+    OPPHOLD_I_GODKJENT_OMRÅDE: 'OPPHOLD_I_GODKJENT_OMRÅDE',
+} as const;
+export type GrunnForOppfylt = (typeof GrunnForOppfylt)[keyof typeof GrunnForOppfylt];
 
-// Foreløpige tekster. Byttes når skissene for § 8-9 er klare (navikt/sas-issues#98).
+export const GrunnForIkkeOppfylt = {
+    SØKNAD_AVSLÅTT: 'SØKNAD_AVSLÅTT',
+    IKKE_SØKT: 'IKKE_SØKT',
+} as const;
+export type GrunnForIkkeOppfylt = (typeof GrunnForIkkeOppfylt)[keyof typeof GrunnForIkkeOppfylt];
+
+/** Brukes av mocken for historikkvisningen fra sp-avslagsdager. */
 export const unntakAndreLeddLabels: Record<ApiUnntakAndreLedd, string> = {
-    [ApiUnntakAndreLedd.MEDLEM_ETTER_2_5_2_6_2_8]: 'Medlem etter § 2-5, 2-6 eller 2-8',
+    [ApiUnntakAndreLedd.MEDLEM_ETTER_2_5_2_6_2_8]: 'Medlem etter §§ 2-5, 2-6 eller 2-8',
     [ApiUnntakAndreLedd.INNLAGT_I_HELSEINSTITUSJON]: 'Innlagt i helseinstitusjon',
     [ApiUnntakAndreLedd.INGEN]: 'Nei',
 };
@@ -26,25 +39,24 @@ const jaNei = z.enum([JaNei.JA, JaNei.NEI]);
 export type OppholdskravSchema = z.infer<typeof oppholdskravSkjema>;
 
 // Alle svar er valgfrie i objektet og påkrevd i check, så alle feilene i skjemaet vises samtidig.
-// Svar på spørsmål som ikke vises blir liggende i skjemaet, men valideres ikke og sendes som null.
+// Grunnen for utfallet som ikke er valgt, blir liggende i skjemaet, men valideres og sendes ikke.
 export const oppholdskravSkjema = z
     .object({
         dager: z.array(z.string()).min(1, { error: 'Velg minst én dag' }),
         eøsBorger: jaNei.optional(),
-        oppholdIGodkjentOmråde: jaNei.optional(),
-        unntakAndreLedd: z.enum(ApiUnntakAndreLedd).optional(),
-        godkjentOppholdInntilFireUker: jaNei.optional(),
+        oppfyllerOppholdskravet: jaNei.optional(),
+        grunnForOppfylt: z.enum(GrunnForOppfylt).optional(),
+        grunnForIkkeOppfylt: z.enum(GrunnForIkkeOppfylt).optional(),
         ...begrunnelseOgJournalpostFelter,
         // sp-avslagsdager avviser en begrunnelse med bare mellomrom
         fritekstbegrunnelse: z.string().trim().min(1, { error: 'Fyll inn begrunnelse' }),
     })
     .check((ctx) => {
         const svar = ctx.value;
-        const aktuelle = aktuelleSpørsmål(svar);
         påkrevd(ctx, 'eøsBorger', 'Svar ja eller nei');
-        påkrevd(ctx, 'oppholdIGodkjentOmråde', 'Svar ja eller nei');
-        if (aktuelle.unntakAndreLedd) påkrevd(ctx, 'unntakAndreLedd', 'Velg om et av unntakene gjelder');
-        if (aktuelle.godkjentOppholdInntilFireUker) påkrevd(ctx, 'godkjentOppholdInntilFireUker', 'Svar ja eller nei');
+        påkrevd(ctx, 'oppfyllerOppholdskravet', 'Svar ja eller nei');
+        if (svar.oppfyllerOppholdskravet === JaNei.JA) påkrevd(ctx, 'grunnForOppfylt', 'Velg begrunnelse');
+        if (svar.oppfyllerOppholdskravet === JaNei.NEI) påkrevd(ctx, 'grunnForIkkeOppfylt', 'Velg begrunnelse');
         sjekkJournalpost(ctx);
     });
 
@@ -52,75 +64,75 @@ export function oppholdskravDefaultValues(dager: string[]): Partial<Oppholdskrav
     return { dager, ...begrunnelseOgJournalpostDefaultValues };
 }
 
-type Svar = Partial<
-    Pick<
-        OppholdskravSchema,
-        'eøsBorger' | 'oppholdIGodkjentOmråde' | 'unntakAndreLedd' | 'godkjentOppholdInntilFireUker'
-    >
->;
-
-/**
- * Hvilke spørsmål i andre ledd som skal vises og besvares. Samme regler som sp-avslagsdager validerer etter:
- * unntakene bare når første ledd ikke er oppfylt, og godkjent opphold bare når ingen av unntakene gjelder.
- */
-export function aktuelleSpørsmål(svar: Svar) {
-    const unntakAndreLedd = svar.oppholdIGodkjentOmråde === JaNei.NEI;
-    const godkjentOppholdInntilFireUker = unntakAndreLedd && svar.unntakAndreLedd === ApiUnntakAndreLedd.INGEN;
-    return { unntakAndreLedd, godkjentOppholdInntilFireUker };
-}
-
-/** Alle aktuelle spørsmål er besvart, og svarene gir oppfylt etter § 8-9. */
-export function girOppfylt(svar: Svar): boolean {
-    return utfall(svar) === 'Oppfylt';
-}
-
-/** Alle aktuelle spørsmål er besvart, og svarene gir ikke oppfylt etter § 8-9. */
-export function girIkkeOppfylt(svar: Svar): boolean {
-    return utfall(svar) === 'IkkeOppfylt';
-}
-
 export function tilOppholdskravRequest(
     svar: OppholdskravSchema,
     behandlingId: string,
 ): ApiOppholdskravvurderingRequest {
-    const aktuelle = aktuelleSpørsmål(svar);
     return {
         behandlingId,
         dager: svar.dager,
         eøsBorger: svar.eøsBorger === JaNei.JA,
-        oppholdIGodkjentOmråde: svar.oppholdIGodkjentOmråde === JaNei.JA,
-        unntakAndreLedd: aktuelle.unntakAndreLedd ? (svar.unntakAndreLedd ?? null) : null,
-        godkjentOppholdInntilFireUker: aktuelle.godkjentOppholdInntilFireUker
-            ? tilBoolean(svar.godkjentOppholdInntilFireUker)
-            : null,
+        ...tilLedd(svar),
         fritekstbegrunnelse: svar.fritekstbegrunnelse,
         journalpostId: journalpostIderTilRequest(svar),
     };
 }
 
-// Samme regler som vilkårsvurderinger() og samletUtfall() i Oppholdskravvurdering i sp-avslagsdager: første ledd og
-// unntakene i andre og tredje ledd er alternative grunnlag, så ett oppfylt holder. undefined når et aktuelt spørsmål
-// ikke er besvart.
-function utfall(svar: Svar): 'Oppfylt' | 'IkkeOppfylt' | undefined {
-    if (svar.eøsBorger == null || svar.oppholdIGodkjentOmråde == null) return undefined;
-    if (svar.oppholdIGodkjentOmråde === JaNei.JA) return 'Oppfylt';
-    switch (svar.unntakAndreLedd) {
-        case undefined:
-            return undefined;
-        case ApiUnntakAndreLedd.MEDLEM_ETTER_2_5_2_6_2_8:
-        case ApiUnntakAndreLedd.INNLAGT_I_HELSEINSTITUSJON:
-            return 'Oppfylt';
-        case ApiUnntakAndreLedd.INGEN:
-            if (svar.godkjentOppholdInntilFireUker == null) return undefined;
-            return svar.godkjentOppholdInntilFireUker === JaNei.JA ? 'Oppfylt' : 'IkkeOppfylt';
-    }
+type Ledd = Pick<
+    ApiOppholdskravvurderingRequest,
+    'oppholdIGodkjentOmråde' | 'unntakAndreLedd' | 'godkjentOppholdInntilFireUker'
+>;
+
+const ikkeOppfylt: Ledd = {
+    oppholdIGodkjentOmråde: false,
+    unntakAndreLedd: ApiUnntakAndreLedd.INGEN,
+    godkjentOppholdInntilFireUker: false,
+};
+
+/**
+ * Svarene i skjemaet gjøres om til leddene i § 8-9 som sp-avslagsdager vurderer: første ledd (opphold i godkjent
+ * område), unntakene i andre ledd og godkjent opphold etter tredje ledd.
+ * Innvilget søknad og godkjent yrkesskade er begge godkjent opphold etter tredje ledd.
+ */
+const leddForOppfylt: Record<GrunnForOppfylt, Ledd> = {
+    [GrunnForOppfylt.OPPHOLD_I_GODKJENT_OMRÅDE]: {
+        oppholdIGodkjentOmråde: true,
+        unntakAndreLedd: null,
+        godkjentOppholdInntilFireUker: null,
+    },
+    [GrunnForOppfylt.MEDLEM]: {
+        oppholdIGodkjentOmråde: false,
+        unntakAndreLedd: ApiUnntakAndreLedd.MEDLEM_ETTER_2_5_2_6_2_8,
+        godkjentOppholdInntilFireUker: null,
+    },
+    [GrunnForOppfylt.HELSEINSTITUSJON]: {
+        oppholdIGodkjentOmråde: false,
+        unntakAndreLedd: ApiUnntakAndreLedd.INNLAGT_I_HELSEINSTITUSJON,
+        godkjentOppholdInntilFireUker: null,
+    },
+    [GrunnForOppfylt.INNVILGET_SØKNAD]: {
+        oppholdIGodkjentOmråde: false,
+        unntakAndreLedd: ApiUnntakAndreLedd.INGEN,
+        godkjentOppholdInntilFireUker: true,
+    },
+    [GrunnForOppfylt.YRKESSKADE]: {
+        oppholdIGodkjentOmråde: false,
+        unntakAndreLedd: ApiUnntakAndreLedd.INGEN,
+        godkjentOppholdInntilFireUker: true,
+    },
+};
+
+function tilLedd(svar: OppholdskravSchema): Ledd {
+    if (svar.oppfyllerOppholdskravet === JaNei.NEI) return ikkeOppfylt;
+    if (svar.grunnForOppfylt === undefined) throw new Error('Skjemaet er validert, så grunnen for oppfylt finnes');
+    return leddForOppfylt[svar.grunnForOppfylt];
 }
 
-function tilBoolean(svar: JaNei | undefined): boolean | null {
-    return svar === undefined ? null : svar === JaNei.JA;
-}
-
-function påkrevd(ctx: z.core.ParsePayload<OppholdskravSchema>, felt: keyof Svar, message: string) {
+function påkrevd(
+    ctx: z.core.ParsePayload<OppholdskravSchema>,
+    felt: 'eøsBorger' | 'oppfyllerOppholdskravet' | 'grunnForOppfylt' | 'grunnForIkkeOppfylt',
+    message: string,
+) {
     if (ctx.value[felt] !== undefined) return;
     ctx.issues.push({ code: 'custom', message, path: [felt], input: ctx.value[felt] });
 }

@@ -14,4 +14,14 @@ export interface EndreDagerFormProps {
     markerteDager: Map<string, Utbetalingstabelldag>;
     onSubmitEndring: (endring: Dagendring) => void;
     erSelvstendig: boolean;
+    oppholdskrav?: OppholdskravIEndreDager;
+}
+
+// Med togglen av sendes ikke oppholdskrav, og valget «Opphold utenfor EØS» vises ikke
+export interface OppholdskravIEndreDager {
+    behandlingId: string;
+    vurderer: boolean;
+    harUsendteEndringer: boolean;
+    onVurderer: (vurderer: boolean) => void;
+    onAvsluttet: () => void;
 }

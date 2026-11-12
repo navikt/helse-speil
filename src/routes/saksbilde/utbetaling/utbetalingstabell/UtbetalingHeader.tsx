@@ -5,9 +5,8 @@ import { Box, Button, HStack, HelpText, VStack } from '@navikt/ds-react';
 import { Inntektsforholdnavn } from '@components/Inntektsforholdnavn';
 import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { InntektsforholdReferanse } from '@state/inntektsforhold/inntektsforhold';
-import { useKanVurdereOppholdskrav } from '@state/toggles';
 
-export type Endringshandling = 'Legg til dager' | 'Endre dagtype' | 'Legg til graderte ytelser' | 'Vurder oppholdskrav';
+export type Endringshandling = 'Legg til dager' | 'Endre dagtype' | 'Legg til graderte ytelser';
 
 interface UtbetalingHeaderProps {
     periodeErForkastet: boolean;
@@ -23,12 +22,10 @@ export function UtbetalingHeader({
     inntektsforholdReferanse,
 }: UtbetalingHeaderProps): ReactElement {
     const skalSeGraderteAndreYtelser = useErCoachFagkoordinatorEllerSupersaksbehandler();
-    const kanVurdereOppholdskrav = useKanVurdereOppholdskrav();
     const endringshandlinger = [
         kanLeggeTilDager && 'Legg til dager',
         'Endre dagtype',
         skalSeGraderteAndreYtelser && 'Legg til graderte ytelser',
-        kanVurdereOppholdskrav && 'Vurder oppholdskrav',
     ].filter((handling): handling is Endringshandling => handling !== false);
 
     return (

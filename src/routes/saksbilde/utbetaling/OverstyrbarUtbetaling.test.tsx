@@ -4,6 +4,7 @@ import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerro
 import { ApiYrkesaktivitetstype } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiBegrunnelse, ApiPeriodetype } from '@io/rest/generated/spesialist.schemas';
 import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
+import { useKanVurdereOppholdskrav } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBeregnetPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -29,7 +30,7 @@ vi.mock('next/navigation', async (importOriginal) => ({
 
 vi.mock('@state/toggles', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@state/toggles')>()),
-    useKanVurdereOppholdskrav: () => true,
+    useKanVurdereOppholdskrav: vi.fn(),
 }));
 
 vi.mock('@state/graderteAndreYtelser', () => ({
@@ -71,6 +72,7 @@ describe('OverstyrbarUtbetaling', () => {
     beforeEach(() => {
         (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(false);
         (useGraderteAndreYtelser as Mock).mockReturnValue([]);
+        (useKanVurdereOppholdskrav as Mock).mockReturnValue(true);
     });
 
     test('overstyrer utbetalingstabell', async () => {
@@ -91,7 +93,7 @@ describe('OverstyrbarUtbetaling', () => {
         await userEvent.click(checkboxes[2]!);
         await userEvent.click(checkboxes[3]!);
 
-        expect(screen.getAllByRole('option')).toHaveLength(13);
+        expect(screen.getAllByRole('option')).toHaveLength(14);
         expect(screen.getByTestId('dagtypevelger')).toBeEnabled();
 
         await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), screen.getAllByRole('option')[0]!);
@@ -137,7 +139,6 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByTestId('legg-til')).toBeVisible();
         expect(screen.queryByTestId('endre')).not.toBeInTheDocument();
         expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
-        expect(screen.queryByRole('button', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
         expect(screen.queryByRole('button', { name: 'Endre dagtype' })).not.toBeInTheDocument();
     });
 
@@ -193,7 +194,6 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByText('Vises ikke i vedtaket')).toBeVisible();
         expect(screen.getAllByRole('checkbox').length).toBeGreaterThan(0);
         expect(screen.queryByTestId('dagtypevelger')).not.toBeInTheDocument();
-        expect(screen.queryByRole('button', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
     });
 
     test('lagrer klynger med ulik sykdomsgrad og hver sin begrunnelse uten felles begrunnelse', async () => {
@@ -322,20 +322,51 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByText('Foreldrepenger')).toBeVisible();
     });
 
-    test('«Vurder oppholdskrav» åpner skjemaet for de markerte dagene', async () => {
+    test('«Opphold utenfor EØS» i dagtypevelgeren viser skjemaet for oppholdskravet', async () => {
         renderOverstyring(dager);
 
-        await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
-        const checkboxes = screen.getAllByRole('checkbox');
-        await userEvent.click(checkboxes[1]!);
-        await userEvent.click(checkboxes[2]!);
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
+        await velgOppholdUtenforEøs();
 
-        expect(screen.getByRole('heading', { name: 'Vurder oppholdskrav' })).toBeVisible();
-        expect(screen.getByText('01.01.2022, 02.01.2022')).toBeVisible();
-        expect(screen.getByRole('radiogroup', { name: 'Er personen EØS-borger?' })).toBeVisible();
-        expect(screen.queryByTestId('dagtypevelger')).not.toBeInTheDocument();
+        expect(screen.getByRole('radiogroup', { name: 'Er personen EU-/EØS-borger?' })).toBeVisible();
+        expect(screen.queryByTestId('gradvelger')).not.toBeInTheDocument();
+        expect(screen.queryByTestId('endre')).not.toBeInTheDocument();
         expect(screen.queryByTestId('overstyring-begrunnelse')).not.toBeInTheDocument();
-        expect(screen.queryByRole('button', { name: 'Endre dagtype' })).not.toBeInTheDocument();
+    });
+
+    test('skjuler skjemaet for oppholdskravet når saksbehandler velger en annen dagtype', async () => {
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+        await velgOppholdUtenforEøs();
+        await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), 'Ferie');
+
+        expect(screen.queryByRole('radiogroup', { name: 'Er personen EU-/EØS-borger?' })).not.toBeInTheDocument();
+        expect(screen.getByTestId('endre')).toBeVisible();
+        expect(screen.getByTestId('overstyring-begrunnelse')).toBeVisible();
+    });
+
+    test('starter uten «Opphold utenfor EØS» når «Endre dagtype» åpnes på nytt', async () => {
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+        await velgOppholdUtenforEøs();
+        await userEvent.click(screen.getAllByRole('button', { name: 'Avbryt' })[0]!);
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+
+        expect(screen.getByTestId('dagtypevelger')).not.toHaveValue('OppholdUtenforEøs');
+        expect(screen.getByTestId('endre')).toBeVisible();
+        expect(screen.getByTestId('overstyring-begrunnelse')).toBeVisible();
+    });
+
+    test('tilbyr ikke «Opphold utenfor EØS» når togglen er av', async () => {
+        (useKanVurdereOppholdskrav as Mock).mockReturnValue(false);
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+
+        expect(screen.queryByRole('option', { name: 'Opphold utenfor EØS' })).not.toBeInTheDocument();
     });
 
     test('vurderer oppholdskravet også i perioder som ikke er beregnet', async () => {
@@ -349,17 +380,34 @@ describe('OverstyrbarUtbetaling', () => {
             />,
         );
 
-        await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+        await velgOppholdUtenforEøs();
 
-        expect(screen.getByRole('heading', { name: 'Vurder oppholdskrav' })).toBeVisible();
+        expect(screen.getByRole('radiogroup', { name: 'Er personen EU-/EØS-borger?' })).toBeVisible();
     });
 
-    test('«Endre dagtype» viser ikke skjemaet for oppholdskravet', async () => {
+    test('ber saksbehandler sende eller forkaste dagendringene før oppholdskravet vurderes', async () => {
+        renderOverstyring(dager);
+
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
+        await userEvent.click(screen.getAllByRole('checkbox')[1]!);
+        await userEvent.selectOptions(screen.getByTestId('dagtypevelger'), 'Ferie');
+        await userEvent.click(screen.getByTestId('endre'));
+        await velgOppholdUtenforEøs();
+
+        expect(
+            screen.getByText('Send eller forkast endringene av dagene før du vurderer oppholdskravet.'),
+        ).toBeVisible();
+        expect(screen.queryByRole('radiogroup', { name: 'Er personen EU-/EØS-borger?' })).not.toBeInTheDocument();
+        expect(screen.getByTestId('overstyring-begrunnelse')).toBeVisible();
+    });
+
+    test('«Endre dagtype» viser ikke skjemaet for oppholdskravet før valget er gjort', async () => {
         renderOverstyring(dager);
 
         await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
 
-        expect(screen.queryByRole('radiogroup', { name: 'Er personen EØS-borger?' })).not.toBeInTheDocument();
+        expect(screen.queryByRole('radiogroup', { name: 'Er personen EU-/EØS-borger?' })).not.toBeInTheDocument();
     });
 
     test('endrer ikke dager som er avslått etter oppholdskravet', async () => {
@@ -384,29 +432,24 @@ describe('OverstyrbarUtbetaling', () => {
         expect(screen.getByTestId('oppdater')).toBeDisabled();
     });
 
-    test('lukker skjemaet når oppholdskravet er vurdert', async () => {
+    test('lukker endringsmodusen når oppholdskravet er vurdert', async () => {
         renderOverstyring(dager);
 
-        await userEvent.click(screen.getByRole('button', { name: 'Vurder oppholdskrav' }));
+        await userEvent.click(screen.getByRole('button', { name: 'Endre dagtype' }));
         await userEvent.click(screen.getAllByRole('checkbox')[1]!);
-        await userEvent.click(
-            within(screen.getByRole('radiogroup', { name: 'Er personen EØS-borger?' })).getByRole('radio', {
-                name: 'Ja',
-            }),
-        );
-        await userEvent.click(
-            within(
-                screen.getByRole('radiogroup', {
-                    name: 'Oppholdt personen seg i Norge, et annet EØS-land eller et avtaleland?',
-                }),
-            ).getByRole('radio', { name: 'Ja' }),
+        await velgOppholdUtenforEøs();
+        await svar('Er personen EU-/EØS-borger?', 'Ja');
+        await svar('Oppfyller medlemmet oppholdskravet?', 'Ja');
+        await svar(
+            'Begrunnelse for godkjent opphold',
+            'Har oppholdt seg i Norge, EU/EØS eller et land med trygdeavtale',
         );
         await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Opphold i Norge');
         await userEvent.click(screen.getByRole('radio', { name: 'Saken er godt nok opplyst i Speil' }));
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
-        expect(screen.queryByRole('heading', { name: 'Vurder oppholdskrav' })).not.toBeInTheDocument();
-        expect(screen.getByRole('button', { name: 'Vurder oppholdskrav' })).toBeVisible();
+        expect(screen.queryByRole('heading', { name: 'Endre dagtype' })).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Endre dagtype' })).toBeVisible();
     });
 });
 
@@ -457,4 +500,14 @@ async function velgYtelse(ytelse: string) {
 async function fyllInn(navn: string | RegExp, verdi: string) {
     await userEvent.clear(screen.getByRole('textbox', { name: navn }));
     await userEvent.type(screen.getByRole('textbox', { name: navn }), verdi);
+}
+
+function velgOppholdUtenforEøs() {
+    return userEvent.selectOptions(screen.getByTestId('dagtypevelger'), 'Opphold utenfor EØS');
+}
+
+function svar(spørsmål: string, svar: string) {
+    return userEvent.click(
+        within(screen.getByRole('radiogroup', { name: spørsmål })).getByRole('radio', { name: svar }),
+    );
 }

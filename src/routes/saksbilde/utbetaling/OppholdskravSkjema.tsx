@@ -2,22 +2,19 @@ import { useParams } from 'next/navigation';
 import { ReactElement, useEffect } from 'react';
 import { Controller, FormProvider, useForm, useWatch } from 'react-hook-form';
 
-import { BodyShort, Button, ErrorMessage, HStack, InlineMessage, Radio, RadioGroup, VStack } from '@navikt/ds-react';
+import { Button, ErrorMessage, HStack, Radio, RadioGroup, VStack } from '@navikt/ds-react';
 
 import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
 import {
+    GrunnForIkkeOppfylt,
+    GrunnForOppfylt,
     OppholdskravSchema,
-    aktuelleSpørsmål,
-    girIkkeOppfylt,
-    girOppfylt,
     oppholdskravDefaultValues,
     oppholdskravSkjema,
     tilOppholdskravRequest,
-    unntakAndreLeddLabels,
 } from '@form-schemas/oppholdskravSkjema';
 import { JaNei } from '@form-schemas/opptjeningsvurderingSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ApiUnntakAndreLedd } from '@io/rest/generated/avslagsdager/avslagsdager.schemas';
 import {
     PostOppholdskravvurderingBehandlerMutationError,
     usePostOppholdskravvurderingBehandler,
@@ -42,7 +39,6 @@ interface OppholdskravSkjemaProps {
     onLagret: () => void;
 }
 
-// Foreløpig skjema for å teste flyten i dev. Byttes når skissene for § 8-9 er klare (navikt/sas-issues#98).
 export function OppholdskravSkjema({
     behandlingId,
     markerteDager,
@@ -61,7 +57,6 @@ export function OppholdskravSkjema({
         defaultValues: oppholdskravDefaultValues(dager),
     });
     const svar = useWatch({ control: form.control });
-    const aktuelle = aktuelleSpørsmål(svar);
 
     useEffect(() => {
         form.setValue('dager', somSorterteDatoer(markerteDager), { shouldValidate: form.formState.isSubmitted });
@@ -90,59 +85,33 @@ export function OppholdskravSkjema({
         <FormProvider {...form}>
             <VStack
                 as="form"
-                marginInline="space-32"
                 paddingBlock="space-16"
                 gap="space-20"
                 className="border-t border-ax-border-neutral-subtle [&_label]:text-ax-medium [&_legend]:text-ax-medium"
                 onSubmit={form.handleSubmit(onSubmit)}
                 autoComplete="off"
             >
-                <VStack gap="space-4">
-                    <BodyShort weight="semibold">Dager</BodyShort>
-                    <BodyShort>{dager.length > 0 ? somDagliste(dager) : 'Marker dagene som skal vurderes.'}</BodyShort>
-                    {form.formState.errors.dager?.message && (
-                        <ErrorMessage size="small">{form.formState.errors.dager.message}</ErrorMessage>
-                    )}
-                    {sperre && <ErrorMessage size="small">{sperre}</ErrorMessage>}
-                </VStack>
-                <JaNeiSpørsmål name="eøsBorger" legend="Er personen EØS-borger?" />
-                <JaNeiSpørsmål
-                    name="oppholdIGodkjentOmråde"
-                    legend={
-                        svar.eøsBorger === JaNei.NEI
-                            ? 'Oppholdt personen seg i Norge?'
-                            : 'Oppholdt personen seg i Norge, et annet EØS-land eller et avtaleland?'
-                    }
-                />
-                {aktuelle.unntakAndreLedd && (
-                    <Controller
-                        control={form.control}
-                        name="unntakAndreLedd"
-                        render={({ field, fieldState }) => (
-                            <RadioGroup
-                                {...field}
-                                value={field.value ?? null}
-                                legend="Gjelder et av unntakene i andre ledd?"
-                                size="small"
-                                error={fieldState.error?.message}
-                            >
-                                {Object.values(ApiUnntakAndreLedd).map((unntak) => (
-                                    <Radio key={unntak} value={unntak}>
-                                        {unntakAndreLeddLabels[unntak]}
-                                    </Radio>
-                                ))}
-                            </RadioGroup>
-                        )}
+                <JaNeiSpørsmål name="eøsBorger" legend="Er personen EU-/EØS-borger?" />
+                <JaNeiSpørsmål name="oppfyllerOppholdskravet" legend="Oppfyller medlemmet oppholdskravet?" />
+                {svar.oppfyllerOppholdskravet === JaNei.JA && (
+                    <GrunnSpørsmål
+                        name="grunnForOppfylt"
+                        legend="Begrunnelse for godkjent opphold"
+                        grunner={grunnerForOppfylt(svar.eøsBorger)}
                     />
                 )}
-                {aktuelle.godkjentOppholdInntilFireUker && (
-                    <JaNeiSpørsmål
-                        name="godkjentOppholdInntilFireUker"
-                        legend="Har Nav godkjent oppholdet utenfor Norge i inntil fire uker?"
+                {svar.oppfyllerOppholdskravet === JaNei.NEI && (
+                    <GrunnSpørsmål
+                        name="grunnForIkkeOppfylt"
+                        legend="Begrunnelse for ikke godkjent opphold"
+                        grunner={grunnerForIkkeOppfylt}
                     />
                 )}
-                {girOppfylt(svar) && <InlineMessage status="success">Vilkåret er oppfylt</InlineMessage>}
-                {girIkkeOppfylt(svar) && <InlineMessage status="warning">Vilkåret er ikke oppfylt</InlineMessage>}
+                {form.formState.errors.dager?.message && (
+                    <ErrorMessage size="small">{form.formState.errors.dager.message}</ErrorMessage>
+                )}
+                {sperre && <ErrorMessage size="small">{sperre}</ErrorMessage>}
+
                 <BegrunnelseOgJournalpost />
                 <HStack gap="space-8">
                     <ButtonKreverSkrivetilgang type="submit" variant="primary" size="small" loading={isPending}>
@@ -159,7 +128,7 @@ export function OppholdskravSkjema({
 }
 
 interface JaNeiSpørsmålProps {
-    name: 'eøsBorger' | 'oppholdIGodkjentOmråde' | 'godkjentOppholdInntilFireUker';
+    name: 'eøsBorger' | 'oppfyllerOppholdskravet';
     legend: string;
 }
 
@@ -197,3 +166,65 @@ function finnSperre(markerteDager: Utbetalingstabelldag[]): string | undefined {
 function somSorterteDatoer(markerteDager: Map<string, Utbetalingstabelldag>): string[] {
     return Array.from(markerteDager.keys()).sort();
 }
+
+interface GrunnSpørsmålProps {
+    name: 'grunnForOppfylt' | 'grunnForIkkeOppfylt';
+    legend: string;
+    grunner: Grunn[];
+}
+
+interface Grunn {
+    verdi: GrunnForOppfylt | GrunnForIkkeOppfylt;
+    label: string;
+}
+
+function GrunnSpørsmål({ name, legend, grunner }: GrunnSpørsmålProps): ReactElement {
+    return (
+        <Controller<OppholdskravSchema, GrunnSpørsmålProps['name']>
+            name={name}
+            render={({ field, fieldState }) => (
+                <RadioGroup
+                    {...field}
+                    value={field.value ?? null}
+                    legend={legend}
+                    size="small"
+                    error={fieldState.error?.message}
+                >
+                    {grunner.map((grunn) => (
+                        <Radio key={grunn.verdi} value={grunn.verdi}>
+                            {grunn.label}
+                        </Radio>
+                    ))}
+                </RadioGroup>
+            )}
+        />
+    );
+}
+
+// Rekkefølgen følger skissen. Første ledd gjelder bare opphold i Norge for den som ikke er EU-/EØS-borger.
+function grunnerForOppfylt(eøsBorger: OppholdskravSchema['eøsBorger']): Grunn[] {
+    return [
+        {
+            verdi: GrunnForOppfylt.INNVILGET_SØKNAD,
+            label: 'Innvilget søknad om utenlandsopphold utenfor EU/EØS',
+        },
+        { verdi: GrunnForOppfylt.MEDLEM, label: 'Medlem etter §§ 2-5, 2-6 eller 2-8' },
+        { verdi: GrunnForOppfylt.HELSEINSTITUSJON, label: 'Godkjent opphold på helseinstitusjon i utlandet' },
+        { verdi: GrunnForOppfylt.YRKESSKADE, label: 'Sykefraværet skyldes en godkjent yrkesskade' },
+        {
+            verdi: GrunnForOppfylt.OPPHOLD_I_GODKJENT_OMRÅDE,
+            label:
+                eøsBorger === JaNei.NEI
+                    ? 'Har oppholdt seg i Norge'
+                    : 'Har oppholdt seg i Norge, EU/EØS eller et land med trygdeavtale',
+        },
+    ];
+}
+
+const grunnerForIkkeOppfylt: Grunn[] = [
+    { verdi: GrunnForIkkeOppfylt.SØKNAD_AVSLÅTT, label: 'Nav-kontoret har avslått søknaden' },
+    {
+        verdi: GrunnForIkkeOppfylt.IKKE_SØKT,
+        label: 'Sykmeldt har ikke sendt søknad om å beholde sykepenger utenfor EU/EØS',
+    },
+];

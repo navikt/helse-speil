@@ -30,7 +30,7 @@ const getTypeIcon = (tabelldag?: Utbetalingstabelldag): ReactElement | null => {
         case 'SykNav':
             return <IconSyk />;
         case 'UtenforEøs':
-            return <StarsEuIcon aria-hidden width={16} height={16} data-testid="utenfor-eøs-ikon" />;
+            return <StarsEuIcon aria-hidden fontSize="1.25rem" data-testid="utenfor-eøs-ikon" />;
         case 'Ferie':
             return <IconFerie />;
         case 'Egenmelding':

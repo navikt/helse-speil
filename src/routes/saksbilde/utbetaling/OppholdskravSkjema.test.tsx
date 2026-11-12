@@ -37,11 +37,11 @@ const mutate = vi.fn();
 const onLukk = vi.fn();
 const onLagret = vi.fn();
 
-const eøsBorger = 'Er personen EØS-borger?';
-const oppholdIGodkjentOmråde = 'Oppholdt personen seg i Norge, et annet EØS-land eller et avtaleland?';
-const oppholdINorge = 'Oppholdt personen seg i Norge?';
-const unntak = 'Gjelder et av unntakene i andre ledd?';
-const godkjentOpphold = 'Har Nav godkjent oppholdet utenfor Norge i inntil fire uker?';
+const eøsBorger = 'Er personen EU-/EØS-borger?';
+const oppfyllerKravet = 'Oppfyller medlemmet oppholdskravet?';
+const grunnForOppfylt = 'Begrunnelse for godkjent opphold';
+const grunnForIkkeOppfylt = 'Begrunnelse for ikke godkjent opphold';
+const oppholdIGodkjentOmråde = 'Har oppholdt seg i Norge, EU/EØS eller et land med trygdeavtale';
 
 beforeEach(() => {
     mutate.mockClear();
@@ -52,12 +52,6 @@ beforeEach(() => {
 });
 
 describe('OppholdskravSkjema', () => {
-    it('viser de valgte dagene', () => {
-        renderSkjema();
-
-        expect(screen.getByText('15.07.2024, 16.07.2024')).toBeVisible();
-    });
-
     it('følger dagene som markeres', async () => {
         const { rerender } = renderSkjema([dag('2024-07-15')]);
         await fyllUtOppfyltVurdering();
@@ -77,7 +71,6 @@ describe('OppholdskravSkjema', () => {
         );
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
-        expect(screen.getByText('15.07.2024, 17.07.2024')).toBeVisible();
         expect(mutate).toHaveBeenCalledWith(
             expect.objectContaining({ data: expect.objectContaining({ dager: ['2024-07-15', '2024-07-17'] }) }),
         );
@@ -86,8 +79,6 @@ describe('OppholdskravSkjema', () => {
     it('ber om å markere dager når ingen er markert', async () => {
         renderSkjema([]);
         await fyllUtOppfyltVurdering();
-
-        expect(screen.getByText('Marker dagene som skal vurderes.')).toBeVisible();
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
         expect(await screen.findByText('Velg minst én dag')).toBeVisible();
@@ -108,45 +99,59 @@ describe('OppholdskravSkjema', () => {
         expect(mutate).not.toHaveBeenCalled();
     });
 
-    it('viser andre ledd bare når første ledd ikke er oppfylt', async () => {
+    it('viser begrunnelsene for utfallet som er valgt', async () => {
         renderSkjema();
 
-        expect(screen.queryByRole('radiogroup', { name: unntak })).not.toBeInTheDocument();
-        await svar(oppholdIGodkjentOmråde, 'Nei');
-        expect(screen.getByRole('radiogroup', { name: unntak })).toBeVisible();
-        expect(screen.queryByRole('radiogroup', { name: godkjentOpphold })).not.toBeInTheDocument();
+        expect(screen.queryByRole('radiogroup', { name: grunnForOppfylt })).not.toBeInTheDocument();
+        expect(screen.queryByRole('radiogroup', { name: grunnForIkkeOppfylt })).not.toBeInTheDocument();
 
-        await svar(unntak, 'Nei');
-        expect(screen.getByRole('radiogroup', { name: godkjentOpphold })).toBeVisible();
+        await svar(oppfyllerKravet, 'Ja');
+        expect(screen.getByRole('radiogroup', { name: grunnForOppfylt })).toBeVisible();
+        expect(screen.queryByRole('radiogroup', { name: grunnForIkkeOppfylt })).not.toBeInTheDocument();
 
-        await svar(oppholdIGodkjentOmråde, 'Ja');
-        expect(screen.queryByRole('radiogroup', { name: unntak })).not.toBeInTheDocument();
-        expect(screen.queryByRole('radiogroup', { name: godkjentOpphold })).not.toBeInTheDocument();
+        await svar(oppfyllerKravet, 'Nei');
+        expect(screen.getByRole('radiogroup', { name: grunnForIkkeOppfylt })).toBeVisible();
+        expect(screen.queryByRole('radiogroup', { name: grunnForOppfylt })).not.toBeInTheDocument();
     });
 
-    it('spør bare om opphold i Norge når personen ikke er EØS-borger', async () => {
+    it('har begrunnelsene fra skissen', async () => {
+        renderSkjema();
+
+        await svar(oppfyllerKravet, 'Ja');
+        expect(radioer(grunnForOppfylt)).toEqual([
+            'Innvilget søknad om utenlandsopphold utenfor EU/EØS',
+            'Medlem etter §§ 2-5, 2-6 eller 2-8',
+            'Godkjent opphold på helseinstitusjon i utlandet',
+            'Sykefraværet skyldes en godkjent yrkesskade',
+            oppholdIGodkjentOmråde,
+        ]);
+
+        await svar(oppfyllerKravet, 'Nei');
+        expect(radioer(grunnForIkkeOppfylt)).toEqual([
+            'Nav-kontoret har avslått søknaden',
+            'Sykmeldt har ikke sendt søknad om å beholde sykepenger utenfor EU/EØS',
+        ]);
+    });
+
+    it('nevner bare opphold i Norge når personen ikke er EU-/EØS-borger', async () => {
         renderSkjema();
 
         await svar(eøsBorger, 'Nei');
+        await svar(oppfyllerKravet, 'Ja');
 
-        expect(screen.getByRole('radiogroup', { name: oppholdINorge })).toBeVisible();
-        expect(screen.queryByRole('radiogroup', { name: oppholdIGodkjentOmråde })).not.toBeInTheDocument();
+        expect(radioer(grunnForOppfylt)).toContain('Har oppholdt seg i Norge');
+        expect(radioer(grunnForOppfylt)).not.toContain(oppholdIGodkjentOmråde);
     });
 
-    it('viser utfallet når alle aktuelle spørsmål er besvart', async () => {
+    it('krever begrunnelse for utfallet', async () => {
         renderSkjema();
 
         await svar(eøsBorger, 'Ja');
-        await svar(oppholdIGodkjentOmråde, 'Nei');
-        await svar(unntak, 'Nei');
-        expect(screen.queryByText(/Vilkåret er/)).not.toBeInTheDocument();
+        await svar(oppfyllerKravet, 'Nei');
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
-        await svar(godkjentOpphold, 'Nei');
-        expect(screen.getByText('Vilkåret er ikke oppfylt')).toBeVisible();
-
-        await svar(godkjentOpphold, 'Ja');
-        expect(screen.getByText('Vilkåret er oppfylt')).toBeVisible();
-        expect(screen.queryByText('Vilkåret er ikke oppfylt')).not.toBeInTheDocument();
+        expect(await screen.findByText('Velg begrunnelse')).toBeVisible();
+        expect(mutate).not.toHaveBeenCalled();
     });
 
     it('viser feil og sender ingenting når svar mangler', async () => {
@@ -159,14 +164,12 @@ describe('OppholdskravSkjema', () => {
         expect(mutate).not.toHaveBeenCalled();
     });
 
-    it('sender vurderingen med skjulte svar som null', async () => {
+    it('sender vurderingen etter leddene i § 8-9', async () => {
         renderSkjema();
 
         await svar(eøsBorger, 'Ja');
-        await svar(oppholdIGodkjentOmråde, 'Nei');
-        await svar(unntak, 'Nei');
-        await svar(godkjentOpphold, 'Ja');
-        await svar(unntak, 'Innlagt i helseinstitusjon');
+        await svar(oppfyllerKravet, 'Ja');
+        await svar(grunnForOppfylt, 'Godkjent opphold på helseinstitusjon i utlandet');
         await fyllUtBegrunnelse();
         await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
 
@@ -183,6 +186,27 @@ describe('OppholdskravSkjema', () => {
                 journalpostId: [],
             },
         });
+    });
+
+    it('sender et krav som ikke er oppfylt', async () => {
+        renderSkjema();
+
+        await svar(eøsBorger, 'Nei');
+        await svar(oppfyllerKravet, 'Nei');
+        await svar(grunnForIkkeOppfylt, 'Nav-kontoret har avslått søknaden');
+        await fyllUtBegrunnelse();
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(mutate).toHaveBeenCalledWith(
+            expect.objectContaining({
+                data: expect.objectContaining({
+                    eøsBorger: false,
+                    oppholdIGodkjentOmråde: false,
+                    unntakAndreLedd: 'INGEN',
+                    godkjentOppholdInntilFireUker: false,
+                }),
+            }),
+        );
     });
 
     it('melder fra at visningen oppdateres etter lagring', async () => {
@@ -238,8 +262,7 @@ describe('OppholdskravSkjema', () => {
 
     it('har ingen tilgjengelighetsfeil', async () => {
         const { container } = renderSkjema();
-        await svar(oppholdIGodkjentOmråde, 'Nei');
-        await svar(unntak, 'Nei');
+        await svar(oppfyllerKravet, 'Nei');
 
         const result = await axe(container);
         expect(result.violations).toEqual([]);
@@ -273,11 +296,18 @@ function svar(spørsmål: string, svar: string) {
 
 async function fyllUtOppfyltVurdering() {
     await svar(eøsBorger, 'Ja');
-    await svar(oppholdIGodkjentOmråde, 'Ja');
+    await svar(oppfyllerKravet, 'Ja');
+    await svar(grunnForOppfylt, oppholdIGodkjentOmråde);
     await fyllUtBegrunnelse();
 }
 
 async function fyllUtBegrunnelse() {
     await userEvent.type(screen.getByRole('textbox', { name: /Begrunnelse/ }), 'Opphold utenfor EØS');
     await userEvent.click(screen.getByRole('radio', { name: 'Saken er godt nok opplyst i Speil' }));
+}
+
+function radioer(gruppe: string): string[] {
+    return within(screen.getByRole('radiogroup', { name: gruppe }))
+        .getAllByRole('radio')
+        .map((radio) => (radio as HTMLInputElement).labels?.[0]?.textContent ?? '');
 }

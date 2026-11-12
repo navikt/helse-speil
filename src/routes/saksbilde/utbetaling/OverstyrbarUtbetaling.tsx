@@ -23,11 +23,11 @@ import { tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endrin
 import type { Dagendring } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/types';
 import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
+import { useKanVurdereOppholdskrav } from '@state/toggles';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 import { cn } from '@utils/tw';
 import { isBeregnetPeriode, isSelvstendigNaering } from '@utils/typeguards';
 
-import { OppholdskravSkjema } from './OppholdskravSkjema';
 import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerCheckbox';
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
@@ -200,11 +200,10 @@ export function OverstyrbarUtbetaling({
     const aktuellPeriode = useRef(periode);
 
     const [endringshandling, setEndringshandling] = useState<Endringshandling | null>(null);
+    const [vurdererOppholdskrav, setVurdererOppholdskrav] = useState(false);
+    const kanVurdereOppholdskrav = useKanVurdereOppholdskrav();
     const overstyrer = endringshandling !== null;
-    const markererDager =
-        endringshandling === 'Endre dagtype' ||
-        endringshandling === 'Legg til graderte ytelser' ||
-        endringshandling === 'Vurder oppholdskrav';
+    const markererDager = endringshandling === 'Endre dagtype' || endringshandling === 'Legg til graderte ytelser';
     const fordelerGraderteYtelser = endringshandling === 'Legg til graderte ytelser';
 
     const { postOverstyring, error, done } = useOverstyrDager();
@@ -214,7 +213,7 @@ export function OverstyrbarUtbetaling({
     const [state, dispatch] = useReducer(reducer, defaultDagerState);
 
     if (aktuellPeriode.current.id !== periode.id) {
-        setEndringshandling(null);
+        lukkEndringshandling();
         aktuellPeriode.current = periode;
     }
 
@@ -222,6 +221,8 @@ export function OverstyrbarUtbetaling({
 
     const alleDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...dager]);
     const alleOverstyrteDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...overstyrteDager]);
+    const harUsendteEndringer = alleOverstyrteDager.size > 0;
+    const viserOppholdskravSkjema = vurdererOppholdskrav && !harUsendteEndringer;
 
     const form = useForm<OverstyringFormFields>({
         mode: 'onBlur',
@@ -245,15 +246,20 @@ export function OverstyrbarUtbetaling({
             values.begrunnelse,
             periode,
             inntektsforhold,
-            () => setEndringshandling(null),
+            lukkEndringshandling,
         );
     };
 
     const avbryt = () => {
         dispatch({ type: DagerActionType.FJERN_ALLE_DAGER });
         form.reset();
-        setEndringshandling(null);
+        lukkEndringshandling();
     };
+
+    function lukkEndringshandling() {
+        setEndringshandling(null);
+        setVurdererOppholdskrav(false);
+    }
 
     const toggleChecked = (dag: Utbetalingstabelldag) => (event: React.ChangeEvent<HTMLInputElement>) => {
         if ((event.nativeEvent as KeyboardEvent)?.shiftKey) {
@@ -364,20 +370,23 @@ export function OverstyrbarUtbetaling({
                             markerteDager={markerteDager}
                             onSubmitEndring={onSubmitEndring}
                             erSelvstendig={isSelvstendigNaering(inntektsforhold)}
+                            oppholdskrav={
+                                kanVurdereOppholdskrav
+                                    ? {
+                                          behandlingId: periode.behandlingId,
+                                          vurderer: vurdererOppholdskrav,
+                                          harUsendteEndringer,
+                                          onVurderer: setVurdererOppholdskrav,
+                                          onAvsluttet: avbryt,
+                                      }
+                                    : undefined
+                            }
                         />
                     )}
                     {endringshandling === 'Legg til graderte ytelser' && (
                         <GraderteAndreYtelserForm markerteDager={markerteDager} onSubmitEndring={onSubmitEndring} />
                     )}
-                    {endringshandling === 'Vurder oppholdskrav' && (
-                        <OppholdskravSkjema
-                            behandlingId={periode.behandlingId}
-                            markerteDager={markerteDager}
-                            onLukk={avbryt}
-                            onLagret={avbryt}
-                        />
-                    )}
-                    {overstyrer && endringshandling !== 'Vurder oppholdskrav' && (
+                    {overstyrer && !viserOppholdskravSkjema && (
                         <FormProvider {...form}>
                             <form onSubmit={form.handleSubmit(onSubmitOverstyring)} autoComplete="off">
                                 <OverstyringForm
