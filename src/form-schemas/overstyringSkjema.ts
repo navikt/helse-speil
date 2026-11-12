@@ -137,7 +137,7 @@ const sjekkArbeidsdager = (
             dag.erAGP ||
             dag.erVentetid ||
             dag.erNyDag ||
-            !['Syk', 'SykHelg', 'Ferie'].includes(dag.fraType ?? '') ||
+            !['Syk', 'SykHelg', 'UtenforEøs', 'Ferie'].includes(dag.fraType ?? '') ||
             dagerISluttenAvPerioden.includes(dag),
         ctx,
         overstyringFeilkoder.arbeidsdag,

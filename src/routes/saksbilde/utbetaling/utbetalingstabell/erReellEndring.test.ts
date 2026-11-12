@@ -3,11 +3,15 @@ import { lagDag } from '@saksbilde/utbetaling/utbetalingstabell/validering.fixtu
 import { AndreYtelserGrader } from '@typer/utbetalingstabell';
 
 import { erReellEndring } from './erReellEndring';
-import { Foreldrepengerdag, Sykedag } from './utbetalingstabelldager';
+import { Foreldrepengerdag, Sykedag, UtenforEøsdag } from './utbetalingstabelldager';
 
 const fraDag = lagDag({ dato: '2024-07-01', dag: Foreldrepengerdag, grad: 70 });
 
 describe('erReellEndring', () => {
+    it('er endring når en dag med Utenfor EØS endres til Syk', () => {
+        expect(erReellEndring({ dag: Sykedag }, lagDag({ dato: '2024-07-01', dag: UtenforEøsdag }))).toBe(true);
+    });
+
     it('er endring når dagen ikke har lagrede graderte andre ytelser', () => {
         expect(erReellEndring(gradertEndring(30, { FORELDREPENGER: 40 }), fraDag)).toBe(true);
     });

@@ -5,12 +5,14 @@ import {
     ApiDag,
     ApiDagoverstyring,
     ApiDagtype,
+    ApiLøpendeVilkår,
     ApiOverstyrtDag,
     ApiSykdomsdagtype,
     ApiUtbetalingsdagtype,
 } from '@io/rest/generated/spesialist.schemas';
 import { DateString } from '@typer/shared';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
+import { erHelg } from '@utils/date';
 
 import {
     AAPdag,
@@ -34,6 +36,7 @@ import {
     Svangerskapspengerdag,
     Sykedag,
     SykedagNav,
+    UtenforEøsdag,
     getSpeildag,
 } from './utbetalingstabelldager';
 
@@ -79,6 +82,11 @@ const getUtbetalingstabelldagtypeFromOverstyrtDag = (dag: ApiOverstyrtDag): Spei
 };
 
 const getUtbetalingstabelldag = (dag: ApiDag): Speildag => {
+    if (dag.sykdomsdagtype === ApiSykdomsdagtype.SYK_UTENFOR_EOS && !harVurderingAvOppholdskrav(dag)) {
+        return UtenforEøsdag;
+    }
+    const sykdomsdagtype = sykdomsdagtypeEtterVurdering(dag);
+
     switch (dag.utbetalingsdagtype) {
         case ApiUtbetalingsdagtype.ARBEIDSDAG:
             return Arbeidsdag;
@@ -93,12 +101,12 @@ const getUtbetalingstabelldag = (dag: ApiDag): Speildag => {
             ) {
                 return AvslattMeldingTilNavdag;
             }
-            return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
+            return AvvistEllerForeldetDag(sykdomsdagtype, dag.utbetalingsdagtype);
         case ApiUtbetalingsdagtype.FORELDET_DAG:
-            return AvvistEllerForeldetDag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
+            return AvvistEllerForeldetDag(sykdomsdagtype, dag.utbetalingsdagtype);
     }
 
-    return getSpeildag(dag.sykdomsdagtype, dag.utbetalingsdagtype);
+    return getSpeildag(sykdomsdagtype, dag.utbetalingsdagtype);
 };
 
 export const createDagerMap = (
@@ -222,3 +230,14 @@ export const useTabelldagerMap = ({
         antallAGPDagerBruktFørPerioden,
         overstyringer,
     ]);
+
+function sykdomsdagtypeEtterVurdering(dag: ApiDag): ApiSykdomsdagtype {
+    if (dag.sykdomsdagtype !== ApiSykdomsdagtype.SYK_UTENFOR_EOS) return dag.sykdomsdagtype;
+    return erHelg(dag.dato) ? ApiSykdomsdagtype.SYK_HELGEDAG : ApiSykdomsdagtype.SYKEDAG;
+}
+
+function harVurderingAvOppholdskrav(dag: ApiDag): boolean {
+    return (
+        dag.vurderingerAvLøpendeVilkår?.some((vurdering) => vurdering.vilkår === ApiLøpendeVilkår.OPPHOLDSKRAV) ?? false
+    );
+}

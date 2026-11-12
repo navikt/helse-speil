@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react';
 
+import { StarsEuIcon } from '@navikt/aksel-icons';
 import { BodyShort, Table } from '@navikt/ds-react';
 
 import { Endringstrekant } from '@components/Endringstrekant';
@@ -28,6 +29,8 @@ const getTypeIcon = (tabelldag?: Utbetalingstabelldag): ReactElement | null => {
         case 'Syk':
         case 'SykNav':
             return <IconSyk />;
+        case 'UtenforEøs':
+            return <StarsEuIcon aria-hidden width={16} height={16} data-testid="utenfor-eøs-ikon" />;
         case 'Ferie':
             return <IconFerie />;
         case 'Egenmelding':

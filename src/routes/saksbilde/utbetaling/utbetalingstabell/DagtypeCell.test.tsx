@@ -4,9 +4,20 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import { DagtypeCell } from './DagtypeCell';
-import { Feriedag } from './utbetalingstabelldager';
+import { Feriedag, UtenforEøsdag } from './utbetalingstabelldager';
 
 describe('DagtypeCell', () => {
+    it('viser EU-stjernene for Utenfor EØS', () => {
+        render(
+            <TestCellWrapper>
+                <DagtypeCell tabelldag={getUtbetalingstabellDag({ dag: UtenforEøsdag })} />
+            </TestCellWrapper>,
+        );
+
+        expect(screen.getByText('Utenfor EØS')).toBeVisible();
+        expect(screen.getByTestId('utenfor-eøs-ikon')).toBeInTheDocument();
+    });
+
     it('rendrer tekst for dagtype', () => {
         render(
             <TestCellWrapper>

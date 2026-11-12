@@ -27,6 +27,7 @@ export const utbetalingstabelldagtypeValues = [
     'Arbeid',
     'Avslått',
     'ArbeidIkkeGjenopptatt',
+    'UtenforEøs',
     ...andreYtelser,
 ] as const;
 

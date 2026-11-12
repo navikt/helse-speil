@@ -75,6 +75,12 @@ export const Sykedag: Speildag = {
     overstyrtDagtype: 'Sykedag',
 };
 
+export const UtenforEøsdag: Speildag = {
+    speilDagtype: 'UtenforEøs',
+    visningstekst: 'Utenfor EØS',
+    overstyrtDagtype: 'Sykedag',
+};
+
 export const SykedagNav: Speildag = {
     speilDagtype: 'SykNav',
     visningstekst: 'Syk (Nav)',
@@ -201,6 +207,8 @@ export const getSpeildag = (sykdomsdagtype: ApiSykdomsdagtype, utbetalingsdagtyp
             return Sykedag;
         case ApiSykdomsdagtype.SYK_HELGEDAG:
             return Navhelgedag;
+        case ApiSykdomsdagtype.SYK_UTENFOR_EOS:
+            return utbetalingsdagtype === ApiUtbetalingsdagtype.NAVHELGDAG ? Navhelgedag : Sykedag;
         case ApiSykdomsdagtype.FRISK_HELGEDAG:
             return FriskHelgedag;
         case ApiSykdomsdagtype.AVSLATT:

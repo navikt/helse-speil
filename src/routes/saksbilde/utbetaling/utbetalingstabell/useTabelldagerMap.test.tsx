@@ -131,4 +131,75 @@ describe('useTabelldagerMap', () => {
         expect(result.current.get('2021-01-01')?.vurderingerAvLøpendeVilkår).toEqual([vurdering]);
         expect(result.current.get('2021-01-02')?.vurderingerAvLøpendeVilkår).toEqual([]);
     });
+
+    describe('Syk utenfor EØS', () => {
+        it('vises som Utenfor EØS før oppholdskravet er vurdert', () => {
+            expect(tabelldag({})).toEqual(
+                expect.objectContaining({ speilDagtype: 'UtenforEøs', visningstekst: 'Utenfor EØS' }),
+            );
+        });
+
+        it('vises som Utenfor EØS også i helgen før oppholdskravet er vurdert', () => {
+            expect(tabelldag({ utbetalingsdagtype: ApiUtbetalingsdagtype.NAVHELGDAG })?.speilDagtype).toEqual(
+                'UtenforEøs',
+            );
+        });
+
+        it('vises som Syk når oppholdskravet er oppfylt', () => {
+            expect(
+                tabelldag({ vurderingerAvLøpendeVilkår: [vurdering(ApiUtfallAvLøpendeVilkår.OPPFYLT)] })?.speilDagtype,
+            ).toEqual('Syk');
+        });
+
+        it('vises som Syk (Avslått) når oppholdskravet ikke er oppfylt', () => {
+            expect(
+                tabelldag({
+                    utbetalingsdagtype: ApiUtbetalingsdagtype.AVVIST_DAG,
+                    vurderingerAvLøpendeVilkår: [vurdering(ApiUtfallAvLøpendeVilkår.IKKE_OPPFYLT)],
+                }),
+            ).toEqual(expect.objectContaining({ speilDagtype: 'Avslått', visningstekst: 'Syk' }));
+        });
+
+        it('vises som Helg i arbeidsgiverperioden når oppholdskravet er vurdert', () => {
+            expect(
+                tabelldag(
+                    {
+                        utbetalingsdagtype: ApiUtbetalingsdagtype.ARBEIDSGIVERPERIODEDAG,
+                        vurderingerAvLøpendeVilkår: [vurdering(ApiUtfallAvLøpendeVilkår.OPPFYLT)],
+                    },
+                    lørdag,
+                )?.speilDagtype,
+            ).toEqual('SykHelg');
+        });
+
+        it('vises som Helg (Avslått) når oppholdskravet ikke er oppfylt for en helgedag', () => {
+            expect(
+                tabelldag(
+                    {
+                        utbetalingsdagtype: ApiUtbetalingsdagtype.AVVIST_DAG,
+                        vurderingerAvLøpendeVilkår: [vurdering(ApiUtfallAvLøpendeVilkår.IKKE_OPPFYLT)],
+                    },
+                    lørdag,
+                ),
+            ).toEqual(expect.objectContaining({ speilDagtype: 'Avslått', visningstekst: 'Helg' }));
+        });
+
+        const mandag = '2021-01-04';
+        const lørdag = '2021-01-09';
+
+        function vurdering(utfall: ApiUtfallAvLøpendeVilkår) {
+            return { vilkår: ApiLøpendeVilkår.OPPHOLDSKRAV, vurderingId: 'en-vurdering', utfall };
+        }
+
+        function tabelldag(overrides: Partial<ApiDag>, dato: DateString = mandag) {
+            const { result } = renderHook(() =>
+                useTabelldagerMap({
+                    tidslinje: [getDag(dato, { sykdomsdagtype: ApiSykdomsdagtype.SYK_UTENFOR_EOS, ...overrides })],
+                    erSelvstendigNæringsdrivende: false,
+                    gjenståendeDager: 100,
+                }),
+            );
+            return result.current.get(dato)?.dag;
+        }
+    });
 });
