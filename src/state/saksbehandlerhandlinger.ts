@@ -43,6 +43,8 @@ export function tilSaksbehandlerhandlingTekst(handlingType: ApiHandlingType): st
             return 'Graderte andre ytelser endret';
         case ApiHandlingType.MANUELT_VURDERT_OPPHOLDSKRAV:
             return 'Oppholdskrav vurdert manuelt';
+        case ApiHandlingType.MANUELT_VURDERT_MEDLEMSKAP:
+            return 'Medlemskap vurdert manuelt';
         default:
             return 'Ukjent handling';
     }
@@ -58,6 +60,8 @@ export function tilSaksbehandlerhandlingKontrolltekst(handlingType: ApiHandlingT
             return 'Endring av graderte andre ytelser';
         case ApiHandlingType.MANUELT_VURDERT_OPPHOLDSKRAV:
             return 'Manuell vurdering av oppholdskrav';
+        case ApiHandlingType.MANUELT_VURDERT_MEDLEMSKAP:
+            return 'Manuell vurdering av medlemskap';
         default:
             return 'Ukjent handling';
     }
