@@ -1,3 +1,4 @@
+import { mockFetchResponse } from '../../../../../vitest.setup';
 import { Mock } from 'vitest';
 
 import { ApiVilkårsgrunnlagInfotrygdV2 } from '@io/rest/generated/spesialist.schemas';
@@ -163,6 +164,7 @@ const vilkårsgrunnlag: ApiVilkårsgrunnlagInfotrygdV2 = {
     sykepengegrunnlag: 1234567,
     omregnetArsinntekt: 1234567,
     opptjeningsvurderingId: 'en-id',
+    medlemskapsvurderingId: 'en-medlemskapsvurdering-id',
 };
 
 export function settOppOpptjeningsmocker() {
@@ -171,6 +173,8 @@ export function settOppOpptjeningsmocker() {
     refetch.mockClear();
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
     mockOpptjeningshistorikk([]);
+    // Inngangsvilkår henter også medlemskapsvurderingen
+    mockFetchResponse({ skjæringstidspunkt: '2024-01-01', krav: [] });
     (usePostManuellOpptjeningsvurderingBehandler as Mock).mockReturnValue({
         mutate,
         isPending: false,

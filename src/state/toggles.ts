@@ -7,7 +7,6 @@ import { atomWithLocalStorage, atomWithSessionStorage } from '@state/jotai';
 
 export type ToggleState = {
     kanBeslutteEgne: boolean;
-    nyMedlemskapsvisning: boolean;
     kanVurdereOppholdskrav: boolean;
     utviklersnacks: boolean;
 };
@@ -16,7 +15,6 @@ type SessionToggleState = Omit<ToggleState, 'utviklersnacks'>;
 
 const defaultToggleState: SessionToggleState = {
     kanBeslutteEgne: false,
-    nyMedlemskapsvisning: false,
     kanVurdereOppholdskrav: false,
 };
 
@@ -58,9 +56,6 @@ export const useToggle = (): { value: ToggleState; toggle: (property: keyof Togg
 };
 
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
-
-// I prod kan bare utviklere skru på visningen, fra toggle-menyen
-export const useNyMedlemskapsvisning = (): boolean => useAtomValue(toggleState).nyMedlemskapsvisning;
 
 // sp-medlemskap avviser overstyring i prod til den gjør vurderingen selv (steg 7 i innfasingen av vurderings-id)
 export function useKanOverstyreMedlemskap(): boolean {

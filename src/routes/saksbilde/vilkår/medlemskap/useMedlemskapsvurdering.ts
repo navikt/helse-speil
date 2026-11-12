@@ -25,11 +25,7 @@ interface Overstyring {
     medlemskapsvurderingIdFørOverstyring: string;
 }
 
-export function useMedlemskapsvurdering(
-    personPseudoId: string,
-    medlemskapsvurderingId: string | null | undefined,
-    enabled: boolean,
-): Medlemskapsvurdering {
+export function useMedlemskapsvurdering(personPseudoId: string, medlemskapsvurderingId: string): Medlemskapsvurdering {
     const [overstyring, setOverstyring] = useState<Overstyring | null>(null);
 
     // Spleis lytter ikke på endrede medlemskapsvurderinger ennå, så vilkårsgrunnlaget beholder den gamle id-en.
@@ -39,11 +35,9 @@ export function useMedlemskapsvurdering(
             ? overstyring.medlemskapsvurderingId
             : medlemskapsvurderingId;
 
-    const { data, isLoading, isError, refetch } = useGetVilkårsvurderingerForPersonBehandler(
-        personPseudoId,
-        { medlemskapsvurderingId: gjeldendeMedlemskapsvurderingId ?? '' },
-        { query: { enabled: enabled && !!gjeldendeMedlemskapsvurderingId } },
-    );
+    const { data, isLoading, isError, refetch } = useGetVilkårsvurderingerForPersonBehandler(personPseudoId, {
+        medlemskapsvurderingId: gjeldendeMedlemskapsvurderingId,
+    });
 
     const vurdering = data?.krav[0];
 
@@ -56,7 +50,6 @@ export function useMedlemskapsvurdering(
         utfall: utfallFraStatus(vurdering?.status),
         erOverførtFraInfotrygd: vurdering?.kilde.kildetype === ApiKildetype.OVERFOERT_FRA_INFOTRYGD,
         onOverstyrt: (nyMedlemskapsvurderingId) => {
-            if (!medlemskapsvurderingId) return;
             setOverstyring({
                 medlemskapsvurderingId: nyMedlemskapsvurderingId,
                 medlemskapsvurderingIdFørOverstyring: medlemskapsvurderingId,

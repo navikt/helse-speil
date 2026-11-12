@@ -17,12 +17,10 @@ import {
 } from '@io/rest/generated/spesialist.schemas';
 import { sporHendelse } from '@observability/hendelser';
 import { useSerPåTidligereBehandling } from '@state/inntektsforhold/inntektsforhold';
-import { useNyMedlemskapsvisning } from '@state/toggles';
 import { getRequiredVilkårsgrunnlag } from '@state/utils';
 import { DateString } from '@typer/shared';
 import { getFormattedDateString, getFormattedDatetimeString } from '@utils/date';
 
-import { MedlemskapVilkår } from './MedlemskapVilkår';
 import { SykepengegrunnlagVilkår } from './SykepengegrunnlagVilkår';
 import { VilkårsutfallKort } from './VilkårsutfallKort';
 import { Medlemskap } from './medlemskap/Medlemskap';
@@ -56,7 +54,6 @@ interface InngangsvilkårWithContentProps {
     opptjeningsvurderingId: string;
     readOnly: boolean;
     serPåTidligereBehandling: boolean;
-    nyMedlemskapsvisning?: boolean;
 }
 
 type Vilkårsskjema = 'opptjening' | 'medlemskap';
@@ -69,7 +66,6 @@ export function InngangsvilkårWithContent({
     opptjeningsvurderingId,
     readOnly,
     serPåTidligereBehandling,
-    nyMedlemskapsvisning = false,
 }: InngangsvilkårWithContentProps): ReactElement {
     const opptjeningsvurdering = useOpptjeningsvurdering(personPseudoId, opptjeningsvurderingId);
     const opptjeningsendringer = useOpptjeningshistorikk(
@@ -77,17 +73,11 @@ export function InngangsvilkårWithContent({
         vilkårsgrunnlag.skjaeringstidspunkt,
         opptjeningsvurdering.data !== undefined && !opptjeningsvurdering.isFetching && !opptjeningsvurdering.isError,
     );
-    const medlemskapsvurderingId = vilkårsgrunnlag.medlemskapsvurderingId;
-    const visNyMedlemskapsvurdering = nyMedlemskapsvisning && !!medlemskapsvurderingId;
-    const medlemskapsvurdering = useMedlemskapsvurdering(
-        personPseudoId,
-        medlemskapsvurderingId,
-        visNyMedlemskapsvurdering,
-    );
+    const medlemskapsvurdering = useMedlemskapsvurdering(personPseudoId, vilkårsgrunnlag.medlemskapsvurderingId);
     const medlemskapsendringer = useMedlemskapshistorikk(
         personPseudoId,
         vilkårsgrunnlag.skjaeringstidspunkt,
-        visNyMedlemskapsvurdering && medlemskapsvurdering.vurdering !== undefined,
+        medlemskapsvurdering.vurdering !== undefined,
     );
     const [åpentSkjema, setÅpentSkjema] = useState<Vilkårsskjema | null>(null);
     const vurdererOpptjening = åpentSkjema === 'opptjening';
@@ -152,18 +142,14 @@ export function InngangsvilkårWithContent({
                             alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
                             vurdertTekst={vurdertTekst}
                         />
-                        {visNyMedlemskapsvurdering ? (
-                            <Medlemskap
-                                medlemskapsvurdering={medlemskapsvurdering}
-                                endringer={medlemskapsendringer}
-                                readOnly={readOnly}
-                                serPåTidligereBehandling={serPåTidligereBehandling}
-                                vurderer={vurdererMedlemskap}
-                                onVurder={vurderMedlemskap}
-                            />
-                        ) : (
-                            <MedlemskapVilkår vilkårsgrunnlag={vilkårsgrunnlag} vurdertTekst={vurdertTekst} />
-                        )}
+                        <Medlemskap
+                            medlemskapsvurdering={medlemskapsvurdering}
+                            endringer={medlemskapsendringer}
+                            readOnly={readOnly}
+                            serPåTidligereBehandling={serPåTidligereBehandling}
+                            vurderer={vurdererMedlemskap}
+                            onVurder={vurderMedlemskap}
+                        />
                     </VStack>
                     {!serPåTidligereBehandling && vurdererOpptjening && skjæringstidspunkt !== undefined && (
                         <Vurderingspanel>
@@ -175,19 +161,16 @@ export function InngangsvilkårWithContent({
                             />
                         </Vurderingspanel>
                     )}
-                    {visNyMedlemskapsvurdering &&
-                        !serPåTidligereBehandling &&
-                        vurdererMedlemskap &&
-                        medlemskapSkjæringstidspunkt !== undefined && (
-                            <Vurderingspanel>
-                                <MedlemskapsvurderingSkjema
-                                    personPseudoId={personPseudoId}
-                                    skjæringstidspunkt={medlemskapSkjæringstidspunkt}
-                                    onOverstyrt={medlemskapsvurdering.onOverstyrt}
-                                    onLukk={() => setÅpentSkjema(null)}
-                                />
-                            </Vurderingspanel>
-                        )}
+                    {!serPåTidligereBehandling && vurdererMedlemskap && medlemskapSkjæringstidspunkt !== undefined && (
+                        <Vurderingspanel>
+                            <MedlemskapsvurderingSkjema
+                                personPseudoId={personPseudoId}
+                                skjæringstidspunkt={medlemskapSkjæringstidspunkt}
+                                onOverstyrt={medlemskapsvurdering.onOverstyrt}
+                                onLukk={() => setÅpentSkjema(null)}
+                            />
+                        </Vurderingspanel>
+                    )}
                 </HStack>
             </VStack>
         </Box>
@@ -202,7 +185,6 @@ interface InngangsvilkårContainerProps {
 function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerProps): ReactElement | null {
     const readOnly = useIsReadOnlyOppgave(person);
     const serPåTidligereBehandling = useSerPåTidligereBehandling(person);
-    const nyMedlemskapsvisning = useNyMedlemskapsvisning();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
     const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId);
@@ -220,7 +202,6 @@ function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerP
             opptjeningsvurderingId={vilkårsgrunnlag.opptjeningsvurderingId}
             readOnly={readOnly}
             serPåTidligereBehandling={serPåTidligereBehandling}
-            nyMedlemskapsvisning={nyMedlemskapsvisning}
         />
     );
 }

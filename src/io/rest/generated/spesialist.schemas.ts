@@ -3055,8 +3055,7 @@ export interface ApiVilkårsgrunnlagInfotrygdV2 {
     sykepengegrunnlag: number;
     omregnetArsinntekt: number;
     opptjeningsvurderingId: string;
-    /** @nullable */
-    medlemskapsvurderingId?: string | null;
+    medlemskapsvurderingId: string;
     type: ApiVilkårsgrunnlagInfotrygdV2Type;
 }
 
@@ -3105,8 +3104,7 @@ export interface ApiVilkårsgrunnlagSpleisV2 {
     oppfyllerKravOmOpptjening: boolean;
     opptjeningFra: string;
     opptjeningsvurderingId: string;
-    /** @nullable */
-    medlemskapsvurderingId?: string | null;
+    medlemskapsvurderingId: string;
     beregningsgrunnlag: string;
     /** @nullable */
     forsikringsvurderingId?: string | null;

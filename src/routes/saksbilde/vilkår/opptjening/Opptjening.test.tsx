@@ -233,7 +233,7 @@ describe('Opptjening', () => {
         mockVilkårsvurderinger(undefined, { isError: true });
 
         renderOpptjening(false);
-        await userEvent.click(screen.getByRole('button', { name: 'Prøv igjen' }));
+        await userEvent.click(within(opptjeningsvilkår()).getByRole('button', { name: 'Prøv igjen' }));
 
         expect(refetch).toHaveBeenCalledTimes(1);
     });

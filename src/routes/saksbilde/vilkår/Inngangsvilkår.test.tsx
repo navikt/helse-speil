@@ -4,6 +4,7 @@ import {
     ApiMedlemskapshistorikkInnslag,
     ApiMedlemskapsstatus,
     ApiVilkårsvurderingerForPersonResponse,
+    ApiVurderingskilde,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import {
     ApiVilkårsgrunnlagInfotrygdV2,
@@ -22,22 +23,15 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
 }));
 
 const medlemskapQuery = vi.hoisted(() => ({
-    kall: [] as { medlemskapsvurderingId: string; enabled: boolean | undefined }[],
+    kall: [] as string[],
     data: undefined as ApiVilkårsvurderingerForPersonResponse | undefined,
     historikk: [] as ApiMedlemskapshistorikkInnslag[],
 }));
 
 vi.mock('@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger')>()),
-    useGetVilkårsvurderingerForPersonBehandler: (
-        _personId: string,
-        params: { medlemskapsvurderingId: string },
-        options?: { query?: { enabled?: boolean } },
-    ) => {
-        medlemskapQuery.kall.push({
-            medlemskapsvurderingId: params.medlemskapsvurderingId,
-            enabled: options?.query?.enabled,
-        });
+    useGetVilkårsvurderingerForPersonBehandler: (_personId: string, params: { medlemskapsvurderingId: string }) => {
+        medlemskapQuery.kall.push(params.medlemskapsvurderingId);
         return { data: medlemskapQuery.data, isLoading: false, isError: false, refetch: vi.fn() };
     },
     useGetMedlemskapshistorikkBehandler: (
@@ -73,6 +67,7 @@ const getVilkårsgrunnlagSpleis = (
     oppfyllerKravOmOpptjening: true,
     opptjeningFra: '2000-01-01',
     opptjeningsvurderingId: 'en-opptjeningsvurdering-id',
+    medlemskapsvurderingId: 'en-medlemskapsvurdering-id',
     skjaeringstidspunkt: '2022-01-01',
     sykepengegrunnlag: 1234567,
     beregningsgrunnlag: '1234567',
@@ -100,9 +95,18 @@ const getVilkårsgrunnlagInfotrygd = (): ApiVilkårsgrunnlagInfotrygdV2 => ({
     sykepengegrunnlag: 1234567,
     omregnetArsinntekt: 1234567,
     opptjeningsvurderingId: 'en-opptjeningsvurdering-id',
+    medlemskapsvurderingId: 'en-medlemskapsvurdering-id',
 });
 describe('Inngangsvilkår', () => {
+    beforeEach(() => {
+        medlemskapQuery.kall = [];
+        medlemskapQuery.historikk = [];
+        medlemskapQuery.data = undefined;
+    });
+
     it('rendrer opptjening, sykepengegrunnlag og medlemskap', () => {
+        medlemskapQuery.data = medlemskapssvar(ApiMedlemskapsstatus.JA, automatiskKilde);
+
         render(
             <InngangsvilkårWithContent
                 vilkårsgrunnlag={getVilkårsgrunnlagSpleis()}
@@ -123,12 +127,11 @@ describe('Inngangsvilkår', () => {
     });
 
     it('viser ikke oppfylt/ikke vurdert-utfall for sykepengegrunnlag og medlemskap', () => {
+        medlemskapQuery.data = medlemskapssvar(ApiMedlemskapsstatus.UAVKLART, automatiskKilde);
+
         render(
             <InngangsvilkårWithContent
-                vilkårsgrunnlag={getVilkårsgrunnlagSpleis({
-                    oppfyllerKravOmMinstelonn: false,
-                    vurderingAvKravOmMedlemskap: ApiVilkårsgrunnlagVurdering.IKKE_VURDERT,
-                })}
+                vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ oppfyllerKravOmMinstelonn: false })}
                 fødselsdato="1900-01-01"
                 {...opptjeningProps}
             />,
@@ -142,6 +145,10 @@ describe('Inngangsvilkår', () => {
     });
 
     it('viser "Vurdert i Infotrygd" som utfall-tag når vilkårsgrunnlaget er fra Infotrygd', () => {
+        medlemskapQuery.data = medlemskapssvar(ApiMedlemskapsstatus.JA, {
+            kildetype: ApiKildetype.OVERFOERT_FRA_INFOTRYGD,
+        });
+
         render(
             <InngangsvilkårWithContent
                 vilkårsgrunnlag={getVilkårsgrunnlagInfotrygd()}
@@ -157,10 +164,8 @@ describe('Inngangsvilkår', () => {
         expect(within(medlemskap).getByText('Vurdert i Infotrygd')).toBeVisible();
     });
 
-    describe('ny medlemskapsvisning', () => {
+    describe('medlemskap', () => {
         beforeEach(() => {
-            medlemskapQuery.kall = [];
-            medlemskapQuery.historikk = [];
             medlemskapQuery.data = {
                 skjæringstidspunkt: '2022-01-01',
                 krav: [
@@ -181,7 +186,7 @@ describe('Inngangsvilkår', () => {
             };
         });
 
-        it('henter ikke fra sp-medlemskap når togglen er av', () => {
+        it('viser vurderingen fra sp-medlemskap', () => {
             render(
                 <InngangsvilkårWithContent
                     vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ medlemskapsvurderingId: 'en-medlemskapsvurdering-id' })}
@@ -190,44 +195,10 @@ describe('Inngangsvilkår', () => {
                 />,
             );
 
-            expect(medlemskapQuery.kall.every((kall) => kall.enabled === false)).toBe(true);
-            const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
-            expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
-            expect(screen.queryByText('Arbeid utenfor Norge (SP6001)')).not.toBeInTheDocument();
-        });
-
-        it('viser vurderingen fra sp-medlemskap når togglen er på', () => {
-            render(
-                <InngangsvilkårWithContent
-                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ medlemskapsvurderingId: 'en-medlemskapsvurdering-id' })}
-                    fødselsdato="1900-01-01"
-                    {...opptjeningProps}
-                    nyMedlemskapsvisning
-                />,
-            );
-
-            expect(medlemskapQuery.kall).toContainEqual({
-                medlemskapsvurderingId: 'en-medlemskapsvurdering-id',
-                enabled: true,
-            });
+            expect(medlemskapQuery.kall).toContain('en-medlemskapsvurdering-id');
             const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
             expect(within(medlemskap).getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
             expect(within(medlemskap).getByText('Arbeid utenfor Norge (SP6001)')).toBeVisible();
-        });
-
-        it('viser den gamle medlemskapsvisningen når vilkårsgrunnlaget mangler medlemskapsvurderingId', () => {
-            render(
-                <InngangsvilkårWithContent
-                    vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ medlemskapsvurderingId: null })}
-                    fødselsdato="1900-01-01"
-                    {...opptjeningProps}
-                    nyMedlemskapsvisning
-                />,
-            );
-
-            expect(medlemskapQuery.kall.every((kall) => kall.enabled === false)).toBe(true);
-            const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
-            expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
         });
 
         describe('endringslogg', () => {
@@ -283,7 +254,6 @@ describe('Inngangsvilkår', () => {
                         })}
                         fødselsdato="1900-01-01"
                         {...opptjeningProps}
-                        nyMedlemskapsvisning
                     />,
                 );
             }
@@ -344,3 +314,29 @@ describe('Inngangsvilkår', () => {
         });
     });
 });
+
+const automatiskKilde: ApiVurderingskilde = {
+    kildetype: ApiKildetype.AUTOMATISK,
+    versjonAvKildekode: '1',
+    oppslagsperiode: { fom: '2022-01-01', tom: '2022-01-01' },
+    årsaker: [],
+};
+
+function medlemskapssvar(
+    status: ApiMedlemskapsstatus,
+    kilde: ApiVurderingskilde,
+): ApiVilkårsvurderingerForPersonResponse {
+    return {
+        skjæringstidspunkt: '2022-01-01',
+        krav: [
+            {
+                id: 'en-medlemskapsvurdering-id',
+                kravkode: ApiKravkode.MEDLEMSKAP,
+                medlemskapOk: status === ApiMedlemskapsstatus.JA,
+                status,
+                vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
+                kilde,
+            },
+        ],
+    };
+}

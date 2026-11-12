@@ -25,9 +25,6 @@ export function ToggleMeny(): ReactElement {
                         <Checkbox value="kanBeslutteEgne" onChange={toggle('kanBeslutteEgne')}>
                             Kan beslutte egen beslutteroppgave
                         </Checkbox>
-                        <Checkbox value="nyMedlemskapsvisning" onChange={toggle('nyMedlemskapsvisning')}>
-                            Ny medlemskapsvisning (sp-medlemskap)
-                        </Checkbox>
                         {erUtvikling && (
                             <Checkbox value="kanVurdereOppholdskrav" onChange={toggle('kanVurdereOppholdskrav')}>
                                 Vurder oppholdskrav (sp-avslagsdager)
@@ -48,7 +45,6 @@ export function ToggleMeny(): ReactElement {
 const toggleStateToCheckboxValue = (state: ToggleState, harUtviklerRolle: boolean): string[] => {
     const array: string[] = [];
     if (state.kanBeslutteEgne) array.push('kanBeslutteEgne');
-    if (state.nyMedlemskapsvisning) array.push('nyMedlemskapsvisning');
     if (erUtvikling && state.kanVurdereOppholdskrav) array.push('kanVurdereOppholdskrav');
     if (harUtviklerRolle && state.utviklersnacks) array.push('utviklersnacks');
     return array;
