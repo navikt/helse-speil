@@ -8,6 +8,7 @@ import { leggPåDagoverstyringer } from '@spesialist-mock/dagoverstyring';
 import { finnAktivOppgave, finnOppgaveFraTestperson } from '@spesialist-mock/storage/aktivOppgave';
 import { DialogMock } from '@spesialist-mock/storage/dialog';
 import { HistorikkinnslagMedKommentarer, HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
+import { MedlemskapsvurderingMock } from '@spesialist-mock/storage/medlemskapsvurdering';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
 import { PersonMock, SELVSTENDIG_NÆRING, alleBehandlinger, lesTestpersonfiler } from '@spesialist-mock/storage/person';
 import { UUID } from '@typer/spesialist-mock';
@@ -44,6 +45,11 @@ const leggTilLagretData = (person: ApiSaksbildePerson): void => {
             arbeidsgiver,
             OverstyringMock.hentFor(person.fodselsnummer, arbeidsgiver.organisasjonsnummer),
         );
+    }
+    for (const vilkårsgrunnlag of person.vilkarsgrunnlagV2) {
+        vilkårsgrunnlag.medlemskapsvurderingId =
+            MedlemskapsvurderingMock.hentGjeldende(person.fodselsnummer, vilkårsgrunnlag.skjaeringstidspunkt) ??
+            vilkårsgrunnlag.medlemskapsvurderingId;
     }
     const selvstendigErArbeidsgiver = person.arbeidsgivere.some((it) => it.organisasjonsnummer === SELVSTENDIG_NÆRING);
     if (person.selvstendigNaering && !selvstendigErArbeidsgiver) {

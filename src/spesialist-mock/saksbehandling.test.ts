@@ -2,6 +2,7 @@
 import { NextRequest } from 'next/server';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
+import { stub as manuellMedlemskapStub } from '@app/api/medlemskap/personer/[personPseudoId]/vilkarsvurderinger/manuell/stub';
 import { stub as forkastingStub } from '@app/api/spesialist/behandlinger/[behandlingId]/forkasting/stub';
 import { stub as vedtakStub } from '@app/api/spesialist/behandlinger/[behandlingId]/vedtak/stub';
 import { putStub as påVentStub } from '@app/api/spesialist/oppgaver/[oppgaveId]/pa-vent/putStub';
@@ -20,6 +21,7 @@ import { stub as overstyrTidslinjeStub } from '@app/api/spesialist/vedtaksperiod
 import { stub as risikovurderingStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/risikovurdering/stub';
 import { stub as manuellOpptjeningStub } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/manuell/opptjening/stub';
 import { hentVilkårsvurderinger } from '@app/api/vilkarsproving/personer/[personPseudoId]/vilkarsvurderinger/vilkarsvurderingerMock';
+import { ApiManuellMedlemskapsstatus } from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import {
     ApiDag,
     ApiEgenskap,
@@ -39,6 +41,7 @@ import { fetchPersondata } from '@spesialist-mock/saksbilde';
 import { finnAktivOppgave, finnPåVent, finnTotrinnsvurdering } from '@spesialist-mock/storage/aktivOppgave';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { HistorikkinnslagMock } from '@spesialist-mock/storage/historikkinnslag';
+import { MedlemskapsvurderingMock } from '@spesialist-mock/storage/medlemskapsvurdering';
 import { OverstyringMock } from '@spesialist-mock/storage/overstyring';
 import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person';
 import { PaVentMock } from '@spesialist-mock/storage/påvent';
@@ -65,6 +68,7 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         SaksbehandlerhandlingMock.nullstill();
         OverstyringMock.nullstill();
         VarselMock.nullstill();
+        MedlemskapsvurderingMock.nullstill();
     });
 
     afterEach(() => {
@@ -310,6 +314,28 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
             SaksbehandlerhandlingMock.hentHandlinger(personPseudoId()).some((it) => it.erDelAvAktivTotrinnsvurdering),
         ).toBe(false);
     });
+    it('bytter medlemskapsvurdering i vilkårsgrunnlaget og oppretter totrinnsvurdering ved manuell vurdering', async () => {
+        const { skjaeringstidspunkt, vilkarsgrunnlagId } = periode(behandlingId);
+
+        const { medlemskapsvurderingId } = await (
+            await manuellMedlemskapStub(
+                lagRequest({
+                    skjæringstidspunkt: skjaeringstidspunkt,
+                    status: ApiManuellMedlemskapsstatus.NEI,
+                    fritekstbegrunnelse: 'Bor ikke i Norge',
+                    journalpostId: [],
+                }),
+                Promise.resolve({ personPseudoId: personPseudoId() }),
+            )
+        ).json();
+
+        const vilkårsgrunnlag = fetchPersondata()[fødselsnummer()]?.vilkarsgrunnlagV2.find(
+            (it) => it.id === vilkarsgrunnlagId,
+        );
+        expect(vilkårsgrunnlag?.medlemskapsvurderingId).toBe(medlemskapsvurderingId);
+        expect(finnTotrinnsvurdering(fødselsnummer())).toMatchObject({ erBeslutteroppgave: false });
+    });
+
     it('viser overstyringer av tidslinje, inntekt, arbeidsforhold og skjønnsfastsetting på arbeidsgiveren', async () => {
         const { vedtaksperiodeId, skjaeringstidspunkt } = periode(behandlingId);
         const organisasjonsnummer = arbeidsgiverForBehandling().organisasjonsnummer;

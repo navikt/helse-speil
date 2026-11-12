@@ -5,6 +5,7 @@ import {
     ApiManuellVilkårsvurderingRequest,
     ApiManuellVilkårsvurderingResponse,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
+import { registrerManuellMedlemskapsvurdering } from '@spesialist-mock/saksbehandling';
 
 export const stub = async (request: NextRequest, params: Promise<{ personPseudoId: string }>) => {
     const { personPseudoId } = await params;
@@ -12,5 +13,6 @@ export const stub = async (request: NextRequest, params: Promise<{ personPseudoI
     const response: ApiManuellVilkårsvurderingResponse = {
         medlemskapsvurderingId: vurderMedlemskap(personPseudoId, body),
     };
+    registrerManuellMedlemskapsvurdering(personPseudoId, response.medlemskapsvurderingId, body.skjæringstidspunkt);
     return Response.json(response);
 };

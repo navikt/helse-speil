@@ -14,6 +14,7 @@ interface IndividuellBegrunnelseContentProps {
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     defaultÅpen: boolean;
+    påkrevd?: boolean;
     åpneModal: () => void;
 }
 
@@ -23,9 +24,15 @@ export function IndividuellBegrunnelseContent({
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     defaultÅpen,
+    påkrevd = false,
     åpneModal,
 }: IndividuellBegrunnelseContentProps): ReactElement {
     const [expanded, setExpanded] = useState(defaultÅpen);
+    const erÅpen = expanded || påkrevd;
+    const feil =
+        påkrevd && vedtakBegrunnelseTekst.trim() === ''
+            ? 'Du må skrive en individuell begrunnelse fordi medlemskap er vurdert til nei.'
+            : undefined;
 
     return (
         <Box marginBlock="space-0 space-16" paddingBlock="space-16 space-0">
@@ -41,7 +48,7 @@ export function IndividuellBegrunnelseContent({
                             as="button"
                             type="button"
                             onClick={() => setExpanded((prev) => !prev)}
-                            aria-expanded={expanded}
+                            aria-expanded={erÅpen}
                             underline={false}
                             className="cursor-pointer"
                         >
@@ -50,7 +57,7 @@ export function IndividuellBegrunnelseContent({
                         </Link>
                         <VisesIVedtakTag />
                     </VStack>
-                    <AnimatedExpandableDiv expanded={expanded}>
+                    <AnimatedExpandableDiv expanded={erÅpen}>
                         <Tooltip content="Åpne i modal">
                             <Button
                                 onClick={åpneModal}
@@ -64,6 +71,7 @@ export function IndividuellBegrunnelseContent({
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                             setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                             minRows={4}
+                            error={feil}
                         />
                     </AnimatedExpandableDiv>
                 </Box>
