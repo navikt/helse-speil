@@ -6,12 +6,14 @@ interface BegrunnelseInputProps {
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     minRows: number;
+    error?: string;
 }
 
 export const BegrunnelseInput = ({
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     minRows,
+    error,
 }: BegrunnelseInputProps) => (
     <Textarea
         label=""
@@ -24,5 +26,6 @@ export const BegrunnelseInput = ({
         aria-labelledby="begrunnelse-label begrunnelse-feil"
         style={{ whiteSpace: 'pre-line' }}
         minRows={minRows}
+        error={error}
     />
 );

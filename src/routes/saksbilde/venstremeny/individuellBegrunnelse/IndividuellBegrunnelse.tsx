@@ -11,6 +11,7 @@ import { useTotrinnsvurderingForPeriode } from '@state/totrinnsvurdering';
 
 interface BegrunnelseVedtakProps {
     defaultÅpen: boolean;
+    påkrevd?: boolean;
     vedtakBegrunnelseTekst: string;
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     periode: ApiBeregnetPeriode;
@@ -19,6 +20,7 @@ interface BegrunnelseVedtakProps {
 
 export const IndividuellBegrunnelse = ({
     defaultÅpen,
+    påkrevd = false,
     vedtakBegrunnelseTekst,
     setVedtakBegrunnelseTekst,
     periode,
@@ -39,6 +41,7 @@ export const IndividuellBegrunnelse = ({
                 vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 defaultÅpen={defaultÅpen}
+                påkrevd={påkrevd}
                 åpneModal={() => setModalÅpen(true)}
             />
             <Dialog open={modalÅpen} onOpenChange={setModalÅpen}>

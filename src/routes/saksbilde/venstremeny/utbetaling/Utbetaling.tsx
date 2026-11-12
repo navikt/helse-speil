@@ -22,6 +22,7 @@ import { dagerUtenVurderingAvOppholdskrav, manglerVurderingAvOppholdskravTekst }
 import { isBeregnetPeriode } from '@utils/typeguards';
 
 import { IndividuellBegrunnelse } from '../individuellBegrunnelse/IndividuellBegrunnelse';
+import { useKreverIndividuellBegrunnelse } from '../individuellBegrunnelse/useKreverIndividuellBegrunnelse';
 import { AvvisningButton } from './AvvisningButton';
 import { GodkjenningButton } from './GodkjenningButton';
 import { ReturButton } from './ReturButton';
@@ -68,6 +69,8 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
     const prevPeriodRef = React.useRef(period.vedtaksperiodeId);
     const oppgave = useAktivOppgaveForPeriode(period);
     const totrinnsvurdering = useTotrinnsvurderingForPeriode(period);
+    const kreverIndividuellBegrunnelse = useKreverIndividuellBegrunnelse(period, person);
+    const manglerIndividuellBegrunnelse = kreverIndividuellBegrunnelse && rensetVedtakBegrunnelseTekst.trim() === '';
 
     if (!oppgave || !['tilGodkjenning', 'revurderes'].includes(getPeriodState(period))) return null;
 
@@ -94,12 +97,14 @@ export const Utbetaling = ({ period, person, inntektsforholdReferanse }: Utbetal
         periodenErSendt ||
         harUvurderteVarslerPåUtbetaling ||
         manglerVurderingAvOppholdskrav ||
-        lokaleInntektoverstyringer.aktørId !== null;
+        lokaleInntektoverstyringer.aktørId !== null ||
+        manglerIndividuellBegrunnelse;
 
     return (
         <Box>
             <IndividuellBegrunnelse
                 defaultÅpen={rensetVedtakBegrunnelseTekst !== ''}
+                påkrevd={kreverIndividuellBegrunnelse}
                 vedtakBegrunnelseTekst={rensetVedtakBegrunnelseTekst}
                 setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                 periode={period}

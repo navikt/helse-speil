@@ -9,6 +9,7 @@ import { lokalSaksbehandlerNavn, lokalSaksbehandlerOid } from '@spesialist-mock/
 import { Periodeoppslag, finnPerioderMedOppgave } from '@spesialist-mock/periodeoppslag';
 import { BehandlingMock } from '@spesialist-mock/storage/behandling';
 import { ServerSentEventsMock } from '@spesialist-mock/storage/events';
+import { MedlemskapsvurderingMock } from '@spesialist-mock/storage/medlemskapsvurdering';
 import { PersonMock } from '@spesialist-mock/storage/person';
 import { SaksbehandlerhandlingMock } from '@spesialist-mock/storage/saksbehandlerhandling';
 
@@ -42,6 +43,30 @@ export function registrerManuellOpptjeningsvurdering(
         handlingId: opptjeningsvurderingId,
         handlingType: ApiHandlingType.MANUELT_VURDERT_OPPTJENING,
         skjæringstidspunkt: periode?.skjaeringstidspunkt ?? skjæringstidspunkt,
+        behandlingId: periode?.behandlingId ?? null,
+    });
+}
+
+// sp-medlemskap sender vurderingen til spesialist som en saksbehandlerhandling som krever totrinnsvurdering,
+// og til Spleis, som bytter medlemskapsvurderingen i vilkårsgrunnlaget
+export function registrerManuellMedlemskapsvurdering(
+    personPseudoId: string,
+    medlemskapsvurderingId: string,
+    skjæringstidspunkt: string,
+): void {
+    const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
+    if (fødselsnummer) {
+        MedlemskapsvurderingMock.settGjeldende(fødselsnummer, skjæringstidspunkt, medlemskapsvurderingId);
+    }
+
+    const periode = perioderMedOppgaveFor(personPseudoId).find(
+        ({ periode }) => periode.skjaeringstidspunkt === skjæringstidspunkt,
+    )?.periode;
+
+    registrerHandlingSomKreverTotrinnsvurdering(personPseudoId, {
+        handlingId: medlemskapsvurderingId,
+        handlingType: ApiHandlingType.MANUELT_VURDERT_MEDLEMSKAP,
+        skjæringstidspunkt,
         behandlingId: periode?.behandlingId ?? null,
     });
 }

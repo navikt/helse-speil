@@ -5,6 +5,7 @@ import {
     ApiManuellVilkårsvurderingRequest,
     ApiManuellVilkårsvurderingResponse,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
+import { registrerManuellMedlemskapsvurdering } from '@spesialist-mock/saksbehandling';
 import { ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
 import { pushEventEtterForsinkelse } from '@spesialist-mock/saksbehandling';
 import { PersonMock } from '@spesialist-mock/storage/person';
@@ -15,6 +16,7 @@ export const stub = async (request: NextRequest, params: Promise<{ personPseudoI
     const response: ApiManuellVilkårsvurderingResponse = {
         medlemskapsvurderingId: vurderMedlemskap(personPseudoId, body),
     };
+    registrerManuellMedlemskapsvurdering(personPseudoId, response.medlemskapsvurderingId, body.skjæringstidspunkt);
 
     // Mocker at spleis reberegner og spesialist lager ny oppgave etter overstyringen
     const fødselsnummer = PersonMock.findFødselsnummerForPersonPseudoId(personPseudoId);
