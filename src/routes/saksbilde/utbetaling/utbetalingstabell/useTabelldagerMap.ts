@@ -145,6 +145,7 @@ export const createDagerMap = (
             arbeidsgiverbeløp: currentDag.utbetalingsinfo?.arbeidsgiverbelop,
             personbeløp: currentDag.utbetalingsinfo?.personbelop,
             begrunnelser: currentDag.begrunnelser,
+            vurderingerAvLøpendeVilkår: currentDag.vurderingerAvLøpendeVilkår,
         });
     }
 

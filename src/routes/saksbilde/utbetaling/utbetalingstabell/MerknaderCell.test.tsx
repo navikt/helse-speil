@@ -1,4 +1,9 @@
-import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiBegrunnelse,
+    ApiLøpendeVilkår,
+    ApiUtfallAvLøpendeVilkår,
+    ApiVurderingAvLøpendeVilkår,
+} from '@io/rest/generated/spesialist.schemas';
 import { getUtbetalingstabellDag } from '@test-data/utbetalingstabell';
 import { TestCellWrapper } from '@test-wrappers';
 import { render, screen } from '@testing-library/react';
@@ -60,6 +65,60 @@ describe('MerknaderCell', () => {
         expect(screen.queryByText('§ 8-9')).toBeVisible();
     });
 
+    test('rendrer merknad når kravet til opphold er oppfylt', () => {
+        render(
+            <TestCellWrapper>
+                <MerknaderCell
+                    dag={getUtbetalingstabellDag({
+                        vurderingerAvLøpendeVilkår: [oppholdskrav(ApiUtfallAvLøpendeVilkår.OPPFYLT)],
+                    })}
+                    alderVedSkjæringstidspunkt={30}
+                />
+            </TestCellWrapper>,
+        );
+
+        expect(screen.getByTestId('Krav til opphold er oppfylt')).toBeVisible();
+        expect(screen.getByText('§ 8-9')).toBeVisible();
+        expect(screen.queryByTestId('Krav til opphold er ikke oppfylt')).not.toBeInTheDocument();
+    });
+
+    test('rendrer avslag når kravet til opphold ikke er oppfylt', () => {
+        render(
+            <TestCellWrapper>
+                <MerknaderCell
+                    dag={getUtbetalingstabellDag({
+                        erAvvist: true,
+                        begrunnelser: [ApiBegrunnelse.OPPHOLDSKRAV],
+                        vurderingerAvLøpendeVilkår: [oppholdskrav(ApiUtfallAvLøpendeVilkår.IKKE_OPPFYLT)],
+                    })}
+                    alderVedSkjæringstidspunkt={30}
+                />
+            </TestCellWrapper>,
+        );
+
+        expect(screen.getByTestId('Krav til opphold er ikke oppfylt')).toBeVisible();
+        expect(screen.getAllByText('§ 8-9')).toHaveLength(1);
+        expect(screen.queryByTestId('Krav til opphold er oppfylt')).not.toBeInTheDocument();
+    });
+
+    test('rendrer oppfylt krav til opphold etter andre merknader', () => {
+        render(
+            <TestCellWrapper>
+                <MerknaderCell
+                    dag={getUtbetalingstabellDag({
+                        erAvvist: true,
+                        begrunnelser: [ApiBegrunnelse.MINIMUM_SYKDOMSGRAD],
+                        vurderingerAvLøpendeVilkår: [oppholdskrav(ApiUtfallAvLøpendeVilkår.OPPFYLT)],
+                    })}
+                    alderVedSkjæringstidspunkt={30}
+                />
+            </TestCellWrapper>,
+        );
+
+        expect(screen.getByTestId('Sykdomsgrad under 20 %')).toBeVisible();
+        expect(screen.getByTestId('Krav til opphold er oppfylt')).toBeVisible();
+    });
+
     test('rendrer riktig for forskjellige varianter av minimum inntekt', () => {
         const { rerender } = render(
             <TestCellWrapper>
@@ -117,3 +176,7 @@ describe('MerknaderCell', () => {
         expect(screen.getByText(', Opplæringspenger, omsorgspenger')).toBeVisible();
     });
 });
+
+function oppholdskrav(utfall: ApiUtfallAvLøpendeVilkår): ApiVurderingAvLøpendeVilkår {
+    return { vilkår: ApiLøpendeVilkår.OPPHOLDSKRAV, vurderingId: 'en-vurdering', utfall };
+}

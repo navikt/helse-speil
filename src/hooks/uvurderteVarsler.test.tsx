@@ -37,6 +37,7 @@ const getFetchedBeregnetPeriode = (fom: string, tom: string, varsel?: ApiVarselD
                 dato: '2022-01-01',
                 utbetalingsinfo: null,
                 begrunnelser: null,
+                vurderingerAvLøpendeVilkår: [],
                 grad: null,
                 kilde: {} as ApiKilde,
                 sykdomsdagtype: ApiSykdomsdagtype.ARBEIDSGIVERDAG,

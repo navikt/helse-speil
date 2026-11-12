@@ -2341,6 +2341,26 @@ export interface ApiDag {
     utbetalingsinfo?: null | ApiUtbetalingsinfo;
     /** @nullable */
     begrunnelser?: ApiBegrunnelse[] | null;
+    vurderingerAvLøpendeVilkår: ApiVurderingAvLøpendeVilkår[];
+}
+
+export type ApiLøpendeVilkår = (typeof ApiLøpendeVilkår)[keyof typeof ApiLøpendeVilkår];
+
+export const ApiLøpendeVilkår = {
+    OPPHOLDSKRAV: 'OPPHOLDSKRAV',
+} as const;
+
+export type ApiUtfallAvLøpendeVilkår = (typeof ApiUtfallAvLøpendeVilkår)[keyof typeof ApiUtfallAvLøpendeVilkår];
+
+export const ApiUtfallAvLøpendeVilkår = {
+    OPPFYLT: 'OPPFYLT',
+    IKKE_OPPFYLT: 'IKKE_OPPFYLT',
+} as const;
+
+export interface ApiVurderingAvLøpendeVilkår {
+    vilkår: ApiLøpendeVilkår;
+    vurderingId: string;
+    utfall: ApiUtfallAvLøpendeVilkår;
 }
 
 export type ApiPeriodetilstand = (typeof ApiPeriodetilstand)[keyof typeof ApiPeriodetilstand];

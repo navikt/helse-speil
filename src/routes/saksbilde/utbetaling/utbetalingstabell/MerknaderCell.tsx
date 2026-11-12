@@ -5,7 +5,7 @@ import { BodyShort, Link, Table, Tooltip } from '@navikt/ds-react';
 import { Endringstrekant } from '@components/Endringstrekant';
 import { LovdataLenke } from '@components/LovdataLenke';
 import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
-import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
+import { ApiBegrunnelse, ApiLøpendeVilkår, ApiUtfallAvLøpendeVilkår } from '@io/rest/generated/spesialist.schemas';
 import { CellContent } from '@saksbilde/table/CellContent';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
@@ -103,13 +103,7 @@ const Merknad = ({ begrunnelse, alderVedSkjæringstidspunkt }: MerknadProps): Re
                 </span>
             );
         case 'OPPHOLDSKRAV':
-            return (
-                <span className={styles.container} data-testid="Krav til opphold er ikke oppfylt">
-                    <Tooltip content="Krav til opphold er ikke oppfylt" describesChild>
-                        <LovdataLenke paragraf="8-9">§ 8-9</LovdataLenke>
-                    </Tooltip>
-                </span>
-            );
+            return <OppholdskravMerknad tekst="Krav til opphold er ikke oppfylt" />;
         case 'MELDING_TIL_NAV_DAG_UTENFOR_VENTETID':
             return <BodyShort>Utenfor ventetid</BodyShort>;
         case 'AVSLATT_MELDING_TIL_NAV_DAG':
@@ -180,6 +174,7 @@ export const MerknaderCell = ({
 }: MerknaderCellProps): ReactElement => {
     const andreYtelserMerknad = graderteAndreYtelserMerknad(graderteAndreYtelserDag, endredeYtelser);
     const ytelseErEndret = !!endredeYtelser && !harSammeYtelser(graderteAndreYtelserDag, endredeYtelser);
+    const oppholdskravOppfylt = erOppholdskravOppfylt(dag);
     return (
         <Table.DataCell {...rest}>
             {ytelseErEndret && <Endringstrekant />}
@@ -187,9 +182,15 @@ export const MerknaderCell = ({
                 {sisteUtbetalingsdagMerknad(dag.erMaksdato) ??
                     foreldetDagMerknad(dag.erForeldet) ??
                     avvisningsårsakerMerknad(dag.begrunnelser ?? null, alderVedSkjæringstidspunkt)}
+                {oppholdskravOppfylt && (
+                    <>
+                        {harAndreMerknader(dag) && <BodyShort>,&nbsp;</BodyShort>}
+                        <OppholdskravMerknad tekst="Krav til opphold er oppfylt" />
+                    </>
+                )}
                 {andreYtelserMerknad && (
                     <BodyShort>
-                        {harAndreMerknader(dag) && ', '}
+                        {(harAndreMerknader(dag) || oppholdskravOppfylt) && ', '}
                         {andreYtelserMerknad}
                     </BodyShort>
                 )}
@@ -197,3 +198,23 @@ export const MerknaderCell = ({
         </Table.DataCell>
     );
 };
+
+function OppholdskravMerknad({ tekst }: { tekst: string }): ReactElement {
+    return (
+        <span className={styles.container} data-testid={tekst}>
+            <Tooltip content={tekst} describesChild>
+                <LovdataLenke paragraf="8-9">§ 8-9</LovdataLenke>
+            </Tooltip>
+        </span>
+    );
+}
+
+function erOppholdskravOppfylt(dag: Utbetalingstabelldag): boolean {
+    return (
+        dag.vurderingerAvLøpendeVilkår?.some(
+            (vurdering) =>
+                vurdering.vilkår === ApiLøpendeVilkår.OPPHOLDSKRAV &&
+                vurdering.utfall === ApiUtfallAvLøpendeVilkår.OPPFYLT,
+        ) ?? false
+    );
+}

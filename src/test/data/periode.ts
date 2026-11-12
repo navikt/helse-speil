@@ -28,6 +28,7 @@ export const enDag: OverridableConstructor<TestDag> = (overrides) => ({
     sykdomsdagtype: ApiSykdomsdagtype.SYKEDAG,
     utbetalingsdagtype: ApiUtbetalingsdagtype.NAVDAG,
     begrunnelser: null,
+    vurderingerAvLøpendeVilkår: [],
     utbetalingsinfo: {
         personbelop: null,
         arbeidsgiverbelop: 1000,

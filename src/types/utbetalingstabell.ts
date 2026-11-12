@@ -1,4 +1,4 @@
-import { ApiBegrunnelse, ApiKilde } from '@io/rest/generated/spesialist.schemas';
+import { ApiBegrunnelse, ApiKilde, ApiVurderingAvLøpendeVilkår } from '@io/rest/generated/spesialist.schemas';
 import { Speildag } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 
 import { DateString } from './shared';
@@ -74,6 +74,7 @@ export type Utbetalingstabelldag = {
     arbeidsgiverbeløp?: number | null;
     personbeløp?: number | null;
     begrunnelser?: ApiBegrunnelse[] | null;
+    vurderingerAvLøpendeVilkår?: ApiVurderingAvLøpendeVilkår[];
     erNyDag?: boolean;
     gradertAnnenYtelse?: GradertAnnenYtelse | null;
     fraType?: Utbetalingstabelldagtype;

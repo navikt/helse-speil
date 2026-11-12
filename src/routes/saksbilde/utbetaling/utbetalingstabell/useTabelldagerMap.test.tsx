@@ -3,8 +3,10 @@ import {
     ApiDagoverstyring,
     ApiDagtype,
     ApiKildetype,
+    ApiLøpendeVilkår,
     ApiSykdomsdagtype,
     ApiUtbetalingsdagtype,
+    ApiUtfallAvLøpendeVilkår,
 } from '@io/rest/generated/spesialist.schemas';
 import { renderHook } from '@testing-library/react';
 import { DateString } from '@typer/shared';
@@ -17,6 +19,7 @@ const getDag = (dato: DateString, overrides?: Partial<ApiDag>): ApiDag => ({
     sykdomsdagtype: ApiSykdomsdagtype.SYKEDAG,
     utbetalingsdagtype: ApiUtbetalingsdagtype.NAVDAG,
     begrunnelser: null,
+    vurderingerAvLøpendeVilkår: [],
     grad: null,
     utbetalingsinfo: null,
     ...overrides,
@@ -109,5 +112,23 @@ describe('useTabelldagerMap', () => {
         expect(result.current.get('2021-01-02')?.overstyringer?.[0]?.begrunnelse).toEqual('Fordi');
         expect(result.current.get('2021-01-02')?.overstyringer?.[0]?.saksbehandler.ident).toEqual('en-ident');
         expect(result.current.get('2021-01-02')?.overstyringer?.[0]?.saksbehandler.navn).toEqual('et-navn');
+    });
+
+    it('mapper vurderinger av løpende vilkår', () => {
+        const vurdering = {
+            vilkår: ApiLøpendeVilkår.OPPHOLDSKRAV,
+            vurderingId: 'en-vurdering',
+            utfall: ApiUtfallAvLøpendeVilkår.OPPFYLT,
+        };
+        const { result } = renderHook(() =>
+            useTabelldagerMap({
+                tidslinje: [getDag('2021-01-01', { vurderingerAvLøpendeVilkår: [vurdering] }), getDag('2021-01-02')],
+                erSelvstendigNæringsdrivende: false,
+                gjenståendeDager: 100,
+            }),
+        );
+
+        expect(result.current.get('2021-01-01')?.vurderingerAvLøpendeVilkår).toEqual([vurdering]);
+        expect(result.current.get('2021-01-02')?.vurderingerAvLøpendeVilkår).toEqual([]);
     });
 });
