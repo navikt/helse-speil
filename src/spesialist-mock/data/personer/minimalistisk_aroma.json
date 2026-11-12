@@ -538,7 +538,7 @@
                                             "id": "296160d4-ced3-44b2-a253-5c5b8979ccac",
                                             "type": "SOKNAD"
                                         },
-                                        "sykdomsdagtype": "SYKEDAG",
+                                        "sykdomsdagtype": "SYK_UTENFOR_EOS",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
                                             "arbeidsgiverbelop": 594,
@@ -557,7 +557,7 @@
                                             "id": "296160d4-ced3-44b2-a253-5c5b8979ccac",
                                             "type": "SOKNAD"
                                         },
-                                        "sykdomsdagtype": "SYKEDAG",
+                                        "sykdomsdagtype": "SYK_UTENFOR_EOS",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
                                             "arbeidsgiverbelop": 594,
@@ -576,7 +576,7 @@
                                             "id": "296160d4-ced3-44b2-a253-5c5b8979ccac",
                                             "type": "SOKNAD"
                                         },
-                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "sykdomsdagtype": "SYK_UTENFOR_EOS",
                                         "utbetalingsdagtype": "NAVHELGDAG",
                                         "utbetalingsinfo": null,
                                         "begrunnelser": null
@@ -588,7 +588,7 @@
                                             "id": "296160d4-ced3-44b2-a253-5c5b8979ccac",
                                             "type": "SOKNAD"
                                         },
-                                        "sykdomsdagtype": "SYK_HELGEDAG",
+                                        "sykdomsdagtype": "SYK_UTENFOR_EOS",
                                         "utbetalingsdagtype": "NAVHELGDAG",
                                         "utbetalingsinfo": null,
                                         "begrunnelser": null
@@ -600,7 +600,7 @@
                                             "id": "296160d4-ced3-44b2-a253-5c5b8979ccac",
                                             "type": "SOKNAD"
                                         },
-                                        "sykdomsdagtype": "SYKEDAG",
+                                        "sykdomsdagtype": "SYK_UTENFOR_EOS",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
                                             "arbeidsgiverbelop": 594,
@@ -619,7 +619,7 @@
                                             "id": "296160d4-ced3-44b2-a253-5c5b8979ccac",
                                             "type": "SOKNAD"
                                         },
-                                        "sykdomsdagtype": "SYKEDAG",
+                                        "sykdomsdagtype": "SYK_UTENFOR_EOS",
                                         "utbetalingsdagtype": "NAVDAG",
                                         "utbetalingsinfo": {
                                             "arbeidsgiverbelop": 594,
