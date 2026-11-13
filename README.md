@@ -12,6 +12,11 @@ sortering av Tailwind-klasser. Konfigurasjonen ligger i `.oxfmtrc.json`, og
 formatereren. Kjør `pnpm run format` for å formatere og `pnpm run format:check` for å sjekke. Pre-commit-hooken kjører
 oxfmt på filene som committes. oxfmt kan settes opp til å formatere ved lagring, se oxc-dokumentasjonen for din editor.
 
+## Linting
+
+`pnpm run lint` kjører først [oxlint](https://oxc.rs/docs/guide/usage/linter) (`.oxlintrc.json`) og deretter ESLint
+for reglene oxlint ikke støtter.
+
 ## Gi tilgang til Speil i dev (aka preprod) via AD:
 
 Vedkommende som ønsker tilgang må:

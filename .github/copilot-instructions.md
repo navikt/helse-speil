@@ -8,8 +8,10 @@ Speil is a sickness benefit case processing tool ("saksbehandlerverktøy for syk
 pnpm install          # Install dependencies (requires NPM_AUTH_TOKEN for @navikt packages)
 pnpm run dev          # Start dev server on port 1234 (uses Turbopack)
 pnpm run build        # Production build (Next.js standalone)
-pnpm run lint         # ESLint
-pnpm run lint:fix     # ESLint with auto-fix
+pnpm run lint         # oxlint, then ESLint
+pnpm run lint:fix     # oxlint and ESLint with auto-fix
+pnpm run format       # oxfmt
+pnpm run format:check # oxfmt --check
 pnpm run tsc          # Type-check (TypeScript 7)
 pnpm run test         # Run all tests (Vitest)
 pnpm run test -- src/utils/date.test.ts              # Run a single test file
@@ -21,6 +23,8 @@ pnpm run generate-rest      # Regenerate REST types and React Query hooks via Or
 `tsc` is TypeScript 7 (`@typescript/native`). TypeScript 7.0 has no compiler API, so `typescript` is aliased to `@typescript/typescript6` for typescript-eslint and Next.js. `next build` skips type-checking (`ignoreBuildErrors`), so CI runs `pnpm run tsc` separately.
 
 When TypeScript 7.1 is released, the TypeScript team expects it to ship a new compiler API that differs from 6.0's. Once typescript-eslint and Next.js support it, remove the `@typescript/typescript6` alias, point `typescript` at 7.x, and remove `ignoreBuildErrors` from `next.config.ts`.
+
+Linting runs in two steps. oxlint (`.oxlintrc.json`) runs the rules it supports natively. ESLint runs the rest: TanStack Query, `import-alias`, `no-restricted-syntax`, `no-restricted-imports`, `import/no-extraneous-dependencies` and `react-hooks/purity`. `eslint-plugin-oxlint` turns off in ESLint every rule enabled in `.oxlintrc.json`, so a rule moved to oxlint is never run twice.
 
 ## Architecture
 

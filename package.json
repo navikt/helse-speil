@@ -29,8 +29,8 @@
         "preinstall": "npx only-allow pnpm",
         "build": "next build",
         "start": "next start",
-        "lint": "eslint --ext=ts,tsx src",
-        "lint:fix": "eslint --ext=ts,tsx src --fix",
+        "lint": "oxlint --report-unused-disable-directives src && eslint --ext=ts,tsx src",
+        "lint:fix": "oxlint src --fix && eslint --ext=ts,tsx src --fix",
         "format": "oxfmt",
         "format:check": "oxfmt --check",
         "test": "vitest run",
@@ -50,6 +50,7 @@
     },
     "lint-staged": {
         "*.{ts,tsx}": [
+            "oxlint --fix --no-error-on-unmatched-pattern",
             "eslint --fix",
             "oxfmt --no-error-on-unmatched-pattern"
         ],
@@ -103,6 +104,7 @@
         "eslint": "^10.13.0",
         "eslint-config-next": "^16.4.6",
         "eslint-config-prettier": "^10.1.8",
+        "eslint-plugin-oxlint": "^1.93.0",
         "eslint-plugin-react-hooks": "^7.1.1",
         "husky": "^9.1.7",
         "jiti": "^2.7.0",
@@ -111,6 +113,7 @@
         "next-router-mock": "^1.0.5",
         "orval": "^8.45.0",
         "oxfmt": "^0.78.0",
+        "oxlint": "^1.93.0",
         "pino-pretty": "^13.2.0",
         "sass": "^1.106.1",
         "tailwindcss": "^4.3.3",

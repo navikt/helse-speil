@@ -1,6 +1,7 @@
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
 import eslintConfigPrettier from 'eslint-config-prettier/flat';
+import oxlint from 'eslint-plugin-oxlint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import { defineConfig } from 'eslint/config';
 
@@ -106,6 +107,12 @@ const eslintConfig = defineConfig([
             ],
         },
     },
+    {
+        // Disable-kommentarer for regler som oxlint kjører, ser ubrukte ut for ESLint. oxlint rapporterer ubrukte kommentarer.
+        linterOptions: { reportUnusedDisableDirectives: 'off' },
+    },
+    // Slår av ESLint-reglene som oxlint kjører. Må stå sist.
+    ...oxlint.buildFromOxlintConfigFile('./.oxlintrc.json'),
 ]);
 
 export default eslintConfig;
