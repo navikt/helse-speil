@@ -10,13 +10,17 @@ pnpm run dev          # Start dev server on port 1234 (uses Turbopack)
 pnpm run build        # Production build (Next.js standalone)
 pnpm run lint         # ESLint
 pnpm run lint:fix     # ESLint with auto-fix
-pnpm run tsc          # Type-check
+pnpm run tsc          # Type-check (TypeScript 7)
 pnpm run test         # Run all tests (Vitest)
 pnpm run test -- src/utils/date.test.ts              # Run a single test file
 pnpm run test -- --testNamePattern="rendrer"          # Run tests matching a name pattern
 pnpm run test:watch                                   # Watch mode
 pnpm run generate-rest      # Regenerate REST types and React Query hooks via Orval
 ```
+
+`tsc` is TypeScript 7 (`@typescript/native`). TypeScript 7.0 has no compiler API, so `typescript` is aliased to `@typescript/typescript6` for typescript-eslint and Next.js. `next build` skips type-checking (`ignoreBuildErrors`), so CI runs `pnpm run tsc` separately.
+
+When TypeScript 7.1 is released, the TypeScript team expects it to ship a new compiler API that differs from 6.0's. Once typescript-eslint and Next.js support it, remove the `@typescript/typescript6` alias, point `typescript` at 7.x, and remove `ignoreBuildErrors` from `next.config.ts`.
 
 ## Architecture
 
