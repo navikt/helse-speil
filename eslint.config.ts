@@ -1,6 +1,6 @@
 import nextVitals from 'eslint-config-next/core-web-vitals';
 import nextTs from 'eslint-config-next/typescript';
-import eslintPluginPrettierRecommended from 'eslint-plugin-prettier/recommended';
+import eslintConfigPrettier from 'eslint-config-prettier/flat';
 import reactHooks from 'eslint-plugin-react-hooks';
 import { defineConfig } from 'eslint/config';
 
@@ -27,13 +27,12 @@ const eslintConfig = defineConfig([
     reactHooks.configs.flat['recommended-latest'],
     ...pluginQuery.configs['flat/recommended'],
     {
-        extends: [eslintPluginPrettierRecommended],
+        extends: [eslintConfigPrettier],
         languageOptions: {
             // Ny JSX-transform: React trenger ikke være importert for å bruke JSX
             parserOptions: { jsxPragma: null },
         },
         rules: {
-            'prettier/prettier': 'warn',
             'import/order': 'off',
             'import/no-extraneous-dependencies': 'error',
             '@typescript-eslint/array-type': 'error',

@@ -6,11 +6,11 @@ Saksbehandlerverktøy for sykepenger.
 
 ## Kodeformatering
 
-Dette repoet bruker [prettier](https://prettier.io/)
-med [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier)
-for å sikre at all koden er på likt format. Hvordan utviklerne velger å overholde disse reglene er opp til den enkelte,
-men
-Prettier kan settes opp til å formatere kode automatisk on-save. Hvordan dette konfigureres avhenger av IDE / Editor.
+Dette repoet bruker [oxfmt](https://oxc.rs/docs/guide/usage/formatter) til formatering, sortering av imports og
+sortering av Tailwind-klasser. Konfigurasjonen ligger i `.oxfmtrc.json`, og
+[eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) slår av ESLint-regler som krasjer med
+formatereren. Kjør `pnpm run format` for å formatere og `pnpm run format:check` for å sjekke. Pre-commit-hooken kjører
+oxfmt på filene som committes. oxfmt kan settes opp til å formatere ved lagring, se oxc-dokumentasjonen for din editor.
 
 ## Gi tilgang til Speil i dev (aka preprod) via AD:
 

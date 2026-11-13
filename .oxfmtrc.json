@@ -1,0 +1,55 @@
+{
+    "$schema": "./node_modules/oxfmt/configuration_schema.json",
+    "semi": true,
+    "trailingComma": "all",
+    "singleQuote": true,
+    "printWidth": 120,
+    "tabWidth": 4,
+    "sortPackageJson": false,
+    "sortImports": {
+        "customGroups": [
+            {
+                "groupName": "globals-css",
+                "selector": "side_effect_style"
+            },
+            {
+                "groupName": "navikt",
+                "elementNamePattern": ["@navikt/**"]
+            },
+            {
+                "groupName": "scoped-and-aliases",
+                "elementNamePattern": ["@*", "@*/**"]
+            }
+        ],
+        "groups": [
+            "globals-css",
+            ["builtin", "external"],
+            "navikt",
+            "scoped-and-aliases",
+            ["parent", "sibling", "index"],
+            "style",
+            "unknown"
+        ],
+        "ignoreCase": false
+    },
+    "sortTailwindcss": {
+        "stylesheet": "./src/app/globals.css",
+        "functions": ["cn"]
+    },
+    "overrides": [
+        {
+            "files": ["*.yml", "*.yaml"],
+            "options": {
+                "bracketSpacing": false,
+                "tabWidth": 2
+            }
+        },
+        {
+            "files": ["src/io/rest/generated/**", "src/io/sanity/generated/**"],
+            "options": {
+                "sortImports": false
+            }
+        }
+    ],
+    "ignorePatterns": ["src/spesialist-mock/data/personer/**", "deploy/**"]
+}

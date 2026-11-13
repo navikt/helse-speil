@@ -114,7 +114,7 @@ The custom icons in `src/components/ikoner/` take `title` like Aksel icons and a
 
 ### Code formatting
 
-Prettier is configured with 4-space indentation, single quotes, 120 char print width, trailing commas, and automatic import sorting via `@trivago/prettier-plugin-sort-imports`. Import order: globals → third-party → `@navikt/*` → project aliases → relative imports → styles.
+Formatting uses **oxfmt** (`.oxfmtrc.json`): 4-space indentation, single quotes, 120 char print width, trailing commas, and built-in import and Tailwind class sorting. Import order: `./globals.css` → third-party → `@navikt/*` → other scoped packages and project aliases → relative imports → styles. Generated code under `src/io/rest/generated/` and `src/io/sanity/generated/` is formatted without import sorting. Run `pnpm run format` (or `node_modules/.bin/oxfmt`) after editing; `pnpm run format:check` verifies.
 
 ### React Compiler
 

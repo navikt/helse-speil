@@ -40,8 +40,8 @@ const sharedOutput = {
 } as const;
 
 const sharedHooks = {
-    // Restore ÆØÅ in type names (see componentKeys.ts), put type imports first, then run prettier on all generated files
-    afterAllFilesWrite: [restoreNorwegianCharacters, putTypeImportsFirst, 'prettier --write'],
+    // Restore ÆØÅ in type names (see componentKeys.ts), put type imports first, then run oxfmt on all generated files
+    afterAllFilesWrite: [restoreNorwegianCharacters, putTypeImportsFirst, 'oxfmt'],
 };
 
 export default defineConfig({

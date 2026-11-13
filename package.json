@@ -31,6 +31,8 @@
         "start": "next start",
         "lint": "eslint --ext=ts,tsx src",
         "lint:fix": "eslint --ext=ts,tsx src --fix",
+        "format": "oxfmt",
+        "format:check": "oxfmt --check",
         "test": "vitest run",
         "test:watch": "vitest",
         "pretsc": "next typegen",
@@ -42,19 +44,17 @@
         "generate-rest:medlemskap": "orval --project medlemskap",
         "generate-rest:andre-ytelser": "orval --project andre-ytelser",
         "generate-rest:avslagsdager": "orval --project avslagsdager",
-        "generate-sanity": "SPALTEN_DIR=${SPALTEN_DIR:-../spalten}; [ -d \"$SPALTEN_DIR\" ] || { echo \"Fant ikke spalten i '$SPALTEN_DIR'.\"; exit 1; }; pnpm --dir \"$SPALTEN_DIR\" exec sanity schema extract --enforce-required-fields --path \"$PWD/src/io/sanity/schema.json\" && \"$SPALTEN_DIR/node_modules/.bin/sanity\" typegen generate && prettier --write src/io/sanity/generated",
+        "generate-sanity": "SPALTEN_DIR=${SPALTEN_DIR:-../spalten}; [ -d \"$SPALTEN_DIR\" ] || { echo \"Fant ikke spalten i '$SPALTEN_DIR'.\"; exit 1; }; pnpm --dir \"$SPALTEN_DIR\" exec sanity schema extract --enforce-required-fields --path \"$PWD/src/io/sanity/schema.json\" && \"$SPALTEN_DIR/node_modules/.bin/sanity\" typegen generate && oxfmt src/io/sanity/generated",
         "install-precommit-hooks": "husky",
         "lint-staged": "lint-staged"
     },
     "lint-staged": {
-        "*.{js,css,md}": [
-            "prettier --write --ignore-pattern 'src/io/rest/generated/**"
-        ],
-        "*.json": [
-            "prettier --write --ignore-pattern 'src/spesialist-mock/data/personer/**'"
-        ],
         "*.{ts,tsx}": [
-            "eslint --fix"
+            "eslint --fix",
+            "oxfmt --no-error-on-unmatched-pattern"
+        ],
+        "*.{js,mjs,css,scss,md,json,yml,yaml}": [
+            "oxfmt --no-error-on-unmatched-pattern"
         ]
     },
     "dependencies": {
@@ -88,14 +88,12 @@
     "devDependencies": {
         "@limegrass/eslint-plugin-import-alias": "^1.6.1",
         "@navikt/tsm-eslint-react": "^1.0.3",
-        "@navikt/tsm-prettier": "^2.0.1",
         "@tailwindcss/postcss": "^4.3.3",
         "@tanstack/eslint-plugin-query": "^5.105.0",
         "@testing-library/dom": "^10.4.2",
         "@testing-library/jest-dom": "^7.0.1",
         "@testing-library/react": "^16.3.3",
         "@testing-library/user-event": "^14.6.8",
-        "@trivago/prettier-plugin-sort-imports": "^6.0.2",
         "@types/node": "^24.19.2",
         "@types/react": "^19.3.0",
         "@types/react-dom": "^19.3.0",
@@ -105,7 +103,6 @@
         "eslint": "^10.13.0",
         "eslint-config-next": "^16.4.6",
         "eslint-config-prettier": "^10.1.8",
-        "eslint-plugin-prettier": "^5.5.7",
         "eslint-plugin-react-hooks": "^7.1.1",
         "husky": "^9.1.7",
         "jiti": "^2.7.0",
@@ -113,9 +110,8 @@
         "lint-staged": "^17.6.0",
         "next-router-mock": "^1.0.5",
         "orval": "^8.45.0",
+        "oxfmt": "^0.78.0",
         "pino-pretty": "^13.2.0",
-        "prettier": "^3.9.10",
-        "prettier-plugin-tailwindcss": "^0.8.1",
         "sass": "^1.106.1",
         "tailwindcss": "^4.3.3",
         "typescript": "npm:@typescript/typescript6@^6.0.2",
