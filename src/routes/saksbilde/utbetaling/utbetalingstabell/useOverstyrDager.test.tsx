@@ -1,4 +1,3 @@
-import { fetchMock, jsonBody, jsonResponse, mockFetchResponse } from '../../../../../vitest.setup';
 import { Mock, vi } from 'vitest';
 
 import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
@@ -18,6 +17,7 @@ import { renderHook } from '@test-utils';
 import { act, waitFor } from '@testing-library/react';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
+import { fetchMock, jsonBody, jsonResponse, mockFetchResponse } from '../../../../../vitest.setup';
 import { tilOverstyrteDager, useOverstyrDager } from './useOverstyrDager';
 
 vi.mock('@state/person');

@@ -39,7 +39,7 @@
             "@test-utils": ["./src/test/test-utils"],
             "@test-wrappers": ["./src/test/wrappers"],
             "@typer/*": ["./src/types/*"],
-            "@utils/*": ["./src/utils/*"],
+            "@utils/*": ["./src/utils/*"]
         },
         "target": "ES2017"
     },

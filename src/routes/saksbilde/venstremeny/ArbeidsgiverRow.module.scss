@@ -1,74 +1,75 @@
 .arbeidsgiverRow {
-  display: flex;
-  flex-direction: column;
-  box-shadow: none !important;
+    display: flex;
+    flex-direction: column;
+    box-shadow: none !important;
 
-  &[data-expanded="true"]:last-child {
-    border-bottom: 0;
-  }
+    &[data-expanded='true']:last-child {
+        border-bottom: 0;
+    }
 }
 
 .iconContainer {
-  justify-self: center;
-  align-self: flex-start;
-  display: flex;
-  align-items: center;
-  height: var(--ax-font-line-height-large);
+    justify-self: center;
+    align-self: flex-start;
+    display: flex;
+    align-items: center;
+    height: var(--ax-font-line-height-large);
 }
 
 .arbeidsforhold {
-  max-width: calc(
-          var(--venstremeny-width) - (var(--venstremeny-horizontal-padding) * 2) - var(--column-gap) -
-          var(--left-column-width) - var(--venstremeny-border-width)
-  );
-  display: flex;
-  flex-wrap: nowrap;
+    max-width: calc(
+        var(--venstremeny-width) - (var(--venstremeny-horizontal-padding) * 2) - var(--column-gap) -
+            var(--left-column-width) - var(--venstremeny-border-width)
+    );
+    display: flex;
+    flex-wrap: nowrap;
 
-  > p {
-    white-space: nowrap;
-  }
+    > p {
+        white-space: nowrap;
+    }
 }
 
 .skeleton {
-  width: 100%;
+    width: 100%;
 
-  span {
-    height: var(--ax-font-line-height-large);
-  }
+    span {
+        height: var(--ax-font-line-height-large);
+    }
 
-  .arbeidsgiver {
-    display: flex;
-    gap: 12px
-  }
+    .arbeidsgiver {
+        display: flex;
+        gap: 12px;
+    }
 }
 
 .header {
-  justify-content: flex-end;
-  display: flex;
-  box-shadow: none !important;
-  flex-direction: row-reverse;
-  padding: 0 !important;
-  text-decoration: underline;
-  color: var(--ax-text-subtle);
+    justify-content: flex-end;
+    display: flex;
+    box-shadow: none !important;
+    flex-direction: row-reverse;
+    padding: 0 !important;
+    text-decoration: underline;
+    color: var(--ax-text-subtle);
 
-  & > span {
-    font-size: var(--ax-font-size-large);
-    font-weight: var(--ax-font-weight-regular);
-    line-height: var(--ax-font-line-height-heading-xsmall);
-  }
+    & > span {
+        font-size: var(--ax-font-size-large);
+        font-weight: var(--ax-font-weight-regular);
+        line-height: var(--ax-font-line-height-heading-xsmall);
+    }
 
-  &:hover {
-    background: none;
-    text-decoration: none;
-  }
+    &:hover {
+        background: none;
+        text-decoration: none;
+    }
 
-  &::before, &::after {
-    height: 0;
-  }
+    &::before,
+    &::after {
+        height: 0;
+    }
 }
 
 .content {
-  padding: 0;
-  margin: 0;
-  color: var(--ax-text-neutral);
+    padding: 0;
+    margin: 0;
+    color: var(--ax-text-neutral);
 }

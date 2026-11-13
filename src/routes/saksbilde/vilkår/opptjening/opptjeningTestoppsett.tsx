@@ -1,4 +1,3 @@
-import { mockFetchResponse } from '../../../../../vitest.setup';
 import { Mock } from 'vitest';
 
 import { ApiVilkårsgrunnlagInfotrygdV2 } from '@io/rest/generated/spesialist.schemas';
@@ -22,6 +21,8 @@ import {
 import { InngangsvilkårWithContent } from '@saksbilde/vilkår/Inngangsvilkår';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
+
+import { mockFetchResponse } from '../../../../../vitest.setup';
 
 // Felles oppsett for Opptjening-testene. Testfilene må selv mocke
 // '@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', siden vi.mock bare virker i testfila.

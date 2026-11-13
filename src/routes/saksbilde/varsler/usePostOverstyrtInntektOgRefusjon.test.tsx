@@ -1,4 +1,3 @@
-import { fetchMock, jsonBody, mockFetchResponse } from '../../../../vitest.setup';
 import { Mock, vi } from 'vitest';
 
 import { ApiServerSentEvent, ApiServerSentEventEvent } from '@io/rest/generated/spesialist.schemas';
@@ -9,6 +8,7 @@ import { ToastObject, useAddToast, useRemoveToast } from '@state/toasts';
 import { renderHook } from '@test-utils';
 import { act, waitFor } from '@testing-library/react';
 
+import { fetchMock, jsonBody, mockFetchResponse } from '../../../../vitest.setup';
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
 vi.mock('@state/toasts');

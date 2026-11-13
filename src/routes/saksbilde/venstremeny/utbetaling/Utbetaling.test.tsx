@@ -1,4 +1,3 @@
-import { fetchMock, jsonBody } from '../../../../../vitest.setup';
 import { createStore } from 'jotai';
 import { Mock, describe, expect, it, vi } from 'vitest';
 
@@ -22,6 +21,8 @@ import { enTotrinnsvurdering } from '@test-data/totrinnsvurdering';
 import { render } from '@test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
+import { fetchMock, jsonBody } from '../../../../../vitest.setup';
 
 vi.mock('@state/oppgave', async () => ({
     ...(await vi.importActual('@state/oppgave')),

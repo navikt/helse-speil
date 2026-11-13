@@ -12,4 +12,3 @@ lockfile: true
 preferFrozenLockfile: true
 
 nodeVersion: 24.21.0
-

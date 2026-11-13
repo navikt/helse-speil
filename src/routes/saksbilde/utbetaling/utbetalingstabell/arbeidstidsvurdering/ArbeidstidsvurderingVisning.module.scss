@@ -1,17 +1,17 @@
 .readmore {
-  button {
-    display: flex;
-    flex-direction: row-reverse;
-    color: var(--ax-text-neutral);
+    button {
+        display: flex;
+        flex-direction: row-reverse;
+        color: var(--ax-text-neutral);
 
-    &:hover {
-      color: var(--ax-text-neutral);
+        &:hover {
+            color: var(--ax-text-neutral);
+        }
     }
-  }
 
-  > div {
-    margin-left: 0 !important;
-    padding-left: 0 !important;
-    border: 0;
-  }
+    > div {
+        margin-left: 0 !important;
+        padding-left: 0 !important;
+        border: 0;
+    }
 }

@@ -7,32 +7,32 @@ registries:
 multi-ecosystem-groups:
   dependencies:
     schedule:
-      interval: "daily"
+      interval: 'daily'
     commit-message:
-      prefix: "⬆️ "
+      prefix: '⬆️ '
 updates:
-  - package-ecosystem: "github-actions"
+  - package-ecosystem: 'github-actions'
     directories:
-      - "/"
-      - "/.github/actions/*"
-    multi-ecosystem-group: "dependencies"
-    patterns: ["*"]
+      - '/'
+      - '/.github/actions/*'
+    multi-ecosystem-group: 'dependencies'
+    patterns: ['*']
     cooldown:
       default-days: 7
       exclude:
-        - "navikt/sykepenger-github-workflows*"
+        - 'navikt/sykepenger-github-workflows*'
 
-  - package-ecosystem: "npm"
-    directory: "/"
-    multi-ecosystem-group: "dependencies"
-    patterns: ["*"]
-    registries: "*"
+  - package-ecosystem: 'npm'
+    directory: '/'
+    multi-ecosystem-group: 'dependencies'
+    patterns: ['*']
+    registries: '*'
     cooldown:
       default-days: 7
     ignore:
       # typescript-eslint støtter ikke TS >= 6.1 ennå, se https://github.com/typescript-eslint/typescript-eslint/issues/10940
-      - dependency-name: "typescript"
-        versions: [">= 6.1.0"]
+      - dependency-name: 'typescript'
+        versions: ['>= 6.1.0']
       # @types/node må følge Node-versjonen i Dockerfile og CI, så major-versjoner holdes tilbake
-      - dependency-name: "@types/node"
-        update-types: ["version-update:semver-major"]
+      - dependency-name: '@types/node'
+        update-types: ['version-update:semver-major']

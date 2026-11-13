@@ -1,33 +1,33 @@
 .historikkskeletonwrapper {
-  grid-area: høyremeny;
-  height: 100%;
-  width: 378px;
+    grid-area: høyremeny;
+    height: 100%;
+    width: 378px;
 }
 
 .historikkskeleton {
-  padding-left: var(--ax-space-24);
-  padding-right: var(--ax-space-32);
-  border-left: 1px solid;
-  height: 100%;
-  width: 320px;
+    padding-left: var(--ax-space-24);
+    padding-right: var(--ax-space-32);
+    border-left: 1px solid;
+    height: 100%;
+    width: 320px;
 }
 
 .historikkskeleton > ul {
-  padding: 0;
-  margin: 0;
+    padding: 0;
+    margin: 0;
 }
 
 .historikkskeleton > ul > div {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 16px;
-  font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 16px;
+    font-size: 14px;
 }
 
 .historikkskeletonmeny {
-  width: 58px;
-  height: 100%;
-  border-left: 1px solid var(--ax-border-neutral-subtle);
-  padding: var(--ax-space-24) var(--ax-space-12);
+    width: 58px;
+    height: 100%;
+    border-left: 1px solid var(--ax-border-neutral-subtle);
+    padding: var(--ax-space-24) var(--ax-space-12);
 }

@@ -1,42 +1,42 @@
 $icon-container-width: 20px;
 .hendelse {
-  position: relative;
-  margin: 0;
-  padding: 16px 0;
-  display: flex;
-  gap: 0.5rem;
-
-  &:not(:last-of-type) {
-    border-bottom: 1px solid var(--ax-border-neutral);
-  }
-
-  .iconContainer {
-    display: flex;
-    align-items: center;
-    height: 16px;
-    margin-top: 3px;
-    width: $icon-container-width;
-  }
-
-  .content {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
     position: relative;
-    flex: 1;
-    max-width: calc(100% - var(--gap) - $icon-container-width);
-  }
+    margin: 0;
+    padding: 16px 0;
+    display: flex;
+    gap: 0.5rem;
+
+    &:not(:last-of-type) {
+        border-bottom: 1px solid var(--ax-border-neutral);
+    }
+
+    .iconContainer {
+        display: flex;
+        align-items: center;
+        height: 16px;
+        margin-top: 3px;
+        width: $icon-container-width;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        position: relative;
+        flex: 1;
+        max-width: calc(100% - var(--gap) - $icon-container-width);
+    }
 }
 
 .fokusområde {
-  outline: none;
+    outline: none;
 }
 
 .fokusområde:focus-visible {
-  outline: 3px solid var(--ax-border-focus);
-  outline-offset: 3px;
+    outline: 3px solid var(--ax-border-focus);
+    outline-offset: 3px;
 }
 
 .klikkbar {
-  cursor: pointer;
+    cursor: pointer;
 }

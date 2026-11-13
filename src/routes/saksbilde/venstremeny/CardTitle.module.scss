@@ -1,24 +1,24 @@
 .tittel {
-  font-size: var(--ax-font-size-medium);
-  font-weight: 600;
-  display: flex;
-  align-items: center;
-  color: var(--ax-neutral-700);
-
-  a {
+    font-size: var(--ax-font-size-medium);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
     color: var(--ax-neutral-700);
 
-    &:hover {
-      text-decoration: none;
-    }
+    a {
+        color: var(--ax-neutral-700);
 
-    &:active,
-    &:focus {
-      outline: none;
-      color: var(--ax-text-neutral-contrast);
-      text-decoration: none;
-      background-color: var(--ax-border-focus);
-      box-shadow: 0 0 0 2px var(--ax-border-focus);
+        &:hover {
+            text-decoration: none;
+        }
+
+        &:active,
+        &:focus {
+            outline: none;
+            color: var(--ax-text-neutral-contrast);
+            text-decoration: none;
+            background-color: var(--ax-border-focus);
+            box-shadow: 0 0 0 2px var(--ax-border-focus);
+        }
     }
-  }
 }

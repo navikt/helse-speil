@@ -1,24 +1,24 @@
 .driftsmelding {
-  cursor: pointer;
+    cursor: pointer;
 }
 
 .infomelding {
-  cursor: pointer;
-  border-radius: 0;
+    cursor: pointer;
+    border-radius: 0;
 }
 
 .button {
-  display: flex;
+    display: flex;
 }
 
 .dato {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 .chevron {
-  transition: transform 0.3s ease;
+    transition: transform 0.3s ease;
 }
 
 .chevronrotated {
-  transform: rotate(180deg);
+    transform: rotate(180deg);
 }

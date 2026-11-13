@@ -1,9 +1,8 @@
-import { fetchMock, jsonResponse } from '../../../../../vitest.setup';
-
 import { SparsomAktiviteterResponse } from '@io/rest/sparsom';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
+import { fetchMock, jsonResponse } from '../../../../../vitest.setup';
 import { Hendelser } from './Hendelser';
 
 const vedtaksperiodeId = 'en-vedtaksperiode-id';

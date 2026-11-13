@@ -1,9 +1,9 @@
-import { fetchMock, jsonResponse, mockFetchResponse } from '../../vitest.setup';
 import mockRouter from 'next-router-mock';
 
 import { render, screen } from '@test-utils';
 import { waitFor } from '@testing-library/react';
 
+import { fetchMock, jsonResponse, mockFetchResponse } from '../../vitest.setup';
 import { Dyplenke } from './Dyplenke';
 
 const fødselsnummer = '12345678910';

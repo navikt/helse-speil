@@ -3,7 +3,11 @@ import { ApiBeregnetPeriode, ApiGhostPeriode, ApiUberegnetPeriode } from '@io/re
 import { DatePeriod, InfotrygdPeriod } from './shared';
 
 export type TimelinePeriod = (
-    ApiGhostPeriode | ApiBeregnetPeriode | ApiUberegnetPeriode | InfotrygdPeriod | DatePeriod
+    | ApiGhostPeriode
+    | ApiBeregnetPeriode
+    | ApiUberegnetPeriode
+    | InfotrygdPeriod
+    | DatePeriod
 ) & {
     isFirst?: boolean;
     hasLeftNeighbour?: boolean;

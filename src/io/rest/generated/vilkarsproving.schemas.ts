@@ -96,7 +96,8 @@ export interface ApiVurderingsgrunnlagSelvstendigNæringsdrivende {
 }
 
 export type ApiVurderingsgrunnlag =
-    ApiVurderingsgrunnlagArbeidsforhold | ApiVurderingsgrunnlagSelvstendigNæringsdrivende;
+    | ApiVurderingsgrunnlagArbeidsforhold
+    | ApiVurderingsgrunnlagSelvstendigNæringsdrivende;
 
 export type ApiKildetype = (typeof ApiKildetype)[keyof typeof ApiKildetype];
 
@@ -137,7 +138,9 @@ export interface ApiVurderingskildeSaksbehandler {
 }
 
 export type ApiVurderingskilde =
-    ApiVurderingskildeAutomatisk | ApiVurderingskildeOverførtFraSpleis | ApiVurderingskildeSaksbehandler;
+    | ApiVurderingskildeAutomatisk
+    | ApiVurderingskildeOverførtFraSpleis
+    | ApiVurderingskildeSaksbehandler;
 
 export interface ApiVilkårsvurdering {
     id: string;

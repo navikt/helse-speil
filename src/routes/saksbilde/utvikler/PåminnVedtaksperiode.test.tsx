@@ -1,9 +1,8 @@
-import { fetchMock, jsonResponse } from '../../../../vitest.setup';
-
 import { SpleisVedtaksperiode } from '@io/rest/spleis';
 import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
+import { fetchMock, jsonResponse } from '../../../../vitest.setup';
 import { PåminnVedtaksperiode } from './PåminnVedtaksperiode';
 
 const vedtaksperiode: SpleisVedtaksperiode = {

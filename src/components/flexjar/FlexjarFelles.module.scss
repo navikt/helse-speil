@@ -1,68 +1,69 @@
 .container {
-  padding: 0;
+    padding: 0;
 
-  .content {
-    border: 0.25rem solid var(--ax-bg-neutral-soft);
+    .content {
+        border: 0.25rem solid var(--ax-bg-neutral-soft);
 
-    .header {
-      display: flex;
-      background: var(--ax-bg-neutral-soft);
-      padding: 1rem;
-      flex-direction: column;
+        .header {
+            display: flex;
+            background: var(--ax-bg-neutral-soft);
+            padding: 1rem;
+            flex-direction: column;
 
-      .tittel {
-        margin-bottom: 0.5rem;
-        font-size: var(--ax-font-size-heading-small);
-      }
+            .tittel {
+                margin-bottom: 0.5rem;
+                font-size: var(--ax-font-size-heading-small);
+            }
 
-      .info {
-        font-style: italic;
-        line-height: var(--ax-font-line-height-large);
-      }
-    }
-
-    .body {
-      padding: 1rem;
-      background: white;
-
-      .spørsmål {
-        margin-bottom: 1.5rem;
-      }
-
-      .form {
-        margin-top: 2rem;
-
-        .send {
-          margin-top: 1rem;
+            .info {
+                font-style: italic;
+                line-height: var(--ax-font-line-height-large);
+            }
         }
-      }
-    }
-  }
 
-  .thanks {
-    padding: 1rem;
-    background: var(--ax-bg-success-soft);
+        .body {
+            padding: 1rem;
+            background: white;
 
-    .header {
-      font-weight: bold;
-      text-align: center;
+            .spørsmål {
+                margin-bottom: 1.5rem;
+            }
+
+            .form {
+                margin-top: 2rem;
+
+                .send {
+                    margin-top: 1rem;
+                }
+            }
+        }
     }
-  }
+
+    .thanks {
+        padding: 1rem;
+        background: var(--ax-bg-success-soft);
+
+        .header {
+            font-weight: bold;
+            text-align: center;
+        }
+    }
 }
 
 .button {
-  outline: none;
+    outline: none;
 
-  &:not(:first-of-type) {
-    margin-left: 0.5rem;
-  }
+    &:not(:first-of-type) {
+        margin-left: 0.5rem;
+    }
 
-  &:hover, &.answer {
-    background: var(--ax-bg-neutral-strong-pressed);
-    color: var(--ax-text-neutral-contrast);
-  }
+    &:hover,
+    &.answer {
+        background: var(--ax-bg-neutral-strong-pressed);
+        color: var(--ax-text-neutral-contrast);
+    }
 
-  &.answer:focus {
-    box-shadow: none;
-  }
+    &.answer:focus {
+        box-shadow: none;
+    }
 }

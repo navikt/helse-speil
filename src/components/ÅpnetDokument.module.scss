@@ -1,11 +1,11 @@
 .dokumenter {
-  display: flex;
-  background: var(--ax-bg-default);
-  z-index: 1;
+    display: flex;
+    background: var(--ax-bg-default);
+    z-index: 1;
 
-  .dokument {
-    width: 320px;
-    padding: 1rem;
-    border-left: 1px solid var(--ax-border-neutral-strong);
-  }
+    .dokument {
+        width: 320px;
+        padding: 1rem;
+        border-left: 1px solid var(--ax-border-neutral-strong);
+    }
 }

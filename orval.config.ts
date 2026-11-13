@@ -1,3 +1,9 @@
+import { readFile, readdir, stat, writeFile } from 'node:fs/promises';
+import path from 'node:path';
+import { defineConfig } from 'orval';
+
+// noinspection ES6PreferShortImport
+import { decodeComponentKeys } from './src/io/rest/componentKeys';
 // noinspection ES6PreferShortImport
 import {
     andreYtelserOpenAPITransformer,
@@ -7,12 +13,6 @@ import {
     sporhundOpenAPITransformer,
     vilkarsprovingOpenAPITransformer,
 } from './src/io/rest/openapi-transformer';
-import { readFile, readdir, stat, writeFile } from 'node:fs/promises';
-import path from 'node:path';
-import { defineConfig } from 'orval';
-
-// noinspection ES6PreferShortImport
-import { decodeComponentKeys } from './src/io/rest/componentKeys';
 
 const sharedOutput = {
     mode: 'tags-split',

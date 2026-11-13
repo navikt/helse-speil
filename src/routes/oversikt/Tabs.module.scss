@@ -1,139 +1,141 @@
 .tabs {
-  border-bottom: 1px solid var(--ax-border-neutral-subtle);
-  margin: 0.5rem 1.5rem 0;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  height: var(--ax-space-48);
-
-  > span {
-    white-space: nowrap;
+    border-bottom: 1px solid var(--ax-border-neutral-subtle);
+    margin: 0.5rem 1.5rem 0;
     display: flex;
     flex-wrap: nowrap;
-    align-self: stretch;
-    align-items: stretch;
-  }
+    align-items: center;
+    height: var(--ax-space-48);
+
+    > span {
+        white-space: nowrap;
+        display: flex;
+        flex-wrap: nowrap;
+        align-self: stretch;
+        align-items: stretch;
+    }
 }
 
 .tab {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  background: none;
-  border: none;
-  padding: 0 1rem;
-  margin: 0;
-  font-family: inherit;
-  font-size: 1rem;
-  font-weight: var(--ax-font-weight-bold);
-  color: var(--ax-text-neutral);
-  cursor: pointer;
-  outline: none;
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    background: none;
+    border: none;
+    padding: 0 1rem;
+    margin: 0;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: var(--ax-font-weight-bold);
+    color: var(--ax-text-neutral);
+    cursor: pointer;
+    outline: none;
 
-  > span {
-    font-weight: var(--ax-font-weight-regular);
-  }
+    > span {
+        font-weight: var(--ax-font-weight-regular);
+    }
 
-  &:before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 0;
-    left: 0;
-    bottom: 0;
-    background-color: var(--ax-bg-strong);
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    transition: height 0.1s ease;
-  }
+    &:before {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 0;
+        left: 0;
+        bottom: 0;
+        background-color: var(--ax-bg-strong);
+        border-top-left-radius: 2px;
+        border-top-right-radius: 2px;
+        transition: height 0.1s ease;
+    }
 
-  &:hover, &:before {
-    color: var(--ax-bg-strong);
-  }
+    &:hover,
+    &:before {
+        color: var(--ax-bg-strong);
+    }
 
-  &:focus-visible {
-    outline: 3px solid var(--ax-border-focus);
-    outline-offset: -3px;
-  }
+    &:focus-visible {
+        outline: 3px solid var(--ax-border-focus);
+        outline-offset: -3px;
+    }
 
-  &.active:before {
-    height: 4px;
-  }
+    &.active:before {
+        height: 4px;
+    }
 }
 
 .button {
-  background: var(--ax-bg-neutral-soft);
+    background: var(--ax-bg-neutral-soft);
 
-  > svg {
-    transform: translateY(-1px);
+    > svg {
+        transform: translateY(-1px);
 
-    > path {
-      transition: fill 0.1s ease;
+        > path {
+            transition: fill 0.1s ease;
+        }
     }
-  }
 
-  &:active {
-    background: var(--ax-bg-strong);
-    color: var(--ax-text-contrast);
-  }
+    &:active {
+        background: var(--ax-bg-strong);
+        color: var(--ax-text-contrast);
+    }
 
-  &.active:not(:active) {
-    background: var(--ax-bg-strong);
-    color: var(--ax-text-contrast);
-  }
+    &.active:not(:active) {
+        background: var(--ax-bg-strong);
+        color: var(--ax-text-contrast);
+    }
 
-  &.active > svg > path {
-    fill: var(--ax-text-contrast);
-  }
+    &.active > svg > path {
+        fill: var(--ax-text-contrast);
+    }
 }
 
 .filterbutton {
-  &:not(.varaktiv), .varaktiv:not(.active) {
-    transition: 0.2s ease-in-out;
-  }
+    &:not(.varaktiv),
+    .varaktiv:not(.active) {
+        transition: 0.2s ease-in-out;
+    }
 }
 
 .statistikkbutton {
-  margin-left: auto;
+    margin-left: auto;
 }
 
 .roundedbutton {
-  height: 32px;
-  width: 32px;
-  background-color: transparent;
-  outline: none;
-  border: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  transition: background 0.1s ease;
+    height: 32px;
+    width: 32px;
+    background-color: transparent;
+    outline: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.1s ease;
 
-  > svg {
-    flex-shrink: 0;
-  }
-
-  &:hover {
-    cursor: pointer;
-  }
-
-  &:hover,
-  &:focus-visible {
-    background: var(--ax-bg-moderate-hover);
-  }
-
-  &:focus-visible {
-    outline: 3px solid var(--ax-border-focus);
-    outline-offset: 3px;
-  }
-
-  &:active {
-    background-color: var(--ax-bg-strong-pressed);
-
-    > svg > g,
-    > svg > path {
-      fill: var(--ax-text-contrast);
+    > svg {
+        flex-shrink: 0;
     }
-  }
+
+    &:hover {
+        cursor: pointer;
+    }
+
+    &:hover,
+    &:focus-visible {
+        background: var(--ax-bg-moderate-hover);
+    }
+
+    &:focus-visible {
+        outline: 3px solid var(--ax-border-focus);
+        outline-offset: 3px;
+    }
+
+    &:active {
+        background-color: var(--ax-bg-strong-pressed);
+
+        > svg > g,
+        > svg > path {
+            fill: var(--ax-text-contrast);
+        }
+    }
 }

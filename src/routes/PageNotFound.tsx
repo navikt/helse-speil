@@ -1,12 +1,13 @@
 'use client';
 
-import nissemyra from '../assets/nissemyra.svg';
 import Image from 'next/image';
 import { ReactElement, useEffect } from 'react';
 
 import { BodyShort, HStack, Heading, Link, VStack } from '@navikt/ds-react';
 
 import { getFaro } from '@observability/faro';
+
+import nissemyra from '../assets/nissemyra.svg';
 
 export const PageNotFound = (): ReactElement => {
     useEffect(() => {

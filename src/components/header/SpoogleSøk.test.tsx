@@ -1,4 +1,3 @@
-import { fetchMock, jsonResponse, mockFetchResponse } from '../../../vitest.setup';
 import mockRouter from 'next-router-mock';
 import { Mock } from 'vitest';
 
@@ -8,6 +7,7 @@ import { render, screen } from '@test-utils';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { fetchMock, jsonResponse, mockFetchResponse } from '../../../vitest.setup';
 import { SpoogleSøk } from './SpoogleSøk';
 
 vi.mock('@state/person');

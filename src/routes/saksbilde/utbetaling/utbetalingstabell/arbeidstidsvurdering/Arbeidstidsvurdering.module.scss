@@ -1,67 +1,69 @@
-.radiogroup span, .radiogroup legend {
-  font-size: 16px !important;
+.radiogroup span,
+.radiogroup legend {
+    font-size: 16px !important;
 }
 
 .fritekst {
-  margin: 1rem 0 0.5rem;
-  width: 675px;
+    margin: 1rem 0 0.5rem;
+    width: 675px;
 }
 
 .fritekstlabel {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .fritekstlabel .button {
-  margin-left: 0.25rem;
-  padding: 0;
-  color: black;
+    margin-left: 0.25rem;
+    padding: 0;
+    color: black;
 }
 
 .fritekstlabel .button span {
-  display: flex;
-  align-items: baseline;
+    display: flex;
+    align-items: baseline;
 }
 
 .fritekstlabel .button:hover {
-  background: transparent;
+    background: transparent;
 }
 
 .fritekstlabel .button:hover svg,
 .fritekstlabel .button:focus svg {
-  background: black;
-  color: white;
+    background: black;
+    color: white;
 }
 
 .feiloppsummering {
-  margin: 1.5rem 0 0.5rem;
+    margin: 1.5rem 0 0.5rem;
 }
 
 .error {
-  padding-top: var(--ax-space-16);
+    padding-top: var(--ax-space-16);
 }
 
 .zebrarad:nth-child(even) {
-  background-color: white;
+    background-color: white;
 }
 
-.readonly{
-  padding: 0;
-  &:before {
-    display: block;
-    width: 24px;
-    height: 24px;
-    content: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224px%22%20height%3D%2224px%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20focusable%3D%22false%22%20role%3D%22img%22%3E%3Cpath%20fill%3D%22currentColor%22%20fill-rule%3D%22evenodd%22%20d%3D%22M7.25%207a4.75%204.75%200%200%201%209.5%200v2.25H17c.966%200%201.75.784%201.75%201.75v9a.75.75%200%200%201-.75.75H6a.75.75%200%200%201-.75-.75v-9c0-.966.784-1.75%201.75-1.75h.25zm1.5%200a3.25%203.25%200%200%201%206.5%200v2.25h-6.5zM7%2010.75a.25.25%200%200%200-.25.25v8.25h10.5V11a.25.25%200%200%200-.25-.25zm3.5%203.75a1.5%201.5%200%201%201%202.25%201.3V17a.75.75%200%200%201-1.5%200v-1.2a1.5%201.5%200%200%201-.75-1.3%22%20clip-rule%3D%22evenodd%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E");
-  }
-
-  &:hover, &:focus {
+.readonly {
+    padding: 0;
     &:before {
-      background-color: var(--ax-neutral-300A);
-      border-radius: var(--ax-radius-4);
+        display: block;
+        width: 24px;
+        height: 24px;
+        content: url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2224px%22%20height%3D%2224px%22%20fill%3D%22none%22%20viewBox%3D%220%200%2024%2024%22%20focusable%3D%22false%22%20role%3D%22img%22%3E%3Cpath%20fill%3D%22currentColor%22%20fill-rule%3D%22evenodd%22%20d%3D%22M7.25%207a4.75%204.75%200%200%201%209.5%200v2.25H17c.966%200%201.75.784%201.75%201.75v9a.75.75%200%200%201-.75.75H6a.75.75%200%200%201-.75-.75v-9c0-.966.784-1.75%201.75-1.75h.25zm1.5%200a3.25%203.25%200%200%201%206.5%200v2.25h-6.5zM7%2010.75a.25.25%200%200%200-.25.25v8.25h10.5V11a.25.25%200%200%200-.25-.25zm3.5%203.75a1.5%201.5%200%201%201%202.25%201.3V17a.75.75%200%200%201-1.5%200v-1.2a1.5%201.5%200%200%201-.75-1.3%22%20clip-rule%3D%22evenodd%22%3E%3C%2Fpath%3E%3C%2Fsvg%3E');
     }
-  }
 
-  svg {
-    display: none !important;
-  }
+    &:hover,
+    &:focus {
+        &:before {
+            background-color: var(--ax-neutral-300A);
+            border-radius: var(--ax-radius-4);
+        }
+    }
+
+    svg {
+        display: none !important;
+    }
 }

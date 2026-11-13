@@ -1,9 +1,8 @@
-import { fetchMock, jsonBody, jsonResponse } from '../../../../vitest.setup';
-
 import { Rettighetskategori as Avgjørelse } from '@io/rest/rettighetskategori';
 import { render, screen, waitFor } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
+import { fetchMock, jsonBody, jsonResponse } from '../../../../vitest.setup';
 import { Rettighetskategori } from './Rettighetskategori';
 
 const personPseudoId = 'en-person-pseudo-id';

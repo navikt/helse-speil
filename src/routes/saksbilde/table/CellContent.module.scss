@@ -1,10 +1,10 @@
 .cellcontent {
-  position: relative;
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
+    position: relative;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
 
-  &__flexend {
-    justify-content: flex-end;
-  }
+    &__flexend {
+        justify-content: flex-end;
+    }
 }

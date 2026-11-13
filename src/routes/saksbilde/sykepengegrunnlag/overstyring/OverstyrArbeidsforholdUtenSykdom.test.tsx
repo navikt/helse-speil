@@ -1,4 +1,3 @@
-import { mockFetchResponse } from '../../../../../vitest.setup';
 import { vi } from 'vitest';
 
 import { VenterPåEndringProvider } from '@saksbilde/VenterPåEndringContext';
@@ -8,6 +7,8 @@ import { enBeregnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render, screen } from '@test-utils';
 import userEvent from '@testing-library/user-event';
+
+import { mockFetchResponse } from '../../../../../vitest.setup';
 
 vi.mock('@io/sse/useAbonnerPåEndringer', () => ({
     useAbonnerPåEndringer: vi.fn(),

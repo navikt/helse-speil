@@ -1,4 +1,3 @@
-import { fetchMock, jsonBody, jsonResponse } from '../../../../vitest.setup';
 import { Mock, vi } from 'vitest';
 
 import { Dialog } from '@navikt/ds-react';
@@ -13,6 +12,7 @@ import { render, screen, within } from '@test-utils';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { fetchMock, jsonBody, jsonResponse } from '../../../../vitest.setup';
 import { AnnulleringsDialogInnhold } from './AnnulleringsDialogInnhold';
 
 vi.mock('@state/toasts');

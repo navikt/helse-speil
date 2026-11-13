@@ -1,10 +1,9 @@
-import { fetchMock, jsonResponse } from '../../../../vitest.setup';
-
 import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@test-utils';
 import { waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+import { fetchMock, jsonResponse } from '../../../../vitest.setup';
 import { Varsel } from './Varsel';
 
 vi.mock('@hooks/brukerrolleHooks', () => ({ useHarSkrivetilgang: () => true }));
