@@ -1,5 +1,7 @@
 import React, { ReactElement } from 'react';
 
+import { ClockDashedIcon } from '@navikt/aksel-icons';
+
 import { EndringsloggKildeButton } from '@components/endringslogg/EndringsloggKildeButton';
 import { EndringsloggSykepengegrunnlagskjønnsfastsetting } from '@components/endringslogg/EndringsloggSykepengegrunnlagskjønnsfastsetting';
 import { SykepengegrunnlagskjonnsfastsettingMedArbeidsgiverInfo } from '@saksbilde/sykepengegrunnlag/skjonnsfastsetting/SkjønnsfastsettingHeader';
@@ -19,6 +21,7 @@ export function EndringsloggSkjønnsfastsettingButton({
     return (
         <EndringsloggKildeButton
             {...buttonProps}
+            ikon={<ClockDashedIcon aria-hidden />}
             renderEndringslogg={(onOpenChange) => (
                 <EndringsloggSykepengegrunnlagskjønnsfastsetting endringer={endringer} onOpenChange={onOpenChange} />
             )}
