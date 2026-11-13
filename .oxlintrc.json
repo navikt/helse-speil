@@ -14,6 +14,17 @@
     ],
     "rules": {
         "eslint/no-console": ["warn", {}],
+        "eslint/no-restricted-imports": [
+            "error",
+            {
+                "patterns": [
+                    {
+                        "group": ["../../**", "!**/vitest.setup"],
+                        "message": "Bruk path-alias (f.eks. @components/...) i stedet for ../../-import."
+                    }
+                ]
+            }
+        ],
         "eslint/no-var": "error",
         "eslint/prefer-const": [
             "error",
@@ -84,6 +95,7 @@
         "react/no-string-refs": "error",
         "react/no-unescaped-entities": "error",
         "react/preserve-manual-memoization": "error",
+        "react/purity": "error",
         "react/require-render-return": "error",
         "react/rules-of-hooks": "error",
         "react/set-state-in-effect": "error",
@@ -130,5 +142,32 @@
         "typescript/prefer-as-const": "error",
         "typescript/prefer-namespace-keyword": "error",
         "typescript/triple-slash-reference": "error"
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "src/app/**/route.ts",
+                "src/app/api/**/common.ts",
+                "src/app/api/sanity/stubEllerVideresendTilSanity.ts"
+            ],
+            "rules": {
+                "eslint/no-restricted-imports": [
+                    "error",
+                    {
+                        "patterns": [
+                            {
+                                "group": ["../../**", "!**/vitest.setup"],
+                                "message": "Bruk path-alias (f.eks. @components/...) i stedet for ../../-import."
+                            },
+                            {
+                                "group": ["**/stub", "**/*Stub", "@spesialist-mock/*", "!@spesialist-mock/constants"],
+                                "message": "Mockkode skal ikke lastes i produksjon. Last den med import() inne i mock-grenen, f.eks. via stubEllerVideresend*.",
+                                "importNamePattern": ".*"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    ]
 }

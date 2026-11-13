@@ -7,15 +7,12 @@ Saksbehandlerverktøy for sykepenger.
 ## Kodeformatering
 
 Dette repoet bruker [oxfmt](https://oxc.rs/docs/guide/usage/formatter) til formatering, sortering av imports og
-sortering av Tailwind-klasser. Konfigurasjonen ligger i `.oxfmtrc.json`, og
-[eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) slår av ESLint-regler som krasjer med
-formatereren. Kjør `pnpm run format` for å formatere og `pnpm run format:check` for å sjekke. Pre-commit-hooken kjører
+sortering av Tailwind-klasser. Konfigurasjonen ligger i `.oxfmtrc.json`. Kjør `pnpm run format` for å formatere og `pnpm run format:check` for å sjekke. Pre-commit-hooken kjører
 oxfmt på filene som committes. oxfmt kan settes opp til å formatere ved lagring, se oxc-dokumentasjonen for din editor.
 
 ## Linting
 
-`pnpm run lint` kjører først [oxlint](https://oxc.rs/docs/guide/usage/linter) (`.oxlintrc.json`) og deretter ESLint
-for reglene oxlint ikke støtter.
+`pnpm run lint` kjører [oxlint](https://oxc.rs/docs/guide/usage/linter) med konfigurasjonen i `.oxlintrc.json`.
 
 ## Gi tilgang til Speil i dev (aka preprod) via AD:
 

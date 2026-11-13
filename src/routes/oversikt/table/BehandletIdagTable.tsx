@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 
 import { DatePicker, HStack, Table, VStack, useDatepicker } from '@navikt/ds-react';
 
@@ -23,11 +23,12 @@ import styles from './table.module.css';
 export const BehandletIdagTable = (): ReactElement => {
     const { oppgaver, antallOppgaver, loading, error, refetch } = useBehandledeOppgaverFeed();
     const [_, setCurrentPage] = useCurrentPageState();
+    const [idag] = useState(() => new Date());
 
     const harIkkeHentetOppgaverForGjeldendeQuery = oppgaver === undefined && loading;
 
     const fomDatePicker = useDatepicker({
-        defaultSelected: new Date(),
+        defaultSelected: idag,
         onDateChange: (dato) => {
             setCurrentPage(1);
             refetch(dayjs(dato), dayjs(tomDatePicker.selectedDay));
@@ -35,7 +36,7 @@ export const BehandletIdagTable = (): ReactElement => {
     });
 
     const tomDatePicker = useDatepicker({
-        defaultSelected: new Date(),
+        defaultSelected: idag,
         onDateChange: (dato) => {
             setCurrentPage(1);
             refetch(dayjs(fomDatePicker.selectedDay), dayjs(dato));

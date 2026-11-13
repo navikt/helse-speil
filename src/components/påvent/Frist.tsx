@@ -1,4 +1,4 @@
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
 import { DatePicker, useDatepicker } from '@navikt/ds-react';
@@ -9,7 +9,7 @@ import { plussEttÅr } from '@utils/date';
 export function Frist(): ReactElement {
     const { control } = useFormContext<PåVentSkjema>();
     const { field, fieldState } = useController({ name: 'frist', control });
-    const idag = new Date();
+    const [idag] = useState(() => new Date());
 
     const { datepickerProps, inputProps } = useDatepicker({
         defaultSelected: field.value ?? undefined,

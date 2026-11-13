@@ -8,8 +8,8 @@ Speil is a sickness benefit case processing tool ("saksbehandlerverktøy for syk
 pnpm install          # Install dependencies (requires NPM_AUTH_TOKEN for @navikt packages)
 pnpm run dev          # Start dev server on port 1234 (uses Turbopack)
 pnpm run build        # Production build (Next.js standalone)
-pnpm run lint         # oxlint, then ESLint
-pnpm run lint:fix     # oxlint and ESLint with auto-fix
+pnpm run lint         # oxlint
+pnpm run lint:fix     # oxlint with auto-fix
 pnpm run format       # oxfmt
 pnpm run format:check # oxfmt --check
 pnpm run tsc          # Type-check (TypeScript 7)
@@ -20,11 +20,11 @@ pnpm run test:watch                                   # Watch mode
 pnpm run generate-rest      # Regenerate REST types and React Query hooks via Orval
 ```
 
-`tsc` is TypeScript 7 (`@typescript/native`). TypeScript 7.0 has no compiler API, so `typescript` is aliased to `@typescript/typescript6` for typescript-eslint and Next.js. `next build` skips type-checking (`ignoreBuildErrors`), so CI runs `pnpm run tsc` separately.
+`tsc` is TypeScript 7 (`@typescript/native`). TypeScript 7.0 has no compiler API, so `typescript` is aliased to `@typescript/typescript6` for Next.js and Orval. `next build` skips type-checking (`ignoreBuildErrors`), so CI runs `pnpm run tsc` separately.
 
-When TypeScript 7.1 is released, the TypeScript team expects it to ship a new compiler API that differs from 6.0's. Once typescript-eslint and Next.js support it, remove the `@typescript/typescript6` alias, point `typescript` at 7.x, and remove `ignoreBuildErrors` from `next.config.ts`.
+When TypeScript 7.1 is released, the TypeScript team expects it to ship a new compiler API that differs from 6.0's. Once Next.js supports it, remove the `@typescript/typescript6` alias, point `typescript` at 7.x, and remove `ignoreBuildErrors` from `next.config.ts`.
 
-Linting runs in two steps. oxlint (`.oxlintrc.json`) runs the rules it supports natively. ESLint runs the rest: TanStack Query, `import-alias`, `no-restricted-syntax`, `no-restricted-imports`, `import/no-extraneous-dependencies` and `react-hooks/purity`. `eslint-plugin-oxlint` turns off in ESLint every rule enabled in `.oxlintrc.json`, so a rule moved to oxlint is never run twice.
+Linting uses **oxlint** only (`.oxlintrc.json`), with no ESLint and no JS plugins. Disable comments use the `eslint-disable-next-line <rule>` syntax, which oxlint reads. `pnpm run lint` reports disable comments that no longer suppress anything. `no-restricted-imports` forbids `../../` imports and, in route files, static imports of mock code. The mock pattern uses `importNamePattern: ".*"` so that it does not apply to dynamic `import()`, which is how mock code is meant to be loaded.
 
 ## Architecture
 
@@ -67,7 +67,7 @@ Place exported components at the top of the file and helper functions at the bot
 
 ### Path aliases
 
-Always use path aliases for imports (enforced by `eslint-plugin-import-alias`). Relative imports are only allowed within the same directory (depth 1). Key aliases:
+Always use path aliases for imports. Relative imports may go at most one level up (`./x` or `../x`); oxlint's `no-restricted-imports` rejects `../../`. `vitest.setup` is the exception. Key aliases:
 
 - `@/` → `src/`
 - `@components/`, `@hooks/`, `@io/`, `@state/`, `@utils/`, `@routes/`, `@typer/` → corresponding `src/` subdirectories
@@ -114,7 +114,7 @@ Aksel icons always render `role="img"`, so every icon needs either a name or `ar
 - **CopyButton**: label it with Tooltip, never `title`.
 - **Tooltip inside `InternalHeader`**: use `HeaderTooltip` from `@components/header/HeaderTooltip`. The header is always dark, and a plain Tooltip inherits that theme.
 
-The custom icons in `src/components/ikoner/` take `title` like Aksel icons and are `aria-hidden` when it is missing. ESLint (`no-restricted-syntax` in `eslint.config.ts`) fails on an icon ending in `Icon` inside an `icon=` prop without `aria-hidden`, and on `title` on `Button` or `CopyButton`.
+The custom icons in `src/components/ikoner/` take `title` like Aksel icons and are `aria-hidden` when it is missing. No lint rule enforces this, so check for an icon in an `icon=` prop without `aria-hidden`, and for `title` on `Button` or `CopyButton`, in review.
 
 ### Code formatting
 

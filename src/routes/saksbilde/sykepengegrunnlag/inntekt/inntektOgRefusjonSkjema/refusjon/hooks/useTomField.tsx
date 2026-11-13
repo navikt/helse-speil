@@ -10,6 +10,7 @@ import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somDate, somNorskDato } from '@utils/
 export const useTomField = (fom: string, tom: string | undefined, index: number) => {
     const { register, setValue, clearErrors } = useFormContext<RefusjonFormValues>();
     const [tomValue, setTomValue] = useState<string>(somNorskDato(tom ?? undefined) ?? '');
+    const [idag] = useState(() => new Date());
 
     const tomField = register(`refusjonsopplysninger.${index}.tom`, {
         required: false,
@@ -38,7 +39,7 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
         defaultSelected: somDate(tom),
         defaultMonth: somDate(tom) ?? somDate(fom),
         onDateChange: updateTom,
-        toDate: dayjs(tom ?? new Date())
+        toDate: dayjs(tom ?? idag)
             .add(1, 'year')
             .toDate(),
     });
