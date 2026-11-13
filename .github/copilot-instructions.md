@@ -20,9 +20,7 @@ pnpm run test:watch                                   # Watch mode
 pnpm run generate-rest      # Regenerate REST types and React Query hooks via Orval
 ```
 
-`tsc` is TypeScript 7 (`@typescript/native`). TypeScript 7.0 has no compiler API, so `typescript` is aliased to `@typescript/typescript6` for Next.js and Orval. `next build` skips type-checking (`ignoreBuildErrors`), so CI runs `pnpm run tsc` separately.
-
-When TypeScript 7.1 is released, the TypeScript team expects it to ship a new compiler API that differs from 6.0's. Once Next.js supports it, remove the `@typescript/typescript6` alias, point `typescript` at 7.x, and remove `ignoreBuildErrors` from `next.config.ts`.
+`typescript` is TypeScript 7. TypeScript 7.0 has no compiler API, so no tool in the chain may depend on it. `next build` type-checks through the `tsc` CLI (`experimental.useTypeScriptCli`, on by default), and `@orval/zod` brings its own TypeScript 6. Before adding a tool that imports `typescript` as a library, check that it works with 7.x. TypeScript 7.1 is expected to ship a new compiler API.
 
 Linting uses **oxlint** only (`.oxlintrc.json`), with no ESLint and no JS plugins. Disable comments use the `eslint-disable-next-line <rule>` syntax, which oxlint reads. `pnpm run lint` reports disable comments that no longer suppress anything. `no-restricted-imports` forbids `../../` imports and, in route files, static imports of mock code. The mock pattern uses `importNamePattern: ".*"` so that it does not apply to dynamic `import()`, which is how mock code is meant to be loaded.
 

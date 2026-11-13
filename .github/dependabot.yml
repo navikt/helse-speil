@@ -30,9 +30,6 @@ updates:
     cooldown:
       default-days: 7
     ignore:
-      # typescript er aliasert til @typescript/typescript6, mens tsc kommer fra @typescript/native (TS 7). Se .github/copilot-instructions.md
-      - dependency-name: 'typescript'
-        versions: ['>= 6.1.0']
       # @types/node må følge Node-versjonen i Dockerfile og CI, så major-versjoner holdes tilbake
       - dependency-name: '@types/node'
         update-types: ['version-update:semver-major']
