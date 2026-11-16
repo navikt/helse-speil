@@ -7,6 +7,7 @@ interface BegrunnelseInputProps {
     setVedtakBegrunnelseTekst: Dispatch<SetStateAction<string>>;
     minRows: number;
     error?: string;
+    onBlur?: () => void;
 }
 
 export const BegrunnelseInput = ({
@@ -14,6 +15,7 @@ export const BegrunnelseInput = ({
     setVedtakBegrunnelseTekst,
     minRows,
     error,
+    onBlur,
 }: BegrunnelseInputProps) => (
     <Textarea
         label=""
@@ -27,5 +29,6 @@ export const BegrunnelseInput = ({
         style={{ whiteSpace: 'pre-line' }}
         minRows={minRows}
         error={error}
+        onBlur={onBlur}
     />
 );

@@ -252,6 +252,13 @@ describe('Utbetaling', () => {
             );
 
             expect(screen.getByTestId('godkjenning-button')).toBeDisabled();
+            expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
+            expect(screen.queryByText(FEILMELDING)).not.toBeInTheDocument();
+
+            await userEvent.click(screen.getByRole('button', { name: 'Individuell begrunnelse' }));
+            await userEvent.click(screen.getByRole('textbox'));
+            await userEvent.tab();
+
             expect(screen.getByText(FEILMELDING)).toBeVisible();
 
             await userEvent.type(screen.getByRole('textbox'), 'Du er ikke medlem i folketrygden');
@@ -273,7 +280,7 @@ describe('Utbetaling', () => {
             expect(screen.getByTestId('godkjenning-button')).toBeDisabled();
         });
 
-        it('krever ikke begrunnelse når medlemskap er vurdert til nei automatisk', () => {
+        it('krever individuell begrunnelse når medlemskap er vurdert til nei automatisk', () => {
             medlemskapQuery.data = medlemskapssvar(ApiMedlemskapsstatus.NEI, automatiskKilde);
             (useTotrinnsvurderingForPeriode as Mock).mockReturnValue(enTotrinnsvurdering());
             const { person, periode, inntektsforholdReferanse } = enPersonMedVilkårsgrunnlag();
@@ -284,7 +291,7 @@ describe('Utbetaling', () => {
                 </PersonStoreContext.Provider>,
             );
 
-            expect(screen.getByTestId('godkjenning-button')).toBeEnabled();
+            expect(screen.getByTestId('godkjenning-button')).toBeDisabled();
             expect(screen.queryByText(FEILMELDING)).not.toBeInTheDocument();
         });
 

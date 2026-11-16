@@ -28,9 +28,9 @@ export function IndividuellBegrunnelseContent({
     åpneModal,
 }: IndividuellBegrunnelseContentProps): ReactElement {
     const [expanded, setExpanded] = useState(defaultÅpen);
-    const erÅpen = expanded || påkrevd;
-    const feil =
-        påkrevd && vedtakBegrunnelseTekst.trim() === ''
+    const [harForlattFeltet, setHarForlattFeltet] = useState(false);
+    const valideringsfeilMedlemskap =
+        påkrevd && harForlattFeltet && vedtakBegrunnelseTekst.trim() === ''
             ? 'Du må skrive en individuell begrunnelse fordi medlemskap er vurdert til nei.'
             : undefined;
 
@@ -48,7 +48,7 @@ export function IndividuellBegrunnelseContent({
                             as="button"
                             type="button"
                             onClick={() => setExpanded((prev) => !prev)}
-                            aria-expanded={erÅpen}
+                            aria-expanded={expanded}
                             underline={false}
                             className="cursor-pointer"
                         >
@@ -57,7 +57,7 @@ export function IndividuellBegrunnelseContent({
                         </Link>
                         <VisesIVedtakTag />
                     </VStack>
-                    <AnimatedExpandableDiv expanded={erÅpen}>
+                    <AnimatedExpandableDiv expanded={expanded}>
                         <Tooltip content="Åpne i modal">
                             <Button
                                 onClick={åpneModal}
@@ -71,7 +71,8 @@ export function IndividuellBegrunnelseContent({
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                             setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                             minRows={4}
-                            error={feil}
+                            error={valideringsfeilMedlemskap}
+                            onBlur={() => setHarForlattFeltet(true)}
                         />
                     </AnimatedExpandableDiv>
                 </Box>

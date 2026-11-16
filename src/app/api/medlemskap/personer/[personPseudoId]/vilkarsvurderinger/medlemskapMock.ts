@@ -10,9 +10,7 @@ import {
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person';
 
-// Personer med uavklart svar fra medlemskapstjenesten, så man kan teste manuell vurdering. Alle andre får JA.
-const UAVKLARTE_MEDLEMSKAP = new Map<string, Uavklart>([
-    // punktlig_jakke.json
+const AUTOMATISKE_MEDLEMSKAPSSVAR = new Map<string, AutomatiskSvar>([
     [
         '2805594640665',
         {
@@ -20,7 +18,6 @@ const UAVKLARTE_MEDLEMSKAP = new Map<string, Uavklart>([
             årsaker: [{ regelId: 'SP6001', forklaringPaaUavklart: 'Brukeren har oppgitt arbeid utenfor Norge' }],
         },
     ],
-    // uten_varsler.json
     [
         '2348185725298',
         {
@@ -28,10 +25,17 @@ const UAVKLARTE_MEDLEMSKAP = new Map<string, Uavklart>([
             årsaker: [],
         },
     ],
+    [
+        '2805594640777',
+        {
+            status: ApiMedlemskapsstatus.NEI,
+            årsaker: [],
+        },
+    ],
 ]);
 
-interface Uavklart {
-    status: typeof ApiMedlemskapsstatus.UAVKLART | typeof ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL;
+interface AutomatiskSvar {
+    status: Exclude<ApiMedlemskapsstatus, typeof ApiMedlemskapsstatus.JA>;
     årsaker: ApiVurderingskildeAutomatisk['årsaker'];
 }
 
@@ -49,8 +53,8 @@ export function hentMedlemskapsvurdering(
     if (!skjæringstidspunkt) return undefined;
 
     const aktørId = PersonMock.findAktørIdForPersonPseudoId(personPseudoId);
-    const uavklart = aktørId !== null ? UAVKLARTE_MEDLEMSKAP.get(aktørId) : undefined;
-    const vurdering = automatiskVurdering(medlemskapsvurderingId, skjæringstidspunkt, uavklart);
+    const svar = aktørId !== null ? AUTOMATISKE_MEDLEMSKAPSSVAR.get(aktørId) : undefined;
+    const vurdering = automatiskVurdering(medlemskapsvurderingId, skjæringstidspunkt, svar);
     vurderinger.set(medlemskapsvurderingId, vurdering);
     return vurdering;
 }
@@ -108,7 +112,7 @@ function skjæringstidspunktFor(medlemskapsvurderingId: string): string | undefi
 function automatiskVurdering(
     id: string,
     skjæringstidspunkt: string,
-    uavklart: Uavklart | undefined,
+    svar: AutomatiskSvar | undefined,
 ): ApiVilkårsvurderingerForPersonResponse {
     return {
         skjæringstidspunkt,
@@ -116,14 +120,14 @@ function automatiskVurdering(
             {
                 id,
                 kravkode: ApiKravkode.MEDLEMSKAP,
-                medlemskapOk: true,
-                status: uavklart?.status ?? ApiMedlemskapsstatus.JA,
+                medlemskapOk: svar?.status !== ApiMedlemskapsstatus.NEI,
+                status: svar?.status ?? ApiMedlemskapsstatus.JA,
                 vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
                 kilde: {
                     kildetype: ApiKildetype.AUTOMATISK,
                     versjonAvKildekode: 'mock',
                     oppslagsperiode: { fom: skjæringstidspunkt, tom: skjæringstidspunkt },
-                    årsaker: uavklart?.årsaker ?? [],
+                    årsaker: svar?.årsaker ?? [],
                 },
             },
         ],
