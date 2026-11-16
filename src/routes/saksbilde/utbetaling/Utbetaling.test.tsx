@@ -127,8 +127,7 @@ describe('Utbetaling', () => {
         expect(screen.queryByText('Overstyr dager')).not.toBeInTheDocument();
     });
 
-    it('viser fordelingen i beslutters dagoversikt', () => {
-        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
+    it('viser fordelingen i beslutters dagoversikt for saksbehandlere uten særskilt rolle', () => {
         (useIsReadOnlyOppgave as Mock).mockReturnValue(true);
         const tidslinje = [enDag({ dato: '2024-01-01' }), enDag({ dato: '2024-01-02' })];
         const periode = enBeregnetPeriode({ fom: '2024-01-01', tom: '2024-01-02', tidslinje }).somErTilGodkjenning();
@@ -150,7 +149,6 @@ describe('Utbetaling', () => {
     });
 
     it('viser en dag uten fordeling når fordelingen er fjernet', () => {
-        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
         (useIsReadOnlyOppgave as Mock).mockReturnValue(true);
         const tidslinje = [enDag({ dato: '2024-01-01' })];
         const periode = enBeregnetPeriode({ fom: '2024-01-01', tom: '2024-01-01', tidslinje }).somErTilGodkjenning();

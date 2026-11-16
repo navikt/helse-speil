@@ -1,6 +1,5 @@
-import { Mock, vi } from 'vitest';
+import { vi } from 'vitest';
 
-import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import {
     ApiGraderteAndreYtelserDag,
     ApiGraderteAndreYtelserEvent,
@@ -15,8 +14,6 @@ import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
 
 import { Utbetalingstabell } from './Utbetalingstabell';
 import { Helgedag, Sykedag } from './utbetalingstabelldager';
-
-vi.mock('@hooks/brukerrolleHooks', () => ({ useErCoachFagkoordinatorEllerSupersaksbehandler: vi.fn() }));
 
 vi.mock('./useAlderVedSkjæringstidspunkt', () => ({
     useAlderVedSkjæringstidspunkt: () => 30,
@@ -50,10 +47,6 @@ const dager = new Map<string, Utbetalingstabelldag>([
 ]);
 
 describe('Utbetalingstabell', () => {
-    beforeEach(() => {
-        (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(false);
-    });
-
     it('rendrer headere, totalrad og dagrader', () => {
         render(
             <Utbetalingstabell
@@ -68,18 +61,7 @@ describe('Utbetalingstabell', () => {
         expect(screen.getAllByRole('row')).toHaveLength(7);
     });
 
-    it('viser ikke kolonnen for andre ytelser uten togglen', () => {
-        rendrerTabell([enGradertAnnenYtelseDag('2022-01-03')]);
-
-        expect(screen.queryByRole('columnheader', { name: 'Andre ytelser' })).not.toBeInTheDocument();
-        expect(screen.queryByText('Pleiepenger, foreldrepenger')).not.toBeInTheDocument();
-    });
-
-    describe('med togglen for graderte andre ytelser', () => {
-        beforeEach(() => {
-            (useErCoachFagkoordinatorEllerSupersaksbehandler as Mock).mockReturnValue(true);
-        });
-
+    describe('graderte andre ytelser', () => {
         it('viser kolonnen «Andre ytelser» etter Grad', () => {
             rendrerTabell([]);
 

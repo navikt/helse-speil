@@ -5,7 +5,6 @@ import { HStack, Table } from '@navikt/ds-react';
 
 import { Arbeidsgiverikon } from '@components/ikoner/Arbeidsgiverikon';
 import { Sykmeldtikon } from '@components/ikoner/Sykmeldtikon';
-import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { ApiGraderteAndreYtelser } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import { ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
@@ -60,7 +59,6 @@ export const Utbetalingstabell = ({
 }: UtbetalingstabellProps): ReactElement => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
-    const visAndreYtelser = useErCoachFagkoordinatorEllerSupersaksbehandler();
     const graderteAndreYtelserPerDato = new Map(graderteAndreYtelser?.dager.map((dag) => [dag.dato, dag]));
 
     const formattedFom = getFormattedDateString(fom);
@@ -85,11 +83,9 @@ export const Utbetalingstabell = ({
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Grad
                             </Table.ColumnHeader>
-                            {visAndreYtelser && (
-                                <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
-                                    Andre ytelser
-                                </Table.ColumnHeader>
-                            )}
+                            <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
+                                Andre ytelser
+                            </Table.ColumnHeader>
                             <Table.ColumnHeader className={styles.header} scope="col" colSpan={1}>
                                 Kilde
                             </Table.ColumnHeader>
@@ -125,7 +121,6 @@ export const Utbetalingstabell = ({
                                 dager={dagerList}
                                 overstyrer={overstyrer}
                                 erSelvstendigNæring={erSelvstendigNæring}
-                                visAndreYtelser={visAndreYtelser}
                             />
                         )}
                         {dagerList.map((tabelldag, i) => {
@@ -146,14 +141,12 @@ export const Utbetalingstabell = ({
                                     <DateCell date={tabelldag.dato} />
                                     <DagtypeCell tabelldag={tabelldag} overstyrtDag={overstyrtDag} />
                                     <GradCell tabelldag={tabelldag} overstyrtDag={overstyrtDag} />
-                                    {visAndreYtelser && (
-                                        <AndreYtelserCell
-                                            dagtype={tabelldag.dag.speilDagtype}
-                                            graderteAndreYtelserDag={graderteAndreYtelserPerDato.get(tabelldag.dato)}
-                                            endringer={endringerForDato(graderteAndreYtelser, tabelldag.dato)}
-                                            endretFordeling={endretFordeling}
-                                        />
-                                    )}
+                                    <AndreYtelserCell
+                                        dagtype={tabelldag.dag.speilDagtype}
+                                        graderteAndreYtelserDag={graderteAndreYtelserPerDato.get(tabelldag.dato)}
+                                        endringer={endringerForDato(graderteAndreYtelser, tabelldag.dato)}
+                                        endretFordeling={endretFordeling}
+                                    />
                                     <KildeCell
                                         type={tabelldag.dag.speilDagtype}
                                         kilde={tabelldag.kilde.type}
@@ -188,11 +181,7 @@ export const Utbetalingstabell = ({
                                         style={{ width: '100%' }}
                                         dag={tabelldag}
                                         alderVedSkjæringstidspunkt={alderVedSkjæringstidspunkt}
-                                        graderteAndreYtelserDag={
-                                            visAndreYtelser
-                                                ? graderteAndreYtelserPerDato.get(tabelldag.dato)
-                                                : undefined
-                                        }
+                                        graderteAndreYtelserDag={graderteAndreYtelserPerDato.get(tabelldag.dato)}
                                         endredeYtelser={
                                             endretFordeling
                                                 ? Object.keys(endretFordeling.andreYtelserGrader)
