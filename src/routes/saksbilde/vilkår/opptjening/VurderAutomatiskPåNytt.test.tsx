@@ -36,7 +36,6 @@ vi.mock('@state/serverSentEvents', async (importOriginal) => ({
 vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
     useHarSkrivetilgang: () => true,
-    useErCoachFagkoordinatorEllerSupersaksbehandler: () => true,
 }));
 
 beforeEach(() => {

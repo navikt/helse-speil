@@ -26,11 +26,6 @@ vi.mock('@state/serverSentEvents', async (importOriginal) => ({
     useHåndterNyttEvent: () => {},
 }));
 
-vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
-    useErCoachFagkoordinatorEllerSupersaksbehandler: () => true,
-}));
-
 const automatiskInnslag: ApiOpptjeningshistorikkInnslag = {
     vurdertTidspunkt: '2025-04-01T10:03:00.000Z',
     opptjeningsvurdering: medId(automatiskIkkeOppfyltArbeidMinst4Uker, 'opptjeningsvurdering-1', {

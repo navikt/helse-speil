@@ -33,17 +33,7 @@ vi.mock('@state/serverSentEvents', async (importOriginal) => ({
     useHåndterNyttEvent: () => {},
 }));
 
-const brukerrolleMock = vi.hoisted(() => ({
-    erCoachFagkoordinatorEllerSupersaksbehandler: true,
-}));
-
-vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
-    useErCoachFagkoordinatorEllerSupersaksbehandler: () => brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler,
-}));
-
 beforeEach(() => {
-    brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = true;
     settOppOpptjeningsmocker();
 });
 
@@ -98,15 +88,6 @@ describe('Opptjening', () => {
         const automatiskVurdering = within(opptjeningsvilkår()).getByText(/Vurdert automatisk/, { selector: 'span' });
         expect(automatiskVurdering).toBeVisible();
         expect(automatiskVurdering).not.toHaveAttribute('data-sensitive');
-    });
-
-    it('skjuler vurderingsknappene når saksbehandler ikke er coach, fagkoordinator eller supersaksbehandler', () => {
-        brukerrolleMock.erCoachFagkoordinatorEllerSupersaksbehandler = false;
-
-        renderOpptjening(false);
-
-        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
-        expect(screen.queryByRole('button', { name: 'Vurder automatisk på nytt' })).not.toBeInTheDocument();
     });
 
     it('skjuler vurder vilkår-knappen når vilkåret er automatisk oppfylt', () => {

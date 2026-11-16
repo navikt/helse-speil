@@ -3,7 +3,6 @@ import { ReactElement, useId } from 'react';
 import { Button, HStack, Heading, Loader, Skeleton, VStack } from '@navikt/ds-react';
 
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
-import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import { VilkårsutfallIkon } from '@saksbilde/vilkår/vilkårsutfall';
 import { cn } from '@utils/tw';
 
@@ -35,8 +34,7 @@ export function Opptjening({
 }: OpptjeningProps): ReactElement {
     const { data, isLoading, isError, utfall, vurderingFor } = opptjeningsvurdering;
     const tittelId = useId();
-    const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
-    const kanVurdere = !readOnly && !serPåTidligereBehandling && erCoachFagkoordinatorEllerSupersaksbehandler;
+    const kanVurdere = !readOnly && !serPåTidligereBehandling;
     const kanVurdereManuelt = kanVurdere && data && !erAutomatiskOppfylt(opptjeningsvilkår(vurderingFor));
 
     return (
