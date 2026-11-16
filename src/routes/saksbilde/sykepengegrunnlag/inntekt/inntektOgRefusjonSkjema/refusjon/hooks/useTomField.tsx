@@ -17,8 +17,15 @@ export const useTomField = (fom: string, tom: string | undefined, index: number)
         validate: {
             måHaGyldigFormat: (value) =>
                 value == undefined || dayjs(value, ISO_DATOFORMAT, true).isValid() || 'Datoen må ha format dd.mm.åååå',
-            fomKanIkkeværeEtterTom: (value) =>
-                tom == undefined || dayjs(value).isSameOrAfter(fom) || 'Tom kan ikke være før fom',
+            fomKanIkkeværeEtterTom: (value, formValues) => {
+                const gjeldendeFom = formValues.refusjonsopplysninger[index]?.fom;
+                return (
+                    value == undefined ||
+                    !dayjs(value, ISO_DATOFORMAT, true).isValid() ||
+                    dayjs(value).isSameOrAfter(gjeldendeFom) ||
+                    'Tom kan ikke være før fom'
+                );
+            },
         },
     });
 

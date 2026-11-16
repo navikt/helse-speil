@@ -7,7 +7,7 @@ import { useDatepicker } from '@navikt/ds-react';
 import { RefusjonFormValues } from '@saksbilde/sykepengegrunnlag/inntekt/inntektOgRefusjonSkjema/refusjon/hooks/useRefusjonFormField';
 import { ISO_DATOFORMAT, NORSK_DATOFORMAT, somDate, somNorskDato } from '@utils/date';
 
-export const useFomField = (fom: string, tom: string | undefined, index: number) => {
+export const useFomField = (fom: string, index: number) => {
     const { register, setValue, clearErrors } = useFormContext<RefusjonFormValues>();
     const [fomValue, setFomValue] = useState<string>(somNorskDato(fom) ?? fom);
 
@@ -16,8 +16,15 @@ export const useFomField = (fom: string, tom: string | undefined, index: number)
         validate: {
             måHaGyldigFormat: (value) =>
                 value == undefined || dayjs(value, ISO_DATOFORMAT, true).isValid() || 'Datoen må ha format dd.mm.åååå',
-            fomKanIkkeværeEtterTom: (value) =>
-                tom == undefined || dayjs(value).isSameOrBefore(tom) || 'Fom kan ikke være etter tom',
+            fomKanIkkeværeEtterTom: (value, formValues) => {
+                const gjeldendeTom = formValues.refusjonsopplysninger[index]?.tom;
+                return (
+                    gjeldendeTom == undefined ||
+                    !dayjs(gjeldendeTom, ISO_DATOFORMAT, true).isValid() ||
+                    dayjs(value).isSameOrBefore(gjeldendeTom) ||
+                    'Fom kan ikke være etter tom'
+                );
+            },
         },
     });
 

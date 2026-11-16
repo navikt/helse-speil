@@ -25,7 +25,7 @@ export const RefusjonsperiodeInput = ({
     const {
         fomField,
         fomDatePicker: { datepickerProps: fomDatePickerProps, inputProps: fomInputProps },
-    } = useFomField(fom, tom, index);
+    } = useFomField(fom, index);
     const {
         tomField,
         tomDatePicker: { datepickerProps: tomDatePickerProps, inputProps: tomInputProps },

@@ -93,4 +93,37 @@ describe('Refusjonskjema', () => {
         expect(await screen.findByText('Datoen må ha format dd.mm.åååå')).toBeInTheDocument();
         expect(tomFelt).toHaveValue('32.13.2020');
     });
+
+    it('skal vise feilmelding når innskrevet til og med dato er før fra og med dato i en åpen periode', async () => {
+        render(<TestRefusjonSkjema fraRefusjonsopplysninger={en_refusjonsopplysning} />);
+        const fomFelt = await screen.findByLabelText('Fra og med dato');
+        const tomFelt = screen.getByLabelText('Til og med dato');
+        await userEvent.clear(fomFelt);
+        await userEvent.type(fomFelt, '14.09.2026');
+        await userEvent.type(tomFelt, '13.09.2026');
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(await screen.findByText('Tom kan ikke være før fom')).toBeInTheDocument();
+        expect(screen.getByText('Fom kan ikke være etter tom')).toBeInTheDocument();
+    });
+
+    it('skal vise feilmelding når både fra og med og til og med endres slik at tom blir før fom', async () => {
+        render(
+            <TestRefusjonSkjema
+                fraRefusjonsopplysninger={[
+                    { fom: '2020-01-01', tom: '2020-02-01', beløp: 30000, kilde: 'SAKSBEHANDLER' },
+                ]}
+            />,
+        );
+        const fomFelt = await screen.findByLabelText('Fra og med dato');
+        const tomFelt = screen.getByLabelText('Til og med dato');
+        await userEvent.clear(fomFelt);
+        await userEvent.type(fomFelt, '15.01.2020');
+        await userEvent.clear(tomFelt);
+        await userEvent.type(tomFelt, '10.01.2020');
+        await userEvent.click(screen.getByRole('button', { name: 'Lagre' }));
+
+        expect(await screen.findByText('Tom kan ikke være før fom')).toBeInTheDocument();
+        expect(screen.getByText('Fom kan ikke være etter tom')).toBeInTheDocument();
+    });
 });
