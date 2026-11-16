@@ -124,6 +124,8 @@ describe('Inngangsvilkår', () => {
         const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
         expect(within(medlemskap).getByText('Lovvalg og medlemskap')).toBeVisible();
         expect(within(medlemskap).getByText('Oppfylt', { selector: '.aksel-tag' })).toBeVisible();
+        expect(within(medlemskap).getByText(/^Vurdert automatisk/, { selector: '.aksel-tag' })).toBeVisible();
+        expect(within(medlemskap).queryByText(/^LovMe/)).not.toBeInTheDocument();
     });
 
     it('viser ikke oppfylt/ikke vurdert-utfall for sykepengegrunnlag og medlemskap', () => {
@@ -142,6 +144,8 @@ describe('Inngangsvilkår', () => {
 
         const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
         expect(within(medlemskap).getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
+        expect(within(medlemskap).queryByText(/^Vurdert automatisk/)).not.toBeInTheDocument();
+        expect(within(medlemskap).queryByText(/LovMe/)).not.toBeInTheDocument();
     });
 
     it('viser "Vurdert i Infotrygd" som utfall-tag når vilkårsgrunnlaget er fra Infotrygd', () => {
@@ -186,7 +190,7 @@ describe('Inngangsvilkår', () => {
             };
         });
 
-        it('viser vurderingen fra sp-medlemskap', () => {
+        it('viser vurderingen fra sp-medlemskap', async () => {
             render(
                 <InngangsvilkårWithContent
                     vilkårsgrunnlag={getVilkårsgrunnlagSpleis({ medlemskapsvurderingId: 'en-medlemskapsvurdering-id' })}
@@ -197,7 +201,13 @@ describe('Inngangsvilkår', () => {
 
             expect(medlemskapQuery.kall).toContain('en-medlemskapsvurdering-id');
             const medlemskap = screen.getByRole('region', { name: 'Lovvalg og medlemskap' });
-            expect(within(medlemskap).getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
+            expect(within(medlemskap).getByText('Må vurderes', { selector: '.aksel-tag' })).toBeVisible();
+            expect(within(medlemskap).queryByText(/^Vurdert automatisk/)).not.toBeInTheDocument();
+            expect(within(medlemskap).getByText(/^\(LovMe 02\.01\.2022 kl\./)).toBeVisible();
+            const funn = within(medlemskap).getByRole('button', { name: 'Funn fra Lovvalg og medlemskap' });
+            expect(funn).toHaveAttribute('aria-expanded', 'false');
+            await userEvent.click(funn);
+            expect(funn).toHaveAttribute('aria-expanded', 'true');
             expect(within(medlemskap).getByText('Arbeid utenfor Norge (SP6001)')).toBeVisible();
         });
 
@@ -287,7 +297,7 @@ describe('Inngangsvilkår', () => {
                 expect(within(nyeste!).getByText('Oppfylt')).toBeVisible();
                 expect(within(nyeste!).getByText('Jobber i Norge')).toBeVisible();
                 expect(within(nyeste!).getByText('S123456')).toHaveAttribute('data-sensitive');
-                expect(within(eldste!).getByText('Ikke vurdert')).toBeVisible();
+                expect(within(eldste!).getByText('Må vurderes')).toBeVisible();
                 expect(within(eldste!).getByText('Automatisk')).toBeVisible();
             });
 

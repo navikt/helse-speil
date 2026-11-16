@@ -10,7 +10,7 @@ import {
     ApiVurderingsgrunnlagArbeidsforhold,
     ApiVurderingskilde,
 } from '@io/rest/generated/vilkarsproving.schemas';
-import { VilkårsutfallTag, VurdertAvSaksbehandler } from '@saksbilde/vilkår/vilkårsutfall';
+import { VilkårsutfallTag, VurdertAvSaksbehandler, utfallstekst } from '@saksbilde/vilkår/vilkårsutfall';
 import { getFormattedDatetimeString, somNorskDato } from '@utils/date';
 
 import { ArbeidsforholdIGrunnlaget } from './ArbeidsforholdIGrunnlaget';
@@ -40,7 +40,7 @@ export function Opptjeningsdetaljer({ vurderingFor, visDetaljer = false }: Opptj
 
     return (
         <VStack gap="space-8">
-            <VilkårsutfallTag utfall={utfall}>{vurdertTekst(vurdering)}</VilkårsutfallTag>
+            <VilkårsutfallTag>{vurdertTekst(vurdering) ?? utfallstekst(utfall)}</VilkårsutfallTag>
             {saksbehandlerkilde && (
                 <dl className="m-0 grid w-fit grid-cols-[auto_auto] gap-x-6 gap-y-1">
                     {saksbehandlerkilde.opptjeningsaktiviteter.length > 0 && (

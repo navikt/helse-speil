@@ -4,8 +4,7 @@ import { BodyShort, Dialog, Table, VStack } from '@navikt/ds-react';
 
 import { Medlemskapsdetaljer } from '@saksbilde/vilkår/medlemskap/Medlemskap';
 import { Medlemskapsendring } from '@saksbilde/vilkår/medlemskap/useMedlemskapshistorikk';
-import { utfallFraStatus } from '@saksbilde/vilkår/medlemskap/useMedlemskapsvurdering';
-import { utfallstekst } from '@saksbilde/vilkår/vilkårsutfall';
+import { medlemskapsutfalltekst } from '@saksbilde/vilkår/medlemskap/useMedlemskapsvurdering';
 import { getFormattedDatetimeString } from '@utils/date';
 
 type EndringsloggMedlemskapProps = {
@@ -47,9 +46,7 @@ export function EndringsloggMedlemskap({ endringer, onOpenChange }: Endringslogg
                                 >
                                     <Table.DataCell>{getFormattedDatetimeString(endring.tidspunkt)}</Table.DataCell>
                                     <Table.DataCell>{endring.vilkår}</Table.DataCell>
-                                    <Table.DataCell>
-                                        {utfallstekst(utfallFraStatus(endring.vurdering.status))}
-                                    </Table.DataCell>
+                                    <Table.DataCell>{medlemskapsutfalltekst(endring.vurdering.status)}</Table.DataCell>
                                     <Table.DataCell>
                                         <BodyShort className="max-w-75">{endring.begrunnelse}</BodyShort>
                                     </Table.DataCell>

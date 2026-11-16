@@ -1,4 +1,4 @@
-import { PropsWithChildren, ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 
 import { CheckmarkCircleFillIcon, ExclamationmarkTriangleFillIcon, XMarkOctagonFillIcon } from '@navikt/aksel-icons';
 import { HStack, Tag } from '@navikt/ds-react';
@@ -26,15 +26,10 @@ export function VilkårsutfallIkon({ utfall }: { utfall: Vilkårsutfall }): Reac
     }
 }
 
-export function VilkårsutfallTag({
-    utfall,
-    children,
-}: PropsWithChildren<{
-    utfall: Vilkårsutfall;
-}>): ReactElement {
+export function VilkårsutfallTag({ children }: { children: ReactNode }): ReactElement {
     return (
         <Tag size="xsmall" variant="outline" data-color="neutral" className="self-start">
-            {children ?? utfallstekst(utfall)}
+            {children}
         </Tag>
     );
 }

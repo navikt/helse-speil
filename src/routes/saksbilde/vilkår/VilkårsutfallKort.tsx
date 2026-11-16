@@ -2,7 +2,7 @@ import { PropsWithChildren, ReactElement, ReactNode, useId } from 'react';
 
 import { HStack, Heading, VStack } from '@navikt/ds-react';
 
-import { Vilkårsutfall, VilkårsutfallIkon, VilkårsutfallTag } from './vilkårsutfall';
+import { Vilkårsutfall, VilkårsutfallIkon, VilkårsutfallTag, utfallstekst } from './vilkårsutfall';
 
 interface VilkårsutfallKortProps {
     tittel: ReactNode;
@@ -32,7 +32,7 @@ export function VilkårsutfallKort({
                 {paragraf}
             </HStack>
             <VStack gap="space-8" className="pl-9">
-                <VilkårsutfallTag utfall={utfall}>{vurdertTekst}</VilkårsutfallTag>
+                <VilkårsutfallTag>{vurdertTekst ?? utfallstekst(utfall)}</VilkårsutfallTag>
                 {children}
             </VStack>
         </VStack>

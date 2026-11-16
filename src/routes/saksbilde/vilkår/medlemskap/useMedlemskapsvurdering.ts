@@ -68,3 +68,14 @@ export function utfallFraStatus(status?: ApiMedlemskapsstatus): Vilkårsutfall {
             return 'IkkeVurdert';
     }
 }
+
+const medlemskapsutfalltekster: Record<ApiMedlemskapsstatus, string> = {
+    [ApiMedlemskapsstatus.JA]: 'Oppfylt',
+    [ApiMedlemskapsstatus.NEI]: 'Ikke oppfylt',
+    [ApiMedlemskapsstatus.UAVKLART]: 'Ikke vurdert',
+    [ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL]: 'Må vurderes',
+};
+
+export function medlemskapsutfalltekst(status: ApiMedlemskapsstatus): string {
+    return medlemskapsutfalltekster[status];
+}

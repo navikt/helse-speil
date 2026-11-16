@@ -1,11 +1,12 @@
 import { ReactElement, ReactNode, useId } from 'react';
 
-import { BodyShort, Button, HStack, Heading, List, Loader, Skeleton, VStack } from '@navikt/ds-react';
+import { BodyShort, Button, HStack, Heading, List, Loader, ReadMore, Skeleton, VStack } from '@navikt/ds-react';
 
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
 import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import {
     ApiKildetype,
+    ApiMedlemskapsstatus,
     ApiMedlemskapsvurdering,
     ApiVurderingskildeAutomatisk,
     ApiVurderingskildeSaksbehandler,
@@ -17,7 +18,7 @@ import { cn } from '@utils/tw';
 
 import { EndringsloggMedlemskapButton } from './EndringsloggMedlemskapButton';
 import { Medlemskapsendring } from './useMedlemskapshistorikk';
-import { Medlemskapsvurdering, utfallFraStatus } from './useMedlemskapsvurdering';
+import { Medlemskapsvurdering, medlemskapsutfalltekst } from './useMedlemskapsvurdering';
 
 interface MedlemskapProps {
     medlemskapsvurdering: Medlemskapsvurdering;
@@ -54,7 +55,6 @@ export function Medlemskap({
             aria-labelledby={tittelId}
             gap="space-16"
             className={cn('-mr-[3px] -ml-1 px-1 pt-6 pb-6', {
-                // Dekker den blå kanten til vurderingspanelet, så seksjonen og skjemaet henger sammen
                 'relative z-10 bg-ax-bg-accent-soft': vurderer,
             })}
         >
@@ -95,16 +95,23 @@ export function Medlemskap({
 
 export function Medlemskapsdetaljer({ vurdering }: { vurdering: ApiMedlemskapsvurdering }): ReactElement {
     const { kilde } = vurdering;
-    const utfall = utfallFraStatus(vurdering.status);
-    const vurdert = vurdertTekst(vurdering);
+    const vurderingskilde = vurderingskildeTekst(vurdering);
+    const erUavklart =
+        vurdering.status === ApiMedlemskapsstatus.UAVKLART ||
+        vurdering.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL;
     return (
         <>
             <HStack gap="space-8">
-                <VilkårsutfallTag utfall={utfall} />
-                {vurdert && vurdert !== '' && <VilkårsutfallTag utfall={utfall}>{vurdert}</VilkårsutfallTag>}
+                <VilkårsutfallTag>{medlemskapsutfalltekst(vurdering.status)}</VilkårsutfallTag>
+                {!erUavklart && vurderingskilde && vurderingskilde !== '' && (
+                    <VilkårsutfallTag>{vurderingskilde}</VilkårsutfallTag>
+                )}
             </HStack>
             {kilde.kildetype === ApiKildetype.AUTOMATISK && (
                 <Årsaker årsaker={(kilde as ApiVurderingskildeAutomatisk).årsaker} />
+            )}
+            {vurdering.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL && (
+                <BodyShort size="small">{`(LovMe ${getFormattedDatetimeString(vurdering.vurdertTidspunkt)})`}</BodyShort>
             )}
             {kilde.kildetype === ApiKildetype.SAKSBEHANDLER && (
                 <BodyShort size="small" className="whitespace-pre-wrap">
@@ -118,22 +125,24 @@ export function Medlemskapsdetaljer({ vurdering }: { vurdering: ApiMedlemskapsvu
 function Årsaker({ årsaker }: { årsaker: ApiVurderingskildeAutomatisk['årsaker'] }): ReactElement | null {
     if (årsaker.length === 0) return null;
     return (
-        <VStack gap="space-4">
-            <BodyShort size="small" weight="semibold">
-                Årsaker til uavklart svar
-            </BodyShort>
-            <List size="small">
-                {årsaker.map((årsak) => (
-                    <List.Item key={årsak.regelId}>
-                        {årsak.forklaringPaaUavklart} ({årsak.regelId})
-                    </List.Item>
-                ))}
-            </List>
-        </VStack>
+        <ReadMore size="small" header="Funn fra Lovvalg og medlemskap">
+            <VStack gap="space-4">
+                <BodyShort size="small" textColor="subtle">
+                    Lovvalg og medlemskap er Navs tjeneste for automatisk vurdering av lovvalg og medlemskap
+                </BodyShort>
+                <List size="small">
+                    {årsaker.map((årsak) => (
+                        <List.Item key={årsak.regelId}>
+                            {årsak.forklaringPaaUavklart} ({årsak.regelId})
+                        </List.Item>
+                    ))}
+                </List>
+            </VStack>
+        </ReadMore>
     );
 }
 
-function vurdertTekst({ kilde, vurdertTidspunkt }: ApiMedlemskapsvurdering): ReactNode {
+function vurderingskildeTekst({ kilde, vurdertTidspunkt }: ApiMedlemskapsvurdering): ReactNode {
     const tidspunkt = getFormattedDatetimeString(vurdertTidspunkt);
     switch (kilde.kildetype) {
         case ApiKildetype.AUTOMATISK:

@@ -33,7 +33,7 @@ describe('Medlemskap', () => {
         toggles.kanOverstyreMedlemskap = false;
         renderMedlemskap();
 
-        expect(screen.getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
+        expect(screen.getByText('Må vurderes', { selector: '.aksel-tag' })).toBeVisible();
         expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 
@@ -44,7 +44,7 @@ describe('Medlemskap', () => {
         };
         render(<Medlemskapsdetaljer vurdering={vurdering} />);
 
-        expect(screen.getByText('Ikke vurdert', { selector: '.aksel-tag' })).toBeVisible();
+        expect(screen.getByText('Må vurderes', { selector: '.aksel-tag' })).toBeVisible();
         expect(screen.queryByText('Oppfylt')).not.toBeInTheDocument();
     });
 });
