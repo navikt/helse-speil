@@ -33,7 +33,8 @@ vi.mock('@state/toggles', async (importOriginal) => ({
     useKanVurdereOppholdskrav: vi.fn(),
 }));
 
-vi.mock('@state/graderteAndreYtelser', () => ({
+vi.mock('@state/graderteAndreYtelser', async () => ({
+    ...(await vi.importActual('@state/graderteAndreYtelser')),
     useGraderteAndreYtelser: vi.fn(),
 }));
 

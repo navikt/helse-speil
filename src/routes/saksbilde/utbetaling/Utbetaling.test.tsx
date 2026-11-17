@@ -4,9 +4,10 @@ import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerro
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { ApiYrkesaktivitetstype } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import { ApiBeregnetPeriode, ApiInntektstype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
-import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
+import { useGraderteAndreYtelser, useGraderteAndreYtelserForPeriode } from '@state/graderteAndreYtelser';
 import { useAktivOppgaveForPeriode } from '@state/oppgave';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
+import { enBehandling } from '@test-data/behandling';
 import { enAktivOppgave } from '@test-data/oppgave';
 import { enBeregnetPeriode, enDag } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
@@ -22,8 +23,10 @@ vi.mock('@state/oppgave', async () => ({
     useAktivOppgaveForPeriode: vi.fn(),
 }));
 
-vi.mock('@state/graderteAndreYtelser', () => ({
+vi.mock('@state/graderteAndreYtelser', async () => ({
+    ...(await vi.importActual('@state/graderteAndreYtelser')),
     useGraderteAndreYtelser: vi.fn(),
+    useGraderteAndreYtelserForPeriode: vi.fn(),
 }));
 vi.mock('@hooks/useIsReadOnlyOppgave', () => ({
     useIsReadOnlyOppgave: vi.fn(),
@@ -133,10 +136,9 @@ describe('Utbetaling', () => {
         const periode = enBeregnetPeriode({ fom: '2024-01-01', tom: '2024-01-02', tidslinje }).somErTilGodkjenning();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-        (useGraderteAndreYtelser as Mock).mockReturnValue([
+        (useGraderteAndreYtelserForPeriode as Mock).mockReturnValue(
             graderteAndreYtelser(arbeidsgiver.organisasjonsnummer, { FORELDREPENGER: 40 }),
-            graderteAndreYtelser('999999999', { OMSORGSPENGER: 20 }),
-        ]);
+        );
 
         render(<Utbetaling person={person} periode={periode} />);
 
@@ -144,8 +146,6 @@ describe('Utbetaling', () => {
         expect(screen.getByRole('columnheader', { name: 'Andre ytelser' })).toBeVisible();
         expect(screen.getByText('40 %')).toBeVisible();
         expect(screen.getByText('Foreldrepenger')).toBeVisible();
-        expect(screen.queryByText('20 %')).not.toBeInTheDocument();
-        expect(screen.queryByText('Omsorgspenger')).not.toBeInTheDocument();
     });
 
     it('viser en dag uten fordeling når fordelingen er fjernet', () => {
@@ -154,7 +154,9 @@ describe('Utbetaling', () => {
         const periode = enBeregnetPeriode({ fom: '2024-01-01', tom: '2024-01-01', tidslinje }).somErTilGodkjenning();
         const arbeidsgiver = enArbeidsgiver().medPerioder([periode]);
         const person = enPerson().medArbeidsgivere([arbeidsgiver]);
-        (useGraderteAndreYtelser as Mock).mockReturnValue([graderteAndreYtelser(arbeidsgiver.organisasjonsnummer, {})]);
+        (useGraderteAndreYtelserForPeriode as Mock).mockReturnValue(
+            graderteAndreYtelser(arbeidsgiver.organisasjonsnummer, {}),
+        );
 
         render(<Utbetaling person={person} periode={periode} />);
 
@@ -164,7 +166,44 @@ describe('Utbetaling', () => {
         const rad = screen.getByRole('row', { name: /01\.01\.2024/ });
         expect(within(rad).getAllByRole('cell')[kolonne]).toHaveTextContent(/^-$/);
     });
+
+    it('viser fordelingen for perioden i en eldre behandling', () => {
+        (useIsReadOnlyOppgave as Mock).mockReturnValue(true);
+        const { arbeidsgiver, person, eldrePeriode } = personMedEldreBehandling();
+        (useGraderteAndreYtelserForPeriode as Mock).mockReturnValue(
+            graderteAndreYtelser(arbeidsgiver.organisasjonsnummer, { OMSORGSPENGER: 20 }),
+        );
+
+        render(<Utbetaling person={person} periode={eldrePeriode} />);
+
+        expect(useGraderteAndreYtelserForPeriode).toHaveBeenCalledWith(
+            eldrePeriode,
+            expect.objectContaining({ organisasjonsnummer: arbeidsgiver.organisasjonsnummer }),
+        );
+        expect(screen.getByText('20 %')).toBeVisible();
+        expect(screen.getByText('Omsorgspenger')).toBeVisible();
+    });
 });
+
+function personMedEldreBehandling() {
+    const tidslinje = [enDag({ dato: '2024-01-01' })];
+    const eldrePeriode = enBeregnetPeriode({
+        fom: '2024-01-01',
+        tom: '2024-01-01',
+        tidslinje,
+    });
+    const gjeldendePeriode = enBeregnetPeriode({
+        fom: '2024-01-01',
+        tom: '2024-01-01',
+        tidslinje,
+        vedtaksperiodeId: eldrePeriode.vedtaksperiodeId,
+    }).somErTilGodkjenning();
+    const arbeidsgiver = enArbeidsgiver({
+        behandlinger: [enBehandling({ perioder: [gjeldendePeriode] }), enBehandling({ perioder: [eldrePeriode] })],
+    });
+    const person = enPerson().medArbeidsgivere([arbeidsgiver]);
+    return { arbeidsgiver, person, eldrePeriode };
+}
 
 function graderteAndreYtelser(organisasjonsnummer: string, andreYtelserGrader: Record<string, number>) {
     return {

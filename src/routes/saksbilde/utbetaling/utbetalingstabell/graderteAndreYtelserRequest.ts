@@ -4,15 +4,12 @@ import {
     ApiEndreGraderteAndreYtelserRequest,
     ApiGraderteAndreYtelser,
     ApiGraderteAndreYtelserDag,
-    ApiYrkesaktivitetstype,
 } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
+import { finnGraderteAndreYtelser, tilYrkesaktivitet } from '@state/graderteAndreYtelser';
 import { Inntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { GradertAnnenYtelse, Utbetalingstabelldag } from '@typer/utbetalingstabell';
-import { isArbeidsgiver } from '@utils/typeguards';
 
 import { samletGrad } from './graderteAndreYtelserUtils';
-
-type Yrkesaktivitet = Pick<ApiEndreGraderteAndreYtelserRequest, 'yrkesaktivitet' | 'organisasjonsnummer'>;
 
 export function tilGraderteAndreYtelserRequest({
     overstyrteDager,
@@ -44,25 +41,6 @@ export function harFordeling(
     lagretDag: ApiGraderteAndreYtelserDag | undefined,
 ): lagretDag is ApiGraderteAndreYtelserDag {
     return lagretDag !== undefined && Object.keys(lagretDag.andreYtelserGrader).length > 0;
-}
-
-export function finnGraderteAndreYtelser(
-    graderteAndreYtelser: ApiGraderteAndreYtelser[],
-    inntektsforhold: Inntektsforhold,
-): ApiGraderteAndreYtelser | undefined {
-    const { yrkesaktivitet, organisasjonsnummer } = tilYrkesaktivitet(inntektsforhold);
-    return graderteAndreYtelser.find(
-        (it) => it.yrkesaktivitet === yrkesaktivitet && (it.organisasjonsnummer ?? null) === organisasjonsnummer,
-    );
-}
-
-function tilYrkesaktivitet(inntektsforhold: Inntektsforhold): Yrkesaktivitet {
-    return isArbeidsgiver(inntektsforhold)
-        ? {
-              yrkesaktivitet: ApiYrkesaktivitetstype.ARBEIDSTAKER,
-              organisasjonsnummer: inntektsforhold.organisasjonsnummer,
-          }
-        : { yrkesaktivitet: ApiYrkesaktivitetstype.SELVSTENDIG, organisasjonsnummer: null };
 }
 
 function tilGraderteAndreYtelserDag(

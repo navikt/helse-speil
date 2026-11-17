@@ -2966,6 +2966,8 @@ export interface ApiBeregnetPeriode {
     vedtakBegrunnelser: ApiVedtakBegrunnelse[];
     pensjonsgivendeInntekter: ApiPensjonsgivendeInntekt[];
     annulleringskandidater: ApiAnnulleringskandidat[];
+    /** @nullable */
+    graderteAndreYtelserVersjon?: string | null;
     type: ApiBeregnetPeriodeType;
 }
 

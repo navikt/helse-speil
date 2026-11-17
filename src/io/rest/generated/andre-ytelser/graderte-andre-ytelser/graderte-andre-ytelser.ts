@@ -286,3 +286,143 @@ export const usePostGraderteAndreYtelser = <
 > => {
     return useMutation(getPostGraderteAndreYtelserMutationOptions(options), queryClient);
 };
+export const getGetGraderteAndreYtelserVersjonUrl = (personPseudoId: string, versjon: string) => {
+    return `/api/andre-ytelser/personer/${personPseudoId}/graderte-andre-ytelser/versjoner/${versjon}`;
+};
+
+export const getGraderteAndreYtelserVersjon = async (
+    personPseudoId: string,
+    versjon: string,
+    options?: RequestInit,
+): Promise<ApiGraderteAndreYtelser> => {
+    const res = await fetch(getGetGraderteAndreYtelserVersjonUrl(personPseudoId, versjon), {
+        ...options,
+        method: 'GET',
+    });
+
+    const body = [204, 205, 304].includes(res.status) ? null : await res.text();
+    if (!res.ok) {
+        const err: globalThis.Error & { info?: ApiGraderteAndreYtelser; status?: number } = new globalThis.Error();
+        const data: ApiGraderteAndreYtelser = body ? JSON.parse(body) : {};
+        err.info = data;
+        err.status = res.status;
+        throw err;
+    }
+    const data: ApiGraderteAndreYtelser = body ? JSON.parse(body) : {};
+    return data;
+};
+
+export const getGetGraderteAndreYtelserVersjonQueryKey = (personPseudoId: string, versjon: string) => {
+    return [`/api/andre-ytelser/personer/${personPseudoId}/graderte-andre-ytelser/versjoner/${versjon}`] as const;
+};
+
+export const useGetGraderteAndreYtelserVersjonQueryOptions = <
+    TData = Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personPseudoId: string,
+    versjon: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+) => {
+    const { query: queryOptions, fetch: fetchOptions } = options ?? {};
+
+    const queryKey = queryOptions?.queryKey ?? getGetGraderteAndreYtelserVersjonQueryKey(personPseudoId, versjon);
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>> = ({ signal }) =>
+        getGraderteAndreYtelserVersjon(personPseudoId, versjon, { signal, ...fetchOptions });
+
+    const customOptions = withDefaultQueryOptions({
+        queryKey,
+        queryFn,
+        enabled: personPseudoId !== null && personPseudoId !== undefined && versjon !== null && versjon !== undefined,
+        ...queryOptions,
+    });
+
+    return customOptions as UseQueryOptions<
+        Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>,
+        TError,
+        TData
+    > & { queryKey: DataTag<QueryKey, TData, TError> };
+};
+
+export type GetGraderteAndreYtelserVersjonQueryResult = NonNullable<
+    Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>
+>;
+export type GetGraderteAndreYtelserVersjonQueryError = globalThis.Error & { info?: ProblemDetails; status?: number };
+
+export function useGetGraderteAndreYtelserVersjon<
+    TData = Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personPseudoId: string,
+    versjon: string,
+    options: {
+        query: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>, TError, TData>> &
+            Pick<
+                DefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>,
+                    TError,
+                    Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetGraderteAndreYtelserVersjon<
+    TData = Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personPseudoId: string,
+    versjon: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>, TError, TData>> &
+            Pick<
+                UndefinedInitialDataOptions<
+                    Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>,
+                    TError,
+                    Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>
+                >,
+                'initialData'
+            >;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+export function useGetGraderteAndreYtelserVersjon<
+    TData = Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personPseudoId: string,
+    versjon: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+export function useGetGraderteAndreYtelserVersjon<
+    TData = Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>,
+    TError = globalThis.Error & { info?: ProblemDetails; status?: number },
+>(
+    personPseudoId: string,
+    versjon: string,
+    options?: {
+        query?: Partial<UseQueryOptions<Awaited<ReturnType<typeof getGraderteAndreYtelserVersjon>>, TError, TData>>;
+        fetch?: RequestInit;
+    },
+    queryClient?: QueryClient,
+): UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+    const queryOptions = useGetGraderteAndreYtelserVersjonQueryOptions(personPseudoId, versjon, options);
+
+    const query = useQuery(queryOptions, queryClient) as UseQueryResult<TData, TError> & {
+        queryKey: DataTag<QueryKey, TData, TError>;
+    };
+
+    return withQueryKey(query, queryOptions.queryKey);
+}

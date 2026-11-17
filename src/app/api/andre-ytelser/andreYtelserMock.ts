@@ -104,6 +104,28 @@ export function endreGraderteAndreYtelser(
     return { type: 'LAGRET', versjon: event.versjon, event };
 }
 
+export function hentGraderteAndreYtelserVedVersjon(
+    personPseudoId: string,
+    versjon: string,
+): ApiGraderteAndreYtelser | undefined {
+    const graderteAndreYtelser = (graderteAndreYtelserPerPerson.get(personPseudoId) ?? []).find((it) =>
+        it.events.some((event) => event.versjon === versjon),
+    );
+    if (!graderteAndreYtelser) return undefined;
+
+    const events = graderteAndreYtelser.events.slice(
+        0,
+        graderteAndreYtelser.events.findIndex((event) => event.versjon === versjon) + 1,
+    );
+    const dager = new Map(events.flatMap((event) => event.dager).map((dag) => [dag.dato, tilDag(dag)]));
+    return {
+        ...graderteAndreYtelser,
+        versjon,
+        dager: [...dager.values()].sort((a, b) => a.dato.localeCompare(b.dato)),
+        events,
+    };
+}
+
 export function hentVisning(
     personPseudoId: string,
     handlingId: string,
@@ -197,6 +219,17 @@ function endretFra(
         fraSykdomsgrad: fra?.sykdomsgrad ?? null,
         fraArbeidsgrad: fra?.arbeidsgrad ?? null,
         fraSykdomsgradFørFordeling: fra?.sykdomsgradFørFordeling ?? null,
+    };
+}
+
+function tilDag(dag: ApiGraderteAndreYtelserEndretDag): ApiGraderteAndreYtelserDag {
+    return {
+        dato: dag.dato,
+        andreYtelserGrader: dag.andreYtelserGrader,
+        sykdomsgrad: dag.sykdomsgrad,
+        arbeidsgrad: dag.arbeidsgrad,
+        sykdomsgradFørFordeling: dag.sykdomsgradFørFordeling,
+        begrunnelse: dag.begrunnelse,
     };
 }
 

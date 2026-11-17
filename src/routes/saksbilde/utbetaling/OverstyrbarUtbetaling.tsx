@@ -21,7 +21,7 @@ import { EndreDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringF
 import { GraderteAndreYtelserForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/GraderteAndreYtelserForm';
 import { tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
 import type { Dagendring } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/types';
-import { useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
+import { finnGraderteAndreYtelser, useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
 import { useKanVurdereOppholdskrav } from '@state/toggles';
 import { Utbetalingstabelldag } from '@typer/utbetalingstabell';
@@ -33,7 +33,6 @@ import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
 import { erReellEndring } from './utbetalingstabell/erReellEndring';
-import { finnGraderteAndreYtelser } from './utbetalingstabell/graderteAndreYtelserRequest';
 import { useOverstyrDager } from './utbetalingstabell/useOverstyrDager';
 
 const getKey = (dag: Utbetalingstabelldag) => dag.dato;
