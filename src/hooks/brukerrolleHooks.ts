@@ -35,3 +35,9 @@ export const useErCoachFagkoordinatorEllerSupersaksbehandler = () => {
         bruker?.brukerroller?.includes(ApiBrukerrolle.SUPERSAKSBEHANDLER)
     );
 };
+
+export function useKanSøkeISpoogle(): boolean {
+    const erCoach = useErBrukerrolle(ApiBrukerrolle.COACH);
+    const erSupersaksbehandler = useErBrukerrolle(ApiBrukerrolle.SUPERSAKSBEHANDLER);
+    return erCoach || erSupersaksbehandler;
+}

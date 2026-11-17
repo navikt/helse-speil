@@ -13,7 +13,7 @@ import { Personsøk } from '@components/header/Personsøk';
 import { SpoogleSøk } from '@components/header/SpoogleSøk';
 import { Nyheter } from '@components/header/nyheter/Nyheter';
 import { ToggleMenyButton } from '@components/header/toggleMeny/ToggleMenyButton';
-import { useHarUtviklerRolle } from '@hooks/brukerrolleHooks';
+import { useHarUtviklerRolle, useKanSøkeISpoogle } from '@hooks/brukerrolleHooks';
 import { useUtviklersnacks } from '@state/toggles';
 import { cn } from '@utils/tw';
 
@@ -22,6 +22,7 @@ import styles from './Header.module.css';
 export const Header = (): ReactElement => {
     const harUtviklerRolle = useHarUtviklerRolle();
     const utviklersnacks = useUtviklersnacks();
+    const kanSøkeISpoogle = useKanSøkeISpoogle();
     return (
         <InternalHeader
             className={cn(styles.header, backend !== 'deployed' && styles.localhostHeader, erDev && styles.devHeader)}
@@ -29,7 +30,9 @@ export const Header = (): ReactElement => {
             <InternalHeader.Title as={NextLink} href="/">
                 Nav Sykepenger
             </InternalHeader.Title>
-            <div className={styles.søkefelter}>{utviklersnacks ? <SpoogleSøk /> : <Personsøk />}</div>
+            <div className={styles.søkefelter}>
+                {utviklersnacks || kanSøkeISpoogle ? <SpoogleSøk /> : <Personsøk />}
+            </div>
             <EasterEgg />
             {(erUtvikling || harUtviklerRolle) && <ToggleMenyButton />}
             <Nyheter />
