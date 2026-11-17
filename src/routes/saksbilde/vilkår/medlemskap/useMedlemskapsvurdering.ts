@@ -1,13 +1,27 @@
 import { useState } from 'react';
 
+import { useFjernOppdatererToast } from '@hooks/useFjernOppdatererToast';
 import {
     ApiKildetype,
     ApiMedlemskapsstatus,
     ApiMedlemskapsvurdering,
     ApiVilkårsvurderingerForPersonResponse,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
-import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger';
+import {
+    getGetMedlemskapshistorikkBehandlerQueryKey,
+    getGetVilkårsvurderingerForPersonBehandlerQueryKey,
+    useGetVilkårsvurderingerForPersonBehandler,
+} from '@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger';
 import { Vilkårsutfall } from '@saksbilde/vilkår/vilkårsutfall';
+import {
+    visningenErOppdatertToast,
+    visningenErOppdatertToastKey,
+    visningenOppdateresToast,
+} from '@state/oppdateringToasts';
+import { erNyOppgaveEvent, useHåndterNyttEvent } from '@state/serverSentEvents';
+import { useAddToast, useRemoveToast } from '@state/toasts';
+import { useVisningenOppdateresState } from '@state/visningenOppdateres';
+import { useQueryClient } from '@tanstack/react-query';
 
 export interface Medlemskapsvurdering {
     data?: ApiVilkårsvurderingerForPersonResponse;
@@ -27,6 +41,25 @@ interface Overstyring {
 
 export function useMedlemskapsvurdering(personPseudoId: string, medlemskapsvurderingId: string): Medlemskapsvurdering {
     const [overstyring, setOverstyring] = useState<Overstyring | null>(null);
+    const queryClient = useQueryClient();
+    const addToast = useAddToast();
+    const removeToast = useRemoveToast();
+    const [visningenOppdateres, setVisningenOppdateres] = useVisningenOppdateresState();
+
+    useHåndterNyttEvent((event) => {
+        if (erNyOppgaveEvent(event) && visningenOppdateres) {
+            addToast(visningenErOppdatertToast({ callback: () => removeToast(visningenErOppdatertToastKey) }));
+            setVisningenOppdateres(false);
+            void queryClient.invalidateQueries({
+                queryKey: getGetVilkårsvurderingerForPersonBehandlerQueryKey(personPseudoId),
+            });
+            void queryClient.invalidateQueries({
+                queryKey: getGetMedlemskapshistorikkBehandlerQueryKey(personPseudoId),
+            });
+        }
+    });
+
+    useFjernOppdatererToast(visningenOppdateres);
 
     // Spleis lytter ikke på endrede medlemskapsvurderinger ennå, så vilkårsgrunnlaget beholder den gamle id-en.
     // Vi viser derfor den nye vurderingen til grunnlaget får en annen id.
@@ -54,6 +87,8 @@ export function useMedlemskapsvurdering(personPseudoId: string, medlemskapsvurde
                 medlemskapsvurderingId: nyMedlemskapsvurderingId,
                 medlemskapsvurderingIdFørOverstyring: medlemskapsvurderingId,
             });
+            setVisningenOppdateres(true);
+            addToast(visningenOppdateresToast({}));
         },
     };
 }

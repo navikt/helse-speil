@@ -15,7 +15,7 @@ import userEvent from '@testing-library/user-event';
 import { medOpptjening, mutateNyAutomatisk, renderOpptjening, settOppOpptjeningsmocker } from './opptjeningTestoppsett';
 
 const serverSentEventMock = vi.hoisted(() => ({
-    onEvent: undefined as ((event: { event: string; data: null }) => void) | undefined,
+    handlers: new Set<(event: { event: string; data: null }) => void>(),
 }));
 
 vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
@@ -26,12 +26,21 @@ vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (impor
     usePostNyAutomatiskVilkårsvurderingBehandler: vi.fn(),
 }));
 
-vi.mock('@state/serverSentEvents', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@state/serverSentEvents')>()),
-    useHåndterNyttEvent: (onEvent: (event: { event: string; data: null }) => void) => {
-        serverSentEventMock.onEvent = onEvent;
-    },
-}));
+// Både opptjening og medlemskap lytter på events, så alle monterte lyttere må få dem
+vi.mock('@state/serverSentEvents', async (importOriginal) => {
+    const { useEffect } = await import('react');
+    return {
+        ...(await importOriginal<typeof import('@state/serverSentEvents')>()),
+        useHåndterNyttEvent: (onEvent: (event: { event: string; data: null }) => void) => {
+            useEffect(() => {
+                serverSentEventMock.handlers.add(onEvent);
+                return () => {
+                    serverSentEventMock.handlers.delete(onEvent);
+                };
+            });
+        },
+    };
+});
 
 vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
@@ -162,7 +171,11 @@ function svarPåNyAutomatiskVurdering(svar: {
 }
 
 function sendNySaksbehandleroppgave() {
-    act(() => serverSentEventMock.onEvent?.({ event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE, data: null }));
+    act(() =>
+        [...serverSentEventMock.handlers].forEach((onEvent) =>
+            onEvent({ event: ApiServerSentEventEvent.NY_SAKSBEHANDLEROPPGAVE, data: null }),
+        ),
+    );
 }
 
 function forventOpptjeningenInvalidert(invalidateQueries: Mock) {
