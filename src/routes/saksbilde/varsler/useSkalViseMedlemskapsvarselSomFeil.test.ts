@@ -48,6 +48,18 @@ describe('useSkalViseMedlemskapsvarselSomFeil', () => {
         expect(result.current).toEqual({ skalViseSomFeil: false, henterStatus: true });
     });
 
+    it('viser varselet som feil når sp-medlemskap ikke svarer', () => {
+        (useGetVilkårsvurderingerForPersonBehandler as Mock).mockReturnValue({
+            data: undefined,
+            isLoading: false,
+            isError: true,
+        });
+
+        const { result } = renderHook(() => useSkalViseMedlemskapsvarselSomFeil());
+
+        expect(result.current).toEqual({ skalViseSomFeil: true, henterStatus: false });
+    });
+
     it('viser ikke varselet som feil uten overstyringstogglen', () => {
         (useKanOverstyreMedlemskap as Mock).mockReturnValue(false);
 

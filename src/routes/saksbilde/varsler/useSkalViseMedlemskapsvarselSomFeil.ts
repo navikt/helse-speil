@@ -22,7 +22,7 @@ export function useSkalViseMedlemskapsvarselSomFeil(): Medlemskapsvarselvisning 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
     const medlemskapsvurderingId = useVilkårsgrunnlag(person, periodeTilGodkjenning)?.medlemskapsvurderingId;
 
-    const { data, isLoading } = useGetVilkårsvurderingerForPersonBehandler(
+    const { data, isLoading, isError } = useGetVilkårsvurderingerForPersonBehandler(
         personPseudoId,
         { medlemskapsvurderingId: medlemskapsvurderingId ?? '' },
         { query: { enabled: kanOverstyreMedlemskap && medlemskapsvurderingId !== undefined } },
@@ -34,7 +34,7 @@ export function useSkalViseMedlemskapsvarselSomFeil(): Medlemskapsvarselvisning 
     return {
         skalViseSomFeil:
             gjelderPeriodeTilGodkjenning &&
-            data?.krav[0]?.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL,
+            (isError || data?.krav[0]?.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL),
         henterStatus: gjelderPeriodeTilGodkjenning && isLoading,
     };
 }
