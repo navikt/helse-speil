@@ -1,6 +1,6 @@
 import { Mock } from 'vitest';
 
-import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
+import { ApiSaksbildeVarselstatus, ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@test-utils';
 
 import { Varsler } from './Varsler';
@@ -31,14 +31,35 @@ describe('Varsler', () => {
         expect(screen.queryByTitle('Feil')).not.toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Vurdert' })).toBeInTheDocument();
     });
-    it('viser ventesnurr i stedet for avhuking mens medlemskapsstatusen hentes', () => {
+    it('viser skjelett i stedet for varslene mens medlemskapsstatusen hentes', () => {
         (useSkalViseMedlemskapsvarselSomFeil as Mock).mockReturnValue({ skalViseSomFeil: false, henterStatus: true });
 
-        render(<Varsler varsler={[medlemskapsvarsel]} />);
+        const annetVarsel = { ...medlemskapsvarsel, id: 'et-annet-varsel', kode: 'RV_IM_4' };
+        render(<Varsler varsler={[medlemskapsvarsel, annetVarsel]} />);
 
-        expect(screen.getByTitle(/venter/i)).toBeInTheDocument();
-        expect(screen.queryByTitle('Feil')).not.toBeInTheDocument();
+        expect(screen.queryByText('Vurder lovvalg og medlemskap')).not.toBeInTheDocument();
         expect(screen.queryByRole('button', { name: 'Vurdert' })).not.toBeInTheDocument();
+    });
+
+    it('viser varslene mens medlemskapsstatusen hentes når medlemskapsvarselet er ferdig behandlet', () => {
+        (useSkalViseMedlemskapsvarselSomFeil as Mock).mockReturnValue({ skalViseSomFeil: false, henterStatus: true });
+
+        render(
+            <Varsler
+                varsler={[
+                    {
+                        ...medlemskapsvarsel,
+                        vurdering: {
+                            ident: 'A123456',
+                            status: ApiSaksbildeVarselstatus.GODKJENT,
+                            tidsstempel: '2020-01-02',
+                        },
+                    },
+                ]}
+            />,
+        );
+
+        expect(screen.getByText('Vurder lovvalg og medlemskap')).toBeInTheDocument();
     });
 });
 
