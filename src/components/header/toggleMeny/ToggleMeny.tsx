@@ -54,6 +54,7 @@ const toggleStateToCheckboxValue = (state: ToggleState, harUtviklerRolle: boolea
     const array: string[] = [];
     if (state.kanBeslutteEgne) array.push('kanBeslutteEgne');
     if (erUtvikling && state.kanVurdereOppholdskrav) array.push('kanVurdereOppholdskrav');
+    if (erUtvikling && state.kanOverstyreAlleMedlemskapsstatuser) array.push('kanOverstyreAlleMedlemskapsstatuser');
     if (harUtviklerRolle && state.utviklersnacks) array.push('utviklersnacks');
     return array;
 };
