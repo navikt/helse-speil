@@ -41,9 +41,10 @@ export function Medlemskap({
     const tittelId = useId();
     const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
     const kanOverstyreMedlemskap = useKanOverstyreMedlemskap();
+    const kanOverstyreAlleMedlemskapsstatuser = useKanOverstyreAlleMedlemskapsstatuser();
     const statusErOverstyrbar =
         kanOverstyreMedlemskap &&
-        (useKanOverstyreAlleMedlemskapsstatuser() ||
+        (kanOverstyreAlleMedlemskapsstatuser ||
             vurdering?.kilde.kildetype === ApiKildetype.SAKSBEHANDLER ||
             vurdering?.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL);
     const kanVurdere =
@@ -60,7 +61,7 @@ export function Medlemskap({
             as="section"
             aria-labelledby={tittelId}
             gap="space-16"
-            className={cn('-mr-[3px] -ml-1 px-1 pt-6 pb-6', {
+            className={cn('-mr-0.75 -ml-1 px-1 pt-6 pb-6', {
                 'relative z-10 bg-ax-bg-accent-soft': vurderer,
             })}
         >
