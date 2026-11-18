@@ -556,6 +556,17 @@
                                         "forklaring": "Det er lagt inn en ny inntekt som gir 25 % avvik. Skjønnsmessig fastsettelse av sykepengegrunnlaget støttes ikke i Speil.",
                                         "handling": "Du kan endre inntekten en gang til hvis du har gjort noe feil. Dersom endringen skal gjennomføres må periodene annulleres i Speil og behandles i Infotrygd.",
                                         "vurdering": null
+                                    },
+                                    {
+                                        "id": "c3a1f5d2-7b4e-4c8a-9e2f-1d6b8a4e7c90",
+                                        "behandlingId": "d43d63b3-9241-4ea8-a86c-ff9da316cc0c",
+                                        "definisjonId": "b8ccbad1-de8c-4ca6-b944-df240bc42e6b",
+                                        "opprettet": "2023-03-01T11:12:13",
+                                        "kode": "RV_MV_1",
+                                        "tittel": "Vurder lovvalg og medlemskap",
+                                        "forklaring": "Medlemskapssjekken har ikke klart å entydig konkludere med at bruker er medlem",
+                                        "handling": "Sjekk om personen er medlem i folketrygden – se i medlemskapsfanen i Gosys. Sjekk bostedsadressen og hvor arbeidet utføres. Hvis bokommune er 0393 eller 2101 skal saken avvises og behandles av NAV Utland. Kilder: Gosys og Aa-registeret.",
+                                        "vurdering": null
                                     }
                                 ],
                                 "hendelser": [

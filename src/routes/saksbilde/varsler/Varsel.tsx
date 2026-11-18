@@ -14,9 +14,10 @@ interface VarselProps {
     className?: string;
     varsel: ApiVarselDTO;
     type: VarselstatusType;
+    laster?: boolean;
 }
 
-export function Varsel({ className, varsel, type }: VarselProps): ReactElement {
+export function Varsel({ className, varsel, type, laster = false }: VarselProps): ReactElement {
     const varselVurdering = varsel.vurdering;
     const varselStatus = varselVurdering?.status ?? ApiSaksbildeVarselstatus.AKTIV;
     const oppdaterPersonICache = useOppdaterPersonICache();
@@ -47,7 +48,7 @@ export function Varsel({ className, varsel, type }: VarselProps): ReactElement {
                 paddingInline="space-24 space-16"
                 className="cursor-default self-stretch"
             >
-                {isLoading ? (
+                {isLoading || laster ? (
                     <Loader size="medium" variant="interaction" />
                 ) : (
                     <Avhuking

@@ -15,13 +15,14 @@ import { VarselstatusType } from './Varsler';
 interface VarselMedHandlingProps {
     varsel: ApiVarselDTO;
     type: VarselstatusType;
+    laster?: boolean;
 }
 
-export function VarselMedHandling({ varsel, type }: VarselMedHandlingProps): ReactElement {
+export function VarselMedHandling({ varsel, type, laster }: VarselMedHandlingProps): ReactElement {
     return (
         <EkspanderbartVarsel>
             <EkspanderbartVarsel.Header className={cn('border-b py-0 ps-0 text-ax-text-neutral', varselfarge[type])}>
-                <Varsel className="min-h-18 self-stretch" varsel={varsel} type={type} />
+                <Varsel className="min-h-18 self-stretch" varsel={varsel} type={type} laster={laster} />
             </EkspanderbartVarsel.Header>
             <EkspanderbartVarsel.Content className={cn('px-13 data-[open=true]:border-b', varselfarge[type])}>
                 <Varselseksjon tittel="Hva betyr det?">{varsel.forklaring}</Varselseksjon>

@@ -7,6 +7,7 @@ import { cn } from '@utils/tw';
 import { Varsel, varselfarge } from './Varsel';
 import { VarselMedHandling } from './VarselMedHandling';
 import { useSkalViseAvviksvarselSomFeil } from './useSkalViseAvviksvarselSomFeil';
+import { useSkalViseMedlemskapsvarselSomFeil } from './useSkalViseMedlemskapsvarselSomFeil';
 
 const finnType = (varselvurdering: ApiVarselvurderingDTO | null | undefined) => {
     if (!varselvurdering) return 'aktiv';
@@ -35,10 +36,12 @@ interface VarslerProps {
 export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
     const skalViseAvviksvarselSomFeil = useSkalViseAvviksvarselSomFeil();
     const skalViseUnder20SykdomsgradsvarselSomFeil = useSkalViseUnder20SykdomsgradsvarselSomFeil();
+    const medlemskapsvarselvisning = useSkalViseMedlemskapsvarselSomFeil();
 
     const varslerSomIkkeSkalVises = ['SB_EX_2'];
     const avviksvarsel = 'RV_IV_2';
     const under20Sykdomsgradsvarsel = 'RV_VV_4';
+    const medlemskapsvarsel = 'RV_MV_1';
 
     return (
         <>
@@ -52,8 +55,22 @@ export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
                             (varsel.kode === avviksvarsel && skalViseAvviksvarselSomFeil) ||
                             (varsel.kode === under20Sykdomsgradsvarsel &&
                                 skalViseUnder20SykdomsgradsvarselSomFeil &&
+                                type !== 'ferdig-behandlet') ||
+                            (varsel.kode === medlemskapsvarsel &&
+                                medlemskapsvarselvisning.skalViseSomFeil &&
                                 type !== 'ferdig-behandlet');
-                        return <VarselMedHandling key={index} varsel={varsel} type={visSomFeil ? 'feil' : type} />;
+                        const laster =
+                            varsel.kode === medlemskapsvarsel &&
+                            medlemskapsvarselvisning.henterStatus &&
+                            type !== 'ferdig-behandlet';
+                        return (
+                            <VarselMedHandling
+                                key={index}
+                                varsel={varsel}
+                                type={visSomFeil ? 'feil' : type}
+                                laster={laster}
+                            />
+                        );
                     } else {
                         return (
                             <Varsel

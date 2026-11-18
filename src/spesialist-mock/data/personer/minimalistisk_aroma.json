@@ -844,6 +844,17 @@
                                         "forklaring": "Det har kommet inn flere inntektsmeldinger. Speil håndterer endringer i refusjon, men ikke tilfeller der inntekt eller arbeidsgiverperiode er endret. ",
                                         "handling": "Du må undersøke om det er oppgitt endringer i inntekt, refusjon eller arbeidsgiverperiode som skal legges til grunn i saken og/ eller om forslaget til vedtak er riktig. Hvis det må gjøres endringer må du undersøke om saken kan revurderes i Speil, eller om saken må tas i Infotrygd.",
                                         "vurdering": null
+                                    },
+                                    {
+                                        "id": "5b2e8d14-3f6a-4c71-b9e0-8a4d2c7f1e36",
+                                        "behandlingId": "c3864aee-7628-4d5d-9302-1a58910edff4",
+                                        "definisjonId": "b8ccbad1-de8c-4ca6-b944-df240bc42e6b",
+                                        "opprettet": "2023-08-02T12:01:27",
+                                        "kode": "RV_MV_1",
+                                        "tittel": "Vurder lovvalg og medlemskap",
+                                        "forklaring": "Medlemskapssjekken har ikke klart å entydig konkludere med at bruker er medlem",
+                                        "handling": "Sjekk om personen er medlem i folketrygden – se i medlemskapsfanen i Gosys. Sjekk bostedsadressen og hvor arbeidet utføres. Hvis bokommune er 0393 eller 2101 skal saken avvises og behandles av NAV Utland. Kilder: Gosys og Aa-registeret.",
+                                        "vurdering": null
                                     }
                                 ],
                                 "vilkarsgrunnlagId": "f7744e16-8569-4e94-8f61-c9996d3d8512",
