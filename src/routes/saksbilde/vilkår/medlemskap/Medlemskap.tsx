@@ -12,7 +12,7 @@ import {
     ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import { VilkårsutfallIkon, VilkårsutfallTag, VurdertAvSaksbehandler } from '@saksbilde/vilkår/vilkårsutfall';
-import { useKanOverstyreMedlemskap } from '@state/toggles';
+import { useKanOverstyreAlleMedlemskapsstatuser, useKanOverstyreMedlemskap } from '@state/toggles';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -41,13 +41,19 @@ export function Medlemskap({
     const tittelId = useId();
     const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
     const kanOverstyreMedlemskap = useKanOverstyreMedlemskap();
+    const statusErOverstyrbar =
+        kanOverstyreMedlemskap &&
+        (useKanOverstyreAlleMedlemskapsstatuser() ||
+            vurdering?.kilde.kildetype === ApiKildetype.SAKSBEHANDLER ||
+            vurdering?.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL);
     const kanVurdere =
         kanOverstyreMedlemskap &&
         !readOnly &&
         !serPåTidligereBehandling &&
         erCoachFagkoordinatorEllerSupersaksbehandler &&
         vurdering !== undefined &&
-        !erOverførtFraInfotrygd;
+        !erOverførtFraInfotrygd &&
+        statusErOverstyrbar;
 
     return (
         <VStack

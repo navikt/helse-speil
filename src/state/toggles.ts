@@ -9,6 +9,7 @@ export type ToggleState = {
     kanBeslutteEgne: boolean;
     kanVurdereOppholdskrav: boolean;
     utviklersnacks: boolean;
+    kanOverstyreAlleMedlemskapsstatuser: boolean;
 };
 
 type SessionToggleState = Omit<ToggleState, 'utviklersnacks'>;
@@ -16,6 +17,7 @@ type SessionToggleState = Omit<ToggleState, 'utviklersnacks'>;
 const defaultToggleState: SessionToggleState = {
     kanBeslutteEgne: false,
     kanVurdereOppholdskrav: false,
+    kanOverstyreAlleMedlemskapsstatuser: false,
 };
 
 const toggleState = atomWithSessionStorage<SessionToggleState>('toggleState', defaultToggleState);
@@ -61,6 +63,9 @@ export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleStat
 export function useKanOverstyreMedlemskap(): boolean {
     return erUtvikling;
 }
+
+export const useKanOverstyreAlleMedlemskapsstatuser = (): boolean =>
+    useAtomValue(toggleState).kanOverstyreAlleMedlemskapsstatuser && erUtvikling;
 
 // Bare i dev til skissene for § 8-9 er klare og sp-avslagsdager er i drift i prod (navikt/sas-issues#98)
 export const useKanVurdereOppholdskrav = (): boolean => useAtomValue(toggleState).kanVurdereOppholdskrav && erUtvikling;

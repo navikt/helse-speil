@@ -30,6 +30,14 @@ export function ToggleMeny(): ReactElement {
                                 Vurder oppholdskrav (sp-avslagsdager)
                             </Checkbox>
                         )}
+                        {erUtvikling && (
+                            <Checkbox
+                                value="kanOverstyreAlleMedlemskapsstatuser"
+                                onChange={toggle('kanOverstyreAlleMedlemskapsstatuser')}
+                            >
+                                Overstyr alle medlemskapsstatuser
+                            </Checkbox>
+                        )}
                         {harUtviklerRolle && (
                             <Checkbox value="utviklersnacks" onChange={toggle('utviklersnacks')}>
                                 Utviklersnacks
