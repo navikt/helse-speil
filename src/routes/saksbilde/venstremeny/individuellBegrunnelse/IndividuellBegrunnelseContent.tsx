@@ -1,7 +1,7 @@
 import { Dispatch, ReactElement, SetStateAction, useState } from 'react';
 
 import { ExpandIcon, NotePencilIcon } from '@navikt/aksel-icons';
-import { Box, Button, Link, Tooltip, VStack } from '@navikt/ds-react';
+import { Box, Button, HStack, Link, Tag, Tooltip, VStack } from '@navikt/ds-react';
 
 import { AnimatedExpandableDiv } from '@components/AnimatedExpandableDiv';
 import { VisesIVedtakTag } from '@components/tags/VisesIVedtakTag';
@@ -28,11 +28,7 @@ export function IndividuellBegrunnelseContent({
     åpneModal,
 }: IndividuellBegrunnelseContentProps): ReactElement {
     const [expanded, setExpanded] = useState(defaultÅpen);
-    const [harForlattFeltet, setHarForlattFeltet] = useState(false);
-    const valideringsfeilMedlemskap =
-        påkrevd && harForlattFeltet && vedtakBegrunnelseTekst.trim() === ''
-            ? 'Du må skrive en individuell begrunnelse fordi medlemskap er vurdert til nei.'
-            : undefined;
+    const manglerPåkrevdBegrunnelse = påkrevd && vedtakBegrunnelseTekst.trim() === '';
 
     return (
         <Box marginBlock="space-0 space-16" paddingBlock="space-16 space-0">
@@ -41,7 +37,11 @@ export function IndividuellBegrunnelseContent({
                     position="relative"
                     paddingBlock="space-16"
                     paddingInline="space-16"
-                    className="w-full bg-ax-bg-neutral-soft shadow-[inset_6px_0_0_0] shadow-ax-border-meta-lime-strong"
+                    className={
+                        manglerPåkrevdBegrunnelse
+                            ? 'w-full bg-ax-bg-danger-soft shadow-[inset_6px_0_0_0] shadow-ax-border-danger-strong'
+                            : 'w-full bg-ax-bg-neutral-soft shadow-[inset_6px_0_0_0] shadow-ax-border-meta-lime-strong'
+                    }
                 >
                     <VStack gap="space-12" align="start" className="mb-2">
                         <Link
@@ -55,7 +55,14 @@ export function IndividuellBegrunnelseContent({
                             <NotePencilIcon aria-hidden />
                             Individuell begrunnelse
                         </Link>
-                        <VisesIVedtakTag />
+                        <HStack gap="space-8">
+                            <VisesIVedtakTag />
+                            {manglerPåkrevdBegrunnelse && (
+                                <Tag size="xsmall" variant="outline" data-color="danger">
+                                    Må fylles ut
+                                </Tag>
+                            )}
+                        </HStack>
                     </VStack>
                     <AnimatedExpandableDiv expanded={expanded}>
                         <Tooltip content="Åpne i modal">
@@ -71,8 +78,6 @@ export function IndividuellBegrunnelseContent({
                             vedtakBegrunnelseTekst={vedtakBegrunnelseTekst}
                             setVedtakBegrunnelseTekst={setVedtakBegrunnelseTekst}
                             minRows={4}
-                            error={valideringsfeilMedlemskap}
-                            onBlur={() => setHarForlattFeltet(true)}
                         />
                     </AnimatedExpandableDiv>
                 </Box>

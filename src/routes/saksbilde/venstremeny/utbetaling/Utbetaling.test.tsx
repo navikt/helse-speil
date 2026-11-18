@@ -253,18 +253,18 @@ describe('Utbetaling', () => {
 
             expect(screen.getByTestId('godkjenning-button')).toBeDisabled();
             expect(screen.queryByRole('textbox')).not.toBeInTheDocument();
-            expect(screen.queryByText(FEILMELDING)).not.toBeInTheDocument();
+            expect(screen.getByText(MÅ_FYLLES_UT)).toBeVisible();
 
             await userEvent.click(screen.getByRole('button', { name: 'Individuell begrunnelse' }));
-            await userEvent.click(screen.getByRole('textbox'));
-            await userEvent.tab();
-
-            expect(screen.getByText(FEILMELDING)).toBeVisible();
-
             await userEvent.type(screen.getByRole('textbox'), 'Du er ikke medlem i folketrygden');
 
             expect(screen.getByTestId('godkjenning-button')).toBeEnabled();
-            expect(screen.queryByText(FEILMELDING)).not.toBeInTheDocument();
+            expect(screen.queryByText(MÅ_FYLLES_UT)).not.toBeInTheDocument();
+
+            await userEvent.clear(screen.getByRole('textbox'));
+
+            expect(screen.getByTestId('godkjenning-button')).toBeDisabled();
+            expect(screen.getByText(MÅ_FYLLES_UT)).toBeVisible();
         });
 
         it('sperrer «Fatt vedtak» når perioden ikke skal til totrinnsvurdering', () => {
@@ -292,7 +292,7 @@ describe('Utbetaling', () => {
             );
 
             expect(screen.getByTestId('godkjenning-button')).toBeDisabled();
-            expect(screen.queryByText(FEILMELDING)).not.toBeInTheDocument();
+            expect(screen.getByText(MÅ_FYLLES_UT)).toBeVisible();
         });
 
         it('krever ikke begrunnelse når saksbehandler har vurdert medlemskap til ja', () => {
@@ -329,7 +329,7 @@ function utenforEøs(vurderingerAvLøpendeVilkår: ApiVurderingAvLøpendeVilkår
     return enDag({ sykdomsdagtype: ApiSykdomsdagtype.SYK_UTENFOR_EOS, vurderingerAvLøpendeVilkår });
 }
 
-const FEILMELDING = 'Du må skrive en individuell begrunnelse fordi medlemskap er vurdert til nei.';
+const MÅ_FYLLES_UT = 'Må fylles ut';
 
 const saksbehandlerKilde: ApiVurderingskilde = {
     kildetype: ApiKildetype.SAKSBEHANDLER,
