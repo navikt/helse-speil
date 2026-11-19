@@ -6,7 +6,6 @@ import { Events } from '@navikt/analytics-types';
 import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
-import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import {
     ApiBeregnetPeriode,
@@ -31,6 +30,7 @@ import { Opptjening } from './opptjening/Opptjening';
 import { OpptjeningsvurderingSkjema } from './opptjening/OpptjeningsvurderingSkjema';
 import { useOpptjeningshistorikk } from './opptjening/useOpptjeningshistorikk';
 import { useOpptjeningsvurdering } from './opptjening/useOpptjeningsvurdering';
+import { useInngangsvilkårErReadOnly } from './useInngangsvilkårErReadOnly';
 import { VurdertAvSaksbehandler } from './vilkårsutfall';
 
 interface InngangsvilkårProps {
@@ -183,7 +183,7 @@ interface InngangsvilkårContainerProps {
 }
 
 function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerProps): ReactElement | null {
-    const readOnly = useIsReadOnlyOppgave(person);
+    const readOnly = useInngangsvilkårErReadOnly(person, periode);
     const serPåTidligereBehandling = useSerPåTidligereBehandling(person);
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
