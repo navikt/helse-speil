@@ -28,6 +28,12 @@ describe('tilVisningUrl', () => {
             '/api/andre-ytelser/personer/person-1/saksbehandlerhandlinger/handling-1/visning',
         );
     });
+
+    test('manuell vurdering av medlemskap hentes fra sp-medlemskap', () => {
+        expect(tilVisningUrl(ApiHandlingType.MANUELT_VURDERT_MEDLEMSKAP, 'person-1', 'handling-1')).toBe(
+            '/api/medlemskap/personer/person-1/saksbehandlerhandlinger/handling-1/visning',
+        );
+    });
 });
 
 describe('saksbehandlerhandlingGjelderPeriode', () => {

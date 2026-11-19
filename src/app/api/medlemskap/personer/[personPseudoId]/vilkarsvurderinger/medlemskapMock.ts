@@ -7,7 +7,9 @@ import {
     ApiMedlemskapsvurdering,
     ApiVilkårsvurderingerForPersonResponse,
     ApiVurderingskildeAutomatisk,
+    ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
+import { Handlingsvisning, Visningsfelt } from '@io/rest/handlingsvisning';
 import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person';
 
 const AUTOMATISKE_MEDLEMSKAPSSVAR = new Map<string, AutomatiskSvar>([
@@ -78,6 +80,28 @@ export function vurderMedlemskap(personPseudoId: string, request: ApiManuellVilk
     vurderingerFor(personPseudoId).set(id, { skjæringstidspunkt: request.skjæringstidspunkt, krav: [vurdering] });
     return id;
 }
+
+// Speiler GetSaksbehandlerhandlingVisningBehandler i sp-medlemskap: bare manuelle vurderinger har detaljer
+export function hentVisning(personPseudoId: string, medlemskapsvurderingId: string): Handlingsvisning | undefined {
+    const vurdering = vurderingerFor(personPseudoId)
+        .get(medlemskapsvurderingId)
+        ?.krav.find((krav) => krav.id === medlemskapsvurderingId);
+    if (!vurdering || vurdering.kilde.kildetype !== ApiKildetype.SAKSBEHANDLER) return undefined;
+    const kilde = vurdering.kilde as ApiVurderingskildeSaksbehandler;
+    const felter: Visningsfelt[] = [{ type: 'TEKST', tittel: 'Medlemskap', tekst: visningsnavn[vurdering.status] }];
+    if (kilde.journalpostId.length > 0) {
+        felter.push({ type: 'LISTE', tittel: 'Journalposter', elementer: kilde.journalpostId });
+    }
+    felter.push({ type: 'TEKST', tittel: 'Begrunnelse', tekst: kilde.fritekstbegrunnelse });
+    return { felter };
+}
+
+const visningsnavn: Record<ApiMedlemskapsstatus, string> = {
+    [ApiMedlemskapsstatus.JA]: 'Medlem i folketrygden',
+    [ApiMedlemskapsstatus.NEI]: 'Ikke medlem i folketrygden',
+    [ApiMedlemskapsstatus.UAVKLART]: 'Uavklart',
+    [ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL]: 'Uavklart med brukerspørsmål',
+};
 
 // Speiler GetMedlemskapshistorikkBehandler i sp-medlemskap: alle vurderinger på skjæringstidspunktet, nyeste først
 export function hentMedlemskapshistorikk(
