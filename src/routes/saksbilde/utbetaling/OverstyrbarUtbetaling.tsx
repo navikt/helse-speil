@@ -1,12 +1,10 @@
-import dayjs from 'dayjs';
-import React, { ReactElement, Reducer, useEffect, useReducer, useRef, useState } from 'react';
+import React, { ReactElement, useEffect, useRef, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { VStack } from '@navikt/ds-react';
 
 import { OverstyringFormFields, lagOverstyringSchema } from '@form-schemas/overstyringSkjema';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ApiGraderteAndreYtelserDag } from '@io/rest/generated/andre-ytelser/andre-ytelser.schemas';
 import {
     ApiBeregnetPeriode,
     ApiSaksbildePerson,
@@ -19,7 +17,6 @@ import { LeggTilDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/LeggTi
 import { Endringshandling, UtbetalingHeader } from '@saksbilde/utbetaling/utbetalingstabell/UtbetalingHeader';
 import { EndreDagerForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/EndreDagerForm';
 import { GraderteAndreYtelserForm } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/GraderteAndreYtelserForm';
-import { tilEndringForDag } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/endreDagerUtils';
 import type { Dagendring } from '@saksbilde/utbetaling/utbetalingstabell/endringForm/types';
 import { finnGraderteAndreYtelser, useGraderteAndreYtelser } from '@state/graderteAndreYtelser';
 import { Inntektsforhold, tilReferanse } from '@state/inntektsforhold/inntektsforhold';
@@ -32,156 +29,8 @@ import { MarkerAlleDagerCheckbox } from './utbetalingstabell/MarkerAlleDagerChec
 import { OverstyringForm } from './utbetalingstabell/OverstyringForm';
 import { RadmarkeringCheckbox } from './utbetalingstabell/RadmarkeringCheckbox';
 import { Utbetalingstabell } from './utbetalingstabell/Utbetalingstabell';
-import { erReellEndring } from './utbetalingstabell/erReellEndring';
+import { useDagendringer } from './utbetalingstabell/useDagendringer';
 import { useOverstyrDager } from './utbetalingstabell/useOverstyrDager';
-
-const getKey = (dag: Utbetalingstabelldag) => dag.dato;
-
-enum DagerActionType {
-    FJERN_ALLE_DAGER,
-    LEGG_TIL_NYE_DAGER,
-    OVERSTYR_DAG,
-    SET_MARKERTE_DAGER,
-    SLETT_SISTE_NYE_DAG,
-    FJERN_NYE_OG_OVERSTYRTE_DAGER,
-    SHIFT_TOGGLE_MARKERTE_DAGER,
-    TOGGLE_MARKERTE_DAGER,
-}
-
-type FjernDagerAction = {
-    type:
-        | DagerActionType.FJERN_ALLE_DAGER
-        | DagerActionType.SLETT_SISTE_NYE_DAG
-        | DagerActionType.FJERN_NYE_OG_OVERSTYRTE_DAGER;
-};
-
-type ModifyDagAction = {
-    type: DagerActionType.OVERSTYR_DAG;
-    payload: {
-        dag: Dagendring;
-        lagredeGraderteDager: ApiGraderteAndreYtelserDag[];
-    };
-};
-
-type ModifyDagerAction = {
-    type: DagerActionType.LEGG_TIL_NYE_DAGER | DagerActionType.SET_MARKERTE_DAGER;
-    payload: {
-        dager: Map<string, Utbetalingstabelldag>;
-    };
-};
-
-type ToggleMarkerteDagerAction = {
-    type: DagerActionType.SHIFT_TOGGLE_MARKERTE_DAGER | DagerActionType.TOGGLE_MARKERTE_DAGER;
-    payload: {
-        dag: Utbetalingstabelldag;
-        alleDager: Map<string, Utbetalingstabelldag>;
-        toggle: boolean;
-    };
-};
-
-type DagerAction = FjernDagerAction | ModifyDagAction | ModifyDagerAction | ToggleMarkerteDagerAction;
-
-interface DagerState {
-    markerteDager: Map<string, Utbetalingstabelldag>;
-    overstyrteDager: Map<string, Utbetalingstabelldag>;
-    nyeDager: Map<string, Utbetalingstabelldag>;
-}
-
-const defaultDagerState: DagerState = {
-    markerteDager: new Map(),
-    overstyrteDager: new Map(),
-    nyeDager: new Map(),
-};
-
-const reducer: Reducer<DagerState, DagerAction> = (prevState, action) => {
-    const overstyrDag = (endring: Dagendring, lagredeGraderteDager: ApiGraderteAndreYtelserDag[]) => {
-        const nyeOverstyrteDager = Array.from(prevState.markerteDager.values()).reduce(
-            (map: Map<string, Utbetalingstabelldag>, fraDag: Utbetalingstabelldag) => {
-                const lagretGradertDag = lagredeGraderteDager.find((it) => it.dato === fraDag.dato);
-                const tilDag = tilEndringForDag(endring, fraDag);
-                if (erReellEndring(tilDag, fraDag, lagretGradertDag)) {
-                    map.set(getKey(fraDag), { ...fraDag, ...tilDag, fraType: fraDag.dag.speilDagtype });
-                } else {
-                    map.delete(getKey(fraDag));
-                }
-                return map;
-            },
-            new Map(prevState.overstyrteDager),
-        );
-        return {
-            ...prevState,
-            markerteDager: new Map(),
-            overstyrteDager: nyeOverstyrteDager,
-        };
-    };
-
-    const toggleMarkerteDager = (dag: Utbetalingstabelldag, toggle: boolean) => {
-        const nyeMarkerteDager = new Map(prevState.markerteDager);
-        if (toggle) {
-            nyeMarkerteDager.set(getKey(dag), dag);
-        } else {
-            nyeMarkerteDager.delete(getKey(dag));
-        }
-        return {
-            ...prevState,
-            markerteDager: nyeMarkerteDager,
-        };
-    };
-
-    const shiftToggleMarkerteDager = (
-        dag: Utbetalingstabelldag,
-        alleDager: Map<string, Utbetalingstabelldag>,
-        toggle: boolean,
-    ) => {
-        const forrigeValgteDag = Array.from(prevState.markerteDager.values())?.pop() ?? dag;
-        const nyeMarkerteDager = new Map(prevState.markerteDager);
-        Array.from(alleDager.values())
-            .filter((it) => dayjs(it.dato).isBetween(forrigeValgteDag.dato, dag.dato, 'day', '[]'))
-            .forEach((it) => {
-                if (toggle) {
-                    nyeMarkerteDager.set(getKey(it), it);
-                } else {
-                    nyeMarkerteDager.delete(getKey(it));
-                }
-            });
-        return {
-            ...prevState,
-            markerteDager: nyeMarkerteDager,
-        };
-    };
-
-    switch (action.type) {
-        case DagerActionType.OVERSTYR_DAG:
-            return overstyrDag(action.payload.dag, action.payload.lagredeGraderteDager);
-        case DagerActionType.TOGGLE_MARKERTE_DAGER:
-            return toggleMarkerteDager(action.payload.dag, action.payload.toggle);
-        case DagerActionType.SHIFT_TOGGLE_MARKERTE_DAGER:
-            return shiftToggleMarkerteDager(action.payload.dag, action.payload.alleDager, action.payload.toggle);
-        case DagerActionType.SET_MARKERTE_DAGER:
-            return {
-                ...prevState,
-                markerteDager: action.payload.dager,
-            };
-        case DagerActionType.FJERN_NYE_OG_OVERSTYRTE_DAGER:
-            return {
-                ...prevState,
-                overstyrteDager: new Map(),
-                nyeDager: new Map(),
-            };
-        case DagerActionType.SLETT_SISTE_NYE_DAG:
-            return {
-                ...prevState,
-                nyeDager: new Map(Array.from(prevState.nyeDager).slice(1)),
-            };
-        case DagerActionType.FJERN_ALLE_DAGER:
-            return defaultDagerState;
-        case DagerActionType.LEGG_TIL_NYE_DAGER:
-            return {
-                ...prevState,
-                nyeDager: new Map([...action.payload.dager, ...prevState.nyeDager]),
-            };
-    }
-};
 
 interface OverstyrbarUtbetalingProps {
     person: ApiSaksbildePerson;
@@ -209,14 +58,24 @@ export function OverstyrbarUtbetaling({
     const graderteAndreYtelser = finnGraderteAndreYtelser(useGraderteAndreYtelser(), inntektsforhold);
     const lagredeGraderteDager = graderteAndreYtelser?.dager ?? [];
 
-    const [state, dispatch] = useReducer(reducer, defaultDagerState);
+    const {
+        markerteDager,
+        setMarkerteDager,
+        overstyrteDager,
+        overstyrMarkerteDager,
+        nyeDager,
+        leggTilNyeDager,
+        markerDag,
+        markerDagerTil,
+        slettSisteNyeDag,
+        fjernNyeOgOverstyrteDager,
+        fjernAlleDager,
+    } = useDagendringer();
 
     if (aktuellPeriode.current.id !== periode.id) {
         lukkEndringshandling();
         aktuellPeriode.current = periode;
     }
-
-    const { markerteDager, overstyrteDager, nyeDager } = state;
 
     const alleDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...dager]);
     const alleOverstyrteDager = new Map<string, Utbetalingstabelldag>([...nyeDager, ...overstyrteDager]);
@@ -250,7 +109,7 @@ export function OverstyrbarUtbetaling({
     };
 
     const avbryt = () => {
-        dispatch({ type: DagerActionType.FJERN_ALLE_DAGER });
+        fjernAlleDager();
         form.reset();
         lukkEndringshandling();
     };
@@ -262,40 +121,22 @@ export function OverstyrbarUtbetaling({
 
     const toggleChecked = (dag: Utbetalingstabelldag) => (event: React.ChangeEvent<HTMLInputElement>) => {
         if ((event.nativeEvent as KeyboardEvent)?.shiftKey) {
-            dispatch({
-                type: DagerActionType.SHIFT_TOGGLE_MARKERTE_DAGER,
-                payload: { alleDager: alleDager, dag: dag, toggle: event.target.checked },
-            });
+            markerDagerTil(dag, alleDager, event.target.checked);
         } else {
-            dispatch({
-                type: DagerActionType.TOGGLE_MARKERTE_DAGER,
-                payload: { dag: dag, toggle: event.target.checked, alleDager: alleDager },
-            });
+            markerDag(dag, event.target.checked);
         }
     };
 
     const onSubmitEndring = (endring: Dagendring) => {
-        dispatch({ type: DagerActionType.OVERSTYR_DAG, payload: { dag: endring, lagredeGraderteDager } });
-    };
-
-    const onSubmitPølsestrekk = (dagerLagtTil: Map<string, Utbetalingstabelldag>) => {
-        dispatch({ type: DagerActionType.LEGG_TIL_NYE_DAGER, payload: { dager: dagerLagtTil } });
-    };
-
-    const slettSisteNyeDag = () => {
-        dispatch({ type: DagerActionType.SLETT_SISTE_NYE_DAG });
-    };
-
-    const setMarkerteDager = (dager: Map<string, Utbetalingstabelldag>) => {
-        dispatch({ type: DagerActionType.SET_MARKERTE_DAGER, payload: { dager: dager } });
+        overstyrMarkerteDager(endring, lagredeGraderteDager);
     };
 
     useEffect(() => {
         if (done) {
-            dispatch({ type: DagerActionType.FJERN_NYE_OG_OVERSTYRTE_DAGER });
+            fjernNyeOgOverstyrteDager();
             form.reset();
         }
-    }, [done, dispatch, form]);
+    }, [done, fjernNyeOgOverstyrteDager, form]);
 
     const periodeFom = Array.from(alleDager.values())[0];
     if (periodeFom == undefined) return <></>;
@@ -326,7 +167,7 @@ export function OverstyrbarUtbetaling({
                     <OverstyringToolBar tittel={endringshandling} avbryt={avbryt}>
                         {endringshandling === 'Legg til dager' && (
                             <LeggTilDagerForm
-                                onSubmitPølsestrekk={onSubmitPølsestrekk}
+                                onSubmitPølsestrekk={leggTilNyeDager}
                                 periodeFom={periodeFom.dato}
                                 erSelvstendig={isSelvstendigNaering(inntektsforhold)}
                             />
