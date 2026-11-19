@@ -62,6 +62,19 @@ describe('EkspanderbartVarsel', () => {
         expect(chevron()).toHaveAttribute('aria-expanded', 'true');
     });
 
+    it('gir knappen navn fra elementet headeren peker på', () => {
+        render(
+            <EkspanderbartVarsel>
+                <EkspanderbartVarsel.Header aria-labelledby="navn">
+                    <span id="navn">Et navn</span>
+                </EkspanderbartVarsel.Header>
+                <EkspanderbartVarsel.Content>Innhold</EkspanderbartVarsel.Content>
+            </EkspanderbartVarsel>,
+        );
+
+        expect(screen.getByRole('button', { name: 'Et navn' })).toHaveAttribute('aria-expanded', 'false');
+    });
+
     it('rendrer uten violations', async () => {
         const { container } = render(<TestVarsel />);
 

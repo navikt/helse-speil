@@ -4,8 +4,8 @@ import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 import { useFetchPersonQuery } from '@state/person';
 import { useNyttVarseldesign } from '@state/toggles';
-import { render } from '@test-utils';
-import { screen } from '@testing-library/react';
+import { render, screen, within } from '@test-utils';
+import userEvent from '@testing-library/user-event';
 
 import { Saksbildevarsler } from './Saksbildevarsler';
 
@@ -188,6 +188,31 @@ describe('Saksbildevarsler', () => {
             expect(screen.getByText('Ikke klar til behandling - venter på inntektsmelding')).toBeVisible();
             expect(screen.queryByRole('region', { name: 'Varsler' })).not.toBeInTheDocument();
             expect(screen.queryByRole('button', { name: /varsler/i })).not.toBeInTheDocument();
+        });
+
+        test('viser varslene sortert etter kode uten varsler som ikke skal vises', async () => {
+            render(
+                <Saksbildevarsler
+                    periodState="utbetalt"
+                    varsler={[
+                        { ...varsel, id: 'b', kode: 'RV_IM_2', tittel: 'Andre varsel' },
+                        { ...varsel, id: 'skjult', kode: 'SB_EX_2', tittel: 'Skjult varsel' },
+                        { ...varsel, id: 'a', kode: 'RV_IM_1', tittel: 'Første varsel' },
+                    ]}
+                    harTotrinnsvurdering={false}
+                    harTilkommenInntektEndring={false}
+                />,
+            );
+            const kort = screen.getByRole('region', { name: 'Varsler' });
+            expect(kort).toHaveTextContent('Varsler (2)');
+            await userEvent.click(within(kort).getAllByRole('button')[0]!);
+
+            const varseltitler = within(kort).getAllByRole('heading', { level: 3 });
+            expect(varseltitler.map((tittel) => tittel.textContent)).toEqual([
+                expect.stringContaining('Første varsel'),
+                expect.stringContaining('Andre varsel'),
+            ]);
+            expect(screen.queryByText('Skjult varsel')).not.toBeInTheDocument();
         });
 
         test('viser ikke varselområdet når perioden bare har varsler som ikke skal vises', () => {

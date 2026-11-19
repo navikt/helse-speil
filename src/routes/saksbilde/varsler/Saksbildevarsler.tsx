@@ -18,7 +18,7 @@ import {
 
 import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { KalkulerEndringerVarsel } from './KalkulerEndringerVarsel';
-import { Varselkort } from './Varselkort';
+import { VarselContainer } from './VarselContainer';
 import { Varsler } from './Varsler';
 import { synligeVarsler } from './varselstatus';
 
@@ -106,7 +106,7 @@ export function Saksbildevarsler({
                 {feilVarsler.map((varsel) => (
                     <Melding key={varsel.melding} {...varsel} />
                 ))}
-                {varslerSomVises.length > 0 && <Varselkort varsler={varslerSomVises} />}
+                {varslerSomVises.length > 0 && <VarselContainer varsler={varslerSomVises} />}
                 {skalViseKalkulerEndringerVarsel && (
                     <KalkulerEndringerVarsel lokaleInntektoverstyringer={lokaleInntektoverstyringer} />
                 )}

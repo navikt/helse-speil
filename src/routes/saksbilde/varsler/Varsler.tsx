@@ -3,37 +3,22 @@ import React, { ReactElement } from 'react';
 import { Skeleton, VStack } from '@navikt/ds-react';
 
 import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
-import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 import { cn } from '@utils/tw';
 
 import { Varsel, varselfarge } from './Varsel';
 import { VarselMedHandling } from './VarselMedHandling';
-import { useSkalViseAvviksvarselSomFeil } from './useSkalViseAvviksvarselSomFeil';
-import { useSkalViseMedlemskapsvarselSomFeil } from './useSkalViseMedlemskapsvarselSomFeil';
-import { VisSomFeilRegler, finnVarselstatus, medlemskapsvarsel, synligeVarsler } from './varselstatus';
+import { useVisSomFeilRegler } from './useVisSomFeilRegler';
+import { finnVarselstatus, synligeVarsler, venterPåMedlemskapsstatus } from './varselstatus';
 
 interface VarslerProps {
     varsler: ApiVarselDTO[];
 }
 
 export const Varsler = React.memo(({ varsler }: VarslerProps): ReactElement => {
-    const skalViseAvviksvarselSomFeil = useSkalViseAvviksvarselSomFeil();
-    const skalViseUnder20SykdomsgradsvarselSomFeil = useSkalViseUnder20SykdomsgradsvarselSomFeil();
-    const medlemskapsvarselvisning = useSkalViseMedlemskapsvarselSomFeil();
+    const { visSomFeil, henterMedlemskapsstatus } = useVisSomFeilRegler();
 
-    const visSomFeil: VisSomFeilRegler = {
-        avviksvarsel: skalViseAvviksvarselSomFeil,
-        under20Sykdomsgradsvarsel: skalViseUnder20SykdomsgradsvarselSomFeil,
-        medlemskapsvarsel: medlemskapsvarselvisning.skalViseSomFeil,
-    };
     const varslerSomVises = synligeVarsler(varsler);
-    const venterPåMedlemskapsstatus =
-        medlemskapsvarselvisning.henterStatus &&
-        varslerSomVises.some(
-            (it) => it.kode === medlemskapsvarsel && finnVarselstatus(it, visSomFeil) !== 'ferdig-behandlet',
-        );
-
-    if (venterPåMedlemskapsstatus) {
+    if (venterPåMedlemskapsstatus(varslerSomVises, visSomFeil, henterMedlemskapsstatus)) {
         return (
             <VStack gap="space-2" aria-busy="true">
                 {varslerSomVises.map((varsel) => (

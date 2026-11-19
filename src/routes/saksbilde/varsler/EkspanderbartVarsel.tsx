@@ -41,9 +41,16 @@ interface HeaderProps extends PropsWithChildren {
     className?: string;
     flexDirection?: 'row' | 'row-reverse';
     justify?: 'start' | 'center' | 'end' | 'space-around' | 'space-between' | 'space-evenly';
+    'aria-labelledby'?: string;
 }
 
-function Header({ children, className, flexDirection = 'row', justify = 'space-between' }: HeaderProps): ReactElement {
+function Header({
+    children,
+    className,
+    flexDirection = 'row',
+    justify = 'space-between',
+    'aria-labelledby': ariaLabelledby,
+}: HeaderProps): ReactElement {
     const { open, toggleOpen } = useEkspanderbartVarselContext('EkspanderbartVarsel.Header');
 
     const håndterKlikk = (event: MouseEvent<HTMLElement>) => {
@@ -76,6 +83,7 @@ function Header({ children, className, flexDirection = 'row', justify = 'space-b
                 onClick={toggleOpen}
                 aria-expanded={open}
                 aria-label="Detaljer"
+                aria-labelledby={ariaLabelledby}
                 icon={
                     <ChevronDownIcon
                         className={cn('transition-transform group-data-[open=true]/header:rotate-180', OVERGANG)}

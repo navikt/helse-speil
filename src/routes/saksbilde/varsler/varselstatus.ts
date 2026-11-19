@@ -65,3 +65,31 @@ function statusFraVurdering(varsel: ApiVarselDTO): VarselstatusType {
             return 'aktiv';
     }
 }
+
+export function venterPåMedlemskapsstatus(
+    varsler: ApiVarselDTO[],
+    visSomFeil: VisSomFeilRegler,
+    henterMedlemskapsstatus: boolean,
+): boolean {
+    return (
+        henterMedlemskapsstatus &&
+        varsler.some((it) => it.kode === medlemskapsvarsel && finnVarselstatus(it, visSomFeil) !== 'ferdig-behandlet')
+    );
+}
+
+export const statusetikett: Record<VarselstatusType, { tekst: string; farge: Varselkortfarge }> = {
+    feil: { tekst: 'Må løses', farge: 'danger' },
+    aktiv: { tekst: 'Må vurderes', farge: 'warning' },
+    vurdert: { tekst: 'Vurdert', farge: 'success' },
+    'ferdig-behandlet': { tekst: 'Vurdert', farge: 'success' },
+};
+
+export function oppsummeringstekst({ måLøses, måVurderes, vurdert }: Varseloppsummering): string {
+    return [
+        måLøses > 0 && `${måLøses} må løses`,
+        måVurderes > 0 && `${måVurderes} må vurderes`,
+        vurdert > 0 && `${vurdert} vurdert`,
+    ]
+        .filter(Boolean)
+        .join(' · ');
+}
