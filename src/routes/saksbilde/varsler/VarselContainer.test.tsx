@@ -61,18 +61,19 @@ describe('VarselContainer', () => {
     it.each([
         ['ett varsel', () => [aktivt]],
         ['flere varsler', () => [aktivt, vurdert, godkjent]],
-    ])('viser hvert varsel som et lukket punkt som kan åpnes, med %s', async (_, varsler) => {
+    ])('viser hvert varsel som et lukket punkt med avkrysningen synlig, med %s', async (_, varsler) => {
         render(<VarselContainer varsler={varsler()} />);
         await åpneKortet();
 
         const varselknapp = screen.getByRole('button', { name: 'Aktivt varsel' });
         expect(varselknapp).toHaveAttribute('aria-expanded', 'false');
-        expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
+        expect(screen.getAllByRole('checkbox', { name: /Vurdert/ })).toHaveLength(varsler().length);
+        expect(screen.getAllByText('En forklaring')[0]!.closest('[aria-hidden="true"]')).not.toBeNull();
 
         await userEvent.click(varselknapp);
 
         expect(varselknapp).toHaveAttribute('aria-expanded', 'true');
-        expect(screen.getByRole('checkbox', { name: /Vurdert/ })).toBeInTheDocument();
+        expect(screen.getAllByText('En forklaring')[0]!.closest('[aria-hidden="true"]')).toBeNull();
     });
 
     it('viser forklaring, handling og når varselet ble opprettet', async () => {
@@ -82,6 +83,29 @@ describe('VarselContainer', () => {
         expect(screen.getByText('En forklaring')).toBeVisible();
         expect(screen.getByText('En handling')).toBeVisible();
         expect(screen.getByText('Opprettet: 01.01.2020 kl. 12.00')).toBeVisible();
+    });
+
+    it('har nøytral bakgrunn i innholdet og fargen til hvert varsel på varselet', async () => {
+        (useSkalViseMedlemskapsvarselSomFeil as Mock).mockReturnValue({ skalViseSomFeil: true, henterStatus: false });
+        render(<VarselContainer varsler={[aktivt, vurdert, medlemskapsvarsel]} />);
+        await åpneKortet();
+
+        const kort = screen.getByRole('region', { name: 'Varsler' });
+        expect(kort).toHaveAttribute('data-color', 'danger');
+        expect(kort.querySelector('.aksel-expansioncard__content')).toHaveClass('bg-ax-bg-raised');
+        expect(varselrad('Aktivt varsel')).toHaveAttribute(
+            'style',
+            expect.stringContaining('var(--ax-bg-warning-soft)'),
+        );
+        expect(varselrad('Vurdert varsel')).toHaveAttribute(
+            'style',
+            expect.stringContaining('var(--ax-bg-success-soft)'),
+        );
+        expect(varselrad('Aktivt varsel')).toHaveAttribute('style', expect.stringContaining('var(--ax-radius-8)'));
+        expect(varselrad('Vurder lovvalg og medlemskap Må løses')).toHaveAttribute(
+            'style',
+            expect.stringContaining('var(--ax-bg-danger-soft)'),
+        );
     });
 
     it('viser ingen status i toppen av kortet mens medlemskapsstatusen hentes', () => {
@@ -212,6 +236,10 @@ function sendteKall() {
 async function åpneKortet() {
     const kort = screen.getByRole('region', { name: 'Varsler' });
     await userEvent.click(within(kort).getAllByRole('button')[0]!);
+}
+
+function varselrad(navn: string) {
+    return screen.getByRole('button', { name: navn }).closest('[data-status]');
 }
 
 async function åpneVarselet() {

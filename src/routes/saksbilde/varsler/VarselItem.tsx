@@ -31,41 +31,56 @@ interface VarselItemProps {
 
 export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
     const tittelId = useId();
+    const etikettId = useId();
+    const måLøses = status === 'feil';
 
     return (
-        <EkspanderbartVarsel>
-            <EkspanderbartVarsel.Header
-                aria-labelledby={tittelId}
-                flexDirection="row-reverse"
-                justify="start"
-                className="border-b border-ax-border-neutral-subtle text-ax-text-neutral"
-            >
-                <Heading id={tittelId} level="3" size="xsmall">
-                    {varsel.tittel}{' '}
-                    {status === 'feil' && (
-                        <Tag size="xsmall" variant="moderate" data-color={statusetikett[status].farge}>
-                            {statusetikett[status].tekst}
-                        </Tag>
-                    )}
-                </Heading>
-            </EkspanderbartVarsel.Header>
-            <EkspanderbartVarsel.Content>
-                <Box paddingBlock="space-12" paddingInline="space-12 space-0">
-                    <VStack gap="space-8" align="start">
-                        {status !== 'feil' && <Vurdering varsel={varsel} />}
-                        {varsel.forklaring != null && varsel.handling != null && (
-                            <>
-                                <Varselseksjon tittel="Hva betyr det?">{varsel.forklaring}</Varselseksjon>
-                                <Varselseksjon tittel="Hva gjør du?">{varsel.handling}</Varselseksjon>
-                                <Tag size="small" variant="moderate" data-color="neutral">
-                                    Opprettet: {dayjs(varsel.opprettet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
-                                </Tag>
-                            </>
+        <Box background={`${statusetikett[status].farge}-soft`} borderRadius="8" data-status={status}>
+            <EkspanderbartVarsel>
+                <EkspanderbartVarsel.Header
+                    aria-labelledby={`${tittelId} ${etikettId}`}
+                    flexDirection="row-reverse"
+                    justify="start"
+                    className="text-ax-text-neutral"
+                >
+                    <HStack justify="space-between" align="start" gap="space-8" wrap={false} flexGrow="1">
+                        <Heading id={tittelId} level="3" size="xsmall">
+                            {varsel.tittel}
+                        </Heading>
+                        {måLøses && (
+                            <Tag
+                                id={etikettId}
+                                size="xsmall"
+                                variant="moderate"
+                                data-color={statusetikett[status].farge}
+                            >
+                                {statusetikett[status].tekst}
+                            </Tag>
                         )}
-                    </VStack>
-                </Box>
-            </EkspanderbartVarsel.Content>
-        </EkspanderbartVarsel>
+                    </HStack>
+                </EkspanderbartVarsel.Header>
+                {!måLøses && (
+                    <Box paddingInline="space-56 space-8" paddingBlock="space-0 space-12">
+                        <Vurdering varsel={varsel} />
+                    </Box>
+                )}
+                <EkspanderbartVarsel.Content>
+                    <Box paddingInline="space-56 space-8" paddingBlock="space-0 space-12">
+                        <VStack gap="space-8" align="start">
+                            {varsel.forklaring && varsel.handling && (
+                                <>
+                                    <Varselseksjon tittel="Hva betyr det?">{varsel.forklaring}</Varselseksjon>
+                                    <Varselseksjon tittel="Hva gjør du?">{varsel.handling}</Varselseksjon>
+                                    <Tag size="small" variant="moderate" data-color="neutral">
+                                        Opprettet: {dayjs(varsel.opprettet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
+                                    </Tag>
+                                </>
+                            )}
+                        </VStack>
+                    </Box>
+                </EkspanderbartVarsel.Content>
+            </EkspanderbartVarsel>
+        </Box>
     );
 }
 
