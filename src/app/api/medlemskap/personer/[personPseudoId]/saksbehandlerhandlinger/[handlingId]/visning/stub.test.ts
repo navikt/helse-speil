@@ -24,7 +24,7 @@ describe('visning av saksbehandlerhandling-stub for medlemskap', () => {
         expect(response.status).toBe(200);
         expect(await response.json()).toEqual({
             felter: [
-                { type: 'TEKST', tittel: 'Medlemskap', tekst: 'Ikke medlem i folketrygden' },
+                { type: 'TEKST', tittel: 'Medlemskap', tekst: 'Ikke oppfylt' },
                 { type: 'LISTE', tittel: 'Journalposter', elementer: ['453912345'] },
                 { type: 'TEKST', tittel: 'Begrunnelse', tekst: 'Bor utenfor EØS' },
             ],
@@ -42,7 +42,7 @@ describe('visning av saksbehandlerhandling-stub for medlemskap', () => {
         const { felter } = await (await hentVisning(id)).json();
 
         expect(felter).toEqual([
-            { type: 'TEKST', tittel: 'Medlemskap', tekst: 'Medlem i folketrygden' },
+            { type: 'TEKST', tittel: 'Medlemskap', tekst: 'Oppfylt' },
             { type: 'TEKST', tittel: 'Begrunnelse', tekst: 'Medlem' },
         ]);
     });

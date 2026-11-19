@@ -97,8 +97,8 @@ export function hentVisning(personPseudoId: string, medlemskapsvurderingId: stri
 }
 
 const visningsnavn: Record<ApiMedlemskapsstatus, string> = {
-    [ApiMedlemskapsstatus.JA]: 'Medlem i folketrygden',
-    [ApiMedlemskapsstatus.NEI]: 'Ikke medlem i folketrygden',
+    [ApiMedlemskapsstatus.JA]: 'Oppfylt',
+    [ApiMedlemskapsstatus.NEI]: 'Ikke oppfylt',
     [ApiMedlemskapsstatus.UAVKLART]: 'Uavklart',
     [ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL]: 'Uavklart med brukerspørsmål',
 };
