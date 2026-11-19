@@ -1,7 +1,9 @@
 import { Mock, vi } from 'vitest';
 
+import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { useSkalViseUnder20SykdomsgradsvarselSomFeil } from '@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel';
 import { useFetchPersonQuery } from '@state/person';
+import { useNyttVarseldesign } from '@state/toggles';
 import { render } from '@test-utils';
 import { screen } from '@testing-library/react';
 
@@ -9,11 +11,16 @@ import { Saksbildevarsler } from './Saksbildevarsler';
 
 vi.mock('@state/person');
 vi.mock('@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel');
+vi.mock('@state/toggles', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@state/toggles')>()),
+    useNyttVarseldesign: vi.fn(),
+}));
 
 describe('Saksbildevarsler', () => {
     beforeEach(() => {
         (useFetchPersonQuery as Mock).mockReturnValue({ data: null });
         (useSkalViseUnder20SykdomsgradsvarselSomFeil as Mock).mockReturnValue(false);
+        (useNyttVarseldesign as Mock).mockReturnValue(false);
     });
 
     test('viser feilvarsel om utbetaling har feilet', () => {
@@ -146,4 +153,65 @@ describe('Saksbildevarsler', () => {
         );
         expect(screen.queryByText('Manuell vurdering av opptjening')).not.toBeInTheDocument();
     });
+
+    describe('med nytt varseldesign', () => {
+        beforeEach(() => {
+            (useNyttVarseldesign as Mock).mockReturnValue(true);
+        });
+
+        test('viser meldinger utenfor varselområdet', () => {
+            render(
+                <Saksbildevarsler
+                    periodState="utbetalingFeilet"
+                    varsler={[varsel]}
+                    harTotrinnsvurdering={true}
+                    harTilkommenInntektEndring={true}
+                />,
+            );
+            const varselområde = screen.getByRole('region', { name: 'Varsler' });
+            expect(varselområde).toContainElement(screen.getByText('Et varsel'));
+            expect(screen.getByText('Utbetalingen feilet.')).toBeVisible();
+            expect(varselområde).not.toContainElement(screen.getByText('Utbetalingen feilet.'));
+            expect(screen.getByText('Tilkommen inntekt')).toBeVisible();
+            expect(varselområde).not.toContainElement(screen.getByText('Tilkommen inntekt'));
+        });
+
+        test('viser ikke varselområdet når perioden ikke har varsler', () => {
+            render(
+                <Saksbildevarsler
+                    periodState="venterPåInntektsopplysninger"
+                    varsler={[]}
+                    harTotrinnsvurdering={false}
+                    harTilkommenInntektEndring={false}
+                />,
+            );
+            expect(screen.getByText('Ikke klar til behandling - venter på inntektsmelding')).toBeVisible();
+            expect(screen.queryByRole('region', { name: 'Varsler' })).not.toBeInTheDocument();
+            expect(screen.queryByRole('button', { name: /varsler/i })).not.toBeInTheDocument();
+        });
+
+        test('viser ikke varselområdet når perioden bare har varsler som ikke skal vises', () => {
+            render(
+                <Saksbildevarsler
+                    periodState="utbetalt"
+                    varsler={[{ ...varsel, kode: 'SB_EX_2' }]}
+                    harTotrinnsvurdering={false}
+                    harTilkommenInntektEndring={false}
+                />,
+            );
+            expect(screen.queryByRole('region', { name: 'Varsler' })).not.toBeInTheDocument();
+        });
+    });
 });
+
+const varsel: ApiVarselDTO = {
+    id: '61b4e00e-497b-4454-ba9b-c59cda9a462f',
+    definisjonId: 'EN_ID',
+    behandlingId: 'EN_ID',
+    opprettet: '2020-01-01',
+    kode: 'EN_KODE',
+    tittel: 'Et varsel',
+    forklaring: null,
+    handling: null,
+    vurdering: null,
+};

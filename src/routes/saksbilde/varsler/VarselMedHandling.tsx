@@ -10,7 +10,7 @@ import { cn } from '@utils/tw';
 import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { Varsel, varselfarge } from './Varsel';
 import { Varselseksjon } from './Varselseksjon';
-import { VarselstatusType } from './Varsler';
+import { VarselstatusType } from './varselstatus';
 
 interface VarselMedHandlingProps {
     varsel: ApiVarselDTO;

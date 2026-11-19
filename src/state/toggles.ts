@@ -10,6 +10,7 @@ export type ToggleState = {
     kanVurdereOppholdskrav: boolean;
     utviklersnacks: boolean;
     kanOverstyreAlleMedlemskapsstatuser: boolean;
+    nyttVarseldesign: boolean;
 };
 
 type SessionToggleState = Omit<ToggleState, 'utviklersnacks'>;
@@ -18,6 +19,7 @@ const defaultToggleState: SessionToggleState = {
     kanBeslutteEgne: false,
     kanVurdereOppholdskrav: false,
     kanOverstyreAlleMedlemskapsstatuser: false,
+    nyttVarseldesign: false,
 };
 
 const toggleState = atomWithSessionStorage<SessionToggleState>('toggleState', defaultToggleState);
@@ -69,5 +71,9 @@ export const useKanOverstyreAlleMedlemskapsstatuser = (): boolean =>
 
 // Bare i dev til skissene for § 8-9 er klare og sp-avslagsdager er i drift i prod (navikt/sas-issues#98)
 export const useKanVurdereOppholdskrav = (): boolean => useAtomValue(toggleState).kanVurdereOppholdskrav && erUtvikling;
+
+export function useNyttVarseldesign(): boolean {
+    return useAtomValue(toggleState).nyttVarseldesign && erUtvikling;
+}
 
 export const useUtviklersnacks = (): boolean => useAtomValue(utviklersnacksState);

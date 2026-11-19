@@ -5,6 +5,7 @@ import { Alert, BodyShort } from '@navikt/ds-react';
 
 import { ApiOverstyring, ApiSaksbildeVarselstatus, ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { useInntektOgRefusjon } from '@state/overstyring';
+import { useNyttVarseldesign } from '@state/toggles';
 import { DateString, PeriodState } from '@typer/shared';
 import { cn } from '@utils/tw';
 import {
@@ -17,7 +18,9 @@ import {
 
 import { EkspanderbartVarsel } from './EkspanderbartVarsel';
 import { KalkulerEndringerVarsel } from './KalkulerEndringerVarsel';
+import { Varselkort } from './Varselkort';
 import { Varsler } from './Varsler';
+import { synligeVarsler } from './varselstatus';
 
 export type VarselObject = {
     grad: 'info' | 'success' | 'warning' | 'error';
@@ -56,6 +59,7 @@ export function Saksbildevarsler({
     saksbehandlerhandlingerTilKontroll = [],
 }: SaksbildevarslerProps): ReactElement | null {
     const [open, setOpen] = useState(true);
+    const nyttVarseldesign = useNyttVarseldesign();
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
 
     const kontrollpunkter = beslutteroppgave({
@@ -91,6 +95,25 @@ export function Saksbildevarsler({
 
     if (!skalViseVarsler && !skalViseKalkulerEndringerVarsel) return null;
 
+    if (nyttVarseldesign) {
+        const varslerSomVises = synligeVarsler(varsler ?? []);
+        return (
+            <div>
+                {kontrollpunkter.length > 0 && <Kontrollpunkter kontrollpunkter={kontrollpunkter} />}
+                {infoVarsler.map((varsel) => (
+                    <Melding key={varsel.melding} {...varsel} />
+                ))}
+                {feilVarsler.map((varsel) => (
+                    <Melding key={varsel.melding} {...varsel} />
+                ))}
+                {varslerSomVises.length > 0 && <Varselkort varsler={varslerSomVises} />}
+                {skalViseKalkulerEndringerVarsel && (
+                    <KalkulerEndringerVarsel lokaleInntektoverstyringer={lokaleInntektoverstyringer} />
+                )}
+            </div>
+        );
+    }
+
     const skjulVarslerHeader = infoVarsler.length === 0 && varsler?.length === 0 && feilVarsler.length === 0;
     const antallSjekket = varsler?.filter(erSjekket).length ?? 0;
     const headertekst = open
@@ -111,16 +134,7 @@ export function Saksbildevarsler({
                         {headertekst}
                     </EkspanderbartVarsel.Header>
                     <EkspanderbartVarsel.Content>
-                        {kontrollpunkter.length > 0 && (
-                            <Alert className={alertklasser} variant="info" fullWidth>
-                                <BodyShort weight="semibold">Kontroller:</BodyShort>
-                                <ul>
-                                    {kontrollpunkter.map((kontrollpunkt) => (
-                                        <li key={kontrollpunkt}>{kontrollpunkt}</li>
-                                    ))}
-                                </ul>
-                            </Alert>
-                        )}
+                        {kontrollpunkter.length > 0 && <Kontrollpunkter kontrollpunkter={kontrollpunkter} />}
                         {infoVarsler.map((varsel) => (
                             <Melding key={varsel.melding} {...varsel} />
                         ))}
@@ -139,6 +153,19 @@ export function Saksbildevarsler({
 }
 
 const alertklasser = 'border-x-0 border-t-0 py-2';
+
+function Kontrollpunkter({ kontrollpunkter }: { kontrollpunkter: string[] }): ReactElement {
+    return (
+        <Alert className={alertklasser} variant="info" fullWidth>
+            <BodyShort weight="semibold">Kontroller:</BodyShort>
+            <ul>
+                {kontrollpunkter.map((kontrollpunkt) => (
+                    <li key={kontrollpunkt}>{kontrollpunkt}</li>
+                ))}
+            </ul>
+        </Alert>
+    );
+}
 
 function Melding({ grad, melding }: VarselObject): ReactElement {
     return (
