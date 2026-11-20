@@ -83,7 +83,7 @@ export function InngangsvilkårWithContent({
     const vurdererOpptjening = åpentSkjema === 'opptjening';
     const vurdererMedlemskap = åpentSkjema === 'medlemskap';
     const skjæringstidspunkt = opptjeningsvurdering.data?.skjæringstidspunkt;
-    const medlemskapSkjæringstidspunkt = medlemskapsvurdering.data?.skjæringstidspunkt;
+    const medlemskapsdata = medlemskapsvurdering.data;
     const alderVedSkjæringstidspunkt = dayjs(vilkårsgrunnlag.skjaeringstidspunkt).diff(fødselsdato, 'year');
     const vurdertTekst = vurdertTekstFor(vilkårsgrunnlag, vurdering);
     const { utfall, erOverførtFraInfotrygd } = opptjeningsvurdering;
@@ -161,11 +161,12 @@ export function InngangsvilkårWithContent({
                             />
                         </Vurderingspanel>
                     )}
-                    {!serPåTidligereBehandling && vurdererMedlemskap && medlemskapSkjæringstidspunkt !== undefined && (
+                    {!serPåTidligereBehandling && vurdererMedlemskap && medlemskapsdata !== undefined && (
                         <Vurderingspanel>
                             <MedlemskapsvurderingSkjema
                                 personPseudoId={personPseudoId}
-                                skjæringstidspunkt={medlemskapSkjæringstidspunkt}
+                                skjæringstidspunkt={medlemskapsdata.skjæringstidspunkt}
+                                gjeldendeMedlemskapsvurderingId={medlemskapsdata.medlemskapsvurdering.id}
                                 onOverstyrt={medlemskapsvurdering.onOverstyrt}
                                 onLukk={() => setÅpentSkjema(null)}
                             />

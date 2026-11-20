@@ -27,9 +27,11 @@ export const medlemskapsvurderingDefaultValues: Partial<MedlemskapsvurderingSche
 export function tilMedlemskapsvurderingRequest(
     svar: MedlemskapsvurderingSchema,
     skjæringstidspunkt: string,
+    gjeldendeMedlemskapsvurderingId: string,
 ): ApiManuellVilkårsvurderingRequest {
     return {
         skjæringstidspunkt,
+        gjeldendeMedlemskapsvurderingId,
         status: svar.status,
         fritekstbegrunnelse: svar.fritekstbegrunnelse,
         journalpostId: journalpostIderTilRequest(svar),

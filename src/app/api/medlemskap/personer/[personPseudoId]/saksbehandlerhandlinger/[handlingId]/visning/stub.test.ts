@@ -1,5 +1,12 @@
-import { vurderMedlemskap } from '@app/api/medlemskap/personer/[personPseudoId]/vilkarsvurderinger/medlemskapMock';
-import { ApiMedlemskapsstatus } from '@io/rest/generated/medlemskap/medlemskap.schemas';
+import {
+    hentMedlemskapshistorikk,
+    hentMedlemskapsvurdering,
+    vurderMedlemskap,
+} from '@app/api/medlemskap/personer/[personPseudoId]/vilkarsvurderinger/medlemskapMock';
+import {
+    ApiManuellVilkårsvurderingRequest,
+    ApiMedlemskapsstatus,
+} from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import { PersonMock } from '@spesialist-mock/storage/person';
 
 import { stub } from './stub';
@@ -12,8 +19,7 @@ function hentVisning(handlingId: string, id = personPseudoId) {
 
 describe('visning av saksbehandlerhandling-stub for medlemskap', () => {
     it('viser status, journalposter og begrunnelse for en manuell vurdering', async () => {
-        const id = vurderMedlemskap(personPseudoId, {
-            skjæringstidspunkt: '2024-07-01',
+        const id = vurder({
             status: ApiMedlemskapsstatus.NEI,
             fritekstbegrunnelse: 'Bor utenfor EØS',
             journalpostId: ['453912345'],
@@ -32,8 +38,7 @@ describe('visning av saksbehandlerhandling-stub for medlemskap', () => {
     });
 
     it('utelater journalposter når det ikke er noen', async () => {
-        const id = vurderMedlemskap(personPseudoId, {
-            skjæringstidspunkt: '2024-07-01',
+        const id = vurder({
             status: ApiMedlemskapsstatus.JA,
             fritekstbegrunnelse: 'Medlem',
             journalpostId: [],
@@ -48,8 +53,7 @@ describe('visning av saksbehandlerhandling-stub for medlemskap', () => {
     });
 
     it('svarer 404 for ukjent handling og for ukjent person', async () => {
-        const id = vurderMedlemskap(personPseudoId, {
-            skjæringstidspunkt: '2024-07-01',
+        const id = vurder({
             status: ApiMedlemskapsstatus.JA,
             fritekstbegrunnelse: 'Medlem',
             journalpostId: [],
@@ -59,3 +63,17 @@ describe('visning av saksbehandlerhandling-stub for medlemskap', () => {
         expect((await hentVisning(id, 'finnes-ikke')).status).toBe(404);
     });
 });
+
+// Saksbehandler vurderer alltid ut fra den gjeldende vurderingen på skjæringstidspunktet
+function vurder(
+    request: Omit<ApiManuellVilkårsvurderingRequest, 'skjæringstidspunkt' | 'gjeldendeMedlemskapsvurderingId'>,
+) {
+    const skjæringstidspunkt = '2024-07-01';
+    hentMedlemskapsvurdering(personPseudoId, '6ddd9fd0-4aad-5029-b073-ff75dbc6ac80');
+    const gjeldende = hentMedlemskapshistorikk(personPseudoId, skjæringstidspunkt).historikk[0]!;
+    return vurderMedlemskap(personPseudoId, {
+        ...request,
+        skjæringstidspunkt,
+        gjeldendeMedlemskapsvurderingId: gjeldende.medlemskapsvurdering.id,
+    })!;
+}

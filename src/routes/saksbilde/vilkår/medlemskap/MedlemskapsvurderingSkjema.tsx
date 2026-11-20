@@ -25,6 +25,7 @@ import { skjemasporing } from '../opptjening/skjemasporing';
 interface MedlemskapsvurderingSkjemaProps {
     personPseudoId: string;
     skjæringstidspunkt: string;
+    gjeldendeMedlemskapsvurderingId: string;
     onOverstyrt: (medlemskapsvurderingId: string) => void;
     onLukk: () => void;
 }
@@ -32,6 +33,7 @@ interface MedlemskapsvurderingSkjemaProps {
 export function MedlemskapsvurderingSkjema({
     personPseudoId,
     skjæringstidspunkt,
+    gjeldendeMedlemskapsvurderingId,
     onOverstyrt,
     onLukk,
 }: MedlemskapsvurderingSkjemaProps): ReactElement {
@@ -43,7 +45,7 @@ export function MedlemskapsvurderingSkjema({
         defaultValues: medlemskapsvurderingDefaultValues,
     });
 
-    const { mutate, isPending, isError } = usePostManuellVilkårsvurderingBehandler({
+    const { mutate, isPending, isError, error } = usePostManuellVilkårsvurderingBehandler({
         mutation: {
             onSuccess: (response, { data }) => {
                 sporing.fullført({
@@ -69,7 +71,10 @@ export function MedlemskapsvurderingSkjema({
     }
 
     function onSubmit(skjema: MedlemskapsvurderingSchema) {
-        mutate({ personId: personPseudoId, data: tilMedlemskapsvurderingRequest(skjema, skjæringstidspunkt) });
+        mutate({
+            personId: personPseudoId,
+            data: tilMedlemskapsvurderingRequest(skjema, skjæringstidspunkt, gjeldendeMedlemskapsvurderingId),
+        });
     }
 
     return (
@@ -92,7 +97,16 @@ export function MedlemskapsvurderingSkjema({
                     )}
                 />
                 <BegrunnelseOgJournalpost />
-                <Skjemaknapper lagrer={isPending} lagringFeilet={isError} onAvbryt={avbryt} />
+                <Skjemaknapper
+                    lagrer={isPending}
+                    lagringFeilet={isError}
+                    lagringsfeilmelding={
+                        error?.status === 409
+                            ? 'Medlemskapsvurderingen er endret siden du åpnet saken. Last inn siden på nytt før du vurderer.'
+                            : undefined
+                    }
+                    onAvbryt={avbryt}
+                />
             </VStack>
         </FormProvider>
     );

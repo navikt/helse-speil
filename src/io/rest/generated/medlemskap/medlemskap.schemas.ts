@@ -126,6 +126,7 @@ export const ApiManuellMedlemskapsstatus = {
 
 export interface ApiManuellVilkårsvurderingRequest {
     skjæringstidspunkt: string;
+    gjeldendeMedlemskapsvurderingId: string;
     status: ApiManuellMedlemskapsstatus;
     fritekstbegrunnelse: string;
     journalpostId: string[];

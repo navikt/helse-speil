@@ -8,10 +8,17 @@ interface SkjemaknapperProps {
     visLagre?: boolean;
     lagrer: boolean;
     lagringFeilet: boolean;
+    lagringsfeilmelding?: string;
     onAvbryt: () => void;
 }
 
-export function Skjemaknapper({ visLagre = true, lagrer, lagringFeilet, onAvbryt }: SkjemaknapperProps): ReactElement {
+export function Skjemaknapper({
+    visLagre = true,
+    lagrer,
+    lagringFeilet,
+    lagringsfeilmelding = 'Kunne ikke lagre vurderingen',
+    onAvbryt,
+}: SkjemaknapperProps): ReactElement {
     return (
         <>
             <HStack gap="space-8">
@@ -26,7 +33,7 @@ export function Skjemaknapper({ visLagre = true, lagrer, lagringFeilet, onAvbryt
             </HStack>
             {lagringFeilet && (
                 <Alert variant="error" size="small" inline>
-                    Kunne ikke lagre vurderingen
+                    {lagringsfeilmelding}
                 </Alert>
             )}
         </>

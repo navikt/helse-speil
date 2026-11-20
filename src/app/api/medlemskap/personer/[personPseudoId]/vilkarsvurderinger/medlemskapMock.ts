@@ -67,8 +67,15 @@ export function hentMedlemskapsvurdering(
     return vurdering;
 }
 
-// Speiler Medlemskapsvurdering.avSaksbehandler() i sp-medlemskap
-export function vurderMedlemskap(personPseudoId: string, request: ApiManuellVilkårsvurderingRequest): string {
+// Speiler PostManuellVilkårsvurderingBehandler i sp-medlemskap: gir undefined hvis saksbehandler så på en
+// vurdering som ikke lenger er gjeldende for skjæringstidspunktet
+export function vurderMedlemskap(
+    personPseudoId: string,
+    request: ApiManuellVilkårsvurderingRequest,
+): string | undefined {
+    const gjeldende = hentMedlemskapshistorikk(personPseudoId, request.skjæringstidspunkt).historikk[0];
+    if (gjeldende?.medlemskapsvurdering.id !== request.gjeldendeMedlemskapsvurderingId) return undefined;
+
     const id = crypto.randomUUID();
     const vurdering: ApiMedlemskapsvurdering = {
         id,

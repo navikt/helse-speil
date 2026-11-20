@@ -32,8 +32,11 @@ describe('medlemskapsvurderingSkjema', () => {
     });
 
     it('lager request uten tomme journalpost-ID-er', () => {
-        expect(tilMedlemskapsvurderingRequest(medlemskapsvurderingSkjema.parse(gyldig), '2024-01-01')).toEqual({
+        expect(
+            tilMedlemskapsvurderingRequest(medlemskapsvurderingSkjema.parse(gyldig), '2024-01-01', 'vurdering-1'),
+        ).toEqual({
             skjæringstidspunkt: '2024-01-01',
+            gjeldendeMedlemskapsvurderingId: 'vurdering-1',
             status: ApiManuellMedlemskapsstatus.NEI,
             fritekstbegrunnelse: 'Bor i utlandet',
             journalpostId: ['123'],
