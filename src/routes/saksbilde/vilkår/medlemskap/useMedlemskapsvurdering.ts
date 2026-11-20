@@ -12,7 +12,6 @@ import {
     getGetVilkårsvurderingerForPersonBehandlerQueryKey,
     useGetVilkårsvurderingerForPersonBehandler,
 } from '@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger';
-import { medlemskapsvurderingFraSvar } from '@saksbilde/vilkår/medlemskap/medlemskapsvurderingFraSvar';
 import { Vilkårsutfall } from '@saksbilde/vilkår/vilkårsutfall';
 import {
     visningenErOppdatertToast,
@@ -73,7 +72,7 @@ export function useMedlemskapsvurdering(personPseudoId: string, medlemskapsvurde
         medlemskapsvurderingId: gjeldendeMedlemskapsvurderingId,
     });
 
-    const vurdering = medlemskapsvurderingFraSvar(data);
+    const vurdering = data?.medlemskapsvurdering;
 
     return {
         data,

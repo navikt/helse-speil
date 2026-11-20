@@ -2,7 +2,6 @@ import { useParams } from 'next/navigation';
 
 import { ApiMedlemskapsstatus } from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger';
-import { medlemskapsvurderingFraSvar } from '@saksbilde/vilkår/medlemskap/medlemskapsvurderingFraSvar';
 import { finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
@@ -35,8 +34,7 @@ export function useSkalViseMedlemskapsvarselSomFeil(): Medlemskapsvarselvisning 
     return {
         skalViseSomFeil:
             gjelderPeriodeTilGodkjenning &&
-            (isError ||
-                medlemskapsvurderingFraSvar(data)?.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL),
+            (isError || data?.medlemskapsvurdering.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL),
         henterStatus: gjelderPeriodeTilGodkjenning && isLoading,
     };
 }
