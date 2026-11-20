@@ -8,6 +8,7 @@ import { useSpleisVedtaksperiodeQuery } from '@io/rest/spleis';
 import { Handlinger } from '@saksbilde/utvikler/Handlinger';
 import { JsonVisning } from '@saksbilde/utvikler/JsonVisning';
 import { Rettighetskategori } from '@saksbilde/utvikler/Rettighetskategori';
+import { Sykepengegrunnlag } from '@saksbilde/utvikler/Sykepengegrunnlag';
 import { Hendelser } from '@saksbilde/utvikler/hendelser/Hendelser';
 
 interface UtviklerProps {
@@ -31,6 +32,7 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer, personPseudoId }: U
                     <Tabs.List>
                         <Tabs.Tab value="spleisdata" label="Spleis-data" />
                         <Tabs.Tab value="rettighetskategori" label="Rettighetskategori" />
+                        <Tabs.Tab value="sykepengegrunnlag" label="Sykepengegrunnlag" />
                         <Tabs.Tab value="hendelser" label="Hendelser" />
                         <Tabs.Tab value="handlinger" label="Handlinger" />
                         <Tabs.Tab
@@ -53,6 +55,14 @@ export const Utvikler = ({ vedtaksperiodeId, fødselsnummer, personPseudoId }: U
                             <Rettighetskategori
                                 personPseudoId={personPseudoId}
                                 rettighetskategoriId={data.vilkårsgrunnlag?.rettighetskategoriId}
+                            />
+                        </Box>
+                    </Tabs.Panel>
+                    <Tabs.Panel value="sykepengegrunnlag">
+                        <Box paddingBlock="space-16">
+                            <Sykepengegrunnlag
+                                personPseudoId={personPseudoId}
+                                skjæringstidspunkt={data.skjæringstidspunkt}
                             />
                         </Box>
                     </Tabs.Panel>

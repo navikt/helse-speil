@@ -24,6 +24,7 @@
         "lokal-medlemskap": "NEXT_PUBLIC_RUNTIME_ENV=lokal LOKALE_BACKENDS=medlemskap PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "lokal-andre-ytelser": "NEXT_PUBLIC_RUNTIME_ENV=lokal LOKALE_BACKENDS=andre-ytelser PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "lokal-avslagsdager": "NEXT_PUBLIC_RUNTIME_ENV=lokal LOKALE_BACKENDS=avslagsdager PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
+        "lokal-sykepengegrunnlag": "NEXT_PUBLIC_RUNTIME_ENV=lokal LOKALE_BACKENDS=sykepengegrunnlag PORT=1234 next dev --turbopack | pino-pretty --messageKey=message",
         "import-testperson": "dev/importer-testdata.sh",
         "prebuild": "next telemetry disable",
         "preinstall": "npx only-allow pnpm",
@@ -44,6 +45,7 @@
         "generate-rest:medlemskap": "orval --project medlemskap",
         "generate-rest:andre-ytelser": "orval --project andre-ytelser",
         "generate-rest:avslagsdager": "orval --project avslagsdager",
+        "generate-rest:sykepengegrunnlag": "orval --project sykepengegrunnlag",
         "generate-sanity": "SPALTEN_DIR=${SPALTEN_DIR:-../spalten}; [ -d \"$SPALTEN_DIR\" ] || { echo \"Fant ikke spalten i '$SPALTEN_DIR'.\"; exit 1; }; pnpm --dir \"$SPALTEN_DIR\" exec sanity schema extract --enforce-required-fields --path \"$PWD/src/io/sanity/schema.json\" && \"$SPALTEN_DIR/node_modules/.bin/sanity\" typegen generate && oxfmt src/io/sanity/generated",
         "install-precommit-hooks": "husky",
         "lint-staged": "lint-staged"

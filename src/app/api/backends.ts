@@ -82,6 +82,12 @@ export const backends = {
         lokalPort: 8484,
         målprefiks: '/api',
     },
+    sykepengegrunnlag: {
+        scopeEnv: 'CLIENT_ID_SYKEPENGEGRUNNLAG',
+        baseUrlEnv: 'SYKEPENGEGRUNNLAG_BASE_URL',
+        lokalPort: 8686,
+        målprefiks: '/api',
+    },
     avslagsdager: {
         scopeEnv: 'CLIENT_ID_AVSLAGSDAGER',
         baseUrlEnv: 'AVSLAGSDAGER_BASE_URL',

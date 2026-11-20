@@ -39,6 +39,7 @@ spec:
         - application: sp-andre-ytelser
         - application: sp-medlemskap
         - application: sp-rettighetskategori
+        - application: sp-sykepengegrunnlag
         - application: sparsom-api
       external:
         - host: api.sanity.io
@@ -138,6 +139,10 @@ spec:
       value: api://prod-gcp.tbd.sp-rettighetskategori/.default
     - name: RETTIGHETSKATEGORI_BASE_URL
       value: http://sp-rettighetskategori
+    - name: CLIENT_ID_SYKEPENGEGRUNNLAG
+      value: api://prod-gcp.tbd.sp-sykepengegrunnlag/.default
+    - name: SYKEPENGEGRUNNLAG_BASE_URL
+      value: http://sp-sykepengegrunnlag
     - name: CLIENT_ID_SPARSOM_API
       value: api://prod-gcp.tbd.sparsom-api/.default
     - name: SPARSOM_API_BASE_URL

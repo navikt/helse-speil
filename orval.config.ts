@@ -11,6 +11,7 @@ import {
     medlemskapOpenAPITransformer,
     spesialistOpenAPITransformer,
     sporhundOpenAPITransformer,
+    sykepengegrunnlagOpenAPITransformer,
     vilkarsprovingOpenAPITransformer,
 } from './src/io/rest/openapi-transformer';
 
@@ -122,6 +123,19 @@ export default defineConfig({
             ...sharedOutput,
             // Egen mappe, siden spesialist også har taggene saksbehandlerhandlinger og vurderinger
             target: 'src/io/rest/generated/avslagsdager/avslagsdager.ts',
+        },
+        hooks: sharedHooks,
+    },
+    sykepengegrunnlag: {
+        input: {
+            target: 'http://localhost:8686/api/openapi.json',
+            override: {
+                transformer: sykepengegrunnlagOpenAPITransformer,
+            },
+        },
+        output: {
+            ...sharedOutput,
+            target: 'src/io/rest/generated/sykepengegrunnlag/sykepengegrunnlag.ts',
         },
         hooks: sharedHooks,
     },
