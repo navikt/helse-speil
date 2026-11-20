@@ -7,6 +7,7 @@ import {
     ApiInntektoverstyring,
     ApiMinimumSykdomsgradOverstyring,
     ApiOverstyring,
+    ApiPeriodetilstand,
     ApiSaksbildePerson,
     ApiSelvstendigNaering,
     ApiSykepengegrunnlagskjonnsfastsetting,
@@ -28,6 +29,9 @@ export const isInfotrygdPeriod = (period?: TimelinePeriod | null): period is Inf
 
 export const isBeregnetPeriode = (periode?: TimelinePeriod | null): periode is ApiBeregnetPeriode =>
     (periode as ApiBeregnetPeriode)?.type === 'ApiBeregnetPeriode';
+
+export const isAnnullertBeregnetPeriode = (periode?: TimelinePeriod | null): boolean =>
+    isBeregnetPeriode(periode) && periode.periodetilstand === ApiPeriodetilstand.Annullert;
 
 export const isGhostPeriode = (period?: TimelinePeriod | null): period is ApiGhostPeriode =>
     period != null && 'deaktivert' in period && !('type' in period);
