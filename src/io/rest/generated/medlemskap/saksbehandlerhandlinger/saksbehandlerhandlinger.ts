@@ -4,8 +4,6 @@
  * sp-medlemskap
  * OpenAPI spec version: 1.0.0
  */
-import type { ApiSaksbehandlerhandlingVisningResponse, ProblemDetails } from '../medlemskap.schemas';
-
 import type {
     DataTag,
     DefinedInitialDataOptions,
@@ -18,6 +16,8 @@ import type {
     UseQueryResult,
 } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
+
+import type { ApiSaksbehandlerhandlingVisningResponse, ProblemDetails } from '../medlemskap.schemas';
 
 import { withDefaultQueryOptions } from '../../../defaultQueryOptions';
 

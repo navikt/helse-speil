@@ -175,7 +175,7 @@ export function settOppOpptjeningsmocker() {
     mockVilkårsvurderinger(automatiskIkkeOppfyltArbeidMinst4Uker);
     mockOpptjeningshistorikk([]);
     // Inngangsvilkår henter også medlemskapsvurderingen
-    mockFetchResponse({ skjæringstidspunkt: '2024-01-01', krav: [] });
+    mockFetchResponse({ skjæringstidspunkt: '2024-01-01' });
     (usePostManuellOpptjeningsvurderingBehandler as Mock).mockReturnValue({
         mutate,
         isPending: false,

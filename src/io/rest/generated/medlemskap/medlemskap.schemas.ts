@@ -4,12 +4,6 @@
  * sp-medlemskap
  * OpenAPI spec version: 1.0.0
  */
-export type ApiKravkode = (typeof ApiKravkode)[keyof typeof ApiKravkode];
-
-export const ApiKravkode = {
-    MEDLEMSKAP: 'MEDLEMSKAP',
-} as const;
-
 export type ApiMedlemskapsstatus = (typeof ApiMedlemskapsstatus)[keyof typeof ApiMedlemskapsstatus];
 
 export const ApiMedlemskapsstatus = {
@@ -68,8 +62,6 @@ export type ApiVurderingskilde =
 
 export interface ApiMedlemskapsvurdering {
     id: string;
-    kravkode: ApiKravkode;
-    medlemskapOk: boolean;
     status: ApiMedlemskapsstatus;
     vurdertTidspunkt: string;
     kilde: ApiVurderingskilde;
@@ -77,7 +69,7 @@ export interface ApiMedlemskapsvurdering {
 
 export interface ApiVilkårsvurderingerForPersonResponse {
     skjæringstidspunkt: string;
-    krav: ApiMedlemskapsvurdering[];
+    medlemskapsvurdering: ApiMedlemskapsvurdering;
 }
 
 export interface ProblemDetails {
@@ -141,22 +133,6 @@ export interface ApiManuellVilkårsvurderingRequest {
 
 export interface ApiManuellVilkårsvurderingResponse {
     medlemskapsvurderingId: string;
-}
-
-export interface ApiNyAutomatiskVilkårsvurderingRequest {
-    skjæringstidspunkt: string;
-}
-
-export type ApiNyAutomatiskVilkårsvurderingStatus =
-    (typeof ApiNyAutomatiskVilkårsvurderingStatus)[keyof typeof ApiNyAutomatiskVilkårsvurderingStatus];
-
-export const ApiNyAutomatiskVilkårsvurderingStatus = {
-    VENTER_PÅ_GRUNNLAG: 'VENTER_PÅ_GRUNNLAG',
-} as const;
-
-export interface ApiNyAutomatiskVilkårsvurderingResponse {
-    status: ApiNyAutomatiskVilkårsvurderingStatus;
-    medlemskapsprøvingId: string;
 }
 
 export type GetVilkårsvurderingerForPersonBehandlerParams = {

@@ -1,6 +1,5 @@
 import {
     ApiKildetype,
-    ApiKravkode,
     ApiMedlemskapsstatus,
     ApiMedlemskapsvurdering,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
@@ -111,8 +110,6 @@ function enMedlemskapsvurdering(
     return {
         vurdering: {
             id: 'en-medlemskapsvurdering-id',
-            kravkode: ApiKravkode.MEDLEMSKAP,
-            medlemskapOk: true,
             status,
             vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
             kilde: {

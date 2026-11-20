@@ -1,6 +1,5 @@
 import {
     ApiKildetype,
-    ApiKravkode,
     ApiMedlemskapshistorikkInnslag,
     ApiMedlemskapsstatus,
     ApiVilkårsvurderingerForPersonResponse,
@@ -172,21 +171,17 @@ describe('Inngangsvilkår', () => {
         beforeEach(() => {
             medlemskapQuery.data = {
                 skjæringstidspunkt: '2022-01-01',
-                krav: [
-                    {
-                        id: 'en-medlemskapsvurdering-id',
-                        kravkode: ApiKravkode.MEDLEMSKAP,
-                        medlemskapOk: true,
-                        status: ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL,
-                        vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
-                        kilde: {
-                            kildetype: ApiKildetype.AUTOMATISK,
-                            versjonAvKildekode: '1',
-                            oppslagsperiode: { fom: '2022-01-01', tom: '2022-01-01' },
-                            årsaker: [{ regelId: 'SP6001', forklaringPaaUavklart: 'Arbeid utenfor Norge' }],
-                        },
+                medlemskapsvurdering: {
+                    id: 'en-medlemskapsvurdering-id',
+                    status: ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL,
+                    vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
+                    kilde: {
+                        kildetype: ApiKildetype.AUTOMATISK,
+                        versjonAvKildekode: '1',
+                        oppslagsperiode: { fom: '2022-01-01', tom: '2022-01-01' },
+                        årsaker: [{ regelId: 'SP6001', forklaringPaaUavklart: 'Arbeid utenfor Norge' }],
                     },
-                ],
+                },
             };
         });
 
@@ -216,8 +211,6 @@ describe('Inngangsvilkår', () => {
                 vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
                 medlemskapsvurdering: {
                     id: 'en-medlemskapsvurdering-id',
-                    kravkode: ApiKravkode.MEDLEMSKAP,
-                    medlemskapOk: true,
                     status: ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL,
                     vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
                     kilde: {
@@ -232,8 +225,6 @@ describe('Inngangsvilkår', () => {
                 vurdertTidspunkt: '2022-02-03T12:00:00.000Z',
                 medlemskapsvurdering: {
                     id: 'en-manuell-medlemskapsvurdering-id',
-                    kravkode: ApiKravkode.MEDLEMSKAP,
-                    medlemskapOk: true,
                     status: ApiMedlemskapsstatus.JA,
                     vurdertTidspunkt: '2022-02-03T12:00:00.000Z',
                     kilde: {
@@ -248,8 +239,6 @@ describe('Inngangsvilkår', () => {
                 vurdertTidspunkt: '2021-12-01T10:00:00.000Z',
                 medlemskapsvurdering: {
                     id: 'en-infotrygd-medlemskapsvurdering-id',
-                    kravkode: ApiKravkode.MEDLEMSKAP,
-                    medlemskapOk: true,
                     status: ApiMedlemskapsstatus.JA,
                     vurdertTidspunkt: '2021-12-01T10:00:00.000Z',
                     kilde: { kildetype: ApiKildetype.OVERFOERT_FRA_INFOTRYGD },
@@ -338,15 +327,11 @@ function medlemskapssvar(
 ): ApiVilkårsvurderingerForPersonResponse {
     return {
         skjæringstidspunkt: '2022-01-01',
-        krav: [
-            {
-                id: 'en-medlemskapsvurdering-id',
-                kravkode: ApiKravkode.MEDLEMSKAP,
-                medlemskapOk: status === ApiMedlemskapsstatus.JA,
-                status,
-                vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
-                kilde,
-            },
-        ],
+        medlemskapsvurdering: {
+            id: 'en-medlemskapsvurdering-id',
+            status,
+            vurdertTidspunkt: '2022-01-02T10:00:00.000Z',
+            kilde,
+        },
     };
 }

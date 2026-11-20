@@ -95,7 +95,7 @@ describe('useSkalViseMedlemskapsvarselSomFeil', () => {
 
 function medlemskapsstatus(status: ApiMedlemskapsstatus) {
     (useGetVilkårsvurderingerForPersonBehandler as Mock).mockReturnValue({
-        data: { krav: [{ status }] },
+        data: { medlemskapsvurdering: { status } },
         isLoading: false,
     });
 }

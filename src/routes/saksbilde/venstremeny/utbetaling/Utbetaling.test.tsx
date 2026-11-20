@@ -3,7 +3,6 @@ import { Mock, describe, expect, it, vi } from 'vitest';
 
 import {
     ApiKildetype,
-    ApiKravkode,
     ApiMedlemskapsstatus,
     ApiVilkårsvurderingerForPersonResponse,
     ApiVurderingskilde,
@@ -351,16 +350,12 @@ function medlemskapssvar(
 ): ApiVilkårsvurderingerForPersonResponse {
     return {
         skjæringstidspunkt: '2020-01-01',
-        krav: [
-            {
-                id: 'en-medlemskapsvurdering-id',
-                kravkode: ApiKravkode.MEDLEMSKAP,
-                medlemskapOk: status === ApiMedlemskapsstatus.JA,
-                status,
-                vurdertTidspunkt: '2020-01-02T10:00:00.000Z',
-                kilde,
-            },
-        ],
+        medlemskapsvurdering: {
+            id: 'en-medlemskapsvurdering-id',
+            status,
+            vurdertTidspunkt: '2020-01-02T10:00:00.000Z',
+            kilde,
+        },
     };
 }
 

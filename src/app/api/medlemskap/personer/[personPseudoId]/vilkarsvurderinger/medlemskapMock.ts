@@ -1,6 +1,5 @@
 import {
     ApiKildetype,
-    ApiKravkode,
     ApiManuellVilkårsvurderingRequest,
     ApiMedlemskapshistorikkResponse,
     ApiMedlemskapsstatus,
@@ -66,8 +65,6 @@ export function vurderMedlemskap(personPseudoId: string, request: ApiManuellVilk
     const id = crypto.randomUUID();
     const vurdering: ApiMedlemskapsvurdering = {
         id,
-        kravkode: ApiKravkode.MEDLEMSKAP,
-        medlemskapOk: request.status !== ApiMedlemskapsstatus.NEI,
         status: request.status,
         vurdertTidspunkt: new Date().toISOString(),
         kilde: {
@@ -77,15 +74,16 @@ export function vurderMedlemskap(personPseudoId: string, request: ApiManuellVilk
             journalpostId: request.journalpostId,
         },
     };
-    vurderingerFor(personPseudoId).set(id, { skjæringstidspunkt: request.skjæringstidspunkt, krav: [vurdering] });
+    vurderingerFor(personPseudoId).set(id, {
+        skjæringstidspunkt: request.skjæringstidspunkt,
+        medlemskapsvurdering: vurdering,
+    });
     return id;
 }
 
 // Speiler GetSaksbehandlerhandlingVisningBehandler i sp-medlemskap: bare manuelle vurderinger har detaljer
 export function hentVisning(personPseudoId: string, medlemskapsvurderingId: string): Handlingsvisning | undefined {
-    const vurdering = vurderingerFor(personPseudoId)
-        .get(medlemskapsvurderingId)
-        ?.krav.find((krav) => krav.id === medlemskapsvurderingId);
+    const vurdering = vurderingerFor(personPseudoId).get(medlemskapsvurderingId)?.medlemskapsvurdering;
     if (!vurdering || vurdering.kilde.kildetype !== ApiKildetype.SAKSBEHANDLER) return undefined;
     const kilde = vurdering.kilde as ApiVurderingskildeSaksbehandler;
     const felter: Visningsfelt[] = [{ type: 'TEKST', tittel: 'Medlemskap', tekst: visningsnavn[vurdering.status] }];
@@ -110,7 +108,7 @@ export function hentMedlemskapshistorikk(
 ): ApiMedlemskapshistorikkResponse {
     const historikk = [...vurderingerFor(personPseudoId).values()]
         .filter((vurdering) => vurdering.skjæringstidspunkt === skjæringstidspunkt)
-        .flatMap((vurdering) => vurdering.krav)
+        .map((vurdering) => vurdering.medlemskapsvurdering)
         .map((medlemskapsvurdering) => ({
             vurdertTidspunkt: medlemskapsvurdering.vurdertTidspunkt,
             medlemskapsvurdering,
@@ -140,20 +138,16 @@ function automatiskVurdering(
 ): ApiVilkårsvurderingerForPersonResponse {
     return {
         skjæringstidspunkt,
-        krav: [
-            {
-                id,
-                kravkode: ApiKravkode.MEDLEMSKAP,
-                medlemskapOk: svar?.status !== ApiMedlemskapsstatus.NEI,
-                status: svar?.status ?? ApiMedlemskapsstatus.JA,
-                vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
-                kilde: {
-                    kildetype: ApiKildetype.AUTOMATISK,
-                    versjonAvKildekode: 'mock',
-                    oppslagsperiode: { fom: skjæringstidspunkt, tom: skjæringstidspunkt },
-                    årsaker: svar?.årsaker ?? [],
-                },
+        medlemskapsvurdering: {
+            id,
+            status: svar?.status ?? ApiMedlemskapsstatus.JA,
+            vurdertTidspunkt: '2024-01-02T10:00:00.000Z',
+            kilde: {
+                kildetype: ApiKildetype.AUTOMATISK,
+                versjonAvKildekode: 'mock',
+                oppslagsperiode: { fom: skjæringstidspunkt, tom: skjæringstidspunkt },
+                årsaker: svar?.årsaker ?? [],
             },
-        ],
+        },
     };
 }
