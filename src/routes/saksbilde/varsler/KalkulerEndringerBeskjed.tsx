@@ -10,13 +10,13 @@ import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
-interface KalkulerEndringerVarselProps {
+interface KalkulerEndringerBeskjedProps {
     lokaleInntektoverstyringer: OverstyrtInntektOgRefusjon;
 }
 
-export const KalkulerEndringerVarsel = ({
+export const KalkulerEndringerBeskjed = ({
     lokaleInntektoverstyringer,
-}: KalkulerEndringerVarselProps): ReactElement | null => {
+}: KalkulerEndringerBeskjedProps): ReactElement | null => {
     const slettLokaleOverstyringer = useSlettLokaleOverstyringer();
     const { isLoading, error, postOverstyring } = usePostOverstyrtInntektOgRefusjon();
     const [showModal, setShowModal] = useState(false);

@@ -3,15 +3,15 @@ import { Mock } from 'vitest';
 import { ApiSaksbildeVarselstatus, ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { render, screen } from '@test-utils';
 
+import { useSkalViseMedlemskapsvarselSomFeil } from '../useSkalViseMedlemskapsvarselSomFeil';
 import { Varsler } from './Varsler';
-import { useSkalViseMedlemskapsvarselSomFeil } from './useSkalViseMedlemskapsvarselSomFeil';
 
 vi.mock('@hooks/brukerrolleHooks', () => ({ useHarSkrivetilgang: () => true }));
-vi.mock('./useSkalViseAvviksvarselSomFeil', () => ({ useSkalViseAvviksvarselSomFeil: () => false }));
+vi.mock('../useSkalViseAvviksvarselSomFeil', () => ({ useSkalViseAvviksvarselSomFeil: () => false }));
 vi.mock('@saksbilde/varsler/useSkalViseUnder20Sykdomsgradsvarsel', () => ({
     useSkalViseUnder20SykdomsgradsvarselSomFeil: () => false,
 }));
-vi.mock('./useSkalViseMedlemskapsvarselSomFeil', () => ({ useSkalViseMedlemskapsvarselSomFeil: vi.fn() }));
+vi.mock('../useSkalViseMedlemskapsvarselSomFeil', () => ({ useSkalViseMedlemskapsvarselSomFeil: vi.fn() }));
 
 describe('Varsler', () => {
     it('viser medlemskapsvarselet som feil uten avhuking', () => {

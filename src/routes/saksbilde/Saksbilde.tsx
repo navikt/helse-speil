@@ -6,7 +6,6 @@ import { InformationSquareIcon, TerminalIcon } from '@navikt/aksel-icons';
 import { Box, HStack, InfoCard, Tabs, Tooltip, VStack } from '@navikt/ds-react';
 
 import { ApiPeriodetilstand } from '@io/rest/generated/spesialist.schemas';
-import { SaksbildevarselContainer } from '@saksbilde/SaksbildevarselContainer';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
@@ -15,6 +14,7 @@ import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnla
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
+import { SaksbildevarslerOgBeskjeder } from '@saksbilde/varsler/SaksbildevarslerOgBeskjeder';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
@@ -145,7 +145,7 @@ export const Saksbilde = () => {
     if (erAnnullert) {
         return (
             <VStack className="h-full min-w-0 flex-1 overflow-hidden [grid-area:content]">
-                <SaksbildevarselContainer person={person} periode={aktivPeriode} />
+                <SaksbildevarslerOgBeskjeder person={person} periode={aktivPeriode} />
             </VStack>
         );
     }
@@ -159,7 +159,7 @@ export const Saksbilde = () => {
                     initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
                 />
             )}
-            <SaksbildevarselContainer person={person} periode={aktivPeriode} />
+            <SaksbildevarslerOgBeskjeder person={person} periode={aktivPeriode} />
             <Tabs value={tab} onChange={(value) => setTab(value as SaksbildeTab)} size="medium">
                 <HStack
                     wrap={false}

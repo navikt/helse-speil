@@ -2,20 +2,20 @@ import { ApiSaksbildeVarselstatus, ApiVarselDTO } from '@io/rest/generated/spesi
 
 export type VarselstatusType = 'feil' | 'aktiv' | 'vurdert' | 'ferdig-behandlet';
 
-export type Varselkortfarge = 'danger' | 'warning' | 'success';
+export type Varselfarge = 'danger' | 'warning' | 'success';
 
 export type Varseloppsummering = {
     måLøses: number;
     måVurderes: number;
     vurdert: number;
-    farge: Varselkortfarge;
+    farge: Varselfarge;
 };
 
 export function oppsummerVarsler(statuser: VarselstatusType[]): Varseloppsummering {
     const måLøses = statuser.filter((status) => status === 'feil').length;
     const måVurderes = statuser.filter((status) => status === 'aktiv').length;
     const vurdert = statuser.filter((status) => status === 'vurdert' || status === 'ferdig-behandlet').length;
-    const farge: Varselkortfarge = måLøses > 0 ? 'danger' : måVurderes > 0 ? 'warning' : 'success';
+    const farge: Varselfarge = måLøses > 0 ? 'danger' : måVurderes > 0 ? 'warning' : 'success';
     return { måLøses, måVurderes, vurdert, farge };
 }
 
@@ -77,7 +77,7 @@ export function venterPåMedlemskapsstatus(
     );
 }
 
-export const statusetikett: Record<VarselstatusType, { tekst: string; farge: Varselkortfarge }> = {
+export const statusetikett: Record<VarselstatusType, { tekst: string; farge: Varselfarge }> = {
     feil: { tekst: 'Må løses', farge: 'danger' },
     aktiv: { tekst: 'Må vurderes', farge: 'warning' },
     vurdert: { tekst: 'Vurdert', farge: 'success' },

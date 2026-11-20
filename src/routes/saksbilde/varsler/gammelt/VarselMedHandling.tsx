@@ -7,10 +7,10 @@ import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { NORSK_DATOFORMAT_MED_KLOKKESLETT } from '@utils/date';
 import { cn } from '@utils/tw';
 
-import { EkspanderbartVarsel } from './EkspanderbartVarsel';
+import { EkspanderbartVarsel } from '../EkspanderbartVarsel';
+import { Varselseksjon } from '../Varselseksjon';
+import { VarselstatusType } from '../varselstatus';
 import { Varsel, varselfarge } from './Varsel';
-import { Varselseksjon } from './Varselseksjon';
-import { VarselstatusType } from './varselstatus';
 
 interface VarselMedHandlingProps {
     varsel: ApiVarselDTO;

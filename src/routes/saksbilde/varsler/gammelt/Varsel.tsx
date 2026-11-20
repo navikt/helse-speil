@@ -5,9 +5,9 @@ import { BodyShort, HStack, Loader, VStack } from '@navikt/ds-react';
 import { ApiSaksbildeVarselstatus, ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { getFormattedDatetimeString } from '@utils/date';
 
+import { useVarselvurdering } from '../useVarselvurdering';
+import { VarselstatusType } from '../varselstatus';
 import { Avhuking } from './Avhuking';
-import { useVarselvurdering } from './useVarselvurdering';
-import { VarselstatusType } from './varselstatus';
 
 interface VarselProps {
     className?: string;

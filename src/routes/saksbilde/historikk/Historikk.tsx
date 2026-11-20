@@ -4,7 +4,6 @@ import { ReactElement } from 'react';
 import { ErrorBoundary } from '@components/ErrorBoundary';
 import { Key, useKeyboard } from '@hooks/useKeyboard';
 import { useGetNotaterForVedtaksperiode } from '@io/rest/generated/notater/notater';
-import { isAnnullertBeregnetPeriode } from '@saksbilde/SaksbildevarselContainer';
 import { historikkFeil } from '@saksbilde/historikk/HistorikkFeil';
 import { HistorikkVisning } from '@saksbilde/historikk/HistorikkVisning';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
@@ -17,7 +16,7 @@ import {
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useHentSaksbehandlerhandlinger } from '@state/saksbehandlerhandlinger';
-import { isGhostPeriode } from '@utils/typeguards';
+import { isAnnullertBeregnetPeriode, isGhostPeriode } from '@utils/typeguards';
 
 function HistorikkWithContent(): ReactElement | null {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();

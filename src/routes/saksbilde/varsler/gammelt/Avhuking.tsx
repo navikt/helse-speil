@@ -9,7 +9,7 @@ import { ApiSaksbildeVarselstatus } from '@io/rest/generated/spesialist.schemas'
 import { CheckIcon } from '@saksbilde/tidslinje/icons';
 import { cn } from '@utils/tw';
 
-import { VarselstatusType } from './varselstatus';
+import { VarselstatusType } from '../varselstatus';
 
 interface AvhukingProps {
     type: VarselstatusType;

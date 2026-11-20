@@ -23,7 +23,7 @@ import { PeriodState } from '@typer/shared';
 import { getPeriodStateMedOppgave } from '@utils/mapping';
 import { isSelvstendigNaering } from '@utils/typeguards';
 
-import { VarselObject } from '../varsler/Saksbildevarsler';
+import { SaksbildeBeskjed } from '../varsler/saksbildeBeskjeder';
 import { PeriodeCard } from './PeriodeCard';
 import { UtbetalingCard } from './UtbetalingCard';
 import { Utbetaling } from './utbetaling/Utbetaling';
@@ -59,9 +59,9 @@ export const VenstremenyBeregnetPeriode = ({
     );
     const harAktivOppgave = useAktivOppgaveForPeriode(activePeriod) !== null;
     const periodState = getPeriodStateMedOppgave(activePeriod, harAktivOppgave);
-    const utbetalingsvarsler: VarselObject[] = [utbetaling(periodState), tilstandinfo(periodState)].filter(
-        (it) => it,
-    ) as VarselObject[];
+    const utbetalingsbeskjeder = [utbetaling(periodState), tilstandinfo(periodState)].filter(
+        (beskjed) => beskjed !== null,
+    );
 
     return (
         <section className={styles.Venstremeny}>
@@ -88,9 +88,9 @@ export const VenstremenyBeregnetPeriode = ({
                 person={currentPerson}
                 inntektsforholdReferanse={tilReferanse(inntektsforhold)}
             />
-            {utbetalingsvarsler.map(({ grad, melding }, index) => (
+            {utbetalingsbeskjeder.map(({ grad, tekst }, index) => (
                 <Alert variant={grad} key={index}>
-                    <BodyShort>{melding}</BodyShort>
+                    <BodyShort>{tekst}</BodyShort>
                 </Alert>
             ))}
         </section>
@@ -100,24 +100,24 @@ export const VenstremenyBeregnetPeriode = ({
 const getNumberOfDaysWithType = (timeline: ApiDag[], type: ApiUtbetalingsdagtype): number =>
     timeline.filter((it) => it.utbetalingsdagtype === type).length;
 
-const utbetaling = (state: PeriodState): VarselObject | null =>
+const utbetaling = (state: PeriodState): SaksbildeBeskjed | null =>
     ['tilUtbetaling', 'utbetalt', 'revurdert'].includes(state)
-        ? { grad: 'info', melding: 'Utbetalingen er sendt til oppdragssystemet.' }
+        ? { grad: 'info', tekst: 'Utbetalingen er sendt til oppdragssystemet.' }
         : ['tilUtbetalingAutomatisk', 'utbetaltAutomatisk'].includes(state)
-          ? { grad: 'info', melding: 'Perioden er automatisk godkjent' }
+          ? { grad: 'info', tekst: 'Perioden er automatisk godkjent' }
           : null;
 
-const tilstandinfo = (state: PeriodState): VarselObject | null => {
+const tilstandinfo = (state: PeriodState): SaksbildeBeskjed | null => {
     switch (state) {
         case 'kunFerie':
         case 'kunPermisjon':
         case 'revurdertIngenUtbetaling':
         case 'ingenUtbetaling':
-            return { grad: 'info', melding: 'Perioden er godkjent, ingen utbetaling.' };
+            return { grad: 'info', tekst: 'Perioden er godkjent, ingen utbetaling.' };
         case 'annullert':
-            return { grad: 'info', melding: 'Utbetalingen er annullert.' };
+            return { grad: 'info', tekst: 'Utbetalingen er annullert.' };
         case 'tilAnnullering':
-            return { grad: 'info', melding: 'Annullering venter.' };
+            return { grad: 'info', tekst: 'Annullering venter.' };
         default:
             return null;
     }

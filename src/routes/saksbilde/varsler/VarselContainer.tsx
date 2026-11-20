@@ -20,8 +20,13 @@ export function VarselContainer({ varsler }: VarselContainerProps): ReactElement
 
     return (
         <VStack margin="space-24">
-            <ExpansionCard aria-label="Varsler" size="small" data-color={laster ? undefined : oppsummering.farge}>
-                <ExpansionCard.Header className="[--ax-bg-moderate-hoverA:transparent]">
+            <ExpansionCard
+                aria-label="Varsler"
+                size="small"
+                data-color={laster ? undefined : oppsummering.farge}
+                className="border-ax-border-neutral-subtleA shadow-none"
+            >
+                <ExpansionCard.Header className="[--ax-bg-moderate-hoverA:transparent] data-[open=true]:after:bg-ax-border-neutral-subtleA data-[open=true]:after:opacity-50">
                     <ExpansionCard.Title as="h2" size="small">
                         Varsler ({varsler.length})
                     </ExpansionCard.Title>

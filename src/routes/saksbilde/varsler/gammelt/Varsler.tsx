@@ -5,10 +5,10 @@ import { Skeleton, VStack } from '@navikt/ds-react';
 import { ApiVarselDTO } from '@io/rest/generated/spesialist.schemas';
 import { cn } from '@utils/tw';
 
+import { useVisSomFeilRegler } from '../useVisSomFeilRegler';
+import { finnVarselstatus, synligeVarsler, venterPåMedlemskapsstatus } from '../varselstatus';
 import { Varsel, varselfarge } from './Varsel';
 import { VarselMedHandling } from './VarselMedHandling';
-import { useVisSomFeilRegler } from './useVisSomFeilRegler';
-import { finnVarselstatus, synligeVarsler, venterPåMedlemskapsstatus } from './varselstatus';
 
 interface VarslerProps {
     varsler: ApiVarselDTO[];

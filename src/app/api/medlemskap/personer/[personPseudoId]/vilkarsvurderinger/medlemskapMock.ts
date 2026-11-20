@@ -13,6 +13,13 @@ import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person'
 
 const AUTOMATISKE_MEDLEMSKAPSSVAR = new Map<string, AutomatiskSvar>([
     [
+        '2564094783926',
+        {
+            status: ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL,
+            årsaker: [{ regelId: 'SP6001', forklaringPaaUavklart: 'Brukeren har oppgitt arbeid utenfor Norge' }],
+        },
+    ],
+    [
         '2805594640665',
         {
             status: ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL,
