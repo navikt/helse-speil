@@ -33,6 +33,23 @@ export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
     const tittelId = useId();
     const etikettId = useId();
     const måLøses = status === 'feil';
+    const kanÅpnes = !!varsel.forklaring && !!varsel.handling;
+    const tittel = <Varseltittel varsel={varsel} status={status} tittelId={tittelId} etikettId={etikettId} />;
+
+    if (!kanÅpnes) {
+        return (
+            <Box background={`${statusetikett[status].farge}-soft`} borderRadius="8" data-status={status}>
+                <Box paddingInline="space-56 space-8" paddingBlock="space-12">
+                    {tittel}
+                </Box>
+                {!måLøses && (
+                    <Box paddingInline="space-56 space-8" paddingBlock="space-0 space-12">
+                        <Vurdering varsel={varsel} />
+                    </Box>
+                )}
+            </Box>
+        );
+    }
 
     return (
         <Box background={`${statusetikett[status].farge}-soft`} borderRadius="8" data-status={status}>
@@ -43,21 +60,7 @@ export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
                     justify="start"
                     className="text-ax-text-neutral"
                 >
-                    <HStack justify="space-between" align="start" gap="space-8" wrap={false} flexGrow="1">
-                        <Heading id={tittelId} level="3" size="xsmall">
-                            {varsel.tittel}
-                        </Heading>
-                        {måLøses && (
-                            <Tag
-                                id={etikettId}
-                                size="xsmall"
-                                variant="moderate"
-                                data-color={statusetikett[status].farge}
-                            >
-                                {statusetikett[status].tekst}
-                            </Tag>
-                        )}
-                    </HStack>
+                    {tittel}
                 </EkspanderbartVarsel.Header>
                 {!måLøses && (
                     <Box paddingInline="space-56 space-8" paddingBlock="space-0 space-12">
@@ -67,20 +70,36 @@ export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
                 <EkspanderbartVarsel.Content>
                     <Box paddingInline="space-56 space-8" paddingBlock="space-0 space-12">
                         <VStack gap="space-8" align="start">
-                            {varsel.forklaring && varsel.handling && (
-                                <>
-                                    <Varselseksjon tittel="Hva betyr det?">{varsel.forklaring}</Varselseksjon>
-                                    <Varselseksjon tittel="Hva gjør du?">{varsel.handling}</Varselseksjon>
-                                    <Tag size="small" variant="moderate" data-color="neutral">
-                                        Opprettet: {dayjs(varsel.opprettet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
-                                    </Tag>
-                                </>
-                            )}
+                            <Varselseksjon tittel="Hva betyr det?">{varsel.forklaring}</Varselseksjon>
+                            <Varselseksjon tittel="Hva gjør du?">{varsel.handling}</Varselseksjon>
+                            <Tag size="small" variant="moderate" data-color="neutral">
+                                Opprettet: {dayjs(varsel.opprettet).format(NORSK_DATOFORMAT_MED_KLOKKESLETT)}
+                            </Tag>
                         </VStack>
                     </Box>
                 </EkspanderbartVarsel.Content>
             </EkspanderbartVarsel>
         </Box>
+    );
+}
+
+interface VarseltittelProps extends VarselItemProps {
+    tittelId: string;
+    etikettId: string;
+}
+
+function Varseltittel({ varsel, status, tittelId, etikettId }: VarseltittelProps): ReactElement {
+    return (
+        <HStack justify="space-between" align="start" gap="space-8" wrap={false} flexGrow="1">
+            <Heading id={tittelId} level="3" size="xsmall">
+                {varsel.tittel}
+            </Heading>
+            {status === 'feil' && (
+                <Tag id={etikettId} size="xsmall" variant="moderate" data-color={statusetikett[status].farge}>
+                    {statusetikett[status].tekst}
+                </Tag>
+            )}
+        </HStack>
     );
 }
 

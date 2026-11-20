@@ -85,6 +85,28 @@ describe('VarselContainer', () => {
         expect(screen.getByText('Opprettet: 01.01.2020 kl. 12.00')).toBeVisible();
     });
 
+    it('viser varsel uten forklaring og handling som et punkt som ikke kan åpnes', async () => {
+        render(<VarselContainer varsler={[utenInnhold, aktivt]} />);
+        await åpneKortet();
+
+        const kort = screen.getByRole('region', { name: 'Varsler' });
+        expect(within(kort).getByRole('heading', { level: 3, name: 'Varsel uten innhold' })).toBeVisible();
+        expect(within(kort).queryByRole('button', { name: /Varsel uten innhold/ })).not.toBeInTheDocument();
+        expect(within(kort).getAllByRole('button', { expanded: false })).toHaveLength(1);
+        expect(within(kort).getAllByRole('checkbox', { name: /Vurdert/ })).toHaveLength(2);
+        expect(screen.getByRole('heading', { name: 'Varsel uten innhold' }).closest('[data-status]')).toHaveAttribute(
+            'data-status',
+            'aktiv',
+        );
+    });
+
+    it('rendrer varsel som ikke kan åpnes uten violations', async () => {
+        const { container } = render(<VarselContainer varsler={[utenInnhold]} />);
+        await åpneKortet();
+
+        expect((await axe(container)).violations).toEqual([]);
+    });
+
     it('har nøytral bakgrunn i innholdet og fargen til hvert varsel på varselet', async () => {
         (useSkalViseMedlemskapsvarselSomFeil as Mock).mockReturnValue({ skalViseSomFeil: true, henterStatus: false });
         render(<VarselContainer varsler={[aktivt, vurdert, medlemskapsvarsel]} />);
@@ -283,4 +305,13 @@ const medlemskapsvarsel: ApiVarselDTO = {
     id: 'a1b2c3d4-0000-4000-8000-000000000001',
     kode: 'RV_MV_1',
     tittel: 'Vurder lovvalg og medlemskap',
+};
+
+const utenInnhold: ApiVarselDTO = {
+    ...varsel,
+    id: 'a1b2c3d4-0000-4000-8000-000000000002',
+    kode: 'RV_VV_2',
+    tittel: 'Varsel uten innhold',
+    forklaring: null,
+    handling: null,
 };
