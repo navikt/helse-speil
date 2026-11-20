@@ -1,12 +1,11 @@
+personer/*.json
 !personer/mangler_avviksvurdering.json
 !personer/minimalistisk_aroma.json
 !personer/optimistisk_banan.json
 !personer/punktlig_jakke.json
-!personer/sindig_globus.json
-!personer/slapp_appelsin.json
-!tilkommenInntekt/slapp_appelsin_tilkomne_inntekter.json
-!personer/uten_varsler.json
 !personer/selvstendig_næringsdrivende.json
 !personer/selvstendig_næringsdrivende_jordbruker.json
-personer/*.json
-tilkommenInntekt/*.json
+!personer/sindig_globus.json
+!personer/slapp_appelsin.json
+!personer/streng_kaktus.json
+!personer/uten_varsler.json

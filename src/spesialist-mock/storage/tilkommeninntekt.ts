@@ -1,7 +1,4 @@
 import dayjs from 'dayjs';
-import fs from 'fs';
-import path from 'path';
-import { cwd } from 'process';
 
 import {
     ApiTilkommenInntekt,
@@ -11,24 +8,14 @@ import {
     ApiTilkommenInntektPatchApiTilkommenInntektEndringer,
     ApiTilkommenInntektskilde,
 } from '@io/rest/generated/spesialist.schemas';
-import { PersonMock } from '@spesialist-mock/storage/person';
+import { PersonMock, lesTestpersonfiler } from '@spesialist-mock/storage/person';
 
 export class TilkommenInntektMock {
     static inntektskilder: Map<string, ApiTilkommenInntektskilde[]> = new Map();
 
     static {
-        const url = path.join(cwd(), 'src/spesialist-mock/data/tilkommenInntekt');
-        const filenames = fs.readdirSync(url);
-        const tilkommenInntektMockFiler = filenames.map((filename) => {
-            const raw = fs.readFileSync(path.join(url, filename), { encoding: 'utf-8' });
-            return JSON.parse(raw);
-        });
-
-        tilkommenInntektMockFiler.forEach((tilkommenInntektMockFil) => {
-            TilkommenInntektMock.inntektskilder.set(
-                tilkommenInntektMockFil.fodselsnummer,
-                tilkommenInntektMockFil.data.tilkomneInntektskilder,
-            );
+        lesTestpersonfiler().forEach((fil) => {
+            TilkommenInntektMock.inntektskilder.set(fil.saksbilde.fodselsnummer, fil.tilkomneInntektskilder ?? []);
         });
     }
 

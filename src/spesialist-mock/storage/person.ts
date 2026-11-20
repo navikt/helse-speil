@@ -13,6 +13,7 @@ import {
     ApiRisikovurdering,
     ApiSaksbildePerson,
     ApiTildeling,
+    ApiTilkommenInntektskilde,
     ApiTotrinnsvurdering,
 } from '@io/rest/generated/spesialist.schemas';
 import { uuidV5 } from '@spesialist-mock/uuidV5';
@@ -25,7 +26,7 @@ type PersonIdentifikatorer = {
 };
 
 // Svarene fra GET /api/personer/{pseudoId}/saksbilde, /, /aktiv-oppgave, /totrinnsvurdering, /tildeling, /pa-vent,
-// /arbeidsforhold og /inntekter-fra-aordningen,
+// /arbeidsforhold, /inntekter-fra-aordningen og /tilkomne-inntektskilder,
 // og fra GET /api/vedtaksperioder/{vedtaksperiodeId}/risikovurdering og /annullering, nøklet på vedtaksperiodeId
 export type Testpersonfil = {
     saksbilde: ApiSaksbildePerson;
@@ -39,6 +40,7 @@ export type Testpersonfil = {
     arbeidsforhold: ApiArbeidsforholdForPerson[];
     inntekterFraAordningen: ApiInntekterFraAordningenForArbeidsgiver[];
     overstyringer: ApiOverstyring[];
+    tilkomneInntektskilder: ApiTilkommenInntektskilde[];
 };
 
 // Filene er store, så innholdet caches til de endres. Parses på nytt hver gang, siden kallerne muterer objektene.

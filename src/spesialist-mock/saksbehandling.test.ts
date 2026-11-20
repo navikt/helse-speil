@@ -13,6 +13,7 @@ import { stub as inntekterFraAordningenStub } from '@app/api/spesialist/personer
 import { stub as overstyringerStub } from '@app/api/spesialist/personer/[pseudoId]/overstyringer/stub';
 import { stub as paVentForPersonStub } from '@app/api/spesialist/personer/[pseudoId]/pa-vent/stub';
 import { stub as skjønnsfastsettingStub } from '@app/api/spesialist/personer/[pseudoId]/sykefravaerstilfeller/[skjæringstidspunkt]/sykepengegrunnlag/stub';
+import { stub as tilkomneInntektskilderStub } from '@app/api/spesialist/personer/[pseudoId]/tilkomne-inntektskilder/stub';
 import { stub as annullerStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/annuller/stub';
 import { stub as annulleringStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/annullering/stub';
 import { stub as overstyrArbeidsforholdStub } from '@app/api/spesialist/vedtaksperioder/[vedtaksperiodeId]/overstyringer/arbeidsforhold/stub';
@@ -260,6 +261,17 @@ describe('saksbehandlingsflyt i spesialist-mock', () => {
         const response = await inntekterFraAordningenStub(lagRequest({}), Promise.resolve({ pseudoId: 'ukjent' }));
 
         expect(response.status).toBe(404);
+    });
+
+    it('gir de tilkomne inntektskildene fra testpersonfila', async () => {
+        const fil = lesTestpersonfiler().find((it) => it.tilkomneInntektskilder?.length > 0)!;
+        const pseudoId = PersonMock.findPersonPseudoId(fil.saksbilde.fodselsnummer)!;
+        const forventet = fil.tilkomneInntektskilder;
+
+        const response = await tilkomneInntektskilderStub(lagRequest({}), Promise.resolve({ pseudoId }));
+
+        expect(forventet.length).toBeGreaterThan(0);
+        expect(await response.json()).toEqual(forventet);
     });
 
     it('gir overstyringene fra testpersonfila og mocken med organisasjonsnummer', async () => {

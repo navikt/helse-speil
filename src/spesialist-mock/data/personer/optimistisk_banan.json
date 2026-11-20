@@ -26058,5 +26058,6 @@
             "type": "ApiInntektoverstyring",
             "organisasjonsnummer": "815493000"
         }
-    ]
+    ],
+    "tilkomneInntektskilder": []
 }

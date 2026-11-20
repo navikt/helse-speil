@@ -14,6 +14,7 @@ import {
     ApiRisikovurdering,
     ApiRisikovurderingForVedtaksperiode,
 } from '@io/rest/generated/spesialist.schemas';
+import { useGetTilkomneInntektskilderForPersonQueryOptions } from '@io/rest/generated/tilkomne-inntekter/tilkomne-inntekter';
 import type { Testpersonfil } from '@spesialist-mock/storage/person';
 import { useArbeidsforholdQuery } from '@state/arbeidsforhold';
 import { useAktivOppgave } from '@state/oppgave';
@@ -97,6 +98,7 @@ const useCopyPersondata = (): (() => void) => {
     const { data: arbeidsforhold } = useArbeidsforholdQuery();
     const { data: overstyringer } = useOverstyringerQuery();
     const inntekterFraAordningenOptions = useGetInntekterFraAordningenForPersonQueryOptions(personPseudoId ?? '');
+    const tilkomneInntektskilderOptions = useGetTilkomneInntektskilderForPersonQueryOptions(personPseudoId ?? '');
     const queryClient = useQueryClient();
     const addToast = useAddToast();
 
@@ -115,6 +117,7 @@ const useCopyPersondata = (): (() => void) => {
             ...inntekterFraAordningenOptions,
             staleTime: 'static',
         });
+        const tilkomneInntektskilder = await queryClient.query(tilkomneInntektskilderOptions);
         // Samme format som testpersonfilene i src/spesialist-mock/data/personer
         const testpersonfil: Testpersonfil = {
             saksbilde,
@@ -127,6 +130,7 @@ const useCopyPersondata = (): (() => void) => {
             arbeidsforhold,
             inntekterFraAordningen,
             overstyringer: overstyringer.overstyringer,
+            tilkomneInntektskilder,
         };
         if (!(await copyString(JSON.stringify(testpersonfil, null, 2), true))) {
             throw new Error('Klarte ikke å skrive til utklippstavla');

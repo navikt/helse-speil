@@ -9375,5 +9375,6 @@
             "type": "ApiMinimumSykdomsgradOverstyring",
             "organisasjonsnummer": "907670201"
         }
-    ]
+    ],
+    "tilkomneInntektskilder": []
 }
