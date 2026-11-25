@@ -1,8 +1,6 @@
 import { useParams } from 'next/navigation';
 import { ReactElement } from 'react';
 
-import { Alert } from '@navikt/ds-react';
-
 import { useErTidligereSaksbehandler } from '@hooks/useErTidligereSaksbehandler';
 import {
     ApiBeregnetPeriode,
@@ -49,11 +47,7 @@ export function SaksbildevarslerOgBeskjeder({
 }: SaksbildevarslerOgBeskjederProps): ReactElement | null {
     const annullering = isBeregnetPeriode(periode) ? annulleringsbeskjed(periode.periodetilstand) : null;
     if (annullering) {
-        return (
-            <Alert variant={annullering.grad} className="rounded-none border-x-0 border-t-0 py-2">
-                {annullering.tekst}
-            </Alert>
-        );
+        return <Beskjed {...annullering} />;
     }
 
     if (isGhostPeriode(periode)) {

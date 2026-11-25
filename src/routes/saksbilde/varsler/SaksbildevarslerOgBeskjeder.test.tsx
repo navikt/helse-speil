@@ -112,7 +112,7 @@ describe('SaksbildevarslerOgBeskjeder', () => {
         expect(kontrollerElement).toBeVisible();
         const overstyringAvDagerElement = screen.getByText('Overstyring av dager');
         expect(overstyringAvDagerElement).toBeVisible();
-        expect(kontrollerElement.parentElement).toContainElement(overstyringAvDagerElement);
+        expect(screen.getByRole('list', { name: 'Kontroller:' })).toContainElement(overstyringAvDagerElement);
     });
     it.each([
         [ApiHandlingType.MANUELT_VURDERT_OPPTJENING, 'Manuell vurdering av opptjening'],
@@ -125,9 +125,8 @@ describe('SaksbildevarslerOgBeskjeder', () => {
         const periode = enBeregnetPeriodeTilGodkjenning();
         render(<SaksbildevarslerOgBeskjeder person={enPersonMedPeriode(periode)} periode={periode} />);
 
-        const kontrollerElement = screen.getByText('Kontroller:');
         const handlingElement = screen.getByText(tekst);
-        expect(kontrollerElement.parentElement).toContainElement(handlingElement);
+        expect(screen.getByRole('list', { name: 'Kontroller:' })).toContainElement(handlingElement);
     });
 
     it('viser ikke kontrollrad når ingen saksbehandlerhandling er del av aktiv totrinnsvurdering', () => {
@@ -192,8 +191,9 @@ describe('SaksbildevarslerOgBeskjeder', () => {
         const periode = enBeregnetPeriodeTilGodkjenning();
         render(<SaksbildevarslerOgBeskjeder person={enPersonMedPeriode(periode)} periode={periode} />);
 
-        const kontrollerElement = screen.getByText('Kontroller:');
-        expect(kontrollerElement.parentElement).toContainElement(screen.getByText('Tilkommen inntekt'));
+        expect(screen.getByRole('list', { name: 'Kontroller:' })).toContainElement(
+            screen.getByText('Tilkommen inntekt'),
+        );
     });
 
     it('viser varslene til perioden', () => {

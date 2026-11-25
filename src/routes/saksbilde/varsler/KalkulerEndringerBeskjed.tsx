@@ -1,6 +1,6 @@
 import { ReactElement, useState } from 'react';
 
-import { Alert, BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
+import { BodyShort, Button, ErrorMessage, HStack } from '@navikt/ds-react';
 
 import { SlettLokaleEndringerDialog } from '@components/SlettLokaleEndringerDialog';
 import { ButtonKreverSkrivetilgang } from '@components/skrivetilgang/ButtonKreverSkrivetilgang';
@@ -8,6 +8,7 @@ import { OverstyrtInntektOgRefusjon, useSlettLokaleOverstyringer } from '@state/
 import { useVisningenOppdateresValue } from '@state/visningenOppdateres';
 import { OverstyrtInntektOgRefusjonDTO } from '@typer/overstyring';
 
+import { Beskjedboks } from './Beskjeder';
 import { usePostOverstyrtInntektOgRefusjon } from './usePostOverstyrtInntektOgRefusjon';
 
 interface KalkulerEndringerBeskjedProps {
@@ -25,10 +26,8 @@ export const KalkulerEndringerBeskjed = ({
 
     return (
         <>
-            <Alert className="border-x-0 border-t-0 py-2" variant="info" fullWidth>
-                <BodyShort>
-                    Endringene for sykepengegrunnlag må kalkuleres før du sender oppgaven til godkjenning.
-                </BodyShort>
+            <Beskjedboks grad="info">
+                Endringene for sykepengegrunnlag må kalkuleres før du sender oppgaven til godkjenning.
                 <HStack gap="space-16" align="center" marginBlock="space-12 space-0">
                     <ButtonKreverSkrivetilgang
                         size="small"
@@ -52,7 +51,7 @@ export const KalkulerEndringerBeskjed = ({
                     </Button>
                 </HStack>
                 {error && <ErrorMessage>{error}</ErrorMessage>}
-            </Alert>
+            </Beskjedboks>
             <SlettLokaleEndringerDialog
                 heading="Er du sikker på at du vil forkaste endringene?"
                 open={showModal}

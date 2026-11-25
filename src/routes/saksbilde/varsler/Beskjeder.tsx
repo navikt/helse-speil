@@ -1,28 +1,46 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode, useId } from 'react';
 
-import { Alert, BodyShort } from '@navikt/ds-react';
+import { Box, InlineMessage } from '@navikt/ds-react';
 
 import { SaksbildeBeskjed } from './saksbildeBeskjeder';
 
-const beskjedklasser = 'border-x-0 border-t-0 py-2';
-
 export function Beslutterkontroll({ kontrollpunkter }: { kontrollpunkter: string[] }): ReactElement {
+    const overskriftId = useId();
     return (
-        <Alert className={beskjedklasser} variant="info" fullWidth>
-            <BodyShort weight="semibold">Kontroller:</BodyShort>
-            <ul>
+        <Beskjedboks grad="info">
+            <span id={overskriftId} className="block font-semibold">
+                Kontroller:
+            </span>
+            <ul aria-labelledby={overskriftId}>
                 {kontrollpunkter.map((kontrollpunkt) => (
                     <li key={kontrollpunkt}>{kontrollpunkt}</li>
                 ))}
             </ul>
-        </Alert>
+        </Beskjedboks>
     );
 }
 
 export function Beskjed({ grad, tekst }: SaksbildeBeskjed): ReactElement {
+    return <Beskjedboks grad={grad}>{tekst}</Beskjedboks>;
+}
+
+interface BeskjedboksProps {
+    grad: SaksbildeBeskjed['grad'];
+    children: ReactNode;
+}
+
+export function Beskjedboks({ grad, children }: BeskjedboksProps): ReactElement {
+    const farge = grad === 'error' ? 'danger' : grad;
     return (
-        <Alert className={beskjedklasser} variant={grad} fullWidth>
-            <BodyShort className="text-ax-text-neutral">{tekst}</BodyShort>
-        </Alert>
+        <Box
+            margin="space-12"
+            padding="space-8"
+            background={`${farge}-soft`}
+            borderColor={`${farge}-subtle`}
+            borderWidth="1"
+            borderRadius="8"
+        >
+            <InlineMessage status={grad}>{children}</InlineMessage>
+        </Box>
     );
 }

@@ -19,7 +19,7 @@ export function VarselContainer({ varsler }: VarselContainerProps): ReactElement
     const laster = venterPåMedlemskapsstatus(varsler, visSomFeil, henterMedlemskapsstatus);
 
     return (
-        <VStack margin="space-24">
+        <VStack margin="space-12">
             <ExpansionCard
                 aria-label="Varsler"
                 size="small"
