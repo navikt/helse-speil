@@ -134,7 +134,7 @@ describe('VarselContainer', () => {
             expect.stringContaining('var(--ax-bg-success-soft)'),
         );
         expect(varselrad('Aktivt varsel')).toHaveAttribute('style', expect.stringContaining('var(--ax-radius-8)'));
-        expect(varselrad('Vurder lovvalg og medlemskap Må løses')).toHaveAttribute(
+        expect(varselrad('Vurder lovvalg og medlemskap')).toHaveAttribute(
             'style',
             expect.stringContaining('var(--ax-bg-danger-soft)'),
         );
@@ -212,7 +212,8 @@ describe('VarselContainer', () => {
             render(<VarselContainer varsler={[medlemskapsvarsel]} />);
             await åpneVarselet();
 
-            expect(screen.getByRole('button', { name: 'Vurder lovvalg og medlemskap Må løses' })).toBeVisible();
+            expect(screen.getByRole('button', { name: 'Vurder lovvalg og medlemskap' })).toBeVisible();
+            expect(screen.queryByText('Må løses', { exact: true })).not.toBeInTheDocument();
             expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
         });
 

@@ -31,10 +31,9 @@ interface VarselItemProps {
 
 export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
     const tittelId = useId();
-    const etikettId = useId();
     const måLøses = status === 'feil';
     const kanÅpnes = !!varsel.forklaring && !!varsel.handling;
-    const tittel = <Varseltittel varsel={varsel} status={status} tittelId={tittelId} etikettId={etikettId} />;
+    const tittel = <Varseltittel varsel={varsel} tittelId={tittelId} />;
 
     if (!kanÅpnes) {
         return (
@@ -55,7 +54,7 @@ export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
         <Box background={`${statusetikett[status].farge}-soft`} borderRadius="8" data-status={status}>
             <EkspanderbartVarsel>
                 <EkspanderbartVarsel.Header
-                    aria-labelledby={`${tittelId} ${etikettId}`}
+                    aria-labelledby={tittelId}
                     flexDirection="row-reverse"
                     justify="start"
                     className="text-ax-text-neutral"
@@ -83,22 +82,17 @@ export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
     );
 }
 
-interface VarseltittelProps extends VarselItemProps {
+interface VarseltittelProps {
+    varsel: ApiVarselDTO;
     tittelId: string;
-    etikettId: string;
 }
 
-function Varseltittel({ varsel, status, tittelId, etikettId }: VarseltittelProps): ReactElement {
+function Varseltittel({ varsel, tittelId }: VarseltittelProps): ReactElement {
     return (
         <HStack justify="space-between" align="start" gap="space-8" wrap={false} flexGrow="1">
             <Heading id={tittelId} level="3" size="xsmall">
                 {varsel.tittel}
             </Heading>
-            {status === 'feil' && (
-                <Tag id={etikettId} size="xsmall" variant="moderate" data-color={statusetikett[status].farge}>
-                    {statusetikett[status].tekst}
-                </Tag>
-            )}
         </HStack>
     );
 }
