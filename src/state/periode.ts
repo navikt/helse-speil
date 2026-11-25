@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 
 import { ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { ankerTilTab, tabTilAnker } from '@state/tab';
+import { ankerTilTab, tabTilAnker, useSaksbildedel, useVilkårsgrunnlagIdFraUrl } from '@state/tab';
 import { ActivePeriod } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { PeriodeUrlId, erPåPeriodeside, erPåSideUtenAktivPeriode, lagPeriodeUrl } from '@utils/undersider';
@@ -26,11 +26,19 @@ export const useActivePeriod = (person: ApiSaksbildePerson | null): ActivePeriod
     const activePeriodId = useAtomValue(activePeriodIdState);
     const pathname = usePathname();
     const periodeUrlId = usePeriodeUrlIdFraUrl();
+    const vilkårsgrunnlagId = useVilkårsgrunnlagIdISykefraværstilfellet();
     const erUtenAktivPeriode = erPåSideUtenAktivPeriode(pathname);
 
     if (erUtenAktivPeriode || !person) return null;
 
     const valgtPeriode = findPeriod(activePeriodId, person);
+
+    if (vilkårsgrunnlagId !== null) {
+        if (valgtPeriode && vilkårsgrunnlagIdFor(valgtPeriode) === vilkårsgrunnlagId) return valgtPeriode;
+        return (
+            alleValgbarePerioder(person).find((periode) => vilkårsgrunnlagIdFor(periode) === vilkårsgrunnlagId) ?? null
+        );
+    }
 
     if (periodeUrlId) {
         // Atomet skiller mellom pølserader som deler samme behandling, URL-en gjør det ikke
@@ -65,6 +73,21 @@ export function usePeriodeUrlIdFraUrl(): PeriodeUrlId | null {
         periodeId: vedtaksperiodeId,
         ...(behandlingId ? { behandlingId } : {}),
     };
+}
+
+/**
+ * Vilkårsgrunnlaget i URL-en, bare med det nye saksbildeoppsettet.
+ * Hvilken periode som velges når den valgte ikke hører til sykefraværstilfellet, avgjøres i navikt/sas-issues#436.
+ */
+function useVilkårsgrunnlagIdISykefraværstilfellet(): string | null {
+    const vilkårsgrunnlagId = useVilkårsgrunnlagIdFraUrl();
+    const del = useSaksbildedel();
+    return del === 'sykefraværstilfelle' ? vilkårsgrunnlagId : null;
+}
+
+export function vilkårsgrunnlagIdFor(periode: ActivePeriod): string | null {
+    if (isBeregnetPeriode(periode) || isGhostPeriode(periode)) return periode.vilkarsgrunnlagId ?? null;
+    return null;
 }
 
 /**

@@ -32,3 +32,11 @@ export function lagPeriodeUrl(
     const behandlingSegment = behandlingId ? `/behandling/${behandlingId}` : '';
     return `/person/${personPseudoId}/periode/${periodeId}${behandlingSegment}${tabAnker ? `#${tabAnker}` : ''}`;
 }
+
+export function lagSykefraværstilfelleUrl(
+    personPseudoId: string,
+    vilkårsgrunnlagId: string,
+    tabAnker?: string,
+): string {
+    return `/person/${personPseudoId}/sykefravaerstilfelle/${vilkårsgrunnlagId}${tabAnker ? `#${tabAnker}` : ''}`;
+}

@@ -43,6 +43,11 @@ export function ToggleMeny(): ReactElement {
                                 Nytt varseldesign
                             </Checkbox>
                         )}
+                        {erUtvikling && (
+                            <Checkbox value="nyttSaksbildeoppsett" onChange={toggle('nyttSaksbildeoppsett')}>
+                                Nytt saksbildeoppsett
+                            </Checkbox>
+                        )}
                         {harUtviklerRolle && (
                             <Checkbox value="utviklersnacks" onChange={toggle('utviklersnacks')}>
                                 Utviklersnacks
@@ -61,6 +66,7 @@ const toggleStateToCheckboxValue = (state: ToggleState, harUtviklerRolle: boolea
     if (erUtvikling && state.kanVurdereOppholdskrav) array.push('kanVurdereOppholdskrav');
     if (erUtvikling && state.kanOverstyreAlleMedlemskapsstatuser) array.push('kanOverstyreAlleMedlemskapsstatuser');
     if (erUtvikling && state.nyttVarseldesign) array.push('nyttVarseldesign');
+    if (erUtvikling && state.nyttSaksbildeoppsett) array.push('nyttSaksbildeoppsett');
     if (harUtviklerRolle && state.utviklersnacks) array.push('utviklersnacks');
     return array;
 };

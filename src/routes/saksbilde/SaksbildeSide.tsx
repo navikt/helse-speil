@@ -6,6 +6,7 @@ import { Tilbakemelding } from '@components/flexjar/Tilbakemeldinger';
 import { Saksbilde } from '@saksbilde/Saksbilde';
 import { HistorikkSkeleton } from '@saksbilde/historikk/komponenter/HistorikkSkeleton';
 import { Venstremeny } from '@saksbilde/venstremeny/Venstremeny';
+import { useSaksbildedel } from '@state/tab';
 
 const Historikk = dynamic(() => import('@saksbilde/historikk').then((mod) => mod.Historikk), {
     ssr: false,
@@ -13,9 +14,11 @@ const Historikk = dynamic(() => import('@saksbilde/historikk').then((mod) => mod
 });
 
 export function SaksbildeSide(): ReactElement {
+    const del = useSaksbildedel();
+
     return (
         <>
-            <Venstremeny />
+            {del === 'periode' && <Venstremeny />}
             <Saksbilde />
             <Historikk />
             <VisHvisSkrivetilgang>

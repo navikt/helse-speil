@@ -14,6 +14,7 @@ mockRouter.default.useParser(
         '/person/[personPseudoId]/tilkommen-inntekt',
         '/person/[personPseudoId]/periode/[vedtaksperiodeId]',
         '/person/[personPseudoId]/periode/[vedtaksperiodeId]/behandling/[behandlingId]',
+        '/person/[personPseudoId]/sykefravaerstilfelle/[vilkarsgrunnlagId]',
     ]),
 );
 
@@ -21,13 +22,21 @@ const useRouter = mockRouter.useRouter;
 
 const MockNextNavigation = {
     ...mockRouter,
+    useRouter: () => {
+        const router = useRouter();
+        return {
+            ...router,
+            push: (href: string, options?: { scroll?: boolean }) => router.push(href, undefined, options),
+            replace: (href: string, options?: { scroll?: boolean }) => router.replace(href, undefined, options),
+        };
+    },
     notFound: vi.fn(),
     redirect: vi.fn().mockImplementation((url: string) => {
         mockRouter.memoryRouter.setCurrentUrl(url);
     }),
     usePathname: () => {
         const router = useRouter();
-        return router.asPath;
+        return router.asPath.split('#')[0];
     },
     useSearchParams: () => {
         const router = useRouter();

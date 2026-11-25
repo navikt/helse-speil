@@ -1,4 +1,12 @@
-import { SaksbildeTab, saksbildeTabs, useSaksbildeTab } from '@state/tab';
+import {
+    SaksbildeTab,
+    delForTab,
+    saksbildeTabs,
+    saksbildeTabsIDelene,
+    useSaksbildeTab,
+    useSaksbildedel,
+} from '@state/tab';
+import { useNyttSaksbildeoppsett } from '@state/toggles';
 
 export interface Navigation {
     navigateTo: (tab: SaksbildeTab) => void;
@@ -8,14 +16,17 @@ export interface Navigation {
 
 export const useNavigation = (): Navigation => {
     const [currentTab, setTab] = useSaksbildeTab();
+    const nyttSaksbildeoppsett = useNyttSaksbildeoppsett();
+    const del = useSaksbildedel();
 
-    const currentIndex = saksbildeTabs.indexOf(currentTab);
-    const canNavigateToNext = currentIndex < saksbildeTabs.length - 1;
+    const tabs = nyttSaksbildeoppsett ? saksbildeTabsIDelene.filter((tab) => delForTab(tab) === del) : saksbildeTabs;
+    const currentIndex = tabs.indexOf(currentTab);
+    const canNavigateToNext = currentIndex < tabs.length - 1;
     const canNavigateToPrevious = currentIndex > 0;
 
     return {
         navigateTo: setTab,
-        navigateToNext: () => canNavigateToNext && setTab(saksbildeTabs[currentIndex + 1]!),
-        navigateToPrevious: () => canNavigateToPrevious && setTab(saksbildeTabs[currentIndex - 1]!),
+        navigateToNext: () => canNavigateToNext && setTab(tabs[currentIndex + 1]!),
+        navigateToPrevious: () => canNavigateToPrevious && setTab(tabs[currentIndex - 1]!),
     };
 };

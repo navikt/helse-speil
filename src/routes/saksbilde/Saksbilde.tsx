@@ -1,8 +1,8 @@
 import dynamic from 'next/dynamic';
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { Fragment, ReactElement, useEffect, useState } from 'react';
 
-import { InformationSquareIcon, TerminalIcon } from '@navikt/aksel-icons';
+import { CalculatorIcon, InformationSquareIcon, TasklistIcon, TerminalIcon } from '@navikt/aksel-icons';
 import { Box, HStack, InfoCard, Tabs, Tooltip, VStack } from '@navikt/ds-react';
 
 import { ApiPeriodetilstand } from '@io/rest/generated/spesialist.schemas';
@@ -23,20 +23,30 @@ import {
     useActivePeriod,
     usePeriodeUrlIdFraUrl,
     useSynkroniserValgtPeriodeMedUrl,
+    vilkårsgrunnlagIdFor,
 } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useRisikovurdering } from '@state/risikovurdering';
-import { SaksbildeTab, tabTilAnker, useLagreTabFraAnker, useSaksbildeTab, useTabFraAnker } from '@state/tab';
-import { useUtviklersnacks } from '@state/toggles';
+import { useNavigerTilSaksbildedel } from '@state/routing';
+import {
+    SaksbildeTab,
+    delForTab,
+    tabTilAnker,
+    useLagreTabFraAnker,
+    useSaksbildeTab,
+    useSaksbildedel,
+    useTabFraAnker,
+} from '@state/tab';
+import { useNyttSaksbildeoppsett, useUtviklersnacks } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import { lagPeriodeUrl } from '@utils/undersider';
 
 const Utvikler = dynamic(() => import('@saksbilde/utvikler/Utvikler').then((mod) => mod.Utvikler), { ssr: false });
 
-type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean };
+type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean; ikon?: ReactElement };
 
-const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
+const useAvailableTabs = (aktivPeriode: ActivePeriod | null, nyttSaksbildeoppsett: boolean) => {
     const utviklersnacks = useUtviklersnacks();
     const risikovurdering = useRisikovurdering(
         isBeregnetPeriode(aktivPeriode) ? aktivPeriode.vedtaksperiodeId : undefined,
@@ -55,7 +65,21 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null) => {
 
     const tabs: TilgjengeligTab[] = [];
 
-    if (!erAnnullert) {
+    const harSykefraværstilfelle = aktivPeriode !== null && vilkårsgrunnlagIdFor(aktivPeriode) !== null;
+
+    if (!erAnnullert && nyttSaksbildeoppsett) {
+        if (erPeriode) tabs.push({ value: 'dagoversikt', label: 'Vedtaksperiode' });
+        if (harRisikofunn) tabs.push({ value: 'vurderingsmomenter', label: 'Vurderingsmomenter' });
+        if (utviklersnacks && erPeriode) tabs.push({ value: 'utvikler', label: 'Utvikler', kunIkon: true });
+        if (harSykefraværstilfelle)
+            tabs.push({
+                value: 'sykepengegrunnlag',
+                label: 'Sykepengegrunnlag og refusjon',
+                ikon: <CalculatorIcon aria-hidden />,
+            });
+        if (harSykefraværstilfelle && erBeregnetPeriode)
+            tabs.push({ value: 'inngangsvilkår', label: 'Inngangsvilkår', ikon: <TasklistIcon aria-hidden /> });
+    } else if (!erAnnullert) {
         if (erPeriode) tabs.push({ value: 'dagoversikt', label: 'Dagoversikt' });
         if (erBeregnetPeriode) tabs.push({ value: 'inngangsvilkår', label: 'Inngangsvilkår' });
         if (erVilkårsvurdert) tabs.push({ value: 'sykepengegrunnlag', label: 'Sykepengegrunnlag' });
@@ -73,17 +97,24 @@ export const Saksbilde = () => {
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const periodeUrlId = usePeriodeUrlIdFraUrl();
+    const nyttSaksbildeoppsett = useNyttSaksbildeoppsett();
+    const del = useSaksbildedel();
+    const navigerTilDel = useNavigerTilSaksbildedel();
+    const [periodefaner, setPeriodefaner] = useState<HTMLDivElement | null>(null);
+    const periodefanerBredde = useBredde(periodefaner);
 
     const aktivPeriode = useActivePeriod(person);
     useSynkroniserValgtPeriodeMedUrl(aktivPeriode);
     useLagreTabFraAnker();
 
-    const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode);
+    const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode, nyttSaksbildeoppsett);
 
+    const erPåSykefraværstilfellet = del === 'sykefraværstilfelle';
     const harPeriodeIUrl = periodeUrlId !== null;
+    const harDelIUrl = harPeriodeIUrl || erPåSykefraværstilfellet;
     const behandlingIdFraUrl = periodeUrlId?.behandlingId;
     useEffect(() => {
-        if (!aktivPeriode) return;
+        if (!aktivPeriode || erPåSykefraværstilfellet) return;
         const aktivPeriodeUrlId = periodeUrlIdFor(aktivPeriode);
         const ukjentBehandlingIUrl =
             behandlingIdFraUrl !== undefined && behandlingIdFraUrl !== aktivPeriodeUrlId.behandlingId;
@@ -91,16 +122,17 @@ export const Saksbilde = () => {
         router.replace(lagPeriodeUrl(personPseudoId, aktivPeriodeUrlId, tabTilAnker(tab)), {
             scroll: false,
         });
-    }, [aktivPeriode, harPeriodeIUrl, behandlingIdFraUrl, personPseudoId, router, tab]);
+    }, [aktivPeriode, erPåSykefraværstilfellet, harPeriodeIUrl, behandlingIdFraUrl, personPseudoId, router, tab]);
 
     // Velger første tilgjengelige fane hvis gjeldende fane ikke finnes for periodetypen, og holder ankeret i URL-en i synk
     useEffect(() => {
-        if (!aktivPeriode || !harPeriodeIUrl || availableTabs.length === 0) return;
-        const gyldigTab = availableTabs.some((t) => t.value === tab) ? tab : availableTabs[0]!.value;
+        const tabsIDelen = availableTabs.filter((t) => !nyttSaksbildeoppsett || delForTab(t.value) === del);
+        if (!aktivPeriode || !harDelIUrl || tabsIDelen.length === 0) return;
+        const gyldigTab = tabsIDelen.some((t) => t.value === tab) ? tab : tabsIDelen[0]!.value;
         if (gyldigTab !== tab || gyldigTab !== tabFraAnker) {
             setTab(gyldigTab, { erstatt: true });
         }
-    }, [aktivPeriode, harPeriodeIUrl, availableTabs, tab, tabFraAnker, setTab]);
+    }, [aktivPeriode, harDelIUrl, availableTabs, nyttSaksbildeoppsett, del, tab, tabFraAnker, setTab]);
 
     if (loading) {
         return <PeriodeViewSkeleton />;
@@ -110,11 +142,11 @@ export const Saksbilde = () => {
         return <PeriodeViewError />;
     }
 
-    if (!aktivPeriode && periodeUrlId) {
+    if (!aktivPeriode && (periodeUrlId || erPåSykefraværstilfellet)) {
         return (
             <InfoCard data-color="warning" className="m-8 [grid-area:content]">
                 <InfoCard.Message icon={<InformationSquareIcon aria-hidden />}>
-                    Fant ikke perioden i Speil
+                    {erPåSykefraværstilfellet ? 'Fant ikke sykefraværstilfellet i Speil' : 'Fant ikke perioden i Speil'}
                 </InfoCard.Message>
             </InfoCard>
         );
@@ -150,9 +182,22 @@ export const Saksbilde = () => {
         );
     }
 
+    const erPåPerioden = del === 'periode';
+    const periodeTabs = availableTabs.filter((t) => delForTab(t.value) === 'periode');
+    const sykefraværstilfelleTabs = availableTabs.filter((t) => delForTab(t.value) === 'sykefraværstilfelle');
+    const sykefraværstilfelleBredde = erPåPerioden ? '25%' : 'calc((100% - 366px) / 4)';
+
+    const velgTab = (valgtTab: SaksbildeTab) => {
+        if (nyttSaksbildeoppsett && delForTab(valgtTab) !== del) {
+            navigerTilDel(aktivPeriode, valgtTab);
+        } else {
+            setTab(valgtTab);
+        }
+    };
+
     return (
         <VStack className="h-full min-w-0 flex-1 overflow-hidden [grid-area:content]">
-            {periodeHarDatoerMedUnder20ProsentTotalGrad && initierendeVedtaksperiodeId && (
+            {erPåPerioden && periodeHarDatoerMedUnder20ProsentTotalGrad && initierendeVedtaksperiodeId && (
                 <Verktøylinje
                     person={person}
                     aktivPeriode={aktivPeriode}
@@ -160,26 +205,57 @@ export const Saksbilde = () => {
                 />
             )}
             <SaksbildevarslerOgBeskjeder person={person} periode={aktivPeriode} />
-            <Tabs value={tab} onChange={(value) => setTab(value as SaksbildeTab)} size="medium">
-                <HStack
-                    wrap={false}
-                    className="w-full inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA [&>*:first-child]:w-fit [&>*:first-child]:inset-shadow-none"
-                >
-                    <Tabs.List>
-                        {availableTabs.map((t) =>
-                            t.kunIkon ? (
-                                <Tooltip key={t.value} content={t.label}>
-                                    <Tabs.Tab value={t.value} icon={<TerminalIcon aria-hidden />} />
-                                </Tooltip>
-                            ) : (
-                                <Tabs.Tab key={t.value} value={t.value} label={t.label} />
-                            ),
-                        )}
-                    </Tabs.List>
-                    <HStack align="center" wrap={false}>
-                        <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
+            <Tabs value={tab} onChange={(value) => velgTab(value as SaksbildeTab)} size="medium">
+                {nyttSaksbildeoppsett ? (
+                    <Box position="relative" width="100%">
+                        <Tabs.List>
+                            <HStack wrap={false} flexGrow="1">
+                                <HStack ref={setPeriodefaner} wrap={false} flexShrink="0">
+                                    {periodeTabs.map(visTab)}
+                                </HStack>
+                            </HStack>
+                            <Box aria-hidden flexShrink="0" className="w-px self-stretch bg-ax-border-focus" />
+                            <HStack
+                                wrap={false}
+                                flexShrink="0"
+                                width={sykefraværstilfelleBredde}
+                                className="bg-ax-bg-neutral-soft inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA"
+                            >
+                                {sykefraværstilfelleTabs.map((t, i) => (
+                                    <Fragment key={t.value}>
+                                        {i > 0 && (
+                                            <Box
+                                                aria-hidden
+                                                flexShrink="0"
+                                                className="h-6 w-px self-center bg-ax-border-neutral-subtle"
+                                            />
+                                        )}
+                                        {visTab(t)}
+                                    </Fragment>
+                                ))}
+                            </HStack>
+                        </Tabs.List>
+                        <HStack
+                            position="absolute"
+                            align="center"
+                            wrap={false}
+                            className={periodefanerBredde === null ? 'invisible inset-y-0' : 'inset-y-0'}
+                            style={{ left: periodefanerBredde ?? 0 }}
+                        >
+                            <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
+                        </HStack>
+                    </Box>
+                ) : (
+                    <HStack
+                        wrap={false}
+                        className="w-full inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA [&>*:first-child]:w-fit [&>*:first-child]:inset-shadow-none"
+                    >
+                        <Tabs.List>{availableTabs.map(visTab)}</Tabs.List>
+                        <HStack align="center" wrap={false}>
+                            <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
+                        </HStack>
                     </HStack>
-                </HStack>
+                )}
                 <Box overflowX="auto">
                     {isBeregnetPeriode(aktivPeriode) && (
                         <>
@@ -228,3 +304,28 @@ export const Saksbilde = () => {
         </VStack>
     );
 };
+
+function useBredde(element: HTMLElement | null): number | null {
+    const [bredde, setBredde] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (!element) return;
+        const observer = new ResizeObserver(([entry]) => {
+            if (entry) setBredde(entry.contentRect.width);
+        });
+        observer.observe(element);
+        return () => observer.disconnect();
+    }, [element]);
+
+    return bredde;
+}
+
+function visTab(t: TilgjengeligTab) {
+    return t.kunIkon ? (
+        <Tooltip key={t.value} content={t.label}>
+            <Tabs.Tab value={t.value} icon={<TerminalIcon aria-hidden />} />
+        </Tooltip>
+    ) : (
+        <Tabs.Tab key={t.value} value={t.value} label={t.label} icon={t.ikon} />
+    );
+}

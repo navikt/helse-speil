@@ -1,8 +1,15 @@
 import mockRouter from 'next-router-mock';
+import { Mock } from 'vitest';
 
+import { useNyttSaksbildeoppsett } from '@state/toggles';
 import { act, renderHook } from '@test-utils';
 
 import { ankerTilTab, useLagreTabFraAnker, useNullstillSaksbildeTab, useSaksbildeTab } from './tab';
+
+vi.mock('@state/toggles', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@state/toggles')>()),
+    useNyttSaksbildeoppsett: vi.fn(() => false),
+}));
 
 function useTabOgNullstill() {
     const [tab, setTab] = useSaksbildeTab();
@@ -144,5 +151,56 @@ describe('ankerTilTab', () => {
         expect(ankerTilTab('#inngangsvilk%C3%A5r')).toBe('inngangsvilkår');
         expect(ankerTilTab('#ukjent')).toBeNull();
         expect(ankerTilTab('')).toBeNull();
+    });
+});
+
+describe('saksbildefane med det nye saksbildeoppsettet', () => {
+    const sykefraværstilfelleUrl = '/person/person-a/sykefravaerstilfelle/3f1c2a8e-5b7d-4e9a-9c61-2d8f4b7a1e05';
+
+    function gåTil(url: string) {
+        mockRouter.setCurrentUrl(url);
+        window.history.replaceState(null, '', url);
+    }
+
+    beforeEach(() => {
+        sessionStorage.clear();
+        (useNyttSaksbildeoppsett as Mock).mockReturnValue(true);
+    });
+
+    afterEach(() => {
+        (useNyttSaksbildeoppsett as Mock).mockReturnValue(false);
+        window.history.replaceState(null, '', '/');
+    });
+
+    it('åpner på Sykepengegrunnlag i Sykefraværstilfellet-delen uten lagret fane', () => {
+        gåTil(sykefraværstilfelleUrl);
+        const { result } = renderHook(() => useSaksbildeTab());
+
+        expect(result.current[0]).toBe('sykepengegrunnlag');
+    });
+
+    it('åpner ikke en fane fra den andre delen', () => {
+        gåTil('/person/person-a/periode/vedtaksperiode-1');
+        const { result, rerender } = renderHook(() => useSaksbildeTab());
+        act(() => result.current[1]('dagoversikt'));
+
+        act(() => gåTil(sykefraværstilfelleUrl));
+        rerender();
+        expect(result.current[0]).toBe('sykepengegrunnlag');
+
+        act(() => result.current[1]('inngangsvilkår'));
+        act(() => gåTil('/person/person-a/periode/vedtaksperiode-1'));
+        rerender();
+        expect(result.current[0]).toBe('dagoversikt');
+    });
+
+    it('leser og setter ankeret på siden for sykefraværstilfellet', () => {
+        gåTil(`${sykefraværstilfelleUrl}#inngangsvilkar`);
+        const { result } = renderHook(() => useSaksbildeTab());
+        expect(result.current[0]).toBe('inngangsvilkår');
+
+        act(() => result.current[1]('sykepengegrunnlag'));
+        expect(window.location.hash).toBe('#sykepengegrunnlag');
+        expect(result.current[0]).toBe('sykepengegrunnlag');
     });
 });

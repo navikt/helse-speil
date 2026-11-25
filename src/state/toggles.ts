@@ -11,6 +11,7 @@ export type ToggleState = {
     utviklersnacks: boolean;
     kanOverstyreAlleMedlemskapsstatuser: boolean;
     nyttVarseldesign: boolean;
+    nyttSaksbildeoppsett: boolean;
 };
 
 type SessionToggleState = Omit<ToggleState, 'utviklersnacks'>;
@@ -20,6 +21,7 @@ const defaultToggleState: SessionToggleState = {
     kanVurdereOppholdskrav: false,
     kanOverstyreAlleMedlemskapsstatuser: false,
     nyttVarseldesign: false,
+    nyttSaksbildeoppsett: false,
 };
 
 const toggleState = atomWithSessionStorage<SessionToggleState>('toggleState', defaultToggleState);
@@ -74,6 +76,10 @@ export const useKanVurdereOppholdskrav = (): boolean => useAtomValue(toggleState
 
 export function useNyttVarseldesign(): boolean {
     return useAtomValue(toggleState).nyttVarseldesign && erUtvikling;
+}
+
+export function useNyttSaksbildeoppsett(): boolean {
+    return useAtomValue(toggleState).nyttSaksbildeoppsett && erUtvikling;
 }
 
 export const useUtviklersnacks = (): boolean => useAtomValue(utviklersnacksState);
