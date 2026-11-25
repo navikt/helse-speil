@@ -26,7 +26,7 @@ runs:
         team: ${{ inputs.team }}
         source: .next/static
         destination: '/${{ inputs.app }}/_next'
-    - uses: nais/docker-build-push@dd7421d5068057a020ca46ead966c26190c516b1 # v0
+    - uses: nais/docker-build-push@d3a1f7e259ecc381a50435e1d4add9059429ebd7 # v0
       name: Build and push image
       id: docker-build-push
       with:
