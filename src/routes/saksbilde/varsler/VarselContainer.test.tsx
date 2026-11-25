@@ -25,14 +25,29 @@ describe('VarselContainer', () => {
         (useSkalViseMedlemskapsvarselSomFeil as Mock).mockReturnValue({ skalViseSomFeil: false, henterStatus: false });
     });
 
-    it('er lukket og viser antall varsler og oppsummeringen', () => {
+    it('er åpen fra start og viser antall varsler og oppsummeringen', () => {
         render(<VarselContainer varsler={[aktivt, vurdert, godkjent]} />);
 
         const kort = screen.getByRole('region', { name: 'Varsler' });
         expect(kort).toHaveTextContent('Varsler (3)');
         expect(kort).toHaveTextContent('1 må vurderes · 2 vurdert');
-        expect(screen.getByRole('button', { expanded: false })).toBeInTheDocument();
-        expect(screen.queryByRole('button', { name: /Aktivt varsel/ })).not.toBeInTheDocument();
+        expect(screen.getByRole('button', { expanded: true })).toBeInTheDocument();
+        expect(screen.getByRole('button', { name: 'Aktivt varsel' })).toBeVisible();
+    });
+
+    it('kan lukkes og åpnes igjen', async () => {
+        render(<VarselContainer varsler={[aktivt]} />);
+
+        const kortknapp = screen.getByRole('button', { expanded: true });
+        await userEvent.click(kortknapp);
+
+        expect(kortknapp).toHaveAttribute('aria-expanded', 'false');
+        expect(screen.queryByRole('button', { name: 'Aktivt varsel' })).not.toBeInTheDocument();
+
+        await userEvent.click(kortknapp);
+
+        expect(kortknapp).toHaveAttribute('aria-expanded', 'true');
+        expect(screen.getByRole('button', { name: 'Aktivt varsel' })).toBeVisible();
     });
 
     it.each([
@@ -47,9 +62,8 @@ describe('VarselContainer', () => {
         expect(screen.getByRole('region', { name: 'Varsler' })).toHaveAttribute('data-color', farge);
     });
 
-    it('viser hvert varsel med tittel i en liste når det er flere varsler', async () => {
+    it('viser hvert varsel med tittel i en liste når det er flere varsler', () => {
         render(<VarselContainer varsler={[aktivt, vurdert, godkjent]} />);
-        await åpneKortet();
 
         expect(screen.getByRole('button', { name: 'Aktivt varsel' })).toBeInTheDocument();
         expect(screen.getByRole('button', { name: 'Vurdert varsel' })).toBeInTheDocument();
@@ -63,7 +77,6 @@ describe('VarselContainer', () => {
         ['flere varsler', () => [aktivt, vurdert, godkjent]],
     ])('viser hvert varsel som et lukket punkt med avkrysningen synlig, med %s', async (_, varsler) => {
         render(<VarselContainer varsler={varsler()} />);
-        await åpneKortet();
 
         const varselknapp = screen.getByRole('button', { name: 'Aktivt varsel' });
         expect(varselknapp).toHaveAttribute('aria-expanded', 'false');
@@ -85,9 +98,8 @@ describe('VarselContainer', () => {
         expect(screen.getByText('Opprettet: 01.01.2020 kl. 12.00')).toBeVisible();
     });
 
-    it('viser varsel uten forklaring og handling som et punkt som ikke kan åpnes', async () => {
+    it('viser varsel uten forklaring og handling som et punkt som ikke kan åpnes', () => {
         render(<VarselContainer varsler={[utenInnhold, aktivt]} />);
-        await åpneKortet();
 
         const kort = screen.getByRole('region', { name: 'Varsler' });
         expect(within(kort).getByRole('heading', { level: 3, name: 'Varsel uten innhold' })).toBeVisible();
@@ -102,15 +114,13 @@ describe('VarselContainer', () => {
 
     it('rendrer varsel som ikke kan åpnes uten violations', async () => {
         const { container } = render(<VarselContainer varsler={[utenInnhold]} />);
-        await åpneKortet();
 
         expect((await axe(container)).violations).toEqual([]);
     });
 
-    it('har nøytral bakgrunn i innholdet og fargen til hvert varsel på varselet', async () => {
+    it('har nøytral bakgrunn i innholdet og fargen til hvert varsel på varselet', () => {
         (useSkalViseMedlemskapsvarselSomFeil as Mock).mockReturnValue({ skalViseSomFeil: true, henterStatus: false });
         render(<VarselContainer varsler={[aktivt, vurdert, medlemskapsvarsel]} />);
-        await åpneKortet();
 
         const kort = screen.getByRole('region', { name: 'Varsler' });
         expect(kort).toHaveAttribute('data-color', 'danger');
@@ -144,10 +154,9 @@ describe('VarselContainer', () => {
         expect(kort).toHaveAttribute('data-color', 'neutral');
     });
 
-    it('viser skjeletter i stedet for varslene mens medlemskapsstatusen hentes', async () => {
+    it('viser skjeletter i stedet for varslene mens medlemskapsstatusen hentes', () => {
         (useSkalViseMedlemskapsvarselSomFeil as Mock).mockReturnValue({ skalViseSomFeil: false, henterStatus: true });
         render(<VarselContainer varsler={[aktivt, medlemskapsvarsel]} />);
-        await åpneKortet();
 
         expect(screen.queryByRole('button', { name: /Vurder lovvalg og medlemskap/ })).not.toBeInTheDocument();
         expect(screen.queryByRole('checkbox')).not.toBeInTheDocument();
@@ -158,7 +167,6 @@ describe('VarselContainer', () => {
         ['flere varsler', () => [aktivt, vurdert, godkjent]],
     ])('har ingen tilgjengelighetsfeil med %s', async (_, varsler) => {
         const { container } = render(<VarselContainer varsler={varsler()} />);
-        await åpneKortet();
         for (const knapp of screen.queryAllByRole('button', { expanded: false })) await userEvent.click(knapp);
 
         expect((await axe(container)).violations).toEqual([]);
@@ -255,17 +263,11 @@ function sendteKall() {
     return fetchMock.mock.calls.map(([url, init]) => [init?.method ?? 'GET', String(url)]);
 }
 
-async function åpneKortet() {
-    const kort = screen.getByRole('region', { name: 'Varsler' });
-    await userEvent.click(within(kort).getAllByRole('button')[0]!);
-}
-
 function varselrad(navn: string) {
     return screen.getByRole('button', { name: navn }).closest('[data-status]');
 }
 
 async function åpneVarselet() {
-    await åpneKortet();
     const kort = screen.getByRole('region', { name: 'Varsler' });
     await userEvent.click(within(kort).getByRole('button', { expanded: false }));
 }

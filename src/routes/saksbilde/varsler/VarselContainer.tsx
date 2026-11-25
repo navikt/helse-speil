@@ -22,6 +22,7 @@ export function VarselContainer({ varsler }: VarselContainerProps): ReactElement
         <VStack margin="space-12">
             <ExpansionCard
                 aria-label="Varsler"
+                defaultOpen
                 size="small"
                 data-color={laster ? undefined : oppsummering.farge}
                 className="border-ax-border-neutral-subtleA shadow-none"

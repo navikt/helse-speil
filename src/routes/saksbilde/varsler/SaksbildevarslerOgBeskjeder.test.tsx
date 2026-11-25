@@ -21,7 +21,6 @@ import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-dat
 import { enPerson } from '@test-data/person';
 import { enTotrinnsvurdering } from '@test-data/totrinnsvurdering';
 import { render, screen, within } from '@test-utils';
-import userEvent from '@testing-library/user-event';
 
 import { SaksbildevarslerOgBeskjeder } from './SaksbildevarslerOgBeskjeder';
 
@@ -237,7 +236,7 @@ describe('SaksbildevarslerOgBeskjeder', () => {
             expect(screen.queryByRole('region', { name: 'Varsler' })).not.toBeInTheDocument();
         });
 
-        it('viser varslene sortert etter kode uten varsler som ikke skal vises', async () => {
+        it('viser varslene sortert etter kode uten varsler som ikke skal vises', () => {
             const periode = enUtbetaltPeriode([
                 { ...getVarsel(), id: 'b', kode: 'RV_IM_2', tittel: 'Andre varsel' },
                 { ...getVarsel(), id: 'skjult', kode: 'SB_EX_2', tittel: 'Skjult varsel' },
@@ -247,7 +246,6 @@ describe('SaksbildevarslerOgBeskjeder', () => {
 
             const varslene = screen.getByRole('region', { name: 'Varsler' });
             expect(varslene).toHaveTextContent('Varsler (2)');
-            await userEvent.click(within(varslene).getAllByRole('button')[0]!);
             expect(
                 within(varslene)
                     .getAllByRole('heading', { level: 3 })
