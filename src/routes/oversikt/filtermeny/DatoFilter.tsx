@@ -75,7 +75,7 @@ function DatoRad({ label, value, onChange }: DatoRadProps): ReactElement {
     }
 
     return (
-        <DatePicker {...datepickerProps} strategy="fixed" dropdownCaption>
+        <DatePicker {...datepickerProps} fixedWeeks strategy="fixed" dropdownCaption>
             <DatePicker.Input {...inputProps} label={label} size="small" />
         </DatePicker>
     );

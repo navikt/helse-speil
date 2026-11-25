@@ -29,7 +29,7 @@ export function DateField({ name, label, defaultMonth, disabled, className }: Da
     });
 
     return (
-        <DatePicker {...datepickerProps}>
+        <DatePicker {...datepickerProps} fixedWeeks>
             <DatePicker.Input
                 {...inputProps}
                 id={name.replaceAll('.', '-')}

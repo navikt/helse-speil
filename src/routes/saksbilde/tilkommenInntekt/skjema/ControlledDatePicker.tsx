@@ -53,7 +53,7 @@ export const ControlledDatePicker = ({
     });
 
     return (
-        <DatePicker {...datepickerProps} dropdownCaption>
+        <DatePicker {...datepickerProps} fixedWeeks dropdownCaption>
             <DatePicker.Input
                 {...inputProps}
                 // Både inputProps og field har onChange-funksjon, vi kaller begge to for riktig state

@@ -33,22 +33,22 @@ export const OppgavelisteDatoFilter = (): ReactElement => {
 
     return (
         <HStack wrap gap="space-16">
-            <DatePicker {...fomDatePicker.datepickerProps} dropdownCaption>
+            <DatePicker {...fomDatePicker.datepickerProps} fixedWeeks dropdownCaption>
                 <DatePicker.Input {...fomDatePicker.inputProps} label="Oppgave klar f.o.m." size="small" />
             </DatePicker>
-            <DatePicker {...tomDatePicker.datepickerProps} dropdownCaption>
+            <DatePicker {...tomDatePicker.datepickerProps} fixedWeeks dropdownCaption>
                 <DatePicker.Input {...tomDatePicker.inputProps} label="Oppgave klar t.o.m." size="small" />
             </DatePicker>
             {harPorteføljestyringrolle && (
                 <>
-                    <DatePicker {...behandlingOpprettetFomDatePicker.datepickerProps} dropdownCaption>
+                    <DatePicker {...behandlingOpprettetFomDatePicker.datepickerProps} fixedWeeks dropdownCaption>
                         <DatePicker.Input
                             {...behandlingOpprettetFomDatePicker.inputProps}
                             label="Startdato f.o.m."
                             size="small"
                         />
                     </DatePicker>
-                    <DatePicker {...behandlingOpprettetTomDatePicker.datepickerProps} dropdownCaption>
+                    <DatePicker {...behandlingOpprettetTomDatePicker.datepickerProps} fixedWeeks dropdownCaption>
                         <DatePicker.Input
                             {...behandlingOpprettetTomDatePicker.inputProps}
                             label="Startdato t.o.m."

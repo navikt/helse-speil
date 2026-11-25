@@ -21,7 +21,7 @@ export function Frist(): ReactElement {
     });
 
     return (
-        <DatePicker {...datepickerProps} dropdownCaption>
+        <DatePicker {...datepickerProps} fixedWeeks dropdownCaption>
             <DatePicker.Input
                 {...inputProps}
                 label="Oppfølgingsdato"
