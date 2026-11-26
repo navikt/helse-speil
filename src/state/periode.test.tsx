@@ -193,6 +193,32 @@ describe('useActivePeriod på URL-en for sykefraværstilfellet', () => {
 
         expect(result.current.aktivPeriode).toBeNull();
     });
+
+    it('velger perioden i den eldre behandlingen når URL-en har et eldre grunnlag', () => {
+        const vilkårsgrunnlagIdEldre = 'c7d29e4b-1a6f-4f02-8b3e-5e0a9d6c7f14';
+        const periodeIEldreBehandling = enBeregnetPeriode({
+            vedtaksperiodeId: periodeIJanuar.vedtaksperiodeId,
+            fom: '2020-01-01',
+            tom: '2020-01-31',
+            vilkarsgrunnlagId: vilkårsgrunnlagIdEldre,
+        });
+        const personMedEldreBehandling = enPerson({
+            arbeidsgivere: [
+                enArbeidsgiver({
+                    behandlinger: [
+                        enBehandling({ perioder: [periodeIJuni, periodeIFebruar, periodeIJanuar] }),
+                        enBehandling({ perioder: [periodeIEldreBehandling] }),
+                    ],
+                    ghostPerioder: [],
+                }),
+            ],
+        });
+        mockRouter.setCurrentUrl(`/person/person-a/sykefravaerstilfelle/${vilkårsgrunnlagIdEldre}`);
+
+        const { result } = renderHook(() => useActivePeriod(personMedEldreBehandling));
+
+        expect(result.current?.id).toBe(periodeIEldreBehandling.id);
+    });
 });
 
 describe('useSelectPeriod', () => {

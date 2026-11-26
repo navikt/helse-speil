@@ -2,7 +2,7 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 
 import { findPeriod, periodeUrlIdFor, useSetActivePeriodIdUtenPerson, vilkårsgrunnlagIdFor } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { SaksbildeTab, delForTab, tabTilAnker, useSaksbildeTab, useSetSaksbildeTab } from '@state/tab';
+import { SaksbildeTab, delForTab, tabTilAnker, useSaksbildeTab, useSaksbildedel, useSetSaksbildeTab } from '@state/tab';
 import { ActivePeriod } from '@typer/shared';
 import { erPåEgenUnderside, lagPeriodeUrl, lagSykefraværstilfelleUrl } from '@utils/undersider';
 
@@ -31,13 +31,19 @@ export const useNavigerTilValgtPeriode = () => {
     const [gjeldendeTab] = useSaksbildeTab();
     const setTab = useSetSaksbildeTab();
     const setActivePeriodId = useSetActivePeriodIdUtenPerson();
+    const del = useSaksbildedel();
 
     return (periodeId: string, tab: SaksbildeTab = gjeldendeTab) => {
         const periode = findPeriod(periodeId, data ?? null);
         if (!personPseudoId || !periode) return;
         setActivePeriodId(periode.id);
         setTab(tab, { erstatt: true });
-        router.push(lagPeriodeUrl(personPseudoId, periodeUrlIdFor(periode), tabTilAnker(tab)), { scroll: false });
+        const vilkårsgrunnlagId = vilkårsgrunnlagIdFor(periode);
+        const url =
+            del === 'sykefraværstilfelle' && vilkårsgrunnlagId
+                ? lagSykefraværstilfelleUrl(personPseudoId, vilkårsgrunnlagId, tabTilAnker(tab))
+                : lagPeriodeUrl(personPseudoId, periodeUrlIdFor(periode), tabTilAnker(tab));
+        router.push(url, { scroll: false });
     };
 };
 
