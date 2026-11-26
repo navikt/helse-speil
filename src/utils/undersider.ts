@@ -40,3 +40,7 @@ export function lagSykefraværstilfelleUrl(
 ): string {
     return `/person/${personPseudoId}/sykefravaerstilfelle/${vilkårsgrunnlagId}${tabAnker ? `#${tabAnker}` : ''}`;
 }
+
+export function vilkårsgrunnlagIdFraSti(pathname: string): string | null {
+    return pathname.match(/^\/person\/[^/]+\/sykefravaerstilfelle\/([^/]+)\/?$/)?.[1] ?? null;
+}

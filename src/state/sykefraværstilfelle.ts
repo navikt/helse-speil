@@ -39,13 +39,20 @@ export function finnSykefraværstilfelle(person: ApiSaksbildePerson, valgtPeriod
 
     const perioderITilfellet = [
         ...finnVedtaksperioder(perioder, valgtPeriode, (periode) => periode.vilkarsgrunnlagId === vilkarsgrunnlagId),
-        ...finnGhostPerioder(person, valgtPeriode, vilkarsgrunnlagId),
+        ...finnGhostPerioder(person, valgtPeriode.id, vilkarsgrunnlagId),
     ];
     return {
         perioder: perioderITilfellet,
         vilkarsgrunnlagId,
         status: erAnnullert(perioderITilfellet) ? 'annullert' : 'vis',
     };
+}
+
+export function finnPerioderMedVilkårsgrunnlag(person: ApiSaksbildePerson, vilkarsgrunnlagId: string): ActivePeriod[] {
+    const perioder = finnAlleInntektsforhold(person)
+        .flatMap(medVilkårsgrunnlag)
+        .filter((periode) => periode.vilkarsgrunnlagId === vilkarsgrunnlagId);
+    return [...nyestePerVedtaksperiode(perioder), ...finnGhostPerioder(person, null, vilkarsgrunnlagId)];
 }
 
 function medVilkårsgrunnlag(inntektsforhold: Inntektsforhold): PeriodeMedVilkårsgrunnlag[] {
@@ -79,41 +86,42 @@ function finnVedtaksperioder(
     hørerTilSykefraværstilfellet: (periode: PeriodeMedVilkårsgrunnlag) => boolean,
 ): ActivePeriod[] {
     const valgtVedtaksperiodeId = isGhostPeriode(valgtPeriode) ? null : valgtPeriode.vedtaksperiodeId;
-    const nyestePerVedtaksperiode = new Map<string, ApiPeriode>();
-
-    perioder
-        .filter(
+    const andrePerioder = nyestePerVedtaksperiode(
+        perioder.filter(
             (periode) =>
                 periode.periode.vedtaksperiodeId !== valgtVedtaksperiodeId && hørerTilSykefraværstilfellet(periode),
-        )
-        .forEach(({ periode }) => {
-            if (!nyestePerVedtaksperiode.has(periode.vedtaksperiodeId)) {
-                nyestePerVedtaksperiode.set(periode.vedtaksperiodeId, periode);
-            }
-        });
-
-    const andrePerioder = [...nyestePerVedtaksperiode.values()];
+        ),
+    );
     return valgtVedtaksperiodeId === null ? andrePerioder : [valgtPeriode, ...andrePerioder];
+}
+
+// Perioderekkefølgen er nyeste behandling først, så første treff per vedtaksperiode er den nyeste
+function nyestePerVedtaksperiode(perioder: PeriodeMedVilkårsgrunnlag[]): ApiPeriode[] {
+    const nyeste = new Map<string, ApiPeriode>();
+    perioder.forEach(({ periode }) => {
+        if (!nyeste.has(periode.vedtaksperiodeId)) nyeste.set(periode.vedtaksperiodeId, periode);
+    });
+    return [...nyeste.values()];
 }
 
 // Tidslinjen viser ikke deaktiverte ghost-perioder
 function finnGhostPerioder(
     person: ApiSaksbildePerson,
-    valgtPeriode: ActivePeriod,
+    valgtPeriodeId: string | null,
     vilkarsgrunnlagId: string,
 ): ActivePeriod[] {
     return finnAlleArbeidsgivere(person)
         .flatMap((arbeidsgiver) => arbeidsgiver.ghostPerioder)
         .filter(
             (ghostPeriode) =>
-                ghostPeriode.id === valgtPeriode.id ||
+                ghostPeriode.id === valgtPeriodeId ||
                 (!ghostPeriode.deaktivert && ghostPeriode.vilkarsgrunnlagId === vilkarsgrunnlagId),
         );
 }
 
 const annullerteTilstander: ApiPeriodetilstand[] = [ApiPeriodetilstand.Annullert, ApiPeriodetilstand.TilAnnullering];
 
-function erAnnullertPeriode(periode: ApiPeriode): boolean {
+export function erAnnullertPeriode(periode: ApiPeriode): boolean {
     return annullerteTilstander.includes(periode.periodetilstand);
 }
 

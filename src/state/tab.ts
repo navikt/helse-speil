@@ -11,23 +11,23 @@ export type PeriodeTab = 'dagoversikt' | 'utvikler' | 'vurderingsmomenter';
 export type SykefraværstilfelleTab = 'sykepengegrunnlag' | 'inngangsvilkår';
 export type SaksbildeTab = PeriodeTab | SykefraværstilfelleTab;
 
-export type Saksbildedel = 'periode' | 'sykefraværstilfelle';
+export type Tabgruppe = 'periode' | 'sykefraværstilfelle';
 
 const sykefraværstilfelleTabs: SaksbildeTab[] = [
     'sykepengegrunnlag',
     'inngangsvilkår',
 ] satisfies SykefraværstilfelleTab[];
 
-const standardTab: Record<Saksbildedel, SaksbildeTab> = {
+const standardTab: Record<Tabgruppe, SaksbildeTab> = {
     periode: 'dagoversikt',
     sykefraværstilfelle: 'sykepengegrunnlag',
 };
 
-export function delForTab(tab: SaksbildeTab): Saksbildedel {
+export function tabgruppeForTab(tab: SaksbildeTab): Tabgruppe {
     return sykefraværstilfelleTabs.includes(tab) ? 'sykefraværstilfelle' : 'periode';
 }
 
-export function useSaksbildedel(): Saksbildedel {
+export function useTabgruppe(): Tabgruppe {
     const erPåSykefraværstilfellet = useVilkårsgrunnlagIdFraUrl() !== null;
     const nyttSaksbildeoppsett = useNyttSaksbildeoppsett();
     return nyttSaksbildeoppsett && erPåSykefraværstilfellet ? 'sykefraværstilfelle' : 'periode';
@@ -39,7 +39,7 @@ export function useVilkårsgrunnlagIdFraUrl(): string | null {
 }
 
 /**
- * Saksbildet med faner, enten for en periode eller for et sykefraværstilfelle.
+ * Saksbildet med tabs, enten for en periode eller for et sykefraværstilfelle.
  */
 function useErPåSaksbildeside(): boolean {
     const pathname = usePathname();
@@ -54,8 +54,8 @@ export const saksbildeTabs: SaksbildeTab[] = [
     'vurderingsmomenter',
 ];
 
-// Samme rekkefølge som fanene vises i med det nye saksbildeoppsettet
-export const saksbildeTabsIDelene: SaksbildeTab[] = [
+// Samme rekkefølge som tabene vises i med det nye saksbildeoppsettet
+export const saksbildeTabsITabgruppene: SaksbildeTab[] = [
     'dagoversikt',
     'vurderingsmomenter',
     'utvikler',
@@ -82,7 +82,11 @@ export function ankerTilTab(hash: string): SaksbildeTab | null {
     return tab ?? null;
 }
 
-type LagretSaksbildeTab = { personPseudoId?: string; tab: SaksbildeTab };
+type LagretSaksbildeTab = {
+    personPseudoId?: string;
+    tab: SaksbildeTab;
+    tabPerTabgruppe?: Partial<Record<Tabgruppe, SaksbildeTab>>;
+};
 
 const saksbildeTabAtom = atomWithSessionStorage<LagretSaksbildeTab>('saksbildeTabPerPerson', { tab: 'dagoversikt' });
 
@@ -92,11 +96,12 @@ export const useSaksbildeTab = (): [SaksbildeTab, (tab: SaksbildeTab, valg?: Set
     const setTab = useSetSaksbildeTab();
     const tabFraAnker = useTabFraAnker();
     const nyttSaksbildeoppsett = useNyttSaksbildeoppsett();
-    const del = useSaksbildedel();
+    const tabgruppe = useTabgruppe();
 
-    const lagretTab = lagret.personPseudoId === personPseudoId ? lagret.tab : 'dagoversikt';
-    const lagretTabIDelen = !nyttSaksbildeoppsett || delForTab(lagretTab) === del ? lagretTab : standardTab[del];
-    const tab = tabFraAnker ?? lagretTabIDelen;
+    const lagretForPersonen = lagret.personPseudoId === personPseudoId ? lagret : null;
+    const lagretTab = lagretForPersonen?.tab ?? 'dagoversikt';
+    const lagretTabITabgruppen = nyttSaksbildeoppsett ? lagretTabForTabgruppe(lagretForPersonen, tabgruppe) : lagretTab;
+    const tab = tabFraAnker ?? lagretTabITabgruppen;
 
     return [tab, setTab];
 };
@@ -123,7 +128,7 @@ export function useLagreTabFraAnker() {
     useEffect(() => {
         if (tabFraAnker === null) return;
         if (lagret.tab === tabFraAnker && lagret.personPseudoId === personPseudoId) return;
-        setLagret({ personPseudoId, tab: tabFraAnker });
+        setLagret(medLagretTab(lagret, personPseudoId, tabFraAnker));
     }, [tabFraAnker, lagret, personPseudoId, setLagret]);
 }
 
@@ -135,7 +140,7 @@ export const useSetSaksbildeTab = () => {
     const setLagret = useSetAtom(saksbildeTabAtom);
 
     return (tab: SaksbildeTab, { erstatt = false }: SettTabValg = {}) => {
-        setLagret({ personPseudoId, tab });
+        setLagret((lagret) => medLagretTab(lagret, personPseudoId, tab));
         if (erPåSaksbildeside) settAnker(tabTilAnker(tab), erstatt);
     };
 };
@@ -172,6 +177,24 @@ function settAnker(anker: string, erstatt: boolean) {
         window.history.pushState(window.history.state, '', url);
     }
     window.dispatchEvent(new Event(ankerEndretEvent));
+}
+
+function lagretTabForTabgruppe(lagret: LagretSaksbildeTab | null, tabgruppe: Tabgruppe): SaksbildeTab {
+    return (lagret && lagretTabPerTabgruppe(lagret))?.[tabgruppe] ?? standardTab[tabgruppe];
+}
+
+function medLagretTab(
+    lagret: LagretSaksbildeTab,
+    personPseudoId: string | undefined,
+    tab: SaksbildeTab,
+): LagretSaksbildeTab {
+    const forrige = lagret.personPseudoId === personPseudoId ? lagretTabPerTabgruppe(lagret) : undefined;
+    return { personPseudoId, tab, tabPerTabgruppe: { ...forrige, [tabgruppeForTab(tab)]: tab } };
+}
+
+// Verdier lagret før Speil husket taben per tabgruppe har bare én tab
+function lagretTabPerTabgruppe(lagret: LagretSaksbildeTab): Partial<Record<Tabgruppe, SaksbildeTab>> {
+    return lagret.tabPerTabgruppe ?? { [tabgruppeForTab(lagret.tab)]: lagret.tab };
 }
 
 function safeDecode(verdi: string): string {

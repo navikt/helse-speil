@@ -27,13 +27,13 @@ import {
 } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useRisikovurdering } from '@state/risikovurdering';
-import { useNavigerTilSaksbildedel } from '@state/routing';
+import { useNavigerTilTabgruppe } from '@state/routing';
 import {
-    delForTab,
+    tabgruppeForTab,
     SaksbildeTab,
     tabTilAnker,
     useLagreTabFraAnker,
-    useSaksbildedel,
+    useTabgruppe,
     useSaksbildeTab,
     useTabFraAnker,
 } from '@state/tab';
@@ -98,10 +98,10 @@ export const Saksbilde = () => {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const periodeUrlId = usePeriodeUrlIdFraUrl();
     const nyttSaksbildeoppsett = useNyttSaksbildeoppsett();
-    const del = useSaksbildedel();
-    const navigerTilDel = useNavigerTilSaksbildedel();
-    const [periodefaner, setPeriodefaner] = useState<HTMLDivElement | null>(null);
-    const periodefanerBredde = useBredde(periodefaner);
+    const tabgruppe = useTabgruppe();
+    const navigerTilTabgruppe = useNavigerTilTabgruppe();
+    const [periodetabs, setPeriodetabs] = useState<HTMLDivElement | null>(null);
+    const periodetabsBredde = useBredde(periodetabs);
     const [meny, setMeny] = useState<HTMLDivElement | null>(null);
     const menyBredde = useBredde(meny);
 
@@ -111,9 +111,9 @@ export const Saksbilde = () => {
 
     const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode, nyttSaksbildeoppsett);
 
-    const erPåSykefraværstilfellet = del === 'sykefraværstilfelle';
+    const erPåSykefraværstilfellet = tabgruppe === 'sykefraværstilfelle';
     const harPeriodeIUrl = periodeUrlId !== null;
-    const harDelIUrl = harPeriodeIUrl || erPåSykefraværstilfellet;
+    const harTabgruppeIUrl = harPeriodeIUrl || erPåSykefraværstilfellet;
     const behandlingIdFraUrl = periodeUrlId?.behandlingId;
     useEffect(() => {
         if (!aktivPeriode || erPåSykefraværstilfellet) return;
@@ -128,13 +128,15 @@ export const Saksbilde = () => {
 
     // Velger første tilgjengelige fane hvis gjeldende fane ikke finnes for periodetypen, og holder ankeret i URL-en i synk
     useEffect(() => {
-        const tabsIDelen = availableTabs.filter((t) => !nyttSaksbildeoppsett || delForTab(t.value) === del);
-        if (!aktivPeriode || !harDelIUrl || tabsIDelen.length === 0) return;
-        const gyldigTab = tabsIDelen.some((t) => t.value === tab) ? tab : tabsIDelen[0]!.value;
+        const tabsITabgruppen = availableTabs.filter(
+            (t) => !nyttSaksbildeoppsett || tabgruppeForTab(t.value) === tabgruppe,
+        );
+        if (!aktivPeriode || !harTabgruppeIUrl || tabsITabgruppen.length === 0) return;
+        const gyldigTab = tabsITabgruppen.some((t) => t.value === tab) ? tab : tabsITabgruppen[0]!.value;
         if (gyldigTab !== tab || gyldigTab !== tabFraAnker) {
             setTab(gyldigTab, { erstatt: true });
         }
-    }, [aktivPeriode, harDelIUrl, availableTabs, nyttSaksbildeoppsett, del, tab, tabFraAnker, setTab]);
+    }, [aktivPeriode, harTabgruppeIUrl, availableTabs, nyttSaksbildeoppsett, tabgruppe, tab, tabFraAnker, setTab]);
 
     if (loading) {
         return <PeriodeViewSkeleton />;
@@ -184,14 +186,14 @@ export const Saksbilde = () => {
         );
     }
 
-    const erPåPerioden = del === 'periode';
-    const periodeTabs = availableTabs.filter((t) => delForTab(t.value) === 'periode');
-    const sykefraværstilfelleTabs = availableTabs.filter((t) => delForTab(t.value) === 'sykefraværstilfelle');
+    const erPåPerioden = tabgruppe === 'periode';
+    const periodeTabs = availableTabs.filter((t) => tabgruppeForTab(t.value) === 'periode');
+    const sykefraværstilfelleTabs = availableTabs.filter((t) => tabgruppeForTab(t.value) === 'sykefraværstilfelle');
     const sykefraværstilfelleBredde = erPåPerioden ? '25%' : 'calc((100% - 366px) / 4)';
 
     const velgTab = (valgtTab: SaksbildeTab) => {
-        if (nyttSaksbildeoppsett && delForTab(valgtTab) !== del) {
-            navigerTilDel(aktivPeriode, valgtTab);
+        if (nyttSaksbildeoppsett && tabgruppeForTab(valgtTab) !== tabgruppe) {
+            navigerTilTabgruppe(aktivPeriode, valgtTab);
         } else {
             setTab(valgtTab);
         }
@@ -212,7 +214,7 @@ export const Saksbilde = () => {
                     <Box position="relative" width="100%">
                         <Tabs.List>
                             <HStack wrap={false} flexGrow="1">
-                                <HStack ref={setPeriodefaner} wrap={false} flexShrink="0">
+                                <HStack ref={setPeriodetabs} wrap={false} flexShrink="0">
                                     {periodeTabs.map(visTab)}
                                 </HStack>
                                 <Box aria-hidden flexShrink="0" style={{ width: menyBredde ?? 0 }} />
@@ -243,8 +245,8 @@ export const Saksbilde = () => {
                             position="absolute"
                             align="center"
                             wrap={false}
-                            className={periodefanerBredde === null ? 'invisible inset-y-0' : 'inset-y-0'}
-                            style={{ left: periodefanerBredde ?? 0 }}
+                            className={periodetabsBredde === null ? 'invisible inset-y-0' : 'inset-y-0'}
+                            style={{ left: periodetabsBredde ?? 0 }}
                         >
                             <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
                         </HStack>

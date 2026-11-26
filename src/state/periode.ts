@@ -4,12 +4,25 @@ import { atom, useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useEffect, useRef } from 'react';
 
-import { ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiBeregnetPeriode,
+    ApiPeriodetilstand,
+    ApiSaksbildePerson,
+    ApiUberegnetPeriode,
+} from '@io/rest/generated/spesialist.schemas';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { ankerTilTab, tabTilAnker, useSaksbildedel, useVilkårsgrunnlagIdFraUrl } from '@state/tab';
+import { erAnnullertPeriode, finnPerioderMedVilkårsgrunnlag } from '@state/sykefraværstilfelle';
+import { ankerTilTab, tabTilAnker, useTabgruppe, useVilkårsgrunnlagIdFraUrl } from '@state/tab';
+import { useNyttSaksbildeoppsett } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
-import { PeriodeUrlId, erPåPeriodeside, erPåSideUtenAktivPeriode, lagPeriodeUrl } from '@utils/undersider';
+import {
+    PeriodeUrlId,
+    erPåPeriodeside,
+    erPåSideUtenAktivPeriode,
+    lagPeriodeUrl,
+    vilkårsgrunnlagIdFraSti,
+} from '@utils/undersider';
 
 const activePeriodIdState = atom<string | null>(null);
 
@@ -35,9 +48,7 @@ export const useActivePeriod = (person: ApiSaksbildePerson | null): ActivePeriod
 
     if (vilkårsgrunnlagId !== null) {
         if (valgtPeriode && vilkårsgrunnlagIdFor(valgtPeriode) === vilkårsgrunnlagId) return valgtPeriode;
-        return (
-            alleValgbarePerioder(person).find((periode) => vilkårsgrunnlagIdFor(periode) === vilkårsgrunnlagId) ?? null
-        );
+        return finnPeriodeÅVelgeISykefraværstilfellet(person, vilkårsgrunnlagId);
     }
 
     if (periodeUrlId) {
@@ -51,12 +62,16 @@ export const useActivePeriod = (person: ApiSaksbildePerson | null): ActivePeriod
 
 /**
  * Holder sist valgte periode i synk når perioden i URL-en endres uten klikk i tidslinjen, f.eks. med tilbakeknappen.
+ * På URL-en for sykefraværstilfellet lagres perioden Speil velger, så valget ikke flytter seg når personen hentes på nytt.
  * Synker bare når URL-en endres, så et klikk som har satt ny periode før navigeringen er ferdig ikke overskrives.
  */
 export function useSynkroniserValgtPeriodeMedUrl(aktivPeriode: ActivePeriod | null) {
     const setActivePeriodId = useSetAtom(activePeriodIdState);
     const periodeUrlId = usePeriodeUrlIdFraUrl();
-    const urlNøkkel = periodeUrlId ? `${periodeUrlId.periodeId}/${periodeUrlId.behandlingId ?? ''}` : null;
+    const vilkårsgrunnlagId = useVilkårsgrunnlagIdISykefraværstilfellet();
+    const urlNøkkel = periodeUrlId
+        ? `${periodeUrlId.periodeId}/${periodeUrlId.behandlingId ?? ''}`
+        : vilkårsgrunnlagId && `sykefravaerstilfelle/${vilkårsgrunnlagId}`;
     const synketUrlNøkkel = useRef<string | null>(null);
 
     useEffect(() => {
@@ -77,12 +92,11 @@ export function usePeriodeUrlIdFraUrl(): PeriodeUrlId | null {
 
 /**
  * Vilkårsgrunnlaget i URL-en, bare med det nye saksbildeoppsettet.
- * Hvilken periode som velges når den valgte ikke hører til sykefraværstilfellet, avgjøres i navikt/sas-issues#436.
  */
 function useVilkårsgrunnlagIdISykefraværstilfellet(): string | null {
     const vilkårsgrunnlagId = useVilkårsgrunnlagIdFraUrl();
-    const del = useSaksbildedel();
-    return del === 'sykefraværstilfelle' ? vilkårsgrunnlagId : null;
+    const tabgruppe = useTabgruppe();
+    return tabgruppe === 'sykefraværstilfelle' ? vilkårsgrunnlagId : null;
 }
 
 export function vilkårsgrunnlagIdFor(periode: ActivePeriod): string | null {
@@ -113,14 +127,18 @@ export const useSelectPeriod = () => {
     const setActivePeriodId = useSetAtom(activePeriodIdState);
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId?: string }>();
+    const nyttSaksbildeoppsett = useNyttSaksbildeoppsett();
 
     return (person: ApiSaksbildePerson) => {
-        const periodToSelect = findPeriodToSelect(person);
+        // Kalles etter en asynkron refetch, så sti og fane leses fra nettleseren i tilfelle brukeren har navigert i mellomtiden
+        const { pathname, hash } = window.location;
+        const vilkårsgrunnlagId = nyttSaksbildeoppsett ? vilkårsgrunnlagIdFraSti(pathname) : null;
+        const periodToSelect = vilkårsgrunnlagId
+            ? finnPeriodeÅVelgeISykefraværstilfellet(person, vilkårsgrunnlagId)
+            : findPeriodToSelect(person);
         if (!periodToSelect) return;
         setActivePeriodId(periodToSelect.id);
 
-        // Kalles etter en asynkron refetch, så sti og fane leses fra nettleseren i tilfelle brukeren har navigert i mellomtiden
-        const { pathname, hash } = window.location;
         if (!personPseudoId || !erPåPeriodeside(pathname) || !`${pathname}/`.startsWith(`/person/${personPseudoId}/`))
             return;
         const tab = ankerTilTab(hash);
@@ -147,12 +165,29 @@ function finnPeriodeForUrlId(
     return perioder.find((periode) => periodeUrlIdFor(periode).behandlingId === behandlingId) ?? perioder[0] ?? null;
 }
 
-const findPeriodToSelect = (person: ApiSaksbildePerson): ActivePeriod | null => {
-    const perioderINyesteBehandlinger = finnAlleInntektsforhold(person)
-        .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder ?? [])
-        .filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode));
+const findPeriodToSelect = (person: ApiSaksbildePerson): ActivePeriod | null =>
+    velgEtterPrioritet(
+        finnAlleInntektsforhold(person)
+            .flatMap((inntektsforhold) => inntektsforhold.behandlinger[0]?.perioder ?? [])
+            .filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode)),
+    );
 
-    const aktuellePerioder = perioderINyesteBehandlinger
+/**
+ * Annullerte perioder velges bare når alle er annullert, og ghost-perioder bare når sykefraværstilfellet ikke har andre perioder.
+ */
+function finnPeriodeÅVelgeISykefraværstilfellet(
+    person: ApiSaksbildePerson,
+    vilkårsgrunnlagId: string,
+): ActivePeriod | null {
+    const perioder = finnPerioderMedVilkårsgrunnlag(person, vilkårsgrunnlagId);
+    const vedtaksperioder = perioder.filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode));
+    const ikkeAnnullerte = vedtaksperioder.filter((periode) => !erAnnullertPeriode(periode));
+    return velgEtterPrioritet(ikkeAnnullerte) ?? velgEtterPrioritet(vedtaksperioder) ?? perioder[0] ?? null;
+}
+
+// Først en periode til behandling, så en periode som venter, ellers den nyeste
+function velgEtterPrioritet(perioder: (ApiBeregnetPeriode | ApiUberegnetPeriode)[]): ActivePeriod | null {
+    const aktuellePerioder = perioder
         .sort((a, b) => new Date(b.fom).getTime() - new Date(a.fom).getTime())
         .filter(
             (period) =>
@@ -160,7 +195,7 @@ const findPeriodToSelect = (person: ApiSaksbildePerson): ActivePeriod | null => 
                 period.periodetilstand !== ApiPeriodetilstand.TilInfotrygd,
         );
 
-    const venteperioder = perioderINyesteBehandlinger
+    const venteperioder = perioder
         .sort((a, b) => new Date(a.fom).getTime() - new Date(b.fom).getTime())
         .filter((period) => venterTilstander.includes(period.periodetilstand));
 
@@ -169,7 +204,7 @@ const findPeriodToSelect = (person: ApiSaksbildePerson): ActivePeriod | null => 
     );
 
     return periodeTilBehandling ?? venteperioder[0] ?? aktuellePerioder[0] ?? null;
-};
+}
 
 // Behandlingene er sortert med nyeste først, så første treff på vedtaksperiodeId eller behandlingId er nyeste pølserad
 function alleValgbarePerioder(person: ApiSaksbildePerson): ActivePeriod[] {

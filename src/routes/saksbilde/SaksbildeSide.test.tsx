@@ -86,7 +86,7 @@ function gåTil(url: string) {
     window.history.replaceState(null, '', url);
 }
 
-// next-router-mock oppdaterer ikke nettleserens URL, som fanehooken leser ankeret fra
+// next-router-mock oppdaterer ikke nettleserens URL, som tab-hooken leser ankeret fra
 function synkNettleserUrlMedRouter() {
     const synk = (url: string) => window.history.pushState(null, '', url);
     mockRouter.events.on('routeChangeComplete', synk);
@@ -97,11 +97,11 @@ function synkNettleserUrlMedRouter() {
     };
 }
 
-function fanenavn() {
+function tabnavn() {
     return screen.getAllByRole('tab').map((tab) => tab.textContent);
 }
 
-function valgtFane() {
+function valgtTab() {
     return screen.getByRole('tab', { selected: true }).textContent;
 }
 
@@ -120,8 +120,8 @@ describe('SaksbildeSide', () => {
             gåTil(periodeUrl);
             render(<SaksbildeSide />);
 
-            expect(fanenavn()).toEqual(['Dagoversikt', 'Inngangsvilkår', 'Sykepengegrunnlag']);
-            expect(valgtFane()).toBe('Dagoversikt');
+            expect(tabnavn()).toEqual(['Dagoversikt', 'Inngangsvilkår', 'Sykepengegrunnlag']);
+            expect(valgtTab()).toBe('Dagoversikt');
             expect(screen.getByText('Venstremeny')).toBeInTheDocument();
             expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
         });
@@ -131,19 +131,19 @@ describe('SaksbildeSide', () => {
             render(<SaksbildeSide />);
 
             await waitFor(() => expect(mockRouter.asPath).toBe(`${periodeUrl}#dagoversikt`));
-            expect(fanenavn()).toEqual(['Dagoversikt', 'Inngangsvilkår', 'Sykepengegrunnlag']);
+            expect(tabnavn()).toEqual(['Dagoversikt', 'Inngangsvilkår', 'Sykepengegrunnlag']);
         });
     });
 
     describe('med toggelen på', () => {
         beforeEach(() => (useNyttSaksbildeoppsett as Mock).mockReturnValue(true));
 
-        it('viser Periode-delen med Vedtaksperiode valgt på URL-en for perioden', async () => {
+        it('viser tabgruppen Periode med Vedtaksperiode valgt på URL-en for perioden', async () => {
             gåTil(periodeUrl);
             render(<SaksbildeSide />);
 
-            expect(fanenavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag', 'Inngangsvilkår']);
-            expect(valgtFane()).toBe('Vedtaksperiode');
+            expect(tabnavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag', 'Inngangsvilkår']);
+            expect(valgtTab()).toBe('Vedtaksperiode');
             expect(screen.getByText(`Dagoversiktpanel for ${periode.id}`)).toBeInTheDocument();
             expect(screen.getByText('Venstremeny')).toBeInTheDocument();
             expect(screen.getByText('Saksbildemeny')).toBeInTheDocument();
@@ -151,7 +151,7 @@ describe('SaksbildeSide', () => {
             expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
         });
 
-        it('viser ikke Sykefraværstilfellet-delen for en periode uten vilkårsgrunnlag', async () => {
+        it('viser ikke tabgruppen Sykefraværstilfellet for en periode uten vilkårsgrunnlag', async () => {
             const periodeUtenVilkårsgrunnlag = enBeregnetPeriode({ vilkarsgrunnlagId: null });
             (useFetchPersonQuery as Mock).mockReturnValue({
                 loading: false,
@@ -169,16 +169,16 @@ describe('SaksbildeSide', () => {
             );
             render(<SaksbildeSide />);
 
-            expect(fanenavn()).toEqual(['Vedtaksperiode']);
+            expect(tabnavn()).toEqual(['Vedtaksperiode']);
             expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
         });
 
-        it('viser Sykefraværstilfellet-delen med meny og uten venstremeny på URL-en for sykefraværstilfellet', async () => {
+        it('viser tabgruppen Sykefraværstilfellet med meny og uten venstremeny på URL-en for sykefraværstilfellet', async () => {
             gåTil(sykefraværstilfelleUrl);
             render(<SaksbildeSide />);
 
-            expect(fanenavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag', 'Inngangsvilkår']);
-            expect(valgtFane()).toBe('Sykepengegrunnlag');
+            expect(tabnavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag', 'Inngangsvilkår']);
+            expect(valgtTab()).toBe('Sykepengegrunnlag');
             expect(screen.getByText(`Sykepengegrunnlagpanel for ${periode.id}`)).toBeInTheDocument();
             expect(screen.queryByText('Venstremeny')).not.toBeInTheDocument();
             expect(screen.getByText('Saksbildemeny')).toBeInTheDocument();
@@ -186,36 +186,36 @@ describe('SaksbildeSide', () => {
             expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
         });
 
-        it('viser Vurderingsmomenter i Periode-delen når perioden har risikofunn', () => {
+        it('viser Vurderingsmomenter i tabgruppen Periode når perioden har risikofunn', () => {
             (useRisikovurdering as Mock).mockReturnValue({ funn: [{ kategori: [], beskrivelse: 'Et funn' }] });
             gåTil(periodeUrl);
             render(<SaksbildeSide />);
 
-            expect(fanenavn()).toEqual(['Vedtaksperiode', 'Vurderingsmomenter', 'Sykepengegrunnlag', 'Inngangsvilkår']);
+            expect(tabnavn()).toEqual(['Vedtaksperiode', 'Vurderingsmomenter', 'Sykepengegrunnlag', 'Inngangsvilkår']);
         });
 
-        it('åpner fanen fra ankeret på URL-en for sykefraværstilfellet', () => {
+        it('åpner taben fra ankeret på URL-en for sykefraværstilfellet', () => {
             gåTil(`${sykefraværstilfelleUrl}#inngangsvilkar`);
             render(<SaksbildeSide />);
 
-            expect(valgtFane()).toBe('Inngangsvilkår');
+            expect(valgtTab()).toBe('Inngangsvilkår');
             expect(screen.getByText(`Inngangsvilkårpanel for ${periode.id}`)).toBeInTheDocument();
         });
 
-        it('legger fanen i Sykefraværstilfellet-delen som anker, så tilbake-knappen går til forrige fane', async () => {
+        it('legger taben i tabgruppen Sykefraværstilfellet som anker, så tilbake-knappen går til forrige tab', async () => {
             gåTil(`${sykefraværstilfelleUrl}#sykepengegrunnlag`);
             render(<SaksbildeSide />);
 
             await userEvent.click(screen.getByRole('tab', { name: 'Inngangsvilkår' }));
             expect(window.location.hash).toBe('#inngangsvilkar');
-            expect(valgtFane()).toBe('Inngangsvilkår');
+            expect(valgtTab()).toBe('Inngangsvilkår');
 
             await act(async () => {
                 const tilbake = new Promise((resolve) => window.addEventListener('popstate', resolve, { once: true }));
                 window.history.back();
                 await tilbake;
             });
-            expect(valgtFane()).toBe('Sykepengegrunnlag');
+            expect(valgtTab()).toBe('Sykepengegrunnlag');
         });
 
         it('viser ikke en periode fra et annet sykefraværstilfelle', () => {
@@ -225,7 +225,7 @@ describe('SaksbildeSide', () => {
             expect(screen.getByText('Fant ikke sykefraværstilfellet i Speil')).toBeInTheDocument();
         });
 
-        it('går til fanen i Sykefraværstilfellet-delen for den valgte perioden', async () => {
+        it('går til taben i tabgruppen Sykefraværstilfellet for den valgte perioden', async () => {
             gåTil(eldrePeriodeUrl);
             (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: personMedToPerioder });
             render(<SaksbildeSide />);
@@ -233,12 +233,12 @@ describe('SaksbildeSide', () => {
             await userEvent.click(screen.getByRole('tab', { name: 'Inngangsvilkår' }));
 
             expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#inngangsvilkar`);
-            expect(valgtFane()).toBe('Inngangsvilkår');
+            expect(valgtTab()).toBe('Inngangsvilkår');
             expect(screen.getByText(`Inngangsvilkårpanel for ${eldrePeriode.id}`)).toBeInTheDocument();
             expect(screen.queryByText('Venstremeny')).not.toBeInTheDocument();
         });
 
-        it('går tilbake til den samme perioden i Periode-delen', async () => {
+        it('går tilbake til den samme perioden i tabgruppen Periode', async () => {
             gåTil(eldrePeriodeUrl);
             (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: personMedToPerioder });
             render(<SaksbildeSide />);
@@ -247,7 +247,7 @@ describe('SaksbildeSide', () => {
             await userEvent.click(screen.getByRole('tab', { name: 'Vedtaksperiode' }));
 
             expect(mockRouter.asPath).toBe(`${eldrePeriodeUrl}#dagoversikt`);
-            expect(valgtFane()).toBe('Vedtaksperiode');
+            expect(valgtTab()).toBe('Vedtaksperiode');
             expect(screen.getByText(`Dagoversiktpanel for ${eldrePeriode.id}`)).toBeInTheDocument();
         });
     });

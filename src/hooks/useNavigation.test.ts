@@ -24,7 +24,7 @@ describe('useNavigation med det nye saksbildeoppsettet', () => {
         window.history.replaceState(null, '', url);
     });
 
-    it('går mellom fanene i Sykefraværstilfellet-delen i samme rekkefølge som fanene vises', () => {
+    it('går mellom tabene i tabgruppen Sykefraværstilfellet i samme rekkefølge som tabene vises', () => {
         const { result } = renderHook(() => useNavigasjonOgTab());
 
         act(() => result.current.navigasjon.navigateToNext());
@@ -37,7 +37,7 @@ describe('useNavigation med det nye saksbildeoppsettet', () => {
         expect(result.current.tab).toBe('sykepengegrunnlag');
     });
 
-    it('går fra Vurderingsmomenter til Utvikler i Periode-delen, som er siste fane', () => {
+    it('går fra Vurderingsmomenter til Utvikler i tabgruppen Periode, som er siste tab', () => {
         const url = '/person/person-a/periode/periode-1#vurderingsmomenter';
         mockRouter.setCurrentUrl(url);
         window.history.replaceState(null, '', url);

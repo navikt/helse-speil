@@ -2,7 +2,14 @@ import { useParams, usePathname, useRouter } from 'next/navigation';
 
 import { findPeriod, periodeUrlIdFor, useSetActivePeriodIdUtenPerson, vilkårsgrunnlagIdFor } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { SaksbildeTab, delForTab, tabTilAnker, useSaksbildeTab, useSaksbildedel, useSetSaksbildeTab } from '@state/tab';
+import {
+    SaksbildeTab,
+    tabgruppeForTab,
+    tabTilAnker,
+    useSaksbildeTab,
+    useTabgruppe,
+    useSetSaksbildeTab,
+} from '@state/tab';
 import { ActivePeriod } from '@typer/shared';
 import { erPåEgenUnderside, lagPeriodeUrl, lagSykefraværstilfelleUrl } from '@utils/undersider';
 
@@ -31,7 +38,7 @@ export const useNavigerTilValgtPeriode = () => {
     const [gjeldendeTab] = useSaksbildeTab();
     const setTab = useSetSaksbildeTab();
     const setActivePeriodId = useSetActivePeriodIdUtenPerson();
-    const del = useSaksbildedel();
+    const tabgruppe = useTabgruppe();
 
     return (periodeId: string, tab: SaksbildeTab = gjeldendeTab) => {
         const periode = findPeriod(periodeId, data ?? null);
@@ -40,14 +47,14 @@ export const useNavigerTilValgtPeriode = () => {
         setTab(tab, { erstatt: true });
         const vilkårsgrunnlagId = vilkårsgrunnlagIdFor(periode);
         const url =
-            del === 'sykefraværstilfelle' && vilkårsgrunnlagId
+            tabgruppe === 'sykefraværstilfelle' && vilkårsgrunnlagId
                 ? lagSykefraværstilfelleUrl(personPseudoId, vilkårsgrunnlagId, tabTilAnker(tab))
                 : lagPeriodeUrl(personPseudoId, periodeUrlIdFor(periode), tabTilAnker(tab));
         router.push(url, { scroll: false });
     };
 };
 
-export function useNavigerTilSaksbildedel() {
+export function useNavigerTilTabgruppe() {
     const router = useRouter();
     const { personPseudoId } = useParams<{ personPseudoId?: string }>();
     const setActivePeriodId = useSetActivePeriodIdUtenPerson();
@@ -55,7 +62,7 @@ export function useNavigerTilSaksbildedel() {
     return (periode: ActivePeriod, tab: SaksbildeTab) => {
         if (!personPseudoId) return;
         const vilkårsgrunnlagId = vilkårsgrunnlagIdFor(periode);
-        const tilSykefraværstilfellet = delForTab(tab) === 'sykefraværstilfelle';
+        const tilSykefraværstilfellet = tabgruppeForTab(tab) === 'sykefraværstilfelle';
         if (tilSykefraværstilfellet && !vilkårsgrunnlagId) return;
         setActivePeriodId(periode.id);
         const url =

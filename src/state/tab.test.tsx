@@ -154,7 +154,7 @@ describe('ankerTilTab', () => {
     });
 });
 
-describe('saksbildefane med det nye saksbildeoppsettet', () => {
+describe('saksbildetab med det nye saksbildeoppsettet', () => {
     const sykefraværstilfelleUrl = '/person/person-a/sykefravaerstilfelle/3f1c2a8e-5b7d-4e9a-9c61-2d8f4b7a1e05';
 
     function gåTil(url: string) {
@@ -172,14 +172,14 @@ describe('saksbildefane med det nye saksbildeoppsettet', () => {
         window.history.replaceState(null, '', '/');
     });
 
-    it('åpner på Sykepengegrunnlag i Sykefraværstilfellet-delen uten lagret fane', () => {
+    it('åpner på Sykepengegrunnlag i tabgruppen Sykefraværstilfellet uten lagret tab', () => {
         gåTil(sykefraværstilfelleUrl);
         const { result } = renderHook(() => useSaksbildeTab());
 
         expect(result.current[0]).toBe('sykepengegrunnlag');
     });
 
-    it('åpner ikke en fane fra den andre delen', () => {
+    it('åpner ikke en tab fra den andre tabgruppen', () => {
         gåTil('/person/person-a/periode/vedtaksperiode-1');
         const { result, rerender } = renderHook(() => useSaksbildeTab());
         act(() => result.current[1]('dagoversikt'));
@@ -192,6 +192,39 @@ describe('saksbildefane med det nye saksbildeoppsettet', () => {
         act(() => gåTil('/person/person-a/periode/vedtaksperiode-1'));
         rerender();
         expect(result.current[0]).toBe('dagoversikt');
+    });
+
+    it('husker den siste taben i hver tabgruppe for personen', () => {
+        gåTil('/person/person-a/periode/vedtaksperiode-1');
+        const { result, rerender } = renderHook(() => useSaksbildeTab());
+        act(() => result.current[1]('vurderingsmomenter'));
+
+        act(() => gåTil(sykefraværstilfelleUrl));
+        rerender();
+        act(() => result.current[1]('inngangsvilkår'));
+
+        act(() => gåTil('/person/person-a/periode/vedtaksperiode-1'));
+        rerender();
+        expect(result.current[0]).toBe('vurderingsmomenter');
+
+        act(() => gåTil(sykefraværstilfelleUrl));
+        rerender();
+        expect(result.current[0]).toBe('inngangsvilkår');
+    });
+
+    it('beholder en tab som er lagret før Speil husket taben i hver tabgruppe', () => {
+        sessionStorage.setItem(
+            'saksbildeTabPerPerson',
+            JSON.stringify({ personPseudoId: 'person-a', tab: 'inngangsvilkår' }),
+        );
+        gåTil('/person/person-a/periode/vedtaksperiode-1');
+        const { result, rerender } = renderHook(() => useSaksbildeTab());
+        act(() => result.current[1]('vurderingsmomenter'));
+
+        act(() => gåTil(sykefraværstilfelleUrl));
+        rerender();
+
+        expect(result.current[0]).toBe('inngangsvilkår');
     });
 
     it('leser og setter ankeret på siden for sykefraværstilfellet', () => {
