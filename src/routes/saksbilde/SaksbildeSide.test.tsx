@@ -142,7 +142,7 @@ describe('SaksbildeSide', () => {
             gåTil(periodeUrl);
             render(<SaksbildeSide />);
 
-            expect(fanenavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag og refusjon', 'Inngangsvilkår']);
+            expect(fanenavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag', 'Inngangsvilkår']);
             expect(valgtFane()).toBe('Vedtaksperiode');
             expect(screen.getByText(`Dagoversiktpanel for ${periode.id}`)).toBeInTheDocument();
             expect(screen.getByText('Venstremeny')).toBeInTheDocument();
@@ -177,8 +177,8 @@ describe('SaksbildeSide', () => {
             gåTil(sykefraværstilfelleUrl);
             render(<SaksbildeSide />);
 
-            expect(fanenavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag og refusjon', 'Inngangsvilkår']);
-            expect(valgtFane()).toBe('Sykepengegrunnlag og refusjon');
+            expect(fanenavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag', 'Inngangsvilkår']);
+            expect(valgtFane()).toBe('Sykepengegrunnlag');
             expect(screen.getByText(`Sykepengegrunnlagpanel for ${periode.id}`)).toBeInTheDocument();
             expect(screen.queryByText('Venstremeny')).not.toBeInTheDocument();
             expect(screen.getByText('Saksbildemeny')).toBeInTheDocument();
@@ -191,12 +191,7 @@ describe('SaksbildeSide', () => {
             gåTil(periodeUrl);
             render(<SaksbildeSide />);
 
-            expect(fanenavn()).toEqual([
-                'Vedtaksperiode',
-                'Vurderingsmomenter',
-                'Sykepengegrunnlag og refusjon',
-                'Inngangsvilkår',
-            ]);
+            expect(fanenavn()).toEqual(['Vedtaksperiode', 'Vurderingsmomenter', 'Sykepengegrunnlag', 'Inngangsvilkår']);
         });
 
         it('åpner fanen fra ankeret på URL-en for sykefraværstilfellet', () => {
@@ -220,7 +215,7 @@ describe('SaksbildeSide', () => {
                 window.history.back();
                 await tilbake;
             });
-            expect(valgtFane()).toBe('Sykepengegrunnlag og refusjon');
+            expect(valgtFane()).toBe('Sykepengegrunnlag');
         });
 
         it('viser ikke en periode fra et annet sykefraværstilfelle', () => {
@@ -247,7 +242,7 @@ describe('SaksbildeSide', () => {
             gåTil(eldrePeriodeUrl);
             (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: personMedToPerioder });
             render(<SaksbildeSide />);
-            await userEvent.click(screen.getByRole('tab', { name: 'Sykepengegrunnlag og refusjon' }));
+            await userEvent.click(screen.getByRole('tab', { name: 'Sykepengegrunnlag' }));
 
             await userEvent.click(screen.getByRole('tab', { name: 'Vedtaksperiode' }));
 

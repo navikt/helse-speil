@@ -29,12 +29,12 @@ import { useFetchPersonQuery } from '@state/person';
 import { useRisikovurdering } from '@state/risikovurdering';
 import { useNavigerTilSaksbildedel } from '@state/routing';
 import {
-    SaksbildeTab,
     delForTab,
+    SaksbildeTab,
     tabTilAnker,
     useLagreTabFraAnker,
-    useSaksbildeTab,
     useSaksbildedel,
+    useSaksbildeTab,
     useTabFraAnker,
 } from '@state/tab';
 import { useNyttSaksbildeoppsett, useUtviklersnacks } from '@state/toggles';
@@ -74,7 +74,7 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null, nyttSaksbildeoppset
         if (harSykefraværstilfelle)
             tabs.push({
                 value: 'sykepengegrunnlag',
-                label: 'Sykepengegrunnlag og refusjon',
+                label: 'Sykepengegrunnlag',
                 ikon: <CalculatorIcon aria-hidden />,
             });
         if (harSykefraværstilfelle && erBeregnetPeriode)
@@ -102,6 +102,8 @@ export const Saksbilde = () => {
     const navigerTilDel = useNavigerTilSaksbildedel();
     const [periodefaner, setPeriodefaner] = useState<HTMLDivElement | null>(null);
     const periodefanerBredde = useBredde(periodefaner);
+    const [meny, setMeny] = useState<HTMLDivElement | null>(null);
+    const menyBredde = useBredde(meny);
 
     const aktivPeriode = useActivePeriod(person);
     useSynkroniserValgtPeriodeMedUrl(aktivPeriode);
@@ -213,13 +215,14 @@ export const Saksbilde = () => {
                                 <HStack ref={setPeriodefaner} wrap={false} flexShrink="0">
                                     {periodeTabs.map(visTab)}
                                 </HStack>
+                                <Box aria-hidden flexShrink="0" style={{ width: menyBredde ?? 0 }} />
                             </HStack>
                             <Box aria-hidden flexShrink="0" className="w-px self-stretch bg-ax-border-focus" />
                             <HStack
                                 wrap={false}
                                 flexShrink="0"
                                 width={sykefraværstilfelleBredde}
-                                className="bg-ax-bg-neutral-soft inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA"
+                                className="min-w-max bg-ax-bg-neutral-soft inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA"
                             >
                                 {sykefraværstilfelleTabs.map((t, i) => (
                                     <Fragment key={t.value}>
@@ -236,6 +239,7 @@ export const Saksbilde = () => {
                             </HStack>
                         </Tabs.List>
                         <HStack
+                            ref={setMeny}
                             position="absolute"
                             align="center"
                             wrap={false}
