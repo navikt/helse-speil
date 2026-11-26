@@ -13,6 +13,7 @@ type Period = {
     id: string;
     children: ReactNode;
     isActive?: boolean;
+    erISykefraværstilfellet: boolean;
     onSelectPeriod?: () => void;
     startDate: Dayjs;
     endDate: Dayjs;
@@ -133,6 +134,7 @@ export function parseRows(rows: ReactElement<TimelineRowProps>[]): ParsedRow[] {
                 id: `r-${rowIndex}-p-${periodIndex}`,
                 children: period.props.children,
                 isActive: period.props.activePeriod,
+                erISykefraværstilfellet: period.props.iSykefraværstilfellet ?? false,
                 onSelectPeriod: period.props.onSelectPeriod,
                 icon: period.props.icon,
                 variant: period.props.variant,

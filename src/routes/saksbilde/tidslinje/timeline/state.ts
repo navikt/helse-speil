@@ -91,6 +91,19 @@ export function useExpandableRows(parsedRows: ParsedRow[]) {
         }
     }
 
+    const historiskePerioderISykefraværstilfellet = finnHistoriskePerioderISykefraværstilfellet(parsedRows);
+    const sykefraværstilfelleNøkkel = historiskePerioderISykefraværstilfellet
+        .map(({ rowIndex, periodId }) => `${rowIndex}:${periodId}`)
+        .join(',');
+    const [prevSykefraværstilfelleNøkkel, setPrevSykefraværstilfelleNøkkel] = useState<string | null>(null);
+    if (sykefraværstilfelleNøkkel !== prevSykefraværstilfelleNøkkel) {
+        setPrevSykefraværstilfelleNøkkel(sykefraværstilfelleNøkkel);
+        const rader = historiskePerioderISykefraværstilfellet.map(({ rowIndex }) => rowIndex);
+        if (rader.some((rowIndex) => !expandedRows.has(rowIndex))) {
+            setExpandedRows((prev) => new Set([...prev, ...rader]));
+        }
+    }
+
     function toggleRowExpanded(rowIndex: number) {
         setExpandedRows((prev) => {
             const next = new Set(prev);
@@ -114,6 +127,17 @@ function finnAktivHistoriskPeriode(parsedRows: ParsedRow[]): { rowIndex: number;
         }
     }
     return null;
+}
+
+function finnHistoriskePerioderISykefraværstilfellet(
+    parsedRows: ParsedRow[],
+): { rowIndex: number; periodId: string }[] {
+    return [...parsedRows.entries()].flatMap(([rowIndex, row]) =>
+        [...row.generasjonPeriodsByLevel.values()]
+            .flat()
+            .filter((period) => period.erISykefraværstilfellet)
+            .map((period) => ({ rowIndex, periodId: period.id })),
+    );
 }
 
 export function useScrollToActivePeriod(

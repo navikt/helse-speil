@@ -31,6 +31,7 @@ export interface TimelinePeriodProps extends PropsWithChildren {
     endDate: Dayjs;
     skjæringstidspunkt?: Dayjs;
     activePeriod?: boolean;
+    iSykefraværstilfellet?: boolean;
     onSelectPeriod?: () => void;
     icon?: ReactElement;
     variant: TimelineVariant;
@@ -50,8 +51,19 @@ export const TimelinePeriod: ComponentWithType<TimelinePeriodProps> = (): ReactE
 
     if (!period) return <></>;
 
-    const { startDate, endDate, cropLeft, cropRight, isActive, onSelectPeriod, icon, variant, children, periodPins } =
-        period;
+    const {
+        startDate,
+        endDate,
+        cropLeft,
+        cropRight,
+        isActive,
+        erISykefraværstilfellet,
+        onSelectPeriod,
+        icon,
+        variant,
+        children,
+        periodPins,
+    } = period;
 
     // TODO ordne bredde og plassering et annet sted
     const width = getNumberOfDays(startDate, endDate) * dayLength;
@@ -63,6 +75,7 @@ export const TimelinePeriod: ComponentWithType<TimelinePeriodProps> = (): ReactE
             <button
                 data-period-variant={variant}
                 data-active-period={isActive || undefined}
+                data-i-sykefravaerstilfellet={erISykefraværstilfellet || undefined}
                 className={cn(
                     'aksel-timeline__period--clickable aksel-timeline__period absolute h-[24px] rounded-full',
                     {

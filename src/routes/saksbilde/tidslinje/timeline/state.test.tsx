@@ -27,6 +27,12 @@ describe('useExpandableRows', () => {
         expect([...result.current.expandedRows]).toEqual([0]);
     });
 
+    it('ekspanderer rader med historiske perioder i sykefraværstilfellet', () => {
+        const rows = [enRad(), enRad({ historiskISykefraværstilfellet: true }), enRad({ aktivHistorisk: true })];
+        const { result } = renderHook(() => useExpandableRows(rows));
+        expect([...result.current.expandedRows].sort()).toEqual([1, 2]);
+    });
+
     it('lar brukeren lukke raden igjen', () => {
         const rows = [enRad({ aktivHistorisk: true })];
         const { result, rerender } = renderHook(() => useExpandableRows(rows));
@@ -50,24 +56,35 @@ describe('useExpandableRows', () => {
     });
 });
 
-function enRad({ aktivNyeste = false, aktivHistorisk = false, aktivEldreHistorisk = false } = {}): ParsedRow {
+function enRad({
+    aktivNyeste = false,
+    aktivHistorisk = false,
+    aktivEldreHistorisk = false,
+    historiskISykefraværstilfellet = false,
+} = {}): ParsedRow {
     return {
         label: 'Arbeidsgiver',
         icon: <span />,
         periods: [enPeriode('nyeste', aktivNyeste, 0)],
         generasjonPeriodsByLevel: new Map([
-            [1, [enPeriode('historisk', aktivHistorisk, 1)]],
+            [1, [enPeriode('historisk', aktivHistorisk, 1, historiskISykefraværstilfellet)]],
             [2, [enPeriode('eldre-historisk', aktivEldreHistorisk, 2)]],
         ]),
         copyLabelButton: false,
     };
 }
 
-function enPeriode(id: string, isActive: boolean, generasjonIndex: number): ParsedRow['periods'][number] {
+function enPeriode(
+    id: string,
+    isActive: boolean,
+    generasjonIndex: number,
+    erISykefraværstilfellet = false,
+): ParsedRow['periods'][number] {
     return {
         id,
         children: null,
         isActive,
+        erISykefraværstilfellet,
         startDate: dayjs('2025-01-01'),
         endDate: dayjs('2025-01-31'),
         variant: 'utbetalt' as ParsedRow['periods'][number]['variant'],

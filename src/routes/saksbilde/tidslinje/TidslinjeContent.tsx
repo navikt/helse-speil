@@ -37,12 +37,18 @@ import { TimelinePeriod as TimelinePeriodType } from '@typer/timeline';
 interface TidslinjeProps {
     inntektsforhold: Inntektsforhold[];
     activePeriod: TimelinePeriodType | null;
+    perioderISykefraværstilfellet: Set<string>;
     person: ApiSaksbildePerson;
 }
 
 const zoomLevelAtom = atomWithLocalStorage<ZoomLevel>('tidslinje-zoom-level', '6 mnd');
 
-export function TidslinjeContent({ inntektsforhold, activePeriod, person }: TidslinjeProps): ReactElement {
+export function TidslinjeContent({
+    inntektsforhold,
+    activePeriod,
+    perioderISykefraværstilfellet,
+    person,
+}: TidslinjeProps): ReactElement {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const navigerTilValgtPeriode = useNavigerTilValgtPeriode();
     const { data: infotrygdperioder, isLoading: infotrygdperioderLoading } =
@@ -83,6 +89,7 @@ export function TidslinjeContent({ inntektsforhold, activePeriod, person }: Tids
                                         if (id) navigerTilValgtPeriode(id);
                                     }}
                                     activePeriod={!!(activePeriod && 'id' in activePeriod && activePeriod.id === id)}
+                                    iSykefraværstilfellet={!!id && perioderISykefraværstilfellet.has(id)}
                                     icon={statusTilIkon[element.status]}
                                     variant={statusTilVariant[element.status]}
                                     generasjonIndex={element.generasjonIndex}

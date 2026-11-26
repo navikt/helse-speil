@@ -7,6 +7,8 @@ import { TidslinjeContent } from '@saksbilde/tidslinje/TidslinjeContent';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
+import { finnSykefraværstilfelle } from '@state/sykefraværstilfelle';
+import { useTabgruppe } from '@state/tab';
 
 export function Tidslinje(): ReactElement {
     return (
@@ -19,6 +21,7 @@ export function Tidslinje(): ReactElement {
 function TidslinjeContainer(): ReactElement | null {
     const { loading, data: person = null } = useFetchPersonQuery();
     const activePeriod = useActivePeriod(person);
+    const tabgruppe = useTabgruppe();
 
     if (loading) {
         return <TimelineSkeleton />;
@@ -28,8 +31,19 @@ function TidslinjeContainer(): ReactElement | null {
     }
 
     const inntektsforhold = finnAlleInntektsforhold(person);
+    const perioderISykefraværstilfellet =
+        tabgruppe === 'sykefraværstilfelle' && activePeriod
+            ? new Set(finnSykefraværstilfelle(person, activePeriod).perioder.map((periode) => periode.id))
+            : new Set<string>();
 
-    return <TidslinjeContent person={person} inntektsforhold={inntektsforhold} activePeriod={activePeriod} />;
+    return (
+        <TidslinjeContent
+            person={person}
+            inntektsforhold={inntektsforhold}
+            activePeriod={activePeriod}
+            perioderISykefraværstilfellet={perioderISykefraværstilfellet}
+        />
+    );
 }
 
 function TimelineSkeleton(): ReactElement {
