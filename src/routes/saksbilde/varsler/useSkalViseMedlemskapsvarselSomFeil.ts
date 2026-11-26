@@ -5,7 +5,6 @@ import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/
 import { finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
-import { useKanOverstyreMedlemskap } from '@state/toggles';
 
 import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
 
@@ -15,7 +14,6 @@ interface Medlemskapsvarselvisning {
 }
 
 export function useSkalViseMedlemskapsvarselSomFeil(): Medlemskapsvarselvisning {
-    const kanOverstyreMedlemskap = useKanOverstyreMedlemskap();
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: person = null } = useFetchPersonQuery();
     const aktivPeriode = useActivePeriod(person);
@@ -25,11 +23,11 @@ export function useSkalViseMedlemskapsvarselSomFeil(): Medlemskapsvarselvisning 
     const { data, isLoading, isError } = useGetVilkårsvurderingerForPersonBehandler(
         personPseudoId,
         { medlemskapsvurderingId: medlemskapsvurderingId ?? '' },
-        { query: { enabled: kanOverstyreMedlemskap && medlemskapsvurderingId !== undefined } },
+        { query: { enabled: medlemskapsvurderingId !== undefined } },
     );
 
     const gjelderPeriodeTilGodkjenning =
-        kanOverstyreMedlemskap && aktivPeriode?.skjaeringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
+        aktivPeriode?.skjaeringstidspunkt === periodeTilGodkjenning?.skjaeringstidspunkt;
 
     return {
         skalViseSomFeil:

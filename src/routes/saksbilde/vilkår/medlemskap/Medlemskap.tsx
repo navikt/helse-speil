@@ -11,7 +11,7 @@ import {
     ApiVurderingskildeSaksbehandler,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
 import { VilkårsutfallIkon, VilkårsutfallTag, VurdertAvSaksbehandler } from '@saksbilde/vilkår/vilkårsutfall';
-import { useKanOverstyreAlleMedlemskapsstatuser, useKanOverstyreMedlemskap } from '@state/toggles';
+import { useKanOverstyreAlleMedlemskapsstatuser } from '@state/toggles';
 import { getFormattedDatetimeString } from '@utils/date';
 import { cn } from '@utils/tw';
 
@@ -38,15 +38,12 @@ export function Medlemskap({
 }: MedlemskapProps): ReactElement {
     const { vurdering, isLoading, isError, utfall, erOverførtFraInfotrygd } = medlemskapsvurdering;
     const tittelId = useId();
-    const kanOverstyreMedlemskap = useKanOverstyreMedlemskap();
     const kanOverstyreAlleMedlemskapsstatuser = useKanOverstyreAlleMedlemskapsstatuser();
     const statusErOverstyrbar =
-        kanOverstyreMedlemskap &&
-        (kanOverstyreAlleMedlemskapsstatuser ||
-            vurdering?.kilde.kildetype === ApiKildetype.SAKSBEHANDLER ||
-            vurdering?.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL);
+        kanOverstyreAlleMedlemskapsstatuser ||
+        vurdering?.kilde.kildetype === ApiKildetype.SAKSBEHANDLER ||
+        vurdering?.status === ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL;
     const kanVurdere =
-        kanOverstyreMedlemskap &&
         !readOnly &&
         !serPåTidligereBehandling &&
         vurdering !== undefined &&

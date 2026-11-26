@@ -63,10 +63,6 @@ export const useToggle = (): { value: ToggleState; toggle: (property: keyof Togg
 
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
 
-export function useKanOverstyreMedlemskap(): boolean {
-    return true;
-}
-
 export const useKanOverstyreAlleMedlemskapsstatuser = (): boolean =>
     useAtomValue(toggleState).kanOverstyreAlleMedlemskapsstatuser && erUtvikling;
 

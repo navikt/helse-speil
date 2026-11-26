@@ -4,7 +4,6 @@ import { ApiMedlemskapsstatus } from '@io/rest/generated/medlemskap/medlemskap.s
 import { useGetVilkårsvurderingerForPersonBehandler } from '@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger';
 import { finnPeriodeTilGodkjenning } from '@state/inntektsforhold/inntektsforhold';
 import { useActivePeriod } from '@state/periode';
-import { useKanOverstyreMedlemskap } from '@state/toggles';
 import { renderHook } from '@test-utils';
 
 import { useVilkårsgrunnlag } from '../sykepengegrunnlag/useVilkårsgrunnlag';
@@ -14,7 +13,6 @@ vi.mock('next/navigation', () => ({ useParams: () => ({ personPseudoId: 'en-pers
 vi.mock('@state/person', () => ({ useFetchPersonQuery: () => ({ data: {} }) }));
 vi.mock('@state/periode', () => ({ useActivePeriod: vi.fn() }));
 vi.mock('@state/inntektsforhold/inntektsforhold', () => ({ finnPeriodeTilGodkjenning: vi.fn() }));
-vi.mock('@state/toggles', () => ({ useKanOverstyreMedlemskap: vi.fn() }));
 vi.mock('../sykepengegrunnlag/useVilkårsgrunnlag', () => ({ useVilkårsgrunnlag: vi.fn() }));
 vi.mock('@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger', () => ({
     useGetVilkårsvurderingerForPersonBehandler: vi.fn(),
@@ -22,7 +20,6 @@ vi.mock('@io/rest/generated/medlemskap/vilkarsvurderinger/vilkarsvurderinger', (
 
 describe('useSkalViseMedlemskapsvarselSomFeil', () => {
     beforeEach(() => {
-        (useKanOverstyreMedlemskap as Mock).mockReturnValue(true);
         (useActivePeriod as Mock).mockReturnValue({ skjaeringstidspunkt: '2024-01-01' });
         (finnPeriodeTilGodkjenning as Mock).mockReturnValue({ skjaeringstidspunkt: '2024-01-01' });
         (useVilkårsgrunnlag as Mock).mockReturnValue({ medlemskapsvurderingId: 'en-medlemskapsvurdering' });
@@ -58,19 +55,6 @@ describe('useSkalViseMedlemskapsvarselSomFeil', () => {
         const { result } = renderHook(() => useSkalViseMedlemskapsvarselSomFeil());
 
         expect(result.current).toEqual({ skalViseSomFeil: true, henterStatus: false });
-    });
-
-    it('viser ikke varselet som feil uten overstyringstogglen', () => {
-        (useKanOverstyreMedlemskap as Mock).mockReturnValue(false);
-
-        const { result } = renderHook(() => useSkalViseMedlemskapsvarselSomFeil());
-
-        expect(result.current.skalViseSomFeil).toBe(false);
-        expect(useGetVilkårsvurderingerForPersonBehandler).toHaveBeenLastCalledWith(
-            'en-person',
-            { medlemskapsvurderingId: 'en-medlemskapsvurdering' },
-            { query: { enabled: false } },
-        );
     });
 
     it.each([ApiMedlemskapsstatus.JA, ApiMedlemskapsstatus.NEI, ApiMedlemskapsstatus.UAVKLART])(

@@ -8,27 +8,11 @@ import { render, screen } from '@test-utils';
 import { Medlemskap, Medlemskapsdetaljer } from './Medlemskap';
 import { Medlemskapsvurdering } from './useMedlemskapsvurdering';
 
-const toggles = vi.hoisted(() => ({ kanOverstyreMedlemskap: true }));
-
-vi.mock('@state/toggles', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@state/toggles')>()),
-    useKanOverstyreMedlemskap: () => toggles.kanOverstyreMedlemskap,
-}));
-
 describe('Medlemskap', () => {
-    it('viser knappen for å vurdere vilkåret når overstyring er skrudd på', () => {
-        toggles.kanOverstyreMedlemskap = true;
+    it('viser knappen for å vurdere vilkåret', () => {
         renderMedlemskap();
 
         expect(screen.getByRole('button', { name: 'Vurder vilkår' })).toBeVisible();
-    });
-
-    it('skjuler knappen for å vurdere vilkåret når overstyring er skrudd av', () => {
-        toggles.kanOverstyreMedlemskap = false;
-        renderMedlemskap();
-
-        expect(screen.getByText('Må vurderes', { selector: '.aksel-tag' })).toBeVisible();
-        expect(screen.queryByRole('button', { name: 'Vurder vilkår' })).not.toBeInTheDocument();
     });
 
     it.each([
@@ -58,7 +42,6 @@ describe('Medlemskap', () => {
     ])(
         'knappen for å vurdere vilkåret vises=$vises når kilde er $kildetype og status er $status',
         ({ kildetype, status, vises }) => {
-            toggles.kanOverstyreMedlemskap = true;
             renderMedlemskap(kildetype, status);
 
             const knapp = screen.queryByRole('button', { name: 'Vurder vilkår' });
