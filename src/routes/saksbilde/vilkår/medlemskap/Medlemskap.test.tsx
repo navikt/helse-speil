@@ -15,11 +15,6 @@ vi.mock('@state/toggles', async (importOriginal) => ({
     useKanOverstyreMedlemskap: () => toggles.kanOverstyreMedlemskap,
 }));
 
-vi.mock('@hooks/brukerrolleHooks', async (importOriginal) => ({
-    ...(await importOriginal<typeof import('@hooks/brukerrolleHooks')>()),
-    useErCoachFagkoordinatorEllerSupersaksbehandler: () => true,
-}));
-
 describe('Medlemskap', () => {
     it('viser knappen for å vurdere vilkåret når overstyring er skrudd på', () => {
         toggles.kanOverstyreMedlemskap = true;

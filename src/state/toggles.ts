@@ -63,9 +63,8 @@ export const useToggle = (): { value: ToggleState; toggle: (property: keyof Togg
 
 export const useKanBeslutteEgneOppgaver = (): boolean => useAtomValue(toggleState).kanBeslutteEgne;
 
-// sp-medlemskap avviser overstyring i prod til den gjør vurderingen selv (steg 7 i innfasingen av vurderings-id)
 export function useKanOverstyreMedlemskap(): boolean {
-    return erUtvikling;
+    return true;
 }
 
 export const useKanOverstyreAlleMedlemskapsstatuser = (): boolean =>

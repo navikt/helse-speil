@@ -3,7 +3,6 @@ import { ReactElement, ReactNode, useId } from 'react';
 import { BodyShort, Button, HStack, Heading, List, Loader, ReadMore, Skeleton, VStack } from '@navikt/ds-react';
 
 import { ErrorMessageWithRefetch } from '@components/ErrorMessageWithRefetch';
-import { useErCoachFagkoordinatorEllerSupersaksbehandler } from '@hooks/brukerrolleHooks';
 import {
     ApiKildetype,
     ApiMedlemskapsstatus,
@@ -39,7 +38,6 @@ export function Medlemskap({
 }: MedlemskapProps): ReactElement {
     const { vurdering, isLoading, isError, utfall, erOverførtFraInfotrygd } = medlemskapsvurdering;
     const tittelId = useId();
-    const erCoachFagkoordinatorEllerSupersaksbehandler = useErCoachFagkoordinatorEllerSupersaksbehandler();
     const kanOverstyreMedlemskap = useKanOverstyreMedlemskap();
     const kanOverstyreAlleMedlemskapsstatuser = useKanOverstyreAlleMedlemskapsstatuser();
     const statusErOverstyrbar =
@@ -51,7 +49,6 @@ export function Medlemskap({
         kanOverstyreMedlemskap &&
         !readOnly &&
         !serPåTidligereBehandling &&
-        erCoachFagkoordinatorEllerSupersaksbehandler &&
         vurdering !== undefined &&
         !erOverførtFraInfotrygd &&
         statusErOverstyrbar;
