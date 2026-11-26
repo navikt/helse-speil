@@ -175,7 +175,7 @@ const findPeriodToSelect = (person: ApiSaksbildePerson): ActivePeriod | null =>
 /**
  * Annullerte perioder velges bare når alle er annullert, og ghost-perioder bare når sykefraværstilfellet ikke har andre perioder.
  */
-function finnPeriodeÅVelgeISykefraværstilfellet(
+export function finnPeriodeÅVelgeISykefraværstilfellet(
     person: ApiSaksbildePerson,
     vilkårsgrunnlagId: string,
 ): ActivePeriod | null {

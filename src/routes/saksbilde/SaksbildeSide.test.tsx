@@ -7,7 +7,7 @@ import { useRisikovurdering } from '@state/risikovurdering';
 import { useNyttSaksbildeoppsett } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
-import { enBeregnetPeriode } from '@test-data/periode';
+import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { act, render, screen, waitFor } from '@test-utils';
 import userEvent from '@testing-library/user-event';
@@ -81,6 +81,15 @@ const personMedToPerioder = enPerson({
 });
 const eldrePeriodeUrl = `/person/${personPseudoId}/periode/${eldrePeriode.vedtaksperiodeId}/behandling/${eldrePeriode.behandlingId}`;
 
+const ghostPeriode = enGhostPeriode({ vilkarsgrunnlagId: vilkårsgrunnlagId, organisasjonsnummer: '123456789' });
+const personMedGhostPeriode = enPerson({
+    arbeidsgivere: [
+        enArbeidsgiver({ behandlinger: [enBehandling({ perioder: [periode] })], ghostPerioder: [] }),
+        enArbeidsgiver({ organisasjonsnummer: '123456789', behandlinger: [], ghostPerioder: [ghostPeriode] }),
+    ],
+});
+const ghostPeriodeUrl = `/person/${personPseudoId}/periode/${ghostPeriode.id}`;
+
 function gåTil(url: string) {
     mockRouter.setCurrentUrl(url);
     window.history.replaceState(null, '', url);
@@ -132,6 +141,16 @@ describe('SaksbildeSide', () => {
 
             await waitFor(() => expect(mockRouter.asPath).toBe(`${periodeUrl}#dagoversikt`));
             expect(tabnavn()).toEqual(['Dagoversikt', 'Inngangsvilkår', 'Sykepengegrunnlag']);
+        });
+
+        it('viser bare Sykepengegrunnlag for en ghost-periode', async () => {
+            (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: personMedGhostPeriode });
+            gåTil(`${ghostPeriodeUrl}#dagoversikt`);
+            render(<SaksbildeSide />);
+
+            await waitFor(() => expect(window.location.hash).toBe('#sykepengegrunnlag'));
+            expect(tabnavn()).toEqual(['Sykepengegrunnlag']);
+            expect(screen.getByText(`Sykepengegrunnlagpanel for ${ghostPeriode.id}`)).toBeInTheDocument();
         });
     });
 
@@ -249,6 +268,44 @@ describe('SaksbildeSide', () => {
             expect(mockRouter.asPath).toBe(`${eldrePeriodeUrl}#dagoversikt`);
             expect(valgtTab()).toBe('Vedtaksperiode');
             expect(screen.getByText(`Dagoversiktpanel for ${eldrePeriode.id}`)).toBeInTheDocument();
+        });
+
+        describe('for en ghost-periode', () => {
+            beforeEach(() =>
+                (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: personMedGhostPeriode }),
+            );
+
+            it('viser alle tabene og en melding om at det ikke finnes en vedtaksperiode', async () => {
+                gåTil(`${ghostPeriodeUrl}#dagoversikt`);
+                render(<SaksbildeSide />);
+
+                expect(tabnavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag', 'Inngangsvilkår']);
+                expect(valgtTab()).toBe('Vedtaksperiode');
+                expect(screen.getByText(/Arbeidsforhold uten sykefravær/)).toBeInTheDocument();
+                expect(mockRouter.asPath).toBe(`${ghostPeriodeUrl}#dagoversikt`);
+                expect(await screen.findByText('Venstremeny')).toBeInTheDocument();
+            });
+
+            it('viser inngangsvilkårene til sykefraværstilfellet', async () => {
+                gåTil(`${ghostPeriodeUrl}#dagoversikt`);
+                render(<SaksbildeSide />);
+
+                await userEvent.click(screen.getByRole('tab', { name: 'Inngangsvilkår' }));
+
+                expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#inngangsvilkar`);
+                expect(valgtTab()).toBe('Inngangsvilkår');
+                expect(screen.getByText(`Inngangsvilkårpanel for ${periode.id}`)).toBeInTheDocument();
+            });
+
+            it('viser sykepengegrunnlaget for ghost-perioden', async () => {
+                gåTil(`${ghostPeriodeUrl}#dagoversikt`);
+                render(<SaksbildeSide />);
+
+                await userEvent.click(screen.getByRole('tab', { name: 'Sykepengegrunnlag' }));
+
+                expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#sykepengegrunnlag`);
+                expect(screen.getByText(`Sykepengegrunnlagpanel for ${ghostPeriode.id}`)).toBeInTheDocument();
+            });
         });
     });
 });

@@ -5,7 +5,7 @@ import { Fragment, ReactElement, useEffect, useState } from 'react';
 import { CalculatorIcon, InformationSquareIcon, TasklistIcon, TerminalIcon } from '@navikt/aksel-icons';
 import { Box, HStack, InfoCard, Tabs, Tooltip, VStack } from '@navikt/ds-react';
 
-import { ApiPeriodetilstand } from '@io/rest/generated/spesialist.schemas';
+import { ApiBeregnetPeriode, ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Verktøylinje } from '@saksbilde/Verktøylinje';
 import { SaksbildeDropdownMenu } from '@saksbilde/saksbildeMenu/dropdown/SaksbildeDropdownMenu';
 import { PeriodeViewError } from '@saksbilde/saksbilder/PeriodeViewError';
@@ -14,11 +14,13 @@ import { Sykepengegrunnlag } from '@saksbilde/sykepengegrunnlag/Sykepengegrunnla
 import { Utbetaling } from '@saksbilde/utbetaling/Utbetaling';
 import { harPeriodeDagerMedUnder20ProsentTotalGrad } from '@saksbilde/utbetaling/utbetalingstabell/arbeidstidsvurdering/arbeidstidsvurdering';
 import { finnInitierendeVedtaksperiodeIdFraOverlappendePeriode } from '@saksbilde/utils';
+import { Beskjed } from '@saksbilde/varsler/Beskjeder';
 import { SaksbildevarslerOgBeskjeder } from '@saksbilde/varsler/SaksbildevarslerOgBeskjeder';
 import { Inngangsvilkår } from '@saksbilde/vilkår/Inngangsvilkår';
 import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmomenter';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
+    finnPeriodeÅVelgeISykefraværstilfellet,
     periodeUrlIdFor,
     useActivePeriod,
     usePeriodeUrlIdFraUrl,
@@ -46,7 +48,11 @@ const Utvikler = dynamic(() => import('@saksbilde/utvikler/Utvikler').then((mod)
 
 type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean; ikon?: ReactElement };
 
-const useAvailableTabs = (aktivPeriode: ActivePeriod | null, nyttSaksbildeoppsett: boolean) => {
+const useAvailableTabs = (
+    aktivPeriode: ActivePeriod | null,
+    nyttSaksbildeoppsett: boolean,
+    inngangsvilkårsperiode: ApiBeregnetPeriode | null,
+) => {
     const utviklersnacks = useUtviklersnacks();
     const risikovurdering = useRisikovurdering(
         isBeregnetPeriode(aktivPeriode) ? aktivPeriode.vedtaksperiodeId : undefined,
@@ -68,7 +74,7 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null, nyttSaksbildeoppset
     const harSykefraværstilfelle = aktivPeriode !== null && vilkårsgrunnlagIdFor(aktivPeriode) !== null;
 
     if (!erAnnullert && nyttSaksbildeoppsett) {
-        if (erPeriode) tabs.push({ value: 'dagoversikt', label: 'Vedtaksperiode' });
+        if (erPeriode || isGhostPeriode(aktivPeriode)) tabs.push({ value: 'dagoversikt', label: 'Vedtaksperiode' });
         if (harRisikofunn) tabs.push({ value: 'vurderingsmomenter', label: 'Vurderingsmomenter' });
         if (utviklersnacks && erPeriode) tabs.push({ value: 'utvikler', label: 'Utvikler', kunIkon: true });
         if (harSykefraværstilfelle)
@@ -77,7 +83,7 @@ const useAvailableTabs = (aktivPeriode: ActivePeriod | null, nyttSaksbildeoppset
                 label: 'Sykepengegrunnlag',
                 ikon: <CalculatorIcon aria-hidden />,
             });
-        if (harSykefraværstilfelle && erBeregnetPeriode)
+        if (harSykefraværstilfelle && inngangsvilkårsperiode)
             tabs.push({ value: 'inngangsvilkår', label: 'Inngangsvilkår', ikon: <TasklistIcon aria-hidden /> });
     } else if (!erAnnullert) {
         if (erPeriode) tabs.push({ value: 'dagoversikt', label: 'Dagoversikt' });
@@ -109,7 +115,12 @@ export const Saksbilde = () => {
     useSynkroniserValgtPeriodeMedUrl(aktivPeriode);
     useLagreTabFraAnker();
 
-    const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode, nyttSaksbildeoppsett);
+    const inngangsvilkårsperiode = finnInngangsvilkårsperiode(person, aktivPeriode);
+    const { tabs: availableTabs, erAnnullert } = useAvailableTabs(
+        aktivPeriode,
+        nyttSaksbildeoppsett,
+        inngangsvilkårsperiode,
+    );
 
     const erPåSykefraværstilfellet = tabgruppe === 'sykefraværstilfelle';
     const harPeriodeIUrl = periodeUrlId !== null;
@@ -287,9 +298,22 @@ export const Saksbilde = () => {
                         </>
                     )}
                     {isGhostPeriode(aktivPeriode) && (
-                        <Tabs.Panel value="sykepengegrunnlag">
-                            <Sykepengegrunnlag person={person} periode={aktivPeriode} />
-                        </Tabs.Panel>
+                        <>
+                            <Tabs.Panel value="dagoversikt">
+                                <Beskjed
+                                    grad="info"
+                                    tekst="Arbeidsforhold uten sykefravær. Det finnes ingen vedtaksperiode å vise for denne perioden."
+                                />
+                            </Tabs.Panel>
+                            {inngangsvilkårsperiode && (
+                                <Tabs.Panel value="inngangsvilkår">
+                                    <Inngangsvilkår person={person} periode={inngangsvilkårsperiode} />
+                                </Tabs.Panel>
+                            )}
+                            <Tabs.Panel value="sykepengegrunnlag">
+                                <Sykepengegrunnlag person={person} periode={aktivPeriode} />
+                            </Tabs.Panel>
+                        </>
                     )}
                     {isUberegnetPeriode(aktivPeriode) && (
                         <>
@@ -310,6 +334,16 @@ export const Saksbilde = () => {
         </VStack>
     );
 };
+
+function finnInngangsvilkårsperiode(
+    person: ApiSaksbildePerson | null,
+    aktivPeriode: ActivePeriod | null,
+): ApiBeregnetPeriode | null {
+    if (isBeregnetPeriode(aktivPeriode)) return aktivPeriode;
+    if (!person || !isGhostPeriode(aktivPeriode) || !aktivPeriode.vilkarsgrunnlagId) return null;
+    const periode = finnPeriodeÅVelgeISykefraværstilfellet(person, aktivPeriode.vilkarsgrunnlagId);
+    return isBeregnetPeriode(periode) ? periode : null;
+}
 
 function useBredde(element: HTMLElement | null): number | null {
     const [bredde, setBredde] = useState<number | null>(null);
