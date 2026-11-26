@@ -50,6 +50,16 @@ describe('VarselContainer', () => {
         expect(screen.getByRole('button', { name: 'Aktivt varsel' })).toBeVisible();
     });
 
+    it('er fortsatt lukket når kortet vises på nytt, f.eks. i en annen fane', async () => {
+        const { rerender } = render(<VarselContainer key="sykepengegrunnlag" varsler={[aktivt]} />);
+        await userEvent.click(screen.getByRole('button', { expanded: true }));
+
+        rerender(<VarselContainer key="vedtaksperiode" varsler={[aktivt]} />);
+
+        expect(screen.getByRole('button', { expanded: false })).toBeInTheDocument();
+        expect(screen.queryByRole('button', { name: 'Aktivt varsel' })).not.toBeInTheDocument();
+    });
+
     it.each([
         ['rød', 'danger', () => [aktivt, medlemskapsvarsel]],
         ['gul', 'warning', () => [aktivt, vurdert]],

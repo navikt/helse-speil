@@ -1,3 +1,4 @@
+import { atom, useAtom } from 'jotai';
 import { ReactElement } from 'react';
 
 import { ExpansionCard, Skeleton, VStack } from '@navikt/ds-react';
@@ -8,6 +9,9 @@ import { VarselItem } from './VarselItem';
 import { useVisSomFeilRegler } from './useVisSomFeilRegler';
 import { finnVarselstatus, oppsummerVarsler, oppsummeringstekst, venterPåMedlemskapsstatus } from './varselstatus';
 
+// Delt mellom fanene, så kortet er like åpent eller lukket når saksbehandler bytter fane
+const varselkortÅpentState = atom(true);
+
 interface VarselContainerProps {
     varsler: ApiVarselDTO[];
 }
@@ -17,12 +21,14 @@ export function VarselContainer({ varsler }: VarselContainerProps): ReactElement
     const varslerMedStatus = varsler.map((varsel) => ({ varsel, status: finnVarselstatus(varsel, visSomFeil) }));
     const oppsummering = oppsummerVarsler(varslerMedStatus.map(({ status }) => status));
     const laster = venterPåMedlemskapsstatus(varsler, visSomFeil, henterMedlemskapsstatus);
+    const [åpen, setÅpen] = useAtom(varselkortÅpentState);
 
     return (
         <VStack margin="space-12">
             <ExpansionCard
                 aria-label="Varsler"
-                defaultOpen
+                open={åpen}
+                onToggle={setÅpen}
                 size="small"
                 data-color={laster ? undefined : oppsummering.farge}
                 className="border-ax-border-neutral-subtleA shadow-none"
