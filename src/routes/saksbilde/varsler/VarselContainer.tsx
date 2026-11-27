@@ -31,10 +31,10 @@ export function VarselContainer({ varsler }: VarselContainerProps): ReactElement
                 onToggle={setÅpen}
                 size="small"
                 data-color={laster ? undefined : oppsummering.farge}
-                className="border-ax-border-neutral-subtleA shadow-none"
+                className="border-ax-border-neutral-subtleA shadow-none [--__axc-expansioncard-padding-block:var(--ax-space-2)]"
             >
                 <ExpansionCard.Header className="[--ax-bg-moderate-hoverA:transparent] data-[open=true]:after:bg-ax-border-neutral-subtleA data-[open=true]:after:opacity-50">
-                    <ExpansionCard.Title as="h2" size="small">
+                    <ExpansionCard.Title as="h2" size="small" className="mt-0 text-ax-medium">
                         Varsler ({varsler.length})
                     </ExpansionCard.Title>
                     <ExpansionCard.Description>
@@ -45,7 +45,7 @@ export function VarselContainer({ varsler }: VarselContainerProps): ReactElement
                         )}
                     </ExpansionCard.Description>
                 </ExpansionCard.Header>
-                <ExpansionCard.Content className="bg-ax-bg-raised">
+                <ExpansionCard.Content className="bg-ax-bg-raised [--__axc-expansioncard-padding-block:var(--ax-space-8)]">
                     {laster ? (
                         <VStack gap="space-8" aria-busy="true">
                             {varslerMedStatus.map(({ varsel }) => (
@@ -53,7 +53,7 @@ export function VarselContainer({ varsler }: VarselContainerProps): ReactElement
                             ))}
                         </VStack>
                     ) : (
-                        <VStack gap="space-16">
+                        <VStack gap="space-8">
                             {varslerMedStatus.map(({ varsel, status }) => (
                                 <VarselItem key={varsel.id} varsel={varsel} status={status} />
                             ))}

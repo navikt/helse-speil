@@ -38,7 +38,7 @@ export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
     if (!kanÅpnes) {
         return (
             <Box background={`${statusetikett[status].farge}-soft`} borderRadius="8" data-status={status}>
-                <Box paddingInline="space-56 space-8" paddingBlock="space-12">
+                <Box paddingInline="space-56 space-8" paddingBlock={måLøses ? 'space-12' : 'space-12 space-0'}>
                     {tittel}
                 </Box>
                 {!måLøses && (
@@ -57,7 +57,7 @@ export function VarselItem({ varsel, status }: VarselItemProps): ReactElement {
                     aria-labelledby={tittelId}
                     flexDirection="row-reverse"
                     justify="start"
-                    className="text-ax-text-neutral"
+                    className={måLøses ? 'text-ax-text-neutral' : 'pb-0 text-ax-text-neutral'}
                 >
                     {tittel}
                 </EkspanderbartVarsel.Header>
@@ -90,7 +90,7 @@ interface VarseltittelProps {
 function Varseltittel({ varsel, tittelId }: VarseltittelProps): ReactElement {
     return (
         <HStack justify="space-between" align="start" gap="space-8" wrap={false} flexGrow="1">
-            <Heading id={tittelId} level="3" size="xsmall">
+            <Heading id={tittelId} level="3" size="xsmall" className="text-ax-medium">
                 {varsel.tittel}
             </Heading>
         </HStack>
