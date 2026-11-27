@@ -82,7 +82,7 @@ export const TimelinePeriod: ComponentWithType<TimelinePeriodProps> = (): ReactE
                         'rounded-l-none': cropLeft,
                         'rounded-r-none': cropRight,
                         'z-3 border border-ax-border-accent-strong ring-1 inset-ring-1 ring-ax-border-accent-strong inset-ring-ax-border-accent-strong':
-                            isActive,
+                            isActive && !erISykefraværstilfellet,
                     },
                 )}
                 style={{ left: placement, width }}

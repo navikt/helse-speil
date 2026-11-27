@@ -89,6 +89,7 @@ describe('Tidslinje', () => {
             const { container } = renderTidslinje();
 
             expect(perioderIRad(container, 0).map(erAktiv)).toEqual([false, true, false]);
+            expect(perioderIRad(container, 0).map(harEgenRamme)).toEqual([false, true, false]);
             expect(container.querySelectorAll('[data-i-sykefravaerstilfellet]')).toHaveLength(0);
             expect(container.querySelectorAll('[data-sykefravaerstilfelle-ramme]')).toHaveLength(0);
         });
@@ -123,10 +124,11 @@ describe('Tidslinje', () => {
             expect(perioderIRad(container, 1).map(erMarkert)).toEqual([true]);
         });
 
-        it('markerer den valgte perioden ekstra inne i sykefraværstilfellet', () => {
+        it('gir ikke den valgte perioden egen ramme inne i sykefraværstilfellet', () => {
             gåTil(sykefraværstilfelleUrl);
             const { container } = renderTidslinje();
 
+            expect(perioderIRad(container, 0).map(harEgenRamme)).toEqual([false, false, false]);
             expect(perioderIRad(container, 0).map(erAktiv)).toEqual([false, false, true]);
             expect(container.querySelectorAll('[data-active-period]')).toHaveLength(1);
         });
@@ -315,4 +317,8 @@ function erMarkert(periode: HTMLElement) {
 
 function erAktiv(periode: HTMLElement) {
     return periode.hasAttribute('data-active-period');
+}
+
+function harEgenRamme(periode: HTMLElement) {
+    return periode.classList.contains('border-ax-border-accent-strong');
 }
