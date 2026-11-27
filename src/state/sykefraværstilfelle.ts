@@ -1,4 +1,9 @@
-import { ApiPeriode, ApiPeriodetilstand, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiPeriode,
+    ApiPeriodetilstand,
+    ApiSaksbildePerson,
+    ApiUtbetalingstatus,
+} from '@io/rest/generated/spesialist.schemas';
 import { finnAlleArbeidsgivere } from '@state/inntektsforhold/arbeidsgiver';
 import { Inntektsforhold, finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import { ActivePeriod } from '@typer/shared';
@@ -50,6 +55,45 @@ export function finnSykefraværstilfelleForSkjæringstidspunkt(
         finnNyesteVilkårsgrunnlagId(perioder, skjæringstidspunkt),
         null,
     );
+}
+
+export type Redigering = { kanRedigere: boolean; erEldreGrunnlag: boolean; erRevurdering: boolean };
+
+export function redigeringISykefraværstilfellet(
+    person: ApiSaksbildePerson,
+    vilkarsgrunnlagId: string | null,
+    venterPåBeslutter: boolean,
+): Redigering {
+    const skjæringstidspunkt = vilkarsgrunnlagId === null ? null : finnSkjæringstidspunkt(person, vilkarsgrunnlagId);
+    if (skjæringstidspunkt === null) return { kanRedigere: false, erEldreGrunnlag: false, erRevurdering: false };
+
+    const nyesteTilfelle = finnSykefraværstilfelleForSkjæringstidspunkt(person, skjæringstidspunkt);
+    const erEldreGrunnlag = nyesteTilfelle.vilkarsgrunnlagId !== vilkarsgrunnlagId;
+    return {
+        kanRedigere: !erEldreGrunnlag && !venterPåBeslutter && nyesteTilfelle.status !== 'annullert',
+        erEldreGrunnlag,
+        erRevurdering: erFørstePeriodeUtbetalt(nyesteTilfelle.perioder),
+    };
+}
+
+// Endringer i grunnlaget er en revurdering når den første perioden i sykefraværstilfellet er utbetalt
+function erFørstePeriodeUtbetalt(perioder: ActivePeriod[]): boolean {
+    const førstePeriode = perioder
+        .filter(isBeregnetPeriode)
+        .filter((periode) => !erAnnullertPeriode(periode))
+        .sort((a, b) => a.fom.localeCompare(b.fom))[0];
+    return førstePeriode?.utbetaling.status === ApiUtbetalingstatus.UTBETALT;
+}
+
+function finnSkjæringstidspunkt(person: ApiSaksbildePerson, vilkarsgrunnlagId: string): string | null {
+    const periode =
+        finnAlleInntektsforhold(person)
+            .flatMap(medVilkårsgrunnlag)
+            .find((periode) => periode.vilkarsgrunnlagId === vilkarsgrunnlagId)?.periode ??
+        finnAlleArbeidsgivere(person)
+            .flatMap((arbeidsgiver) => arbeidsgiver.ghostPerioder)
+            .find((ghostPeriode) => ghostPeriode.vilkarsgrunnlagId === vilkarsgrunnlagId);
+    return periode?.skjaeringstidspunkt ?? null;
 }
 
 // Uberegnede perioder får det nyeste grunnlaget når de beregnes, så de hører bare til klyngen for det

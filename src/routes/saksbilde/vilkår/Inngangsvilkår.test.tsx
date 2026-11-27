@@ -1,3 +1,5 @@
+import { Mock } from 'vitest';
+
 import {
     ApiKildetype,
     ApiMedlemskapshistorikkInnslag,
@@ -5,15 +7,40 @@ import {
     ApiVilkårsvurderingerForPersonResponse,
     ApiVurderingskilde,
 } from '@io/rest/generated/medlemskap/medlemskap.schemas';
+import { useGetPerson } from '@io/rest/generated/personer/personer';
 import {
+    ApiPeriodetilstand,
     ApiVilkårsgrunnlagInfotrygdV2,
     ApiVilkårsgrunnlagSpleisV2,
     ApiVilkårsgrunnlagVurdering,
 } from '@io/rest/generated/spesialist.schemas';
+import { useActivePeriod } from '@state/periode';
+import { useNyttSaksbildeoppsett } from '@state/toggles';
+import { useTotrinnsvurdering } from '@state/totrinnsvurdering';
+import { enArbeidsgiver } from '@test-data/arbeidsgiver';
+import { enBehandling } from '@test-data/behandling';
+import { enBeregnetPeriode, enUberegnetPeriode } from '@test-data/periode';
+import { enPerson } from '@test-data/person';
+import { enTotrinnsvurdering } from '@test-data/totrinnsvurdering';
+import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 import { render, screen, within } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 
-import { InngangsvilkårWithContent } from './Inngangsvilkår';
+import { Inngangsvilkår, InngangsvilkårWithContent } from './Inngangsvilkår';
+
+vi.mock('@state/periode');
+vi.mock('@state/toggles', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@state/toggles')>()),
+    useNyttSaksbildeoppsett: vi.fn(),
+}));
+vi.mock('@state/totrinnsvurdering', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@state/totrinnsvurdering')>()),
+    useTotrinnsvurdering: vi.fn(),
+}));
+vi.mock('@io/rest/generated/personer/personer', async (importOriginal) => ({
+    ...(await importOriginal<typeof import('@io/rest/generated/personer/personer')>()),
+    useGetPerson: vi.fn(),
+}));
 
 vi.mock('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger', async (importOriginal) => ({
     ...(await importOriginal<typeof import('@io/rest/generated/vilkarsvurderinger/vilkarsvurderinger')>()),
@@ -311,6 +338,88 @@ describe('Inngangsvilkår', () => {
                 expect(within(endringsloggrader()[1]!).queryByRole('button')).not.toBeInTheDocument();
             });
         });
+    });
+
+    describe('redigering', () => {
+        const vilkårsgrunnlag = etVilkårsgrunnlagFraSpleis({ skjaeringstidspunkt: '2020-01-01' });
+        const periodeTilGodkjenning = enBeregnetPeriode({
+            vilkarsgrunnlagId: vilkårsgrunnlag.id,
+            fom: '2020-01-01',
+            tom: '2020-01-31',
+        }).somErTilGodkjenning();
+        const beregnetPeriode = enBeregnetPeriode({
+            vilkarsgrunnlagId: vilkårsgrunnlag.id,
+            fom: '2020-02-01',
+            tom: '2020-02-29',
+        });
+        const uberegnetPeriode = enUberegnetPeriode({ fom: '2020-03-01', tom: '2020-03-31' });
+        // Spleis sender annullerte perioder uten vilkårsgrunnlag
+        const annullertPeriode = enBeregnetPeriode({
+            vilkarsgrunnlagId: null,
+            periodetilstand: ApiPeriodetilstand.Annullert,
+            fom: '2020-04-01',
+            tom: '2020-04-30',
+        });
+        const person = enPerson({
+            arbeidsgivere: [
+                enArbeidsgiver({
+                    behandlinger: [
+                        enBehandling({ perioder: [annullertPeriode, beregnetPeriode, periodeTilGodkjenning] }),
+                        enBehandling({
+                            perioder: [
+                                enBeregnetPeriode({
+                                    vedtaksperiodeId: annullertPeriode.vedtaksperiodeId,
+                                    vilkarsgrunnlagId: vilkårsgrunnlag.id,
+                                    fom: '2020-04-01',
+                                    tom: '2020-04-30',
+                                }),
+                            ],
+                        }),
+                    ],
+                }),
+                enArbeidsgiver({
+                    organisasjonsnummer: '987654321',
+                    behandlinger: [enBehandling({ perioder: [uberegnetPeriode] })],
+                }),
+            ],
+            vilkarsgrunnlagV2: [vilkårsgrunnlag],
+        });
+        const valgbarePerioder = [
+            { periodetype: 'beregnet', valgtPeriode: beregnetPeriode },
+            { periodetype: 'uberegnet', valgtPeriode: uberegnetPeriode },
+            { periodetype: 'annullert', valgtPeriode: annullertPeriode },
+        ];
+
+        beforeEach(() => {
+            medlemskapQuery.data = medlemskapssvar(ApiMedlemskapsstatus.UAVKLART_MED_BRUKERSPORSMAAL, automatiskKilde);
+            (useGetPerson as Mock).mockReturnValue({ data: { fødselsdato: '1900-01-01' } });
+            (useNyttSaksbildeoppsett as Mock).mockReturnValue(true);
+        });
+
+        it.each(valgbarePerioder)('vises når den valgte perioden er $periodetype', ({ valgtPeriode }) => {
+            (useActivePeriod as Mock).mockReturnValue(valgtPeriode);
+            render(<Inngangsvilkår person={person} periode={periodeTilGodkjenning} />);
+
+            expect(vurderMedlemskapKnapp()).toBeInTheDocument();
+        });
+
+        it.each(valgbarePerioder)(
+            'skjules når totrinnsvurderingen venter på beslutter og den valgte perioden er $periodetype',
+            ({ valgtPeriode }) => {
+                (useTotrinnsvurdering as Mock).mockReturnValue(enTotrinnsvurdering({ erBeslutteroppgave: true }));
+                (useActivePeriod as Mock).mockReturnValue(valgtPeriode);
+                render(<Inngangsvilkår person={person} periode={periodeTilGodkjenning} />);
+
+                expect(screen.getByRole('region', { name: 'Lovvalg og medlemskap' })).toBeInTheDocument();
+                expect(vurderMedlemskapKnapp()).not.toBeInTheDocument();
+            },
+        );
+
+        function vurderMedlemskapKnapp() {
+            return within(screen.getByRole('region', { name: 'Lovvalg og medlemskap' })).queryByRole('button', {
+                name: 'Vurder vilkår',
+            });
+        }
     });
 });
 

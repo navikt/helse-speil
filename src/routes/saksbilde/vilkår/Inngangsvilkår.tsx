@@ -6,6 +6,7 @@ import { Events } from '@navikt/analytics-types';
 import { Alert, BodyShort, Box, HStack, Heading, VStack } from '@navikt/ds-react';
 
 import { ErrorBoundary } from '@components/ErrorBoundary';
+import { useRedigeringISykefraværstilfellet } from '@hooks/useRedigeringISykefraværstilfellet';
 import { useGetPerson } from '@io/rest/generated/personer/personer';
 import {
     ApiBeregnetPeriode,
@@ -184,8 +185,11 @@ interface InngangsvilkårContainerProps {
 }
 
 function InngangsvilkårContainer({ person, periode }: InngangsvilkårContainerProps): ReactElement | null {
-    const readOnly = useInngangsvilkårErReadOnly(person, periode);
-    const serPåTidligereBehandling = useSerPåTidligereBehandling(person);
+    const inngangsvilkårErReadOnly = useInngangsvilkårErReadOnly(person, periode);
+    const serPåTidligereBehandlingAvPerioden = useSerPåTidligereBehandling(person);
+    const redigering = useRedigeringISykefraværstilfellet(person, periode.vilkarsgrunnlagId);
+    const readOnly = redigering ? !redigering.kanRedigere : inngangsvilkårErReadOnly;
+    const serPåTidligereBehandling = redigering ? redigering.erEldreGrunnlag : serPåTidligereBehandlingAvPerioden;
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: apiPerson } = useGetPerson(personPseudoId);
     const vilkårsgrunnlag = getRequiredVilkårsgrunnlag(person, periode.vilkarsgrunnlagId);

@@ -2,6 +2,7 @@ import mockRouter from 'next-router-mock';
 import { useEffect } from 'react';
 import { Mock } from 'vitest';
 
+import { ApiPeriodetilstand } from '@io/rest/generated/spesialist.schemas';
 import { SaksbildeSide } from '@saksbilde/SaksbildeSide';
 import { useSetActivePeriodIdUtenPerson } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
@@ -110,6 +111,44 @@ const personMedBareUberegnetPeriode = enPerson({
         enArbeidsgiver({ behandlinger: [enBehandling({ perioder: [uberegnetPeriode] })], ghostPerioder: [] }),
     ],
 });
+
+const annullertPeriode = enBeregnetPeriode({
+    vilkarsgrunnlagId: null,
+    periodetilstand: ApiPeriodetilstand.Annullert,
+});
+const annullertPeriodeFørAnnulleringen = enBeregnetPeriode({
+    vedtaksperiodeId: annullertPeriode.vedtaksperiodeId,
+    vilkarsgrunnlagId: vilkårsgrunnlagId,
+});
+const utbetaltPeriode = enBeregnetPeriode({
+    vilkarsgrunnlagId: vilkårsgrunnlagId,
+    periodetilstand: ApiPeriodetilstand.Utbetalt,
+});
+const annullertPeriodeUrl = `/person/${personPseudoId}/periode/${annullertPeriode.vedtaksperiodeId}/behandling/${annullertPeriode.behandlingId}`;
+const personMedNoenAnnullertePerioder = enPerson({
+    arbeidsgivere: [
+        enArbeidsgiver({
+            behandlinger: [
+                enBehandling({ perioder: [utbetaltPeriode, annullertPeriode] }),
+                enBehandling({ perioder: [annullertPeriodeFørAnnulleringen] }),
+            ],
+            ghostPerioder: [],
+        }),
+    ],
+});
+function personMedBareAnnullertePerioder(periodetilstand: ApiPeriodetilstand) {
+    return enPerson({
+        arbeidsgivere: [
+            enArbeidsgiver({
+                behandlinger: [
+                    enBehandling({ perioder: [{ ...annullertPeriode, periodetilstand }] }),
+                    enBehandling({ perioder: [annullertPeriodeFørAnnulleringen] }),
+                ],
+                ghostPerioder: [],
+            }),
+        ],
+    });
+}
 
 function gåTil(url: string) {
     mockRouter.setCurrentUrl(url);
@@ -513,6 +552,89 @@ describe('SaksbildeSide', () => {
                 expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#sykepengegrunnlag`);
                 expect(screen.getByText(`Sykepengegrunnlagpanel for ${ghostPeriode.id}`)).toBeInTheDocument();
             });
+        });
+
+        describe('for en annullert periode', () => {
+            it('viser ingen tabs i tabgruppen Periode', async () => {
+                (useFetchPersonQuery as Mock).mockReturnValue({
+                    loading: false,
+                    data: personMedNoenAnnullertePerioder,
+                });
+                gåTil(`${annullertPeriodeUrl}#dagoversikt`);
+                render(<SaksbildeSide />);
+
+                expect(tabnavn()).toEqual(['Sykepengegrunnlag', 'Inngangsvilkår']);
+                expect(screen.queryByText(/Dagoversiktpanel/)).not.toBeInTheDocument();
+                expect(screen.queryByText('Saksbildemeny')).not.toBeInTheDocument();
+                expect(screen.getByText('Saksbildevarsler')).toBeInTheDocument();
+                expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
+            });
+
+            it('viser grunnlaget når minst én periode i sykefraværstilfellet ikke er annullert', async () => {
+                (useFetchPersonQuery as Mock).mockReturnValue({
+                    loading: false,
+                    data: personMedNoenAnnullertePerioder,
+                });
+                gåTil(`${annullertPeriodeUrl}#dagoversikt`);
+                render(<SaksbildeSide />);
+
+                await userEvent.click(screen.getByRole('tab', { name: 'Sykepengegrunnlag' }));
+                expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#sykepengegrunnlag`);
+                expect(screen.getByText(`Sykepengegrunnlagpanel for ${utbetaltPeriode.id}`)).toBeInTheDocument();
+
+                await userEvent.click(screen.getByRole('tab', { name: 'Inngangsvilkår' }));
+                expect(screen.getByText(`Inngangsvilkårpanel for ${utbetaltPeriode.id}`)).toBeInTheDocument();
+            });
+
+            it('blir i tabgruppen Sykefraværstilfellet når saksbehandler klikker på en annullert periode', async () => {
+                (useFetchPersonQuery as Mock).mockReturnValue({
+                    loading: false,
+                    data: personMedNoenAnnullertePerioder,
+                });
+                gåTil(`${sykefraværstilfelleUrl}#inngangsvilkar`);
+                render(
+                    <>
+                        <VelgPeriode id={annullertPeriode.id} />
+                        <SaksbildeSide />
+                    </>,
+                );
+
+                await waitFor(() =>
+                    expect(screen.getByText(`Inngangsvilkårpanel for ${utbetaltPeriode.id}`)).toBeInTheDocument(),
+                );
+                expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#inngangsvilkar`);
+                expect(valgtTab()).toBe('Inngangsvilkår');
+                expect(screen.queryByText('Venstremeny')).not.toBeInTheDocument();
+            });
+
+            it.each([
+                { situasjon: 'er annullert', periodetilstand: ApiPeriodetilstand.Annullert },
+                { situasjon: 'er sendt til annullering', periodetilstand: ApiPeriodetilstand.TilAnnullering },
+            ])(
+                'viser en melding om at sykefraværstilfellet er annullert når alle periodene $situasjon',
+                async ({ periodetilstand }) => {
+                    (useFetchPersonQuery as Mock).mockReturnValue({
+                        loading: false,
+                        data: personMedBareAnnullertePerioder(periodetilstand),
+                    });
+                    gåTil(`${sykefraværstilfelleUrl}#sykepengegrunnlag`);
+                    render(<SaksbildeSide />);
+
+                    expect(tabnavn()).toEqual(['Sykepengegrunnlag', 'Inngangsvilkår']);
+                    expect(
+                        screen.getByText(
+                            'Alle periodene i sykefraværstilfellet er annullert. Det finnes ikke noe sykepengegrunnlag å vise.',
+                        ),
+                    ).toBeInTheDocument();
+
+                    await userEvent.click(screen.getByRole('tab', { name: 'Inngangsvilkår' }));
+                    expect(
+                        screen.getByText(
+                            'Alle periodene i sykefraværstilfellet er annullert. Det finnes ingen inngangsvilkår å vise.',
+                        ),
+                    ).toBeInTheDocument();
+                },
+            );
         });
     });
 });

@@ -51,7 +51,12 @@ export const InntektOgRefusjonVisning = ({
 }: InntektOgRefusjonVisningProps) => {
     const organisasjonsnummer = arbeidsgiver.organisasjonsnummer;
 
-    const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, organisasjonsnummer);
+    const arbeidsforholdKanOverstyres = useArbeidsforholdKanOverstyres(
+        person,
+        skjæringstidspunkt,
+        organisasjonsnummer,
+        vilkårsgrunnlagId,
+    );
     const overstyringer = useOverstyringerForInntektsforhold(arbeidsgiver);
     const { inntektsendringer } = useEndringerForPeriode(overstyringer, person);
     const lokaleRefusjonsopplysninger = useLokaleRefusjonsopplysninger(organisasjonsnummer, skjæringstidspunkt);

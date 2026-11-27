@@ -32,6 +32,7 @@ import {
 import { useFetchPersonQuery } from '@state/person';
 import { useRisikovurdering } from '@state/risikovurdering';
 import { useNavigerTilTabgruppe } from '@state/routing';
+import { erAnnullertPeriode, finnSykefraværstilfelle } from '@state/sykefraværstilfelle';
 import {
     tabgruppeForTab,
     SaksbildeTab,
@@ -57,6 +58,7 @@ const useAvailableTabs = (
     aktivPeriode: ActivePeriod | null,
     nyttSaksbildeoppsett: boolean,
     grunnlagsperiode: ApiBeregnetPeriode | null,
+    erSykefraværstilfelletAnnullert: boolean,
 ) => {
     const utviklersnacks = useUtviklersnacks();
     const risikovurdering = useRisikovurdering(
@@ -76,19 +78,26 @@ const useAvailableTabs = (
 
     const tabs: TilgjengeligTab[] = [];
 
-    const harSykefraværstilfelle = vilkårsgrunnlagIdFor(aktivPeriode) !== null || isUberegnetPeriode(aktivPeriode);
+    // Spleis sender annullerte perioder uten vilkårsgrunnlag, så de finner grunnlaget via sykefraværstilfellet
+    const harGrunnlagEllerErAnnullert = grunnlagsperiode !== null || erSykefraværstilfelletAnnullert;
+    const harSykefraværstilfelle =
+        vilkårsgrunnlagIdFor(aktivPeriode) !== null ||
+        isUberegnetPeriode(aktivPeriode) ||
+        (erAnnullert && harGrunnlagEllerErAnnullert);
 
-    if (!erAnnullert && nyttSaksbildeoppsett) {
-        if (erPeriode || isGhostPeriode(aktivPeriode)) tabs.push({ value: 'dagoversikt', label: 'Vedtaksperiode' });
-        if (harRisikofunn) tabs.push({ value: 'vurderingsmomenter', label: 'Vurderingsmomenter' });
-        if (utviklersnacks && erPeriode) tabs.push({ value: 'utvikler', label: 'Utvikler', kunIkon: true });
+    if (nyttSaksbildeoppsett) {
+        if (!erAnnullert) {
+            if (erPeriode || isGhostPeriode(aktivPeriode)) tabs.push({ value: 'dagoversikt', label: 'Vedtaksperiode' });
+            if (harRisikofunn) tabs.push({ value: 'vurderingsmomenter', label: 'Vurderingsmomenter' });
+            if (utviklersnacks && erPeriode) tabs.push({ value: 'utvikler', label: 'Utvikler', kunIkon: true });
+        }
         if (harSykefraværstilfelle)
             tabs.push({
                 value: 'sykepengegrunnlag',
                 label: 'Sykepengegrunnlag',
                 ikon: <CalculatorIcon aria-hidden />,
             });
-        if (harSykefraværstilfelle && !isUberegnetPeriode(aktivPeriode) && grunnlagsperiode)
+        if (harSykefraværstilfelle && !isUberegnetPeriode(aktivPeriode) && harGrunnlagEllerErAnnullert)
             tabs.push({ value: 'inngangsvilkår', label: 'Inngangsvilkår', ikon: <TasklistIcon aria-hidden /> });
     } else if (!erAnnullert) {
         if (erPeriode) tabs.push({ value: 'dagoversikt', label: 'Dagoversikt' });
@@ -121,7 +130,17 @@ export const Saksbilde = () => {
     useLagreTabFraAnker();
 
     const grunnlagsperiode = finnGrunnlagsperiode(person, aktivPeriode);
-    const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode, nyttSaksbildeoppsett, grunnlagsperiode);
+    const erSykefraværstilfelletAnnullert =
+        nyttSaksbildeoppsett &&
+        person !== null &&
+        aktivPeriode !== null &&
+        finnSykefraværstilfelle(person, aktivPeriode).status === 'annullert';
+    const { tabs: availableTabs, erAnnullert } = useAvailableTabs(
+        aktivPeriode,
+        nyttSaksbildeoppsett,
+        grunnlagsperiode,
+        erSykefraværstilfelletAnnullert,
+    );
     useVideresendGammelSykefraværstilfelleUrl(person, tab);
     const videresenderGammelPeriodeUrl = useVideresendGammelPeriodeUrl(aktivPeriode, availableTabs);
 
@@ -202,7 +221,7 @@ export const Saksbilde = () => {
         aktivPeriode.skjaeringstidspunkt,
     );
 
-    if (erAnnullert) {
+    if (erAnnullert && availableTabs.length === 0) {
         return (
             <VStack className="h-full min-w-0 flex-1 overflow-hidden [grid-area:content]">
                 <SaksbildevarslerOgBeskjeder person={person} periode={aktivPeriode} />
@@ -222,13 +241,16 @@ export const Saksbilde = () => {
         }
     };
 
-    const verktøylinje = erPåPerioden && periodeHarDatoerMedUnder20ProsentTotalGrad && initierendeVedtaksperiodeId && (
-        <Verktøylinje
-            person={person}
-            aktivPeriode={aktivPeriode}
-            initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
-        />
-    );
+    const verktøylinje = erPåPerioden &&
+        !erAnnullert &&
+        periodeHarDatoerMedUnder20ProsentTotalGrad &&
+        initierendeVedtaksperiodeId && (
+            <Verktøylinje
+                person={person}
+                aktivPeriode={aktivPeriode}
+                initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
+            />
+        );
 
     return (
         <VStack className={nyttSaksbildeoppsett ? 'contents' : innholdsområde}>
@@ -282,7 +304,7 @@ export const Saksbilde = () => {
                             className={periodetabsBredde === null ? 'invisible inset-y-0' : 'inset-y-0'}
                             style={{ left: periodetabsBredde ?? 0 }}
                         >
-                            <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />
+                            {!erAnnullert && <SaksbildeDropdownMenu person={person} activePeriod={aktivPeriode} />}
                         </HStack>
                     </Box>
                 ) : (
@@ -308,7 +330,33 @@ export const Saksbilde = () => {
                         </>
                     )}
                     <Box overflowX="auto">
-                        {isBeregnetPeriode(aktivPeriode) && (
+                        {erSykefraværstilfelletAnnullert && (
+                            <>
+                                <Tabs.Panel value="sykepengegrunnlag">
+                                    <Beskjed
+                                        grad="info"
+                                        tekst="Alle periodene i sykefraværstilfellet er annullert. Det finnes ikke noe sykepengegrunnlag å vise."
+                                    />
+                                </Tabs.Panel>
+                                <Tabs.Panel value="inngangsvilkår">
+                                    <Beskjed
+                                        grad="info"
+                                        tekst="Alle periodene i sykefraværstilfellet er annullert. Det finnes ingen inngangsvilkår å vise."
+                                    />
+                                </Tabs.Panel>
+                            </>
+                        )}
+                        {erAnnullert && !erSykefraværstilfelletAnnullert && grunnlagsperiode && (
+                            <>
+                                <Tabs.Panel value="sykepengegrunnlag">
+                                    <Sykepengegrunnlag person={person} periode={grunnlagsperiode} />
+                                </Tabs.Panel>
+                                <Tabs.Panel value="inngangsvilkår">
+                                    <Inngangsvilkår person={person} periode={grunnlagsperiode} />
+                                </Tabs.Panel>
+                            </>
+                        )}
+                        {isBeregnetPeriode(aktivPeriode) && !erAnnullert && (
                             <>
                                 <Tabs.Panel value="dagoversikt">
                                     <Utbetaling person={person} periode={aktivPeriode} />
@@ -339,14 +387,16 @@ export const Saksbilde = () => {
                                         tekst="Arbeidsforhold uten sykefravær. Det finnes ingen vedtaksperiode å vise for denne perioden."
                                     />
                                 </Tabs.Panel>
-                                {grunnlagsperiode && (
+                                {grunnlagsperiode && !erSykefraværstilfelletAnnullert && (
                                     <Tabs.Panel value="inngangsvilkår">
                                         <Inngangsvilkår person={person} periode={grunnlagsperiode} />
                                     </Tabs.Panel>
                                 )}
-                                <Tabs.Panel value="sykepengegrunnlag">
-                                    <Sykepengegrunnlag person={person} periode={aktivPeriode} />
-                                </Tabs.Panel>
+                                {!erSykefraværstilfelletAnnullert && (
+                                    <Tabs.Panel value="sykepengegrunnlag">
+                                        <Sykepengegrunnlag person={person} periode={aktivPeriode} />
+                                    </Tabs.Panel>
+                                )}
                             </>
                         )}
                         {isUberegnetPeriode(aktivPeriode) && (
@@ -354,7 +404,7 @@ export const Saksbilde = () => {
                                 <Tabs.Panel value="dagoversikt">
                                     <Utbetaling person={person} periode={aktivPeriode} />
                                 </Tabs.Panel>
-                                {nyttSaksbildeoppsett && (
+                                {nyttSaksbildeoppsett && !erSykefraværstilfelletAnnullert && (
                                     <Tabs.Panel value="sykepengegrunnlag">
                                         {grunnlagsperiode ? (
                                             <Sykepengegrunnlag person={person} periode={grunnlagsperiode} />
@@ -386,6 +436,11 @@ function finnGrunnlagsperiode(
     person: ApiSaksbildePerson | null,
     aktivPeriode: ActivePeriod | null,
 ): ApiBeregnetPeriode | null {
+    if (isBeregnetPeriode(aktivPeriode) && erAnnullertPeriode(aktivPeriode)) {
+        if (!person) return null;
+        const perioder = finnSykefraværstilfelle(person, aktivPeriode).perioder.filter(isBeregnetPeriode);
+        return perioder.find((periode) => !erAnnullertPeriode(periode) && periode.vilkarsgrunnlagId) ?? null;
+    }
     if (isBeregnetPeriode(aktivPeriode)) return aktivPeriode;
     if (!person || !aktivPeriode) return null;
     if (isGhostPeriode(aktivPeriode) && !aktivPeriode.vilkarsgrunnlagId) return null;

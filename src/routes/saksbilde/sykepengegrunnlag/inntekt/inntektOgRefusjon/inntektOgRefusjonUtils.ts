@@ -1,6 +1,7 @@
 import dayjs from 'dayjs';
 
 import { useIsReadOnlyOppgave } from '@hooks/useIsReadOnlyOppgave';
+import { useRedigeringISykefraværstilfellet } from '@hooks/useRedigeringISykefraværstilfellet';
 import {
     ApiBeregnetPeriode,
     ApiPeriode,
@@ -81,9 +82,11 @@ export const useArbeidsforholdKanOverstyres = (
     person: ApiSaksbildePerson,
     skjæringstidspunkt: DateString,
     organisasjonsnummer: string,
+    vilkårsgrunnlagId: string | null | undefined,
 ): boolean => {
     const aktivPeriode = useActivePeriod(person);
     const harPeriodeTilBeslutter = useHarBeslutteroppgaveForSkjæringstidspunkt(skjæringstidspunkt);
+    const redigering = useRedigeringISykefraværstilfellet(person, vilkårsgrunnlagId);
     const arbeidsgiver = finnArbeidsgiverMedOrganisasjonsnummer(person, organisasjonsnummer);
 
     const periodeTilGodkjenning = finnPeriodeTilGodkjenning(person);
@@ -103,7 +106,10 @@ export const useArbeidsforholdKanOverstyres = (
             .filter((periode) => periode != undefined) ?? [];
     const harBeregnetPeriode = harBeregnetPeriodePåSkjæringstidspunkt(perioderISisteGen, skjæringstidspunkt);
 
-    return !harPeriodeTilBeslutter && harBeregnetPeriode && erGhostLikEllerEtterPeriodeTilGodkjenning;
+    const kanRedigere = redigering
+        ? redigering.kanRedigere
+        : !harPeriodeTilBeslutter && erGhostLikEllerEtterPeriodeTilGodkjenning;
+    return harBeregnetPeriode && kanRedigere;
 };
 
 const harBeregnetPeriodePåSkjæringstidspunkt = (perioder: ApiPeriode[], skjæringstidspunkt: DateString): boolean =>

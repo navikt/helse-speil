@@ -1,14 +1,26 @@
-import { ApiBeregnetPeriode, ApiPeriode, ApiPeriodetilstand } from '@io/rest/generated/spesialist.schemas';
+import {
+    ApiBeregnetPeriode,
+    ApiPeriode,
+    ApiPeriodetilstand,
+    ApiUtbetalingstatus,
+} from '@io/rest/generated/spesialist.schemas';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
 import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
+import { enUtbetaling } from '@test-data/utbetaling';
 import { ActivePeriod } from '@typer/shared';
 
-import { finnSykefraværstilfelle, finnSykefraværstilfelleForSkjæringstidspunkt } from './sykefraværstilfelle';
+import {
+    finnSykefraværstilfelle,
+    finnSykefraværstilfelleForSkjæringstidspunkt,
+    redigeringISykefraværstilfellet,
+} from './sykefraværstilfelle';
 
 const vilkarsgrunnlagId = '3f1c2a8e-5b7d-4e9a-9c61-2d8f4b7a1e05';
 const annetVilkårsgrunnlagId = '8a4e6d21-0c3f-4b8e-a5d7-6f9b2c1e4d38';
+const vedtaksperiodeIdA = '4868f90a-1055-4003-8aca-a48a7426dcfa';
+const vedtaksperiodeIdB = '61dbec93-f4cd-4778-9539-2513b4be67d6';
 
 describe('finnSykefraværstilfelle', () => {
     it('tar med periodene med samme vilkårsgrunnlag hos alle arbeidsgivere', () => {
@@ -220,7 +232,7 @@ describe('finnSykefraværstilfelle', () => {
         it('tar ikke med uberegnede perioder i klyngen til et eldre grunnlag', () => {
             const nyesteA = periodeA({ vilkarsgrunnlagId: annetVilkårsgrunnlagId });
             const eldreA = periodeA({ vilkarsgrunnlagId });
-            const uberegnetB = enUberegnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-b' });
+            const uberegnetB = enUberegnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdB });
             const person = enPerson({
                 arbeidsgivere: [enArbeidsgiverMedBehandlinger([uberegnetB, nyesteA], [eldreA])],
             });
@@ -232,7 +244,7 @@ describe('finnSykefraværstilfelle', () => {
 
         it('tar med den uberegnede behandlingen når den er den nyeste for vedtaksperioden', () => {
             const nyesteB = periodeB({ vilkarsgrunnlagId });
-            const uberegnetA = enUberegnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-a' });
+            const uberegnetA = enUberegnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdA });
             const person = enPerson({
                 arbeidsgivere: [
                     enArbeidsgiverMedBehandlinger(
@@ -266,8 +278,8 @@ describe('finnSykefraværstilfelle', () => {
 
     describe('med annullerte perioder', () => {
         it('er annullert når alle periodene er annullert eller til annullering', () => {
-            const valgtPeriode = enAnnullertPeriode('vedtaksperiode-a');
-            const periodeTilAnnullering = enAnnullertPeriode('vedtaksperiode-b', ApiPeriodetilstand.TilAnnullering);
+            const valgtPeriode = enAnnullertPeriode(vedtaksperiodeIdA);
+            const periodeTilAnnullering = enAnnullertPeriode(vedtaksperiodeIdB, ApiPeriodetilstand.TilAnnullering);
             const person = enPerson({
                 arbeidsgivere: [
                     enArbeidsgiver({
@@ -275,8 +287,8 @@ describe('finnSykefraværstilfelle', () => {
                             enBehandling({ perioder: [periodeTilAnnullering, valgtPeriode] }),
                             enBehandling({
                                 perioder: [
-                                    enBeregnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-b', vilkarsgrunnlagId }),
-                                    enBeregnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-a', vilkarsgrunnlagId }),
+                                    enBeregnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdB, vilkarsgrunnlagId }),
+                                    enBeregnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdA, vilkarsgrunnlagId }),
                                 ],
                             }),
                         ],
@@ -292,9 +304,9 @@ describe('finnSykefraværstilfelle', () => {
         });
 
         it('viser grunnlaget når bare noen av periodene er annullert', () => {
-            const valgtPeriode = enAnnullertPeriode('vedtaksperiode-a');
+            const valgtPeriode = enAnnullertPeriode(vedtaksperiodeIdA);
             const utbetaltPeriode = enBeregnetPeriode({
-                vedtaksperiodeId: 'vedtaksperiode-b',
+                vedtaksperiodeId: vedtaksperiodeIdB,
                 vilkarsgrunnlagId,
                 periodetilstand: ApiPeriodetilstand.Utbetalt,
             });
@@ -302,7 +314,7 @@ describe('finnSykefraværstilfelle', () => {
                 arbeidsgivere: [
                     enArbeidsgiverMedBehandlinger(
                         [utbetaltPeriode, valgtPeriode],
-                        [enBeregnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-a', vilkarsgrunnlagId })],
+                        [enBeregnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdA, vilkarsgrunnlagId })],
                     ),
                 ],
             });
@@ -315,13 +327,13 @@ describe('finnSykefraværstilfelle', () => {
         });
 
         it('tar med den annullerte behandlingen, ikke den fra før annulleringen, når en annen periode er valgt', () => {
-            const valgtPeriode = enBeregnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-b', vilkarsgrunnlagId });
-            const annullertPeriode = enAnnullertPeriode('vedtaksperiode-a');
+            const valgtPeriode = enBeregnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdB, vilkarsgrunnlagId });
+            const annullertPeriode = enAnnullertPeriode(vedtaksperiodeIdA);
             const person = enPerson({
                 arbeidsgivere: [
                     enArbeidsgiverMedBehandlinger(
                         [valgtPeriode, annullertPeriode],
-                        [enBeregnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-a', vilkarsgrunnlagId })],
+                        [enBeregnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdA, vilkarsgrunnlagId })],
                     ),
                 ],
             });
@@ -336,7 +348,7 @@ describe('finnSykefraværstilfelle', () => {
 describe('finnSykefraværstilfelleForSkjæringstidspunkt', () => {
     it('gir det nyeste grunnlaget for skjæringstidspunktet, med de uberegnede periodene', () => {
         const nyesteA = periodeA({ vilkarsgrunnlagId: annetVilkårsgrunnlagId });
-        const uberegnetB = enUberegnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-b' });
+        const uberegnetB = enUberegnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdB });
         const ghostPeriode = enGhostPeriode({ vilkarsgrunnlagId: annetVilkårsgrunnlagId });
         const person = enPerson({
             arbeidsgivere: [
@@ -372,6 +384,114 @@ describe('finnSykefraværstilfelleForSkjæringstidspunkt', () => {
     });
 });
 
+describe('redigeringISykefraværstilfellet', () => {
+    it('kan redigere det nyeste grunnlaget for skjæringstidspunktet', () => {
+        const person = enPerson({
+            arbeidsgivere: [enArbeidsgiverMedBehandlinger([periodeA({ vilkarsgrunnlagId })])],
+        });
+
+        expect(redigeringISykefraværstilfellet(person, vilkarsgrunnlagId, false)).toEqual({
+            kanRedigere: true,
+            erEldreGrunnlag: false,
+            erRevurdering: true,
+        });
+    });
+
+    it('kan ikke redigere et eldre grunnlag', () => {
+        const person = enPerson({
+            arbeidsgivere: [
+                enArbeidsgiverMedBehandlinger(
+                    [periodeA({ vilkarsgrunnlagId: annetVilkårsgrunnlagId })],
+                    [periodeA({ vilkarsgrunnlagId })],
+                ),
+            ],
+        });
+
+        expect(redigeringISykefraværstilfellet(person, vilkarsgrunnlagId, false)).toMatchObject({
+            kanRedigere: false,
+            erEldreGrunnlag: true,
+        });
+    });
+
+    it('kan ikke redigere når totrinnsvurderingen venter på beslutter', () => {
+        const person = enPerson({
+            arbeidsgivere: [enArbeidsgiverMedBehandlinger([periodeA({ vilkarsgrunnlagId })])],
+        });
+
+        expect(redigeringISykefraværstilfellet(person, vilkarsgrunnlagId, true).kanRedigere).toBe(false);
+    });
+
+    it('kan ikke redigere når alle periodene er annullert', () => {
+        const person = enPerson({
+            arbeidsgivere: [
+                enArbeidsgiverMedBehandlinger(
+                    [enAnnullertPeriode(vedtaksperiodeIdA)],
+                    [periodeA({ vilkarsgrunnlagId })],
+                ),
+            ],
+        });
+
+        expect(redigeringISykefraværstilfellet(person, vilkarsgrunnlagId, false)).toEqual({
+            kanRedigere: false,
+            erEldreGrunnlag: false,
+            erRevurdering: false,
+        });
+    });
+
+    it('kan redigere når bare noen av periodene er annullert', () => {
+        const person = enPerson({
+            arbeidsgivere: [
+                enArbeidsgiverMedBehandlinger(
+                    [periodeB({ vilkarsgrunnlagId }), enAnnullertPeriode(vedtaksperiodeIdA)],
+                    [periodeA({ vilkarsgrunnlagId })],
+                ),
+            ],
+        });
+
+        expect(redigeringISykefraværstilfellet(person, vilkarsgrunnlagId, false).kanRedigere).toBe(true);
+    });
+
+    it('kan ikke redigere uten vilkårsgrunnlag', () => {
+        const person = enPerson({ arbeidsgivere: [enArbeidsgiverMedBehandlinger([enUberegnetPeriode()])] });
+
+        expect(redigeringISykefraværstilfellet(person, null, false)).toEqual({
+            kanRedigere: false,
+            erEldreGrunnlag: false,
+            erRevurdering: false,
+        });
+    });
+
+    it('er ikke en revurdering når den første perioden i sykefraværstilfellet ikke er utbetalt', () => {
+        const person = enPerson({
+            arbeidsgivere: [
+                enArbeidsgiverMedBehandlinger([
+                    periodeB({ vilkarsgrunnlagId, fom: '2020-02-01', tom: '2020-02-29' }),
+                    periodeA({ vilkarsgrunnlagId, fom: '2020-01-01', tom: '2020-01-31' }).medUtbetaling(
+                        enUtbetaling({ status: ApiUtbetalingstatus.IKKEGODKJENT }),
+                    ),
+                ]),
+            ],
+        });
+
+        expect(redigeringISykefraværstilfellet(person, vilkarsgrunnlagId, false).erRevurdering).toBe(false);
+    });
+
+    it('er en revurdering når den første perioden i sykefraværstilfellet er utbetalt', () => {
+        const person = enPerson({
+            arbeidsgivere: [
+                enArbeidsgiverMedBehandlinger([
+                    periodeB({ vilkarsgrunnlagId, fom: '2020-02-01', tom: '2020-02-29' }).medUtbetaling(
+                        enUtbetaling({ status: ApiUtbetalingstatus.IKKEGODKJENT }),
+                    ),
+                    periodeA({ vilkarsgrunnlagId, fom: '2020-01-01', tom: '2020-01-31' }),
+                ]),
+            ],
+        });
+
+        expect(redigeringISykefraværstilfellet(person, vilkarsgrunnlagId, false).erRevurdering).toBe(true);
+    });
+});
+
 function idene(perioder: ActivePeriod[]): string[] {
     return perioder.map((periode) => periode.id).sort();
 }
@@ -382,11 +502,11 @@ function enArbeidsgiverMedBehandlinger(...behandlinger: ApiPeriode[][]) {
 }
 
 function periodeA(overrides: Partial<ApiBeregnetPeriode>) {
-    return enBeregnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-a', ...overrides });
+    return enBeregnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdA, ...overrides });
 }
 
 function periodeB(overrides: Partial<ApiBeregnetPeriode>) {
-    return enBeregnetPeriode({ vedtaksperiodeId: 'vedtaksperiode-b', ...overrides });
+    return enBeregnetPeriode({ vedtaksperiodeId: vedtaksperiodeIdB, ...overrides });
 }
 
 // Spleis sender annullerte perioder uten vilkårsgrunnlag

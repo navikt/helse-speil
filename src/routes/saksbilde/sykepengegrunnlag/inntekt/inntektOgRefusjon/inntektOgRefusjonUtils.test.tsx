@@ -28,7 +28,12 @@ describe('useArbeidsforholdKanOverstyres', () => {
         const { person, arbeidsgiverUtenSykdom } = enPersonMedSykmeldtOgArbeidsforholdUtenSykdom({ ghostPerioder: [] });
 
         const { result } = renderHook(() =>
-            useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, arbeidsgiverUtenSykdom.organisasjonsnummer),
+            useArbeidsforholdKanOverstyres(
+                person,
+                skjæringstidspunkt,
+                arbeidsgiverUtenSykdom.organisasjonsnummer,
+                null,
+            ),
         );
 
         expect(result.current).toBe(true);
@@ -40,7 +45,12 @@ describe('useArbeidsforholdKanOverstyres', () => {
         });
 
         const { result } = renderHook(() =>
-            useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, arbeidsgiverUtenSykdom.organisasjonsnummer),
+            useArbeidsforholdKanOverstyres(
+                person,
+                skjæringstidspunkt,
+                arbeidsgiverUtenSykdom.organisasjonsnummer,
+                null,
+            ),
         );
 
         expect(result.current).toBe(true);
@@ -50,7 +60,7 @@ describe('useArbeidsforholdKanOverstyres', () => {
         const { person, sykmeldtArbeidsgiver } = enPersonMedSykmeldtOgArbeidsforholdUtenSykdom({ ghostPerioder: [] });
 
         const { result } = renderHook(() =>
-            useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, sykmeldtArbeidsgiver.organisasjonsnummer),
+            useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, sykmeldtArbeidsgiver.organisasjonsnummer, null),
         );
 
         expect(result.current).toBe(false);
@@ -63,7 +73,12 @@ describe('useArbeidsforholdKanOverstyres', () => {
         });
 
         const { result } = renderHook(() =>
-            useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, arbeidsgiverUtenSykdom.organisasjonsnummer),
+            useArbeidsforholdKanOverstyres(
+                person,
+                skjæringstidspunkt,
+                arbeidsgiverUtenSykdom.organisasjonsnummer,
+                null,
+            ),
         );
 
         expect(result.current).toBe(false);
@@ -76,7 +91,12 @@ describe('useArbeidsforholdKanOverstyres', () => {
         });
 
         const { result } = renderHook(() =>
-            useArbeidsforholdKanOverstyres(person, skjæringstidspunkt, arbeidsgiverUtenSykdom.organisasjonsnummer),
+            useArbeidsforholdKanOverstyres(
+                person,
+                skjæringstidspunkt,
+                arbeidsgiverUtenSykdom.organisasjonsnummer,
+                null,
+            ),
         );
 
         expect(result.current).toBe(false);
@@ -107,6 +127,7 @@ describe('useArbeidsforholdKanOverstyres', () => {
                 person,
                 skjæringstidspunkt,
                 arbeidsgiverMedGhostOgPeriode.organisasjonsnummer,
+                null,
             ),
         );
 

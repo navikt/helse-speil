@@ -4,6 +4,7 @@ import { Events } from '@navikt/analytics-types';
 import { VStack } from '@navikt/ds-react';
 
 import { useSkjønnsfastsettelsesMaler } from '@external/sanity';
+import { useRedigeringISykefraværstilfellet } from '@hooks/useRedigeringISykefraværstilfellet';
 import {
     ApiArbeidsgiverinntekt,
     ApiBeregnetPeriode,
@@ -60,7 +61,9 @@ export const SkjønnsfastsettingSykepengegrunnlag = ({
     organisasjonsnummer,
 }: SkjønnsfastsettingSykepengegrunnlagProps) => {
     const [editingForVilkårsgrunnlag, setEditing] = useAtomEditingForVilkårsgrunnlag(vilkårsgrunnlagId);
-    const kanSkjønnsfastsette = !useSerPåTidligereBehandling(person);
+    const serPåTidligereBehandling = useSerPåTidligereBehandling(person);
+    const redigering = useRedigeringISykefraværstilfellet(person, vilkårsgrunnlagId);
+    const kanSkjønnsfastsette = redigering ? redigering.kanRedigere : !serPåTidligereBehandling;
     const editing = editingForVilkårsgrunnlag && kanSkjønnsfastsette;
     const [formValues, setFormValues] = useAtomSkjemaForVilkårsgrunnlag(vilkårsgrunnlagId);
     const [endretSykepengegrunnlag, setEndretSykepengegrunnlag] = useState<number | null>(null);
