@@ -14,7 +14,7 @@ mockRouter.default.useParser(
         '/person/[personPseudoId]/tilkommen-inntekt',
         '/person/[personPseudoId]/periode/[vedtaksperiodeId]',
         '/person/[personPseudoId]/periode/[vedtaksperiodeId]/behandling/[behandlingId]',
-        '/person/[personPseudoId]/sykefravaerstilfelle/[vilkarsgrunnlagId]',
+        '/person/[personPseudoId]/sykefravaerstilfelle/[skjaeringstidspunkt]',
     ]),
 );
 

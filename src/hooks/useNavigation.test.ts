@@ -19,7 +19,7 @@ describe('useNavigation med det nye saksbildeoppsettet', () => {
     beforeEach(() => {
         sessionStorage.clear();
         (useNyttSaksbildeoppsett as Mock).mockReturnValue(true);
-        const url = '/person/person-a/sykefravaerstilfelle/3f1c2a8e-5b7d-4e9a-9c61-2d8f4b7a1e05#sykepengegrunnlag';
+        const url = '/person/person-a/sykefravaerstilfelle/2020-01-01#sykepengegrunnlag';
         mockRouter.setCurrentUrl(url);
         window.history.replaceState(null, '', url);
     });

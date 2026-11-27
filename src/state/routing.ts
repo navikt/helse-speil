@@ -1,6 +1,6 @@
 import { useParams, usePathname, useRouter } from 'next/navigation';
 
-import { findPeriod, periodeUrlIdFor, useSetActivePeriodIdUtenPerson, vilkårsgrunnlagIdFor } from '@state/periode';
+import { findPeriod, periodeUrlIdFor, useSetActivePeriodIdUtenPerson } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import {
     SaksbildeTab,
@@ -45,10 +45,9 @@ export const useNavigerTilValgtPeriode = () => {
         if (!personPseudoId || !periode) return;
         setActivePeriodId(periode.id);
         setTab(tab, { erstatt: true });
-        const vilkårsgrunnlagId = vilkårsgrunnlagIdFor(periode);
         const url =
-            tabgruppe === 'sykefraværstilfelle' && vilkårsgrunnlagId
-                ? lagSykefraværstilfelleUrl(personPseudoId, vilkårsgrunnlagId, tabTilAnker(tab))
+            tabgruppe === 'sykefraværstilfelle'
+                ? lagSykefraværstilfelleUrl(personPseudoId, periode.skjaeringstidspunkt, tabTilAnker(tab))
                 : lagPeriodeUrl(personPseudoId, periodeUrlIdFor(periode), tabTilAnker(tab));
         router.push(url, { scroll: false });
     };
@@ -61,13 +60,10 @@ export function useNavigerTilTabgruppe() {
 
     return (periode: ActivePeriod, tab: SaksbildeTab) => {
         if (!personPseudoId) return;
-        const vilkårsgrunnlagId = vilkårsgrunnlagIdFor(periode);
-        const tilSykefraværstilfellet = tabgruppeForTab(tab) === 'sykefraværstilfelle';
-        if (tilSykefraværstilfellet && !vilkårsgrunnlagId) return;
         setActivePeriodId(periode.id);
         const url =
-            tilSykefraværstilfellet && vilkårsgrunnlagId
-                ? lagSykefraværstilfelleUrl(personPseudoId, vilkårsgrunnlagId, tabTilAnker(tab))
+            tabgruppeForTab(tab) === 'sykefraværstilfelle'
+                ? lagSykefraværstilfelleUrl(personPseudoId, periode.skjaeringstidspunkt, tabTilAnker(tab))
                 : lagPeriodeUrl(personPseudoId, periodeUrlIdFor(periode), tabTilAnker(tab));
         router.push(url, { scroll: false });
     };

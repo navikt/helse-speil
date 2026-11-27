@@ -1,14 +1,17 @@
 import mockRouter from 'next-router-mock';
+import { useEffect } from 'react';
 import { Mock } from 'vitest';
 
 import { SaksbildeSide } from '@saksbilde/SaksbildeSide';
+import { useSetActivePeriodIdUtenPerson } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useRisikovurdering } from '@state/risikovurdering';
 import { useNyttSaksbildeoppsett } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
-import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
+import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
+import { etVilkårsgrunnlagFraSpleis } from '@test-data/vilkårsgrunnlag';
 import { act, render, screen, waitFor } from '@test-utils';
 import userEvent from '@testing-library/user-event';
 import { ActivePeriod } from '@typer/shared';
@@ -62,7 +65,7 @@ const person = enPerson({
 });
 
 const periodeUrl = `/person/${personPseudoId}/periode/${periode.vedtaksperiodeId}/behandling/${periode.behandlingId}`;
-const sykefraværstilfelleUrl = `/person/${personPseudoId}/sykefravaerstilfelle/${vilkårsgrunnlagId}`;
+const sykefraværstilfelleUrl = `/person/${personPseudoId}/sykefravaerstilfelle/2020-01-01`;
 
 const eldrePeriode = enBeregnetPeriode({
     fom: '2020-01-01',
@@ -90,6 +93,24 @@ const personMedGhostPeriode = enPerson({
 });
 const ghostPeriodeUrl = `/person/${personPseudoId}/periode/${ghostPeriode.id}`;
 
+const uberegnetPeriode = enUberegnetPeriode();
+const uberegnetPeriodeUrl = `/person/${personPseudoId}/periode/${uberegnetPeriode.vedtaksperiodeId}/behandling/${uberegnetPeriode.behandlingId}`;
+const personMedBeregnetOgUberegnetPeriode = enPerson({
+    arbeidsgivere: [
+        enArbeidsgiver({ behandlinger: [enBehandling({ perioder: [periode] })], ghostPerioder: [] }),
+        enArbeidsgiver({
+            organisasjonsnummer: '123456789',
+            behandlinger: [enBehandling({ perioder: [uberegnetPeriode] })],
+            ghostPerioder: [],
+        }),
+    ],
+});
+const personMedBareUberegnetPeriode = enPerson({
+    arbeidsgivere: [
+        enArbeidsgiver({ behandlinger: [enBehandling({ perioder: [uberegnetPeriode] })], ghostPerioder: [] }),
+    ],
+});
+
 function gåTil(url: string) {
     mockRouter.setCurrentUrl(url);
     window.history.replaceState(null, '', url);
@@ -104,6 +125,12 @@ function synkNettleserUrlMedRouter() {
         mockRouter.events.off('routeChangeComplete', synk);
         mockRouter.events.off('hashChangeComplete', synk);
     };
+}
+
+function VelgPeriode({ id }: { id: string }) {
+    const velg = useSetActivePeriodIdUtenPerson();
+    useEffect(() => velg(id), [id, velg]);
+    return null;
 }
 
 function tabnavn() {
@@ -238,7 +265,7 @@ describe('SaksbildeSide', () => {
         });
 
         it('viser ikke en periode fra et annet sykefraværstilfelle', () => {
-            gåTil(`/person/${personPseudoId}/sykefravaerstilfelle/c7d29e4b-1a6f-4f02-8b3e-5e0a9d6c7f14`);
+            gåTil(`/person/${personPseudoId}/sykefravaerstilfelle/2019-01-01`);
             render(<SaksbildeSide />);
 
             expect(screen.getByText('Fant ikke sykefraværstilfellet i Speil')).toBeInTheDocument();
@@ -268,6 +295,84 @@ describe('SaksbildeSide', () => {
             expect(mockRouter.asPath).toBe(`${eldrePeriodeUrl}#dagoversikt`);
             expect(valgtTab()).toBe('Vedtaksperiode');
             expect(screen.getByText(`Dagoversiktpanel for ${eldrePeriode.id}`)).toBeInTheDocument();
+        });
+
+        it('sender en gammel URL med vilkårsgrunnlaget videre til URL-en med skjæringstidspunktet', async () => {
+            (useFetchPersonQuery as Mock).mockReturnValue({
+                loading: false,
+                data: {
+                    ...person,
+                    vilkarsgrunnlagV2: [
+                        etVilkårsgrunnlagFraSpleis({ id: vilkårsgrunnlagId, skjaeringstidspunkt: '2020-01-01' }),
+                    ],
+                },
+            });
+            gåTil(`/person/${personPseudoId}/sykefravaerstilfelle/${vilkårsgrunnlagId}#inngangsvilkar`);
+            const replace = vi.spyOn(mockRouter, 'replace');
+            render(<SaksbildeSide />);
+
+            await waitFor(() => expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#inngangsvilkar`));
+            expect(replace).toHaveBeenCalled();
+            expect(valgtTab()).toBe('Inngangsvilkår');
+            replace.mockRestore();
+        });
+
+        describe('for en uberegnet periode', () => {
+            it('viser Vedtaksperiode og Sykepengegrunnlag', async () => {
+                (useFetchPersonQuery as Mock).mockReturnValue({
+                    loading: false,
+                    data: personMedBeregnetOgUberegnetPeriode,
+                });
+                gåTil(`${uberegnetPeriodeUrl}#dagoversikt`);
+                render(<SaksbildeSide />);
+
+                expect(tabnavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag']);
+                expect(await screen.findByText('Venstremeny')).toBeInTheDocument();
+            });
+
+            it('viser grunnlaget når en periode i sykefraværstilfellet er beregnet', async () => {
+                (useFetchPersonQuery as Mock).mockReturnValue({
+                    loading: false,
+                    data: personMedBeregnetOgUberegnetPeriode,
+                });
+                gåTil(`${uberegnetPeriodeUrl}#dagoversikt`);
+                render(<SaksbildeSide />);
+
+                await userEvent.click(screen.getByRole('tab', { name: 'Sykepengegrunnlag' }));
+
+                expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#sykepengegrunnlag`);
+                expect(tabnavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag']);
+                expect(screen.getByText(`Sykepengegrunnlagpanel for ${periode.id}`)).toBeInTheDocument();
+            });
+
+            it('går til Sykepengegrunnlag når saksbehandler står på Inngangsvilkår og velger en uberegnet periode', async () => {
+                (useFetchPersonQuery as Mock).mockReturnValue({
+                    loading: false,
+                    data: personMedBeregnetOgUberegnetPeriode,
+                });
+                gåTil(`${sykefraværstilfelleUrl}#inngangsvilkar`);
+                render(
+                    <>
+                        <VelgPeriode id={uberegnetPeriode.id} />
+                        <SaksbildeSide />
+                    </>,
+                );
+
+                await waitFor(() => expect(valgtTab()).toBe('Sykepengegrunnlag'));
+                expect(window.location.hash).toBe('#sykepengegrunnlag');
+                expect(screen.getByText(`Sykepengegrunnlagpanel for ${periode.id}`)).toBeInTheDocument();
+            });
+
+            it('viser en beskjed når ingen perioder i sykefraværstilfellet er beregnet', async () => {
+                (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: personMedBareUberegnetPeriode });
+                gåTil(`${uberegnetPeriodeUrl}#dagoversikt`);
+                render(<SaksbildeSide />);
+
+                await userEvent.click(screen.getByRole('tab', { name: 'Sykepengegrunnlag' }));
+
+                expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#sykepengegrunnlag`);
+                expect(screen.getByText(/Perioden er ikke beregnet ennå/)).toBeInTheDocument();
+            });
         });
 
         describe('for en ghost-periode', () => {

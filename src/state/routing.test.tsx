@@ -38,7 +38,11 @@ describe('useNavigerTilValgtPeriode i tabgruppen Sykefraværstilfellet', () => {
         tom: '2020-01-31',
         vilkarsgrunnlagId: vilkårsgrunnlagIdEldre,
     });
-    const uberegnetPeriode = enUberegnetPeriode({ fom: '2020-03-01', tom: '2020-03-31' });
+    const uberegnetPeriode = enUberegnetPeriode({
+        fom: '2020-03-01',
+        tom: '2020-03-31',
+        skjaeringstidspunkt: '2020-03-01',
+    });
     const person = enPerson({
         arbeidsgivere: [
             enArbeidsgiver({
@@ -55,29 +59,34 @@ describe('useNavigerTilValgtPeriode i tabgruppen Sykefraværstilfellet', () => {
         sessionStorage.clear();
         (useNyttSaksbildeoppsett as Mock).mockReturnValue(true);
         (useFetchPersonQuery as Mock).mockReturnValue({ data: person });
-        gåTil(`/person/person-a/sykefravaerstilfelle/${vilkårsgrunnlagIdNyeste}#sykepengegrunnlag`);
+        gåTil('/person/person-a/sykefravaerstilfelle/2020-01-01#sykepengegrunnlag');
     });
 
-    it('går til URL-en for det eldre grunnlaget og beholder taben når saksbehandler velger en periode i en eldre behandling', () => {
+    it('viser det nyeste grunnlaget for skjæringstidspunktet når ingen periode er valgt', () => {
+        const { result } = renderHook(() => useNavigeringOgAktivPeriode());
+
+        expect(result.current.aktivPeriode?.id).toBe(periodeINyesteBehandling.id);
+    });
+
+    it('beholder URL-en og taben og viser det eldre grunnlaget når saksbehandler velger en periode i en eldre behandling', () => {
         const { result, rerender } = renderHook(() => useNavigeringOgAktivPeriode());
 
         act(() => result.current.naviger(periodeIEldreBehandling.id));
         rerender();
 
-        expect(mockRouter.asPath).toBe(
-            `/person/person-a/sykefravaerstilfelle/${vilkårsgrunnlagIdEldre}#sykepengegrunnlag`,
-        );
+        expect(mockRouter.asPath).toBe('/person/person-a/sykefravaerstilfelle/2020-01-01#sykepengegrunnlag');
         expect(result.current.aktivPeriode?.id).toBe(periodeIEldreBehandling.id);
+        expect(result.current.aktivPeriode).toMatchObject({ vilkarsgrunnlagId: vilkårsgrunnlagIdEldre });
     });
 
-    it('går til periode-URL-en når perioden ikke har et vilkårsgrunnlag', () => {
-        const { result } = renderHook(() => useNavigeringOgAktivPeriode());
+    it('går til sykefraværstilfellet til en uberegnet periode og beholder taben', () => {
+        const { result, rerender } = renderHook(() => useNavigeringOgAktivPeriode());
 
         act(() => result.current.naviger(uberegnetPeriode.id));
+        rerender();
 
-        expect(mockRouter.asPath).toBe(
-            `/person/person-a/periode/${uberegnetPeriode.vedtaksperiodeId}/behandling/${uberegnetPeriode.behandlingId}#sykepengegrunnlag`,
-        );
+        expect(mockRouter.asPath).toBe('/person/person-a/sykefravaerstilfelle/2020-03-01#sykepengegrunnlag');
+        expect(result.current.aktivPeriode?.id).toBe(uberegnetPeriode.id);
     });
 
     it('går til periode-URL-en når det nye saksbildeoppsettet er av', () => {
@@ -122,7 +131,7 @@ describe('useNavigerTilTabgruppe fra tabgruppen Sykefraværstilfellet', () => {
         sessionStorage.clear();
         (useNyttSaksbildeoppsett as Mock).mockReturnValue(true);
         (useFetchPersonQuery as Mock).mockReturnValue({ data: person });
-        gåTil(`/person/person-a/sykefravaerstilfelle/${vilkårsgrunnlagId}#sykepengegrunnlag`);
+        gåTil('/person/person-a/sykefravaerstilfelle/2020-01-01#sykepengegrunnlag');
     });
 
     it('kommer tilbake til den samme perioden i tabgruppen Periode', () => {
@@ -140,6 +149,32 @@ describe('useNavigerTilTabgruppe fra tabgruppen Sykefraværstilfellet', () => {
             `/person/person-a/periode/${valgtPeriode.vedtaksperiodeId}/behandling/${valgtPeriode.behandlingId}#dagoversikt`,
         );
         expect(result.current.aktivPeriode?.id).toBe(valgtPeriode.id);
+    });
+});
+
+describe('useNavigerTilTabgruppe fra tabgruppen Periode', () => {
+    const uberegnetPeriode = enUberegnetPeriode({ skjaeringstidspunkt: '2020-03-01' });
+    const person = enPerson({
+        arbeidsgivere: [
+            enArbeidsgiver({ behandlinger: [enBehandling({ perioder: [uberegnetPeriode] })], ghostPerioder: [] }),
+        ],
+    });
+
+    beforeEach(() => {
+        sessionStorage.clear();
+        (useNyttSaksbildeoppsett as Mock).mockReturnValue(true);
+        (useFetchPersonQuery as Mock).mockReturnValue({ data: person });
+        gåTil(
+            `/person/person-a/periode/${uberegnetPeriode.vedtaksperiodeId}/behandling/${uberegnetPeriode.behandlingId}#dagoversikt`,
+        );
+    });
+
+    it('går til sykefraværstilfellet når ingen perioder med skjæringstidspunktet er beregnet', () => {
+        const { result } = renderHook(() => useNavigerTilTabgruppe());
+
+        act(() => result.current(uberegnetPeriode, 'sykepengegrunnlag'));
+
+        expect(mockRouter.asPath).toBe('/person/person-a/sykefravaerstilfelle/2020-03-01#sykepengegrunnlag');
     });
 });
 

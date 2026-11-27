@@ -21,6 +21,7 @@ import { Vurderingsmomenter } from '@saksbilde/vurderingsmomenter/Vurderingsmome
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
 import {
     finnPeriodeÅVelgeISykefraværstilfellet,
+    finnSkjæringstidspunktForSykefraværstilfelle,
     periodeUrlIdFor,
     useActivePeriod,
     usePeriodeUrlIdFraUrl,
@@ -37,12 +38,13 @@ import {
     useLagreTabFraAnker,
     useTabgruppe,
     useSaksbildeTab,
+    useSykefraværstilfelleFraUrl,
     useTabFraAnker,
 } from '@state/tab';
 import { useNyttSaksbildeoppsett, useUtviklersnacks } from '@state/toggles';
 import { ActivePeriod } from '@typer/shared';
 import { isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
-import { lagPeriodeUrl } from '@utils/undersider';
+import { erSkjæringstidspunkt, lagPeriodeUrl, lagSykefraværstilfelleUrl } from '@utils/undersider';
 
 const Utvikler = dynamic(() => import('@saksbilde/utvikler/Utvikler').then((mod) => mod.Utvikler), { ssr: false });
 
@@ -51,7 +53,7 @@ type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean; 
 const useAvailableTabs = (
     aktivPeriode: ActivePeriod | null,
     nyttSaksbildeoppsett: boolean,
-    inngangsvilkårsperiode: ApiBeregnetPeriode | null,
+    grunnlagsperiode: ApiBeregnetPeriode | null,
 ) => {
     const utviklersnacks = useUtviklersnacks();
     const risikovurdering = useRisikovurdering(
@@ -71,7 +73,8 @@ const useAvailableTabs = (
 
     const tabs: TilgjengeligTab[] = [];
 
-    const harSykefraværstilfelle = aktivPeriode !== null && vilkårsgrunnlagIdFor(aktivPeriode) !== null;
+    const harSykefraværstilfelle =
+        (vilkårsgrunnlagIdFor(aktivPeriode) !== null || isUberegnetPeriode(aktivPeriode));
 
     if (!erAnnullert && nyttSaksbildeoppsett) {
         if (erPeriode || isGhostPeriode(aktivPeriode)) tabs.push({ value: 'dagoversikt', label: 'Vedtaksperiode' });
@@ -83,7 +86,7 @@ const useAvailableTabs = (
                 label: 'Sykepengegrunnlag',
                 ikon: <CalculatorIcon aria-hidden />,
             });
-        if (harSykefraværstilfelle && inngangsvilkårsperiode)
+        if (harSykefraværstilfelle && !isUberegnetPeriode(aktivPeriode) && grunnlagsperiode)
             tabs.push({ value: 'inngangsvilkår', label: 'Inngangsvilkår', ikon: <TasklistIcon aria-hidden /> });
     } else if (!erAnnullert) {
         if (erPeriode) tabs.push({ value: 'dagoversikt', label: 'Dagoversikt' });
@@ -115,12 +118,9 @@ export const Saksbilde = () => {
     useSynkroniserValgtPeriodeMedUrl(aktivPeriode);
     useLagreTabFraAnker();
 
-    const inngangsvilkårsperiode = finnInngangsvilkårsperiode(person, aktivPeriode);
-    const { tabs: availableTabs, erAnnullert } = useAvailableTabs(
-        aktivPeriode,
-        nyttSaksbildeoppsett,
-        inngangsvilkårsperiode,
-    );
+    const grunnlagsperiode = finnGrunnlagsperiode(person, aktivPeriode);
+    const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode, nyttSaksbildeoppsett, grunnlagsperiode);
+    useVideresendGammelSykefraværstilfelleUrl(person, tab);
 
     const erPåSykefraværstilfellet = tabgruppe === 'sykefraværstilfelle';
     const harPeriodeIUrl = periodeUrlId !== null;
@@ -305,9 +305,9 @@ export const Saksbilde = () => {
                                     tekst="Arbeidsforhold uten sykefravær. Det finnes ingen vedtaksperiode å vise for denne perioden."
                                 />
                             </Tabs.Panel>
-                            {inngangsvilkårsperiode && (
+                            {grunnlagsperiode && (
                                 <Tabs.Panel value="inngangsvilkår">
-                                    <Inngangsvilkår person={person} periode={inngangsvilkårsperiode} />
+                                    <Inngangsvilkår person={person} periode={grunnlagsperiode} />
                                 </Tabs.Panel>
                             )}
                             <Tabs.Panel value="sykepengegrunnlag">
@@ -320,6 +320,18 @@ export const Saksbilde = () => {
                             <Tabs.Panel value="dagoversikt">
                                 <Utbetaling person={person} periode={aktivPeriode} />
                             </Tabs.Panel>
+                            {nyttSaksbildeoppsett && (
+                                <Tabs.Panel value="sykepengegrunnlag">
+                                    {grunnlagsperiode ? (
+                                        <Sykepengegrunnlag person={person} periode={grunnlagsperiode} />
+                                    ) : (
+                                        <Beskjed
+                                            grad="info"
+                                            tekst="Perioden er ikke beregnet ennå. Det finnes ikke noe sykepengegrunnlag å vise for denne perioden."
+                                        />
+                                    )}
+                                </Tabs.Panel>
+                            )}
                             <Tabs.Panel value="utvikler">
                                 <Utvikler
                                     vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
@@ -335,14 +347,32 @@ export const Saksbilde = () => {
     );
 };
 
-function finnInngangsvilkårsperiode(
+function finnGrunnlagsperiode(
     person: ApiSaksbildePerson | null,
     aktivPeriode: ActivePeriod | null,
 ): ApiBeregnetPeriode | null {
     if (isBeregnetPeriode(aktivPeriode)) return aktivPeriode;
-    if (!person || !isGhostPeriode(aktivPeriode) || !aktivPeriode.vilkarsgrunnlagId) return null;
-    const periode = finnPeriodeÅVelgeISykefraværstilfellet(person, aktivPeriode.vilkarsgrunnlagId);
-    return isBeregnetPeriode(periode) ? periode : null;
+    if (!person || !aktivPeriode) return null;
+    if (isGhostPeriode(aktivPeriode) && !aktivPeriode.vilkarsgrunnlagId) return null;
+    const periode = finnPeriodeÅVelgeISykefraværstilfellet(person, aktivPeriode.skjaeringstidspunkt);
+    return isBeregnetPeriode(periode) && periode.vilkarsgrunnlagId ? periode : null;
+}
+
+function useVideresendGammelSykefraværstilfelleUrl(person: ApiSaksbildePerson | null, tab: SaksbildeTab) {
+    const router = useRouter();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const sykefraværstilfelle = useSykefraværstilfelleFraUrl();
+    const tabgruppe = useTabgruppe();
+
+    useEffect(() => {
+        if (!person || tabgruppe !== 'sykefraværstilfelle' || sykefraværstilfelle === null) return;
+        if (erSkjæringstidspunkt(sykefraværstilfelle)) return;
+        const skjæringstidspunkt = finnSkjæringstidspunktForSykefraværstilfelle(person, sykefraværstilfelle);
+        if (skjæringstidspunkt === null) return;
+        router.replace(lagSykefraværstilfelleUrl(personPseudoId, skjæringstidspunkt, tabTilAnker(tab)), {
+            scroll: false,
+        });
+    }, [person, tabgruppe, sykefraværstilfelle, personPseudoId, router, tab]);
 }
 
 function useBredde(element: HTMLElement | null): number | null {

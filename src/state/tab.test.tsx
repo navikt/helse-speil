@@ -155,7 +155,7 @@ describe('ankerTilTab', () => {
 });
 
 describe('saksbildetab med det nye saksbildeoppsettet', () => {
-    const sykefraværstilfelleUrl = '/person/person-a/sykefravaerstilfelle/3f1c2a8e-5b7d-4e9a-9c61-2d8f4b7a1e05';
+    const sykefraværstilfelleUrl = '/person/person-a/sykefravaerstilfelle/2020-01-01';
 
     function gåTil(url: string) {
         mockRouter.setCurrentUrl(url);

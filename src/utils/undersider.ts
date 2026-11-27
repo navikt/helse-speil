@@ -35,12 +35,16 @@ export function lagPeriodeUrl(
 
 export function lagSykefraværstilfelleUrl(
     personPseudoId: string,
-    vilkårsgrunnlagId: string,
+    skjæringstidspunkt: string,
     tabAnker?: string,
 ): string {
-    return `/person/${personPseudoId}/sykefravaerstilfelle/${vilkårsgrunnlagId}${tabAnker ? `#${tabAnker}` : ''}`;
+    return `/person/${personPseudoId}/sykefravaerstilfelle/${skjæringstidspunkt}${tabAnker ? `#${tabAnker}` : ''}`;
 }
 
-export function vilkårsgrunnlagIdFraSti(pathname: string): string | null {
+export function sykefraværstilfelleFraSti(pathname: string): string | null {
     return pathname.match(/^\/person\/[^/]+\/sykefravaerstilfelle\/([^/]+)\/?$/)?.[1] ?? null;
+}
+
+export function erSkjæringstidspunkt(segment: string): boolean {
+    return /^\d{4}-\d{2}-\d{2}$/.test(segment);
 }

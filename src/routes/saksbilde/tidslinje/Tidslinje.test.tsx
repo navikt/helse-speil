@@ -1,14 +1,16 @@
 import mockRouter from 'next-router-mock';
+import { useEffect } from 'react';
 import { Mock } from 'vitest';
 
 import { useGetInfotrygdperioderForPerson } from '@io/rest/generated/personer/personer';
 import { ApiBeregnetPeriode, ApiSaksbildePerson } from '@io/rest/generated/spesialist.schemas';
 import { Tidslinje } from '@saksbilde/tidslinje/Tidslinje';
+import { useSetActivePeriodIdUtenPerson } from '@state/periode';
 import { useFetchPersonQuery } from '@state/person';
 import { useNyttSaksbildeoppsett } from '@state/toggles';
 import { enArbeidsgiver } from '@test-data/arbeidsgiver';
 import { enBehandling } from '@test-data/behandling';
-import { enBeregnetPeriode, enGhostPeriode } from '@test-data/periode';
+import { enBeregnetPeriode, enGhostPeriode, enUberegnetPeriode } from '@test-data/periode';
 import { enPerson } from '@test-data/person';
 import { render } from '@test-utils';
 
@@ -47,7 +49,7 @@ vi.stubGlobal(
 const personPseudoId = 'person-a';
 const vilkårsgrunnlagId = '3f1c2a8e-5b7d-4e9a-9c61-2d8f4b7a1e05';
 const annetVilkårsgrunnlagId = '8a4e6d21-0c3f-4b8e-a5d7-6f9b2c1e4d38';
-const sykefraværstilfelleUrl = `/person/${personPseudoId}/sykefravaerstilfelle/${vilkårsgrunnlagId}`;
+const sykefraværstilfelleUrl = `/person/${personPseudoId}/sykefravaerstilfelle/2020-01-01`;
 
 const januar = enBeregnetPeriode({
     fom: '2020-01-01',
@@ -232,6 +234,7 @@ describe('Tidslinje', () => {
                         }),
                     ],
                 }),
+                eldreFebruar.id,
             );
 
             // Raden med den eldre behandlingen åpnes fordi den valgte perioden ligger der
@@ -263,10 +266,56 @@ describe('Tidslinje', () => {
                         }),
                     ],
                 }),
+                gammelA.id,
             );
 
             expect(perioderIRad(container, 0).map(erMarkert)).toEqual([false, true]);
             expect(perioderIRad(container, 1).map(erMarkert)).toEqual([false, true]);
+        });
+
+        it('markerer uberegnede perioder med samme skjæringstidspunkt sammen med de beregnede', () => {
+            const uberegnetMars = enUberegnetPeriode({ fom: '2020-03-01', tom: '2020-03-31' });
+            gåTil(sykefraværstilfelleUrl);
+            const { container } = renderTidslinje(
+                enPerson({
+                    arbeidsgivere: [
+                        enArbeidsgiver({
+                            behandlinger: [enBehandling({ perioder: [uberegnetMars, februar, januar] })],
+                            ghostPerioder: [],
+                        }),
+                    ],
+                }),
+            );
+
+            expect(perioderIRad(container, 0).map(erMarkert)).toEqual([true, true, true]);
+            expect(rammerIRad(container, 0)).toHaveLength(1);
+        });
+
+        it('markerer et sykefraværstilfelle med bare uberegnede perioder', () => {
+            const uberegnetJuni = enUberegnetPeriode({
+                fom: '2020-06-01',
+                tom: '2020-06-30',
+                skjaeringstidspunkt: '2020-06-01',
+            });
+            const uberegnetJuli = enUberegnetPeriode({
+                fom: '2020-07-01',
+                tom: '2020-07-31',
+                skjaeringstidspunkt: '2020-06-01',
+            });
+            gåTil(`/person/${personPseudoId}/sykefravaerstilfelle/2020-06-01`);
+            const { container } = renderTidslinje(
+                enPerson({
+                    arbeidsgivere: [
+                        enArbeidsgiver({
+                            behandlinger: [enBehandling({ perioder: [uberegnetJuli, uberegnetJuni, januar] })],
+                            ghostPerioder: [],
+                        }),
+                    ],
+                }),
+            );
+
+            expect(perioderIRad(container, 0).map(erMarkert)).toEqual([true, true, false]);
+            expect(rammerIRad(container, 0)).toHaveLength(1);
         });
     });
 
@@ -293,9 +342,20 @@ function gåTil(url: string) {
     window.history.replaceState(null, '', url);
 }
 
-function renderTidslinje(medPerson: ApiSaksbildePerson = person) {
+function renderTidslinje(medPerson: ApiSaksbildePerson = person, valgtPeriodeId?: string) {
     (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: medPerson });
-    return render(<Tidslinje />);
+    return render(
+        <>
+            {valgtPeriodeId && <VelgPeriode id={valgtPeriodeId} />}
+            <Tidslinje />
+        </>,
+    );
+}
+
+function VelgPeriode({ id }: { id: string }) {
+    const velg = useSetActivePeriodIdUtenPerson();
+    useEffect(() => velg(id), [id, velg]);
+    return null;
 }
 
 function rader(container: HTMLElement): HTMLElement[] {

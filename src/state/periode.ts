@@ -11,17 +11,19 @@ import {
     ApiUberegnetPeriode,
 } from '@io/rest/generated/spesialist.schemas';
 import { finnAlleInntektsforhold } from '@state/inntektsforhold/inntektsforhold';
-import { erAnnullertPeriode, finnPerioderMedVilkårsgrunnlag } from '@state/sykefraværstilfelle';
-import { ankerTilTab, tabTilAnker, useTabgruppe, useVilkårsgrunnlagIdFraUrl } from '@state/tab';
+import { erAnnullertPeriode, finnSykefraværstilfelleForSkjæringstidspunkt } from '@state/sykefraværstilfelle';
+import { ankerTilTab, tabTilAnker, useSykefraværstilfelleFraUrl, useTabgruppe } from '@state/tab';
 import { useNyttSaksbildeoppsett } from '@state/toggles';
+import { getVilkårsgrunnlag } from '@state/utils';
 import { ActivePeriod } from '@typer/shared';
 import { isArbeidsgiver, isBeregnetPeriode, isGhostPeriode, isUberegnetPeriode } from '@utils/typeguards';
 import {
     PeriodeUrlId,
     erPåPeriodeside,
     erPåSideUtenAktivPeriode,
+    erSkjæringstidspunkt,
     lagPeriodeUrl,
-    vilkårsgrunnlagIdFraSti,
+    sykefraværstilfelleFraSti,
 } from '@utils/undersider';
 
 const activePeriodIdState = atom<string | null>(null);
@@ -39,16 +41,19 @@ export const useActivePeriod = (person: ApiSaksbildePerson | null): ActivePeriod
     const activePeriodId = useAtomValue(activePeriodIdState);
     const pathname = usePathname();
     const periodeUrlId = usePeriodeUrlIdFraUrl();
-    const vilkårsgrunnlagId = useVilkårsgrunnlagIdISykefraværstilfellet();
+    const sykefraværstilfelle = useSykefraværstilfelleISaksbildet();
     const erUtenAktivPeriode = erPåSideUtenAktivPeriode(pathname);
 
     if (erUtenAktivPeriode || !person) return null;
 
     const valgtPeriode = findPeriod(activePeriodId, person);
 
-    if (vilkårsgrunnlagId !== null) {
-        if (valgtPeriode && vilkårsgrunnlagIdFor(valgtPeriode) === vilkårsgrunnlagId) return valgtPeriode;
-        return finnPeriodeÅVelgeISykefraværstilfellet(person, vilkårsgrunnlagId);
+    if (sykefraværstilfelle !== null) {
+        const skjæringstidspunkt = finnSkjæringstidspunktForSykefraværstilfelle(person, sykefraværstilfelle);
+        if (skjæringstidspunkt === null) return null;
+        // En valgt periode i en eldre behandling viser grunnlaget den har, ellers vises det nyeste grunnlaget
+        if (valgtPeriode && valgtPeriode.skjaeringstidspunkt === skjæringstidspunkt) return valgtPeriode;
+        return finnPeriodeÅVelgeISykefraværstilfellet(person, skjæringstidspunkt);
     }
 
     if (periodeUrlId) {
@@ -68,10 +73,10 @@ export const useActivePeriod = (person: ApiSaksbildePerson | null): ActivePeriod
 export function useSynkroniserValgtPeriodeMedUrl(aktivPeriode: ActivePeriod | null) {
     const setActivePeriodId = useSetAtom(activePeriodIdState);
     const periodeUrlId = usePeriodeUrlIdFraUrl();
-    const vilkårsgrunnlagId = useVilkårsgrunnlagIdISykefraværstilfellet();
+    const sykefraværstilfelle = useSykefraværstilfelleISaksbildet();
     const urlNøkkel = periodeUrlId
         ? `${periodeUrlId.periodeId}/${periodeUrlId.behandlingId ?? ''}`
-        : vilkårsgrunnlagId && `sykefravaerstilfelle/${vilkårsgrunnlagId}`;
+        : sykefraværstilfelle && `sykefravaerstilfelle/${sykefraværstilfelle}`;
     const synketUrlNøkkel = useRef<string | null>(null);
 
     useEffect(() => {
@@ -91,12 +96,23 @@ export function usePeriodeUrlIdFraUrl(): PeriodeUrlId | null {
 }
 
 /**
- * Vilkårsgrunnlaget i URL-en, bare med det nye saksbildeoppsettet.
+ * Sykefraværstilfellet i URL-en, bare med det nye saksbildeoppsettet.
  */
-function useVilkårsgrunnlagIdISykefraværstilfellet(): string | null {
-    const vilkårsgrunnlagId = useVilkårsgrunnlagIdFraUrl();
+function useSykefraværstilfelleISaksbildet(): string | null {
+    const sykefraværstilfelle = useSykefraværstilfelleFraUrl();
     const tabgruppe = useTabgruppe();
-    return tabgruppe === 'sykefraværstilfelle' ? vilkårsgrunnlagId : null;
+    return tabgruppe === 'sykefraværstilfelle' ? sykefraværstilfelle : null;
+}
+
+/**
+ * Gamle URL-er har vilkårsgrunnlagId i stedet for skjæringstidspunktet.
+ */
+export function finnSkjæringstidspunktForSykefraværstilfelle(
+    person: ApiSaksbildePerson,
+    sykefraværstilfelle: string,
+): string | null {
+    if (erSkjæringstidspunkt(sykefraværstilfelle)) return sykefraværstilfelle;
+    return getVilkårsgrunnlag(person, sykefraværstilfelle)?.skjaeringstidspunkt ?? null;
 }
 
 export function vilkårsgrunnlagIdFor(periode: ActivePeriod): string | null {
@@ -132,9 +148,11 @@ export const useSelectPeriod = () => {
     return (person: ApiSaksbildePerson) => {
         // Kalles etter en asynkron refetch, så sti og fane leses fra nettleseren i tilfelle brukeren har navigert i mellomtiden
         const { pathname, hash } = window.location;
-        const vilkårsgrunnlagId = nyttSaksbildeoppsett ? vilkårsgrunnlagIdFraSti(pathname) : null;
-        const periodToSelect = vilkårsgrunnlagId
-            ? finnPeriodeÅVelgeISykefraværstilfellet(person, vilkårsgrunnlagId)
+        const sykefraværstilfelle = nyttSaksbildeoppsett ? sykefraværstilfelleFraSti(pathname) : null;
+        const skjæringstidspunkt =
+            sykefraværstilfelle && finnSkjæringstidspunktForSykefraværstilfelle(person, sykefraværstilfelle);
+        const periodToSelect = sykefraværstilfelle
+            ? skjæringstidspunkt && finnPeriodeÅVelgeISykefraværstilfellet(person, skjæringstidspunkt)
             : findPeriodToSelect(person);
         if (!periodToSelect) return;
         setActivePeriodId(periodToSelect.id);
@@ -173,16 +191,24 @@ const findPeriodToSelect = (person: ApiSaksbildePerson): ActivePeriod | null =>
     );
 
 /**
- * Annullerte perioder velges bare når alle er annullert, og ghost-perioder bare når sykefraværstilfellet ikke har andre perioder.
+ * Velger i sykefraværstilfellet med det nyeste grunnlaget for skjæringstidspunktet. Beregnede perioder går foran
+ * uberegnede, fordi bare de har alle tabene. Annullerte perioder velges bare når ingen andre finnes, og ghost-perioder
+ * bare når sykefraværstilfellet ikke har andre perioder.
  */
 export function finnPeriodeÅVelgeISykefraværstilfellet(
     person: ApiSaksbildePerson,
-    vilkårsgrunnlagId: string,
+    skjæringstidspunkt: string,
 ): ActivePeriod | null {
-    const perioder = finnPerioderMedVilkårsgrunnlag(person, vilkårsgrunnlagId);
+    const { perioder } = finnSykefraværstilfelleForSkjæringstidspunkt(person, skjæringstidspunkt);
     const vedtaksperioder = perioder.filter((periode) => isUberegnetPeriode(periode) || isBeregnetPeriode(periode));
     const ikkeAnnullerte = vedtaksperioder.filter((periode) => !erAnnullertPeriode(periode));
-    return velgEtterPrioritet(ikkeAnnullerte) ?? velgEtterPrioritet(vedtaksperioder) ?? perioder[0] ?? null;
+    return (
+        velgEtterPrioritet(ikkeAnnullerte.filter(isBeregnetPeriode)) ??
+        velgEtterPrioritet(ikkeAnnullerte) ??
+        velgEtterPrioritet(vedtaksperioder) ??
+        perioder[0] ??
+        null
+    );
 }
 
 // Først en periode til behandling, så en periode som venter, ellers den nyeste

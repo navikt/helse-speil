@@ -16,18 +16,16 @@ type PeriodeMedVilkårsgrunnlag = { periode: ApiPeriode; vilkarsgrunnlagId: stri
 
 export function finnSykefraværstilfelle(person: ApiSaksbildePerson, valgtPeriode: ActivePeriod): Sykefraværstilfelle {
     const perioder = finnAlleInntektsforhold(person).flatMap(medVilkårsgrunnlag);
+    const { skjaeringstidspunkt } = valgtPeriode;
 
     if (isUberegnetPeriode(valgtPeriode)) {
-        const { skjaeringstidspunkt } = valgtPeriode;
-        return {
-            perioder: finnVedtaksperioder(
-                perioder,
-                valgtPeriode,
-                ({ periode }) => isUberegnetPeriode(periode) && periode.skjaeringstidspunkt === skjaeringstidspunkt,
-            ),
-            vilkarsgrunnlagId: null,
-            status: 'ikkeBeregnet',
-        };
+        return lagSykefraværstilfelle(
+            person,
+            perioder,
+            skjaeringstidspunkt,
+            finnNyesteVilkårsgrunnlagId(perioder, skjaeringstidspunkt),
+            valgtPeriode,
+        );
     }
 
     const vilkarsgrunnlagId = isGhostPeriode(valgtPeriode)
@@ -37,10 +35,47 @@ export function finnSykefraværstilfelle(person: ApiSaksbildePerson, valgtPeriod
         return { perioder: [valgtPeriode], vilkarsgrunnlagId: null, status: 'ikkeBeregnet' };
     }
 
+    return lagSykefraværstilfelle(person, perioder, skjaeringstidspunkt, vilkarsgrunnlagId, valgtPeriode);
+}
+
+export function finnSykefraværstilfelleForSkjæringstidspunkt(
+    person: ApiSaksbildePerson,
+    skjæringstidspunkt: string,
+): Sykefraværstilfelle {
+    const perioder = finnAlleInntektsforhold(person).flatMap(medVilkårsgrunnlag);
+    return lagSykefraværstilfelle(
+        person,
+        perioder,
+        skjæringstidspunkt,
+        finnNyesteVilkårsgrunnlagId(perioder, skjæringstidspunkt),
+        null,
+    );
+}
+
+// Uberegnede perioder får det nyeste grunnlaget når de beregnes, så de hører bare til klyngen for det
+function lagSykefraværstilfelle(
+    person: ApiSaksbildePerson,
+    perioder: PeriodeMedVilkårsgrunnlag[],
+    skjæringstidspunkt: string,
+    vilkarsgrunnlagId: string | null,
+    valgtPeriode: ActivePeriod | null,
+): Sykefraværstilfelle {
+    const erNyesteGrunnlag = vilkarsgrunnlagId === finnNyesteVilkårsgrunnlagId(perioder, skjæringstidspunkt);
     const perioderITilfellet = [
-        ...finnVedtaksperioder(perioder, valgtPeriode, (periode) => periode.vilkarsgrunnlagId === vilkarsgrunnlagId),
-        ...finnGhostPerioder(person, valgtPeriode.id, vilkarsgrunnlagId),
+        ...finnVedtaksperioder(
+            perioder,
+            valgtPeriode,
+            (periode) =>
+                (vilkarsgrunnlagId !== null && periode.vilkarsgrunnlagId === vilkarsgrunnlagId) ||
+                (erNyesteGrunnlag &&
+                    isUberegnetPeriode(periode.periode) &&
+                    periode.periode.skjaeringstidspunkt === skjæringstidspunkt),
+        ),
+        ...(vilkarsgrunnlagId !== null ? finnGhostPerioder(person, valgtPeriode?.id ?? null, vilkarsgrunnlagId) : []),
     ];
+    if (vilkarsgrunnlagId === null) {
+        return { perioder: perioderITilfellet, vilkarsgrunnlagId: null, status: 'ikkeBeregnet' };
+    }
     return {
         perioder: perioderITilfellet,
         vilkarsgrunnlagId,
@@ -48,11 +83,19 @@ export function finnSykefraværstilfelle(person: ApiSaksbildePerson, valgtPeriod
     };
 }
 
-export function finnPerioderMedVilkårsgrunnlag(person: ApiSaksbildePerson, vilkarsgrunnlagId: string): ActivePeriod[] {
-    const perioder = finnAlleInntektsforhold(person)
-        .flatMap(medVilkårsgrunnlag)
-        .filter((periode) => periode.vilkarsgrunnlagId === vilkarsgrunnlagId);
-    return [...nyestePerVedtaksperiode(perioder), ...finnGhostPerioder(person, null, vilkarsgrunnlagId)];
+function finnNyesteVilkårsgrunnlagId(perioder: PeriodeMedVilkårsgrunnlag[], skjæringstidspunkt: string): string | null {
+    const nyesteMedGrunnlag = nyestePerVedtaksperiode(
+        perioder.filter(
+            ({ periode, vilkarsgrunnlagId }) =>
+                vilkarsgrunnlagId !== null && periode.skjaeringstidspunkt === skjæringstidspunkt,
+        ),
+    );
+    const sisteFørst = nyesteMedGrunnlag.sort((a, b) => b.periode.tom.localeCompare(a.periode.tom));
+    return (
+        sisteFørst.find(({ periode }) => !erAnnullertPeriode(periode))?.vilkarsgrunnlagId ??
+        sisteFørst[0]?.vilkarsgrunnlagId ??
+        null
+    );
 }
 
 function medVilkårsgrunnlag(inntektsforhold: Inntektsforhold): PeriodeMedVilkårsgrunnlag[] {
@@ -82,24 +125,25 @@ function medVilkårsgrunnlag(inntektsforhold: Inntektsforhold): PeriodeMedVilkå
 
 function finnVedtaksperioder(
     perioder: PeriodeMedVilkårsgrunnlag[],
-    valgtPeriode: ActivePeriod,
+    valgtPeriode: ActivePeriod | null,
     hørerTilSykefraværstilfellet: (periode: PeriodeMedVilkårsgrunnlag) => boolean,
 ): ActivePeriod[] {
-    const valgtVedtaksperiodeId = isGhostPeriode(valgtPeriode) ? null : valgtPeriode.vedtaksperiodeId;
+    const valgtVedtaksperiodeId =
+        valgtPeriode === null || isGhostPeriode(valgtPeriode) ? null : valgtPeriode.vedtaksperiodeId;
     const andrePerioder = nyestePerVedtaksperiode(
         perioder.filter(
             (periode) =>
                 periode.periode.vedtaksperiodeId !== valgtVedtaksperiodeId && hørerTilSykefraværstilfellet(periode),
         ),
-    );
-    return valgtVedtaksperiodeId === null ? andrePerioder : [valgtPeriode, ...andrePerioder];
+    ).map(({ periode }) => periode);
+    return valgtPeriode === null || valgtVedtaksperiodeId === null ? andrePerioder : [valgtPeriode, ...andrePerioder];
 }
 
 // Perioderekkefølgen er nyeste behandling først, så første treff per vedtaksperiode er den nyeste
-function nyestePerVedtaksperiode(perioder: PeriodeMedVilkårsgrunnlag[]): ApiPeriode[] {
-    const nyeste = new Map<string, ApiPeriode>();
-    perioder.forEach(({ periode }) => {
-        if (!nyeste.has(periode.vedtaksperiodeId)) nyeste.set(periode.vedtaksperiodeId, periode);
+function nyestePerVedtaksperiode(perioder: PeriodeMedVilkårsgrunnlag[]): PeriodeMedVilkårsgrunnlag[] {
+    const nyeste = new Map<string, PeriodeMedVilkårsgrunnlag>();
+    perioder.forEach((periode) => {
+        if (!nyeste.has(periode.periode.vedtaksperiodeId)) nyeste.set(periode.periode.vedtaksperiodeId, periode);
     });
     return [...nyeste.values()];
 }

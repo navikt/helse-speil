@@ -28,14 +28,14 @@ export function tabgruppeForTab(tab: SaksbildeTab): Tabgruppe {
 }
 
 export function useTabgruppe(): Tabgruppe {
-    const erPåSykefraværstilfellet = useVilkårsgrunnlagIdFraUrl() !== null;
+    const erPåSykefraværstilfellet = useSykefraværstilfelleFraUrl() !== null;
     const nyttSaksbildeoppsett = useNyttSaksbildeoppsett();
     return nyttSaksbildeoppsett && erPåSykefraværstilfellet ? 'sykefraværstilfelle' : 'periode';
 }
 
-export function useVilkårsgrunnlagIdFraUrl(): string | null {
-    const { vilkarsgrunnlagId } = useParams<{ vilkarsgrunnlagId?: string }>();
-    return vilkarsgrunnlagId ?? null;
+export function useSykefraværstilfelleFraUrl(): string | null {
+    const { skjaeringstidspunkt } = useParams<{ skjaeringstidspunkt?: string }>();
+    return skjaeringstidspunkt ?? null;
 }
 
 /**
@@ -43,7 +43,7 @@ export function useVilkårsgrunnlagIdFraUrl(): string | null {
  */
 function useErPåSaksbildeside(): boolean {
     const pathname = usePathname();
-    const erPåSykefraværstilfellet = useVilkårsgrunnlagIdFraUrl() !== null;
+    const erPåSykefraværstilfellet = useSykefraværstilfelleFraUrl() !== null;
     return erPåPeriodeside(pathname) || erPåSykefraværstilfellet;
 }
 
