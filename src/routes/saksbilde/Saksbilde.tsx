@@ -50,6 +50,8 @@ const Utvikler = dynamic(() => import('@saksbilde/utvikler/Utvikler').then((mod)
 
 type TilgjengeligTab = { value: SaksbildeTab; label: string; kunIkon?: boolean; ikon?: ReactElement };
 
+const innholdsområde = 'h-full min-w-0 flex-1 overflow-hidden [grid-area:content]';
+
 const useAvailableTabs = (
     aktivPeriode: ActivePeriod | null,
     nyttSaksbildeoppsett: boolean,
@@ -73,8 +75,7 @@ const useAvailableTabs = (
 
     const tabs: TilgjengeligTab[] = [];
 
-    const harSykefraværstilfelle =
-        (vilkårsgrunnlagIdFor(aktivPeriode) !== null || isUberegnetPeriode(aktivPeriode));
+    const harSykefraværstilfelle = vilkårsgrunnlagIdFor(aktivPeriode) !== null || isUberegnetPeriode(aktivPeriode);
 
     if (!erAnnullert && nyttSaksbildeoppsett) {
         if (erPeriode || isGhostPeriode(aktivPeriode)) tabs.push({ value: 'dagoversikt', label: 'Vedtaksperiode' });
@@ -200,7 +201,6 @@ export const Saksbilde = () => {
     const erPåPerioden = tabgruppe === 'periode';
     const periodeTabs = availableTabs.filter((t) => tabgruppeForTab(t.value) === 'periode');
     const sykefraværstilfelleTabs = availableTabs.filter((t) => tabgruppeForTab(t.value) === 'sykefraværstilfelle');
-    const sykefraværstilfelleBredde = erPåPerioden ? '25%' : 'calc((100% - 366px) / 4)';
 
     const velgTab = (valgtTab: SaksbildeTab) => {
         if (nyttSaksbildeoppsett && tabgruppeForTab(valgtTab) !== tabgruppe) {
@@ -210,19 +210,30 @@ export const Saksbilde = () => {
         }
     };
 
+    const verktøylinje = erPåPerioden && periodeHarDatoerMedUnder20ProsentTotalGrad && initierendeVedtaksperiodeId && (
+        <Verktøylinje
+            person={person}
+            aktivPeriode={aktivPeriode}
+            initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
+        />
+    );
+
     return (
-        <VStack className="h-full min-w-0 flex-1 overflow-hidden [grid-area:content]">
-            {erPåPerioden && periodeHarDatoerMedUnder20ProsentTotalGrad && initierendeVedtaksperiodeId && (
-                <Verktøylinje
-                    person={person}
-                    aktivPeriode={aktivPeriode}
-                    initierendeVedtaksperiodeId={initierendeVedtaksperiodeId}
-                />
+        <VStack className={nyttSaksbildeoppsett ? 'contents' : innholdsområde}>
+            {!nyttSaksbildeoppsett && (
+                <>
+                    {verktøylinje}
+                    <SaksbildevarslerOgBeskjeder person={person} periode={aktivPeriode} />
+                </>
             )}
-            <SaksbildevarslerOgBeskjeder person={person} periode={aktivPeriode} />
-            <Tabs value={tab} onChange={(value) => velgTab(value as SaksbildeTab)} size="medium">
+            <Tabs
+                value={tab}
+                onChange={(value) => velgTab(value as SaksbildeTab)}
+                size="medium"
+                className={nyttSaksbildeoppsett ? 'contents' : undefined}
+            >
                 {nyttSaksbildeoppsett ? (
-                    <Box position="relative" width="100%">
+                    <Box position="relative" width="100%" className="min-w-0 [grid-area:faner]">
                         <Tabs.List>
                             <HStack wrap={false} flexGrow="1">
                                 <HStack ref={setPeriodetabs} wrap={false} flexShrink="0">
@@ -234,7 +245,7 @@ export const Saksbilde = () => {
                             <HStack
                                 wrap={false}
                                 flexShrink="0"
-                                width={sykefraværstilfelleBredde}
+                                width="25%"
                                 className="min-w-max bg-ax-bg-neutral-soft inset-shadow-[0px_-1px] inset-shadow-ax-border-neutral-subtleA"
                             >
                                 {sykefraværstilfelleTabs.map((t, i) => (
@@ -273,75 +284,87 @@ export const Saksbilde = () => {
                         </HStack>
                     </HStack>
                 )}
-                <Box overflowX="auto">
-                    {isBeregnetPeriode(aktivPeriode) && (
+                <VStack className={nyttSaksbildeoppsett ? innholdsområde : 'contents'}>
+                    {nyttSaksbildeoppsett && (
                         <>
-                            <Tabs.Panel value="dagoversikt">
-                                <Utbetaling person={person} periode={aktivPeriode} />
-                            </Tabs.Panel>
-                            <Tabs.Panel value="inngangsvilkår">
-                                <Inngangsvilkår person={person} periode={aktivPeriode} />
-                            </Tabs.Panel>
-                            <Tabs.Panel value="sykepengegrunnlag">
-                                <Sykepengegrunnlag person={person} periode={aktivPeriode} />
-                            </Tabs.Panel>
-                            <Tabs.Panel value="vurderingsmomenter">
-                                <Vurderingsmomenter periode={aktivPeriode} />
-                            </Tabs.Panel>
-                            <Tabs.Panel value="utvikler">
-                                <Utvikler
-                                    vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
-                                    fødselsnummer={person.fodselsnummer}
-                                    personPseudoId={personPseudoId}
-                                />
-                            </Tabs.Panel>
+                            <SaksbildevarslerOgBeskjeder
+                                person={person}
+                                periode={aktivPeriode}
+                                className="[&>:first-child]:mt-(--ax-space-4)"
+                            />
+                            {verktøylinje}
                         </>
                     )}
-                    {isGhostPeriode(aktivPeriode) && (
-                        <>
-                            <Tabs.Panel value="dagoversikt">
-                                <Beskjed
-                                    grad="info"
-                                    tekst="Arbeidsforhold uten sykefravær. Det finnes ingen vedtaksperiode å vise for denne perioden."
-                                />
-                            </Tabs.Panel>
-                            {grunnlagsperiode && (
+                    <Box overflowX="auto">
+                        {isBeregnetPeriode(aktivPeriode) && (
+                            <>
+                                <Tabs.Panel value="dagoversikt">
+                                    <Utbetaling person={person} periode={aktivPeriode} />
+                                </Tabs.Panel>
                                 <Tabs.Panel value="inngangsvilkår">
-                                    <Inngangsvilkår person={person} periode={grunnlagsperiode} />
+                                    <Inngangsvilkår person={person} periode={aktivPeriode} />
                                 </Tabs.Panel>
-                            )}
-                            <Tabs.Panel value="sykepengegrunnlag">
-                                <Sykepengegrunnlag person={person} periode={aktivPeriode} />
-                            </Tabs.Panel>
-                        </>
-                    )}
-                    {isUberegnetPeriode(aktivPeriode) && (
-                        <>
-                            <Tabs.Panel value="dagoversikt">
-                                <Utbetaling person={person} periode={aktivPeriode} />
-                            </Tabs.Panel>
-                            {nyttSaksbildeoppsett && (
                                 <Tabs.Panel value="sykepengegrunnlag">
-                                    {grunnlagsperiode ? (
-                                        <Sykepengegrunnlag person={person} periode={grunnlagsperiode} />
-                                    ) : (
-                                        <Beskjed
-                                            grad="info"
-                                            tekst="Perioden er ikke beregnet ennå. Det finnes ikke noe sykepengegrunnlag å vise for denne perioden."
-                                        />
-                                    )}
+                                    <Sykepengegrunnlag person={person} periode={aktivPeriode} />
                                 </Tabs.Panel>
-                            )}
-                            <Tabs.Panel value="utvikler">
-                                <Utvikler
-                                    vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
-                                    fødselsnummer={person.fodselsnummer}
-                                    personPseudoId={personPseudoId}
-                                />
-                            </Tabs.Panel>
-                        </>
-                    )}
-                </Box>
+                                <Tabs.Panel value="vurderingsmomenter">
+                                    <Vurderingsmomenter periode={aktivPeriode} />
+                                </Tabs.Panel>
+                                <Tabs.Panel value="utvikler">
+                                    <Utvikler
+                                        vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
+                                        fødselsnummer={person.fodselsnummer}
+                                        personPseudoId={personPseudoId}
+                                    />
+                                </Tabs.Panel>
+                            </>
+                        )}
+                        {isGhostPeriode(aktivPeriode) && (
+                            <>
+                                <Tabs.Panel value="dagoversikt">
+                                    <Beskjed
+                                        grad="info"
+                                        tekst="Arbeidsforhold uten sykefravær. Det finnes ingen vedtaksperiode å vise for denne perioden."
+                                    />
+                                </Tabs.Panel>
+                                {grunnlagsperiode && (
+                                    <Tabs.Panel value="inngangsvilkår">
+                                        <Inngangsvilkår person={person} periode={grunnlagsperiode} />
+                                    </Tabs.Panel>
+                                )}
+                                <Tabs.Panel value="sykepengegrunnlag">
+                                    <Sykepengegrunnlag person={person} periode={aktivPeriode} />
+                                </Tabs.Panel>
+                            </>
+                        )}
+                        {isUberegnetPeriode(aktivPeriode) && (
+                            <>
+                                <Tabs.Panel value="dagoversikt">
+                                    <Utbetaling person={person} periode={aktivPeriode} />
+                                </Tabs.Panel>
+                                {nyttSaksbildeoppsett && (
+                                    <Tabs.Panel value="sykepengegrunnlag">
+                                        {grunnlagsperiode ? (
+                                            <Sykepengegrunnlag person={person} periode={grunnlagsperiode} />
+                                        ) : (
+                                            <Beskjed
+                                                grad="info"
+                                                tekst="Perioden er ikke beregnet ennå. Det finnes ikke noe sykepengegrunnlag å vise for denne perioden."
+                                            />
+                                        )}
+                                    </Tabs.Panel>
+                                )}
+                                <Tabs.Panel value="utvikler">
+                                    <Utvikler
+                                        vedtaksperiodeId={aktivPeriode.vedtaksperiodeId}
+                                        fødselsnummer={person.fodselsnummer}
+                                        personPseudoId={personPseudoId}
+                                    />
+                                </Tabs.Panel>
+                            </>
+                        )}
+                    </Box>
+                </VStack>
             </Tabs>
         </VStack>
     );

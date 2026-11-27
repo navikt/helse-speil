@@ -20,11 +20,12 @@
     max-width: 100vw;
     min-width: var(--speil-total-min-width);
     grid-template-columns: max-content 1fr max-content;
-    grid-template-rows: max-content max-content max-content auto;
+    grid-template-rows: max-content max-content max-content max-content 1fr;
     grid-template-areas:
         'unntatt unntatt unntatt'
         'personlinje personlinje personlinje'
         'timeline timeline timeline'
+        'faner faner høyremeny'
         'venstremeny content høyremeny';
     flex: 1;
     height: max-content;

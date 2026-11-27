@@ -133,6 +133,10 @@ function VelgPeriode({ id }: { id: string }) {
     return null;
 }
 
+function kommerFør(første: Element, andre: Element) {
+    return (første.compareDocumentPosition(andre) & Node.DOCUMENT_POSITION_FOLLOWING) !== 0;
+}
+
 function tabnavn() {
     return screen.getAllByRole('tab').map((tab) => tab.textContent);
 }
@@ -159,6 +163,14 @@ describe('SaksbildeSide', () => {
             expect(tabnavn()).toEqual(['Dagoversikt', 'Inngangsvilkår', 'Sykepengegrunnlag']);
             expect(valgtTab()).toBe('Dagoversikt');
             expect(screen.getByText('Venstremeny')).toBeInTheDocument();
+            expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
+        });
+
+        it('viser varslene over fanene', async () => {
+            gåTil(periodeUrl);
+            render(<SaksbildeSide />);
+
+            expect(kommerFør(screen.getByText('Saksbildevarsler'), screen.getByRole('tablist'))).toBe(true);
             expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
         });
 
@@ -194,6 +206,30 @@ describe('SaksbildeSide', () => {
             expect(screen.getByText('Venstremeny')).toBeInTheDocument();
             expect(screen.getByText('Saksbildemeny')).toBeInTheDocument();
             expect(screen.getByText('Saksbildevarsler')).toBeInTheDocument();
+            expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
+        });
+
+        it('viser fanene, varslene og innholdet i den rekkefølgen i tabgruppen Periode', async () => {
+            gåTil(periodeUrl);
+            render(<SaksbildeSide />);
+
+            const faner = screen.getByRole('tablist');
+            const varsler = screen.getByText('Saksbildevarsler');
+            const innhold = screen.getByText(`Dagoversiktpanel for ${periode.id}`);
+            expect(kommerFør(faner, varsler)).toBe(true);
+            expect(kommerFør(varsler, innhold)).toBe(true);
+            expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
+        });
+
+        it('viser fanene, varslene og innholdet i den rekkefølgen i tabgruppen Sykefraværstilfellet', async () => {
+            gåTil(sykefraværstilfelleUrl);
+            render(<SaksbildeSide />);
+
+            const faner = screen.getByRole('tablist');
+            const varsler = screen.getByText('Saksbildevarsler');
+            const innhold = screen.getByText(`Sykepengegrunnlagpanel for ${periode.id}`);
+            expect(kommerFør(faner, varsler)).toBe(true);
+            expect(kommerFør(varsler, innhold)).toBe(true);
             expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
         });
 

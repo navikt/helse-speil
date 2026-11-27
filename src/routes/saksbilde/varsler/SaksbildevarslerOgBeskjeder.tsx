@@ -39,11 +39,13 @@ import { synligeVarsler } from './varselstatus';
 interface SaksbildevarslerOgBeskjederProps {
     person: ApiSaksbildePerson;
     periode: ActivePeriod;
+    className?: string;
 }
 
 export function SaksbildevarslerOgBeskjeder({
     person,
     periode,
+    className,
 }: SaksbildevarslerOgBeskjederProps): ReactElement | null {
     const annullering = isBeregnetPeriode(periode) ? annulleringsbeskjed(periode.periodetilstand) : null;
     if (annullering) {
@@ -59,19 +61,21 @@ export function SaksbildevarslerOgBeskjeder({
                 statusbeskjeder={statusbeskjeder(periodState, false)}
                 feilbeskjeder={feilbeskjeder(periodState)}
                 skjæringstidspunkt={periode.skjaeringstidspunkt}
+                className={className}
             />
         );
     }
 
-    return <PeriodeMedVarsler person={person} periode={periode} />;
+    return <PeriodeMedVarsler person={person} periode={periode} className={className} />;
 }
 
 interface PeriodeMedVarslerProps {
     person: ApiSaksbildePerson;
     periode: ApiBeregnetPeriode | ApiUberegnetPeriode;
+    className?: string;
 }
 
-function PeriodeMedVarsler({ person, periode }: PeriodeMedVarslerProps): ReactElement | null {
+function PeriodeMedVarsler({ person, periode, className }: PeriodeMedVarslerProps): ReactElement | null {
     const { personPseudoId } = useParams<{ personPseudoId: string }>();
     const { data: tilkommenInntekt } = useHentTilkommenInntektQuery(personPseudoId);
     const { data: saksbehandlerhandlinger } = useHentSaksbehandlerhandlinger(personPseudoId);
@@ -123,6 +127,7 @@ function PeriodeMedVarsler({ person, periode }: PeriodeMedVarslerProps): ReactEl
             feilbeskjeder={feilbeskjeder(periodState, oppgave?.id)}
             varsler={periode.varsler}
             skjæringstidspunkt={periode.skjaeringstidspunkt}
+            className={className}
         />
     );
 }
@@ -133,6 +138,7 @@ interface VisningProps {
     feilbeskjeder: SaksbildeBeskjed[];
     varsler?: ApiVarselDTO[];
     skjæringstidspunkt?: string | null;
+    className?: string;
 }
 
 function Visning({
@@ -141,6 +147,7 @@ function Visning({
     feilbeskjeder,
     varsler,
     skjæringstidspunkt,
+    className,
 }: VisningProps): ReactElement | null {
     const nyttVarseldesign = useNyttVarseldesign();
     const lokaleInntektoverstyringer = useInntektOgRefusjon();
@@ -159,7 +166,7 @@ function Visning({
 
     const varslerSomVises = synligeVarsler(varsler ?? []);
     return (
-        <div>
+        <div className={className}>
             {nyttVarseldesign ? (
                 <>
                     {kontrollpunkter.length > 0 && <Beslutterkontroll kontrollpunkter={kontrollpunkter} />}
