@@ -44,7 +44,8 @@ export function GraderteAndreYtelserForm({
         resolver: zodResolver(lagGraderteAndreYtelserSchema([...markerteDager.values()])),
         defaultValues: { ytelser: [], sykepengerGrad: null, andreYtelserGrader: {}, begrunnelse: '' },
     });
-    const [ytelser, sykepengerGrad, andreYtelserGrader] = useWatch({
+    // shouldUnregister fjerner andreYtelserGrader helt når siste ytelse velges bort
+    const [ytelser, sykepengerGrad, andreYtelserGrader = {}] = useWatch({
         control: form.control,
         name: ['ytelser', 'sykepengerGrad', 'andreYtelserGrader'],
     });
