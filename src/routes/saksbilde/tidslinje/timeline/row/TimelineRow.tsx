@@ -84,7 +84,7 @@ function SykefraværstilfelleRammer({ periods }: { periods: Period[] }): ReactEl
                         key={startDate.toISOString()}
                         data-sykefravaerstilfelle-ramme
                         aria-hidden
-                        className="pointer-events-none absolute top-0 z-2 h-[24px] rounded-full border border-ax-border-accent-strong ring-1 inset-ring-1 ring-ax-border-accent-strong inset-ring-ax-border-accent-strong"
+                        className="pointer-events-none absolute top-0 z-3 h-[24px] rounded-full border border-ax-border-accent-strong ring-1 inset-ring-1 ring-ax-border-accent-strong inset-ring-ax-border-accent-strong"
                         style={{
                             left: timelineEnd.diff(endDate, 'day') * dayLength,
                             width: getNumberOfDays(startDate, endDate) * dayLength,
