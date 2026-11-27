@@ -25,6 +25,7 @@ import {
     periodeUrlIdFor,
     useActivePeriod,
     usePeriodeUrlIdFraUrl,
+    useSetActivePeriodIdUtenPerson,
     useSynkroniserValgtPeriodeMedUrl,
     vilkårsgrunnlagIdFor,
 } from '@state/periode';
@@ -122,6 +123,7 @@ export const Saksbilde = () => {
     const grunnlagsperiode = finnGrunnlagsperiode(person, aktivPeriode);
     const { tabs: availableTabs, erAnnullert } = useAvailableTabs(aktivPeriode, nyttSaksbildeoppsett, grunnlagsperiode);
     useVideresendGammelSykefraværstilfelleUrl(person, tab);
+    const videresenderGammelPeriodeUrl = useVideresendGammelPeriodeUrl(aktivPeriode, availableTabs);
 
     const erPåSykefraværstilfellet = tabgruppe === 'sykefraværstilfelle';
     const harPeriodeIUrl = periodeUrlId !== null;
@@ -143,12 +145,22 @@ export const Saksbilde = () => {
         const tabsITabgruppen = availableTabs.filter(
             (t) => !nyttSaksbildeoppsett || tabgruppeForTab(t.value) === tabgruppe,
         );
-        if (!aktivPeriode || !harTabgruppeIUrl || tabsITabgruppen.length === 0) return;
+        if (!aktivPeriode || !harTabgruppeIUrl || videresenderGammelPeriodeUrl || tabsITabgruppen.length === 0) return;
         const gyldigTab = tabsITabgruppen.some((t) => t.value === tab) ? tab : tabsITabgruppen[0]!.value;
         if (gyldigTab !== tab || gyldigTab !== tabFraAnker) {
             setTab(gyldigTab, { erstatt: true });
         }
-    }, [aktivPeriode, harTabgruppeIUrl, availableTabs, nyttSaksbildeoppsett, tabgruppe, tab, tabFraAnker, setTab]);
+    }, [
+        aktivPeriode,
+        harTabgruppeIUrl,
+        videresenderGammelPeriodeUrl,
+        availableTabs,
+        nyttSaksbildeoppsett,
+        tabgruppe,
+        tab,
+        tabFraAnker,
+        setTab,
+    ]);
 
     if (loading) {
         return <PeriodeViewSkeleton />;
@@ -396,6 +408,41 @@ function useVideresendGammelSykefraværstilfelleUrl(person: ApiSaksbildePerson |
             scroll: false,
         });
     }, [person, tabgruppe, sykefraværstilfelle, personPseudoId, router, tab]);
+}
+
+function useVideresendGammelPeriodeUrl(aktivPeriode: ActivePeriod | null, availableTabs: TilgjengeligTab[]): boolean {
+    const router = useRouter();
+    const { personPseudoId } = useParams<{ personPseudoId: string }>();
+    const periodeUrlId = usePeriodeUrlIdFraUrl();
+    const tabFraAnker = useTabFraAnker();
+    const tabgruppe = useTabgruppe();
+    const nyttSaksbildeoppsett = useNyttSaksbildeoppsett();
+    const setActivePeriodId = useSetActivePeriodIdUtenPerson();
+
+    const sykefraværstilfelleTab =
+        nyttSaksbildeoppsett &&
+        tabgruppe === 'periode' &&
+        periodeUrlId !== null &&
+        tabFraAnker !== null &&
+        tabgruppeForTab(tabFraAnker) === 'sykefraværstilfelle' &&
+        availableTabs.some((t) => tabgruppeForTab(t.value) === 'sykefraværstilfelle')
+            ? tabFraAnker
+            : null;
+
+    useEffect(() => {
+        if (!aktivPeriode || sykefraværstilfelleTab === null) return;
+        setActivePeriodId(aktivPeriode.id);
+        router.replace(
+            lagSykefraværstilfelleUrl(
+                personPseudoId,
+                aktivPeriode.skjaeringstidspunkt,
+                tabTilAnker(sykefraværstilfelleTab),
+            ),
+            { scroll: false },
+        );
+    }, [aktivPeriode, sykefraværstilfelleTab, personPseudoId, router, setActivePeriodId]);
+
+    return sykefraværstilfelleTab !== null;
 }
 
 function useBredde(element: HTMLElement | null): number | null {

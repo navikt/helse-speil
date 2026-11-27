@@ -191,6 +191,15 @@ describe('SaksbildeSide', () => {
             expect(tabnavn()).toEqual(['Sykepengegrunnlag']);
             expect(screen.getByText(`Sykepengegrunnlagpanel for ${ghostPeriode.id}`)).toBeInTheDocument();
         });
+
+        it('viser Sykepengegrunnlag på en gammel lenke til perioden', async () => {
+            gåTil(`${periodeUrl}#sykepengegrunnlag`);
+            render(<SaksbildeSide />);
+
+            expect(valgtTab()).toBe('Sykepengegrunnlag');
+            expect(mockRouter.asPath).toBe(`${periodeUrl}#sykepengegrunnlag`);
+            expect(await screen.findByText('Høyremeny')).toBeInTheDocument();
+        });
     });
 
     describe('med toggelen på', () => {
@@ -353,6 +362,53 @@ describe('SaksbildeSide', () => {
             replace.mockRestore();
         });
 
+        it('sender en gammel lenke til Sykepengegrunnlag på perioden videre til sykefraværstilfellet', async () => {
+            gåTil(`${periodeUrl}#sykepengegrunnlag`);
+            const replace = vi.spyOn(mockRouter, 'replace');
+            const push = vi.spyOn(mockRouter, 'push');
+            render(<SaksbildeSide />);
+
+            await waitFor(() => expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#sykepengegrunnlag`));
+            expect(replace).toHaveBeenCalled();
+            expect(push).not.toHaveBeenCalled();
+            expect(valgtTab()).toBe('Sykepengegrunnlag');
+            expect(screen.getByText(`Sykepengegrunnlagpanel for ${periode.id}`)).toBeInTheDocument();
+            replace.mockRestore();
+            push.mockRestore();
+        });
+
+        it('sender en gammel lenke til Inngangsvilkår videre og beholder perioden fra lenken som valgt', async () => {
+            (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: personMedToPerioder });
+            gåTil(`${eldrePeriodeUrl}#inngangsvilkar`);
+            render(<SaksbildeSide />);
+
+            await waitFor(() => expect(mockRouter.asPath).toBe(`${sykefraværstilfelleUrl}#inngangsvilkar`));
+            expect(valgtTab()).toBe('Inngangsvilkår');
+            expect(screen.getByText(`Inngangsvilkårpanel for ${eldrePeriode.id}`)).toBeInTheDocument();
+        });
+
+        it('sender ikke en lenke til perioden videre når perioden ikke har et sykefraværstilfelle', async () => {
+            const periodeUtenVilkårsgrunnlag = enBeregnetPeriode({ vilkarsgrunnlagId: null });
+            (useFetchPersonQuery as Mock).mockReturnValue({
+                loading: false,
+                data: enPerson({
+                    arbeidsgivere: [
+                        enArbeidsgiver({
+                            behandlinger: [enBehandling({ perioder: [periodeUtenVilkårsgrunnlag] })],
+                            ghostPerioder: [],
+                        }),
+                    ],
+                }),
+            });
+            const url = `/person/${personPseudoId}/periode/${periodeUtenVilkårsgrunnlag.vedtaksperiodeId}/behandling/${periodeUtenVilkårsgrunnlag.behandlingId}`;
+            gåTil(`${url}#sykepengegrunnlag`);
+            render(<SaksbildeSide />);
+
+            await waitFor(() => expect(window.location.hash).toBe('#dagoversikt'));
+            expect(window.location.pathname).toBe(url);
+            expect(valgtTab()).toBe('Vedtaksperiode');
+        });
+
         describe('for en uberegnet periode', () => {
             it('viser Vedtaksperiode og Sykepengegrunnlag', async () => {
                 (useFetchPersonQuery as Mock).mockReturnValue({
@@ -364,6 +420,16 @@ describe('SaksbildeSide', () => {
 
                 expect(tabnavn()).toEqual(['Vedtaksperiode', 'Sykepengegrunnlag']);
                 expect(await screen.findByText('Venstremeny')).toBeInTheDocument();
+            });
+
+            it('sender en gammel lenke til Inngangsvilkår videre til Sykepengegrunnlag i sykefraværstilfellet', async () => {
+                (useFetchPersonQuery as Mock).mockReturnValue({ loading: false, data: personMedBareUberegnetPeriode });
+                gåTil(`${uberegnetPeriodeUrl}#inngangsvilkar`);
+                render(<SaksbildeSide />);
+
+                await waitFor(() => expect(window.location.hash).toBe('#sykepengegrunnlag'));
+                expect(window.location.pathname).toBe(sykefraværstilfelleUrl);
+                expect(valgtTab()).toBe('Sykepengegrunnlag');
             });
 
             it('viser grunnlaget når en periode i sykefraværstilfellet er beregnet', async () => {
