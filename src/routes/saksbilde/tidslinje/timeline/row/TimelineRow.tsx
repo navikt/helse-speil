@@ -84,10 +84,10 @@ function SykefraværstilfelleRammer({ periods }: { periods: Period[] }): ReactEl
                         key={startDate.toISOString()}
                         data-sykefravaerstilfelle-ramme
                         aria-hidden
-                        className="pointer-events-none absolute -top-1 z-2 h-[32px] rounded-full border-2 border-ax-border-accent"
+                        className="pointer-events-none absolute top-0 z-2 h-[24px] rounded-full border border-ax-border-accent-strong ring-1 inset-ring-1 ring-ax-border-accent-strong inset-ring-ax-border-accent-strong"
                         style={{
-                            left: timelineEnd.diff(endDate, 'day') * dayLength - rammeavstand,
-                            width: getNumberOfDays(startDate, endDate) * dayLength + 2 * rammeavstand,
+                            left: timelineEnd.diff(endDate, 'day') * dayLength,
+                            width: getNumberOfDays(startDate, endDate) * dayLength,
                         }}
                     />
                 ),
@@ -95,8 +95,6 @@ function SykefraværstilfelleRammer({ periods }: { periods: Period[] }): ReactEl
         </>
     );
 }
-
-const rammeavstand = 4;
 
 type Period = ParsedRow['periods'][number];
 
