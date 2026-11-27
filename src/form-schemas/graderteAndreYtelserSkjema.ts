@@ -1,6 +1,7 @@
 import { z } from 'zod/v4';
 
 import { sperrDagerMedOppholdskrav } from '@form-schemas/dagEndringSkjema';
+import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
 import { visningstekstForGradertAnnenYtelse } from '@saksbilde/utbetaling/utbetalingstabell/utbetalingstabelldager';
 import { GradertAnnenYtelsetype, gradertAnnenYtelsetypeValues } from '@typer/overstyring';
 import { Utbetalingstabelldag, Utbetalingstabelldagtype } from '@typer/utbetalingstabell';
@@ -28,7 +29,7 @@ export type GraderteAndreYtelserFormFields = z.infer<ReturnType<typeof lagGrader
 
 // Kjøres selv om ytelse mangler, slik at saksbehandler ser med en gang at dagene ikke kan fordeles sammen
 function validerKlynge(markerteDager: Utbetalingstabelldag[], ctx: z.RefinementCtx) {
-    if (markerteDager.some((dag) => !sykedagtyper.includes(dag.dag.speilDagtype))) {
+    if (!markerteDager.every(kanFordeles)) {
         ctx.addIssue({
             code: 'custom',
             message: 'Andre ytelser kan bare fordeles på sykedager. Fjern de andre dagene fra utvalget.',
@@ -50,6 +51,12 @@ function validerKlynge(markerteDager: Utbetalingstabelldag[], ctx: z.RefinementC
             continue: false,
         });
     }
+}
+
+// Fordelingen kan selv gjøre at totalgraden havner under 20 %. Da må saksbehandler kunne rette den igjen.
+function kanFordeles(dag: Utbetalingstabelldag) {
+    if (sykedagtyper.includes(dag.dag.speilDagtype)) return true;
+    return dag.dag.speilDagtype === 'Avslått' && !!dag.begrunnelser?.includes(ApiBegrunnelse.MINIMUM_SYKDOMSGRAD);
 }
 
 function validerFordeling(

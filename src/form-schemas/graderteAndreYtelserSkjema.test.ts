@@ -1,6 +1,7 @@
 import { lagGraderteAndreYtelserSchema } from '@form-schemas/graderteAndreYtelserSkjema';
-import { ApiBegrunnelse } from '@io/rest/generated/spesialist.schemas';
+import { ApiBegrunnelse, ApiSykdomsdagtype, ApiUtbetalingsdagtype } from '@io/rest/generated/spesialist.schemas';
 import {
+    AvvistEllerForeldetDag,
     Feriedag,
     Feriehelgedag,
     FriskHelgedag,
@@ -20,6 +21,15 @@ describe('lagGraderteAndreYtelserSchema', () => {
     };
     function enDagMedGrad(grad: number | null, dato = '2020-01-01') {
         return lagDag({ dato, grad });
+    }
+    function enAvslåttSykedag(dato: string, begrunnelser: ApiBegrunnelse[]) {
+        return lagDag({
+            dato,
+            dag: AvvistEllerForeldetDag(ApiSykdomsdagtype.SYKEDAG, ApiUtbetalingsdagtype.AVVIST_DAG),
+            erAvvist: true,
+            grad: 40,
+            begrunnelser,
+        });
     }
     function validerFordeling(verdier: Record<string, unknown>, markerteDager = [enDagMedGrad(70)]) {
         return (
@@ -96,6 +106,28 @@ describe('lagGraderteAndreYtelserSchema', () => {
                 'Andre ytelser kan bare fordeles på sykedager. Fjern de andre dagene fra utvalget.',
             ]);
         });
+
+        it.each([
+            [[ApiBegrunnelse.MINIMUM_SYKDOMSGRAD]],
+            [[ApiBegrunnelse.MANGLER_OPPTJENING, ApiBegrunnelse.MINIMUM_SYKDOMSGRAD]],
+        ])('godtar en avslått sykedag når begrunnelsene %j inkluderer MINIMUM_SYKDOMSGRAD', (begrunnelser) => {
+            const markerteDager = [enDagMedGrad(40, '2020-01-01'), enAvslåttSykedag('2020-01-02', begrunnelser)];
+
+            expect(
+                validerFordeling({ sykepengerGrad: 20, andreYtelserGrader: { FORELDREPENGER: 20 } }, markerteDager),
+            ).toEqual([]);
+        });
+
+        it.each([[[ApiBegrunnelse.SYKEPENGEDAGER_OPPBRUKT]], [[]]])(
+            'avviser en sykedag som er avslått med begrunnelsene %j',
+            (begrunnelser) => {
+                const markerteDager = [enAvslåttSykedag('2020-01-02', begrunnelser)];
+
+                expect(
+                    validerFordeling({ sykepengerGrad: 20, andreYtelserGrader: { FORELDREPENGER: 20 } }, markerteDager),
+                ).toEqual(['Andre ytelser kan bare fordeles på sykedager. Fjern de andre dagene fra utvalget.']);
+            },
+        );
 
         it('sammenligner en dag med fordeling med sykdomsgraden før fordelingen', () => {
             const markerteDager = [
